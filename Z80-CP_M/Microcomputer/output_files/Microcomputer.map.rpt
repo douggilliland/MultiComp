@@ -1,0 +1,966 @@
+Analysis & Synthesis report for Microcomputer
+Thu Jan 12 08:32:10 2017
+Quartus II 64-Bit Version 13.0.1 Build 232 06/12/2013 Service Pack 1 SJ Web Edition
+
+
+---------------------
+; Table of Contents ;
+---------------------
+  1. Legal Notice
+  2. Analysis & Synthesis Summary
+  3. Analysis & Synthesis Settings
+  4. Parallel Compilation
+  5. Analysis & Synthesis Source Files Read
+  6. Analysis & Synthesis Resource Usage Summary
+  7. Analysis & Synthesis Resource Utilization by Entity
+  8. Analysis & Synthesis RAM Summary
+  9. Analysis & Synthesis IP Cores Summary
+ 10. State Machine - |Microcomputer|sd_controller:sd1|return_state
+ 11. State Machine - |Microcomputer|sd_controller:sd1|state
+ 12. State Machine - |Microcomputer|bufferedUART:io2|txState
+ 13. State Machine - |Microcomputer|bufferedUART:io2|rxState
+ 14. State Machine - |Microcomputer|bufferedUART:io1|txState
+ 15. State Machine - |Microcomputer|bufferedUART:io1|rxState
+ 16. Registers Removed During Synthesis
+ 17. Removed Registers Triggering Further Register Optimizations
+ 18. General Register Statistics
+ 19. Inverted Register Statistics
+ 20. Multiplexer Restructuring Statistics (Restructuring Performed)
+ 21. Source assignments for Z80_CPM_BASIC_ROM:rom1|altsyncram:altsyncram_component|altsyncram_4391:auto_generated
+ 22. Parameter Settings for User Entity Instance: T80s:cpu1
+ 23. Parameter Settings for User Entity Instance: T80s:cpu1|T80:u0
+ 24. Parameter Settings for User Entity Instance: T80s:cpu1|T80:u0|T80_MCode:mcode
+ 25. Parameter Settings for User Entity Instance: T80s:cpu1|T80:u0|T80_ALU:alu
+ 26. Parameter Settings for User Entity Instance: Z80_CPM_BASIC_ROM:rom1|altsyncram:altsyncram_component
+ 27. altsyncram Parameter Settings by Entity Instance
+ 28. Port Connectivity Checks: "bufferedUART:io2"
+ 29. Port Connectivity Checks: "bufferedUART:io1"
+ 30. Port Connectivity Checks: "T80s:cpu1|T80:u0"
+ 31. Port Connectivity Checks: "T80s:cpu1"
+ 32. Elapsed Time Per Partition
+ 33. Analysis & Synthesis Messages
+
+
+
+----------------
+; Legal Notice ;
+----------------
+Copyright (C) 1991-2013 Altera Corporation
+Your use of Altera Corporation's design tools, logic functions 
+and other software and tools, and its AMPP partner logic 
+functions, and any output files from any of the foregoing 
+(including device programming or simulation files), and any 
+associated documentation or information are expressly subject 
+to the terms and conditions of the Altera Program License 
+Subscription Agreement, Altera MegaCore Function License 
+Agreement, or other applicable license agreement, including, 
+without limitation, that your use is for the sole purpose of 
+programming logic devices manufactured by Altera and sold by 
+Altera or its authorized distributors.  Please refer to the 
+applicable agreement for further details.
+
+
+
++--------------------------------------------------------------------------------------+
+; Analysis & Synthesis Summary                                                         ;
++------------------------------------+-------------------------------------------------+
+; Analysis & Synthesis Status        ; Successful - Thu Jan 12 08:32:10 2017           ;
+; Quartus II 64-Bit Version          ; 13.0.1 Build 232 06/12/2013 SP 1 SJ Web Edition ;
+; Revision Name                      ; Microcomputer                                   ;
+; Top-level Entity Name              ; Microcomputer                                   ;
+; Family                             ; Cyclone II                                      ;
+; Total logic elements               ; 3,287                                           ;
+;     Total combinational functions  ; 2,822                                           ;
+;     Dedicated logic registers      ; 975                                             ;
+; Total registers                    ; 975                                             ;
+; Total pins                         ; 52                                              ;
+; Total virtual pins                 ; 0                                               ;
+; Total memory bits                  ; 65,536                                          ;
+; Embedded Multiplier 9-bit elements ; 0                                               ;
+; Total PLLs                         ; 0                                               ;
++------------------------------------+-------------------------------------------------+
+
+
++----------------------------------------------------------------------------------------------------------------------+
+; Analysis & Synthesis Settings                                                                                        ;
++----------------------------------------------------------------------------+--------------------+--------------------+
+; Option                                                                     ; Setting            ; Default Value      ;
++----------------------------------------------------------------------------+--------------------+--------------------+
+; Device                                                                     ; EP2C5T144C8        ;                    ;
+; Top-level entity name                                                      ; Microcomputer      ; Microcomputer      ;
+; Family name                                                                ; Cyclone II         ; Cyclone IV GX      ;
+; VHDL Show LMF Mapping Messages                                             ; Off                ;                    ;
+; Use smart compilation                                                      ; Off                ; Off                ;
+; Enable parallel Assembler and TimeQuest Timing Analyzer during compilation ; On                 ; On                 ;
+; Enable compact report table                                                ; Off                ; Off                ;
+; Restructure Multiplexers                                                   ; Auto               ; Auto               ;
+; Create Debugging Nodes for IP Cores                                        ; Off                ; Off                ;
+; Preserve fewer node names                                                  ; On                 ; On                 ;
+; Disable OpenCore Plus hardware evaluation                                  ; Off                ; Off                ;
+; Verilog Version                                                            ; Verilog_2001       ; Verilog_2001       ;
+; VHDL Version                                                               ; VHDL_1993          ; VHDL_1993          ;
+; State Machine Processing                                                   ; Auto               ; Auto               ;
+; Safe State Machine                                                         ; Off                ; Off                ;
+; Extract Verilog State Machines                                             ; On                 ; On                 ;
+; Extract VHDL State Machines                                                ; On                 ; On                 ;
+; Ignore Verilog initial constructs                                          ; Off                ; Off                ;
+; Iteration limit for constant Verilog loops                                 ; 5000               ; 5000               ;
+; Iteration limit for non-constant Verilog loops                             ; 250                ; 250                ;
+; Add Pass-Through Logic to Inferred RAMs                                    ; On                 ; On                 ;
+; Infer RAMs from Raw Logic                                                  ; On                 ; On                 ;
+; Parallel Synthesis                                                         ; On                 ; On                 ;
+; DSP Block Balancing                                                        ; Auto               ; Auto               ;
+; NOT Gate Push-Back                                                         ; On                 ; On                 ;
+; Power-Up Don't Care                                                        ; On                 ; On                 ;
+; Remove Redundant Logic Cells                                               ; Off                ; Off                ;
+; Remove Duplicate Registers                                                 ; On                 ; On                 ;
+; Ignore CARRY Buffers                                                       ; Off                ; Off                ;
+; Ignore CASCADE Buffers                                                     ; Off                ; Off                ;
+; Ignore GLOBAL Buffers                                                      ; Off                ; Off                ;
+; Ignore ROW GLOBAL Buffers                                                  ; Off                ; Off                ;
+; Ignore LCELL Buffers                                                       ; Off                ; Off                ;
+; Ignore SOFT Buffers                                                        ; On                 ; On                 ;
+; Limit AHDL Integers to 32 Bits                                             ; Off                ; Off                ;
+; Optimization Technique                                                     ; Balanced           ; Balanced           ;
+; Carry Chain Length                                                         ; 70                 ; 70                 ;
+; Auto Carry Chains                                                          ; On                 ; On                 ;
+; Auto Open-Drain Pins                                                       ; On                 ; On                 ;
+; Perform WYSIWYG Primitive Resynthesis                                      ; Off                ; Off                ;
+; Auto ROM Replacement                                                       ; On                 ; On                 ;
+; Auto RAM Replacement                                                       ; On                 ; On                 ;
+; Auto Shift Register Replacement                                            ; Auto               ; Auto               ;
+; Allow Shift Register Merging across Hierarchies                            ; Auto               ; Auto               ;
+; Auto Clock Enable Replacement                                              ; On                 ; On                 ;
+; Strict RAM Replacement                                                     ; Off                ; Off                ;
+; Allow Synchronous Control Signals                                          ; On                 ; On                 ;
+; Force Use of Synchronous Clear Signals                                     ; Off                ; Off                ;
+; Auto RAM to Logic Cell Conversion                                          ; Off                ; Off                ;
+; Auto Resource Sharing                                                      ; Off                ; Off                ;
+; Allow Any RAM Size For Recognition                                         ; Off                ; Off                ;
+; Allow Any ROM Size For Recognition                                         ; Off                ; Off                ;
+; Allow Any Shift Register Size For Recognition                              ; Off                ; Off                ;
+; Use LogicLock Constraints during Resource Balancing                        ; On                 ; On                 ;
+; Ignore translate_off and synthesis_off directives                          ; Off                ; Off                ;
+; Timing-Driven Synthesis                                                    ; Off                ; Off                ;
+; Report Parameter Settings                                                  ; On                 ; On                 ;
+; Report Source Assignments                                                  ; On                 ; On                 ;
+; Report Connectivity Checks                                                 ; On                 ; On                 ;
+; Ignore Maximum Fan-Out Assignments                                         ; Off                ; Off                ;
+; Synchronization Register Chain Length                                      ; 2                  ; 2                  ;
+; PowerPlay Power Optimization                                               ; Normal compilation ; Normal compilation ;
+; HDL message level                                                          ; Level2             ; Level2             ;
+; Suppress Register Optimization Related Messages                            ; Off                ; Off                ;
+; Number of Removed Registers Reported in Synthesis Report                   ; 5000               ; 5000               ;
+; Number of Swept Nodes Reported in Synthesis Report                         ; 5000               ; 5000               ;
+; Number of Inverted Registers Reported in Synthesis Report                  ; 100                ; 100                ;
+; Clock MUX Protection                                                       ; On                 ; On                 ;
+; Auto Gated Clock Conversion                                                ; Off                ; Off                ;
+; Block Design Naming                                                        ; Auto               ; Auto               ;
+; SDC constraint protection                                                  ; Off                ; Off                ;
+; Synthesis Effort                                                           ; Auto               ; Auto               ;
+; Shift Register Replacement - Allow Asynchronous Clear Signal               ; On                 ; On                 ;
+; Pre-Mapping Resynthesis Optimization                                       ; Off                ; Off                ;
+; Analysis & Synthesis Message Level                                         ; Medium             ; Medium             ;
+; Disable Register Merging Across Hierarchies                                ; Auto               ; Auto               ;
+; Resource Aware Inference For Block RAM                                     ; On                 ; On                 ;
+; Synthesis Seed                                                             ; 1                  ; 1                  ;
++----------------------------------------------------------------------------+--------------------+--------------------+
+
+
+Parallel compilation was disabled, but you have multiple processors available. Enable parallel compilation to reduce compilation time.
++-------------------------------------+
+; Parallel Compilation                ;
++----------------------------+--------+
+; Processors                 ; Number ;
++----------------------------+--------+
+; Number detected on machine ; 4      ;
+; Maximum allowed            ; 1      ;
++----------------------------+--------+
+
+
++------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+; Analysis & Synthesis Source Files Read                                                                                                                                                                                                                     ;
++-----------------------------------------------------------------------------------+-----------------+----------------------------------------+---------------------------------------------------------------------------------------------------+---------+
+; File Name with User-Entered Path                                                  ; Used in Netlist ; File Type                              ; File Name with Absolute Path                                                                      ; Library ;
++-----------------------------------------------------------------------------------+-----------------+----------------------------------------+---------------------------------------------------------------------------------------------------+---------+
+; ../Components/Z80/T80s.vhd                                                        ; yes             ; User VHDL File                         ; C:/Users/DGilliland/Documents/GitHub/Multi-Computer/Z80-CP_M/Components/Z80/T80s.vhd              ;         ;
+; ../Components/Z80/T80_Reg.vhd                                                     ; yes             ; User VHDL File                         ; C:/Users/DGilliland/Documents/GitHub/Multi-Computer/Z80-CP_M/Components/Z80/T80_Reg.vhd           ;         ;
+; ../Components/Z80/T80_Pack.vhd                                                    ; yes             ; User VHDL File                         ; C:/Users/DGilliland/Documents/GitHub/Multi-Computer/Z80-CP_M/Components/Z80/T80_Pack.vhd          ;         ;
+; ../Components/Z80/T80_MCode.vhd                                                   ; yes             ; User VHDL File                         ; C:/Users/DGilliland/Documents/GitHub/Multi-Computer/Z80-CP_M/Components/Z80/T80_MCode.vhd         ;         ;
+; ../Components/Z80/T80_ALU.vhd                                                     ; yes             ; User VHDL File                         ; C:/Users/DGilliland/Documents/GitHub/Multi-Computer/Z80-CP_M/Components/Z80/T80_ALU.vhd           ;         ;
+; ../Components/Z80/T80.vhd                                                         ; yes             ; User VHDL File                         ; C:/Users/DGilliland/Documents/GitHub/Multi-Computer/Z80-CP_M/Components/Z80/T80.vhd               ;         ;
+; ../Components/UART/bufferedUART.vhd                                               ; yes             ; User VHDL File                         ; C:/Users/DGilliland/Documents/GitHub/Multi-Computer/Z80-CP_M/Components/UART/bufferedUART.vhd     ;         ;
+; Microcomputer.vhd                                                                 ; yes             ; User VHDL File                         ; C:/Users/DGilliland/Documents/GitHub/Multi-Computer/Z80-CP_M/Microcomputer/Microcomputer.vhd      ;         ;
+; ../Components/SDCARD/sd_controller.vhd                                            ; yes             ; User VHDL File                         ; C:/Users/DGilliland/Documents/GitHub/Multi-Computer/Z80-CP_M/Components/SDCARD/sd_controller.vhd  ;         ;
+; ../ROMS/Z80/Z80_CPM_BASIC_ROM.vhd                                                 ; yes             ; User Wizard-Generated File             ; C:/Users/DGilliland/Documents/GitHub/Multi-Computer/Z80-CP_M/ROMS/Z80/Z80_CPM_BASIC_ROM.vhd       ;         ;
+; altsyncram.tdf                                                                    ; yes             ; Megafunction                           ; c:/altera/13.0sp1/quartus/libraries/megafunctions/altsyncram.tdf                                  ;         ;
+; stratix_ram_block.inc                                                             ; yes             ; Megafunction                           ; c:/altera/13.0sp1/quartus/libraries/megafunctions/stratix_ram_block.inc                           ;         ;
+; lpm_mux.inc                                                                       ; yes             ; Megafunction                           ; c:/altera/13.0sp1/quartus/libraries/megafunctions/lpm_mux.inc                                     ;         ;
+; lpm_decode.inc                                                                    ; yes             ; Megafunction                           ; c:/altera/13.0sp1/quartus/libraries/megafunctions/lpm_decode.inc                                  ;         ;
+; aglobal130.inc                                                                    ; yes             ; Megafunction                           ; c:/altera/13.0sp1/quartus/libraries/megafunctions/aglobal130.inc                                  ;         ;
+; a_rdenreg.inc                                                                     ; yes             ; Megafunction                           ; c:/altera/13.0sp1/quartus/libraries/megafunctions/a_rdenreg.inc                                   ;         ;
+; altrom.inc                                                                        ; yes             ; Megafunction                           ; c:/altera/13.0sp1/quartus/libraries/megafunctions/altrom.inc                                      ;         ;
+; altram.inc                                                                        ; yes             ; Megafunction                           ; c:/altera/13.0sp1/quartus/libraries/megafunctions/altram.inc                                      ;         ;
+; altdpram.inc                                                                      ; yes             ; Megafunction                           ; c:/altera/13.0sp1/quartus/libraries/megafunctions/altdpram.inc                                    ;         ;
+; db/altsyncram_4391.tdf                                                            ; yes             ; Auto-Generated Megafunction            ; C:/Users/DGilliland/Documents/GitHub/Multi-Computer/Z80-CP_M/Microcomputer/db/altsyncram_4391.tdf ;         ;
+; /users/dgilliland/documents/github/multi-computer/z80-cp_m/roms/z80/cpm_basic.hex ; yes             ; Auto-Found Memory Initialization File  ; /users/dgilliland/documents/github/multi-computer/z80-cp_m/roms/z80/cpm_basic.hex                 ;         ;
+; db/decode_1oa.tdf                                                                 ; yes             ; Auto-Generated Megafunction            ; C:/Users/DGilliland/Documents/GitHub/Multi-Computer/Z80-CP_M/Microcomputer/db/decode_1oa.tdf      ;         ;
+; db/mux_hib.tdf                                                                    ; yes             ; Auto-Generated Megafunction            ; C:/Users/DGilliland/Documents/GitHub/Multi-Computer/Z80-CP_M/Microcomputer/db/mux_hib.tdf         ;         ;
++-----------------------------------------------------------------------------------+-----------------+----------------------------------------+---------------------------------------------------------------------------------------------------+---------+
+
+
++------------------------------------------------------------------+
+; Analysis & Synthesis Resource Usage Summary                      ;
++---------------------------------------------+--------------------+
+; Resource                                    ; Usage              ;
++---------------------------------------------+--------------------+
+; Estimated Total logic elements              ; 3,287              ;
+;                                             ;                    ;
+; Total combinational functions               ; 2822               ;
+; Logic element usage by number of LUT inputs ;                    ;
+;     -- 4 input functions                    ; 1858               ;
+;     -- 3 input functions                    ; 550                ;
+;     -- <=2 input functions                  ; 414                ;
+;                                             ;                    ;
+; Logic elements by mode                      ;                    ;
+;     -- normal mode                          ; 2548               ;
+;     -- arithmetic mode                      ; 274                ;
+;                                             ;                    ;
+; Total registers                             ; 975                ;
+;     -- Dedicated logic registers            ; 975                ;
+;     -- I/O registers                        ; 0                  ;
+;                                             ;                    ;
+; I/O pins                                    ; 52                 ;
+; Total memory bits                           ; 65536              ;
+; Embedded Multiplier 9-bit elements          ; 0                  ;
+; Maximum fan-out node                        ; serialClkCount[15] ;
+; Maximum fan-out                             ; 357                ;
+; Total fan-out                               ; 13342              ;
+; Average fan-out                             ; 3.45               ;
++---------------------------------------------+--------------------+
+
+
++-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+; Analysis & Synthesis Resource Utilization by Entity                                                                                                                                                                                                                         ;
++-------------------------------------------+-------------------+--------------+-------------+--------------+---------+-----------+------+--------------+------------------------------------------------------------------------------------------------------+--------------+
+; Compilation Hierarchy Node                ; LC Combinationals ; LC Registers ; Memory Bits ; DSP Elements ; DSP 9x9 ; DSP 18x18 ; Pins ; Virtual Pins ; Full Hierarchy Name                                                                                  ; Library Name ;
++-------------------------------------------+-------------------+--------------+-------------+--------------+---------+-----------+------+--------------+------------------------------------------------------------------------------------------------------+--------------+
+; |Microcomputer                            ; 2822 (90)         ; 975 (27)     ; 65536       ; 0            ; 0       ; 0         ; 52   ; 0            ; |Microcomputer                                                                                       ; work         ;
+;    |T80s:cpu1|                            ; 1962 (8)          ; 346 (12)     ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |Microcomputer|T80s:cpu1                                                                             ; work         ;
+;       |T80:u0|                            ; 1954 (836)        ; 334 (206)    ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |Microcomputer|T80s:cpu1|T80:u0                                                                      ; work         ;
+;          |T80_ALU:alu|                    ; 404 (404)         ; 0 (0)        ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |Microcomputer|T80s:cpu1|T80:u0|T80_ALU:alu                                                          ; work         ;
+;          |T80_MCode:mcode|                ; 458 (458)         ; 0 (0)        ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |Microcomputer|T80s:cpu1|T80:u0|T80_MCode:mcode                                                      ; work         ;
+;          |T80_Reg:Regs|                   ; 256 (256)         ; 128 (128)    ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |Microcomputer|T80s:cpu1|T80:u0|T80_Reg:Regs                                                         ; work         ;
+;    |Z80_CPM_BASIC_ROM:rom1|               ; 0 (0)             ; 1 (0)        ; 65536       ; 0            ; 0       ; 0         ; 0    ; 0            ; |Microcomputer|Z80_CPM_BASIC_ROM:rom1                                                                ; work         ;
+;       |altsyncram:altsyncram_component|   ; 0 (0)             ; 1 (0)        ; 65536       ; 0            ; 0       ; 0         ; 0    ; 0            ; |Microcomputer|Z80_CPM_BASIC_ROM:rom1|altsyncram:altsyncram_component                                ; work         ;
+;          |altsyncram_4391:auto_generated| ; 0 (0)             ; 1 (1)        ; 65536       ; 0            ; 0       ; 0         ; 0    ; 0            ; |Microcomputer|Z80_CPM_BASIC_ROM:rom1|altsyncram:altsyncram_component|altsyncram_4391:auto_generated ; work         ;
+;    |bufferedUART:io1|                     ; 244 (244)         ; 212 (212)    ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |Microcomputer|bufferedUART:io1                                                                      ; work         ;
+;    |bufferedUART:io2|                     ; 243 (243)         ; 212 (212)    ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |Microcomputer|bufferedUART:io2                                                                      ; work         ;
+;    |sd_controller:sd1|                    ; 283 (283)         ; 177 (177)    ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |Microcomputer|sd_controller:sd1                                                                     ; work         ;
++-------------------------------------------+-------------------+--------------+-------------+--------------+---------+-----------+------+--------------+------------------------------------------------------------------------------------------------------+--------------+
+Note: For table entries with two numbers listed, the numbers in parentheses indicate the number of resources of the given type used by the specific entity alone. The numbers listed outside of parentheses indicate the total resources of the given type used by the specific entity and all of its sub-entities in the hierarchy.
+
+
++----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+; Analysis & Synthesis RAM Summary                                                                                                                                                                               ;
++--------------------------------------------------------------------------------------------------+------+------+--------------+--------------+--------------+--------------+-------+---------------------------+
+; Name                                                                                             ; Type ; Mode ; Port A Depth ; Port A Width ; Port B Depth ; Port B Width ; Size  ; MIF                       ;
++--------------------------------------------------------------------------------------------------+------+------+--------------+--------------+--------------+--------------+-------+---------------------------+
+; Z80_CPM_BASIC_ROM:rom1|altsyncram:altsyncram_component|altsyncram_4391:auto_generated|ALTSYNCRAM ; AUTO ; ROM  ; 8192         ; 8            ; --           ; --           ; 65536 ; ../ROMS/Z80/CPM_BASIC.HEX ;
++--------------------------------------------------------------------------------------------------+------+------+--------------+--------------+--------------+--------------+-------+---------------------------+
+
+
++-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+; Analysis & Synthesis IP Cores Summary                                                                                                                                                               ;
++--------+--------------+---------+--------------+--------------+---------------------------------------+---------------------------------------------------------------------------------------------+
+; Vendor ; IP Core Name ; Version ; Release Date ; License Type ; Entity Instance                       ; IP Include File                                                                             ;
++--------+--------------+---------+--------------+--------------+---------------------------------------+---------------------------------------------------------------------------------------------+
+; Altera ; ROM: 1-PORT  ; 13.0    ; N/A          ; N/A          ; |Microcomputer|Z80_CPM_BASIC_ROM:rom1 ; C:/Users/DGilliland/Documents/GitHub/Multi-Computer/Z80-CP_M/ROMS/Z80/Z80_CPM_BASIC_ROM.vhd ;
++--------+--------------+---------+--------------+--------------+---------------------------------------+---------------------------------------------------------------------------------------------+
+
+
+Encoding Type:  One-Hot
++---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+; State Machine - |Microcomputer|sd_controller:sd1|return_state                                                                                                                                                                                                                                                                                                                                                                                                                                                                   ;
++--------------------------------+-------------------------------+-------------------------------+-------------------------------+-------------------------------+------------------------------+---------------------------+--------------------------------+-----------------------+------------------------------+------------------------------+-----------------------------+-------------------+-----------------------+--------------------+--------------------+-------------------+-------------------+------------------+
+; Name                           ; return_state.write_block_wait ; return_state.write_block_byte ; return_state.write_block_data ; return_state.write_block_init ; return_state.write_block_cmd ; return_state.receive_byte ; return_state.receive_byte_wait ; return_state.send_cmd ; return_state.read_block_data ; return_state.read_block_wait ; return_state.read_block_cmd ; return_state.idle ; return_state.poll_cmd ; return_state.cmd41 ; return_state.cmd55 ; return_state.cmd0 ; return_state.init ; return_state.rst ;
++--------------------------------+-------------------------------+-------------------------------+-------------------------------+-------------------------------+------------------------------+---------------------------+--------------------------------+-----------------------+------------------------------+------------------------------+-----------------------------+-------------------+-----------------------+--------------------+--------------------+-------------------+-------------------+------------------+
+; return_state.rst               ; 0                             ; 0                             ; 0                             ; 0                             ; 0                            ; 0                         ; 0                              ; 0                     ; 0                            ; 0                            ; 0                           ; 0                 ; 0                     ; 0                  ; 0                  ; 0                 ; 0                 ; 0                ;
+; return_state.init              ; 0                             ; 0                             ; 0                             ; 0                             ; 0                            ; 0                         ; 0                              ; 0                     ; 0                            ; 0                            ; 0                           ; 0                 ; 0                     ; 0                  ; 0                  ; 0                 ; 1                 ; 1                ;
+; return_state.cmd0              ; 0                             ; 0                             ; 0                             ; 0                             ; 0                            ; 0                         ; 0                              ; 0                     ; 0                            ; 0                            ; 0                           ; 0                 ; 0                     ; 0                  ; 0                  ; 1                 ; 0                 ; 1                ;
+; return_state.cmd55             ; 0                             ; 0                             ; 0                             ; 0                             ; 0                            ; 0                         ; 0                              ; 0                     ; 0                            ; 0                            ; 0                           ; 0                 ; 0                     ; 0                  ; 1                  ; 0                 ; 0                 ; 1                ;
+; return_state.cmd41             ; 0                             ; 0                             ; 0                             ; 0                             ; 0                            ; 0                         ; 0                              ; 0                     ; 0                            ; 0                            ; 0                           ; 0                 ; 0                     ; 1                  ; 0                  ; 0                 ; 0                 ; 1                ;
+; return_state.poll_cmd          ; 0                             ; 0                             ; 0                             ; 0                             ; 0                            ; 0                         ; 0                              ; 0                     ; 0                            ; 0                            ; 0                           ; 0                 ; 1                     ; 0                  ; 0                  ; 0                 ; 0                 ; 1                ;
+; return_state.idle              ; 0                             ; 0                             ; 0                             ; 0                             ; 0                            ; 0                         ; 0                              ; 0                     ; 0                            ; 0                            ; 0                           ; 1                 ; 0                     ; 0                  ; 0                  ; 0                 ; 0                 ; 1                ;
+; return_state.read_block_cmd    ; 0                             ; 0                             ; 0                             ; 0                             ; 0                            ; 0                         ; 0                              ; 0                     ; 0                            ; 0                            ; 1                           ; 0                 ; 0                     ; 0                  ; 0                  ; 0                 ; 0                 ; 1                ;
+; return_state.read_block_wait   ; 0                             ; 0                             ; 0                             ; 0                             ; 0                            ; 0                         ; 0                              ; 0                     ; 0                            ; 1                            ; 0                           ; 0                 ; 0                     ; 0                  ; 0                  ; 0                 ; 0                 ; 1                ;
+; return_state.read_block_data   ; 0                             ; 0                             ; 0                             ; 0                             ; 0                            ; 0                         ; 0                              ; 0                     ; 1                            ; 0                            ; 0                           ; 0                 ; 0                     ; 0                  ; 0                  ; 0                 ; 0                 ; 1                ;
+; return_state.send_cmd          ; 0                             ; 0                             ; 0                             ; 0                             ; 0                            ; 0                         ; 0                              ; 1                     ; 0                            ; 0                            ; 0                           ; 0                 ; 0                     ; 0                  ; 0                  ; 0                 ; 0                 ; 1                ;
+; return_state.receive_byte_wait ; 0                             ; 0                             ; 0                             ; 0                             ; 0                            ; 0                         ; 1                              ; 0                     ; 0                            ; 0                            ; 0                           ; 0                 ; 0                     ; 0                  ; 0                  ; 0                 ; 0                 ; 1                ;
+; return_state.receive_byte      ; 0                             ; 0                             ; 0                             ; 0                             ; 0                            ; 1                         ; 0                              ; 0                     ; 0                            ; 0                            ; 0                           ; 0                 ; 0                     ; 0                  ; 0                  ; 0                 ; 0                 ; 1                ;
+; return_state.write_block_cmd   ; 0                             ; 0                             ; 0                             ; 0                             ; 1                            ; 0                         ; 0                              ; 0                     ; 0                            ; 0                            ; 0                           ; 0                 ; 0                     ; 0                  ; 0                  ; 0                 ; 0                 ; 1                ;
+; return_state.write_block_init  ; 0                             ; 0                             ; 0                             ; 1                             ; 0                            ; 0                         ; 0                              ; 0                     ; 0                            ; 0                            ; 0                           ; 0                 ; 0                     ; 0                  ; 0                  ; 0                 ; 0                 ; 1                ;
+; return_state.write_block_data  ; 0                             ; 0                             ; 1                             ; 0                             ; 0                            ; 0                         ; 0                              ; 0                     ; 0                            ; 0                            ; 0                           ; 0                 ; 0                     ; 0                  ; 0                  ; 0                 ; 0                 ; 1                ;
+; return_state.write_block_byte  ; 0                             ; 1                             ; 0                             ; 0                             ; 0                            ; 0                         ; 0                              ; 0                     ; 0                            ; 0                            ; 0                           ; 0                 ; 0                     ; 0                  ; 0                  ; 0                 ; 0                 ; 1                ;
+; return_state.write_block_wait  ; 1                             ; 0                             ; 0                             ; 0                             ; 0                            ; 0                         ; 0                              ; 0                     ; 0                            ; 0                            ; 0                           ; 0                 ; 0                     ; 0                  ; 0                  ; 0                 ; 0                 ; 1                ;
++--------------------------------+-------------------------------+-------------------------------+-------------------------------+-------------------------------+------------------------------+---------------------------+--------------------------------+-----------------------+------------------------------+------------------------------+-----------------------------+-------------------+-----------------------+--------------------+--------------------+-------------------+-------------------+------------------+
+
+
+Encoding Type:  One-Hot
++--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+; State Machine - |Microcomputer|sd_controller:sd1|state                                                                                                                                                                                                                                                                                                                                     ;
++-------------------------+------------------------+------------------------+------------------------+------------------------+-----------------------+--------------------+-------------------------+----------------+-----------------------+-----------------------+----------------------+------------+----------------+-------------+-------------+------------+------------+-----------+
+; Name                    ; state.write_block_wait ; state.write_block_byte ; state.write_block_data ; state.write_block_init ; state.write_block_cmd ; state.receive_byte ; state.receive_byte_wait ; state.send_cmd ; state.read_block_data ; state.read_block_wait ; state.read_block_cmd ; state.idle ; state.poll_cmd ; state.cmd41 ; state.cmd55 ; state.cmd0 ; state.init ; state.rst ;
++-------------------------+------------------------+------------------------+------------------------+------------------------+-----------------------+--------------------+-------------------------+----------------+-----------------------+-----------------------+----------------------+------------+----------------+-------------+-------------+------------+------------+-----------+
+; state.rst               ; 0                      ; 0                      ; 0                      ; 0                      ; 0                     ; 0                  ; 0                       ; 0              ; 0                     ; 0                     ; 0                    ; 0          ; 0              ; 0           ; 0           ; 0          ; 0          ; 0         ;
+; state.init              ; 0                      ; 0                      ; 0                      ; 0                      ; 0                     ; 0                  ; 0                       ; 0              ; 0                     ; 0                     ; 0                    ; 0          ; 0              ; 0           ; 0           ; 0          ; 1          ; 1         ;
+; state.cmd0              ; 0                      ; 0                      ; 0                      ; 0                      ; 0                     ; 0                  ; 0                       ; 0              ; 0                     ; 0                     ; 0                    ; 0          ; 0              ; 0           ; 0           ; 1          ; 0          ; 1         ;
+; state.cmd55             ; 0                      ; 0                      ; 0                      ; 0                      ; 0                     ; 0                  ; 0                       ; 0              ; 0                     ; 0                     ; 0                    ; 0          ; 0              ; 0           ; 1           ; 0          ; 0          ; 1         ;
+; state.cmd41             ; 0                      ; 0                      ; 0                      ; 0                      ; 0                     ; 0                  ; 0                       ; 0              ; 0                     ; 0                     ; 0                    ; 0          ; 0              ; 1           ; 0           ; 0          ; 0          ; 1         ;
+; state.poll_cmd          ; 0                      ; 0                      ; 0                      ; 0                      ; 0                     ; 0                  ; 0                       ; 0              ; 0                     ; 0                     ; 0                    ; 0          ; 1              ; 0           ; 0           ; 0          ; 0          ; 1         ;
+; state.idle              ; 0                      ; 0                      ; 0                      ; 0                      ; 0                     ; 0                  ; 0                       ; 0              ; 0                     ; 0                     ; 0                    ; 1          ; 0              ; 0           ; 0           ; 0          ; 0          ; 1         ;
+; state.read_block_cmd    ; 0                      ; 0                      ; 0                      ; 0                      ; 0                     ; 0                  ; 0                       ; 0              ; 0                     ; 0                     ; 1                    ; 0          ; 0              ; 0           ; 0           ; 0          ; 0          ; 1         ;
+; state.read_block_wait   ; 0                      ; 0                      ; 0                      ; 0                      ; 0                     ; 0                  ; 0                       ; 0              ; 0                     ; 1                     ; 0                    ; 0          ; 0              ; 0           ; 0           ; 0          ; 0          ; 1         ;
+; state.read_block_data   ; 0                      ; 0                      ; 0                      ; 0                      ; 0                     ; 0                  ; 0                       ; 0              ; 1                     ; 0                     ; 0                    ; 0          ; 0              ; 0           ; 0           ; 0          ; 0          ; 1         ;
+; state.send_cmd          ; 0                      ; 0                      ; 0                      ; 0                      ; 0                     ; 0                  ; 0                       ; 1              ; 0                     ; 0                     ; 0                    ; 0          ; 0              ; 0           ; 0           ; 0          ; 0          ; 1         ;
+; state.receive_byte_wait ; 0                      ; 0                      ; 0                      ; 0                      ; 0                     ; 0                  ; 1                       ; 0              ; 0                     ; 0                     ; 0                    ; 0          ; 0              ; 0           ; 0           ; 0          ; 0          ; 1         ;
+; state.receive_byte      ; 0                      ; 0                      ; 0                      ; 0                      ; 0                     ; 1                  ; 0                       ; 0              ; 0                     ; 0                     ; 0                    ; 0          ; 0              ; 0           ; 0           ; 0          ; 0          ; 1         ;
+; state.write_block_cmd   ; 0                      ; 0                      ; 0                      ; 0                      ; 1                     ; 0                  ; 0                       ; 0              ; 0                     ; 0                     ; 0                    ; 0          ; 0              ; 0           ; 0           ; 0          ; 0          ; 1         ;
+; state.write_block_init  ; 0                      ; 0                      ; 0                      ; 1                      ; 0                     ; 0                  ; 0                       ; 0              ; 0                     ; 0                     ; 0                    ; 0          ; 0              ; 0           ; 0           ; 0          ; 0          ; 1         ;
+; state.write_block_data  ; 0                      ; 0                      ; 1                      ; 0                      ; 0                     ; 0                  ; 0                       ; 0              ; 0                     ; 0                     ; 0                    ; 0          ; 0              ; 0           ; 0           ; 0          ; 0          ; 1         ;
+; state.write_block_byte  ; 0                      ; 1                      ; 0                      ; 0                      ; 0                     ; 0                  ; 0                       ; 0              ; 0                     ; 0                     ; 0                    ; 0          ; 0              ; 0           ; 0           ; 0          ; 0          ; 1         ;
+; state.write_block_wait  ; 1                      ; 0                      ; 0                      ; 0                      ; 0                     ; 0                  ; 0                       ; 0              ; 0                     ; 0                     ; 0                    ; 0          ; 0              ; 0           ; 0           ; 0          ; 0          ; 1         ;
++-------------------------+------------------------+------------------------+------------------------+------------------------+-----------------------+--------------------+-------------------------+----------------+-----------------------+-----------------------+----------------------+------------+----------------+-------------+-------------+------------+------------+-----------+
+
+
+Encoding Type:  One-Hot
++--------------------------------------------------------------------+
+; State Machine - |Microcomputer|bufferedUART:io2|txState            ;
++-----------------+-----------------+-----------------+--------------+
+; Name            ; txState.stopBit ; txState.dataBit ; txState.idle ;
++-----------------+-----------------+-----------------+--------------+
+; txState.idle    ; 0               ; 0               ; 0            ;
+; txState.dataBit ; 0               ; 1               ; 1            ;
+; txState.stopBit ; 1               ; 0               ; 1            ;
++-----------------+-----------------+-----------------+--------------+
+
+
+Encoding Type:  One-Hot
++--------------------------------------------------------------------+
+; State Machine - |Microcomputer|bufferedUART:io2|rxState            ;
++-----------------+-----------------+-----------------+--------------+
+; Name            ; rxState.stopBit ; rxState.dataBit ; rxState.idle ;
++-----------------+-----------------+-----------------+--------------+
+; rxState.idle    ; 0               ; 0               ; 0            ;
+; rxState.dataBit ; 0               ; 1               ; 1            ;
+; rxState.stopBit ; 1               ; 0               ; 1            ;
++-----------------+-----------------+-----------------+--------------+
+
+
+Encoding Type:  One-Hot
++--------------------------------------------------------------------+
+; State Machine - |Microcomputer|bufferedUART:io1|txState            ;
++-----------------+-----------------+-----------------+--------------+
+; Name            ; txState.stopBit ; txState.dataBit ; txState.idle ;
++-----------------+-----------------+-----------------+--------------+
+; txState.idle    ; 0               ; 0               ; 0            ;
+; txState.dataBit ; 0               ; 1               ; 1            ;
+; txState.stopBit ; 1               ; 0               ; 1            ;
++-----------------+-----------------+-----------------+--------------+
+
+
+Encoding Type:  One-Hot
++--------------------------------------------------------------------+
+; State Machine - |Microcomputer|bufferedUART:io1|rxState            ;
++-----------------+-----------------+-----------------+--------------+
+; Name            ; rxState.stopBit ; rxState.dataBit ; rxState.idle ;
++-----------------+-----------------+-----------------+--------------+
+; rxState.idle    ; 0               ; 0               ; 0            ;
+; rxState.dataBit ; 0               ; 1               ; 1            ;
+; rxState.stopBit ; 1               ; 0               ; 1            ;
++-----------------+-----------------+-----------------+--------------+
+
+
++----------------------------------------------------------------------------------------------------+
+; Registers Removed During Synthesis                                                                 ;
++--------------------------------------------------+-------------------------------------------------+
+; Register name                                    ; Reason for Removal                              ;
++--------------------------------------------------+-------------------------------------------------+
+; T80s:cpu1|T80:u0|OldNMI_n                        ; Lost fanout                                     ;
+; T80s:cpu1|T80:u0|BusReq_s                        ; Stuck at GND due to stuck port data_in          ;
+; T80s:cpu1|T80:u0|INT_s                           ; Stuck at GND due to stuck port data_in          ;
+; T80s:cpu1|T80:u0|BusAck                          ; Stuck at GND due to stuck port data_in          ;
+; T80s:cpu1|T80:u0|IntE_FF1                        ; Lost fanout                                     ;
+; T80s:cpu1|T80:u0|NMI_s                           ; Stuck at GND due to stuck port data_in          ;
+; T80s:cpu1|T80:u0|IntCycle                        ; Stuck at GND due to stuck port data_in          ;
+; T80s:cpu1|T80:u0|IStatus[0,1]                    ; Lost fanout                                     ;
+; T80s:cpu1|T80:u0|NMICycle                        ; Stuck at GND due to stuck port data_in          ;
+; T80s:cpu1|T80:u0|Auto_Wait_t2                    ; Lost fanout                                     ;
+; sd_controller:sd1|return_state.init              ; Merged with sd_controller:sd1|return_state.cmd0 ;
+; sd_controller:sd1|return_state.read_block_cmd    ; Merged with sd_controller:sd1|return_state.cmd0 ;
+; sd_controller:sd1|return_state.receive_byte      ; Merged with sd_controller:sd1|return_state.cmd0 ;
+; sd_controller:sd1|return_state.receive_byte_wait ; Merged with sd_controller:sd1|return_state.cmd0 ;
+; sd_controller:sd1|return_state.send_cmd          ; Merged with sd_controller:sd1|return_state.cmd0 ;
+; sd_controller:sd1|return_state.write_block_byte  ; Merged with sd_controller:sd1|return_state.cmd0 ;
+; sd_controller:sd1|return_state.write_block_cmd   ; Merged with sd_controller:sd1|return_state.cmd0 ;
+; sd_controller:sd1|return_state.write_block_data  ; Merged with sd_controller:sd1|return_state.cmd0 ;
+; sd_controller:sd1|return_state.cmd0              ; Stuck at GND due to stuck port data_in          ;
+; sd_controller:sd1|cmd_out[0]                     ; Stuck at VCC due to stuck port data_in          ;
+; Total Number of Removed Registers = 21           ;                                                 ;
++--------------------------------------------------+-------------------------------------------------+
+
+
++------------------------------------------------------------------------------------------------------------------+
+; Removed Registers Triggering Further Register Optimizations                                                      ;
++---------------------------+---------------------------+----------------------------------------------------------+
+; Register name             ; Reason for Removal        ; Registers Removed due to This Register                   ;
++---------------------------+---------------------------+----------------------------------------------------------+
+; T80s:cpu1|T80:u0|BusReq_s ; Stuck at GND              ; T80s:cpu1|T80:u0|BusAck, T80s:cpu1|T80:u0|Auto_Wait_t2   ;
+;                           ; due to stuck port data_in ;                                                          ;
+; T80s:cpu1|T80:u0|IntCycle ; Stuck at GND              ; T80s:cpu1|T80:u0|IStatus[0], T80s:cpu1|T80:u0|IStatus[1] ;
+;                           ; due to stuck port data_in ;                                                          ;
+; T80s:cpu1|T80:u0|INT_s    ; Stuck at GND              ; T80s:cpu1|T80:u0|IntE_FF1                                ;
+;                           ; due to stuck port data_in ;                                                          ;
++---------------------------+---------------------------+----------------------------------------------------------+
+
+
++------------------------------------------------------+
+; General Register Statistics                          ;
++----------------------------------------------+-------+
+; Statistic                                    ; Value ;
++----------------------------------------------+-------+
+; Total registers                              ; 975   ;
+; Number of registers using Synchronous Clear  ; 70    ;
+; Number of registers using Synchronous Load   ; 78    ;
+; Number of registers using Asynchronous Clear ; 262   ;
+; Number of registers using Asynchronous Load  ; 0     ;
+; Number of registers using Clock Enable       ; 783   ;
+; Number of registers using Preset             ; 0     ;
++----------------------------------------------+-------+
+
+
++---------------------------------------------------+
+; Inverted Register Statistics                      ;
++-----------------------------------------+---------+
+; Inverted Register                       ; Fan out ;
++-----------------------------------------+---------+
+; T80s:cpu1|WR_n                          ; 3       ;
+; T80s:cpu1|MREQ_n                        ; 3       ;
+; T80s:cpu1|RD_n                          ; 3       ;
+; sd_controller:sd1|sdCS                  ; 2       ;
+; sd_controller:sd1|cmd_mode              ; 2       ;
+; T80s:cpu1|T80:u0|MCycle[0]              ; 75      ;
+; T80s:cpu1|T80:u0|F[6]                   ; 11      ;
+; T80s:cpu1|T80:u0|F[0]                   ; 14      ;
+; T80s:cpu1|T80:u0|F[2]                   ; 8       ;
+; T80s:cpu1|T80:u0|F[7]                   ; 7       ;
+; T80s:cpu1|T80:u0|SP[0]                  ; 5       ;
+; T80s:cpu1|T80:u0|SP[1]                  ; 5       ;
+; T80s:cpu1|T80:u0|SP[2]                  ; 5       ;
+; T80s:cpu1|T80:u0|SP[3]                  ; 5       ;
+; T80s:cpu1|T80:u0|SP[4]                  ; 5       ;
+; T80s:cpu1|T80:u0|SP[5]                  ; 5       ;
+; T80s:cpu1|T80:u0|SP[6]                  ; 5       ;
+; T80s:cpu1|T80:u0|SP[7]                  ; 5       ;
+; T80s:cpu1|T80:u0|SP[8]                  ; 5       ;
+; T80s:cpu1|T80:u0|ACC[0]                 ; 7       ;
+; T80s:cpu1|T80:u0|SP[9]                  ; 5       ;
+; T80s:cpu1|T80:u0|ACC[1]                 ; 7       ;
+; T80s:cpu1|T80:u0|SP[10]                 ; 5       ;
+; T80s:cpu1|T80:u0|ACC[2]                 ; 7       ;
+; T80s:cpu1|T80:u0|SP[11]                 ; 5       ;
+; T80s:cpu1|T80:u0|ACC[3]                 ; 9       ;
+; T80s:cpu1|T80:u0|SP[12]                 ; 5       ;
+; T80s:cpu1|T80:u0|ACC[4]                 ; 7       ;
+; T80s:cpu1|T80:u0|SP[13]                 ; 5       ;
+; T80s:cpu1|T80:u0|ACC[5]                 ; 9       ;
+; T80s:cpu1|T80:u0|SP[14]                 ; 5       ;
+; T80s:cpu1|T80:u0|ACC[6]                 ; 7       ;
+; T80s:cpu1|T80:u0|SP[15]                 ; 5       ;
+; T80s:cpu1|T80:u0|ACC[7]                 ; 7       ;
+; sd_controller:sd1|led_on_count[7]       ; 2       ;
+; sd_controller:sd1|led_on_count[6]       ; 2       ;
+; sd_controller:sd1|led_on_count[3]       ; 2       ;
+; T80s:cpu1|IORQ_n                        ; 3       ;
+; T80s:cpu1|T80:u0|F[4]                   ; 8       ;
+; T80s:cpu1|T80:u0|F[1]                   ; 20      ;
+; T80s:cpu1|T80:u0|Fp[6]                  ; 1       ;
+; T80s:cpu1|T80:u0|Fp[0]                  ; 1       ;
+; T80s:cpu1|T80:u0|Fp[2]                  ; 1       ;
+; T80s:cpu1|T80:u0|Fp[7]                  ; 1       ;
+; T80s:cpu1|T80:u0|Ap[0]                  ; 1       ;
+; T80s:cpu1|T80:u0|Ap[1]                  ; 1       ;
+; T80s:cpu1|T80:u0|Ap[2]                  ; 1       ;
+; T80s:cpu1|T80:u0|Ap[3]                  ; 1       ;
+; T80s:cpu1|T80:u0|Ap[4]                  ; 1       ;
+; T80s:cpu1|T80:u0|Ap[5]                  ; 1       ;
+; T80s:cpu1|T80:u0|Ap[6]                  ; 1       ;
+; T80s:cpu1|T80:u0|Ap[7]                  ; 1       ;
+; sd_controller:sd1|response_mode         ; 4       ;
+; T80s:cpu1|T80:u0|Fp[4]                  ; 1       ;
+; T80s:cpu1|T80:u0|Fp[1]                  ; 1       ;
+; T80s:cpu1|T80:u0|F[5]                   ; 2       ;
+; T80s:cpu1|T80:u0|F[3]                   ; 2       ;
+; bufferedUART:io1|rxdFiltered            ; 5       ;
+; bufferedUART:io2|rxdFiltered            ; 5       ;
+; T80s:cpu1|T80:u0|Fp[5]                  ; 1       ;
+; T80s:cpu1|T80:u0|Fp[3]                  ; 1       ;
+; Total number of inverted registers = 61 ;         ;
++-----------------------------------------+---------+
+
+
++------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+; Multiplexer Restructuring Statistics (Restructuring Performed)                                                                                                               ;
++--------------------+-----------+---------------+----------------------+------------------------+------------+----------------------------------------------------------------+
+; Multiplexer Inputs ; Bus Width ; Baseline Area ; Area if Restructured ; Saving if Restructured ; Registered ; Example Multiplexer Output                                     ;
++--------------------+-----------+---------------+----------------------+------------------------+------------+----------------------------------------------------------------+
+; 3:1                ; 2 bits    ; 4 LEs         ; 2 LEs                ; 2 LEs                  ; Yes        ; |Microcomputer|T80s:cpu1|T80:u0|ALU_Op_r[0]                    ;
+; 3:1                ; 2 bits    ; 4 LEs         ; 4 LEs                ; 0 LEs                  ; Yes        ; |Microcomputer|T80s:cpu1|T80:u0|RegAddrC[0]                    ;
+; 3:1                ; 4 bits    ; 8 LEs         ; 8 LEs                ; 0 LEs                  ; Yes        ; |Microcomputer|T80s:cpu1|T80:u0|Read_To_Reg_r[2]               ;
+; 3:1                ; 6 bits    ; 12 LEs        ; 0 LEs                ; 12 LEs                 ; Yes        ; |Microcomputer|bufferedUART:io2|rxFilter[5]                    ;
+; 3:1                ; 6 bits    ; 12 LEs        ; 0 LEs                ; 12 LEs                 ; Yes        ; |Microcomputer|bufferedUART:io1|rxFilter[0]                    ;
+; 4:1                ; 2 bits    ; 4 LEs         ; 2 LEs                ; 2 LEs                  ; Yes        ; |Microcomputer|T80s:cpu1|T80:u0|XY_State[1]                    ;
+; 5:1                ; 6 bits    ; 18 LEs        ; 6 LEs                ; 12 LEs                 ; Yes        ; |Microcomputer|bufferedUART:io2|rxClockCount[2]                ;
+; 5:1                ; 6 bits    ; 18 LEs        ; 6 LEs                ; 12 LEs                 ; Yes        ; |Microcomputer|bufferedUART:io1|rxClockCount[5]                ;
+; 6:1                ; 8 bits    ; 32 LEs        ; 8 LEs                ; 24 LEs                 ; Yes        ; |Microcomputer|T80s:cpu1|T80:u0|IR[3]                          ;
+; 5:1                ; 2 bits    ; 6 LEs         ; 4 LEs                ; 2 LEs                  ; Yes        ; |Microcomputer|T80s:cpu1|T80:u0|MCycle[1]                      ;
+; 5:1                ; 9 bits    ; 27 LEs        ; 9 LEs                ; 18 LEs                 ; Yes        ; |Microcomputer|sd_controller:sd1|cmd_out[52]                   ;
+; 5:1                ; 4 bits    ; 12 LEs        ; 4 LEs                ; 8 LEs                  ; Yes        ; |Microcomputer|bufferedUART:io2|rxBitCount[0]                  ;
+; 5:1                ; 4 bits    ; 12 LEs        ; 4 LEs                ; 8 LEs                  ; Yes        ; |Microcomputer|bufferedUART:io1|rxBitCount[3]                  ;
+; 4:1                ; 7 bits    ; 14 LEs        ; 7 LEs                ; 7 LEs                  ; Yes        ; |Microcomputer|T80s:cpu1|T80:u0|R[2]                           ;
+; 11:1               ; 8 bits    ; 56 LEs        ; 48 LEs               ; 8 LEs                  ; Yes        ; |Microcomputer|T80s:cpu1|T80:u0|BusB[5]                        ;
+; 12:1               ; 8 bits    ; 64 LEs        ; 32 LEs               ; 32 LEs                 ; Yes        ; |Microcomputer|T80s:cpu1|T80:u0|BusA[3]                        ;
+; 6:1                ; 2 bits    ; 8 LEs         ; 4 LEs                ; 4 LEs                  ; Yes        ; |Microcomputer|sd_controller:sd1|cmd_out[41]                   ;
+; 6:1                ; 4 bits    ; 16 LEs        ; 8 LEs                ; 8 LEs                  ; Yes        ; |Microcomputer|sd_controller:sd1|cmd_out[6]                    ;
+; 6:1                ; 3 bits    ; 12 LEs        ; 6 LEs                ; 6 LEs                  ; Yes        ; |Microcomputer|sd_controller:sd1|cmd_out[7]                    ;
+; 6:1                ; 4 bits    ; 16 LEs        ; 4 LEs                ; 12 LEs                 ; Yes        ; |Microcomputer|bufferedUART:io2|txBitCount[0]                  ;
+; 6:1                ; 7 bits    ; 28 LEs        ; 7 LEs                ; 21 LEs                 ; Yes        ; |Microcomputer|bufferedUART:io2|txBuffer[2]                    ;
+; 6:1                ; 6 bits    ; 24 LEs        ; 6 LEs                ; 18 LEs                 ; Yes        ; |Microcomputer|bufferedUART:io2|txClockCount[3]                ;
+; 6:1                ; 4 bits    ; 16 LEs        ; 4 LEs                ; 12 LEs                 ; Yes        ; |Microcomputer|bufferedUART:io1|txBitCount[2]                  ;
+; 6:1                ; 7 bits    ; 28 LEs        ; 7 LEs                ; 21 LEs                 ; Yes        ; |Microcomputer|bufferedUART:io1|txBuffer[2]                    ;
+; 6:1                ; 6 bits    ; 24 LEs        ; 6 LEs                ; 18 LEs                 ; Yes        ; |Microcomputer|bufferedUART:io1|txClockCount[3]                ;
+; 7:1                ; 2 bits    ; 8 LEs         ; 4 LEs                ; 4 LEs                  ; Yes        ; |Microcomputer|T80s:cpu1|T80:u0|ISet[0]                        ;
+; 6:1                ; 5 bits    ; 20 LEs        ; 10 LEs               ; 10 LEs                 ; Yes        ; |Microcomputer|T80s:cpu1|T80:u0|TmpAddr[0]                     ;
+; 6:1                ; 3 bits    ; 12 LEs        ; 6 LEs                ; 6 LEs                  ; Yes        ; |Microcomputer|T80s:cpu1|T80:u0|TmpAddr[4]                     ;
+; 6:1                ; 8 bits    ; 32 LEs        ; 16 LEs               ; 16 LEs                 ; Yes        ; |Microcomputer|T80s:cpu1|T80:u0|TmpAddr[8]                     ;
+; 6:1                ; 8 bits    ; 32 LEs        ; 8 LEs                ; 24 LEs                 ; Yes        ; |Microcomputer|sd_controller:sd1|recv_data[3]                  ;
+; 7:1                ; 9 bits    ; 36 LEs        ; 18 LEs               ; 18 LEs                 ; Yes        ; |Microcomputer|sd_controller:sd1|cmd_out[11]                   ;
+; 7:1                ; 23 bits   ; 92 LEs        ; 46 LEs               ; 46 LEs                 ; Yes        ; |Microcomputer|sd_controller:sd1|cmd_out[22]                   ;
+; 10:1               ; 7 bits    ; 42 LEs        ; 14 LEs               ; 28 LEs                 ; Yes        ; |Microcomputer|sd_controller:sd1|data_sig[1]                   ;
+; 11:1               ; 7 bits    ; 49 LEs        ; 21 LEs               ; 28 LEs                 ; Yes        ; |Microcomputer|T80s:cpu1|T80:u0|PC[3]                          ;
+; 11:1               ; 8 bits    ; 56 LEs        ; 32 LEs               ; 24 LEs                 ; Yes        ; |Microcomputer|T80s:cpu1|T80:u0|PC[14]                         ;
+; 17:1               ; 8 bits    ; 88 LEs        ; 32 LEs               ; 56 LEs                 ; Yes        ; |Microcomputer|T80s:cpu1|T80:u0|A[4]                           ;
+; 17:1               ; 8 bits    ; 88 LEs        ; 40 LEs               ; 48 LEs                 ; Yes        ; |Microcomputer|T80s:cpu1|T80:u0|A[8]                           ;
+; 13:1               ; 7 bits    ; 56 LEs        ; 7 LEs                ; 49 LEs                 ; Yes        ; |Microcomputer|sd_controller:sd1|byte_counter[8]               ;
+; 14:1               ; 3 bits    ; 27 LEs        ; 6 LEs                ; 21 LEs                 ; Yes        ; |Microcomputer|sd_controller:sd1|byte_counter[9]               ;
+; 20:1               ; 3 bits    ; 39 LEs        ; 12 LEs               ; 27 LEs                 ; Yes        ; |Microcomputer|sd_controller:sd1|bit_counter[6]                ;
+; 21:1               ; 3 bits    ; 42 LEs        ; 12 LEs               ; 30 LEs                 ; Yes        ; |Microcomputer|sd_controller:sd1|bit_counter[7]                ;
+; 21:1               ; 2 bits    ; 28 LEs        ; 8 LEs                ; 20 LEs                 ; Yes        ; |Microcomputer|sd_controller:sd1|bit_counter[0]                ;
+; 5:1                ; 8 bits    ; 24 LEs        ; 24 LEs               ; 0 LEs                  ; Yes        ; |Microcomputer|T80s:cpu1|T80:u0|DO[1]                          ;
+; 7:1                ; 8 bits    ; 32 LEs        ; 16 LEs               ; 16 LEs                 ; Yes        ; |Microcomputer|T80s:cpu1|T80:u0|SP[1]                          ;
+; 7:1                ; 8 bits    ; 32 LEs        ; 16 LEs               ; 16 LEs                 ; Yes        ; |Microcomputer|T80s:cpu1|T80:u0|SP[15]                         ;
+; 8:1                ; 8 bits    ; 40 LEs        ; 24 LEs               ; 16 LEs                 ; Yes        ; |Microcomputer|T80s:cpu1|T80:u0|ACC[7]                         ;
+; 18:1               ; 2 bits    ; 24 LEs        ; 12 LEs               ; 12 LEs                 ; Yes        ; |Microcomputer|T80s:cpu1|T80:u0|F[3]                           ;
+; 3:1                ; 4 bits    ; 8 LEs         ; 4 LEs                ; 4 LEs                  ; No         ; |Microcomputer|T80s:cpu1|T80:u0|T80_ALU:alu|Q_t                ;
+; 3:1                ; 2 bits    ; 4 LEs         ; 2 LEs                ; 2 LEs                  ; No         ; |Microcomputer|T80s:cpu1|T80:u0|T80_MCode:mcode|Mux47          ;
+; 4:1                ; 3 bits    ; 6 LEs         ; 6 LEs                ; 0 LEs                  ; No         ; |Microcomputer|T80s:cpu1|T80:u0|T80_ALU:alu|DAA_Q[1]           ;
+; 3:1                ; 2 bits    ; 4 LEs         ; 4 LEs                ; 0 LEs                  ; No         ; |Microcomputer|T80s:cpu1|T80:u0|Save_Mux[1]                    ;
+; 8:1                ; 16 bits   ; 80 LEs        ; 80 LEs               ; 0 LEs                  ; No         ; |Microcomputer|T80s:cpu1|T80:u0|T80_Reg:Regs|Mux42             ;
+; 4:1                ; 8 bits    ; 16 LEs        ; 8 LEs                ; 8 LEs                  ; No         ; |Microcomputer|sd_controller:sd1|dout                          ;
+; 8:1                ; 8 bits    ; 40 LEs        ; 16 LEs               ; 24 LEs                 ; No         ; |Microcomputer|T80s:cpu1|T80:u0|T80_ALU:alu|Mux12              ;
+; 4:1                ; 2 bits    ; 4 LEs         ; 4 LEs                ; 0 LEs                  ; No         ; |Microcomputer|T80s:cpu1|T80:u0|T80_ALU:alu|DAA_Q[7]           ;
+; 4:1                ; 16 bits   ; 32 LEs        ; 32 LEs               ; 0 LEs                  ; No         ; |Microcomputer|T80s:cpu1|T80:u0|RegDIL[0]                      ;
+; 8:1                ; 16 bits   ; 80 LEs        ; 80 LEs               ; 0 LEs                  ; No         ; |Microcomputer|T80s:cpu1|T80:u0|T80_Reg:Regs|Mux22             ;
+; 8:1                ; 16 bits   ; 80 LEs        ; 80 LEs               ; 0 LEs                  ; No         ; |Microcomputer|T80s:cpu1|T80:u0|T80_Reg:Regs|Mux4              ;
+; 5:1                ; 2 bits    ; 6 LEs         ; 6 LEs                ; 0 LEs                  ; No         ; |Microcomputer|T80s:cpu1|T80:u0|RegAddrA[0]                    ;
+; 17:1               ; 4 bits    ; 44 LEs        ; 24 LEs               ; 20 LEs                 ; No         ; |Microcomputer|T80s:cpu1|T80:u0|Save_Mux[4]                    ;
+; 7:1                ; 4 bits    ; 16 LEs        ; 16 LEs               ; 0 LEs                  ; No         ; |Microcomputer|cpuDataIn[3]                                    ;
+; 7:1                ; 3 bits    ; 12 LEs        ; 6 LEs                ; 6 LEs                  ; No         ; |Microcomputer|bufferedUART:io2|Selector34                     ;
+; 7:1                ; 3 bits    ; 12 LEs        ; 6 LEs                ; 6 LEs                  ; No         ; |Microcomputer|bufferedUART:io1|Selector34                     ;
+; 8:1                ; 4 bits    ; 20 LEs        ; 16 LEs               ; 4 LEs                  ; No         ; |Microcomputer|cpuDataIn[6]                                    ;
+; 8:1                ; 3 bits    ; 15 LEs        ; 6 LEs                ; 9 LEs                  ; No         ; |Microcomputer|bufferedUART:io2|Selector11                     ;
+; 8:1                ; 3 bits    ; 15 LEs        ; 6 LEs                ; 9 LEs                  ; No         ; |Microcomputer|bufferedUART:io1|Selector11                     ;
+; 19:1               ; 2 bits    ; 24 LEs        ; 4 LEs                ; 20 LEs                 ; No         ; |Microcomputer|T80s:cpu1|T80:u0|RegWEL                         ;
+; 10:1               ; 2 bits    ; 12 LEs        ; 12 LEs               ; 0 LEs                  ; No         ; |Microcomputer|T80s:cpu1|T80:u0|Save_Mux[7]                    ;
+; 11:1               ; 13 bits   ; 91 LEs        ; 52 LEs               ; 39 LEs                 ; No         ; |Microcomputer|sd_controller:sd1|return_state.write_block_data ;
+; 20:1               ; 7 bits    ; 91 LEs        ; 21 LEs               ; 70 LEs                 ; No         ; |Microcomputer|sd_controller:sd1|Selector84                    ;
+; 23:1               ; 2 bits    ; 30 LEs        ; 10 LEs               ; 20 LEs                 ; No         ; |Microcomputer|sd_controller:sd1|Selector92                    ;
++--------------------+-----------+---------------+----------------------+------------------------+------------+----------------------------------------------------------------+
+
+
++--------------------------------------------------------------------------------------------------------------+
+; Source assignments for Z80_CPM_BASIC_ROM:rom1|altsyncram:altsyncram_component|altsyncram_4391:auto_generated ;
++---------------------------------+--------------------+------+------------------------------------------------+
+; Assignment                      ; Value              ; From ; To                                             ;
++---------------------------------+--------------------+------+------------------------------------------------+
+; OPTIMIZE_POWER_DURING_SYNTHESIS ; NORMAL_COMPILATION ; -    ; -                                              ;
++---------------------------------+--------------------+------+------------------------------------------------+
+
+
++--------------------------------------------------------+
+; Parameter Settings for User Entity Instance: T80s:cpu1 ;
++----------------+-------+-------------------------------+
+; Parameter Name ; Value ; Type                          ;
++----------------+-------+-------------------------------+
+; mode           ; 1     ; Signed Integer                ;
+; t2write        ; 1     ; Signed Integer                ;
+; iowait         ; 0     ; Signed Integer                ;
++----------------+-------+-------------------------------+
+Note: In order to hide this table in the UI and the text report file, please set the "Show Parameter Settings in Synthesis Report" option in "Analysis and Synthesis Settings -> More Settings" to "Off".
+
+
++---------------------------------------------------------------+
+; Parameter Settings for User Entity Instance: T80s:cpu1|T80:u0 ;
++----------------+-------+--------------------------------------+
+; Parameter Name ; Value ; Type                                 ;
++----------------+-------+--------------------------------------+
+; mode           ; 1     ; Signed Integer                       ;
+; iowait         ; 0     ; Signed Integer                       ;
+; flag_c         ; 0     ; Signed Integer                       ;
+; flag_n         ; 1     ; Signed Integer                       ;
+; flag_p         ; 2     ; Signed Integer                       ;
+; flag_x         ; 3     ; Signed Integer                       ;
+; flag_h         ; 4     ; Signed Integer                       ;
+; flag_y         ; 5     ; Signed Integer                       ;
+; flag_z         ; 6     ; Signed Integer                       ;
+; flag_s         ; 7     ; Signed Integer                       ;
++----------------+-------+--------------------------------------+
+Note: In order to hide this table in the UI and the text report file, please set the "Show Parameter Settings in Synthesis Report" option in "Analysis and Synthesis Settings -> More Settings" to "Off".
+
+
++-------------------------------------------------------------------------------+
+; Parameter Settings for User Entity Instance: T80s:cpu1|T80:u0|T80_MCode:mcode ;
++----------------+-------+------------------------------------------------------+
+; Parameter Name ; Value ; Type                                                 ;
++----------------+-------+------------------------------------------------------+
+; mode           ; 1     ; Signed Integer                                       ;
+; flag_c         ; 0     ; Signed Integer                                       ;
+; flag_n         ; 1     ; Signed Integer                                       ;
+; flag_p         ; 2     ; Signed Integer                                       ;
+; flag_x         ; 3     ; Signed Integer                                       ;
+; flag_h         ; 4     ; Signed Integer                                       ;
+; flag_y         ; 5     ; Signed Integer                                       ;
+; flag_z         ; 6     ; Signed Integer                                       ;
+; flag_s         ; 7     ; Signed Integer                                       ;
++----------------+-------+------------------------------------------------------+
+Note: In order to hide this table in the UI and the text report file, please set the "Show Parameter Settings in Synthesis Report" option in "Analysis and Synthesis Settings -> More Settings" to "Off".
+
+
++---------------------------------------------------------------------------+
+; Parameter Settings for User Entity Instance: T80s:cpu1|T80:u0|T80_ALU:alu ;
++----------------+-------+--------------------------------------------------+
+; Parameter Name ; Value ; Type                                             ;
++----------------+-------+--------------------------------------------------+
+; mode           ; 1     ; Signed Integer                                   ;
+; flag_c         ; 0     ; Signed Integer                                   ;
+; flag_n         ; 1     ; Signed Integer                                   ;
+; flag_p         ; 2     ; Signed Integer                                   ;
+; flag_x         ; 3     ; Signed Integer                                   ;
+; flag_h         ; 4     ; Signed Integer                                   ;
+; flag_y         ; 5     ; Signed Integer                                   ;
+; flag_z         ; 6     ; Signed Integer                                   ;
+; flag_s         ; 7     ; Signed Integer                                   ;
++----------------+-------+--------------------------------------------------+
+Note: In order to hide this table in the UI and the text report file, please set the "Show Parameter Settings in Synthesis Report" option in "Analysis and Synthesis Settings -> More Settings" to "Off".
+
+
++-----------------------------------------------------------------------------------------------------+
+; Parameter Settings for User Entity Instance: Z80_CPM_BASIC_ROM:rom1|altsyncram:altsyncram_component ;
++------------------------------------+---------------------------+------------------------------------+
+; Parameter Name                     ; Value                     ; Type                               ;
++------------------------------------+---------------------------+------------------------------------+
+; BYTE_SIZE_BLOCK                    ; 8                         ; Untyped                            ;
+; AUTO_CARRY_CHAINS                  ; ON                        ; AUTO_CARRY                         ;
+; IGNORE_CARRY_BUFFERS               ; OFF                       ; IGNORE_CARRY                       ;
+; AUTO_CASCADE_CHAINS                ; ON                        ; AUTO_CASCADE                       ;
+; IGNORE_CASCADE_BUFFERS             ; OFF                       ; IGNORE_CASCADE                     ;
+; WIDTH_BYTEENA                      ; 1                         ; Untyped                            ;
+; OPERATION_MODE                     ; ROM                       ; Untyped                            ;
+; WIDTH_A                            ; 8                         ; Signed Integer                     ;
+; WIDTHAD_A                          ; 13                        ; Signed Integer                     ;
+; NUMWORDS_A                         ; 8192                      ; Signed Integer                     ;
+; OUTDATA_REG_A                      ; UNREGISTERED              ; Untyped                            ;
+; ADDRESS_ACLR_A                     ; NONE                      ; Untyped                            ;
+; OUTDATA_ACLR_A                     ; NONE                      ; Untyped                            ;
+; WRCONTROL_ACLR_A                   ; NONE                      ; Untyped                            ;
+; INDATA_ACLR_A                      ; NONE                      ; Untyped                            ;
+; BYTEENA_ACLR_A                     ; NONE                      ; Untyped                            ;
+; WIDTH_B                            ; 1                         ; Untyped                            ;
+; WIDTHAD_B                          ; 1                         ; Untyped                            ;
+; NUMWORDS_B                         ; 1                         ; Untyped                            ;
+; INDATA_REG_B                       ; CLOCK1                    ; Untyped                            ;
+; WRCONTROL_WRADDRESS_REG_B          ; CLOCK1                    ; Untyped                            ;
+; RDCONTROL_REG_B                    ; CLOCK1                    ; Untyped                            ;
+; ADDRESS_REG_B                      ; CLOCK1                    ; Untyped                            ;
+; OUTDATA_REG_B                      ; UNREGISTERED              ; Untyped                            ;
+; BYTEENA_REG_B                      ; CLOCK1                    ; Untyped                            ;
+; INDATA_ACLR_B                      ; NONE                      ; Untyped                            ;
+; WRCONTROL_ACLR_B                   ; NONE                      ; Untyped                            ;
+; ADDRESS_ACLR_B                     ; NONE                      ; Untyped                            ;
+; OUTDATA_ACLR_B                     ; NONE                      ; Untyped                            ;
+; RDCONTROL_ACLR_B                   ; NONE                      ; Untyped                            ;
+; BYTEENA_ACLR_B                     ; NONE                      ; Untyped                            ;
+; WIDTH_BYTEENA_A                    ; 1                         ; Signed Integer                     ;
+; WIDTH_BYTEENA_B                    ; 1                         ; Untyped                            ;
+; RAM_BLOCK_TYPE                     ; AUTO                      ; Untyped                            ;
+; BYTE_SIZE                          ; 8                         ; Untyped                            ;
+; READ_DURING_WRITE_MODE_MIXED_PORTS ; DONT_CARE                 ; Untyped                            ;
+; READ_DURING_WRITE_MODE_PORT_A      ; NEW_DATA_NO_NBE_READ      ; Untyped                            ;
+; READ_DURING_WRITE_MODE_PORT_B      ; NEW_DATA_NO_NBE_READ      ; Untyped                            ;
+; INIT_FILE                          ; ../ROMS/Z80/CPM_BASIC.HEX ; Untyped                            ;
+; INIT_FILE_LAYOUT                   ; PORT_A                    ; Untyped                            ;
+; MAXIMUM_DEPTH                      ; 0                         ; Untyped                            ;
+; CLOCK_ENABLE_INPUT_A               ; BYPASS                    ; Untyped                            ;
+; CLOCK_ENABLE_INPUT_B               ; NORMAL                    ; Untyped                            ;
+; CLOCK_ENABLE_OUTPUT_A              ; BYPASS                    ; Untyped                            ;
+; CLOCK_ENABLE_OUTPUT_B              ; NORMAL                    ; Untyped                            ;
+; CLOCK_ENABLE_CORE_A                ; USE_INPUT_CLKEN           ; Untyped                            ;
+; CLOCK_ENABLE_CORE_B                ; USE_INPUT_CLKEN           ; Untyped                            ;
+; ENABLE_ECC                         ; FALSE                     ; Untyped                            ;
+; ECC_PIPELINE_STAGE_ENABLED         ; FALSE                     ; Untyped                            ;
+; WIDTH_ECCSTATUS                    ; 3                         ; Untyped                            ;
+; DEVICE_FAMILY                      ; Cyclone II                ; Untyped                            ;
+; CBXI_PARAMETER                     ; altsyncram_4391           ; Untyped                            ;
++------------------------------------+---------------------------+------------------------------------+
+Note: In order to hide this table in the UI and the text report file, please set the "Show Parameter Settings in Synthesis Report" option in "Analysis and Synthesis Settings -> More Settings" to "Off".
+
+
++----------------------------------------------------------------------------------------------------+
+; altsyncram Parameter Settings by Entity Instance                                                   ;
++-------------------------------------------+--------------------------------------------------------+
+; Name                                      ; Value                                                  ;
++-------------------------------------------+--------------------------------------------------------+
+; Number of entity instances                ; 1                                                      ;
+; Entity Instance                           ; Z80_CPM_BASIC_ROM:rom1|altsyncram:altsyncram_component ;
+;     -- OPERATION_MODE                     ; ROM                                                    ;
+;     -- WIDTH_A                            ; 8                                                      ;
+;     -- NUMWORDS_A                         ; 8192                                                   ;
+;     -- OUTDATA_REG_A                      ; UNREGISTERED                                           ;
+;     -- WIDTH_B                            ; 1                                                      ;
+;     -- NUMWORDS_B                         ; 1                                                      ;
+;     -- ADDRESS_REG_B                      ; CLOCK1                                                 ;
+;     -- OUTDATA_REG_B                      ; UNREGISTERED                                           ;
+;     -- RAM_BLOCK_TYPE                     ; AUTO                                                   ;
+;     -- READ_DURING_WRITE_MODE_MIXED_PORTS ; DONT_CARE                                              ;
++-------------------------------------------+--------------------------------------------------------+
+
+
++-----------------------------------------------------------------------------------------------------------------+
+; Port Connectivity Checks: "bufferedUART:io2"                                                                    ;
++-------+--------+----------+-------------------------------------------------------------------------------------+
+; Port  ; Type   ; Severity ; Details                                                                             ;
++-------+--------+----------+-------------------------------------------------------------------------------------+
+; n_int ; Output ; Info     ; Connected to dangling logic. Logic that only feeds a dangling port will be removed. ;
+; n_cts ; Input  ; Info     ; Stuck at GND                                                                        ;
+; n_dcd ; Input  ; Info     ; Stuck at GND                                                                        ;
++-------+--------+----------+-------------------------------------------------------------------------------------+
+
+
++-----------------------------------------------------------------------------------------------------------------+
+; Port Connectivity Checks: "bufferedUART:io1"                                                                    ;
++-------+--------+----------+-------------------------------------------------------------------------------------+
+; Port  ; Type   ; Severity ; Details                                                                             ;
++-------+--------+----------+-------------------------------------------------------------------------------------+
+; n_int ; Output ; Info     ; Connected to dangling logic. Logic that only feeds a dangling port will be removed. ;
+; n_cts ; Input  ; Info     ; Stuck at GND                                                                        ;
+; n_dcd ; Input  ; Info     ; Stuck at GND                                                                        ;
++-------+--------+----------+-------------------------------------------------------------------------------------+
+
+
++----------------------------------------------------------------------------------------------------------------+
+; Port Connectivity Checks: "T80s:cpu1|T80:u0"                                                                   ;
++------+--------+----------+-------------------------------------------------------------------------------------+
+; Port ; Type   ; Severity ; Details                                                                             ;
++------+--------+----------+-------------------------------------------------------------------------------------+
+; cen  ; Input  ; Info     ; Stuck at VCC                                                                        ;
+; inte ; Output ; Info     ; Connected to dangling logic. Logic that only feeds a dangling port will be removed. ;
+; stop ; Output ; Info     ; Connected to dangling logic. Logic that only feeds a dangling port will be removed. ;
++------+--------+----------+-------------------------------------------------------------------------------------+
+
+
++-------------------------------------------------------------------------------------------------------------------+
+; Port Connectivity Checks: "T80s:cpu1"                                                                             ;
++---------+--------+----------+-------------------------------------------------------------------------------------+
+; Port    ; Type   ; Severity ; Details                                                                             ;
++---------+--------+----------+-------------------------------------------------------------------------------------+
+; wait_n  ; Input  ; Info     ; Stuck at VCC                                                                        ;
+; int_n   ; Input  ; Info     ; Stuck at VCC                                                                        ;
+; nmi_n   ; Input  ; Info     ; Stuck at VCC                                                                        ;
+; busrq_n ; Input  ; Info     ; Stuck at VCC                                                                        ;
+; m1_n    ; Output ; Info     ; Connected to dangling logic. Logic that only feeds a dangling port will be removed. ;
+; rfsh_n  ; Output ; Info     ; Connected to dangling logic. Logic that only feeds a dangling port will be removed. ;
+; halt_n  ; Output ; Info     ; Connected to dangling logic. Logic that only feeds a dangling port will be removed. ;
+; busak_n ; Output ; Info     ; Connected to dangling logic. Logic that only feeds a dangling port will be removed. ;
++---------+--------+----------+-------------------------------------------------------------------------------------+
+
+
++-------------------------------+
+; Elapsed Time Per Partition    ;
++----------------+--------------+
+; Partition Name ; Elapsed Time ;
++----------------+--------------+
+; Top            ; 00:00:16     ;
++----------------+--------------+
+
+
++-------------------------------+
+; Analysis & Synthesis Messages ;
++-------------------------------+
+Info: *******************************************************************
+Info: Running Quartus II 64-Bit Analysis & Synthesis
+    Info: Version 13.0.1 Build 232 06/12/2013 Service Pack 1 SJ Web Edition
+    Info: Processing started: Thu Jan 12 08:31:50 2017
+Info: Command: quartus_map --read_settings_files=on --write_settings_files=off Microcomputer -c Microcomputer
+Warning (125092): Tcl Script File ../ROMS/6502/M6502_BASIC_ROM.qip not found
+    Info (125063): set_global_assignment -name QIP_FILE ../ROMS/6502/M6502_BASIC_ROM.qip
+Warning (125092): Tcl Script File ../ROMS/Z80/Z80_BASIC_ROM.qip not found
+    Info (125063): set_global_assignment -name QIP_FILE ../ROMS/Z80/Z80_BASIC_ROM.qip
+Warning (125092): Tcl Script File ../ROMS/6809/M6809_EXT_BASIC_ROM.qip not found
+    Info (125063): set_global_assignment -name QIP_FILE ../ROMS/6809/M6809_EXT_BASIC_ROM.qip
+Warning (20028): Parallel compilation is not licensed and has been disabled
+Warning (12019): Can't analyze file -- file ../Components/M6809/cpu09l.vhd is missing
+Info (12021): Found 2 design units, including 1 entities, in source file /users/dgilliland/documents/github/multi-computer/z80-cp_m/components/terminal/sbctextdisplayrgb.vhd
+    Info (12022): Found design unit 1: SBCTextDisplayRGB-rtl
+    Info (12023): Found entity 1: SBCTextDisplayRGB
+Warning (12019): Can't analyze file -- file ../Components/M6800/cpu68.vhd is missing
+Info (12021): Found 2 design units, including 1 entities, in source file /users/dgilliland/documents/github/multi-computer/z80-cp_m/components/z80/t80s.vhd
+    Info (12022): Found design unit 1: T80s-rtl
+    Info (12023): Found entity 1: T80s
+Info (12021): Found 2 design units, including 1 entities, in source file /users/dgilliland/documents/github/multi-computer/z80-cp_m/components/z80/t80_reg.vhd
+    Info (12022): Found design unit 1: T80_Reg-rtl
+    Info (12023): Found entity 1: T80_Reg
+Info (12021): Found 1 design units, including 0 entities, in source file /users/dgilliland/documents/github/multi-computer/z80-cp_m/components/z80/t80_pack.vhd
+    Info (12022): Found design unit 1: T80_Pack
+Info (12021): Found 2 design units, including 1 entities, in source file /users/dgilliland/documents/github/multi-computer/z80-cp_m/components/z80/t80_mcode.vhd
+    Info (12022): Found design unit 1: T80_MCode-rtl
+    Info (12023): Found entity 1: T80_MCode
+Info (12021): Found 2 design units, including 1 entities, in source file /users/dgilliland/documents/github/multi-computer/z80-cp_m/components/z80/t80_alu.vhd
+    Info (12022): Found design unit 1: T80_ALU-rtl
+    Info (12023): Found entity 1: T80_ALU
+Info (12021): Found 2 design units, including 1 entities, in source file /users/dgilliland/documents/github/multi-computer/z80-cp_m/components/z80/t80.vhd
+    Info (12022): Found design unit 1: T80-rtl
+    Info (12023): Found entity 1: T80
+Info (12021): Found 2 design units, including 1 entities, in source file /users/dgilliland/documents/github/multi-computer/z80-cp_m/components/terminal/cgaboldrom.vhd
+    Info (12022): Found design unit 1: cgaboldrom-SYN
+    Info (12023): Found entity 1: CGABoldRom
+Info (12021): Found 2 design units, including 1 entities, in source file /users/dgilliland/documents/github/multi-computer/z80-cp_m/components/uart/buffereduart.vhd
+    Info (12022): Found design unit 1: bufferedUART-rtl
+    Info (12023): Found entity 1: bufferedUART
+Warning (12019): Can't analyze file -- file ../Components/M6502/T65_Pack.vhd is missing
+Warning (12019): Can't analyze file -- file ../Components/M6502/T65_MCode.vhd is missing
+Warning (12019): Can't analyze file -- file ../Components/M6502/T65_ALU.vhd is missing
+Warning (12019): Can't analyze file -- file ../Components/M6502/T65.vhd is missing
+Info (12021): Found 2 design units, including 1 entities, in source file microcomputer.vhd
+    Info (12022): Found design unit 1: Microcomputer-struct
+    Info (12023): Found entity 1: Microcomputer
+Info (12021): Found 2 design units, including 1 entities, in source file /users/dgilliland/documents/github/multi-computer/z80-cp_m/components/sdcard/sd_controller.vhd
+    Info (12022): Found design unit 1: sd_controller-rtl
+    Info (12023): Found entity 1: sd_controller
+Info (12021): Found 2 design units, including 1 entities, in source file /users/dgilliland/documents/github/multi-computer/z80-cp_m/components/terminal/displayram1k.vhd
+    Info (12022): Found design unit 1: displayram1k-SYN
+    Info (12023): Found entity 1: DisplayRam1K
+Info (12021): Found 2 design units, including 1 entities, in source file /users/dgilliland/documents/github/multi-computer/z80-cp_m/components/terminal/displayram2k.vhd
+    Info (12022): Found design unit 1: displayram2k-SYN
+    Info (12023): Found entity 1: DisplayRam2K
+Info (12021): Found 2 design units, including 1 entities, in source file /users/dgilliland/documents/github/multi-computer/z80-cp_m/components/terminal/cgaboldromreduced.vhd
+    Info (12022): Found design unit 1: cgaboldromreduced-SYN
+    Info (12023): Found entity 1: CGABoldRomReduced
+Info (12021): Found 2 design units, including 1 entities, in source file internalram1k.vhd
+    Info (12022): Found design unit 1: internalram1k-SYN
+    Info (12023): Found entity 1: InternalRam1K
+Info (12021): Found 2 design units, including 1 entities, in source file internalram2k.vhd
+    Info (12022): Found design unit 1: internalram2k-SYN
+    Info (12023): Found entity 1: InternalRam2K
+Info (12021): Found 2 design units, including 1 entities, in source file internalram4k.vhd
+    Info (12022): Found design unit 1: internalram4k-SYN
+    Info (12023): Found entity 1: InternalRam4K
+Info (12021): Found 2 design units, including 1 entities, in source file /users/dgilliland/documents/github/multi-computer/z80-cp_m/roms/z80/z80_cpm_basic_rom.vhd
+    Info (12022): Found design unit 1: z80_cpm_basic_rom-SYN
+    Info (12023): Found entity 1: Z80_CPM_BASIC_ROM
+Info (12127): Elaborating entity "Microcomputer" for the top level hierarchy
+Warning (10541): VHDL Signal Declaration warning at Microcomputer.vhd(40): used implicit default value for signal "videoSync" because signal was never assigned a value or an explicit default value. Use of implicit default value may introduce unintended design optimizations.
+Warning (10541): VHDL Signal Declaration warning at Microcomputer.vhd(41): used implicit default value for signal "video" because signal was never assigned a value or an explicit default value. Use of implicit default value may introduce unintended design optimizations.
+Warning (10541): VHDL Signal Declaration warning at Microcomputer.vhd(43): used implicit default value for signal "videoR0" because signal was never assigned a value or an explicit default value. Use of implicit default value may introduce unintended design optimizations.
+Warning (10541): VHDL Signal Declaration warning at Microcomputer.vhd(44): used implicit default value for signal "videoG0" because signal was never assigned a value or an explicit default value. Use of implicit default value may introduce unintended design optimizations.
+Warning (10541): VHDL Signal Declaration warning at Microcomputer.vhd(45): used implicit default value for signal "videoB0" because signal was never assigned a value or an explicit default value. Use of implicit default value may introduce unintended design optimizations.
+Warning (10541): VHDL Signal Declaration warning at Microcomputer.vhd(46): used implicit default value for signal "videoR1" because signal was never assigned a value or an explicit default value. Use of implicit default value may introduce unintended design optimizations.
+Warning (10541): VHDL Signal Declaration warning at Microcomputer.vhd(47): used implicit default value for signal "videoG1" because signal was never assigned a value or an explicit default value. Use of implicit default value may introduce unintended design optimizations.
+Warning (10541): VHDL Signal Declaration warning at Microcomputer.vhd(48): used implicit default value for signal "videoB1" because signal was never assigned a value or an explicit default value. Use of implicit default value may introduce unintended design optimizations.
+Warning (10541): VHDL Signal Declaration warning at Microcomputer.vhd(49): used implicit default value for signal "hSync" because signal was never assigned a value or an explicit default value. Use of implicit default value may introduce unintended design optimizations.
+Warning (10541): VHDL Signal Declaration warning at Microcomputer.vhd(50): used implicit default value for signal "vSync" because signal was never assigned a value or an explicit default value. Use of implicit default value may introduce unintended design optimizations.
+Warning (10541): VHDL Signal Declaration warning at Microcomputer.vhd(72): used implicit default value for signal "internalRam1DataOut" because signal was never assigned a value or an explicit default value. Use of implicit default value may introduce unintended design optimizations.
+Warning (10036): Verilog HDL or VHDL warning at Microcomputer.vhd(87): object "n_int1" assigned a value but never read
+Warning (10540): VHDL Signal Declaration warning at Microcomputer.vhd(91): used explicit default value for signal "n_internalRam1CS" because signal was never assigned a value
+Info (12128): Elaborating entity "T80s" for hierarchy "T80s:cpu1"
+Info (12128): Elaborating entity "T80" for hierarchy "T80s:cpu1|T80:u0"
+Info (12128): Elaborating entity "T80_MCode" for hierarchy "T80s:cpu1|T80:u0|T80_MCode:mcode"
+Info (12128): Elaborating entity "T80_ALU" for hierarchy "T80s:cpu1|T80:u0|T80_ALU:alu"
+Info (12128): Elaborating entity "T80_Reg" for hierarchy "T80s:cpu1|T80:u0|T80_Reg:Regs"
+Info (12128): Elaborating entity "Z80_CPM_BASIC_ROM" for hierarchy "Z80_CPM_BASIC_ROM:rom1"
+Info (12128): Elaborating entity "altsyncram" for hierarchy "Z80_CPM_BASIC_ROM:rom1|altsyncram:altsyncram_component"
+Info (12130): Elaborated megafunction instantiation "Z80_CPM_BASIC_ROM:rom1|altsyncram:altsyncram_component"
+Info (12133): Instantiated megafunction "Z80_CPM_BASIC_ROM:rom1|altsyncram:altsyncram_component" with the following parameter:
+    Info (12134): Parameter "clock_enable_input_a" = "BYPASS"
+    Info (12134): Parameter "clock_enable_output_a" = "BYPASS"
+    Info (12134): Parameter "init_file" = "../ROMS/Z80/CPM_BASIC.HEX"
+    Info (12134): Parameter "intended_device_family" = "Cyclone II"
+    Info (12134): Parameter "lpm_hint" = "ENABLE_RUNTIME_MOD=NO"
+    Info (12134): Parameter "lpm_type" = "altsyncram"
+    Info (12134): Parameter "numwords_a" = "8192"
+    Info (12134): Parameter "operation_mode" = "ROM"
+    Info (12134): Parameter "outdata_aclr_a" = "NONE"
+    Info (12134): Parameter "outdata_reg_a" = "UNREGISTERED"
+    Info (12134): Parameter "widthad_a" = "13"
+    Info (12134): Parameter "width_a" = "8"
+    Info (12134): Parameter "width_byteena_a" = "1"
+Info (12021): Found 1 design units, including 1 entities, in source file db/altsyncram_4391.tdf
+    Info (12023): Found entity 1: altsyncram_4391
+Info (12128): Elaborating entity "altsyncram_4391" for hierarchy "Z80_CPM_BASIC_ROM:rom1|altsyncram:altsyncram_component|altsyncram_4391:auto_generated"
+Info (12021): Found 1 design units, including 1 entities, in source file db/decode_1oa.tdf
+    Info (12023): Found entity 1: decode_1oa
+Info (12128): Elaborating entity "decode_1oa" for hierarchy "Z80_CPM_BASIC_ROM:rom1|altsyncram:altsyncram_component|altsyncram_4391:auto_generated|decode_1oa:deep_decode"
+Info (12021): Found 1 design units, including 1 entities, in source file db/mux_hib.tdf
+    Info (12023): Found entity 1: mux_hib
+Info (12128): Elaborating entity "mux_hib" for hierarchy "Z80_CPM_BASIC_ROM:rom1|altsyncram:altsyncram_component|altsyncram_4391:auto_generated|mux_hib:mux2"
+Info (12128): Elaborating entity "bufferedUART" for hierarchy "bufferedUART:io1"
+Info (12128): Elaborating entity "sd_controller" for hierarchy "sd_controller:sd1"
+Info (276014): Found 2 instances of uninferred RAM logic
+    Info (276007): RAM logic "bufferedUART:io2|rxBuffer" is uninferred due to asynchronous read logic
+    Info (276007): RAM logic "bufferedUART:io1|rxBuffer" is uninferred due to asynchronous read logic
+Warning (13039): The following bidir pins have no drivers
+    Warning (13040): Bidir "ps2Clk" has no driver
+    Warning (13040): Bidir "ps2Data" has no driver
+Info (13000): Registers with preset signals will power-up high
+Info (13003): DEV_CLRn pin will set, and not reset, register with preset signal due to NOT Gate Push-Back
+Warning (13024): Output pins are stuck at VCC or GND
+    Warning (13410): Pin "videoSync" is stuck at GND
+    Warning (13410): Pin "video" is stuck at GND
+    Warning (13410): Pin "videoR0" is stuck at GND
+    Warning (13410): Pin "videoG0" is stuck at GND
+    Warning (13410): Pin "videoB0" is stuck at GND
+    Warning (13410): Pin "videoR1" is stuck at GND
+    Warning (13410): Pin "videoG1" is stuck at GND
+    Warning (13410): Pin "videoB1" is stuck at GND
+    Warning (13410): Pin "hSync" is stuck at GND
+    Warning (13410): Pin "vSync" is stuck at GND
+Critical Warning (18061): Ignored Power-Up Level option on the following registers
+    Critical Warning (18010): Register sd_controller:sd1|driveLED will power up to Low
+    Critical Warning (18010): Register sd_controller:sd1|led_on_count[7] will power up to High
+    Critical Warning (18010): Register sd_controller:sd1|led_on_count[6] will power up to High
+    Critical Warning (18010): Register sd_controller:sd1|led_on_count[3] will power up to High
+Info (17049): 5 registers lost all their fanouts during netlist optimizations.
+Info (16010): Generating hard_block partition "hard_block:auto_generated_inst"
+    Info (16011): Adding 0 node(s), including 0 DDIO, 0 PLL, 0 transceiver and 0 LCELL
+Info (21057): Implemented 3409 device resources after synthesis - the final resource count might be different
+    Info (21058): Implemented 5 input pins
+    Info (21059): Implemented 37 output pins
+    Info (21060): Implemented 10 bidirectional pins
+    Info (21061): Implemented 3341 logic cells
+    Info (21064): Implemented 16 RAM segments
+Info: Quartus II 64-Bit Analysis & Synthesis was successful. 0 errors, 42 warnings
+    Info: Peak virtual memory: 514 megabytes
+    Info: Processing ended: Thu Jan 12 08:32:10 2017
+    Info: Elapsed time: 00:00:20
+    Info: Total CPU time (on all processors): 00:00:20
+
+
