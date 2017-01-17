@@ -1,17 +1,9 @@
 -- This file is copyright by Grant Searle 2014
--- You are free to use this file in your own projects but must never charge for it nor use it without
--- acknowledgement.
--- Please ask permission from Grant Searle before republishing elsewhere.
--- If you use this file or any part of it, please add an acknowledgement to myself and
--- a link back to my main web site http://searle.hostei.com/grant/    
--- and to the "multicomp" page at http://searle.hostei.com/grant/Multicomp/index.html
+-- Grant Searle's web site http://searle.hostei.com/grant/    
+-- Grant Searle's "multicomp" page at http://searle.hostei.com/grant/Multicomp/index.html
 --
--- Please check on the above web pages to see if there are any updates before using this file.
--- If for some reason the page is no longer available, please search for "Grant Searle"
--- on the internet to see if I have moved to another web hosting service.
+-- Changes to this code by Doug Gilliland 2017
 --
--- Grant Searle
--- eMail address available on my main web page link above.
 
 library ieee;
 use ieee.std_logic_1164.all;
@@ -103,171 +95,172 @@ architecture struct of Microcomputer is
 	signal sdClock						: std_logic;	
 	
 begin
--- ____________________________________________________________________________________
--- CPU CHOICE GOES HERE
-cpu1 : entity work.cpu09
-port map(
-clk => not(cpuClock),
-rst => not n_reset,
-rw => n_WR,
-addr => cpuAddress,
-data_in => cpuDataIn,
-data_out => cpuDataOut,
-halt => '0',
-hold => '0',
-irq => '0',
-firq => '0',
-nmi => '0'); 
--- ____________________________________________________________________________________
--- ROM GOES HERE	
+	-- ____________________________________________________________________________________
+	-- CPU CHOICE GOES HERE
+	cpu1 : entity work.cpu09
+		port map(
+			clk => not(cpuClock),
+			rst => not n_reset,
+			rw => n_WR,
+			addr => cpuAddress,
+			data_in => cpuDataIn,
+			data_out => cpuDataOut,
+			halt => '0',
+			hold => '0',
+			irq => '0',
+			firq => '0',
+			nmi => '0'
+		); 
+	
+	-- ____________________________________________________________________________________
+	-- ROM GOES HERE	
 	rom1 : entity work.M6809_EXT_BASIC_ROM -- 8KB BASIC
-port map(
-address => cpuAddress(12 downto 0),
-clock => clk,
-q => basRomData
-);
--- ____________________________________________________________________________________
--- RAM GOES HERE
-sramAddress(15 downto 0) <= cpuAddress(15 downto 0);
-sramData <= cpuDataOut when n_WR='0' else (others => 'Z');
-n_sRamWE <= n_memWR;
-n_sRamOE <= n_memRD;
-n_sRamCS <= n_externalRamCS;
--- ____________________________________________________________________________________
--- INPUT/OUTPUT DEVICES GO HERE	
-	io1 : entity work.bufferedUART
-port map(
-clk => clk,
-n_wr => n_interface1CS or n_ioWR,
-n_rd => n_interface1CS or n_ioRD,
-n_int => n_int1,
-regSel => cpuAddress(0),
-dataIn => cpuDataOut,
-dataOut => interface1DataOut,
-rxClock => serialClock,
-txClock => serialClock,
-rxd => rxd1,
-txd => txd1,
-n_cts => '0',
-n_dcd => '0',
-n_rts => rts1
-);
-
-io2 : entity work.SBCTextDisplayRGB
-generic map(
-DISPLAY_TOP_SCANLINE => 35,
-VERT_SCANLINES => 448,
-V_SYNC_ACTIVE => '1'
-)
-
-port map (
-n_reset => n_reset,
-clk => clk,
-
--- RGB video signals
-hSync => hSync,
-vSync => vSync,
-videoR0 => videoR0,
-videoR1 => videoR1,
-videoG0 => videoG0,
-videoG1 => videoG1,
-videoB0 => videoB0,
-videoB1 => videoB1,
-
--- Monochrome video signals (when using TV timings only)
-sync => videoSync,
-video => video,
-
-n_wr => n_interface2CS or cpuClock or n_WR,
-n_rd => n_interface2CS or cpuClock or (not n_WR),
-n_int => n_int1,
-regSel => cpuAddress(0),
-dataIn => cpuDataOut,
-dataOut => interface2DataOut,
-ps2Clk => ps2Clk,
-ps2Data => ps2Data
-);
-
-sd1 : entity work.sd_controller
-port map(
-sdCS => sdCS,
-sdMOSI => sdMOSI,
-sdMISO => sdMISO,
-sdSCLK => sdSCLK,
-n_wr => n_sdCardCS or cpuClock or n_WR,
-n_rd => n_sdCardCS or cpuClock or (not n_WR),
-n_reset => n_reset,
-dataIn => cpuDataOut,
-dataOut => sdCardDataOut,
-regAddr => cpuAddress(2 downto 0),
-driveLED => driveLED,
-clk => sdClock -- twice the spi clk
-);
-
--- ____________________________________________________________________________________
--- MEMORY READ/WRITE LOGIC GOES HERE
-n_memRD <= not(cpuClock) nand n_WR;
-n_memWR <= not(cpuClock) nand (not n_WR);
-
--- ____________________________________________________________________________________
--- CHIP SELECTS GO HERE
-n_basRomCS <= '0' when cpuAddress(15 downto 13) = "111" else '1'; --8K at top of memory
-n_interface1CS <= '0' when cpuAddress(15 downto 1) = "111111111101000" else '1'; -- 2 bytes FFD0-FFD1
-n_interface2CS <= '0' when cpuAddress(15 downto 1) = "111111111101001" else '1'; -- 2 bytes FFD2-FFD3
-n_sdCardCS <= '0' when cpuAddress(15 downto 3) = "1111111111011" else '1'; -- 8 bytes FFD8-FFDF
-n_externalRamCS<= not n_basRomCS;
-n_internalRam1CS <= '0' when cpuAddress(15 downto 11) = "00000" else '1';
-
--- ____________________________________________________________________________________
--- BUS ISOLATION GOES HERE
-cpuDataIn <=
-interface1DataOut when n_interface1CS = '0' else
-interface2DataOut when n_interface2CS = '0' else
-sdCardDataOut when n_sdCardCS = '0' else
-basRomData when n_basRomCS = '0' else
-internalRam1DataOut when n_internalRam1CS= '0' else
-sramData when n_externalRamCS= '0' else
-x"FF";
--- ____________________________________________________________________________________
--- SYSTEM CLOCKS GO HERE
--- SUB-CIRCUIT CLOCK SIGNALS
-serialClock <= serialClkCount(15);
-process (clk)
-begin
-if rising_edge(clk) then
-
-if cpuClkCount < 4 then -- 4 = 10MHz, 3 = 12.5MHz, 2=16.6MHz, 1=25MHz
-cpuClkCount <= cpuClkCount + 1;
-else
-cpuClkCount <= (others=>'0');
-end if;
-if cpuClkCount < 2 then -- 2 when 10MHz, 2 when 12.5MHz, 2 when 16.6MHz, 1 when 25MHz
-cpuClock <= '0';
-else
-cpuClock <= '1';
-end if;
-
-if sdClkCount < 49 then -- 1MHz
-sdClkCount <= sdClkCount + 1;
-else
-sdClkCount <= (others=>'0');
-end if;
-if sdClkCount < 25 then
-sdClock <= '0';
-else
-sdClock <= '1';
-end if;
-
--- Serial clock DDS
--- 50MHz master input clock:
--- Baud Increment
--- 115200 2416
--- 38400 805
--- 19200 403
--- 9600 201
--- 4800 101
--- 2400 50
-serialClkCount <= serialClkCount + 2416;
-end if;
-end process;
+		port map(
+			address => cpuAddress(12 downto 0),
+			clock => clk,
+			q => basRomData
+		);
+	
+	-- ____________________________________________________________________________________
+	-- RAM GOES HERE
+	sramAddress(15 downto 0) <= cpuAddress(15 downto 0);
+	sramData <= cpuDataOut when n_WR='0' else (others => 'Z');
+	n_sRamWE <= n_memWR;
+	n_sRamOE <= n_memRD;
+	n_sRamCS <= n_externalRamCS;
+	
+	-- ____________________________________________________________________________________
+	-- INPUT/OUTPUT DEVICES GO HERE	
+	io1 : entity work.SBCTextDisplayRGB
+	
+		port map (
+			n_reset => n_reset,
+			clk => clk,
+			
+			-- RGB video signals
+			hSync => hSync,
+			vSync => vSync,
+			videoR0 => videoR0,
+			videoR1 => videoR1,
+			videoG0 => videoG0,
+			videoG1 => videoG1,
+			videoB0 => videoB0,
+			videoB1 => videoB1,
+			
+			-- Monochrome video signals (when using TV timings only)
+			sync => videoSync,
+			video => video,
+			
+			n_wr => n_interface1CS or cpuClock or n_WR,
+			n_rd => n_interface1CS or cpuClock or (not n_WR),
+			n_int => n_int1,
+			regSel => cpuAddress(0),
+			dataIn => cpuDataOut,
+			dataOut => interface1DataOut,
+			ps2Clk => ps2Clk,
+			ps2Data => ps2Data
+		);
+	
+	
+	io2 : entity work.bufferedUART
+		port map(
+			clk => clk,
+			n_wr => n_interface2CS or n_ioWR,
+			n_rd => n_interface2CS or n_ioRD,
+			n_int => n_int2,
+			regSel => cpuAddress(0),
+			dataIn => cpuDataOut,
+			dataOut => interface2DataOut,
+			rxClock => serialClock,
+			txClock => serialClock,
+			rxd => rxd1,
+			txd => txd1,
+			n_cts => '0',
+			n_dcd => '0',
+			n_rts => rts1
+		);
+	
+	sd1 : entity work.sd_controller
+		port map(
+			sdCS => sdCS,
+			sdMOSI => sdMOSI,
+			sdMISO => sdMISO,
+			sdSCLK => sdSCLK,
+			n_wr => n_sdCardCS or cpuClock or n_WR,
+			n_rd => n_sdCardCS or cpuClock or (not n_WR),
+			n_reset => n_reset,
+			dataIn => cpuDataOut,
+			dataOut => sdCardDataOut,
+			regAddr => cpuAddress(2 downto 0),
+			driveLED => driveLED,
+			clk => sdClock -- twice the spi clk
+		);
+	
+	-- ____________________________________________________________________________________
+	-- MEMORY READ/WRITE LOGIC GOES HERE
+	n_memRD <= not(cpuClock) nand n_WR;
+	n_memWR <= not(cpuClock) nand (not n_WR);
+	
+	-- ____________________________________________________________________________________
+	-- CHIP SELECTS GO HERE
+	n_basRomCS <= '0' when cpuAddress(15 downto 13) = "111" else '1'; --8K at top of memory
+	n_interface1CS <= '0' when cpuAddress(15 downto 1) = "111111111101000" else '1'; -- 2 bytes FFD0-FFD1
+	n_interface2CS <= '0' when cpuAddress(15 downto 1) = "111111111101001" else '1'; -- 2 bytes FFD2-FFD3
+	n_sdCardCS <= '0' when cpuAddress(15 downto 3) = "1111111111011" else '1'; -- 8 bytes FFD8-FFDF
+	n_externalRamCS<= not n_basRomCS;
+	n_internalRam1CS <= '0' when cpuAddress(15 downto 11) = "00000" else '1';
+	
+	-- ____________________________________________________________________________________
+	-- BUS ISOLATION GOES HERE
+	cpuDataIn <=
+	interface1DataOut when n_interface1CS = '0' else
+	interface2DataOut when n_interface2CS = '0' else
+	sdCardDataOut when n_sdCardCS = '0' else
+	basRomData when n_basRomCS = '0' else
+	internalRam1DataOut when n_internalRam1CS= '0' else
+	sramData when n_externalRamCS= '0' else
+	x"FF";
+	
+	-- ____________________________________________________________________________________
+	-- SYSTEM CLOCKS GO HERE
+	-- SUB-CIRCUIT CLOCK SIGNALS
+	serialClock <= serialClkCount(15);
+	process (clk)
+		begin
+			if rising_edge(clk) then
+			
+			if cpuClkCount < 4 then -- 4 = 10MHz, 3 = 12.5MHz, 2=16.6MHz, 1=25MHz
+				cpuClkCount <= cpuClkCount + 1;
+			else
+				cpuClkCount <= (others=>'0');
+			end if;
+			if cpuClkCount < 2 then -- 2 when 10MHz, 2 when 12.5MHz, 2 when 16.6MHz, 1 when 25MHz
+				cpuClock <= '0';
+			else
+				cpuClock <= '1';
+			end if;
+			
+			if sdClkCount < 49 then -- 1MHz
+				sdClkCount <= sdClkCount + 1;
+			else
+				sdClkCount <= (others=>'0');
+			end if;
+			if sdClkCount < 25 then
+				sdClock <= '0';
+			else
+				sdClock <= '1';
+			end if;
+			
+			-- Serial clock DDS
+			-- 50MHz master input clock:
+			-- Baud Increment
+			-- 115200 2416
+			-- 38400 805
+			-- 19200 403
+			-- 9600 201
+			-- 4800 101
+			-- 2400 50
+			serialClkCount <= serialClkCount + 2416;
+			end if;
+		end process;
 end;
