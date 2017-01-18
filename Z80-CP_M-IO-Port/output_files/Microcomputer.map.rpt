@@ -1,5 +1,5 @@
 Analysis & Synthesis report for Microcomputer
-Mon Jan 16 22:01:09 2017
+Tue Jan 17 21:50:43 2017
 Quartus II 64-Bit Version 13.0.1 Build 232 06/12/2013 Service Pack 1 SJ Web Edition
 
 
@@ -30,12 +30,13 @@ Quartus II 64-Bit Version 13.0.1 Build 232 06/12/2013 Service Pack 1 SJ Web Edit
  22. Parameter Settings for User Entity Instance: T80s:cpu1|T80:u0|T80_MCode:mcode
  23. Parameter Settings for User Entity Instance: T80s:cpu1|T80:u0|T80_ALU:alu
  24. Parameter Settings for User Entity Instance: Z80_CPM_BASIC_ROM:rom1|altsyncram:altsyncram_component
- 25. altsyncram Parameter Settings by Entity Instance
- 26. Port Connectivity Checks: "bufferedUART:io1"
- 27. Port Connectivity Checks: "T80s:cpu1|T80:u0"
- 28. Port Connectivity Checks: "T80s:cpu1"
- 29. Elapsed Time Per Partition
- 30. Analysis & Synthesis Messages
+ 25. Parameter Settings for User Entity Instance: OUT_LATCH:latchIO
+ 26. altsyncram Parameter Settings by Entity Instance
+ 27. Port Connectivity Checks: "bufferedUART:io1"
+ 28. Port Connectivity Checks: "T80s:cpu1|T80:u0"
+ 29. Port Connectivity Checks: "T80s:cpu1"
+ 30. Elapsed Time Per Partition
+ 31. Analysis & Synthesis Messages
 
 
 
@@ -61,16 +62,16 @@ applicable agreement for further details.
 +--------------------------------------------------------------------------------------+
 ; Analysis & Synthesis Summary                                                         ;
 +------------------------------------+-------------------------------------------------+
-; Analysis & Synthesis Status        ; Successful - Mon Jan 16 22:01:08 2017           ;
+; Analysis & Synthesis Status        ; Successful - Tue Jan 17 21:50:43 2017           ;
 ; Quartus II 64-Bit Version          ; 13.0.1 Build 232 06/12/2013 SP 1 SJ Web Edition ;
 ; Revision Name                      ; Microcomputer                                   ;
 ; Top-level Entity Name              ; Microcomputer                                   ;
 ; Family                             ; Cyclone II                                      ;
-; Total logic elements               ; 2,890                                           ;
-;     Total combinational functions  ; 2,571                                           ;
-;     Dedicated logic registers      ; 763                                             ;
-; Total registers                    ; 763                                             ;
-; Total pins                         ; 53                                              ;
+; Total logic elements               ; 2,900                                           ;
+;     Total combinational functions  ; 2,573                                           ;
+;     Dedicated logic registers      ; 771                                             ;
+; Total registers                    ; 771                                             ;
+; Total pins                         ; 61                                              ;
 ; Total virtual pins                 ; 0                                               ;
 ; Total memory bits                  ; 65,536                                          ;
 ; Embedded Multiplier 9-bit elements ; 0                                               ;
@@ -190,6 +191,7 @@ Parallel compilation was disabled, but you have multiple processors available. E
 ; ../Components/Z80/T80.vhd              ; yes             ; User VHDL File                         ; C:/Users/doug_000/Documents/GitHub/MultiComp/Z80-CP_M-IO-Port/Components/Z80/T80.vhd              ;         ;
 ; ../Components/SDCARD/sd_controller.vhd ; yes             ; User VHDL File                         ; C:/Users/doug_000/Documents/GitHub/MultiComp/Z80-CP_M-IO-Port/Components/SDCARD/sd_controller.vhd ;         ;
 ; ../Components/UART/bufferedUART.vhd    ; yes             ; User VHDL File                         ; C:/Users/doug_000/Documents/GitHub/MultiComp/Z80-CP_M-IO-Port/Components/UART/bufferedUART.vhd    ;         ;
+; Components/IO/OutLatch.vhd             ; yes             ; User VHDL File                         ; C:/Users/doug_000/Documents/GitHub/MultiComp/Z80-CP_M-IO-Port/Components/IO/OutLatch.vhd          ;         ;
 ; altsyncram.tdf                         ; yes             ; Megafunction                           ; c:/altera/13.0sp1/quartus/libraries/megafunctions/altsyncram.tdf                                  ;         ;
 ; stratix_ram_block.inc                  ; yes             ; Megafunction                           ; c:/altera/13.0sp1/quartus/libraries/megafunctions/stratix_ram_block.inc                           ;         ;
 ; lpm_mux.inc                            ; yes             ; Megafunction                           ; c:/altera/13.0sp1/quartus/libraries/megafunctions/lpm_mux.inc                                     ;         ;
@@ -211,29 +213,29 @@ Parallel compilation was disabled, but you have multiple processors available. E
 +---------------------------------------------+----------+
 ; Resource                                    ; Usage    ;
 +---------------------------------------------+----------+
-; Estimated Total logic elements              ; 2,890    ;
+; Estimated Total logic elements              ; 2,900    ;
 ;                                             ;          ;
-; Total combinational functions               ; 2571     ;
+; Total combinational functions               ; 2573     ;
 ; Logic element usage by number of LUT inputs ;          ;
-;     -- 4 input functions                    ; 1686     ;
-;     -- 3 input functions                    ; 509      ;
-;     -- <=2 input functions                  ; 376      ;
+;     -- 4 input functions                    ; 1680     ;
+;     -- 3 input functions                    ; 519      ;
+;     -- <=2 input functions                  ; 374      ;
 ;                                             ;          ;
 ; Logic elements by mode                      ;          ;
-;     -- normal mode                          ; 2337     ;
+;     -- normal mode                          ; 2339     ;
 ;     -- arithmetic mode                      ; 234      ;
 ;                                             ;          ;
-; Total registers                             ; 763      ;
-;     -- Dedicated logic registers            ; 763      ;
+; Total registers                             ; 771      ;
+;     -- Dedicated logic registers            ; 771      ;
 ;     -- I/O registers                        ; 0        ;
 ;                                             ;          ;
-; I/O pins                                    ; 53       ;
+; I/O pins                                    ; 61       ;
 ; Total memory bits                           ; 65536    ;
 ; Embedded Multiplier 9-bit elements          ; 0        ;
 ; Maximum fan-out node                        ; cpuClock ;
 ; Maximum fan-out                             ; 346      ;
-; Total fan-out                               ; 11794    ;
-; Average fan-out                             ; 3.47     ;
+; Total fan-out                               ; 11837    ;
+; Average fan-out                             ; 3.46     ;
 +---------------------------------------------+----------+
 
 
@@ -242,17 +244,18 @@ Parallel compilation was disabled, but you have multiple processors available. E
 +-------------------------------------------+-------------------+--------------+-------------+--------------+---------+-----------+------+--------------+------------------------------------------------------------------------------------------------------+--------------+
 ; Compilation Hierarchy Node                ; LC Combinationals ; LC Registers ; Memory Bits ; DSP Elements ; DSP 9x9 ; DSP 18x18 ; Pins ; Virtual Pins ; Full Hierarchy Name                                                                                  ; Library Name ;
 +-------------------------------------------+-------------------+--------------+-------------+--------------+---------+-----------+------+--------------+------------------------------------------------------------------------------------------------------+--------------+
-; |Microcomputer                            ; 2571 (80)         ; 763 (27)     ; 65536       ; 0            ; 0       ; 0         ; 53   ; 0            ; |Microcomputer                                                                                       ; work         ;
-;    |T80s:cpu1|                            ; 1964 (8)          ; 346 (12)     ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |Microcomputer|T80s:cpu1                                                                             ; work         ;
-;       |T80:u0|                            ; 1956 (833)        ; 334 (206)    ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |Microcomputer|T80s:cpu1|T80:u0                                                                      ; work         ;
-;          |T80_ALU:alu|                    ; 405 (405)         ; 0 (0)        ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |Microcomputer|T80s:cpu1|T80:u0|T80_ALU:alu                                                          ; work         ;
-;          |T80_MCode:mcode|                ; 462 (462)         ; 0 (0)        ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |Microcomputer|T80s:cpu1|T80:u0|T80_MCode:mcode                                                      ; work         ;
+; |Microcomputer                            ; 2573 (82)         ; 771 (27)     ; 65536       ; 0            ; 0       ; 0         ; 61   ; 0            ; |Microcomputer                                                                                       ; work         ;
+;    |OUT_LATCH:latchIO|                    ; 0 (0)             ; 8 (8)        ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |Microcomputer|OUT_LATCH:latchIO                                                                     ; work         ;
+;    |T80s:cpu1|                            ; 1963 (8)          ; 346 (12)     ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |Microcomputer|T80s:cpu1                                                                             ; work         ;
+;       |T80:u0|                            ; 1955 (833)        ; 334 (206)    ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |Microcomputer|T80s:cpu1|T80:u0                                                                      ; work         ;
+;          |T80_ALU:alu|                    ; 409 (409)         ; 0 (0)        ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |Microcomputer|T80s:cpu1|T80:u0|T80_ALU:alu                                                          ; work         ;
+;          |T80_MCode:mcode|                ; 457 (457)         ; 0 (0)        ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |Microcomputer|T80s:cpu1|T80:u0|T80_MCode:mcode                                                      ; work         ;
 ;          |T80_Reg:Regs|                   ; 256 (256)         ; 128 (128)    ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |Microcomputer|T80s:cpu1|T80:u0|T80_Reg:Regs                                                         ; work         ;
 ;    |Z80_CPM_BASIC_ROM:rom1|               ; 0 (0)             ; 1 (0)        ; 65536       ; 0            ; 0       ; 0         ; 0    ; 0            ; |Microcomputer|Z80_CPM_BASIC_ROM:rom1                                                                ; work         ;
 ;       |altsyncram:altsyncram_component|   ; 0 (0)             ; 1 (0)        ; 65536       ; 0            ; 0       ; 0         ; 0    ; 0            ; |Microcomputer|Z80_CPM_BASIC_ROM:rom1|altsyncram:altsyncram_component                                ; work         ;
 ;          |altsyncram_4391:auto_generated| ; 0 (0)             ; 1 (1)        ; 65536       ; 0            ; 0       ; 0         ; 0    ; 0            ; |Microcomputer|Z80_CPM_BASIC_ROM:rom1|altsyncram:altsyncram_component|altsyncram_4391:auto_generated ; work         ;
 ;    |bufferedUART:io1|                     ; 245 (245)         ; 212 (212)    ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |Microcomputer|bufferedUART:io1                                                                      ; work         ;
-;    |sd_controller:sd1|                    ; 282 (282)         ; 177 (177)    ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |Microcomputer|sd_controller:sd1                                                                     ; work         ;
+;    |sd_controller:sd1|                    ; 283 (283)         ; 177 (177)    ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |Microcomputer|sd_controller:sd1                                                                     ; work         ;
 +-------------------------------------------+-------------------+--------------+-------------+--------------+---------+-----------+------+--------------+------------------------------------------------------------------------------------------------------+--------------+
 Note: For table entries with two numbers listed, the numbers in parentheses indicate the number of resources of the given type used by the specific entity alone. The numbers listed outside of parentheses indicate the total resources of the given type used by the specific entity and all of its sub-entities in the hierarchy.
 
@@ -401,12 +404,12 @@ Encoding Type:  One-Hot
 +----------------------------------------------+-------+
 ; Statistic                                    ; Value ;
 +----------------------------------------------+-------+
-; Total registers                              ; 763   ;
+; Total registers                              ; 771   ;
 ; Number of registers using Synchronous Clear  ; 41    ;
 ; Number of registers using Synchronous Load   ; 77    ;
-; Number of registers using Asynchronous Clear ; 235   ;
+; Number of registers using Asynchronous Clear ; 243   ;
 ; Number of registers using Asynchronous Load  ; 0     ;
-; Number of registers using Clock Enable       ; 600   ;
+; Number of registers using Clock Enable       ; 608   ;
 ; Number of registers using Preset             ; 0     ;
 +----------------------------------------------+-------+
 
@@ -418,12 +421,13 @@ Encoding Type:  One-Hot
 +-----------------------------------------+---------+
 ; T80s:cpu1|WR_n                          ; 3       ;
 ; T80s:cpu1|MREQ_n                        ; 3       ;
-; T80s:cpu1|RD_n                          ; 3       ;
+; T80s:cpu1|RD_n                          ; 4       ;
+; T80s:cpu1|IORQ_n                        ; 4       ;
 ; sd_controller:sd1|sdCS                  ; 2       ;
 ; sd_controller:sd1|cmd_mode              ; 2       ;
 ; T80s:cpu1|T80:u0|MCycle[0]              ; 79      ;
 ; T80s:cpu1|T80:u0|F[6]                   ; 11      ;
-; T80s:cpu1|T80:u0|F[0]                   ; 15      ;
+; T80s:cpu1|T80:u0|F[0]                   ; 14      ;
 ; T80s:cpu1|T80:u0|F[2]                   ; 8       ;
 ; T80s:cpu1|T80:u0|F[7]                   ; 7       ;
 ; T80s:cpu1|T80:u0|SP[0]                  ; 5       ;
@@ -453,7 +457,6 @@ Encoding Type:  One-Hot
 ; sd_controller:sd1|led_on_count[7]       ; 2       ;
 ; sd_controller:sd1|led_on_count[6]       ; 2       ;
 ; sd_controller:sd1|led_on_count[3]       ; 2       ;
-; T80s:cpu1|IORQ_n                        ; 3       ;
 ; T80s:cpu1|T80:u0|F[4]                   ; 8       ;
 ; T80s:cpu1|T80:u0|F[1]                   ; 20      ;
 ; T80s:cpu1|T80:u0|Fp[6]                  ; 1       ;
@@ -480,75 +483,75 @@ Encoding Type:  One-Hot
 +-----------------------------------------+---------+
 
 
-+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
-; Multiplexer Restructuring Statistics (Restructuring Performed)                                                                                                           ;
-+--------------------+-----------+---------------+----------------------+------------------------+------------+------------------------------------------------------------+
-; Multiplexer Inputs ; Bus Width ; Baseline Area ; Area if Restructured ; Saving if Restructured ; Registered ; Example Multiplexer Output                                 ;
-+--------------------+-----------+---------------+----------------------+------------------------+------------+------------------------------------------------------------+
-; 3:1                ; 2 bits    ; 4 LEs         ; 2 LEs                ; 2 LEs                  ; Yes        ; |Microcomputer|T80s:cpu1|T80:u0|ALU_Op_r[0]                ;
-; 3:1                ; 2 bits    ; 4 LEs         ; 4 LEs                ; 0 LEs                  ; Yes        ; |Microcomputer|T80s:cpu1|T80:u0|RegAddrC[1]                ;
-; 3:1                ; 4 bits    ; 8 LEs         ; 8 LEs                ; 0 LEs                  ; Yes        ; |Microcomputer|T80s:cpu1|T80:u0|Read_To_Reg_r[1]           ;
-; 3:1                ; 6 bits    ; 12 LEs        ; 0 LEs                ; 12 LEs                 ; Yes        ; |Microcomputer|bufferedUART:io1|rxFilter[2]                ;
-; 4:1                ; 2 bits    ; 4 LEs         ; 2 LEs                ; 2 LEs                  ; Yes        ; |Microcomputer|T80s:cpu1|T80:u0|XY_State[1]                ;
-; 5:1                ; 6 bits    ; 18 LEs        ; 6 LEs                ; 12 LEs                 ; Yes        ; |Microcomputer|bufferedUART:io1|rxClockCount[4]            ;
-; 6:1                ; 8 bits    ; 32 LEs        ; 8 LEs                ; 24 LEs                 ; Yes        ; |Microcomputer|T80s:cpu1|T80:u0|IR[2]                      ;
-; 5:1                ; 2 bits    ; 6 LEs         ; 4 LEs                ; 2 LEs                  ; Yes        ; |Microcomputer|T80s:cpu1|T80:u0|MCycle[1]                  ;
-; 5:1                ; 9 bits    ; 27 LEs        ; 9 LEs                ; 18 LEs                 ; Yes        ; |Microcomputer|sd_controller:sd1|cmd_out[52]               ;
-; 5:1                ; 4 bits    ; 12 LEs        ; 4 LEs                ; 8 LEs                  ; Yes        ; |Microcomputer|bufferedUART:io1|rxBitCount[3]              ;
-; 4:1                ; 7 bits    ; 14 LEs        ; 7 LEs                ; 7 LEs                  ; Yes        ; |Microcomputer|T80s:cpu1|T80:u0|R[2]                       ;
-; 11:1               ; 8 bits    ; 56 LEs        ; 48 LEs               ; 8 LEs                  ; Yes        ; |Microcomputer|T80s:cpu1|T80:u0|BusB[6]                    ;
-; 12:1               ; 8 bits    ; 64 LEs        ; 32 LEs               ; 32 LEs                 ; Yes        ; |Microcomputer|T80s:cpu1|T80:u0|BusA[4]                    ;
-; 6:1                ; 2 bits    ; 8 LEs         ; 4 LEs                ; 4 LEs                  ; Yes        ; |Microcomputer|sd_controller:sd1|cmd_out[42]               ;
-; 6:1                ; 4 bits    ; 16 LEs        ; 8 LEs                ; 8 LEs                  ; Yes        ; |Microcomputer|sd_controller:sd1|cmd_out[5]                ;
-; 6:1                ; 3 bits    ; 12 LEs        ; 6 LEs                ; 6 LEs                  ; Yes        ; |Microcomputer|sd_controller:sd1|cmd_out[7]                ;
-; 6:1                ; 4 bits    ; 16 LEs        ; 4 LEs                ; 12 LEs                 ; Yes        ; |Microcomputer|bufferedUART:io1|txBitCount[0]              ;
-; 6:1                ; 7 bits    ; 28 LEs        ; 7 LEs                ; 21 LEs                 ; Yes        ; |Microcomputer|bufferedUART:io1|txBuffer[5]                ;
-; 6:1                ; 6 bits    ; 24 LEs        ; 6 LEs                ; 18 LEs                 ; Yes        ; |Microcomputer|bufferedUART:io1|txClockCount[1]            ;
-; 7:1                ; 2 bits    ; 8 LEs         ; 4 LEs                ; 4 LEs                  ; Yes        ; |Microcomputer|T80s:cpu1|T80:u0|ISet[0]                    ;
-; 6:1                ; 5 bits    ; 20 LEs        ; 10 LEs               ; 10 LEs                 ; Yes        ; |Microcomputer|T80s:cpu1|T80:u0|TmpAddr[2]                 ;
-; 6:1                ; 3 bits    ; 12 LEs        ; 6 LEs                ; 6 LEs                  ; Yes        ; |Microcomputer|T80s:cpu1|T80:u0|TmpAddr[4]                 ;
-; 6:1                ; 8 bits    ; 32 LEs        ; 16 LEs               ; 16 LEs                 ; Yes        ; |Microcomputer|T80s:cpu1|T80:u0|TmpAddr[15]                ;
-; 6:1                ; 8 bits    ; 32 LEs        ; 8 LEs                ; 24 LEs                 ; Yes        ; |Microcomputer|sd_controller:sd1|recv_data[3]              ;
-; 7:1                ; 9 bits    ; 36 LEs        ; 18 LEs               ; 18 LEs                 ; Yes        ; |Microcomputer|sd_controller:sd1|cmd_out[13]               ;
-; 7:1                ; 23 bits   ; 92 LEs        ; 46 LEs               ; 46 LEs                 ; Yes        ; |Microcomputer|sd_controller:sd1|cmd_out[35]               ;
-; 10:1               ; 7 bits    ; 42 LEs        ; 14 LEs               ; 28 LEs                 ; Yes        ; |Microcomputer|sd_controller:sd1|data_sig[4]               ;
-; 11:1               ; 7 bits    ; 49 LEs        ; 21 LEs               ; 28 LEs                 ; Yes        ; |Microcomputer|T80s:cpu1|T80:u0|PC[6]                      ;
-; 11:1               ; 8 bits    ; 56 LEs        ; 32 LEs               ; 24 LEs                 ; Yes        ; |Microcomputer|T80s:cpu1|T80:u0|PC[15]                     ;
-; 17:1               ; 8 bits    ; 88 LEs        ; 32 LEs               ; 56 LEs                 ; Yes        ; |Microcomputer|T80s:cpu1|T80:u0|A[2]                       ;
-; 17:1               ; 8 bits    ; 88 LEs        ; 40 LEs               ; 48 LEs                 ; Yes        ; |Microcomputer|T80s:cpu1|T80:u0|A[12]                      ;
-; 13:1               ; 7 bits    ; 56 LEs        ; 7 LEs                ; 49 LEs                 ; Yes        ; |Microcomputer|sd_controller:sd1|byte_counter[2]           ;
-; 14:1               ; 3 bits    ; 27 LEs        ; 6 LEs                ; 21 LEs                 ; Yes        ; |Microcomputer|sd_controller:sd1|byte_counter[1]           ;
-; 20:1               ; 3 bits    ; 39 LEs        ; 12 LEs               ; 27 LEs                 ; Yes        ; |Microcomputer|sd_controller:sd1|bit_counter[5]            ;
-; 21:1               ; 3 bits    ; 42 LEs        ; 12 LEs               ; 30 LEs                 ; Yes        ; |Microcomputer|sd_controller:sd1|bit_counter[1]            ;
-; 21:1               ; 2 bits    ; 28 LEs        ; 8 LEs                ; 20 LEs                 ; Yes        ; |Microcomputer|sd_controller:sd1|bit_counter[2]            ;
-; 5:1                ; 8 bits    ; 24 LEs        ; 24 LEs               ; 0 LEs                  ; Yes        ; |Microcomputer|T80s:cpu1|T80:u0|DO[4]                      ;
-; 7:1                ; 8 bits    ; 32 LEs        ; 16 LEs               ; 16 LEs                 ; Yes        ; |Microcomputer|T80s:cpu1|T80:u0|SP[7]                      ;
-; 7:1                ; 8 bits    ; 32 LEs        ; 16 LEs               ; 16 LEs                 ; Yes        ; |Microcomputer|T80s:cpu1|T80:u0|SP[10]                     ;
-; 8:1                ; 8 bits    ; 40 LEs        ; 24 LEs               ; 16 LEs                 ; Yes        ; |Microcomputer|T80s:cpu1|T80:u0|ACC[1]                     ;
-; 18:1               ; 2 bits    ; 24 LEs        ; 12 LEs               ; 12 LEs                 ; Yes        ; |Microcomputer|T80s:cpu1|T80:u0|F[3]                       ;
-; 3:1                ; 4 bits    ; 8 LEs         ; 4 LEs                ; 4 LEs                  ; No         ; |Microcomputer|T80s:cpu1|T80:u0|T80_ALU:alu|Q_t            ;
-; 3:1                ; 2 bits    ; 4 LEs         ; 2 LEs                ; 2 LEs                  ; No         ; |Microcomputer|T80s:cpu1|T80:u0|T80_MCode:mcode|Mux47      ;
-; 4:1                ; 3 bits    ; 6 LEs         ; 6 LEs                ; 0 LEs                  ; No         ; |Microcomputer|T80s:cpu1|T80:u0|T80_ALU:alu|DAA_Q[3]       ;
-; 3:1                ; 2 bits    ; 4 LEs         ; 4 LEs                ; 0 LEs                  ; No         ; |Microcomputer|T80s:cpu1|T80:u0|Save_Mux[1]                ;
-; 8:1                ; 16 bits   ; 80 LEs        ; 80 LEs               ; 0 LEs                  ; No         ; |Microcomputer|T80s:cpu1|T80:u0|T80_Reg:Regs|Mux46         ;
-; 4:1                ; 8 bits    ; 16 LEs        ; 8 LEs                ; 8 LEs                  ; No         ; |Microcomputer|sd_controller:sd1|dout                      ;
-; 8:1                ; 8 bits    ; 40 LEs        ; 16 LEs               ; 24 LEs                 ; No         ; |Microcomputer|T80s:cpu1|T80:u0|T80_ALU:alu|Mux11          ;
-; 4:1                ; 2 bits    ; 4 LEs         ; 4 LEs                ; 0 LEs                  ; No         ; |Microcomputer|T80s:cpu1|T80:u0|T80_ALU:alu|DAA_Q[6]       ;
-; 4:1                ; 16 bits   ; 32 LEs        ; 32 LEs               ; 0 LEs                  ; No         ; |Microcomputer|T80s:cpu1|T80:u0|RegDIH[1]                  ;
-; 8:1                ; 16 bits   ; 80 LEs        ; 80 LEs               ; 0 LEs                  ; No         ; |Microcomputer|T80s:cpu1|T80:u0|T80_Reg:Regs|Mux20         ;
-; 8:1                ; 16 bits   ; 80 LEs        ; 80 LEs               ; 0 LEs                  ; No         ; |Microcomputer|T80s:cpu1|T80:u0|T80_Reg:Regs|Mux9          ;
-; 5:1                ; 2 bits    ; 6 LEs         ; 6 LEs                ; 0 LEs                  ; No         ; |Microcomputer|T80s:cpu1|T80:u0|RegAddrA[0]                ;
-; 6:1                ; 4 bits    ; 16 LEs        ; 12 LEs               ; 4 LEs                  ; No         ; |Microcomputer|cpuDataIn[0]                                ;
-; 17:1               ; 4 bits    ; 44 LEs        ; 24 LEs               ; 20 LEs                 ; No         ; |Microcomputer|T80s:cpu1|T80:u0|Save_Mux[2]                ;
-; 7:1                ; 4 bits    ; 16 LEs        ; 16 LEs               ; 0 LEs                  ; No         ; |Microcomputer|cpuDataIn[6]                                ;
-; 7:1                ; 3 bits    ; 12 LEs        ; 6 LEs                ; 6 LEs                  ; No         ; |Microcomputer|bufferedUART:io1|Selector35                 ;
-; 8:1                ; 3 bits    ; 15 LEs        ; 6 LEs                ; 9 LEs                  ; No         ; |Microcomputer|bufferedUART:io1|Selector12                 ;
-; 19:1               ; 2 bits    ; 24 LEs        ; 4 LEs                ; 20 LEs                 ; No         ; |Microcomputer|T80s:cpu1|T80:u0|RegWEH                     ;
-; 10:1               ; 2 bits    ; 12 LEs        ; 12 LEs               ; 0 LEs                  ; No         ; |Microcomputer|T80s:cpu1|T80:u0|Save_Mux[5]                ;
-; 11:1               ; 13 bits   ; 91 LEs        ; 52 LEs               ; 39 LEs                 ; No         ; |Microcomputer|sd_controller:sd1|return_state.receive_byte ;
-; 20:1               ; 7 bits    ; 91 LEs        ; 21 LEs               ; 70 LEs                 ; No         ; |Microcomputer|sd_controller:sd1|Selector85                ;
-; 23:1               ; 2 bits    ; 30 LEs        ; 10 LEs               ; 20 LEs                 ; No         ; |Microcomputer|sd_controller:sd1|Selector89                ;
-+--------------------+-----------+---------------+----------------------+------------------------+------------+------------------------------------------------------------+
++---------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+; Multiplexer Restructuring Statistics (Restructuring Performed)                                                                                                      ;
++--------------------+-----------+---------------+----------------------+------------------------+------------+-------------------------------------------------------+
+; Multiplexer Inputs ; Bus Width ; Baseline Area ; Area if Restructured ; Saving if Restructured ; Registered ; Example Multiplexer Output                            ;
++--------------------+-----------+---------------+----------------------+------------------------+------------+-------------------------------------------------------+
+; 3:1                ; 2 bits    ; 4 LEs         ; 2 LEs                ; 2 LEs                  ; Yes        ; |Microcomputer|T80s:cpu1|T80:u0|ALU_Op_r[2]           ;
+; 3:1                ; 2 bits    ; 4 LEs         ; 4 LEs                ; 0 LEs                  ; Yes        ; |Microcomputer|T80s:cpu1|T80:u0|RegAddrC[0]           ;
+; 3:1                ; 4 bits    ; 8 LEs         ; 8 LEs                ; 0 LEs                  ; Yes        ; |Microcomputer|T80s:cpu1|T80:u0|Read_To_Reg_r[2]      ;
+; 3:1                ; 6 bits    ; 12 LEs        ; 0 LEs                ; 12 LEs                 ; Yes        ; |Microcomputer|bufferedUART:io1|rxFilter[0]           ;
+; 4:1                ; 2 bits    ; 4 LEs         ; 2 LEs                ; 2 LEs                  ; Yes        ; |Microcomputer|T80s:cpu1|T80:u0|XY_State[0]           ;
+; 5:1                ; 6 bits    ; 18 LEs        ; 6 LEs                ; 12 LEs                 ; Yes        ; |Microcomputer|bufferedUART:io1|rxClockCount[5]       ;
+; 6:1                ; 8 bits    ; 32 LEs        ; 8 LEs                ; 24 LEs                 ; Yes        ; |Microcomputer|T80s:cpu1|T80:u0|IR[1]                 ;
+; 5:1                ; 2 bits    ; 6 LEs         ; 4 LEs                ; 2 LEs                  ; Yes        ; |Microcomputer|T80s:cpu1|T80:u0|MCycle[2]             ;
+; 5:1                ; 9 bits    ; 27 LEs        ; 9 LEs                ; 18 LEs                 ; Yes        ; |Microcomputer|sd_controller:sd1|cmd_out[54]          ;
+; 5:1                ; 4 bits    ; 12 LEs        ; 4 LEs                ; 8 LEs                  ; Yes        ; |Microcomputer|bufferedUART:io1|rxBitCount[0]         ;
+; 4:1                ; 7 bits    ; 14 LEs        ; 7 LEs                ; 7 LEs                  ; Yes        ; |Microcomputer|T80s:cpu1|T80:u0|R[2]                  ;
+; 11:1               ; 8 bits    ; 56 LEs        ; 48 LEs               ; 8 LEs                  ; Yes        ; |Microcomputer|T80s:cpu1|T80:u0|BusB[6]               ;
+; 12:1               ; 8 bits    ; 64 LEs        ; 32 LEs               ; 32 LEs                 ; Yes        ; |Microcomputer|T80s:cpu1|T80:u0|BusA[0]               ;
+; 6:1                ; 2 bits    ; 8 LEs         ; 4 LEs                ; 4 LEs                  ; Yes        ; |Microcomputer|sd_controller:sd1|cmd_out[41]          ;
+; 6:1                ; 4 bits    ; 16 LEs        ; 8 LEs                ; 8 LEs                  ; Yes        ; |Microcomputer|sd_controller:sd1|cmd_out[5]           ;
+; 6:1                ; 3 bits    ; 12 LEs        ; 6 LEs                ; 6 LEs                  ; Yes        ; |Microcomputer|sd_controller:sd1|cmd_out[4]           ;
+; 6:1                ; 4 bits    ; 16 LEs        ; 4 LEs                ; 12 LEs                 ; Yes        ; |Microcomputer|bufferedUART:io1|txBitCount[3]         ;
+; 6:1                ; 7 bits    ; 28 LEs        ; 7 LEs                ; 21 LEs                 ; Yes        ; |Microcomputer|bufferedUART:io1|txBuffer[0]           ;
+; 6:1                ; 6 bits    ; 24 LEs        ; 6 LEs                ; 18 LEs                 ; Yes        ; |Microcomputer|bufferedUART:io1|txClockCount[1]       ;
+; 7:1                ; 2 bits    ; 8 LEs         ; 4 LEs                ; 4 LEs                  ; Yes        ; |Microcomputer|T80s:cpu1|T80:u0|ISet[0]               ;
+; 6:1                ; 5 bits    ; 20 LEs        ; 10 LEs               ; 10 LEs                 ; Yes        ; |Microcomputer|T80s:cpu1|T80:u0|TmpAddr[6]            ;
+; 6:1                ; 3 bits    ; 12 LEs        ; 6 LEs                ; 6 LEs                  ; Yes        ; |Microcomputer|T80s:cpu1|T80:u0|TmpAddr[5]            ;
+; 6:1                ; 8 bits    ; 32 LEs        ; 16 LEs               ; 16 LEs                 ; Yes        ; |Microcomputer|T80s:cpu1|T80:u0|TmpAddr[8]            ;
+; 6:1                ; 8 bits    ; 32 LEs        ; 8 LEs                ; 24 LEs                 ; Yes        ; |Microcomputer|sd_controller:sd1|recv_data[1]         ;
+; 7:1                ; 9 bits    ; 36 LEs        ; 18 LEs               ; 18 LEs                 ; Yes        ; |Microcomputer|sd_controller:sd1|cmd_out[9]           ;
+; 7:1                ; 23 bits   ; 92 LEs        ; 46 LEs               ; 46 LEs                 ; Yes        ; |Microcomputer|sd_controller:sd1|cmd_out[26]          ;
+; 10:1               ; 7 bits    ; 42 LEs        ; 14 LEs               ; 28 LEs                 ; Yes        ; |Microcomputer|sd_controller:sd1|data_sig[3]          ;
+; 11:1               ; 7 bits    ; 49 LEs        ; 21 LEs               ; 28 LEs                 ; Yes        ; |Microcomputer|T80s:cpu1|T80:u0|PC[3]                 ;
+; 11:1               ; 8 bits    ; 56 LEs        ; 32 LEs               ; 24 LEs                 ; Yes        ; |Microcomputer|T80s:cpu1|T80:u0|PC[15]                ;
+; 17:1               ; 8 bits    ; 88 LEs        ; 32 LEs               ; 56 LEs                 ; Yes        ; |Microcomputer|T80s:cpu1|T80:u0|A[0]                  ;
+; 17:1               ; 8 bits    ; 88 LEs        ; 40 LEs               ; 48 LEs                 ; Yes        ; |Microcomputer|T80s:cpu1|T80:u0|A[10]                 ;
+; 13:1               ; 7 bits    ; 56 LEs        ; 7 LEs                ; 49 LEs                 ; Yes        ; |Microcomputer|sd_controller:sd1|byte_counter[3]      ;
+; 14:1               ; 3 bits    ; 27 LEs        ; 6 LEs                ; 21 LEs                 ; Yes        ; |Microcomputer|sd_controller:sd1|byte_counter[1]      ;
+; 20:1               ; 3 bits    ; 39 LEs        ; 12 LEs               ; 27 LEs                 ; Yes        ; |Microcomputer|sd_controller:sd1|bit_counter[5]       ;
+; 21:1               ; 3 bits    ; 42 LEs        ; 12 LEs               ; 30 LEs                 ; Yes        ; |Microcomputer|sd_controller:sd1|bit_counter[1]       ;
+; 21:1               ; 2 bits    ; 28 LEs        ; 8 LEs                ; 20 LEs                 ; Yes        ; |Microcomputer|sd_controller:sd1|bit_counter[2]       ;
+; 5:1                ; 8 bits    ; 24 LEs        ; 24 LEs               ; 0 LEs                  ; Yes        ; |Microcomputer|T80s:cpu1|T80:u0|DO[7]                 ;
+; 7:1                ; 8 bits    ; 32 LEs        ; 16 LEs               ; 16 LEs                 ; Yes        ; |Microcomputer|T80s:cpu1|T80:u0|SP[4]                 ;
+; 7:1                ; 8 bits    ; 32 LEs        ; 16 LEs               ; 16 LEs                 ; Yes        ; |Microcomputer|T80s:cpu1|T80:u0|SP[10]                ;
+; 8:1                ; 8 bits    ; 40 LEs        ; 24 LEs               ; 16 LEs                 ; Yes        ; |Microcomputer|T80s:cpu1|T80:u0|ACC[1]                ;
+; 18:1               ; 2 bits    ; 24 LEs        ; 12 LEs               ; 12 LEs                 ; Yes        ; |Microcomputer|T80s:cpu1|T80:u0|F[5]                  ;
+; 3:1                ; 4 bits    ; 8 LEs         ; 4 LEs                ; 4 LEs                  ; No         ; |Microcomputer|T80s:cpu1|T80:u0|T80_ALU:alu|Q_t       ;
+; 3:1                ; 2 bits    ; 4 LEs         ; 2 LEs                ; 2 LEs                  ; No         ; |Microcomputer|T80s:cpu1|T80:u0|T80_MCode:mcode|Mux47 ;
+; 4:1                ; 3 bits    ; 6 LEs         ; 6 LEs                ; 0 LEs                  ; No         ; |Microcomputer|T80s:cpu1|T80:u0|T80_ALU:alu|DAA_Q[2]  ;
+; 3:1                ; 2 bits    ; 4 LEs         ; 4 LEs                ; 0 LEs                  ; No         ; |Microcomputer|T80s:cpu1|T80:u0|Save_Mux[3]           ;
+; 8:1                ; 16 bits   ; 80 LEs        ; 80 LEs               ; 0 LEs                  ; No         ; |Microcomputer|T80s:cpu1|T80:u0|T80_Reg:Regs|Mux47    ;
+; 4:1                ; 8 bits    ; 16 LEs        ; 8 LEs                ; 8 LEs                  ; No         ; |Microcomputer|sd_controller:sd1|dout                 ;
+; 8:1                ; 8 bits    ; 40 LEs        ; 16 LEs               ; 24 LEs                 ; No         ; |Microcomputer|T80s:cpu1|T80:u0|T80_ALU:alu|Mux11     ;
+; 4:1                ; 2 bits    ; 4 LEs         ; 4 LEs                ; 0 LEs                  ; No         ; |Microcomputer|T80s:cpu1|T80:u0|T80_ALU:alu|DAA_Q[6]  ;
+; 4:1                ; 16 bits   ; 32 LEs        ; 32 LEs               ; 0 LEs                  ; No         ; |Microcomputer|T80s:cpu1|T80:u0|RegDIL[2]             ;
+; 8:1                ; 16 bits   ; 80 LEs        ; 80 LEs               ; 0 LEs                  ; No         ; |Microcomputer|T80s:cpu1|T80:u0|T80_Reg:Regs|Mux22    ;
+; 8:1                ; 16 bits   ; 80 LEs        ; 80 LEs               ; 0 LEs                  ; No         ; |Microcomputer|T80s:cpu1|T80:u0|T80_Reg:Regs|Mux15    ;
+; 5:1                ; 2 bits    ; 6 LEs         ; 6 LEs                ; 0 LEs                  ; No         ; |Microcomputer|T80s:cpu1|T80:u0|RegAddrA[1]           ;
+; 6:1                ; 4 bits    ; 16 LEs        ; 12 LEs               ; 4 LEs                  ; No         ; |Microcomputer|cpuDataIn[0]                           ;
+; 17:1               ; 4 bits    ; 44 LEs        ; 24 LEs               ; 20 LEs                 ; No         ; |Microcomputer|T80s:cpu1|T80:u0|Save_Mux[0]           ;
+; 7:1                ; 4 bits    ; 16 LEs        ; 16 LEs               ; 0 LEs                  ; No         ; |Microcomputer|cpuDataIn[4]                           ;
+; 7:1                ; 3 bits    ; 12 LEs        ; 6 LEs                ; 6 LEs                  ; No         ; |Microcomputer|bufferedUART:io1|Selector36            ;
+; 8:1                ; 3 bits    ; 15 LEs        ; 6 LEs                ; 9 LEs                  ; No         ; |Microcomputer|bufferedUART:io1|Selector11            ;
+; 19:1               ; 2 bits    ; 24 LEs        ; 4 LEs                ; 20 LEs                 ; No         ; |Microcomputer|T80s:cpu1|T80:u0|RegWEH                ;
+; 10:1               ; 2 bits    ; 12 LEs        ; 12 LEs               ; 0 LEs                  ; No         ; |Microcomputer|T80s:cpu1|T80:u0|Save_Mux[5]           ;
+; 11:1               ; 13 bits   ; 91 LEs        ; 52 LEs               ; 39 LEs                 ; No         ; |Microcomputer|sd_controller:sd1|return_state.cmd0    ;
+; 20:1               ; 7 bits    ; 91 LEs        ; 21 LEs               ; 70 LEs                 ; No         ; |Microcomputer|sd_controller:sd1|Selector96           ;
+; 23:1               ; 2 bits    ; 30 LEs        ; 10 LEs               ; 20 LEs                 ; No         ; |Microcomputer|sd_controller:sd1|Selector89           ;
++--------------------+-----------+---------------+----------------------+------------------------+------------+-------------------------------------------------------+
 
 
 +--------------------------------------------------------------------------------------------------------------+
@@ -688,6 +691,16 @@ Note: In order to hide this table in the UI and the text report file, please set
 Note: In order to hide this table in the UI and the text report file, please set the "Show Parameter Settings in Synthesis Report" option in "Analysis and Synthesis Settings -> More Settings" to "Off".
 
 
++----------------------------------------------------------------+
+; Parameter Settings for User Entity Instance: OUT_LATCH:latchIO ;
++----------------+-------+---------------------------------------+
+; Parameter Name ; Value ; Type                                  ;
++----------------+-------+---------------------------------------+
+; n              ; 8     ; Signed Integer                        ;
++----------------+-------+---------------------------------------+
+Note: In order to hide this table in the UI and the text report file, please set the "Show Parameter Settings in Synthesis Report" option in "Analysis and Synthesis Settings -> More Settings" to "Off".
+
+
 +----------------------------------------------------------------------------------------------------+
 ; altsyncram Parameter Settings by Entity Instance                                                   ;
 +-------------------------------------------+--------------------------------------------------------+
@@ -751,7 +764,7 @@ Note: In order to hide this table in the UI and the text report file, please set
 +----------------+--------------+
 ; Partition Name ; Elapsed Time ;
 +----------------+--------------+
-; Top            ; 00:00:38     ;
+; Top            ; 00:00:26     ;
 +----------------+--------------+
 
 
@@ -761,7 +774,7 @@ Note: In order to hide this table in the UI and the text report file, please set
 Info: *******************************************************************
 Info: Running Quartus II 64-Bit Analysis & Synthesis
     Info: Version 13.0.1 Build 232 06/12/2013 Service Pack 1 SJ Web Edition
-    Info: Processing started: Mon Jan 16 22:00:24 2017
+    Info: Processing started: Tue Jan 17 21:50:12 2017
 Info: Command: quartus_map --read_settings_files=on --write_settings_files=off Microcomputer -c Microcomputer
 Warning (125092): Tcl Script File ../Components/TERMINAL/DisplayRam1K.qip not found
     Info (125063): set_global_assignment -name QIP_FILE ../Components/TERMINAL/DisplayRam1K.qip
@@ -825,6 +838,9 @@ Info (12021): Found 2 design units, including 1 entities, in source file compone
 Info (12021): Found 2 design units, including 1 entities, in source file components/uart/buffereduart.vhd
     Info (12022): Found design unit 1: bufferedUART-rtl
     Info (12023): Found entity 1: bufferedUART
+Info (12021): Found 2 design units, including 1 entities, in source file components/io/outlatch.vhd
+    Info (12022): Found design unit 1: OUT_LATCH-behv
+    Info (12023): Found entity 1: OUT_LATCH
 Info (12127): Elaborating entity "Microcomputer" for the top level hierarchy
 Warning (10541): VHDL Signal Declaration warning at Microcomputer.vhd(37): used implicit default value for signal "txd2" because signal was never assigned a value or an explicit default value. Use of implicit default value may introduce unintended design optimizations.
 Warning (10541): VHDL Signal Declaration warning at Microcomputer.vhd(38): used implicit default value for signal "rts2" because signal was never assigned a value or an explicit default value. Use of implicit default value may introduce unintended design optimizations.
@@ -838,11 +854,10 @@ Warning (10541): VHDL Signal Declaration warning at Microcomputer.vhd(47): used 
 Warning (10541): VHDL Signal Declaration warning at Microcomputer.vhd(48): used implicit default value for signal "videoB1" because signal was never assigned a value or an explicit default value. Use of implicit default value may introduce unintended design optimizations.
 Warning (10541): VHDL Signal Declaration warning at Microcomputer.vhd(49): used implicit default value for signal "hSync" because signal was never assigned a value or an explicit default value. Use of implicit default value may introduce unintended design optimizations.
 Warning (10541): VHDL Signal Declaration warning at Microcomputer.vhd(50): used implicit default value for signal "vSync" because signal was never assigned a value or an explicit default value. Use of implicit default value may introduce unintended design optimizations.
-Warning (10541): VHDL Signal Declaration warning at Microcomputer.vhd(74): used implicit default value for signal "internalRam1DataOut" because signal was never assigned a value or an explicit default value. Use of implicit default value may introduce unintended design optimizations.
-Warning (10541): VHDL Signal Declaration warning at Microcomputer.vhd(77): used implicit default value for signal "interface2DataOut" because signal was never assigned a value or an explicit default value. Use of implicit default value may introduce unintended design optimizations.
-Warning (10036): Verilog HDL or VHDL warning at Microcomputer.vhd(89): object "n_int1" assigned a value but never read
-Warning (10540): VHDL Signal Declaration warning at Microcomputer.vhd(93): used explicit default value for signal "n_internalRam1CS" because signal was never assigned a value
-Warning (10036): Verilog HDL or VHDL warning at Microcomputer.vhd(99): object "n_sdChipCS" assigned a value but never read
+Warning (10541): VHDL Signal Declaration warning at Microcomputer.vhd(75): used implicit default value for signal "internalRam1DataOut" because signal was never assigned a value or an explicit default value. Use of implicit default value may introduce unintended design optimizations.
+Warning (10541): VHDL Signal Declaration warning at Microcomputer.vhd(78): used implicit default value for signal "interface2DataOut" because signal was never assigned a value or an explicit default value. Use of implicit default value may introduce unintended design optimizations.
+Warning (10036): Verilog HDL or VHDL warning at Microcomputer.vhd(90): object "n_int1" assigned a value but never read
+Warning (10540): VHDL Signal Declaration warning at Microcomputer.vhd(94): used explicit default value for signal "n_internalRam1CS" because signal was never assigned a value
 Info (12128): Elaborating entity "T80s" for hierarchy "T80s:cpu1"
 Info (12128): Elaborating entity "T80" for hierarchy "T80s:cpu1|T80:u0"
 Info (12128): Elaborating entity "T80_MCode" for hierarchy "T80s:cpu1|T80:u0|T80_MCode:mcode"
@@ -875,6 +890,7 @@ Info (12021): Found 1 design units, including 1 entities, in source file db/mux_
     Info (12023): Found entity 1: mux_hib
 Info (12128): Elaborating entity "mux_hib" for hierarchy "Z80_CPM_BASIC_ROM:rom1|altsyncram:altsyncram_component|altsyncram_4391:auto_generated|mux_hib:mux2"
 Info (12128): Elaborating entity "bufferedUART" for hierarchy "bufferedUART:io1"
+Info (12128): Elaborating entity "OUT_LATCH" for hierarchy "OUT_LATCH:latchIO"
 Info (12128): Elaborating entity "sd_controller" for hierarchy "sd_controller:sd1"
 Info (276014): Found 1 instances of uninferred RAM logic
     Info (276007): RAM logic "bufferedUART:io1|rxBuffer" is uninferred due to asynchronous read logic
@@ -896,7 +912,6 @@ Warning (13024): Output pins are stuck at VCC or GND
     Warning (13410): Pin "videoB1" is stuck at GND
     Warning (13410): Pin "hSync" is stuck at GND
     Warning (13410): Pin "vSync" is stuck at GND
-    Warning (13410): Pin "n_ChipSS" is stuck at GND
 Critical Warning (18061): Ignored Power-Up Level option on the following registers
     Critical Warning (18010): Register sd_controller:sd1|driveLED will power up to Low
     Critical Warning (18010): Register sd_controller:sd1|led_on_count[7] will power up to High
@@ -907,16 +922,16 @@ Info (16010): Generating hard_block partition "hard_block:auto_generated_inst"
     Info (16011): Adding 0 node(s), including 0 DDIO, 0 PLL, 0 transceiver and 0 LCELL
 Warning (21074): Design contains 1 input pin(s) that do not drive logic
     Warning (15610): No output dependent on input pin "rxd2"
-Info (21057): Implemented 3004 device resources after synthesis - the final resource count might be different
+Info (21057): Implemented 3022 device resources after synthesis - the final resource count might be different
     Info (21058): Implemented 5 input pins
-    Info (21059): Implemented 38 output pins
+    Info (21059): Implemented 46 output pins
     Info (21060): Implemented 10 bidirectional pins
-    Info (21061): Implemented 2935 logic cells
+    Info (21061): Implemented 2945 logic cells
     Info (21064): Implemented 16 RAM segments
-Info: Quartus II 64-Bit Analysis & Synthesis was successful. 0 errors, 46 warnings
-    Info: Peak virtual memory: 561 megabytes
-    Info: Processing ended: Mon Jan 16 22:01:09 2017
-    Info: Elapsed time: 00:00:45
-    Info: Total CPU time (on all processors): 00:00:39
+Info: Quartus II 64-Bit Analysis & Synthesis was successful. 0 errors, 44 warnings
+    Info: Peak virtual memory: 553 megabytes
+    Info: Processing ended: Tue Jan 17 21:50:43 2017
+    Info: Elapsed time: 00:00:31
+    Info: Total CPU time (on all processors): 00:00:30
 
 

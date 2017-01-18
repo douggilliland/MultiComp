@@ -58,7 +58,8 @@ entity Microcomputer is
 		sdMOSI		: out std_logic;
 		sdMISO		: in std_logic;
 		sdSCLK		: out std_logic;
-		driveLED		: out std_logic :='1'	
+		driveLED		: out std_logic :='1';
+		ioOut8		: out std_logic_vector(7 downto 0)
 	);
 end Microcomputer;
 
@@ -179,6 +180,16 @@ port map(
 	n_rts => rts1
 );
 
+latchIO : entity work.OUT_LATCH	--Output LatchIO
+port map(
+	clear => n_reset,
+	clock => clk,
+	load => n_sdChipCS,
+	dataIn8 => cpuDataOut,
+	latchOut => ioOut8
+);
+
+
 --io2 : entity work.SBCTextDisplayRGB	-- VGA/Composite output
 --
 --port map (
@@ -272,7 +283,7 @@ sramData when n_externalRamCS= '0' else
 x"FF";
 
 -- n_ChipSS <= n_sdChipCS;
-n_ChipSS <= '0';
+n_ChipSS <= n_sdChipCS;
 
 -- ____________________________________________________________________________________
 -- SYSTEM CLOCKS GO HERE
