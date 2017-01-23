@@ -1,17 +1,8 @@
 -- This file is copyright by Grant Searle 2014
 -- You are free to use this file in your own projects but must never charge for it nor use it without
 -- acknowledgement.
--- Please ask permission from Grant Searle before republishing elsewhere.
--- If you use this file or any part of it, please add an acknowledgement to myself and
--- a link back to my main web site http://searle.hostei.com/grant/    
--- and to the "multicomp" page at http://searle.hostei.com/grant/Multicomp/index.html
 --
--- Please check on the above web pages to see if there are any updates before using this file.
--- If for some reason the page is no longer available, please search for "Grant Searle"
--- on the internet to see if I have moved to another web hosting service.
---
--- Grant Searle
--- eMail address available on my main web page link above.
+-- Changes by Doug Gilliland 2017
 
 library ieee;
 use ieee.std_logic_1164.all;
@@ -52,11 +43,14 @@ entity Microcomputer is
 		ps2Clk		: inout std_logic;
 		ps2Data		: inout std_logic;
 
+		n_ChipSS		: out std_logic;
+
 		sdCS			: out std_logic;
 		sdMOSI		: out std_logic;
 		sdMISO		: in std_logic;
 		sdSCLK		: out std_logic;
-		driveLED		: out std_logic :='1'	
+		driveLED		: out std_logic :='1';
+		ioOut8		: out std_logic_vector(7 downto 0)
 	);
 end Microcomputer;
 
@@ -94,6 +88,7 @@ architecture struct of Microcomputer is
 	signal n_interface1CS			: std_logic :='1';
 	signal n_interface2CS			: std_logic :='1';
 	signal n_sdCardCS					: std_logic :='1';
+	signal n_sdChipCS					: std_logic :='1';
 
 	signal serialClkCount			: std_logic_vector(15 downto 0);
 	signal cpuClkCount				: std_logic_vector(5 downto 0); 
@@ -176,36 +171,44 @@ port map(
 	n_rts => rts1
 );
 
---io2 : entity work.SBCTextDisplayRGB	-- VGA/Composite output
---
---port map (
---n_reset => n_reset,
---clk => clk,
---
----- RGB video signals
---hSync => hSync,
---vSync => vSync,
---videoR0 => videoR0,
---videoR1 => videoR1,
---videoG0 => videoG0,
---videoG1 => videoG1,
---videoB0 => videoB0,
---videoB1 => videoB1,
---
----- Monochrome video signals (when using TV timings only)
---sync => videoSync,
---video => video,
---
---n_wr => n_interface2CS or n_ioWR,
---n_rd => n_interface2CS or n_ioRD,
---n_int => n_int2,
---regSel => cpuAddress(0),
---dataIn => cpuDataOut,
---dataOut => interface2DataOut,
---ps2Clk => ps2Clk,
---ps2Data => ps2Data
---);
+io2 : entity work.SBCTextDisplayRGB	-- VGA/Composite output
 
+port map (
+n_reset => n_reset,
+clk => clk,
+
+-- RGB video signals
+hSync => hSync,
+vSync => vSync,
+videoR0 => videoR0,
+videoR1 => videoR1,
+videoG0 => videoG0,
+videoG1 => videoG1,
+videoB0 => videoB0,
+videoB1 => videoB1,
+
+-- Monochrome video signals (when using TV timings only)
+sync => videoSync,
+video => video,
+
+n_wr => n_interface2CS or n_ioWR,
+n_rd => n_interface2CS or n_ioRD,
+n_int => n_int2,
+regSel => cpuAddress(0),
+dataIn => cpuDataOut,
+dataOut => interface2DataOut,
+ps2Clk => ps2Clk,
+ps2Data => ps2Data
+);
+
+latchIO : entity work.OUT_LATCH	--Output LatchIO
+port map(
+	clear => n_reset,
+	clock => clk,
+	load => n_sdChipCS,
+	dataIn8 => cpuDataOut,
+	latchOut => ioOut8
+);
 
 --io2 : entity work.bufferedUART	-- Second Serial port
 --port map(
@@ -254,6 +257,7 @@ n_basRomCS <= '0' when cpuAddress(15 downto 13) = "000" and n_RomActive = '0' el
 n_interface1CS <= '0' when cpuAddress(7 downto 1) = "1000000" and (n_ioWR='0' or n_ioRD = '0') else '1'; -- 2 Bytes $80-$81
 n_interface2CS <= '0' when cpuAddress(7 downto 1) = "1000001" and (n_ioWR='0' or n_ioRD = '0') else '1'; -- 2 Bytes $82-$83
 n_sdCardCS <= '0' when cpuAddress(7 downto 3) = "10001" and (n_ioWR='0' or n_ioRD = '0') else '1'; -- 8 Bytes $88-$8F
+n_sdChipCS  <= '0' when cpuAddress(7 downto 1)    = "1000010" and (n_ioWR='0' or n_ioRD = '0') else '1'; -- 2 Bytes $84-$85
 
 n_externalRamCS<= not n_basRomCS;
 
@@ -267,6 +271,9 @@ basRomData when n_basRomCS = '0' else
 internalRam1DataOut when n_internalRam1CS= '0' else
 sramData when n_externalRamCS= '0' else
 x"FF";
+
+-- n_ChipSS <= n_sdChipCS;
+n_ChipSS <= n_sdChipCS;
 
 -- ____________________________________________________________________________________
 -- SYSTEM CLOCKS GO HERE

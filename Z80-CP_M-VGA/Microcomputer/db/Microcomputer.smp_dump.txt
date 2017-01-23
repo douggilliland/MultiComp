@@ -41,6 +41,31 @@ state.write_block_data 0 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1
 state.write_block_byte 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 
 state.write_block_wait 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 
 
+State Machine - |Microcomputer|SBCTextDisplayRGB:io2|dispState
+Name dispState.del3 dispState.del2 dispState.deleteLine dispState.ins3 dispState.ins2 dispState.insertLine dispState.clearC2 dispState.clearChar dispState.clearS2 dispState.clearScreen dispState.clearL2 dispState.clearLine dispState.dispNextLoc dispState.dispWrite dispState.idle 
+dispState.idle 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 
+dispState.dispWrite 0 0 0 0 0 0 0 0 0 0 0 0 0 1 1 
+dispState.dispNextLoc 0 0 0 0 0 0 0 0 0 0 0 0 1 0 1 
+dispState.clearLine 0 0 0 0 0 0 0 0 0 0 0 1 0 0 1 
+dispState.clearL2 0 0 0 0 0 0 0 0 0 0 1 0 0 0 1 
+dispState.clearScreen 0 0 0 0 0 0 0 0 0 1 0 0 0 0 1 
+dispState.clearS2 0 0 0 0 0 0 0 0 1 0 0 0 0 0 1 
+dispState.clearChar 0 0 0 0 0 0 0 1 0 0 0 0 0 0 1 
+dispState.clearC2 0 0 0 0 0 0 1 0 0 0 0 0 0 0 1 
+dispState.insertLine 0 0 0 0 0 1 0 0 0 0 0 0 0 0 1 
+dispState.ins2 0 0 0 0 1 0 0 0 0 0 0 0 0 0 1 
+dispState.ins3 0 0 0 1 0 0 0 0 0 0 0 0 0 0 1 
+dispState.deleteLine 0 0 1 0 0 0 0 0 0 0 0 0 0 0 1 
+dispState.del2 0 1 0 0 0 0 0 0 0 0 0 0 0 0 1 
+dispState.del3 1 0 0 0 0 0 0 0 0 0 0 0 0 0 1 
+
+State Machine - |Microcomputer|SBCTextDisplayRGB:io2|nextState
+Name nextState.processingAdditionalParams nextState.processingParams nextState.waitForLeftBracket nextState.none 
+nextState.none 0 0 0 0 
+nextState.waitForLeftBracket 0 0 1 1 
+nextState.processingParams 0 1 0 1 
+nextState.processingAdditionalParams 1 0 0 1 
+
 State Machine - |Microcomputer|bufferedUART:io1|txState
 Name txState.stopBit txState.dataBit txState.idle 
 txState.idle 0 0 0 

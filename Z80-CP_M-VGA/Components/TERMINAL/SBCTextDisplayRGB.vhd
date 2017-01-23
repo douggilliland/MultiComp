@@ -27,7 +27,7 @@ constant VERT_CHARS : integer := 25;
 constant HORIZ_CHARS : integer := 80;
 constant CLOCKS_PER_SCANLINE : integer := 1600; -- NTSC/PAL = 3200
 constant DISPLAY_TOP_SCANLINE : integer := 35+40;
-constant DISPLAY_LEFT_CLOCK : integer := 288; -- NTSC/PAL = 600+
+constant DISPLAY_LEFT_CLOCK : integer := 296; -- NTSC/PAL = 600+
 constant VERT_SCANLINES : integer := 525; -- NTSC=262, PAL=312
 constant VSYNC_SCANLINES : integer := 2; -- NTSC/PAL = 4
 constant HSYNC_CLOCKS : integer := 192; -- NTSC/PAL = 235
