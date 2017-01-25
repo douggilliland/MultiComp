@@ -4,7 +4,7 @@ JedecChain;
 	DefaultMfr(6E);
 
 	P ActionCode(Cfg)
-		Device PartName(EP2C5T144) Path("C:/Users/DGilliland/Documents/GitHub/Multi-Computer/UK101_41KRAM/output_files/") File("uk101_41kRAM.sof") MfrSpec(OpMask(1));
+		Device PartName(EP2C5T144) Path("C:/Users/doug_000/Documents/GitHub/MultiComp/UK101_4KRAM/output_files/") File("uk101.sof") MfrSpec(OpMask(1));
 
 ChainEnd;
 

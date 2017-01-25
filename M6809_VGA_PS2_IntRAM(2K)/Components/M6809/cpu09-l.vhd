@@ -4,9 +4,9 @@
 --                                                                           --
 --===========================================================================--
 --
--- File name      : cpu09p.vhd (nac: modified for posedge clk, active-low async reset)
+-- File name      : cpu09l.vhd
 --
--- Entity name    : cpu09p
+-- Entity name    : cpu09
 --
 -- Purpose        : 6809 instruction compatible CPU core written in VHDL
 --                  with Last Instruction Cycle, bus available, bus status,
@@ -248,29 +248,29 @@ library ieee;
 use ieee.std_logic_1164.all;
 use ieee.std_logic_unsigned.all;
 
-entity cpu09p is
+entity cpu09 is
 	port (	
-      clk      : in std_logic;                      -- clock input (rising edge)
-      rst_n    : in std_logic;                      -- reset input (active low)
-      vma      : out std_logic;                     -- valid memory address (active high)
+		clk      :	in std_logic;                     -- E clock input (falling edge)
+		rst      :  in std_logic;                     -- reset input (active high)
+		vma      : out std_logic;                     -- valid memory address (active high)
       lic_out  : out std_logic;                     -- last instruction cycle (active high)
       ifetch   : out std_logic;                     -- instruction fetch cycle (active high)
       opfetch  : out std_logic;                     -- opcode fetch (active high)
       ba       : out std_logic;                     -- bus available (high on sync wait or DMA grant)
       bs       : out std_logic;                     -- bus status (high on interrupt or reset vector fetch or DMA grant)
-      addr     : out std_logic_vector(15 downto 0); -- address bus output
-      rw       : out std_logic;                     -- read not write output
-      data_out : out std_logic_vector(7 downto 0);  -- data bus output
-      data_in  :  in std_logic_vector(7 downto 0);  -- data bus input
-      irq      :  in std_logic;                     -- interrupt request input (active high)
-      firq     :  in std_logic;                     -- fast interrupt request input (active high)
-      nmi      :  in std_logic;                     -- non maskable interrupt request input (active high)
-      halt     :  in std_logic;                     -- halt input (active high) grants DMA
-      hold     :  in std_logic                      -- hold input (active high) extend bus cycle
+		addr     : out std_logic_vector(15 downto 0); -- address bus output
+		rw       : out std_logic;                     -- read not write output
+	   data_out : out std_logic_vector(7 downto 0);  -- data bus output
+	   data_in  :  in std_logic_vector(7 downto 0);  -- data bus input
+		irq      :  in std_logic;                     -- interrupt request input (active high)
+		firq     :  in std_logic;                     -- fast interrupt request input (active high)
+		nmi      :  in std_logic;                     -- non maskable interrupt request input (active high)
+		halt     :  in std_logic;                     -- halt input (active high) grants DMA
+		hold     :  in std_logic                      -- hold input (active high) extend bus cycle
 		);
-end cpu09p;
+end cpu09;
 
-architecture rtl of cpu09p is
+architecture rtl of cpu09 is
 
   constant EBIT : integer := 7;
   constant FBIT : integer := 6;
@@ -485,9 +485,11 @@ begin
 -- State machine stack
 --
 ----------------------------------
+--state_stack_proc: process( clk, hold, state_stack, st_ctrl, 
+--                           return_state, fetch_state  )
 state_stack_proc: process( clk, st_ctrl, return_state )
 begin
-  if clk'event and clk = '1' then
+  if clk'event and clk = '0' then
     if hold = '0' then
 	   case st_ctrl is
       when reset_st =>
@@ -506,9 +508,10 @@ end process;
 -- Interrupt Vector control
 --
 ----------------------------------
+--
 int_vec_proc: process( clk, iv_ctrl )
 begin
-  if clk'event and clk = '1' then
+  if clk'event and clk = '0' then
     if hold = '0' then
       case iv_ctrl is
       when reset_iv =>
@@ -537,9 +540,11 @@ end process;
 -- Program Counter Control
 --
 ----------------------------------
+
+--pc_reg: process( clk, pc_ctrl, hold, pc, out_alu, data_in )
 pc_reg: process( clk )
 begin
-  if clk'event and clk = '1' then
+  if clk'event and clk = '0' then
     if hold = '0' then
     case pc_ctrl is
 	 when reset_pc =>
@@ -564,9 +569,12 @@ end process;
 -- Effective Address  Control
 --
 ----------------------------------
+
+--ea_reg: process( clk, ea_ctrl, hold, ea, out_alu, data_in, dp )
 ea_reg: process( clk )
 begin
-  if clk'event and clk = '1' then
+
+  if clk'event and clk = '0' then
     if hold= '0' then
     case ea_ctrl is
 	 when reset_ea =>
@@ -591,9 +599,10 @@ end process;
 -- Accumulator A
 --
 --------------------------------
+--acca_reg : process( clk, acca_ctrl, hold, out_alu, acca, data_in )
 acca_reg : process( clk )
 begin
-  if clk'event and clk = '1' then
+  if clk'event and clk = '0' then
     if hold = '0' then
     case acca_ctrl is
     when reset_acca =>
@@ -616,9 +625,10 @@ end process;
 -- Accumulator B
 --
 --------------------------------
+--accb_reg : process( clk, accb_ctrl, hold, out_alu, accb, data_in )
 accb_reg : process( clk )
 begin
-  if clk'event and clk = '1' then
+  if clk'event and clk = '0' then
     if hold = '0' then
     case accb_ctrl is
     when reset_accb =>
@@ -639,9 +649,10 @@ end process;
 -- X Index register
 --
 --------------------------------
+--ix_reg : process( clk, ix_ctrl, hold, out_alu, xreg, data_in )
 ix_reg : process( clk )
 begin
-  if clk'event and clk = '1' then
+  if clk'event and clk = '0' then
     if hold = '0' then
     case ix_ctrl is
     when reset_ix =>
@@ -664,9 +675,10 @@ end process;
 -- Y Index register
 --
 --------------------------------
+--iy_reg : process( clk, iy_ctrl, hold, out_alu, yreg, data_in )
 iy_reg : process( clk )
 begin
-  if clk'event and clk = '1' then
+  if clk'event and clk = '0' then
     if hold = '0' then
     case iy_ctrl is
     when reset_iy =>
@@ -689,9 +701,10 @@ end process;
 -- S stack pointer
 --
 --------------------------------
+--sp_reg : process( clk, sp_ctrl, hold, sp, out_alu, data_in, nmi_enable )
 sp_reg : process( clk )
 begin
-  if clk'event and clk = '1' then
+  if clk'event and clk = '0' then
     if hold = '0' then
     case sp_ctrl is
     when reset_sp =>
@@ -717,9 +730,10 @@ end process;
 -- U stack pointer
 --
 --------------------------------
+--up_reg : process( clk, up_ctrl, hold, up, out_alu, data_in )
 up_reg : process( clk )
 begin
-  if clk'event and clk = '1' then
+  if clk'event and clk = '0' then
     if hold = '0' then
     case up_ctrl is
     when reset_up =>
@@ -742,9 +756,10 @@ end process;
 -- Memory Data
 --
 --------------------------------
+--md_reg : process( clk, md_ctrl, hold, out_alu, data_in, md )
 md_reg : process( clk )
 begin
-  if clk'event and clk = '1' then
+  if clk'event and clk = '0' then
     if hold = '0' then
     case md_ctrl is
     when reset_md =>
@@ -774,9 +789,11 @@ end process;
 -- Condition Codes
 --
 ----------------------------------
+
+--cc_reg: process( clk, cc_ctrl, hold, cc_out, cc, data_in )
 cc_reg: process( clk )
 begin
-  if clk'event and clk = '1' then
+  if clk'event and clk = '0' then
     if hold = '0' then
     case cc_ctrl is
 	 when reset_cc =>
@@ -797,9 +814,11 @@ end process;
 -- Direct Page register
 --
 ----------------------------------
+
+--dp_reg: process( clk, dp_ctrl, hold, out_alu, dp, data_in )
 dp_reg: process( clk )
 begin
-  if clk'event and clk = '1' then
+  if clk'event and clk = '0' then
     if hold = '0' then
     case dp_ctrl is
 	 when reset_dp =>
@@ -821,9 +840,11 @@ end process;
 -- op code register
 --
 ----------------------------------
+
+--op_reg: process( clk, op_ctrl, hold, op_code, data_in )
 op_reg: process( clk )
 begin
-  if clk'event and clk = '1' then
+  if clk'event and clk = '0' then
     if hold = '0' then
     case op_ctrl is
 	 when reset_op =>
@@ -843,9 +864,11 @@ end process;
 -- pre byte op code register
 --
 ----------------------------------
+
+--pre_reg: process( clk, pre_ctrl, hold, pre_code, data_in )
 pre_reg: process( clk )
 begin
-  if clk'event and clk = '1' then
+  if clk'event and clk = '0' then
     if hold = '0' then
     case pre_ctrl is
 	 when reset_pre =>
@@ -864,49 +887,51 @@ end process;
 -- state machine
 --
 --------------------------------
-change_state: process( rst_n, clk )
+
+--change_state: process( clk, rst, state, hold, next_state )
+change_state: process( clk )
 begin
-  if rst_n='0' then
-    fic     <= '0';
-    nmi_ack <= '0';
-    state   <= reset_state;
-  elsif clk'event and clk = '1' then
-    if hold = '0' then
-      fic <= lic;
-      --
-      -- nmi request is not cleared until nmi input goes low
-      --
-      if (nmi_req = '0') and (nmi_ack='1') then
-        nmi_ack <= '0';
-      end if;
+  if clk'event and clk = '0' then
+    if rst = '1' then
+      fic     <= '0';
+	   nmi_ack <= '0';
+ 	   state   <= reset_state;
+    elsif hold = '0' then
+		  fic <= lic;
+		  --
+		  -- nmi request is not cleared until nmi input goes low
+		  --
+		  if (nmi_req = '0') and (nmi_ack='1') then
+          nmi_ack <= '0';
+		  end if;
+		  
+		  if (nmi_req = '1') and (nmi_ack = '0')  and (state = int_nmimask_state) then
+          nmi_ack <= '1';
+		  end if;
 
-      if (nmi_req = '1') and (nmi_ack = '0')  and (state = int_nmimask_state) then
-        nmi_ack <= '1';
-      end if;
+        if lic = '1'  then
+          if halt = '1' then
+			   state <= halt_state;
+             -- service non maskable interrupts
+          elsif (nmi_req = '1') and (nmi_ack = '0') then
+			   state <= int_nmi_state;
+				 --
+				 -- FIRQ & IRQ are level sensitive
+				 --
+          elsif (firq = '1') and (cc(FBIT) = '0') then
+			   state  <= int_firq_state;
 
-      if lic = '1'  then
-        if halt = '1' then
-          state <= halt_state;
-        -- service non maskable interrupts
-        elsif (nmi_req = '1') and (nmi_ack = '0') then
-          state <= int_nmi_state;
-        --
-        -- FIRQ & IRQ are level sensitive
-        --
-        elsif (firq = '1') and (cc(FBIT) = '0') then
-          state  <= int_firq_state;
-
-        elsif (irq = '1') and (cc(IBIT) = '0') then
-          state <= int_irq_state;
-
-        else
-          state <= next_state;
-        end if; -- halt, nmi, firq, irq
-      else
-        state <= next_state;
-      end if; -- lic
-    end if; -- hold
-  end if; -- clk/rst
+			 elsif (irq = '1') and (cc(IBIT) = '0') then
+			   state <= int_irq_state;
+			
+			 else
+			   state <= next_state;
+          end if; -- halt, nmi, firq, irq
+		  else
+		    state <= next_state;
+        end if; -- lic
+	 end if; -- reset/hold
+  end if; -- clk
 end process;
 	
 ------------------------------------
@@ -914,18 +939,20 @@ end process;
 -- Detect Edge of NMI interrupt
 --
 ------------------------------------
-nmi_handler : process( rst_n, clk )
+
+--nmi_handler : process( clk, rst, nmi, nmi_ack, nmi_req, nmi_enable )
+nmi_handler : process( rst, clk )
 begin
-  if rst_n='0' then
-         nmi_req <= '0';
-  elsif clk'event and clk='1' then
-    if (nmi='1') and (nmi_ack='0') and (nmi_enable='1') then
-             nmi_req <= '1';
-           else
-               if (nmi='0') and (nmi_ack='1') then
-                  nmi_req <= '0';
-               end if;
-           end if;
+  if rst='1' then
+	 nmi_req <= '0';
+  elsif clk'event and clk='0' then
+	   if (nmi='1') and (nmi_ack='0') and (nmi_enable='1') then
+	     nmi_req <= '1';
+	   else
+		  if (nmi='0') and (nmi_ack='1') then
+	       nmi_req <= '0';
+		  end if;
+		end if;
   end if;
 end process;
 

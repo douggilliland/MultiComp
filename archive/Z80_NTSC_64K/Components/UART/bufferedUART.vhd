@@ -14,10 +14,6 @@
 --
 -- Grant Searle
 -- eMail address available on my main web page link above.
---
--- 10-Nov-2015 foofoobedoo@gmail.com
--- Modifications to use rising clk and to use baud rate enables rather than clocks,
--- slowly but surely moving towards a totally synchronous implementation.
 
 library ieee;
 	use ieee.std_logic_1164.all;
@@ -26,21 +22,19 @@ library ieee;
 
 entity bufferedUART is
 	port (
-		clk     : in  std_logic;
+		clk     : in std_logic;
 		n_wr    : in  std_logic;
 		n_rd    : in  std_logic;
 		regSel  : in  std_logic;
 		dataIn  : in  std_logic_vector(7 downto 0);
 		dataOut : out std_logic_vector(7 downto 0);
-		n_int   : out std_logic;
-                -- these clock enables are asserted for one period of input clk,
-                -- at 16x the baud rate.
-		rxClkEn : in  std_logic; -- 16 x baud rate.
-		txClkEn : in  std_logic; -- 16 x baud rate
+		n_int   : out std_logic; 
+		rxClock : in  std_logic; -- 16 x baud rate
+		txClock : in  std_logic; -- 16 x baud rate
 		rxd     : in  std_logic;
 		txd     : out std_logic;
 		n_rts   : out std_logic :='0';
-		n_cts   : in  std_logic;
+		n_cts   : in  std_logic; 
 		n_dcd   : in  std_logic
    );
 end bufferedUART;
@@ -74,14 +68,14 @@ type serialStateType is ( idle, dataBit, stopBit );
 signal rxState : serialStateType;
 signal txState : serialStateType;
 
-signal func_reset : std_logic := '0';
+signal reset : std_logic := '0';
 
 type rxBuffArray is array (0 to 15) of std_logic_vector(7 downto 0);
 signal rxBuffer : rxBuffArray;
 
-signal rxInPointer: integer range 0 to 63 :=0;       -- registered on clk
-signal rxReadPointer: integer range 0 to 63 :=0;     -- registered on n_rd
-signal rxBuffCount: integer range 0 to 63 :=0;       -- combinational
+signal rxInPointer: integer range 0 to 63 :=0;
+signal rxReadPointer: integer range 0 to 63 :=0;
+signal rxBuffCount: integer range 0 to 63 :=0;
 
 signal rxFilter : integer range 0 to 50; 
 
@@ -112,7 +106,7 @@ begin
 	-- stop flow if greater that 8 chars in buffer (to allow 8 byte overflow)
 	process (clk)
 	begin
-		if rising_edge(clk) then
+		if falling_edge(clk) then
 			if rxBuffCount<2 then
 				n_rts <= '0';
 			end if;
@@ -136,16 +130,8 @@ begin
    --            always 0 (no parity)    n/a        n/a
 	
 	-- write of xxxxxx11 to control reg will reset
-	process (clk)
-	begin
-		if rising_edge(clk) then
-			if n_wr = '0' and dataIn(1 downto 0) = "11" and regSel = '0' then
-				func_reset <= '1';
-                        else
-				func_reset <= '0';
-                        end if;
-		end if;
-	end process;
+	reset <= '1' when n_wr = '0' and dataIn(1 downto 0) = "11" and regSel = '0' else '0';
+
 
 	-- RX de-glitcher - important because the FPGA is very sensistive
 	-- Filtered RX will not switch low to high until there is 50 more high samples than lows
@@ -154,7 +140,7 @@ begin
 	-- However, then makes serial comms 100% reliable
 	process (clk)
 	begin
-		if rising_edge(clk) then
+		if falling_edge(clk) then
 			if rxd = '1' and rxFilter=50 then
 				rxdFiltered <= '1';
 			end if;
@@ -170,11 +156,9 @@ begin
 		end if;
 	end process;
 	
-	process( n_rd, func_reset )
+	process( n_rd )
 	begin
-		if func_reset='1' then
-			rxReadPointer <= 0;
-		elsif falling_edge(n_rd) then -- Standard CPU - present data on leading edge of rd
+		if falling_edge(n_rd) then -- Standard CPU - present data on leading edge of rd
 			if regSel='1' then
 				dataOut <= rxBuffer(rxReadPointer);
 				if rxInPointer /= rxReadPointer then
@@ -204,14 +188,13 @@ begin
 		end if;
 	end process;
 
-	rx_fsm: process( clk, rxClkEn , func_reset )
+	process( rxClock , reset )
 	begin
-		if func_reset='1' then
+		if reset='1' then
 			rxState <= idle;
 			rxBitCount<=(others=>'0');
 			rxClockCount<=(others=>'0');
-                        rxInPointer<=0;
-		elsif rising_edge(clk) and rxClkEn = '1' then
+		elsif falling_edge(rxClock) then
 			case rxState is
 			when idle =>
 				if rxdFiltered='1' then -- high so idle
@@ -250,18 +233,18 @@ begin
 					rxClockCount<=rxClockCount+1;
 				end if;
 			end case;
-		end if;
+		end if;              
 	end process;
 
-	tx_fsm: process( clk, txClkEn , func_reset )
+	process( txClock , reset )
 	begin
-		if func_reset='1' then
+		if reset='1' then
 			txState <= idle;
 			txBitCount<=(others=>'0');
 			txClockCount<=(others=>'0');
 			txByteSent <= '0';
 
-		elsif rising_edge(clk) and txClkEn = '1' then
+		elsif falling_edge(txClock) then
 			case txState is
 			when idle =>
 				txd <= '1';
