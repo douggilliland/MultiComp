@@ -76,7 +76,7 @@ architecture struct of Microcomputer is
 --	signal sdCardDataOut				: std_logic_vector(7 downto 0);
 
 	signal n_memWR						: std_logic :='1';
-	signal n_memRD 					: std_logic :='1';
+--	signal n_memRD 					: std_logic :='1';
 
 	signal n_int1						: std_logic :='1';	
 --	signal n_int2						: std_logic :='1';	
@@ -92,7 +92,7 @@ architecture struct of Microcomputer is
 	signal cpuClkCount				: std_logic_vector(5 downto 0); 
 	signal sdClkCount					: std_logic_vector(5 downto 0); 	
 	signal cpuClock					: std_logic;
-	signal serialClock				: std_logic;
+--	signal serialClock				: std_logic;
 --	signal sdClock						: std_logic;	
 	
 begin
@@ -213,7 +213,7 @@ begin
 	
 	-- ____________________________________________________________________________________
 	-- MEMORY READ/WRITE LOGIC GOES HERE
-	n_memRD <= not(cpuClock) nand n_WR;
+--	n_memRD <= not(cpuClock) nand n_WR;
 	n_memWR <= not(cpuClock) nand (not n_WR);
 	
 	-- ____________________________________________________________________________________
@@ -226,10 +226,14 @@ begin
 
 	n_internalRam1CS <= '0' when cpuAddress(15 downto 11) = "00000" else '1';
 	
---	J6_3 <= n_basRomCS;
---	J6_5 <= n_externalRamCS;
---	J6_7 <= cpuClock;
---	J6_9 <= serialClock;
+	J6_3 <= '0';
+	J6_4 <= '0';
+	J6_5 <= '0';
+	J6_6 <= '0';
+	J6_7 <= '0';
+	J6_8 <= '0';
+	J6_9 <= '0';
+	J6_10 <= '0';
 	
 	-- ____________________________________________________________________________________
 	-- BUS ISOLATION GOES HERE
@@ -246,7 +250,7 @@ begin
 	-- ____________________________________________________________________________________
 	-- SYSTEM CLOCKS GO HERE
 	-- SUB-CIRCUIT CLOCK SIGNALS
-serialClock <= serialClkCount(15);
+--serialClock <= serialClkCount(15);
 process (clk)
 begin
 if rising_edge(clk) then
@@ -282,7 +286,7 @@ end if;
 -- 9600 201
 -- 4800 101
 -- 2400 50
-serialClkCount <= serialClkCount + 2416;
+--serialClkCount <= serialClkCount + 2416;
 end if;
 end process;
 end;
