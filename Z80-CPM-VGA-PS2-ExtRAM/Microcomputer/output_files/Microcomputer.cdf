@@ -4,7 +4,7 @@ JedecChain;
 	DefaultMfr(6E);
 
 	P ActionCode(Cfg)
-		Device PartName(EPCS4) Path("C:/Users/doug_000/Documents/GitHub/MultiComp/Z80-CP_M-VGA/Microcomputer/output_files/") File("Microcomputer.pof") MfrSpec(OpMask(1) Child_OpMask(1 1));
+		Device PartName(EPCS4) Path("C:/Users/doug_000/Documents/GitHub/MultiComp/Z80-CPM-VGA-PS2-ExtRAM/Microcomputer/output_files/") File("Microcomputer.pof") MfrSpec(OpMask(1) Child_OpMask(1 1));
 
 ChainEnd;
 
