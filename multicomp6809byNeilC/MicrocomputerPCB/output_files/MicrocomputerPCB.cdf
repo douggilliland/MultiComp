@@ -4,10 +4,10 @@ JedecChain;
 	DefaultMfr(6E);
 
 	P ActionCode(Cfg)
-		Device PartName(EPCS4) Path("C:/Users/doug_000/Documents/GitHub/MultiComp/multicomp6809byNeilC/MicrocomputerPCB/output_files/") File("MicrocomputerPCB.pof") MfrSpec(OpMask(1) Child_OpMask(1 1));
+		Device PartName(EP2C5T144) Path("C:/Users/Douglas/Documents/GitHub/MultiComp/multicomp6809byNeilC/MicrocomputerPCB/output_files/") File("MicrocomputerPCB.sof") MfrSpec(OpMask(1));
 
 ChainEnd;
 
 AlteraBegin;
-	ChainType(asc);
+	ChainType(JTAG);
 AlteraEnd;
