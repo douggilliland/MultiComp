@@ -2,6 +2,7 @@
 n_reset => t80s:cpu1.RESET_n
 n_reset => sbctextdisplayrgb:io2.n_reset
 n_reset => out_latch:latchIO.clear
+n_reset => out_latch:latchLED.clear
 n_reset => sd_controller:sd1.n_reset
 n_reset => n_RomActive.ACLR
 clk => z80_cpm_basic_rom:rom1.clock
@@ -34,6 +35,7 @@ clk => cpuClkCount[5].CLK
 clk => buffereduart:io1.clk
 clk => sbctextdisplayrgb:io2.clk
 clk => out_latch:latchIO.clock
+clk => out_latch:latchLED.clock
 sramData[0] <> sramData[0]
 sramData[1] <> sramData[1]
 sramData[2] <> sramData[2]
@@ -85,6 +87,14 @@ sdMOSI <= sd_controller:sd1.sdMOSI
 sdMISO => sd_controller:sd1.sdMISO
 sdSCLK <= sd_controller:sd1.sdSCLK
 driveLED <= sd_controller:sd1.driveLED
+ledOut8[0] <= out_latch:latchLED.latchOut[0]
+ledOut8[1] <= out_latch:latchLED.latchOut[1]
+ledOut8[2] <= out_latch:latchLED.latchOut[2]
+ledOut8[3] <= out_latch:latchLED.latchOut[3]
+ledOut8[4] <= out_latch:latchLED.latchOut[4]
+ledOut8[5] <= out_latch:latchLED.latchOut[5]
+ledOut8[6] <= out_latch:latchLED.latchOut[6]
+ledOut8[7] <= out_latch:latchLED.latchOut[7]
 ioOut8[0] <= out_latch:latchIO.latchOut[0]
 ioOut8[1] <= out_latch:latchIO.latchOut[1]
 ioOut8[2] <= out_latch:latchIO.latchOut[2]
@@ -7452,6 +7462,49 @@ wren_b => ram_block1a7.PORTBRE
 
 
 |Microcomputer|OUT_LATCH:latchIO
+dataIn8[0] => Q_tmp[0].DATAIN
+dataIn8[1] => Q_tmp[1].DATAIN
+dataIn8[2] => Q_tmp[2].DATAIN
+dataIn8[3] => Q_tmp[3].DATAIN
+dataIn8[4] => Q_tmp[4].DATAIN
+dataIn8[5] => Q_tmp[5].DATAIN
+dataIn8[6] => Q_tmp[6].DATAIN
+dataIn8[7] => Q_tmp[7].DATAIN
+clock => Q_tmp[0].CLK
+clock => Q_tmp[1].CLK
+clock => Q_tmp[2].CLK
+clock => Q_tmp[3].CLK
+clock => Q_tmp[4].CLK
+clock => Q_tmp[5].CLK
+clock => Q_tmp[6].CLK
+clock => Q_tmp[7].CLK
+load => Q_tmp[7].ENA
+load => Q_tmp[6].ENA
+load => Q_tmp[5].ENA
+load => Q_tmp[4].ENA
+load => Q_tmp[3].ENA
+load => Q_tmp[2].ENA
+load => Q_tmp[1].ENA
+load => Q_tmp[0].ENA
+clear => Q_tmp[0].ACLR
+clear => Q_tmp[1].ACLR
+clear => Q_tmp[2].ACLR
+clear => Q_tmp[3].ACLR
+clear => Q_tmp[4].ACLR
+clear => Q_tmp[5].ACLR
+clear => Q_tmp[6].ACLR
+clear => Q_tmp[7].ACLR
+latchOut[0] <= Q_tmp[0].DB_MAX_OUTPUT_PORT_TYPE
+latchOut[1] <= Q_tmp[1].DB_MAX_OUTPUT_PORT_TYPE
+latchOut[2] <= Q_tmp[2].DB_MAX_OUTPUT_PORT_TYPE
+latchOut[3] <= Q_tmp[3].DB_MAX_OUTPUT_PORT_TYPE
+latchOut[4] <= Q_tmp[4].DB_MAX_OUTPUT_PORT_TYPE
+latchOut[5] <= Q_tmp[5].DB_MAX_OUTPUT_PORT_TYPE
+latchOut[6] <= Q_tmp[6].DB_MAX_OUTPUT_PORT_TYPE
+latchOut[7] <= Q_tmp[7].DB_MAX_OUTPUT_PORT_TYPE
+
+
+|Microcomputer|OUT_LATCH:latchLED
 dataIn8[0] => Q_tmp[0].DATAIN
 dataIn8[1] => Q_tmp[1].DATAIN
 dataIn8[2] => Q_tmp[2].DATAIN

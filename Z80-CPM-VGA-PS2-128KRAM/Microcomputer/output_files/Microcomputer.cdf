@@ -4,10 +4,10 @@ JedecChain;
 	DefaultMfr(6E);
 
 	P ActionCode(Cfg)
-		Device PartName(EP2C5T144) Path("C:/Users/DGilliland/Documents/GitHub/MultiComp/Z80-CPM-VGA-PS2-128KRAM/Microcomputer/output_files/") File("Microcomputer.sof") MfrSpec(OpMask(1));
+		Device PartName(EPCS4) Path("C:/Users/Douglas/Documents/GitHub/MultiComp/Z80-CPM-VGA-PS2-128KRAM/Microcomputer/output_files/") File("Microcomputer.pof") MfrSpec(OpMask(1) Child_OpMask(1 1));
 
 ChainEnd;
 
 AlteraBegin;
-	ChainType(JTAG);
+	ChainType(asc);
 AlteraEnd;

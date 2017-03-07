@@ -50,6 +50,7 @@ entity Microcomputer is
 		sdMISO		: in std_logic;
 		sdSCLK		: out std_logic;
 		driveLED		: out std_logic :='1';
+		ledOut8		: out std_logic_vector(7 downto 0);
 		ioOut8		: out std_logic_vector(7 downto 0)
 	);
 end Microcomputer;
@@ -88,7 +89,8 @@ architecture struct of Microcomputer is
 	signal n_interface1CS			: std_logic :='1';
 	signal n_interface2CS			: std_logic :='1';
 	signal n_sdCardCS					: std_logic :='1';
-	signal n_sdChipCS					: std_logic :='1';
+	signal n_PIOCS						: std_logic :='1';
+	signal n_LEDCS						: std_logic :='1';
 
 	signal serialClkCount			: std_logic_vector(15 downto 0);
 	signal cpuClkCount				: std_logic_vector(5 downto 0); 
@@ -112,33 +114,35 @@ n_RomActive <= '1';
 end if;
 end if;
 end process;
+
 -- ____________________________________________________________________________________
 -- CPU CHOICE GOES HERE
 cpu1 : entity work.t80s
 generic map(mode => 1, t2write => 1, iowait => 0)
 port map(
-reset_n => n_reset,
-clk_n => cpuClock,
-wait_n => '1',
-int_n => '1',
-nmi_n => '1',
-busrq_n => '1',
-mreq_n => n_MREQ,
-iorq_n => n_IORQ,
-rd_n => n_RD,
-wr_n => n_WR,
-a => cpuAddress,
-di => cpuDataIn,
-do => cpuDataOut);
+	reset_n => n_reset,
+	clk_n => cpuClock,
+	wait_n => '1',
+	int_n => '1',
+	nmi_n => '1',
+	busrq_n => '1',
+	mreq_n => n_MREQ,
+	iorq_n => n_IORQ,
+	rd_n => n_RD,
+	wr_n => n_WR,
+	a => cpuAddress,
+	di => cpuDataIn,
+	do => cpuDataOut
+);
 
 -- ____________________________________________________________________________________
 -- ROM GOES HERE	
 
 rom1 : entity work.Z80_CPM_BASIC_ROM -- 8KB BASIC and CP/M boot
 port map(
-address => cpuAddress(12 downto 0),
-clock => clk,
-q => basRomData
+	address => cpuAddress(12 downto 0),
+	clock => clk,
+	q => basRomData
 );
 
 -- ____________________________________________________________________________________
@@ -175,74 +179,65 @@ port map(
 io2 : entity work.SBCTextDisplayRGB	-- VGA/Composite output
 
 port map (
-n_reset => n_reset,
-clk => clk,
-
--- RGB video signals
-hSync => hSync,
-vSync => vSync,
-videoR0 => videoR0,
-videoR1 => videoR1,
-videoG0 => videoG0,
-videoG1 => videoG1,
-videoB0 => videoB0,
-videoB1 => videoB1,
-
--- Monochrome video signals (when using TV timings only)
-sync => videoSync,
-video => video,
-
-n_wr => n_interface2CS or n_ioWR,
-n_rd => n_interface2CS or n_ioRD,
-n_int => n_int2,
-regSel => cpuAddress(0),
-dataIn => cpuDataOut,
-dataOut => interface2DataOut,
-ps2Clk => ps2Clk,
-ps2Data => ps2Data
+	n_reset => n_reset,
+	clk => clk,
+	
+	-- RGB video signals
+	hSync => hSync,
+	vSync => vSync,
+	videoR0 => videoR0,
+	videoR1 => videoR1,
+	videoG0 => videoG0,
+	videoG1 => videoG1,
+	videoB0 => videoB0,
+	videoB1 => videoB1,
+	
+	-- Monochrome video signals (when using TV timings only)
+	sync => videoSync,
+	video => video,
+	
+	n_wr => n_interface2CS or n_ioWR,
+	n_rd => n_interface2CS or n_ioRD,
+	n_int => n_int2,
+	regSel => cpuAddress(0),
+	dataIn => cpuDataOut,
+	dataOut => interface2DataOut,
+	ps2Clk => ps2Clk,
+	ps2Data => ps2Data
 );
 
 latchIO : entity work.OUT_LATCH	--Output LatchIO
 port map(
 	clear => n_reset,
 	clock => clk,
-	load => n_sdChipCS,
+	load => n_PIOCS,
 	dataIn8 => cpuDataOut,
 	latchOut => ioOut8
 );
 
---io2 : entity work.bufferedUART	-- Second Serial port
---port map(
---clk => clk,
---n_wr => n_interface2CS or n_ioWR,
---n_rd => n_interface2CS or n_ioRD,
---n_int => n_int2,
---regSel => cpuAddress(0),
---dataIn => cpuDataOut,
---dataOut => interface2DataOut,
---rxClock => serialClock,
---txClock => serialClock,
---rxd => rxd2,
---txd => txd2,
---n_cts => '0',
---n_dcd => '0',
---n_rts => rts2
---);
+latchLED : entity work.OUT_LATCH	--Output LatchIO
+port map(
+	clear => n_reset,
+	clock => clk,
+	load => n_LEDCS,
+	dataIn8 => cpuDataOut,
+	latchOut => ledOut8
+);
 
 sd1 : entity work.sd_controller
 port map(
-sdCS => sdCS,
-sdMOSI => sdMOSI,
-sdMISO => sdMISO,
-sdSCLK => sdSCLK,
-n_wr => n_sdCardCS or n_ioWR,
-n_rd => n_sdCardCS or n_ioRD,
-n_reset => n_reset,
-dataIn => cpuDataOut,
-dataOut => sdCardDataOut,
-regAddr => cpuAddress(2 downto 0),
-driveLED => driveLED,
-clk => sdClock -- twice the spi clk
+	sdCS => sdCS,
+	sdMOSI => sdMOSI,
+	sdMISO => sdMISO,
+	sdSCLK => sdSCLK,
+	n_wr => n_sdCardCS or n_ioWR,
+	n_rd => n_sdCardCS or n_ioRD,
+	n_reset => n_reset,
+	dataIn => cpuDataOut,
+	dataOut => sdCardDataOut,
+	regAddr => cpuAddress(2 downto 0),
+	driveLED => driveLED,
+	clk => sdClock -- twice the spi clk
 );
 
 -- ____________________________________________________________________________________
@@ -258,8 +253,8 @@ n_basRomCS <= '0' when cpuAddress(15 downto 13) = "000" and n_RomActive = '0' el
 n_interface1CS <= '0' when cpuAddress(7 downto 1) = "1000000" and (n_ioWR='0' or n_ioRD = '0') else '1'; -- 2 Bytes $80-$81
 n_interface2CS <= '0' when cpuAddress(7 downto 1) = "1000001" and (n_ioWR='0' or n_ioRD = '0') else '1'; -- 2 Bytes $82-$83
 n_sdCardCS <= '0' when cpuAddress(7 downto 3) = "10001" and (n_ioWR='0' or n_ioRD = '0') else '1'; -- 8 Bytes $88-$8F
-n_sdChipCS  <= '0' when cpuAddress(7 downto 1)    = "1000010" and (n_ioWR='0' or n_ioRD = '0') else '1'; -- 2 Bytes $84-$85
-
+n_PIOCS <= '0' when cpuAddress(7 downto 1)    = "1000010" and (n_ioWR='0' or n_ioRD = '0') else '1'; -- 2 Bytes $84-$85
+n_LEDCS <= '0' when cpuAddress(7 downto 1)    = "1000011" and (n_ioWR='0' or n_ioRD = '0') else '1'; -- 2 Bytes $86-$87
 n_externalRamCS<= not n_basRomCS;
 
 -- ____________________________________________________________________________________
@@ -273,7 +268,7 @@ internalRam1DataOut when n_internalRam1CS= '0' else
 sramData when n_externalRamCS= '0' else
 x"FF";
 
--- n_ChipSS <= n_sdChipCS;
+-- n_ChipSS <= n_PIOCS;
 
 -- ____________________________________________________________________________________
 -- SYSTEM CLOCKS GO HERE
