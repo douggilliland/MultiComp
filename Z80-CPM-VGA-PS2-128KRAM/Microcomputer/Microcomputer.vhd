@@ -43,15 +43,14 @@ entity Microcomputer is
 		ps2Clk		: inout std_logic;
 		ps2Data		: inout std_logic;
 
---		n_ChipSS		: out std_logic;
-
 		sdCS			: out std_logic;
 		sdMOSI		: out std_logic;
 		sdMISO		: in std_logic;
 		sdSCLK		: out std_logic;
 		driveLED		: out std_logic :='1';
 		ledOut8		: out std_logic_vector(7 downto 0);
-		ioOut8		: out std_logic_vector(7 downto 0)
+		J6IO8			: out std_logic_vector(7 downto 0);
+		J8IO8			: out std_logic_vector(7 downto 0)
 	);
 end Microcomputer;
 
@@ -83,13 +82,14 @@ architecture struct of Microcomputer is
 	signal n_int2						: std_logic :='1';	
 	
 	signal n_externalRamCS			: std_logic :='1';
-	signal n_internalRam1CS			: std_logic :='1';
+--	signal n_internalRam1CS			: std_logic :='1';
 	signal n_internalRam2CS			: std_logic :='1';
 	signal n_basRomCS					: std_logic :='1';
 	signal n_interface1CS			: std_logic :='1';
 	signal n_interface2CS			: std_logic :='1';
 	signal n_sdCardCS					: std_logic :='1';
-	signal n_PIOCS						: std_logic :='1';
+	signal n_J6IOCS					: std_logic :='1';
+	signal n_J8IOCS					: std_logic :='1';
 	signal n_LEDCS						: std_logic :='1';
 
 	signal serialClkCount			: std_logic_vector(15 downto 0);
@@ -206,13 +206,22 @@ port map (
 	ps2Data => ps2Data
 );
 
-latchIO : entity work.OUT_LATCH	--Output LatchIO
+latchIO0 : entity work.OUT_LATCH	--Output LatchIO
 port map(
 	clear => n_reset,
 	clock => clk,
-	load => n_PIOCS,
+	load => n_J6IOCS,
 	dataIn8 => cpuDataOut,
-	latchOut => ioOut8
+	latchOut => J6IO8
+);
+
+latchIO1 : entity work.OUT_LATCH	--Output LatchIO
+port map(
+	clear => n_reset,
+	clock => clk,
+	load => n_J8IOCS,
+	dataIn8 => cpuDataOut,
+	latchOut => J8IO8
 );
 
 latchLED : entity work.OUT_LATCH	--Output LatchIO
@@ -249,12 +258,13 @@ n_memRD <= n_RD or n_MREQ;
 
 -- ____________________________________________________________________________________
 -- CHIP SELECTS GO HERE
-n_basRomCS <= '0' when cpuAddress(15 downto 13) = "000" and n_RomActive = '0' else '1'; --8K at bottom of memory
+n_basRomCS <= '0' when cpuAddress(15 downto 13)   = "000" and n_RomActive = '0' else '1'; --8K at bottom of memory
 n_interface1CS <= '0' when cpuAddress(7 downto 1) = "1000000" and (n_ioWR='0' or n_ioRD = '0') else '1'; -- 2 Bytes $80-$81
 n_interface2CS <= '0' when cpuAddress(7 downto 1) = "1000001" and (n_ioWR='0' or n_ioRD = '0') else '1'; -- 2 Bytes $82-$83
-n_sdCardCS <= '0' when cpuAddress(7 downto 3) = "10001" and (n_ioWR='0' or n_ioRD = '0') else '1'; -- 8 Bytes $88-$8F
-n_PIOCS <= '0' when cpuAddress(7 downto 1)    = "1000010" and (n_ioWR='0' or n_ioRD = '0') else '1'; -- 2 Bytes $84-$85
-n_LEDCS <= '0' when cpuAddress(7 downto 1)    = "1000011" and (n_ioWR='0' or n_ioRD = '0') else '1'; -- 2 Bytes $86-$87
+n_sdCardCS <= '0' when cpuAddress(7 downto 3)     = "10001"   and (n_ioWR='0' or n_ioRD = '0') else '1'; -- 8 Bytes $88-$8F
+n_LEDCS <= '0' when cpuAddress(7 downto 1)        = "1000011" and (n_ioWR='0' or n_ioRD = '0') else '1'; -- 2 Bytes $86-$87
+n_J6IOCS <= '0' when cpuAddress(7 downto 1)       = "1000010" and (n_ioWR='0' or n_ioRD = '0') else '1'; -- 2 Bytes $84-$85
+n_J8IOCS <= '0' when cpuAddress(7 downto 1)       = "1000100" and (n_ioWR='0' or n_ioRD = '0') else '1'; -- 2 Bytes $88-$89
 n_externalRamCS<= not n_basRomCS;
 
 -- ____________________________________________________________________________________
@@ -279,25 +289,25 @@ begin
 if rising_edge(clk) then
 
 if cpuClkCount < 4 then -- 4 = 10MHz, 3 = 12.5MHz, 2=16.6MHz, 1=25MHz
-cpuClkCount <= cpuClkCount + 1;
+	cpuClkCount <= cpuClkCount + 1;
 else
-cpuClkCount <= (others=>'0');
+	cpuClkCount <= (others=>'0');
 end if;
 if cpuClkCount < 2 then -- 2 when 10MHz, 2 when 12.5MHz, 2 when 16.6MHz, 1 when 25MHz
-cpuClock <= '0';
+	cpuClock <= '0';
 else
-cpuClock <= '1';
+	cpuClock <= '1';
 end if;
 
 if sdClkCount < 49 then -- 1MHz
-sdClkCount <= sdClkCount + 1;
+	sdClkCount <= sdClkCount + 1;
 else
-sdClkCount <= (others=>'0');
+	sdClkCount <= (others=>'0');
 end if;
 if sdClkCount < 25 then
-sdClock <= '0';
+	sdClock <= '0';
 else
-sdClock <= '1';
+	sdClock <= '1';
 end if;
 
 -- Serial clock DDS

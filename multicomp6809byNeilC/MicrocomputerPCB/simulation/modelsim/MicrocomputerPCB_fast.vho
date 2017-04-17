@@ -16,7 +16,7 @@
 -- PROGRAM "Quartus II 64-Bit"
 -- VERSION "Version 13.0.1 Build 232 06/12/2013 Service Pack 1 SJ Web Edition"
 
--- DATE "01/25/2017 18:54:06"
+-- DATE "04/17/2017 12:56:34"
 
 -- 
 -- Device: Altera EP2C5T144C8 Package TQFP144
@@ -6023,38 +6023,38 @@ SIGNAL \io2|rxClockCount\ : std_logic_vector(5 DOWNTO 0);
 SIGNAL \io2|rxBitCount\ : std_logic_vector(3 DOWNTO 0);
 SIGNAL \io2|dataOut\ : std_logic_vector(7 DOWNTO 0);
 SIGNAL \io2|controlReg\ : std_logic_vector(7 DOWNTO 0);
-SIGNAL \mm1|mape\ : std_logic_vector(7 DOWNTO 0);
-SIGNAL \sd1|clkCount\ : std_logic_vector(5 DOWNTO 0);
-SIGNAL \mm1|map9\ : std_logic_vector(7 DOWNTO 0);
-SIGNAL \mm1|mapd\ : std_logic_vector(7 DOWNTO 0);
-SIGNAL \sd1|address\ : std_logic_vector(31 DOWNTO 0);
-SIGNAL \mm1|map8\ : std_logic_vector(7 DOWNTO 0);
-SIGNAL \mm1|tcount\ : std_logic_vector(19 DOWNTO 0);
-SIGNAL \mm1|nmiDly\ : std_logic_vector(4 DOWNTO 0);
-SIGNAL \sd1|led_on_count\ : std_logic_vector(7 DOWNTO 0);
-SIGNAL \mm1|map3\ : std_logic_vector(7 DOWNTO 0);
-SIGNAL \gpio1|reg_ddr0\ : std_logic_vector(2 DOWNTO 0);
-SIGNAL \gpio1|reg_dat2\ : std_logic_vector(7 DOWNTO 0);
-SIGNAL \sd1|cmd_out\ : std_logic_vector(55 DOWNTO 0);
-SIGNAL \mm1|mapc\ : std_logic_vector(7 DOWNTO 0);
-SIGNAL \mm1|mapb\ : std_logic_vector(7 DOWNTO 0);
-SIGNAL \sd1|data_sig\ : std_logic_vector(7 DOWNTO 0);
-SIGNAL \gpio1|reg_ddr2\ : std_logic_vector(7 DOWNTO 0);
-SIGNAL \mm1|map0\ : std_logic_vector(7 DOWNTO 0);
-SIGNAL \mm1|map5\ : std_logic_vector(7 DOWNTO 0);
-SIGNAL \sd1|din_latched\ : std_logic_vector(7 DOWNTO 0);
-SIGNAL \sd1|dout\ : std_logic_vector(7 DOWNTO 0);
-SIGNAL \mm1|mapSel\ : std_logic_vector(3 DOWNTO 0);
-SIGNAL \mm1|map4\ : std_logic_vector(7 DOWNTO 0);
 SIGNAL \sd1|recv_data\ : std_logic_vector(39 DOWNTO 0);
-SIGNAL \gpio1|reg\ : std_logic_vector(7 DOWNTO 0);
-SIGNAL \gpio1|reg_dat0\ : std_logic_vector(2 DOWNTO 0);
-SIGNAL \mm1|map1\ : std_logic_vector(7 DOWNTO 0);
-SIGNAL \mm1|map7\ : std_logic_vector(7 DOWNTO 0);
-SIGNAL \mm1|map2\ : std_logic_vector(7 DOWNTO 0);
+SIGNAL \sd1|led_on_count\ : std_logic_vector(7 DOWNTO 0);
+SIGNAL \sd1|dout\ : std_logic_vector(7 DOWNTO 0);
+SIGNAL \sd1|din_latched\ : std_logic_vector(7 DOWNTO 0);
+SIGNAL \sd1|data_sig\ : std_logic_vector(7 DOWNTO 0);
+SIGNAL \sd1|cmd_out\ : std_logic_vector(55 DOWNTO 0);
+SIGNAL \sd1|clkCount\ : std_logic_vector(5 DOWNTO 0);
+SIGNAL \sd1|address\ : std_logic_vector(31 DOWNTO 0);
+SIGNAL \mm1|mapSel\ : std_logic_vector(3 DOWNTO 0);
+SIGNAL \mm1|map0\ : std_logic_vector(7 DOWNTO 0);
+SIGNAL \mm1|mapc\ : std_logic_vector(7 DOWNTO 0);
+SIGNAL \mm1|nmiDly\ : std_logic_vector(4 DOWNTO 0);
 SIGNAL \mm1|mapf\ : std_logic_vector(7 DOWNTO 0);
+SIGNAL \gpio1|reg_ddr2\ : std_logic_vector(7 DOWNTO 0);
+SIGNAL \mm1|map4\ : std_logic_vector(7 DOWNTO 0);
+SIGNAL \mm1|map2\ : std_logic_vector(7 DOWNTO 0);
+SIGNAL \mm1|mapb\ : std_logic_vector(7 DOWNTO 0);
+SIGNAL \mm1|map5\ : std_logic_vector(7 DOWNTO 0);
+SIGNAL \mm1|map7\ : std_logic_vector(7 DOWNTO 0);
+SIGNAL \mm1|tcount\ : std_logic_vector(19 DOWNTO 0);
+SIGNAL \gpio1|reg_dat2\ : std_logic_vector(7 DOWNTO 0);
+SIGNAL \mm1|mapd\ : std_logic_vector(7 DOWNTO 0);
 SIGNAL \mm1|mapa\ : std_logic_vector(7 DOWNTO 0);
+SIGNAL \gpio1|reg\ : std_logic_vector(7 DOWNTO 0);
+SIGNAL \gpio1|reg_ddr0\ : std_logic_vector(2 DOWNTO 0);
+SIGNAL \gpio1|reg_dat0\ : std_logic_vector(2 DOWNTO 0);
+SIGNAL \mm1|mape\ : std_logic_vector(7 DOWNTO 0);
 SIGNAL \mm1|map6\ : std_logic_vector(7 DOWNTO 0);
+SIGNAL \mm1|map1\ : std_logic_vector(7 DOWNTO 0);
+SIGNAL \mm1|map9\ : std_logic_vector(7 DOWNTO 0);
+SIGNAL \mm1|map8\ : std_logic_vector(7 DOWNTO 0);
+SIGNAL \mm1|map3\ : std_logic_vector(7 DOWNTO 0);
 SIGNAL \ALT_INV_n_reset~combout\ : std_logic;
 SIGNAL \mm1|ALT_INV_n_ramCSLo~12_combout\ : std_logic;
 SIGNAL \cpu1|ALT_INV_Selector318~6_combout\ : std_logic;

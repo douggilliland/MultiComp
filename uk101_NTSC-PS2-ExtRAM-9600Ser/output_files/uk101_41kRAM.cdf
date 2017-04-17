@@ -4,10 +4,10 @@ JedecChain;
 	DefaultMfr(6E);
 
 	P ActionCode(Cfg)
-		Device PartName(EP2C5T144) Path("C:/Users/doug_000/Documents/GitHub/MultiComp/UK101_4KRAM/output_files/") File("uk101.sof") MfrSpec(OpMask(1));
+		Device PartName(EPCS4) Path("C:/Users/DGilliland/Documents/GitHub/MultiComp/uk101_NTSC-PS2-ExtRAM-9600Ser/output_files/") File("uk101_41kRAM.pof") MfrSpec(OpMask(1) Child_OpMask(1 1));
 
 ChainEnd;
 
 AlteraBegin;
-	ChainType(JTAG);
+	ChainType(asc);
 AlteraEnd;

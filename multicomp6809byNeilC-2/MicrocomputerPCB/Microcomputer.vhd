@@ -508,7 +508,9 @@ begin
 
     -- Serial clock DDS. With 50MHz master input clock:
     -- Baud   Increment
-    -- 115200 2416
+    -- 115200 2416sd
+	 sd
+	 
     -- 38400  805
     -- 19200  403
     -- 9600   201
