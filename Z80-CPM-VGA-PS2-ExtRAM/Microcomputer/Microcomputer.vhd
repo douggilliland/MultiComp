@@ -15,7 +15,7 @@ entity Microcomputer is
 		clk			: in std_logic;
 
 		sramData		: inout std_logic_vector(7 downto 0);
-		sramAddress	: out std_logic_vector(15 downto 0);
+		sramAddress	: out std_logic_vector(16 downto 0);
 		n_sRamWE		: out std_logic;
 		n_sRamCS		: out std_logic;
 		n_sRamOE		: out std_logic;
@@ -145,6 +145,7 @@ q => basRomData
 -- RAM GOES HERE
 
 sramAddress(15 downto 0) <= cpuAddress(15 downto 0);
+sramAddress(16) <= '0';
 sramData <= cpuDataOut when n_memWR='0' else (others => 'Z');
 n_sRamWE <= n_memWR or n_externalRamCS;
 n_sRamOE <= n_memRD or n_externalRamCS;

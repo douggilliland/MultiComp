@@ -73,7 +73,7 @@ architecture struct of uk101 is
 begin
 
 	sramAddress(15 downto 0) <= cpuAddress(15 downto 0);
-	sramAddress(16) <= '1';
+	sramAddress(16) <= '0';
 	sramData <= cpuDataOut when n_WR='0' else (others => 'Z');
 	n_sRamWE <= n_memWR;
 	n_sRamOE <= n_memRD;
