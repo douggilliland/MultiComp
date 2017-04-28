@@ -16,7 +16,7 @@
 -- PROGRAM "Quartus II 64-Bit"
 -- VERSION "Version 13.0.1 Build 232 06/12/2013 Service Pack 1 SJ Web Edition"
 
--- DATE "04/27/2017 16:48:23"
+-- DATE "04/28/2017 08:51:00"
 
 -- 
 -- Device: Altera EP2C5T144C8 Package TQFP144
@@ -112,9 +112,9 @@ END Microcomputer;
 -- sRamAddress[13]	=>  Location: PIN_24,	 I/O Standard: 3.3-V LVTTL,	 Current Strength: 12mA
 -- sRamAddress[14]	=>  Location: PIN_30,	 I/O Standard: 3.3-V LVTTL,	 Current Strength: 12mA
 -- sRamAddress[15]	=>  Location: PIN_8,	 I/O Standard: 3.3-V LVTTL,	 Current Strength: 12mA
--- sRamAddress[16]	=>  Location: PIN_31,	 I/O Standard: 3.3-V LVTTL,	 Current Strength: 12mA
+-- sRamAddress[16]	=>  Location: PIN_32,	 I/O Standard: 3.3-V LVTTL,	 Current Strength: 12mA
 -- sRamAddress[17]	=>  Location: PIN_25,	 I/O Standard: 3.3-V LVTTL,	 Current Strength: 12mA
--- sRamAddress[18]	=>  Location: PIN_32,	 I/O Standard: 3.3-V LVTTL,	 Current Strength: 12mA
+-- sRamAddress[18]	=>  Location: PIN_31,	 I/O Standard: 3.3-V LVTTL,	 Current Strength: 12mA
 -- n_sRamWE	=>  Location: PIN_4,	 I/O Standard: 3.3-V LVTTL,	 Current Strength: 12mA
 -- n_sRamCS	=>  Location: PIN_126,	 I/O Standard: 3.3-V LVTTL,	 Current Strength: 12mA
 -- n_sRamCS2	=>  Location: PIN_79,	 I/O Standard: 3.3-V LVTTL,	 Current Strength: 12mA
@@ -101320,7 +101320,7 @@ PORT MAP (
 	oe => VCC,
 	padio => ww_sRamAddress(15));
 
--- Location: PIN_31,	 I/O Standard: 3.3-V LVTTL,	 Current Strength: 12mA
+-- Location: PIN_32,	 I/O Standard: 3.3-V LVTTL,	 Current Strength: 12mA
 \sRamAddress[16]~I\ : cycloneii_io
 -- pragma translate_off
 GENERIC MAP (
@@ -101372,7 +101372,7 @@ PORT MAP (
 	oe => VCC,
 	padio => ww_sRamAddress(17));
 
--- Location: PIN_32,	 I/O Standard: 3.3-V LVTTL,	 Current Strength: 12mA
+-- Location: PIN_31,	 I/O Standard: 3.3-V LVTTL,	 Current Strength: 12mA
 \sRamAddress[18]~I\ : cycloneii_io
 -- pragma translate_off
 GENERIC MAP (
