@@ -68,14 +68,6 @@ set_location_assignment PIN_74 -to videoSync
 set_location_assignment PIN_87 -to ps2Data
 set_location_assignment PIN_86 -to ps2Clk
 
-set_location_assignment PIN_40 -to tp40_p9_4
-set_location_assignment PIN_41 -to tp41_p9_3
-set_location_assignment PIN_42 -to tp42_p9_6
-set_location_assignment PIN_43 -to tp43_p9_5
-set_location_assignment PIN_44 -to tp44_p9_8
-set_location_assignment PIN_45 -to tp45_p9_7
-set_location_assignment PIN_47 -to tp47_p9_10
-set_location_assignment PIN_48 -to tp48_p9_9
 set_location_assignment PIN_3 -to reset_LED
 
 set_location_assignment PIN_4 -to n_sRamWE
@@ -107,6 +99,10 @@ set_location_assignment PIN_115 -to sramData[1]
 set_location_assignment PIN_119 -to sramData[0]
 
 set_instance_assignment -name WEAK_PULL_UP_RESISTOR ON -to n_reset
+set_global_assignment -name PARTITION_NETLIST_TYPE SOURCE -section_id Top
+set_global_assignment -name PARTITION_FITTER_PRESERVATION_LEVEL PLACEMENT_AND_ROUTING -section_id Top
+set_global_assignment -name PARTITION_COLOR 16764057 -section_id Top
+set_global_assignment -name VHDL_FILE Components/IO/OutLatch.vhd
 set_global_assignment -name VHDL_FILE uk101_41kRAM.vhd
 set_global_assignment -name VHDL_FILE MonUK02Rom.VHD
 set_global_assignment -name VHDL_FILE ../Components/TV/UK101TextDisplay.vhd
@@ -122,7 +118,22 @@ set_global_assignment -name VHDL_FILE ../Components/M6502/T65.vhd
 set_global_assignment -name QIP_FILE DisplayRam.qip
 set_global_assignment -name QIP_FILE ProgRam.qip
 set_global_assignment -name QIP_FILE BasicRom.qip
-set_global_assignment -name PARTITION_NETLIST_TYPE SOURCE -section_id Top
-set_global_assignment -name PARTITION_FITTER_PRESERVATION_LEVEL PLACEMENT_AND_ROUTING -section_id Top
-set_global_assignment -name PARTITION_COLOR 16764057 -section_id Top
+set_location_assignment PIN_25 -to J6IO8[0]
+set_location_assignment PIN_31 -to J6IO8[1]
+set_location_assignment PIN_41 -to J6IO8[2]
+set_location_assignment PIN_40 -to J6IO8[3]
+set_location_assignment PIN_43 -to J6IO8[4]
+set_location_assignment PIN_42 -to J6IO8[5]
+set_location_assignment PIN_45 -to J6IO8[6]
+set_location_assignment PIN_44 -to J6IO8[7]
+set_location_assignment PIN_48 -to J8IO8[0]
+set_location_assignment PIN_47 -to J8IO8[1]
+set_location_assignment PIN_52 -to J8IO8[2]
+set_location_assignment PIN_51 -to J8IO8[3]
+set_location_assignment PIN_58 -to J8IO8[4]
+set_location_assignment PIN_55 -to J8IO8[5]
+set_location_assignment PIN_80 -to J8IO8[6]
+set_location_assignment PIN_60 -to J8IO8[7]
+set_location_assignment PIN_53 -to ledOut8[0]
+set_location_assignment PIN_32 -to sramAddress[16]
 set_instance_assignment -name PARTITION_HIERARCHY root_partition -to | -section_id Top

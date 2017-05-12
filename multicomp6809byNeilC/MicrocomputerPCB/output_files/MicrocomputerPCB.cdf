@@ -4,7 +4,7 @@ JedecChain;
 	DefaultMfr(6E);
 
 	P ActionCode(Cfg)
-		Device PartName(EP2C5T144) Path("C:/Users/Douglas/Documents/GitHub/MultiComp/multicomp6809byNeilC/MicrocomputerPCB/output_files/") File("MicrocomputerPCB.sof") MfrSpec(OpMask(1));
+		Device PartName(EP2C5T144) Path("C:/Users/DGilliland/Documents/GitHub/MultiComp/multicomp6809byNeilC/MicrocomputerPCB/output_files/") File("MicrocomputerPCB.sof") MfrSpec(OpMask(1));
 
 ChainEnd;
 
