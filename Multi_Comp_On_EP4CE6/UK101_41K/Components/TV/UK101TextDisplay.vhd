@@ -1,4 +1,3 @@
-
 library ieee;
 	use ieee.std_logic_1164.all;
 	use ieee.numeric_std.all;
@@ -51,20 +50,14 @@ begin
 -- 16 lines of characters
 -- 8x8 per char
 
--- PAL timing
--- 64uS per horiz line (3200 clocks)
--- 4.7us horiz sync (235 clocks)
--- 5 lines vsync
--- 30 lines to start of display
--- 313 lines per frame
---
 -- NTSC timing
 -- 63.5uS per horiz line = 15.7 KHz horizontal timing = (3175 clocks)
--- 
--- 
+-- horizontal sync (235 clocks)
+-- 5 lines vert sync 
+-- 6 lines to start of display
+-- 262 lines per frame
 
 		if rising_edge(clk) then
---			if horizCount < 3200 THEN -- PAL
 			if horizCount < 3175 THEN -- NTSC
 				horizCount <= horizCount + 1;
 				if (horizCount < 40) or (horizCount > 3000) then
@@ -79,23 +72,19 @@ begin
 				horizCount<= (others => '0');
 				pixelCount<= (others => '0');
 				charHoriz<= (others => '0');
---				if vertLineCount > 312 then  -- PAL
-				if vertLineCount > 262 then
+				if vertLineCount > 262 then		-- NTSC timing
 					vertLineCount <= (others => '0');
 				else
---					if vertLineCount < 38 or vertLineCount > 293 then	-- PAL
 					if vertLineCount < 6 or vertLineCount > 261 then
 						vActive <= '0';
 						charVert <= (others => '0');
 						charScanLine <= (others => '0');
 					else
 						vActive <= '1';
---						if charScanLine = 15 then
 						if charScanLine = 14 then
 							charScanLine <= (others => '0');
 							charVert <= charVert+1;
 						else
---							if vertLineCount /= 38 then	-- PAL
 							if vertLineCount /= 6 then
 								charScanLine <= charScanLine+1;
 							end if;
@@ -106,7 +95,6 @@ begin
 				end if;
 
 			END IF;
---			if horizCount < 235 then 	-- PAL
 			if horizCount < 235 then	-- NTSC
 				hSync <= '0';
 			else

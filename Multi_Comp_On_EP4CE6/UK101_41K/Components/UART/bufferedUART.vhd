@@ -76,8 +76,8 @@ begin
 	         else '0' when (txByteWritten=txByteSent) and controlReg(6)='0' and controlReg(5)='1'
 				else '1';
 
--- raise (inhibit) n_rts when buffer over half-full
---	6850 implementatit = n_rts <= '1' when controlReg(6)='1' and controlReg(5)='0' else '0';
+-- raise (inhibit) n_rts when buffer is 3/4 full
+--	6850 implementation = n_rts <= '1' when controlReg(6)='1' and controlReg(5)='0' else '0';
 
 	rxBuffCount <= 0 + rxInPointer - rxReadPointer when rxInPointer >= rxReadPointer
 		else 32 + rxInPointer - rxReadPointer;
