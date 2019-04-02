@@ -69,14 +69,17 @@ set_global_assignment -name VHDL_FILE BasicRom.vhd
 set_global_assignment -name PARTITION_NETLIST_TYPE SOURCE -section_id Top
 set_global_assignment -name PARTITION_FITTER_PRESERVATION_LEVEL PLACEMENT_AND_ROUTING -section_id Top
 set_global_assignment -name PARTITION_COLOR 16764057 -section_id Top
-set_global_assignment -name STRATIX_DEVICE_IO_STANDARD "2.5 V"
+set_global_assignment -name STRATIX_DEVICE_IO_STANDARD "3.3-V LVTTL"
 set_location_assignment PIN_23 -to clk
 set_location_assignment PIN_125 -to n_reset
+set_instance_assignment -name WEAK_PULL_UP_RESISTOR ON -to n_reset
+set_location_assignment PIN_77 -to ps2Clk
+set_location_assignment PIN_76 -to ps2Data
 set_location_assignment PIN_142 -to n_sRamCS
 set_location_assignment PIN_2 -to n_sRamOE
 set_location_assignment PIN_39 -to n_sRamWE
-set_location_assignment PIN_77 -to ps2Clk
-set_location_assignment PIN_76 -to ps2Data
+set_location_assignment PIN_80 -to video
+set_location_assignment PIN_83 -to videoSync
 set_location_assignment PIN_44 -to sramAddress[16]
 set_location_assignment PIN_38 -to sramAddress[15]
 set_location_assignment PIN_42 -to sramAddress[14]
@@ -89,6 +92,7 @@ set_location_assignment PIN_34 -to sramAddress[8]
 set_location_assignment PIN_33 -to sramAddress[7]
 set_location_assignment PIN_31 -to sramAddress[6]
 set_location_assignment PIN_28 -to sramAddress[5]
+set_location_assignment PIN_50 -to sramAddress[4]
 set_location_assignment PIN_143 -to sramAddress[3]
 set_location_assignment PIN_141 -to sramAddress[2]
 set_location_assignment PIN_137 -to sramAddress[1]
@@ -101,7 +105,8 @@ set_location_assignment PIN_127 -to sramData[3]
 set_location_assignment PIN_126 -to sramData[2]
 set_location_assignment PIN_128 -to sramData[1]
 set_location_assignment PIN_132 -to sramData[0]
-set_location_assignment PIN_50 -to sramAddress[4]
+set_instance_assignment -name WEAK_PULL_UP_RESISTOR ON -to rxd1
+set_instance_assignment -name WEAK_PULL_UP_RESISTOR ON -to rxd2
 set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to clk
 set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to n_reset
 set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to n_sRamCS
@@ -134,8 +139,6 @@ set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to sramData[3]
 set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to sramData[2]
 set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to sramData[1]
 set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to sramData[0]
-set_location_assignment PIN_80 -to video
-set_location_assignment PIN_83 -to videoSync
 set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to video
 set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to videoSync
 set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to J6IO8[7]
