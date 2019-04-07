@@ -1,5 +1,4 @@
--- This file is copyright by Grant Searle 2014
--- Grant Searle's web site http://searle.hostei.com/grant/    
+-- Original file is copyright by Grant Searle 2014
 -- Grant Searle's "multicomp" page at http://searle.hostei.com/grant/Multicomp/index.html
 --
 -- Changes to this code by Doug Gilliland 2019
@@ -16,23 +15,6 @@ entity Microcomputer is
 		n_reset		: in std_logic;
 		clk			: in std_logic;
 
---		sramData		: inout std_logic_vector(7 downto 0);
---		sramAddress	: out std_logic_vector(15 downto 0);
---		n_sRamWE		: out std_logic;
---		n_sRamCS		: out std_logic;
---		n_sRamOE		: out std_logic;
-		
---		rxd1			: in std_logic;
---		txd1			: out std_logic;
---		rts1			: out std_logic;
-
---		rxd2			: in std_logic;
---		txd2			: out std_logic;
---		rts2			: out std_logic;
-		
-		CompVideoSync	: out std_logic;
-		CompVideo		: out std_logic;
-
 		videoR0		: out std_logic;
 		videoG0		: out std_logic;
 		videoB0		: out std_logic;
@@ -43,29 +25,13 @@ entity Microcomputer is
 		vSync			: out std_logic;
 
 		ps2Clk		: inout std_logic;
-		ps2Data		: inout std_logic;
-
-		J6_3			: out std_logic;
-		J6_4			: out std_logic;
-		J6_5			: out std_logic;
-		J6_6			: out std_logic;
-		J6_7			: out std_logic;
-		J6_8			: out std_logic;
-		J6_9			: out std_logic;
-		J6_10			: out std_logic
-		
---		sdCS			: out std_logic;
---		sdMOSI		: out std_logic;
---		sdMISO		: in std_logic;
---		sdSCLK		: out std_logic;
---		driveLED		: out std_logic :='1'	
+		ps2Data		: inout std_logic
 	);
 end Microcomputer;
 
 architecture struct of Microcomputer is
 
 	signal n_WR							: std_logic;
-	signal n_RD							: std_logic;
 	signal cpuAddress					: std_logic_vector(15 downto 0);
 	signal cpuDataOut					: std_logic_vector(7 downto 0);
 	signal cpuDataIn					: std_logic_vector(7 downto 0);
@@ -73,28 +39,14 @@ architecture struct of Microcomputer is
 	signal basRomData					: std_logic_vector(7 downto 0);
 	signal interface1DataOut		: std_logic_vector(7 downto 0);
 	signal internalRam1DataOut		: std_logic_vector(7 downto 0);
---	signal interface2DataOut		: std_logic_vector(7 downto 0);
---	signal sdCardDataOut				: std_logic_vector(7 downto 0);
 
 	signal n_memWR						: std_logic :='1';
---	signal n_memRD 					: std_logic :='1';
-
-	signal n_int1						: std_logic :='1';	
---	signal n_int2						: std_logic :='1';	
-	
---	signal n_externalRamCS			: std_logic :='1';
 	signal n_basRomCS					: std_logic :='1';
-	signal n_interface1CS			: std_logic :='1';
-	signal n_internalRam1CS		: std_logic :='1';
---	signal n_interface2CS			: std_logic :='1';
---	signal n_sdCardCS					: std_logic :='1';
+	signal n_videoInterfaceCS		: std_logic :='1';
+	signal n_internalRamCS			: std_logic :='1';
 
-	signal serialClkCount			: std_logic_vector(15 downto 0);
 	signal cpuClkCount				: std_logic_vector(5 downto 0); 
-	signal sdClkCount					: std_logic_vector(5 downto 0); 	
 	signal cpuClock					: std_logic;
---	signal serialClock				: std_logic;
---	signal sdClock						: std_logic;	
 	
 begin
 	-- ____________________________________________________________________________________
@@ -132,41 +84,14 @@ begin
 			address => cpuAddress(13 downto 0),
 			clock => clk,
 			data => cpuDataOut,
-			wren => not(n_memWR or n_internalRam1CS),
+			wren => not(n_memWR or n_internalRamCS),
 			q => internalRam1DataOut
 		);
 	
---	sramAddress(15 downto 0) <= cpuAddress(15 downto 0);
---	sramData <= cpuDataOut when n_WR='0' else (others => 'Z');
---	n_sRamWE <= n_memWR;
---	n_sRamOE <= n_memRD;
---	n_sRamCS <= n_externalRamCS;
-	
 	-- ____________________________________________________________________________________
-	-- INPUT/OUTPUT DEVICES GO HERE	
---	io1 : entity work.bufferedUART
---		port map(
---			clk => clk,
---			n_wr => n_interface1CS or cpuClock or n_WR,
---			n_rd => n_interface1CS or cpuClock or (not n_WR),
---			n_int => n_int1,
---			regSel => cpuAddress(0),
---			dataIn => cpuDataOut,
---			dataOut => interface1DataOut,
---			rxClock => serialClock,
---			txClock => serialClock,
---			rxd => rxd1,
---			txd => txd1,
---			n_cts => '0',
---			n_dcd => '0',
---			n_rts => rts1
---		);
-	
+	-- Display GOES HERE
+
 	io1 : entity work.SBCTextDisplayRGB
---		generic map(
---			HORIZ_CHARS => 40,
---			CLOCKS_PER_PIXEL => 4
---		)
 		port map (
 			n_reset => n_reset,
 			clk => clk,
@@ -181,13 +106,8 @@ begin
 			videoB0 => videoB0,
 			videoB1 => videoB1,
 			
-			-- Monochrome CompVideo signals (when using TV timings only)
-			sync => CompVideoSync,
-			video => CompVideo,
-			
-			n_wr => n_interface1CS or cpuClock or n_WR,
-			n_rd => n_interface1CS or cpuClock or (not n_WR),
-			n_int => n_int1,
+			n_wr => n_videoInterfaceCS or cpuClock or n_WR,
+			n_rd => n_videoInterfaceCS or cpuClock or (not n_WR),
 			regSel => cpuAddress(0),
 			dataIn => cpuDataOut,
 			dataOut => interface1DataOut,
@@ -195,63 +115,28 @@ begin
 			ps2Data => ps2Data
 		);
 	
-	
---	sd1 : entity work.sd_controller
---		port map(
---			sdCS => sdCS,
---			sdMOSI => sdMOSI,
---			sdMISO => sdMISO,
---			sdSCLK => sdSCLK,
---			n_wr => n_sdCardCS or cpuClock or n_WR,
---			n_rd => n_sdCardCS or cpuClock or (not n_WR),
---			n_reset => n_reset,
---			dataIn => cpuDataOut,
---			dataOut => sdCardDataOut,
---			regAddr => cpuAddress(2 downto 0),
---			driveLED => driveLED,
---			clk => sdClock -- twice the spi clk
---		);
-	
 	-- ____________________________________________________________________________________
 	-- MEMORY READ/WRITE LOGIC GOES HERE
---	n_memRD <= not(cpuClock) nand n_WR;
 	n_memWR <= not(cpuClock) nand (not n_WR);
 	
 	-- ____________________________________________________________________________________
 	-- CHIP SELECTS GO HERE
 	n_basRomCS <= '0' when cpuAddress(15 downto 13) = "111" else '1'; --8K at top of memory
-	n_interface1CS <= '0' when cpuAddress(15 downto 1) = "111111111101000" else '1'; -- 2 bytes FFD0-FFD1
---	n_interface2CS <= '0' when cpuAddress(15 downto 1) = "111111111101001" else '1'; -- 2 bytes FFD2-FFD3
---	n_sdCardCS <= '0' when cpuAddress(15 downto 3) = "1111111111011" else '1'; -- 8 bytes FFD8-FFDF
---	n_externalRamCS <= not n_basRomCS;
-
-	n_internalRam1CS <= '0' when cpuAddress(15 downto 14) = "00" else '1';
-	
-	J6_3 <= '0';
-	J6_4 <= '0';
-	J6_5 <= '0';
-	J6_6 <= '0';
-	J6_7 <= '0';
-	J6_8 <= '0';
-	J6_9 <= '0';
-	J6_10 <= '0';
+	n_videoInterfaceCS <= '0' when cpuAddress(15 downto 1) = "111111111101000" else '1'; -- 2 bytes FFD0-FFD1
+	n_internalRamCS <= '0' when cpuAddress(15 downto 14) = "00" else '1';
 	
 	-- ____________________________________________________________________________________
 	-- BUS ISOLATION GOES HERE
 	-- Order matters since SRAM overlaps I/O chip selects
 	cpuDataIn <=
-	interface1DataOut when n_interface1CS = '0' else
---	interface2DataOut when n_interface2CS = '0' else
---	sdCardDataOut when n_sdCardCS = '0' else
+	interface1DataOut when n_videoInterfaceCS = '0' else
 	basRomData when n_basRomCS = '0' else
-	internalRam1DataOut when n_internalRam1CS= '0' else
---	sramData when n_externalRamCS= '0' else
+	internalRam1DataOut when n_internalRamCS= '0' else
 	x"FF";
 	
 	-- ____________________________________________________________________________________
 	-- SYSTEM CLOCKS GO HERE
 	-- SUB-CIRCUIT CLOCK SIGNALS
---serialClock <= serialClkCount(15);
 process (clk)
 begin
 if rising_edge(clk) then
@@ -267,27 +152,6 @@ else
 cpuClock <= '1';
 end if;
 
-if sdClkCount < 49 then -- 1MHz
-sdClkCount <= sdClkCount + 1;
-else
-sdClkCount <= (others=>'0');
-end if;
---if sdClkCount < 25 then
---sdClock <= '0';
---else
---sdClock <= '1';
---end if;
-
--- Serial clock DDS
--- 50MHz master input clock:
--- Baud Increment
--- 115200 2416
--- 38400 805
--- 19200 403
--- 9600 201
--- 4800 101
--- 2400 50
---serialClkCount <= serialClkCount + 2416;
 end if;
 end process;
 end;

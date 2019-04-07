@@ -4,7 +4,7 @@ JedecChain;
 	DefaultMfr(6E);
 
 	P ActionCode(Cfg)
-		Device PartName(EP4CE6) Path("") File("") MfrSpec(OpMask(1) SEC_Device(EPCS16) Child_OpMask(1 1) SFLPath("C:/Users/Doug/Documents/GitHub/MultiComp/Multi_Comp_On_EP4CE6/M6809_VGA_PS2_IntRAM(16K)/output_files/m6809_vga_16K.jic"));
+		Device PartName(EP4CE6E22) Path("C:/Users/Doug/Documents/GitHub/MultiComp/Multi_Comp_On_EP4CE6/M6809_VGA_PS2_IntRAM(16K)/output_files/") File("Microcomputer.sof") MfrSpec(OpMask(1));
 
 ChainEnd;
 

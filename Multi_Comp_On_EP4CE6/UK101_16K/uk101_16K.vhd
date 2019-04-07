@@ -27,6 +27,7 @@ architecture struct of uk101_16K is
 
 	signal basRomData		: std_logic_vector(7 downto 0);
 	signal ramDataOut		: std_logic_vector(7 downto 0);
+	signal ramDataOut2	: std_logic_vector(7 downto 0);
 	signal monitorRomData : std_logic_vector(7 downto 0);
 	signal aciaData		: std_logic_vector(7 downto 0);
 
@@ -34,6 +35,7 @@ architecture struct of uk101_16K is
 	
 	signal n_dispRamCS	: std_logic;
 	signal n_ramCS			: std_logic;
+	signal n_ramCS2		: std_logic;
 	signal n_basRomCS		: std_logic;
 	signal n_monitorRomCS : std_logic;
 	signal n_aciaCS		: std_logic;
@@ -61,6 +63,7 @@ begin
 	n_basRomCS <= '0' when cpuAddress(15 downto 13) = "101" else '1'; --8k
 	n_monitorRomCS <= '0' when cpuAddress(15 downto 11) = "11111" else '1'; --2K
 	n_ramCS <= '0' when cpuAddress(15 downto 14)="00" else '1';
+	n_ramCS2 <= '0' when cpuAddress(15 downto 12)="0001" else '1';
 	n_aciaCS <= '0' when cpuAddress(15 downto 1) = "111100000000000" else '1';
 	n_kbCS <= '0' when cpuAddress(15 downto 10) = "110111" else '1';
  
@@ -69,6 +72,7 @@ begin
 		monitorRomData when n_monitorRomCS = '0' else
 		aciaData when n_aciaCS = '0' else
 		ramDataOut when n_ramCS = '0' else
+		ramDataOut2 when n_ramCS2 = '0' else
 		dispRamDataOutA when n_dispRamCS = '0' else
 		kbReadData when n_kbCS='0'
 		else x"FF";
@@ -105,6 +109,16 @@ begin
 		data => cpuDataOut,
 		wren => not(n_memWR or n_ramCS),
 		q => ramDataOut
+	);
+	
+	u3B: entity work.SRAM4K 
+	port map
+	(
+		address => cpuAddress(11 downto 0),
+		clock => clk,
+		data => cpuDataOut,
+		wren => not(n_memWR or n_ramCS2),
+		q => ramDataOut2
 	);
 	
 	u4: entity work.CegmonRom
