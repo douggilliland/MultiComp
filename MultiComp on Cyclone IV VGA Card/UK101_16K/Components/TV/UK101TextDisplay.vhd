@@ -4,7 +4,7 @@
 -- and "multicomp" page http://searle.hostei.com/grant/Multicomp/index.html
 -- ____________________________________________________________________________________
 -- Implements a memory mapped display
--- Uses 1K of Dual Ported RAM in an Altera FPGA
+-- Uses 2K of Dual Ported RAM in an Altera FPGA
 -- 48x16 display
 -- NTSC Composite video output (monochrome)
 -- 
@@ -37,8 +37,8 @@ architecture rtl of UK101TextDisplay is
 	signal	pixelClockCount: STD_LOGIC_VECTOR(3 DOWNTO 0); 
 	signal	pixelCount: STD_LOGIC_VECTOR(2 DOWNTO 0); 
 	
-	signal	horizCount: STD_LOGIC_VECTOR(11 DOWNTO 0);
-	signal	vertLineCount: STD_LOGIC_VECTOR(8 DOWNTO 0);
+	signal	horizCount: STD_LOGIC_VECTOR(11 DOWNTO 0); 
+	signal	vertLineCount: STD_LOGIC_VECTOR(8 DOWNTO 0); 
 
 	signal	charVert: STD_LOGIC_VECTOR(3 DOWNTO 0); 
 	signal	charScanLine: STD_LOGIC_VECTOR(3 DOWNTO 0); 
@@ -48,7 +48,7 @@ architecture rtl of UK101TextDisplay is
 
 begin
 
-	sync <= n_hSync and n_vSync;		-- might be able to be XOR instead of and
+	sync <= n_hSync and n_vSync;
 	
 	dispAddr <= charVert & charHoriz;
 	charAddr <= dispData & charScanLine(3 DOWNTO 1);
@@ -138,7 +138,7 @@ begin
 				if pixelClockCount <5 then
 					pixelClockCount <= pixelClockCount+1;
 				else
-					video <= charData(7-to_integer(unsigned(pixelCount)));
+					video <= charData(7-to_integer(unsigned(pixelCount)));	-- 8:1 mux
 					pixelClockCount <= (others => '0');
 					if pixelCount = 7 then
 						charHoriz <= charHoriz+1;

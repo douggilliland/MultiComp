@@ -31,8 +31,8 @@ entity Microcomputer is
 		videoB2		: out std_logic;
 		videoB3		: out std_logic;
 		videoB4		: out std_logic;
-		hSync			: out std_logic;
-		vSync			: out std_logic;
+		hSync		: out std_logic;
+		vSync		: out std_logic;
 
 		ps2Clk		: inout std_logic;
 		ps2Data		: inout std_logic
@@ -59,6 +59,9 @@ architecture struct of Microcomputer is
 	signal cpuClock					: std_logic;
 
 begin
+	-- ____________________________________________________________________________________
+	-- Card has 16 bits of RGB digital data
+	-- Drive the least significant bits with 0's since Multi-Comp only has 6 bits of RGB digital data
 	videoR0 <= '0';
 	videoR1 <= '0';
 	videoR2 <= '0';
