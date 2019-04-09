@@ -15,6 +15,15 @@ We did a [https://www.youtube.com/playlist?list=PLn__0BqzWEWPk0-VW3kEpMNA81sIbhj
 
 <img src="http://land-boards.com/blwiki/images/2/2c/EP4-FPGA-VGA.jpg"></img>
 
+== Caveats and Future Improvements ==
+
+* Serial port is not yet tested but should work with including Grant's UART code
+** The board came with FPGA code that did a loopback. This code doesn't connect up the port. The USB provides power.
+* SDRAM is not yet implemented but could increase the memory and with a Memory Mapper expand well past 64KB
+* VGA is 6 bits. The lower bits are all zeros. This might make the display slightly dimmer although it doesn't seem to be an issue on my VGA (on a TV with VGA input)
+* Timing tweeked a bit to center it horizontally on my VGA/TV. You may need to tweek it slightly to fit your display.
+* A file system could be implemented in the Serial EEPROM.
+
 == Ownership ==
 
 * Some of these files such as FPGA designs and software libraries were created by others.
