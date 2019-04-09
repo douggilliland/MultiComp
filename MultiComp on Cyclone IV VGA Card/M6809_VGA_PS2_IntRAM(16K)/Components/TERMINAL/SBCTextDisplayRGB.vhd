@@ -20,14 +20,15 @@ library ieee;
 
 entity SBCTextDisplayRGB is
 	generic(
-		constant EXTENDED_CHARSET : integer := 0; -- 1 = 256 chars, 0 = 128 chars
+		constant EXTENDED_CHARSET : integer := 1; -- 1 = 256 chars, 0 = 128 chars
 		constant COLOUR_ATTS_ENABLED : integer := 1; -- 1=Colour for each character, 0=Colour applied to whole display
 		-- VGA 640x480 Default values
 		constant VERT_CHARS : integer := 25;
 		constant HORIZ_CHARS : integer := 80;
 		constant CLOCKS_PER_SCANLINE : integer := 1600; -- NTSC/PAL = 3200
 		constant DISPLAY_TOP_SCANLINE : integer := 35+40;
-		constant DISPLAY_LEFT_CLOCK : integer := 288; -- NTSC/PAL = 600+
+--		constant DISPLAY_LEFT_CLOCK : integer := 288; -- NTSC/PAL = 600+
+		constant DISPLAY_LEFT_CLOCK : integer := 298; -- NTSC/PAL = 600+
 		constant VERT_SCANLINES : integer := 525; -- NTSC=262, PAL=312
 		constant VSYNC_SCANLINES : integer := 2; -- NTSC/PAL = 4
 		constant HSYNC_CLOCKS : integer := 192;  -- NTSC/PAL = 235
