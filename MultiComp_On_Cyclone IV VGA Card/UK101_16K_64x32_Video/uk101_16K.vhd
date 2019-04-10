@@ -1,3 +1,5 @@
+-- Implements Grant Searle's modifications for 64x32 screens as described here:
+-- http://searle.hostei.com/grant/uk101FPGA/index.html#Modification3
 
 library ieee;
 use ieee.std_logic_1164.all;
