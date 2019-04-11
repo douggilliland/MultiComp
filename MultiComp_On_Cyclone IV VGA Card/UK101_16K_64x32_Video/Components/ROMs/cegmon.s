@@ -6,15 +6,15 @@
 L0000           := $0000
 L002E           := $002E
 L00FD           := $00FD
-L00FE           := $00FE
-L0218           := $0218		; Input vector points here
+L00FE           := $00FE		; $00FE LOFROM store current address for most routines the from address in save move and tabular display
+L0218           := $0218
 L021A           := $021A
 L021C           := $021C
 L021E           := $021E
 L0220           := $0220
 L0227           := $0227
 L022A           := $022A
-L0233           := $0233
+L0233           := $0233		; $0233 USERLO contains location of start of user routine called by machine code monitors U command
 L2F44           := $2F44
 L415A           := $415A
 LA34B           := $A34B
@@ -28,7 +28,7 @@ LF800:  lda     $0E
         beq     LF80A
         dec     $0E
 LF80A:  lda     #$20
-        sta     $0201
+        sta     $0201		; $0201 OLDCHR stores current character during SCREEN; exits containing char beneath the cursor
         jsr     LFF8F
         bpl     LF82D
         sec
@@ -41,19 +41,20 @@ LF80A:  lda     #$20
         jsr     ENDCHK
         bcs     LF82D
         jsr     CURHOM
-LF82D:  stx     $0200
+LF82D:  stx     $0200		; $0200 CURDIS cursor displacement on current line
         jsr     LFF88
         jmp     LF8D2
 SCREEN: sta     $0202		; $F836 - SCREEN - new screen handler
+							; $0202 NEWCHR park for new char for SCREEN
         pha
         txa
         pha
         tya
         pha
-        lda     $0202
+        lda     $0202		; $0202 NEWCHR park for new char for SCREEN
         bne     LF846
         jmp     LF8D2
-LF846:  ldy     $0206
+LF846:  ldy     $0206		; $0206 SDELAY print-delay value for SCREEN delay is delay-value times approx. 400 machine-cycles (ie times 400 micro-seconds at 1MHz)
         beq     LF84E
         jsr     DELAY2
 LF84E:  cmp     #$5F
@@ -62,7 +63,7 @@ LF84E:  cmp     #$5F
         bne     LF861
         jsr     SCOUT
         jsr     CURHOM
-        stx     $0200
+        stx     $0200		; $0200 CURDIS cursor displacement on current line
         beq     LF8CF
 LF861:  cmp     #$0A
         beq     LF88C
@@ -76,9 +77,9 @@ LF861:  cmp     #$0A
         bne     LF87A
         jsr     LFF6D
         bne     LF8D2
-LF87A:  sta     $0201
+LF87A:  sta     $0201		; $0201 OLDCHR stores current character during SCREEN; exits containing char beneath the cursor
 LF87D:  jsr     SCOUT
-        inc     $0200
+        inc     $0200		; $0200 CURDIS cursor displacement on current line
         inx
         cpx     $0222
         bmi     LF8CF
@@ -119,7 +120,7 @@ LF8D2:  pla
         rts
 
 LF8D8:  jsr     SCNCLR
-        sta     $0201
+        sta     $0201		; $0201 OLDCHR stores current character during SCREEN; exits containing char beneath the cursor
         beq     LF904
 LF8E0:  lda     #$20
         jsr     LFF8F
@@ -128,7 +129,7 @@ LF8E8:  ldx     $0222
         lda     #$20
 LF8ED:  jsr     L022A
         bpl     LF8ED
-        sta     $0201
+        sta     $0201		; $0201 OLDCHR stores current character during SCREEN; exits containing char beneath the cursor
         ldy     #$02
         jsr     LFBD2
         bcs     LF904
@@ -136,7 +137,7 @@ LF8ED:  jsr     L022A
         jsr     LFDEE
         jmp     LF8E8
 LF904:  jsr     CURHOM
-        stx     $0200
+        stx     $0200		; $0200 CURDIS cursor displacement on current line
         beq     LF8D2
 LF90C:  jsr     TWOQAD
 LF90F:  jsr     CRLF
@@ -170,15 +171,15 @@ LF93B:  ldx     $E4
         rti
 LF94E:  ldx     #$03
 LF950:  lda     LFA4B,x
-        sta     $0234,x
+        sta     $0234,x				; $0233 USERHI contains location of start of user routine called by machine code monitors U command
         dex
         bne     LF950
         jsr     GETNEW
         jsr     GETQDE
-        lda     (L00FE),y
+        lda     (L00FE),y			; $00FE LOFROM store current address for most routines the from address in save move
         sta     $E7
         tya
-        sta     (L00FE),y
+        sta     (L00FE),y			; $00FE LOFROM store current address for most routines the from address in save move
         beq     MSTART
 LF968:  jmp     SAVEMC
 LF96B:  dec     $FB
@@ -240,7 +241,7 @@ LF9DD:  lda     #$2F
 LF9E8:  jsr     GETNEW
         cmp     #$47
         bne     LF9F2
-        jmp     (L00FE)
+        jmp     (L00FE)	; $00FE LOFROM store current address for most routines the from address in save move
 LF9F2:  cmp     #$2C
         bne     LF9FC
         jsr     BUMP
@@ -255,16 +256,16 @@ LF9FC:  cmp     #$0A
         beq     LFA3A
         jsr     GETPRC
         lda     $FC
-        sta     (L00FE),y
+        sta     (L00FE),y	; $00FE LOFROM store current address for most routines the from address in save move
 LFA13:  jmp     LF9E8
 LFA16:  lda     #$0D
         jsr     OUTVEC
 LFA1B:  jsr     BUMP
         jmp     LFA31
 LFA21:  sec
-        lda     L00FE
+        lda     L00FE	; $00FE LOFROM store current address for most routines the from address in save move
         sbc     #$01
-        sta     L00FE
+        sta     L00FE	; $00FE LOFROM store current address for most routines the from address in save move
         lda     $FF
         sbc     #$00
         sta     $FF
@@ -307,7 +308,7 @@ LFA5A:  stx     $E1
         lda     $E7
         sta     ($E5),y
         lda     #$E0
-        sta     L00FE
+        sta     L00FE	; $00FE LOFROM store current address for most routines the from address in save move
         sty     $FF
         bne     DATALN
 SAVEMC: jsr     TRIQAD		; $FA7E - SAVEMC
@@ -326,33 +327,33 @@ LFA97:  jsr     PRBYTE
         bcc     LFA94
         lda     $E4
         ldx     $E5
-        sta     L00FE
+        sta     L00FE	; $00FE LOFROM store current address for most routines the from address in save move
         stx     $FF
         jsr     LFFE3
         lda     #$47
         jsr     OUTVEC
         jsr     LFFAC
-        sty     $0205	; BASIC save flag set to 1 for printer output
+        sty     $0205	; $0205 SVFLAG BASIC save flag 0=skip save, 1=enable save to ACIA
         jmp     MSTART	; entry to command/address mode
 EDITOR: txa				; $FABD - entry to screen editor
         pha
         tya
         pha
-        lda     $0204
+        lda     $0204	; $0204 EDFLAG Editor flag 00-disable edit cursor, ff-enabe edit cursor
         bpl     LFB1F
-LFAC6:  ldy     $022F
-        lda     $0231
+LFAC6:  ldy     $022F	; $022F DISP edit-cursor displacement from start of editors current line
+        lda     $0231		; $0231 CURSLO contain start of edit cursors current line on screen
         sta     $E4
-        lda     $0232
+        lda     $0232		; $0232 CURSHI contain start of edit cursors current line on screen
         sta     $E5
         lda     ($E4),y
-        sta     $0230
+        sta     $0230			; $0230 CURCHR store for char beneath edit cursor
         lda     #$A1
         sta     ($E4),y
         jsr     GETKEY
-        lda     $0230
+        lda     $0230			; $0230 CURCHR store for char beneath edit cursor
         sta     ($E4),y
-        lda     $0215
+        lda     $0215			; $0215 SCRTCH returns from GETKEY with final ASCII value of key
         cmp     #$11
         beq     LFB13
         cmp     #$01
@@ -371,33 +372,34 @@ LFB07:  jsr     LFB6B
         jmp     LFAC6
 LFB0D:  jsr     LFE19
         jmp     LFAC6
-LFB13:  lda     $0230
-        sta     $0215
+LFB13:  lda     $0230		; $0230 CURCHR store for char beneath edit cursor
+        sta     $0215		; $0215 SCRTCH returns from GETKEY with final ASCII value of key
         jsr     LFB6B
         jmp     LFB43
 LFB1F:  jsr     GETKEY
 LFB22:  cmp     #$05
         bne     LFB43
-        lda     $0204
+        lda     $0204		; $0204 EDFLAG Editor flag 00-disable edit cursor, ff-enabe edit cursor
         eor     #$FF
-        sta     $0204
+        sta     $0204		; $0204 EDFLAG Editor flag 00-disable edit cursor, ff-enabe edit cursor
         bpl     LFB1F
         lda     $022B
-        sta     $0231
+        sta     $0231		; $0231 CURSLO contain start of edit cursors current line on screen
         lda     $022C
-        sta     $0232
+        sta     $0232		; $0232 CURSHI contain start of edit cursors current line on screen
         ldx     #$00
-        stx     $022F
+        stx     $022F		; $022F DISP edit-cursor displacement from start of editors current line
         beq     LFAC6
 LFB43:  jmp     LFDD3
-        bit     $0203	; $FB46 - Input vector points to there??? - seems off???
+        bit     $0203		; $FB46 - Input vector points to there??? - seems off???
+							; $0203 LDFLAG BASIC load flag 00=no load, FF-load from ACIA
         bpl     LFB68
 LFB4B:  lda     #$FD
         sta     $DF00
         lda     #$10
         bit     $DF00
         beq     LFB61
-TAPIN:  lda     $F000	; TAPIN - collects char from ACIA exits via EDITOR if SPACE hit.
+TAPIN:  lda     $F000		; TAPIN - collects char from ACIA exits via EDITOR if SPACE hit.
         lsr     a
         bcc     LFB4B
         lda     $F001
@@ -405,29 +407,29 @@ TAPIN:  lda     $F000	; TAPIN - collects char from ACIA exits via EDITOR if SPAC
 
 LFB61:  lda     #$00
         sta     $FB
-        sta     $0203
+        sta     $0203		; $0203 LDFLAG BASIC load flag 00=no load, FF-load from ACIA
 LFB68:  jmp     EDITOR
 LFB6B:  ldx     $0222
-        cpx     $022F
+        cpx     $022F	; $022F DISP edit-cursor displacement from start of editors current line
         beq     LFB77
-        inc     $022F
+        inc     $022F	; $022F DISP edit-cursor displacement from start of editors current line
         rts
 
 LFB77:  ldx     #$00
-        stx     $022F
+        stx     $022F	; $022F DISP edit-cursor displacement from start of editors current line
 LFB7C:  clc
-        lda     $0231
+        lda     $0231		; $0231 CURSLO contain start of edit cursors current line on screen
         adc     #$40
-        sta     $0231
-        lda     $0232
+        sta     $0231		; $0231 CURSLO contain start of edit cursors current line on screen
+        lda     $0232		; $0232 CURSHI contain start of edit cursors current line on screen
         adc     #$00
         cmp     #$D8
         bne     LFB90
         lda     #$D0
-LFB90:  sta     $0232
+LFB90:  sta     $0232		; $0232 CURSHI contain start of edit cursors current line on screen
 LFB93:  rts
 
-        lda     $0212
+        lda     $0212		; $0212 CCFLAG BASIC CTRL-C flag 00-enables CTRL-C break, 01-disables CTRL-C break
         bne     LFB93
         lda     #$FE
         sta     $DF00
@@ -472,7 +474,7 @@ LFBE3:  lda     #$2C
 SPCOUT: lda     #$20		; $FBE6 SPCOUT print ASCII space to display
         jmp     OUTVEC
 NOTEND: sec					; $FBEB NOTEND compare (FE) with (F9) carry clear if (FE) is less
-        lda     L00FE
+        lda     L00FE	; $00FE LOFROM store current address for most routines the from address in save move
         sbc     $F9
         lda     $FF
         sbc     $FA
@@ -525,7 +527,7 @@ LFC5A:  lda     $C000
         lda     #$58
         sta     $C010
         jsr     LFC9C
-        sta     L00FE
+        sta     L00FE	; $00FE LOFROM store current address for most routines the from address in save move
         tax
         jsr     LFC9C
         sta     L00FD
@@ -536,10 +538,10 @@ LFC7B:  jsr     LFC9C
         sta     (L00FD),y
         iny
         bne     LFC7B
-        inc     L00FE
+        inc     L00FE	; $00FE LOFROM store current address for most routines the from address in save move
         dec     $FF
         bne     LFC7B
-        stx     L00FE
+        stx     L00FE	; $00FE LOFROM store current address for most routines the from address in save move
         lda     #$FF
         sta     $C002
         rts
@@ -624,41 +626,41 @@ LFD13:  lsr     a
         bne     LFD50
 LFD1F:  jsr     LFE86
         tya
-        sta     $0215
+        sta     $0215			; $0215 SCRTCH returns from GETKEY with final ASCII value of key
         asl     a
         asl     a
         asl     a
         sec
-        sbc     $0215
-        sta     $0215
+        sbc     $0215			; $0215 SCRTCH returns from GETKEY with final ASCII value of key
+        sta     $0215			; $0215 SCRTCH returns from GETKEY with final ASCII value of key
         txa
         lsr     a
         asl     a
         jsr     LFE86
         beq     LFD47
         lda     #$00
-LFD3A:  sta     $0216
+LFD3A:  sta     $0216			; $0216 LSTCHR pre-shift value of last key left here by GETKEY to test auto-repeat
 LFD3D:  sta     $0213
         lda     #$02
-        sta     $0214
+        sta     $0214			; $0214 COUNTR auto-repeat counter for GETKEY
         bne     LFD04
 LFD47:  clc
         tya
-        adc     $0215
+        adc     $0215			; $0215 SCRTCH returns from GETKEY with final ASCII value of key
         tay
         lda     LFF3B,y
 LFD50:  cmp     $0213
         bne     LFD3D
-        dec     $0214
+        dec     $0214			; $0214 COUNTR auto-repeat counter for GETKEY
         beq     LFD5F
         jsr     KDELAY
         beq     LFD04
 LFD5F:  ldx     #$64
-        cmp     $0216
+        cmp     $0216			; $0216 LSTCHR pre-shift value of last key left here by GETKEY to test auto-repeat
         bne     LFD68
         ldx     #$0F
-LFD68:  stx     $0214
-        sta     $0216
+LFD68:  stx     $0214			; $0214 COUNTR auto-repeat counter for GETKEY
+        sta     $0216			; $0216 LSTCHR pre-shift value of last key left here by GETKEY to test auto-repeat
         cmp     #$21
         bmi     LFDD0
         cmp     #$5F
@@ -666,10 +668,10 @@ LFD68:  stx     $0214
         lda     #$01
         jsr     KEYWRT
         jsr     KYREAD
-        sta     $0215
+        sta     $0215			; $0215 SCRTCH returns from GETKEY with final ASCII value of key
         and     #$01
         tax
-        lda     $0215
+        lda     $0215			; $0215 SCRTCH returns from GETKEY with final ASCII value of key
         and     #$06
         bne     LFDA2
         bit     $0213
@@ -679,7 +681,7 @@ LFD68:  stx     $0214
         and     #$01
         beq     LFDBB
         lda     #$20
-        bit     $0215
+        bit     $0215			; $0215 SCRTCH returns from GETKEY with final ASCII value of key
         bvc     LFDC3
         lda     #$C0
         bne     LFDC3
@@ -695,22 +697,22 @@ LFDAA:  ldy     $0213
         lda     #$F0
         bne     LFDBB
 LFDB9:  lda     #$10
-LFDBB:  bit     $0215
+LFDBB:  bit     $0215			; $0215 SCRTCH returns from GETKEY with final ASCII value of key
         bvc     LFDC3
         clc
         adc     #$C0
 LFDC3:  clc
         adc     $0213
         and     #$7F
-        bit     $0215
+        bit     $0215			; $0215 SCRTCH returns from GETKEY with final ASCII value of key
         bpl     LFDD0
         ora     #$80
-LFDD0:  sta     $0215
+LFDD0:  sta     $0215			; $0215 SCRTCH returns from GETKEY with final ASCII value of key
 LFDD3:  pla
         tay
         pla
         tax
-        lda     $0215
+        lda     $0215			; $0215 SCRTCH returns from GETKEY with final ASCII value of key
         rts
 
 LFDDB:  jsr     BUMP
@@ -740,27 +742,27 @@ NEWMON: ldx     #$28		; $FE00 NEWMON entry to m/c monitor - reset stack, vectors
         nop
         nop
 MENTRY: jsr     SCNCLR		; $FE0C MENTRY non-reset entry to m/c monitor - clear screen, zero 'current address'
-        sta     $0201
-        sty     L00FE
+        sta     $0201		; $0201 OLDCHR stores current character during SCREEN; exits containing char beneath the cursor
+        sty     L00FE		; $00FE LOFROM store current address for most routines the from address in save move
         sty     $FF
         jmp     MSTART
-LFE19:  ldx     $022F
+LFE19:  ldx     $022F	; $022F DISP edit-cursor displacement from start of editors current line
         beq     LFE22
-        dec     $022F
+        dec     $022F	; $022F DISP edit-cursor displacement from start of editors current line
         rts
 
 LFE22:  ldx     $0222
-        stx     $022F
+        stx     $022F	; $022F DISP edit-cursor displacement from start of editors current line
 LFE28:  sec
-        lda     $0231
+        lda     $0231		; $0231 CURSLO contain start of edit cursors current line on screen
         sbc     #$40
-        sta     $0231
-        lda     $0232
+        sta     $0231		; $0231 CURSLO contain start of edit cursors current line on screen
+        lda     $0232		; $0232 CURSHI contain start of edit cursors current line on screen
         sbc     #$00
         cmp     #$CF
         bne     LFE3C
         lda     #$D7
-LFE3C:  sta     $0232
+LFE3C:  sta     $0232		; $0232 CURSHI contain start of edit cursors current line on screen
         rts
 
 LFE40:  ldy     #$1C
@@ -770,7 +772,7 @@ LFE42:  lda     LFBB2,y
         bpl     LFE42
         ldy     #$07
         lda     #$00
-        sta     $0212
+        sta     $0212		; $0212 CCFLAG BASIC CTRL-C flag 00-enables CTRL-C break, 01-disables CTRL-C break
 LFE52:  sta     $01FF,y
         dey
         bne     LFE52
@@ -791,9 +793,9 @@ LFE65:  sta     ($F9),y
         rts
 
         pha
-        dec     $0203
+        dec     $0203		; $0203 LDFLAG BASIC load flag 00=no load, FF-load from ACIA
         lda     #$00
-LFE76:  sta     $0205		; BASIC save flag set to 1 for printer output
+LFE76:  sta     $0205		; $0205 SVFLAG BASIC save flag 0=skip save, 1=enable save to ACIA
         pla
         rts
 
@@ -869,11 +871,12 @@ LFEE0:  rol     a
 GETCHR:  lda     $FB		; $FEE9 - GETCHR get char from keyboard or ACIA
         bne     MCACIA
         jmp     GETKEY
-PRBYTE: lda     (L00FE),y	; $FEF0 PRBYTE print data at current address pointed to by (FE) to display. Assumes T=o!
+PRBYTE: lda     (L00FE),y	; $FEF0 PRBYTE print data at current address pointed to by (FE) to display. Assumes Y=0!
         sta     $FC
         jmp     PRDATD
-LFEF7:  sta     (L00FE),y
+LFEF7:  sta     (L00FE),y	; $00FE LOFROM store current address for most routines the from address in save move
 BUMP:   inc     L00FE		; $FEF9 BUMP increment current address at (FE)
+							; $00FE LOFROM store current address for most routines the from address in save move
         bne     LFEFF
         inc     $FF
 LFEFF:  rts
@@ -912,24 +915,25 @@ LFF3B:  .byte   $BD
         .byte   "_-:0987654321"
 LFF6D:  jsr     SCOUT
 LFF70:  ldx     #$00
-        stx     $0200
-LFF75:  ldx     $0200
+        stx     $0200		; $0200 CURDIS cursor displacement on current line
+LFF75:  ldx     $0200		; $0200 CURDIS cursor displacement on current line
         lda     #$BD
         sta     L022A
         jsr     L022A
-        sta     $0201
+        sta     $0201		; $0201 OLDCHR stores current character during SCREEN; exits containing char beneath the cursor
         lda     #$9D
         sta     L022A
 LFF88:  lda     #$5F
         bne     LFF8F
 SCOUT:  lda     $0201		; SCOUT - print chr at cursor location
-LFF8F:  ldx     $0200
+							; $0201 OLDCHR stores current character during SCREEN; exits containing char beneath the cursor
+LFF8F:  ldx     $0200		; $0200 CURDIS cursor displacement on current line
         jmp     L022A
         jsr     LBF2D
         jmp     LFF9E
         jsr     SCREEN		; $F836 is SCREEN - new screen handler
 LFF9E:  pha
-        lda     $0205		; BASIC Save flag set to 1 for printer output
+        lda     $0205		; $0205 SVFLAG BASIC save flag 0=skip save, 1=enable save to ACIA
         beq     LFFBB
         pla
         jsr     TAPOUT
