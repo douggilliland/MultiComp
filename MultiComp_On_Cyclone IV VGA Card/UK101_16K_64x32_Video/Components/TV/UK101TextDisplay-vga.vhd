@@ -3,13 +3,14 @@
 -- Grant's main web site is: http://searle.hostei.com/grant/    
 -- and "multicomp" page http://searle.hostei.com/grant/Multicomp/index.html
 -- ____________________________________________________________________________________
+-- Additional modifications for VGA output
 -- Implements a memory mapped display
 -- Uses 2K of Dual Ported RAM in an Altera FPGA
 -- 64x32 display
 -- 640x480 VGA output (monochrome)
 -- Implements Grant Searle's modifications for 64x32 screens as described here:
 -- http://searle.hostei.com/grant/uk101FPGA/index.html#Modification3
--- Additional modifications for VGA output
+-- 
 
 library ieee;
 	use ieee.std_logic_1164.all;

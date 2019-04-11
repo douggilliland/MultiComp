@@ -97,12 +97,13 @@ begin
 
 	n_memWR <= not(cpuClock) nand (not n_WR);
 
-	n_dispRamCS <= '0' when cpuAddress(15 downto 11) = "11010" else '1';
-	n_basRomCS <= '0' when cpuAddress(15 downto 13) = "101" else '1'; --8k
-	n_monitorRomCS <= '0' when cpuAddress(15 downto 11) = "11111" else '1'; --2K
-	n_ramCS <= '0' when cpuAddress(15 downto 14)="00" else '1';
-	n_aciaCS <= '0' when cpuAddress(15 downto 1) = "111100000000000" else '1';
-	n_kbCS <= '0' when cpuAddress(15 downto 10) = "110111" else '1';
+	-- Chip Selects
+	n_ramCS <= '0' when cpuAddress(15 downto 14)="00" else '1';					-- x0000-x3FFF (16KB)
+	n_basRomCS <= '0' when cpuAddress(15 downto 13) = "101" else '1'; 			-- xA000-xBFFF (8KB)
+	n_kbCS <= '0' when cpuAddress(15 downto 10) = "110111" else '1';			-- xDC00-xDFFF (1KB)
+	n_dispRamCS <= '0' when cpuAddress(15 downto 11) = "11010" else '1';		-- xD000-xD7FF (2KB)
+	n_aciaCS <= '0' when cpuAddress(15 downto 1) = "111100000000000" else '1';	-- xF000-xF001 (2B)
+	n_monitorRomCS <= '0' when cpuAddress(15 downto 11) = "11111" else '1'; 	-- xF800-xFFFF (2KB)
  
 	cpuDataIn <=
 		basRomData when n_basRomCS = '0' else

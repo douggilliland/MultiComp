@@ -3,6 +3,35 @@ library ieee;
 	use ieee.numeric_std.all;
 	use ieee.std_logic_unsigned.all;
 
+--___________________________________________________________________________________________________________________________________________________
+-- SEGMON has some pretty tight code - it was work of three true artists
+-- CEG is the last initial of the three original developers
+-- George Chkiantz, Richard Elen and George Graves
+-- MON is monitor
+-- CEGMON manual is at: http://uk101.sourceforge.net/docs/pdf/cegmon.pdf
+--___________________________________________________________________________________________________________________________________________________
+-- The story of the original SEGMON development is recorded at: http://weblog.tetradian.com/2014/03/16/cegmon-a-blast-from-the-past/
+-- Click on the link on George's page to donate a couple of British pounds if you've gotten something out of his code
+-- One of the three original authors of CEGMON, Tom G (the G from ceGmon) gave me the following pointers to the code
+-- Three points:
+--	The boot-loader for the disk occupies its own 256-byte block of the ROM, and is not 6502-code – hence complete gibberish to a 6502-disassembler. 
+--		I said above that it was at #0700-07FF, but it’s more likely to have been at #0300-03FF (i.e. last block of the original 1kb ROM, not our extended 2kb EPROM).
+-- 	Other than the boot-loader, and that #434547 ‘CEG’ signature-string’, everything else is real code. 
+--		(Okay, I guess there must be a handful of text-strings, for the code-monitor etc, but you’d be able to work those out from the manual?) 
+--		The overall functionality should be clear enough from the manual or the initial screen, I’d hope, 
+--		so that should give some pointers as to how and where to start the structure-logic for the disassembly.
+--	A useful trick to remember is that those OSI machines made hefty use of the very first few bytes of usable RAM. 
+--		The 6502 reserves #0000-00FF for its own use (‘page-zero’ opcodes), and there was something special about #0100-01FF that I now can’t remember. 
+--		So we had to use later in the RAM for our own registers, hence there were a lot of references in CEGMON to the #0200-023F range, 
+--		where we stored pointers to things like current window-origin, width and depth (for the simple windowing system), 
+--		and the current positions of the two cursors (pointer/copy-from cursor and copy-to cursor). 
+--		If you look in the disassembly for single-bytes or more often byte-pairs in that range, 
+--		you should be able to work out what each of those registers does from there. (
+--		The screen-space is directly-addressable memory, as I remember, so those two cursor would have to point to there, for example.) 
+--		Also, if I remember correctly, the first code-instructions at #0200 were a jump to the start of the first user-code, 
+--		so one thing that the boot-prom would have to do is set up that jump.
+--___________________________________________________________________________________________________________________________________________________
+-- CEGMON dissassembled code is at: https://github.com/jefftranter/6502/blob/master/asm/OSI/cegmon.s
 -- Grant's mods to this code is at: http://searle.hostei.com/grant/uk101FPGA/index.html#Modification3
 -- Grant already patched some of the values to support 48x16 lines which is why they are different the the CEGMON defaults (noted below)
 --	cpuDataIn <=
