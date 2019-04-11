@@ -77,6 +77,7 @@ begin
 	-- ____________________________________________________________________________________
 	-- Card has 16 bits of RGB digital data
 	-- Drive the least significant bits with 0's since Multi-Comp only has 6 bits of RGB digital data
+	-- Drive a blue background with white text
 	videoR0 <= '0';
 	videoR1 <= '0';
 	videoR2 <= '0';
@@ -84,15 +85,15 @@ begin
 	videoG1 <= '0';
 	videoG2 <= '0';
 	videoG3 <= '0'; 
-	videoB0 <= '0';
-	videoB1 <= '0';
-	videoB2 <= '0';
+	videoB0 <= '1';
+	videoB1 <= '1';
+	videoB2 <= '1';
+	videoB3 <= '1';
+	videoB4 <= '1';
 	videoR3 <= videoOut;
 	videoR4 <= videoOut;
 	videoG4 <= videoOut;
 	videoG5 <= videoOut;
-	videoB3 <= videoOut;
-	videoB4 <= videoOut;
 
 	n_memWR <= not(cpuClock) nand (not n_WR);
 
@@ -100,7 +101,6 @@ begin
 	n_basRomCS <= '0' when cpuAddress(15 downto 13) = "101" else '1'; --8k
 	n_monitorRomCS <= '0' when cpuAddress(15 downto 11) = "11111" else '1'; --2K
 	n_ramCS <= '0' when cpuAddress(15 downto 14)="00" else '1';
-	-- n_ramCS2 <= '0' when cpuAddress(15 downto 12)="0001" else '1';
 	n_aciaCS <= '0' when cpuAddress(15 downto 1) = "111100000000000" else '1';
 	n_kbCS <= '0' when cpuAddress(15 downto 10) = "110111" else '1';
  
@@ -168,16 +168,6 @@ begin
 		wren => not(n_memWR or n_ramCS),
 		q => ramDataOut
 	);
-	
-	-- u3B: entity work.SRAM4K 
-	-- port map
-	-- (
-		-- address => cpuAddress(11 downto 0),
-		-- clock => clk,
-		-- data => cpuDataOut,
-		-- wren => not(n_memWR or n_ramCS2),
-		-- q => ramDataOut2
-	-- );
 	
 	u4: entity work.CegmonRom
 	port map
