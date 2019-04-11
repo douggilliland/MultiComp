@@ -105,27 +105,6 @@ begin
 	n_kbCS <= '0' when cpuAddress(15 downto 10) = "110111" else '1';
  
 	cpuDataIn <=
-   -- CEGMON PATCH FOR 64x32 SCREEN
---     x"3F" when cpuAddress = x"FBBC" else -- CEGMON SWIDTH (was $47)
---    x"00" when cpuAddress = x"FBBD" else -- CEGMON TOP L (was $0C (1st line) or $8C (3rd line))
---    x"BF" when cpuAddress = x"FBBF" else -- CEGMON BASE L (was $CC)
---    x"D7" when cpuAddress = x"FBC0" else -- CEGMON BASE H (was $D3)
---    x"00" when cpuAddress = x"FBC2" else -- CEGMON STARTUP TOP L (was $0C (1st line) or $8C (3rd line))
---    x"00" when cpuAddress = x"FBC5" else -- CEGMON STARTUP TOP L (was $0C (1st line) or $8C (3rd line))
---    x"00" when cpuAddress = x"FBCB" else -- CEGMON STARTUP TOP L (was $0C (1st line) or $8C (3rd line))
---    x"10" when cpuAddress = x"FE62" else -- CEGMON CLR SCREEN SIZE (was $08)
---    x"D8" when cpuAddress = x"FB8B" else -- CEGMON SCREEN BOTTOM H (was $D4) - Part of CTRL-F code
---    x"D7" when cpuAddress = x"FE3B" else -- CEGMON SCREEN BOTTOM H - 1 (was $D3) - Part of CTRL-A code
-   x"3F" when cpuAddress = x"FBBC" else -- CEGMON SWIDTH (was $47)
-    x"00" when cpuAddress = x"FBBD" else -- CEGMON TOP L (was $0C (1st line) or $8C (3rd line))
-    x"BF" when cpuAddress = x"FBBF" else -- CEGMON BASE L (was $CC)
-    x"D7" when cpuAddress = x"FBC0" else -- CEGMON BASE H (was $D3)
-    x"00" when cpuAddress = x"FBC2" else -- CEGMON STARTUP TOP L (was $0C (1st line) or $8C (3rd line))
-    x"00" when cpuAddress = x"FBC5" else -- CEGMON STARTUP TOP L (was $0C (1st line) or $8C (3rd line))
-    x"00" when cpuAddress = x"FBCB" else -- CEGMON STARTUP TOP L (was $0C (1st line) or $8C (3rd line))
-    x"10" when cpuAddress = x"FE62" else -- CEGMON CLR SCREEN SIZE (was $08)
-    x"D8" when cpuAddress = x"FB8B" else -- CEGMON SCREEN BOTTOM H (was $D4) - Part of CTRL-F code
-    x"D7" when cpuAddress = x"FE3B" else -- CEGMON SCREEN BOTTOM H - 1 (was $D3) - Part of CTRL-A code
 		basRomData when n_basRomCS = '0' else
 		monitorRomData when n_monitorRomCS = '0' else
 		aciaData when n_aciaCS = '0' else
