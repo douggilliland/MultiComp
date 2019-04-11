@@ -13,8 +13,24 @@ entity uk101_16K is
 		rxd			: in std_logic;
 		txd			: out std_logic;
 		rts			: out std_logic;
-		videoSync	: out std_logic;
-		video			: out std_logic;
+		videoR0		: out std_logic;
+		videoR1		: out std_logic;
+		videoR2		: out std_logic;
+		videoR3		: out std_logic;
+		videoR4		: out std_logic;
+		videoG0		: out std_logic;
+		videoG1		: out std_logic;
+		videoG2		: out std_logic;
+		videoG3		: out std_logic;
+		videoG4		: out std_logic;
+		videoG5		: out std_logic;
+		videoB0		: out std_logic;
+		videoB1		: out std_logic;
+		videoB2		: out std_logic;
+		videoB3		: out std_logic;
+		videoB4		: out std_logic;
+		hSync		: out std_logic;
+		vSync		: out std_logic;
 		ps2Clk		: in std_logic;
 		ps2Data		: in std_logic
 	);
@@ -37,7 +53,6 @@ architecture struct of uk101_16K is
 	
 	signal n_dispRamCS	: std_logic;
 	signal n_ramCS			: std_logic;
-	-- signal n_ramCS2		: std_logic;
 	signal n_basRomCS		: std_logic;
 	signal n_monitorRomCS : std_logic;
 	signal n_aciaCS		: std_logic;
@@ -53,11 +68,31 @@ architecture struct of uk101_16K is
 	signal cpuClkCount	: std_logic_vector(5 downto 0); 
 	signal cpuClock		: std_logic;
 	signal serialClock	: std_logic;
+	signal videoOut		: std_logic;
 
 	signal kbReadData 	: std_logic_vector(7 downto 0);
 	signal kbRowSel 		: std_logic_vector(7 downto 0);
 
 begin
+	-- ____________________________________________________________________________________
+	-- Card has 16 bits of RGB digital data
+	-- Drive the least significant bits with 0's since Multi-Comp only has 6 bits of RGB digital data
+	videoR0 <= '0';
+	videoR1 <= '0';
+	videoR2 <= '0';
+	videoG0 <= '0';
+	videoG1 <= '0';
+	videoG2 <= '0';
+	videoG3 <= '0'; 
+	videoB0 <= '0';
+	videoB1 <= '0';
+	videoB2 <= '0';
+	videoR3 <= videoOut;
+	videoR4 <= videoOut;
+	videoG4 <= videoOut;
+	videoG5 <= videoOut;
+	videoB3 <= videoOut;
+	videoB4 <= videoOut;
 
 	n_memWR <= not(cpuClock) nand (not n_WR);
 
@@ -82,15 +117,15 @@ begin
 --    x"D8" when cpuAddress = x"FB8B" else -- CEGMON SCREEN BOTTOM H (was $D4) - Part of CTRL-F code
 --    x"D7" when cpuAddress = x"FE3B" else -- CEGMON SCREEN BOTTOM H - 1 (was $D3) - Part of CTRL-A code
    x"3F" when cpuAddress = x"FBBC" else -- CEGMON SWIDTH (was $47)
-    x"8C" when cpuAddress = x"FBBD" else -- CEGMON TOP L (was $0C (1st line) or $8C (3rd line))
+    x"00" when cpuAddress = x"FBBD" else -- CEGMON TOP L (was $0C (1st line) or $8C (3rd line))
     x"BF" when cpuAddress = x"FBBF" else -- CEGMON BASE L (was $CC)
     x"D7" when cpuAddress = x"FBC0" else -- CEGMON BASE H (was $D3)
-    x"8C" when cpuAddress = x"FBC2" else -- CEGMON STARTUP TOP L (was $0C (1st line) or $8C (3rd line))
-    x"8C" when cpuAddress = x"FBC5" else -- CEGMON STARTUP TOP L (was $0C (1st line) or $8C (3rd line))
-    x"8C" when cpuAddress = x"FBCB" else -- CEGMON STARTUP TOP L (was $0C (1st line) or $8C (3rd line))
+    x"00" when cpuAddress = x"FBC2" else -- CEGMON STARTUP TOP L (was $0C (1st line) or $8C (3rd line))
+    x"00" when cpuAddress = x"FBC5" else -- CEGMON STARTUP TOP L (was $0C (1st line) or $8C (3rd line))
+    x"00" when cpuAddress = x"FBCB" else -- CEGMON STARTUP TOP L (was $0C (1st line) or $8C (3rd line))
     x"10" when cpuAddress = x"FE62" else -- CEGMON CLR SCREEN SIZE (was $08)
-    x"D4" when cpuAddress = x"FB8B" else -- CEGMON SCREEN BOTTOM H (was $D4) - Part of CTRL-F code
-    x"D4" when cpuAddress = x"FE3B" else -- CEGMON SCREEN BOTTOM H - 1 (was $D3) - Part of CTRL-A code
+    x"D8" when cpuAddress = x"FB8B" else -- CEGMON SCREEN BOTTOM H (was $D4) - Part of CTRL-F code
+    x"D7" when cpuAddress = x"FE3B" else -- CEGMON SCREEN BOTTOM H - 1 (was $D3) - Part of CTRL-A code
 		basRomData when n_basRomCS = '0' else
 		monitorRomData when n_monitorRomCS = '0' else
 		aciaData when n_aciaCS = '0' else
@@ -201,8 +236,9 @@ begin
 		dispAddr => dispAddrB,
 		dispData => dispRamDataOutB,
 		clk => clk,
-		sync => videoSync,
-		video => video
+		vSync => vSync,
+		hSync => hSync,
+		video => videoOut
 	);
 
 	u7: entity work.CharRom

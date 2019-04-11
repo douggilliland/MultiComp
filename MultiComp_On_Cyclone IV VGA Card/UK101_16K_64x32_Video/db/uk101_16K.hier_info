@@ -32,8 +32,24 @@ clk => uk101keyboard:u9.CLK
 rxd => buffereduart:u5.rxd
 txd <= buffereduart:u5.txd
 rts <= buffereduart:u5.n_rts
-videoSync <= uk101textdisplay:u6.sync
-video <= uk101textdisplay:u6.video
+videoR0 <= <GND>
+videoR1 <= <GND>
+videoR2 <= <GND>
+videoR3 <= uk101textdisplay:u6.video
+videoR4 <= uk101textdisplay:u6.video
+videoG0 <= <GND>
+videoG1 <= <GND>
+videoG2 <= <GND>
+videoG3 <= <GND>
+videoG4 <= uk101textdisplay:u6.video
+videoG5 <= uk101textdisplay:u6.video
+videoB0 <= <GND>
+videoB1 <= <GND>
+videoB2 <= <GND>
+videoB3 <= uk101textdisplay:u6.video
+videoB4 <= uk101textdisplay:u6.video
+hSync <= uk101textdisplay:u6.hSync
+vSync <= uk101textdisplay:u6.vSync
 ps2Clk => uk101keyboard:u9.PS2_CLK
 ps2Data => uk101keyboard:u9.PS2_DATA
 
@@ -2634,6 +2650,7 @@ clk => vertLineCount[5].CLK
 clk => vertLineCount[6].CLK
 clk => vertLineCount[7].CLK
 clk => vertLineCount[8].CLK
+clk => vertLineCount[9].CLK
 clk => pixelCount[0].CLK
 clk => pixelCount[1].CLK
 clk => pixelCount[2].CLK
@@ -2661,7 +2678,8 @@ clk => horizCount[9].CLK
 clk => horizCount[10].CLK
 clk => horizCount[11].CLK
 video <= video~reg0.DB_MAX_OUTPUT_PORT_TYPE
-sync <= sync.DB_MAX_OUTPUT_PORT_TYPE
+vSync <= n_vSync.DB_MAX_OUTPUT_PORT_TYPE
+hSync <= n_hSync.DB_MAX_OUTPUT_PORT_TYPE
 
 
 |uk101_16K|CharRom:u7
