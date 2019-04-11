@@ -9,6 +9,8 @@ library ieee;
 -- George Chkiantz, Richard Elen and George Graves
 -- MON is monitor
 -- CEGMON manual is at: http://uk101.sourceforge.net/docs/pdf/cegmon.pdf
+-- Disassembled source with some labels is at: 
+--	https://github.com/douggilliland/MultiComp/blob/master/MultiComp_On_Cyclone%20IV%20VGA%20Card/UK101_16K_64x32_Video/Components/ROMs/cegmon.s
 --___________________________________________________________________________________________________________________________________________________
 -- The story of the original SEGMON development is recorded at: http://weblog.tetradian.com/2014/03/16/cegmon-a-blast-from-the-past/
 -- Click on the link on George's page to donate a couple of British pounds if you've gotten something out of his code
