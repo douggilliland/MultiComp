@@ -5,10 +5,11 @@
 -- ____________________________________________________________________________________
 -- Implements a memory mapped display
 -- Uses 2K of Dual Ported RAM in an Altera FPGA
--- 48x16 display
--- NTSC Composite video output (monochrome)
+-- 64x32 display
+-- 640x480 VGA output (monochrome)
 -- Implements Grant Searle's modifications for 64x32 screens as described here:
 -- http://searle.hostei.com/grant/uk101FPGA/index.html#Modification3
+-- Additional modifications for VGA output
 
 library ieee;
 	use ieee.std_logic_1164.all;
@@ -22,7 +23,7 @@ entity UK101TextDisplay is
 		dispAddr 	: out std_LOGIC_VECTOR(10 downto 0);
 		dispData 	: in std_LOGIC_VECTOR(7 downto 0);
 		clk    	 	: in  std_logic;
-		video			: out std_logic;
+		video		: out std_logic;
 		vSync 		: out std_logic;
 		hSync  		: out  std_logic
    );
@@ -59,34 +60,51 @@ begin
 	PROCESS (clk)
 	BEGIN
 	
--- UK101 display...
--- 64 bytes per line (48 chars displayed)	
--- 16 lines of characters
--- 8x8 per char
-
--- Composite Video timing
--- NTSC without color information
--- http://land-boards.com/blwiki/index.php?title=EP2C5-DB#Video_Timing
 -- http://www.batsocks.co.uk/readme/video_timing.htm
+-- Memory Mapped VGA Character Display
+--		8X8 fonts
+--		64x32 characters displayed per screen
 -- Horizontal Timing
---		Horizontal Bit Rate
---			50 MHz / 3175 clocks = 63.5uS per line (Spec calls for 63.55uS - close enough)
---			15.748 KHz line rate
---		Horizontal Active Time
---			50 MHz / (3000-40) 2960 clocks = 59.2 uS
---			2960 clocks/active_line / 48 chars/line = 61.6 clocks per character???
---		Horizontal sync
---			235 clocks * 20nS/clock = 4.7uS (spec calls for 4.7uS)
+--		Horizontal Line Rate Timing
+--			VGA Timing spec 
+--				25.175 MHz clock
+--				800 clocks horizontal = 31.78 uS per line
+--				31.469 Khz line frequency
+--			Using FPGA (Clock is about 2x faster so more clocks are needed)
+--				50 MHz clock
+--				1588 clocks = 31.76uS per line
+--				31.486 KHz line frequency
+--		Horizontal Line Timing Details
+--			VGA
+--				640 active pixels = 25.42 uS
+--				Sync Width = 96 clocks = 3.813 uS
+--				Front Porch plus border = 8+8=16 clocks
+--				Back Porch plus border = 40+8=48 clocks
+--			Using FPGA
+--				8 (bits/character) x 64 (characters/line) = 512 active pixels per line
+--					Will need to overclock pixels (2:1)
+--					512/640 = 80% of the horizontal space (screen will be narrowed by 20%)
+--				2x overclocking = 512 x 2 = 1024 clocks per active part of line
+--				20 nS/clock * 1024 clocks = 20.48 uS active time
+--				Sync width is 188 clocks = 3.84 uS
+--				Back Porch plus border = 188 clocks
+--				Front Porch plus border = 188 clocks
+--				May need to shift the front/back porch numbers to get screen centered horizontally
 -- Vertical Timing
--- 		262 lines per frame
--- 		5 lines vert sync
--- 		6 lines to start of display
---		256 lines of active video
---		Characters are 8x8 fonts
---			8 horizontal
---			8 vertical
---		256 active lines/screen divided by 16 lines of characters/screen = 16 lines/character
---			Rows are duplicated 2x (count increments every other line)
+--		VGA
+--			525 lines
+--			480 active lines
+--			2 lines front porch
+--			2 lines vertical sync
+--			25 lines back porch
+--			8 lines top border
+--			8 lines bottom border
+--		FPGA
+--			525 lines (same)
+--			32x8=256 active lines (not enough active lines in VGA to do overscan)
+--			130 lines border plus front porch
+--			2 lines vertical sync
+--			137 lines border plus back porch
 
 		if rising_edge(clk) then
 			if horizCount < 1600 THEN
@@ -138,7 +156,8 @@ begin
 			end if;
 			
 			if hActive='1' and vActive = '1' then
-				if pixelClockCount <3 then
+--				if pixelClockCount <3 then		-- original was 3 - changed to have less clocks per screen pixel
+				if pixelClockCount <1 then
 					pixelClockCount <= pixelClockCount+1;
 				else
 					video <= charData(7-to_integer(unsigned(pixelCount)));	-- 8:1 mux
