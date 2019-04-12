@@ -69,7 +69,6 @@ architecture struct of uk101_16K is
 	signal cpuClock		: std_logic;
 	signal serialClock	: std_logic;
 	signal videoOut		: std_logic;
-	signal hActive			: std_logic;
 
 	signal kbReadData 	: std_logic_vector(7 downto 0);
 	signal kbRowSel 		: std_logic_vector(7 downto 0);
@@ -89,8 +88,8 @@ begin
 	videoB0 <= '1';
 	videoB1 <= '1';
 	videoB2 <= '1';
-	videoB3 <= '0';
-	videoB4 <= hActive;
+	videoB3 <= '1';
+	videoB4 <= '1';
 	videoR3 <= videoOut;
 	videoR4 <= videoOut;
 	videoG4 <= videoOut;
@@ -209,8 +208,7 @@ begin
 		clk => clk,
 		vSync => vSync,
 		hSync => hSync,
-		video => videoOut,
-		hAct => hActive
+		video => videoOut
 	);
 
 	u7: entity work.CharRom

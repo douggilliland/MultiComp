@@ -90,6 +90,10 @@ set_location_assignment PIN_13 -to ~ALTERA_DATA0~
 set_location_assignment PIN_6 -to ~ALTERA_ASDO_DATA1~
 set_location_assignment PIN_8 -to ~ALTERA_FLASH_nCE_nCSO~
 set_location_assignment PIN_12 -to ~ALTERA_DCLK~
+set_location_assignment PIN_89 -to n_reset
+set_global_assignment -name VHDL_FILE Components/ROMs/CegmonRom_Patched_64x32.VHD
+set_global_assignment -name VHDL_FILE Components/ROMs/CharRom.VHD
+set_global_assignment -name VHDL_FILE Components/ROMs/BasicRom.vhd
 set_global_assignment -name VHDL_FILE "Components/TV/UK101TextDisplay-vga.vhd"
 set_global_assignment -name VHDL_FILE SRAM4K.vhd
 set_global_assignment -name VHDL_FILE Components/PS2KB/UK101keyboard.vhd
@@ -104,8 +108,6 @@ set_global_assignment -name VHDL_FILE ProgRam.vhd
 set_global_assignment -name VHDL_FILE MonUK02Rom.VHD
 set_global_assignment -name VHDL_FILE DisplayRam.vhd
 set_global_assignment -name VHDL_FILE CharRom.VHD
-set_global_assignment -name VHDL_FILE CegmonRom.VHD
-set_global_assignment -name VHDL_FILE BasicRom.vhd
 set_global_assignment -name SOURCE_FILE ProgRam.cmp
 set_global_assignment -name SOURCE_FILE DisplayRam.cmp
 set_global_assignment -name SOURCE_FILE BasicRom.cmp
@@ -113,5 +115,4 @@ set_global_assignment -name QIP_FILE ProgRam.qip
 set_global_assignment -name QIP_FILE DisplayRam.qip
 set_global_assignment -name QIP_FILE BasicRom.qip
 set_global_assignment -name QIP_FILE SRAM4K.qip
-set_location_assignment PIN_89 -to n_reset
 set_instance_assignment -name PARTITION_HIERARCHY root_partition -to | -section_id Top

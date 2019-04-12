@@ -24,9 +24,10 @@ entity UK101TextDisplay is
 		dispAddr 	: out std_LOGIC_VECTOR(10 downto 0);
 		dispData 	: in std_LOGIC_VECTOR(7 downto 0);
 		clk    	 	: in  std_logic;
-		video		: out std_logic;
+		video			: out std_logic;
 		vSync 		: out std_logic;
-		hSync  		: out  std_logic
+		hSync  		: out  std_logic;
+		hAct			: out  std_logic
    );
 end UK101TextDisplay;
 
@@ -54,6 +55,7 @@ begin
 
 	vSync <= n_vSync;
 	hSync <= n_hSync;
+	hAct <= hActive and vActive;
 	
 	dispAddr <= charVert & charHoriz;
 	charAddr <= dispData & charScanLine;
@@ -110,7 +112,7 @@ begin
 		if rising_edge(clk) then
 			if horizCount < 1600 THEN
 				horizCount <= horizCount + 1;
-				if (horizCount < 288) or (horizCount > 1312) then
+				if (horizCount < 408) or (horizCount > 1432) then
 					hActive <= '0';
 					pixelClockCount <= (others => '0');
 					charHoriz <= (others => '0');
@@ -122,10 +124,10 @@ begin
 				horizCount<= (others => '0');
 				pixelCount<= (others => '0');
 				charHoriz<= (others => '0');
-				if vertLineCount > 524 then
+				if vertLineCount > 524 then		-- 525 lines = 60 Hz
 					vertLineCount <= (others => '0');
 				else
-					if vertLineCount < 129 or vertLineCount > 382 then
+					if vertLineCount < 127 or vertLineCount > 380 then
 						vActive <= '0';
 						charVert <= (others => '0');
 						charScanLine <= (others => '0');
