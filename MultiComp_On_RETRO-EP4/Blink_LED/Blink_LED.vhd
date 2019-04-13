@@ -10,7 +10,8 @@ entity Blink_LED is
 	LED1 : out STD_LOGIC;
 	LED2 : out STD_LOGIC;
 	LED3 : out STD_LOGIC;
-	LED4 : out STD_LOGIC);
+	LED4 : out STD_LOGIC;
+	ExtLED : out STD_LOGIC);
 end Blink_LED;
 
 architecture Behavioral of Blink_LED is
@@ -26,7 +27,7 @@ port map(
 	count => '1',
 	Q => counterOut
 	);
-
+	ExtLED <= counterOut(22);
 	LED4 <= counterOut(26);
 	LED3 <= counterOut(25);
 	LED2 <= counterOut(24);
