@@ -14,6 +14,10 @@ entity Microcomputer is
 	port(
 		n_reset		: in std_logic;
 		clk			: in std_logic;
+		
+		switch0		: in std_logic;
+		switch1		: in std_logic;
+		switch2		: in std_logic;
 
 		videoR0		: out std_logic;
 		videoR1		: out std_logic;
@@ -31,8 +35,12 @@ entity Microcomputer is
 		videoB2		: out std_logic;
 		videoB3		: out std_logic;
 		videoB4		: out std_logic;
-		hSync		: out std_logic;
-		vSync		: out std_logic;
+		hSync			: out std_logic;
+		vSync			: out std_logic;
+		LED1			: out std_logic;
+		LED2			: out std_logic;
+		LED3			: out std_logic;
+		LED4			: out std_logic;
 
 		ps2Clk		: inout std_logic;
 		ps2Data		: inout std_logic
@@ -54,9 +62,14 @@ architecture struct of Microcomputer is
 	signal n_basRomCS					: std_logic :='1';
 	signal n_videoInterfaceCS		: std_logic :='1';
 	signal n_internalRamCS			: std_logic :='1';
+	signal n_IOCS						: std_logic :='1';
+	signal n_IOCS_Write				: std_logic :='1';
+	signal n_IOCS_Read 				: std_logic :='1';
 
 	signal cpuClkCount				: std_logic_vector(5 downto 0); 
 	signal cpuClock					: std_logic;
+	signal latchedBits				: std_logic_vector(7 downto 0);
+	signal switchesRead			 	: std_logic_vector(7 downto 0);
 
 begin
 	-- ____________________________________________________________________________________
@@ -72,6 +85,22 @@ begin
 	videoB0 <= '0';
 	videoB1 <= '0';
 	videoB2 <= '0';
+	
+	LED1 <= latchedBits(0);
+	LED2 <= latchedBits(1);
+	LED3 <= latchedBits(2);
+	LED4 <= latchedBits(3);
+	
+	n_IOCS_Write <= n_memWR or n_IOCS;
+	n_IOCS_Read <= not n_memWR or n_IOCS;
+	switchesRead(0) <= switch0;
+	switchesRead(1) <= switch1;
+	switchesRead(2) <= switch2;
+	switchesRead(3) <= '0';
+	switchesRead(4) <= '0';
+	switchesRead(5) <= '0';
+	switchesRead(6) <= '0';
+	switchesRead(7) <= '0';
 	
 	-- ____________________________________________________________________________________
 	-- CPU CHOICE GOES HERE
@@ -138,6 +167,15 @@ begin
 			ps2Clk => ps2Clk,
 			ps2Data => ps2Data
 		);
+		
+io3: entity work.OUT_LATCH
+	port map (
+		dataIn8 => cpuDataOut,
+		clock => clk,
+		load => n_IOCS_Write,
+		clear => n_reset,
+		latchOut => latchedBits
+		);
 	
 	-- ____________________________________________________________________________________
 	-- MEMORY READ/WRITE LOGIC GOES HERE
@@ -147,6 +185,7 @@ begin
 	-- CHIP SELECTS GO HERE
 	n_basRomCS <= '0' when cpuAddress(15 downto 13) = "111" else '1'; --8K at top of memory
 	n_videoInterfaceCS <= '0' when cpuAddress(15 downto 1) = "111111111101000" else '1'; -- 2 bytes FFD0-FFD1
+	n_IOCS <= '0' when cpuAddress(15 downto 0) = "1111111111010100" else '1'; -- 1 byte FFD4 (65492 dec)
 	n_internalRamCS <= '0' when cpuAddress(15 downto 14) = "00" else '1';
 	
 	-- ____________________________________________________________________________________
@@ -154,6 +193,8 @@ begin
 	-- Order matters since SRAM overlaps I/O chip selects
 	cpuDataIn <=
 	interface1DataOut when n_videoInterfaceCS = '0' else
+	-- other io that is read goes in here
+	switchesRead when n_IOCS_Read = '0' else
 	basRomData when n_basRomCS = '0' else
 	internalRam1DataOut when n_internalRamCS= '0' else
 	x"FF";

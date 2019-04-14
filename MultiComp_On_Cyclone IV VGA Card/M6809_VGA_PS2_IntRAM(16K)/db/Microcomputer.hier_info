@@ -1,5 +1,6 @@
 |Microcomputer
 n_reset => sbctextdisplayrgb:io1.n_reset
+n_reset => out_latch:io3.clear
 n_reset => cpu09:cpu1.rst
 clk => m6809_ext_basic_rom:rom1.clock
 clk => cpuClock.CLK
@@ -11,6 +12,10 @@ clk => cpuClkCount[4].CLK
 clk => cpuClkCount[5].CLK
 clk => internalram16k:ram1.clock
 clk => sbctextdisplayrgb:io1.clk
+clk => out_latch:io3.clock
+switch0 => cpuDataIn.DATAB
+switch1 => cpuDataIn.DATAB
+switch2 => cpuDataIn.DATAB
 videoR0 <= <GND>
 videoR1 <= <GND>
 videoR2 <= <GND>
@@ -29,6 +34,10 @@ videoB3 <= sbctextdisplayrgb:io1.videoB0
 videoB4 <= sbctextdisplayrgb:io1.videoB1
 hSync <= sbctextdisplayrgb:io1.hSync
 vSync <= sbctextdisplayrgb:io1.vSync
+LED1 <= out_latch:io3.latchOut[0]
+LED2 <= out_latch:io3.latchOut[1]
+LED3 <= out_latch:io3.latchOut[2]
+LED4 <= out_latch:io3.latchOut[3]
 ps2Clk <> sbctextdisplayrgb:io1.ps2Clk
 ps2Data <> sbctextdisplayrgb:io1.ps2Data
 
@@ -3274,5 +3283,48 @@ wren_b => ram_block1a4.PORTBWE
 wren_b => ram_block1a5.PORTBWE
 wren_b => ram_block1a6.PORTBWE
 wren_b => ram_block1a7.PORTBWE
+
+
+|Microcomputer|OUT_LATCH:io3
+dataIn8[0] => Q_tmp[0].DATAIN
+dataIn8[1] => Q_tmp[1].DATAIN
+dataIn8[2] => Q_tmp[2].DATAIN
+dataIn8[3] => Q_tmp[3].DATAIN
+dataIn8[4] => Q_tmp[4].DATAIN
+dataIn8[5] => Q_tmp[5].DATAIN
+dataIn8[6] => Q_tmp[6].DATAIN
+dataIn8[7] => Q_tmp[7].DATAIN
+clock => Q_tmp[0].CLK
+clock => Q_tmp[1].CLK
+clock => Q_tmp[2].CLK
+clock => Q_tmp[3].CLK
+clock => Q_tmp[4].CLK
+clock => Q_tmp[5].CLK
+clock => Q_tmp[6].CLK
+clock => Q_tmp[7].CLK
+load => Q_tmp[7].ENA
+load => Q_tmp[6].ENA
+load => Q_tmp[5].ENA
+load => Q_tmp[4].ENA
+load => Q_tmp[3].ENA
+load => Q_tmp[2].ENA
+load => Q_tmp[1].ENA
+load => Q_tmp[0].ENA
+clear => Q_tmp[0].ACLR
+clear => Q_tmp[1].ACLR
+clear => Q_tmp[2].ACLR
+clear => Q_tmp[3].ACLR
+clear => Q_tmp[4].ACLR
+clear => Q_tmp[5].ACLR
+clear => Q_tmp[6].ACLR
+clear => Q_tmp[7].ACLR
+latchOut[0] <= Q_tmp[0].DB_MAX_OUTPUT_PORT_TYPE
+latchOut[1] <= Q_tmp[1].DB_MAX_OUTPUT_PORT_TYPE
+latchOut[2] <= Q_tmp[2].DB_MAX_OUTPUT_PORT_TYPE
+latchOut[3] <= Q_tmp[3].DB_MAX_OUTPUT_PORT_TYPE
+latchOut[4] <= Q_tmp[4].DB_MAX_OUTPUT_PORT_TYPE
+latchOut[5] <= Q_tmp[5].DB_MAX_OUTPUT_PORT_TYPE
+latchOut[6] <= Q_tmp[6].DB_MAX_OUTPUT_PORT_TYPE
+latchOut[7] <= Q_tmp[7].DB_MAX_OUTPUT_PORT_TYPE
 
 
