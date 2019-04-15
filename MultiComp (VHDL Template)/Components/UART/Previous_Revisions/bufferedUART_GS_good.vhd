@@ -1,23 +1,5 @@
 -- 6850 ACIA COMPATIBLE UART WITH HARDWARE INPUT BUFFER AND HANDSHAKE
-
--- This file is copyright by Grant Searle 2013
--- You are free to use this file in your own projects but must never charge for it nor use it without
--- acknowledgement.
--- Please ask permission from Grant Searle before republishing elsewhere.
--- If you use this file or any part of it, please add an acknowledgement to myself and
--- a link back to my main web site http://searle.hostei.com/grant/    
--- and to the "multicomp" page at http://searle.hostei.com/grant/Multicomp/index.html
---
--- Please check on the above web pages to see if there are any updates before using this file.
--- If for some reason the page is no longer available, please search for "Grant Searle"
--- on the internet to see if I have moved to another web hosting service.
---
--- Grant Searle
--- eMail address available on my main web page link above.
---
--- 10-Nov-2015 foofoobedoo@gmail.com
--- Modifications to use rising clk and to use baud rate enables rather than clocks,
--- slowly but surely moving towards a totally synchronous implementation.
+-- BY G. SEARLE 2013
 
 library ieee;
 	use ieee.std_logic_1164.all;
@@ -26,21 +8,18 @@ library ieee;
 
 entity bufferedUART is
 	port (
-		clk     : in  std_logic;
 		n_wr    : in  std_logic;
 		n_rd    : in  std_logic;
 		regSel  : in  std_logic;
 		dataIn  : in  std_logic_vector(7 downto 0);
 		dataOut : out std_logic_vector(7 downto 0);
-		n_int   : out std_logic;
-                -- these clock enables are asserted for one period of input clk,
-                -- at 16x the baud rate.
-		rxClkEn : in  std_logic; -- 16 x baud rate.
-		txClkEn : in  std_logic; -- 16 x baud rate
+		n_int   : out std_logic; 
+		rxClock : in  std_logic; -- 16 x baud rate
+		txClock : in  std_logic; -- 16 x baud rate
 		rxd     : in  std_logic;
 		txd     : out std_logic;
 		n_rts   : out std_logic :='0';
-		n_cts   : in  std_logic;
+		n_cts   : in  std_logic; 
 		n_dcd   : in  std_logic
    );
 end bufferedUART;
@@ -74,18 +53,14 @@ type serialStateType is ( idle, dataBit, stopBit );
 signal rxState : serialStateType;
 signal txState : serialStateType;
 
-signal func_reset : std_logic := '0';
+signal reset : std_logic := '0';
 
-type rxBuffArray is array (0 to 15) of std_logic_vector(7 downto 0);
+type rxBuffArray is array (0 to 31) of std_logic_vector(7 downto 0);
 signal rxBuffer : rxBuffArray;
 
-signal rxInPointer: integer range 0 to 63 :=0;       -- registered on clk
-signal rxReadPointer: integer range 0 to 63 :=0;     -- registered on n_rd
-signal rxBuffCount: integer range 0 to 63 :=0;       -- combinational
-
-signal rxFilter : integer range 0 to 50; 
-
-signal rxdFiltered : std_logic := '1';
+signal rxInPointer: integer range 0 to 63 :=0;
+signal rxReadPointer: integer range 0 to 63 :=0;
+signal rxBuffCount: integer range 0 to 63 :=0;
 
 begin
 	-- minimal 6850 compatibility
@@ -105,24 +80,8 @@ begin
 --	6850 implementatit = n_rts <= '1' when controlReg(6)='1' and controlReg(5)='0' else '0';
 
 	rxBuffCount <= 0 + rxInPointer - rxReadPointer when rxInPointer >= rxReadPointer
-		else 16 + rxInPointer - rxReadPointer;
-
-	-- RTS with hysteresis
-	-- enable flow if less than 2 characters in buffer
-	-- stop flow if greater that 8 chars in buffer (to allow 8 byte overflow)
-	process (clk)
-	begin
-		if rising_edge(clk) then
-			if rxBuffCount<2 then
-				n_rts <= '0';
-			end if;
-			if rxBuffCount>8 then
-				n_rts <= '1';
-			end if;
-		end if;
-	end process;
-		
---	n_rts <= '1' when rxBuffCount > 24 else '0';
+		else 32 + rxInPointer - rxReadPointer;
+	n_rts <= '1' when rxBuffCount > 24 else '0';
 	
 	-- control reg
 	--     7               6                     5              4          3        2         1         0
@@ -136,49 +95,15 @@ begin
    --            always 0 (no parity)    n/a        n/a
 	
 	-- write of xxxxxx11 to control reg will reset
-	process (clk)
+	reset <= '1' when n_wr = '0' and dataIn(1 downto 0) = "11" and regSel = '0' else '0';
+  
+	process( n_rd )
 	begin
-		if rising_edge(clk) then
-			if n_wr = '0' and dataIn(1 downto 0) = "11" and regSel = '0' then
-				func_reset <= '1';
-                        else
-				func_reset <= '0';
-                        end if;
-		end if;
-	end process;
-
-	-- RX de-glitcher - important because the FPGA is very sensistive
-	-- Filtered RX will not switch low to high until there is 50 more high samples than lows
-	-- hysteresis will then not switch high to low until there is 50 more low samples than highs.
-	-- Introduces a minor (1uS) delay with 50MHz clock
-	-- However, then makes serial comms 100% reliable
-	process (clk)
-	begin
-		if rising_edge(clk) then
-			if rxd = '1' and rxFilter=50 then
-				rxdFiltered <= '1';
-			end if;
-			if rxd = '1' and rxFilter /= 50 then
-				rxFilter <= rxFilter+1;
-			end if;
-			if rxd = '0' and rxFilter=0 then
-				rxdFiltered <= '0';
-			end if;
-			if rxd = '0' and rxFilter/=0 then
-				rxFilter <= rxFilter-1;
-			end if;
-		end if;
-	end process;
-	
-	process( n_rd, func_reset )
-	begin
-		if func_reset='1' then
-			rxReadPointer <= 0;
-		elsif falling_edge(n_rd) then -- Standard CPU - present data on leading edge of rd
+		if falling_edge(n_rd) then -- Standard CPU - present data on leading edge of rd
 			if regSel='1' then
 				dataOut <= rxBuffer(rxReadPointer);
 				if rxInPointer /= rxReadPointer then
-					if rxReadPointer < 15 then
+					if rxReadPointer < 31 then
 						rxReadPointer <= rxReadPointer+1;
 					else
 						rxReadPointer <= 0;
@@ -204,22 +129,22 @@ begin
 		end if;
 	end process;
 
-	rx_fsm: process( clk, rxClkEn , func_reset )
+	process( rxClock , reset )
 	begin
-		if func_reset='1' then
+		if reset='1' then
 			rxState <= idle;
-			rxBitCount<=(others=>'0');
-			rxClockCount<=(others=>'0');
-                        rxInPointer<=0;
-		elsif rising_edge(clk) and rxClkEn = '1' then
+			rxBitCount<="0000";
+			rxClockCount<="000000";
+		 
+		elsif falling_edge(rxClock) then
 			case rxState is
 			when idle =>
-				if rxdFiltered='1' then -- high so idle
-					rxBitCount<=(others=>'0');
-					rxClockCount<=(others=>'0');
+				if rxd='1' then -- high so idle
+					rxBitCount<="0000";
+					rxClockCount<="000000";
 				else -- low so in start bit
 					if rxClockCount= 7 then -- wait to half way through bit
-						rxClockCount<=(others=>'0');
+						rxClockCount<="000000";
 						rxState <=dataBit;
 					else
 						rxClockCount<=rxClockCount+1;
@@ -227,9 +152,9 @@ begin
 				end if;
 			when dataBit =>
 				if rxClockCount= 15 then -- 1 bit later - sample
-					rxClockCount<=(others=>'0');
+					rxClockCount<="000000";
 					rxBitCount <=rxBitCount+1;
-					rxCurrentByteBuffer <= rxdFiltered & rxCurrentByteBuffer(7 downto 1);
+					rxCurrentByteBuffer <= rxd & rxCurrentByteBuffer(7 downto 1);
 					if rxBitCount= 7 then -- 8 bits read - handle stop bit
 						rxState<=stopBit;
 				end if;
@@ -239,29 +164,29 @@ begin
 			when stopBit =>
 				if rxClockCount= 15 then
 					rxBuffer(rxInPointer) <= rxCurrentByteBuffer;
-					if rxInPointer < 15 then
+					if rxInPointer < 31 then
 						rxInPointer <= rxInPointer+1;
 					else
 						rxInPointer <= 0;
 					end if;
-					rxClockCount<=(others=>'0');
+					rxClockCount<="000000";
 					rxState <=idle;
 				else
 					rxClockCount<=rxClockCount+1;
 				end if;
 			end case;
-		end if;
+		end if;              
 	end process;
 
-	tx_fsm: process( clk, txClkEn , func_reset )
+	process( txClock , reset )
 	begin
-		if func_reset='1' then
+		if reset='1' then
 			txState <= idle;
-			txBitCount<=(others=>'0');
-			txClockCount<=(others=>'0');
+			txBitCount<="0000";
+			txClockCount<="000000";
 			txByteSent <= '0';
 
-		elsif rising_edge(clk) and txClkEn = '1' then
+		elsif falling_edge(txClock) then
 			case txState is
 			when idle =>
 				txd <= '1';
@@ -270,12 +195,12 @@ begin
 					txByteSent <= not txByteSent;
 					txState <=dataBit;
 					txd <= '0'; -- start bit
-					txBitCount<=(others=>'0');
-					txClockCount<=(others=>'0');
+					txBitCount<="0000";
+					txClockCount<="000000";
 				end if;
 			when dataBit =>
 				if txClockCount= 15 then -- 1 bit later
-					txClockCount<=(others=>'0');
+					txClockCount<="000000";
 					if txBitCount= 8 then -- 8 bits read - handle stop bit
 						txd <= '1';
 						txState<=stopBit;

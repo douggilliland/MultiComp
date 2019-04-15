@@ -485,8 +485,6 @@ begin
 -- State machine stack
 --
 ----------------------------------
---state_stack_proc: process( clk, hold, state_stack, st_ctrl, 
---                           return_state, fetch_state  )
 state_stack_proc: process( clk, st_ctrl, return_state )
 begin
   if clk'event and clk = '0' then
@@ -508,7 +506,6 @@ end process;
 -- Interrupt Vector control
 --
 ----------------------------------
---
 int_vec_proc: process( clk, iv_ctrl )
 begin
   if clk'event and clk = '0' then
@@ -540,8 +537,6 @@ end process;
 -- Program Counter Control
 --
 ----------------------------------
-
---pc_reg: process( clk, pc_ctrl, hold, pc, out_alu, data_in )
 pc_reg: process( clk )
 begin
   if clk'event and clk = '0' then
@@ -569,11 +564,8 @@ end process;
 -- Effective Address  Control
 --
 ----------------------------------
-
---ea_reg: process( clk, ea_ctrl, hold, ea, out_alu, data_in, dp )
 ea_reg: process( clk )
 begin
-
   if clk'event and clk = '0' then
     if hold= '0' then
     case ea_ctrl is
@@ -599,7 +591,6 @@ end process;
 -- Accumulator A
 --
 --------------------------------
---acca_reg : process( clk, acca_ctrl, hold, out_alu, acca, data_in )
 acca_reg : process( clk )
 begin
   if clk'event and clk = '0' then
@@ -625,7 +616,6 @@ end process;
 -- Accumulator B
 --
 --------------------------------
---accb_reg : process( clk, accb_ctrl, hold, out_alu, accb, data_in )
 accb_reg : process( clk )
 begin
   if clk'event and clk = '0' then
@@ -649,7 +639,6 @@ end process;
 -- X Index register
 --
 --------------------------------
---ix_reg : process( clk, ix_ctrl, hold, out_alu, xreg, data_in )
 ix_reg : process( clk )
 begin
   if clk'event and clk = '0' then
@@ -675,7 +664,6 @@ end process;
 -- Y Index register
 --
 --------------------------------
---iy_reg : process( clk, iy_ctrl, hold, out_alu, yreg, data_in )
 iy_reg : process( clk )
 begin
   if clk'event and clk = '0' then
@@ -701,7 +689,6 @@ end process;
 -- S stack pointer
 --
 --------------------------------
---sp_reg : process( clk, sp_ctrl, hold, sp, out_alu, data_in, nmi_enable )
 sp_reg : process( clk )
 begin
   if clk'event and clk = '0' then
@@ -730,7 +717,6 @@ end process;
 -- U stack pointer
 --
 --------------------------------
---up_reg : process( clk, up_ctrl, hold, up, out_alu, data_in )
 up_reg : process( clk )
 begin
   if clk'event and clk = '0' then
@@ -756,7 +742,6 @@ end process;
 -- Memory Data
 --
 --------------------------------
---md_reg : process( clk, md_ctrl, hold, out_alu, data_in, md )
 md_reg : process( clk )
 begin
   if clk'event and clk = '0' then
@@ -789,8 +774,6 @@ end process;
 -- Condition Codes
 --
 ----------------------------------
-
---cc_reg: process( clk, cc_ctrl, hold, cc_out, cc, data_in )
 cc_reg: process( clk )
 begin
   if clk'event and clk = '0' then
@@ -814,8 +797,6 @@ end process;
 -- Direct Page register
 --
 ----------------------------------
-
---dp_reg: process( clk, dp_ctrl, hold, out_alu, dp, data_in )
 dp_reg: process( clk )
 begin
   if clk'event and clk = '0' then
@@ -840,8 +821,6 @@ end process;
 -- op code register
 --
 ----------------------------------
-
---op_reg: process( clk, op_ctrl, hold, op_code, data_in )
 op_reg: process( clk )
 begin
   if clk'event and clk = '0' then
@@ -864,8 +843,6 @@ end process;
 -- pre byte op code register
 --
 ----------------------------------
-
---pre_reg: process( clk, pre_ctrl, hold, pre_code, data_in )
 pre_reg: process( clk )
 begin
   if clk'event and clk = '0' then
@@ -887,8 +864,6 @@ end process;
 -- state machine
 --
 --------------------------------
-
---change_state: process( clk, rst, state, hold, next_state )
 change_state: process( clk )
 begin
   if clk'event and clk = '0' then
@@ -939,8 +914,6 @@ end process;
 -- Detect Edge of NMI interrupt
 --
 ------------------------------------
-
---nmi_handler : process( clk, rst, nmi, nmi_ack, nmi_req, nmi_enable )
 nmi_handler : process( rst, clk )
 begin
   if rst='1' then
