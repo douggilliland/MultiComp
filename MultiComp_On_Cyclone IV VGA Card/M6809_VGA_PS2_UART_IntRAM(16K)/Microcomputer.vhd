@@ -76,6 +76,9 @@ architecture struct of Microcomputer is
 	signal n_IOCS_Read 				: std_logic :='1';
 
 	signal serialClkCount			: std_logic_vector(15 downto 0);
+   signal serialClkCount_d       : std_logic_vector(15 downto 0);
+   signal serialClkEn            : std_logic;
+
 	signal cpuClkCount				: std_logic_vector(5 downto 0); 
 	signal sdClkCount					: std_logic_vector(5 downto 0); 	
 	signal cpuClock					: std_logic;
@@ -192,13 +195,14 @@ begin
 		
 	UART : entity work.bufferedUART
 		port map(
+			clk => clk,
 			n_wr => n_aciaCS or cpuClock or n_WR,
 			n_rd => n_aciaCS or cpuClock or (not n_WR),
 			regSel => cpuAddress(0),
 			dataIn => cpuDataOut,
 			dataOut => aciaData,
-			rxClock => serialClock,
-			txClock => serialClock,
+			rxClkEn => serialClkEn,
+			txClkEn => serialClkEn,
 			rxd => rxd,
 			txd => txdBuff,
 			n_cts => '0',
@@ -251,11 +255,30 @@ begin
 	-- SYSTEM CLOCKS GO HERE
 	-- SUB-CIRCUIT CLOCK SIGNALS 
 
-serialClock <= serialClkCount(15);
+--serialClock <= serialClkCount(15);
 
-process (clk)
+    baud_div: process (serialClkCount_d, serialClkCount)
+    begin
+        serialClkCount_d <= serialClkCount + 2416;
+    end process;
+
+    baud_clk: process(clk)
+    begin
+        if rising_edge(clk) then
+        end if;
+    end process;
+
+
+clk_gen: process (clk)
 	begin
 		if rising_edge(clk) then
+        -- Enable for baud rate generator
+        serialClkCount <= serialClkCount_d;
+        if serialClkCount(15) = '0' and serialClkCount_d(15) = '1' then
+            serialClkEn <= '1';
+        else
+            serialClkEn <= '0';
+        end if;
 
 			if cpuClkCount < 4 then -- 4 = 10MHz, 3 = 12.5MHz, 2=16.6MHz, 1=25MHz
 				cpuClkCount <= cpuClkCount + 1;
@@ -290,7 +313,7 @@ process (clk)
 -- 9600 201
 -- 4800 101
 -- 2400 50
-			serialClkCount <= serialClkCount + 50;
+--			serialClkCount <= serialClkCount + 50;
 		end if;
 end process;
 
