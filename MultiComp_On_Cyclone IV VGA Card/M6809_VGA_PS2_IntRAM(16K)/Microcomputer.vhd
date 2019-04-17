@@ -15,10 +15,10 @@ entity Microcomputer is
 		n_reset		: in std_logic;
 		clk			: in std_logic;
 		
-		switch0		: in std_logic;
-		switch1		: in std_logic;
-		switch2		: in std_logic;
-
+		rxd			: in std_logic;
+		txd			: out std_logic;
+		rts			: out std_logic;
+		
 		videoR0		: out std_logic;
 		videoR1		: out std_logic;
 		videoR2		: out std_logic;
@@ -37,6 +37,11 @@ entity Microcomputer is
 		videoB4		: out std_logic;
 		hSync			: out std_logic;
 		vSync			: out std_logic;
+		
+		switch0		: in std_logic;
+		switch1		: in std_logic;
+		switch2		: in std_logic;
+
 		LED1			: out std_logic;
 		LED2			: out std_logic;
 		LED3			: out std_logic;
@@ -50,26 +55,40 @@ end Microcomputer;
 architecture struct of Microcomputer is
 
 	signal n_WR							: std_logic;
+	signal n_RD							: std_logic;
 	signal cpuAddress					: std_logic_vector(15 downto 0);
 	signal cpuDataOut					: std_logic_vector(7 downto 0);
 	signal cpuDataIn					: std_logic_vector(7 downto 0);
 
 	signal basRomData					: std_logic_vector(7 downto 0);
 	signal interface1DataOut		: std_logic_vector(7 downto 0);
+	signal aciaData					: std_logic_vector(7 downto 0);
 	signal internalRam1DataOut		: std_logic_vector(7 downto 0);
 
 	signal n_memWR						: std_logic :='1';
+	signal n_memRD 					: std_logic :='1';
 	signal n_basRomCS					: std_logic :='1';
 	signal n_videoInterfaceCS		: std_logic :='1';
+	signal n_aciaCS					: std_logic :='1';
 	signal n_internalRamCS			: std_logic :='1';
 	signal n_IOCS						: std_logic :='1';
 	signal n_IOCS_Write				: std_logic :='1';
 	signal n_IOCS_Read 				: std_logic :='1';
+	
+	signal serialClkCount			: std_logic_vector(15 downto 0);
+	signal serialClkCount_d       : std_logic_vector(15 downto 0);
+	signal serialClkEn            : std_logic;
 
 	signal cpuClkCount				: std_logic_vector(5 downto 0); 
 	signal cpuClock					: std_logic;
+	signal serialClock				: std_logic;
+	
 	signal latchedBits				: std_logic_vector(7 downto 0);
 	signal switchesRead			 	: std_logic_vector(7 downto 0);
+
+	signal txdBuff						: std_logic;
+	signal funKeys						: std_logic_vector(12 downto 0);
+	signal fKey1						: std_logic;
 
 begin
 	-- ____________________________________________________________________________________
@@ -87,9 +106,10 @@ begin
 	videoB2 <= '0';
 	
 	LED1 <= latchedBits(0);
-	LED2 <= latchedBits(1);
-	LED3 <= latchedBits(2);
-	LED4 <= latchedBits(3);
+	LED2 <= fKey1;
+	LED3 <= txdBuff;
+	LED4 <= rxd;
+	txd <= txdBuff;
 	
 	n_IOCS_Write <= n_memWR or n_IOCS;
 	n_IOCS_Read <= not n_memWR or n_IOCS;
@@ -165,9 +185,27 @@ begin
 			dataIn => cpuDataOut,
 			dataOut => interface1DataOut,
 			ps2Clk => ps2Clk,
-			ps2Data => ps2Data
+			ps2Data => ps2Data,
+			FNkeys => funKeys
 		);
-		
+	
+	UART : entity work.bufferedUART
+		port map(
+			clk => clk,
+			n_wr => n_aciaCS or cpuClock or n_WR,
+			n_rd => n_aciaCS or cpuClock or (not n_WR),
+			regSel => cpuAddress(0),
+			dataIn => cpuDataOut,
+			dataOut => aciaData,
+			rxClkEn => serialClkEn,
+			txClkEn => serialClkEn,
+			rxd => rxd,
+			txd => txdBuff,
+			n_cts => '0',
+			n_dcd => '0',
+			n_rts => rts
+		);
+	
 io3: entity work.OUT_LATCH
 	port map (
 		dataIn8 => cpuDataOut,
@@ -177,6 +215,14 @@ io3: entity work.OUT_LATCH
 		latchOut => latchedBits
 		);
 	
+	FNKeyToggle: entity work.Toggle_On_FN_Key
+		port map (	
+			FNKey1 => funKeys(1),
+			clock => clk,
+			n_res => n_reset,
+			latchFNKey1 => fKey1
+		);
+		
 	-- ____________________________________________________________________________________
 	-- MEMORY READ/WRITE LOGIC GOES HERE
 	n_memWR <= not(cpuClock) nand (not n_WR);
@@ -184,7 +230,8 @@ io3: entity work.OUT_LATCH
 	-- ____________________________________________________________________________________
 	-- CHIP SELECTS GO HERE
 	n_basRomCS <= '0' when cpuAddress(15 downto 13) = "111" else '1'; --8K at top of memory
-	n_videoInterfaceCS <= '0' when cpuAddress(15 downto 1) = "111111111101000" else '1'; -- 2 bytes FFD0-FFD1
+	n_videoInterfaceCS <= '0' when ((cpuAddress(15 downto 1) = "111111111101000" and fKey1 = '0') or (cpuAddress(15 downto 1) = "111111111101001" and fKey1 = '1')) else '1';
+	n_aciaCS <= '0'           when ((cpuAddress(15 downto 1) = "111111111101001" and fKey1 = '0') or (cpuAddress(15 downto 1) = "111111111101000" and fKey1 = '1')) else '1';
 	n_IOCS <= '0' when cpuAddress(15 downto 0) = "1111111111010100" else '1'; -- 1 byte FFD4 (65492 dec)
 	n_internalRamCS <= '0' when cpuAddress(15 downto 14) = "00" else '1';
 	
@@ -193,7 +240,7 @@ io3: entity work.OUT_LATCH
 	-- Order matters since SRAM overlaps I/O chip selects
 	cpuDataIn <=
 	interface1DataOut when n_videoInterfaceCS = '0' else
-	-- other io that is read goes in here
+	aciaData when n_aciaCS = '0' else
 	switchesRead when n_IOCS_Read = '0' else
 	basRomData when n_basRomCS = '0' else
 	internalRam1DataOut when n_internalRamCS= '0' else
@@ -219,4 +266,36 @@ end if;
 
 end if;
 end process;
+
+	-- ____________________________________________________________________________________
+	-- Baud Rate Clock Signals
+	-- Serial clock DDS
+	-- 50MHz master input clock:
+	-- f = (increment x 50,000,000) / 65,536 = 16X baud rate
+	-- Baud Increment
+	-- 115200 2416
+	-- 38400 805
+	-- 19200 403
+	-- 9600 201
+	-- 4800 101
+	-- 2400 50
+
+	baud_div: process (serialClkCount_d, serialClkCount)
+		begin
+			serialClkCount_d <= serialClkCount + 2416;
+		end process;
+
+	--Single clock wide baud rate enable
+	baud_clk: process(clk)
+		begin
+			if rising_edge(clk) then
+					serialClkCount <= serialClkCount_d;
+				if serialClkCount(15) = '0' and serialClkCount_d(15) = '1' then
+					serialClkEn <= '1';
+				else
+					serialClkEn <= '0';
+				end if;
+        end if;
+    end process;
+
 end;

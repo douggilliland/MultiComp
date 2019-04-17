@@ -76,17 +76,18 @@ architecture struct of Microcomputer is
 	signal n_IOCS_Read 				: std_logic :='1';
 
 	signal serialClkCount			: std_logic_vector(15 downto 0);
-   signal serialClkCount_d       : std_logic_vector(15 downto 0);
-   signal serialClkEn            : std_logic;
+	signal serialClkCount_d       : std_logic_vector(15 downto 0);
+	signal serialClkEn            : std_logic;
 
 	signal cpuClkCount				: std_logic_vector(5 downto 0); 
 	signal sdClkCount					: std_logic_vector(5 downto 0); 	
 	signal cpuClock					: std_logic;
 	signal serialClock				: std_logic;
 	signal sdClock						: std_logic;	
-
+	
 	signal latchedBits				: std_logic_vector(7 downto 0);
 	signal switchesRead			 	: std_logic_vector(7 downto 0);
+	
 	signal txdBuff						: std_logic;
 	signal funKeys						: std_logic_vector(12 downto 0);
 	signal fKey1						: std_logic;
@@ -107,9 +108,6 @@ begin
 	videoB2 <= '0';
 	
 	LED1 <= latchedBits(0);
-	--LED2 <= latchedBits(1);
-	--LED3 <= latchedBits(2);
-	--LED4 <= latchedBits(3);
 	LED2 <= fKey1;
 	LED3 <= txdBuff;
 	LED4 <= rxd;
@@ -245,7 +243,6 @@ begin
 	cpuDataIn <=
 	interface1DataOut when n_videoInterfaceCS = '0' else
 	aciaData when n_aciaCS = '0' else
-	-- other io that is read goes in here
 	switchesRead when n_IOCS_Read = '0' else
 	basRomData when n_basRomCS = '0' else
 	internalRam1DataOut when n_internalRamCS= '0' else
@@ -253,68 +250,62 @@ begin
 	
 	-- ____________________________________________________________________________________
 	-- SYSTEM CLOCKS GO HERE
-	-- SUB-CIRCUIT CLOCK SIGNALS 
-
---serialClock <= serialClkCount(15);
-
-    baud_div: process (serialClkCount_d, serialClkCount)
-    begin
-        serialClkCount_d <= serialClkCount + 2416;
-    end process;
-
-    baud_clk: process(clk)
-    begin
-        if rising_edge(clk) then
-        end if;
-    end process;
-
 
 clk_gen: process (clk)
 	begin
 		if rising_edge(clk) then
-        -- Enable for baud rate generator
-        serialClkCount <= serialClkCount_d;
-        if serialClkCount(15) = '0' and serialClkCount_d(15) = '1' then
-            serialClkEn <= '1';
-        else
-            serialClkEn <= '0';
-        end if;
-
 			if cpuClkCount < 4 then -- 4 = 10MHz, 3 = 12.5MHz, 2=16.6MHz, 1=25MHz
 				cpuClkCount <= cpuClkCount + 1;
 			else
 				cpuClkCount <= (others=>'0');
 			end if;
-			
-			if cpuClkCount < 2 then -- 2 when 10MHz, 2 when 12.5MHz, 2 when 16.6MHz, 1 when 25MHz
+						if cpuClkCount < 2 then -- 2 when 10MHz, 2 when 12.5MHz, 2 when 16.6MHz, 1 when 25MHz
 				cpuClock <= '0';
 			else
 				cpuClock <= '1';
-			end if; 
-
+			end if;
+			
 			if sdClkCount < 49 then -- 1MHz
 				sdClkCount <= sdClkCount + 1;
 			else
 				sdClkCount <= (others=>'0');
-			end if;
-			
+			end if;			
 			if sdClkCount < 25 then
 				sdClock <= '0';
 			else
 				sdClock <= '1';
 			end if;
-
--- Serial clock DDS
--- 50MHz master input clock:
--- Baud Increment
--- 115200 2416
--- 38400 805
--- 19200 403
--- 9600 201
--- 4800 101
--- 2400 50
---			serialClkCount <= serialClkCount + 50;
 		end if;
 end process;
 
+	-- ____________________________________________________________________________________
+	-- Baud Rate Clock Signals
+	-- Serial clock DDS
+	-- 50MHz master input clock:
+	-- f = (increment x 50,000,000) / 65,536 = 16X baud rate
+	-- Baud Increment
+	-- 115200 2416
+	-- 38400 805
+	-- 19200 403
+	-- 9600 201
+	-- 4800 101
+	-- 2400 50
+
+	baud_div: process (serialClkCount_d, serialClkCount)
+		begin
+			serialClkCount_d <= serialClkCount + 2416;
+		end process;
+
+	--Single clock wide baud rate enable
+	baud_clk: process(clk)
+		begin
+			if rising_edge(clk) then
+					serialClkCount <= serialClkCount_d;
+				if serialClkCount(15) = '0' and serialClkCount_d(15) = '1' then
+					serialClkEn <= '1';
+				else
+					serialClkEn <= '0';
+				end if;
+        end if;
+    end process;
 end;
