@@ -101,7 +101,7 @@ begin
 		q => basRomData
 	);
 
-	u3: entity work.ProgRam 
+	u3: entity work.InternalRam16K 
 	port map
 	(
 		address => cpuAddress(13 downto 0),
@@ -110,16 +110,6 @@ begin
 		wren => not(n_memWR or n_ramCS),
 		q => ramDataOut
 	);
-	
-	-- u3B: entity work.SRAM4K 
-	-- port map
-	-- (
-		-- address => cpuAddress(11 downto 0),
-		-- clock => clk,
-		-- data => cpuDataOut,
-		-- wren => not(n_memWR or n_ramCS2),
-		-- q => ramDataOut2
-	-- );
 	
 	u4: entity work.CegmonRom
 	port map

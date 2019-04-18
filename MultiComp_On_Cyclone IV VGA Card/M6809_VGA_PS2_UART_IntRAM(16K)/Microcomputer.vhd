@@ -67,6 +67,7 @@ architecture struct of Microcomputer is
 
 	signal n_memWR						: std_logic :='1';
 	signal n_memRD 					: std_logic :='1';
+
 	signal n_basRomCS					: std_logic :='1';
 	signal n_videoInterfaceCS		: std_logic :='1';
 	signal n_aciaCS					: std_logic :='1';

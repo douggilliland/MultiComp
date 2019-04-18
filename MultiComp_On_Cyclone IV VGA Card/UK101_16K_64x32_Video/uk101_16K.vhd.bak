@@ -69,6 +69,7 @@ architecture struct of uk101_16K is
 	signal cpuClock		: std_logic;
 	signal serialClock	: std_logic;
 	signal videoOut		: std_logic;
+	signal hActive			: std_logic;
 
 	signal kbReadData 	: std_logic_vector(7 downto 0);
 	signal kbRowSel 		: std_logic_vector(7 downto 0);
@@ -88,8 +89,8 @@ begin
 	videoB0 <= '1';
 	videoB1 <= '1';
 	videoB2 <= '1';
-	videoB3 <= '1';
-	videoB4 <= '1';
+	videoB3 <= '0';
+	videoB4 <= hActive;
 	videoR3 <= videoOut;
 	videoR4 <= videoOut;
 	videoG4 <= videoOut;
@@ -112,8 +113,8 @@ begin
 		ramDataOut when n_ramCS = '0' else
 		-- ramDataOut2 when n_ramCS2 = '0' else
 		dispRamDataOutA when n_dispRamCS = '0' else
-		kbReadData when n_kbCS='0'
-		else x"FF";
+		kbReadData when n_kbCS='0' else 
+		x"FF";
 		
 	u1 : entity work.T65
 	port map(
@@ -139,7 +140,7 @@ begin
 		q => basRomData
 	);
 
-	u3: entity work.ProgRam 
+	u3: entity work.InternalRam16K 
 	port map
 	(
 		address => cpuAddress(13 downto 0),
@@ -186,12 +187,27 @@ begin
 				cpuClock <= '1';
 			end if;	
 			
-			if serialClkCount < 325 then -- 9600 baud
+			-- Baud rate clock
+			-- 50,000,000 / 9600 / 16 = 325
+--			if serialClkCount < 325 then -- 9600 baud
+--				serialClkCount <= serialClkCount + 1;
+--			else
+--				serialClkCount <= (others => '0');
+--			end if;
+--			if serialClkCount < 162 then -- 9600 baud
+--				serialClock <= '0';326
+--			else
+--				serialClock <= '1';
+--			end if;	
+
+			-- Baud rate clock
+			-- 50,000,000 / 300 / 16 = 10416
+			if serialClkCount < 10416 then -- 300 baud
 				serialClkCount <= serialClkCount + 1;
 			else
 				serialClkCount <= (others => '0');
 			end if;
-			if serialClkCount < 162 then -- 9600 baud
+			if serialClkCount < 5208 then -- 300 baud
 				serialClock <= '0';
 			else
 				serialClock <= '1';
@@ -208,7 +224,8 @@ begin
 		clk => clk,
 		vSync => vSync,
 		hSync => hSync,
-		video => videoOut
+		video => videoOut,
+		hAct => hActive
 	);
 
 	u7: entity work.CharRom

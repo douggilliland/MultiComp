@@ -10,9 +10,11 @@ entity uk101_16K is
 	port(
 		n_reset		: in std_logic;
 		clk			: in std_logic;
+		
 		rxd			: in std_logic;
 		txd			: out std_logic;
 		rts			: out std_logic;
+		
 		videoR0		: out std_logic;
 		videoR1		: out std_logic;
 		videoR2		: out std_logic;
@@ -31,6 +33,16 @@ entity uk101_16K is
 		videoB4		: out std_logic;
 		hSync		: out std_logic;
 		vSync		: out std_logic;
+		
+		switch0		: in std_logic;
+		switch1		: in std_logic;
+		switch2		: in std_logic;
+
+		LED1			: out std_logic;
+		LED2			: out std_logic;
+		LED3			: out std_logic;
+		LED4			: out std_logic;
+
 		ps2Clk		: in std_logic;
 		ps2Data		: in std_logic
 	);
@@ -39,23 +51,24 @@ end uk101_16K;
 architecture struct of uk101_16K is
 
 	signal n_WR				: std_logic;
+	signal n_RD							: std_logic;
 	signal cpuAddress		: std_logic_vector(15 downto 0);
 	signal cpuDataOut		: std_logic_vector(7 downto 0);
 	signal cpuDataIn		: std_logic_vector(7 downto 0);
 
 	signal basRomData		: std_logic_vector(7 downto 0);
-	signal ramDataOut		: std_logic_vector(7 downto 0);
-	signal ramDataOut2	: std_logic_vector(7 downto 0);
 	signal monitorRomData : std_logic_vector(7 downto 0);
 	signal aciaData		: std_logic_vector(7 downto 0);
+	signal ramDataOut		: std_logic_vector(7 downto 0);
 
 	signal n_memWR			: std_logic;
+	signal n_memRD 					: std_logic :='1';
 	
-	signal n_dispRamCS	: std_logic;
-	signal n_ramCS			: std_logic;
 	signal n_basRomCS		: std_logic;
-	signal n_monitorRomCS : std_logic;
+	signal n_dispRamCS	: std_logic;
 	signal n_aciaCS		: std_logic;
+	signal n_ramCS			: std_logic;
+	signal n_monitorRomCS : std_logic;
 	signal n_kbCS			: std_logic;
 	
 	signal dispAddrB 		: std_logic_vector(10 downto 0);
@@ -64,15 +77,21 @@ architecture struct of uk101_16K is
 	signal charAddr 		: std_logic_vector(10 downto 0);
 	signal charData 		: std_logic_vector(7 downto 0);
 
-	signal serialClkCount: std_logic_vector(14 downto 0); 
+	signal serialClkCount: std_logic_vector(15 downto 0); 
+	signal serialClkCount_d       : std_logic_vector(15 downto 0);
+	signal serialClkEn            : std_logic;
+	signal serialClock	: std_logic;
+
 	signal cpuClkCount	: std_logic_vector(5 downto 0); 
 	signal cpuClock		: std_logic;
-	signal serialClock	: std_logic;
-	signal videoOut		: std_logic;
-	signal hActive			: std_logic;
 
 	signal kbReadData 	: std_logic_vector(7 downto 0);
 	signal kbRowSel 		: std_logic_vector(7 downto 0);
+
+	signal videoOut		: std_logic;
+	signal hActive			: std_logic;
+
+	signal txdBuff						: std_logic;
 
 begin
 	-- ____________________________________________________________________________________
@@ -113,8 +132,8 @@ begin
 		ramDataOut when n_ramCS = '0' else
 		-- ramDataOut2 when n_ramCS2 = '0' else
 		dispRamDataOutA when n_dispRamCS = '0' else
-		kbReadData when n_kbCS='0'
-		else x"FF";
+		kbReadData when n_kbCS='0' else 
+		x"FF";
 		
 	u1 : entity work.T65
 	port map(
@@ -140,7 +159,7 @@ begin
 		q => basRomData
 	);
 
-	u3: entity work.ProgRam 
+	u3: entity work.InternalRam16K 
 	port map
 	(
 		address => cpuAddress(13 downto 0),
@@ -157,63 +176,22 @@ begin
 		q => monitorRomData
 	);
 
-	u5: entity work.bufferedUART
-	port map(
-		n_wr => n_aciaCS or cpuClock or n_WR,
-		n_rd => n_aciaCS or cpuClock or (not n_WR),
-		regSel => cpuAddress(0),
-		dataIn => cpuDataOut,
-		dataOut => aciaData,
-		rxClock => serialClock,
-		txClock => serialClock,
-		rxd => rxd,
-		txd => txd,
-		n_cts => '0',
-		n_dcd => '0',
-		n_rts => rts
-	);
-
-	process (clk)
-	begin
-		if rising_edge(clk) then
-			if cpuClkCount < 50 then
-				cpuClkCount <= cpuClkCount + 1;
-			else
-				cpuClkCount <= (others=>'0');
-			end if;
-			if cpuClkCount < 25 then
-				cpuClock <= '0';
-			else
-				cpuClock <= '1';
-			end if;	
-			
-			-- Baud rate clock
-			-- 50,000,000 / 9600 / 16 = 325
---			if serialClkCount < 325 then -- 9600 baud
---				serialClkCount <= serialClkCount + 1;
---			else
---				serialClkCount <= (others => '0');
---			end if;
---			if serialClkCount < 162 then -- 9600 baud
---				serialClock <= '0';326
---			else
---				serialClock <= '1';
---			end if;	
-
-			-- Baud rate clock
-			-- 50,000,000 / 300 / 16 = 10416
-			if serialClkCount < 10416 then -- 300 baud
-				serialClkCount <= serialClkCount + 1;
-			else
-				serialClkCount <= (others => '0');
-			end if;
-			if serialClkCount < 5208 then -- 300 baud
-				serialClock <= '0';
-			else
-				serialClock <= '1';
-			end if;	
-		end if;
-	end process;
+	UART : entity work.bufferedUART
+		port map(
+			clk => clk,
+			n_wr => n_aciaCS or cpuClock or n_WR,
+			n_rd => n_aciaCS or cpuClock or (not n_WR),
+			regSel => cpuAddress(0),
+			dataIn => cpuDataOut,
+			dataOut => aciaData,
+			rxClkEn => serialClkEn,
+			txClkEn => serialClkEn,
+			rxd => rxd,
+			txd => txdBuff,
+			n_cts => '0',
+			n_dcd => '0',
+			n_rts => rts
+		);
 
 	u6 : entity work.UK101TextDisplay
 	port map (
@@ -266,4 +244,61 @@ begin
 		end if;
 	end process;
 	
+	process (clk)
+	begin
+		if rising_edge(clk) then
+			if cpuClkCount < 50 then
+				cpuClkCount <= cpuClkCount + 1;
+			else
+				cpuClkCount <= (others=>'0');
+			end if;
+			if cpuClkCount < 25 then
+				cpuClock <= '0';
+			else
+				cpuClock <= '1';
+			end if;	
+			
+--			if serialClkCount < 10416 then -- 300 baud
+--				serialClkCount <= serialClkCount + 1;
+--			else
+--				serialClkCount <= (others => '0');
+--			end if;
+--			if serialClkCount < 5208 then -- 300 baud
+--				serialClock <= '0';
+--			else
+--				serialClock <= '1';
+--			end if;	
+		end if;
+	end process;
+	-- ____________________________________________________________________________________
+	-- Baud Rate Clock Signals
+	-- Serial clock DDS
+	-- 50MHz master input clock:
+	-- f = (increment x 50,000,000) / 65,536 = 16X baud rate
+	-- Baud Increment
+	-- 115200 2416
+	-- 38400 805
+	-- 19200 403
+	-- 9600 201
+	-- 4800 101
+	-- 2400 50
+
+	baud_div: process (serialClkCount_d, serialClkCount)
+		begin
+			serialClkCount_d <= serialClkCount + 2416;
+		end process;
+
+	--Single clock wide baud rate enable
+	baud_clk: process(clk)
+		begin
+			if rising_edge(clk) then
+					serialClkCount <= serialClkCount_d;
+				if serialClkCount(15) = '0' and serialClkCount_d(15) = '1' then
+					serialClkEn <= '1';
+				else
+					serialClkEn <= '0';
+				end if;
+        end if;
+    end process;
+
 end;
