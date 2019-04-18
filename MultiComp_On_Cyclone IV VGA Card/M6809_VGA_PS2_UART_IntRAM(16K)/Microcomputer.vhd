@@ -79,12 +79,12 @@ architecture struct of Microcomputer is
 	signal serialClkCount			: std_logic_vector(15 downto 0);
 	signal serialClkCount_d       : std_logic_vector(15 downto 0);
 	signal serialClkEn            : std_logic;
+	signal serialClock				: std_logic;
 
 	signal cpuClkCount				: std_logic_vector(5 downto 0); 
-	signal sdClkCount					: std_logic_vector(5 downto 0); 	
 	signal cpuClock					: std_logic;
-	signal serialClock				: std_logic;
 	signal sdClock						: std_logic;	
+	signal sdClkCount					: std_logic_vector(5 downto 0); 	
 	
 	signal latchedBits				: std_logic_vector(7 downto 0);
 	signal switchesRead			 	: std_logic_vector(7 downto 0);
