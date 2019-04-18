@@ -20,7 +20,7 @@ library ieee;
 
 entity SBCTextDisplayRGB is
 	generic(
-		constant EXTENDED_CHARSET : integer := 1; -- 1 = 256 chars, 0 = 128 chars
+		constant EXTENDED_CHARSET : integer := 0; -- 1 = 256 chars, 0 = 128 chars
 		constant COLOUR_ATTS_ENABLED : integer := 1; -- 1=Colour for each character, 0=Colour applied to whole display
 		-- VGA 640x480 Default values
 		constant VERT_CHARS : integer := 25;
@@ -44,13 +44,13 @@ entity SBCTextDisplayRGB is
 	port (
 		n_reset	: in std_logic;
 		clk    	: in  std_logic;
-		n_wr	: in  std_logic;
-		n_rd	: in  std_logic;
+		n_wr		: in  std_logic;
+		n_rd		: in  std_logic;
 		regSel	: in  std_logic;
 		dataIn	: in  std_logic_vector(7 downto 0);
 		dataOut	: out std_logic_vector(7 downto 0);
-		n_int	: out std_logic;
-		n_rts	: out std_logic :='0';
+		n_int		: out std_logic;
+		n_rts		: out std_logic :='0';
 
 		-- RGB video signals
 		videoR0	: out std_logic;
@@ -63,7 +63,7 @@ entity SBCTextDisplayRGB is
 		vSync  	: buffer  std_logic;
 
 		-- Monochrome video signals
-		video	: buffer std_logic;
+		video		: buffer std_logic;
 		sync  	: out  std_logic;
 
 		-- Keyboard signals
@@ -71,7 +71,7 @@ entity SBCTextDisplayRGB is
 		ps2Data	: inout std_logic;
 
 		-- FN keys passed out as general signals (momentary and toggled versions)
-		FNkeys	: out std_logic_vector(12 downto 0);
+		FNkeys			: out std_logic_vector(12 downto 0);
 		FNtoggledKeys	: out std_logic_vector(12 downto 0)
  );
 end SBCTextDisplayRGB;
@@ -324,7 +324,7 @@ end generate GEN_REDUCED_SCHARS;
 -- DISPLAY RAM
 GEN_2KRAM: if (CHARS_PER_SCREEN >1024) generate
 begin
- 	dispCharRam: entity work.DisplayRam2K -- For 80x25 display character storage
+ 	dispCharRam: entity work.DisplayRam2k -- For 80x25 display character storage
 	port map
 	(
 		clock	=> clk,

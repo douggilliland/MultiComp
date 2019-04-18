@@ -114,7 +114,7 @@ BEGIN
 		clock_enable_output_a => "BYPASS",
 		clock_enable_output_b => "BYPASS",
 		indata_reg_b => "CLOCK0",
-		intended_device_family => "Cyclone II",
+		intended_device_family => "Cyclone IV",
 		lpm_type => "altsyncram",
 		numwords_a => 1024,
 		numwords_b => 1024,

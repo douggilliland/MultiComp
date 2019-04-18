@@ -282,10 +282,13 @@ begin
 	-- 9600 201
 	-- 4800 101
 	-- 2400 50
+	-- 1200 25
+	-- 600 13
+	-- 300 6
 
 	baud_div: process (serialClkCount_d, serialClkCount)
 		begin
-			serialClkCount_d <= serialClkCount + 2416;
+			serialClkCount_d <= serialClkCount + 6;
 		end process;
 
 	--Single clock wide baud rate enable
