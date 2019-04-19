@@ -154,7 +154,7 @@ begin
 	-- ____________________________________________________________________________________
 	-- RAM GOES HERE
 	
- 	ram1: entity work.InternalRam16K
+ 	ram1: entity work.IntRAM16K
 		port map
 		(
 			address => cpuAddress(13 downto 0),
@@ -255,16 +255,12 @@ begin
 clk_gen: process (clk)
 	begin
 		if rising_edge(clk) then
-			if cpuClkCount < 4 then -- 4 = 10MHz, 3 = 12.5MHz, 2=16.6MHz, 1=25MHz
+			if cpuClkCount < 1 then -- 4 = 10MHz, 3 = 12.5MHz, 2=16.6MHz, 1=25MHz
 				cpuClkCount <= cpuClkCount + 1;
 			else
 				cpuClkCount <= (others=>'0');
 			end if;
-						if cpuClkCount < 2 then -- 2 when 10MHz, 2 when 12.5MHz, 2 when 16.6MHz, 1 when 25MHz
-				cpuClock <= '0';
-			else
-				cpuClock <= '1';
-			end if;
+			cpuClock <= cpuClkCount(0);
 			
 			if sdClkCount < 49 then -- 1MHz
 				sdClkCount <= sdClkCount + 1;
