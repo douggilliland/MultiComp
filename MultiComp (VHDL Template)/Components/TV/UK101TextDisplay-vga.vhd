@@ -110,9 +110,9 @@ begin
 --			137 lines border plus back porch
 
 		if rising_edge(clk) then
-			if horizCount < 1600 THEN
+			if horizCount < 1288 THEN
 				horizCount <= horizCount + 1;
-				if (horizCount < 408) or (horizCount > 1432) then
+				if (horizCount < 244) or (horizCount > 1268) then
 					hActive <= '0';
 					pixelClockCount <= (others => '0');
 					charHoriz <= (others => '0');
@@ -127,7 +127,7 @@ begin
 				if vertLineCount > 524 then		-- 525 lines = 60 Hz
 					vertLineCount <= (others => '0');
 				else
-					if vertLineCount < 127 or vertLineCount > 380 then
+					if vertLineCount < 126 or vertLineCount > 380 then
 						vActive <= '0';
 						charVert <= (others => '0');
 						charScanLine <= (others => '0');
@@ -152,7 +152,7 @@ begin
 			else
 				n_hSync <= '1';
 			end if;
-			if vertLineCount < 5 then
+			if vertLineCount < 2 then
 				n_vSync <= '0';
 			else
 				n_vSync <= '1';

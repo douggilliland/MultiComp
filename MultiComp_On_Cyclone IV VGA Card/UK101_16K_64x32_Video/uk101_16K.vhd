@@ -60,6 +60,8 @@ architecture struct of uk101_16K is
 	signal monitorRomData : std_logic_vector(7 downto 0);
 	signal aciaData		: std_logic_vector(7 downto 0);
 	signal ramDataOut		: std_logic_vector(7 downto 0);
+	signal ramDataOut2	: std_logic_vector(7 downto 0);
+	signal ramDataOut3	: std_logic_vector(7 downto 0);
 
 	signal n_memWR			: std_logic;
 	signal n_memRD 					: std_logic :='1';
@@ -68,6 +70,8 @@ architecture struct of uk101_16K is
 	signal n_dispRamCS	: std_logic;
 	signal n_aciaCS		: std_logic;
 	signal n_ramCS			: std_logic;
+	signal n_ramCS2		: std_logic;
+	signal n_ramCS3		: std_logic;
 	signal n_monitorRomCS : std_logic;
 	signal n_kbCS			: std_logic;
 	
@@ -81,6 +85,8 @@ architecture struct of uk101_16K is
 	signal serialClkCount_d       : std_logic_vector(15 downto 0);
 	signal serialClkEn            : std_logic;
 	signal serialClock	: std_logic;
+	
+	signal videoClk	: std_logic;
 
 	signal cpuClkCount	: std_logic_vector(5 downto 0); 
 	signal cpuClock		: std_logic;
@@ -119,7 +125,9 @@ begin
 
 	-- Chip Selects
 	n_ramCS <= '0' when cpuAddress(15 downto 14)="00" else '1';					-- x0000-x3FFF (16KB)
-	n_basRomCS <= '0' when cpuAddress(15 downto 13) = "101" else '1'; 			-- xA000-xBFFF (8KB)
+	n_ramCS2 <= '0' when cpuAddress(15 downto 11)="01000" else '1';			-- x4000-x47FF (2KB)
+	n_ramCS3 <= '0' when cpuAddress(15 downto 10)="010010" else '1';			-- x4800-x4BFF (1KB)
+	n_basRomCS <= '0' when cpuAddress(15 downto 13) = "101" else '1'; 		-- xA000-xBFFF (8KB)
 	n_kbCS <= '0' when cpuAddress(15 downto 10) = "110111" else '1';			-- xDC00-xDFFF (1KB)
 	n_dispRamCS <= '0' when cpuAddress(15 downto 11) = "11010" else '1';		-- xD000-xD7FF (2KB)
 	n_aciaCS <= '0' when cpuAddress(15 downto 1) = "111100000000000" else '1';	-- xF000-xF001 (2B)
@@ -130,6 +138,8 @@ begin
 		monitorRomData when n_monitorRomCS = '0' else
 		aciaData when n_aciaCS = '0' else
 		ramDataOut when n_ramCS = '0' else
+		ramDataOut2 when n_ramCS2 = '0' else
+		ramDataOut3 when n_ramCS3 = '0' else
 		-- ramDataOut2 when n_ramCS2 = '0' else
 		dispRamDataOutA when n_dispRamCS = '0' else
 		kbReadData when n_kbCS='0' else 
@@ -169,6 +179,26 @@ begin
 		q => ramDataOut
 	);
 	
+	u3a: entity work.InternalRam2K
+	port map
+	(
+		address => cpuAddress(10 downto 0),
+		clock => clk,
+		data => cpuDataOut,
+		wren => not(n_memWR or n_ramCS2),
+		q => ramDataOut2
+	);
+	
+	u3b: entity work.InternalRam1K
+	port map
+	(
+		address => cpuAddress(9 downto 0),
+		clock => clk,
+		data => cpuDataOut,
+		wren => not(n_memWR or n_ramCS3),
+		q => ramDataOut3
+	);
+	
 	u4: entity work.CegmonRom
 	port map
 	(
@@ -193,13 +223,21 @@ begin
 			n_rts => rts
 		);
 
+	u5 : entity work.VideoClk
+		port map(
+			areset => not n_reset,
+			inclk0 => clk,
+			c0 => videoClk
+		);
+
+	
 	u6 : entity work.UK101TextDisplay
 	port map (
 		charAddr => charAddr,
 		charData => charData,
 		dispAddr => dispAddrB,
 		dispData => dispRamDataOutB,
-		clk => clk,
+		clk => videoClk,
 		vSync => vSync,
 		hSync => hSync,
 		video => videoOut,
@@ -257,19 +295,9 @@ begin
 			else
 				cpuClock <= '1';
 			end if;	
-			
---			if serialClkCount < 10416 then -- 300 baud
---				serialClkCount <= serialClkCount + 1;
---			else
---				serialClkCount <= (others => '0');
---			end if;
---			if serialClkCount < 5208 then -- 300 baud
---				serialClock <= '0';
---			else
---				serialClock <= '1';
---			end if;	
 		end if;
 	end process;
+	
 	-- ____________________________________________________________________________________
 	-- Baud Rate Clock Signals
 	-- Serial clock DDS
@@ -288,7 +316,7 @@ begin
 
 	baud_div: process (serialClkCount_d, serialClkCount)
 		begin
-			serialClkCount_d <= serialClkCount + 6;
+			serialClkCount_d <= serialClkCount + 6;		-- 300 baud
 		end process;
 
 	--Single clock wide baud rate enable
