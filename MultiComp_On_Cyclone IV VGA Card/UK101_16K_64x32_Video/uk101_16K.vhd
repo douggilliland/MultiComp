@@ -140,7 +140,6 @@ begin
 		ramDataOut when n_ramCS = '0' else
 		ramDataOut2 when n_ramCS2 = '0' else
 		ramDataOut3 when n_ramCS3 = '0' else
-		-- ramDataOut2 when n_ramCS2 = '0' else
 		dispRamDataOutA when n_dispRamCS = '0' else
 		kbReadData when n_kbCS='0' else 
 		x"FF";
@@ -285,7 +284,7 @@ begin
 	process (clk)
 	begin
 		if rising_edge(clk) then
-			if cpuClkCount < 50 then
+			if cpuClkCount < 49 then
 				cpuClkCount <= cpuClkCount + 1;
 			else
 				cpuClkCount <= (others=>'0');
@@ -294,7 +293,7 @@ begin
 				cpuClock <= '0';
 			else
 				cpuClock <= '1';
-			end if;	
+			end if;
 		end if;
 	end process;
 	
