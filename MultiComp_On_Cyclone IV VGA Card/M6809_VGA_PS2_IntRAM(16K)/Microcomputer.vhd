@@ -37,7 +37,7 @@ entity Microcomputer is
 		videoB4		: out std_logic;
 		hSync			: out std_logic;
 		vSync			: out std_logic;
-		
+
 		switch0		: in std_logic;
 		switch1		: in std_logic;
 		switch2		: in std_logic;
@@ -67,7 +67,7 @@ architecture struct of Microcomputer is
 
 	signal n_memWR						: std_logic :='1';
 	signal n_memRD 					: std_logic :='1';
-	
+
 	signal n_basRomCS					: std_logic :='1';
 	signal n_videoInterfaceCS		: std_logic :='1';
 	signal n_aciaCS					: std_logic :='1';
@@ -75,7 +75,7 @@ architecture struct of Microcomputer is
 	signal n_IOCS						: std_logic :='1';
 	signal n_IOCS_Write				: std_logic :='1';
 	signal n_IOCS_Read 				: std_logic :='1';
-	
+
 	signal serialClkCount			: std_logic_vector(15 downto 0);
 	signal serialClkCount_d       : std_logic_vector(15 downto 0);
 	signal serialClkEn            : std_logic;
@@ -83,14 +83,17 @@ architecture struct of Microcomputer is
 
 	signal cpuClkCount				: std_logic_vector(5 downto 0); 
 	signal cpuClock					: std_logic;
+	signal sdClock						: std_logic;	
+	signal sdClkCount					: std_logic_vector(5 downto 0); 	
 	
 	signal latchedBits				: std_logic_vector(7 downto 0);
 	signal switchesRead			 	: std_logic_vector(7 downto 0);
-
+	
 	signal txdBuff						: std_logic;
-	--signal funKeys						: std_logic_vector(12 downto 0);
-	--signal fKey1						: std_logic;
-	signal FNtoggledKeys				: std_logic_vector(12 downto 0);
+	signal funKeys						: std_logic_vector(12 downto 0);
+	signal fKey1						: std_logic;
+	signal fKey2						: std_logic;
+--	signal FNtoggledKeys				: std_logic_vector(12 downto 0);
 
 begin
 	-- ____________________________________________________________________________________
@@ -108,7 +111,7 @@ begin
 	videoB2 <= '0';
 	
 	LED1 <= latchedBits(0);
-	LED2 <= FNtoggledKeys(0);
+	LED2 <= fKey1;
 	LED3 <= txdBuff;
 	LED4 <= rxd;
 	txd <= txdBuff;
@@ -188,9 +191,26 @@ begin
 			dataOut => interface1DataOut,
 			ps2Clk => ps2Clk,
 			ps2Data => ps2Data,
-			FNtoggledKeys => FNtoggledKeys
+			FNkeys => funKeys
 		);
-	
+		
+	FNKey1Toggle: entity work.Toggle_On_FN_Key	
+		port map (		
+			FNKey => funKeys(1),
+			clock => clk,
+			n_res => n_reset,
+			latchFNKey => fKey1
+		);	
+
+	FNKey2Toggle: entity work.Toggle_On_FN_Key	
+		port map (		
+			FNKey => funKeys(2),
+			clock => clk,
+			n_res => n_reset,
+			latchFNKey => fKey2
+		);	
+
+		
 	UART : entity work.bufferedUART
 		port map(
 			clk => clk,
@@ -207,15 +227,15 @@ begin
 			n_dcd => '0',
 			n_rts => rts
 		);
-	
-io3: entity work.OUT_LATCH
-	port map (
-		dataIn8 => cpuDataOut,
-		clock => clk,
-		load => n_IOCS_Write,
-		clear => n_reset,
-		latchOut => latchedBits
-		);
+
+	io3: entity work.OUT_LATCH
+		port map (
+			dataIn8 => cpuDataOut,
+			clock => clk,
+			load => n_IOCS_Write,
+			clear => n_reset,
+			latchOut => latchedBits
+			);
 	
 	-- ____________________________________________________________________________________
 	-- MEMORY READ/WRITE LOGIC GOES HERE
@@ -224,8 +244,8 @@ io3: entity work.OUT_LATCH
 	-- ____________________________________________________________________________________
 	-- CHIP SELECTS GO HERE
 	n_basRomCS <= '0' when cpuAddress(15 downto 13) = "111" else '1'; --8K at top of memory
-	n_videoInterfaceCS <= '0' when ((cpuAddress(15 downto 1) = "111111111101000" and FNtoggledKeys(0) = '0') or (cpuAddress(15 downto 1) = "111111111101001" and FNtoggledKeys(0) = '1')) else '1';
-	n_aciaCS <= '0'           when ((cpuAddress(15 downto 1) = "111111111101001" and FNtoggledKeys(0) = '0') or (cpuAddress(15 downto 1) = "111111111101000" and FNtoggledKeys(0) = '1')) else '1';
+	n_videoInterfaceCS <= '0' when ((cpuAddress(15 downto 1) = "111111111101000" and fKey1 = '0') or (cpuAddress(15 downto 1) = "111111111101001" and fKey1 = '1')) else '1';
+	n_aciaCS           <= '0' when ((cpuAddress(15 downto 1) = "111111111101001" and fKey1 = '0') or (cpuAddress(15 downto 1) = "111111111101000" and fKey1 = '1')) else '1';
 	n_IOCS <= '0' when cpuAddress(15 downto 0) = "1111111111010100" else '1'; -- 1 byte FFD4 (65492 dec)
 	n_internalRamCS <= '0' when cpuAddress(15 downto 14) = "00" else '1';
 	
@@ -242,23 +262,33 @@ io3: entity work.OUT_LATCH
 	
 	-- ____________________________________________________________________________________
 	-- SYSTEM CLOCKS GO HERE
-	-- SUB-CIRCUIT CLOCK SIGNALS
-process (clk)
-begin
-	if rising_edge(clk) then
 
-	if cpuClkCount < 4 then -- 4 = 10MHz, 3 = 12.5MHz, 2=16.6MHz, 1=25MHz
-		cpuClkCount <= cpuClkCount + 1;
-	else
-		cpuClkCount <= (others=>'0');
-	end if;
-	if cpuClkCount < 2 then -- 2 when 10MHz, 2 when 12.5MHz, 2 when 16.6MHz, 1 when 25MHz
-		cpuClock <= '0';
-	else
-		cpuClock <= '1';
-	end if;
+clk_gen: process (clk)
+	begin
+		if rising_edge(clk) then
+			if cpuClkCount < 1 then -- 4 = 10MHz, 3 = 12.5MHz, 2=16.6MHz, 1=25MHz
+				cpuClkCount <= cpuClkCount + 1;
+			else
+				cpuClkCount <= (others=>'0');
+			end if;
+			cpuClock <= cpuClkCount(0);
+		end if;
+end process;
 
-	end if;
+sdclk_gen: process (clk)
+	begin
+		if rising_edge(clk) then
+			if sdClkCount < 49 then -- 1MHz
+				sdClkCount <= sdClkCount + 1;
+			else
+				sdClkCount <= (others=>'0');
+			end if;			
+			if sdClkCount < 25 then
+				sdClock <= '0';
+			else
+				sdClock <= '1';
+			end if;
+		end if;
 end process;
 
 	-- ____________________________________________________________________________________
@@ -276,7 +306,11 @@ end process;
 
 	baud_div: process (serialClkCount_d, serialClkCount)
 		begin
-			serialClkCount_d <= serialClkCount + 2416;
+			if fKey2 = '0' then
+				serialClkCount_d <= serialClkCount + 2416;	-- 115,200 baud
+			else
+				serialClkCount_d <= serialClkCount + 6;		-- 300 baud
+			end if;
 		end process;
 
 	--Single clock wide baud rate enable

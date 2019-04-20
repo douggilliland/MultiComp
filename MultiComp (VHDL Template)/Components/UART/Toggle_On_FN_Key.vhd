@@ -9,10 +9,10 @@ use ieee.std_logic_unsigned.all;
 
 entity Toggle_On_FN_Key is
 port(	
-   FNKey1:			in std_logic;
+   FNKey:			in std_logic;
 	clock:			in std_logic;
 	n_res:			in std_logic;
-	latchFNKey1:	out std_logic
+	latchFNKey:	out std_logic
 );
 end Toggle_On_FN_Key;
 
@@ -32,17 +32,17 @@ begin
 			FNDelta1 <= '0';
 			FNDelta2 <= '0';
 			FNDelta3 <= '0';
-			latchFNKey1 <= '0';
+			latchFNKey <= '0';
 			loopback <= '0';
 		elsif rising_edge(clock) then
-			FNDelta1 <= FNKey1;
+			FNDelta1 <= FNKey;
 			FNDelta2 <= FNDelta1;
 			FNDelta3 <= FNDelta2;
 			if FNDelta3 = '0' and FNDelta2 = '1' then
 				loopback <= not loopback;
 			end if;
 		end if;
-		latchFNKey1 <= loopback;
+		latchFNKey <= loopback;
 	end process;
 
 end behv;

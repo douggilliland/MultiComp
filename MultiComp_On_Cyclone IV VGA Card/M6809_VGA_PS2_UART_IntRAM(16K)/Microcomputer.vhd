@@ -90,9 +90,10 @@ architecture struct of Microcomputer is
 	signal switchesRead			 	: std_logic_vector(7 downto 0);
 	
 	signal txdBuff						: std_logic;
-	-- signal funKeys						: std_logic_vector(12 downto 0);
-	-- signal fKey1						: std_logic;
-	signal FNtoggledKeys				: std_logic_vector(12 downto 0);
+	signal funKeys						: std_logic_vector(12 downto 0);
+	signal fKey1						: std_logic;
+	signal fKey2						: std_logic;
+--	signal FNtoggledKeys				: std_logic_vector(12 downto 0);
 
 begin
 	-- ____________________________________________________________________________________
@@ -110,7 +111,7 @@ begin
 	videoB2 <= '0';
 	
 	LED1 <= latchedBits(0);
-	LED2 <= FNtoggledKeys(0);
+	LED2 <= fKey1;
 	LED3 <= txdBuff;
 	LED4 <= rxd;
 	txd <= txdBuff;
@@ -155,7 +156,7 @@ begin
 	-- ____________________________________________________________________________________
 	-- RAM GOES HERE
 	
- 	ram1: entity work.IntRAM16K
+ 	ram1: entity work.InternalRam16K
 		port map
 		(
 			address => cpuAddress(13 downto 0),
@@ -190,8 +191,25 @@ begin
 			dataOut => interface1DataOut,
 			ps2Clk => ps2Clk,
 			ps2Data => ps2Data,
-			FNtoggledKeys => FNtoggledKeys
+			FNkeys => funKeys
 		);
+		
+	FNKey1Toggle: entity work.Toggle_On_FN_Key	
+		port map (		
+			FNKey => funKeys(1),
+			clock => clk,
+			n_res => n_reset,
+			latchFNKey => fKey1
+		);	
+
+	FNKey2Toggle: entity work.Toggle_On_FN_Key	
+		port map (		
+			FNKey => funKeys(2),
+			clock => clk,
+			n_res => n_reset,
+			latchFNKey => fKey2
+		);	
+
 		
 	UART : entity work.bufferedUART
 		port map(
@@ -226,8 +244,8 @@ begin
 	-- ____________________________________________________________________________________
 	-- CHIP SELECTS GO HERE
 	n_basRomCS <= '0' when cpuAddress(15 downto 13) = "111" else '1'; --8K at top of memory
-	n_videoInterfaceCS <= '0' when ((cpuAddress(15 downto 1) = "111111111101000" and FNtoggledKeys(0) = '0') or (cpuAddress(15 downto 1) = "111111111101001" and FNtoggledKeys(0) = '1')) else '1';
-	n_aciaCS <= '0'           when ((cpuAddress(15 downto 1) = "111111111101001" and FNtoggledKeys(0) = '0') or (cpuAddress(15 downto 1) = "111111111101000" and FNtoggledKeys(0) = '1')) else '1';
+	n_videoInterfaceCS <= '0' when ((cpuAddress(15 downto 1) = "111111111101000" and fKey1 = '0') or (cpuAddress(15 downto 1) = "111111111101001" and fKey1 = '1')) else '1';
+	n_aciaCS           <= '0' when ((cpuAddress(15 downto 1) = "111111111101001" and fKey1 = '0') or (cpuAddress(15 downto 1) = "111111111101000" and fKey1 = '1')) else '1';
 	n_IOCS <= '0' when cpuAddress(15 downto 0) = "1111111111010100" else '1'; -- 1 byte FFD4 (65492 dec)
 	n_internalRamCS <= '0' when cpuAddress(15 downto 14) = "00" else '1';
 	
@@ -254,7 +272,12 @@ clk_gen: process (clk)
 				cpuClkCount <= (others=>'0');
 			end if;
 			cpuClock <= cpuClkCount(0);
-			
+		end if;
+end process;
+
+sdclk_gen: process (clk)
+	begin
+		if rising_edge(clk) then
 			if sdClkCount < 49 then -- 1MHz
 				sdClkCount <= sdClkCount + 1;
 			else
@@ -283,7 +306,11 @@ end process;
 
 	baud_div: process (serialClkCount_d, serialClkCount)
 		begin
-			serialClkCount_d <= serialClkCount + 2416;
+			if fKey2 = '0' then
+				serialClkCount_d <= serialClkCount + 2416;	-- 115,200 baud
+			else
+				serialClkCount_d <= serialClkCount + 6;		-- 300 baud
+			end if;
 		end process;
 
 	--Single clock wide baud rate enable
