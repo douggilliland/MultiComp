@@ -1,16 +1,12 @@
--- Original file is copyright by Grant Searle 2014
--- Grant Searle's "multicomp" page at http://searle.hostei.com/grant/Multicomp/index.html
---
--- Changes to this code by Doug Gilliland 2019
---	16K (internal) RAM version
---
+-- Implements Grant Searle's modifications for 64x32 screens as described here:
+-- http://searle.hostei.com/grant/uk101FPGA/index.html#Modification3
 
 library ieee;
 use ieee.std_logic_1164.all;
 use  IEEE.STD_LOGIC_ARITH.all;
 use  IEEE.STD_LOGIC_UNSIGNED.all;
 
-entity Microcomputer is
+entity M6502_VGA is
 	port(
 		n_reset		: in std_logic;
 		clk			: in std_logic;
@@ -35,8 +31,8 @@ entity Microcomputer is
 		videoB2		: out std_logic;
 		videoB3		: out std_logic;
 		videoB4		: out std_logic;
-		hSync			: out std_logic;
-		vSync			: out std_logic;
+		hSync		: out std_logic;
+		vSync		: out std_logic;
 		
 		switch0		: in std_logic;
 		switch1		: in std_logic;
@@ -50,28 +46,28 @@ entity Microcomputer is
 		ps2Clk		: inout std_logic;
 		ps2Data		: inout std_logic
 	);
-end Microcomputer;
+end M6502_VGA;
 
-architecture struct of Microcomputer is
+architecture struct of M6502_VGA is
 
-	signal n_WR							: std_logic;
-	signal n_RD							: std_logic;
-	signal cpuAddress					: std_logic_vector(15 downto 0);
-	signal cpuDataOut					: std_logic_vector(7 downto 0);
-	signal cpuDataIn					: std_logic_vector(7 downto 0);
+	signal n_WR					: std_logic;
+	signal n_RD					: std_logic;
+	signal cpuAddress			: std_logic_vector(15 downto 0);
+	signal cpuDataOut			: std_logic_vector(7 downto 0);
+	signal cpuDataIn			: std_logic_vector(7 downto 0);
 
-	signal basRomData					: std_logic_vector(7 downto 0);
-	signal interface1DataOut		: std_logic_vector(7 downto 0);
-	signal aciaData					: std_logic_vector(7 downto 0);
-	signal internalRam1DataOut		: std_logic_vector(7 downto 0);
-
-	signal n_memWR						: std_logic :='1';
-	signal n_memRD 					: std_logic :='1';
+	signal basRomData			: std_logic_vector(7 downto 0);
+	signal interface1DataOut	: std_logic_vector(7 downto 0);
+	signal aciaData			: std_logic_vector(7 downto 0);
+	signal ramDataOut			: std_logic_vector(7 downto 0);
+	
+	signal n_memWR				: std_logic;
+	signal n_memRD 			: std_logic :='1';
 	
 	signal n_basRomCS					: std_logic :='1';
 	signal n_videoInterfaceCS		: std_logic :='1';
+	signal n_ramCS						: std_logic :='1';
 	signal n_aciaCS					: std_logic :='1';
-	signal n_internalRamCS			: std_logic :='1';
 	signal n_IOCS						: std_logic :='1';
 	signal n_IOCS_Write				: std_logic :='1';
 	signal n_IOCS_Read 				: std_logic :='1';
@@ -95,6 +91,7 @@ begin
 	-- ____________________________________________________________________________________
 	-- Card has 16 bits of RGB digital data
 	-- Drive the least significant bits with 0's since Multi-Comp only has 6 bits of RGB digital data
+	-- Drive a blue background with white text
 	videoR0 <= '0';
 	videoR1 <= '0';
 	videoR2 <= '0';
@@ -105,7 +102,7 @@ begin
 	videoB0 <= '0';
 	videoB1 <= '0';
 	videoB2 <= '0';
-	
+
 	LED1 <= latchedBits(0);
 	LED2 <= fKey1;
 	LED3 <= txdBuff;
@@ -122,74 +119,67 @@ begin
 	switchesRead(5) <= '0';
 	switchesRead(6) <= '0';
 	switchesRead(7) <= '0';
-	
-	-- ____________________________________________________________________________________
-	-- CPU CHOICE GOES HERE
-	cpu1 : entity work.cpu09
-		port map(
-			clk => not(cpuClock),
-			rst => not n_reset,
-			rw => n_WR,
-			addr => cpuAddress,
-			data_in => cpuDataIn,
-			data_out => cpuDataOut,
-			halt => '0',
-			hold => '0',
-			irq => '0',
-			firq => '0',
-			nmi => '0'
-		); 
-	
-	-- ____________________________________________________________________________________
-	-- ROM GOES HERE	
-	rom1 : entity work.M6809_EXT_BASIC_ROM -- 8KB BASIC
-		port map(
-			address => cpuAddress(12 downto 0),
-			clock => clk,
-			q => basRomData
-		);
-	
-	-- ____________________________________________________________________________________
-	-- RAM GOES HERE
-	
- 	ram1: entity work.InternalRam16K
-		port map
-		(
-			address => cpuAddress(13 downto 0),
-			clock => clk,
-			data => cpuDataOut,
-			wren => not(n_memWR or n_internalRamCS),
-			q => internalRam1DataOut
-		);
-	
-	-- ____________________________________________________________________________________
-	-- Display GOES HERE
+
+	cpu : entity work.T65
+	port map(
+		Enable => '1',
+		Mode => "00",
+		Res_n => n_reset,
+		Clk => cpuClock,
+		Rdy => '1',
+		Abort_n => '1',
+		IRQ_n => '1',
+		NMI_n => '1',
+		SO_n => '1',
+		R_W_n => n_WR,
+		A(15 downto 0) => cpuAddress,
+		DI => cpuDataIn,
+		DO => cpuDataOut);
+			
+
+	rom : entity work.M6502_BASIC_ROM -- 8KB
+	port map(
+		address => cpuAddress(12 downto 0),
+		clock => clk,
+		q => basRomData
+	);
+
+	u3: entity work.InternalRam16K 
+	port map
+	(
+		address => cpuAddress(13 downto 0),
+		clock => clk,
+		data => cpuDataOut,
+		wren => not(n_memWR or n_ramCS),
+		q => ramDataOut
+	);
 
 	io1 : entity work.SBCTextDisplayRGB
 		port map (
-			n_reset => n_reset,
-			clk => clk,
-			
-			-- RGB CompVideo signals
-			hSync => hSync,
-			vSync => vSync,
-			videoR0 => videoR3,
-			videoR1 => videoR4,
-			videoG0 => videoG4,
-			videoG1 => videoG5,
-			videoB0 => videoB3,
-			videoB1 => videoB4,
-			
-			n_wr => n_videoInterfaceCS or cpuClock or n_WR,
-			n_rd => n_videoInterfaceCS or cpuClock or (not n_WR),
-			regSel => cpuAddress(0),
-			dataIn => cpuDataOut,
-			dataOut => interface1DataOut,
-			ps2Clk => ps2Clk,
-			ps2Data => ps2Data,
+		n_reset => n_reset,
+		clk => clk,
+
+		-- RGB video signals
+		hSync => hSync,
+		vSync => vSync,
+		videoR0 => videoR3,
+		videoR1 => videoR4,
+		videoG0 => videoG4,
+		videoG1 => videoG5,
+		videoB0 => videoB3,
+		videoB1 => videoB4,
+
+		n_wr => n_videoInterfaceCS or cpuClock or n_WR,
+		n_rd => n_videoInterfaceCS or cpuClock or (not n_WR),
+--		n_int => n_int1,
+		regSel => cpuAddress(0),
+		dataIn => cpuDataOut,
+		dataOut => interface1DataOut,
+		ps2Clk => ps2Clk,
+		ps2Data => ps2Data,
 			FNkeys => funKeys
-		);
-	
+	);
+
 	UART : entity work.bufferedUART
 		port map(
 			clk => clk,
@@ -207,15 +197,6 @@ begin
 			n_rts => rts
 		);
 	
-io3: entity work.OUT_LATCH
-	port map (
-		dataIn8 => cpuDataOut,
-		clock => clk,
-		load => n_IOCS_Write,
-		clear => n_reset,
-		latchOut => latchedBits
-		);
-	
 	FNKeyToggle: entity work.Toggle_On_FN_Key
 		port map (	
 			FNKey1 => funKeys(1),
@@ -224,49 +205,41 @@ io3: entity work.OUT_LATCH
 			latchFNKey1 => fKey1
 		);
 		
-	-- ____________________________________________________________________________________
-	-- MEMORY READ/WRITE LOGIC GOES HERE
+	n_memRD <= not(cpuClock) nand n_WR;
 	n_memWR <= not(cpuClock) nand (not n_WR);
-	
-	-- ____________________________________________________________________________________
-	-- CHIP SELECTS GO HERE
-	n_basRomCS <= '0' when cpuAddress(15 downto 13) = "111" else '1'; --8K at top of memory
+
+	-- Chip Selects
+	n_basRomCS <= '0' when cpuAddress(15 downto 13) = "111" else '1'; 		-- xA000-xBFFF (8KB)
 	n_videoInterfaceCS <= '0' when ((cpuAddress(15 downto 1) = "111111111101000" and fKey1 = '0') or (cpuAddress(15 downto 1) = "111111111101001" and fKey1 = '1')) else '1';
 	n_aciaCS <= '0'           when ((cpuAddress(15 downto 1) = "111111111101001" and fKey1 = '0') or (cpuAddress(15 downto 1) = "111111111101000" and fKey1 = '1')) else '1';
-	n_IOCS <= '0' when cpuAddress(15 downto 0) = "1111111111010100" else '1'; -- 1 byte FFD4 (65492 dec)
-	n_internalRamCS <= '0' when cpuAddress(15 downto 14) = "00" else '1';
-	
-	-- ____________________________________________________________________________________
-	-- BUS ISOLATION GOES HERE
-	-- Order matters since SRAM overlaps I/O chip selects
+
+	n_ramCS <= '0' when cpuAddress(15 downto 14)="00" else '1';					-- x0000-x3FFF (16KB)
+ 
 	cpuDataIn <=
-	interface1DataOut when n_videoInterfaceCS = '0' else
-	aciaData when n_aciaCS = '0' else
-	switchesRead when n_IOCS_Read = '0' else
-	basRomData when n_basRomCS = '0' else
-	internalRam1DataOut when n_internalRamCS= '0' else
-	x"FF";
-	
-	-- ____________________________________________________________________________________
-	-- SYSTEM CLOCKS GO HERE
-	-- SUB-CIRCUIT CLOCK SIGNALS
+		interface1DataOut when n_videoInterfaceCS = '0' else
+		aciaData when n_aciaCS = '0' else
+		basRomData when n_basRomCS = '0' else
+		ramDataOut when n_ramCS = '0' else
+		x"FF";
+		
+
+-- SUB-CIRCUIT CLOCK SIGNALS 
 process (clk)
-begin
-if rising_edge(clk) then
+	begin
+		if rising_edge(clk) then
 
-if cpuClkCount < 4 then -- 4 = 10MHz, 3 = 12.5MHz, 2=16.6MHz, 1=25MHz
-cpuClkCount <= cpuClkCount + 1;
-else
-cpuClkCount <= (others=>'0');
-end if;
-if cpuClkCount < 2 then -- 2 when 10MHz, 2 when 12.5MHz, 2 when 16.6MHz, 1 when 25MHz
-cpuClock <= '0';
-else
-cpuClock <= '1';
-end if;
-
-end if;
-end process;
+			if cpuClkCount < 4 then -- 4 = 10MHz, 3 = 12.5MHz, 2=16.6MHz, 1=25MHz
+				cpuClkCount <= cpuClkCount + 1;
+			else
+				cpuClkCount <= (others=>'0');
+			end if;
+			if cpuClkCount < 2 then -- 2 when 10MHz, 2 when 12.5MHz, 2 when 16.6MHz, 1 when 25MHz
+				cpuClock <= '0';
+			else
+				cpuClock <= '1';
+			end if; 
+		end if; 
+    end process;
 
 	-- ____________________________________________________________________________________
 	-- Baud Rate Clock Signals
@@ -296,7 +269,7 @@ end process;
 				else
 					serialClkEn <= '0';
 				end if;
-        end if;
+       end if;
     end process;
 
 end;
