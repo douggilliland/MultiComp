@@ -93,7 +93,6 @@ architecture struct of Microcomputer is
 	signal funKeys						: std_logic_vector(12 downto 0);
 	signal fKey1						: std_logic;
 	signal fKey2						: std_logic;
---	signal FNtoggledKeys				: std_logic_vector(12 downto 0);
 
 begin
 	-- ____________________________________________________________________________________

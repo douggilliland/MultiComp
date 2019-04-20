@@ -43,6 +43,8 @@ entity M6502_VGA is
 		LED3			: out std_logic;
 		LED4			: out std_logic;
 
+		BUZZER		: out std_logic;
+
 		ps2Clk		: inout std_logic;
 		ps2Data		: inout std_logic
 	);
@@ -55,6 +57,9 @@ architecture struct of M6502_VGA is
 	signal cpuAddress			: std_logic_vector(15 downto 0);
 	signal cpuDataOut			: std_logic_vector(7 downto 0);
 	signal cpuDataIn			: std_logic_vector(7 downto 0);
+	
+	signal counterOut			: std_logic_vector(27 downto 0);
+	signal buzz					: std_logic;
 
 	signal basRomData			: std_logic_vector(7 downto 0);
 	signal interface1DataOut	: std_logic_vector(7 downto 0);
@@ -86,6 +91,7 @@ architecture struct of M6502_VGA is
 	signal txdBuff						: std_logic;
 	signal funKeys						: std_logic_vector(12 downto 0);
 	signal fKey1						: std_logic;
+	signal fKey2						: std_logic;
 
 begin
 	-- ____________________________________________________________________________________
@@ -197,14 +203,46 @@ begin
 			n_rts => rts
 		);
 	
-	FNKeyToggle: entity work.Toggle_On_FN_Key
-		port map (	
-			FNKey1 => funKeys(1),
+	FNKey1Toggle: entity work.Toggle_On_FN_Key	
+		port map (		
+			FNKey => funKeys(1),
 			clock => clk,
 			n_res => n_reset,
-			latchFNKey1 => fKey1
-		);
+			latchFNKey => fKey1
+		);	
+
+	FNKey2Toggle: entity work.Toggle_On_FN_Key	
+		port map (		
+			FNKey => funKeys(2),
+			clock => clk,
+			n_res => n_reset,
+			latchFNKey => fKey2
+		);	
 		
+	io3: entity work.OUT_LATCH
+		port map (
+			dataIn8 => cpuDataOut,
+			clock => clk,
+			load => n_IOCS_Write,
+			clear => n_reset,
+			latchOut => latchedBits
+			);
+	
+	myCounter : entity work.counter
+	port map(
+		clock => clk,
+		clear => '0',
+		count => '1',
+		Q => counterOut
+		);
+
+--	buzz <= latchedBits(4) and counterOut(16);
+	BUZZER <= (
+		(latchedBits(4) and counterOut(13)) or 
+		(latchedBits(5) and counterOut(14)) or 
+		(latchedBits(6) and counterOut(15)) or 
+		(latchedBits(7) and counterOut(16)));
+
 	n_memRD <= not(cpuClock) nand n_WR;
 	n_memWR <= not(cpuClock) nand (not n_WR);
 
@@ -212,19 +250,20 @@ begin
 	n_basRomCS <= '0' when cpuAddress(15 downto 13) = "111" else '1'; 		-- xA000-xBFFF (8KB)
 	n_videoInterfaceCS <= '0' when ((cpuAddress(15 downto 1) = "111111111101000" and fKey1 = '0') or (cpuAddress(15 downto 1) = "111111111101001" and fKey1 = '1')) else '1';
 	n_aciaCS <= '0'           when ((cpuAddress(15 downto 1) = "111111111101001" and fKey1 = '0') or (cpuAddress(15 downto 1) = "111111111101000" and fKey1 = '1')) else '1';
-
+	n_IOCS <= '0' when cpuAddress(15 downto 0) = "1111111111010100" else '1'; -- 1 byte FFD4 (65492 dec)
 	n_ramCS <= '0' when cpuAddress(15 downto 14)="00" else '1';					-- x0000-x3FFF (16KB)
  
 	cpuDataIn <=
 		interface1DataOut when n_videoInterfaceCS = '0' else
 		aciaData when n_aciaCS = '0' else
+		switchesRead when n_IOCS_Read = '0' else
 		basRomData when n_basRomCS = '0' else
 		ramDataOut when n_ramCS = '0' else
 		x"FF";
 		
 
 -- SUB-CIRCUIT CLOCK SIGNALS 
-process (clk)
+	process (clk)
 	begin
 		if rising_edge(clk) then
 
@@ -256,7 +295,11 @@ process (clk)
 
 	baud_div: process (serialClkCount_d, serialClkCount)
 		begin
-			serialClkCount_d <= serialClkCount + 2416;
+			if fKey2 = '0' then
+				serialClkCount_d <= serialClkCount + 2416;	-- 115,200 baud
+			else
+				serialClkCount_d <= serialClkCount + 6;		-- 300 baud
+				end if;
 		end process;
 
 	--Single clock wide baud rate enable
@@ -271,5 +314,5 @@ process (clk)
 				end if;
        end if;
     end process;
-
+	 
 end;
