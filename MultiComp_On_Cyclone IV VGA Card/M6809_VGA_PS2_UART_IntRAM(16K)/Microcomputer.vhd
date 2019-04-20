@@ -90,8 +90,9 @@ architecture struct of Microcomputer is
 	signal switchesRead			 	: std_logic_vector(7 downto 0);
 	
 	signal txdBuff						: std_logic;
-	signal funKeys						: std_logic_vector(12 downto 0);
-	signal fKey1						: std_logic;
+	-- signal funKeys						: std_logic_vector(12 downto 0);
+	-- signal fKey1						: std_logic;
+	signal FNtoggledKeys				: std_logic_vector(12 downto 0);
 
 begin
 	-- ____________________________________________________________________________________
@@ -109,7 +110,7 @@ begin
 	videoB2 <= '0';
 	
 	LED1 <= latchedBits(0);
-	LED2 <= fKey1;
+	LED2 <= FNtoggledKeys(0);
 	LED3 <= txdBuff;
 	LED4 <= rxd;
 	txd <= txdBuff;
@@ -189,7 +190,7 @@ begin
 			dataOut => interface1DataOut,
 			ps2Clk => ps2Clk,
 			ps2Data => ps2Data,
-			FNkeys => funKeys
+			FNtoggledKeys => FNtoggledKeys
 		);
 		
 	UART : entity work.bufferedUART
@@ -218,14 +219,6 @@ begin
 			latchOut => latchedBits
 			);
 	
-	FNKeyToggle: entity work.Toggle_On_FN_Key
-		port map (	
-			FNKey1 => funKeys(1),
-			clock => clk,
-			n_res => n_reset,
-			latchFNKey1 => fKey1
-		);
-
 	-- ____________________________________________________________________________________
 	-- MEMORY READ/WRITE LOGIC GOES HERE
 	n_memWR <= not(cpuClock) nand (not n_WR);
@@ -233,8 +226,8 @@ begin
 	-- ____________________________________________________________________________________
 	-- CHIP SELECTS GO HERE
 	n_basRomCS <= '0' when cpuAddress(15 downto 13) = "111" else '1'; --8K at top of memory
-	n_videoInterfaceCS <= '0' when ((cpuAddress(15 downto 1) = "111111111101000" and fKey1 = '0') or (cpuAddress(15 downto 1) = "111111111101001" and fKey1 = '1')) else '1';
-	n_aciaCS <= '0'           when ((cpuAddress(15 downto 1) = "111111111101001" and fKey1 = '0') or (cpuAddress(15 downto 1) = "111111111101000" and fKey1 = '1')) else '1';
+	n_videoInterfaceCS <= '0' when ((cpuAddress(15 downto 1) = "111111111101000" and FNtoggledKeys(0) = '0') or (cpuAddress(15 downto 1) = "111111111101001" and FNtoggledKeys(0) = '1')) else '1';
+	n_aciaCS <= '0'           when ((cpuAddress(15 downto 1) = "111111111101001" and FNtoggledKeys(0) = '0') or (cpuAddress(15 downto 1) = "111111111101000" and FNtoggledKeys(0) = '1')) else '1';
 	n_IOCS <= '0' when cpuAddress(15 downto 0) = "1111111111010100" else '1'; -- 1 byte FFD4 (65492 dec)
 	n_internalRamCS <= '0' when cpuAddress(15 downto 14) = "00" else '1';
 	

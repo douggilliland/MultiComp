@@ -79,18 +79,18 @@ architecture struct of Microcomputer is
 	signal serialClkCount			: std_logic_vector(15 downto 0);
 	signal serialClkCount_d       : std_logic_vector(15 downto 0);
 	signal serialClkEn            : std_logic;
+	signal serialClock				: std_logic;
 
 	signal cpuClkCount				: std_logic_vector(5 downto 0); 
 	signal cpuClock					: std_logic;
-	signal serialClock				: std_logic;
 	
 	signal latchedBits				: std_logic_vector(7 downto 0);
 	signal switchesRead			 	: std_logic_vector(7 downto 0);
 
 	signal txdBuff						: std_logic;
 	--signal funKeys						: std_logic_vector(12 downto 0);
-	signal FNtoggledKeys				: std_logic_vector(12 downto 0);
 	--signal fKey1						: std_logic;
+	signal FNtoggledKeys				: std_logic_vector(12 downto 0);
 
 begin
 	-- ____________________________________________________________________________________
@@ -188,7 +188,6 @@ begin
 			dataOut => interface1DataOut,
 			ps2Clk => ps2Clk,
 			ps2Data => ps2Data,
-			--FNkeys => funKeys,
 			FNtoggledKeys => FNtoggledKeys
 		);
 	
@@ -218,14 +217,6 @@ io3: entity work.OUT_LATCH
 		latchOut => latchedBits
 		);
 	
-	-- FNKeyToggle: entity work.Toggle_On_FN_Key
-		-- port map (	
-			-- FNKey1 => funKeys(1),
-			-- clock => clk,
-			-- n_res => n_reset,
-			-- latchFNKey1 => fKey1
-		-- );
-		
 	-- ____________________________________________________________________________________
 	-- MEMORY READ/WRITE LOGIC GOES HERE
 	n_memWR <= not(cpuClock) nand (not n_WR);
@@ -254,20 +245,20 @@ io3: entity work.OUT_LATCH
 	-- SUB-CIRCUIT CLOCK SIGNALS
 process (clk)
 begin
-if rising_edge(clk) then
+	if rising_edge(clk) then
 
-if cpuClkCount < 4 then -- 4 = 10MHz, 3 = 12.5MHz, 2=16.6MHz, 1=25MHz
-cpuClkCount <= cpuClkCount + 1;
-else
-cpuClkCount <= (others=>'0');
-end if;
-if cpuClkCount < 2 then -- 2 when 10MHz, 2 when 12.5MHz, 2 when 16.6MHz, 1 when 25MHz
-cpuClock <= '0';
-else
-cpuClock <= '1';
-end if;
+	if cpuClkCount < 4 then -- 4 = 10MHz, 3 = 12.5MHz, 2=16.6MHz, 1=25MHz
+		cpuClkCount <= cpuClkCount + 1;
+	else
+		cpuClkCount <= (others=>'0');
+	end if;
+	if cpuClkCount < 2 then -- 2 when 10MHz, 2 when 12.5MHz, 2 when 16.6MHz, 1 when 25MHz
+		cpuClock <= '0';
+	else
+		cpuClock <= '1';
+	end if;
 
-end if;
+	end if;
 end process;
 
 	-- ____________________________________________________________________________________
@@ -300,5 +291,4 @@ end process;
 				end if;
         end if;
     end process;
-
 end;
