@@ -86,26 +86,6 @@ architecture struct of uk101_16K is
 	signal txdBuff						: std_logic;
 
 begin
-	-- ____________________________________________________________________________________
-	-- Card has 16 bits of RGB digital data
-	-- Drive the least significant bits with 0's since Multi-Comp only has 6 bits of RGB digital data
-	-- Drive a blue background with white text
---	videoR0 <= '0';
---	videoR1 <= '0';
---	videoR2 <= '0';
---	videoG0 <= '0';
---	videoG1 <= '0';
---	videoG2 <= '0';
---	videoG3 <= '0'; 
---	videoB0 <= '1';
---	videoB1 <= '1';
---	videoB2 <= '1';
---	videoB3 <= '0';
---	videoB4 <= hActive;
---	videoR3 <= videoOut;
---	videoR4 <= videoOut;
---	videoG4 <= videoOut;
---	videoG5 <= videoOut;
 
 	n_memWR <= not(cpuClock) nand (not n_WR);
 
