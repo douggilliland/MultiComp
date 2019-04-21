@@ -74,8 +74,6 @@ architecture struct of Z80_VGA is
 	signal n_interface2CS			: std_logic :='1';
 	signal n_internalRam1CS			: std_logic :='1';
 	signal n_Latch_CS					: std_logic :='1';
-	signal n_Latch_Write				: std_logic :='1';
-	signal n_Latch_Read 				: std_logic :='1';
 	
 	signal n_ioWR						: std_logic :='1';
 	signal n_ioRD 						: std_logic :='1';
@@ -96,7 +94,7 @@ architecture struct of Z80_VGA is
 	
 	signal n_LatchCS					: std_logic :='1';
 	signal latchedBits				: std_logic_vector(7 downto 0);
-	signal switchesRead			 	: std_logic_vector(7 downto 0);
+	signal switchesDataout			 	: std_logic_vector(7 downto 0);
 
 	signal txdBuff						: std_logic;
 	signal funKeys						: std_logic_vector(12 downto 0);
@@ -109,11 +107,10 @@ begin
 	-- ____________________________________________________________________________________
 	-- Card has 16 bits of RGB digital data
 	-- Drive the least significant bits with 0's since Multi-Comp only has 6 bits of RGB digital data
-	-- Drive a blue background with white text
-	videoR0 <= n_IORQ;	-- pin 120 (CH 2)
+	videoR0 <= '0';	-- pin 120 (CH 2)
 	videoR1 <= '0';
 	videoR2 <= '0';
-	videoG0 <= n_Latch_CS;	-- pin 111 (CH 1)
+	videoG0 <= '0';	-- pin 111 (CH 1)
 	videoG1 <= '0';
 	videoG2 <= '0';
 	videoG3 <= '0'; 
@@ -127,14 +124,14 @@ begin
 	LED4 <= rxd;
 	txd <= txdBuff;
 	
-	switchesRead(0) <= switch0;
-	switchesRead(1) <= switch1;
-	switchesRead(2) <= switch2;
-	switchesRead(3) <= '0';
-	switchesRead(4) <= '0';
-	switchesRead(5) <= '0';
-	switchesRead(6) <= '0';
-	switchesRead(7) <= '0';
+	switchesDataout(0) <= switch0;
+	switchesDataout(1) <= switch1;
+	switchesDataout(2) <= switch2;
+	switchesDataout(3) <= '0';
+	switchesDataout(4) <= '0';
+	switchesDataout(5) <= '0';
+	switchesDataout(6) <= '0';
+	switchesDataout(7) <= '0';
 
 -- ____________________________________________________________________________________
 -- CPU CHOICE GOES HERE
@@ -181,22 +178,22 @@ begin
 		-- RGB video signals
 		hSync => hSync,
 		vSync => vSync,
-		videoR0 => videoR3,
+		videoR0 => videoR3,		-- Most significant bits (different from Grant's)
 		videoR1 => videoR4,
 		videoG0 => videoG4,
 		videoG1 => videoG5,
 		videoB0 => videoB3,
 		videoB1 => videoB4,
 
-		n_wr => n_interface1CS or cpuClock or n_WR,
-		n_rd => n_interface1CS or cpuClock or not n_WR,
+		n_wr => n_interface1CS or n_ioWR,
+		n_rd => n_interface1CS or n_ioRD,
 		n_int => n_int1,
 		regSel => cpuAddress(0),
 		dataIn => cpuDataOut,
 		dataOut => interface1DataOut,
 		ps2Clk => ps2Clk,
 		ps2Data => ps2Data,
-		FNkeys => funKeys
+		FNkeys => funKeys			-- Brought out to use as port select/baud rate selects
 	);
 
 	UART : entity work.bufferedUART
@@ -208,7 +205,7 @@ begin
 			regSel => cpuAddress(0),
 			dataIn => cpuDataOut,
 			dataOut => interface2DataOut,
-			rxClkEn => serialClkEn,
+			rxClkEn => serialClkEn,		-- Improved UART clocking by Neal Crook
 			txClkEn => serialClkEn,
 			rxd => rxd,
 			txd => txdBuff,
@@ -237,7 +234,7 @@ begin
 		port map (
 			dataIn8 => cpuDataOut,
 			clock => clk,
-			load => n_Latch_Write,
+			load => n_Latch_CS or n_ioWR,
 			clear => n_reset,
 			latchOut => latchedBits
 			);
@@ -266,6 +263,8 @@ begin
 	-- Chip Selects
 	n_basRomCS       <= '0' when   cpuAddress(15 downto 13) = "000" else '1'; --8K from $0000-1FFF
 	n_internalRam1CS <= '0' when ((cpuAddress(15 downto 13) = "001") or (cpuAddress(15 downto 13) = "010"))  else '1';		-- x0002-x5FFF (16KB)
+	-- I/O accesses are via IN/OUT in Z80 NASCOM BASIC
+	-- The address decoders get swapped when the F1 key is pressed
 	n_interface1CS <= '0' when 
 		((fKey1 = '0' and cpuAddress(7 downto 1) = "1000000" and (n_ioWR='0' or n_ioRD = '0')) or	-- 2 Bytes $80-$81
 		 (fKey1 = '1' and cpuAddress(7 downto 1) = "1000001" and (n_ioWR='0' or n_ioRD = '0')))	-- 2 Bytes $82-$83
@@ -274,16 +273,14 @@ begin
 		((fKey1 = '0' and cpuAddress(7 downto 1) = "1000001" and (n_ioWR='0' or n_ioRD = '0'))	or	-- 2 Bytes $82-$83
 		 (fKey1 = '1' and cpuAddress(7 downto 1) = "1000000" and (n_ioWR='0' or n_ioRD = '0')))	-- 2 Bytes $80-$81
 		else '1';
-	n_Latch_CS <= '0' when cpuAddress(7 downto 0) = "10000100" else '1'; 
-	n_Latch_Write <= '0' when cpuAddress(7 downto 1) = "1000010" and n_ioWR='0' else '1'; 		-- $84-$85 (132-133 dec)
-	n_Latch_Read  <= '0' when cpuAddress(7 downto 1) = "1000010" and n_ioRD='0' else '1'; 		-- $84-$85 (132-133 dec)
+	n_Latch_CS <= '0' when cpuAddress(7 downto 1) = "1000010" and (n_ioWR='0' or n_ioRD = '0') else '1';  -- $84-$85 (132-133 dec)
 	
 	cpuDataIn <=
 		interface1DataOut when n_interface1CS = '0' else	-- UART 1
 		interface2DataOut when n_interface2CS = '0' else	-- UART 2
+		switchesDataout when n_Latch_CS = '0' else
 		basRomData when n_basRomCS = '0' else
 		ramDataOut when n_internalRam1CS = '0' else
-		switchesRead when n_Latch_Read = '0' else
 		x"FF";
 		
 
