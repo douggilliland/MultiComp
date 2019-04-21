@@ -33,7 +33,7 @@ begin
 
     -- behavior describe the counter
 
-    process(clock, count, clear)
+    process(clock, count, clear, Pre_Q)
     begin
 	if clear = '1' then
  	    Pre_Q <= Pre_Q - Pre_Q;

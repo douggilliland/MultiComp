@@ -24,9 +24,9 @@ entity Microcomputer is
 		txd1			: out std_logic;
 		rts1			: out std_logic;
 
-		rxd2			: in std_logic;
-		txd2			: out std_logic;
-		rts2			: out std_logic;
+		-- rxd2			: in std_logic;
+		-- txd2			: out std_logic;
+		-- rts2			: out std_logic;
 		
 		videoSync	: out std_logic;
 		video			: out std_logic;
@@ -146,7 +146,7 @@ port map(
 );
 
 -- ____________________________________________________________________________________
--- RAM GOES HERE
+-- External RAM GOES HERE
 
 sramAddress(15 downto 0) <= cpuAddress(15 downto 0);
 sramAddress(16) <= '1';

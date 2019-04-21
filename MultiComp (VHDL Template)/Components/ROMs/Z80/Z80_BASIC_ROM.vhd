@@ -85,8 +85,8 @@ BEGIN
 	GENERIC MAP (
 		clock_enable_input_a => "BYPASS",
 		clock_enable_output_a => "BYPASS",
-		init_file => "../ROMS/Z80/BASIC.HEX",
-		intended_device_family => "Cyclone II",
+		init_file => "../../MultiComp (VHDL Template)/Components/ROMs/Z80/BASIC.HEX",
+		intended_device_family => "Cyclone IV",
 		lpm_hint => "ENABLE_RUNTIME_MOD=NO",
 		lpm_type => "altsyncram",
 		numwords_a => 8192,
