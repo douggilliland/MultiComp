@@ -67,7 +67,7 @@ architecture struct of M6502_VGA is
 	signal ramDataOut			: std_logic_vector(7 downto 0);
 	
 	signal n_memWR				: std_logic;
-	signal n_memRD 			: std_logic :='1';
+--	signal n_memRD 			: std_logic :='1';
 	
 	signal n_basRomCS					: std_logic :='1';
 	signal n_videoInterfaceCS		: std_logic :='1';
@@ -80,18 +80,18 @@ architecture struct of M6502_VGA is
 	signal serialClkCount			: std_logic_vector(15 downto 0);
 	signal serialClkCount_d       : std_logic_vector(15 downto 0);
 	signal serialClkEn            : std_logic;
+	signal serialClock				: std_logic;
 
 	signal cpuClkCount				: std_logic_vector(5 downto 0); 
 	signal cpuClock					: std_logic;
-	signal serialClock				: std_logic;
 	
 	signal latchedBits				: std_logic_vector(7 downto 0);
 	signal switchesRead			 	: std_logic_vector(7 downto 0);
-
-	signal txdBuff						: std_logic;
-	signal funKeys						: std_logic_vector(12 downto 0);
 	signal fKey1						: std_logic;
 	signal fKey2						: std_logic;
+	signal funKeys						: std_logic_vector(12 downto 0);
+
+	signal txdBuff						: std_logic;
 
 begin
 	-- ____________________________________________________________________________________
@@ -115,8 +115,6 @@ begin
 	LED4 <= rxd;
 	txd <= txdBuff;
 	
-	n_IOCS_Write <= n_memWR or n_IOCS;
-	n_IOCS_Read <= not n_memWR or n_IOCS;
 	switchesRead(0) <= switch0;
 	switchesRead(1) <= switch1;
 	switchesRead(2) <= switch2;
@@ -125,7 +123,25 @@ begin
 	switchesRead(5) <= '0';
 	switchesRead(6) <= '0';
 	switchesRead(7) <= '0';
-
+	-- Chip Selects
+	n_ramCS <= '0' when cpuAddress(15 downto 14)="00" else '1';					-- x0000-x3FFF (16KB)
+	n_basRomCS <= '0' when cpuAddress(15 downto 13) = "111" else '1'; 		-- xA000-xBFFF (8KB)
+	n_videoInterfaceCS <= '0' when ((cpuAddress(15 downto 1) = "111111111101000" and fKey1 = '0') or (cpuAddress(15 downto 1) = "111111111101001" and fKey1 = '1')) else '1';
+	n_aciaCS <= '0'           when ((cpuAddress(15 downto 1) = "111111111101001" and fKey1 = '0') or (cpuAddress(15 downto 1) = "111111111101000" and fKey1 = '1')) else '1';
+	n_IOCS <= '0' when cpuAddress(15 downto 0) = "1111111111010100" else '1'; -- 1 byte FFD4 (65492 dec)
+	n_IOCS_Write <= n_memWR or n_IOCS;
+	n_IOCS_Read <= not n_memWR or n_IOCS;
+	n_memWR <= not(cpuClock) nand (not n_WR);
+--	n_memRD <= not(cpuClock) nand n_WR;
+ 
+	cpuDataIn <=
+		interface1DataOut when n_videoInterfaceCS = '0' else
+		aciaData when n_aciaCS = '0' else
+		switchesRead when n_IOCS_Read = '0' else
+		basRomData when n_basRomCS = '0' else
+		ramDataOut when n_ramCS = '0' else
+		x"FF";
+		
 	cpu : entity work.T65
 	port map(
 		Enable => '1',
@@ -160,6 +176,23 @@ begin
 		q => ramDataOut
 	);
 
+	UART : entity work.bufferedUART
+		port map(
+			clk => clk,
+			n_wr => n_aciaCS or cpuClock or n_WR,
+			n_rd => n_aciaCS or cpuClock or (not n_WR),
+			regSel => cpuAddress(0),
+			dataIn => cpuDataOut,
+			dataOut => aciaData,
+			rxClkEn => serialClkEn,
+			txClkEn => serialClkEn,
+			rxd => rxd,
+			txd => txdBuff,
+			n_cts => '0',
+			n_dcd => '0',
+			n_rts => rts
+		);
+	
 	io1 : entity work.SBCTextDisplayRGB
 		port map (
 		n_reset => n_reset,
@@ -183,26 +216,9 @@ begin
 		dataOut => interface1DataOut,
 		ps2Clk => ps2Clk,
 		ps2Data => ps2Data,
-			FNkeys => funKeys
+		FNkeys => funKeys
 	);
 
-	UART : entity work.bufferedUART
-		port map(
-			clk => clk,
-			n_wr => n_aciaCS or cpuClock or n_WR,
-			n_rd => n_aciaCS or cpuClock or (not n_WR),
-			regSel => cpuAddress(0),
-			dataIn => cpuDataOut,
-			dataOut => aciaData,
-			rxClkEn => serialClkEn,
-			txClkEn => serialClkEn,
-			rxd => rxd,
-			txd => txdBuff,
-			n_cts => '0',
-			n_dcd => '0',
-			n_rts => rts
-		);
-	
 	FNKey1Toggle: entity work.Toggle_On_FN_Key	
 		port map (		
 			FNKey => funKeys(1),
@@ -242,25 +258,6 @@ begin
 		(latchedBits(5) and counterOut(14)) or 
 		(latchedBits(6) and counterOut(15)) or 
 		(latchedBits(7) and counterOut(16)));
-
-	n_memRD <= not(cpuClock) nand n_WR;
-	n_memWR <= not(cpuClock) nand (not n_WR);
-
-	-- Chip Selects
-	n_basRomCS <= '0' when cpuAddress(15 downto 13) = "111" else '1'; 		-- xA000-xBFFF (8KB)
-	n_videoInterfaceCS <= '0' when ((cpuAddress(15 downto 1) = "111111111101000" and fKey1 = '0') or (cpuAddress(15 downto 1) = "111111111101001" and fKey1 = '1')) else '1';
-	n_aciaCS <= '0'           when ((cpuAddress(15 downto 1) = "111111111101001" and fKey1 = '0') or (cpuAddress(15 downto 1) = "111111111101000" and fKey1 = '1')) else '1';
-	n_IOCS <= '0' when cpuAddress(15 downto 0) = "1111111111010100" else '1'; -- 1 byte FFD4 (65492 dec)
-	n_ramCS <= '0' when cpuAddress(15 downto 14)="00" else '1';					-- x0000-x3FFF (16KB)
- 
-	cpuDataIn <=
-		interface1DataOut when n_videoInterfaceCS = '0' else
-		aciaData when n_aciaCS = '0' else
-		switchesRead when n_IOCS_Read = '0' else
-		basRomData when n_basRomCS = '0' else
-		ramDataOut when n_ramCS = '0' else
-		x"FF";
-		
 
 -- SUB-CIRCUIT CLOCK SIGNALS 
 	process (clk)

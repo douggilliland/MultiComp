@@ -1,5 +1,6 @@
 -- Implements Grant Searle's modifications for 64x32 screens as described here:
 -- http://searle.hostei.com/grant/uk101FPGA/index.html#Modification3
+-- Uses Cra Ze Ape's 800x600 VGA code to get a full screen picture
 
 library ieee;
 use ieee.std_logic_1164.all;
@@ -26,6 +27,8 @@ entity uk101_16K is
 		LED3			: out std_logic;
 		LED4			: out std_logic;
 
+		BUZZER		: out std_logic;
+
 		ps2Clk		: in std_logic;
 		ps2Data		: in std_logic
 		);
@@ -35,10 +38,14 @@ end uk101_16K;
 architecture struct of uk101_16K is
 
 	signal n_WR				: std_logic;
-	signal n_RD							: std_logic;
+	signal n_RD				: std_logic;
 	signal cpuAddress		: std_logic_vector(15 downto 0);
 	signal cpuDataOut		: std_logic_vector(7 downto 0);
 	signal cpuDataIn		: std_logic_vector(7 downto 0);
+
+	signal counterOut			: std_logic_vector(18 downto 0);
+	signal clearBuzzerCounter : std_logic;
+	signal buzz					: std_logic;
 
 	signal basRomData		: std_logic_vector(7 downto 0);
 	signal monitorRomData : std_logic_vector(7 downto 0);
@@ -48,16 +55,21 @@ architecture struct of uk101_16K is
 	signal ramDataOut3	: std_logic_vector(7 downto 0);
 
 	signal n_memWR			: std_logic;
-	signal n_memRD 					: std_logic :='1';
+	signal n_memRD 		: std_logic :='1';
 	
 	signal n_basRomCS		: std_logic;
+	signal n_monitorRomCS : std_logic;
 	signal n_dispRamCS	: std_logic;
-	signal n_aciaCS		: std_logic;
 	signal n_ramCS			: std_logic;
 	signal n_ramCS2		: std_logic;
 	signal n_ramCS3		: std_logic;
-	signal n_monitorRomCS : std_logic;
+	signal n_aciaCS		: std_logic;
 	signal n_kbCS			: std_logic;
+	signal n_IOCS						: std_logic :='1';
+	signal n_IOCS2						: std_logic :='1';
+	signal n_IOCS_Write				: std_logic :='1';
+	signal n_IOCS_Write2				: std_logic :='1';
+	signal n_IOCS_Read 				: std_logic :='1';
 	
 	signal dispAddrB 		: std_logic_vector(10 downto 0);
 	signal dispRamDataOutA : std_logic_vector(7 downto 0);
@@ -73,6 +85,7 @@ architecture struct of uk101_16K is
 --	signal videoClk	: std_logic;
 	signal CLOCK_100		: std_ulogic;
 	signal CLOCK_50		: std_ulogic;
+	signal CLOCK_40		: std_ulogic;
 
 	signal cpuClkCount	: std_logic_vector(5 downto 0); 
 	signal cpuClock		: std_logic;
@@ -83,29 +96,56 @@ architecture struct of uk101_16K is
 	signal videoOut		: std_logic;
 --	signal hActive			: std_logic;
 
+	signal latchedBits				: std_logic_vector(7 downto 0);
+	signal latchedBits2				: std_logic_vector(7 downto 0);
+	signal switchesRead			 	: std_logic_vector(7 downto 0);
+	signal fKey1						: std_logic;
+	signal fKey2						: std_logic;
+	signal funKeys						: std_logic_vector(12 downto 0);
+
 	signal txdBuff						: std_logic;
 
 begin
 
-	n_memWR <= not(cpuClock) nand (not n_WR);
+	LED1 <= latchedBits(0);
+	LED2 <= latchedBits(1);
+	LED3 <= latchedBits(2);
+	LED4 <= latchedBits(3);
+	txd <= txdBuff;
+	
+	switchesRead(0) <= switch0;
+	switchesRead(1) <= switch1;
+	switchesRead(2) <= switch2;
+	switchesRead(3) <= '0';
+	switchesRead(4) <= '0';
+	switchesRead(5) <= '0';
+	switchesRead(6) <= '0';
+	switchesRead(7) <= '0';
 
 	-- Chip Selects
 	n_ramCS <= '0' when cpuAddress(15 downto 14)="00" else '1';					-- x0000-x3FFF (16KB)
 	n_ramCS2 <= '0' when cpuAddress(15 downto 11)="01000" else '1';			-- x4000-x47FF (2KB)
-	--n_ramCS3 <= '0' when cpuAddress(15 downto 10)="010010" else '1';			-- x4800-x4BFF (1KB)
+	n_ramCS3 <= '0' when cpuAddress(15 downto 10)="010010" else '1';			-- x4800-x4BFF (1KB)
 	n_basRomCS <= '0' when cpuAddress(15 downto 13) = "101" else '1'; 		-- xA000-xBFFF (8KB)
 	n_kbCS <= '0' when cpuAddress(15 downto 10) = "110111" else '1';			-- xDC00-xDFFF (1KB)
 	n_dispRamCS <= '0' when cpuAddress(15 downto 11) = "11010" else '1';		-- xD000-xD7FF (2KB)
 	n_aciaCS <= '0' when cpuAddress(15 downto 1) = "111100000000000" else '1';	-- xF000-xF001 (2B)
 	n_monitorRomCS <= '0' when cpuAddress(15 downto 11) = "11111" else '1'; 	-- xF800-xFFFF (2KB)
+	n_IOCS <= '0' when cpuAddress(15 downto 0) = "1111111111010100" else '1'; -- 1 byte FFD4 (65492 dec)
+	n_IOCS2 <= '0' when cpuAddress(15 downto 0) = "1111111111010101" else '1'; -- 1 byte FFD5 (65493 dec)
+	n_IOCS_Write <= n_memWR or n_IOCS;
+	n_IOCS_Write2 <= n_memWR or n_IOCS2;
+	n_IOCS_Read <= not n_memWR or n_IOCS;
+	n_memWR <= not(cpuClock) nand (not n_WR);
  
 	cpuDataIn <=
-		basRomData when n_basRomCS = '0' else
 		monitorRomData when n_monitorRomCS = '0' else
 		aciaData when n_aciaCS = '0' else
+		switchesRead when n_IOCS_Read = '0' else
+		basRomData when n_basRomCS = '0' else
 		ramDataOut when n_ramCS = '0' else
 		ramDataOut2 when n_ramCS2 = '0' else
-		--ramDataOut3 when n_ramCS3 = '0' else
+		ramDataOut3 when n_ramCS3 = '0' else
 		dispRamDataOutA when n_dispRamCS = '0' else
 		kbReadData when n_kbCS='0' else 
 		x"FF";
@@ -127,10 +167,10 @@ begin
 		DO => cpuDataOut);
 			
 
-	u2 : entity work.BasicRom -- 8KB
+	rom : entity work.BasicRom -- 8KB
 	port map(
 		address => cpuAddress(12 downto 0),
-		clock => clk,
+		clock => CLOCK_50,
 		q => basRomData
 	);
 
@@ -138,7 +178,7 @@ begin
 	port map
 	(
 		address => cpuAddress(13 downto 0),
-		clock => clk,
+		clock => CLOCK_50,
 		data => cpuDataOut,
 		wren => not(n_memWR or n_ramCS),
 		q => ramDataOut
@@ -148,21 +188,21 @@ begin
 	port map
 	(
 		address => cpuAddress(10 downto 0),
-		clock => clk,
+		clock => CLOCK_50,
 		data => cpuDataOut,
 		wren => not(n_memWR or n_ramCS2),
 		q => ramDataOut2
 	);
 	
---	u3b: entity work.InternalRam1K
---	port map
---	(
---		address => cpuAddress(9 downto 0),
---		clock => clk,
---		data => cpuDataOut,
---		wren => not(n_memWR or n_ramCS3),
---		q => ramDataOut3
---	);
+	u3b: entity work.InternalRam1K
+	port map
+	(
+		address => cpuAddress(9 downto 0),
+		clock => CLOCK_50,
+		data => cpuDataOut,
+		wren => not(n_memWR or n_ramCS3),
+		q => ramDataOut3
+	);
 	
 	u4: entity work.CegmonRom
 	port map
@@ -173,7 +213,7 @@ begin
 
 	UART : entity work.bufferedUART
 		port map(
-			clk => clk,
+			clk => CLOCK_50,
 			n_wr => n_aciaCS or cpuClock or n_WR,
 			n_rd => n_aciaCS or cpuClock or (not n_WR),
 			regSel => cpuAddress(0),
@@ -188,21 +228,50 @@ begin
 			n_rts => rts
 		);
 
+	io3: entity work.OUT_LATCH
+		port map (
+			dataIn8 => cpuDataOut,
+			clock => clk,
+			load => n_IOCS_Write,
+			clear => n_reset,
+			latchOut => latchedBits
+			);
+	
+	io3B: entity work.OUT_LATCH
+		port map (
+			dataIn8 => cpuDataOut,
+			clock => clk,
+			load => n_IOCS_Write2,
+			clear => n_reset,
+			latchOut => latchedBits2
+			);
+	
+	buzzCounter : entity work.counterLoadable
+	port map(
+		clock => clk,
+		clear => (not latchedBits(4)),		-- mUTE SOUND
+		loadVal => latchedBits2(7 downto 0),
+		soundOut => BUZZER,
+		Q => counterOut
+		);
+
 	-- ____________________________________________________________________________________
-	-- 50MHz system clock / 100MHz SDRAM clock
+	-- 50MHz system clock / 100MHz SDRAM clock / 40MHz Video clock
 pll : work.pll PORT MAP (
 		inclk0	 => clk,
 		c0	 => CLOCK_100,
-		c1	 => CLOCK_50
+		c1	 => CLOCK_40,
+		c2	 => CLOCK_50
 	);
 
+	-- Cra Ze Ape - much better screen 800x600 VGA
 	u6 : entity work.vga
 	port map (
 		charAddr => charAddr,
 		charData => charData,
 		dispAddr => dispAddrB,
 		dispData => dispRamDataOutB,
-		CLOCK_50 => clk,
+		CLOCK_40 => CLOCK_40,
 		unsigned(Vout) => Vout
 	);
 	
@@ -218,7 +287,7 @@ pll : work.pll PORT MAP (
 	(
 		address_a => cpuAddress(10 downto 0),
 		address_b => dispAddrB,
-		clock	=> clk,
+		clock	=> CLOCK_50,
 		data_a => cpuDataOut,
 		data_b => (others => '0'),
 		wren_a => not(n_memWR or n_dispRamCS),
@@ -229,7 +298,7 @@ pll : work.pll PORT MAP (
 	
 	u9 : entity work.UK101keyboard
 	port map(
-		CLK => clk,
+		CLK => CLOCK_50,
 		nRESET => n_reset,
 		PS2_CLK	=> ps2Clk,
 		PS2_DATA	=> ps2Data,
@@ -244,9 +313,11 @@ pll : work.pll PORT MAP (
 		end if;
 	end process;
 	
-	process (clk)
+	-- LIMITED TO 1 MHz
+	-- THERE IS A POKE SOMEWHERE FOR KEYBOARD REPEAT WHICH WOULD ALLOW FASTER CPU SPEEDS
+	process (CLOCK_50)
 	begin
-		if rising_edge(clk) then
+		if rising_edge(CLOCK_50) then
 			if cpuClkCount < 49 then
 				cpuClkCount <= cpuClkCount + 1;
 			else
@@ -274,7 +345,7 @@ pll : work.pll PORT MAP (
 	-- 2400 50
 	-- 1200 25
 	-- 600 13
-	-- 300 6
+	-- 300 6 - PROBABLY CAT GET MUCH FASTER WITH 1 MHz CPU
 
 	baud_div: process (serialClkCount_d, serialClkCount)
 		begin
@@ -282,9 +353,9 @@ pll : work.pll PORT MAP (
 		end process;
 
 	--Single clock wide baud rate enable
-	baud_clk: process(clk)
+	baud_clk: process(CLOCK_50)
 		begin
-			if rising_edge(clk) then
+			if rising_edge(CLOCK_50) then
 					serialClkCount <= serialClkCount_d;
 				if serialClkCount(15) = '0' and serialClkCount_d(15) = '1' then
 					serialClkEn <= '1';

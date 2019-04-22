@@ -17,7 +17,7 @@ entity vga is
 		charData : in std_LOGIC_VECTOR(7 downto 0);
 		dispAddr : out std_LOGIC_VECTOR(10 downto 0);
 		dispData : in std_LOGIC_VECTOR(7 downto 0);
- 		CLOCK_50    	: in  std_logic;
+ 		CLOCK_40    	: in  std_logic;
 		Vout:      out unsigned(17 downto 0) -- rrrrr,gggggg,bbbbb,hsync,vsync
 	);
 end vga;
@@ -45,7 +45,7 @@ signal RST				: std_ulogic:='0';
 
 signal CharX			: unsigned (5 downto 0) := "000000";
 signal CharY			: unsigned (5 downto 0) := "000000";
-	
+
 begin
 
 
@@ -54,13 +54,13 @@ begin
 --              Horizontal pixel counter               --
 --                                                     --
 ---------------------------------------------------------
-hcounter: process (CLOCK_50, RST)
+hcounter: process (CLOCK_40, RST)
 begin
    if RST='1' then
       hcount <= "0000000000";
-	elsif (rising_edge(CLOCK_50)) then
+	elsif (rising_edge(CLOCK_40)) then
       hcount <= hcount + 1;
-      if hcount=1039 then
+      if hcount=1055 then
          hcount <= "00000000000";
 		end if;
 	end if;
@@ -71,14 +71,14 @@ end process;
 --               Vertical linel counter                --
 --                                                     --
 ---------------------------------------------------------
-vcounter: process (CLOCK_50, RST)
+vcounter: process (CLOCK_40, RST)
 begin
    if RST='1' then 
       vcount <= "0000000000";
-	elsif (rising_edge(CLOCK_50)) then
-      if hcount = 1039 then
+	elsif (rising_edge(CLOCK_40)) then
+      if hcount = 1055 then
          vcount <= vcount + 1;
-         if vcount = 665 then
+         if vcount = 627 then
             vcount <= "0000000000";
 			end if;
       end if;
@@ -111,18 +111,18 @@ end process;
 --                    Sync Generator                   --
 --                                                     --
 ---------------------------------------------------------
-sync: process (CLOCK_50, RST)
+sync: process (CLOCK_40, RST)
 begin
    if RST='1'  then 
       hsync <= '0';
       vsync <= '0';
-	elsif (rising_edge(CLOCK_50)) then
+	elsif (rising_edge(CLOCK_40)) then
       hsync <= '1';
-      if (hcount <= 987 and hcount >= 855) then
+      if (hcount <= 957 and hcount >= 829) then		-- adjusted for my monitor/tv - ymmv
          hsync <= '0';
       end if;
       vsync <= '1';
-      if (vcount <= 645 and vcount >= 636) then
+      if (vcount <= 598 and vcount >= 592) then
          vsync <= '0';
       end if;
    end if;
@@ -133,9 +133,9 @@ end process;
 --  from the phisical display resolution                  --
 --       (16 bit virtualplane - vp1)                      --
 ------------------------------------------------------------
-process (CLOCK_50)
+process (CLOCK_40)
 begin
-  if rising_edge(CLOCK_50) then
+  if rising_edge(CLOCK_40) then
 
 --
 --	UK101 64x32 scaled to full screen
@@ -200,13 +200,13 @@ end process;
 -- Multi tap shifters to match delays - Mem, Reg, Etc. --
 --                                                     --
 ---------------------------------------------------------
-process (CLOCK_50)
+process (CLOCK_40)
 begin
-  if rising_edge(CLOCK_50) then
+  if rising_edge(CLOCK_40) then
 		
-		X0vp1_d4 <= X0vp1_d3;
-		X0vp1_d3 <= X0vp1_d2;
-		X0vp1_d2 <= X0vp1_d1;
+		X0vp1_d4 <= X0vp1_d3 OR "000000000000000"&videoh;-- This little kludge prvents
+		X0vp1_d3 <= X0vp1_d2;                            -- inferred RAM based shifters
+		X0vp1_d2 <= X0vp1_d1;                            -- and saves precious blockram
 		X0vp1_d1 <= X0vp1;
 
 		Y0vp1_d4 <= Y0vp1_d3;
@@ -223,7 +223,7 @@ end process;
 --             (64 x 32 character screen)              --
 --                                                     --
 ---------------------------------------------------------
-process (CLOCK_50)
+process (CLOCK_40)
 
 	VARIABLE Xchar : unsigned(7 DOWNTO 0) := "00000000";
 	VARIABLE Ychar : unsigned(6 DOWNTO 0) := "0000000";
@@ -231,7 +231,7 @@ process (CLOCK_50)
 	VARIABLE Ye0vp1 : unsigned(15 DOWNTO 0) := "0000000000000000";
 
 BEGIN
-	IF (rising_edge(CLOCK_50)) THEN
+	IF (rising_edge(CLOCK_40)) THEN
 
 		Ye0vp1 := (Y0vp1 - 100)/64;
 		Xe0vp1 := (X0vp1 - 80)/64;
@@ -249,17 +249,17 @@ END PROCESS;
 --  Find address of required character in chargenROM   --
 --                                                     --
 ---------------------------------------------------------
-process (CLOCK_50)
+process (CLOCK_40)
 
 	VARIABLE pixels : unsigned(2 DOWNTO 0) := "000";
 	VARIABLE Xe0vp1 : unsigned(15 DOWNTO 0) := "0000000000000000";
 	VARIABLE Ye0vp1 : unsigned(15 DOWNTO 0) := "0000000000000000";
 
 BEGIN
-	IF (rising_edge(CLOCK_50)) THEN
+	IF (rising_edge(CLOCK_40)) THEN
 
-		Ye0vp1 := (Y0vp1_d3 - 100)/64;
-		Xe0vp1 := (X0vp1_d3 - 80)/64;
+		Ye0vp1 := (Y0vp1_d2 - 100)/64;	-- Use Y0vp1_d3 when using RAM based shifter, Y0vp1_d3 when using logic (the kludge).
+		Xe0vp1 := (X0vp1_d2 - 80)/64;		-- Use X0vp1_d3 when using RAM based shifter, X0vp1_d2 when using logic (the kludge).
 		pixels := Ye0vp1(2 DOWNTO 0);
 		IF Ye0vp1 >= 0 AND Ye0vp1 <= 255 AND Xe0vp1 >= 0 AND Xe0vp1 <= 511 THEN
 				charAddr <= std_logic_vector(dispData) & std_logic_vector(pixels);
@@ -272,14 +272,14 @@ END PROCESS;
 --               Display character pixels              --
 --                                                     --
 ---------------------------------------------------------
-DrawApp : PROCESS (CLOCK_50, RST)
+DrawApp : PROCESS (CLOCK_40, RST)
 
 	VARIABLE pixels : unsigned(2 DOWNTO 0) := "000";
 	VARIABLE Xe0vp1 : unsigned(15 DOWNTO 0) := "0000000000000000";
 	VARIABLE Ye0vp1 : unsigned(15 DOWNTO 0) := "0000000000000000";
 
 BEGIN
-	IF (rising_edge(CLOCK_50)) THEN
+	IF (rising_edge(CLOCK_40)) THEN
 
 		Ye0vp1 := (Y0vp1_d4 - 100)/64;
 		Xe0vp1 := (X0vp1_d4 - 80)/64;
