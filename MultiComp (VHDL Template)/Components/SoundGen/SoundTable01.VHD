@@ -1,7 +1,6 @@
 ------------------------------------------------------------------------------------
--- SoundTable01 - Table with the values of the counter preloads for 7 octaves
+-- SoundTable01 - Table with the values of the counter preloads for 7 piano octaves
 -- Counter is a 20-bit counter that runs at 50 MHz
--- Preload is used to start the counter incrementing
 -- There is a Toggle-FF at the counter terminal count that toggles every other time.
 -- Intent is to replicate the entire piano scale
 -- Data is in frequency ascending order
