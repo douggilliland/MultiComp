@@ -4,7 +4,6 @@ library ieee;
 	use ieee.std_logic_unsigned.all;
 
 ENTITY CharRom IS
-
 	PORT
 	(
 		address : in std_logic_vector(10 downto 0);
