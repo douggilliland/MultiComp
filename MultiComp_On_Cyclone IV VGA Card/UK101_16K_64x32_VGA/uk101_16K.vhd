@@ -43,8 +43,8 @@ architecture struct of uk101_16K is
 	signal cpuDataOut		: std_logic_vector(7 downto 0);
 	signal cpuDataIn		: std_logic_vector(7 downto 0);
 
-	signal counterOut			: std_logic_vector(18 downto 0);
-	signal clearBuzzerCounter : std_logic;
+	signal counterOut			: std_logic_vector(2 downto 0);
+--	signal clearBuzzerCounter : std_logic;
 	signal buzz					: std_logic;
 
 	signal basRomData		: std_logic_vector(7 downto 0);
@@ -246,14 +246,23 @@ begin
 			latchOut => latchedBits2
 			);
 	
-	buzzCounter : entity work.counterLoadable
-	port map(
-		clock => clk,
-		clear => (not latchedBits(4)),		-- mUTE SOUND
-		loadVal => latchedBits2(7 downto 0),
-		soundOut => BUZZER,
-		Q => counterOut
-		);
+	buzzCounter: entity work.Counter16Bit
+		port map(
+			clock => clk,
+			selectTap => latchedBits(7 downto 5),
+			Q => buzz
+			);
+			
+	BUZZER <= buzz and latchedBits(4);
+	
+--	buzzCounter : entity work.counterLoadable
+--	port map(
+--		clock => clk,
+--		clear => (not latchedBits(4)),		-- mUTE SOUND
+--		loadVal => latchedBits2(7 downto 0),
+--		soundOut => BUZZER,
+--		Q => counterOut
+--		);
 
 	-- ____________________________________________________________________________________
 	-- 50MHz system clock / 100MHz SDRAM clock / 40MHz Video clock

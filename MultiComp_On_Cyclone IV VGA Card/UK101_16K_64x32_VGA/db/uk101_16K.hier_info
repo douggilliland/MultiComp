@@ -5,7 +5,7 @@ n_reset => out_latch:io3B.clear
 n_reset => uk101keyboard:u9.nRESET
 clk => out_latch:io3.clock
 clk => out_latch:io3B.clock
-clk => counterloadable:buzzCounter.clock
+clk => counter16bit:buzzCounter.clock
 clk => pll:pll.inclk0
 rxd => buffereduart:UART.rxd
 txd <= buffereduart:UART.txd
@@ -35,7 +35,7 @@ LED1 <= out_latch:io3.latchOut[0]
 LED2 <= out_latch:io3.latchOut[1]
 LED3 <= out_latch:io3.latchOut[2]
 LED4 <= out_latch:io3.latchOut[3]
-BUZZER <= counterloadable:buzzCounter.soundOut
+BUZZER <= BUZZER.DB_MAX_OUTPUT_PORT_TYPE
 ps2Clk => uk101keyboard:u9.PS2_CLK
 ps2Data => uk101keyboard:u9.PS2_DATA
 
@@ -3114,7 +3114,7 @@ latchOut[6] <= Q_tmp[6].DB_MAX_OUTPUT_PORT_TYPE
 latchOut[7] <= Q_tmp[7].DB_MAX_OUTPUT_PORT_TYPE
 
 
-|uk101_16K|counterLoadable:buzzCounter
+|uk101_16K|Counter16Bit:buzzCounter
 clock => Pre_Q[0].CLK
 clock => Pre_Q[1].CLK
 clock => Pre_Q[2].CLK
@@ -3133,56 +3133,10 @@ clock => Pre_Q[14].CLK
 clock => Pre_Q[15].CLK
 clock => Pre_Q[16].CLK
 clock => Pre_Q[17].CLK
-clock => Pre_Q[18].CLK
-clock => sound.CLK
-clear => sound.OUTPUTSELECT
-clear => Pre_Q.OUTPUTSELECT
-clear => Pre_Q.OUTPUTSELECT
-clear => Pre_Q.OUTPUTSELECT
-clear => Pre_Q.OUTPUTSELECT
-clear => Pre_Q.OUTPUTSELECT
-clear => Pre_Q.OUTPUTSELECT
-clear => Pre_Q.OUTPUTSELECT
-clear => Pre_Q.OUTPUTSELECT
-clear => Pre_Q.OUTPUTSELECT
-clear => Pre_Q.OUTPUTSELECT
-clear => Pre_Q.OUTPUTSELECT
-clear => Pre_Q.OUTPUTSELECT
-clear => Pre_Q.OUTPUTSELECT
-clear => Pre_Q.OUTPUTSELECT
-clear => Pre_Q.OUTPUTSELECT
-clear => Pre_Q.OUTPUTSELECT
-clear => Pre_Q.OUTPUTSELECT
-clear => Pre_Q.OUTPUTSELECT
-clear => Pre_Q.OUTPUTSELECT
-loadVal[0] => Pre_Q.DATAB
-loadVal[1] => Pre_Q.DATAB
-loadVal[2] => Pre_Q.DATAB
-loadVal[3] => Pre_Q.DATAB
-loadVal[4] => Pre_Q.DATAB
-loadVal[5] => Pre_Q.DATAB
-loadVal[6] => Pre_Q.DATAB
-loadVal[7] => Pre_Q.DATAB
-soundOut <= sound.DB_MAX_OUTPUT_PORT_TYPE
-Q[0] <= Pre_Q[0].DB_MAX_OUTPUT_PORT_TYPE
-Q[1] <= Pre_Q[1].DB_MAX_OUTPUT_PORT_TYPE
-Q[2] <= Pre_Q[2].DB_MAX_OUTPUT_PORT_TYPE
-Q[3] <= Pre_Q[3].DB_MAX_OUTPUT_PORT_TYPE
-Q[4] <= Pre_Q[4].DB_MAX_OUTPUT_PORT_TYPE
-Q[5] <= Pre_Q[5].DB_MAX_OUTPUT_PORT_TYPE
-Q[6] <= Pre_Q[6].DB_MAX_OUTPUT_PORT_TYPE
-Q[7] <= Pre_Q[7].DB_MAX_OUTPUT_PORT_TYPE
-Q[8] <= Pre_Q[8].DB_MAX_OUTPUT_PORT_TYPE
-Q[9] <= Pre_Q[9].DB_MAX_OUTPUT_PORT_TYPE
-Q[10] <= Pre_Q[10].DB_MAX_OUTPUT_PORT_TYPE
-Q[11] <= Pre_Q[11].DB_MAX_OUTPUT_PORT_TYPE
-Q[12] <= Pre_Q[12].DB_MAX_OUTPUT_PORT_TYPE
-Q[13] <= Pre_Q[13].DB_MAX_OUTPUT_PORT_TYPE
-Q[14] <= Pre_Q[14].DB_MAX_OUTPUT_PORT_TYPE
-Q[15] <= Pre_Q[15].DB_MAX_OUTPUT_PORT_TYPE
-Q[16] <= Pre_Q[16].DB_MAX_OUTPUT_PORT_TYPE
-Q[17] <= Pre_Q[17].DB_MAX_OUTPUT_PORT_TYPE
-Q[18] <= Pre_Q[18].DB_MAX_OUTPUT_PORT_TYPE
+selectTap[0] => Q.IN1
+selectTap[1] => Q.IN1
+selectTap[2] => Q.IN1
+Q <= Q.DB_MAX_OUTPUT_PORT_TYPE
 
 
 |uk101_16K|pll:pll
