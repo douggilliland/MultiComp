@@ -22,7 +22,7 @@ end Counter16Bit;
 architecture behv of Counter16Bit is		 	  
 	
 	signal Pre_Q: std_logic_vector(15 downto 0);
-	signal sound:	std_logic;
+	
 
 begin
 
@@ -36,7 +36,6 @@ begin
     end process;	
 	
     -- concurrent assignment statement
-    Q <= Pre_Q;
-	soundOut <= Pre_Q(15);
+    Q <= Pre_Q(15);
 
 end behv;
