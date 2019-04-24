@@ -45,6 +45,7 @@ architecture struct of uk101_16K is
 
 	signal counterOut			: std_logic_vector(2 downto 0);
 --	signal clearBuzzerCounter : std_logic;
+	signal selectTap	: std_logic_vector(7 downto 0);
 	signal buzz					: std_logic;
 
 	signal basRomData		: std_logic_vector(7 downto 0);
@@ -249,7 +250,7 @@ begin
 	buzzCounter: entity work.Counter16Bit
 		port map(
 			clock => clk,
-			selectTap => latchedBits(7 downto 5),
+			--selectTap => latchedBits(7 downto 5),
 			Q => buzz
 			);
 			

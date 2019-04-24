@@ -119,14 +119,14 @@ begin
 	elsif (rising_edge(CLOCK_40)) then
       hsync <= '1';
 		
-	  --if (hcount <= 967 and hcount >= 839) then	-- Cra Ze Ape original values for hcount
-      if (hcount <= 957 and hcount >= 829) then		-- adjusted for my monitor/tv - ymmv
+      --if (hcount <= 957 and hcount >= 829) then		-- adjusted for my monitor/tv - ymmv
+	  if (hcount <= 967 and hcount >= 839) then	-- Cra Ze Ape original values for hcount
          hsync <= '0';
       end if;
       vsync <= '1';
-			
-	  --if (vcount <= 604 and vcount >= 600) then	-- Cra Ze Ape original values for vcount
-      if (vcount <= 598 and vcount >= 592) then		-- adjusted for my monitor/tv - ymmv
+	
+      --if (vcount <= 598 and vcount >= 592) then		-- adjusted for my monitor/tv - ymmv
+	  if (vcount <= 604 and vcount >= 600) then	-- Cra Ze Ape original values for vcount
          vsync <= '0';
       end if;
    end if;
@@ -147,8 +147,8 @@ begin
 			IF vcount = 0 THEN
 				X0vp1 <= "0000000000000000";
 				Y0vp1 <= "0000000000000000";
-				X1vp1 <= "0000000000000000";
-				Y1vp1 <= "0000000000000000";
+				X1vp1 <= "0000000000000000" - 0260; -- Move screen right by 260 'micro-units'
+				Y1vp1 <= "0000000000000000" - 0250; --Move screen down by 250 'micro-units'
 			ELSIF hcount = 0 THEN
 				X0vp1 <= X1vp1 - 0;
 				Y0vp1 <= Y1vp1 + 28;
