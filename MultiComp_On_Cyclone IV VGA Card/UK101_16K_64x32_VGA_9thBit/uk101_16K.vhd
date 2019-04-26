@@ -122,6 +122,7 @@ begin
     port map(
 		clock_50Mhz => CLOCK_50,
       reset => not n_reset,
+		displayed_number => "1101111010101101",
 		Anode_Activate => Anode_Activate,
       LED_out => LED_out
 		);
