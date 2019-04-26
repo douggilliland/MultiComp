@@ -1,0 +1,71 @@
+#include <system.h>
+#include <altera_avalon_lcd_16207_regs.h>
+#include <alt_types.h>
+
+void check_busy()                                             //读液晶的忙标志位并检测
+{
+    alt_u8 status=0xff;
+    do
+    {
+        status=IORD_ALTERA_AVALON_LCD_16207_STATUS(LCD_BASE);
+    }while(status&0x80);
+}
+
+void LcdWriteCommand(alt_u8 com)
+{
+    check_busy();
+    IOWR_ALTERA_AVALON_LCD_16207_COMMAND(LCD_BASE, com);       //功能设置
+    IOWR_ALTERA_AVALON_LCD_16207_COMMAND(LCD_BASE, com<<4);       //功能设置
+}
+
+
+void lcd_init()                                                 //液晶1602初始化
+{
+    check_busy();
+    IOWR_ALTERA_AVALON_LCD_16207_COMMAND(LCD_BASE, 0x22);       //功能设置
+    IOWR_ALTERA_AVALON_LCD_16207_COMMAND(LCD_BASE, 0x22<<4);       //功能设置
+    check_busy();
+    IOWR_ALTERA_AVALON_LCD_16207_COMMAND(LCD_BASE, 0x2c);       //清屏
+    IOWR_ALTERA_AVALON_LCD_16207_COMMAND(LCD_BASE, 0x2c<<4);       //清屏
+    check_busy();
+    IOWR_ALTERA_AVALON_LCD_16207_COMMAND(LCD_BASE, 0x07);       //Y地址自动加1模式
+    IOWR_ALTERA_AVALON_LCD_16207_COMMAND(LCD_BASE, 0x07<<4);       //Y地址自动加1模式
+    check_busy();
+    IOWR_ALTERA_AVALON_LCD_16207_COMMAND(LCD_BASE, 0x08);       //Y地址自动加1模式
+    IOWR_ALTERA_AVALON_LCD_16207_COMMAND(LCD_BASE, 0x06<<4);       //Y地址自动加1模式
+    check_busy();
+    IOWR_ALTERA_AVALON_LCD_16207_COMMAND(LCD_BASE, 0x2a);       //显示开，不显示光标
+    IOWR_ALTERA_AVALON_LCD_16207_COMMAND(LCD_BASE, 0x2a<<4);       //显示开，不显示光标
+    check_busy();
+    IOWR_ALTERA_AVALON_LCD_16207_COMMAND(LCD_BASE, 0x0c);       //显示开，不显示光标
+    IOWR_ALTERA_AVALON_LCD_16207_COMMAND(LCD_BASE, 0x0c<<4);       //显示开，不显示光标
+    check_busy();
+    IOWR_ALTERA_AVALON_LCD_16207_COMMAND(LCD_BASE, 0x07);       //显示开，不显示光标
+    IOWR_ALTERA_AVALON_LCD_16207_COMMAND(LCD_BASE, 0x07<<4);       //显示开，不显示光标
+}
+
+void lcd_prints(alt_u8 *string)                                 //打印字符串
+{
+    while(*string!='\0')
+    {
+        check_busy();
+        IOWR_ALTERA_AVALON_LCD_16207_DATA(LCD_BASE, *string);
+        IOWR_ALTERA_AVALON_LCD_16207_DATA(LCD_BASE, (*string)<<4);
+        string++;
+    }
+}
+
+void select_xy(alt_u8 x,alt_u8 y)                               //选择屏幕坐标，x=0为第1行，x=1为第2行
+{                                                               //y=0~15,分别对应第1列到第16列
+    check_busy();
+    if(x%2==0)
+    {
+        IOWR_ALTERA_AVALON_LCD_16207_COMMAND(LCD_BASE, 0x80+y);
+        IOWR_ALTERA_AVALON_LCD_16207_COMMAND(LCD_BASE, (0x80+y)<<4);
+    }
+    else
+    {
+        IOWR_ALTERA_AVALON_LCD_16207_COMMAND(LCD_BASE, 0xc0+y);
+        IOWR_ALTERA_AVALON_LCD_16207_COMMAND(LCD_BASE, (0xc0+y)<<4);
+    }
+}

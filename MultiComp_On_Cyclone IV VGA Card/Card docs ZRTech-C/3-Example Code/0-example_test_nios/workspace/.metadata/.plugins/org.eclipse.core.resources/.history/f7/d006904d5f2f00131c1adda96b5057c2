@@ -1,0 +1,19 @@
+
+#include <system.h>
+#include <altera_avalon_lcd_16207_regs.h>
+#include <alt_types.h>
+#include <lcd.h>
+
+
+int main (void) __attribute__ ((weak, alias ("alt_main")));     //将程序的入口改为alt_main()，可以使
+                                                                //很多驱动不会加载，可以大大减小代码长度
+void alt_main()
+{
+    lcd_init();
+
+    select_xy(0,0);
+    lcd_prints(lcd_string1);
+
+    select_xy(1,7);
+    lcd_prints(lcd_string2);
+}

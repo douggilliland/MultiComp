@@ -1,0 +1,79 @@
+
+
+#include <stdio.h>
+
+int main()
+{
+  printf("Hello from Nios II!\n");
+
+  return 0;
+}
+
+//
+//#include<system.h>
+//#include<altera_avalon_lcd_16207_regs.h>
+//#include<alt_types.h>
+//
+//alt_u8 lcd_string1[] = "HB_XFU__ELC__LAB";
+//alt_u8 lcd_string2[] = "2009 xk";
+//
+//void check_busy()                                             //读液晶的忙标志位并检测
+//{
+//    alt_u8 status=0xff;
+//    do
+//    {
+//        status=IORD_ALTERA_AVALON_LCD_16207_STATUS(LCD_BASE);
+//    }while(status&0x80);
+//}
+//
+//void lcd_init()                                                 //液晶1602初始化
+//{
+//    IOWR_ALTERA_AVALON_LCD_16207_COMMAND(LCD_BASE, 0x20);       //功能设置
+//    IOWR_ALTERA_AVALON_LCD_16207_COMMAND(LCD_BASE, 0x80);       //功能设置
+//    check_busy();
+//    IOWR_ALTERA_AVALON_LCD_16207_COMMAND(LCD_BASE, 0x00);       //清屏
+//    IOWR_ALTERA_AVALON_LCD_16207_COMMAND(LCD_BASE, 0x10);       //清屏
+//    check_busy();
+//    IOWR_ALTERA_AVALON_LCD_16207_COMMAND(LCD_BASE, 0x00);       //Y地址自动加1模式
+//    IOWR_ALTERA_AVALON_LCD_16207_COMMAND(LCD_BASE, 0x60);       //Y地址自动加1模式
+//    check_busy();
+//    IOWR_ALTERA_AVALON_LCD_16207_COMMAND(LCD_BASE, 0x00);       //显示开，不显示光标
+//    IOWR_ALTERA_AVALON_LCD_16207_COMMAND(LCD_BASE, 0xc0);       //显示开，不显示光标
+//}
+//
+//void lcd_prints(alt_u8 *string)                                 //打印字符串
+//{
+//    while(*string!='\0')
+//    {
+//        check_busy();
+//        IOWR_ALTERA_AVALON_LCD_16207_DATA(LCD_BASE, *string);
+//        string++;
+//    }
+//}
+//
+//void select_xy(alt_u8 x,alt_u8 y)                               //选择屏幕坐标，x=0为第1行，x=1为第2行
+//{                                                               //y=0~15,分别对应第1列到第16列
+//    check_busy();
+//    if(x%2==0)
+//    {
+//        IOWR_ALTERA_AVALON_LCD_16207_COMMAND(LCD_BASE, 0x80+y);
+//    }
+//    else
+//    {
+//        IOWR_ALTERA_AVALON_LCD_16207_COMMAND(LCD_BASE, 0xc0+y);
+//    }
+//}
+//
+//
+//int main (void) __attribute__ ((weak, alias ("alt_main")));     //将程序的入口改为alt_main()，可以使
+//                                                                //很多驱动不会加载，可以大大减小代码长度
+//void alt_main()
+//{
+//    lcd_init();
+//
+//    select_xy(0,0);
+//    lcd_prints(lcd_string1);
+//
+//    select_xy(1,7);
+//    lcd_prints(lcd_string2);
+//}

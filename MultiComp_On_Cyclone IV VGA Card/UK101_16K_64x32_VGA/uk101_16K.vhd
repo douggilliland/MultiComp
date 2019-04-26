@@ -1,5 +1,7 @@
 -- Implements Grant Searle's modifications for 64x32 screens as described here:
 -- http://searle.hostei.com/grant/uk101FPGA/index.html#Modification3
+-- Grant's original version sent video out on the composite connector
+-- This code moves the video to the VGA connector on the card
 -- Uses Cra Ze Ape's 800x600 VGA code to get a full screen picture
 
 library ieee;
@@ -9,7 +11,7 @@ use  IEEE.STD_LOGIC_UNSIGNED.all;
 
 entity uk101_16K is
 	port(
-		n_reset		: in std_logic;
+		n_reset		: in std_logic;	-- Connected to S4
 		clk			: in std_logic;
 		
 		rxd			: in std_logic;
@@ -18,14 +20,13 @@ entity uk101_16K is
 
 		Vout			: out std_logic_vector(17 downto 0); -- rrrrr,gggggg,bbbbb,hsync,vsync
 		
-		switch0		: in std_logic;
-		switch1		: in std_logic;
-		switch2		: in std_logic;
+		switches		: in std_logic_vector(2 downto 0);
 
 		LED1			: out std_logic;
 		LED2			: out std_logic;
 		LED3			: out std_logic;
 		LED4			: out std_logic;
+		LEDs			: out std_logic_vector(3 downto 0);
 
 		BUZZER		: out std_logic;
 
@@ -55,35 +56,34 @@ architecture struct of uk101_16K is
 	signal ramDataOut2	: std_logic_vector(7 downto 0);
 	signal ramDataOut3	: std_logic_vector(7 downto 0);
 
-	signal n_memWR			: std_logic;
+	signal n_memWR			: std_logic :='1';
 	signal n_memRD 		: std_logic :='1';
 	
-	signal n_basRomCS		: std_logic;
-	signal n_monitorRomCS : std_logic;
-	signal n_dispRamCS	: std_logic;
-	signal n_ramCS			: std_logic;
-	signal n_ramCS2		: std_logic;
-	signal n_ramCS3		: std_logic;
-	signal n_aciaCS		: std_logic;
-	signal n_kbCS			: std_logic;
-	signal n_IOCS						: std_logic :='1';
-	signal n_IOCS2						: std_logic :='1';
-	signal n_IOCS_Write				: std_logic :='1';
-	signal n_IOCS_Write2				: std_logic :='1';
-	signal n_IOCS_Read 				: std_logic :='1';
+	signal n_basRomCS			: std_logic;
+	signal n_monitorRomCS	: std_logic;
+	signal n_dispRamCS		: std_logic;
+	signal n_ramCS				: std_logic;
+	signal n_ramCS2			: std_logic;
+	signal n_ramCS3			: std_logic;
+	signal n_aciaCS			: std_logic;
+	signal n_kbCS				: std_logic;
+	signal n_IOCS				: std_logic :='1';
+	signal n_IOCS2				: std_logic :='1';
+	signal n_IOCS_Write		: std_logic :='1';
+	signal n_IOCS_Write2		: std_logic :='1';
+	signal n_IOCS_Read 		: std_logic :='1';
 	
-	signal dispAddrB 		: std_logic_vector(10 downto 0);
-	signal dispRamDataOutA : std_logic_vector(7 downto 0);
-	signal dispRamDataOutB : std_logic_vector(7 downto 0);
-	signal charAddr 		: std_logic_vector(10 downto 0);
-	signal charData 		: std_logic_vector(7 downto 0);
+	signal dispAddrB 			: std_logic_vector(10 downto 0);
+	signal dispRamDataOutA	: std_logic_vector(7 downto 0);
+	signal dispRamDataOutB	: std_logic_vector(7 downto 0);
+	signal charAddr 			: std_logic_vector(10 downto 0);
+	signal charData 			: std_logic_vector(7 downto 0);
 
-	signal serialClkCount: std_logic_vector(15 downto 0); 
-	signal serialClkCount_d       : std_logic_vector(15 downto 0);
-	signal serialClkEn            : std_logic;
-	signal serialClock	: std_logic;
+	signal serialClkCount	: std_logic_vector(15 downto 0); 
+	signal serialClkCount_d : std_logic_vector(15 downto 0);
+	signal serialClkEn		: std_logic;
+	signal serialClock		: std_logic;
 	
---	signal videoClk	: std_logic;
 	signal CLOCK_100		: std_ulogic;
 	signal CLOCK_50		: std_ulogic;
 	signal CLOCK_40		: std_ulogic;
@@ -94,17 +94,11 @@ architecture struct of uk101_16K is
 	signal kbReadData 	: std_logic_vector(7 downto 0);
 	signal kbRowSel 		: std_logic_vector(7 downto 0);
 
-	signal videoOut		: std_logic;
---	signal hActive			: std_logic;
+	signal latchedBits	: std_logic_vector(7 downto 0);
+	signal latchedBits2	: std_logic_vector(7 downto 0);
+	signal switchesRead	: std_logic_vector(7 downto 0);
 
-	signal latchedBits				: std_logic_vector(7 downto 0);
-	signal latchedBits2				: std_logic_vector(7 downto 0);
-	signal switchesRead			 	: std_logic_vector(7 downto 0);
-	signal fKey1						: std_logic;
-	signal fKey2						: std_logic;
-	signal funKeys						: std_logic_vector(12 downto 0);
-
-	signal txdBuff						: std_logic;
+	signal txdBuff			: std_logic;
 
 begin
 
@@ -114,14 +108,7 @@ begin
 	LED4 <= latchedBits(3);
 	txd <= txdBuff;
 	
-	switchesRead(0) <= switch0;
-	switchesRead(1) <= switch1;
-	switchesRead(2) <= switch2;
-	switchesRead(3) <= '0';
-	switchesRead(4) <= '0';
-	switchesRead(5) <= '0';
-	switchesRead(6) <= '0';
-	switchesRead(7) <= '0';
+	switchesRead(7 downto 0) <= "00000"&switches(2)&switches(1)&switches(0);
 
 	-- Chip Selects
 	n_ramCS <= '0' when cpuAddress(15 downto 14)="00" else '1';					-- x0000-x3FFF (16KB)

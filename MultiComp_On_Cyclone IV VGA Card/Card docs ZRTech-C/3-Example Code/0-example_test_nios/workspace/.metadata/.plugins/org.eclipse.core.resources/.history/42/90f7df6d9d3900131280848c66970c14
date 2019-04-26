@@ -1,0 +1,110 @@
+#include "lcd1602.h"
+
+void Lcd_CheckBusy()		//读液晶的忙标志位并检测
+{
+    alt_u8 status=0xff;
+    do
+    {
+        status=IORD_ALTERA_AVALON_LCD_16207_STATUS(LCD_BASE);
+    }while(status&0x80);
+}
+
+void Lcd_WriteCommand(alt_u8 com)
+{
+	Lcd_CheckBusy();
+    IOWR_ALTERA_AVALON_LCD_16207_COMMAND(LCD_BASE, com);
+    IOWR_ALTERA_AVALON_LCD_16207_COMMAND(LCD_BASE, com<<4);
+}
+
+void Lcd_WriteData(alt_u8 data)
+{
+	Lcd_CheckBusy();
+	IOWR_ALTERA_AVALON_LCD_16207_DATA(LCD_BASE, data);
+    IOWR_ALTERA_AVALON_LCD_16207_DATA(LCD_BASE, data<<4);
+}
+
+alt_u8 Lcd_ReadStatus()
+{
+	alt_u8 read_data;
+	//set LCD_DATA on read state
+	IOWR_ALTERA_AVALON_PIO_DIRECTION(LCD_DATA_BASE, 0x00);
+	//set 1 to LCD_RS for reading data,0 for reading command
+	IOWR_ALTERA_AVALON_PIO_DATA(LCD_RS_BASE, RS);
+	//set 1 to LCD_RW for reading pattern
+	IOWR_ALTERA_AVALON_PIO_DATA(LCD_RW_BASE, READ);
+	//set LCD_E
+	usleep(1);
+	IOWR_ALTERA_AVALON_PIO_DATA(LCD_E_BASE, 0x01);
+	//read data
+	usleep(1);
+	read_data = IORD_ALTERA_AVALON_PIO_DATA(LCD_DATA_BASE);
+	//clear LCD_E
+	usleep(2);
+	IOWR_ALTERA_AVALON_PIO_DATA(LCD_E_BASE, 0x00);
+
+	return read_data;
+}
+
+//设置字符显示区域的显示位置 re必须为0
+void Lcd_LocateXY(alt_u8 x, alt_u8 y)
+{
+	alt_u8 temp = 0;
+
+	if(y == 0) temp = 0x80 + x;
+	if(y == 1) temp = 0x90 + x;
+	if(y == 2) temp = 0xc0 + x;
+
+	Lcd_WriteCommand(temp);
+}
+
+void Lcd_IconAddr(alt_u8 x)
+{
+	alt_u8 temp = 0;
+	temp = 0x40 + x;
+	Lcd_WriteCommand(temp);
+}
+
+//设置特殊图标显示区域的显示位置 re必须为1
+void Lcd_Icon(alt_u8 addr, alt_u8 mark)
+{
+	Lcd_IconAddr(addr);
+	Lcd_WriteData(mark);
+}
+
+void DisplayOneChar(alt_u8 x, alt_u8 y, alt_u8 data)
+{
+	Lcd_LocateXY(x, y);
+	Lcd_WriteData(data);
+}
+
+void Lcd_Prints(alt_u8 x, alt_u8 y, alt_u8 *string)		//打印字符串
+{
+	Lcd_LocateXY(x, y);
+
+	while(*string)
+	{
+		Lcd_WriteData(*string);
+		string++;
+	}
+}
+
+void Lcd_Init()			//液晶1602初始化
+{
+	Lcd_WriteCommand(0x22);
+	Lcd_WriteCommand(0x2c); //re=1,2c
+	Lcd_WriteCommand(0x07);
+	Lcd_WriteCommand(0x08);
+	Lcd_WriteCommand(0x28); //re=0,28
+	Lcd_WriteCommand(0x0c);
+	Lcd_WriteCommand(0x07);
+
+//	Lcd_WriteCommand(0x20);//功能设置，设为4位数据总线方式输入（DL=0）
+//	Lcd_WriteCommand(0x28);//功能设置，在保持4位数据总线输入方式下设为两行模式（输入指令00101XXX）
+//	Lcd_WriteCommand(0x0c);//显示开关设置，设成显示开，而光标开和光标闪烁关
+//	Lcd_WriteCommand(0x01);//清屏
+//	Lcd_WriteCommand(0x06);//模式设置
+//	//将逆序显示变更为正常显示（即使用KS0074的镜向功能）
+//	Lcd_WriteCommand(0x2c);//功能设置指令，使RE=1
+//	Lcd_WriteCommand(0x07);//输入模式设置指令，使BID=1(逆序显示）
+//	Lcd_WriteCommand(0x28);//功能设置指令，使RE=0,以便后续应用时可使用正常指令
+}

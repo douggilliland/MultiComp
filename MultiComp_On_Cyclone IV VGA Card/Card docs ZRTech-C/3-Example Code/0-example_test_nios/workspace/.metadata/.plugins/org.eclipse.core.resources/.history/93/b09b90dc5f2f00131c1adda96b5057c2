@@ -1,0 +1,9 @@
+#include <system.h>
+#include <altera_avalon_lcd_16207_regs.h>
+#include <alt_types.h>
+
+void check_busy();					//读液晶的忙标志位并检测
+void LcdWriteCommand(alt_u8 com);
+void lcd_init();					//液晶1602初始化
+void lcd_prints(alt_u8 *string);	//打印字符串
+void select_xy(alt_u8 x,alt_u8 y);	//选择屏幕坐标，x=0为第1行，x=1为第2行
