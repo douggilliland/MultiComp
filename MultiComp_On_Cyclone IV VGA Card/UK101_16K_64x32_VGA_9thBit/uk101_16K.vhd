@@ -118,7 +118,7 @@ begin
 		kbReadData when n_kbCS='0' else 
 		x"FF";
 		
-	SevenSeg : entity work.elapsedTimeHexCounter
+	SevenSeg : entity work.LoadVal7SegDispl
     port map(
 		clock_50Mhz => CLOCK_50,
       reset => not n_reset,
