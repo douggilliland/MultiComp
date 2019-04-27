@@ -31,8 +31,8 @@ entity uk101_16K is
 		videoB2		: out std_logic;
 		videoB3		: out std_logic;
 		videoB4		: out std_logic;
-		hSync		: out std_logic;
-		vSync		: out std_logic;
+		hSync			: out std_logic;
+		vSync			: out std_logic;
 		
 		switch0		: in std_logic;
 		switch1		: in std_logic;
@@ -104,17 +104,17 @@ begin
 	-- Card has 16 bits of RGB digital data
 	-- Drive the least significant bits with 0's since Multi-Comp only has 6 bits of RGB digital data
 	-- Drive a blue background with white text
-	videoR0 <= '0';
-	videoR1 <= '0';
-	videoR2 <= '0';
-	videoG0 <= '0';
-	videoG1 <= '0';
-	videoG2 <= '0';
-	videoG3 <= '0'; 
-	videoB0 <= '1';
-	videoB1 <= '1';
-	videoB2 <= '1';
-	videoB3 <= '0';
+	videoR0 <= videoOut;
+	videoR1 <= videoOut;
+	videoR2 <= videoOut;
+	videoG0 <= videoOut;
+	videoG1 <= videoOut;
+	videoG2 <= videoOut;
+	videoG3 <= videoOut; 
+	videoB0 <= hActive;
+	videoB1 <= hActive;
+	videoB2 <= hActive;
+	videoB3 <= hActive;
 	videoB4 <= hActive;
 	videoR3 <= videoOut;
 	videoR4 <= videoOut;
@@ -222,11 +222,14 @@ begin
 			n_rts => rts
 		);
 
-	u5 : entity work.VideoClk
-		port map(
+	PLL : entity work.VideoClk_VGA_800x600
+		port map (
 			areset => not n_reset,
 			inclk0 => clk,
-			c0 => videoClk
+			c0 => videoClk,	-- 25.6 MHz (video clock)
+			c1	=> cpuClock		-- 1.0 MHz (CPU clock)
+--			c2	=> ,				-- 50 MHz (logic clock)
+--			c3 =>					-- 1.8432 MHz (baud rate clock)
 		);
 
 	
@@ -280,23 +283,23 @@ begin
 			kbRowSel <= cpuDataOut;
 		end if;
 	end process;
-	
-	process (clk)
-	begin
-		if rising_edge(clk) then
-			if cpuClkCount < 49 then
-				cpuClkCount <= cpuClkCount + 1;
-			else
-				cpuClkCount <= (others=>'0');
-			end if;
-			if cpuClkCount < 25 then
-				cpuClock <= '0';
-			else
-				cpuClock <= '1';
-			end if;
-		end if;
-	end process;
-	
+
+--	process (clk)
+--	begin
+--		if rising_edge(clk) then
+--			if cpuClkCount < 49 then
+--				cpuClkCount <= cpuClkCount + 1;
+--			else
+--				cpuClkCount <= (others=>'0');
+--			end if;
+--			if cpuClkCount < 25 then
+--				cpuClock <= '0';
+--			else
+--				cpuClock <= '1';
+--			end if;
+--		end if;
+--	end process;
+--	
 	-- ____________________________________________________________________________________
 	-- Baud Rate Clock Signals
 	-- Serial clock DDS
