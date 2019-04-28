@@ -13,17 +13,17 @@ use ieee.std_logic_unsigned.all;
 
 ----------------------------------------------------
 
-entity Counter_Middle_C is
+entity Counter_Middle_C_Symmetric is
 port(	
 	clock:		in std_logic;	-- 50 MHz clock
 	selectTap:	in std_logic_vector(2 downto 0);
 	soundOut:	out std_logic			-- Most Signif Bit of counter
 );
-end Counter_Middle_C;
+end Counter_Middle_C_Symmetric;
 
 ----------------------------------------------------
 
-architecture behv of Counter_Middle_C is		 	  
+architecture behv of Counter_Middle_C_Symmetric is		 	  
 	
 	signal Pre_Q: std_logic_vector(16 downto 0);	-- 18-bits
 	signal toggleBit =: std_logic;

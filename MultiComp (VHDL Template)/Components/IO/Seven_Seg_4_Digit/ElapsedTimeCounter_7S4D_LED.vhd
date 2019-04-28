@@ -7,14 +7,14 @@
 library IEEE;
 use IEEE.STD_LOGIC_1164.ALL;
 use IEEE.std_logic_unsigned.all;
-entity elapsedTimeHexCounter is
+entity ElapsedTimeCounter_7S4D_LED  is
     Port ( clock_50Mhz : in STD_LOGIC;
            reset : in STD_LOGIC; -- reset
            Anode_Activate : out STD_LOGIC_VECTOR (3 downto 0);-- 4 Anode signals
            LED_out : out STD_LOGIC_VECTOR (6 downto 0));-- Cathode patterns of 7-segment display
-end elapsedTimeHexCounter;
+end ElapsedTimeCounter_7S4D_LED ;
 
-architecture Behavioral of elapsedTimeHexCounter is
+architecture Behavioral of ElapsedTimeCounter_7S4D_LED  is
 signal one_second_counter: STD_LOGIC_VECTOR (27 downto 0);
 -- counter for generating 1-second clock enable
 signal one_second_enable: std_logic;

@@ -1,5 +1,5 @@
--- Implements Grant Searle's modifications for 64x32 screens as described here:
--- http://searle.hostei.com/grant/uk101FPGA/index.html#Modification3
+-- Grant Searle's Multicomp:
+-- http://searle.hostei.com/grant/
 
 library ieee;
 use ieee.std_logic_1164.all;
@@ -38,10 +38,10 @@ entity M6502_VGA is
 		switch1		: in std_logic;
 		switch2		: in std_logic;
 
-		LED1			: out std_logic;
-		LED2			: out std_logic;
-		LED3			: out std_logic;
-		LED4			: out std_logic;
+		LED1		: out std_logic;
+		LED2		: out std_logic;
+		LED3		: out std_logic;
+		LED4		: out std_logic;
 
 		BUZZER		: out std_logic;
 
@@ -115,14 +115,7 @@ begin
 	LED4 <= rxd;
 	txd <= txdBuff;
 	
-	switchesRead(0) <= switch0;
-	switchesRead(1) <= switch1;
-	switchesRead(2) <= switch2;
-	switchesRead(3) <= '0';
-	switchesRead(4) <= '0';
-	switchesRead(5) <= '0';
-	switchesRead(6) <= '0';
-	switchesRead(7) <= '0';
+	switchesRead(7 downto 0) <= "00000"&switch2&switch1&switch0;
 	-- Chip Selects
 	n_ramCS <= '0' when cpuAddress(15 downto 14)="00" else '1';					-- x0000-x3FFF (16KB)
 	n_basRomCS <= '0' when cpuAddress(15 downto 13) = "111" else '1'; 		-- xA000-xBFFF (8KB)
@@ -233,9 +226,9 @@ begin
 			clock => clk,
 			n_res => n_reset,
 			latchFNKey => fKey2
-		);	
+		);
 		
-	io3: entity work.OUT_LATCH
+	io3: entity work.OutLatch
 		port map (
 			dataIn8 => cpuDataOut,
 			clock => clk,
@@ -264,12 +257,12 @@ begin
 	begin
 		if rising_edge(clk) then
 
-			if cpuClkCount < 4 then -- 4 = 10MHz, 3 = 12.5MHz, 2=16.6MHz, 1=25MHz
+			if cpuClkCount < 1 then -- 4 = 10MHz, 3 = 12.5MHz, 2=16.6MHz, 1=25MHz
 				cpuClkCount <= cpuClkCount + 1;
 			else
 				cpuClkCount <= (others=>'0');
 			end if;
-			if cpuClkCount < 2 then -- 2 when 10MHz, 2 when 12.5MHz, 2 when 16.6MHz, 1 when 25MHz
+			if cpuClkCount < 1 then -- 2 when 10MHz, 2 when 12.5MHz, 2 when 16.6MHz, 1 when 25MHz
 				cpuClock <= '0';
 			else
 				cpuClock <= '1';

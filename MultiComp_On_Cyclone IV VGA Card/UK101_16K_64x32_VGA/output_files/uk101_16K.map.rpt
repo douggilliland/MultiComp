@@ -1,5 +1,5 @@
 Analysis & Synthesis report for uk101_16K
-Fri Apr 26 11:00:36 2019
+Sun Apr 28 11:32:44 2019
 Quartus Prime Version 18.1.0 Build 625 09/12/2018 SJ Lite Edition
 
 
@@ -27,25 +27,25 @@ Quartus Prime Version 18.1.0 Build 625 09/12/2018 SJ Lite Edition
  19. Source assignments for InternalRam16K:u3|altsyncram:altsyncram_component|altsyncram_m3q3:auto_generated
  20. Source assignments for InternalRam2K:u3a|altsyncram:altsyncram_component|altsyncram_r1q3:auto_generated
  21. Source assignments for InternalRam1K:u3b|altsyncram:altsyncram_component|altsyncram_j1q3:auto_generated
- 22. Source assignments for DisplayRam:u8|altsyncram:altsyncram_component|altsyncram_sn52:auto_generated
+ 22. Source assignments for DisplayRam2k:u8|altsyncram:altsyncram_component|altsyncram_sn52:auto_generated
  23. Source assignments for bufferedUART:UART|altsyncram:rxBuffer_rtl_0|altsyncram_3ce1:auto_generated
  24. Parameter Settings for User Entity Instance: BasicRom:rom|altsyncram:altsyncram_component
  25. Parameter Settings for User Entity Instance: InternalRam16K:u3|altsyncram:altsyncram_component
  26. Parameter Settings for User Entity Instance: InternalRam2K:u3a|altsyncram:altsyncram_component
  27. Parameter Settings for User Entity Instance: InternalRam1K:u3b|altsyncram:altsyncram_component
- 28. Parameter Settings for User Entity Instance: OUT_LATCH:io3
- 29. Parameter Settings for User Entity Instance: OUT_LATCH:io3B
+ 28. Parameter Settings for User Entity Instance: OutLatch:io3
+ 29. Parameter Settings for User Entity Instance: OutLatch:io3B
  30. Parameter Settings for User Entity Instance: pll:pll|altpll:altpll_component
- 31. Parameter Settings for User Entity Instance: DisplayRam:u8|altsyncram:altsyncram_component
+ 31. Parameter Settings for User Entity Instance: DisplayRam2k:u8|altsyncram:altsyncram_component
  32. Parameter Settings for User Entity Instance: UK101keyboard:u9|ps2_intf:ps2
  33. Parameter Settings for Inferred Entity Instance: bufferedUART:UART|altsyncram:rxBuffer_rtl_0
  34. altsyncram Parameter Settings by Entity Instance
  35. altpll Parameter Settings by Entity Instance
  36. Port Connectivity Checks: "UK101keyboard:u9|ps2_intf:ps2"
- 37. Port Connectivity Checks: "DisplayRam:u8"
+ 37. Port Connectivity Checks: "DisplayRam2k:u8"
  38. Port Connectivity Checks: "pll:pll"
- 39. Port Connectivity Checks: "OUT_LATCH:io3B"
- 40. Port Connectivity Checks: "OUT_LATCH:io3"
+ 39. Port Connectivity Checks: "OutLatch:io3B"
+ 40. Port Connectivity Checks: "OutLatch:io3"
  41. Port Connectivity Checks: "bufferedUART:UART"
  42. Port Connectivity Checks: "T65:u1|T65_ALU:alu"
  43. Port Connectivity Checks: "T65:u1"
@@ -77,15 +77,15 @@ refer to the applicable agreement for further details.
 +----------------------------------------------------------------------------------+
 ; Analysis & Synthesis Summary                                                     ;
 +------------------------------------+---------------------------------------------+
-; Analysis & Synthesis Status        ; Successful - Fri Apr 26 11:00:36 2019       ;
+; Analysis & Synthesis Status        ; Successful - Sun Apr 28 11:32:44 2019       ;
 ; Quartus Prime Version              ; 18.1.0 Build 625 09/12/2018 SJ Lite Edition ;
 ; Revision Name                      ; uk101_16K                                   ;
 ; Top-level Entity Name              ; uk101_16K                                   ;
 ; Family                             ; Cyclone IV E                                ;
-; Total logic elements               ; 4,095                                       ;
-;     Total combinational functions  ; 3,896                                       ;
-;     Dedicated logic registers      ; 541                                         ;
-; Total registers                    ; 541                                         ;
+; Total logic elements               ; 4,060                                       ;
+;     Total combinational functions  ; 3,860                                       ;
+;     Dedicated logic registers      ; 532                                         ;
+; Total registers                    ; 532                                         ;
 ; Total pins                         ; 37                                          ;
 ; Total virtual pins                 ; 0                                           ;
 ; Total memory bits                  ; 237,696                                     ;
@@ -252,20 +252,20 @@ refer to the applicable agreement for further details.
 +---------------------------------------------+----------------+
 ; Resource                                    ; Usage          ;
 +---------------------------------------------+----------------+
-; Estimated Total logic elements              ; 4,095          ;
+; Estimated Total logic elements              ; 4,060          ;
 ;                                             ;                ;
-; Total combinational functions               ; 3896           ;
+; Total combinational functions               ; 3860           ;
 ; Logic element usage by number of LUT inputs ;                ;
-;     -- 4 input functions                    ; 3054           ;
-;     -- 3 input functions                    ; 417            ;
-;     -- <=2 input functions                  ; 425            ;
+;     -- 4 input functions                    ; 3037           ;
+;     -- 3 input functions                    ; 421            ;
+;     -- <=2 input functions                  ; 402            ;
 ;                                             ;                ;
 ; Logic elements by mode                      ;                ;
-;     -- normal mode                          ; 3575           ;
+;     -- normal mode                          ; 3539           ;
 ;     -- arithmetic mode                      ; 321            ;
 ;                                             ;                ;
-; Total registers                             ; 541            ;
-;     -- Dedicated logic registers            ; 541            ;
+; Total registers                             ; 532            ;
+;     -- Dedicated logic registers            ; 532            ;
 ;     -- I/O registers                        ; 0              ;
 ;                                             ;                ;
 ; I/O pins                                    ; 37             ;
@@ -277,50 +277,50 @@ refer to the applicable agreement for further details.
 ;     -- PLLs                                 ; 1              ;
 ;                                             ;                ;
 ; Maximum fan-out node                        ; T65:u1|Mux76~1 ;
-; Maximum fan-out                             ; 722            ;
-; Total fan-out                               ; 16874          ;
-; Average fan-out                             ; 3.69           ;
+; Maximum fan-out                             ; 720            ;
+; Total fan-out                               ; 16773          ;
+; Average fan-out                             ; 3.71           ;
 +---------------------------------------------+----------------+
 
 
-+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
-; Analysis & Synthesis Resource Utilization by Entity                                                                                                                                                                                                                                                                    ;
-+-------------------------------------------+---------------------+---------------------------+-------------+--------------+---------+-----------+------+--------------+----------------------------------------------------------------------------------------------------------------+-----------------+--------------+
-; Compilation Hierarchy Node                ; Combinational ALUTs ; Dedicated Logic Registers ; Memory Bits ; DSP Elements ; DSP 9x9 ; DSP 18x18 ; Pins ; Virtual Pins ; Full Hierarchy Name                                                                                            ; Entity Name     ; Library Name ;
-+-------------------------------------------+---------------------+---------------------------+-------------+--------------+---------+-----------+------+--------------+----------------------------------------------------------------------------------------------------------------+-----------------+--------------+
-; |uk101_16K                                ; 3896 (141)          ; 541 (23)                  ; 237696      ; 0            ; 0       ; 0         ; 37   ; 0            ; |uk101_16K                                                                                                     ; uk101_16K       ; work         ;
-;    |BasicRom:rom|                         ; 0 (0)               ; 0 (0)                     ; 65536       ; 0            ; 0       ; 0         ; 0    ; 0            ; |uk101_16K|BasicRom:rom                                                                                        ; BasicRom        ; work         ;
-;       |altsyncram:altsyncram_component|   ; 0 (0)               ; 0 (0)                     ; 65536       ; 0            ; 0       ; 0         ; 0    ; 0            ; |uk101_16K|BasicRom:rom|altsyncram:altsyncram_component                                                        ; altsyncram      ; work         ;
-;          |altsyncram_m771:auto_generated| ; 0 (0)               ; 0 (0)                     ; 65536       ; 0            ; 0       ; 0         ; 0    ; 0            ; |uk101_16K|BasicRom:rom|altsyncram:altsyncram_component|altsyncram_m771:auto_generated                         ; altsyncram_m771 ; work         ;
-;    |CegmonRom:u4|                         ; 1659 (1659)         ; 0 (0)                     ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |uk101_16K|CegmonRom:u4                                                                                        ; CegmonRom       ; work         ;
-;    |Counter16Bit:buzzCounter|             ; 16 (16)             ; 16 (16)                   ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |uk101_16K|Counter16Bit:buzzCounter                                                                            ; Counter16Bit    ; work         ;
-;    |DisplayRam:u8|                        ; 0 (0)               ; 0 (0)                     ; 16384       ; 0            ; 0       ; 0         ; 0    ; 0            ; |uk101_16K|DisplayRam:u8                                                                                       ; DisplayRam      ; work         ;
-;       |altsyncram:altsyncram_component|   ; 0 (0)               ; 0 (0)                     ; 16384       ; 0            ; 0       ; 0         ; 0    ; 0            ; |uk101_16K|DisplayRam:u8|altsyncram:altsyncram_component                                                       ; altsyncram      ; work         ;
-;          |altsyncram_sn52:auto_generated| ; 0 (0)               ; 0 (0)                     ; 16384       ; 0            ; 0       ; 0         ; 0    ; 0            ; |uk101_16K|DisplayRam:u8|altsyncram:altsyncram_component|altsyncram_sn52:auto_generated                        ; altsyncram_sn52 ; work         ;
-;    |InternalRam16K:u3|                    ; 2 (0)               ; 1 (0)                     ; 131072      ; 0            ; 0       ; 0         ; 0    ; 0            ; |uk101_16K|InternalRam16K:u3                                                                                   ; InternalRam16K  ; work         ;
-;       |altsyncram:altsyncram_component|   ; 2 (0)               ; 1 (0)                     ; 131072      ; 0            ; 0       ; 0         ; 0    ; 0            ; |uk101_16K|InternalRam16K:u3|altsyncram:altsyncram_component                                                   ; altsyncram      ; work         ;
-;          |altsyncram_m3q3:auto_generated| ; 2 (0)               ; 1 (1)                     ; 131072      ; 0            ; 0       ; 0         ; 0    ; 0            ; |uk101_16K|InternalRam16K:u3|altsyncram:altsyncram_component|altsyncram_m3q3:auto_generated                    ; altsyncram_m3q3 ; work         ;
-;             |decode_jsa:decode3|          ; 2 (2)               ; 0 (0)                     ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |uk101_16K|InternalRam16K:u3|altsyncram:altsyncram_component|altsyncram_m3q3:auto_generated|decode_jsa:decode3 ; decode_jsa      ; work         ;
-;    |InternalRam1K:u3b|                    ; 0 (0)               ; 0 (0)                     ; 8192        ; 0            ; 0       ; 0         ; 0    ; 0            ; |uk101_16K|InternalRam1K:u3b                                                                                   ; InternalRam1K   ; work         ;
-;       |altsyncram:altsyncram_component|   ; 0 (0)               ; 0 (0)                     ; 8192        ; 0            ; 0       ; 0         ; 0    ; 0            ; |uk101_16K|InternalRam1K:u3b|altsyncram:altsyncram_component                                                   ; altsyncram      ; work         ;
-;          |altsyncram_j1q3:auto_generated| ; 0 (0)               ; 0 (0)                     ; 8192        ; 0            ; 0       ; 0         ; 0    ; 0            ; |uk101_16K|InternalRam1K:u3b|altsyncram:altsyncram_component|altsyncram_j1q3:auto_generated                    ; altsyncram_j1q3 ; work         ;
-;    |InternalRam2K:u3a|                    ; 0 (0)               ; 0 (0)                     ; 16384       ; 0            ; 0       ; 0         ; 0    ; 0            ; |uk101_16K|InternalRam2K:u3a                                                                                   ; InternalRam2K   ; work         ;
-;       |altsyncram:altsyncram_component|   ; 0 (0)               ; 0 (0)                     ; 16384       ; 0            ; 0       ; 0         ; 0    ; 0            ; |uk101_16K|InternalRam2K:u3a|altsyncram:altsyncram_component                                                   ; altsyncram      ; work         ;
-;          |altsyncram_r1q3:auto_generated| ; 0 (0)               ; 0 (0)                     ; 16384       ; 0            ; 0       ; 0         ; 0    ; 0            ; |uk101_16K|InternalRam2K:u3a|altsyncram:altsyncram_component|altsyncram_r1q3:auto_generated                    ; altsyncram_r1q3 ; work         ;
-;    |OUT_LATCH:io3|                        ; 0 (0)               ; 5 (5)                     ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |uk101_16K|OUT_LATCH:io3                                                                                       ; OUT_LATCH       ; work         ;
-;    |T65:u1|                               ; 792 (400)           ; 126 (126)                 ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |uk101_16K|T65:u1                                                                                              ; T65             ; work         ;
-;       |T65_ALU:alu|                       ; 159 (159)           ; 0 (0)                     ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |uk101_16K|T65:u1|T65_ALU:alu                                                                                  ; T65_ALU         ; work         ;
-;       |T65_MCode:mcode|                   ; 233 (233)           ; 0 (0)                     ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |uk101_16K|T65:u1|T65_MCode:mcode                                                                              ; T65_MCode       ; work         ;
-;    |UK101keyboard:u9|                     ; 131 (107)           ; 86 (52)                   ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |uk101_16K|UK101keyboard:u9                                                                                    ; UK101keyboard   ; work         ;
-;       |ps2_intf:ps2|                      ; 24 (24)             ; 34 (34)                   ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |uk101_16K|UK101keyboard:u9|ps2_intf:ps2                                                                       ; ps2_intf        ; work         ;
-;    |bufferedUART:UART|                    ; 158 (158)           ; 94 (94)                   ; 128         ; 0            ; 0       ; 0         ; 0    ; 0            ; |uk101_16K|bufferedUART:UART                                                                                   ; bufferedUART    ; work         ;
-;       |altsyncram:rxBuffer_rtl_0|         ; 0 (0)               ; 0 (0)                     ; 128         ; 0            ; 0       ; 0         ; 0    ; 0            ; |uk101_16K|bufferedUART:UART|altsyncram:rxBuffer_rtl_0                                                         ; altsyncram      ; work         ;
-;          |altsyncram_3ce1:auto_generated| ; 0 (0)               ; 0 (0)                     ; 128         ; 0            ; 0       ; 0         ; 0    ; 0            ; |uk101_16K|bufferedUART:UART|altsyncram:rxBuffer_rtl_0|altsyncram_3ce1:auto_generated                          ; altsyncram_3ce1 ; work         ;
-;    |pll:pll|                              ; 0 (0)               ; 0 (0)                     ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |uk101_16K|pll:pll                                                                                             ; pll             ; work         ;
-;       |altpll:altpll_component|           ; 0 (0)               ; 0 (0)                     ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |uk101_16K|pll:pll|altpll:altpll_component                                                                     ; altpll          ; work         ;
-;          |pll_altpll:auto_generated|      ; 0 (0)               ; 0 (0)                     ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |uk101_16K|pll:pll|altpll:altpll_component|pll_altpll:auto_generated                                           ; pll_altpll      ; work         ;
-;    |vga:u6|                               ; 997 (997)           ; 190 (190)                 ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |uk101_16K|vga:u6                                                                                              ; vga             ; work         ;
-+-------------------------------------------+---------------------+---------------------------+-------------+--------------+---------+-----------+------+--------------+----------------------------------------------------------------------------------------------------------------+-----------------+--------------+
++--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+; Analysis & Synthesis Resource Utilization by Entity                                                                                                                                                                                                                                                                            ;
++-------------------------------------------+---------------------+---------------------------+-------------+--------------+---------+-----------+------+--------------+----------------------------------------------------------------------------------------------------------------+-------------------------+--------------+
+; Compilation Hierarchy Node                ; Combinational ALUTs ; Dedicated Logic Registers ; Memory Bits ; DSP Elements ; DSP 9x9 ; DSP 18x18 ; Pins ; Virtual Pins ; Full Hierarchy Name                                                                                            ; Entity Name             ; Library Name ;
++-------------------------------------------+---------------------+---------------------------+-------------+--------------+---------+-----------+------+--------------+----------------------------------------------------------------------------------------------------------------+-------------------------+--------------+
+; |uk101_16K                                ; 3860 (138)          ; 532 (23)                  ; 237696      ; 0            ; 0       ; 0         ; 37   ; 0            ; |uk101_16K                                                                                                     ; uk101_16K               ; work         ;
+;    |BasicRom:rom|                         ; 0 (0)               ; 0 (0)                     ; 65536       ; 0            ; 0       ; 0         ; 0    ; 0            ; |uk101_16K|BasicRom:rom                                                                                        ; BasicRom                ; work         ;
+;       |altsyncram:altsyncram_component|   ; 0 (0)               ; 0 (0)                     ; 65536       ; 0            ; 0       ; 0         ; 0    ; 0            ; |uk101_16K|BasicRom:rom|altsyncram:altsyncram_component                                                        ; altsyncram              ; work         ;
+;          |altsyncram_m771:auto_generated| ; 0 (0)               ; 0 (0)                     ; 65536       ; 0            ; 0       ; 0         ; 0    ; 0            ; |uk101_16K|BasicRom:rom|altsyncram:altsyncram_component|altsyncram_m771:auto_generated                         ; altsyncram_m771         ; work         ;
+;    |CegmonRom_Patched_64x32:u4|           ; 1659 (1659)         ; 0 (0)                     ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |uk101_16K|CegmonRom_Patched_64x32:u4                                                                          ; CegmonRom_Patched_64x32 ; work         ;
+;    |Counter16Bit:buzzCounter|             ; 16 (16)             ; 16 (16)                   ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |uk101_16K|Counter16Bit:buzzCounter                                                                            ; Counter16Bit            ; work         ;
+;    |DisplayRam2k:u8|                      ; 0 (0)               ; 0 (0)                     ; 16384       ; 0            ; 0       ; 0         ; 0    ; 0            ; |uk101_16K|DisplayRam2k:u8                                                                                     ; DisplayRam2k            ; work         ;
+;       |altsyncram:altsyncram_component|   ; 0 (0)               ; 0 (0)                     ; 16384       ; 0            ; 0       ; 0         ; 0    ; 0            ; |uk101_16K|DisplayRam2k:u8|altsyncram:altsyncram_component                                                     ; altsyncram              ; work         ;
+;          |altsyncram_sn52:auto_generated| ; 0 (0)               ; 0 (0)                     ; 16384       ; 0            ; 0       ; 0         ; 0    ; 0            ; |uk101_16K|DisplayRam2k:u8|altsyncram:altsyncram_component|altsyncram_sn52:auto_generated                      ; altsyncram_sn52         ; work         ;
+;    |InternalRam16K:u3|                    ; 2 (0)               ; 1 (0)                     ; 131072      ; 0            ; 0       ; 0         ; 0    ; 0            ; |uk101_16K|InternalRam16K:u3                                                                                   ; InternalRam16K          ; work         ;
+;       |altsyncram:altsyncram_component|   ; 2 (0)               ; 1 (0)                     ; 131072      ; 0            ; 0       ; 0         ; 0    ; 0            ; |uk101_16K|InternalRam16K:u3|altsyncram:altsyncram_component                                                   ; altsyncram              ; work         ;
+;          |altsyncram_m3q3:auto_generated| ; 2 (0)               ; 1 (1)                     ; 131072      ; 0            ; 0       ; 0         ; 0    ; 0            ; |uk101_16K|InternalRam16K:u3|altsyncram:altsyncram_component|altsyncram_m3q3:auto_generated                    ; altsyncram_m3q3         ; work         ;
+;             |decode_jsa:decode3|          ; 2 (2)               ; 0 (0)                     ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |uk101_16K|InternalRam16K:u3|altsyncram:altsyncram_component|altsyncram_m3q3:auto_generated|decode_jsa:decode3 ; decode_jsa              ; work         ;
+;    |InternalRam1K:u3b|                    ; 0 (0)               ; 0 (0)                     ; 8192        ; 0            ; 0       ; 0         ; 0    ; 0            ; |uk101_16K|InternalRam1K:u3b                                                                                   ; InternalRam1K           ; work         ;
+;       |altsyncram:altsyncram_component|   ; 0 (0)               ; 0 (0)                     ; 8192        ; 0            ; 0       ; 0         ; 0    ; 0            ; |uk101_16K|InternalRam1K:u3b|altsyncram:altsyncram_component                                                   ; altsyncram              ; work         ;
+;          |altsyncram_j1q3:auto_generated| ; 0 (0)               ; 0 (0)                     ; 8192        ; 0            ; 0       ; 0         ; 0    ; 0            ; |uk101_16K|InternalRam1K:u3b|altsyncram:altsyncram_component|altsyncram_j1q3:auto_generated                    ; altsyncram_j1q3         ; work         ;
+;    |InternalRam2K:u3a|                    ; 0 (0)               ; 0 (0)                     ; 16384       ; 0            ; 0       ; 0         ; 0    ; 0            ; |uk101_16K|InternalRam2K:u3a                                                                                   ; InternalRam2K           ; work         ;
+;       |altsyncram:altsyncram_component|   ; 0 (0)               ; 0 (0)                     ; 16384       ; 0            ; 0       ; 0         ; 0    ; 0            ; |uk101_16K|InternalRam2K:u3a|altsyncram:altsyncram_component                                                   ; altsyncram              ; work         ;
+;          |altsyncram_r1q3:auto_generated| ; 0 (0)               ; 0 (0)                     ; 16384       ; 0            ; 0       ; 0         ; 0    ; 0            ; |uk101_16K|InternalRam2K:u3a|altsyncram:altsyncram_component|altsyncram_r1q3:auto_generated                    ; altsyncram_r1q3         ; work         ;
+;    |OutLatch:io3|                         ; 0 (0)               ; 5 (5)                     ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |uk101_16K|OutLatch:io3                                                                                        ; OutLatch                ; work         ;
+;    |T65:u1|                               ; 793 (399)           ; 126 (126)                 ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |uk101_16K|T65:u1                                                                                              ; T65                     ; work         ;
+;       |T65_ALU:alu|                       ; 159 (159)           ; 0 (0)                     ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |uk101_16K|T65:u1|T65_ALU:alu                                                                                  ; T65_ALU                 ; work         ;
+;       |T65_MCode:mcode|                   ; 235 (235)           ; 0 (0)                     ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |uk101_16K|T65:u1|T65_MCode:mcode                                                                              ; T65_MCode               ; work         ;
+;    |UK101keyboard:u9|                     ; 131 (107)           ; 86 (52)                   ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |uk101_16K|UK101keyboard:u9                                                                                    ; UK101keyboard           ; work         ;
+;       |ps2_intf:ps2|                      ; 24 (24)             ; 34 (34)                   ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |uk101_16K|UK101keyboard:u9|ps2_intf:ps2                                                                       ; ps2_intf                ; work         ;
+;    |bufferedUART:UART|                    ; 159 (159)           ; 94 (94)                   ; 128         ; 0            ; 0       ; 0         ; 0    ; 0            ; |uk101_16K|bufferedUART:UART                                                                                   ; bufferedUART            ; work         ;
+;       |altsyncram:rxBuffer_rtl_0|         ; 0 (0)               ; 0 (0)                     ; 128         ; 0            ; 0       ; 0         ; 0    ; 0            ; |uk101_16K|bufferedUART:UART|altsyncram:rxBuffer_rtl_0                                                         ; altsyncram              ; work         ;
+;          |altsyncram_3ce1:auto_generated| ; 0 (0)               ; 0 (0)                     ; 128         ; 0            ; 0       ; 0         ; 0    ; 0            ; |uk101_16K|bufferedUART:UART|altsyncram:rxBuffer_rtl_0|altsyncram_3ce1:auto_generated                          ; altsyncram_3ce1         ; work         ;
+;    |pll:pll|                              ; 0 (0)               ; 0 (0)                     ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |uk101_16K|pll:pll                                                                                             ; pll                     ; work         ;
+;       |altpll:altpll_component|           ; 0 (0)               ; 0 (0)                     ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |uk101_16K|pll:pll|altpll:altpll_component                                                                     ; altpll                  ; work         ;
+;          |pll_altpll:auto_generated|      ; 0 (0)               ; 0 (0)                     ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |uk101_16K|pll:pll|altpll:altpll_component|pll_altpll:auto_generated                                           ; pll_altpll              ; work         ;
+;    |vga:u6|                               ; 962 (962)           ; 181 (181)                 ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |uk101_16K|vga:u6                                                                                              ; vga                     ; work         ;
++-------------------------------------------+---------------------+---------------------------+-------------+--------------+---------+-----------+------+--------------+----------------------------------------------------------------------------------------------------------------+-------------------------+--------------+
 Note: For table entries with two numbers listed, the numbers in parentheses indicate the number of resources of the given type used by the specific entity alone. The numbers listed outside of parentheses indicate the total resources of the given type used by the specific entity and all of its sub-entities in the hierarchy.
 
 
@@ -330,7 +330,7 @@ Note: For table entries with two numbers listed, the numbers in parentheses indi
 ; Name                                                                                        ; Type ; Mode             ; Port A Depth ; Port A Width ; Port B Depth ; Port B Width ; Size   ; MIF       ;
 +---------------------------------------------------------------------------------------------+------+------------------+--------------+--------------+--------------+--------------+--------+-----------+
 ; BasicRom:rom|altsyncram:altsyncram_component|altsyncram_m771:auto_generated|ALTSYNCRAM      ; AUTO ; ROM              ; 8192         ; 8            ; --           ; --           ; 65536  ; BASIC.HEX ;
-; DisplayRam:u8|altsyncram:altsyncram_component|altsyncram_sn52:auto_generated|ALTSYNCRAM     ; AUTO ; True Dual Port   ; 2048         ; 8            ; 2048         ; 8            ; 16384  ; None      ;
+; DisplayRam2k:u8|altsyncram:altsyncram_component|altsyncram_sn52:auto_generated|ALTSYNCRAM   ; AUTO ; True Dual Port   ; 2048         ; 8            ; 2048         ; 8            ; 16384  ; None      ;
 ; InternalRam16K:u3|altsyncram:altsyncram_component|altsyncram_m3q3:auto_generated|ALTSYNCRAM ; AUTO ; Single Port      ; 16384        ; 8            ; --           ; --           ; 131072 ; None      ;
 ; InternalRam1K:u3b|altsyncram:altsyncram_component|altsyncram_j1q3:auto_generated|ALTSYNCRAM ; AUTO ; Single Port      ; 1024         ; 8            ; --           ; --           ; 8192   ; None      ;
 ; InternalRam2K:u3a|altsyncram:altsyncram_component|altsyncram_r1q3:auto_generated|ALTSYNCRAM ; AUTO ; Single Port      ; 2048         ; 8            ; --           ; --           ; 16384  ; None      ;
@@ -394,7 +394,7 @@ Note: All latches listed above may not be present at the end of synthesis due to
 +----------------------------------------+----------------------------------------+
 ; Register name                          ; Reason for Removal                     ;
 +----------------------------------------+----------------------------------------+
-; vga:u6|X1vp1[1,8]                      ; Stuck at GND due to stuck port data_in ;
+; vga:u6|X1vp1[1..15]                    ; Stuck at GND due to stuck port data_in ;
 ; T65:u1|SO_n_o                          ; Lost fanout                            ;
 ; T65:u1|NMI_n_o                         ; Stuck at VCC due to stuck port data_in ;
 ; T65:u1|IRQ_n_o                         ; Stuck at VCC due to stuck port data_in ;
@@ -402,28 +402,29 @@ Note: All latches listed above may not be present at the end of synthesis due to
 ; T65:u1|NMIAct                          ; Stuck at GND due to stuck port data_in ;
 ; T65:u1|IRQCycle                        ; Stuck at GND due to stuck port data_in ;
 ; T65:u1|NMICycle                        ; Stuck at GND due to stuck port data_in ;
-; vga:u6|X1vp1[15]                       ; Merged with vga:u6|X1vp1[14]           ;
-; vga:u6|X1vp1[14]                       ; Merged with vga:u6|X1vp1[13]           ;
-; vga:u6|X1vp1[13]                       ; Merged with vga:u6|X1vp1[2]            ;
-; vga:u6|X1vp1[2]                        ; Merged with vga:u6|X1vp1[3]            ;
-; vga:u6|X1vp1[3]                        ; Merged with vga:u6|X1vp1[4]            ;
-; vga:u6|X1vp1[4]                        ; Merged with vga:u6|X1vp1[5]            ;
-; vga:u6|X1vp1[5]                        ; Merged with vga:u6|X1vp1[6]            ;
-; vga:u6|X1vp1[6]                        ; Merged with vga:u6|X1vp1[7]            ;
-; vga:u6|X1vp1[7]                        ; Merged with vga:u6|X1vp1[9]            ;
-; vga:u6|X1vp1[9]                        ; Merged with vga:u6|X1vp1[10]           ;
-; vga:u6|X1vp1[10]                       ; Merged with vga:u6|X1vp1[11]           ;
-; vga:u6|X1vp1[11]                       ; Merged with vga:u6|X1vp1[12]           ;
+; vga:u6|Pixel_Colour[0]                 ; Merged with vga:u6|Pixel_Colour[1]     ;
+; vga:u6|Pixel_Colour[1]                 ; Merged with vga:u6|Pixel_Colour[2]     ;
+; vga:u6|Pixel_Colour[2]                 ; Merged with vga:u6|Pixel_Colour[3]     ;
+; vga:u6|Pixel_Colour[3]                 ; Merged with vga:u6|Pixel_Colour[4]     ;
 ; T65:u1|P[5]                            ; Merged with T65:u1|P[4]                ;
+; vga:u6|Y0vp1[15]                       ; Merged with vga:u6|Y1vp1[15]           ;
+; vga:u6|Y0vp1[14]                       ; Merged with vga:u6|Y1vp1[14]           ;
+; vga:u6|Y0vp1[13]                       ; Merged with vga:u6|Y1vp1[13]           ;
+; vga:u6|Y0vp1[2]                        ; Merged with vga:u6|Y1vp1[2]            ;
+; vga:u6|Y0vp1[12]                       ; Merged with vga:u6|Y1vp1[12]           ;
+; vga:u6|Y0vp1[11]                       ; Merged with vga:u6|Y1vp1[11]           ;
+; vga:u6|Y0vp1[10]                       ; Merged with vga:u6|Y1vp1[10]           ;
+; vga:u6|Y0vp1[9]                        ; Merged with vga:u6|Y1vp1[9]            ;
+; vga:u6|Y0vp1[8]                        ; Merged with vga:u6|Y1vp1[8]            ;
 ; vga:u6|Y0vp1[7]                        ; Merged with vga:u6|Y1vp1[7]            ;
 ; vga:u6|Y0vp1[6]                        ; Merged with vga:u6|Y1vp1[6]            ;
 ; vga:u6|Y0vp1[5]                        ; Merged with vga:u6|Y1vp1[5]            ;
 ; vga:u6|Y0vp1[4]                        ; Merged with vga:u6|Y1vp1[4]            ;
 ; vga:u6|Y0vp1[3]                        ; Merged with vga:u6|Y1vp1[3]            ;
-; vga:u6|Pixel_Colour[5..14]             ; Merged with vga:u6|Pixel_Colour[15]    ;
-; vga:u6|Pixel_Colour[0..3]              ; Merged with vga:u6|Pixel_Colour[4]     ;
+; vga:u6|Pixel_Colour[11..14]            ; Merged with vga:u6|Pixel_Colour[15]    ;
+; vga:u6|Pixel_Colour[5..9]              ; Merged with vga:u6|Pixel_Colour[10]    ;
 ; T65:u1|S[8..15]                        ; Lost fanout                            ;
-; Total Number of Removed Registers = 50 ;                                        ;
+; Total Number of Removed Registers = 59 ;                                        ;
 +----------------------------------------+----------------------------------------+
 
 
@@ -444,12 +445,12 @@ Note: All latches listed above may not be present at the end of synthesis due to
 +----------------------------------------------+-------+
 ; Statistic                                    ; Value ;
 +----------------------------------------------+-------+
-; Total registers                              ; 541   ;
-; Number of registers using Synchronous Clear  ; 29    ;
+; Total registers                              ; 532   ;
+; Number of registers using Synchronous Clear  ; 58    ;
 ; Number of registers using Synchronous Load   ; 27    ;
 ; Number of registers using Asynchronous Clear ; 226   ;
 ; Number of registers using Asynchronous Load  ; 0     ;
-; Number of registers using Clock Enable       ; 242   ;
+; Number of registers using Clock Enable       ; 233   ;
 ; Number of registers using Preset             ; 0     ;
 +----------------------------------------------+-------+
 
@@ -459,18 +460,40 @@ Note: All latches listed above may not be present at the end of synthesis due to
 +---------------------------------------------+---------+
 ; Inverted Register                           ; Fan out ;
 +---------------------------------------------+---------+
-; T65:u1|MCycle[0]                            ; 40      ;
+; T65:u1|MCycle[0]                            ; 41      ;
 ; T65:u1|R_W_n_i                              ; 6       ;
 ; T65:u1|ALU_Op_r[3]                          ; 31      ;
 ; T65:u1|ALU_Op_r[2]                          ; 16      ;
 ; T65:u1|RstCycle                             ; 4       ;
-; UK101keyboard:u9|keys[1][2]                 ; 2       ;
-; UK101keyboard:u9|keys[2][2]                 ; 2       ;
-; UK101keyboard:u9|keys[4][2]                 ; 2       ;
-; UK101keyboard:u9|keys[3][2]                 ; 2       ;
-; UK101keyboard:u9|keys[7][2]                 ; 2       ;
-; UK101keyboard:u9|keys[6][2]                 ; 2       ;
-; UK101keyboard:u9|keys[0][2]                 ; 2       ;
+; UK101keyboard:u9|keys[3][5]                 ; 2       ;
+; UK101keyboard:u9|keys[2][5]                 ; 2       ;
+; UK101keyboard:u9|keys[5][5]                 ; 2       ;
+; UK101keyboard:u9|keys[4][5]                 ; 2       ;
+; UK101keyboard:u9|keys[7][5]                 ; 2       ;
+; UK101keyboard:u9|keys[6][5]                 ; 2       ;
+; UK101keyboard:u9|keys[1][5]                 ; 2       ;
+; UK101keyboard:u9|keys[3][4]                 ; 2       ;
+; UK101keyboard:u9|keys[2][4]                 ; 2       ;
+; UK101keyboard:u9|keys[5][4]                 ; 2       ;
+; UK101keyboard:u9|keys[4][4]                 ; 2       ;
+; UK101keyboard:u9|keys[7][4]                 ; 2       ;
+; UK101keyboard:u9|keys[6][4]                 ; 2       ;
+; UK101keyboard:u9|keys[1][4]                 ; 2       ;
+; UK101keyboard:u9|keys[1][6]                 ; 2       ;
+; UK101keyboard:u9|keys[0][6]                 ; 2       ;
+; UK101keyboard:u9|keys[3][6]                 ; 2       ;
+; UK101keyboard:u9|keys[2][6]                 ; 2       ;
+; UK101keyboard:u9|keys[5][6]                 ; 2       ;
+; UK101keyboard:u9|keys[4][6]                 ; 2       ;
+; UK101keyboard:u9|keys[7][6]                 ; 2       ;
+; UK101keyboard:u9|keys[6][6]                 ; 2       ;
+; UK101keyboard:u9|keys[3][7]                 ; 2       ;
+; UK101keyboard:u9|keys[2][7]                 ; 2       ;
+; UK101keyboard:u9|keys[5][7]                 ; 2       ;
+; UK101keyboard:u9|keys[4][7]                 ; 2       ;
+; UK101keyboard:u9|keys[7][7]                 ; 2       ;
+; UK101keyboard:u9|keys[6][7]                 ; 2       ;
+; UK101keyboard:u9|keys[1][7]                 ; 2       ;
 ; UK101keyboard:u9|keys[1][1]                 ; 2       ;
 ; UK101keyboard:u9|keys[2][1]                 ; 2       ;
 ; UK101keyboard:u9|keys[4][1]                 ; 2       ;
@@ -481,39 +504,17 @@ Note: All latches listed above may not be present at the end of synthesis due to
 ; UK101keyboard:u9|keys[7][3]                 ; 2       ;
 ; UK101keyboard:u9|keys[6][3]                 ; 2       ;
 ; UK101keyboard:u9|keys[1][3]                 ; 2       ;
-; UK101keyboard:u9|keys[5][3]                 ; 2       ;
-; UK101keyboard:u9|keys[4][3]                 ; 2       ;
 ; UK101keyboard:u9|keys[3][3]                 ; 2       ;
 ; UK101keyboard:u9|keys[2][3]                 ; 2       ;
-; UK101keyboard:u9|keys[7][4]                 ; 2       ;
-; UK101keyboard:u9|keys[6][4]                 ; 2       ;
-; UK101keyboard:u9|keys[1][4]                 ; 2       ;
-; UK101keyboard:u9|keys[3][4]                 ; 2       ;
-; UK101keyboard:u9|keys[2][4]                 ; 2       ;
-; UK101keyboard:u9|keys[5][4]                 ; 2       ;
-; UK101keyboard:u9|keys[4][4]                 ; 2       ;
-; UK101keyboard:u9|keys[3][7]                 ; 2       ;
-; UK101keyboard:u9|keys[2][7]                 ; 2       ;
-; UK101keyboard:u9|keys[5][7]                 ; 2       ;
-; UK101keyboard:u9|keys[4][7]                 ; 2       ;
-; UK101keyboard:u9|keys[7][7]                 ; 2       ;
-; UK101keyboard:u9|keys[6][7]                 ; 2       ;
-; UK101keyboard:u9|keys[1][7]                 ; 2       ;
-; UK101keyboard:u9|keys[1][6]                 ; 2       ;
-; UK101keyboard:u9|keys[0][6]                 ; 2       ;
-; UK101keyboard:u9|keys[3][6]                 ; 2       ;
-; UK101keyboard:u9|keys[2][6]                 ; 2       ;
-; UK101keyboard:u9|keys[5][6]                 ; 2       ;
-; UK101keyboard:u9|keys[4][6]                 ; 2       ;
-; UK101keyboard:u9|keys[7][6]                 ; 2       ;
-; UK101keyboard:u9|keys[6][6]                 ; 2       ;
-; UK101keyboard:u9|keys[3][5]                 ; 2       ;
-; UK101keyboard:u9|keys[2][5]                 ; 2       ;
-; UK101keyboard:u9|keys[5][5]                 ; 2       ;
-; UK101keyboard:u9|keys[4][5]                 ; 2       ;
-; UK101keyboard:u9|keys[7][5]                 ; 2       ;
-; UK101keyboard:u9|keys[6][5]                 ; 2       ;
-; UK101keyboard:u9|keys[1][5]                 ; 2       ;
+; UK101keyboard:u9|keys[5][3]                 ; 2       ;
+; UK101keyboard:u9|keys[4][3]                 ; 2       ;
+; UK101keyboard:u9|keys[1][2]                 ; 2       ;
+; UK101keyboard:u9|keys[2][2]                 ; 2       ;
+; UK101keyboard:u9|keys[4][2]                 ; 2       ;
+; UK101keyboard:u9|keys[3][2]                 ; 2       ;
+; UK101keyboard:u9|keys[7][2]                 ; 2       ;
+; UK101keyboard:u9|keys[6][2]                 ; 2       ;
+; UK101keyboard:u9|keys[0][2]                 ; 2       ;
 ; bufferedUART:UART|rxdFiltered               ; 5       ;
 ; UK101keyboard:u9|ps2_intf:ps2|ps2_dat_in    ; 4       ;
 ; UK101keyboard:u9|ps2_intf:ps2|clk_filter[7] ; 3       ;
@@ -534,36 +535,35 @@ Note: All latches listed above may not be present at the end of synthesis due to
 +--------------------+-----------+---------------+----------------------+------------------------+------------+-------------------------------------------------------+
 ; Multiplexer Inputs ; Bus Width ; Baseline Area ; Area if Restructured ; Saving if Restructured ; Registered ; Example Multiplexer Output                            ;
 +--------------------+-----------+---------------+----------------------+------------------------+------------+-------------------------------------------------------+
-; 3:1                ; 8 bits    ; 16 LEs        ; 8 LEs                ; 8 LEs                  ; Yes        ; |uk101_16K|T65:u1|S[13]                               ;
-; 3:1                ; 4 bits    ; 8 LEs         ; 4 LEs                ; 4 LEs                  ; Yes        ; |uk101_16K|UK101keyboard:u9|ps2_intf:ps2|bit_count[0] ;
-; 3:1                ; 23 bits   ; 46 LEs        ; 23 LEs               ; 23 LEs                 ; Yes        ; |uk101_16K|vga:u6|Y0vp1[9]                            ;
-; 3:1                ; 2 bits    ; 4 LEs         ; 2 LEs                ; 2 LEs                  ; Yes        ; |uk101_16K|vga:u6|X0vp1[1]                            ;
-; 3:1                ; 13 bits   ; 26 LEs        ; 26 LEs               ; 0 LEs                  ; Yes        ; |uk101_16K|vga:u6|X0vp1[13]                           ;
-; 3:1                ; 5 bits    ; 10 LEs        ; 10 LEs               ; 0 LEs                  ; Yes        ; |uk101_16K|bufferedUART:UART|dataOut[6]               ;
+; 3:1                ; 8 bits    ; 16 LEs        ; 8 LEs                ; 8 LEs                  ; Yes        ; |uk101_16K|T65:u1|S[9]                                ;
+; 3:1                ; 4 bits    ; 8 LEs         ; 4 LEs                ; 4 LEs                  ; Yes        ; |uk101_16K|UK101keyboard:u9|ps2_intf:ps2|bit_count[2] ;
+; 3:1                ; 14 bits   ; 28 LEs        ; 14 LEs               ; 14 LEs                 ; Yes        ; |uk101_16K|vga:u6|Y1vp1[4]                            ;
+; 3:1                ; 15 bits   ; 30 LEs        ; 15 LEs               ; 15 LEs                 ; Yes        ; |uk101_16K|vga:u6|X0vp1[7]                            ;
+; 3:1                ; 5 bits    ; 10 LEs        ; 10 LEs               ; 0 LEs                  ; Yes        ; |uk101_16K|bufferedUART:UART|dataOut[2]               ;
 ; 3:1                ; 2 bits    ; 4 LEs         ; 4 LEs                ; 0 LEs                  ; Yes        ; |uk101_16K|bufferedUART:UART|dataOut[0]               ;
-; 3:1                ; 8 bits    ; 16 LEs        ; 8 LEs                ; 8 LEs                  ; Yes        ; |uk101_16K|T65:u1|DL[3]                               ;
-; 5:1                ; 8 bits    ; 24 LEs        ; 16 LEs               ; 8 LEs                  ; Yes        ; |uk101_16K|T65:u1|PC[1]                               ;
-; 4:1                ; 8 bits    ; 16 LEs        ; 16 LEs               ; 0 LEs                  ; Yes        ; |uk101_16K|T65:u1|S[4]                                ;
-; 4:1                ; 8 bits    ; 16 LEs        ; 16 LEs               ; 0 LEs                  ; Yes        ; |uk101_16K|T65:u1|BAH[6]                              ;
-; 5:1                ; 6 bits    ; 18 LEs        ; 6 LEs                ; 12 LEs                 ; Yes        ; |uk101_16K|bufferedUART:UART|rxClockCount[5]          ;
-; 5:1                ; 8 bits    ; 24 LEs        ; 16 LEs               ; 8 LEs                  ; Yes        ; |uk101_16K|T65:u1|AD[4]                               ;
-; 6:1                ; 6 bits    ; 24 LEs        ; 12 LEs               ; 12 LEs                 ; Yes        ; |uk101_16K|T65:u1|BAL[4]                              ;
+; 3:1                ; 8 bits    ; 16 LEs        ; 8 LEs                ; 8 LEs                  ; Yes        ; |uk101_16K|T65:u1|DL[0]                               ;
+; 5:1                ; 8 bits    ; 24 LEs        ; 16 LEs               ; 8 LEs                  ; Yes        ; |uk101_16K|T65:u1|PC[0]                               ;
+; 4:1                ; 8 bits    ; 16 LEs        ; 16 LEs               ; 0 LEs                  ; Yes        ; |uk101_16K|T65:u1|S[3]                                ;
+; 4:1                ; 8 bits    ; 16 LEs        ; 16 LEs               ; 0 LEs                  ; Yes        ; |uk101_16K|T65:u1|BAH[0]                              ;
+; 5:1                ; 6 bits    ; 18 LEs        ; 6 LEs                ; 12 LEs                 ; Yes        ; |uk101_16K|bufferedUART:UART|rxClockCount[2]          ;
+; 5:1                ; 8 bits    ; 24 LEs        ; 16 LEs               ; 8 LEs                  ; Yes        ; |uk101_16K|T65:u1|AD[0]                               ;
+; 6:1                ; 6 bits    ; 24 LEs        ; 12 LEs               ; 12 LEs                 ; Yes        ; |uk101_16K|T65:u1|BAL[6]                              ;
 ; 6:1                ; 2 bits    ; 8 LEs         ; 4 LEs                ; 4 LEs                  ; Yes        ; |uk101_16K|T65:u1|BAL[0]                              ;
-; 5:1                ; 4 bits    ; 12 LEs        ; 4 LEs                ; 8 LEs                  ; Yes        ; |uk101_16K|bufferedUART:UART|rxBitCount[2]            ;
-; 5:1                ; 4 bits    ; 12 LEs        ; 4 LEs                ; 8 LEs                  ; Yes        ; |uk101_16K|bufferedUART:UART|txBitCount[3]            ;
-; 5:1                ; 7 bits    ; 21 LEs        ; 7 LEs                ; 14 LEs                 ; Yes        ; |uk101_16K|bufferedUART:UART|txBuffer[2]              ;
-; 6:1                ; 8 bits    ; 32 LEs        ; 16 LEs               ; 16 LEs                 ; Yes        ; |uk101_16K|T65:u1|PC[10]                              ;
-; 6:1                ; 6 bits    ; 24 LEs        ; 6 LEs                ; 18 LEs                 ; Yes        ; |uk101_16K|bufferedUART:UART|txClockCount[4]          ;
+; 5:1                ; 4 bits    ; 12 LEs        ; 4 LEs                ; 8 LEs                  ; Yes        ; |uk101_16K|bufferedUART:UART|rxBitCount[0]            ;
+; 5:1                ; 4 bits    ; 12 LEs        ; 4 LEs                ; 8 LEs                  ; Yes        ; |uk101_16K|bufferedUART:UART|txBitCount[0]            ;
+; 5:1                ; 7 bits    ; 21 LEs        ; 7 LEs                ; 14 LEs                 ; Yes        ; |uk101_16K|bufferedUART:UART|txBuffer[1]              ;
+; 6:1                ; 8 bits    ; 32 LEs        ; 16 LEs               ; 16 LEs                 ; Yes        ; |uk101_16K|T65:u1|PC[9]                               ;
+; 6:1                ; 6 bits    ; 24 LEs        ; 6 LEs                ; 18 LEs                 ; Yes        ; |uk101_16K|bufferedUART:UART|txClockCount[1]          ;
 ; 3:1                ; 2 bits    ; 4 LEs         ; 2 LEs                ; 2 LEs                  ; No         ; |uk101_16K|T65:u1|T65_MCode:mcode|Mux118              ;
 ; 3:1                ; 5 bits    ; 10 LEs        ; 5 LEs                ; 5 LEs                  ; No         ; |uk101_16K|T65:u1|T65_MCode:mcode|Mux124              ;
-; 8:1                ; 8 bits    ; 40 LEs        ; 40 LEs               ; 0 LEs                  ; No         ; |uk101_16K|T65:u1|Mux80                               ;
-; 6:1                ; 8 bits    ; 32 LEs        ; 32 LEs               ; 0 LEs                  ; No         ; |uk101_16K|T65:u1|Mux51                               ;
+; 8:1                ; 8 bits    ; 40 LEs        ; 40 LEs               ; 0 LEs                  ; No         ; |uk101_16K|T65:u1|Mux81                               ;
+; 6:1                ; 8 bits    ; 32 LEs        ; 32 LEs               ; 0 LEs                  ; No         ; |uk101_16K|T65:u1|Mux50                               ;
 ; 7:1                ; 3 bits    ; 12 LEs        ; 6 LEs                ; 6 LEs                  ; No         ; |uk101_16K|bufferedUART:UART|txState.stopBit          ;
-; 7:1                ; 3 bits    ; 12 LEs        ; 6 LEs                ; 6 LEs                  ; No         ; |uk101_16K|bufferedUART:UART|rxState.dataBit          ;
-; 12:1               ; 2 bits    ; 16 LEs        ; 12 LEs               ; 4 LEs                  ; No         ; |uk101_16K|T65:u1|T65_ALU:alu|Mux7                    ;
+; 7:1                ; 3 bits    ; 12 LEs        ; 6 LEs                ; 6 LEs                  ; No         ; |uk101_16K|bufferedUART:UART|rxState.stopBit          ;
+; 12:1               ; 2 bits    ; 16 LEs        ; 12 LEs               ; 4 LEs                  ; No         ; |uk101_16K|T65:u1|T65_ALU:alu|Mux3                    ;
 ; 14:1               ; 3 bits    ; 27 LEs        ; 24 LEs               ; 3 LEs                  ; No         ; |uk101_16K|T65:u1|T65_ALU:alu|Mux6                    ;
-; 14:1               ; 3 bits    ; 27 LEs        ; 24 LEs               ; 3 LEs                  ; No         ; |uk101_16K|T65:u1|T65_ALU:alu|Mux1                    ;
-; 11:1               ; 5 bits    ; 35 LEs        ; 35 LEs               ; 0 LEs                  ; No         ; |uk101_16K|cpuDataIn[7]                               ;
+; 14:1               ; 3 bits    ; 27 LEs        ; 24 LEs               ; 3 LEs                  ; No         ; |uk101_16K|T65:u1|T65_ALU:alu|Mux2                    ;
+; 11:1               ; 5 bits    ; 35 LEs        ; 35 LEs               ; 0 LEs                  ; No         ; |uk101_16K|cpuDataIn[6]                               ;
 ; 11:1               ; 3 bits    ; 21 LEs        ; 21 LEs               ; 0 LEs                  ; No         ; |uk101_16K|cpuDataIn[2]                               ;
 +--------------------+-----------+---------------+----------------------+------------------------+------------+-------------------------------------------------------+
 
@@ -604,13 +604,13 @@ Note: All latches listed above may not be present at the end of synthesis due to
 +---------------------------------+--------------------+------+-------------------------------------------+
 
 
-+-----------------------------------------------------------------------------------------------------+
-; Source assignments for DisplayRam:u8|altsyncram:altsyncram_component|altsyncram_sn52:auto_generated ;
-+---------------------------------+--------------------+------+---------------------------------------+
-; Assignment                      ; Value              ; From ; To                                    ;
-+---------------------------------+--------------------+------+---------------------------------------+
-; OPTIMIZE_POWER_DURING_SYNTHESIS ; NORMAL_COMPILATION ; -    ; -                                     ;
-+---------------------------------+--------------------+------+---------------------------------------+
++-------------------------------------------------------------------------------------------------------+
+; Source assignments for DisplayRam2k:u8|altsyncram:altsyncram_component|altsyncram_sn52:auto_generated ;
++---------------------------------+--------------------+------+-----------------------------------------+
+; Assignment                      ; Value              ; From ; To                                      ;
++---------------------------------+--------------------+------+-----------------------------------------+
+; OPTIMIZE_POWER_DURING_SYNTHESIS ; NORMAL_COMPILATION ; -    ; -                                       ;
++---------------------------------+--------------------+------+-----------------------------------------+
 
 
 +---------------------------------------------------------------------------------------------------+
@@ -866,23 +866,23 @@ Note: In order to hide this table in the UI and the text report file, please set
 Note: In order to hide this table in the UI and the text report file, please set the "Show Parameter Settings in Synthesis Report" option in "Analysis and Synthesis Settings -> More Settings" to "Off".
 
 
++-----------------------------------------------------------+
+; Parameter Settings for User Entity Instance: OutLatch:io3 ;
++----------------+-------+----------------------------------+
+; Parameter Name ; Value ; Type                             ;
++----------------+-------+----------------------------------+
+; n              ; 8     ; Signed Integer                   ;
++----------------+-------+----------------------------------+
+Note: In order to hide this table in the UI and the text report file, please set the "Show Parameter Settings in Synthesis Report" option in "Analysis and Synthesis Settings -> More Settings" to "Off".
+
+
 +------------------------------------------------------------+
-; Parameter Settings for User Entity Instance: OUT_LATCH:io3 ;
+; Parameter Settings for User Entity Instance: OutLatch:io3B ;
 +----------------+-------+-----------------------------------+
 ; Parameter Name ; Value ; Type                              ;
 +----------------+-------+-----------------------------------+
 ; n              ; 8     ; Signed Integer                    ;
 +----------------+-------+-----------------------------------+
-Note: In order to hide this table in the UI and the text report file, please set the "Show Parameter Settings in Synthesis Report" option in "Analysis and Synthesis Settings -> More Settings" to "Off".
-
-
-+-------------------------------------------------------------+
-; Parameter Settings for User Entity Instance: OUT_LATCH:io3B ;
-+----------------+-------+------------------------------------+
-; Parameter Name ; Value ; Type                               ;
-+----------------+-------+------------------------------------+
-; n              ; 8     ; Signed Integer                     ;
-+----------------+-------+------------------------------------+
 Note: In order to hide this table in the UI and the text report file, please set the "Show Parameter Settings in Synthesis Report" option in "Analysis and Synthesis Settings -> More Settings" to "Off".
 
 
@@ -1260,64 +1260,64 @@ Note: In order to hide this table in the UI and the text report file, please set
 Note: In order to hide this table in the UI and the text report file, please set the "Show Parameter Settings in Synthesis Report" option in "Analysis and Synthesis Settings -> More Settings" to "Off".
 
 
-+--------------------------------------------------------------------------------------------+
-; Parameter Settings for User Entity Instance: DisplayRam:u8|altsyncram:altsyncram_component ;
-+------------------------------------+----------------------+--------------------------------+
-; Parameter Name                     ; Value                ; Type                           ;
-+------------------------------------+----------------------+--------------------------------+
-; BYTE_SIZE_BLOCK                    ; 8                    ; Untyped                        ;
-; AUTO_CARRY_CHAINS                  ; ON                   ; AUTO_CARRY                     ;
-; IGNORE_CARRY_BUFFERS               ; OFF                  ; IGNORE_CARRY                   ;
-; AUTO_CASCADE_CHAINS                ; ON                   ; AUTO_CASCADE                   ;
-; IGNORE_CASCADE_BUFFERS             ; OFF                  ; IGNORE_CASCADE                 ;
-; WIDTH_BYTEENA                      ; 1                    ; Untyped                        ;
-; OPERATION_MODE                     ; BIDIR_DUAL_PORT      ; Untyped                        ;
-; WIDTH_A                            ; 8                    ; Signed Integer                 ;
-; WIDTHAD_A                          ; 11                   ; Signed Integer                 ;
-; NUMWORDS_A                         ; 2048                 ; Signed Integer                 ;
-; OUTDATA_REG_A                      ; CLOCK0               ; Untyped                        ;
-; ADDRESS_ACLR_A                     ; NONE                 ; Untyped                        ;
-; OUTDATA_ACLR_A                     ; NONE                 ; Untyped                        ;
-; WRCONTROL_ACLR_A                   ; NONE                 ; Untyped                        ;
-; INDATA_ACLR_A                      ; NONE                 ; Untyped                        ;
-; BYTEENA_ACLR_A                     ; NONE                 ; Untyped                        ;
-; WIDTH_B                            ; 8                    ; Signed Integer                 ;
-; WIDTHAD_B                          ; 11                   ; Signed Integer                 ;
-; NUMWORDS_B                         ; 2048                 ; Signed Integer                 ;
-; INDATA_REG_B                       ; CLOCK0               ; Untyped                        ;
-; WRCONTROL_WRADDRESS_REG_B          ; CLOCK0               ; Untyped                        ;
-; RDCONTROL_REG_B                    ; CLOCK1               ; Untyped                        ;
-; ADDRESS_REG_B                      ; CLOCK0               ; Untyped                        ;
-; OUTDATA_REG_B                      ; CLOCK0               ; Untyped                        ;
-; BYTEENA_REG_B                      ; CLOCK1               ; Untyped                        ;
-; INDATA_ACLR_B                      ; NONE                 ; Untyped                        ;
-; WRCONTROL_ACLR_B                   ; NONE                 ; Untyped                        ;
-; ADDRESS_ACLR_B                     ; NONE                 ; Untyped                        ;
-; OUTDATA_ACLR_B                     ; NONE                 ; Untyped                        ;
-; RDCONTROL_ACLR_B                   ; NONE                 ; Untyped                        ;
-; BYTEENA_ACLR_B                     ; NONE                 ; Untyped                        ;
-; WIDTH_BYTEENA_A                    ; 1                    ; Signed Integer                 ;
-; WIDTH_BYTEENA_B                    ; 1                    ; Signed Integer                 ;
-; RAM_BLOCK_TYPE                     ; AUTO                 ; Untyped                        ;
-; BYTE_SIZE                          ; 8                    ; Untyped                        ;
-; READ_DURING_WRITE_MODE_MIXED_PORTS ; DONT_CARE            ; Untyped                        ;
-; READ_DURING_WRITE_MODE_PORT_A      ; NEW_DATA_NO_NBE_READ ; Untyped                        ;
-; READ_DURING_WRITE_MODE_PORT_B      ; NEW_DATA_NO_NBE_READ ; Untyped                        ;
-; INIT_FILE                          ; UNUSED               ; Untyped                        ;
-; INIT_FILE_LAYOUT                   ; PORT_A               ; Untyped                        ;
-; MAXIMUM_DEPTH                      ; 0                    ; Untyped                        ;
-; CLOCK_ENABLE_INPUT_A               ; BYPASS               ; Untyped                        ;
-; CLOCK_ENABLE_INPUT_B               ; BYPASS               ; Untyped                        ;
-; CLOCK_ENABLE_OUTPUT_A              ; BYPASS               ; Untyped                        ;
-; CLOCK_ENABLE_OUTPUT_B              ; BYPASS               ; Untyped                        ;
-; CLOCK_ENABLE_CORE_A                ; USE_INPUT_CLKEN      ; Untyped                        ;
-; CLOCK_ENABLE_CORE_B                ; USE_INPUT_CLKEN      ; Untyped                        ;
-; ENABLE_ECC                         ; FALSE                ; Untyped                        ;
-; ECC_PIPELINE_STAGE_ENABLED         ; FALSE                ; Untyped                        ;
-; WIDTH_ECCSTATUS                    ; 3                    ; Untyped                        ;
-; DEVICE_FAMILY                      ; Cyclone IV E         ; Untyped                        ;
-; CBXI_PARAMETER                     ; altsyncram_sn52      ; Untyped                        ;
-+------------------------------------+----------------------+--------------------------------+
++----------------------------------------------------------------------------------------------+
+; Parameter Settings for User Entity Instance: DisplayRam2k:u8|altsyncram:altsyncram_component ;
++------------------------------------+----------------------+----------------------------------+
+; Parameter Name                     ; Value                ; Type                             ;
++------------------------------------+----------------------+----------------------------------+
+; BYTE_SIZE_BLOCK                    ; 8                    ; Untyped                          ;
+; AUTO_CARRY_CHAINS                  ; ON                   ; AUTO_CARRY                       ;
+; IGNORE_CARRY_BUFFERS               ; OFF                  ; IGNORE_CARRY                     ;
+; AUTO_CASCADE_CHAINS                ; ON                   ; AUTO_CASCADE                     ;
+; IGNORE_CASCADE_BUFFERS             ; OFF                  ; IGNORE_CASCADE                   ;
+; WIDTH_BYTEENA                      ; 1                    ; Untyped                          ;
+; OPERATION_MODE                     ; BIDIR_DUAL_PORT      ; Untyped                          ;
+; WIDTH_A                            ; 8                    ; Signed Integer                   ;
+; WIDTHAD_A                          ; 11                   ; Signed Integer                   ;
+; NUMWORDS_A                         ; 2048                 ; Signed Integer                   ;
+; OUTDATA_REG_A                      ; CLOCK0               ; Untyped                          ;
+; ADDRESS_ACLR_A                     ; NONE                 ; Untyped                          ;
+; OUTDATA_ACLR_A                     ; NONE                 ; Untyped                          ;
+; WRCONTROL_ACLR_A                   ; NONE                 ; Untyped                          ;
+; INDATA_ACLR_A                      ; NONE                 ; Untyped                          ;
+; BYTEENA_ACLR_A                     ; NONE                 ; Untyped                          ;
+; WIDTH_B                            ; 8                    ; Signed Integer                   ;
+; WIDTHAD_B                          ; 11                   ; Signed Integer                   ;
+; NUMWORDS_B                         ; 2048                 ; Signed Integer                   ;
+; INDATA_REG_B                       ; CLOCK0               ; Untyped                          ;
+; WRCONTROL_WRADDRESS_REG_B          ; CLOCK0               ; Untyped                          ;
+; RDCONTROL_REG_B                    ; CLOCK1               ; Untyped                          ;
+; ADDRESS_REG_B                      ; CLOCK0               ; Untyped                          ;
+; OUTDATA_REG_B                      ; CLOCK0               ; Untyped                          ;
+; BYTEENA_REG_B                      ; CLOCK1               ; Untyped                          ;
+; INDATA_ACLR_B                      ; NONE                 ; Untyped                          ;
+; WRCONTROL_ACLR_B                   ; NONE                 ; Untyped                          ;
+; ADDRESS_ACLR_B                     ; NONE                 ; Untyped                          ;
+; OUTDATA_ACLR_B                     ; NONE                 ; Untyped                          ;
+; RDCONTROL_ACLR_B                   ; NONE                 ; Untyped                          ;
+; BYTEENA_ACLR_B                     ; NONE                 ; Untyped                          ;
+; WIDTH_BYTEENA_A                    ; 1                    ; Signed Integer                   ;
+; WIDTH_BYTEENA_B                    ; 1                    ; Signed Integer                   ;
+; RAM_BLOCK_TYPE                     ; AUTO                 ; Untyped                          ;
+; BYTE_SIZE                          ; 8                    ; Untyped                          ;
+; READ_DURING_WRITE_MODE_MIXED_PORTS ; DONT_CARE            ; Untyped                          ;
+; READ_DURING_WRITE_MODE_PORT_A      ; NEW_DATA_NO_NBE_READ ; Untyped                          ;
+; READ_DURING_WRITE_MODE_PORT_B      ; NEW_DATA_NO_NBE_READ ; Untyped                          ;
+; INIT_FILE                          ; UNUSED               ; Untyped                          ;
+; INIT_FILE_LAYOUT                   ; PORT_A               ; Untyped                          ;
+; MAXIMUM_DEPTH                      ; 0                    ; Untyped                          ;
+; CLOCK_ENABLE_INPUT_A               ; BYPASS               ; Untyped                          ;
+; CLOCK_ENABLE_INPUT_B               ; BYPASS               ; Untyped                          ;
+; CLOCK_ENABLE_OUTPUT_A              ; BYPASS               ; Untyped                          ;
+; CLOCK_ENABLE_OUTPUT_B              ; BYPASS               ; Untyped                          ;
+; CLOCK_ENABLE_CORE_A                ; USE_INPUT_CLKEN      ; Untyped                          ;
+; CLOCK_ENABLE_CORE_B                ; USE_INPUT_CLKEN      ; Untyped                          ;
+; ENABLE_ECC                         ; FALSE                ; Untyped                          ;
+; ECC_PIPELINE_STAGE_ENABLED         ; FALSE                ; Untyped                          ;
+; WIDTH_ECCSTATUS                    ; 3                    ; Untyped                          ;
+; DEVICE_FAMILY                      ; Cyclone IV E         ; Untyped                          ;
+; CBXI_PARAMETER                     ; altsyncram_sn52      ; Untyped                          ;
++------------------------------------+----------------------+----------------------------------+
 Note: In order to hide this table in the UI and the text report file, please set the "Show Parameter Settings in Synthesis Report" option in "Analysis and Synthesis Settings -> More Settings" to "Off".
 
 
@@ -1442,7 +1442,7 @@ Note: In order to hide this table in the UI and the text report file, please set
 ;     -- OUTDATA_REG_B                      ; UNREGISTERED                                      ;
 ;     -- RAM_BLOCK_TYPE                     ; AUTO                                              ;
 ;     -- READ_DURING_WRITE_MODE_MIXED_PORTS ; DONT_CARE                                         ;
-; Entity Instance                           ; DisplayRam:u8|altsyncram:altsyncram_component     ;
+; Entity Instance                           ; DisplayRam2k:u8|altsyncram:altsyncram_component   ;
 ;     -- OPERATION_MODE                     ; BIDIR_DUAL_PORT                                   ;
 ;     -- WIDTH_A                            ; 8                                                 ;
 ;     -- NUMWORDS_A                         ; 2048                                              ;
@@ -1493,14 +1493,14 @@ Note: In order to hide this table in the UI and the text report file, please set
 +-------+--------+----------+-------------------------------------------------------------------------------------+
 
 
-+-------------------------------------------+
-; Port Connectivity Checks: "DisplayRam:u8" ;
-+--------+-------+----------+---------------+
-; Port   ; Type  ; Severity ; Details       ;
-+--------+-------+----------+---------------+
-; data_b ; Input ; Info     ; Stuck at GND  ;
-; wren_b ; Input ; Info     ; Stuck at GND  ;
-+--------+-------+----------+---------------+
++---------------------------------------------+
+; Port Connectivity Checks: "DisplayRam2k:u8" ;
++--------+-------+----------+-----------------+
+; Port   ; Type  ; Severity ; Details         ;
++--------+-------+----------+-----------------+
+; data_b ; Input ; Info     ; Stuck at GND    ;
+; wren_b ; Input ; Info     ; Stuck at GND    ;
++--------+-------+----------+-----------------+
 
 
 +----------------------------------------------------------------------------------------------------------------+
@@ -1513,7 +1513,7 @@ Note: In order to hide this table in the UI and the text report file, please set
 
 
 +--------------------------------------------------------------------------------------------------------------------+
-; Port Connectivity Checks: "OUT_LATCH:io3B"                                                                         ;
+; Port Connectivity Checks: "OutLatch:io3B"                                                                          ;
 +----------+--------+----------+-------------------------------------------------------------------------------------+
 ; Port     ; Type   ; Severity ; Details                                                                             ;
 +----------+--------+----------+-------------------------------------------------------------------------------------+
@@ -1522,7 +1522,7 @@ Note: In order to hide this table in the UI and the text report file, please set
 
 
 +--------------------------------------------------------------------------------------------------------------------------+
-; Port Connectivity Checks: "OUT_LATCH:io3"                                                                                ;
+; Port Connectivity Checks: "OutLatch:io3"                                                                                 ;
 +----------------+--------+----------+-------------------------------------------------------------------------------------+
 ; Port           ; Type   ; Severity ; Details                                                                             ;
 +----------------+--------+----------+-------------------------------------------------------------------------------------+
@@ -1580,32 +1580,32 @@ Note: In order to hide this table in the UI and the text report file, please set
 ; Type                  ; Count                       ;
 +-----------------------+-----------------------------+
 ; boundary_port         ; 37                          ;
-; cycloneiii_ff         ; 541                         ;
+; cycloneiii_ff         ; 532                         ;
 ;     CLR               ; 109                         ;
 ;     CLR SLD           ; 3                           ;
-;     ENA               ; 123                         ;
+;     ENA               ; 100                         ;
 ;     ENA CLR           ; 74                          ;
 ;     ENA CLR SCLR      ; 18                          ;
 ;     ENA CLR SLD       ; 22                          ;
-;     ENA SCLR          ; 5                           ;
-;     SCLR              ; 6                           ;
+;     ENA SCLR          ; 19                          ;
+;     SCLR              ; 21                          ;
 ;     SLD               ; 2                           ;
-;     plain             ; 179                         ;
-; cycloneiii_lcell_comb ; 3896                        ;
+;     plain             ; 164                         ;
+; cycloneiii_lcell_comb ; 3860                        ;
 ;     arith             ; 321                         ;
 ;         2 data inputs ; 242                         ;
 ;         3 data inputs ; 79                          ;
-;     normal            ; 3575                        ;
+;     normal            ; 3539                        ;
 ;         0 data inputs ; 6                           ;
 ;         1 data inputs ; 39                          ;
-;         2 data inputs ; 138                         ;
-;         3 data inputs ; 338                         ;
-;         4 data inputs ; 3054                        ;
+;         2 data inputs ; 115                         ;
+;         3 data inputs ; 342                         ;
+;         4 data inputs ; 3037                        ;
 ; cycloneiii_pll        ; 1                           ;
 ; cycloneiii_ram_block  ; 56                          ;
 ;                       ;                             ;
-; Max LUT depth         ; 20.20                       ;
-; Average LUT depth     ; 11.34                       ;
+; Max LUT depth         ; 20.40                       ;
+; Average LUT depth     ; 11.53                       ;
 +-----------------------+-----------------------------+
 
 
@@ -1614,7 +1614,7 @@ Note: In order to hide this table in the UI and the text report file, please set
 +----------------+--------------+
 ; Partition Name ; Elapsed Time ;
 +----------------+--------------+
-; Top            ; 00:01:53     ;
+; Top            ; 00:00:44     ;
 +----------------+--------------+
 
 
@@ -1624,7 +1624,7 @@ Note: In order to hide this table in the UI and the text report file, please set
 Info: *******************************************************************
 Info: Running Quartus Prime Analysis & Synthesis
     Info: Version 18.1.0 Build 625 09/12/2018 SJ Lite Edition
-    Info: Processing started: Fri Apr 26 10:58:09 2019
+    Info: Processing started: Sun Apr 28 11:31:39 2019
 Info: Command: quartus_map --read_settings_files=on --write_settings_files=off uk101_16K -c uk101_16K
 Warning (18236): Number of processors has not been specified which may cause overloading on shared machines.  Set the global assignment NUM_PARALLEL_PROCESSORS in your QSF to an appropriate value for best performance.
 Info (20030): Parallel compilation is enabled and will use 2 of the 2 processors detected
@@ -1638,8 +1638,8 @@ Info (12021): Found 2 design units, including 1 entities, in source file /users/
     Info (12022): Found design unit 1: vga-Behavioral File: C:/Users/Doug/Documents/GitHub/MultiComp/MultiComp (VHDL Template)/Components/VGA/vga.vhd Line: 26
     Info (12023): Found entity 1: vga File: C:/Users/Doug/Documents/GitHub/MultiComp/MultiComp (VHDL Template)/Components/VGA/vga.vhd Line: 14
 Info (12021): Found 2 design units, including 1 entities, in source file /users/doug/documents/github/multicomp/multicomp (vhdl template)/components/io/outlatch.vhd
-    Info (12022): Found design unit 1: OUT_LATCH-behv File: C:/Users/Doug/Documents/GitHub/MultiComp/MultiComp (VHDL Template)/Components/IO/OutLatch.vhd Line: 23
-    Info (12023): Found entity 1: OUT_LATCH File: C:/Users/Doug/Documents/GitHub/MultiComp/MultiComp (VHDL Template)/Components/IO/OutLatch.vhd Line: 10
+    Info (12022): Found design unit 1: OutLatch-behv File: C:/Users/Doug/Documents/GitHub/MultiComp/MultiComp (VHDL Template)/Components/IO/OutLatch.vhd Line: 23
+    Info (12023): Found entity 1: OutLatch File: C:/Users/Doug/Documents/GitHub/MultiComp/MultiComp (VHDL Template)/Components/IO/OutLatch.vhd Line: 10
 Info (12021): Found 2 design units, including 1 entities, in source file /users/doug/documents/github/multicomp/multicomp (vhdl template)/components/internal_ram/internalram16k.vhd
     Info (12022): Found design unit 1: internalram16k-SYN File: C:/Users/Doug/Documents/GitHub/MultiComp/MultiComp (VHDL Template)/Components/Internal_RAM/InternalRam16K.vhd Line: 54
     Info (12023): Found entity 1: InternalRam16K File: C:/Users/Doug/Documents/GitHub/MultiComp/MultiComp (VHDL Template)/Components/Internal_RAM/InternalRam16K.vhd Line: 42
@@ -1656,8 +1656,8 @@ Info (12021): Found 2 design units, including 1 entities, in source file /users/
     Info (12022): Found design unit 1: bufferedUART-rtl File: C:/Users/Doug/Documents/GitHub/MultiComp/MultiComp (VHDL Template)/Components/UART/bufferedUART.vhd Line: 48
     Info (12023): Found entity 1: bufferedUART File: C:/Users/Doug/Documents/GitHub/MultiComp/MultiComp (VHDL Template)/Components/UART/bufferedUART.vhd Line: 27
 Info (12021): Found 2 design units, including 1 entities, in source file /users/doug/documents/github/multicomp/multicomp (vhdl template)/components/displayram/displayram2k.vhd
-    Info (12022): Found design unit 1: displayram-SYN File: C:/Users/Doug/Documents/GitHub/MultiComp/MultiComp (VHDL Template)/Components/DisplayRAM/DisplayRam2k.vhd Line: 58
-    Info (12023): Found entity 1: DisplayRam File: C:/Users/Doug/Documents/GitHub/MultiComp/MultiComp (VHDL Template)/Components/DisplayRAM/DisplayRam2k.vhd Line: 42
+    Info (12022): Found design unit 1: DisplayRam2k-SYN File: C:/Users/Doug/Documents/GitHub/MultiComp/MultiComp (VHDL Template)/Components/DisplayRAM/DisplayRam2k.vhd Line: 58
+    Info (12023): Found entity 1: DisplayRam2k File: C:/Users/Doug/Documents/GitHub/MultiComp/MultiComp (VHDL Template)/Components/DisplayRAM/DisplayRam2k.vhd Line: 42
 Info (12021): Found 2 design units, including 1 entities, in source file /users/doug/documents/github/multicomp/multicomp (vhdl template)/components/roms/osi/monuk02rom.vhd
     Info (12022): Found design unit 1: MonUK02Rom-behavior File: C:/Users/Doug/Documents/GitHub/MultiComp/MultiComp (VHDL Template)/Components/ROMs/OSI/MonUK02Rom.VHD Line: 15
     Info (12023): Found entity 1: MonUK02Rom File: C:/Users/Doug/Documents/GitHub/MultiComp/MultiComp (VHDL Template)/Components/ROMs/OSI/MonUK02Rom.VHD Line: 6
@@ -1678,9 +1678,7 @@ Info (12021): Found 2 design units, including 1 entities, in source file /users/
 Info (12021): Found 2 design units, including 1 entities, in source file /users/doug/documents/github/multicomp/multicomp (vhdl template)/components/ps2kb/ps2_intf.vhd
     Info (12022): Found design unit 1: ps2_intf-ps2_intf_arch File: C:/Users/Doug/Documents/GitHub/MultiComp/MultiComp (VHDL Template)/Components/PS2KB/ps2_intf.vhd Line: 64
     Info (12023): Found entity 1: ps2_intf File: C:/Users/Doug/Documents/GitHub/MultiComp/MultiComp (VHDL Template)/Components/PS2KB/ps2_intf.vhd Line: 46
-Info (12021): Found 2 design units, including 1 entities, in source file /users/doug/documents/github/multicomp/multicomp (vhdl template)/components/tv/uk101textdisplay-vga.vhd
-    Info (12022): Found design unit 1: UK101TextDisplay-rtl File: C:/Users/Doug/Documents/GitHub/MultiComp/MultiComp (VHDL Template)/Components/TV/UK101TextDisplay-vga.vhd Line: 34
-    Info (12023): Found entity 1: UK101TextDisplay File: C:/Users/Doug/Documents/GitHub/MultiComp/MultiComp (VHDL Template)/Components/TV/UK101TextDisplay-vga.vhd Line: 20
+Warning (12019): Can't analyze file -- file ../../MultiComp (VHDL Template)/Components/TV/UK101TextDisplay-vga.vhd is missing
 Info (12021): Found 2 design units, including 1 entities, in source file /users/doug/documents/github/multicomp/multicomp (vhdl template)/components/roms/osi/basicrom.vhd
     Info (12022): Found design unit 1: BasicRom-SYN File: C:/Users/Doug/Documents/GitHub/MultiComp/MultiComp (VHDL Template)/Components/ROMs/OSI/BasicRom.vhd Line: 52
     Info (12023): Found entity 1: BasicRom File: C:/Users/Doug/Documents/GitHub/MultiComp/MultiComp (VHDL Template)/Components/ROMs/OSI/BasicRom.vhd Line: 42
@@ -1688,8 +1686,8 @@ Info (12021): Found 2 design units, including 1 entities, in source file /users/
     Info (12022): Found design unit 1: CharRom-behavior File: C:/Users/Doug/Documents/GitHub/MultiComp/MultiComp (VHDL Template)/Components/CharROM/CharRom.VHD Line: 14
     Info (12023): Found entity 1: CharRom File: C:/Users/Doug/Documents/GitHub/MultiComp/MultiComp (VHDL Template)/Components/CharROM/CharRom.VHD Line: 6
 Info (12021): Found 2 design units, including 1 entities, in source file /users/doug/documents/github/multicomp/multicomp (vhdl template)/components/roms/osi/cegmonrom_patched_64x32.vhd
-    Info (12022): Found design unit 1: CegmonRom-behavior File: C:/Users/Doug/Documents/GitHub/MultiComp/MultiComp (VHDL Template)/Components/ROMs/OSI/CegmonRom_Patched_64x32.VHD Line: 61
-    Info (12023): Found entity 1: CegmonRom File: C:/Users/Doug/Documents/GitHub/MultiComp/MultiComp (VHDL Template)/Components/ROMs/OSI/CegmonRom_Patched_64x32.VHD Line: 52
+    Info (12022): Found design unit 1: CegmonRom_Patched_64x32-behavior File: C:/Users/Doug/Documents/GitHub/MultiComp/MultiComp (VHDL Template)/Components/ROMs/OSI/CegmonRom_Patched_64x32.VHD Line: 61
+    Info (12023): Found entity 1: CegmonRom_Patched_64x32 File: C:/Users/Doug/Documents/GitHub/MultiComp/MultiComp (VHDL Template)/Components/ROMs/OSI/CegmonRom_Patched_64x32.VHD Line: 52
 Info (12021): Found 2 design units, including 1 entities, in source file uk101_16k.vhd
     Info (12022): Found design unit 1: uk101_16K-struct File: C:/Users/Doug/Documents/GitHub/MultiComp/MultiComp_On_Cyclone IV VGA Card/UK101_16K_64x32_VGA/uk101_16K.vhd Line: 39
     Info (12023): Found entity 1: uk101_16K File: C:/Users/Doug/Documents/GitHub/MultiComp/MultiComp_On_Cyclone IV VGA Card/UK101_16K_64x32_VGA/uk101_16K.vhd Line: 12
@@ -1913,9 +1911,9 @@ Info (12133): Instantiated megafunction "InternalRam1K:u3b|altsyncram:altsyncram
 Info (12021): Found 1 design units, including 1 entities, in source file db/altsyncram_j1q3.tdf
     Info (12023): Found entity 1: altsyncram_j1q3 File: C:/Users/Doug/Documents/GitHub/MultiComp/MultiComp_On_Cyclone IV VGA Card/UK101_16K_64x32_VGA/db/altsyncram_j1q3.tdf Line: 27
 Info (12128): Elaborating entity "altsyncram_j1q3" for hierarchy "InternalRam1K:u3b|altsyncram:altsyncram_component|altsyncram_j1q3:auto_generated" File: c:/intelfpga_lite/18.1/quartus/libraries/megafunctions/altsyncram.tdf Line: 791
-Info (12128): Elaborating entity "CegmonRom" for hierarchy "CegmonRom:u4" File: C:/Users/Doug/Documents/GitHub/MultiComp/MultiComp_On_Cyclone IV VGA Card/UK101_16K_64x32_VGA/uk101_16K.vhd Line: 195
+Info (12128): Elaborating entity "CegmonRom_Patched_64x32" for hierarchy "CegmonRom_Patched_64x32:u4" File: C:/Users/Doug/Documents/GitHub/MultiComp/MultiComp_On_Cyclone IV VGA Card/UK101_16K_64x32_VGA/uk101_16K.vhd Line: 195
 Info (12128): Elaborating entity "bufferedUART" for hierarchy "bufferedUART:UART" File: C:/Users/Doug/Documents/GitHub/MultiComp/MultiComp_On_Cyclone IV VGA Card/UK101_16K_64x32_VGA/uk101_16K.vhd Line: 202
-Info (12128): Elaborating entity "OUT_LATCH" for hierarchy "OUT_LATCH:io3" File: C:/Users/Doug/Documents/GitHub/MultiComp/MultiComp_On_Cyclone IV VGA Card/UK101_16K_64x32_VGA/uk101_16K.vhd Line: 219
+Info (12128): Elaborating entity "OutLatch" for hierarchy "OutLatch:io3" File: C:/Users/Doug/Documents/GitHub/MultiComp/MultiComp_On_Cyclone IV VGA Card/UK101_16K_64x32_VGA/uk101_16K.vhd Line: 219
 Info (12128): Elaborating entity "Counter16Bit" for hierarchy "Counter16Bit:buzzCounter" File: C:/Users/Doug/Documents/GitHub/MultiComp/MultiComp_On_Cyclone IV VGA Card/UK101_16K_64x32_VGA/uk101_16K.vhd Line: 237
 Info (12128): Elaborating entity "pll" for hierarchy "pll:pll" File: C:/Users/Doug/Documents/GitHub/MultiComp/MultiComp_On_Cyclone IV VGA Card/UK101_16K_64x32_VGA/uk101_16K.vhd Line: 257
 Info (12128): Elaborating entity "altpll" for hierarchy "pll:pll|altpll:altpll_component" File: C:/Users/Doug/Documents/GitHub/MultiComp/MultiComp (VHDL Template)/Components/VGA/pll.vhd Line: 149
@@ -1987,12 +1985,12 @@ Info (12021): Found 1 design units, including 1 entities, in source file db/pll_
     Info (12023): Found entity 1: pll_altpll File: C:/Users/Doug/Documents/GitHub/MultiComp/MultiComp_On_Cyclone IV VGA Card/UK101_16K_64x32_VGA/db/pll_altpll.v Line: 29
 Info (12128): Elaborating entity "pll_altpll" for hierarchy "pll:pll|altpll:altpll_component|pll_altpll:auto_generated" File: c:/intelfpga_lite/18.1/quartus/libraries/megafunctions/altpll.tdf Line: 897
 Info (12128): Elaborating entity "vga" for hierarchy "vga:u6" File: C:/Users/Doug/Documents/GitHub/MultiComp/MultiComp_On_Cyclone IV VGA Card/UK101_16K_64x32_VGA/uk101_16K.vhd Line: 265
-Warning (10540): VHDL Signal Declaration warning at vga.vhd(45): used explicit default value for signal "RST" because signal was never assigned a value File: C:/Users/Doug/Documents/GitHub/MultiComp/MultiComp (VHDL Template)/Components/VGA/vga.vhd Line: 45
+Warning (10540): VHDL Signal Declaration warning at vga.vhd(44): used explicit default value for signal "RST" because signal was never assigned a value File: C:/Users/Doug/Documents/GitHub/MultiComp/MultiComp (VHDL Template)/Components/VGA/vga.vhd Line: 44
 Info (12128): Elaborating entity "CharRom" for hierarchy "CharRom:u7" File: C:/Users/Doug/Documents/GitHub/MultiComp/MultiComp_On_Cyclone IV VGA Card/UK101_16K_64x32_VGA/uk101_16K.vhd Line: 275
-Info (12128): Elaborating entity "DisplayRam" for hierarchy "DisplayRam:u8" File: C:/Users/Doug/Documents/GitHub/MultiComp/MultiComp_On_Cyclone IV VGA Card/UK101_16K_64x32_VGA/uk101_16K.vhd Line: 282
-Info (12128): Elaborating entity "altsyncram" for hierarchy "DisplayRam:u8|altsyncram:altsyncram_component" File: C:/Users/Doug/Documents/GitHub/MultiComp/MultiComp (VHDL Template)/Components/DisplayRAM/DisplayRam2k.vhd Line: 109
-Info (12130): Elaborated megafunction instantiation "DisplayRam:u8|altsyncram:altsyncram_component" File: C:/Users/Doug/Documents/GitHub/MultiComp/MultiComp (VHDL Template)/Components/DisplayRAM/DisplayRam2k.vhd Line: 109
-Info (12133): Instantiated megafunction "DisplayRam:u8|altsyncram:altsyncram_component" with the following parameter: File: C:/Users/Doug/Documents/GitHub/MultiComp/MultiComp (VHDL Template)/Components/DisplayRAM/DisplayRam2k.vhd Line: 109
+Info (12128): Elaborating entity "DisplayRam2k" for hierarchy "DisplayRam2k:u8" File: C:/Users/Doug/Documents/GitHub/MultiComp/MultiComp_On_Cyclone IV VGA Card/UK101_16K_64x32_VGA/uk101_16K.vhd Line: 282
+Info (12128): Elaborating entity "altsyncram" for hierarchy "DisplayRam2k:u8|altsyncram:altsyncram_component" File: C:/Users/Doug/Documents/GitHub/MultiComp/MultiComp (VHDL Template)/Components/DisplayRAM/DisplayRam2k.vhd Line: 109
+Info (12130): Elaborated megafunction instantiation "DisplayRam2k:u8|altsyncram:altsyncram_component" File: C:/Users/Doug/Documents/GitHub/MultiComp/MultiComp (VHDL Template)/Components/DisplayRAM/DisplayRam2k.vhd Line: 109
+Info (12133): Instantiated megafunction "DisplayRam2k:u8|altsyncram:altsyncram_component" with the following parameter: File: C:/Users/Doug/Documents/GitHub/MultiComp/MultiComp (VHDL Template)/Components/DisplayRAM/DisplayRam2k.vhd Line: 109
     Info (12134): Parameter "address_reg_b" = "CLOCK0"
     Info (12134): Parameter "clock_enable_input_a" = "BYPASS"
     Info (12134): Parameter "clock_enable_input_b" = "BYPASS"
@@ -2019,7 +2017,7 @@ Info (12133): Instantiated megafunction "DisplayRam:u8|altsyncram:altsyncram_com
     Info (12134): Parameter "wrcontrol_wraddress_reg_b" = "CLOCK0"
 Info (12021): Found 1 design units, including 1 entities, in source file db/altsyncram_sn52.tdf
     Info (12023): Found entity 1: altsyncram_sn52 File: C:/Users/Doug/Documents/GitHub/MultiComp/MultiComp_On_Cyclone IV VGA Card/UK101_16K_64x32_VGA/db/altsyncram_sn52.tdf Line: 27
-Info (12128): Elaborating entity "altsyncram_sn52" for hierarchy "DisplayRam:u8|altsyncram:altsyncram_component|altsyncram_sn52:auto_generated" File: c:/intelfpga_lite/18.1/quartus/libraries/megafunctions/altsyncram.tdf Line: 791
+Info (12128): Elaborating entity "altsyncram_sn52" for hierarchy "DisplayRam2k:u8|altsyncram:altsyncram_component|altsyncram_sn52:auto_generated" File: c:/intelfpga_lite/18.1/quartus/libraries/megafunctions/altsyncram.tdf Line: 791
 Info (12128): Elaborating entity "UK101keyboard" for hierarchy "UK101keyboard:u9" File: C:/Users/Doug/Documents/GitHub/MultiComp/MultiComp_On_Cyclone IV VGA Card/UK101_16K_64x32_VGA/uk101_16K.vhd Line: 296
 Warning (10036): Verilog HDL or VHDL warning at UK101keyboard.vhd(83): object "keyb_error" assigned a value but never read File: C:/Users/Doug/Documents/GitHub/MultiComp/MultiComp (VHDL Template)/Components/PS2KB/UK101keyboard.vhd Line: 83
 Warning (10036): Verilog HDL or VHDL warning at UK101keyboard.vhd(89): object "extended" assigned a value but never read File: C:/Users/Doug/Documents/GitHub/MultiComp/MultiComp (VHDL Template)/Components/PS2KB/UK101keyboard.vhd Line: 89
@@ -2128,16 +2126,16 @@ Warning (21074): Design contains 3 input pin(s) that do not drive logic
     Warning (15610): No output dependent on input pin "switches[0]" File: C:/Users/Doug/Documents/GitHub/MultiComp/MultiComp_On_Cyclone IV VGA Card/UK101_16K_64x32_VGA/uk101_16K.vhd Line: 23
     Warning (15610): No output dependent on input pin "switches[2]" File: C:/Users/Doug/Documents/GitHub/MultiComp/MultiComp_On_Cyclone IV VGA Card/UK101_16K_64x32_VGA/uk101_16K.vhd Line: 23
     Warning (15610): No output dependent on input pin "switches[1]" File: C:/Users/Doug/Documents/GitHub/MultiComp/MultiComp_On_Cyclone IV VGA Card/UK101_16K_64x32_VGA/uk101_16K.vhd Line: 23
-Info (21057): Implemented 4224 device resources after synthesis - the final resource count might be different
+Info (21057): Implemented 4189 device resources after synthesis - the final resource count might be different
     Info (21058): Implemented 8 input pins
     Info (21059): Implemented 29 output pins
-    Info (21061): Implemented 4130 logic cells
+    Info (21061): Implemented 4095 logic cells
     Info (21064): Implemented 56 RAM segments
     Info (21065): Implemented 1 PLLs
-Info: Quartus Prime Analysis & Synthesis was successful. 0 errors, 63 warnings
-    Info: Peak virtual memory: 705 megabytes
-    Info: Processing ended: Fri Apr 26 11:00:36 2019
-    Info: Elapsed time: 00:02:27
-    Info: Total CPU time (on all processors): 00:01:20
+Info: Quartus Prime Analysis & Synthesis was successful. 0 errors, 64 warnings
+    Info: Peak virtual memory: 690 megabytes
+    Info: Processing ended: Sun Apr 28 11:32:44 2019
+    Info: Elapsed time: 00:01:05
+    Info: Total CPU time (on all processors): 00:01:13
 
 

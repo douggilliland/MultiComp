@@ -118,7 +118,7 @@ begin
 		kbReadData when n_kbCS='0' else 
 		x"FF";
 		
-	SevenSeg : entity work.LoadVal7SegDispl
+	SevenSeg : entity work.Loadable_7S4D_LED
     port map(
 		clock_50Mhz => CLOCK_50,
       reset => not n_reset,
@@ -196,7 +196,7 @@ begin
 	);
 
 
-	u4: entity work.CegmonRom
+	u4: entity work.CegmonRom_Patched_64x32
 	port map
 	(
 		address => cpuAddress(10 downto 0),
@@ -230,7 +230,7 @@ pll : work.pll PORT MAP (
 		c2	 => CLOCK_50
 	);
 	
-	u6 : entity work.vga
+	u6 : entity work.vga_Insignia_Monitor
 	port map (
 		charAddr => charAddr,
 		charData => charData,
@@ -247,7 +247,7 @@ pll : work.pll PORT MAP (
 		q => charData
 	);
 
-	u8: entity work.DisplayRam 
+	u8: entity work.DisplayRam2k 
 	port map
 	(
 		address_a => cpuAddress(10 downto 0),

@@ -49,16 +49,16 @@ library ieee;
 --    x"D8" when cpuAddress = x"FB8B" else -- CEGMON SCREEN BOTTOM H (was $D4) - Part of CTRL-F code
 --    x"D7" when cpuAddress = x"FE3B" else -- CEGMON SCREEN BOTTOM H - 1 (was $D3) - Part of CTRL-A code
 
-ENTITY CegmonRom IS
+ENTITY CegmonRom_Patched_64x32 IS
 
 	PORT
 	(
 		address : in std_logic_vector(10 downto 0);
 		q : out std_logic_vector(7 downto 0)
 	);
-END CegmonRom;
+END CegmonRom_Patched_64x32;
 
-architecture behavior of CegmonRom is
+architecture behavior of CegmonRom_Patched_64x32 is
 type romtable is array (0 to 2047) of std_logic_vector(7 downto 0);
 constant romdata : romtable :=
 (

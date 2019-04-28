@@ -192,7 +192,7 @@ begin
 		q => ramDataOut3
 	);
 	
-	u4: entity work.CegmonRom
+	u4: entity work.CegmonRom_Patched_64x32
 	port map
 	(
 		address => cpuAddress(10 downto 0),
@@ -216,7 +216,7 @@ begin
 			n_rts => rts
 		);
 
-	io3: entity work.OUT_LATCH
+	io3: entity work.OutLatch
 		port map (
 			dataIn8 => cpuDataOut,
 			clock => clk,
@@ -225,7 +225,7 @@ begin
 			latchOut => latchedBits
 			);
 	
-	io3B: entity work.OUT_LATCH
+	io3B: entity work.OutLatch
 		port map (
 			dataIn8 => cpuDataOut,
 			clock => clk,
@@ -279,7 +279,7 @@ pll : work.pll PORT MAP (
 		q => charData
 	);
 
-	u8: entity work.DisplayRam 
+	u8: entity work.DisplayRam2k 
 	port map
 	(
 		address_a => cpuAddress(10 downto 0),

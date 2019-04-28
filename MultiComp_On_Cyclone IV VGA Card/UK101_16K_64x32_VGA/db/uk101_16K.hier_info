@@ -1,10 +1,10 @@
 |uk101_16K
 n_reset => t65:u1.Res_n
-n_reset => out_latch:io3.clear
-n_reset => out_latch:io3B.clear
+n_reset => outlatch:io3.clear
+n_reset => outlatch:io3B.clear
 n_reset => uk101keyboard:u9.nRESET
-clk => out_latch:io3.clock
-clk => out_latch:io3B.clock
+clk => outlatch:io3.clock
+clk => outlatch:io3B.clock
 clk => counter16bit:buzzCounter.clock
 clk => pll:pll.inclk0
 rxd => buffereduart:UART.rxd
@@ -31,10 +31,10 @@ Vout[17] <= vga:u6.Vout[17]
 switches[0] => cpuDataIn.DATAB
 switches[1] => cpuDataIn.DATAB
 switches[2] => cpuDataIn.DATAB
-LED1 <= out_latch:io3.latchOut[0]
-LED2 <= out_latch:io3.latchOut[1]
-LED3 <= out_latch:io3.latchOut[2]
-LED4 <= out_latch:io3.latchOut[3]
+LED1 <= outlatch:io3.latchOut[0]
+LED2 <= outlatch:io3.latchOut[1]
+LED3 <= outlatch:io3.latchOut[2]
+LED4 <= outlatch:io3.latchOut[3]
 LEDs[0] <= comb.DB_MAX_OUTPUT_PORT_TYPE
 LEDs[1] <= LEDs[1].DB_MAX_OUTPUT_PORT_TYPE
 LEDs[2] <= LEDs[2].DB_MAX_OUTPUT_PORT_TYPE
@@ -2724,7 +2724,7 @@ wren_a => ram_block1a6.PORTAWE
 wren_a => ram_block1a7.PORTAWE
 
 
-|uk101_16K|CegmonRom:u4
+|uk101_16K|CegmonRom_Patched_64x32:u4
 address[0] => Mux0.IN2058
 address[0] => Mux1.IN2058
 address[0] => Mux2.IN2058
@@ -3032,7 +3032,7 @@ n_dcd => dataOut.DATAA
 n_dcd => tx_fsm.IN1
 
 
-|uk101_16K|OUT_LATCH:io3
+|uk101_16K|OutLatch:io3
 dataIn8[0] => Q_tmp[0].DATAIN
 dataIn8[1] => Q_tmp[1].DATAIN
 dataIn8[2] => Q_tmp[2].DATAIN
@@ -3075,7 +3075,7 @@ latchOut[6] <= Q_tmp[6].DB_MAX_OUTPUT_PORT_TYPE
 latchOut[7] <= Q_tmp[7].DB_MAX_OUTPUT_PORT_TYPE
 
 
-|uk101_16K|OUT_LATCH:io3B
+|uk101_16K|OutLatch:io3B
 dataIn8[0] => Q_tmp[0].DATAIN
 dataIn8[1] => Q_tmp[1].DATAIN
 dataIn8[2] => Q_tmp[2].DATAIN
@@ -3596,7 +3596,7 @@ q[6] <= Mux1.DB_MAX_OUTPUT_PORT_TYPE
 q[7] <= Mux0.DB_MAX_OUTPUT_PORT_TYPE
 
 
-|uk101_16K|DisplayRam:u8
+|uk101_16K|DisplayRam2k:u8
 address_a[0] => altsyncram:altsyncram_component.address_a[0]
 address_a[1] => altsyncram:altsyncram_component.address_a[1]
 address_a[2] => altsyncram:altsyncram_component.address_a[2]
@@ -3656,7 +3656,7 @@ q_b[6] <= altsyncram:altsyncram_component.q_b[6]
 q_b[7] <= altsyncram:altsyncram_component.q_b[7]
 
 
-|uk101_16K|DisplayRam:u8|altsyncram:altsyncram_component
+|uk101_16K|DisplayRam2k:u8|altsyncram:altsyncram_component
 wren_a => altsyncram_sn52:auto_generated.wren_a
 rden_a => ~NO_FANOUT~
 wren_b => altsyncram_sn52:auto_generated.wren_b
@@ -3732,7 +3732,7 @@ eccstatus[1] <= <GND>
 eccstatus[2] <= <GND>
 
 
-|uk101_16K|DisplayRam:u8|altsyncram:altsyncram_component|altsyncram_sn52:auto_generated
+|uk101_16K|DisplayRam2k:u8|altsyncram:altsyncram_component|altsyncram_sn52:auto_generated
 address_a[0] => ram_block1a0.PORTAADDR
 address_a[0] => ram_block1a1.PORTAADDR
 address_a[0] => ram_block1a2.PORTAADDR

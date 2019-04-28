@@ -198,7 +198,7 @@ begin
 		q => ramDataOut3
 	);
 	
-	u4: entity work.CegmonRom
+	u4: entity work.CegmonRom_Patched_64x32
 	port map
 	(
 		address => cpuAddress(10 downto 0),
@@ -222,7 +222,7 @@ begin
 			n_rts => rts
 		);
 
-	PLL : entity work.VideoClk_VGA_800x600
+	PLL : entity work.VideoClk_SVGA_800x600
 		port map (
 			areset => not n_reset,
 			inclk0 => clk,
@@ -233,7 +233,7 @@ begin
 		);
 
 	
-	u6 : entity work.UK101TextDisplay
+	u6 : entity work.UK101TextDisplay_svga_800x600
 	port map (
 		charAddr => charAddr,
 		charData => charData,
@@ -253,7 +253,7 @@ begin
 		q => charData
 	);
 
-	u8: entity work.DisplayRam 
+	u8: entity work.DisplayRam2k
 	port map
 	(
 		address_a => cpuAddress(10 downto 0),

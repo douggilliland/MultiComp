@@ -4,9 +4,9 @@
 --                                                                           --
 --===========================================================================--
 --
--- File name      : cpu09l.vhd
+-- File name      : cpu09ll.vhd
 --
--- Entity name    : cpu09
+-- Entity name    : cpu09l
 --
 -- Purpose        : 6809 instruction compatible CPU core written in VHDL
 --                  with Last Instruction Cycle, bus available, bus status,
@@ -248,7 +248,7 @@ library ieee;
 use ieee.std_logic_1164.all;
 use ieee.std_logic_unsigned.all;
 
-entity cpu09 is
+entity cpu09l is
 	port (	
 		clk      :	in std_logic;                     -- E clock input (falling edge)
 		rst      :  in std_logic;                     -- reset input (active high)
@@ -268,9 +268,9 @@ entity cpu09 is
 		halt     :  in std_logic;                     -- halt input (active high) grants DMA
 		hold     :  in std_logic                      -- hold input (active high) extend bus cycle
 		);
-end cpu09;
+end cpu09l;
 
-architecture rtl of cpu09 is
+architecture rtl of cpu09l is
 
   constant EBIT : integer := 7;
   constant FBIT : integer := 6;
@@ -1613,7 +1613,7 @@ begin
     --
     -- direct single op (2 bytes)
     -- 6809 => 6 cycles
-    -- cpu09 => 5 cycles
+    -- cpu09l => 5 cycles
     -- 1 op=(pc) / pc=pc+1
     -- 2 ea_hi=dp / ea_lo=(pc) / pc=pc+1
     -- 3 md_lo=(ea) / pc=pc
@@ -1622,7 +1622,7 @@ begin
     --
     -- Exception is JMP
     -- 6809 => 3 cycles
-    -- cpu09 => 3 cycles
+    -- cpu09l => 3 cycles
     -- 1 op=(pc) / pc=pc+1
     -- 2 ea_hi=dp / ea_lo=(pc) / pc=pc+1
     -- 3 pc=ea
@@ -1673,7 +1673,7 @@ begin
       --
       -- nop - No operation ( 1 byte )
       -- 6809 => 2 cycles
-      -- cpu09 => 2 cycles
+      -- cpu09l => 2 cycles
       -- 1 op=(pc) / pc=pc+1
       -- 2 decode
       -- 
@@ -1687,7 +1687,7 @@ begin
       -- program execution continues if the 
       -- interrupt is asserted for 3 clock cycles
       -- note that registers are not pushed onto the stack
-      -- CPU09 => Interrupts need only be asserted for one clock cycle
+      -- cpu09l => Interrupts need only be asserted for one clock cycle
       --
       when "0011" => -- sync
         next_state   <= sync_state;
@@ -1695,7 +1695,7 @@ begin
       --
       -- lbra -- long branch (3 bytes)
       -- 6809 => 5 cycles
-      -- cpu09 => 4 cycles
+      -- cpu09l => 4 cycles
       -- 1 op=(pc) / pc=pc+1
       -- 2 md_hi=sign(pc) / md_lo=(pc) / pc=pc+1
       -- 3 md_hi=md_lo / md_lo=(pc) / pc=pc+1
@@ -1709,7 +1709,7 @@ begin
       --
       -- lbsr - long branch to subroutine (3 bytes)
       -- 6809 => 9 cycles
-      -- cpu09 => 6 cycles
+      -- cpu09l => 6 cycles
       -- 1 op=(pc) /pc=pc+1
       -- 2 md_hi=sign(pc) / md_lo=(pc) / pc=pc+1 / sp=sp-1
       -- 3 md_hi=md_lo / md_lo=(pc) / pc=pc+1
@@ -1793,7 +1793,7 @@ begin
     --
     -- Short branch conditional
     -- 6809 => always 3 cycles
-    -- cpu09 => always = 3 cycles
+    -- cpu09l => always = 3 cycles
     -- 1 op=(pc) / pc=pc+1
     -- 2 md_hi=sign(pc) / md_lo=(pc) / pc=pc+1 / test cc
     -- 3 if cc tru pc=pc+md else pc=pc
@@ -1811,7 +1811,7 @@ begin
       --
       -- lea - load effective address (2+ bytes)
       -- 6809 => 4 cycles + addressing mode
-      -- cpu09 => 4 cycles + addressing mode
+      -- cpu09l => 4 cycles + addressing mode
       -- 1 op=(pc) / pc=pc+1
       -- 2 md_lo=(pc) / pc=pc+1
       -- 3 calculate ea
@@ -1831,7 +1831,7 @@ begin
       --
       -- pshs - push registers onto sp stack
       -- 6809 => 5 cycles + registers
-      -- cpu09 => 3 cycles + registers
+      -- cpu09l => 3 cycles + registers
       --  1 op=(pc) / pc=pc+1
       --  2 ea_lo=(pc) / pc=pc+1 
       --  3 if ea(7 downto 0) != "00000000" then sp=sp-1
@@ -1863,7 +1863,7 @@ begin
       --
       -- puls - pull registers of sp stack
       -- 6809 => 5 cycles + registers
-      -- cpu09 => 3 cycles + registers
+      -- cpu09l => 3 cycles + registers
       --
       when "0101" => -- puls
         -- advance PC
@@ -1873,7 +1873,7 @@ begin
       --
       -- pshu - push registers onto up stack
       -- 6809 => 5 cycles + registers
-      -- cpu09 => 3 cycles + registers
+      -- cpu09l => 3 cycles + registers
       --
       when "0110" => -- pshu
         -- advance PC
@@ -1883,7 +1883,7 @@ begin
       --
       -- pulu - pull registers of up stack
       -- 6809 => 5 cycles + registers
-      -- cpu09 => 3 cycles + registers
+      -- cpu09l => 3 cycles + registers
       --
       when "0111" => -- pulu
         -- advance PC
@@ -1893,7 +1893,7 @@ begin
       --
       -- rts - return from subroutine
       -- 6809 => 5 cycles
-      -- cpu09 => 4 cycles 
+      -- cpu09l => 4 cycles 
       -- 1 op=(pc) / pc=pc+1
       -- 2 decode op
       -- 3 pc_hi = (sp) / sp=sp+1
@@ -1907,7 +1907,7 @@ begin
       -- *** Note: this is an unsigned addition.
       --           does not affect any condition codes
       -- 6809 => 3 cycles
-      -- cpu09 => 2 cycles
+      -- cpu09l => 2 cycles
       -- 1 op=(pc) / pc=pc+1
       -- 2 alu_left=ix / alu_right=accb / ix=alu_out / pc=pc
       --
@@ -2225,7 +2225,7 @@ begin
       --
       -- bsr offset - Branch to subroutine (2 bytes)
       -- 6809 => 7 cycles
-      -- cpu09 => 5 cycles
+      -- cpu09l => 5 cycles
       -- 1 op=(pc) / pc=pc+1
       -- 2 md_hi=sign(pc) / md_lo=(pc) / sp=sp-1 / pc=pc+1
       -- 3 (sp)=pc_lo / sp=sp-1
@@ -2264,7 +2264,7 @@ begin
 	   --
       -- jsr direct - Jump to subroutine in direct page (2 bytes)
       -- 6809 => 7 cycles
-      -- cpu09 => 5 cycles
+      -- cpu09l => 5 cycles
       -- 1 op=(pc) / pc=pc+1
       -- 2 ea_hi=0 / ea_lo=(pc) / sp=sp-1 / pc=pc+1
       -- 3 (sp)=pc_lo / sp=sp-1
@@ -2489,7 +2489,7 @@ begin
 				 --
 				 -- lbcc -- long branch conditional
 				 -- 6809 => branch 6 cycles, no branch 5 cycles
-				 -- cpu09 => always 5 cycles
+				 -- cpu09l => always 5 cycles
 				 -- 1 pre=(pc) / pc=pc+1
 				 -- 2 op=(pc) / pc=pc+1
 				 -- 3 md_hi=sign(pc) / md_lo=(pc) / pc=pc+1

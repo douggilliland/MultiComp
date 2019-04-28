@@ -1,7 +1,7 @@
 |uk101_16K
 n_reset => t65:u1.Res_n
 n_reset => uk101keyboard:u9.nRESET
-n_reset => videoclk_vga_800x600:PLL.areset
+n_reset => videoclk_svga_800x600:PLL.areset
 clk => basicrom:u2.clock
 clk => serialClkEn.CLK
 clk => serialClkCount[1].CLK
@@ -23,30 +23,30 @@ clk => internalram16k:u3.clock
 clk => internalram2k:u3a.clock
 clk => internalram1k:u3b.clock
 clk => buffereduart:UART.clk
-clk => videoclk_vga_800x600:PLL.inclk0
-clk => displayram:u8.clock
+clk => videoclk_svga_800x600:PLL.inclk0
+clk => displayram2k:u8.clock
 clk => uk101keyboard:u9.CLK
 rxd => buffereduart:UART.rxd
 txd <= txd.DB_MAX_OUTPUT_PORT_TYPE
 rts <= buffereduart:UART.n_rts
-videoR0 <= uk101textdisplay:u6.video
-videoR1 <= uk101textdisplay:u6.video
-videoR2 <= uk101textdisplay:u6.video
-videoR3 <= uk101textdisplay:u6.video
-videoR4 <= uk101textdisplay:u6.video
-videoG0 <= uk101textdisplay:u6.video
-videoG1 <= uk101textdisplay:u6.video
-videoG2 <= uk101textdisplay:u6.video
-videoG3 <= uk101textdisplay:u6.video
-videoG4 <= uk101textdisplay:u6.video
-videoG5 <= uk101textdisplay:u6.video
-videoB0 <= uk101textdisplay:u6.hAct
-videoB1 <= uk101textdisplay:u6.hAct
-videoB2 <= uk101textdisplay:u6.hAct
-videoB3 <= uk101textdisplay:u6.hAct
-videoB4 <= uk101textdisplay:u6.hAct
-hSync <= uk101textdisplay:u6.hSync
-vSync <= uk101textdisplay:u6.vSync
+videoR0 <= uk101textdisplay_svga_800x600:u6.video
+videoR1 <= uk101textdisplay_svga_800x600:u6.video
+videoR2 <= uk101textdisplay_svga_800x600:u6.video
+videoR3 <= uk101textdisplay_svga_800x600:u6.video
+videoR4 <= uk101textdisplay_svga_800x600:u6.video
+videoG0 <= uk101textdisplay_svga_800x600:u6.video
+videoG1 <= uk101textdisplay_svga_800x600:u6.video
+videoG2 <= uk101textdisplay_svga_800x600:u6.video
+videoG3 <= uk101textdisplay_svga_800x600:u6.video
+videoG4 <= uk101textdisplay_svga_800x600:u6.video
+videoG5 <= uk101textdisplay_svga_800x600:u6.video
+videoB0 <= uk101textdisplay_svga_800x600:u6.hAct
+videoB1 <= uk101textdisplay_svga_800x600:u6.hAct
+videoB2 <= uk101textdisplay_svga_800x600:u6.hAct
+videoB3 <= uk101textdisplay_svga_800x600:u6.hAct
+videoB4 <= uk101textdisplay_svga_800x600:u6.hAct
+hSync <= uk101textdisplay_svga_800x600:u6.hSync
+vSync <= uk101textdisplay_svga_800x600:u6.vSync
 switch0 => ~NO_FANOUT~
 switch1 => ~NO_FANOUT~
 switch2 => ~NO_FANOUT~
@@ -2738,7 +2738,7 @@ wren_a => ram_block1a6.PORTAWE
 wren_a => ram_block1a7.PORTAWE
 
 
-|uk101_16K|CegmonRom:u4
+|uk101_16K|CegmonRom_Patched_64x32:u4
 address[0] => Mux0.IN2058
 address[0] => Mux1.IN2058
 address[0] => Mux2.IN2058
@@ -3046,7 +3046,7 @@ n_dcd => dataOut.DATAA
 n_dcd => tx_fsm.IN1
 
 
-|uk101_16K|VideoClk_VGA_800x600:PLL
+|uk101_16K|VideoClk_SVGA_800x600:PLL
 areset => altpll:altpll_component.areset
 inclk0 => altpll:altpll_component.inclk[0]
 c0 <= altpll:altpll_component.clk[0]
@@ -3055,13 +3055,13 @@ c2 <= altpll:altpll_component.clk[2]
 c3 <= altpll:altpll_component.clk[3]
 
 
-|uk101_16K|VideoClk_VGA_800x600:PLL|altpll:altpll_component
-inclk[0] => VideoClk_VGA_800x600_altpll:auto_generated.inclk[0]
-inclk[1] => VideoClk_VGA_800x600_altpll:auto_generated.inclk[1]
+|uk101_16K|VideoClk_SVGA_800x600:PLL|altpll:altpll_component
+inclk[0] => VideoClk_SVGA_800x600_altpll:auto_generated.inclk[0]
+inclk[1] => VideoClk_SVGA_800x600_altpll:auto_generated.inclk[1]
 fbin => ~NO_FANOUT~
 pllena => ~NO_FANOUT~
 clkswitch => ~NO_FANOUT~
-areset => VideoClk_VGA_800x600_altpll:auto_generated.areset
+areset => VideoClk_SVGA_800x600_altpll:auto_generated.areset
 pfdena => ~NO_FANOUT~
 clkena[0] => ~NO_FANOUT~
 clkena[1] => ~NO_FANOUT~
@@ -3115,7 +3115,7 @@ fref <= <GND>
 icdrclk <= <GND>
 
 
-|uk101_16K|VideoClk_VGA_800x600:PLL|altpll:altpll_component|VideoClk_VGA_800x600_altpll:auto_generated
+|uk101_16K|VideoClk_SVGA_800x600:PLL|altpll:altpll_component|VideoClk_SVGA_800x600_altpll:auto_generated
 areset => pll1.ARESET
 clk[0] <= pll1.CLK
 clk[1] <= pll1.CLK1
@@ -3126,7 +3126,7 @@ inclk[0] => pll1.CLK
 inclk[1] => pll1.CLK1
 
 
-|uk101_16K|UK101TextDisplay:u6
+|uk101_16K|UK101TextDisplay_svga_800x600:u6
 charAddr[0] <= vertLineCount[1].DB_MAX_OUTPUT_PORT_TYPE
 charAddr[1] <= vertLineCount[2].DB_MAX_OUTPUT_PORT_TYPE
 charAddr[2] <= vertLineCount[3].DB_MAX_OUTPUT_PORT_TYPE
@@ -3294,7 +3294,7 @@ q[6] <= Mux1.DB_MAX_OUTPUT_PORT_TYPE
 q[7] <= Mux0.DB_MAX_OUTPUT_PORT_TYPE
 
 
-|uk101_16K|DisplayRam:u8
+|uk101_16K|DisplayRam2k:u8
 address_a[0] => altsyncram:altsyncram_component.address_a[0]
 address_a[1] => altsyncram:altsyncram_component.address_a[1]
 address_a[2] => altsyncram:altsyncram_component.address_a[2]
@@ -3354,7 +3354,7 @@ q_b[6] <= altsyncram:altsyncram_component.q_b[6]
 q_b[7] <= altsyncram:altsyncram_component.q_b[7]
 
 
-|uk101_16K|DisplayRam:u8|altsyncram:altsyncram_component
+|uk101_16K|DisplayRam2k:u8|altsyncram:altsyncram_component
 wren_a => altsyncram_sn52:auto_generated.wren_a
 rden_a => ~NO_FANOUT~
 wren_b => altsyncram_sn52:auto_generated.wren_b
@@ -3430,7 +3430,7 @@ eccstatus[1] <= <GND>
 eccstatus[2] <= <GND>
 
 
-|uk101_16K|DisplayRam:u8|altsyncram:altsyncram_component|altsyncram_sn52:auto_generated
+|uk101_16K|DisplayRam2k:u8|altsyncram:altsyncram_component|altsyncram_sn52:auto_generated
 address_a[0] => ram_block1a0.PORTAADDR
 address_a[0] => ram_block1a1.PORTAADDR
 address_a[0] => ram_block1a2.PORTAADDR

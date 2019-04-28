@@ -128,7 +128,7 @@ begin
 	
 	-- ____________________________________________________________________________________
 	-- CPU CHOICE GOES HERE
-	cpu1 : entity work.cpu09
+	cpu1 : entity work.cpu09l
 		port map(
 			clk => not(cpuClock),
 			rst => not n_reset,
@@ -227,7 +227,7 @@ begin
 			n_rts => rts
 		);
 
-	io3: entity work.OUT_LATCH
+	io3: entity work.OutLatch
 		port map (
 			dataIn8 => cpuDataOut,
 			clock => clk,

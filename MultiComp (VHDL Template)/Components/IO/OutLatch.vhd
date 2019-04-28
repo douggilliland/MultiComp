@@ -1,4 +1,4 @@
--- OUT_LATCH.vhd
+-- OutLatch.vhd
 -- Implement an 8-bit output latch
 	
 library ieee ;
@@ -7,7 +7,7 @@ use ieee.std_logic_unsigned.all;
 
 ---------------------------------------------------
 
-entity OUT_LATCH is
+entity OutLatch is
 
 generic(n: natural :=8);
 port(	dataIn8	:	in std_logic_vector(n-1 downto 0);
@@ -16,11 +16,11 @@ port(	dataIn8	:	in std_logic_vector(n-1 downto 0);
 	clear			:	in std_logic;
 	latchOut		:	out std_logic_vector(n-1 downto 0)
 );
-end OUT_LATCH;
+end OutLatch;
 
 ----------------------------------------------------
 
-architecture behv of OUT_LATCH is
+architecture behv of OutLatch is
 
     signal Q_tmp: std_logic_vector(n-1 downto 0);
 

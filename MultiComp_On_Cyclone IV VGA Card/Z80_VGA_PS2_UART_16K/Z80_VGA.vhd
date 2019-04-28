@@ -230,7 +230,7 @@ begin
 			latchFNKey => fKey2
 		);	
 		
-	io3: entity work.OUT_LATCH
+	io3: entity work.OutLatch
 		port map (
 			dataIn8 => cpuDataOut,
 			clock => clk,
@@ -289,12 +289,12 @@ begin
 	begin
 		if rising_edge(clk) then
 
-			if cpuClkCount < 4 then -- 4 = 10MHz, 3 = 12.5MHz, 2=16.6MHz, 1=25MHz
+			if cpuClkCount < 1 then -- 4 = 10MHz, 3 = 12.5MHz, 2=16.6MHz, 1=25MHz
 				cpuClkCount <= cpuClkCount + 1;
 			else
 				cpuClkCount <= (others=>'0');
 			end if;
-			if cpuClkCount < 2 then -- 2 when 10MHz, 2 when 12.5MHz, 2 when 16.6MHz, 1 when 25MHz
+			if cpuClkCount < 1 then -- 2 when 10MHz, 2 when 12.5MHz, 2 when 16.6MHz, 1 when 25MHz
 				cpuClock <= '0';
 			else
 				cpuClock <= '1';

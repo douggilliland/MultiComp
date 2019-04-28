@@ -1,5 +1,5 @@
 Analysis & Synthesis report for Z80_VGA
-Sun Apr 21 12:55:24 2019
+Sun Apr 28 12:03:32 2019
 Quartus Prime Version 18.1.0 Build 625 09/12/2018 SJ Lite Edition
 
 
@@ -40,14 +40,14 @@ Quartus Prime Version 18.1.0 Build 625 09/12/2018 SJ Lite Edition
  32. Parameter Settings for User Entity Instance: SBCTextDisplayRGB:io1|SansBoldRomReduced:\GEN_REDUCED_SCHARS:fontRom|altsyncram:altsyncram_component
  33. Parameter Settings for User Entity Instance: SBCTextDisplayRGB:io1|DisplayRam2K:\GEN_2KRAM:dispCharRam|altsyncram:altsyncram_component
  34. Parameter Settings for User Entity Instance: SBCTextDisplayRGB:io1|DisplayRam2K:\GEN_2KATTRAM:dispAttRam|altsyncram:altsyncram_component
- 35. Parameter Settings for User Entity Instance: OUT_LATCH:io3
+ 35. Parameter Settings for User Entity Instance: OutLatch:io3
  36. Parameter Settings for User Entity Instance: counter:myCounter
  37. Parameter Settings for Inferred Entity Instance: bufferedUART:UART|altsyncram:rxBuffer_rtl_0
  38. Parameter Settings for Inferred Entity Instance: SBCTextDisplayRGB:io1|lpm_divide:Mod0
  39. Parameter Settings for Inferred Entity Instance: SBCTextDisplayRGB:io1|lpm_divide:Mod1
  40. altsyncram Parameter Settings by Entity Instance
  41. Port Connectivity Checks: "counter:myCounter"
- 42. Port Connectivity Checks: "OUT_LATCH:io3"
+ 42. Port Connectivity Checks: "OutLatch:io3"
  43. Port Connectivity Checks: "bufferedUART:UART"
  44. Port Connectivity Checks: "SBCTextDisplayRGB:io1|DisplayRam2K:\GEN_2KATTRAM:dispAttRam"
  45. Port Connectivity Checks: "SBCTextDisplayRGB:io1|DisplayRam2K:\GEN_2KRAM:dispCharRam"
@@ -82,13 +82,13 @@ refer to the applicable agreement for further details.
 +----------------------------------------------------------------------------------+
 ; Analysis & Synthesis Summary                                                     ;
 +------------------------------------+---------------------------------------------+
-; Analysis & Synthesis Status        ; Successful - Sun Apr 21 12:55:24 2019       ;
+; Analysis & Synthesis Status        ; Successful - Sun Apr 28 12:03:32 2019       ;
 ; Quartus Prime Version              ; 18.1.0 Build 625 09/12/2018 SJ Lite Edition ;
 ; Revision Name                      ; Z80_VGA                                     ;
 ; Top-level Entity Name              ; Z80_VGA                                     ;
 ; Family                             ; Cyclone IV E                                ;
-; Total logic elements               ; 3,877                                       ;
-;     Total combinational functions  ; 3,619                                       ;
+; Total logic elements               ; 3,886                                       ;
+;     Total combinational functions  ; 3,628                                       ;
 ;     Dedicated logic registers      ; 879                                         ;
 ; Total registers                    ; 879                                         ;
 ; Total pins                         ; 33                                          ;
@@ -262,16 +262,16 @@ refer to the applicable agreement for further details.
 +---------------------------------------------+-----------+
 ; Resource                                    ; Usage     ;
 +---------------------------------------------+-----------+
-; Estimated Total logic elements              ; 3,877     ;
+; Estimated Total logic elements              ; 3,886     ;
 ;                                             ;           ;
-; Total combinational functions               ; 3619      ;
+; Total combinational functions               ; 3628      ;
 ; Logic element usage by number of LUT inputs ;           ;
-;     -- 4 input functions                    ; 2193      ;
-;     -- 3 input functions                    ; 782       ;
-;     -- <=2 input functions                  ; 644       ;
+;     -- 4 input functions                    ; 2149      ;
+;     -- 3 input functions                    ; 817       ;
+;     -- <=2 input functions                  ; 662       ;
 ;                                             ;           ;
 ; Logic elements by mode                      ;           ;
-;     -- normal mode                          ; 3106      ;
+;     -- normal mode                          ; 3115      ;
 ;     -- arithmetic mode                      ; 513       ;
 ;                                             ;           ;
 ; Total registers                             ; 879       ;
@@ -285,8 +285,8 @@ refer to the applicable agreement for further details.
 ;                                             ;           ;
 ; Maximum fan-out node                        ; clk~input ;
 ; Maximum fan-out                             ; 539       ;
-; Total fan-out                               ; 16312     ;
-; Average fan-out                             ; 3.53      ;
+; Total fan-out                               ; 16277     ;
+; Average fan-out                             ; 3.51      ;
 +---------------------------------------------+-----------+
 
 
@@ -295,13 +295,13 @@ refer to the applicable agreement for further details.
 +--------------------------------------------------------+---------------------+---------------------------+-------------+--------------+---------+-----------+------+--------------+----------------------------------------------------------------------------------------------------------------------------------------------+---------------------+--------------+
 ; Compilation Hierarchy Node                             ; Combinational ALUTs ; Dedicated Logic Registers ; Memory Bits ; DSP Elements ; DSP 9x9 ; DSP 18x18 ; Pins ; Virtual Pins ; Full Hierarchy Name                                                                                                                          ; Entity Name         ; Library Name ;
 +--------------------------------------------------------+---------------------+---------------------------+-------------+--------------+---------+-----------+------+--------------+----------------------------------------------------------------------------------------------------------------------------------------------+---------------------+--------------+
-; |Z80_VGA                                               ; 3619 (104)          ; 879 (23)                  ; 237696      ; 0            ; 0       ; 0         ; 33   ; 0            ; |Z80_VGA                                                                                                                                     ; Z80_VGA             ; work         ;
+; |Z80_VGA                                               ; 3628 (103)          ; 879 (23)                  ; 237696      ; 0            ; 0       ; 0         ; 33   ; 0            ; |Z80_VGA                                                                                                                                     ; Z80_VGA             ; work         ;
 ;    |InternalRam16K:u3|                                 ; 2 (0)               ; 1 (0)                     ; 131072      ; 0            ; 0       ; 0         ; 0    ; 0            ; |Z80_VGA|InternalRam16K:u3                                                                                                                   ; InternalRam16K      ; work         ;
 ;       |altsyncram:altsyncram_component|                ; 2 (0)               ; 1 (0)                     ; 131072      ; 0            ; 0       ; 0         ; 0    ; 0            ; |Z80_VGA|InternalRam16K:u3|altsyncram:altsyncram_component                                                                                   ; altsyncram          ; work         ;
 ;          |altsyncram_m3q3:auto_generated|              ; 2 (0)               ; 1 (1)                     ; 131072      ; 0            ; 0       ; 0         ; 0    ; 0            ; |Z80_VGA|InternalRam16K:u3|altsyncram:altsyncram_component|altsyncram_m3q3:auto_generated                                                    ; altsyncram_m3q3     ; work         ;
 ;             |decode_jsa:decode3|                       ; 2 (2)               ; 0 (0)                     ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |Z80_VGA|InternalRam16K:u3|altsyncram:altsyncram_component|altsyncram_m3q3:auto_generated|decode_jsa:decode3                                 ; decode_jsa          ; work         ;
-;    |OUT_LATCH:io3|                                     ; 0 (0)               ; 5 (5)                     ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |Z80_VGA|OUT_LATCH:io3                                                                                                                       ; OUT_LATCH           ; work         ;
-;    |SBCTextDisplayRGB:io1|                             ; 1371 (1214)         ; 385 (385)                 ; 40960       ; 0            ; 0       ; 0         ; 0    ; 0            ; |Z80_VGA|SBCTextDisplayRGB:io1                                                                                                               ; SBCTextDisplayRGB   ; work         ;
+;    |OutLatch:io3|                                      ; 0 (0)               ; 5 (5)                     ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |Z80_VGA|OutLatch:io3                                                                                                                        ; OutLatch            ; work         ;
+;    |SBCTextDisplayRGB:io1|                             ; 1399 (1221)         ; 385 (385)                 ; 40960       ; 0            ; 0       ; 0         ; 0    ; 0            ; |Z80_VGA|SBCTextDisplayRGB:io1                                                                                                               ; SBCTextDisplayRGB   ; work         ;
 ;       |DisplayRam2K:\GEN_2KATTRAM:dispAttRam|          ; 0 (0)               ; 0 (0)                     ; 16384       ; 0            ; 0       ; 0         ; 0    ; 0            ; |Z80_VGA|SBCTextDisplayRGB:io1|DisplayRam2K:\GEN_2KATTRAM:dispAttRam                                                                         ; DisplayRam2K        ; work         ;
 ;          |altsyncram:altsyncram_component|             ; 0 (0)               ; 0 (0)                     ; 16384       ; 0            ; 0       ; 0         ; 0    ; 0            ; |Z80_VGA|SBCTextDisplayRGB:io1|DisplayRam2K:\GEN_2KATTRAM:dispAttRam|altsyncram:altsyncram_component                                         ; altsyncram          ; work         ;
 ;             |altsyncram_ldr3:auto_generated|           ; 0 (0)               ; 0 (0)                     ; 16384       ; 0            ; 0       ; 0         ; 0    ; 0            ; |Z80_VGA|SBCTextDisplayRGB:io1|DisplayRam2K:\GEN_2KATTRAM:dispAttRam|altsyncram:altsyncram_component|altsyncram_ldr3:auto_generated          ; altsyncram_ldr3     ; work         ;
@@ -315,15 +315,15 @@ refer to the applicable agreement for further details.
 ;          |lpm_divide_icm:auto_generated|               ; 89 (0)              ; 0 (0)                     ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |Z80_VGA|SBCTextDisplayRGB:io1|lpm_divide:Mod0|lpm_divide_icm:auto_generated                                                                 ; lpm_divide_icm      ; work         ;
 ;             |sign_div_unsign_7nh:divider|              ; 89 (0)              ; 0 (0)                     ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |Z80_VGA|SBCTextDisplayRGB:io1|lpm_divide:Mod0|lpm_divide_icm:auto_generated|sign_div_unsign_7nh:divider                                     ; sign_div_unsign_7nh ; work         ;
 ;                |alt_u_div_2af:divider|                 ; 89 (89)             ; 0 (0)                     ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |Z80_VGA|SBCTextDisplayRGB:io1|lpm_divide:Mod0|lpm_divide_icm:auto_generated|sign_div_unsign_7nh:divider|alt_u_div_2af:divider               ; alt_u_div_2af       ; work         ;
-;       |lpm_divide:Mod1|                                ; 68 (0)              ; 0 (0)                     ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |Z80_VGA|SBCTextDisplayRGB:io1|lpm_divide:Mod1                                                                                               ; lpm_divide          ; work         ;
-;          |lpm_divide_icm:auto_generated|               ; 68 (0)              ; 0 (0)                     ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |Z80_VGA|SBCTextDisplayRGB:io1|lpm_divide:Mod1|lpm_divide_icm:auto_generated                                                                 ; lpm_divide_icm      ; work         ;
-;             |sign_div_unsign_7nh:divider|              ; 68 (0)              ; 0 (0)                     ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |Z80_VGA|SBCTextDisplayRGB:io1|lpm_divide:Mod1|lpm_divide_icm:auto_generated|sign_div_unsign_7nh:divider                                     ; sign_div_unsign_7nh ; work         ;
-;                |alt_u_div_2af:divider|                 ; 68 (68)             ; 0 (0)                     ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |Z80_VGA|SBCTextDisplayRGB:io1|lpm_divide:Mod1|lpm_divide_icm:auto_generated|sign_div_unsign_7nh:divider|alt_u_div_2af:divider               ; alt_u_div_2af       ; work         ;
-;    |T80s:cpu1|                                         ; 1969 (6)            ; 346 (12)                  ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |Z80_VGA|T80s:cpu1                                                                                                                           ; T80s                ; work         ;
-;       |T80:u0|                                         ; 1963 (819)          ; 334 (206)                 ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |Z80_VGA|T80s:cpu1|T80:u0                                                                                                                    ; T80                 ; work         ;
-;          |T80_ALU:alu|                                 ; 418 (418)           ; 0 (0)                     ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |Z80_VGA|T80s:cpu1|T80:u0|T80_ALU:alu                                                                                                        ; T80_ALU             ; work         ;
-;          |T80_MCode:mcode|                             ; 466 (466)           ; 0 (0)                     ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |Z80_VGA|T80s:cpu1|T80:u0|T80_MCode:mcode                                                                                                    ; T80_MCode           ; work         ;
-;          |T80_Reg:Regs|                                ; 260 (260)           ; 128 (128)                 ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |Z80_VGA|T80s:cpu1|T80:u0|T80_Reg:Regs                                                                                                       ; T80_Reg             ; work         ;
+;       |lpm_divide:Mod1|                                ; 89 (0)              ; 0 (0)                     ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |Z80_VGA|SBCTextDisplayRGB:io1|lpm_divide:Mod1                                                                                               ; lpm_divide          ; work         ;
+;          |lpm_divide_icm:auto_generated|               ; 89 (0)              ; 0 (0)                     ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |Z80_VGA|SBCTextDisplayRGB:io1|lpm_divide:Mod1|lpm_divide_icm:auto_generated                                                                 ; lpm_divide_icm      ; work         ;
+;             |sign_div_unsign_7nh:divider|              ; 89 (0)              ; 0 (0)                     ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |Z80_VGA|SBCTextDisplayRGB:io1|lpm_divide:Mod1|lpm_divide_icm:auto_generated|sign_div_unsign_7nh:divider                                     ; sign_div_unsign_7nh ; work         ;
+;                |alt_u_div_2af:divider|                 ; 89 (89)             ; 0 (0)                     ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |Z80_VGA|SBCTextDisplayRGB:io1|lpm_divide:Mod1|lpm_divide_icm:auto_generated|sign_div_unsign_7nh:divider|alt_u_div_2af:divider               ; alt_u_div_2af       ; work         ;
+;    |T80s:cpu1|                                         ; 1951 (5)            ; 346 (12)                  ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |Z80_VGA|T80s:cpu1                                                                                                                           ; T80s                ; work         ;
+;       |T80:u0|                                         ; 1946 (823)          ; 334 (206)                 ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |Z80_VGA|T80s:cpu1|T80:u0                                                                                                                    ; T80                 ; work         ;
+;          |T80_ALU:alu|                                 ; 410 (410)           ; 0 (0)                     ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |Z80_VGA|T80s:cpu1|T80:u0|T80_ALU:alu                                                                                                        ; T80_ALU             ; work         ;
+;          |T80_MCode:mcode|                             ; 457 (457)           ; 0 (0)                     ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |Z80_VGA|T80s:cpu1|T80:u0|T80_MCode:mcode                                                                                                    ; T80_MCode           ; work         ;
+;          |T80_Reg:Regs|                                ; 256 (256)           ; 128 (128)                 ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |Z80_VGA|T80s:cpu1|T80:u0|T80_Reg:Regs                                                                                                       ; T80_Reg             ; work         ;
 ;    |Toggle_On_FN_Key:FNKey1Toggle|                     ; 1 (1)               ; 4 (4)                     ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |Z80_VGA|Toggle_On_FN_Key:FNKey1Toggle                                                                                                       ; Toggle_On_FN_Key    ; work         ;
 ;    |Toggle_On_FN_Key:FNKey2Toggle|                     ; 1 (1)               ; 4 (4)                     ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |Z80_VGA|Toggle_On_FN_Key:FNKey2Toggle                                                                                                       ; Toggle_On_FN_Key    ; work         ;
 ;    |Z80_BASIC_ROM:rom|                                 ; 0 (0)               ; 0 (0)                     ; 65536       ; 0            ; 0       ; 0         ; 0    ; 0            ; |Z80_VGA|Z80_BASIC_ROM:rom                                                                                                                   ; Z80_BASIC_ROM       ; work         ;
@@ -476,7 +476,7 @@ Encoding Type:  One-Hot
 ; Number of registers using Synchronous Load   ; 52    ;
 ; Number of registers using Asynchronous Clear ; 240   ;
 ; Number of registers using Asynchronous Load  ; 0     ;
-; Number of registers using Clock Enable       ; 664   ;
+; Number of registers using Clock Enable       ; 666   ;
 ; Number of registers using Preset             ; 0     ;
 +----------------------------------------------+-------+
 
@@ -486,14 +486,17 @@ Encoding Type:  One-Hot
 +-----------------------------------------+---------+
 ; Inverted Register                       ; Fan out ;
 +-----------------------------------------+---------+
-; T80s:cpu1|IORQ_n                        ; 7       ;
-; T80s:cpu1|RD_n                          ; 3       ;
-; T80s:cpu1|WR_n                          ; 6       ;
-; T80s:cpu1|T80:u0|MCycle[0]              ; 77      ;
 ; SBCTextDisplayRGB:io1|dispAttWRData[0]  ; 4       ;
 ; SBCTextDisplayRGB:io1|cursorOn          ; 1       ;
+; SBCTextDisplayRGB:io1|dispAttWRData[1]  ; 4       ;
+; SBCTextDisplayRGB:io1|dispAttWRData[2]  ; 4       ;
+; T80s:cpu1|WR_n                          ; 6       ;
+; T80s:cpu1|IORQ_n                        ; 6       ;
+; T80s:cpu1|RD_n                          ; 3       ;
+; SBCTextDisplayRGB:io1|dispAttWRData[3]  ; 12      ;
+; T80s:cpu1|T80:u0|MCycle[0]              ; 85      ;
+; T80s:cpu1|T80:u0|F[0]                   ; 13      ;
 ; T80s:cpu1|T80:u0|F[6]                   ; 11      ;
-; T80s:cpu1|T80:u0|F[0]                   ; 14      ;
 ; T80s:cpu1|T80:u0|F[2]                   ; 8       ;
 ; T80s:cpu1|T80:u0|F[7]                   ; 7       ;
 ; T80s:cpu1|T80:u0|SP[7]                  ; 4       ;
@@ -503,64 +506,61 @@ Encoding Type:  One-Hot
 ; T80s:cpu1|T80:u0|SP[3]                  ; 4       ;
 ; T80s:cpu1|T80:u0|SP[2]                  ; 4       ;
 ; T80s:cpu1|T80:u0|SP[1]                  ; 4       ;
-; SBCTextDisplayRGB:io1|dispAttWRData[1]  ; 4       ;
-; SBCTextDisplayRGB:io1|dispAttWRData[2]  ; 4       ;
-; SBCTextDisplayRGB:io1|dispAttWRData[3]  ; 12      ;
-; T80s:cpu1|T80:u0|F[4]                   ; 9       ;
+; T80s:cpu1|T80:u0|F[4]                   ; 6       ;
 ; T80s:cpu1|T80:u0|F[1]                   ; 18      ;
-; T80s:cpu1|T80:u0|Fp[6]                  ; 1       ;
-; T80s:cpu1|T80:u0|Fp[0]                  ; 1       ;
-; T80s:cpu1|T80:u0|Fp[2]                  ; 1       ;
-; T80s:cpu1|T80:u0|Fp[7]                  ; 1       ;
-; T80s:cpu1|T80:u0|SP[0]                  ; 4       ;
-; T80s:cpu1|T80:u0|ACC[7]                 ; 7       ;
-; T80s:cpu1|T80:u0|ACC[6]                 ; 7       ;
-; T80s:cpu1|T80:u0|ACC[5]                 ; 9       ;
-; T80s:cpu1|T80:u0|ACC[4]                 ; 7       ;
-; T80s:cpu1|T80:u0|ACC[3]                 ; 9       ;
-; T80s:cpu1|T80:u0|ACC[2]                 ; 7       ;
-; T80s:cpu1|T80:u0|ACC[1]                 ; 7       ;
 ; SBCTextDisplayRGB:io1|ps2ClkOut         ; 3       ;
 ; SBCTextDisplayRGB:io1|ps2DataOut        ; 3       ;
+; T80s:cpu1|T80:u0|SP[0]                  ; 4       ;
 ; bufferedUART:UART|rxdFiltered           ; 5       ;
-; T80s:cpu1|T80:u0|SP[15]                 ; 4       ;
-; T80s:cpu1|T80:u0|SP[14]                 ; 4       ;
-; T80s:cpu1|T80:u0|SP[13]                 ; 4       ;
-; T80s:cpu1|MREQ_n                        ; 2       ;
 ; SBCTextDisplayRGB:io1|attBold           ; 5       ;
-; T80s:cpu1|T80:u0|ACC[0]                 ; 7       ;
-; T80s:cpu1|T80:u0|SP[8]                  ; 4       ;
 ; T80s:cpu1|T80:u0|SP[12]                 ; 4       ;
+; T80s:cpu1|T80:u0|ACC[4]                 ; 7       ;
+; T80s:cpu1|T80:u0|SP[8]                  ; 4       ;
+; T80s:cpu1|T80:u0|ACC[0]                 ; 7       ;
+; T80s:cpu1|T80:u0|ACC[1]                 ; 7       ;
+; T80s:cpu1|T80:u0|SP[9]                  ; 4       ;
+; T80s:cpu1|T80:u0|ACC[7]                 ; 7       ;
+; T80s:cpu1|T80:u0|SP[15]                 ; 4       ;
+; T80s:cpu1|T80:u0|Fp[0]                  ; 1       ;
+; T80s:cpu1|T80:u0|Fp[6]                  ; 1       ;
+; T80s:cpu1|T80:u0|Fp[2]                  ; 1       ;
+; T80s:cpu1|T80:u0|Fp[7]                  ; 1       ;
+; T80s:cpu1|T80:u0|ACC[6]                 ; 7       ;
+; T80s:cpu1|T80:u0|ACC[5]                 ; 9       ;
+; T80s:cpu1|T80:u0|ACC[3]                 ; 9       ;
+; T80s:cpu1|T80:u0|ACC[2]                 ; 7       ;
+; T80s:cpu1|T80:u0|SP[13]                 ; 4       ;
 ; T80s:cpu1|T80:u0|SP[11]                 ; 4       ;
 ; T80s:cpu1|T80:u0|SP[10]                 ; 4       ;
-; T80s:cpu1|T80:u0|SP[9]                  ; 4       ;
 ; T80s:cpu1|T80:u0|Fp[4]                  ; 1       ;
 ; T80s:cpu1|T80:u0|Fp[1]                  ; 1       ;
-; T80s:cpu1|T80:u0|F[5]                   ; 2       ;
 ; T80s:cpu1|T80:u0|F[3]                   ; 2       ;
-; T80s:cpu1|T80:u0|Ap[7]                  ; 1       ;
-; T80s:cpu1|T80:u0|Ap[6]                  ; 1       ;
-; T80s:cpu1|T80:u0|Ap[5]                  ; 1       ;
-; T80s:cpu1|T80:u0|Ap[4]                  ; 1       ;
-; T80s:cpu1|T80:u0|Ap[3]                  ; 1       ;
-; T80s:cpu1|T80:u0|Ap[2]                  ; 1       ;
-; T80s:cpu1|T80:u0|Ap[1]                  ; 1       ;
+; T80s:cpu1|T80:u0|F[5]                   ; 2       ;
+; T80s:cpu1|T80:u0|SP[14]                 ; 4       ;
 ; SBCTextDisplayRGB:io1|n_kbWR            ; 22      ;
 ; SBCTextDisplayRGB:io1|ps2WriteByte[4]   ; 2       ;
 ; SBCTextDisplayRGB:io1|ps2WriteByte[3]   ; 3       ;
 ; SBCTextDisplayRGB:io1|ps2WriteByte[2]   ; 2       ;
 ; SBCTextDisplayRGB:io1|ps2WriteByte[1]   ; 2       ;
 ; SBCTextDisplayRGB:io1|ps2WriteByte[0]   ; 2       ;
-; SBCTextDisplayRGB:io1|ps2ClkFiltered    ; 12      ;
-; SBCTextDisplayRGB:io1|ps2PrevClk        ; 10      ;
-; SBCTextDisplayRGB:io1|ps2Caps           ; 4       ;
+; SBCTextDisplayRGB:io1|ps2ClkFiltered    ; 13      ;
+; SBCTextDisplayRGB:io1|ps2PrevClk        ; 11      ;
+; T80s:cpu1|T80:u0|Ap[4]                  ; 1       ;
+; T80s:cpu1|MREQ_n                        ; 2       ;
 ; T80s:cpu1|T80:u0|Ap[0]                  ; 1       ;
-; T80s:cpu1|T80:u0|Fp[5]                  ; 1       ;
+; T80s:cpu1|T80:u0|Ap[1]                  ; 1       ;
+; T80s:cpu1|T80:u0|Ap[7]                  ; 1       ;
+; T80s:cpu1|T80:u0|Ap[6]                  ; 1       ;
+; T80s:cpu1|T80:u0|Ap[5]                  ; 1       ;
+; T80s:cpu1|T80:u0|Ap[3]                  ; 1       ;
+; T80s:cpu1|T80:u0|Ap[2]                  ; 1       ;
 ; T80s:cpu1|T80:u0|Fp[3]                  ; 1       ;
+; T80s:cpu1|T80:u0|Fp[5]                  ; 1       ;
 ; SBCTextDisplayRGB:io1|ps2WriteByte2[3]  ; 3       ;
 ; SBCTextDisplayRGB:io1|ps2WriteByte2[2]  ; 2       ;
 ; SBCTextDisplayRGB:io1|ps2WriteByte2[1]  ; 2       ;
 ; SBCTextDisplayRGB:io1|ps2WriteByte2[0]  ; 2       ;
+; SBCTextDisplayRGB:io1|ps2Caps           ; 4       ;
 ; Total number of inverted registers = 75 ;         ;
 +-----------------------------------------+---------+
 
@@ -570,84 +570,84 @@ Encoding Type:  One-Hot
 +--------------------+-----------+---------------+----------------------+------------------------+------------+--------------------------------------------------------------------+
 ; Multiplexer Inputs ; Bus Width ; Baseline Area ; Area if Restructured ; Saving if Restructured ; Registered ; Example Multiplexer Output                                         ;
 +--------------------+-----------+---------------+----------------------+------------------------+------------+--------------------------------------------------------------------+
-; 3:1                ; 5 bits    ; 10 LEs        ; 5 LEs                ; 5 LEs                  ; Yes        ; |Z80_VGA|SBCTextDisplayRGB:io1|charVert[0]                         ;
-; 3:1                ; 2 bits    ; 4 LEs         ; 2 LEs                ; 2 LEs                  ; Yes        ; |Z80_VGA|T80s:cpu1|T80:u0|ALU_Op_r[2]                              ;
+; 3:1                ; 5 bits    ; 10 LEs        ; 5 LEs                ; 5 LEs                  ; Yes        ; |Z80_VGA|SBCTextDisplayRGB:io1|charVert[3]                         ;
+; 3:1                ; 2 bits    ; 4 LEs         ; 2 LEs                ; 2 LEs                  ; Yes        ; |Z80_VGA|T80s:cpu1|T80:u0|ALU_Op_r[0]                              ;
+; 3:1                ; 4 bits    ; 8 LEs         ; 8 LEs                ; 0 LEs                  ; Yes        ; |Z80_VGA|T80s:cpu1|T80:u0|Read_To_Reg_r[0]                         ;
 ; 3:1                ; 2 bits    ; 4 LEs         ; 4 LEs                ; 0 LEs                  ; Yes        ; |Z80_VGA|T80s:cpu1|T80:u0|RegAddrC[0]                              ;
-; 3:1                ; 4 bits    ; 8 LEs         ; 8 LEs                ; 0 LEs                  ; Yes        ; |Z80_VGA|T80s:cpu1|T80:u0|Read_To_Reg_r[1]                         ;
 ; 3:1                ; 7 bits    ; 14 LEs        ; 7 LEs                ; 7 LEs                  ; Yes        ; |Z80_VGA|SBCTextDisplayRGB:io1|param4[0]                           ;
-; 4:1                ; 2 bits    ; 4 LEs         ; 2 LEs                ; 2 LEs                  ; Yes        ; |Z80_VGA|T80s:cpu1|T80:u0|XY_State[0]                              ;
+; 4:1                ; 2 bits    ; 4 LEs         ; 2 LEs                ; 2 LEs                  ; Yes        ; |Z80_VGA|T80s:cpu1|T80:u0|XY_State[1]                              ;
 ; 3:1                ; 7 bits    ; 14 LEs        ; 7 LEs                ; 7 LEs                  ; Yes        ; |Z80_VGA|SBCTextDisplayRGB:io1|charHoriz[5]                        ;
-; 3:1                ; 3 bits    ; 6 LEs         ; 3 LEs                ; 3 LEs                  ; Yes        ; |Z80_VGA|SBCTextDisplayRGB:io1|pixelCount[0]                       ;
-; 3:1                ; 8 bits    ; 16 LEs        ; 8 LEs                ; 8 LEs                  ; Yes        ; |Z80_VGA|SBCTextDisplayRGB:io1|ps2Byte[6]                          ;
-; 3:1                ; 5 bits    ; 10 LEs        ; 10 LEs               ; 0 LEs                  ; Yes        ; |Z80_VGA|bufferedUART:UART|dataOut[5]                              ;
-; 3:1                ; 2 bits    ; 4 LEs         ; 4 LEs                ; 0 LEs                  ; Yes        ; |Z80_VGA|bufferedUART:UART|dataOut[0]                              ;
+; 3:1                ; 3 bits    ; 6 LEs         ; 3 LEs                ; 3 LEs                  ; Yes        ; |Z80_VGA|SBCTextDisplayRGB:io1|pixelCount[1]                       ;
+; 3:1                ; 8 bits    ; 16 LEs        ; 8 LEs                ; 8 LEs                  ; Yes        ; |Z80_VGA|SBCTextDisplayRGB:io1|ps2Byte[5]                          ;
+; 3:1                ; 5 bits    ; 10 LEs        ; 10 LEs               ; 0 LEs                  ; Yes        ; |Z80_VGA|bufferedUART:UART|dataOut[4]                              ;
+; 3:1                ; 2 bits    ; 4 LEs         ; 4 LEs                ; 0 LEs                  ; Yes        ; |Z80_VGA|bufferedUART:UART|dataOut[1]                              ;
 ; 3:1                ; 2 bits    ; 4 LEs         ; 2 LEs                ; 2 LEs                  ; Yes        ; |Z80_VGA|T80s:cpu1|T80:u0|ISet[1]                                  ;
-; 3:1                ; 3 bits    ; 6 LEs         ; 6 LEs                ; 0 LEs                  ; Yes        ; |Z80_VGA|SBCTextDisplayRGB:io1|ps2ConvertedByte[6]                 ;
-; 3:1                ; 4 bits    ; 8 LEs         ; 4 LEs                ; 4 LEs                  ; Yes        ; |Z80_VGA|SBCTextDisplayRGB:io1|pixelClockCount[3]                  ;
+; 3:1                ; 3 bits    ; 6 LEs         ; 6 LEs                ; 0 LEs                  ; Yes        ; |Z80_VGA|SBCTextDisplayRGB:io1|ps2ConvertedByte[2]                 ;
+; 3:1                ; 4 bits    ; 8 LEs         ; 4 LEs                ; 4 LEs                  ; Yes        ; |Z80_VGA|SBCTextDisplayRGB:io1|pixelClockCount[2]                  ;
 ; 4:1                ; 7 bits    ; 14 LEs        ; 14 LEs               ; 0 LEs                  ; Yes        ; |Z80_VGA|SBCTextDisplayRGB:io1|param1[6]                           ;
-; 4:1                ; 7 bits    ; 14 LEs        ; 14 LEs               ; 0 LEs                  ; Yes        ; |Z80_VGA|SBCTextDisplayRGB:io1|param2[3]                           ;
-; 4:1                ; 7 bits    ; 14 LEs        ; 14 LEs               ; 0 LEs                  ; Yes        ; |Z80_VGA|SBCTextDisplayRGB:io1|param3[6]                           ;
+; 4:1                ; 7 bits    ; 14 LEs        ; 14 LEs               ; 0 LEs                  ; Yes        ; |Z80_VGA|SBCTextDisplayRGB:io1|param2[1]                           ;
+; 4:1                ; 7 bits    ; 14 LEs        ; 14 LEs               ; 0 LEs                  ; Yes        ; |Z80_VGA|SBCTextDisplayRGB:io1|param3[0]                           ;
 ; 4:1                ; 2 bits    ; 4 LEs         ; 4 LEs                ; 0 LEs                  ; Yes        ; |Z80_VGA|T80s:cpu1|T80:u0|MCycle[1]                                ;
-; 4:1                ; 8 bits    ; 16 LEs        ; 8 LEs                ; 8 LEs                  ; Yes        ; |Z80_VGA|T80s:cpu1|T80:u0|IR[6]                                    ;
-; 3:1                ; 7 bits    ; 14 LEs        ; 7 LEs                ; 7 LEs                  ; Yes        ; |Z80_VGA|T80s:cpu1|T80:u0|R[2]                                     ;
-; 4:1                ; 4 bits    ; 8 LEs         ; 4 LEs                ; 4 LEs                  ; Yes        ; |Z80_VGA|SBCTextDisplayRGB:io1|ps2ClkCount[1]                      ;
-; 4:1                ; 4 bits    ; 8 LEs         ; 4 LEs                ; 4 LEs                  ; Yes        ; |Z80_VGA|SBCTextDisplayRGB:io1|kbInPointer[0]                      ;
-; 4:1                ; 26 bits   ; 52 LEs        ; 26 LEs               ; 26 LEs                 ; Yes        ; |Z80_VGA|SBCTextDisplayRGB:io1|kbWatchdogTimer[10]                 ;
+; 4:1                ; 8 bits    ; 16 LEs        ; 8 LEs                ; 8 LEs                  ; Yes        ; |Z80_VGA|T80s:cpu1|T80:u0|IR[0]                                    ;
+; 3:1                ; 7 bits    ; 14 LEs        ; 7 LEs                ; 7 LEs                  ; Yes        ; |Z80_VGA|T80s:cpu1|T80:u0|R[6]                                     ;
+; 4:1                ; 4 bits    ; 8 LEs         ; 4 LEs                ; 4 LEs                  ; Yes        ; |Z80_VGA|SBCTextDisplayRGB:io1|ps2ClkCount[3]                      ;
+; 4:1                ; 26 bits   ; 52 LEs        ; 26 LEs               ; 26 LEs                 ; Yes        ; |Z80_VGA|SBCTextDisplayRGB:io1|kbWatchdogTimer[11]                 ;
+; 4:1                ; 4 bits    ; 8 LEs         ; 4 LEs                ; 4 LEs                  ; Yes        ; |Z80_VGA|SBCTextDisplayRGB:io1|kbInPointer[1]                      ;
 ; 4:1                ; 4 bits    ; 8 LEs         ; 4 LEs                ; 4 LEs                  ; Yes        ; |Z80_VGA|SBCTextDisplayRGB:io1|charScanLine[0]                     ;
-; 5:1                ; 6 bits    ; 18 LEs        ; 6 LEs                ; 12 LEs                 ; Yes        ; |Z80_VGA|bufferedUART:UART|rxClockCount[0]                         ;
-; 5:1                ; 5 bits    ; 15 LEs        ; 10 LEs               ; 5 LEs                  ; Yes        ; |Z80_VGA|T80s:cpu1|T80:u0|TmpAddr[6]                               ;
+; 5:1                ; 6 bits    ; 18 LEs        ; 6 LEs                ; 12 LEs                 ; Yes        ; |Z80_VGA|bufferedUART:UART|rxClockCount[1]                         ;
+; 5:1                ; 5 bits    ; 15 LEs        ; 10 LEs               ; 5 LEs                  ; Yes        ; |Z80_VGA|T80s:cpu1|T80:u0|TmpAddr[1]                               ;
 ; 5:1                ; 3 bits    ; 9 LEs         ; 6 LEs                ; 3 LEs                  ; Yes        ; |Z80_VGA|T80s:cpu1|T80:u0|TmpAddr[3]                               ;
-; 5:1                ; 8 bits    ; 24 LEs        ; 16 LEs               ; 8 LEs                  ; Yes        ; |Z80_VGA|T80s:cpu1|T80:u0|TmpAddr[10]                              ;
-; 5:1                ; 5 bits    ; 15 LEs        ; 5 LEs                ; 10 LEs                 ; Yes        ; |Z80_VGA|SBCTextDisplayRGB:io1|ps2WriteClkCount[2]                 ;
-; 5:1                ; 4 bits    ; 12 LEs        ; 4 LEs                ; 8 LEs                  ; Yes        ; |Z80_VGA|bufferedUART:UART|rxBitCount[0]                           ;
-; 5:1                ; 4 bits    ; 12 LEs        ; 4 LEs                ; 8 LEs                  ; Yes        ; |Z80_VGA|bufferedUART:UART|txBitCount[0]                           ;
-; 5:1                ; 7 bits    ; 21 LEs        ; 7 LEs                ; 14 LEs                 ; Yes        ; |Z80_VGA|bufferedUART:UART|txBuffer[3]                             ;
-; 5:1                ; 8 bits    ; 24 LEs        ; 16 LEs               ; 8 LEs                  ; Yes        ; |Z80_VGA|SBCTextDisplayRGB:io1|dispCharWRData[4]                   ;
-; 5:1                ; 8 bits    ; 24 LEs        ; 16 LEs               ; 8 LEs                  ; Yes        ; |Z80_VGA|T80s:cpu1|T80:u0|DO[5]                                    ;
-; 12:1               ; 8 bits    ; 64 LEs        ; 32 LEs               ; 32 LEs                 ; Yes        ; |Z80_VGA|T80s:cpu1|T80:u0|BusA[3]                                  ;
-; 11:1               ; 8 bits    ; 56 LEs        ; 48 LEs               ; 8 LEs                  ; Yes        ; |Z80_VGA|T80s:cpu1|T80:u0|BusB[6]                                  ;
-; 6:1                ; 6 bits    ; 24 LEs        ; 6 LEs                ; 18 LEs                 ; Yes        ; |Z80_VGA|bufferedUART:UART|txClockCount[5]                         ;
-; 7:1                ; 3 bits    ; 12 LEs        ; 12 LEs               ; 0 LEs                  ; Yes        ; |Z80_VGA|SBCTextDisplayRGB:io1|videoR1                             ;
-; 8:1                ; 26 bits   ; 130 LEs       ; 26 LEs               ; 104 LEs                ; Yes        ; |Z80_VGA|SBCTextDisplayRGB:io1|kbWriteTimer[23]                    ;
+; 5:1                ; 8 bits    ; 24 LEs        ; 16 LEs               ; 8 LEs                  ; Yes        ; |Z80_VGA|T80s:cpu1|T80:u0|TmpAddr[11]                              ;
+; 5:1                ; 5 bits    ; 15 LEs        ; 5 LEs                ; 10 LEs                 ; Yes        ; |Z80_VGA|SBCTextDisplayRGB:io1|ps2WriteClkCount[1]                 ;
+; 5:1                ; 4 bits    ; 12 LEs        ; 4 LEs                ; 8 LEs                  ; Yes        ; |Z80_VGA|bufferedUART:UART|rxBitCount[3]                           ;
+; 5:1                ; 4 bits    ; 12 LEs        ; 4 LEs                ; 8 LEs                  ; Yes        ; |Z80_VGA|bufferedUART:UART|txBitCount[3]                           ;
+; 5:1                ; 7 bits    ; 21 LEs        ; 7 LEs                ; 14 LEs                 ; Yes        ; |Z80_VGA|bufferedUART:UART|txBuffer[2]                             ;
+; 5:1                ; 8 bits    ; 24 LEs        ; 16 LEs               ; 8 LEs                  ; Yes        ; |Z80_VGA|SBCTextDisplayRGB:io1|dispCharWRData[0]                   ;
+; 5:1                ; 8 bits    ; 24 LEs        ; 16 LEs               ; 8 LEs                  ; Yes        ; |Z80_VGA|T80s:cpu1|T80:u0|DO[3]                                    ;
+; 11:1               ; 8 bits    ; 56 LEs        ; 48 LEs               ; 8 LEs                  ; Yes        ; |Z80_VGA|T80s:cpu1|T80:u0|BusB[3]                                  ;
+; 12:1               ; 8 bits    ; 64 LEs        ; 32 LEs               ; 32 LEs                 ; Yes        ; |Z80_VGA|T80s:cpu1|T80:u0|BusA[1]                                  ;
+; 6:1                ; 6 bits    ; 24 LEs        ; 6 LEs                ; 18 LEs                 ; Yes        ; |Z80_VGA|bufferedUART:UART|txClockCount[0]                         ;
+; 7:1                ; 3 bits    ; 12 LEs        ; 12 LEs               ; 0 LEs                  ; Yes        ; |Z80_VGA|SBCTextDisplayRGB:io1|videoG1                             ;
+; 8:1                ; 26 bits   ; 130 LEs       ; 26 LEs               ; 104 LEs                ; Yes        ; |Z80_VGA|SBCTextDisplayRGB:io1|kbWriteTimer[11]                    ;
 ; 6:1                ; 7 bits    ; 28 LEs        ; 7 LEs                ; 21 LEs                 ; Yes        ; |Z80_VGA|SBCTextDisplayRGB:io1|startAddr[7]                        ;
-; 10:1               ; 3 bits    ; 18 LEs        ; 18 LEs               ; 0 LEs                  ; Yes        ; |Z80_VGA|SBCTextDisplayRGB:io1|videoB0                             ;
+; 10:1               ; 3 bits    ; 18 LEs        ; 18 LEs               ; 0 LEs                  ; Yes        ; |Z80_VGA|SBCTextDisplayRGB:io1|videoR0                             ;
 ; 10:1               ; 3 bits    ; 18 LEs        ; 12 LEs               ; 6 LEs                  ; Yes        ; |Z80_VGA|SBCTextDisplayRGB:io1|paramCount[0]                       ;
-; 10:1               ; 7 bits    ; 42 LEs        ; 21 LEs               ; 21 LEs                 ; Yes        ; |Z80_VGA|T80s:cpu1|T80:u0|PC[6]                                    ;
-; 10:1               ; 8 bits    ; 48 LEs        ; 32 LEs               ; 16 LEs                 ; Yes        ; |Z80_VGA|T80s:cpu1|T80:u0|PC[9]                                    ;
-; 16:1               ; 8 bits    ; 80 LEs        ; 32 LEs               ; 48 LEs                 ; Yes        ; |Z80_VGA|T80s:cpu1|T80:u0|A[4]                                     ;
-; 16:1               ; 8 bits    ; 80 LEs        ; 40 LEs               ; 40 LEs                 ; Yes        ; |Z80_VGA|T80s:cpu1|T80:u0|A[15]                                    ;
-; 12:1               ; 7 bits    ; 56 LEs        ; 7 LEs                ; 49 LEs                 ; Yes        ; |Z80_VGA|SBCTextDisplayRGB:io1|cursorHorizRestore[3]               ;
+; 10:1               ; 7 bits    ; 42 LEs        ; 21 LEs               ; 21 LEs                 ; Yes        ; |Z80_VGA|T80s:cpu1|T80:u0|PC[3]                                    ;
+; 10:1               ; 8 bits    ; 48 LEs        ; 32 LEs               ; 16 LEs                 ; Yes        ; |Z80_VGA|T80s:cpu1|T80:u0|PC[10]                                   ;
+; 16:1               ; 8 bits    ; 80 LEs        ; 32 LEs               ; 48 LEs                 ; Yes        ; |Z80_VGA|T80s:cpu1|T80:u0|A[3]                                     ;
+; 16:1               ; 8 bits    ; 80 LEs        ; 40 LEs               ; 40 LEs                 ; Yes        ; |Z80_VGA|T80s:cpu1|T80:u0|A[9]                                     ;
+; 12:1               ; 7 bits    ; 56 LEs        ; 7 LEs                ; 49 LEs                 ; Yes        ; |Z80_VGA|SBCTextDisplayRGB:io1|cursorHorizRestore[4]               ;
 ; 13:1               ; 5 bits    ; 40 LEs        ; 5 LEs                ; 35 LEs                 ; Yes        ; |Z80_VGA|SBCTextDisplayRGB:io1|cursorVertRestore[0]                ;
 ; 35:1               ; 7 bits    ; 161 LEs       ; 77 LEs               ; 84 LEs                 ; Yes        ; |Z80_VGA|SBCTextDisplayRGB:io1|cursorHoriz[1]                      ;
 ; 41:1               ; 2 bits    ; 54 LEs        ; 24 LEs               ; 30 LEs                 ; Yes        ; |Z80_VGA|SBCTextDisplayRGB:io1|cursorVert[2]                       ;
-; 5:1                ; 8 bits    ; 24 LEs        ; 16 LEs               ; 8 LEs                  ; Yes        ; |Z80_VGA|T80s:cpu1|T80:u0|SP[3]                                    ;
-; 5:1                ; 8 bits    ; 24 LEs        ; 16 LEs               ; 8 LEs                  ; Yes        ; |Z80_VGA|T80s:cpu1|T80:u0|SP[9]                                    ;
-; 7:1                ; 5 bits    ; 20 LEs        ; 5 LEs                ; 15 LEs                 ; Yes        ; |Z80_VGA|SBCTextDisplayRGB:io1|ps2WriteByte[4]                     ;
-; 7:1                ; 8 bits    ; 32 LEs        ; 24 LEs               ; 8 LEs                  ; Yes        ; |Z80_VGA|T80s:cpu1|T80:u0|ACC[1]                                   ;
+; 5:1                ; 8 bits    ; 24 LEs        ; 16 LEs               ; 8 LEs                  ; Yes        ; |Z80_VGA|T80s:cpu1|T80:u0|SP[6]                                    ;
+; 5:1                ; 8 bits    ; 24 LEs        ; 16 LEs               ; 8 LEs                  ; Yes        ; |Z80_VGA|T80s:cpu1|T80:u0|SP[8]                                    ;
+; 7:1                ; 5 bits    ; 20 LEs        ; 5 LEs                ; 15 LEs                 ; Yes        ; |Z80_VGA|SBCTextDisplayRGB:io1|ps2WriteByte[0]                     ;
+; 7:1                ; 8 bits    ; 32 LEs        ; 24 LEs               ; 8 LEs                  ; Yes        ; |Z80_VGA|T80s:cpu1|T80:u0|ACC[2]                                   ;
 ; 17:1               ; 2 bits    ; 22 LEs        ; 12 LEs               ; 10 LEs                 ; Yes        ; |Z80_VGA|T80s:cpu1|T80:u0|F[3]                                     ;
 ; 3:1                ; 2 bits    ; 4 LEs         ; 2 LEs                ; 2 LEs                  ; No         ; |Z80_VGA|T80s:cpu1|T80:u0|T80_MCode:mcode|Mux47                    ;
 ; 3:1                ; 4 bits    ; 8 LEs         ; 4 LEs                ; 4 LEs                  ; No         ; |Z80_VGA|T80s:cpu1|T80:u0|T80_ALU:alu|Q_t                          ;
-; 3:1                ; 3 bits    ; 6 LEs         ; 6 LEs                ; 0 LEs                  ; No         ; |Z80_VGA|T80s:cpu1|T80:u0|T80_ALU:alu|DAA_Q[3]                     ;
+; 3:1                ; 3 bits    ; 6 LEs         ; 6 LEs                ; 0 LEs                  ; No         ; |Z80_VGA|T80s:cpu1|T80:u0|T80_ALU:alu|DAA_Q[1]                     ;
 ; 3:1                ; 3 bits    ; 6 LEs         ; 3 LEs                ; 3 LEs                  ; No         ; |Z80_VGA|SBCTextDisplayRGB:io1|paramCount                          ;
 ; 3:1                ; 2 bits    ; 4 LEs         ; 4 LEs                ; 0 LEs                  ; No         ; |Z80_VGA|T80s:cpu1|T80:u0|Save_Mux[3]                              ;
 ; 4:1                ; 2 bits    ; 4 LEs         ; 2 LEs                ; 2 LEs                  ; No         ; |Z80_VGA|SBCTextDisplayRGB:io1|dispState                           ;
-; 8:1                ; 16 bits   ; 80 LEs        ; 80 LEs               ; 0 LEs                  ; No         ; |Z80_VGA|T80s:cpu1|T80:u0|T80_Reg:Regs|Mux40                       ;
-; 8:1                ; 8 bits    ; 40 LEs        ; 16 LEs               ; 24 LEs                 ; No         ; |Z80_VGA|T80s:cpu1|T80:u0|T80_ALU:alu|Mux11                        ;
-; 4:1                ; 3 bits    ; 6 LEs         ; 6 LEs                ; 0 LEs                  ; No         ; |Z80_VGA|T80s:cpu1|T80:u0|T80_ALU:alu|DAA_Q[5]                     ;
-; 4:1                ; 16 bits   ; 32 LEs        ; 32 LEs               ; 0 LEs                  ; No         ; |Z80_VGA|T80s:cpu1|T80:u0|RegDIH[3]                                ;
-; 8:1                ; 16 bits   ; 80 LEs        ; 80 LEs               ; 0 LEs                  ; No         ; |Z80_VGA|T80s:cpu1|T80:u0|T80_Reg:Regs|Mux26                       ;
-; 8:1                ; 16 bits   ; 80 LEs        ; 80 LEs               ; 0 LEs                  ; No         ; |Z80_VGA|T80s:cpu1|T80:u0|T80_Reg:Regs|Mux12                       ;
-; 5:1                ; 2 bits    ; 6 LEs         ; 6 LEs                ; 0 LEs                  ; No         ; |Z80_VGA|T80s:cpu1|T80:u0|RegAddrA[0]                              ;
-; 7:1                ; 2 bits    ; 8 LEs         ; 4 LEs                ; 4 LEs                  ; No         ; |Z80_VGA|SBCTextDisplayRGB:io1|escState.processingParams           ;
+; 8:1                ; 8 bits    ; 40 LEs        ; 16 LEs               ; 24 LEs                 ; No         ; |Z80_VGA|T80s:cpu1|T80:u0|T80_ALU:alu|Mux8                         ;
+; 8:1                ; 16 bits   ; 80 LEs        ; 80 LEs               ; 0 LEs                  ; No         ; |Z80_VGA|T80s:cpu1|T80:u0|T80_Reg:Regs|Mux33                       ;
+; 4:1                ; 3 bits    ; 6 LEs         ; 6 LEs                ; 0 LEs                  ; No         ; |Z80_VGA|T80s:cpu1|T80:u0|T80_ALU:alu|DAA_Q[7]                     ;
+; 4:1                ; 16 bits   ; 32 LEs        ; 32 LEs               ; 0 LEs                  ; No         ; |Z80_VGA|T80s:cpu1|T80:u0|RegDIH[0]                                ;
+; 8:1                ; 16 bits   ; 80 LEs        ; 80 LEs               ; 0 LEs                  ; No         ; |Z80_VGA|T80s:cpu1|T80:u0|T80_Reg:Regs|Mux25                       ;
+; 8:1                ; 16 bits   ; 80 LEs        ; 80 LEs               ; 0 LEs                  ; No         ; |Z80_VGA|T80s:cpu1|T80:u0|T80_Reg:Regs|Mux0                        ;
+; 5:1                ; 2 bits    ; 6 LEs         ; 6 LEs                ; 0 LEs                  ; No         ; |Z80_VGA|T80s:cpu1|T80:u0|RegAddrA[1]                              ;
+; 7:1                ; 2 bits    ; 8 LEs         ; 4 LEs                ; 4 LEs                  ; No         ; |Z80_VGA|SBCTextDisplayRGB:io1|escState.waitForLeftBracket         ;
 ; 7:1                ; 2 bits    ; 8 LEs         ; 6 LEs                ; 2 LEs                  ; No         ; |Z80_VGA|SBCTextDisplayRGB:io1|escState.processingAdditionalParams ;
-; 7:1                ; 5 bits    ; 20 LEs        ; 20 LEs               ; 0 LEs                  ; No         ; |Z80_VGA|cpuDataIn[3]                                              ;
-; 7:1                ; 3 bits    ; 12 LEs        ; 12 LEs               ; 0 LEs                  ; No         ; |Z80_VGA|cpuDataIn[2]                                              ;
-; 17:1               ; 4 bits    ; 44 LEs        ; 24 LEs               ; 20 LEs                 ; No         ; |Z80_VGA|T80s:cpu1|T80:u0|Save_Mux[4]                              ;
+; 17:1               ; 4 bits    ; 44 LEs        ; 24 LEs               ; 20 LEs                 ; No         ; |Z80_VGA|T80s:cpu1|T80:u0|Save_Mux[6]                              ;
+; 7:1                ; 5 bits    ; 20 LEs        ; 20 LEs               ; 0 LEs                  ; No         ; |Z80_VGA|cpuDataIn[7]                                              ;
+; 7:1                ; 3 bits    ; 12 LEs        ; 12 LEs               ; 0 LEs                  ; No         ; |Z80_VGA|cpuDataIn[0]                                              ;
 ; 7:1                ; 3 bits    ; 12 LEs        ; 6 LEs                ; 6 LEs                  ; No         ; |Z80_VGA|bufferedUART:UART|txState.dataBit                         ;
-; 7:1                ; 3 bits    ; 12 LEs        ; 6 LEs                ; 6 LEs                  ; No         ; |Z80_VGA|bufferedUART:UART|rxState.dataBit                         ;
+; 7:1                ; 3 bits    ; 12 LEs        ; 6 LEs                ; 6 LEs                  ; No         ; |Z80_VGA|bufferedUART:UART|rxState.stopBit                         ;
 ; 9:1                ; 9 bits    ; 54 LEs        ; 9 LEs                ; 45 LEs                 ; No         ; |Z80_VGA|SBCTextDisplayRGB:io1|dispState                           ;
-; 19:1               ; 2 bits    ; 24 LEs        ; 4 LEs                ; 20 LEs                 ; No         ; |Z80_VGA|T80s:cpu1|T80:u0|RegWEH                                   ;
-; 10:1               ; 2 bits    ; 12 LEs        ; 12 LEs               ; 0 LEs                  ; No         ; |Z80_VGA|T80s:cpu1|T80:u0|Save_Mux[7]                              ;
+; 19:1               ; 2 bits    ; 24 LEs        ; 4 LEs                ; 20 LEs                 ; No         ; |Z80_VGA|T80s:cpu1|T80:u0|RegWEL                                   ;
+; 10:1               ; 2 bits    ; 12 LEs        ; 12 LEs               ; 0 LEs                  ; No         ; |Z80_VGA|T80s:cpu1|T80:u0|Save_Mux[5]                              ;
 +--------------------+-----------+---------------+----------------------+------------------------+------------+--------------------------------------------------------------------+
 
 
@@ -1103,13 +1103,13 @@ Note: In order to hide this table in the UI and the text report file, please set
 Note: In order to hide this table in the UI and the text report file, please set the "Show Parameter Settings in Synthesis Report" option in "Analysis and Synthesis Settings -> More Settings" to "Off".
 
 
-+------------------------------------------------------------+
-; Parameter Settings for User Entity Instance: OUT_LATCH:io3 ;
-+----------------+-------+-----------------------------------+
-; Parameter Name ; Value ; Type                              ;
-+----------------+-------+-----------------------------------+
-; n              ; 8     ; Signed Integer                    ;
-+----------------+-------+-----------------------------------+
++-----------------------------------------------------------+
+; Parameter Settings for User Entity Instance: OutLatch:io3 ;
++----------------+-------+----------------------------------+
+; Parameter Name ; Value ; Type                             ;
++----------------+-------+----------------------------------+
+; n              ; 8     ; Signed Integer                   ;
++----------------+-------+----------------------------------+
 Note: In order to hide this table in the UI and the text report file, please set the "Show Parameter Settings in Synthesis Report" option in "Analysis and Synthesis Settings -> More Settings" to "Off".
 
 
@@ -1318,7 +1318,7 @@ Note: In order to hide this table in the UI and the text report file, please set
 
 
 +--------------------------------------------------------------------------------------------------------------------------+
-; Port Connectivity Checks: "OUT_LATCH:io3"                                                                                ;
+; Port Connectivity Checks: "OutLatch:io3"                                                                                 ;
 +----------------+--------+----------+-------------------------------------------------------------------------------------+
 ; Port           ; Type   ; Severity ; Details                                                                             ;
 +----------------+--------+----------+-------------------------------------------------------------------------------------+
@@ -1407,10 +1407,10 @@ Note: In order to hide this table in the UI and the text report file, please set
 +-----------------------+-----------------------------+
 ; boundary_port         ; 33                          ;
 ; cycloneiii_ff         ; 879                         ;
-;     CLR               ; 62                          ;
+;     CLR               ; 60                          ;
 ;     CLR SLD           ; 4                           ;
 ;     ENA               ; 358                         ;
-;     ENA CLR           ; 137                         ;
+;     ENA CLR           ; 139                         ;
 ;     ENA CLR SCLR      ; 18                          ;
 ;     ENA CLR SLD       ; 19                          ;
 ;     ENA SCLR          ; 103                         ;
@@ -1419,20 +1419,20 @@ Note: In order to hide this table in the UI and the text report file, please set
 ;     SCLR              ; 44                          ;
 ;     plain             ; 105                         ;
 ; cycloneiii_io_obuf    ; 2                           ;
-; cycloneiii_lcell_comb ; 3621                        ;
+; cycloneiii_lcell_comb ; 3628                        ;
 ;     arith             ; 513                         ;
 ;         2 data inputs ; 300                         ;
 ;         3 data inputs ; 213                         ;
-;     normal            ; 3108                        ;
+;     normal            ; 3115                        ;
 ;         0 data inputs ; 19                          ;
-;         1 data inputs ; 59                          ;
-;         2 data inputs ; 268                         ;
-;         3 data inputs ; 569                         ;
-;         4 data inputs ; 2193                        ;
+;         1 data inputs ; 57                          ;
+;         2 data inputs ; 286                         ;
+;         3 data inputs ; 604                         ;
+;         4 data inputs ; 2149                        ;
 ; cycloneiii_ram_block  ; 56                          ;
 ;                       ;                             ;
-; Max LUT depth         ; 18.20                       ;
-; Average LUT depth     ; 7.59                        ;
+; Max LUT depth         ; 19.00                       ;
+; Average LUT depth     ; 7.61                        ;
 +-----------------------+-----------------------------+
 
 
@@ -1441,7 +1441,7 @@ Note: In order to hide this table in the UI and the text report file, please set
 +----------------+--------------+
 ; Partition Name ; Elapsed Time ;
 +----------------+--------------+
-; Top            ; 00:00:45     ;
+; Top            ; 00:00:26     ;
 +----------------+--------------+
 
 
@@ -1451,7 +1451,7 @@ Note: In order to hide this table in the UI and the text report file, please set
 Info: *******************************************************************
 Info: Running Quartus Prime Analysis & Synthesis
     Info: Version 18.1.0 Build 625 09/12/2018 SJ Lite Edition
-    Info: Processing started: Sun Apr 21 12:54:02 2019
+    Info: Processing started: Sun Apr 28 12:02:44 2019
 Info: Command: quartus_map --read_settings_files=on --write_settings_files=off Z80_VGA -c Z80_VGA
 Warning (18236): Number of processors has not been specified which may cause overloading on shared machines.  Set the global assignment NUM_PARALLEL_PROCESSORS in your QSF to an appropriate value for best performance.
 Info (20030): Parallel compilation is enabled and will use 2 of the 2 processors detected
@@ -1479,8 +1479,8 @@ Info (12021): Found 2 design units, including 1 entities, in source file /users/
     Info (12022): Found design unit 1: T80-rtl File: C:/Users/Doug/Documents/GitHub/MultiComp/MultiComp (VHDL Template)/Components/Z80/T80.vhd Line: 115
     Info (12023): Found entity 1: T80 File: C:/Users/Doug/Documents/GitHub/MultiComp/MultiComp (VHDL Template)/Components/Z80/T80.vhd Line: 75
 Info (12021): Found 2 design units, including 1 entities, in source file /users/doug/documents/github/multicomp/multicomp (vhdl template)/components/io/outlatch.vhd
-    Info (12022): Found design unit 1: OUT_LATCH-behv File: C:/Users/Doug/Documents/GitHub/MultiComp/MultiComp (VHDL Template)/Components/IO/OutLatch.vhd Line: 23
-    Info (12023): Found entity 1: OUT_LATCH File: C:/Users/Doug/Documents/GitHub/MultiComp/MultiComp (VHDL Template)/Components/IO/OutLatch.vhd Line: 10
+    Info (12022): Found design unit 1: OutLatch-behv File: C:/Users/Doug/Documents/GitHub/MultiComp/MultiComp (VHDL Template)/Components/IO/OutLatch.vhd Line: 23
+    Info (12023): Found entity 1: OutLatch File: C:/Users/Doug/Documents/GitHub/MultiComp/MultiComp (VHDL Template)/Components/IO/OutLatch.vhd Line: 10
 Info (12021): Found 4 design units, including 2 entities, in source file /users/doug/documents/github/multicomp/multicomp (vhdl template)/components/counter/counter.vhd
     Info (12022): Found design unit 1: counter-behv File: C:/Users/Doug/Documents/GitHub/MultiComp/MultiComp (VHDL Template)/Components/COUNTER/Counter.vhd Line: 28
     Info (12022): Found design unit 2: seq_design-FSM File: C:/Users/Doug/Documents/GitHub/MultiComp/MultiComp (VHDL Template)/Components/COUNTER/Counter.vhd Line: 83
@@ -1520,7 +1520,7 @@ Info (12127): Elaborating entity "Z80_VGA" for the top level hierarchy
 Warning (10036): Verilog HDL or VHDL warning at Z80_VGA.vhd(70): object "n_memRD" assigned a value but never read File: C:/Users/Doug/Documents/GitHub/MultiComp/MultiComp_On_Cyclone IV VGA Card/Z80_VGA_PS2_UART_16K/Z80_VGA.vhd Line: 70
 Warning (10036): Verilog HDL or VHDL warning at Z80_VGA.vhd(84): object "n_int1" assigned a value but never read File: C:/Users/Doug/Documents/GitHub/MultiComp/MultiComp_On_Cyclone IV VGA Card/Z80_VGA_PS2_UART_16K/Z80_VGA.vhd Line: 84
 Warning (10036): Verilog HDL or VHDL warning at Z80_VGA.vhd(85): object "n_int2" assigned a value but never read File: C:/Users/Doug/Documents/GitHub/MultiComp/MultiComp_On_Cyclone IV VGA Card/Z80_VGA_PS2_UART_16K/Z80_VGA.vhd Line: 85
-Warning (10492): VHDL Process Statement warning at Z80_VGA.vhd(319): signal "fKey2" is read inside the Process Statement but isn't in the Process Statement's sensitivity list File: C:/Users/Doug/Documents/GitHub/MultiComp/MultiComp_On_Cyclone IV VGA Card/Z80_VGA_PS2_UART_16K/Z80_VGA.vhd Line: 319
+Warning (10492): VHDL Process Statement warning at Z80_VGA.vhd(320): signal "fKey2" is read inside the Process Statement but isn't in the Process Statement's sensitivity list File: C:/Users/Doug/Documents/GitHub/MultiComp/MultiComp_On_Cyclone IV VGA Card/Z80_VGA_PS2_UART_16K/Z80_VGA.vhd Line: 320
 Info (12128): Elaborating entity "T80s" for hierarchy "T80s:cpu1" File: C:/Users/Doug/Documents/GitHub/MultiComp/MultiComp_On_Cyclone IV VGA Card/Z80_VGA_PS2_UART_16K/Z80_VGA.vhd Line: 138
 Info (12128): Elaborating entity "T80" for hierarchy "T80s:cpu1|T80:u0" File: C:/Users/Doug/Documents/GitHub/MultiComp/MultiComp (VHDL Template)/Components/Z80/T80s.vhd Line: 115
 Info (12128): Elaborating entity "T80_MCode" for hierarchy "T80s:cpu1|T80:u0|T80_MCode:mcode" File: C:/Users/Doug/Documents/GitHub/MultiComp/MultiComp (VHDL Template)/Components/Z80/T80.vhd Line: 244
@@ -1745,7 +1745,7 @@ Info (12021): Found 1 design units, including 1 entities, in source file db/alts
 Info (12128): Elaborating entity "altsyncram_ldr3" for hierarchy "SBCTextDisplayRGB:io1|DisplayRam2K:\GEN_2KRAM:dispCharRam|altsyncram:altsyncram_component|altsyncram_ldr3:auto_generated" File: c:/intelfpga_lite/18.1/quartus/libraries/megafunctions/altsyncram.tdf Line: 791
 Info (12128): Elaborating entity "bufferedUART" for hierarchy "bufferedUART:UART" File: C:/Users/Doug/Documents/GitHub/MultiComp/MultiComp_On_Cyclone IV VGA Card/Z80_VGA_PS2_UART_16K/Z80_VGA.vhd Line: 199
 Info (12128): Elaborating entity "Toggle_On_FN_Key" for hierarchy "Toggle_On_FN_Key:FNKey1Toggle" File: C:/Users/Doug/Documents/GitHub/MultiComp/MultiComp_On_Cyclone IV VGA Card/Z80_VGA_PS2_UART_16K/Z80_VGA.vhd Line: 217
-Info (12128): Elaborating entity "OUT_LATCH" for hierarchy "OUT_LATCH:io3" File: C:/Users/Doug/Documents/GitHub/MultiComp/MultiComp_On_Cyclone IV VGA Card/Z80_VGA_PS2_UART_16K/Z80_VGA.vhd Line: 233
+Info (12128): Elaborating entity "OutLatch" for hierarchy "OutLatch:io3" File: C:/Users/Doug/Documents/GitHub/MultiComp/MultiComp_On_Cyclone IV VGA Card/Z80_VGA_PS2_UART_16K/Z80_VGA.vhd Line: 233
 Info (12128): Elaborating entity "counter" for hierarchy "counter:myCounter" File: C:/Users/Doug/Documents/GitHub/MultiComp/MultiComp_On_Cyclone IV VGA Card/Z80_VGA_PS2_UART_16K/Z80_VGA.vhd Line: 242
 Warning (276027): Inferred dual-clock RAM node "bufferedUART:UART|rxBuffer_rtl_0" from synchronous design logic.  The read-during-write behavior of a dual-clock RAM is undefined and may not match the behavior of the original design.
 Info (276014): Found 1 instances of uninferred RAM logic
@@ -1803,11 +1803,13 @@ Info (12021): Found 1 design units, including 1 entities, in source file db/add_
     Info (12023): Found entity 1: add_sub_7pc File: C:/Users/Doug/Documents/GitHub/MultiComp/MultiComp_On_Cyclone IV VGA Card/Z80_VGA_PS2_UART_16K/db/add_sub_7pc.tdf Line: 22
 Info (12021): Found 1 design units, including 1 entities, in source file db/add_sub_8pc.tdf
     Info (12023): Found entity 1: add_sub_8pc File: C:/Users/Doug/Documents/GitHub/MultiComp/MultiComp_On_Cyclone IV VGA Card/Z80_VGA_PS2_UART_16K/db/add_sub_8pc.tdf Line: 22
-Info (13000): Registers with preset signals will power-up high File: C:/Users/Doug/Documents/GitHub/MultiComp/MultiComp (VHDL Template)/Components/Z80/T80s.vhd Line: 88
+Info (13000): Registers with preset signals will power-up high File: C:/Users/Doug/Documents/GitHub/MultiComp/MultiComp (VHDL Template)/Components/TERMINAL/SBCTextDisplayRGB.vhd Line: 866
 Info (13003): DEV_CLRn pin will set, and not reset, register with preset signal due to NOT Gate Push-Back
 Warning (13024): Output pins are stuck at VCC or GND
+    Warning (13410): Pin "videoR0" is stuck at GND File: C:/Users/Doug/Documents/GitHub/MultiComp/MultiComp_On_Cyclone IV VGA Card/Z80_VGA_PS2_UART_16K/Z80_VGA.vhd Line: 18
     Warning (13410): Pin "videoR1" is stuck at GND File: C:/Users/Doug/Documents/GitHub/MultiComp/MultiComp_On_Cyclone IV VGA Card/Z80_VGA_PS2_UART_16K/Z80_VGA.vhd Line: 19
     Warning (13410): Pin "videoR2" is stuck at GND File: C:/Users/Doug/Documents/GitHub/MultiComp/MultiComp_On_Cyclone IV VGA Card/Z80_VGA_PS2_UART_16K/Z80_VGA.vhd Line: 20
+    Warning (13410): Pin "videoG0" is stuck at GND File: C:/Users/Doug/Documents/GitHub/MultiComp/MultiComp_On_Cyclone IV VGA Card/Z80_VGA_PS2_UART_16K/Z80_VGA.vhd Line: 23
     Warning (13410): Pin "videoG1" is stuck at GND File: C:/Users/Doug/Documents/GitHub/MultiComp/MultiComp_On_Cyclone IV VGA Card/Z80_VGA_PS2_UART_16K/Z80_VGA.vhd Line: 24
     Warning (13410): Pin "videoG2" is stuck at GND File: C:/Users/Doug/Documents/GitHub/MultiComp/MultiComp_On_Cyclone IV VGA Card/Z80_VGA_PS2_UART_16K/Z80_VGA.vhd Line: 25
     Warning (13410): Pin "videoG3" is stuck at GND File: C:/Users/Doug/Documents/GitHub/MultiComp/MultiComp_On_Cyclone IV VGA Card/Z80_VGA_PS2_UART_16K/Z80_VGA.vhd Line: 26
@@ -1818,16 +1820,16 @@ Info (286030): Timing-Driven Synthesis is running
 Info (17049): 18 registers lost all their fanouts during netlist optimizations.
 Info (16010): Generating hard_block partition "hard_block:auto_generated_inst"
     Info (16011): Adding 0 node(s), including 0 DDIO, 0 PLL, 0 transceiver and 0 LCELL
-Info (21057): Implemented 4013 device resources after synthesis - the final resource count might be different
+Info (21057): Implemented 4024 device resources after synthesis - the final resource count might be different
     Info (21058): Implemented 6 input pins
     Info (21059): Implemented 25 output pins
     Info (21060): Implemented 2 bidirectional pins
-    Info (21061): Implemented 3924 logic cells
+    Info (21061): Implemented 3935 logic cells
     Info (21064): Implemented 56 RAM segments
-Info: Quartus Prime Analysis & Synthesis was successful. 0 errors, 31 warnings
-    Info: Peak virtual memory: 707 megabytes
-    Info: Processing ended: Sun Apr 21 12:55:24 2019
-    Info: Elapsed time: 00:01:22
-    Info: Total CPU time (on all processors): 00:01:03
+Info: Quartus Prime Analysis & Synthesis was successful. 0 errors, 33 warnings
+    Info: Peak virtual memory: 692 megabytes
+    Info: Processing ended: Sun Apr 28 12:03:32 2019
+    Info: Elapsed time: 00:00:48
+    Info: Total CPU time (on all processors): 00:00:56
 
 

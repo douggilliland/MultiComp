@@ -11,7 +11,7 @@ library IEEE;
 use IEEE.STD_LOGIC_1164.ALL;
 use IEEE.NUMERIC_STD.ALL;
 
-entity vga is
+entity vga_Insignia_Monitor is
 	port (
 		charAddr : out std_LOGIC_VECTOR(10 downto 0);
 		charData : in std_LOGIC_VECTOR(7 downto 0);
@@ -20,10 +20,10 @@ entity vga is
  		CLOCK_40    	: in  std_logic;
 		Vout:      out unsigned(17 downto 0) -- rrrrr,gggggg,bbbbb,hsync,vsync
 	);
-end vga;
+end vga_Insignia_Monitor;
 
 
-architecture Behavioral of vga is
+architecture Behavioral of vga_Insignia_Monitor is
 
 constant BorderCol						: unsigned(15 downto 0):="0000000000000000";	-- Black border
 --constant BorderCol						: unsigned(15 downto 0):="0000011111111111";	-- Cyan border

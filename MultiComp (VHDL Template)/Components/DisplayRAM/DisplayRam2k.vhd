@@ -4,7 +4,7 @@
 -- MODULE: altsyncram 
 
 -- ============================================================
--- File Name: DisplayRam.vhd
+-- File Name: DisplayRam2k.vhd
 -- Megafunction Name(s):
 -- 			altsyncram
 --
@@ -39,7 +39,7 @@ USE ieee.std_logic_1164.all;
 LIBRARY altera_mf;
 USE altera_mf.all;
 
-ENTITY DisplayRam IS
+ENTITY DisplayRam2k IS
 	PORT
 	(
 		address_a		: IN STD_LOGIC_VECTOR (10 DOWNTO 0);
@@ -52,10 +52,10 @@ ENTITY DisplayRam IS
 		q_a		: OUT STD_LOGIC_VECTOR (7 DOWNTO 0);
 		q_b		: OUT STD_LOGIC_VECTOR (7 DOWNTO 0)
 	);
-END DisplayRam;
+END DisplayRam2k;
 
 
-ARCHITECTURE SYN OF displayram IS
+ARCHITECTURE SYN OF DisplayRam2k IS
 
 	SIGNAL sub_wire0	: STD_LOGIC_VECTOR (7 DOWNTO 0);
 	SIGNAL sub_wire1	: STD_LOGIC_VECTOR (7 DOWNTO 0);
@@ -254,9 +254,9 @@ END SYN;
 -- Retrieval info: CONNECT: @wren_b 0 0 0 0 wren_b 0 0 0 0
 -- Retrieval info: CONNECT: q_a 0 0 8 0 @q_a 0 0 8 0
 -- Retrieval info: CONNECT: q_b 0 0 8 0 @q_b 0 0 8 0
--- Retrieval info: GEN_FILE: TYPE_NORMAL DisplayRam.vhd TRUE
--- Retrieval info: GEN_FILE: TYPE_NORMAL DisplayRam.inc FALSE
--- Retrieval info: GEN_FILE: TYPE_NORMAL DisplayRam.cmp TRUE
--- Retrieval info: GEN_FILE: TYPE_NORMAL DisplayRam.bsf FALSE
--- Retrieval info: GEN_FILE: TYPE_NORMAL DisplayRam_inst.vhd TRUE
+-- Retrieval info: GEN_FILE: TYPE_NORMAL DisplayRam2k.vhd TRUE
+-- Retrieval info: GEN_FILE: TYPE_NORMAL DisplayRam2k.inc FALSE
+-- Retrieval info: GEN_FILE: TYPE_NORMAL DisplayRam2k.cmp TRUE
+-- Retrieval info: GEN_FILE: TYPE_NORMAL DisplayRam2k.bsf FALSE
+-- Retrieval info: GEN_FILE: TYPE_NORMAL DisplayRam2k_inst.vhd TRUE
 -- Retrieval info: LIB_FILE: altera_mf
