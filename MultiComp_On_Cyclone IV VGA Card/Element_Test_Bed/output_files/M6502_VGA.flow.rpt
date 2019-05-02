@@ -1,5 +1,5 @@
 Flow report for M6502_VGA
-Sun Apr 28 10:06:36 2019
+Wed May 01 23:01:53 2019
 Quartus Prime Version 18.1.0 Build 625 09/12/2018 SJ Lite Edition
 
 
@@ -40,20 +40,20 @@ refer to the applicable agreement for further details.
 +----------------------------------------------------------------------------------+
 ; Flow Summary                                                                     ;
 +------------------------------------+---------------------------------------------+
-; Flow Status                        ; Successful - Sun Apr 28 10:06:30 2019       ;
+; Flow Status                        ; Successful - Wed May 01 23:01:48 2019       ;
 ; Quartus Prime Version              ; 18.1.0 Build 625 09/12/2018 SJ Lite Edition ;
 ; Revision Name                      ; M6502_VGA                                   ;
-; Top-level Entity Name              ; bufferedUART                                ;
+; Top-level Entity Name              ; Mem_Mapped_SVGA                             ;
 ; Family                             ; Cyclone IV E                                ;
 ; Device                             ; EP4CE6E22C8                                 ;
 ; Timing Models                      ; Final                                       ;
-; Total logic elements               ; 189 / 6,272 ( 3 % )                         ;
-;     Total combinational functions  ; 162 / 6,272 ( 3 % )                         ;
-;     Dedicated logic registers      ; 94 / 6,272 ( 1 % )                          ;
-; Total registers                    ; 94                                          ;
-; Total pins                         ; 28 / 92 ( 30 % )                            ;
+; Total logic elements               ; 807 / 6,272 ( 13 % )                        ;
+;     Total combinational functions  ; 807 / 6,272 ( 13 % )                        ;
+;     Dedicated logic registers      ; 23 / 6,272 ( < 1 % )                        ;
+; Total registers                    ; 23                                          ;
+; Total pins                         ; 50 / 92 ( 54 % )                            ;
 ; Total virtual pins                 ; 0                                           ;
-; Total memory bits                  ; 128 / 276,480 ( < 1 % )                     ;
+; Total memory bits                  ; 16,384 / 276,480 ( 6 % )                    ;
 ; Embedded Multiplier 9-bit elements ; 0 / 30 ( 0 % )                              ;
 ; Total PLLs                         ; 0 / 2 ( 0 % )                               ;
 +------------------------------------+---------------------------------------------+
@@ -64,32 +64,32 @@ refer to the applicable agreement for further details.
 +-------------------+---------------------+
 ; Option            ; Setting             ;
 +-------------------+---------------------+
-; Start date & time ; 04/28/2019 10:05:47 ;
+; Start date & time ; 05/01/2019 23:01:01 ;
 ; Main task         ; Compilation         ;
 ; Revision Name     ; M6502_VGA           ;
 +-------------------+---------------------+
 
 
-+--------------------------------------------------------------------------------------------------------------------------+
-; Flow Non-Default Global Settings                                                                                         ;
-+-------------------------------------+----------------------------------------+---------------+--------------+------------+
-; Assignment Name                     ; Value                                  ; Default Value ; Entity Name  ; Section Id ;
-+-------------------------------------+----------------------------------------+---------------+--------------+------------+
-; COMPILER_SIGNATURE_ID               ; 264216224721306.155646034713400        ; --            ; --           ; --         ;
-; MAX_CORE_JUNCTION_TEMP              ; 85                                     ; --            ; --           ; --         ;
-; MIN_CORE_JUNCTION_TEMP              ; 0                                      ; --            ; --           ; --         ;
-; OUTPUT_IO_TIMING_FAR_END_VMEAS      ; Half Signal Swing                      ; --            ; --           ; --         ;
-; OUTPUT_IO_TIMING_FAR_END_VMEAS      ; Half Signal Swing                      ; --            ; --           ; --         ;
-; OUTPUT_IO_TIMING_NEAR_END_VMEAS     ; Half Vccio                             ; --            ; --           ; --         ;
-; OUTPUT_IO_TIMING_NEAR_END_VMEAS     ; Half Vccio                             ; --            ; --           ; --         ;
-; PARTITION_COLOR                     ; -- (Not supported for targeted family) ; --            ; bufferedUART ; Top        ;
-; PARTITION_FITTER_PRESERVATION_LEVEL ; -- (Not supported for targeted family) ; --            ; bufferedUART ; Top        ;
-; PARTITION_NETLIST_TYPE              ; -- (Not supported for targeted family) ; --            ; bufferedUART ; Top        ;
-; POWER_BOARD_THERMAL_MODEL           ; None (CONSERVATIVE)                    ; --            ; --           ; --         ;
-; POWER_PRESET_COOLING_SOLUTION       ; 23 MM HEAT SINK WITH 200 LFPM AIRFLOW  ; --            ; --           ; --         ;
-; PROJECT_OUTPUT_DIRECTORY            ; output_files                           ; --            ; --           ; --         ;
-; TOP_LEVEL_ENTITY                    ; bufferedUART                           ; M6502_VGA     ; --           ; --         ;
-+-------------------------------------+----------------------------------------+---------------+--------------+------------+
++-----------------------------------------------------------------------------------------------------------------------------+
+; Flow Non-Default Global Settings                                                                                            ;
++-------------------------------------+----------------------------------------+---------------+-----------------+------------+
+; Assignment Name                     ; Value                                  ; Default Value ; Entity Name     ; Section Id ;
++-------------------------------------+----------------------------------------+---------------+-----------------+------------+
+; COMPILER_SIGNATURE_ID               ; 264216224721306.155676606144372        ; --            ; --              ; --         ;
+; MAX_CORE_JUNCTION_TEMP              ; 85                                     ; --            ; --              ; --         ;
+; MIN_CORE_JUNCTION_TEMP              ; 0                                      ; --            ; --              ; --         ;
+; OUTPUT_IO_TIMING_FAR_END_VMEAS      ; Half Signal Swing                      ; --            ; --              ; --         ;
+; OUTPUT_IO_TIMING_FAR_END_VMEAS      ; Half Signal Swing                      ; --            ; --              ; --         ;
+; OUTPUT_IO_TIMING_NEAR_END_VMEAS     ; Half Vccio                             ; --            ; --              ; --         ;
+; OUTPUT_IO_TIMING_NEAR_END_VMEAS     ; Half Vccio                             ; --            ; --              ; --         ;
+; PARTITION_COLOR                     ; -- (Not supported for targeted family) ; --            ; Mem_Mapped_SVGA ; Top        ;
+; PARTITION_FITTER_PRESERVATION_LEVEL ; -- (Not supported for targeted family) ; --            ; Mem_Mapped_SVGA ; Top        ;
+; PARTITION_NETLIST_TYPE              ; -- (Not supported for targeted family) ; --            ; Mem_Mapped_SVGA ; Top        ;
+; POWER_BOARD_THERMAL_MODEL           ; None (CONSERVATIVE)                    ; --            ; --              ; --         ;
+; POWER_PRESET_COOLING_SOLUTION       ; 23 MM HEAT SINK WITH 200 LFPM AIRFLOW  ; --            ; --              ; --         ;
+; PROJECT_OUTPUT_DIRECTORY            ; output_files                           ; --            ; --              ; --         ;
+; TOP_LEVEL_ENTITY                    ; Mem_Mapped_SVGA                        ; M6502_VGA     ; --              ; --         ;
++-------------------------------------+----------------------------------------+---------------+-----------------+------------+
 
 
 +--------------------------------------------------------------------------------------------------------------------------+
@@ -97,11 +97,11 @@ refer to the applicable agreement for further details.
 +----------------------+--------------+-------------------------+---------------------+------------------------------------+
 ; Module Name          ; Elapsed Time ; Average Processors Used ; Peak Virtual Memory ; Total CPU Time (on all processors) ;
 +----------------------+--------------+-------------------------+---------------------+------------------------------------+
-; Analysis & Synthesis ; 00:00:28     ; 1.0                     ; 662 MB              ; 00:00:33                           ;
-; Fitter               ; 00:00:11     ; 1.0                     ; 1029 MB             ; 00:00:10                           ;
-; Assembler            ; 00:00:01     ; 1.0                     ; 531 MB              ; 00:00:01                           ;
-; Timing Analyzer      ; 00:00:04     ; 1.0                     ; 580 MB              ; 00:00:04                           ;
-; Total                ; 00:00:44     ; --                      ; --                  ; 00:00:48                           ;
+; Analysis & Synthesis ; 00:00:30     ; 1.0                     ; 665 MB              ; 00:00:38                           ;
+; Fitter               ; 00:00:14     ; 1.0                     ; 1042 MB             ; 00:00:14                           ;
+; Assembler            ; 00:00:01     ; 1.0                     ; 534 MB              ; 00:00:01                           ;
+; Timing Analyzer      ; 00:00:04     ; 1.0                     ; 595 MB              ; 00:00:04                           ;
+; Total                ; 00:00:49     ; --                      ; --                  ; 00:00:57                           ;
 +----------------------+--------------+-------------------------+---------------------+------------------------------------+
 
 
