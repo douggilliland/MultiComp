@@ -46,10 +46,11 @@ architecture struct of uk101 is
 	signal cpuDataOut		: std_logic_vector(7 downto 0);
 	signal cpuDataIn		: std_logic_vector(7 downto 0);
 
-	signal basRomData		: std_logic_vector(7 downto 0);
-	signal monitorRomData : std_logic_vector(7 downto 0);
-	signal aciaData		: std_logic_vector(7 downto 0);
-	signal ramDataOut		: std_logic_vector(7 downto 0);
+	signal basRomData			: std_logic_vector(7 downto 0);
+	signal monitorRomData	: std_logic_vector(7 downto 0);
+	signal aciaData			: std_logic_vector(7 downto 0);
+	signal ramDataOut			: std_logic_vector(7 downto 0);
+	signal displayRamData	: std_logic_vector(7 downto 0);
 
 	signal n_memWR			: std_logic;
 	signal n_memRD 		: std_logic :='1';
@@ -61,15 +62,6 @@ architecture struct of uk101 is
 	signal n_monitorRomCS : std_logic;
 	signal n_kbCS			: std_logic;
 	
-	signal dispAddrB 		: std_logic_vector(10 downto 0);
-	signal dispRamDataOutA : std_logic_vector(7 downto 0);
-	signal dispRamDataOutB : std_logic_vector(7 downto 0);
-	signal charAddr 		: std_logic_vector(10 downto 0);
-	signal charData 		: std_logic_vector(7 downto 0);
-	signal video			: std_logic;
-	signal hSync			: std_logic;
-	signal vSync			: std_logic;
-
 	signal serialClkCount: std_logic_vector(15 downto 0); 
 	signal serialClkCount_d       : std_logic_vector(15 downto 0);
 	signal serialClkEn            : std_logic;
@@ -103,13 +95,13 @@ begin
 	cpuDataIn <=
 		aciaData when n_aciaCS = '0' else
 		ramDataOut when n_ramCS = '0' else
-		dispRamDataOutA when n_dispRamCS = '0' else
+		displayRamData when n_dispRamCS = '0' else
 		basRomData when n_basRomCS = '0' else
 		kbReadData when n_kbCS='0' else 
 		monitorRomData when n_monitorRomCS = '0' else		-- has to be after any I/O
 		x"FF";
 		
-	u1 : entity work.T65
+	CPU : entity work.T65
 	port map(
 		Enable => '1',
 		Mode => "00",
@@ -126,7 +118,7 @@ begin
 		DO => cpuDataOut);
 			
 
-	u2 : entity work.BasicRom -- 8KB
+	BASIC_IN_ROM : entity work.BasicRom -- 8KB
 	port map(
 		address => cpuAddress(12 downto 0),
 		clock => CLOCK_50,
@@ -134,7 +126,7 @@ begin
 	);
 
 
-	u3a: entity work.InternalRam4K
+	SRAM_4K : entity work.InternalRam4K
 	port map
 	(
 		address => cpuAddress(11 downto 0),
@@ -145,7 +137,7 @@ begin
 	);
 
 	
-	u4: entity work.CegmonRom_Patched_64x32
+	MONITOR : entity work.CegmonRom_Patched_64x32
 	port map
 	(
 		address => cpuAddress(10 downto 0),
@@ -169,7 +161,20 @@ begin
 			n_dcd => '0',
 			n_rts => rts
 		);
-
+		
+	MemMappedSVGA : entity work.Mem_Mapped_SVGA
+		port map (
+			n_reset 			=> n_reset,
+			Video_Clk 		=> Video_Clk_25p6,
+			CLK_50			=> CLOCK_50,
+			n_dispRamCS		=> n_dispRamCS,
+			n_memWR			=> n_memWR,
+			cpuAddress 		=> cpuAddress(10 downto 0),
+			cpuDataOut		=> cpuDataOut,
+			dataOut			=> displayRamData,
+			VoutVect			=> VoutVect(17 downto 0) -- rrrrr,gggggg,bbbbb,hsync,vsync
+		);
+		
 	-- ____________________________________________________________________________________
 	-- Clocks
 pll : work.VideoClk_SVGA_800x600 PORT MAP (
@@ -181,44 +186,6 @@ pll : work.VideoClk_SVGA_800x600 PORT MAP (
 	);
 	
 
-	u6 : entity work.UK101TextDisplay_svga_800x600
-	port map (
-		charAddr => charAddr,
-		charData => charData,
-		dispAddr => dispAddrB,
-		dispData => dispRamDataOutB,
-		clk => Video_Clk_25p6,
-		video => video,
-		vSync => vSync,
-		hSync => hSync
-	);
-	
-	VoutVect <=	video&video&video&video&video&			-- Red
-					video&video&video&video&video&video&	-- Grn
-					"00000"&											-- Blu
-					hSync&vSync;
-	
-	u7: entity work.CharRom
-	port map
-	(
-		address => charAddr,
-		q => charData
-	);
-
-	u8: entity work.DisplayRam2k 
-	port map
-	(
-		address_a => cpuAddress(10 downto 0),
-		address_b => dispAddrB,
-		clock	=> CLOCK_50,
-		data_a => cpuDataOut,
-		data_b => (others => '0'),
-		wren_a => not(n_memWR or n_dispRamCS),
-		wren_b => '0',
-		q_a => dispRamDataOutA,
-		q_b => dispRamDataOutB
-	);
-	
 	u9 : entity work.UK101keyboard
 	port map(
 		CLK => CLOCK_50,

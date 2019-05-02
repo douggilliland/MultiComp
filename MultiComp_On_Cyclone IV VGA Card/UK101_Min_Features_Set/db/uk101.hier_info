@@ -1,52 +1,53 @@
 |uk101
-n_reset => t65:u1.Res_n
+n_reset => t65:CPU.Res_n
+n_reset => mem_mapped_svga:MemMappedSVGA.n_reset
 n_reset => uk101keyboard:u9.nRESET
 clk => videoclk_svga_800x600:pll.inclk0
 rxd => buffereduart:UART.rxd
-txd << txd.DB_MAX_OUTPUT_PORT_TYPE
-rts << buffereduart:UART.n_rts
-VoutVect[0] << uk101textdisplay_svga_800x600:u6.vSync
-VoutVect[1] << uk101textdisplay_svga_800x600:u6.hSync
-VoutVect[2] << <GND>
-VoutVect[3] << <GND>
-VoutVect[4] << <GND>
-VoutVect[5] << <GND>
-VoutVect[6] << <GND>
-VoutVect[7] << uk101textdisplay_svga_800x600:u6.video
-VoutVect[8] << uk101textdisplay_svga_800x600:u6.video
-VoutVect[9] << uk101textdisplay_svga_800x600:u6.video
-VoutVect[10] << uk101textdisplay_svga_800x600:u6.video
-VoutVect[11] << uk101textdisplay_svga_800x600:u6.video
-VoutVect[12] << uk101textdisplay_svga_800x600:u6.video
-VoutVect[13] << uk101textdisplay_svga_800x600:u6.video
-VoutVect[14] << uk101textdisplay_svga_800x600:u6.video
-VoutVect[15] << uk101textdisplay_svga_800x600:u6.video
-VoutVect[16] << uk101textdisplay_svga_800x600:u6.video
-VoutVect[17] << uk101textdisplay_svga_800x600:u6.video
+txd <= txd.DB_MAX_OUTPUT_PORT_TYPE
+rts <= buffereduart:UART.n_rts
+VoutVect[0] <= mem_mapped_svga:MemMappedSVGA.VoutVect[0]
+VoutVect[1] <= mem_mapped_svga:MemMappedSVGA.VoutVect[1]
+VoutVect[2] <= mem_mapped_svga:MemMappedSVGA.VoutVect[2]
+VoutVect[3] <= mem_mapped_svga:MemMappedSVGA.VoutVect[3]
+VoutVect[4] <= mem_mapped_svga:MemMappedSVGA.VoutVect[4]
+VoutVect[5] <= mem_mapped_svga:MemMappedSVGA.VoutVect[5]
+VoutVect[6] <= mem_mapped_svga:MemMappedSVGA.VoutVect[6]
+VoutVect[7] <= mem_mapped_svga:MemMappedSVGA.VoutVect[7]
+VoutVect[8] <= mem_mapped_svga:MemMappedSVGA.VoutVect[8]
+VoutVect[9] <= mem_mapped_svga:MemMappedSVGA.VoutVect[9]
+VoutVect[10] <= mem_mapped_svga:MemMappedSVGA.VoutVect[10]
+VoutVect[11] <= mem_mapped_svga:MemMappedSVGA.VoutVect[11]
+VoutVect[12] <= mem_mapped_svga:MemMappedSVGA.VoutVect[12]
+VoutVect[13] <= mem_mapped_svga:MemMappedSVGA.VoutVect[13]
+VoutVect[14] <= mem_mapped_svga:MemMappedSVGA.VoutVect[14]
+VoutVect[15] <= mem_mapped_svga:MemMappedSVGA.VoutVect[15]
+VoutVect[16] <= mem_mapped_svga:MemMappedSVGA.VoutVect[16]
+VoutVect[17] <= mem_mapped_svga:MemMappedSVGA.VoutVect[17]
 switch0 => ~NO_FANOUT~
 switch1 => ~NO_FANOUT~
 switch2 => ~NO_FANOUT~
-LED1 << LED1.DB_MAX_OUTPUT_PORT_TYPE
-LED2 << LED2.DB_MAX_OUTPUT_PORT_TYPE
-LED3 << LED3.DB_MAX_OUTPUT_PORT_TYPE
-LED4 << LED4.DB_MAX_OUTPUT_PORT_TYPE
-BUZZER << BUZZER.DB_MAX_OUTPUT_PORT_TYPE
+LED1 <= LED1.DB_MAX_OUTPUT_PORT_TYPE
+LED2 <= LED2.DB_MAX_OUTPUT_PORT_TYPE
+LED3 <= LED3.DB_MAX_OUTPUT_PORT_TYPE
+LED4 <= LED4.DB_MAX_OUTPUT_PORT_TYPE
+BUZZER <= BUZZER.DB_MAX_OUTPUT_PORT_TYPE
 ps2Clk => uk101keyboard:u9.PS2_CLK
 ps2Data => uk101keyboard:u9.PS2_DATA
-Anode_Activate[0] << Anode_Activate[0].DB_MAX_OUTPUT_PORT_TYPE
-Anode_Activate[1] << Anode_Activate[1].DB_MAX_OUTPUT_PORT_TYPE
-Anode_Activate[2] << Anode_Activate[2].DB_MAX_OUTPUT_PORT_TYPE
-Anode_Activate[3] << Anode_Activate[3].DB_MAX_OUTPUT_PORT_TYPE
-LED_out[0] << comb.DB_MAX_OUTPUT_PORT_TYPE
-LED_out[1] << LED_out[1].DB_MAX_OUTPUT_PORT_TYPE
-LED_out[2] << LED_out[2].DB_MAX_OUTPUT_PORT_TYPE
-LED_out[3] << LED_out[3].DB_MAX_OUTPUT_PORT_TYPE
-LED_out[4] << LED_out[4].DB_MAX_OUTPUT_PORT_TYPE
-LED_out[5] << LED_out[5].DB_MAX_OUTPUT_PORT_TYPE
-LED_out[6] << LED_out[6].DB_MAX_OUTPUT_PORT_TYPE
+Anode_Activate[0] <= Anode_Activate[0].DB_MAX_OUTPUT_PORT_TYPE
+Anode_Activate[1] <= Anode_Activate[1].DB_MAX_OUTPUT_PORT_TYPE
+Anode_Activate[2] <= Anode_Activate[2].DB_MAX_OUTPUT_PORT_TYPE
+Anode_Activate[3] <= Anode_Activate[3].DB_MAX_OUTPUT_PORT_TYPE
+LED_out[0] <= comb.DB_MAX_OUTPUT_PORT_TYPE
+LED_out[1] <= LED_out[1].DB_MAX_OUTPUT_PORT_TYPE
+LED_out[2] <= LED_out[2].DB_MAX_OUTPUT_PORT_TYPE
+LED_out[3] <= LED_out[3].DB_MAX_OUTPUT_PORT_TYPE
+LED_out[4] <= LED_out[4].DB_MAX_OUTPUT_PORT_TYPE
+LED_out[5] <= LED_out[5].DB_MAX_OUTPUT_PORT_TYPE
+LED_out[6] <= LED_out[6].DB_MAX_OUTPUT_PORT_TYPE
 
 
-|uk101|T65:u1
+|uk101|T65:CPU
 Mode[0] => Mode_r.DATAB
 Mode[1] => Mode_r.DATAB
 Res_n => XF_i.PRESET
@@ -663,7 +664,7 @@ DO[6] <= Mux78.DB_MAX_OUTPUT_PORT_TYPE
 DO[7] <= Mux77.DB_MAX_OUTPUT_PORT_TYPE
 
 
-|uk101|T65:u1|T65_MCode:mcode
+|uk101|T65:CPU|T65_MCode:mcode
 Mode[0] => Equal0.IN1
 Mode[1] => Equal0.IN0
 IR[0] => Mux1.IN5
@@ -1425,7 +1426,7 @@ SaveP <= Mux115.DB_MAX_OUTPUT_PORT_TYPE
 Write <= Mux102.DB_MAX_OUTPUT_PORT_TYPE
 
 
-|uk101|T65:u1|T65_ALU:alu
+|uk101|T65:CPU|T65_ALU:alu
 Mode[0] => ~NO_FANOUT~
 Mode[1] => ~NO_FANOUT~
 Op[0] => Mux0.IN9
@@ -1715,7 +1716,7 @@ Q[6] <= Mux1.DB_MAX_OUTPUT_PORT_TYPE
 Q[7] <= Mux0.DB_MAX_OUTPUT_PORT_TYPE
 
 
-|uk101|BasicRom:u2
+|uk101|BasicRom:BASIC_IN_ROM
 address[0] => altsyncram:altsyncram_component.address_a[0]
 address[1] => altsyncram:altsyncram_component.address_a[1]
 address[2] => altsyncram:altsyncram_component.address_a[2]
@@ -1740,7 +1741,7 @@ q[6] <= altsyncram:altsyncram_component.q_a[6]
 q[7] <= altsyncram:altsyncram_component.q_a[7]
 
 
-|uk101|BasicRom:u2|altsyncram:altsyncram_component
+|uk101|BasicRom:BASIC_IN_ROM|altsyncram:altsyncram_component
 wren_a => ~NO_FANOUT~
 rden_a => ~NO_FANOUT~
 wren_b => ~NO_FANOUT~
@@ -1794,7 +1795,7 @@ eccstatus[1] <= <GND>
 eccstatus[2] <= <GND>
 
 
-|uk101|BasicRom:u2|altsyncram:altsyncram_component|altsyncram_m771:auto_generated
+|uk101|BasicRom:BASIC_IN_ROM|altsyncram:altsyncram_component|altsyncram_m771:auto_generated
 address_a[0] => ram_block1a0.PORTAADDR
 address_a[0] => ram_block1a1.PORTAADDR
 address_a[0] => ram_block1a2.PORTAADDR
@@ -1917,7 +1918,7 @@ q_a[6] <= ram_block1a6.PORTADATAOUT
 q_a[7] <= ram_block1a7.PORTADATAOUT
 
 
-|uk101|InternalRam4K:u3a
+|uk101|InternalRam4K:SRAM_4K
 address[0] => altsyncram:altsyncram_component.address_a[0]
 address[1] => altsyncram:altsyncram_component.address_a[1]
 address[2] => altsyncram:altsyncram_component.address_a[2]
@@ -1950,7 +1951,7 @@ q[6] <= altsyncram:altsyncram_component.q_a[6]
 q[7] <= altsyncram:altsyncram_component.q_a[7]
 
 
-|uk101|InternalRam4K:u3a|altsyncram:altsyncram_component
+|uk101|InternalRam4K:SRAM_4K|altsyncram:altsyncram_component
 wren_a => altsyncram_12q3:auto_generated.wren_a
 rden_a => ~NO_FANOUT~
 wren_b => ~NO_FANOUT~
@@ -2003,7 +2004,7 @@ eccstatus[1] <= <GND>
 eccstatus[2] <= <GND>
 
 
-|uk101|InternalRam4K:u3a|altsyncram:altsyncram_component|altsyncram_12q3:auto_generated
+|uk101|InternalRam4K:SRAM_4K|altsyncram:altsyncram_component|altsyncram_12q3:auto_generated
 address_a[0] => ram_block1a0.PORTAADDR
 address_a[0] => ram_block1a1.PORTAADDR
 address_a[0] => ram_block1a2.PORTAADDR
@@ -2134,7 +2135,7 @@ wren_a => ram_block1a6.PORTAWE
 wren_a => ram_block1a7.PORTAWE
 
 
-|uk101|CegmonRom_Patched_64x32:u4
+|uk101|CegmonRom_Patched_64x32:MONITOR
 address[0] => Mux0.IN2058
 address[0] => Mux1.IN2058
 address[0] => Mux2.IN2058
@@ -2442,255 +2443,60 @@ n_dcd => dataOut.DATAA
 n_dcd => tx_fsm.IN1
 
 
-|uk101|VideoClk_SVGA_800x600:pll
-areset => altpll:altpll_component.areset
-inclk0 => altpll:altpll_component.inclk[0]
-c0 <= altpll:altpll_component.clk[0]
-c1 <= altpll:altpll_component.clk[1]
-c2 <= altpll:altpll_component.clk[2]
-c3 <= altpll:altpll_component.clk[3]
+|uk101|Mem_Mapped_SVGA:MemMappedSVGA
+n_reset => ~NO_FANOUT~
+Video_Clk => uk101textdisplay_svga_800x600:u6.clk
+CLK_50 => displayram2k:DisplayRAM.clock
+n_dispRamCS => comb.IN0
+n_memWR => comb.IN1
+cpuAddress[0] => displayram2k:DisplayRAM.address_a[0]
+cpuAddress[1] => displayram2k:DisplayRAM.address_a[1]
+cpuAddress[2] => displayram2k:DisplayRAM.address_a[2]
+cpuAddress[3] => displayram2k:DisplayRAM.address_a[3]
+cpuAddress[4] => displayram2k:DisplayRAM.address_a[4]
+cpuAddress[5] => displayram2k:DisplayRAM.address_a[5]
+cpuAddress[6] => displayram2k:DisplayRAM.address_a[6]
+cpuAddress[7] => displayram2k:DisplayRAM.address_a[7]
+cpuAddress[8] => displayram2k:DisplayRAM.address_a[8]
+cpuAddress[9] => displayram2k:DisplayRAM.address_a[9]
+cpuAddress[10] => displayram2k:DisplayRAM.address_a[10]
+cpuDataOut[0] => displayram2k:DisplayRAM.data_a[0]
+cpuDataOut[1] => displayram2k:DisplayRAM.data_a[1]
+cpuDataOut[2] => displayram2k:DisplayRAM.data_a[2]
+cpuDataOut[3] => displayram2k:DisplayRAM.data_a[3]
+cpuDataOut[4] => displayram2k:DisplayRAM.data_a[4]
+cpuDataOut[5] => displayram2k:DisplayRAM.data_a[5]
+cpuDataOut[6] => displayram2k:DisplayRAM.data_a[6]
+cpuDataOut[7] => displayram2k:DisplayRAM.data_a[7]
+dataOut[0] <= displayram2k:DisplayRAM.q_a[0]
+dataOut[1] <= displayram2k:DisplayRAM.q_a[1]
+dataOut[2] <= displayram2k:DisplayRAM.q_a[2]
+dataOut[3] <= displayram2k:DisplayRAM.q_a[3]
+dataOut[4] <= displayram2k:DisplayRAM.q_a[4]
+dataOut[5] <= displayram2k:DisplayRAM.q_a[5]
+dataOut[6] <= displayram2k:DisplayRAM.q_a[6]
+dataOut[7] <= displayram2k:DisplayRAM.q_a[7]
+VoutVect[0] <= uk101textdisplay_svga_800x600:u6.vSync
+VoutVect[1] <= uk101textdisplay_svga_800x600:u6.hSync
+VoutVect[2] <= <GND>
+VoutVect[3] <= <GND>
+VoutVect[4] <= <GND>
+VoutVect[5] <= <GND>
+VoutVect[6] <= <GND>
+VoutVect[7] <= uk101textdisplay_svga_800x600:u6.video
+VoutVect[8] <= uk101textdisplay_svga_800x600:u6.video
+VoutVect[9] <= uk101textdisplay_svga_800x600:u6.video
+VoutVect[10] <= uk101textdisplay_svga_800x600:u6.video
+VoutVect[11] <= uk101textdisplay_svga_800x600:u6.video
+VoutVect[12] <= uk101textdisplay_svga_800x600:u6.video
+VoutVect[13] <= uk101textdisplay_svga_800x600:u6.video
+VoutVect[14] <= uk101textdisplay_svga_800x600:u6.video
+VoutVect[15] <= uk101textdisplay_svga_800x600:u6.video
+VoutVect[16] <= uk101textdisplay_svga_800x600:u6.video
+VoutVect[17] <= uk101textdisplay_svga_800x600:u6.video
 
 
-|uk101|VideoClk_SVGA_800x600:pll|altpll:altpll_component
-inclk[0] => VideoClk_SVGA_800x600_altpll:auto_generated.inclk[0]
-inclk[1] => VideoClk_SVGA_800x600_altpll:auto_generated.inclk[1]
-fbin => ~NO_FANOUT~
-pllena => ~NO_FANOUT~
-clkswitch => ~NO_FANOUT~
-areset => VideoClk_SVGA_800x600_altpll:auto_generated.areset
-pfdena => ~NO_FANOUT~
-clkena[0] => ~NO_FANOUT~
-clkena[1] => ~NO_FANOUT~
-clkena[2] => ~NO_FANOUT~
-clkena[3] => ~NO_FANOUT~
-clkena[4] => ~NO_FANOUT~
-clkena[5] => ~NO_FANOUT~
-extclkena[0] => ~NO_FANOUT~
-extclkena[1] => ~NO_FANOUT~
-extclkena[2] => ~NO_FANOUT~
-extclkena[3] => ~NO_FANOUT~
-scanclk => ~NO_FANOUT~
-scanclkena => ~NO_FANOUT~
-scanaclr => ~NO_FANOUT~
-scanread => ~NO_FANOUT~
-scanwrite => ~NO_FANOUT~
-scandata => ~NO_FANOUT~
-phasecounterselect[0] => ~NO_FANOUT~
-phasecounterselect[1] => ~NO_FANOUT~
-phasecounterselect[2] => ~NO_FANOUT~
-phasecounterselect[3] => ~NO_FANOUT~
-phaseupdown => ~NO_FANOUT~
-phasestep => ~NO_FANOUT~
-configupdate => ~NO_FANOUT~
-fbmimicbidir <> <GND>
-clk[0] <= clk[0].DB_MAX_OUTPUT_PORT_TYPE
-clk[1] <= clk[1].DB_MAX_OUTPUT_PORT_TYPE
-clk[2] <= clk[2].DB_MAX_OUTPUT_PORT_TYPE
-clk[3] <= clk[3].DB_MAX_OUTPUT_PORT_TYPE
-clk[4] <= clk[4].DB_MAX_OUTPUT_PORT_TYPE
-extclk[0] <= <GND>
-extclk[1] <= <GND>
-extclk[2] <= <GND>
-extclk[3] <= <GND>
-clkbad[0] <= <GND>
-clkbad[1] <= <GND>
-enable1 <= <GND>
-enable0 <= <GND>
-activeclock <= <GND>
-clkloss <= <GND>
-locked <= <GND>
-scandataout <= <GND>
-scandone <= <GND>
-sclkout0 <= <GND>
-sclkout1 <= <GND>
-phasedone <= <GND>
-vcooverrange <= <GND>
-vcounderrange <= <GND>
-fbout <= <GND>
-fref <= <GND>
-icdrclk <= <GND>
-
-
-|uk101|VideoClk_SVGA_800x600:pll|altpll:altpll_component|VideoClk_SVGA_800x600_altpll:auto_generated
-areset => pll1.ARESET
-clk[0] <= pll1.CLK
-clk[1] <= pll1.CLK1
-clk[2] <= pll1.CLK2
-clk[3] <= pll1.CLK3
-clk[4] <= pll1.CLK4
-inclk[0] => pll1.CLK
-inclk[1] => pll1.CLK1
-
-
-|uk101|UK101TextDisplay_svga_800x600:u6
-charAddr[0] <= vertLineCount[1].DB_MAX_OUTPUT_PORT_TYPE
-charAddr[1] <= vertLineCount[2].DB_MAX_OUTPUT_PORT_TYPE
-charAddr[2] <= vertLineCount[3].DB_MAX_OUTPUT_PORT_TYPE
-charAddr[3] <= dispData[0].DB_MAX_OUTPUT_PORT_TYPE
-charAddr[4] <= dispData[1].DB_MAX_OUTPUT_PORT_TYPE
-charAddr[5] <= dispData[2].DB_MAX_OUTPUT_PORT_TYPE
-charAddr[6] <= dispData[3].DB_MAX_OUTPUT_PORT_TYPE
-charAddr[7] <= dispData[4].DB_MAX_OUTPUT_PORT_TYPE
-charAddr[8] <= dispData[5].DB_MAX_OUTPUT_PORT_TYPE
-charAddr[9] <= dispData[6].DB_MAX_OUTPUT_PORT_TYPE
-charAddr[10] <= dispData[7].DB_MAX_OUTPUT_PORT_TYPE
-charData[0] => Mux0.IN3
-charData[1] => Mux0.IN4
-charData[2] => Mux0.IN5
-charData[3] => Mux0.IN6
-charData[4] => Mux0.IN7
-charData[5] => Mux0.IN8
-charData[6] => Mux0.IN9
-charData[7] => Mux0.IN10
-dispAddr[0] <= horizCount[3].DB_MAX_OUTPUT_PORT_TYPE
-dispAddr[1] <= horizCount[4].DB_MAX_OUTPUT_PORT_TYPE
-dispAddr[2] <= horizCount[5].DB_MAX_OUTPUT_PORT_TYPE
-dispAddr[3] <= horizCount[6].DB_MAX_OUTPUT_PORT_TYPE
-dispAddr[4] <= horizCount[7].DB_MAX_OUTPUT_PORT_TYPE
-dispAddr[5] <= horizCount[8].DB_MAX_OUTPUT_PORT_TYPE
-dispAddr[6] <= vertLineCount[4].DB_MAX_OUTPUT_PORT_TYPE
-dispAddr[7] <= vertLineCount[5].DB_MAX_OUTPUT_PORT_TYPE
-dispAddr[8] <= vertLineCount[6].DB_MAX_OUTPUT_PORT_TYPE
-dispAddr[9] <= vertLineCount[7].DB_MAX_OUTPUT_PORT_TYPE
-dispAddr[10] <= vertLineCount[8].DB_MAX_OUTPUT_PORT_TYPE
-dispData[0] => charAddr[3].DATAIN
-dispData[1] => charAddr[4].DATAIN
-dispData[2] => charAddr[5].DATAIN
-dispData[3] => charAddr[6].DATAIN
-dispData[4] => charAddr[7].DATAIN
-dispData[5] => charAddr[8].DATAIN
-dispData[6] => charAddr[9].DATAIN
-dispData[7] => charAddr[10].DATAIN
-clk => hAct~reg0.CLK
-clk => video~reg0.CLK
-clk => n_vSync.CLK
-clk => n_hSync.CLK
-clk => vertLineCount[0].CLK
-clk => vertLineCount[1].CLK
-clk => vertLineCount[2].CLK
-clk => vertLineCount[3].CLK
-clk => vertLineCount[4].CLK
-clk => vertLineCount[5].CLK
-clk => vertLineCount[6].CLK
-clk => vertLineCount[7].CLK
-clk => vertLineCount[8].CLK
-clk => vertLineCount[9].CLK
-clk => horizCount[0].CLK
-clk => horizCount[1].CLK
-clk => horizCount[2].CLK
-clk => horizCount[3].CLK
-clk => horizCount[4].CLK
-clk => horizCount[5].CLK
-clk => horizCount[6].CLK
-clk => horizCount[7].CLK
-clk => horizCount[8].CLK
-clk => horizCount[9].CLK
-video <= video~reg0.DB_MAX_OUTPUT_PORT_TYPE
-vSync <= n_vSync.DB_MAX_OUTPUT_PORT_TYPE
-hSync <= n_hSync.DB_MAX_OUTPUT_PORT_TYPE
-hAct <= hAct~reg0.DB_MAX_OUTPUT_PORT_TYPE
-
-
-|uk101|CharRom:u7
-address[0] => Mux0.IN2058
-address[0] => Mux1.IN2058
-address[0] => Mux2.IN2058
-address[0] => Mux3.IN2058
-address[0] => Mux4.IN2058
-address[0] => Mux5.IN2058
-address[0] => Mux6.IN2058
-address[0] => Mux7.IN2058
-address[1] => Mux0.IN2057
-address[1] => Mux1.IN2057
-address[1] => Mux2.IN2057
-address[1] => Mux3.IN2057
-address[1] => Mux4.IN2057
-address[1] => Mux5.IN2057
-address[1] => Mux6.IN2057
-address[1] => Mux7.IN2057
-address[2] => Mux0.IN2056
-address[2] => Mux1.IN2056
-address[2] => Mux2.IN2056
-address[2] => Mux3.IN2056
-address[2] => Mux4.IN2056
-address[2] => Mux5.IN2056
-address[2] => Mux6.IN2056
-address[2] => Mux7.IN2056
-address[3] => Mux0.IN2055
-address[3] => Mux1.IN2055
-address[3] => Mux2.IN2055
-address[3] => Mux3.IN2055
-address[3] => Mux4.IN2055
-address[3] => Mux5.IN2055
-address[3] => Mux6.IN2055
-address[3] => Mux7.IN2055
-address[4] => Mux0.IN2054
-address[4] => Mux1.IN2054
-address[4] => Mux2.IN2054
-address[4] => Mux3.IN2054
-address[4] => Mux4.IN2054
-address[4] => Mux5.IN2054
-address[4] => Mux6.IN2054
-address[4] => Mux7.IN2054
-address[5] => Mux0.IN2053
-address[5] => Mux1.IN2053
-address[5] => Mux2.IN2053
-address[5] => Mux3.IN2053
-address[5] => Mux4.IN2053
-address[5] => Mux5.IN2053
-address[5] => Mux6.IN2053
-address[5] => Mux7.IN2053
-address[6] => Mux0.IN2052
-address[6] => Mux1.IN2052
-address[6] => Mux2.IN2052
-address[6] => Mux3.IN2052
-address[6] => Mux4.IN2052
-address[6] => Mux5.IN2052
-address[6] => Mux6.IN2052
-address[6] => Mux7.IN2052
-address[7] => Mux0.IN2051
-address[7] => Mux1.IN2051
-address[7] => Mux2.IN2051
-address[7] => Mux3.IN2051
-address[7] => Mux4.IN2051
-address[7] => Mux5.IN2051
-address[7] => Mux6.IN2051
-address[7] => Mux7.IN2051
-address[8] => Mux0.IN2050
-address[8] => Mux1.IN2050
-address[8] => Mux2.IN2050
-address[8] => Mux3.IN2050
-address[8] => Mux4.IN2050
-address[8] => Mux5.IN2050
-address[8] => Mux6.IN2050
-address[8] => Mux7.IN2050
-address[9] => Mux0.IN2049
-address[9] => Mux1.IN2049
-address[9] => Mux2.IN2049
-address[9] => Mux3.IN2049
-address[9] => Mux4.IN2049
-address[9] => Mux5.IN2049
-address[9] => Mux6.IN2049
-address[9] => Mux7.IN2049
-address[10] => Mux0.IN2048
-address[10] => Mux1.IN2048
-address[10] => Mux2.IN2048
-address[10] => Mux3.IN2048
-address[10] => Mux4.IN2048
-address[10] => Mux5.IN2048
-address[10] => Mux6.IN2048
-address[10] => Mux7.IN2048
-q[0] <= Mux7.DB_MAX_OUTPUT_PORT_TYPE
-q[1] <= Mux6.DB_MAX_OUTPUT_PORT_TYPE
-q[2] <= Mux5.DB_MAX_OUTPUT_PORT_TYPE
-q[3] <= Mux4.DB_MAX_OUTPUT_PORT_TYPE
-q[4] <= Mux3.DB_MAX_OUTPUT_PORT_TYPE
-q[5] <= Mux2.DB_MAX_OUTPUT_PORT_TYPE
-q[6] <= Mux1.DB_MAX_OUTPUT_PORT_TYPE
-q[7] <= Mux0.DB_MAX_OUTPUT_PORT_TYPE
-
-
-|uk101|DisplayRam2k:u8
+|uk101|Mem_Mapped_SVGA:MemMappedSVGA|DisplayRam2k:DisplayRAM
 address_a[0] => altsyncram:altsyncram_component.address_a[0]
 address_a[1] => altsyncram:altsyncram_component.address_a[1]
 address_a[2] => altsyncram:altsyncram_component.address_a[2]
@@ -2750,7 +2556,7 @@ q_b[6] <= altsyncram:altsyncram_component.q_b[6]
 q_b[7] <= altsyncram:altsyncram_component.q_b[7]
 
 
-|uk101|DisplayRam2k:u8|altsyncram:altsyncram_component
+|uk101|Mem_Mapped_SVGA:MemMappedSVGA|DisplayRam2k:DisplayRAM|altsyncram:altsyncram_component
 wren_a => altsyncram_sn52:auto_generated.wren_a
 rden_a => ~NO_FANOUT~
 wren_b => altsyncram_sn52:auto_generated.wren_b
@@ -2826,7 +2632,7 @@ eccstatus[1] <= <GND>
 eccstatus[2] <= <GND>
 
 
-|uk101|DisplayRam2k:u8|altsyncram:altsyncram_component|altsyncram_sn52:auto_generated
+|uk101|Mem_Mapped_SVGA:MemMappedSVGA|DisplayRam2k:DisplayRAM|altsyncram:altsyncram_component|altsyncram_sn52:auto_generated
 address_a[0] => ram_block1a0.PORTAADDR
 address_a[0] => ram_block1a1.PORTAADDR
 address_a[0] => ram_block1a2.PORTAADDR
@@ -3059,6 +2865,254 @@ wren_b => ram_block1a4.PORTBWE
 wren_b => ram_block1a5.PORTBWE
 wren_b => ram_block1a6.PORTBWE
 wren_b => ram_block1a7.PORTBWE
+
+
+|uk101|Mem_Mapped_SVGA:MemMappedSVGA|CharRom:CharROM
+address[0] => Mux0.IN2058
+address[0] => Mux1.IN2058
+address[0] => Mux2.IN2058
+address[0] => Mux3.IN2058
+address[0] => Mux4.IN2058
+address[0] => Mux5.IN2058
+address[0] => Mux6.IN2058
+address[0] => Mux7.IN2058
+address[1] => Mux0.IN2057
+address[1] => Mux1.IN2057
+address[1] => Mux2.IN2057
+address[1] => Mux3.IN2057
+address[1] => Mux4.IN2057
+address[1] => Mux5.IN2057
+address[1] => Mux6.IN2057
+address[1] => Mux7.IN2057
+address[2] => Mux0.IN2056
+address[2] => Mux1.IN2056
+address[2] => Mux2.IN2056
+address[2] => Mux3.IN2056
+address[2] => Mux4.IN2056
+address[2] => Mux5.IN2056
+address[2] => Mux6.IN2056
+address[2] => Mux7.IN2056
+address[3] => Mux0.IN2055
+address[3] => Mux1.IN2055
+address[3] => Mux2.IN2055
+address[3] => Mux3.IN2055
+address[3] => Mux4.IN2055
+address[3] => Mux5.IN2055
+address[3] => Mux6.IN2055
+address[3] => Mux7.IN2055
+address[4] => Mux0.IN2054
+address[4] => Mux1.IN2054
+address[4] => Mux2.IN2054
+address[4] => Mux3.IN2054
+address[4] => Mux4.IN2054
+address[4] => Mux5.IN2054
+address[4] => Mux6.IN2054
+address[4] => Mux7.IN2054
+address[5] => Mux0.IN2053
+address[5] => Mux1.IN2053
+address[5] => Mux2.IN2053
+address[5] => Mux3.IN2053
+address[5] => Mux4.IN2053
+address[5] => Mux5.IN2053
+address[5] => Mux6.IN2053
+address[5] => Mux7.IN2053
+address[6] => Mux0.IN2052
+address[6] => Mux1.IN2052
+address[6] => Mux2.IN2052
+address[6] => Mux3.IN2052
+address[6] => Mux4.IN2052
+address[6] => Mux5.IN2052
+address[6] => Mux6.IN2052
+address[6] => Mux7.IN2052
+address[7] => Mux0.IN2051
+address[7] => Mux1.IN2051
+address[7] => Mux2.IN2051
+address[7] => Mux3.IN2051
+address[7] => Mux4.IN2051
+address[7] => Mux5.IN2051
+address[7] => Mux6.IN2051
+address[7] => Mux7.IN2051
+address[8] => Mux0.IN2050
+address[8] => Mux1.IN2050
+address[8] => Mux2.IN2050
+address[8] => Mux3.IN2050
+address[8] => Mux4.IN2050
+address[8] => Mux5.IN2050
+address[8] => Mux6.IN2050
+address[8] => Mux7.IN2050
+address[9] => Mux0.IN2049
+address[9] => Mux1.IN2049
+address[9] => Mux2.IN2049
+address[9] => Mux3.IN2049
+address[9] => Mux4.IN2049
+address[9] => Mux5.IN2049
+address[9] => Mux6.IN2049
+address[9] => Mux7.IN2049
+address[10] => Mux0.IN2048
+address[10] => Mux1.IN2048
+address[10] => Mux2.IN2048
+address[10] => Mux3.IN2048
+address[10] => Mux4.IN2048
+address[10] => Mux5.IN2048
+address[10] => Mux6.IN2048
+address[10] => Mux7.IN2048
+q[0] <= Mux7.DB_MAX_OUTPUT_PORT_TYPE
+q[1] <= Mux6.DB_MAX_OUTPUT_PORT_TYPE
+q[2] <= Mux5.DB_MAX_OUTPUT_PORT_TYPE
+q[3] <= Mux4.DB_MAX_OUTPUT_PORT_TYPE
+q[4] <= Mux3.DB_MAX_OUTPUT_PORT_TYPE
+q[5] <= Mux2.DB_MAX_OUTPUT_PORT_TYPE
+q[6] <= Mux1.DB_MAX_OUTPUT_PORT_TYPE
+q[7] <= Mux0.DB_MAX_OUTPUT_PORT_TYPE
+
+
+|uk101|Mem_Mapped_SVGA:MemMappedSVGA|UK101TextDisplay_svga_800x600:u6
+charAddr[0] <= vertLineCount[1].DB_MAX_OUTPUT_PORT_TYPE
+charAddr[1] <= vertLineCount[2].DB_MAX_OUTPUT_PORT_TYPE
+charAddr[2] <= vertLineCount[3].DB_MAX_OUTPUT_PORT_TYPE
+charAddr[3] <= dispData[0].DB_MAX_OUTPUT_PORT_TYPE
+charAddr[4] <= dispData[1].DB_MAX_OUTPUT_PORT_TYPE
+charAddr[5] <= dispData[2].DB_MAX_OUTPUT_PORT_TYPE
+charAddr[6] <= dispData[3].DB_MAX_OUTPUT_PORT_TYPE
+charAddr[7] <= dispData[4].DB_MAX_OUTPUT_PORT_TYPE
+charAddr[8] <= dispData[5].DB_MAX_OUTPUT_PORT_TYPE
+charAddr[9] <= dispData[6].DB_MAX_OUTPUT_PORT_TYPE
+charAddr[10] <= dispData[7].DB_MAX_OUTPUT_PORT_TYPE
+charData[0] => Mux0.IN3
+charData[1] => Mux0.IN4
+charData[2] => Mux0.IN5
+charData[3] => Mux0.IN6
+charData[4] => Mux0.IN7
+charData[5] => Mux0.IN8
+charData[6] => Mux0.IN9
+charData[7] => Mux0.IN10
+dispAddr[0] <= horizCount[3].DB_MAX_OUTPUT_PORT_TYPE
+dispAddr[1] <= horizCount[4].DB_MAX_OUTPUT_PORT_TYPE
+dispAddr[2] <= horizCount[5].DB_MAX_OUTPUT_PORT_TYPE
+dispAddr[3] <= horizCount[6].DB_MAX_OUTPUT_PORT_TYPE
+dispAddr[4] <= horizCount[7].DB_MAX_OUTPUT_PORT_TYPE
+dispAddr[5] <= horizCount[8].DB_MAX_OUTPUT_PORT_TYPE
+dispAddr[6] <= vertLineCount[4].DB_MAX_OUTPUT_PORT_TYPE
+dispAddr[7] <= vertLineCount[5].DB_MAX_OUTPUT_PORT_TYPE
+dispAddr[8] <= vertLineCount[6].DB_MAX_OUTPUT_PORT_TYPE
+dispAddr[9] <= vertLineCount[7].DB_MAX_OUTPUT_PORT_TYPE
+dispAddr[10] <= vertLineCount[8].DB_MAX_OUTPUT_PORT_TYPE
+dispData[0] => charAddr[3].DATAIN
+dispData[1] => charAddr[4].DATAIN
+dispData[2] => charAddr[5].DATAIN
+dispData[3] => charAddr[6].DATAIN
+dispData[4] => charAddr[7].DATAIN
+dispData[5] => charAddr[8].DATAIN
+dispData[6] => charAddr[9].DATAIN
+dispData[7] => charAddr[10].DATAIN
+clk => hAct~reg0.CLK
+clk => video~reg0.CLK
+clk => n_vSync.CLK
+clk => n_hSync.CLK
+clk => vertLineCount[0].CLK
+clk => vertLineCount[1].CLK
+clk => vertLineCount[2].CLK
+clk => vertLineCount[3].CLK
+clk => vertLineCount[4].CLK
+clk => vertLineCount[5].CLK
+clk => vertLineCount[6].CLK
+clk => vertLineCount[7].CLK
+clk => vertLineCount[8].CLK
+clk => vertLineCount[9].CLK
+clk => horizCount[0].CLK
+clk => horizCount[1].CLK
+clk => horizCount[2].CLK
+clk => horizCount[3].CLK
+clk => horizCount[4].CLK
+clk => horizCount[5].CLK
+clk => horizCount[6].CLK
+clk => horizCount[7].CLK
+clk => horizCount[8].CLK
+clk => horizCount[9].CLK
+video <= video~reg0.DB_MAX_OUTPUT_PORT_TYPE
+vSync <= n_vSync.DB_MAX_OUTPUT_PORT_TYPE
+hSync <= n_hSync.DB_MAX_OUTPUT_PORT_TYPE
+hAct <= hAct~reg0.DB_MAX_OUTPUT_PORT_TYPE
+
+
+|uk101|VideoClk_SVGA_800x600:pll
+areset => altpll:altpll_component.areset
+inclk0 => altpll:altpll_component.inclk[0]
+c0 <= altpll:altpll_component.clk[0]
+c1 <= altpll:altpll_component.clk[1]
+c2 <= altpll:altpll_component.clk[2]
+c3 <= altpll:altpll_component.clk[3]
+
+
+|uk101|VideoClk_SVGA_800x600:pll|altpll:altpll_component
+inclk[0] => VideoClk_SVGA_800x600_altpll:auto_generated.inclk[0]
+inclk[1] => VideoClk_SVGA_800x600_altpll:auto_generated.inclk[1]
+fbin => ~NO_FANOUT~
+pllena => ~NO_FANOUT~
+clkswitch => ~NO_FANOUT~
+areset => VideoClk_SVGA_800x600_altpll:auto_generated.areset
+pfdena => ~NO_FANOUT~
+clkena[0] => ~NO_FANOUT~
+clkena[1] => ~NO_FANOUT~
+clkena[2] => ~NO_FANOUT~
+clkena[3] => ~NO_FANOUT~
+clkena[4] => ~NO_FANOUT~
+clkena[5] => ~NO_FANOUT~
+extclkena[0] => ~NO_FANOUT~
+extclkena[1] => ~NO_FANOUT~
+extclkena[2] => ~NO_FANOUT~
+extclkena[3] => ~NO_FANOUT~
+scanclk => ~NO_FANOUT~
+scanclkena => ~NO_FANOUT~
+scanaclr => ~NO_FANOUT~
+scanread => ~NO_FANOUT~
+scanwrite => ~NO_FANOUT~
+scandata => ~NO_FANOUT~
+phasecounterselect[0] => ~NO_FANOUT~
+phasecounterselect[1] => ~NO_FANOUT~
+phasecounterselect[2] => ~NO_FANOUT~
+phasecounterselect[3] => ~NO_FANOUT~
+phaseupdown => ~NO_FANOUT~
+phasestep => ~NO_FANOUT~
+configupdate => ~NO_FANOUT~
+fbmimicbidir <> <GND>
+clk[0] <= clk[0].DB_MAX_OUTPUT_PORT_TYPE
+clk[1] <= clk[1].DB_MAX_OUTPUT_PORT_TYPE
+clk[2] <= clk[2].DB_MAX_OUTPUT_PORT_TYPE
+clk[3] <= clk[3].DB_MAX_OUTPUT_PORT_TYPE
+clk[4] <= clk[4].DB_MAX_OUTPUT_PORT_TYPE
+extclk[0] <= <GND>
+extclk[1] <= <GND>
+extclk[2] <= <GND>
+extclk[3] <= <GND>
+clkbad[0] <= <GND>
+clkbad[1] <= <GND>
+enable1 <= <GND>
+enable0 <= <GND>
+activeclock <= <GND>
+clkloss <= <GND>
+locked <= <GND>
+scandataout <= <GND>
+scandone <= <GND>
+sclkout0 <= <GND>
+sclkout1 <= <GND>
+phasedone <= <GND>
+vcooverrange <= <GND>
+vcounderrange <= <GND>
+fbout <= <GND>
+fref <= <GND>
+icdrclk <= <GND>
+
+
+|uk101|VideoClk_SVGA_800x600:pll|altpll:altpll_component|VideoClk_SVGA_800x600_altpll:auto_generated
+areset => pll1.ARESET
+clk[0] <= pll1.CLK
+clk[1] <= pll1.CLK1
+clk[2] <= pll1.CLK2
+clk[3] <= pll1.CLK3
+clk[4] <= pll1.CLK4
+inclk[0] => pll1.CLK
+inclk[1] => pll1.CLK1
 
 
 |uk101|UK101keyboard:u9

@@ -23,7 +23,7 @@ entity UK101TextDisplay_svga_800x600 is
 		charData 	: in std_LOGIC_VECTOR(7 downto 0);
 		dispAddr 	: out std_LOGIC_VECTOR(10 downto 0);
 		dispData 	: in std_LOGIC_VECTOR(7 downto 0);
-		clk    	 	: in  std_logic;
+		clk    	 	: in  std_logic;								-- 25.6 MHz clock
 		video			: out std_logic;
 		vSync 		: out std_logic;
 		hSync  		: out  std_logic;
