@@ -12,7 +12,7 @@ entity Mem_Mapped_SVGA is
 		n_memWR				: in std_logic;
 		cpuAddress			: in std_logic_vector(10 downto 0);
 		cpuDataOut			: in std_logic_vector(7 downto 0);
-		dataOut			: out std_logic_vector(7 downto 0);
+		dataOut				: out std_logic_vector(7 downto 0);
 		VoutVect				: out std_logic_vector(17 downto 0) -- rrrrr,gggggg,bbbbb,hsync,vsync
 		);
 end Mem_Mapped_SVGA;
@@ -34,7 +34,7 @@ begin
 					"00000"&											-- Blu
 					hSync&vSync;
 	
-	UK101_SVGA_64x32 : entity work.UK101TextDisplay_svga_800x600
+	Video_SVGA_64x32 : entity work.Video_SVGA_64x32
 	port map (
 		charAddr => charAddr,
 		charData => charData,
