@@ -76,7 +76,7 @@ architecture struct of uk101_23K_VGA is
 	
 	signal CLOCK_100		: std_ulogic;
 	signal CLOCK_50		: std_ulogic;
-	signal CLOCK_40		: std_ulogic;
+	signal VIDEO_CLK		: std_ulogic;
 
 	signal cpuClkCount	: std_logic_vector(5 downto 0); 
 	signal cpuClock		: std_logic;
@@ -208,7 +208,7 @@ begin
 pll : work.pll PORT MAP (
 		inclk0	 => clk,
 		c0	 => CLOCK_100,
-		c1	 => CLOCK_40,
+		c1	 => VIDEO_CLK,
 		c2	 => CLOCK_50
 	);
 	
@@ -218,7 +218,7 @@ pll : work.pll PORT MAP (
 		charData => charData,
 		dispAddr => dispAddrB,
 		dispData => dispRamDataOutB,
-		CLOCK_40 => CLOCK_40,
+		VIDEO_CLK => VIDEO_CLK,
 		unsigned(Vout) => Vout
 	);
 	
