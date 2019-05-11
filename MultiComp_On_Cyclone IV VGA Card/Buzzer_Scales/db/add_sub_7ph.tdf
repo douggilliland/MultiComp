@@ -1,0 +1,70 @@
+--lpm_add_sub CARRY_CHAIN="MANUAL" CARRY_CHAIN_LENGTH=48 DEVICE_FAMILY="MAX7000S" LPM_DIRECTION="ADD" LPM_REPRESENTATION="UNSIGNED" LPM_WIDTH=13 ONE_INPUT_IS_CONSTANT="YES" cin dataa datab result
+--VERSION_BEGIN 5.0 cbx_cycloneii 2004:12:20:14:28:52:SJ cbx_lpm_add_sub 2005:04:12:13:30:42:SJ cbx_mgl 2005:04:13:17:26:48:SJ cbx_stratix 2005:03:14:17:09:02:SJ cbx_stratixii 2004:12:22:13:27:12:SJ  VERSION_END
+
+
+--  Copyright (C) 1988-2005 Altera Corporation
+--  Your use of Altera Corporation's design tools, logic functions 
+--  and other software and tools, and its AMPP partner logic 
+--  functions, and any output files any of the foregoing 
+--  (including device programming or simulation files), and any 
+--  associated documentation or information are expressly subject 
+--  to the terms and conditions of the Altera Program License 
+--  Subscription Agreement, Altera MegaCore Function License 
+--  Agreement, or other applicable license agreement, including, 
+--  without limitation, that your use is for the sole purpose of 
+--  programming logic devices manufactured by Altera and sold by 
+--  Altera or its authorized distributors.  Please refer to the 
+--  applicable agreement for further details.
+
+
+FUNCTION carry_sum (cin, sin)
+RETURNS ( cout, sout);
+
+--synthesis_resources = lut 14 
+SUBDESIGN add_sub_7ph
+( 
+	cin	:	input;
+	dataa[12..0]	:	input;
+	datab[12..0]	:	input;
+	result[12..0]	:	output;
+) 
+VARIABLE 
+	add_sub_cella[12..0] : carry_sum;
+	external_cin_cell : carry_sum;
+	datab_node[12..0]	: WIRE;
+	main_cin_wire	: WIRE;
+
+BEGIN 
+	add_sub_cella[0].cin = ((dataa[0..0] & datab_node[0..0]) # ((dataa[0..0] # datab_node[0..0]) & main_cin_wire));
+	add_sub_cella[1].cin = ((dataa[1..1] & datab_node[1..1]) # ((dataa[1..1] # datab_node[1..1]) & add_sub_cella[0].cout));
+	add_sub_cella[2].cin = ((dataa[2..2] & datab_node[2..2]) # ((dataa[2..2] # datab_node[2..2]) & add_sub_cella[1].cout));
+	add_sub_cella[3].cin = ((dataa[3..3] & datab_node[3..3]) # ((dataa[3..3] # datab_node[3..3]) & add_sub_cella[2].cout));
+	add_sub_cella[4].cin = ((dataa[4..4] & datab_node[4..4]) # ((dataa[4..4] # datab_node[4..4]) & add_sub_cella[3].cout));
+	add_sub_cella[5].cin = ((dataa[5..5] & datab_node[5..5]) # ((dataa[5..5] # datab_node[5..5]) & add_sub_cella[4].cout));
+	add_sub_cella[6].cin = ((dataa[6..6] & datab_node[6..6]) # ((dataa[6..6] # datab_node[6..6]) & add_sub_cella[5].cout));
+	add_sub_cella[7].cin = ((dataa[7..7] & datab_node[7..7]) # ((dataa[7..7] # datab_node[7..7]) & add_sub_cella[6].cout));
+	add_sub_cella[8].cin = ((dataa[8..8] & datab_node[8..8]) # ((dataa[8..8] # datab_node[8..8]) & add_sub_cella[7].cout));
+	add_sub_cella[9].cin = ((dataa[9..9] & datab_node[9..9]) # ((dataa[9..9] # datab_node[9..9]) & add_sub_cella[8].cout));
+	add_sub_cella[10].cin = ((dataa[10..10] & datab_node[10..10]) # ((dataa[10..10] # datab_node[10..10]) & add_sub_cella[9].cout));
+	add_sub_cella[11].cin = ((dataa[11..11] & datab_node[11..11]) # ((dataa[11..11] # datab_node[11..11]) & add_sub_cella[10].cout));
+	add_sub_cella[12].cin = ((dataa[12..12] & datab_node[12..12]) # ((dataa[12..12] # datab_node[12..12]) & add_sub_cella[11].cout));
+	add_sub_cella[0].sin = ((dataa[0..0] $ datab_node[0..0]) $ main_cin_wire);
+	add_sub_cella[1].sin = ((dataa[1..1] $ datab_node[1..1]) $ add_sub_cella[0].cout);
+	add_sub_cella[2].sin = ((dataa[2..2] $ datab_node[2..2]) $ add_sub_cella[1].cout);
+	add_sub_cella[3].sin = ((dataa[3..3] $ datab_node[3..3]) $ add_sub_cella[2].cout);
+	add_sub_cella[4].sin = ((dataa[4..4] $ datab_node[4..4]) $ add_sub_cella[3].cout);
+	add_sub_cella[5].sin = ((dataa[5..5] $ datab_node[5..5]) $ add_sub_cella[4].cout);
+	add_sub_cella[6].sin = ((dataa[6..6] $ datab_node[6..6]) $ add_sub_cella[5].cout);
+	add_sub_cella[7].sin = ((dataa[7..7] $ datab_node[7..7]) $ add_sub_cella[6].cout);
+	add_sub_cella[8].sin = ((dataa[8..8] $ datab_node[8..8]) $ add_sub_cella[7].cout);
+	add_sub_cella[9].sin = ((dataa[9..9] $ datab_node[9..9]) $ add_sub_cella[8].cout);
+	add_sub_cella[10].sin = ((dataa[10..10] $ datab_node[10..10]) $ add_sub_cella[9].cout);
+	add_sub_cella[11].sin = ((dataa[11..11] $ datab_node[11..11]) $ add_sub_cella[10].cout);
+	add_sub_cella[12].sin = ((dataa[12..12] $ datab_node[12..12]) $ add_sub_cella[11].cout);
+	external_cin_cell.cin = cin;
+	external_cin_cell.sin = B"0";
+	datab_node[] = datab[];
+	main_cin_wire = external_cin_cell.cout;
+	result[] = add_sub_cella[].sout;
+END;
+--VALID FILE
