@@ -21,9 +21,9 @@ entity TOP is
         PS2_CLK    : in  std_logic; -- PS2 CLK
         PS2_DATA   : in  std_logic; -- PS2 DATA
         -- VGA INTERFACE
-        VGA_RED    : out std_logic_vector(2 downto 0); -- VGA RED
-        VGA_GREEN  : out std_logic_vector(2 downto 0); -- VGA GREEN
-        VGA_BLUE   : out std_logic_vector(1 downto 0); -- VGA BLUE
+        VGA_RED    : out std_logic_vector(4 downto 0); -- VGA RED
+        VGA_GREEN  : out std_logic_vector(5 downto 0); -- VGA GREEN
+        VGA_BLUE   : out std_logic_vector(4 downto 0); -- VGA BLUE
         VGA_H_SYNC : out std_logic; -- VGA H-SYNC
         VGA_V_SYNC : out std_logic; -- VGA V-SYNC
         -- SOUND OUTPUT
@@ -140,9 +140,9 @@ begin
     LED_GWIN  <= sig_win;
     LED_GOVER <= sig_lose;
 
-    VGA_RED   <= sig_rgb(2) & sig_rgb(2) & sig_rgb(2);
-    VGA_GREEN <= sig_rgb(1) & sig_rgb(1) & sig_rgb(1);
-    VGA_BLUE  <= sig_rgb(0) & sig_rgb(0);
+    VGA_RED   <= sig_rgb(2) & sig_rgb(2) & sig_rgb(2) & sig_rgb(2) & sig_rgb(2);
+    VGA_GREEN <= sig_rgb(1) & sig_rgb(1) & sig_rgb(1) & sig_rgb(1) & sig_rgb(1) & sig_rgb(1);
+    VGA_BLUE  <= sig_rgb(0) & sig_rgb(0) & sig_rgb(0) & sig_rgb(0) & sig_rgb(0);
 
     VGA_V_SYNC <= sig_vsync4;
     VGA_H_SYNC <= sig_hsync4;

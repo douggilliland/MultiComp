@@ -62,19 +62,27 @@ CLK => game_ctrl:game_ctrl_i.CLK
 ASYNC_RST => debouncer:ASYNC_RST_debouncer_i.DIN
 PS2_CLK => ps2:ps2_i.PS2C
 PS2_DATA => ps2:ps2_i.PS2D
-VGA_RED[0] <= cell_generator:cell_generator_i.RGB[2]
-VGA_RED[1] <= cell_generator:cell_generator_i.RGB[2]
-VGA_RED[2] <= cell_generator:cell_generator_i.RGB[2]
-VGA_GREEN[0] <= cell_generator:cell_generator_i.RGB[1]
-VGA_GREEN[1] <= cell_generator:cell_generator_i.RGB[1]
-VGA_GREEN[2] <= cell_generator:cell_generator_i.RGB[1]
-VGA_BLUE[0] <= cell_generator:cell_generator_i.RGB[0]
-VGA_BLUE[1] <= cell_generator:cell_generator_i.RGB[0]
-VGA_H_SYNC <= sig_hsync4.DB_MAX_OUTPUT_PORT_TYPE
-VGA_V_SYNC <= sig_vsync4.DB_MAX_OUTPUT_PORT_TYPE
-SOUND <= <GND>
-LED_GWIN <= wtr_ctrl:wtr_ctrl_i.WIN_BIT
-LED_GOVER <= wtr_ctrl:wtr_ctrl_i.FAIL_OUT
+VGA_RED[0] << cell_generator:cell_generator_i.RGB[2]
+VGA_RED[1] << cell_generator:cell_generator_i.RGB[2]
+VGA_RED[2] << cell_generator:cell_generator_i.RGB[2]
+VGA_RED[3] << cell_generator:cell_generator_i.RGB[2]
+VGA_RED[4] << cell_generator:cell_generator_i.RGB[2]
+VGA_GREEN[0] << cell_generator:cell_generator_i.RGB[1]
+VGA_GREEN[1] << cell_generator:cell_generator_i.RGB[1]
+VGA_GREEN[2] << cell_generator:cell_generator_i.RGB[1]
+VGA_GREEN[3] << cell_generator:cell_generator_i.RGB[1]
+VGA_GREEN[4] << cell_generator:cell_generator_i.RGB[1]
+VGA_GREEN[5] << cell_generator:cell_generator_i.RGB[1]
+VGA_BLUE[0] << cell_generator:cell_generator_i.RGB[0]
+VGA_BLUE[1] << cell_generator:cell_generator_i.RGB[0]
+VGA_BLUE[2] << cell_generator:cell_generator_i.RGB[0]
+VGA_BLUE[3] << cell_generator:cell_generator_i.RGB[0]
+VGA_BLUE[4] << cell_generator:cell_generator_i.RGB[0]
+VGA_H_SYNC << sig_hsync4.DB_MAX_OUTPUT_PORT_TYPE
+VGA_V_SYNC << sig_vsync4.DB_MAX_OUTPUT_PORT_TYPE
+SOUND << <GND>
+LED_GWIN << wtr_ctrl:wtr_ctrl_i.WIN_BIT
+LED_GOVER << wtr_ctrl:wtr_ctrl_i.FAIL_OUT
 
 
 |TOP|DEBOUNCER:ASYNC_RST_debouncer_i
