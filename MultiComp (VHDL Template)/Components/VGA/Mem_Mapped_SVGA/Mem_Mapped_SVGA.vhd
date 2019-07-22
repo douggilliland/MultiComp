@@ -26,12 +26,13 @@ architecture struct of Mem_Mapped_SVGA is
 	signal video				: std_logic;
 	signal hSync				: std_logic;
 	signal vSync				: std_logic;
+	signal hAct					: std_logic;
 
 begin
 	
 	VoutVect <=	video&video&video&video&video&			-- Red
 					video&video&video&video&video&video&	-- Grn
-					"00000"&											-- Blu
+					hAct&hAct&hAct&hAct&hAct&			-- Blu
 					hSync&vSync;
 	
 	Video_SVGA_64x32 : entity work.Video_SVGA_64x32
@@ -43,7 +44,8 @@ begin
 		clk => Video_Clk,
 		video => video,
 		vSync => vSync,
-		hSync => hSync
+		hSync => hSync,
+		hAct	=> hAct
 	);	
 
 	DisplayRAM: entity work.DisplayRam2k 
