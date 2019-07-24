@@ -16,11 +16,11 @@ entity Microcomputer is
 		n_reset		: in std_logic;
 		clk			: in std_logic;
 
---		sramData		: inout std_logic_vector(7 downto 0);
---		sramAddress	: out std_logic_vector(15 downto 0);
---		n_sRamWE		: out std_logic;
---		n_sRamCS		: out std_logic;
---		n_sRamOE		: out std_logic;
+		sramData		: inout std_logic_vector(7 downto 0);
+		sramAddress	: out std_logic_vector(18 downto 0);
+		n_sRamWE		: out std_logic;
+		n_sRamCS		: out std_logic;
+		n_sRamOE		: out std_logic;
 		
 --		rxd1			: in std_logic;
 --		txd1			: out std_logic;
@@ -77,15 +77,15 @@ architecture struct of Microcomputer is
 --	signal sdCardDataOut				: std_logic_vector(7 downto 0);
 
 	signal n_memWR						: std_logic :='1';
---	signal n_memRD 					: std_logic :='1';
+	signal n_memRD 					: std_logic :='1';
 
 	signal n_int1						: std_logic :='1';	
 --	signal n_int2						: std_logic :='1';	
 	
---	signal n_externalRamCS			: std_logic :='1';
+	signal n_externalRamCS			: std_logic :='1';
 	signal n_basRomCS					: std_logic :='1';
 	signal n_interface1CS			: std_logic :='1';
-	signal n_internalRam1CS		: std_logic :='1';
+--	signal n_internalRam1CS		: std_logic :='1';
 --	signal n_interface2CS			: std_logic :='1';
 --	signal n_sdCardCS					: std_logic :='1';
 
@@ -97,6 +97,9 @@ architecture struct of Microcomputer is
 --	signal sdClock						: std_logic;	
 	
 begin
+	
+	sramAddress(18 downto 16) <= "000";
+	
 	-- ____________________________________________________________________________________
 	-- CPU CHOICE GOES HERE
 	cpu1 : entity work.cpu09
@@ -126,21 +129,21 @@ begin
 	-- ____________________________________________________________________________________
 	-- RAM GOES HERE
 	
- 	ram1: entity work.InternalRam16K
-		port map
-		(
-			address => cpuAddress(13 downto 0),
-			clock => clk,
-			data => cpuDataOut,
-			wren => not(n_memWR or n_internalRam1CS),
-			q => internalRam1DataOut
-		);
+-- 	ram1: entity work.InternalRam16K
+--		port map
+--		(
+--			address => cpuAddress(13 downto 0),
+--			clock => clk,
+--			data => cpuDataOut,
+--			wren => not(n_memWR or n_internalRam1CS),
+--			q => internalRam1DataOut
+--		);
 	
---	sramAddress(15 downto 0) <= cpuAddress(15 downto 0);
---	sramData <= cpuDataOut when n_WR='0' else (others => 'Z');
---	n_sRamWE <= n_memWR;
---	n_sRamOE <= n_memRD;
---	n_sRamCS <= n_externalRamCS;
+	sramAddress(15 downto 0) <= cpuAddress(15 downto 0);
+	sramData <= cpuDataOut when n_WR='0' else (others => 'Z');
+	n_sRamWE <= n_memWR;
+	n_sRamOE <= n_memRD;
+	n_sRamCS <= n_externalRamCS;
 	
 	-- ____________________________________________________________________________________
 	-- INPUT/OUTPUT DEVICES GO HERE	
@@ -214,7 +217,7 @@ begin
 	
 	-- ____________________________________________________________________________________
 	-- MEMORY READ/WRITE LOGIC GOES HERE
---	n_memRD <= not(cpuClock) nand n_WR;
+	n_memRD <= not(cpuClock) nand n_WR;
 	n_memWR <= not(cpuClock) nand (not n_WR);
 	
 	-- ____________________________________________________________________________________
@@ -223,9 +226,9 @@ begin
 	n_interface1CS <= '0' when cpuAddress(15 downto 1) = "111111111101000" else '1'; -- 2 bytes FFD0-FFD1
 --	n_interface2CS <= '0' when cpuAddress(15 downto 1) = "111111111101001" else '1'; -- 2 bytes FFD2-FFD3
 --	n_sdCardCS <= '0' when cpuAddress(15 downto 3) = "1111111111011" else '1'; -- 8 bytes FFD8-FFDF
---	n_externalRamCS <= not n_basRomCS;
+	n_externalRamCS <= not n_basRomCS;
 
-	n_internalRam1CS <= '0' when cpuAddress(15 downto 14) = "00" else '1';
+--	n_internalRam1CS <= '0' when cpuAddress(15 downto 14) = "00" else '1';
 	
 	J6_3 <= '0';
 	J6_4 <= '0';
@@ -244,8 +247,8 @@ begin
 --	interface2DataOut when n_interface2CS = '0' else
 --	sdCardDataOut when n_sdCardCS = '0' else
 	basRomData when n_basRomCS = '0' else
-	internalRam1DataOut when n_internalRam1CS= '0' else
---	sramData when n_externalRamCS= '0' else
+--	internalRam1DataOut when n_internalRam1CS= '0' else
+	sramData when n_externalRamCS= '0' else
 	x"FF";
 	
 	-- ____________________________________________________________________________________
