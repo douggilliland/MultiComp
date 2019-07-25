@@ -198,7 +198,7 @@ port (
         -- select internal control register
         regAddr : in std_logic_vector(2 downto 0);
         -- incoming CPU address to decode
-        cpuAddr : in std_logic_vector(15 downto 9);
+        cpuAddr : in std_logic_vector(15 downto 9);			-- MODIFIED
         -- high-order lines to external RAM - upto 512x8.
         ramAddr : out std_logic_vector(18 downto 13);
         -- RAM chip select - upto 2 devices.

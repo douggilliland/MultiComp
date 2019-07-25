@@ -87,7 +87,7 @@ entity Microcomputer is
         vduffd0     : in std_logic;
 
         sRamData        : inout std_logic_vector(7 downto 0);
-        sRamAddress     : out std_logic_vector(16 downto 0);
+        sRamAddress     : out std_logic_vector(18 downto 0);
         n_sRamWE        : out std_logic;
         n_sRamCS        : out std_logic;
         n_sRamOE        : out std_logic;
@@ -407,14 +407,13 @@ mm1 : entity work.mem_mapper2
             n_reset => n_reset,
             clk => clk,
             hold => hold,
-
             n_wr => n_WR_sd,
 
             dataIn => cpuDataOut,
             dataOut => mmDataOut,
             regAddr => cpuAddress(2 downto 0),
 
-            cpuAddr => cpuAddress(15 downto 13),
+            cpuAddr => cpuAddress(15 downto 9),
             ramAddr => sRamAddress_i(18 downto 13),
             ramWrInhib => ramWrInhib,
             romInhib => romInhib,
