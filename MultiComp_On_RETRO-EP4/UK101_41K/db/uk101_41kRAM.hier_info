@@ -7,28 +7,28 @@ sramData[4] <> sramData[4]
 sramData[5] <> sramData[5]
 sramData[6] <> sramData[6]
 sramData[7] <> sramData[7]
-sramAddress[0] << t65:u1.A[0]
-sramAddress[1] << t65:u1.A[1]
-sramAddress[2] << t65:u1.A[2]
-sramAddress[3] << t65:u1.A[3]
-sramAddress[4] << t65:u1.A[4]
-sramAddress[5] << t65:u1.A[5]
-sramAddress[6] << t65:u1.A[6]
-sramAddress[7] << t65:u1.A[7]
-sramAddress[8] << t65:u1.A[8]
-sramAddress[9] << t65:u1.A[9]
-sramAddress[10] << t65:u1.A[10]
-sramAddress[11] << t65:u1.A[11]
-sramAddress[12] << t65:u1.A[12]
-sramAddress[13] << t65:u1.A[13]
-sramAddress[14] << t65:u1.A[14]
-sramAddress[15] << <GND>
-sramAddress[16] << <GND>
-sramAddress[17] << <GND>
-sramAddress[18] << <GND>
-n_sRamWE << n_memWR.DB_MAX_OUTPUT_PORT_TYPE
-n_sRamCS << t65:u1.A[15]
-n_sRamOE << n_memRD.DB_MAX_OUTPUT_PORT_TYPE
+sramAddress[0] <= t65:u1.A[0]
+sramAddress[1] <= t65:u1.A[1]
+sramAddress[2] <= t65:u1.A[2]
+sramAddress[3] <= t65:u1.A[3]
+sramAddress[4] <= t65:u1.A[4]
+sramAddress[5] <= t65:u1.A[5]
+sramAddress[6] <= t65:u1.A[6]
+sramAddress[7] <= t65:u1.A[7]
+sramAddress[8] <= t65:u1.A[8]
+sramAddress[9] <= t65:u1.A[9]
+sramAddress[10] <= t65:u1.A[10]
+sramAddress[11] <= t65:u1.A[11]
+sramAddress[12] <= t65:u1.A[12]
+sramAddress[13] <= t65:u1.A[13]
+sramAddress[14] <= t65:u1.A[14]
+sramAddress[15] <= t65:u1.A[15]
+sramAddress[16] <= <GND>
+sramAddress[17] <= <GND>
+sramAddress[18] <= <GND>
+n_sRamWE <= n_memWR.DB_MAX_OUTPUT_PORT_TYPE
+n_sRamCS <= n_ramCS.DB_MAX_OUTPUT_PORT_TYPE
+n_sRamOE <= n_memRD.DB_MAX_OUTPUT_PORT_TYPE
 clk => basicrom:u2.clock
 clk => serialClock.CLK
 clk => serialClkCount[0].CLK
@@ -53,26 +53,26 @@ clk => cpuClkCount[2].CLK
 clk => cpuClkCount[3].CLK
 clk => cpuClkCount[4].CLK
 clk => cpuClkCount[5].CLK
-clk => videoclk_svga_800x600:pll.inclk0
-clk => mem_mapped_svga:vga.CLK_50
+clk => videoclk_xvga_1024x768:pll.inclk0
+clk => mem_mapped_xvga:vga.CLK_50
 clk => uk101keyboard:u9.CLK
 n_reset => t65:u1.Res_n
-n_reset => mem_mapped_svga:vga.n_reset
+n_reset => mem_mapped_xvga:vga.n_reset
 n_reset => uk101keyboard:u9.nRESET
 n_reset => reset_LED.DATAIN
 fpgaRx => buffereduart:u5.rxd
-fpgaTx << buffereduart:u5.txd
-fpgaRts << buffereduart:u5.n_rts
+fpgaTx <= buffereduart:u5.txd
+fpgaRts <= buffereduart:u5.n_rts
 fpgaCts => buffereduart:u5.n_cts
-vgaRedHi << mem_mapped_svga:vga.VoutVect[17]
-vgaRedLo << mem_mapped_svga:vga.VoutVect[16]
-vgaGrnHi << mem_mapped_svga:vga.VoutVect[12]
-vgaGrnLo << mem_mapped_svga:vga.VoutVect[11]
-vgaBluHi << mem_mapped_svga:vga.VoutVect[6]
-vgaBluLo << mem_mapped_svga:vga.VoutVect[5]
-vgaHsync << mem_mapped_svga:vga.VoutVect[1]
-vgaVsync << mem_mapped_svga:vga.VoutVect[0]
-reset_LED << n_reset.DB_MAX_OUTPUT_PORT_TYPE
+vgaRedHi <= mem_mapped_xvga:vga.VoutVect[2]
+vgaRedLo <= mem_mapped_xvga:vga.VoutVect[2]
+vgaGrnHi <= mem_mapped_xvga:vga.VoutVect[1]
+vgaGrnLo <= mem_mapped_xvga:vga.VoutVect[1]
+vgaBluHi <= mem_mapped_xvga:vga.VoutVect[0]
+vgaBluLo <= mem_mapped_xvga:vga.VoutVect[0]
+vgaHsync <= mem_mapped_xvga:vga.hSync
+vgaVsync <= mem_mapped_xvga:vga.vSync
+reset_LED <= n_reset.DB_MAX_OUTPUT_PORT_TYPE
 ps2Clk => uk101keyboard:u9.PS2_CLK
 ps2Data => uk101keyboard:u9.PS2_DATA
 
@@ -3014,22 +3014,22 @@ n_dcd => dataOut.DATAA
 n_dcd => process_3.IN1
 
 
-|uk101|VideoClk_SVGA_800x600:pll
+|uk101|VideoClk_XVGA_1024x768:pll
 areset => altpll:altpll_component.areset
 inclk0 => altpll:altpll_component.inclk[0]
 c0 <= altpll:altpll_component.clk[0]
 c1 <= altpll:altpll_component.clk[1]
 c2 <= altpll:altpll_component.clk[2]
-c3 <= altpll:altpll_component.clk[3]
+locked <= altpll:altpll_component.locked
 
 
-|uk101|VideoClk_SVGA_800x600:pll|altpll:altpll_component
-inclk[0] => VideoClk_SVGA_800x600_altpll:auto_generated.inclk[0]
-inclk[1] => VideoClk_SVGA_800x600_altpll:auto_generated.inclk[1]
+|uk101|VideoClk_XVGA_1024x768:pll|altpll:altpll_component
+inclk[0] => VideoClk_XVGA_1024x768_altpll:auto_generated.inclk[0]
+inclk[1] => VideoClk_XVGA_1024x768_altpll:auto_generated.inclk[1]
 fbin => ~NO_FANOUT~
 pllena => ~NO_FANOUT~
 clkswitch => ~NO_FANOUT~
-areset => VideoClk_SVGA_800x600_altpll:auto_generated.areset
+areset => VideoClk_XVGA_1024x768_altpll:auto_generated.areset
 pfdena => ~NO_FANOUT~
 clkena[0] => ~NO_FANOUT~
 clkena[1] => ~NO_FANOUT~
@@ -3070,7 +3070,7 @@ enable1 <= <GND>
 enable0 <= <GND>
 activeclock <= <GND>
 clkloss <= <GND>
-locked <= <GND>
+locked <= VideoClk_XVGA_1024x768_altpll:auto_generated.locked
 scandataout <= <GND>
 scandone <= <GND>
 sclkout0 <= <GND>
@@ -3083,7 +3083,8 @@ fref <= <GND>
 icdrclk <= <GND>
 
 
-|uk101|VideoClk_SVGA_800x600:pll|altpll:altpll_component|VideoClk_SVGA_800x600_altpll:auto_generated
+|uk101|VideoClk_XVGA_1024x768:pll|altpll:altpll_component|VideoClk_XVGA_1024x768_altpll:auto_generated
+areset => pll_lock_sync.ACLR
 areset => pll1.ARESET
 clk[0] <= pll1.CLK
 clk[1] <= pll1.CLK1
@@ -3092,12 +3093,14 @@ clk[3] <= pll1.CLK3
 clk[4] <= pll1.CLK4
 inclk[0] => pll1.CLK
 inclk[1] => pll1.CLK1
+locked <= locked.DB_MAX_OUTPUT_PORT_TYPE
 
 
-|uk101|Mem_Mapped_SVGA:vga
+|uk101|Mem_Mapped_XVGA:vga
 n_reset => ~NO_FANOUT~
-Video_Clk => video_svga_64x32:Video_SVGA_64x32.clk
-CLK_50 => displayram2k:DisplayRAM.clock
+Video_Clk => video_xvga_64x32:Video_XVGA_64x32.clk
+Video_Clk => displayram2k:DisplayRAM.clock_b
+CLK_50 => displayram2k:DisplayRAM.clock_a
 n_dispRamCS => comb.IN0
 n_memWR => comb.IN1
 cpuAddress[0] => displayram2k:DisplayRAM.address_a[0]
@@ -3127,30 +3130,17 @@ dataOut[4] <= displayram2k:DisplayRAM.q_a[4]
 dataOut[5] <= displayram2k:DisplayRAM.q_a[5]
 dataOut[6] <= displayram2k:DisplayRAM.q_a[6]
 dataOut[7] <= displayram2k:DisplayRAM.q_a[7]
-VoutVect[0] <= video_svga_64x32:Video_SVGA_64x32.vSync
-VoutVect[1] <= video_svga_64x32:Video_SVGA_64x32.hSync
-VoutVect[2] <= video_svga_64x32:Video_SVGA_64x32.hAct
-VoutVect[3] <= video_svga_64x32:Video_SVGA_64x32.hAct
-VoutVect[4] <= video_svga_64x32:Video_SVGA_64x32.hAct
-VoutVect[5] <= video_svga_64x32:Video_SVGA_64x32.hAct
-VoutVect[6] <= video_svga_64x32:Video_SVGA_64x32.hAct
-VoutVect[7] <= video_svga_64x32:Video_SVGA_64x32.video
-VoutVect[8] <= video_svga_64x32:Video_SVGA_64x32.video
-VoutVect[9] <= video_svga_64x32:Video_SVGA_64x32.video
-VoutVect[10] <= video_svga_64x32:Video_SVGA_64x32.video
-VoutVect[11] <= video_svga_64x32:Video_SVGA_64x32.video
-VoutVect[12] <= video_svga_64x32:Video_SVGA_64x32.video
-VoutVect[13] <= video_svga_64x32:Video_SVGA_64x32.video
-VoutVect[14] <= video_svga_64x32:Video_SVGA_64x32.video
-VoutVect[15] <= video_svga_64x32:Video_SVGA_64x32.video
-VoutVect[16] <= video_svga_64x32:Video_SVGA_64x32.video
-VoutVect[17] <= video_svga_64x32:Video_SVGA_64x32.video
+VoutVect[0] <= video_xvga_64x32:Video_XVGA_64x32.hAct
+VoutVect[1] <= video_xvga_64x32:Video_XVGA_64x32.video
+VoutVect[2] <= video_xvga_64x32:Video_XVGA_64x32.video
+hSync <= video_xvga_64x32:Video_XVGA_64x32.hSync
+vSync <= video_xvga_64x32:Video_XVGA_64x32.vSync
 
 
-|uk101|Mem_Mapped_SVGA:vga|Video_SVGA_64x32:Video_SVGA_64x32
-charAddr[0] <= vertLineCount[1].DB_MAX_OUTPUT_PORT_TYPE
-charAddr[1] <= vertLineCount[2].DB_MAX_OUTPUT_PORT_TYPE
-charAddr[2] <= vertLineCount[3].DB_MAX_OUTPUT_PORT_TYPE
+|uk101|Mem_Mapped_XVGA:vga|Video_XVGA_64x32:Video_XVGA_64x32
+charAddr[0] <= theCharRow[0].DB_MAX_OUTPUT_PORT_TYPE
+charAddr[1] <= theCharRow[1].DB_MAX_OUTPUT_PORT_TYPE
+charAddr[2] <= theCharRow[2].DB_MAX_OUTPUT_PORT_TYPE
 charAddr[3] <= dispData[0].DB_MAX_OUTPUT_PORT_TYPE
 charAddr[4] <= dispData[1].DB_MAX_OUTPUT_PORT_TYPE
 charAddr[5] <= dispData[2].DB_MAX_OUTPUT_PORT_TYPE
@@ -3167,17 +3157,17 @@ charData[4] => Mux0.IN7
 charData[5] => Mux0.IN8
 charData[6] => Mux0.IN9
 charData[7] => Mux0.IN10
-dispAddr[0] <= horizCount[3].DB_MAX_OUTPUT_PORT_TYPE
-dispAddr[1] <= horizCount[4].DB_MAX_OUTPUT_PORT_TYPE
-dispAddr[2] <= horizCount[5].DB_MAX_OUTPUT_PORT_TYPE
-dispAddr[3] <= horizCount[6].DB_MAX_OUTPUT_PORT_TYPE
-dispAddr[4] <= horizCount[7].DB_MAX_OUTPUT_PORT_TYPE
-dispAddr[5] <= horizCount[8].DB_MAX_OUTPUT_PORT_TYPE
-dispAddr[6] <= vertLineCount[4].DB_MAX_OUTPUT_PORT_TYPE
-dispAddr[7] <= vertLineCount[5].DB_MAX_OUTPUT_PORT_TYPE
-dispAddr[8] <= vertLineCount[6].DB_MAX_OUTPUT_PORT_TYPE
-dispAddr[9] <= vertLineCount[7].DB_MAX_OUTPUT_PORT_TYPE
-dispAddr[10] <= vertLineCount[8].DB_MAX_OUTPUT_PORT_TYPE
+dispAddr[0] <= horizCount[4].DB_MAX_OUTPUT_PORT_TYPE
+dispAddr[1] <= horizCount[5].DB_MAX_OUTPUT_PORT_TYPE
+dispAddr[2] <= horizCount[6].DB_MAX_OUTPUT_PORT_TYPE
+dispAddr[3] <= horizCount[7].DB_MAX_OUTPUT_PORT_TYPE
+dispAddr[4] <= horizCount[8].DB_MAX_OUTPUT_PORT_TYPE
+dispAddr[5] <= horizCount[9].DB_MAX_OUTPUT_PORT_TYPE
+dispAddr[6] <= theCharRow[3].DB_MAX_OUTPUT_PORT_TYPE
+dispAddr[7] <= theCharRow[4].DB_MAX_OUTPUT_PORT_TYPE
+dispAddr[8] <= theCharRow[5].DB_MAX_OUTPUT_PORT_TYPE
+dispAddr[9] <= theCharRow[6].DB_MAX_OUTPUT_PORT_TYPE
+dispAddr[10] <= theCharRow[7].DB_MAX_OUTPUT_PORT_TYPE
 dispData[0] => charAddr[3].DATAIN
 dispData[1] => charAddr[4].DATAIN
 dispData[2] => charAddr[5].DATAIN
@@ -3190,6 +3180,16 @@ clk => hAct~reg0.CLK
 clk => video~reg0.CLK
 clk => n_vSync.CLK
 clk => n_hSync.CLK
+clk => prescaleRow[0].CLK
+clk => prescaleRow[1].CLK
+clk => theCharRow[0].CLK
+clk => theCharRow[1].CLK
+clk => theCharRow[2].CLK
+clk => theCharRow[3].CLK
+clk => theCharRow[4].CLK
+clk => theCharRow[5].CLK
+clk => theCharRow[6].CLK
+clk => theCharRow[7].CLK
 clk => vertLineCount[0].CLK
 clk => vertLineCount[1].CLK
 clk => vertLineCount[2].CLK
@@ -3210,13 +3210,14 @@ clk => horizCount[6].CLK
 clk => horizCount[7].CLK
 clk => horizCount[8].CLK
 clk => horizCount[9].CLK
+clk => horizCount[10].CLK
 video <= video~reg0.DB_MAX_OUTPUT_PORT_TYPE
 vSync <= n_vSync.DB_MAX_OUTPUT_PORT_TYPE
 hSync <= n_hSync.DB_MAX_OUTPUT_PORT_TYPE
 hAct <= hAct~reg0.DB_MAX_OUTPUT_PORT_TYPE
 
 
-|uk101|Mem_Mapped_SVGA:vga|DisplayRam2k:DisplayRAM
+|uk101|Mem_Mapped_XVGA:vga|DisplayRam2k:DisplayRAM
 address_a[0] => altsyncram:altsyncram_component.address_a[0]
 address_a[1] => altsyncram:altsyncram_component.address_a[1]
 address_a[2] => altsyncram:altsyncram_component.address_a[2]
@@ -3239,7 +3240,8 @@ address_b[7] => altsyncram:altsyncram_component.address_b[7]
 address_b[8] => altsyncram:altsyncram_component.address_b[8]
 address_b[9] => altsyncram:altsyncram_component.address_b[9]
 address_b[10] => altsyncram:altsyncram_component.address_b[10]
-clock => altsyncram:altsyncram_component.clock0
+clock_a => altsyncram:altsyncram_component.clock0
+clock_b => altsyncram:altsyncram_component.clock1
 data_a[0] => altsyncram:altsyncram_component.data_a[0]
 data_a[1] => altsyncram:altsyncram_component.data_a[1]
 data_a[2] => altsyncram:altsyncram_component.data_a[2]
@@ -3276,53 +3278,53 @@ q_b[6] <= altsyncram:altsyncram_component.q_b[6]
 q_b[7] <= altsyncram:altsyncram_component.q_b[7]
 
 
-|uk101|Mem_Mapped_SVGA:vga|DisplayRam2k:DisplayRAM|altsyncram:altsyncram_component
-wren_a => altsyncram_b0q3:auto_generated.wren_a
+|uk101|Mem_Mapped_XVGA:vga|DisplayRam2k:DisplayRAM|altsyncram:altsyncram_component
+wren_a => altsyncram_2sq3:auto_generated.wren_a
 rden_a => ~NO_FANOUT~
-wren_b => altsyncram_b0q3:auto_generated.wren_b
+wren_b => altsyncram_2sq3:auto_generated.wren_b
 rden_b => ~NO_FANOUT~
-data_a[0] => altsyncram_b0q3:auto_generated.data_a[0]
-data_a[1] => altsyncram_b0q3:auto_generated.data_a[1]
-data_a[2] => altsyncram_b0q3:auto_generated.data_a[2]
-data_a[3] => altsyncram_b0q3:auto_generated.data_a[3]
-data_a[4] => altsyncram_b0q3:auto_generated.data_a[4]
-data_a[5] => altsyncram_b0q3:auto_generated.data_a[5]
-data_a[6] => altsyncram_b0q3:auto_generated.data_a[6]
-data_a[7] => altsyncram_b0q3:auto_generated.data_a[7]
-data_b[0] => altsyncram_b0q3:auto_generated.data_b[0]
-data_b[1] => altsyncram_b0q3:auto_generated.data_b[1]
-data_b[2] => altsyncram_b0q3:auto_generated.data_b[2]
-data_b[3] => altsyncram_b0q3:auto_generated.data_b[3]
-data_b[4] => altsyncram_b0q3:auto_generated.data_b[4]
-data_b[5] => altsyncram_b0q3:auto_generated.data_b[5]
-data_b[6] => altsyncram_b0q3:auto_generated.data_b[6]
-data_b[7] => altsyncram_b0q3:auto_generated.data_b[7]
-address_a[0] => altsyncram_b0q3:auto_generated.address_a[0]
-address_a[1] => altsyncram_b0q3:auto_generated.address_a[1]
-address_a[2] => altsyncram_b0q3:auto_generated.address_a[2]
-address_a[3] => altsyncram_b0q3:auto_generated.address_a[3]
-address_a[4] => altsyncram_b0q3:auto_generated.address_a[4]
-address_a[5] => altsyncram_b0q3:auto_generated.address_a[5]
-address_a[6] => altsyncram_b0q3:auto_generated.address_a[6]
-address_a[7] => altsyncram_b0q3:auto_generated.address_a[7]
-address_a[8] => altsyncram_b0q3:auto_generated.address_a[8]
-address_a[9] => altsyncram_b0q3:auto_generated.address_a[9]
-address_a[10] => altsyncram_b0q3:auto_generated.address_a[10]
-address_b[0] => altsyncram_b0q3:auto_generated.address_b[0]
-address_b[1] => altsyncram_b0q3:auto_generated.address_b[1]
-address_b[2] => altsyncram_b0q3:auto_generated.address_b[2]
-address_b[3] => altsyncram_b0q3:auto_generated.address_b[3]
-address_b[4] => altsyncram_b0q3:auto_generated.address_b[4]
-address_b[5] => altsyncram_b0q3:auto_generated.address_b[5]
-address_b[6] => altsyncram_b0q3:auto_generated.address_b[6]
-address_b[7] => altsyncram_b0q3:auto_generated.address_b[7]
-address_b[8] => altsyncram_b0q3:auto_generated.address_b[8]
-address_b[9] => altsyncram_b0q3:auto_generated.address_b[9]
-address_b[10] => altsyncram_b0q3:auto_generated.address_b[10]
+data_a[0] => altsyncram_2sq3:auto_generated.data_a[0]
+data_a[1] => altsyncram_2sq3:auto_generated.data_a[1]
+data_a[2] => altsyncram_2sq3:auto_generated.data_a[2]
+data_a[3] => altsyncram_2sq3:auto_generated.data_a[3]
+data_a[4] => altsyncram_2sq3:auto_generated.data_a[4]
+data_a[5] => altsyncram_2sq3:auto_generated.data_a[5]
+data_a[6] => altsyncram_2sq3:auto_generated.data_a[6]
+data_a[7] => altsyncram_2sq3:auto_generated.data_a[7]
+data_b[0] => altsyncram_2sq3:auto_generated.data_b[0]
+data_b[1] => altsyncram_2sq3:auto_generated.data_b[1]
+data_b[2] => altsyncram_2sq3:auto_generated.data_b[2]
+data_b[3] => altsyncram_2sq3:auto_generated.data_b[3]
+data_b[4] => altsyncram_2sq3:auto_generated.data_b[4]
+data_b[5] => altsyncram_2sq3:auto_generated.data_b[5]
+data_b[6] => altsyncram_2sq3:auto_generated.data_b[6]
+data_b[7] => altsyncram_2sq3:auto_generated.data_b[7]
+address_a[0] => altsyncram_2sq3:auto_generated.address_a[0]
+address_a[1] => altsyncram_2sq3:auto_generated.address_a[1]
+address_a[2] => altsyncram_2sq3:auto_generated.address_a[2]
+address_a[3] => altsyncram_2sq3:auto_generated.address_a[3]
+address_a[4] => altsyncram_2sq3:auto_generated.address_a[4]
+address_a[5] => altsyncram_2sq3:auto_generated.address_a[5]
+address_a[6] => altsyncram_2sq3:auto_generated.address_a[6]
+address_a[7] => altsyncram_2sq3:auto_generated.address_a[7]
+address_a[8] => altsyncram_2sq3:auto_generated.address_a[8]
+address_a[9] => altsyncram_2sq3:auto_generated.address_a[9]
+address_a[10] => altsyncram_2sq3:auto_generated.address_a[10]
+address_b[0] => altsyncram_2sq3:auto_generated.address_b[0]
+address_b[1] => altsyncram_2sq3:auto_generated.address_b[1]
+address_b[2] => altsyncram_2sq3:auto_generated.address_b[2]
+address_b[3] => altsyncram_2sq3:auto_generated.address_b[3]
+address_b[4] => altsyncram_2sq3:auto_generated.address_b[4]
+address_b[5] => altsyncram_2sq3:auto_generated.address_b[5]
+address_b[6] => altsyncram_2sq3:auto_generated.address_b[6]
+address_b[7] => altsyncram_2sq3:auto_generated.address_b[7]
+address_b[8] => altsyncram_2sq3:auto_generated.address_b[8]
+address_b[9] => altsyncram_2sq3:auto_generated.address_b[9]
+address_b[10] => altsyncram_2sq3:auto_generated.address_b[10]
 addressstall_a => ~NO_FANOUT~
 addressstall_b => ~NO_FANOUT~
-clock0 => altsyncram_b0q3:auto_generated.clock0
-clock1 => ~NO_FANOUT~
+clock0 => altsyncram_2sq3:auto_generated.clock0
+clock1 => altsyncram_2sq3:auto_generated.clock1
 clocken0 => ~NO_FANOUT~
 clocken1 => ~NO_FANOUT~
 clocken2 => ~NO_FANOUT~
@@ -3331,28 +3333,28 @@ aclr0 => ~NO_FANOUT~
 aclr1 => ~NO_FANOUT~
 byteena_a[0] => ~NO_FANOUT~
 byteena_b[0] => ~NO_FANOUT~
-q_a[0] <= altsyncram_b0q3:auto_generated.q_a[0]
-q_a[1] <= altsyncram_b0q3:auto_generated.q_a[1]
-q_a[2] <= altsyncram_b0q3:auto_generated.q_a[2]
-q_a[3] <= altsyncram_b0q3:auto_generated.q_a[3]
-q_a[4] <= altsyncram_b0q3:auto_generated.q_a[4]
-q_a[5] <= altsyncram_b0q3:auto_generated.q_a[5]
-q_a[6] <= altsyncram_b0q3:auto_generated.q_a[6]
-q_a[7] <= altsyncram_b0q3:auto_generated.q_a[7]
-q_b[0] <= altsyncram_b0q3:auto_generated.q_b[0]
-q_b[1] <= altsyncram_b0q3:auto_generated.q_b[1]
-q_b[2] <= altsyncram_b0q3:auto_generated.q_b[2]
-q_b[3] <= altsyncram_b0q3:auto_generated.q_b[3]
-q_b[4] <= altsyncram_b0q3:auto_generated.q_b[4]
-q_b[5] <= altsyncram_b0q3:auto_generated.q_b[5]
-q_b[6] <= altsyncram_b0q3:auto_generated.q_b[6]
-q_b[7] <= altsyncram_b0q3:auto_generated.q_b[7]
+q_a[0] <= altsyncram_2sq3:auto_generated.q_a[0]
+q_a[1] <= altsyncram_2sq3:auto_generated.q_a[1]
+q_a[2] <= altsyncram_2sq3:auto_generated.q_a[2]
+q_a[3] <= altsyncram_2sq3:auto_generated.q_a[3]
+q_a[4] <= altsyncram_2sq3:auto_generated.q_a[4]
+q_a[5] <= altsyncram_2sq3:auto_generated.q_a[5]
+q_a[6] <= altsyncram_2sq3:auto_generated.q_a[6]
+q_a[7] <= altsyncram_2sq3:auto_generated.q_a[7]
+q_b[0] <= altsyncram_2sq3:auto_generated.q_b[0]
+q_b[1] <= altsyncram_2sq3:auto_generated.q_b[1]
+q_b[2] <= altsyncram_2sq3:auto_generated.q_b[2]
+q_b[3] <= altsyncram_2sq3:auto_generated.q_b[3]
+q_b[4] <= altsyncram_2sq3:auto_generated.q_b[4]
+q_b[5] <= altsyncram_2sq3:auto_generated.q_b[5]
+q_b[6] <= altsyncram_2sq3:auto_generated.q_b[6]
+q_b[7] <= altsyncram_2sq3:auto_generated.q_b[7]
 eccstatus[0] <= <GND>
 eccstatus[1] <= <GND>
 eccstatus[2] <= <GND>
 
 
-|uk101|Mem_Mapped_SVGA:vga|DisplayRam2k:DisplayRAM|altsyncram:altsyncram_component|altsyncram_b0q3:auto_generated
+|uk101|Mem_Mapped_XVGA:vga|DisplayRam2k:DisplayRAM|altsyncram:altsyncram_component|altsyncram_2sq3:auto_generated
 address_a[0] => ram_block1a0.PORTAADDR
 address_a[0] => ram_block1a1.PORTAADDR
 address_a[0] => ram_block1a2.PORTAADDR
@@ -3537,6 +3539,14 @@ clock0 => ram_block1a4.CLK0
 clock0 => ram_block1a5.CLK0
 clock0 => ram_block1a6.CLK0
 clock0 => ram_block1a7.CLK0
+clock1 => ram_block1a0.CLK1
+clock1 => ram_block1a1.CLK1
+clock1 => ram_block1a2.CLK1
+clock1 => ram_block1a3.CLK1
+clock1 => ram_block1a4.CLK1
+clock1 => ram_block1a5.CLK1
+clock1 => ram_block1a6.CLK1
+clock1 => ram_block1a7.CLK1
 data_a[0] => ram_block1a0.PORTADATAIN
 data_a[1] => ram_block1a1.PORTADATAIN
 data_a[2] => ram_block1a2.PORTADATAIN
@@ -3587,7 +3597,7 @@ wren_b => ram_block1a6.PORTBWE
 wren_b => ram_block1a7.PORTBWE
 
 
-|uk101|Mem_Mapped_SVGA:vga|CharRom:CharROM
+|uk101|Mem_Mapped_XVGA:vga|CharRom:CharROM
 address[0] => Mux0.IN2058
 address[0] => Mux1.IN2058
 address[0] => Mux2.IN2058

@@ -68,7 +68,7 @@ architecture struct of uk101 is
 --	signal CLOCK_100		: std_ulogic;
 --	signal CLOCK_50		: std_ulogic;
 	signal Video_Clk_25p6		: std_ulogic;
-	signal VoutVect		: std_logic_vector(17 downto 0);
+	signal VoutVect		: std_logic_vector(2 downto 0);
 
 	signal dispAddrB 			: std_logic_vector(9 downto 0);
 	signal dispRamDataOutA 	: std_logic_vector(7 downto 0);
@@ -87,9 +87,7 @@ architecture struct of uk101 is
 begin
 
 	-- External SRAM
-	sramAddress(14 downto 0) <= cpuAddress(14 downto 0);
---	sramAddress(14) <= '0';
-	sramAddress(15) <= '0';
+	sramAddress(15 downto 0) <= cpuAddress(15 downto 0);
 	sramAddress(16) <= '0';
 	sramAddress(17) <= '0';
 	sramAddress(18) <= '0';
@@ -107,9 +105,7 @@ begin
 	n_monitorRomCS <= '0' when cpuAddress(15 downto 11) = "11111" else '1'; --2K
 	n_aciaCS <= '0' when cpuAddress(15 downto 1) = "111100000000000" else '1';
 	n_kbCS <= '0' when cpuAddress(15 downto 10) = "110111" else '1';
---	n_ramCS <= not(n_dispRamCS and n_basRomCS and n_monitorRomCS and n_aciaCS and n_kbCS);
---	n_ramCS <= cpuAddress(15);
-	n_ramCS <= '0' when cpuAddress(15) = '0' 	else '1';  			-- x0000-x07ff (4KB)
+	n_ramCS <= '0' when ((cpuAddress(15) = '0') or (cpuAddress(15 downto 13) = "100")) else '1';  			-- x0000-x7fff (32KB)
 	
 	cpuDataIn <=
 		basRomData when n_basRomCS = '0' else
@@ -205,23 +201,21 @@ begin
 		end if;
 	end process;
 
-	pll : work.VideoClk_SVGA_800x600 PORT MAP (
+	pll : work.VideoClk_XVGA_1024x768 PORT MAP (
 		inclk0	 => clk,
 		c0	 => Video_Clk_25p6		-- 25.600000
 --		c1	 => cpuClock,			-- 1 MHz CPU clock
 --		c2	 => CLOCK_50			-- Logic Clock
 	);
 	
-	vgaRedHi	<= VoutVect(17);	-- red upper
-	vgaRedLo	<= VoutVect(16);
-	vgaGrnHi	<= VoutVect(12);
-	vgaGrnLo	<= VoutVect(11);
-	vgaBluHi	<= VoutVect(6);
-	vgaBluLo	<= VoutVect(5);
-	vgaHSync	<= VoutVect(1);
-	vgaVSync	<= VoutVect(0);
+	vgaRedHi	<= VoutVect(2);	-- red upper
+	vgaRedLo	<= VoutVect(2);
+	vgaGrnHi	<= VoutVect(1);
+	vgaGrnLo	<= VoutVect(1);
+	vgaBluHi	<= VoutVect(0);
+	vgaBluLo	<= VoutVect(0);
 		
-	vga : entity work.Mem_Mapped_SVGA
+	vga : entity work.Mem_Mapped_XVGA
 	port map (
 		n_reset		=> n_reset,
 		Video_Clk 	=> Video_Clk_25p6,
@@ -231,7 +225,9 @@ begin
 		cpuAddress	=> cpuAddress(10 downto 0),
 		cpuDataOut	=> cpuDataOut,
 		dataOut		=> dispRamDataOutA,
-		VoutVect		=> VoutVect
+		VoutVect		=> VoutVect,
+		hSync			=> vgaHsync,
+		vSync			=> vgaVsync
 	);
 	
 --latchIO0 : entity work.OUT_LATCH	--Output LatchIO
