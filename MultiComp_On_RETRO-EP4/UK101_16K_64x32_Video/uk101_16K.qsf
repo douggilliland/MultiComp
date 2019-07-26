@@ -55,27 +55,31 @@ set_global_assignment -name PARTITION_COLOR 16764057 -section_id Top
 set_global_assignment -name POWER_PRESET_COOLING_SOLUTION "23 MM HEAT SINK WITH 200 LFPM AIRFLOW"
 set_global_assignment -name POWER_BOARD_THERMAL_MODEL "NONE (CONSERVATIVE)"
 set_global_assignment -name STRATIX_DEVICE_IO_STANDARD "3.3-V LVCMOS"
-set_location_assignment PIN_24 -to clk
-set_location_assignment PIN_99 -to ps2Clk
-set_location_assignment PIN_98 -to ps2Data
-set_location_assignment PIN_100 -to hSync
-set_location_assignment PIN_101 -to vSync
-set_location_assignment PIN_120 -to videoR0
-set_location_assignment PIN_121 -to videoR1
-set_location_assignment PIN_124 -to videoR2
-set_location_assignment PIN_125 -to videoR3
-set_location_assignment PIN_126 -to videoR4
-set_location_assignment PIN_111 -to videoG0
-set_location_assignment PIN_112 -to videoG1
-set_location_assignment PIN_113 -to videoG2
-set_location_assignment PIN_114 -to videoG3
-set_location_assignment PIN_115 -to videoG4
-set_location_assignment PIN_119 -to videoG5
-set_location_assignment PIN_103 -to videoB0
-set_location_assignment PIN_104 -to videoB1
-set_location_assignment PIN_105 -to videoB2
-set_location_assignment PIN_106 -to videoB3
-set_location_assignment PIN_110 -to videoB4
+set_location_assignment PIN_23 -to clk
+set_location_assignment PIN_125 -to n_reset
+set_instance_assignment -name WEAK_PULL_UP_RESISTOR ON -to n_reset
+set_location_assignment PIN_126 -to ps2Clk
+set_instance_assignment -name WEAK_PULL_UP_RESISTOR ON -to ps2Clk
+set_location_assignment PIN_127 -to ps2Data
+set_instance_assignment -name WEAK_PULL_UP_RESISTOR ON -to ps2Data
+set_location_assignment PIN_132 -to rxd
+set_instance_assignment -name WEAK_PULL_UP_RESISTOR ON -to fpgaRx
+set_location_assignment PIN_128 -to txd
+set_location_assignment PIN_129 -to rts
+set_location_assignment PIN_133 -to cts
+set_location_assignment PIN_112 -to videoR1
+set_location_assignment PIN_113 -to videoR0
+set_location_assignment PIN_114 -to videoG1
+set_location_assignment PIN_115 -to videoG0
+set_location_assignment PIN_124 -to videoB1
+set_location_assignment PIN_120 -to videoB0
+set_location_assignment PIN_119 -to hSync
+set_location_assignment PIN_121 -to vSync
+set_location_assignment PIN_59 -to sdMISO
+set_instance_assignment -name WEAK_PULL_UP_RESISTOR ON -to sdMISO
+set_location_assignment PIN_60 -to sdSCLK
+set_location_assignment PIN_55 -to sdMOSI
+set_location_assignment PIN_58 -to sdCS
 set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to clk
 set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to ps2Clk
 set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to ps2Data
@@ -86,11 +90,6 @@ set_global_assignment -name OUTPUT_IO_TIMING_NEAR_END_VMEAS "HALF VCCIO" -fall
 set_global_assignment -name OUTPUT_IO_TIMING_FAR_END_VMEAS "HALF SIGNAL SWING" -rise
 set_global_assignment -name OUTPUT_IO_TIMING_FAR_END_VMEAS "HALF SIGNAL SWING" -fall
 set_global_assignment -name CYCLONEII_RESERVE_NCEO_AFTER_CONFIGURATION "USE AS REGULAR IO"
-set_location_assignment PIN_13 -to ~ALTERA_DATA0~
-set_location_assignment PIN_6 -to ~ALTERA_ASDO_DATA1~
-set_location_assignment PIN_8 -to ~ALTERA_FLASH_nCE_nCSO~
-set_location_assignment PIN_12 -to ~ALTERA_DCLK~
-set_location_assignment PIN_89 -to n_reset
 set_global_assignment -name VHDL_FILE Components/ROMs/CegmonRom_Patched_64x32.VHD
 set_global_assignment -name VHDL_FILE Components/ROMs/CharRom.VHD
 set_global_assignment -name VHDL_FILE Components/ROMs/BasicRom.vhd
@@ -116,6 +115,4 @@ set_global_assignment -name QIP_FILE DisplayRam.qip
 set_global_assignment -name QIP_FILE BasicRom.qip
 set_global_assignment -name QIP_FILE SRAM4K.qip
 set_global_assignment -name CDF_FILE output_files/uk101_16K_EPROM.cdf
-set_location_assignment PIN_87 -to rxd
-set_location_assignment PIN_86 -to txd
 set_instance_assignment -name PARTITION_HIERARCHY root_partition -to | -section_id Top

@@ -62,13 +62,10 @@ set_location_assignment PIN_126 -to ps2Clk
 set_instance_assignment -name WEAK_PULL_UP_RESISTOR ON -to ps2Clk
 set_location_assignment PIN_127 -to ps2Data
 set_instance_assignment -name WEAK_PULL_UP_RESISTOR ON -to ps2Data
-set_location_assignment PIN_68 -to n_sRamCS
-set_location_assignment PIN_50 -to n_sRamOE
-set_location_assignment PIN_75 -to n_sRamWE
-set_location_assignment PIN_129 -to fpgaRts
-set_location_assignment PIN_128 -to fpgaTx
 set_location_assignment PIN_132 -to fpgaRx
 set_instance_assignment -name WEAK_PULL_UP_RESISTOR ON -to fpgaRx
+set_location_assignment PIN_128 -to fpgaTx
+set_location_assignment PIN_129 -to fpgaRts
 set_location_assignment PIN_133 -to fpgaCts
 set_location_assignment PIN_112 -to vgaRedHi
 set_location_assignment PIN_113 -to vgaRedLo
@@ -78,6 +75,14 @@ set_location_assignment PIN_124 -to vgaBluHi
 set_location_assignment PIN_120 -to vgaBluLo
 set_location_assignment PIN_119 -to vgaHsync
 set_location_assignment PIN_121 -to vgaVsync
+set_location_assignment PIN_58 -to sdCS
+set_location_assignment PIN_60 -to sdSCLK
+set_location_assignment PIN_59 -to sdMISO
+set_instance_assignment -name WEAK_PULL_UP_RESISTOR ON -to sdMISO
+set_location_assignment PIN_55 -to sdMOSI
+set_location_assignment PIN_68 -to n_sRamCS
+set_location_assignment PIN_50 -to n_sRamOE
+set_location_assignment PIN_75 -to n_sRamWE
 set_location_assignment PIN_54 -to sramAddress[18]
 set_location_assignment PIN_53 -to sramAddress[17]
 set_location_assignment PIN_52 -to sramAddress[16]
@@ -174,7 +179,6 @@ set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to fpgaTx
 set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to fpgaRx
 set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to fpgaRts
 set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to fpgaCts
-
 set_global_assignment -name VHDL_FILE "../../MultiComp (VHDL Template)/Components/Internal_RAM/InternalRam4K.vhd"
 set_global_assignment -name VHDL_FILE "../../MultiComp (VHDL Template)/Components/M6502/T65_V313/T65_Pack.vhd"
 set_global_assignment -name VHDL_FILE "../../MultiComp (VHDL Template)/Components/M6502/T65_V313/T65_MCode.vhd"

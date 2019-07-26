@@ -53,18 +53,21 @@ set_global_assignment -name PARTITION_COLOR 16764057 -section_id Top
 set_global_assignment -name POWER_PRESET_COOLING_SOLUTION "23 MM HEAT SINK WITH 200 LFPM AIRFLOW"
 set_global_assignment -name POWER_BOARD_THERMAL_MODEL "NONE (CONSERVATIVE)"
 set_global_assignment -name STRATIX_DEVICE_IO_STANDARD "2.5 V"
-set_location_assignment PIN_119 -to hSync
+set_location_assignment PIN_23 -to clk
+set_location_assignment PIN_125 -to n_reset
+set_instance_assignment -name WEAK_PULL_UP_RESISTOR ON -to n_reset
+set_location_assignment PIN_126 -to ps2Clk
+set_instance_assignment -name WEAK_PULL_UP_RESISTOR ON -to ps2Clk
+set_location_assignment PIN_127 -to ps2Data
+set_instance_assignment -name WEAK_PULL_UP_RESISTOR ON -to ps2Data
 set_location_assignment PIN_120 -to videoB0
 set_location_assignment PIN_124 -to videoB1
 set_location_assignment PIN_115 -to videoG0
 set_location_assignment PIN_114 -to videoG1
 set_location_assignment PIN_113 -to videoR0
 set_location_assignment PIN_112 -to videoR1
+set_location_assignment PIN_119 -to hSync
 set_location_assignment PIN_121 -to vSync
-set_location_assignment PIN_23 -to clk
-set_location_assignment PIN_126 -to ps2Clk
-set_location_assignment PIN_127 -to ps2Data
-set_location_assignment PIN_125 -to n_reset
 set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to clk
 set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to hSync
 set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to n_reset
