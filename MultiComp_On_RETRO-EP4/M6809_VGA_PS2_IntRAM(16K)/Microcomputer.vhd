@@ -22,17 +22,14 @@ entity Microcomputer is
 		n_sRamCS		: out std_logic;
 		n_sRamOE		: out std_logic;
 		
---		rxd1			: in std_logic;
---		txd1			: out std_logic;
---		rts1			: out std_logic;
+		rxd1			: in std_logic;
+		txd1			: out std_logic;
+		rts1			: out std_logic;
 
 --		rxd2			: in std_logic;
 --		txd2			: out std_logic;
 --		rts2			: out std_logic;
 		
-		CompVideoSync	: out std_logic;
-		CompVideo		: out std_logic;
-
 		videoR0		: out std_logic;
 		videoG0		: out std_logic;
 		videoB0		: out std_logic;
@@ -73,7 +70,7 @@ architecture struct of Microcomputer is
 	signal basRomData					: std_logic_vector(7 downto 0);
 	signal interface1DataOut		: std_logic_vector(7 downto 0);
 	signal internalRam1DataOut		: std_logic_vector(7 downto 0);
---	signal interface2DataOut		: std_logic_vector(7 downto 0);
+	signal interface2DataOut		: std_logic_vector(7 downto 0);
 --	signal sdCardDataOut				: std_logic_vector(7 downto 0);
 
 	signal n_memWR						: std_logic :='1';
@@ -86,14 +83,14 @@ architecture struct of Microcomputer is
 	signal n_basRomCS					: std_logic :='1';
 	signal n_interface1CS			: std_logic :='1';
 --	signal n_internalRam1CS		: std_logic :='1';
---	signal n_interface2CS			: std_logic :='1';
+	signal n_interface2CS			: std_logic :='1';
 --	signal n_sdCardCS					: std_logic :='1';
 
 	signal serialClkCount			: std_logic_vector(15 downto 0);
 	signal cpuClkCount				: std_logic_vector(5 downto 0); 
 	signal sdClkCount					: std_logic_vector(5 downto 0); 	
 	signal cpuClock					: std_logic;
---	signal serialClock				: std_logic;
+	signal serialClock				: std_logic;
 --	signal sdClock						: std_logic;	
 	
 begin
@@ -147,23 +144,23 @@ begin
 	
 	-- ____________________________________________________________________________________
 	-- INPUT/OUTPUT DEVICES GO HERE	
---	io1 : entity work.bufferedUART
---		port map(
---			clk => clk,
---			n_wr => n_interface1CS or cpuClock or n_WR,
---			n_rd => n_interface1CS or cpuClock or (not n_WR),
---			n_int => n_int1,
---			regSel => cpuAddress(0),
---			dataIn => cpuDataOut,
---			dataOut => interface1DataOut,
---			rxClock => serialClock,
---			txClock => serialClock,
---			rxd => rxd1,
---			txd => txd1,
---			n_cts => '0',
---			n_dcd => '0',
---			n_rts => rts1
---		);
+	io2 : entity work.bufferedUART
+		port map(
+			clk => clk,
+			n_wr => n_interface2CS or cpuClock or n_WR,
+			n_rd => n_interface2CS or cpuClock or (not n_WR),
+			n_int => n_int1,
+			regSel => cpuAddress(0),
+			dataIn => cpuDataOut,
+			dataOut => interface2DataOut,
+			rxClkEn  => serialClock,
+			txClkEn  => serialClock,			
+			rxd => rxd1,
+			txd => txd1,
+			n_cts => '0',
+			n_dcd => '0',
+			n_rts => rts1
+		);
 	
 	io1 : entity work.SBCTextDisplayRGB
 --		generic map(
@@ -183,10 +180,6 @@ begin
 			videoG1 => videoG1,
 			videoB0 => videoB0,
 			videoB1 => videoB1,
-			
-			-- Monochrome CompVideo signals (when using TV timings only)
-			sync => CompVideoSync,
-			video => CompVideo,
 			
 			n_wr => n_interface1CS or cpuClock or n_WR,
 			n_rd => n_interface1CS or cpuClock or (not n_WR),
@@ -244,7 +237,7 @@ begin
 	-- Order matters since SRAM overlaps I/O chip selects
 	cpuDataIn <=
 	interface1DataOut when n_interface1CS = '0' else
---	interface2DataOut when n_interface2CS = '0' else
+	interface2DataOut when n_interface2CS = '0' else
 --	sdCardDataOut when n_sdCardCS = '0' else
 	basRomData when n_basRomCS = '0' else
 --	internalRam1DataOut when n_internalRam1CS= '0' else
@@ -254,43 +247,43 @@ begin
 	-- ____________________________________________________________________________________
 	-- SYSTEM CLOCKS GO HERE
 	-- SUB-CIRCUIT CLOCK SIGNALS
---serialClock <= serialClkCount(15);
+serialClock <= serialClkCount(15);
 process (clk)
 begin
-if rising_edge(clk) then
+	if rising_edge(clk) then
 
-if cpuClkCount < 4 then -- 4 = 10MHz, 3 = 12.5MHz, 2=16.6MHz, 1=25MHz
-cpuClkCount <= cpuClkCount + 1;
-else
-cpuClkCount <= (others=>'0');
-end if;
-if cpuClkCount < 2 then -- 2 when 10MHz, 2 when 12.5MHz, 2 when 16.6MHz, 1 when 25MHz
-cpuClock <= '0';
-else
-cpuClock <= '1';
-end if;
+		if cpuClkCount < 4 then -- 4 = 10MHz, 3 = 12.5MHz, 2=16.6MHz, 1=25MHz
+			cpuClkCount <= cpuClkCount + 1;
+		else
+			cpuClkCount <= (others=>'0');
+		end if;
+		if cpuClkCount < 2 then -- 2 when 10MHz, 2 when 12.5MHz, 2 when 16.6MHz, 1 when 25MHz
+			cpuClock <= '0';
+		else
+			cpuClock <= '1';
+		end if;
 
-if sdClkCount < 49 then -- 1MHz
-sdClkCount <= sdClkCount + 1;
-else
-sdClkCount <= (others=>'0');
-end if;
---if sdClkCount < 25 then
---sdClock <= '0';
---else
---sdClock <= '1';
---end if;
+		if sdClkCount < 49 then -- 1MHz
+			sdClkCount <= sdClkCount + 1;
+		else
+			sdClkCount <= (others=>'0');
+		end if;
+		--if sdClkCount < 25 then
+		--sdClock <= '0';
+		--else
+		--sdClock <= '1';
+		--end if;
 
--- Serial clock DDS
--- 50MHz master input clock:
--- Baud Increment
--- 115200 2416
--- 38400 805
--- 19200 403
--- 9600 201
--- 4800 101
--- 2400 50
---serialClkCount <= serialClkCount + 2416;
-end if;
+		-- Serial clock DDS
+		-- 50MHz master input clock:
+		-- Baud Increment
+		-- 115200 2416
+		-- 38400 805
+		-- 19200 403
+		-- 9600 201
+		-- 4800 101
+		-- 2400 50
+		serialClkCount <= serialClkCount + 2416;
+	end if;
 end process;
 end;
