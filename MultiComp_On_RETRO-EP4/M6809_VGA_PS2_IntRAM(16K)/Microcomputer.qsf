@@ -53,7 +53,6 @@ set_global_assignment -name PARTITION_COLOR 16764057 -section_id Top
 set_global_assignment -name POWER_PRESET_COOLING_SOLUTION "23 MM HEAT SINK WITH 200 LFPM AIRFLOW"
 set_global_assignment -name POWER_BOARD_THERMAL_MODEL "NONE (CONSERVATIVE)"
 set_global_assignment -name STRATIX_DEVICE_IO_STANDARD "2.5 V"
-set_location_assignment PIN_23 -to clk
 set_location_assignment PIN_125 -to n_reset
 set_instance_assignment -name WEAK_PULL_UP_RESISTOR ON -to n_reset
 set_location_assignment PIN_127 -to ps2Clk
@@ -68,7 +67,6 @@ set_location_assignment PIN_113 -to videoR0
 set_location_assignment PIN_112 -to videoR1
 set_location_assignment PIN_119 -to hSync
 set_location_assignment PIN_121 -to vSync
-set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to clk
 set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to hSync
 set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to n_reset
 set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to ps2Clk
@@ -80,16 +78,6 @@ set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to videoG1
 set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to videoR0
 set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to videoR1
 set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to vSync
-set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to CompVideo
-set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to CompVideoSync
-set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to J6_4
-set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to J6_5
-set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to J6_6
-set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to J6_7
-set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to J6_8
-set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to J6_9
-set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to J6_10
-set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to J6_3
 set_location_assignment PIN_68 -to n_sRamCS
 set_location_assignment PIN_71 -to sramData[0]
 set_location_assignment PIN_70 -to sramData[1]
@@ -120,6 +108,45 @@ set_location_assignment PIN_50 -to n_sRamOE
 set_location_assignment PIN_54 -to sramAddress[18]
 set_location_assignment PIN_53 -to sramAddress[17]
 set_location_assignment PIN_52 -to sramAddress[16]
+set_location_assignment PIN_129 -to rts1
+set_location_assignment PIN_132 -to rxd1
+set_location_assignment PIN_128 -to txd1
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to n_sRamCS
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to n_sRamOE
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to n_sRamWE
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to rts1
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to rxd1
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to sramAddress[16]
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to sramAddress[17]
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to sramAddress[18]
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to txd1
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to sramData[0]
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to sramData[1]
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to sramData[2]
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to sramData[3]
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to sramData[4]
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to sramData[5]
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to sramData[6]
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to sramData[7]
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to sramAddress[0]
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to sramAddress[1]
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to sramAddress[2]
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to sramAddress[3]
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to sramAddress[4]
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to sramAddress[5]
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to sramAddress[6]
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to sramAddress[7]
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to sramAddress[8]
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to sramAddress[15]
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to sramAddress[14]
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to sramAddress[13]
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to sramAddress[10]
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to sramAddress[9]
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to sramAddress[11]
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to sramAddress[12]
+set_location_assignment PIN_85 -to serSelect
+set_location_assignment PIN_133 -to cts1
+set_global_assignment -name VHDL_FILE "../../MultiComp (VHDL Template)/Components/Debounce/Debounce.vhd"
 set_global_assignment -name VHDL_FILE "../../MultiComp (VHDL Template)/Components/UART/bufferedUART.vhd"
 set_global_assignment -name VHDL_FILE "../../MultiComp (VHDL Template)/Components/TERMINAL/SansBoldRomReduced.vhd"
 set_global_assignment -name VHDL_FILE "../../MultiComp (VHDL Template)/Components/TERMINAL/SansBoldRom.vhd"
@@ -132,7 +159,5 @@ set_global_assignment -name VHDL_FILE Components/TERMINAL/CGABoldRomReduced.vhd
 set_global_assignment -name VHDL_FILE Components/TERMINAL/SBCTextDisplayRGB.vhd
 set_global_assignment -name VHDL_FILE "Components/M6809/cpu09-l.vhd"
 set_global_assignment -name VHDL_FILE Microcomputer.vhd
-set_location_assignment PIN_129 -to rts1
-set_location_assignment PIN_132 -to rxd1
-set_location_assignment PIN_128 -to txd1
+set_location_assignment PIN_23 -to i_CLOCK_50
 set_instance_assignment -name PARTITION_HIERARCHY root_partition -to | -section_id Top

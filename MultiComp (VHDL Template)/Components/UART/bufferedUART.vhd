@@ -41,7 +41,7 @@ entity bufferedUART is
 		txd     : out std_logic;
 		n_rts   : out std_logic :='0';
 		n_cts   : in  std_logic;
-		n_dcd   : in  std_logic
+		n_dcd   : in  std_logic := '0'
    );
 end bufferedUART;
 
