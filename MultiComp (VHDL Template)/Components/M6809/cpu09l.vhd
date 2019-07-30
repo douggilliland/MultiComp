@@ -4,9 +4,9 @@
 --                                                                           --
 --===========================================================================--
 --
--- File name      : cpu09ll.vhd
+-- File name      : cpu09l.vhd
 --
--- Entity name    : cpu09l
+-- Entity name    : cpu09
 --
 -- Purpose        : 6809 instruction compatible CPU core written in VHDL
 --                  with Last Instruction Cycle, bus available, bus status,
@@ -243,12 +243,18 @@
 -- Version 1.26 - 2013-03-18 John Kent
 -- pre-initialized cond_true variable to true in state sequencer
 -- re-arranged change_state process slightly
+--
+-- Version 1.27 - 2015-05-30 John Kent
+-- Added test in state machine for masked IRQ and FIRQ in Sync_state.
+--
+-- Version 1.28 - 2015-05-30 John Kent.
+-- Moved IRQ and FIRQ test from state machine to the state sequencer Sync_state.
 -- 
 library ieee;
 use ieee.std_logic_1164.all;
 use ieee.std_logic_unsigned.all;
 
-entity cpu09l is
+entity cpu09 is
 	port (	
 		clk      :	in std_logic;                     -- E clock input (falling edge)
 		rst      :  in std_logic;                     -- reset input (active high)
@@ -268,9 +274,9 @@ entity cpu09l is
 		halt     :  in std_logic;                     -- halt input (active high) grants DMA
 		hold     :  in std_logic                      -- hold input (active high) extend bus cycle
 		);
-end cpu09l;
+end cpu09;
 
-architecture rtl of cpu09l is
+architecture rtl of cpu09 is
 
   constant EBIT : integer := 7;
   constant FBIT : integer := 6;
@@ -485,6 +491,8 @@ begin
 -- State machine stack
 --
 ----------------------------------
+--state_stack_proc: process( clk, hold, state_stack, st_ctrl, 
+--                           return_state, fetch_state  )
 state_stack_proc: process( clk, st_ctrl, return_state )
 begin
   if clk'event and clk = '0' then
@@ -506,6 +514,7 @@ end process;
 -- Interrupt Vector control
 --
 ----------------------------------
+--
 int_vec_proc: process( clk, iv_ctrl )
 begin
   if clk'event and clk = '0' then
@@ -537,6 +546,8 @@ end process;
 -- Program Counter Control
 --
 ----------------------------------
+
+--pc_reg: process( clk, pc_ctrl, hold, pc, out_alu, data_in )
 pc_reg: process( clk )
 begin
   if clk'event and clk = '0' then
@@ -564,8 +575,11 @@ end process;
 -- Effective Address  Control
 --
 ----------------------------------
+
+--ea_reg: process( clk, ea_ctrl, hold, ea, out_alu, data_in, dp )
 ea_reg: process( clk )
 begin
+
   if clk'event and clk = '0' then
     if hold= '0' then
     case ea_ctrl is
@@ -591,6 +605,7 @@ end process;
 -- Accumulator A
 --
 --------------------------------
+--acca_reg : process( clk, acca_ctrl, hold, out_alu, acca, data_in )
 acca_reg : process( clk )
 begin
   if clk'event and clk = '0' then
@@ -616,6 +631,7 @@ end process;
 -- Accumulator B
 --
 --------------------------------
+--accb_reg : process( clk, accb_ctrl, hold, out_alu, accb, data_in )
 accb_reg : process( clk )
 begin
   if clk'event and clk = '0' then
@@ -639,6 +655,7 @@ end process;
 -- X Index register
 --
 --------------------------------
+--ix_reg : process( clk, ix_ctrl, hold, out_alu, xreg, data_in )
 ix_reg : process( clk )
 begin
   if clk'event and clk = '0' then
@@ -664,6 +681,7 @@ end process;
 -- Y Index register
 --
 --------------------------------
+--iy_reg : process( clk, iy_ctrl, hold, out_alu, yreg, data_in )
 iy_reg : process( clk )
 begin
   if clk'event and clk = '0' then
@@ -689,6 +707,7 @@ end process;
 -- S stack pointer
 --
 --------------------------------
+--sp_reg : process( clk, sp_ctrl, hold, sp, out_alu, data_in, nmi_enable )
 sp_reg : process( clk )
 begin
   if clk'event and clk = '0' then
@@ -717,6 +736,7 @@ end process;
 -- U stack pointer
 --
 --------------------------------
+--up_reg : process( clk, up_ctrl, hold, up, out_alu, data_in )
 up_reg : process( clk )
 begin
   if clk'event and clk = '0' then
@@ -742,6 +762,7 @@ end process;
 -- Memory Data
 --
 --------------------------------
+--md_reg : process( clk, md_ctrl, hold, out_alu, data_in, md )
 md_reg : process( clk )
 begin
   if clk'event and clk = '0' then
@@ -774,6 +795,8 @@ end process;
 -- Condition Codes
 --
 ----------------------------------
+
+--cc_reg: process( clk, cc_ctrl, hold, cc_out, cc, data_in )
 cc_reg: process( clk )
 begin
   if clk'event and clk = '0' then
@@ -797,6 +820,8 @@ end process;
 -- Direct Page register
 --
 ----------------------------------
+
+--dp_reg: process( clk, dp_ctrl, hold, out_alu, dp, data_in )
 dp_reg: process( clk )
 begin
   if clk'event and clk = '0' then
@@ -821,6 +846,8 @@ end process;
 -- op code register
 --
 ----------------------------------
+
+--op_reg: process( clk, op_ctrl, hold, op_code, data_in )
 op_reg: process( clk )
 begin
   if clk'event and clk = '0' then
@@ -843,6 +870,8 @@ end process;
 -- pre byte op code register
 --
 ----------------------------------
+
+--pre_reg: process( clk, pre_ctrl, hold, pre_code, data_in )
 pre_reg: process( clk )
 begin
   if clk'event and clk = '0' then
@@ -864,6 +893,8 @@ end process;
 -- state machine
 --
 --------------------------------
+
+--change_state: process( clk, rst, state, hold, next_state )
 change_state: process( clk )
 begin
   if clk'event and clk = '0' then
@@ -887,7 +918,8 @@ begin
         if lic = '1'  then
           if halt = '1' then
 			   state <= halt_state;
-             -- service non maskable interrupts
+				
+          -- service non maskable interrupts
           elsif (nmi_req = '1') and (nmi_ack = '0') then
 			   state <= int_nmi_state;
 				 --
@@ -898,7 +930,17 @@ begin
 
 			 elsif (irq = '1') and (cc(IBIT) = '0') then
 			   state <= int_irq_state;
-			
+			 --
+			 -- Version 1.27 2015-05-30
+			 -- Exit sync_state on masked interrupt.
+			 --
+			 -- Version 1.28 2015-05-30
+			 -- Move this code to the state sequencer
+			 -- near line 5566.
+			 --
+			 -- elsif  (state = sync_state) and ((firq = '1') or (irq = '1'))then
+			 --   state <= fetch_state;
+          --
 			 else
 			   state <= next_state;
           end if; -- halt, nmi, firq, irq
@@ -914,6 +956,8 @@ end process;
 -- Detect Edge of NMI interrupt
 --
 ------------------------------------
+
+--nmi_handler : process( clk, rst, nmi, nmi_ack, nmi_req, nmi_enable )
 nmi_handler : process( rst, clk )
 begin
   if rst='1' then
@@ -1613,7 +1657,7 @@ begin
     --
     -- direct single op (2 bytes)
     -- 6809 => 6 cycles
-    -- cpu09l => 5 cycles
+    -- cpu09 => 5 cycles
     -- 1 op=(pc) / pc=pc+1
     -- 2 ea_hi=dp / ea_lo=(pc) / pc=pc+1
     -- 3 md_lo=(ea) / pc=pc
@@ -1622,7 +1666,7 @@ begin
     --
     -- Exception is JMP
     -- 6809 => 3 cycles
-    -- cpu09l => 3 cycles
+    -- cpu09 => 3 cycles
     -- 1 op=(pc) / pc=pc+1
     -- 2 ea_hi=dp / ea_lo=(pc) / pc=pc+1
     -- 3 pc=ea
@@ -1673,7 +1717,7 @@ begin
       --
       -- nop - No operation ( 1 byte )
       -- 6809 => 2 cycles
-      -- cpu09l => 2 cycles
+      -- cpu09 => 2 cycles
       -- 1 op=(pc) / pc=pc+1
       -- 2 decode
       -- 
@@ -1687,7 +1731,7 @@ begin
       -- program execution continues if the 
       -- interrupt is asserted for 3 clock cycles
       -- note that registers are not pushed onto the stack
-      -- cpu09l => Interrupts need only be asserted for one clock cycle
+      -- CPU09 => Interrupts need only be asserted for one clock cycle
       --
       when "0011" => -- sync
         next_state   <= sync_state;
@@ -1695,7 +1739,7 @@ begin
       --
       -- lbra -- long branch (3 bytes)
       -- 6809 => 5 cycles
-      -- cpu09l => 4 cycles
+      -- cpu09 => 4 cycles
       -- 1 op=(pc) / pc=pc+1
       -- 2 md_hi=sign(pc) / md_lo=(pc) / pc=pc+1
       -- 3 md_hi=md_lo / md_lo=(pc) / pc=pc+1
@@ -1709,7 +1753,7 @@ begin
       --
       -- lbsr - long branch to subroutine (3 bytes)
       -- 6809 => 9 cycles
-      -- cpu09l => 6 cycles
+      -- cpu09 => 6 cycles
       -- 1 op=(pc) /pc=pc+1
       -- 2 md_hi=sign(pc) / md_lo=(pc) / pc=pc+1 / sp=sp-1
       -- 3 md_hi=md_lo / md_lo=(pc) / pc=pc+1
@@ -1793,7 +1837,7 @@ begin
     --
     -- Short branch conditional
     -- 6809 => always 3 cycles
-    -- cpu09l => always = 3 cycles
+    -- cpu09 => always = 3 cycles
     -- 1 op=(pc) / pc=pc+1
     -- 2 md_hi=sign(pc) / md_lo=(pc) / pc=pc+1 / test cc
     -- 3 if cc tru pc=pc+md else pc=pc
@@ -1811,7 +1855,7 @@ begin
       --
       -- lea - load effective address (2+ bytes)
       -- 6809 => 4 cycles + addressing mode
-      -- cpu09l => 4 cycles + addressing mode
+      -- cpu09 => 4 cycles + addressing mode
       -- 1 op=(pc) / pc=pc+1
       -- 2 md_lo=(pc) / pc=pc+1
       -- 3 calculate ea
@@ -1831,7 +1875,7 @@ begin
       --
       -- pshs - push registers onto sp stack
       -- 6809 => 5 cycles + registers
-      -- cpu09l => 3 cycles + registers
+      -- cpu09 => 3 cycles + registers
       --  1 op=(pc) / pc=pc+1
       --  2 ea_lo=(pc) / pc=pc+1 
       --  3 if ea(7 downto 0) != "00000000" then sp=sp-1
@@ -1863,7 +1907,7 @@ begin
       --
       -- puls - pull registers of sp stack
       -- 6809 => 5 cycles + registers
-      -- cpu09l => 3 cycles + registers
+      -- cpu09 => 3 cycles + registers
       --
       when "0101" => -- puls
         -- advance PC
@@ -1873,7 +1917,7 @@ begin
       --
       -- pshu - push registers onto up stack
       -- 6809 => 5 cycles + registers
-      -- cpu09l => 3 cycles + registers
+      -- cpu09 => 3 cycles + registers
       --
       when "0110" => -- pshu
         -- advance PC
@@ -1883,7 +1927,7 @@ begin
       --
       -- pulu - pull registers of up stack
       -- 6809 => 5 cycles + registers
-      -- cpu09l => 3 cycles + registers
+      -- cpu09 => 3 cycles + registers
       --
       when "0111" => -- pulu
         -- advance PC
@@ -1893,7 +1937,7 @@ begin
       --
       -- rts - return from subroutine
       -- 6809 => 5 cycles
-      -- cpu09l => 4 cycles 
+      -- cpu09 => 4 cycles 
       -- 1 op=(pc) / pc=pc+1
       -- 2 decode op
       -- 3 pc_hi = (sp) / sp=sp+1
@@ -1907,7 +1951,7 @@ begin
       -- *** Note: this is an unsigned addition.
       --           does not affect any condition codes
       -- 6809 => 3 cycles
-      -- cpu09l => 2 cycles
+      -- cpu09 => 2 cycles
       -- 1 op=(pc) / pc=pc+1
       -- 2 alu_left=ix / alu_right=accb / ix=alu_out / pc=pc
       --
@@ -2225,7 +2269,7 @@ begin
       --
       -- bsr offset - Branch to subroutine (2 bytes)
       -- 6809 => 7 cycles
-      -- cpu09l => 5 cycles
+      -- cpu09 => 5 cycles
       -- 1 op=(pc) / pc=pc+1
       -- 2 md_hi=sign(pc) / md_lo=(pc) / sp=sp-1 / pc=pc+1
       -- 3 (sp)=pc_lo / sp=sp-1
@@ -2264,7 +2308,7 @@ begin
 	   --
       -- jsr direct - Jump to subroutine in direct page (2 bytes)
       -- 6809 => 7 cycles
-      -- cpu09l => 5 cycles
+      -- cpu09 => 5 cycles
       -- 1 op=(pc) / pc=pc+1
       -- 2 ea_hi=0 / ea_lo=(pc) / sp=sp-1 / pc=pc+1
       -- 3 (sp)=pc_lo / sp=sp-1
@@ -2489,7 +2533,7 @@ begin
 				 --
 				 -- lbcc -- long branch conditional
 				 -- 6809 => branch 6 cycles, no branch 5 cycles
-				 -- cpu09l => always 5 cycles
+				 -- cpu09 => always 5 cycles
 				 -- 1 pre=(pc) / pc=pc+1
 				 -- 2 op=(pc) / pc=pc+1
 				 -- 3 md_hi=sign(pc) / md_lo=(pc) / pc=pc+1
@@ -5559,8 +5603,21 @@ begin
 			  when sync_state =>
              lic        <= '1';
              ba         <= '1';
-	          next_state <= sync_state;
-
+			 --
+			 -- Version 1.28 2015-05-30
+			 -- Exit sync_state on interrupt.
+			 -- If the interrupts are active
+			 -- they will be caught in the state_machine process
+			 -- and the interrupt service routine microcode will be executed.
+			 -- Masked interrupts will exit the sync_state.
+			 -- Moved from the state_machine process to the state_sequencer process
+			 --
+				if (firq = '1') or (irq = '1') then
+               next_state <= fetch_state;
+				else
+	            next_state <= sync_state;
+            end if;
+				
 			  when halt_state =>
            --
            -- 2011-10-30 John Kent
