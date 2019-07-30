@@ -3,7 +3,7 @@
 -- Grant Searle's "multicomp" page at http://searle.hostei.com/grant/Multicomp/index.html
 --
 -- Changes to this code by Doug Gilliland 2019
---	16K (internal) RAM version
+--	48K (external) RAM version
 --
 -- Jumper in pin 85 to ground (adjacent pin) of the FPGA selects the VDU/Serial port
 -- Install to make serial port default
@@ -103,6 +103,8 @@ begin
 	
 	-- ____________________________________________________________________________________
 	-- 6809 CPU
+	-- works with Version 1.26
+	-- Does not work with Version 1.28 FPGA core
 	cpu1 : entity work.cpu09
 		port map(
 			clk => not(cpuClock),
