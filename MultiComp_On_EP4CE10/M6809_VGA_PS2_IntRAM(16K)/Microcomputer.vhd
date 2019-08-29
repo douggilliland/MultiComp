@@ -89,16 +89,16 @@ begin
 	-- ____________________________________________________________________________________
 	-- RAM GOES HERE
 	
- 	ram1: entity work.InternalRam16K
+ 	ram1: entity work.InternalRam32K
 		port map
 		(
-			address => cpuAddress(13 downto 0),
+			address => cpuAddress(14 downto 0),
 			clock => clk,
 			data => cpuDataOut,
 			wren => not(n_memWR or n_internalRamCS),
 			q => internalRam1DataOut
 		);
-	
+			
 	-- ____________________________________________________________________________________
 	-- Display GOES HERE
 
@@ -134,7 +134,7 @@ begin
 	-- CHIP SELECTS GO HERE
 	n_basRomCS <= '0' when cpuAddress(15 downto 13) = "111" else '1'; --8K at top of memory
 	n_videoInterfaceCS <= '0' when cpuAddress(15 downto 1) = "111111111101000" else '1'; -- 2 bytes FFD0-FFD1
-	n_internalRamCS <= '0' when cpuAddress(15 downto 14) = "00" else '1';
+	n_internalRamCS <= '0' when cpuAddress(15) = '0' else '1';
 	
 	-- ____________________________________________________________________________________
 	-- BUS ISOLATION GOES HERE
@@ -142,7 +142,7 @@ begin
 	cpuDataIn <=
 	interface1DataOut when n_videoInterfaceCS = '0' else
 	basRomData when n_basRomCS = '0' else
-	internalRam1DataOut when n_internalRamCS= '0' else
+	internalRam1DataOut when n_internalRamCS = '0' else
 	x"FF";
 	
 	-- ____________________________________________________________________________________
