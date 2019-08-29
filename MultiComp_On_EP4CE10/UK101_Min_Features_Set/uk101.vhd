@@ -98,7 +98,7 @@ begin
 	n_memWR <= not(cpuClock) nand (not n_WR);
 
 	-- Chip Selects
-	n_ramCS 			<= '0' when cpuAddress(15 downto 12) = "0000" 	else '1';  			-- x0000-x07ff (4KB)
+	n_ramCS 			<= '0' when cpuAddress(15) = '0' 	else '1';  				-- x0000-x3fff (16KB)
 	n_basRomCS 		<= '0' when cpuAddress(15 downto 13) = "101" 	else '1'; 			-- xA000-xBFFF (8KB)
 	n_kbCS 			<= '0' when cpuAddress(15 downto 10) = "110111" else '1';			-- xDC00-xDFFF (1KB)
 	n_dispRamCS 	<= '0' when cpuAddress(15 downto 11) = "11010" else '1';				-- xD000-xD7FF (2KB)
@@ -139,10 +139,10 @@ begin
 	);
 
 
-	SRAM_4K : entity work.InternalRam4K
+	SRAM_32K : entity work.InternalRam32K
 	port map
 	(
-		address => cpuAddress(11 downto 0),
+		address => cpuAddress(14 downto 0),
 		clock => CLOCK_50,
 		data => cpuDataOut,
 		wren => not(n_memWR or n_ramCS),
