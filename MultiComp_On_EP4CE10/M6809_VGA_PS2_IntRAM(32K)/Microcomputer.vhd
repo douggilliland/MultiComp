@@ -12,8 +12,8 @@ use  IEEE.STD_LOGIC_UNSIGNED.all;
 
 entity Microcomputer is
 	port(
-		n_reset		: in std_logic;
-		clk			: in std_logic;
+		i_n_reset		: in std_logic;
+		i_clk_50			: in std_logic;
 
 		o_vid_red	: out std_logic;
 		o_vid_grn	: out std_logic;
@@ -21,8 +21,8 @@ entity Microcomputer is
 		o_vid_hSync	: out std_logic;
 		o_vid_vSync	: out std_logic;
 
-		ps2Clk		: inout std_logic;
-		ps2Data		: inout std_logic
+		i_ps2Clk		: inout std_logic;
+		i_ps2Data		: inout std_logic
 	);
 end Microcomputer;
 
@@ -65,7 +65,7 @@ begin
 	cpu1 : entity work.cpu09
 		port map(
 			clk => not(cpuClock),
-			rst => not n_reset,
+			rst => not i_n_reset,
 			rw => n_WR,
 			addr => cpuAddress,
 			data_in => cpuDataIn,
@@ -82,7 +82,7 @@ begin
 	rom1 : entity work.M6809_EXT_BASIC_ROM -- 8KB BASIC
 		port map(
 			address => cpuAddress(12 downto 0),
-			clock => clk,
+			clock => i_clk_50,
 			q => basRomData
 		);
 	
@@ -93,7 +93,7 @@ begin
 		port map
 		(
 			address => cpuAddress(14 downto 0),
-			clock => clk,
+			clock => i_clk_50,
 			data => cpuDataOut,
 			wren => not(n_memWR or n_internalRamCS),
 			q => internalRam1DataOut
@@ -104,8 +104,8 @@ begin
 
 	io1 : entity work.SBCTextDisplayRGB
 		port map (
-			n_reset => n_reset,
-			clk => clk,
+			n_reset => i_n_reset,
+			clk => i_clk_50,
 			
 			-- RGB CompVideo signals
 			hSync => o_vid_hSync,
@@ -122,8 +122,8 @@ begin
 			regSel => cpuAddress(0),
 			dataIn => cpuDataOut,
 			dataOut => interface1DataOut,
-			ps2Clk => ps2Clk,
-			ps2Data => ps2Data
+			ps2Clk => i_ps2Clk,
+			ps2Data => i_ps2Data
 		);
 	
 	-- ____________________________________________________________________________________
@@ -148,9 +148,9 @@ begin
 	-- ____________________________________________________________________________________
 	-- SYSTEM CLOCKS GO HERE
 	-- SUB-CIRCUIT CLOCK SIGNALS
-process (clk)
+process (i_clk_50)
 begin
-if rising_edge(clk) then
+if rising_edge(i_clk_50) then
 
 if cpuClkCount < 4 then -- 4 = 10MHz, 3 = 12.5MHz, 2=16.6MHz, 1=25MHz
 cpuClkCount <= cpuClkCount + 1;
