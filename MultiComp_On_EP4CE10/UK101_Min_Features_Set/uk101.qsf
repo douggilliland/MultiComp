@@ -51,17 +51,11 @@ set_global_assignment -name DEVICE_FILTER_SPEED_GRADE 8
 set_global_assignment -name ERROR_CHECK_FREQUENCY_DIVISOR 1
 set_global_assignment -name PARTITION_NETLIST_TYPE SOURCE -section_id Top
 set_global_assignment -name PARTITION_FITTER_PRESERVATION_LEVEL PLACEMENT_AND_ROUTING -section_id Top
-set_global_assignment -name NUM_PARALLEL_PROCESSORS 2
+set_global_assignment -name NUM_PARALLEL_PROCESSORS 4
 set_global_assignment -name PARTITION_COLOR 16764057 -section_id Top
 set_global_assignment -name POWER_PRESET_COOLING_SOLUTION "23 MM HEAT SINK WITH 200 LFPM AIRFLOW"
 set_global_assignment -name POWER_BOARD_THERMAL_MODEL "NONE (CONSERVATIVE)"
 set_global_assignment -name STRATIX_DEVICE_IO_STANDARD "3.3-V LVCMOS"
-set_location_assignment PIN_23 -to clk
-set_location_assignment PIN_11 -to ps2Clk
-set_location_assignment PIN_10 -to ps2Data
-set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to clk
-set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to ps2Clk
-set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to ps2Data
 set_global_assignment -name USE_CONFIGURATION_DEVICE OFF
 set_global_assignment -name CRC_ERROR_OPEN_DRAIN OFF
 set_global_assignment -name OUTPUT_IO_TIMING_NEAR_END_VMEAS "HALF VCCIO" -rise
@@ -73,35 +67,41 @@ set_location_assignment PIN_13 -to ~ALTERA_DATA0~
 set_location_assignment PIN_6 -to ~ALTERA_ASDO_DATA1~
 set_location_assignment PIN_8 -to ~ALTERA_FLASH_nCE_nCSO~
 set_location_assignment PIN_12 -to ~ALTERA_DCLK~
-set_location_assignment PIN_86 -to n_reset
-set_location_assignment PIN_113 -to rxd
-set_location_assignment PIN_114 -to txd
-set_location_assignment PIN_127 -to LED_out[0]
-set_location_assignment PIN_126 -to LED_out[1]
-set_location_assignment PIN_125 -to LED_out[2]
-set_location_assignment PIN_124 -to LED_out[3]
-set_location_assignment PIN_121 -to LED_out[4]
-set_location_assignment PIN_120 -to LED_out[5]
-set_location_assignment PIN_119 -to LED_out[6]
-set_location_assignment PIN_74 -to LED3
-set_location_assignment PIN_128 -to Anode_Activate[0]
-set_location_assignment PIN_129 -to Anode_Activate[1]
-set_location_assignment PIN_132 -to Anode_Activate[2]
-set_location_assignment PIN_133 -to Anode_Activate[3]
-set_location_assignment PIN_141 -to BUZZER
+# Seven Segment LEDs
+set_location_assignment PIN_132 -to o_Anode_Activate[2]
+set_location_assignment PIN_133 -to o_Anode_Activate[3]
+set_location_assignment PIN_127 -to o_LED7Seg_out[0]
+set_location_assignment PIN_126 -to o_LED7Seg_out[1]
+set_location_assignment PIN_125 -to o_LED7Seg_out[2]
+set_location_assignment PIN_124 -to o_LED7Seg_out[3]
+set_location_assignment PIN_121 -to o_LED7Seg_out[4]
+set_location_assignment PIN_120 -to o_LED7Seg_out[5]
+set_location_assignment PIN_119 -to o_LED7Seg_out[6]
+set_location_assignment PIN_115 -to o_LED7Seg_out[7]
+# Buzzer
+# Switches
 set_location_assignment PIN_87 -to switch0
 set_location_assignment PIN_91 -to switch1
 set_location_assignment PIN_90 -to switch2
-set_global_assignment -name INFER_RAMS_FROM_RAW_LOGIC OFF
-set_global_assignment -name AUTO_SHIFT_REGISTER_RECOGNITION ALWAYS
-set_location_assignment PIN_72 -to LED1
-set_location_assignment PIN_73 -to LED2
-set_location_assignment PIN_80 -to LED4
+# LEDs
+# Video
 set_location_assignment PIN_144 -to o_Vid_Blu
 set_location_assignment PIN_1 -to o_Vid_Grn
 set_location_assignment PIN_2 -to o_Vid_Red
 set_location_assignment PIN_142 -to o_Vid_hSync
 set_location_assignment PIN_143 -to o_Vid_vSync
+set_global_assignment -name INFER_RAMS_FROM_RAW_LOGIC OFF
+set_global_assignment -name AUTO_SHIFT_REGISTER_RECOGNITION ALWAYS
+
+set_location_assignment PIN_128 -to o_Anode_Activate[0]
+set_location_assignment PIN_129 -to o_Anode_Activate[1]
+set_location_assignment PIN_135 -to o_Anode_Activate[4]
+set_location_assignment PIN_136 -to o_Anode_Activate[5]
+set_location_assignment PIN_137 -to o_Anode_Activate[6]
+set_location_assignment PIN_138 -to o_Anode_Activate[7]
+set_global_assignment -name TIMING_ANALYZER_MULTICORNER_ANALYSIS ON
+set_global_assignment -name VHDL_FILE "../../MultiComp (VHDL Template)/Components/IO/OutLatch.vhd"
+set_global_assignment -name VHDL_FILE "../../MultiComp (VHDL Template)/Components/Seven_Seg_8_Digit/Loadable_7S8D_LED.vhd"
 set_global_assignment -name VHDL_FILE "../../MultiComp (VHDL Template)/Components/Internal_RAM/InternalRam2K.vhd"
 set_global_assignment -name VHDL_FILE "../../MultiComp (VHDL Template)/Components/Internal_RAM/InternalRam32K.vhd"
 set_global_assignment -name VHDL_FILE "../../MultiComp (VHDL Template)/Components/VGA/Mem_Mapped_SVGA/DisplayRam2k.vhd"
@@ -120,4 +120,24 @@ set_global_assignment -name VHDL_FILE "../../MultiComp (VHDL Template)/Component
 set_global_assignment -name VHDL_FILE "../../MultiComp (VHDL Template)/Components/ROMs/OSI/CegmonRom_Patched_64x32.VHD"
 set_global_assignment -name VHDL_FILE uk101.vhd
 set_global_assignment -name VHDL_FILE "../../MultiComp (VHDL Template)/Components/VGA/Mem_Mapped_SVGA/Mem_Mapped_SVGA.vhd"
+set_global_assignment -name SMART_RECOMPILE ON
+set_location_assignment PIN_72 -to o_LED[0]
+set_location_assignment PIN_80 -to o_LED[3]
+set_location_assignment PIN_74 -to o_LED[2]
+set_location_assignment PIN_83 -to o_LED[4]
+set_location_assignment PIN_73 -to o_LED[1]
+set_location_assignment PIN_113 -to i_rxd
+set_location_assignment PIN_114 -to o_txd
+set_location_assignment PIN_141 -to o_BUZZER
+set_location_assignment PIN_86 -to i_n_reset
+set_location_assignment PIN_23 -to i_clk
+set_location_assignment PIN_11 -to i_ps2Clk
+set_location_assignment PIN_10 -to i_ps2Data
+set_location_assignment PIN_84 -to o_LED[5]
+set_location_assignment PIN_77 -to o_LED[6]
+set_location_assignment PIN_76 -to o_LED[7]
+set_location_assignment PIN_75 -to o_LED[8]
+set_location_assignment PIN_71 -to o_LED[9]
+set_location_assignment PIN_70 -to o_LED[10]
+set_location_assignment PIN_69 -to o_LED[11]
 set_instance_assignment -name PARTITION_HIERARCHY root_partition -to | -section_id Top
