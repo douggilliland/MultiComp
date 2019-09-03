@@ -77,6 +77,8 @@ architecture struct of uk101 is
 	signal w_LEDCS2				: std_logic;
 	signal w_LEDCS3				: std_logic;
 	signal w_LEDCS4				: std_logic;
+	signal w_rLEDCS1				: std_logic;
+	signal w_rLEDCS2				: std_logic;
 	
 	signal w_serialClkCount		: std_logic_vector(15 downto 0); 
 	signal w_serialClkCount_d    : std_logic_vector(15 downto 0);
@@ -92,9 +94,11 @@ architecture struct of uk101 is
 	signal w_cpuClock				: std_logic;
 
 	signal w_kbReadData 			: std_logic_vector(7 downto 0);
-	signal w_kbRowSel 				: std_logic_vector(7 downto 0);
+	signal w_kbRowSel 			: std_logic_vector(7 downto 0);
 
-	signal w_txdBuff					: std_logic;
+	signal w_txdBuff				: std_logic;
+	
+	signal w_ringLEDs				: std_logic_vector(15 downto 0);
 	
 
 begin
@@ -106,6 +110,7 @@ begin
 	o_Vid_hSync	<= w_VoutVect(1);
 	o_Vid_vSync	<= w_VoutVect(0);
 
+	o_LED <= w_ringLEDs(11 downto 0);
 
 	n_memWR <= not(w_cpuClock) nand (not n_WR);
 
@@ -120,6 +125,8 @@ begin
 	w_LEDCS2 			<= '1' when w_cpuAddress  					= x"F005"  	else '0';				-- xF005 (1B) = 61445 dec
 	w_LEDCS3 			<= '1' when w_cpuAddress  					= x"F006"  	else '0';				-- xF006 (1B) = 61446 dec
 	w_LEDCS4 			<= '1' when w_cpuAddress  					= x"F007"  	else '0';				-- xF007 (1B) = 61447 dec
+	w_rLEDCS1 			<= '1' when w_cpuAddress  					= x"F008"  	else '0';				-- xF008 (1B) = 61448 dec
+	w_rLEDCS2 			<= '1' when w_cpuAddress  					= x"F009"  	else '0';				-- xF009 (1B) = 61449 dec
 	n_monitorRomCS <= '0' when w_cpuAddress(15 downto 11) 	= "11111"	else '1'; 				-- xF800-xFFFF (2KB)
  
 	w_cpuDataIn <=
@@ -229,6 +236,24 @@ begin
 		load		=> not (w_LEDCS4 and (not n_WR)),
 		clear		=> i_n_reset,
 		latchOut	=> w_displayed_number(7 downto 0)
+	);
+
+	RingLeds1	:	entity work.OutLatch
+	port map (
+		dataIn8	=> w_cpuDataOut,
+		clock		=> w_CLOCK_50,
+		load		=> not (w_rLEDCS1 and (not n_WR)),
+		clear		=> i_n_reset,
+		latchOut	=> w_ringLEDs(7 downto 0)
+	);
+
+	RingLeds2	:	entity work.OutLatch
+	port map (
+		dataIn8	=> w_cpuDataOut,
+		clock		=> w_CLOCK_50,
+		load		=> not (w_rLEDCS2 and (not n_WR)),
+		clear		=> i_n_reset,
+		latchOut	=> w_ringLEDs(15 downto 8)
 	);
 
 	UART : entity work.bufferedUART
