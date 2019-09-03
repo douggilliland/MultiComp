@@ -15,12 +15,9 @@ entity Microcomputer is
 		n_reset		: in std_logic;
 		clk			: in std_logic;
 
-		videoR0		: out std_logic;
-		videoG0		: out std_logic;
-		videoB0		: out std_logic;
-		videoR1		: out std_logic;
-		videoG1		: out std_logic;
-		videoB1		: out std_logic;
+		o_Video_Red	: out std_logic;
+		o_Video_Grn	: out std_logic;
+		o_Video_Blu	: out std_logic;
 		hSync			: out std_logic;
 		vSync			: out std_logic;
 
@@ -47,8 +44,19 @@ architecture struct of Microcomputer is
 
 	signal cpuClkCount				: std_logic_vector(5 downto 0); 
 	signal cpuClock					: std_logic;
+	signal videoR1						: std_logic;
+	signal videoR0						: std_logic;
+	signal videoG1						: std_logic;
+	signal videoG0						: std_logic;
+	signal videoB1						: std_logic;
+	signal videoB0						: std_logic;
 	
 begin
+
+	o_Video_Red <= videoR1 or videoR0;
+	o_Video_Grn <= videoG1 or videoG0;
+	o_Video_Blu <= videoB1 or videoB0;
+	
 	-- ____________________________________________________________________________________
 	-- CPU CHOICE GOES HERE
 	cpu1 : entity work.cpu09
