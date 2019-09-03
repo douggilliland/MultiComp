@@ -1,23 +1,23 @@
 |Microcomputer
-n_reset => sbctextdisplayrgb:io1.n_reset
-n_reset => cpu09:cpu1.rst
-clk => m6809_ext_basic_rom:rom1.clock
-clk => cpuClock.CLK
-clk => cpuClkCount[0].CLK
-clk => cpuClkCount[1].CLK
-clk => cpuClkCount[2].CLK
-clk => cpuClkCount[3].CLK
-clk => cpuClkCount[4].CLK
-clk => cpuClkCount[5].CLK
-clk => internalram16k:ram1.clock
-clk => sbctextdisplayrgb:io1.clk
-o_Video_Red << o_Video_Red.DB_MAX_OUTPUT_PORT_TYPE
-o_Video_Grn << o_Video_Grn.DB_MAX_OUTPUT_PORT_TYPE
-o_Video_Blu << o_Video_Blu.DB_MAX_OUTPUT_PORT_TYPE
-hSync << sbctextdisplayrgb:io1.hSync
-vSync << sbctextdisplayrgb:io1.vSync
-ps2Clk <> sbctextdisplayrgb:io1.ps2Clk
-ps2Data <> sbctextdisplayrgb:io1.ps2Data
+i_n_reset => sbctextdisplayrgb:io1.n_reset
+i_n_reset => cpu09:cpu1.rst
+i_clk_50 => m6809_ext_basic_rom:rom1.clock
+i_clk_50 => w_cpuClock.CLK
+i_clk_50 => w_cpuClkCount[0].CLK
+i_clk_50 => w_cpuClkCount[1].CLK
+i_clk_50 => w_cpuClkCount[2].CLK
+i_clk_50 => w_cpuClkCount[3].CLK
+i_clk_50 => w_cpuClkCount[4].CLK
+i_clk_50 => w_cpuClkCount[5].CLK
+i_clk_50 => internalram16k:ram1.clock
+i_clk_50 => sbctextdisplayrgb:io1.clk
+o_vid_red <= o_vid_red.DB_MAX_OUTPUT_PORT_TYPE
+o_vid_grn <= o_vid_grn.DB_MAX_OUTPUT_PORT_TYPE
+o_vid_blu <= o_vid_blu.DB_MAX_OUTPUT_PORT_TYPE
+o_vid_hSync <= sbctextdisplayrgb:io1.hSync
+o_vid_vSync <= sbctextdisplayrgb:io1.vSync
+i_ps2Clk <> sbctextdisplayrgb:io1.ps2Clk
+i_ps2Data <> sbctextdisplayrgb:io1.ps2Data
 
 
 |Microcomputer|cpu09:cpu1
