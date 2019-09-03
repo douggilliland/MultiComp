@@ -52,6 +52,7 @@ architecture struct of uk101 is
 	signal n_dispRamCS	: std_logic;
 	signal n_aciaCS		: std_logic;
 	signal n_ramCS			: std_logic;
+	signal n_ramCS2		: std_logic;
 	signal n_monitorRomCS : std_logic;
 	signal n_kbCS			: std_logic;
 	
@@ -87,7 +88,8 @@ begin
 	n_memWR <= not(cpuClock) nand (not n_WR);
 
 	-- Chip Selects
-	n_ramCS 			<= '0' when cpuAddress(15 downto 14) = "00" 	else '1';  							-- x0000-x7fff (32KB)
+	n_ramCS 			<= '0' when cpuAddress(15 downto 14) = "00" 	else '1';  				-- x0000-x7fff (32KB)
+	n_ramCS2			<= '0' when cpuAddress(15 downto 11) = "01000" 	else '1';
 	n_basRomCS 		<= '0' when cpuAddress(15 downto 13) = "101" 	else '1'; 			-- xA000-xBFFF (8KB)
 	n_kbCS 			<= '0' when cpuAddress(15 downto 10) = "110111" else '1';			-- xDC00-xDFFF (1KB)
 	n_dispRamCS 	<= '0' when cpuAddress(15 downto 11) = "11010" else '1';				-- xD000-xD7FF (2KB)
@@ -97,6 +99,7 @@ begin
 	cpuDataIn <=
 		aciaData when n_aciaCS = '0' else
 		ramDataOut when n_ramCS = '0' else
+		ramDataOut2 when n_ramCS2 = '0' else
 		displayRamData when n_dispRamCS = '0' else
 		basRomData when n_basRomCS = '0' else
 		kbReadData when n_kbCS='0' else 
@@ -128,7 +131,7 @@ begin
 	);
 
 
-	SRAM_32K : entity work.InternalRam16K
+	SRAM_16K : entity work.InternalRam16K
 	port map
 	(
 		address => cpuAddress(13 downto 0),
@@ -138,7 +141,16 @@ begin
 		q => ramDataOut
 	);
 
-	
+	SRAM_2K : entity work.InternalRam2K
+	port map
+	(
+		address => cpuAddress(10 downto 0),
+		clock => CLOCK_50,
+		data => cpuDataOut,
+		wren => not(n_memWR or n_ramCS2),
+		q => ramDataOut2
+	);
+
 	MONITOR : entity work.CegmonRom_Patched_64x32
 	port map
 	(
