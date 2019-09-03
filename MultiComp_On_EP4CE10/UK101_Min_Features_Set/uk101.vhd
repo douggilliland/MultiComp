@@ -71,7 +71,7 @@ architecture struct of uk101 is
 	signal n_aciaCS				: std_logic;
 	signal n_ramCS					: std_logic;
 	signal n_ramCS2				: std_logic;
-	signal n_monitorRomCS 		: std_logic;
+	signal n_monRomCS 		: std_logic;
 	signal n_kbCS					: std_logic;
 	signal w_LEDCS1				: std_logic;
 	signal w_LEDCS2				: std_logic;
@@ -87,8 +87,8 @@ architecture struct of uk101 is
 	
 	signal CLOCK_100				: std_ulogic;
 	signal w_CLOCK_50				: std_ulogic;
-	signal w_Video_Clk_25p6		: std_ulogic;
-	signal w_VoutVect				: std_logic_vector(17 downto 0);
+	signal w_Video_Clk			: std_ulogic;
+	signal w_VoutVect				: std_logic_vector(2 downto 0);
 
 	signal w_cpuClkCount			: std_logic_vector(5 downto 0); 
 	signal w_cpuClock				: std_logic;
@@ -103,40 +103,43 @@ architecture struct of uk101 is
 
 begin
 
---	w_VoutVect		: out std_logic_vector(17 downto 0); -- rrrrr,gggggg,bbbbb,hsync,vsync
-	o_Vid_Red	<= w_VoutVect(17);
-	o_Vid_Grn	<= w_VoutVect(12);
-	o_Vid_Blu	<= w_VoutVect(6);
-	o_Vid_hSync	<= w_VoutVect(1);
-	o_Vid_vSync	<= w_VoutVect(0);
-
 	o_LED <= w_ringLEDs(11 downto 0);
 
 	n_memWR <= not(w_cpuClock) nand (not n_WR);
 
+	o_Vid_Red <= w_VoutVect(2);
+	o_Vid_Grn <= w_VoutVect(1);
+	o_Vid_Blu <= w_VoutVect(0);
+
 	-- Chip Selects
-	n_ramCS 			<= '0' when w_cpuAddress(15) 				= '0' 		else '1';  				-- x0000-x7fff (32KB)
+	n_ramCS 			<= '0' when w_cpuAddress(15) 					= '0' 		else '1';  				-- x0000-x7fff (32KB)
 	n_ramCS2			<= '0' when w_cpuAddress(15 downto 11) 	= "10000" 	else '1';  				-- x8000-x87ff (2KB)
 	n_basRomCS 		<= '0' when w_cpuAddress(15 downto 13) 	= "101" 		else '1'; 				-- xA000-xBFFF (8KB)
 	n_kbCS 			<= '0' when w_cpuAddress(15 downto 10) 	= "110111" 	else '1';				-- xDC00-xDFFF (1KB)
 	n_dispRamCS 	<= '0' when w_cpuAddress(15 downto 11) 	= "11010" 	else '1';				-- xD000-xD7FF (2KB)
 	n_aciaCS 		<= '0' when w_cpuAddress(15 downto 1)  	= "111100000000000"  else '1';	-- xF000-xF001 (2B) = 61440 dec
-	w_LEDCS1 			<= '1' when w_cpuAddress  					= x"F004"  	else '0';				-- xF004 (1B) = 61444 dec
-	w_LEDCS2 			<= '1' when w_cpuAddress  					= x"F005"  	else '0';				-- xF005 (1B) = 61445 dec
-	w_LEDCS3 			<= '1' when w_cpuAddress  					= x"F006"  	else '0';				-- xF006 (1B) = 61446 dec
-	w_LEDCS4 			<= '1' when w_cpuAddress  					= x"F007"  	else '0';				-- xF007 (1B) = 61447 dec
-	w_rLEDCS1 			<= '1' when w_cpuAddress  					= x"F008"  	else '0';				-- xF008 (1B) = 61448 dec
-	w_rLEDCS2 			<= '1' when w_cpuAddress  					= x"F009"  	else '0';				-- xF009 (1B) = 61449 dec
-	n_monitorRomCS <= '0' when w_cpuAddress(15 downto 11) 	= "11111"	else '1'; 				-- xF800-xFFFF (2KB)
+	w_LEDCS1 		<= '1' when w_cpuAddress  						= x"F004"  	else '0';				-- xF004 (1B) = 61444 dec
+	w_LEDCS2 		<= '1' when w_cpuAddress  						= x"F005"  	else '0';				-- xF005 (1B) = 61445 dec
+	w_LEDCS3 		<= '1' when w_cpuAddress  						= x"F006"  	else '0';				-- xF006 (1B) = 61446 dec
+	w_LEDCS4 		<= '1' when w_cpuAddress  						= x"F007"  	else '0';				-- xF007 (1B) = 61447 dec
+	w_rLEDCS1 		<= '1' when w_cpuAddress  						= x"F008"  	else '0';				-- xF008 (1B) = 61448 dec
+	w_rLEDCS2 		<= '1' when w_cpuAddress  						= x"F009"  	else '0';				-- xF009 (1B) = 61449 dec
+	n_monRomCS 		<= '0' when w_cpuAddress(15 downto 11) 	= "11111"	else '1'; 				-- xF800-xFFFF (2KB)
  
 	w_cpuDataIn <=
-		w_aciaData when n_aciaCS = '0' else
-		w_ramDataOut when n_ramCS = '0' else
-		w_ramDataOut2 when n_ramCS2 = '0' else
-		w_displayRamData when n_dispRamCS = '0' else
-		basRomData when n_basRomCS = '0' else
-		w_kbReadData when n_kbCS='0' else 
-		w_monitorRomData when n_monitorRomCS = '0' else		-- has to be after any I/O
+		w_aciaData 									when n_aciaCS 		= '0'	else
+		w_ramDataOut 								when n_ramCS 		= '0' else
+		w_ramDataOut2 								when n_ramCS2 		= '0' else
+		w_displayRamData 							when n_dispRamCS	= '0' else
+		basRomData 									when n_basRomCS	= '0' else
+		w_kbReadData 								when n_kbCS			= '0' else
+		w_displayed_number(31 downto 24) 	when w_LEDCS1		= '1' else
+		w_displayed_number(23 downto 16) 	when w_LEDCS2		= '1' else
+		w_displayed_number(15 downto 8) 		when w_LEDCS3 		= '1' else
+		w_displayed_number(7 downto 0) 		when w_LEDCS4 		= '1' else
+		w_ringLEDs(15 downto 8)					when w_rLEDCS1 	= '1' else
+		w_ringLEDs(7 downto 0)					when w_rLEDCS2 	= '1' else
+		w_monitorRomData 							when n_monRomCS 	= '0' else		-- has to be after any I/O
 		x"FF";
 		
 	CPU : entity work.T65
@@ -155,6 +158,33 @@ begin
 		DI => w_cpuDataIn,
 		DO => w_cpuDataOut);
 			
+
+	MemMappedXVGA : entity work.Mem_Mapped_XVGA
+		port map (
+			n_reset 			=> i_n_reset,
+			Video_Clk 		=> w_Video_Clk,
+			CLK_50			=> w_CLOCK_50,
+			n_dispRamCS		=> n_dispRamCS,
+			n_memWR			=> n_memWR,
+			cpuAddress 		=> w_cpuAddress(10 downto 0),
+			cpuDataOut		=> w_cpuDataOut,
+			dataOut			=> w_displayRamData,
+			VoutVect			=> w_VoutVect, -- rgb
+			hSync				=> o_Vid_hSync,
+			vSync				=> o_Vid_vSync
+
+		);
+		
+	-- ____________________________________________________________________________________
+	-- Clocks
+pll : work.VideoClk_XVGA_1024x768 PORT MAP (
+		inclk0	 => i_clk,
+		c0	 => w_Video_Clk,	-- 65 MHz Video Clock
+		c1	 => w_cpuClock,	-- 1 MHz CPU clock
+		c2	 => w_CLOCK_50		-- 50 Mhz Logic Clock
+--		c3 => baudRate_1p432		-- 1.8432 MHz baud rate i_clk
+	);
+	
 
 	BASIC_IN_ROM : entity work.BasicRom -- 8KB
 	port map(
@@ -273,30 +303,6 @@ begin
 			n_rts => rts
 		);
 		
-	MemMappedSVGA : entity work.Mem_Mapped_SVGA
-		port map (
-			n_reset 			=> i_n_reset,
-			Video_Clk 		=> w_Video_Clk_25p6,
-			CLK_50			=> w_CLOCK_50,
-			n_dispRamCS		=> n_dispRamCS,
-			n_memWR			=> n_memWR,
-			cpuAddress 		=> w_cpuAddress(10 downto 0),
-			cpuDataOut		=> w_cpuDataOut,
-			dataOut			=> w_displayRamData,
-			VoutVect			=> w_VoutVect(17 downto 0) -- rrrrr,gggggg,bbbbb,hsync,vsync
-		);
-		
-	-- ____________________________________________________________________________________
-	-- Clocks
-pll : work.VideoClk_SVGA_800x600 PORT MAP (
-		inclk0	 => i_clk,
-		c0	 => w_Video_Clk_25p6,	-- 25.6 MHz Video Clock
-		c1	 => w_cpuClock,			-- 1 MHz CPU clock
-		c2	 => w_CLOCK_50			-- Logic Clock
---		c3 => baudRate_1p432		-- 1.8432 MHz baud rate i_clk
-	);
-	
-
 	u9 : entity work.UK101keyboard
 	port map(
 		clk => w_CLOCK_50,
