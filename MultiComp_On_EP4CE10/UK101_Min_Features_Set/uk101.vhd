@@ -28,9 +28,8 @@ entity uk101 is
 		o_Vid_hSync	: out	std_logic := '1';
 		o_Vid_vSync	: out	std_logic := '1';
 		
-		switch0				: in std_logic := '1';
-		switch1				: in std_logic := '1';
-		switch2				: in std_logic := '1';
+		i_pbutton	: in std_logic_vector(2 downto 0) := "111";
+		i_DipSw		: in std_logic_vector(7 downto 0) := x"FF";
 
 		o_LED					: out std_logic_vector(11 downto 0) := x"000";
 
@@ -79,6 +78,8 @@ architecture struct of uk101 is
 	signal w_LEDCS4				: std_logic;
 	signal w_rLEDCS1				: std_logic;
 	signal w_rLEDCS2				: std_logic;
+	signal w_pbuttonCS			: std_logic;
+	signal w_DIPSwCS				: std_logic;
 	
 	signal w_serialClkCount		: std_logic_vector(15 downto 0); 
 	signal w_serialClkCount_d    : std_logic_vector(15 downto 0);
@@ -124,6 +125,8 @@ begin
 	w_LEDCS4 		<= '1' when w_cpuAddress  						= x"F007"  	else '0';				-- xF007 (1B) = 61447 dec
 	w_rLEDCS1 		<= '1' when w_cpuAddress  						= x"F008"  	else '0';				-- xF008 (1B) = 61448 dec
 	w_rLEDCS2 		<= '1' when w_cpuAddress  						= x"F009"  	else '0';				-- xF009 (1B) = 61449 dec
+	w_pbuttonCS		<= '1' when w_cpuAddress  						= x"F00A"  	else '0';				-- xF00A (1B) = 61450 dec
+	w_DIPSwCS		<= '1' when w_cpuAddress  						= x"F00B"  	else '0';				-- xF00B (1B) = 61451 dec
 	n_monRomCS 		<= '0' when w_cpuAddress(15 downto 11) 	= "11111"	else '1'; 				-- xF800-xFFFF (2KB)
  
 	w_cpuDataIn <=
@@ -139,6 +142,8 @@ begin
 		w_displayed_number(7 downto 0) 		when w_LEDCS4 		= '1' else
 		w_ringLEDs(15 downto 8)					when w_rLEDCS1 	= '1' else
 		w_ringLEDs(7 downto 0)					when w_rLEDCS2 	= '1' else
+		"00000"&i_pbutton							when w_pbuttonCS	= '1' else
+		i_DipSw										when w_DIPSwCS		= '1' else
 		w_monitorRomData 							when n_monRomCS 	= '0' else		-- has to be after any I/O
 		x"FF";
 		
