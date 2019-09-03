@@ -1,5 +1,5 @@
 Fitter report for Microcomputer
-Tue Sep 03 15:03:08 2019
+Tue Sep 03 15:18:43 2019
 Quartus Prime Version 18.1.0 Build 625 09/12/2018 SJ Lite Edition
 
 
@@ -71,7 +71,7 @@ refer to the applicable agreement for further details.
 +----------------------------------------------------------------------------------+
 ; Fitter Summary                                                                   ;
 +------------------------------------+---------------------------------------------+
-; Fitter Status                      ; Successful - Tue Sep 03 15:03:08 2019       ;
+; Fitter Status                      ; Successful - Tue Sep 03 15:18:43 2019       ;
 ; Quartus Prime Version              ; 18.1.0 Build 625 09/12/2018 SJ Lite Edition ;
 ; Revision Name                      ; Microcomputer                               ;
 ; Top-level Entity Name              ; Microcomputer                               ;
@@ -887,23 +887,23 @@ Note: For table entries with two numbers listed, the numbers in parentheses indi
 ; cpu09:cpu1|xreg~1                                                                                                          ; LCCOMB_X32_Y13_N18 ; 8       ; Clock enable                            ; no     ; --                   ; --               ; --                        ;
 ; cpu09:cpu1|yreg~0                                                                                                          ; LCCOMB_X31_Y15_N20 ; 8       ; Clock enable                            ; no     ; --                   ; --               ; --                        ;
 ; cpu09:cpu1|yreg~1                                                                                                          ; LCCOMB_X31_Y15_N14 ; 8       ; Clock enable                            ; no     ; --                   ; --               ; --                        ;
-; cpuClock                                                                                                                   ; FF_X22_Y14_N1      ; 211     ; Clock                                   ; no     ; --                   ; --               ; --                        ;
-; cpuClock                                                                                                                   ; FF_X22_Y14_N1      ; 111     ; Clock                                   ; yes    ; Global Clock         ; GCLK8            ; --                        ;
 ; i_clk_50                                                                                                                   ; PIN_23             ; 417     ; Clock                                   ; yes    ; Global Clock         ; GCLK2            ; --                        ;
 ; i_n_reset                                                                                                                  ; PIN_86             ; 155     ; Async. clear, Clock enable, Sync. clear ; no     ; --                   ; --               ; --                        ;
+; w_cpuClock                                                                                                                 ; FF_X22_Y14_N1      ; 111     ; Clock                                   ; yes    ; Global Clock         ; GCLK8            ; --                        ;
+; w_cpuClock                                                                                                                 ; FF_X22_Y14_N1      ; 211     ; Clock                                   ; no     ; --                   ; --               ; --                        ;
 +----------------------------------------------------------------------------------------------------------------------------+--------------------+---------+-----------------------------------------+--------+----------------------+------------------+---------------------------+
 
 
-+------------------------------------------------------------------------------------------------------------------------------------------------------+
-; Global & Other Fast Signals                                                                                                                          ;
-+----------+--------------------+---------+--------------------------------------+----------------------+------------------+---------------------------+
-; Name     ; Location           ; Fan-Out ; Fan-Out Using Intentional Clock Skew ; Global Resource Used ; Global Line Name ; Enable Signal Source Name ;
-+----------+--------------------+---------+--------------------------------------+----------------------+------------------+---------------------------+
-; comb~0   ; LCCOMB_X22_Y13_N14 ; 12      ; 0                                    ; Global Clock         ; GCLK4            ; --                        ;
-; comb~1   ; LCCOMB_X22_Y13_N0  ; 12      ; 0                                    ; Global Clock         ; GCLK3            ; --                        ;
-; cpuClock ; FF_X22_Y14_N1      ; 111     ; 1                                    ; Global Clock         ; GCLK8            ; --                        ;
-; i_clk_50 ; PIN_23             ; 417     ; 39                                   ; Global Clock         ; GCLK2            ; --                        ;
-+----------+--------------------+---------+--------------------------------------+----------------------+------------------+---------------------------+
++--------------------------------------------------------------------------------------------------------------------------------------------------------+
+; Global & Other Fast Signals                                                                                                                            ;
++------------+--------------------+---------+--------------------------------------+----------------------+------------------+---------------------------+
+; Name       ; Location           ; Fan-Out ; Fan-Out Using Intentional Clock Skew ; Global Resource Used ; Global Line Name ; Enable Signal Source Name ;
++------------+--------------------+---------+--------------------------------------+----------------------+------------------+---------------------------+
+; comb~0     ; LCCOMB_X22_Y13_N14 ; 12      ; 0                                    ; Global Clock         ; GCLK4            ; --                        ;
+; comb~1     ; LCCOMB_X22_Y13_N0  ; 12      ; 0                                    ; Global Clock         ; GCLK3            ; --                        ;
+; i_clk_50   ; PIN_23             ; 417     ; 39                                   ; Global Clock         ; GCLK2            ; --                        ;
+; w_cpuClock ; FF_X22_Y14_N1      ; 111     ; 1                                    ; Global Clock         ; GCLK8            ; --                        ;
++------------+--------------------+---------+--------------------------------------+----------------------+------------------+---------------------------+
 
 
 +----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
@@ -2495,16 +2495,16 @@ RAM content values are presented in the following format: (Binary) (Octal) (Deci
 +---------------------------+--------+
 
 
-+--------------------------------------------------------------+
-; Estimated Delay Added for Hold Timing Summary                ;
-+-------------------+----------------------+-------------------+
-; Source Clock(s)   ; Destination Clock(s) ; Delay Added in ns ;
-+-------------------+----------------------+-------------------+
-; cpuClock          ; cpuClock             ; 86.1              ;
-; cpuClock          ; i_clk_50             ; 41.5              ;
-; i_clk_50,cpuClock ; i_clk_50             ; 25.1              ;
-; i_clk_50          ; cpuClock             ; 7.8               ;
-+-------------------+----------------------+-------------------+
++----------------------------------------------------------------+
+; Estimated Delay Added for Hold Timing Summary                  ;
++---------------------+----------------------+-------------------+
+; Source Clock(s)     ; Destination Clock(s) ; Delay Added in ns ;
++---------------------+----------------------+-------------------+
+; w_cpuClock          ; w_cpuClock           ; 86.1              ;
+; w_cpuClock          ; i_clk_50             ; 41.5              ;
+; i_clk_50,w_cpuClock ; i_clk_50             ; 25.1              ;
+; i_clk_50            ; w_cpuClock           ; 7.8               ;
++---------------------+----------------------+-------------------+
 Note: For more information on problematic transfers, consider running the Fitter again with the Optimize hold timing option (Settings Menu) turned off.
 This will disable optimization of problematic paths and expose them for further analysis using the Timing Analyzer.
 
@@ -2647,7 +2647,7 @@ Info (332123): Deriving Clock Uncertainty. Please refer to report_sdc in the Tim
 Info (332130): Timing requirements not specified -- quality metrics such as performance may be sacrificed to reduce compilation time.
 Info (176353): Automatically promoted node i_clk_50~input (placed in PIN 23 (CLK1, DIFFCLK_0n)) File: C:/Users/dgilliland/Documents/GitHub/MultiComp/MultiComp_On_EP4CE10/M6809_VGA_PS2_IntRAM(32K)/Microcomputer.vhd Line: 16
     Info (176355): Automatically promoted destinations to use location or clock signal Global Clock CLKCTRL_G2
-Info (176353): Automatically promoted node cpuClock  File: C:/Users/dgilliland/Documents/GitHub/MultiComp/MultiComp_On_EP4CE10/M6809_VGA_PS2_IntRAM(32K)/Microcomputer.vhd Line: 46
+Info (176353): Automatically promoted node w_cpuClock  File: C:/Users/dgilliland/Documents/GitHub/MultiComp/MultiComp_On_EP4CE10/M6809_VGA_PS2_IntRAM(32K)/Microcomputer.vhd Line: 46
     Info (176355): Automatically promoted destinations to use location or clock signal Global Clock
     Info (176356): Following destination nodes may be non-global or may not use global or regional clocks
         Info (176357): Destination node cpu09:cpu1|iv[0] File: C:/Users/dgilliland/Documents/GitHub/MultiComp/MultiComp_On_EP4CE10/M6809_VGA_PS2_IntRAM(32K)/Components/M6809/cpu09-l.vhd Line: 514
@@ -2682,8 +2682,8 @@ Info (170195): Router estimated average interconnect usage is 12% of the availab
     Info (170196): Router estimated peak interconnect usage is 23% of the available device resources in the region that extends from location X23_Y12 to location X34_Y24
 Info (170199): The Fitter performed an Auto Fit compilation.  Optimizations were skipped to reduce compilation time.
     Info (170201): Optimizations that may affect the design's routability were skipped
-Info (170194): Fitter routing operations ending: elapsed time is 00:00:14
-Info (11888): Total time spent on timing analysis during the Fitter is 3.51 seconds.
+Info (170194): Fitter routing operations ending: elapsed time is 00:00:13
+Info (11888): Total time spent on timing analysis during the Fitter is 3.35 seconds.
 Info (334003): Started post-fitting delay annotation
 Info (334004): Delay annotation completed successfully
 Info (334003): Started post-fitting delay annotation
@@ -2696,10 +2696,10 @@ Warning (169177): 4 pins must meet Intel FPGA requirements for 3.3-, 3.0-, and 2
     Info (169178): Pin i_n_reset uses I/O standard 3.3-V LVTTL at 86 File: C:/Users/dgilliland/Documents/GitHub/MultiComp/MultiComp_On_EP4CE10/M6809_VGA_PS2_IntRAM(32K)/Microcomputer.vhd Line: 15
 Info (144001): Generated suppressed messages file C:/Users/dgilliland/Documents/GitHub/MultiComp/MultiComp_On_EP4CE10/M6809_VGA_PS2_IntRAM(32K)/output_files/Microcomputer.fit.smsg
 Info: Quartus Prime Fitter was successful. 0 errors, 5 warnings
-    Info: Peak virtual memory: 5563 megabytes
-    Info: Processing ended: Tue Sep 03 15:03:09 2019
+    Info: Peak virtual memory: 5568 megabytes
+    Info: Processing ended: Tue Sep 03 15:18:44 2019
     Info: Elapsed time: 00:00:30
-    Info: Total CPU time (on all processors): 00:00:47
+    Info: Total CPU time (on all processors): 00:00:46
 
 
 +----------------------------+
