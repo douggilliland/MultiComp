@@ -1,7 +1,7 @@
 -- UK101 or Superboard II Implementation
 --		6502 CPU
 --		34KB internal SRAM
---		SVGA output - 64 chars/row, 32 rows
+--		XVGA output - 64 chars/row, 32 rows
 --		PS/2 keyboard
 --		Serial port (USB-Serial)
 --		Off-the-shelf FPGA card (Cyclone IV EP4CE10)
@@ -53,7 +53,7 @@ architecture struct of uk101 is
 	signal w_cpuDataOut				: std_logic_vector(7 downto 0);
 	signal w_cpuDataIn				: std_logic_vector(7 downto 0);
 
-	signal basRomData				: std_logic_vector(7 downto 0);
+	signal w_basRomData				: std_logic_vector(7 downto 0);
 	signal w_monitorRomData		: std_logic_vector(7 downto 0);
 	signal w_aciaData				: std_logic_vector(7 downto 0);
 	signal w_ramDataOut				: std_logic_vector(7 downto 0);
@@ -68,8 +68,8 @@ architecture struct of uk101 is
 	signal n_basRomCS				: std_logic;
 	signal n_dispRamCS			: std_logic;
 	signal n_aciaCS				: std_logic;
-	signal n_ramCS					: std_logic;
-	signal n_ramCS2				: std_logic;
+	signal w_n_ramCS					: std_logic;
+	signal w_n_ramCS2				: std_logic;
 	signal n_monRomCS 		: std_logic;
 	signal n_kbCS					: std_logic;
 	signal w_LEDCS1				: std_logic;
@@ -101,7 +101,6 @@ architecture struct of uk101 is
 	
 	signal w_ringLEDs				: std_logic_vector(15 downto 0);
 	
-
 begin
 
 	o_LED <= w_ringLEDs(11 downto 0);
@@ -113,8 +112,8 @@ begin
 	o_Vid_Blu <= w_VoutVect(0);
 
 	-- Chip Selects
-	n_ramCS 			<= '0' when w_cpuAddress(15) 					= '0' 		else '1';  				-- x0000-x7fff (32KB)
-	n_ramCS2			<= '0' when w_cpuAddress(15 downto 11) 	= "10000" 	else '1';  				-- x8000-x87ff (2KB)
+	w_n_ramCS 			<= '0' when w_cpuAddress(15) 					= '0' 		else '1';  				-- x0000-x7fff (32KB)
+	w_n_ramCS2			<= '0' when w_cpuAddress(15 downto 11) 	= "10000" 	else '1';  				-- x8000-x87ff (2KB)
 	n_basRomCS 		<= '0' when w_cpuAddress(15 downto 13) 	= "101" 		else '1'; 				-- xA000-xBFFF (8KB)
 	n_kbCS 			<= '0' when w_cpuAddress(15 downto 10) 	= "110111" 	else '1';				-- xDC00-xDFFF (1KB)
 	n_dispRamCS 	<= '0' when w_cpuAddress(15 downto 11) 	= "11010" 	else '1';				-- xD000-xD7FF (2KB)
@@ -131,10 +130,10 @@ begin
  
 	w_cpuDataIn <=
 		w_aciaData 									when n_aciaCS 		= '0'	else
-		w_ramDataOut 								when n_ramCS 		= '0' else
-		w_ramDataOut2 								when n_ramCS2 		= '0' else
+		w_ramDataOut 								when w_n_ramCS 		= '0' else
+		w_ramDataOut2 								when w_n_ramCS2 		= '0' else
 		w_displayRamData 							when n_dispRamCS	= '0' else
-		basRomData 									when n_basRomCS	= '0' else
+		w_basRomData 									when n_basRomCS	= '0' else
 		w_kbReadData 								when n_kbCS			= '0' else
 		w_displayed_number(31 downto 24) 	when w_LEDCS1		= '1' else
 		w_displayed_number(23 downto 16) 	when w_LEDCS2		= '1' else
@@ -195,9 +194,8 @@ pll : work.VideoClk_XVGA_1024x768 PORT MAP (
 	port map(
 		address => w_cpuAddress(12 downto 0),
 		clock => w_CLOCK_50,
-		q => basRomData
+		q => w_basRomData
 	);
-
 
 	SRAM_32K : entity work.InternalRam32K
 	port map
@@ -205,7 +203,7 @@ pll : work.VideoClk_XVGA_1024x768 PORT MAP (
 		address => w_cpuAddress(14 downto 0),
 		clock => w_CLOCK_50,
 		data => w_cpuDataOut,
-		wren => not(n_memWR or n_ramCS),
+		wren => not(n_memWR or w_n_ramCS),
 		q => w_ramDataOut
 	);
 
@@ -216,7 +214,7 @@ pll : work.VideoClk_XVGA_1024x768 PORT MAP (
 		address => w_cpuAddress(10 downto 0),
 		clock => w_CLOCK_50,
 		data => w_cpuDataOut,
-		wren => not(n_memWR or n_ramCS2),
+		wren => not(n_memWR or w_n_ramCS2),
 		q => w_ramDataOut2
 	);
 
