@@ -20,9 +20,21 @@ entity Microcomputer is
 		o_vid_blu	: out std_logic;
 		o_vid_hSync	: out std_logic;
 		o_vid_vSync	: out std_logic;
+		
+		i_pbutton	: in std_logic_vector(2 downto 0) := "111";
+		i_DipSw		: in std_logic_vector(7 downto 0) := x"FF";
+
+		o_LED					: out std_logic_vector(11 downto 0) := x"000";
+
+		o_BUZZER				: out std_logic := '1';
+
 
 		i_ps2Clk		: inout std_logic;
-		i_ps2Data		: inout std_logic
+		i_ps2Data		: inout std_logic;
+						
+		o_Anode_Activate	: out std_logic_vector(7 downto 0);
+		o_LED7Seg_out		: out std_logic_vector(7 downto 0)
+
 	);
 end Microcomputer;
 
@@ -36,11 +48,21 @@ architecture struct of Microcomputer is
 	signal w_basRomData					: std_logic_vector(7 downto 0);
 	signal w_interface1DataOut		: std_logic_vector(7 downto 0);
 	signal w_internalRam1DataOut		: std_logic_vector(7 downto 0);
+	
+	signal w_displayed_number	: std_logic_vector(31 downto 0);
 
 	signal w_n_memWR						: std_logic :='1';
 	signal w_n_basRomCS					: std_logic :='1';
 	signal w_n_videoInterfaceCS		: std_logic :='1';
 	signal w_n_internalRamCS			: std_logic :='1';
+	signal w_LEDCS1				: std_logic;
+	signal w_LEDCS2				: std_logic;
+	signal w_LEDCS3				: std_logic;
+	signal w_LEDCS4				: std_logic;
+	signal w_rLEDCS1				: std_logic;
+	signal w_rLEDCS2				: std_logic;
+	signal w_pbuttonCS			: std_logic;
+	signal w_DIPSwCS				: std_logic;
 
 	signal w_cpuClkCount				: std_logic_vector(5 downto 0); 
 	signal w_cpuClock					: std_logic;
@@ -51,6 +73,8 @@ architecture struct of Microcomputer is
 	signal w_videoG1					: std_logic := '0';
 	signal w_videoB0					: std_logic := '0';
 	signal w_videoB1					: std_logic := '0';
+
+	signal w_ringLEDs				: std_logic_vector(15 downto 0);
 	
 	--
 	
@@ -65,6 +89,14 @@ begin
 	w_n_basRomCS <= '0' when w_cpuAddress(15 downto 13) = "111" else '1'; 							-- 8K at top of memory
 	w_n_videoInterfaceCS <= '0' when w_cpuAddress(15 downto 1) = "111111111101000" else '1'; 	-- 2 bytes FFD0-FFD1
 	w_n_internalRamCS <= '0' when w_cpuAddress(15) = '0' else '1';										-- 32K at bottom of memory
+	w_LEDCS1 		<= '1' when w_cpuAddress  						= x"F004"  	else '0';				-- xF004 (1B) = 61444 dec
+	w_LEDCS2 		<= '1' when w_cpuAddress  						= x"F005"  	else '0';				-- xF005 (1B) = 61445 dec
+	w_LEDCS3 		<= '1' when w_cpuAddress  						= x"F006"  	else '0';				-- xF006 (1B) = 61446 dec
+	w_LEDCS4 		<= '1' when w_cpuAddress  						= x"F007"  	else '0';				-- xF007 (1B) = 61447 dec
+	w_rLEDCS1 		<= '1' when w_cpuAddress  						= x"F008"  	else '0';				-- xF008 (1B) = 61448 dec
+	w_rLEDCS2 		<= '1' when w_cpuAddress  						= x"F009"  	else '0';				-- xF009 (1B) = 61449 dec
+	w_pbuttonCS		<= '1' when w_cpuAddress  						= x"F00A"  	else '0';				-- xF00A (1B) = 61450 dec
+	w_DIPSwCS		<= '1' when w_cpuAddress  						= x"F00B"  	else '0';				-- xF00B (1B) = 61451 dec
 	
 	-- ____________________________________________________________________________________
 	-- BUS ISOLATION
@@ -73,6 +105,14 @@ begin
 		w_interface1DataOut when w_n_videoInterfaceCS = '0' else
 		w_basRomData when w_n_basRomCS = '0' else
 		w_internalRam1DataOut when w_n_internalRamCS = '0' else
+		w_displayed_number(31 downto 24) 	when w_LEDCS1		= '1' else
+		w_displayed_number(23 downto 16) 	when w_LEDCS2		= '1' else
+		w_displayed_number(15 downto 8) 		when w_LEDCS3 		= '1' else
+		w_displayed_number(7 downto 0) 		when w_LEDCS4 		= '1' else
+		w_ringLEDs(15 downto 8)					when w_rLEDCS1 	= '1' else
+		w_ringLEDs(7 downto 0)					when w_rLEDCS2 	= '1' else
+		"00000"&i_pbutton							when w_pbuttonCS	= '1' else
+		i_DipSw										when w_DIPSwCS		= '1' else
 		x"FF";
 	
 	-- ____________________________________________________________________________________
@@ -144,6 +184,70 @@ begin
 	-- MEMORY READ/WRITE LOGIC GOES HERE
 	w_n_memWR <= not(w_cpuClock) nand (not w_n_WR);
 	
+	
+	SEVEN_SEG : entity work.Loadable_7S8D_LED
+	port map (
+		i_clock_50Mhz			=> i_clk_50,
+		i_reset 					=> not i_n_reset,
+		i_displayed_number	=> w_displayed_number,
+		o_Anode_Activate 		=> o_Anode_Activate,
+		o_LED7Seg_out 			=> o_LED7Seg_out
+		);
+
+	SevSeg1:	entity work.OutLatch
+	port map (	
+		dataIn8	=> w_cpuDataOut,
+		clock		=> i_clk_50,
+		load		=> not (w_LEDCS1 and (not w_n_WR)),
+		clear		=> i_n_reset,
+		latchOut	=> w_displayed_number(31 downto 24)
+	);
+
+	SevSeg2:	entity work.OutLatch
+	port map (	
+		dataIn8	=> w_cpuDataOut,
+		clock		=> i_clk_50,
+		load		=> not (w_LEDCS2 and (not w_n_WR)),
+		clear		=> i_n_reset,
+		latchOut	=> w_displayed_number(23 downto 16)
+	);
+
+	SevSeg3:	entity work.OutLatch
+	port map (	
+		dataIn8	=> w_cpuDataOut,
+		clock		=> i_clk_50,
+		load		=> not (w_LEDCS3 and (not w_n_WR)),
+		clear		=> i_n_reset,
+		latchOut	=> w_displayed_number(15 downto 8)
+	);
+
+	SevSeg4:	entity work.OutLatch
+	port map (	
+		dataIn8	=> w_cpuDataOut,
+		clock		=> i_clk_50,
+		load		=> not (w_LEDCS4 and (not w_n_WR)),
+		clear		=> i_n_reset,
+		latchOut	=> w_displayed_number(7 downto 0)
+	);
+
+	RingLeds1	:	entity work.OutLatch
+	port map (
+		dataIn8	=> w_cpuDataOut,
+		clock		=> i_clk_50,
+		load		=> not (w_rLEDCS1 and (not w_n_WR)),
+		clear		=> i_n_reset,
+		latchOut	=> w_ringLEDs(7 downto 0)
+	);
+
+	RingLeds2	:	entity work.OutLatch
+	port map (
+		dataIn8	=> w_cpuDataOut,
+		clock		=> i_clk_50,
+		load		=> not (w_rLEDCS2 and (not w_n_WR)),
+		clear		=> i_n_reset,
+		latchOut	=> w_ringLEDs(15 downto 8)
+	);
+
 	-- ____________________________________________________________________________________
 	-- SYSTEM CLOCKS GO HERE
 	-- SUB-CIRCUIT CLOCK SIGNALS
