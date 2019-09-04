@@ -12,25 +12,31 @@ use  IEEE.STD_LOGIC_UNSIGNED.all;
 
 entity Microcomputer is
 	port(
-		i_n_reset		: in std_logic;
-		i_clk_50			: in std_logic;
+		i_n_reset			: in std_logic;
+		i_clk_50				: in std_logic;
 
-		o_vid_red	: out std_logic;
-		o_vid_grn	: out std_logic;
-		o_vid_blu	: out std_logic;
-		o_vid_hSync	: out std_logic;
-		o_vid_vSync	: out std_logic;
+		o_vid_red			: out std_logic;
+		o_vid_grn			: out std_logic;
+		o_vid_blu			: out std_logic;
+		o_vid_hSync			: out std_logic;
+		o_vid_vSync			: out std_logic;
 		
-		i_pbutton	: in std_logic_vector(2 downto 0) := "111";
-		i_DipSw		: in std_logic_vector(7 downto 0) := x"FF";
+		i_pbutton			: in std_logic_vector(2 downto 0) := "111";
+		i_DipSw				: in std_logic_vector(7 downto 0) := x"FF";
 
 		o_LED					: out std_logic_vector(11 downto 0) := x"000";
 
 		o_BUZZER				: out std_logic := '1';
 
+		i_ps2Clk				: inout std_logic;
+		i_ps2Data			: inout std_logic;
+		
+		o_sdCS				: out std_logic := '1';
+		o_sdMOSI				: out std_logic := '1';
+		i_sdMISO				: in 	std_logic := '1';
+		o_sdSCLK				: out std_logic := '1';
+		o_driveLED			: out std_logic := '1';
 
-		i_ps2Clk		: inout std_logic;
-		i_ps2Data		: inout std_logic;
 						
 		o_Anode_Activate	: out std_logic_vector(7 downto 0);
 		o_LED7Seg_out		: out std_logic_vector(7 downto 0)
@@ -46,23 +52,25 @@ architecture struct of Microcomputer is
 	signal w_cpuDataIn					: std_logic_vector(7 downto 0);
 
 	signal w_basRomData					: std_logic_vector(7 downto 0);
-	signal w_interface1DataOut		: std_logic_vector(7 downto 0);
+	signal w_interface1DataOut			: std_logic_vector(7 downto 0);
 	signal w_internalRam1DataOut		: std_logic_vector(7 downto 0);
+	signal w_sdCardData					: std_logic_vector(7 downto 0);
 	
-	signal w_displayed_number	: std_logic_vector(31 downto 0);
+	signal w_displayed_number			: std_logic_vector(31 downto 0);
 
 	signal w_n_memWR						: std_logic :='1';
 	signal w_n_basRomCS					: std_logic :='1';
 	signal w_n_videoInterfaceCS		: std_logic :='1';
 	signal w_n_internalRamCS			: std_logic :='1';
-	signal w_LEDCS1				: std_logic;
-	signal w_LEDCS2				: std_logic;
-	signal w_LEDCS3				: std_logic;
-	signal w_LEDCS4				: std_logic;
-	signal w_rLEDCS1				: std_logic;
-	signal w_rLEDCS2				: std_logic;
-	signal w_pbuttonCS			: std_logic;
-	signal w_DIPSwCS				: std_logic;
+	signal w_n_SDCardCS					: std_logic :='1';
+	signal w_LEDCS1						: std_logic;
+	signal w_LEDCS2						: std_logic;
+	signal w_LEDCS3						: std_logic;
+	signal w_LEDCS4						: std_logic;
+	signal w_rLEDCS1						: std_logic;
+	signal w_rLEDCS2						: std_logic;
+	signal w_pbuttonCS					: std_logic;
+	signal w_DIPSwCS						: std_logic;
 
 	signal w_cpuClkCount				: std_logic_vector(5 downto 0); 
 	signal w_cpuClock					: std_logic;
@@ -74,7 +82,7 @@ architecture struct of Microcomputer is
 	signal w_videoB0					: std_logic := '0';
 	signal w_videoB1					: std_logic := '0';
 
-	signal w_ringLEDs				: std_logic_vector(15 downto 0);
+	signal w_ringLEDs					: std_logic_vector(15 downto 0);
 	
 	--
 	
@@ -85,36 +93,56 @@ begin
 	o_vid_blu <= w_videoB1 or w_videoB0;
 	
 	-- ____________________________________________________________________________________
-	-- CHIP SELECTS
-	w_n_basRomCS <= '0' when w_cpuAddress(15 downto 13) = "111" else '1'; 							-- 8K at top of memory
-	w_n_videoInterfaceCS <= '0' when w_cpuAddress(15 downto 1) = "111111111101000" else '1'; 	-- 2 bytes FFD0-FFD1
-	w_n_internalRamCS <= '0' when w_cpuAddress(15) = '0' else '1';										-- 32K at bottom of memory
-	w_LEDCS1 		<= '1' when w_cpuAddress  						= x"F004"  	else '0';				-- xF004 (1B) = 61444 dec
-	w_LEDCS2 		<= '1' when w_cpuAddress  						= x"F005"  	else '0';				-- xF005 (1B) = 61445 dec
-	w_LEDCS3 		<= '1' when w_cpuAddress  						= x"F006"  	else '0';				-- xF006 (1B) = 61446 dec
-	w_LEDCS4 		<= '1' when w_cpuAddress  						= x"F007"  	else '0';				-- xF007 (1B) = 61447 dec
-	w_rLEDCS1 		<= '1' when w_cpuAddress  						= x"F008"  	else '0';				-- xF008 (1B) = 61448 dec
-	w_rLEDCS2 		<= '1' when w_cpuAddress  						= x"F009"  	else '0';				-- xF009 (1B) = 61449 dec
-	w_pbuttonCS		<= '1' when w_cpuAddress  						= x"F00A"  	else '0';				-- xF00A (1B) = 61450 dec
-	w_DIPSwCS		<= '1' when w_cpuAddress  						= x"F00B"  	else '0';				-- xF00B (1B) = 61451 dec
+	-- CHIP SELECTS - Mapped to match Grant's software mapping
+	w_n_basRomCS <= '0' when w_cpuAddress(15 downto 13) = "111" else '1'; 					-- 8K at top of memory
+	w_n_videoInterfaceCS <= '0' when w_cpuAddress(15 downto 1) = x"FFD"&"000" else '1'; 	-- 2 bytes FFD0-FFD1
+	w_n_internalRamCS <= '0' when w_cpuAddress(15) = '0' else '1';								-- 32K at bottom of memory
+	w_n_SDCardCS	<= '1' when w_cpuAddress(15 downto 3)		= x"D00"&'1' else '0';		-- xF008 (8B) = 61448 dec
+
+	w_LEDCS1 		<= '1' when w_cpuAddress  						= x"D000"  	else '0';		-- xF000 (1B) = 53248 dec
+	w_LEDCS2 		<= '1' when w_cpuAddress  						= x"D001"  	else '0';		-- xF001 (1B) = 53249 dec
+	w_LEDCS3 		<= '1' when w_cpuAddress  						= x"D002"  	else '0';		-- xF002 (1B) = 53250 dec
+	w_LEDCS4 		<= '1' when w_cpuAddress  						= x"D003"  	else '0';		-- xF003 (1B) = 53251 dec
+	w_rLEDCS1 		<= '1' when w_cpuAddress  						= x"D004"  	else '0';		-- xF004 (1B) = 53252 dec
+	w_rLEDCS2 		<= '1' when w_cpuAddress  						= x"D005"  	else '0';		-- xF005 (1B) = 53253 dec
+	w_pbuttonCS		<= '1' when w_cpuAddress  						= x"D006"  	else '0';		-- xF006 (1B) = 53254 dec
+	w_DIPSwCS		<= '1' when w_cpuAddress  						= x"D007"  	else '0';		-- xF007 (1B) = 53255 dec
 	
 	-- ____________________________________________________________________________________
 	-- BUS ISOLATION
 	-- Order matters since BASIC ROM overlaps I/O chip selects
 	w_cpuDataIn <=
-		w_interface1DataOut when w_n_videoInterfaceCS = '0' else
-		w_basRomData when w_n_basRomCS = '0' else
-		w_internalRam1DataOut when w_n_internalRamCS = '0' else
-		w_displayed_number(31 downto 24) 	when w_LEDCS1		= '1' else
-		w_displayed_number(23 downto 16) 	when w_LEDCS2		= '1' else
-		w_displayed_number(15 downto 8) 		when w_LEDCS3 		= '1' else
-		w_displayed_number(7 downto 0) 		when w_LEDCS4 		= '1' else
-		w_ringLEDs(15 downto 8)					when w_rLEDCS1 	= '1' else
-		w_ringLEDs(7 downto 0)					when w_rLEDCS2 	= '1' else
-		"00000"&i_pbutton							when w_pbuttonCS	= '1' else
-		i_DipSw										when w_DIPSwCS		= '1' else
+		w_interface1DataOut 						when w_n_videoInterfaceCS 	= '0' else
+		w_basRomData 								when w_n_basRomCS				= '0' else
+		w_internalRam1DataOut 					when w_n_internalRamCS		= '0' else
+		w_sdCardData								when w_n_SDCardCS 			= '0' else
+		w_displayed_number(31 downto 24) 	when w_LEDCS1					= '1' else	-- read-back
+		w_displayed_number(23 downto 16) 	when w_LEDCS2					= '1' else	-- read-back
+		w_displayed_number(15 downto 8) 		when w_LEDCS3 					= '1' else	-- read-back
+		w_displayed_number(7 downto 0) 		when w_LEDCS4 					= '1' else	-- read-back
+		w_ringLEDs(15 downto 8)					when w_rLEDCS1 				= '1' else	-- read-back
+		w_ringLEDs(7 downto 0)					when w_rLEDCS2 				= '1' else	-- read-back
+		"00000"&i_pbutton							when w_pbuttonCS				= '1' else
+		i_DipSw										when w_DIPSwCS					= '1' else
 		x"FF";
 	
+	-- SD Card interface updates for SDHC by Neal Crook based on Grant Searle's design
+	sdCard	: entity work.sd_controller_NealC
+	port map (
+		clk 		=> i_clk_50,
+		n_reset	=> i_n_reset,
+		n_wr 		=> w_n_SDCardCS or w_cpuClock or w_n_WR,
+		n_rd 		=> w_n_SDCardCS or w_cpuClock or (not w_n_WR),
+		dataIn	=> w_cpuDataOut,
+		dataOut	=> w_sdCardData,
+		regAddr	=> w_cpuAddress(2 downto 0),
+		sdCS 		=> o_sdCS,
+		sdMOSI	=> o_sdMOSI,
+		sdMISO	=> i_sdMISO,
+		sdSCLK	=> o_sdSCLK,
+		driveLED	=> o_driveLED
+	);
+
 	-- ____________________________________________________________________________________
 	-- CPU CHOICE GOES HERE
 	cpu1 : entity work.cpu09
