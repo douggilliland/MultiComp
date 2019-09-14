@@ -59,6 +59,7 @@ architecture struct of Microcomputer is
 	signal basRomData					: std_logic_vector(7 downto 0);
 	signal internalRam1DataOut		: std_logic_vector(7 downto 0);
 	signal internalRam2DataOut		: std_logic_vector(7 downto 0);
+	signal internalRam3DataOut		: std_logic_vector(7 downto 0);
 	signal interface1DataOut		: std_logic_vector(7 downto 0);
 	signal interface2DataOut		: std_logic_vector(7 downto 0);
 	signal sdCardDataOut				: std_logic_vector(7 downto 0);
@@ -85,6 +86,7 @@ architecture struct of Microcomputer is
 	signal n_LEDCS						: std_logic :='1';
 	signal n_internalRAMCs1			: std_logic :='1';
 	signal n_internalRAMCs2			: std_logic :='1';
+	signal n_internalRAMCs3			: std_logic :='1';
 
 	signal serialClkCount			: std_logic_vector(15 downto 0);
 	signal cpuClkCount				: std_logic_vector(5 downto 0); 
@@ -234,6 +236,16 @@ InternalSRAM2 : ENTITY work.InternalRam16K
 		q			=> internalRam2DataOut
 	);
 
+InternalSRAM3 : ENTITY work.InternalRam1K
+	PORT MAP
+	(
+		address	=> cpuAddress(9 downto 0),
+		clock		=> clk,
+		data		=> cpuDataOut,
+		wren		=> not(n_memWR or n_internalRAMCs3),
+		q			=> internalRam3DataOut
+	);
+
 latchLED : entity work.OUT_LATCH	--Output LatchIO
 port map(
 	clear => n_reset,
@@ -268,16 +280,16 @@ n_memRD <= n_RD or n_MREQ;
 
 -- ____________________________________________________________________________________
 -- CHIP SELECTS
-n_basRomCS <= '0' when cpuAddress(15 downto 13)   = "000" and n_RomActive = '0' else '1'; --8K at bottom of memory
-n_interface1CS <= '0' when cpuAddress(7 downto 1) = "1000000" and (n_ioWR='0' or n_ioRD = '0') else '1'; -- 2 Bytes $80-$81
-n_interface2CS <= '0' when cpuAddress(7 downto 1) = "1000001" and (n_ioWR='0' or n_ioRD = '0') else '1'; -- 2 Bytes $82-$83
-n_sdCardCS <= '0' when cpuAddress(7 downto 3)     = "10001"   and (n_ioWR='0' or n_ioRD = '0') else '1'; -- 8 Bytes $88-$8F
-n_LEDCS <= '0' when cpuAddress(7 downto 1)        = "1000011" and (n_ioWR='0' or n_ioRD = '0') else '1'; -- 2 Bytes $86-$87
-n_J6IOCS <= '0' when cpuAddress(7 downto 1)       = "1000010" and (n_ioWR='0' or n_ioRD = '0') else '1'; -- 2 Bytes $84-$85
-n_J8IOCS <= '0' when cpuAddress(7 downto 1)       = "1000100" and (n_ioWR='0' or n_ioRD = '0') else '1'; -- 2 Bytes $88-$89
+n_basRomCS <= '0' 		when cpuAddress(15 downto 13)   = "000" and n_RomActive = '0' else '1'; --8K at bottom of memory
+n_interface1CS <= '0' 	when cpuAddress(7 downto 1) = "1000000" and (n_ioWR='0' or n_ioRD = '0') else '1'; -- 2 Bytes $80-$81
+n_interface2CS <= '0' 	when cpuAddress(7 downto 1) = "1000001" and (n_ioWR='0' or n_ioRD = '0') else '1'; -- 2 Bytes $82-$83
+n_sdCardCS <= '0' 		when cpuAddress(7 downto 3)     = "10001"   and (n_ioWR='0' or n_ioRD = '0') else '1'; -- 8 Bytes $88-$8F
+n_LEDCS <= '0' 			when cpuAddress(7 downto 1)        = "1000011" and (n_ioWR='0' or n_ioRD = '0') else '1'; -- 2 Bytes $86-$87
+n_J6IOCS <= '0' 			when cpuAddress(7 downto 1)       = "1000010" and (n_ioWR='0' or n_ioRD = '0') else '1'; -- 2 Bytes $84-$85
+n_J8IOCS <= '0' 			when cpuAddress(7 downto 1)       = "1000100" and (n_ioWR='0' or n_ioRD = '0') else '1'; -- 2 Bytes $88-$89
 n_internalRAMCs1 <= '0' when ((cpuAddress(15) = '0') and (n_basRomCS = '1')) else '1';
-n_internalRAMCs2 <= '0' when cpuAddress(15 downto 14) = "11" else '1';
---n_externalRamCS<= not n_basRomCS;
+n_internalRAMCs2 <= '0' when cpuAddress(15 downto 14) = "10" else '1';
+n_internalRAMCs3 <= '0' when cpuAddress(15 downto 10) = "111111" else '1';
 
 -- ____________________________________________________________________________________
 -- BUS ISOLATION
@@ -288,6 +300,7 @@ sdCardDataOut			when n_sdCardCS = '0'		else				-- SD Card
 basRomData				when n_basRomCS = '0'		else
 internalRam1DataOut	when n_internalRAMCs1 = '0'	else
 internalRam2DataOut	when n_internalRAMCs2 = '0'	else
+internalRam3DataOut	when n_internalRAMCs3 = '0'	else
 --sramData when n_externalRamCS= '0' else
 x"FF";
 
