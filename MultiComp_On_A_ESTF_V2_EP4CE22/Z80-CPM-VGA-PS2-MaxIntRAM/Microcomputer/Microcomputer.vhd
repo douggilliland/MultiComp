@@ -1,8 +1,12 @@
--- This file is copyright by Grant Searle 2014
+-- Original design is copyright by Grant Searle 2014 - Grant's copyright statement is:
 -- You are free to use this file in your own projects but must never charge for it nor use it without
 -- acknowledgement.
 --
 -- Changes by Doug Gilliland 2017-2019
+-- Target hardware is A-ESTF V2 card which has EP4CE22 FPGA
+-- Uses maximum internal SRAM in the FPGA as "low" memory for the Z80
+-- Set serial port baud rate to 300 baud since the card has no hardware handshake lines to the serial port
+-- Uses Neal Crook's version of the SD card controller since it supports SDHC cards
 
 library ieee;
 use ieee.std_logic_1164.all;
@@ -14,7 +18,7 @@ entity Microcomputer is
 		n_reset		: in std_logic :='1';
 		clk			: in std_logic;
 		-- Serial Port
-		rxd1			: in std_logic;
+		rxd1			: in std_logic := '1';
 		txd1			: out std_logic :='1';
 		rts1			: out std_logic;
 		-- Video RGB
@@ -29,13 +33,11 @@ entity Microcomputer is
 		-- SD Card
 		sdCS			: out std_logic :='1';
 		sdMOSI		: out std_logic :='1';
-		sdMISO		: in std_logic;
+		sdMISO		: in std_logic := '1';
 		sdSCLK		: out std_logic :='1';
 		
 		driveLED		: out std_logic :='1';
 		ledOut8		: out std_logic_vector(7 downto 0)
-		--J6IO8			: out std_logic_vector(7 downto 0);
-		--J8IO8			: out std_logic_vector(7 downto 0)
 	);
 end Microcomputer;
 
