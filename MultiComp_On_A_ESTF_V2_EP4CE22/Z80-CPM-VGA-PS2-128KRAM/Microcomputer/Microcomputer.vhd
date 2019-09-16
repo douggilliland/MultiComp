@@ -60,6 +60,7 @@ architecture struct of Microcomputer is
 	signal internalRam1DataOut		: std_logic_vector(7 downto 0);
 	signal internalRam2DataOut		: std_logic_vector(7 downto 0);
 	signal internalRam3DataOut		: std_logic_vector(7 downto 0);
+	signal internalRam4DataOut		: std_logic_vector(7 downto 0);
 	signal interface1DataOut		: std_logic_vector(7 downto 0);
 	signal interface2DataOut		: std_logic_vector(7 downto 0);
 	signal sdCardDataOut				: std_logic_vector(7 downto 0);
@@ -87,6 +88,7 @@ architecture struct of Microcomputer is
 	signal n_internalRAMCs1			: std_logic :='1';
 	signal n_internalRAMCs2			: std_logic :='1';
 	signal n_internalRAMCs3			: std_logic :='1';
+	signal n_internalRAMCs4			: std_logic :='1';
 
 	signal serialClkCount			: std_logic_vector(15 downto 0);
 	signal cpuClkCount				: std_logic_vector(5 downto 0); 
@@ -226,24 +228,34 @@ InternalSRAM1 : ENTITY work.InternalRam32K
 		q			=> internalRam1DataOut
 	);
 
-InternalSRAM2 : ENTITY work.InternalRam16K
+InternalSRAM2 : ENTITY work.InternalRam8K
 	PORT MAP
 	(
-		address	=> cpuAddress(13 downto 0),
+		address	=> cpuAddress(12 downto 0),
 		clock		=> clk,
 		data		=> cpuDataOut,
 		wren		=> not(n_memWR or n_internalRAMCs2),
 		q			=> internalRam2DataOut
 	);
 
-InternalSRAM3 : ENTITY work.InternalRam1K
+InternalSRAM3 : ENTITY work.InternalRam4K
 	PORT MAP
 	(
-		address	=> cpuAddress(9 downto 0),
+		address	=> cpuAddress(11 downto 0),
 		clock		=> clk,
 		data		=> cpuDataOut,
 		wren		=> not(n_memWR or n_internalRAMCs3),
 		q			=> internalRam3DataOut
+	);
+
+InternalSRAM4 : ENTITY work.InternalRam4K
+	PORT MAP
+	(
+		address	=> cpuAddress(11 downto 0),
+		clock		=> clk,
+		data		=> cpuDataOut,
+		wren		=> not(n_memWR or n_internalRAMCs4),
+		q			=> internalRam4DataOut
 	);
 
 latchLED : entity work.OUT_LATCH	--Output LatchIO
@@ -287,22 +299,23 @@ n_sdCardCS <= '0' 		when cpuAddress(7 downto 3)     = "10001"   and (n_ioWR='0' 
 n_LEDCS <= '0' 			when cpuAddress(7 downto 1)        = "1000011" and (n_ioWR='0' or n_ioRD = '0') else '1'; -- 2 Bytes $86-$87
 n_J6IOCS <= '0' 			when cpuAddress(7 downto 1)       = "1000010" and (n_ioWR='0' or n_ioRD = '0') else '1'; -- 2 Bytes $84-$85
 n_J8IOCS <= '0' 			when cpuAddress(7 downto 1)       = "1000100" and (n_ioWR='0' or n_ioRD = '0') else '1'; -- 2 Bytes $88-$89
-n_internalRAMCs1 <= '0' when ((cpuAddress(15) = '0') and (n_basRomCS = '1')) else '1';
-n_internalRAMCs2 <= '0' when cpuAddress(15 downto 14) = "10" else '1';
-n_internalRAMCs3 <= '0' when cpuAddress(15 downto 10) = "111111" else '1';
+n_internalRAMCs1 <= '0' when ((cpuAddress(15) = '0') and (n_basRomCS = '1')) else '1';	-- x0000-x7fff - 32K
+n_internalRAMCs2 <= '0' when cpuAddress(15 downto 13) = "111" else '1';						-- xe000-xffff - 8K
+n_internalRAMCs3 <= '0' when cpuAddress(15 downto 10) = "1101" else '1';					-- xd000-xdfff - 4K
+n_internalRAMCs4 <= '0' when cpuAddress(15 downto 12) = "1000" else '1';						-- x8000-x8fff - 4K
 
 -- ____________________________________________________________________________________
 -- BUS ISOLATION
 cpuDataIn <=
-interface1DataOut		when n_interface1CS = '0'	else	-- UART 1
-interface2DataOut		when n_interface2CS = '0'	else	-- UART 2 (VGA Display)
-sdCardDataOut			when n_sdCardCS = '0'		else				-- SD Card
-basRomData				when n_basRomCS = '0'		else
-internalRam1DataOut	when n_internalRAMCs1 = '0'	else
-internalRam2DataOut	when n_internalRAMCs2 = '0'	else
-internalRam3DataOut	when n_internalRAMCs3 = '0'	else
---sramData when n_externalRamCS= '0' else
-x"FF";
+	interface1DataOut		when n_interface1CS = '0'	else	-- UART 1
+	interface2DataOut		when n_interface2CS = '0'	else	-- UART 2 (VGA Display)
+	sdCardDataOut			when n_sdCardCS = '0'		else				-- SD Card
+	basRomData				when n_basRomCS = '0'		else
+	internalRam1DataOut	when n_internalRAMCs1 = '0'	else
+	internalRam2DataOut	when n_internalRAMCs2 = '0'	else
+	internalRam3DataOut	when n_internalRAMCs3 = '0'	else
+	internalRam4DataOut	when n_internalRAMCs4 = '0'	else
+	x"FF";
 
 -- ____________________________________________________________________________________
 -- SYSTEM CLOCKS
@@ -335,6 +348,8 @@ else
 end if;
 
 -- Serial clock DDS
+-- Basically, f = (increment x 50,000,000) / 65,536
+-- Where f is the baud rate x 16, as required for the ACIA to run properly.
 -- 50MHz master input clock:
 -- Baud Increment
 -- 115200 2416
