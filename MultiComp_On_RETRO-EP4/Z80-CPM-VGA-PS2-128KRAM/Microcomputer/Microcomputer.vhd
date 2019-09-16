@@ -221,7 +221,7 @@ port map(
 	latchOut => ledOut8
 );
 
-sd1 : entity work.sd_controller
+sd1 : entity work.sd_controller_NealC
 port map(
 	sdCS => sdCS,
 	sdMOSI => sdMOSI,

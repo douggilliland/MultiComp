@@ -300,9 +300,9 @@ n_LEDCS 				<= '0' when cpuAddress(7 downto 1)	= "1000011" and (n_ioWR='0' or n_
 -- Memory Mapped devices
 n_basRomCS			<= '0' when cpuAddress(15 downto 13)	= "000" and n_RomActive = '0' 				else '1';	-- 8K at bottom of memory
 n_internalRAMCs1	<= '0' when ((cpuAddress(15) = '0') and (n_basRomCS = '1')) 							else '1';	-- x0000-x7fff - 32K
-n_internalRAMCs4	<= '0' when cpuAddress(15 downto 10)	= "1000" 											else '1';	-- x8000-x8fff - 4K
-n_internalRAMCs5	<= '0' when cpuAddress(15 downto 9)		= "10010" 											else '1';	-- x9000-x97ff - 2K
-n_internalRAMCs6	<= '0' when cpuAddress(15 downto 8)		= "10011" 											else '1';	-- x9800-x9bff - 1K
+n_internalRAMCs4	<= '0' when cpuAddress(15 downto 12)	= "1000" 											else '1';	-- x8000-x8fff - 4K
+n_internalRAMCs5	<= '0' when cpuAddress(15 downto 11)	= "10010" 											else '1';	-- x9000-x97ff - 2K
+n_internalRAMCs6	<= '0' when cpuAddress(15 downto 10)	= "100110" 											else '1';	-- x9800-x9bff - 1K
 n_internalRAMCs2	<= '0' when cpuAddress(15 downto 13)	= "111" 												else '1';	-- xe000-xffff - 8K
 n_internalRAMCs3	<= '0' when cpuAddress(15 downto 10)	= "1101" 											else '1';	-- xd000-xdfff - 4K
 
