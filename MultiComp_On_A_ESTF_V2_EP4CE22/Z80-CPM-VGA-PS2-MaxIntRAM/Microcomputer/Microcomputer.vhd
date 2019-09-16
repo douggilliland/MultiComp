@@ -317,8 +317,9 @@ cpuDataIn <=
 	internalRam1DataOut	when n_internalRAMCs1 = '0'	else	-- Low 32KB of RAM x0000-x7FFF
 	internalRam4DataOut	when n_internalRAMCs4 = '0'	else	-- Next 4K of RAM x8000-x8FFF
 	internalRam5DataOut	when n_internalRAMCs5 = '0'	else	-- Next 2K of RAM x9000-x97ff
-	internalRam2DataOut	when n_internalRAMCs2 = '0'	else
-	internalRam3DataOut	when n_internalRAMCs3 = '0'	else
+	internalRam6DataOut	when n_internalRAMCs6 = '0'	else	-- Next 1K of RAM x9800-x93ff
+	internalRam2DataOut	when n_internalRAMCs2 = '0'	else	-- CP/M and BIOS
+	internalRam3DataOut	when n_internalRAMCs3 = '0'	else	-- CP/M and BIOS
 	x"FF";
 
 -- ____________________________________________________________________________________
