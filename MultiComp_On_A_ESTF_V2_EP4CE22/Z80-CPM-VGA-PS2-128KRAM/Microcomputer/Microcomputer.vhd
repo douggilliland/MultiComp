@@ -13,23 +13,14 @@ entity Microcomputer is
 	port(
 		n_reset		: in std_logic :='1';
 		clk			: in std_logic;
-		-- External SRAM
-		sramData		: inout std_logic_vector(7 downto 0);
-		sramAddress	: out std_logic_vector(18 downto 0);
-		n_sRamWE		: out std_logic :='1';
-		n_sRamCS		: out std_logic :='1';
-		n_sRamOE		: out std_logic :='1';
 		-- Serial Port
 		rxd1			: in std_logic;
 		txd1			: out std_logic :='1';
 		rts1			: out std_logic;
 		-- Video RGB
-		videoR0		: out std_logic :='0';
-		videoG0		: out std_logic :='0';
-		videoB0		: out std_logic :='0';
-		videoR1		: out std_logic :='0';
-		videoG1		: out std_logic :='0';
-		videoB1		: out std_logic :='0';
+		o_video_Red	: out	std_logic_vector(4 downto 0);
+		o_video_Grn	: out	std_logic_vector(5 downto 0);
+		o_video_Blu	: out	std_logic_vector(4 downto 0);
 		hSync			: out std_logic :='1';
 		vSync			: out std_logic :='1';
 		-- PS/2 Keyboard
@@ -61,12 +52,14 @@ architecture struct of Microcomputer is
 	signal internalRam2DataOut		: std_logic_vector(7 downto 0);
 	signal internalRam3DataOut		: std_logic_vector(7 downto 0);
 	signal internalRam4DataOut		: std_logic_vector(7 downto 0);
+	signal internalRam5DataOut		: std_logic_vector(7 downto 0);
+	signal internalRam6DataOut		: std_logic_vector(7 downto 0);
 	signal interface1DataOut		: std_logic_vector(7 downto 0);
 	signal interface2DataOut		: std_logic_vector(7 downto 0);
 	signal sdCardDataOut				: std_logic_vector(7 downto 0);
 
 	signal n_memWR						: std_logic :='1';
-	signal n_memRD 					: std_logic :='1';
+--	signal n_memRD 					: std_logic :='1';
 
 	signal n_ioWR						: std_logic :='1';
 	signal n_ioRD 						: std_logic :='1';
@@ -77,18 +70,17 @@ architecture struct of Microcomputer is
 	signal n_int1						: std_logic :='1';	
 	signal n_int2						: std_logic :='1';	
 	
---	signal n_externalRamCS			: std_logic :='1';
 	signal n_basRomCS					: std_logic :='1';
 	signal n_interface1CS			: std_logic :='1';
 	signal n_interface2CS			: std_logic :='1';
 	signal n_sdCardCS					: std_logic :='1';
-	signal n_J6IOCS					: std_logic :='1';
-	signal n_J8IOCS					: std_logic :='1';
 	signal n_LEDCS						: std_logic :='1';
 	signal n_internalRAMCs1			: std_logic :='1';
 	signal n_internalRAMCs2			: std_logic :='1';
 	signal n_internalRAMCs3			: std_logic :='1';
 	signal n_internalRAMCs4			: std_logic :='1';
+	signal n_internalRAMCs5			: std_logic :='1';
+	signal n_internalRAMCs6			: std_logic :='1';
 
 	signal serialClkCount			: std_logic_vector(15 downto 0);
 	signal cpuClkCount				: std_logic_vector(5 downto 0); 
@@ -99,7 +91,19 @@ architecture struct of Microcomputer is
 --CP/M
 	signal n_RomActive 				: std_logic := '0';
 
+	signal videoR0						: std_logic :='0';
+	signal videoG0						: std_logic :='0';
+	signal videoB0						: std_logic :='0';
+	signal videoR1						: std_logic :='0';
+	signal videoG1						: std_logic :='0';
+	signal videoB1						: std_logic :='0';
+
+	
 begin
+
+	o_video_Red	<= videoR1&videoR1&videoR0&videoR0&videoR0;
+	o_video_Grn	<= videoG1&videoG1&videoG0&videoG0&videoG0&videoG0;
+	o_video_Blu	<= videoB1&videoB1&videoB0&videoB0&videoB0;
 
 --CP/M
 -- Disable ROM if out 38. Re-enable when (asynchronous) reset pressed
@@ -116,6 +120,7 @@ end process;
 
 -- ____________________________________________________________________________________
 -- Z80 CPU
+
 cpu1 : entity work.t80s
 generic map(mode => 1, t2write => 1, iowait => 0)
 port map(
@@ -135,23 +140,14 @@ port map(
 );
 
 -- ____________________________________________________________________________________
--- BASIC ROM
+-- BASIC and CP/M IN ROM
 
-rom1 : entity work.Z80_CPM_BASIC_ROM -- 8KB BASIC and CP/M boot
+rom1 : entity work.Z80_CPM_BASIC_ROM
 port map(
 	address => cpuAddress(12 downto 0),
 	clock => clk,
 	q => basRomData
 );
-
--- ____________________________________________________________________________________
--- External RAM
---sramAddress(18 downto 16) <= "000";
---sramAddress(15 downto 0) <= cpuAddress(15 downto 0);
---sramData <= cpuDataOut when n_memWR='0' else (others => 'Z');
---n_sRamWE <= n_memWR or n_externalRamCS;
---n_sRamOE <= n_memRD or n_externalRamCS;
---n_sRamCS <= n_externalRamCS;
 
 -- ____________________________________________________________________________________
 -- INPUT/OUTPUT DEVICES
@@ -175,7 +171,6 @@ port map(
 );
 
 io2 : entity work.SBCTextDisplayRGB	-- VGA output
-
 port map (
 	n_reset => n_reset,
 	clk => clk,
@@ -189,7 +184,6 @@ port map (
 	videoG1 => videoG1,
 	videoB0 => videoB0,
 	videoB1 => videoB1,
-	
 	n_wr => n_interface2CS or n_ioWR,
 	n_rd => n_interface2CS or n_ioRD,
 	n_int => n_int2,
@@ -199,24 +193,6 @@ port map (
 	ps2Clk => ps2Clk,
 	ps2Data => ps2Data
 );
-
---latchIO0 : entity work.OUT_LATCH	--Output LatchIO
---port map(
---	clear => n_reset,
---	clock => clk,
---	load => n_J6IOCS,
---	dataIn8 => cpuDataOut,
---	latchOut => J6IO8
---);
---
---latchIO1 : entity work.OUT_LATCH	--Output LatchIO
---port map(
---	clear => n_reset,
---	clock => clk,
---	load => n_J8IOCS,
---	dataIn8 => cpuDataOut,
---	latchOut => J8IO8
---);
 
 InternalSRAM1 : ENTITY work.InternalRam32K
 	PORT MAP
@@ -258,6 +234,26 @@ InternalSRAM4 : ENTITY work.InternalRam4K
 		q			=> internalRam4DataOut
 	);
 
+InternalSRAM5 : ENTITY work.InternalRam2K
+	PORT MAP
+	(
+		address	=> cpuAddress(10 downto 0),
+		clock		=> clk,
+		data		=> cpuDataOut,
+		wren		=> not(n_memWR or n_internalRAMCs5),
+		q			=> internalRam5DataOut
+	);
+
+InternalSRAM6 : ENTITY work.InternalRam1K
+	PORT MAP
+	(
+		address	=> cpuAddress(9 downto 0),
+		clock		=> clk,
+		data		=> cpuDataOut,
+		wren		=> not(n_memWR or n_internalRAMCs6),
+		q			=> internalRam6DataOut
+	);
+
 latchLED : entity work.OUT_LATCH	--Output LatchIO
 port map(
 	clear => n_reset,
@@ -285,36 +281,42 @@ port map(
 
 -- ____________________________________________________________________________________
 -- MEMORY READ/WRITE LOGIC
-n_ioWR <= n_WR or n_IORQ;
-n_memWR <= n_WR or n_MREQ;
-n_ioRD <= n_RD or n_IORQ;
-n_memRD <= n_RD or n_MREQ;
+n_ioRD	<= n_RD or n_IORQ;
+n_ioWR	<= n_WR or n_IORQ;
+--n_memRD	<= n_RD or n_MREQ;
+n_memWR	<= n_WR or n_MREQ;
 
 -- ____________________________________________________________________________________
 -- CHIP SELECTS
-n_basRomCS <= '0' 		when cpuAddress(15 downto 13)   = "000" and n_RomActive = '0' else '1'; --8K at bottom of memory
-n_interface1CS <= '0' 	when cpuAddress(7 downto 1) = "1000000" and (n_ioWR='0' or n_ioRD = '0') else '1'; -- 2 Bytes $80-$81
-n_interface2CS <= '0' 	when cpuAddress(7 downto 1) = "1000001" and (n_ioWR='0' or n_ioRD = '0') else '1'; -- 2 Bytes $82-$83
-n_sdCardCS <= '0' 		when cpuAddress(7 downto 3)     = "10001"   and (n_ioWR='0' or n_ioRD = '0') else '1'; -- 8 Bytes $88-$8F
-n_LEDCS <= '0' 			when cpuAddress(7 downto 1)        = "1000011" and (n_ioWR='0' or n_ioRD = '0') else '1'; -- 2 Bytes $86-$87
-n_J6IOCS <= '0' 			when cpuAddress(7 downto 1)       = "1000010" and (n_ioWR='0' or n_ioRD = '0') else '1'; -- 2 Bytes $84-$85
-n_J8IOCS <= '0' 			when cpuAddress(7 downto 1)       = "1000100" and (n_ioWR='0' or n_ioRD = '0') else '1'; -- 2 Bytes $88-$89
-n_internalRAMCs1 <= '0' when ((cpuAddress(15) = '0') and (n_basRomCS = '1')) else '1';	-- x0000-x7fff - 32K
-n_internalRAMCs2 <= '0' when cpuAddress(15 downto 13) = "111" else '1';						-- xe000-xffff - 8K
-n_internalRAMCs3 <= '0' when cpuAddress(15 downto 10) = "1101" else '1';					-- xd000-xdfff - 4K
-n_internalRAMCs4 <= '0' when cpuAddress(15 downto 12) = "1000" else '1';						-- x8000-x8fff - 4K
+
+-- I/O Mapped devices
+n_interface1CS		<= '0' when cpuAddress(7 downto 1)	= "1000000" and (n_ioWR='0' or n_ioRD = '0')	else '1';	-- 2 Bytes $80-$81
+n_interface2CS		<= '0' when cpuAddress(7 downto 1)	= "1000001" and (n_ioWR='0' or n_ioRD = '0') else '1';	-- 2 Bytes $82-$83
+n_sdCardCS 			<= '0' when cpuAddress(7 downto 3)	= "10001"   and (n_ioWR='0' or n_ioRD = '0') else '1';	-- 8 Bytes $88-$8F
+n_LEDCS 				<= '0' when cpuAddress(7 downto 1)	= "1000011" and (n_ioWR='0' or n_ioRD = '0') else '1';	-- 2 Bytes $86-$87
+
+-- Memory Mapped devices
+n_basRomCS			<= '0' when cpuAddress(15 downto 13)	= "000" and n_RomActive = '0' 				else '1';	-- 8K at bottom of memory
+n_internalRAMCs1	<= '0' when ((cpuAddress(15) = '0') and (n_basRomCS = '1')) 							else '1';	-- x0000-x7fff - 32K
+n_internalRAMCs4	<= '0' when cpuAddress(15 downto 10)	= "1000" 											else '1';	-- x8000-x8fff - 4K
+n_internalRAMCs5	<= '0' when cpuAddress(15 downto 9)		= "10010" 											else '1';	-- x9000-x97ff - 2K
+n_internalRAMCs6	<= '0' when cpuAddress(15 downto 8)		= "10011" 											else '1';	-- x9800-x9bff - 1K
+n_internalRAMCs2	<= '0' when cpuAddress(15 downto 13)	= "111" 												else '1';	-- xe000-xffff - 8K
+n_internalRAMCs3	<= '0' when cpuAddress(15 downto 10)	= "1101" 											else '1';	-- xd000-xdfff - 4K
 
 -- ____________________________________________________________________________________
--- BUS ISOLATION
+-- Multiplexer for data into the CPU - in Priority order
+
 cpuDataIn <=
-	interface1DataOut		when n_interface1CS = '0'	else	-- UART 1
-	interface2DataOut		when n_interface2CS = '0'	else	-- UART 2 (VGA Display)
-	sdCardDataOut			when n_sdCardCS = '0'		else				-- SD Card
-	basRomData				when n_basRomCS = '0'		else
-	internalRam1DataOut	when n_internalRAMCs1 = '0'	else
+	interface1DataOut		when n_interface1CS = '0'		else	-- UART 1
+	interface2DataOut		when n_interface2CS = '0'		else	-- UART 2 (VGA Display)
+	sdCardDataOut			when n_sdCardCS = '0'			else	-- SD Card
+	basRomData				when n_basRomCS = '0'			else	-- BASIC + CP/M ROM
+	internalRam1DataOut	when n_internalRAMCs1 = '0'	else	-- Low 32KB of RAM x0000-x7FFF
+	internalRam4DataOut	when n_internalRAMCs4 = '0'	else	-- Next 4K of RAM x8000-x8FFF
+	internalRam5DataOut	when n_internalRAMCs5 = '0'	else	-- Next 2K of RAM x9000-x97ff
 	internalRam2DataOut	when n_internalRAMCs2 = '0'	else
 	internalRam3DataOut	when n_internalRAMCs3 = '0'	else
-	internalRam4DataOut	when n_internalRAMCs4 = '0'	else
 	x"FF";
 
 -- ____________________________________________________________________________________

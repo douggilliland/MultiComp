@@ -39,7 +39,6 @@ USE ieee.std_logic_1164.all;
 LIBRARY altera_mf;
 USE altera_mf.altera_mf_components.all;
 
-ENTITY InternalRam2K IS
 	PORT
 	(
 		address		: IN STD_LOGIC_VECTOR (10 DOWNTO 0);
