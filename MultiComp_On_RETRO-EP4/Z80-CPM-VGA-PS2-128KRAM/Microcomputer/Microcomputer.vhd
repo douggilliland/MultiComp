@@ -274,7 +274,7 @@ begin
 if rising_edge(clk) then
 
 if cpuClkCount < 4 then -- 4 = 10MHz, 3 = 12.5MHz, 2=16.6MHz, 1=25MHz
-	cpuClkCount <= cpuClkCount + 1;
+	cpuClkCount <= cpuClkCount + 4;
 else
 	cpuClkCount <= (others=>'0');
 end if;
@@ -296,15 +296,21 @@ else
 end if;
 
 -- Serial clock DDS
+-- Basically, f = (increment x 50,000,000) / 65,536
+-- Where f is the baud rate x 16, as required for the ACIA to run properly.
 -- 50MHz master input clock:
+-- OR INCREMENT = (BAUDRATE * 16 * 65526) / 50000000
 -- Baud Increment
 -- 115200 2416
+-- 57600 1208
 -- 38400 805
 -- 19200 403
 -- 9600 201
 -- 4800 101
 -- 2400 50
-serialClkCount <= serialClkCount + 2416;		-- 115200 baud serial port
+-- 1200 25
+-- 300 6
+serialClkCount <= serialClkCount + 2416;		-- 115,200 baud serial port
 end if;
 end process;
 end;
