@@ -63,8 +63,8 @@ architecture struct of Microcomputer is
 	signal cpuDataIn					: std_logic_vector(7 downto 0);
 
 	signal basRomData					: std_logic_vector(7 downto 0);
-	signal internalRam1DataOut		: std_logic_vector(7 downto 0);
-	signal internalRam2DataOut		: std_logic_vector(7 downto 0);
+--	signal internalRam1DataOut		: std_logic_vector(7 downto 0);
+--	signal internalRam2DataOut		: std_logic_vector(7 downto 0);
 	signal interface1DataOut		: std_logic_vector(7 downto 0);
 	signal interface2DataOut		: std_logic_vector(7 downto 0);
 	signal sdCardDataOut				: std_logic_vector(7 downto 0);
@@ -269,7 +269,7 @@ interface1DataOut when n_interface1CS = '0' else	-- UART 1
 interface2DataOut when n_interface2CS = '0' else	-- UART 2
 sdCardDataOut when n_sdCardCS = '0' else				-- SD Card
 basRomData when n_basRomCS = '0' else
-internalRam1DataOut when n_internalRam1CS= '0' else
+--internalRam1DataOut when n_internalRam1CS= '0' else
 sramData when n_externalRamCS= '0' else
 x"FF";
 

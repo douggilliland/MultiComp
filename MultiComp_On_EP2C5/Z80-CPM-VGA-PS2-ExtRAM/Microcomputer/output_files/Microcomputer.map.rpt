@@ -1,5 +1,5 @@
 Analysis & Synthesis report for Microcomputer
-Thu Apr 27 16:30:03 2017
+Wed Oct 23 14:56:34 2019
 Quartus II 64-Bit Version 13.0.1 Build 232 06/12/2013 Service Pack 1 SJ Web Edition
 
 
@@ -18,7 +18,7 @@ Quartus II 64-Bit Version 13.0.1 Build 232 06/12/2013 Service Pack 1 SJ Web Edit
  10. State Machine - |Microcomputer|sd_controller:sd1|return_state
  11. State Machine - |Microcomputer|sd_controller:sd1|state
  12. State Machine - |Microcomputer|SBCTextDisplayRGB:io2|dispState
- 13. State Machine - |Microcomputer|SBCTextDisplayRGB:io2|nextState
+ 13. State Machine - |Microcomputer|SBCTextDisplayRGB:io2|escState
  14. State Machine - |Microcomputer|bufferedUART:io1|txState
  15. State Machine - |Microcomputer|bufferedUART:io1|rxState
  16. Registers Removed During Synthesis
@@ -27,7 +27,7 @@ Quartus II 64-Bit Version 13.0.1 Build 232 06/12/2013 Service Pack 1 SJ Web Edit
  19. Inverted Register Statistics
  20. Multiplexer Restructuring Statistics (Restructuring Performed)
  21. Source assignments for Z80_CPM_BASIC_ROM:rom1|altsyncram:altsyncram_component|altsyncram_4391:auto_generated
- 22. Source assignments for SBCTextDisplayRGB:io2|CGABoldRomReduced:\GEN_REDUCED_CHARS:fontRom|altsyncram:altsyncram_component|altsyncram_h8b1:auto_generated
+ 22. Source assignments for SBCTextDisplayRGB:io2|SansBoldRomReduced:\GEN_REDUCED_SCHARS:fontRom|altsyncram:altsyncram_component|altsyncram_g891:auto_generated
  23. Source assignments for SBCTextDisplayRGB:io2|DisplayRam2K:\GEN_2KRAM:dispCharRam|altsyncram:altsyncram_component|altsyncram_v272:auto_generated
  24. Source assignments for SBCTextDisplayRGB:io2|DisplayRam2K:\GEN_2KATTRAM:dispAttRam|altsyncram:altsyncram_component|altsyncram_v272:auto_generated
  25. Parameter Settings for User Entity Instance: T80s:cpu1
@@ -36,7 +36,7 @@ Quartus II 64-Bit Version 13.0.1 Build 232 06/12/2013 Service Pack 1 SJ Web Edit
  28. Parameter Settings for User Entity Instance: T80s:cpu1|T80:u0|T80_ALU:alu
  29. Parameter Settings for User Entity Instance: Z80_CPM_BASIC_ROM:rom1|altsyncram:altsyncram_component
  30. Parameter Settings for User Entity Instance: SBCTextDisplayRGB:io2
- 31. Parameter Settings for User Entity Instance: SBCTextDisplayRGB:io2|CGABoldRomReduced:\GEN_REDUCED_CHARS:fontRom|altsyncram:altsyncram_component
+ 31. Parameter Settings for User Entity Instance: SBCTextDisplayRGB:io2|SansBoldRomReduced:\GEN_REDUCED_SCHARS:fontRom|altsyncram:altsyncram_component
  32. Parameter Settings for User Entity Instance: SBCTextDisplayRGB:io2|DisplayRam2K:\GEN_2KRAM:dispCharRam|altsyncram:altsyncram_component
  33. Parameter Settings for User Entity Instance: SBCTextDisplayRGB:io2|DisplayRam2K:\GEN_2KATTRAM:dispAttRam|altsyncram:altsyncram_component
  34. Parameter Settings for User Entity Instance: OUT_LATCH:latchIO
@@ -76,15 +76,15 @@ applicable agreement for further details.
 +--------------------------------------------------------------------------------------+
 ; Analysis & Synthesis Summary                                                         ;
 +------------------------------------+-------------------------------------------------+
-; Analysis & Synthesis Status        ; Successful - Thu Apr 27 16:30:03 2017           ;
+; Analysis & Synthesis Status        ; Successful - Wed Oct 23 14:56:33 2019           ;
 ; Quartus II 64-Bit Version          ; 13.0.1 Build 232 06/12/2013 SP 1 SJ Web Edition ;
 ; Revision Name                      ; Microcomputer                                   ;
 ; Top-level Entity Name              ; Microcomputer                                   ;
 ; Family                             ; Cyclone II                                      ;
-; Total logic elements               ; 4,417                                           ;
-;     Total combinational functions  ; 4,002                                           ;
-;     Dedicated logic registers      ; 1,154                                           ;
-; Total registers                    ; 1154                                            ;
+; Total logic elements               ; 4,414                                           ;
+;     Total combinational functions  ; 3,999                                           ;
+;     Dedicated logic registers      ; 1,155                                           ;
+; Total registers                    ; 1155                                            ;
 ; Total pins                         ; 62                                              ;
 ; Total virtual pins                 ; 0                                               ;
 ; Total memory bits                  ; 106,496                                         ;
@@ -185,57 +185,59 @@ Parallel compilation was disabled, but you have multiple processors available. E
 +----------------------------+--------+
 ; Processors                 ; Number ;
 +----------------------------+--------+
-; Number detected on machine ; 4      ;
+; Number detected on machine ; 8      ;
 ; Maximum allowed            ; 1      ;
 +----------------------------+--------+
 
 
-+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
-; Analysis & Synthesis Source Files Read                                                                                                                                                                                                                                                                ;
-+----------------------------------------------------------------------------------------------------------------+-----------------+----------------------------------------+-----------------------------------------------------------------------------------------------------------------+---------+
-; File Name with User-Entered Path                                                                               ; Used in Netlist ; File Type                              ; File Name with Absolute Path                                                                                    ; Library ;
-+----------------------------------------------------------------------------------------------------------------+-----------------+----------------------------------------+-----------------------------------------------------------------------------------------------------------------+---------+
-; ../Components/IO/OutLatch.vhd                                                                                  ; yes             ; User VHDL File                         ; C:/Users/DGilliland/Documents/GitHub/MultiComp/Z80-CPM-VGA-PS2-ExtRAM/Components/IO/OutLatch.vhd                ;         ;
-; Microcomputer.vhd                                                                                              ; yes             ; User VHDL File                         ; C:/Users/DGilliland/Documents/GitHub/MultiComp/Z80-CPM-VGA-PS2-ExtRAM/Microcomputer/Microcomputer.vhd           ;         ;
-; ../Components/Z80/T80s.vhd                                                                                     ; yes             ; User VHDL File                         ; C:/Users/DGilliland/Documents/GitHub/MultiComp/Z80-CPM-VGA-PS2-ExtRAM/Components/Z80/T80s.vhd                   ;         ;
-; ../Components/Z80/T80_Reg.vhd                                                                                  ; yes             ; User VHDL File                         ; C:/Users/DGilliland/Documents/GitHub/MultiComp/Z80-CPM-VGA-PS2-ExtRAM/Components/Z80/T80_Reg.vhd                ;         ;
-; ../Components/Z80/T80_Pack.vhd                                                                                 ; yes             ; User VHDL File                         ; C:/Users/DGilliland/Documents/GitHub/MultiComp/Z80-CPM-VGA-PS2-ExtRAM/Components/Z80/T80_Pack.vhd               ;         ;
-; ../Components/Z80/T80_MCode.vhd                                                                                ; yes             ; User VHDL File                         ; C:/Users/DGilliland/Documents/GitHub/MultiComp/Z80-CPM-VGA-PS2-ExtRAM/Components/Z80/T80_MCode.vhd              ;         ;
-; ../Components/Z80/T80_ALU.vhd                                                                                  ; yes             ; User VHDL File                         ; C:/Users/DGilliland/Documents/GitHub/MultiComp/Z80-CPM-VGA-PS2-ExtRAM/Components/Z80/T80_ALU.vhd                ;         ;
-; ../Components/Z80/T80.vhd                                                                                      ; yes             ; User VHDL File                         ; C:/Users/DGilliland/Documents/GitHub/MultiComp/Z80-CPM-VGA-PS2-ExtRAM/Components/Z80/T80.vhd                    ;         ;
-; ../Components/SDCARD/sd_controller.vhd                                                                         ; yes             ; User VHDL File                         ; C:/Users/DGilliland/Documents/GitHub/MultiComp/Z80-CPM-VGA-PS2-ExtRAM/Components/SDCARD/sd_controller.vhd       ;         ;
-; ../Components/TERMINAL/SBCTextDisplayRGB.vhd                                                                   ; yes             ; User VHDL File                         ; C:/Users/DGilliland/Documents/GitHub/MultiComp/Z80-CPM-VGA-PS2-ExtRAM/Components/TERMINAL/SBCTextDisplayRGB.vhd ;         ;
-; ../Components/TERMINAL/CGABoldRom.vhd                                                                          ; yes             ; User Wizard-Generated File             ; C:/Users/DGilliland/Documents/GitHub/MultiComp/Z80-CPM-VGA-PS2-ExtRAM/Components/TERMINAL/CGABoldRom.vhd        ;         ;
-; ../Components/TERMINAL/DisplayRam1K.vhd                                                                        ; yes             ; User Wizard-Generated File             ; C:/Users/DGilliland/Documents/GitHub/MultiComp/Z80-CPM-VGA-PS2-ExtRAM/Components/TERMINAL/DisplayRam1K.vhd      ;         ;
-; ../Components/TERMINAL/DisplayRam2K.vhd                                                                        ; yes             ; User Wizard-Generated File             ; C:/Users/DGilliland/Documents/GitHub/MultiComp/Z80-CPM-VGA-PS2-ExtRAM/Components/TERMINAL/DisplayRam2K.vhd      ;         ;
-; ../Components/TERMINAL/CGABoldRomReduced.vhd                                                                   ; yes             ; User Wizard-Generated File             ; C:/Users/DGilliland/Documents/GitHub/MultiComp/Z80-CPM-VGA-PS2-ExtRAM/Components/TERMINAL/CGABoldRomReduced.vhd ;         ;
-; ../Components/UART/bufferedUART.vhd                                                                            ; yes             ; User VHDL File                         ; C:/Users/DGilliland/Documents/GitHub/MultiComp/Z80-CPM-VGA-PS2-ExtRAM/Components/UART/bufferedUART.vhd          ;         ;
-; ../ROMS/Z80/Z80_CPM_BASIC_ROM.vhd                                                                              ; yes             ; User Wizard-Generated File             ; C:/Users/DGilliland/Documents/GitHub/MultiComp/Z80-CPM-VGA-PS2-ExtRAM/ROMS/Z80/Z80_CPM_BASIC_ROM.vhd            ;         ;
-; altsyncram.tdf                                                                                                 ; yes             ; Megafunction                           ; c:/altera/13.0sp1/quartus/libraries/megafunctions/altsyncram.tdf                                                ;         ;
-; stratix_ram_block.inc                                                                                          ; yes             ; Megafunction                           ; c:/altera/13.0sp1/quartus/libraries/megafunctions/stratix_ram_block.inc                                         ;         ;
-; lpm_mux.inc                                                                                                    ; yes             ; Megafunction                           ; c:/altera/13.0sp1/quartus/libraries/megafunctions/lpm_mux.inc                                                   ;         ;
-; lpm_decode.inc                                                                                                 ; yes             ; Megafunction                           ; c:/altera/13.0sp1/quartus/libraries/megafunctions/lpm_decode.inc                                                ;         ;
-; aglobal130.inc                                                                                                 ; yes             ; Megafunction                           ; c:/altera/13.0sp1/quartus/libraries/megafunctions/aglobal130.inc                                                ;         ;
-; a_rdenreg.inc                                                                                                  ; yes             ; Megafunction                           ; c:/altera/13.0sp1/quartus/libraries/megafunctions/a_rdenreg.inc                                                 ;         ;
-; altrom.inc                                                                                                     ; yes             ; Megafunction                           ; c:/altera/13.0sp1/quartus/libraries/megafunctions/altrom.inc                                                    ;         ;
-; altram.inc                                                                                                     ; yes             ; Megafunction                           ; c:/altera/13.0sp1/quartus/libraries/megafunctions/altram.inc                                                    ;         ;
-; altdpram.inc                                                                                                   ; yes             ; Megafunction                           ; c:/altera/13.0sp1/quartus/libraries/megafunctions/altdpram.inc                                                  ;         ;
-; db/altsyncram_4391.tdf                                                                                         ; yes             ; Auto-Generated Megafunction            ; C:/Users/DGilliland/Documents/GitHub/MultiComp/Z80-CPM-VGA-PS2-ExtRAM/Microcomputer/db/altsyncram_4391.tdf      ;         ;
-; /users/dgilliland/documents/github/multicomp/z80-cpm-vga-ps2-extram/roms/z80/cpm_basic.hex                     ; yes             ; Auto-Found Memory Initialization File  ; /users/dgilliland/documents/github/multicomp/z80-cpm-vga-ps2-extram/roms/z80/cpm_basic.hex                      ;         ;
-; db/decode_1oa.tdf                                                                                              ; yes             ; Auto-Generated Megafunction            ; C:/Users/DGilliland/Documents/GitHub/MultiComp/Z80-CPM-VGA-PS2-ExtRAM/Microcomputer/db/decode_1oa.tdf           ;         ;
-; db/mux_hib.tdf                                                                                                 ; yes             ; Auto-Generated Megafunction            ; C:/Users/DGilliland/Documents/GitHub/MultiComp/Z80-CPM-VGA-PS2-ExtRAM/Microcomputer/db/mux_hib.tdf              ;         ;
-; db/altsyncram_h8b1.tdf                                                                                         ; yes             ; Auto-Generated Megafunction            ; C:/Users/DGilliland/Documents/GitHub/MultiComp/Z80-CPM-VGA-PS2-ExtRAM/Microcomputer/db/altsyncram_h8b1.tdf      ;         ;
-; /users/dgilliland/documents/github/multicomp/z80-cpm-vga-ps2-extram/components/terminal/cgafontboldreduced.hex ; yes             ; Auto-Found Memory Initialization File  ; /users/dgilliland/documents/github/multicomp/z80-cpm-vga-ps2-extram/components/terminal/cgafontboldreduced.hex  ;         ;
-; db/altsyncram_v272.tdf                                                                                         ; yes             ; Auto-Generated Megafunction            ; C:/Users/DGilliland/Documents/GitHub/MultiComp/Z80-CPM-VGA-PS2-ExtRAM/Microcomputer/db/altsyncram_v272.tdf      ;         ;
-; lpm_divide.tdf                                                                                                 ; yes             ; Megafunction                           ; c:/altera/13.0sp1/quartus/libraries/megafunctions/lpm_divide.tdf                                                ;         ;
-; abs_divider.inc                                                                                                ; yes             ; Megafunction                           ; c:/altera/13.0sp1/quartus/libraries/megafunctions/abs_divider.inc                                               ;         ;
-; sign_div_unsign.inc                                                                                            ; yes             ; Megafunction                           ; c:/altera/13.0sp1/quartus/libraries/megafunctions/sign_div_unsign.inc                                           ;         ;
-; db/lpm_divide_08m.tdf                                                                                          ; yes             ; Auto-Generated Megafunction            ; C:/Users/DGilliland/Documents/GitHub/MultiComp/Z80-CPM-VGA-PS2-ExtRAM/Microcomputer/db/lpm_divide_08m.tdf       ;         ;
-; db/sign_div_unsign_7nh.tdf                                                                                     ; yes             ; Auto-Generated Megafunction            ; C:/Users/DGilliland/Documents/GitHub/MultiComp/Z80-CPM-VGA-PS2-ExtRAM/Microcomputer/db/sign_div_unsign_7nh.tdf  ;         ;
-; db/alt_u_div_g5f.tdf                                                                                           ; yes             ; Auto-Generated Megafunction            ; C:/Users/DGilliland/Documents/GitHub/MultiComp/Z80-CPM-VGA-PS2-ExtRAM/Microcomputer/db/alt_u_div_g5f.tdf        ;         ;
-; db/add_sub_lkc.tdf                                                                                             ; yes             ; Auto-Generated Megafunction            ; C:/Users/DGilliland/Documents/GitHub/MultiComp/Z80-CPM-VGA-PS2-ExtRAM/Microcomputer/db/add_sub_lkc.tdf          ;         ;
-; db/add_sub_mkc.tdf                                                                                             ; yes             ; Auto-Generated Megafunction            ; C:/Users/DGilliland/Documents/GitHub/MultiComp/Z80-CPM-VGA-PS2-ExtRAM/Microcomputer/db/add_sub_mkc.tdf          ;         ;
-+----------------------------------------------------------------------------------------------------------------+-----------------+----------------------------------------+-----------------------------------------------------------------------------------------------------------------+---------+
++-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+; Analysis & Synthesis Source Files Read                                                                                                                                                                                                                                                                                                        ;
++--------------------------------------------------------------------------------------------------------------------------+-----------------+----------------------------------------+-----------------------------------------------------------------------------------------------------------------------------------------------+---------+
+; File Name with User-Entered Path                                                                                         ; Used in Netlist ; File Type                              ; File Name with Absolute Path                                                                                                                  ; Library ;
++--------------------------------------------------------------------------------------------------------------------------+-----------------+----------------------------------------+-----------------------------------------------------------------------------------------------------------------------------------------------+---------+
+; ../../../MultiComp (VHDL Template)/Components/TERMINAL/SansBoldRomReduced.vhd                                            ; yes             ; User Wizard-Generated File             ; C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/TERMINAL/SansBoldRomReduced.vhd                ;         ;
+; ../../../MultiComp (VHDL Template)/Components/TERMINAL/SansBoldRom.vhd                                                   ; yes             ; User Wizard-Generated File             ; C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/TERMINAL/SansBoldRom.vhd                       ;         ;
+; ../Components/IO/OutLatch.vhd                                                                                            ; yes             ; User VHDL File                         ; C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_EP2C5/Z80-CPM-VGA-PS2-ExtRAM/Components/IO/OutLatch.vhd                ;         ;
+; Microcomputer.vhd                                                                                                        ; yes             ; User VHDL File                         ; C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_EP2C5/Z80-CPM-VGA-PS2-ExtRAM/Microcomputer/Microcomputer.vhd           ;         ;
+; ../Components/Z80/T80s.vhd                                                                                               ; yes             ; User VHDL File                         ; C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_EP2C5/Z80-CPM-VGA-PS2-ExtRAM/Components/Z80/T80s.vhd                   ;         ;
+; ../Components/Z80/T80_Reg.vhd                                                                                            ; yes             ; User VHDL File                         ; C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_EP2C5/Z80-CPM-VGA-PS2-ExtRAM/Components/Z80/T80_Reg.vhd                ;         ;
+; ../Components/Z80/T80_Pack.vhd                                                                                           ; yes             ; User VHDL File                         ; C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_EP2C5/Z80-CPM-VGA-PS2-ExtRAM/Components/Z80/T80_Pack.vhd               ;         ;
+; ../Components/Z80/T80_MCode.vhd                                                                                          ; yes             ; User VHDL File                         ; C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_EP2C5/Z80-CPM-VGA-PS2-ExtRAM/Components/Z80/T80_MCode.vhd              ;         ;
+; ../Components/Z80/T80_ALU.vhd                                                                                            ; yes             ; User VHDL File                         ; C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_EP2C5/Z80-CPM-VGA-PS2-ExtRAM/Components/Z80/T80_ALU.vhd                ;         ;
+; ../Components/Z80/T80.vhd                                                                                                ; yes             ; User VHDL File                         ; C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_EP2C5/Z80-CPM-VGA-PS2-ExtRAM/Components/Z80/T80.vhd                    ;         ;
+; ../Components/SDCARD/sd_controller.vhd                                                                                   ; yes             ; User VHDL File                         ; C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_EP2C5/Z80-CPM-VGA-PS2-ExtRAM/Components/SDCARD/sd_controller.vhd       ;         ;
+; ../Components/TERMINAL/SBCTextDisplayRGB.vhd                                                                             ; yes             ; User VHDL File                         ; C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_EP2C5/Z80-CPM-VGA-PS2-ExtRAM/Components/TERMINAL/SBCTextDisplayRGB.vhd ;         ;
+; ../Components/TERMINAL/CGABoldRom.vhd                                                                                    ; yes             ; User Wizard-Generated File             ; C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_EP2C5/Z80-CPM-VGA-PS2-ExtRAM/Components/TERMINAL/CGABoldRom.vhd        ;         ;
+; ../Components/TERMINAL/DisplayRam1K.vhd                                                                                  ; yes             ; User Wizard-Generated File             ; C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_EP2C5/Z80-CPM-VGA-PS2-ExtRAM/Components/TERMINAL/DisplayRam1K.vhd      ;         ;
+; ../Components/TERMINAL/DisplayRam2K.vhd                                                                                  ; yes             ; User Wizard-Generated File             ; C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_EP2C5/Z80-CPM-VGA-PS2-ExtRAM/Components/TERMINAL/DisplayRam2K.vhd      ;         ;
+; ../Components/TERMINAL/CGABoldRomReduced.vhd                                                                             ; yes             ; User Wizard-Generated File             ; C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_EP2C5/Z80-CPM-VGA-PS2-ExtRAM/Components/TERMINAL/CGABoldRomReduced.vhd ;         ;
+; ../Components/UART/bufferedUART.vhd                                                                                      ; yes             ; User VHDL File                         ; C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_EP2C5/Z80-CPM-VGA-PS2-ExtRAM/Components/UART/bufferedUART.vhd          ;         ;
+; ../ROMS/Z80/Z80_CPM_BASIC_ROM.vhd                                                                                        ; yes             ; User Wizard-Generated File             ; C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_EP2C5/Z80-CPM-VGA-PS2-ExtRAM/ROMS/Z80/Z80_CPM_BASIC_ROM.vhd            ;         ;
+; altsyncram.tdf                                                                                                           ; yes             ; Megafunction                           ; c:/altera/13.0sp1/quartus/libraries/megafunctions/altsyncram.tdf                                                                              ;         ;
+; stratix_ram_block.inc                                                                                                    ; yes             ; Megafunction                           ; c:/altera/13.0sp1/quartus/libraries/megafunctions/stratix_ram_block.inc                                                                       ;         ;
+; lpm_mux.inc                                                                                                              ; yes             ; Megafunction                           ; c:/altera/13.0sp1/quartus/libraries/megafunctions/lpm_mux.inc                                                                                 ;         ;
+; lpm_decode.inc                                                                                                           ; yes             ; Megafunction                           ; c:/altera/13.0sp1/quartus/libraries/megafunctions/lpm_decode.inc                                                                              ;         ;
+; aglobal130.inc                                                                                                           ; yes             ; Megafunction                           ; c:/altera/13.0sp1/quartus/libraries/megafunctions/aglobal130.inc                                                                              ;         ;
+; a_rdenreg.inc                                                                                                            ; yes             ; Megafunction                           ; c:/altera/13.0sp1/quartus/libraries/megafunctions/a_rdenreg.inc                                                                               ;         ;
+; altrom.inc                                                                                                               ; yes             ; Megafunction                           ; c:/altera/13.0sp1/quartus/libraries/megafunctions/altrom.inc                                                                                  ;         ;
+; altram.inc                                                                                                               ; yes             ; Megafunction                           ; c:/altera/13.0sp1/quartus/libraries/megafunctions/altram.inc                                                                                  ;         ;
+; altdpram.inc                                                                                                             ; yes             ; Megafunction                           ; c:/altera/13.0sp1/quartus/libraries/megafunctions/altdpram.inc                                                                                ;         ;
+; db/altsyncram_4391.tdf                                                                                                   ; yes             ; Auto-Generated Megafunction            ; C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_EP2C5/Z80-CPM-VGA-PS2-ExtRAM/Microcomputer/db/altsyncram_4391.tdf      ;         ;
+; /users/hpz420/documents/github/doug gilliland/multicomp/multicomp_on_ep2c5/z80-cpm-vga-ps2-extram/roms/z80/cpm_basic.hex ; yes             ; Auto-Found Memory Initialization File  ; /users/hpz420/documents/github/doug gilliland/multicomp/multicomp_on_ep2c5/z80-cpm-vga-ps2-extram/roms/z80/cpm_basic.hex                      ;         ;
+; db/decode_1oa.tdf                                                                                                        ; yes             ; Auto-Generated Megafunction            ; C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_EP2C5/Z80-CPM-VGA-PS2-ExtRAM/Microcomputer/db/decode_1oa.tdf           ;         ;
+; db/mux_hib.tdf                                                                                                           ; yes             ; Auto-Generated Megafunction            ; C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_EP2C5/Z80-CPM-VGA-PS2-ExtRAM/Microcomputer/db/mux_hib.tdf              ;         ;
+; db/altsyncram_g891.tdf                                                                                                   ; yes             ; Auto-Generated Megafunction            ; C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_EP2C5/Z80-CPM-VGA-PS2-ExtRAM/Microcomputer/db/altsyncram_g891.tdf      ;         ;
+; ../../../MultiComp (VHDL Template)/Components/TERMINAL/SansFontBoldReduced.HEX                                           ; yes             ; Auto-Found Memory Initialization File  ; C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/TERMINAL/SansFontBoldReduced.HEX               ;         ;
+; db/altsyncram_v272.tdf                                                                                                   ; yes             ; Auto-Generated Megafunction            ; C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_EP2C5/Z80-CPM-VGA-PS2-ExtRAM/Microcomputer/db/altsyncram_v272.tdf      ;         ;
+; lpm_divide.tdf                                                                                                           ; yes             ; Megafunction                           ; c:/altera/13.0sp1/quartus/libraries/megafunctions/lpm_divide.tdf                                                                              ;         ;
+; abs_divider.inc                                                                                                          ; yes             ; Megafunction                           ; c:/altera/13.0sp1/quartus/libraries/megafunctions/abs_divider.inc                                                                             ;         ;
+; sign_div_unsign.inc                                                                                                      ; yes             ; Megafunction                           ; c:/altera/13.0sp1/quartus/libraries/megafunctions/sign_div_unsign.inc                                                                         ;         ;
+; db/lpm_divide_08m.tdf                                                                                                    ; yes             ; Auto-Generated Megafunction            ; C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_EP2C5/Z80-CPM-VGA-PS2-ExtRAM/Microcomputer/db/lpm_divide_08m.tdf       ;         ;
+; db/sign_div_unsign_7nh.tdf                                                                                               ; yes             ; Auto-Generated Megafunction            ; C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_EP2C5/Z80-CPM-VGA-PS2-ExtRAM/Microcomputer/db/sign_div_unsign_7nh.tdf  ;         ;
+; db/alt_u_div_g5f.tdf                                                                                                     ; yes             ; Auto-Generated Megafunction            ; C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_EP2C5/Z80-CPM-VGA-PS2-ExtRAM/Microcomputer/db/alt_u_div_g5f.tdf        ;         ;
+; db/add_sub_lkc.tdf                                                                                                       ; yes             ; Auto-Generated Megafunction            ; C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_EP2C5/Z80-CPM-VGA-PS2-ExtRAM/Microcomputer/db/add_sub_lkc.tdf          ;         ;
+; db/add_sub_mkc.tdf                                                                                                       ; yes             ; Auto-Generated Megafunction            ; C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_EP2C5/Z80-CPM-VGA-PS2-ExtRAM/Microcomputer/db/add_sub_mkc.tdf          ;         ;
++--------------------------------------------------------------------------------------------------------------------------+-----------------+----------------------------------------+-----------------------------------------------------------------------------------------------------------------------------------------------+---------+
 
 
 +------------------------------------------------------+
@@ -243,93 +245,93 @@ Parallel compilation was disabled, but you have multiple processors available. E
 +---------------------------------------------+--------+
 ; Resource                                    ; Usage  ;
 +---------------------------------------------+--------+
-; Estimated Total logic elements              ; 4,417  ;
+; Estimated Total logic elements              ; 4,414  ;
 ;                                             ;        ;
-; Total combinational functions               ; 4002   ;
+; Total combinational functions               ; 3999   ;
 ; Logic element usage by number of LUT inputs ;        ;
-;     -- 4 input functions                    ; 2430   ;
-;     -- 3 input functions                    ; 815    ;
-;     -- <=2 input functions                  ; 757    ;
+;     -- 4 input functions                    ; 2435   ;
+;     -- 3 input functions                    ; 809    ;
+;     -- <=2 input functions                  ; 755    ;
 ;                                             ;        ;
 ; Logic elements by mode                      ;        ;
-;     -- normal mode                          ; 3472   ;
+;     -- normal mode                          ; 3469   ;
 ;     -- arithmetic mode                      ; 530    ;
 ;                                             ;        ;
-; Total registers                             ; 1154   ;
-;     -- Dedicated logic registers            ; 1154   ;
+; Total registers                             ; 1155   ;
+;     -- Dedicated logic registers            ; 1155   ;
 ;     -- I/O registers                        ; 0      ;
 ;                                             ;        ;
 ; I/O pins                                    ; 62     ;
 ; Total memory bits                           ; 106496 ;
 ; Embedded Multiplier 9-bit elements          ; 0      ;
 ; Maximum fan-out node                        ; clk    ;
-; Maximum fan-out                             ; 443    ;
-; Total fan-out                               ; 18199  ;
+; Maximum fan-out                             ; 444    ;
+; Total fan-out                               ; 18210  ;
 ; Average fan-out                             ; 3.46   ;
 +---------------------------------------------+--------+
 
 
-+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
-; Analysis & Synthesis Resource Utilization by Entity                                                                                                                                                                                                                                                                                ;
-+------------------------------------------------------+-------------------+--------------+-------------+--------------+---------+-----------+------+--------------+--------------------------------------------------------------------------------------------------------------------------------------------------+--------------+
-; Compilation Hierarchy Node                           ; LC Combinationals ; LC Registers ; Memory Bits ; DSP Elements ; DSP 9x9 ; DSP 18x18 ; Pins ; Virtual Pins ; Full Hierarchy Name                                                                                                                              ; Library Name ;
-+------------------------------------------------------+-------------------+--------------+-------------+--------------+---------+-----------+------+--------------+--------------------------------------------------------------------------------------------------------------------------------------------------+--------------+
-; |Microcomputer                                       ; 4002 (91)         ; 1154 (27)    ; 106496      ; 0            ; 0       ; 0         ; 62   ; 0            ; |Microcomputer                                                                                                                                   ; work         ;
-;    |OUT_LATCH:latchIO|                               ; 0 (0)             ; 8 (8)        ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |Microcomputer|OUT_LATCH:latchIO                                                                                                                 ; work         ;
-;    |SBCTextDisplayRGB:io2|                           ; 1413 (1235)       ; 383 (383)    ; 40960       ; 0            ; 0       ; 0         ; 0    ; 0            ; |Microcomputer|SBCTextDisplayRGB:io2                                                                                                             ; work         ;
-;       |CGABoldRomReduced:\GEN_REDUCED_CHARS:fontRom| ; 0 (0)             ; 0 (0)        ; 8192        ; 0            ; 0       ; 0         ; 0    ; 0            ; |Microcomputer|SBCTextDisplayRGB:io2|CGABoldRomReduced:\GEN_REDUCED_CHARS:fontRom                                                                ; work         ;
-;          |altsyncram:altsyncram_component|           ; 0 (0)             ; 0 (0)        ; 8192        ; 0            ; 0       ; 0         ; 0    ; 0            ; |Microcomputer|SBCTextDisplayRGB:io2|CGABoldRomReduced:\GEN_REDUCED_CHARS:fontRom|altsyncram:altsyncram_component                                ; work         ;
-;             |altsyncram_h8b1:auto_generated|         ; 0 (0)             ; 0 (0)        ; 8192        ; 0            ; 0       ; 0         ; 0    ; 0            ; |Microcomputer|SBCTextDisplayRGB:io2|CGABoldRomReduced:\GEN_REDUCED_CHARS:fontRom|altsyncram:altsyncram_component|altsyncram_h8b1:auto_generated ; work         ;
-;       |DisplayRam2K:\GEN_2KATTRAM:dispAttRam|        ; 0 (0)             ; 0 (0)        ; 16384       ; 0            ; 0       ; 0         ; 0    ; 0            ; |Microcomputer|SBCTextDisplayRGB:io2|DisplayRam2K:\GEN_2KATTRAM:dispAttRam                                                                       ; work         ;
-;          |altsyncram:altsyncram_component|           ; 0 (0)             ; 0 (0)        ; 16384       ; 0            ; 0       ; 0         ; 0    ; 0            ; |Microcomputer|SBCTextDisplayRGB:io2|DisplayRam2K:\GEN_2KATTRAM:dispAttRam|altsyncram:altsyncram_component                                       ; work         ;
-;             |altsyncram_v272:auto_generated|         ; 0 (0)             ; 0 (0)        ; 16384       ; 0            ; 0       ; 0         ; 0    ; 0            ; |Microcomputer|SBCTextDisplayRGB:io2|DisplayRam2K:\GEN_2KATTRAM:dispAttRam|altsyncram:altsyncram_component|altsyncram_v272:auto_generated        ; work         ;
-;       |DisplayRam2K:\GEN_2KRAM:dispCharRam|          ; 0 (0)             ; 0 (0)        ; 16384       ; 0            ; 0       ; 0         ; 0    ; 0            ; |Microcomputer|SBCTextDisplayRGB:io2|DisplayRam2K:\GEN_2KRAM:dispCharRam                                                                         ; work         ;
-;          |altsyncram:altsyncram_component|           ; 0 (0)             ; 0 (0)        ; 16384       ; 0            ; 0       ; 0         ; 0    ; 0            ; |Microcomputer|SBCTextDisplayRGB:io2|DisplayRam2K:\GEN_2KRAM:dispCharRam|altsyncram:altsyncram_component                                         ; work         ;
-;             |altsyncram_v272:auto_generated|         ; 0 (0)             ; 0 (0)        ; 16384       ; 0            ; 0       ; 0         ; 0    ; 0            ; |Microcomputer|SBCTextDisplayRGB:io2|DisplayRam2K:\GEN_2KRAM:dispCharRam|altsyncram:altsyncram_component|altsyncram_v272:auto_generated          ; work         ;
-;       |lpm_divide:Mod0|                              ; 89 (0)            ; 0 (0)        ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |Microcomputer|SBCTextDisplayRGB:io2|lpm_divide:Mod0                                                                                             ; work         ;
-;          |lpm_divide_08m:auto_generated|             ; 89 (0)            ; 0 (0)        ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |Microcomputer|SBCTextDisplayRGB:io2|lpm_divide:Mod0|lpm_divide_08m:auto_generated                                                               ; work         ;
-;             |sign_div_unsign_7nh:divider|            ; 89 (0)            ; 0 (0)        ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |Microcomputer|SBCTextDisplayRGB:io2|lpm_divide:Mod0|lpm_divide_08m:auto_generated|sign_div_unsign_7nh:divider                                   ; work         ;
-;                |alt_u_div_g5f:divider|               ; 89 (89)           ; 0 (0)        ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |Microcomputer|SBCTextDisplayRGB:io2|lpm_divide:Mod0|lpm_divide_08m:auto_generated|sign_div_unsign_7nh:divider|alt_u_div_g5f:divider             ; work         ;
-;       |lpm_divide:Mod1|                              ; 89 (0)            ; 0 (0)        ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |Microcomputer|SBCTextDisplayRGB:io2|lpm_divide:Mod1                                                                                             ; work         ;
-;          |lpm_divide_08m:auto_generated|             ; 89 (0)            ; 0 (0)        ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |Microcomputer|SBCTextDisplayRGB:io2|lpm_divide:Mod1|lpm_divide_08m:auto_generated                                                               ; work         ;
-;             |sign_div_unsign_7nh:divider|            ; 89 (0)            ; 0 (0)        ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |Microcomputer|SBCTextDisplayRGB:io2|lpm_divide:Mod1|lpm_divide_08m:auto_generated|sign_div_unsign_7nh:divider                                   ; work         ;
-;                |alt_u_div_g5f:divider|               ; 89 (89)           ; 0 (0)        ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |Microcomputer|SBCTextDisplayRGB:io2|lpm_divide:Mod1|lpm_divide_08m:auto_generated|sign_div_unsign_7nh:divider|alt_u_div_g5f:divider             ; work         ;
-;    |T80s:cpu1|                                       ; 1970 (10)         ; 346 (12)     ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |Microcomputer|T80s:cpu1                                                                                                                         ; work         ;
-;       |T80:u0|                                       ; 1960 (836)        ; 334 (206)    ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |Microcomputer|T80s:cpu1|T80:u0                                                                                                                  ; work         ;
-;          |T80_ALU:alu|                               ; 410 (410)         ; 0 (0)        ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |Microcomputer|T80s:cpu1|T80:u0|T80_ALU:alu                                                                                                      ; work         ;
-;          |T80_MCode:mcode|                           ; 458 (458)         ; 0 (0)        ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |Microcomputer|T80s:cpu1|T80:u0|T80_MCode:mcode                                                                                                  ; work         ;
-;          |T80_Reg:Regs|                              ; 256 (256)         ; 128 (128)    ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |Microcomputer|T80s:cpu1|T80:u0|T80_Reg:Regs                                                                                                     ; work         ;
-;    |Z80_CPM_BASIC_ROM:rom1|                          ; 0 (0)             ; 1 (0)        ; 65536       ; 0            ; 0       ; 0         ; 0    ; 0            ; |Microcomputer|Z80_CPM_BASIC_ROM:rom1                                                                                                            ; work         ;
-;       |altsyncram:altsyncram_component|              ; 0 (0)             ; 1 (0)        ; 65536       ; 0            ; 0       ; 0         ; 0    ; 0            ; |Microcomputer|Z80_CPM_BASIC_ROM:rom1|altsyncram:altsyncram_component                                                                            ; work         ;
-;          |altsyncram_4391:auto_generated|            ; 0 (0)             ; 1 (1)        ; 65536       ; 0            ; 0       ; 0         ; 0    ; 0            ; |Microcomputer|Z80_CPM_BASIC_ROM:rom1|altsyncram:altsyncram_component|altsyncram_4391:auto_generated                                             ; work         ;
-;    |bufferedUART:io1|                                ; 245 (245)         ; 212 (212)    ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |Microcomputer|bufferedUART:io1                                                                                                                  ; work         ;
-;    |sd_controller:sd1|                               ; 283 (283)         ; 177 (177)    ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |Microcomputer|sd_controller:sd1                                                                                                                 ; work         ;
-+------------------------------------------------------+-------------------+--------------+-------------+--------------+---------+-----------+------+--------------+--------------------------------------------------------------------------------------------------------------------------------------------------+--------------+
++----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+; Analysis & Synthesis Resource Utilization by Entity                                                                                                                                                                                                                                                                                    ;
++--------------------------------------------------------+-------------------+--------------+-------------+--------------+---------+-----------+------+--------------+----------------------------------------------------------------------------------------------------------------------------------------------------+--------------+
+; Compilation Hierarchy Node                             ; LC Combinationals ; LC Registers ; Memory Bits ; DSP Elements ; DSP 9x9 ; DSP 18x18 ; Pins ; Virtual Pins ; Full Hierarchy Name                                                                                                                                ; Library Name ;
++--------------------------------------------------------+-------------------+--------------+-------------+--------------+---------+-----------+------+--------------+----------------------------------------------------------------------------------------------------------------------------------------------------+--------------+
+; |Microcomputer                                         ; 3999 (93)         ; 1155 (27)    ; 106496      ; 0            ; 0       ; 0         ; 62   ; 0            ; |Microcomputer                                                                                                                                     ; work         ;
+;    |OUT_LATCH:latchIO|                                 ; 0 (0)             ; 8 (8)        ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |Microcomputer|OUT_LATCH:latchIO                                                                                                                   ; work         ;
+;    |SBCTextDisplayRGB:io2|                             ; 1412 (1234)       ; 384 (384)    ; 40960       ; 0            ; 0       ; 0         ; 0    ; 0            ; |Microcomputer|SBCTextDisplayRGB:io2                                                                                                               ; work         ;
+;       |DisplayRam2K:\GEN_2KATTRAM:dispAttRam|          ; 0 (0)             ; 0 (0)        ; 16384       ; 0            ; 0       ; 0         ; 0    ; 0            ; |Microcomputer|SBCTextDisplayRGB:io2|DisplayRam2K:\GEN_2KATTRAM:dispAttRam                                                                         ; work         ;
+;          |altsyncram:altsyncram_component|             ; 0 (0)             ; 0 (0)        ; 16384       ; 0            ; 0       ; 0         ; 0    ; 0            ; |Microcomputer|SBCTextDisplayRGB:io2|DisplayRam2K:\GEN_2KATTRAM:dispAttRam|altsyncram:altsyncram_component                                         ; work         ;
+;             |altsyncram_v272:auto_generated|           ; 0 (0)             ; 0 (0)        ; 16384       ; 0            ; 0       ; 0         ; 0    ; 0            ; |Microcomputer|SBCTextDisplayRGB:io2|DisplayRam2K:\GEN_2KATTRAM:dispAttRam|altsyncram:altsyncram_component|altsyncram_v272:auto_generated          ; work         ;
+;       |DisplayRam2K:\GEN_2KRAM:dispCharRam|            ; 0 (0)             ; 0 (0)        ; 16384       ; 0            ; 0       ; 0         ; 0    ; 0            ; |Microcomputer|SBCTextDisplayRGB:io2|DisplayRam2K:\GEN_2KRAM:dispCharRam                                                                           ; work         ;
+;          |altsyncram:altsyncram_component|             ; 0 (0)             ; 0 (0)        ; 16384       ; 0            ; 0       ; 0         ; 0    ; 0            ; |Microcomputer|SBCTextDisplayRGB:io2|DisplayRam2K:\GEN_2KRAM:dispCharRam|altsyncram:altsyncram_component                                           ; work         ;
+;             |altsyncram_v272:auto_generated|           ; 0 (0)             ; 0 (0)        ; 16384       ; 0            ; 0       ; 0         ; 0    ; 0            ; |Microcomputer|SBCTextDisplayRGB:io2|DisplayRam2K:\GEN_2KRAM:dispCharRam|altsyncram:altsyncram_component|altsyncram_v272:auto_generated            ; work         ;
+;       |SansBoldRomReduced:\GEN_REDUCED_SCHARS:fontRom| ; 0 (0)             ; 0 (0)        ; 8192        ; 0            ; 0       ; 0         ; 0    ; 0            ; |Microcomputer|SBCTextDisplayRGB:io2|SansBoldRomReduced:\GEN_REDUCED_SCHARS:fontRom                                                                ; work         ;
+;          |altsyncram:altsyncram_component|             ; 0 (0)             ; 0 (0)        ; 8192        ; 0            ; 0       ; 0         ; 0    ; 0            ; |Microcomputer|SBCTextDisplayRGB:io2|SansBoldRomReduced:\GEN_REDUCED_SCHARS:fontRom|altsyncram:altsyncram_component                                ; work         ;
+;             |altsyncram_g891:auto_generated|           ; 0 (0)             ; 0 (0)        ; 8192        ; 0            ; 0       ; 0         ; 0    ; 0            ; |Microcomputer|SBCTextDisplayRGB:io2|SansBoldRomReduced:\GEN_REDUCED_SCHARS:fontRom|altsyncram:altsyncram_component|altsyncram_g891:auto_generated ; work         ;
+;       |lpm_divide:Mod0|                                ; 89 (0)            ; 0 (0)        ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |Microcomputer|SBCTextDisplayRGB:io2|lpm_divide:Mod0                                                                                               ; work         ;
+;          |lpm_divide_08m:auto_generated|               ; 89 (0)            ; 0 (0)        ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |Microcomputer|SBCTextDisplayRGB:io2|lpm_divide:Mod0|lpm_divide_08m:auto_generated                                                                 ; work         ;
+;             |sign_div_unsign_7nh:divider|              ; 89 (0)            ; 0 (0)        ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |Microcomputer|SBCTextDisplayRGB:io2|lpm_divide:Mod0|lpm_divide_08m:auto_generated|sign_div_unsign_7nh:divider                                     ; work         ;
+;                |alt_u_div_g5f:divider|                 ; 89 (89)           ; 0 (0)        ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |Microcomputer|SBCTextDisplayRGB:io2|lpm_divide:Mod0|lpm_divide_08m:auto_generated|sign_div_unsign_7nh:divider|alt_u_div_g5f:divider               ; work         ;
+;       |lpm_divide:Mod1|                                ; 89 (0)            ; 0 (0)        ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |Microcomputer|SBCTextDisplayRGB:io2|lpm_divide:Mod1                                                                                               ; work         ;
+;          |lpm_divide_08m:auto_generated|               ; 89 (0)            ; 0 (0)        ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |Microcomputer|SBCTextDisplayRGB:io2|lpm_divide:Mod1|lpm_divide_08m:auto_generated                                                                 ; work         ;
+;             |sign_div_unsign_7nh:divider|              ; 89 (0)            ; 0 (0)        ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |Microcomputer|SBCTextDisplayRGB:io2|lpm_divide:Mod1|lpm_divide_08m:auto_generated|sign_div_unsign_7nh:divider                                     ; work         ;
+;                |alt_u_div_g5f:divider|                 ; 89 (89)           ; 0 (0)        ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |Microcomputer|SBCTextDisplayRGB:io2|lpm_divide:Mod1|lpm_divide_08m:auto_generated|sign_div_unsign_7nh:divider|alt_u_div_g5f:divider               ; work         ;
+;    |T80s:cpu1|                                         ; 1969 (10)         ; 346 (12)     ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |Microcomputer|T80s:cpu1                                                                                                                           ; work         ;
+;       |T80:u0|                                         ; 1959 (836)        ; 334 (206)    ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |Microcomputer|T80s:cpu1|T80:u0                                                                                                                    ; work         ;
+;          |T80_ALU:alu|                                 ; 411 (411)         ; 0 (0)        ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |Microcomputer|T80s:cpu1|T80:u0|T80_ALU:alu                                                                                                        ; work         ;
+;          |T80_MCode:mcode|                             ; 456 (456)         ; 0 (0)        ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |Microcomputer|T80s:cpu1|T80:u0|T80_MCode:mcode                                                                                                    ; work         ;
+;          |T80_Reg:Regs|                                ; 256 (256)         ; 128 (128)    ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |Microcomputer|T80s:cpu1|T80:u0|T80_Reg:Regs                                                                                                       ; work         ;
+;    |Z80_CPM_BASIC_ROM:rom1|                            ; 0 (0)             ; 1 (0)        ; 65536       ; 0            ; 0       ; 0         ; 0    ; 0            ; |Microcomputer|Z80_CPM_BASIC_ROM:rom1                                                                                                              ; work         ;
+;       |altsyncram:altsyncram_component|                ; 0 (0)             ; 1 (0)        ; 65536       ; 0            ; 0       ; 0         ; 0    ; 0            ; |Microcomputer|Z80_CPM_BASIC_ROM:rom1|altsyncram:altsyncram_component                                                                              ; work         ;
+;          |altsyncram_4391:auto_generated|              ; 0 (0)             ; 1 (1)        ; 65536       ; 0            ; 0       ; 0         ; 0    ; 0            ; |Microcomputer|Z80_CPM_BASIC_ROM:rom1|altsyncram:altsyncram_component|altsyncram_4391:auto_generated                                               ; work         ;
+;    |bufferedUART:io1|                                  ; 242 (242)         ; 212 (212)    ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |Microcomputer|bufferedUART:io1                                                                                                                    ; work         ;
+;    |sd_controller:sd1|                                 ; 283 (283)         ; 177 (177)    ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |Microcomputer|sd_controller:sd1                                                                                                                   ; work         ;
++--------------------------------------------------------+-------------------+--------------+-------------+--------------+---------+-----------+------+--------------+----------------------------------------------------------------------------------------------------------------------------------------------------+--------------+
 Note: For table entries with two numbers listed, the numbers in parentheses indicate the number of resources of the given type used by the specific entity alone. The numbers listed outside of parentheses indicate the total resources of the given type used by the specific entity and all of its sub-entities in the hierarchy.
 
 
-+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
-; Analysis & Synthesis RAM Summary                                                                                                                                                                                                                                                         ;
-+----------------------------------------------------------------------------------------------------------------------------------------------+------+----------------+--------------+--------------+--------------+--------------+-------+-----------------------------------------------+
-; Name                                                                                                                                         ; Type ; Mode           ; Port A Depth ; Port A Width ; Port B Depth ; Port B Width ; Size  ; MIF                                           ;
-+----------------------------------------------------------------------------------------------------------------------------------------------+------+----------------+--------------+--------------+--------------+--------------+-------+-----------------------------------------------+
-; SBCTextDisplayRGB:io2|CGABoldRomReduced:\GEN_REDUCED_CHARS:fontRom|altsyncram:altsyncram_component|altsyncram_h8b1:auto_generated|ALTSYNCRAM ; AUTO ; ROM            ; 1024         ; 8            ; --           ; --           ; 8192  ; ../Components/TERMINAL/CGAFontBoldReduced.HEX ;
-; SBCTextDisplayRGB:io2|DisplayRam2K:\GEN_2KATTRAM:dispAttRam|altsyncram:altsyncram_component|altsyncram_v272:auto_generated|ALTSYNCRAM        ; AUTO ; True Dual Port ; 2048         ; 8            ; 2048         ; 8            ; 16384 ; None                                          ;
-; SBCTextDisplayRGB:io2|DisplayRam2K:\GEN_2KRAM:dispCharRam|altsyncram:altsyncram_component|altsyncram_v272:auto_generated|ALTSYNCRAM          ; AUTO ; True Dual Port ; 2048         ; 8            ; 2048         ; 8            ; 16384 ; None                                          ;
-; Z80_CPM_BASIC_ROM:rom1|altsyncram:altsyncram_component|altsyncram_4391:auto_generated|ALTSYNCRAM                                             ; AUTO ; ROM            ; 8192         ; 8            ; --           ; --           ; 65536 ; ../ROMS/Z80/CPM_BASIC.HEX                     ;
-+----------------------------------------------------------------------------------------------------------------------------------------------+------+----------------+--------------+--------------+--------------+--------------+-------+-----------------------------------------------+
++------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+; Analysis & Synthesis RAM Summary                                                                                                                                                                                                                                       ;
++------------------------------------------------------------------------------------------------------------------------------------------------+------+----------------+--------------+--------------+--------------+--------------+-------+---------------------------+
+; Name                                                                                                                                           ; Type ; Mode           ; Port A Depth ; Port A Width ; Port B Depth ; Port B Width ; Size  ; MIF                       ;
++------------------------------------------------------------------------------------------------------------------------------------------------+------+----------------+--------------+--------------+--------------+--------------+-------+---------------------------+
+; SBCTextDisplayRGB:io2|DisplayRam2K:\GEN_2KATTRAM:dispAttRam|altsyncram:altsyncram_component|altsyncram_v272:auto_generated|ALTSYNCRAM          ; AUTO ; True Dual Port ; 2048         ; 8            ; 2048         ; 8            ; 16384 ; None                      ;
+; SBCTextDisplayRGB:io2|DisplayRam2K:\GEN_2KRAM:dispCharRam|altsyncram:altsyncram_component|altsyncram_v272:auto_generated|ALTSYNCRAM            ; AUTO ; True Dual Port ; 2048         ; 8            ; 2048         ; 8            ; 16384 ; None                      ;
+; SBCTextDisplayRGB:io2|SansBoldRomReduced:\GEN_REDUCED_SCHARS:fontRom|altsyncram:altsyncram_component|altsyncram_g891:auto_generated|ALTSYNCRAM ; AUTO ; ROM            ; 1024         ; 8            ; --           ; --           ; 8192  ; SansFontBoldReduced.HEX   ;
+; Z80_CPM_BASIC_ROM:rom1|altsyncram:altsyncram_component|altsyncram_4391:auto_generated|ALTSYNCRAM                                               ; AUTO ; ROM            ; 8192         ; 8            ; --           ; --           ; 65536 ; ../ROMS/Z80/CPM_BASIC.HEX ;
++------------------------------------------------------------------------------------------------------------------------------------------------+------+----------------+--------------+--------------+--------------+--------------+-------+---------------------------+
 
 
-+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
-; Analysis & Synthesis IP Cores Summary                                                                                                                                                                                                                               ;
-+--------+--------------+---------+--------------+--------------+-----------------------------------------------------------------------------------+-----------------------------------------------------------------------------------------------------------------+
-; Vendor ; IP Core Name ; Version ; Release Date ; License Type ; Entity Instance                                                                   ; IP Include File                                                                                                 ;
-+--------+--------------+---------+--------------+--------------+-----------------------------------------------------------------------------------+-----------------------------------------------------------------------------------------------------------------+
-; Altera ; RAM: 2-PORT  ; 13.0    ; N/A          ; N/A          ; |Microcomputer|SBCTextDisplayRGB:io2|DisplayRam2K:\GEN_2KATTRAM:dispAttRam        ; C:/Users/DGilliland/Documents/GitHub/MultiComp/Z80-CPM-VGA-PS2-ExtRAM/Components/TERMINAL/DisplayRam2K.vhd      ;
-; Altera ; RAM: 2-PORT  ; 13.0    ; N/A          ; N/A          ; |Microcomputer|SBCTextDisplayRGB:io2|DisplayRam2K:\GEN_2KRAM:dispCharRam          ; C:/Users/DGilliland/Documents/GitHub/MultiComp/Z80-CPM-VGA-PS2-ExtRAM/Components/TERMINAL/DisplayRam2K.vhd      ;
-; Altera ; ROM: 1-PORT  ; 13.0    ; N/A          ; N/A          ; |Microcomputer|SBCTextDisplayRGB:io2|CGABoldRomReduced:\GEN_REDUCED_CHARS:fontRom ; C:/Users/DGilliland/Documents/GitHub/MultiComp/Z80-CPM-VGA-PS2-ExtRAM/Components/TERMINAL/CGABoldRomReduced.vhd ;
-; Altera ; ROM: 1-PORT  ; 13.0    ; N/A          ; N/A          ; |Microcomputer|Z80_CPM_BASIC_ROM:rom1                                             ; C:/Users/DGilliland/Documents/GitHub/MultiComp/Z80-CPM-VGA-PS2-ExtRAM/ROMS/Z80/Z80_CPM_BASIC_ROM.vhd            ;
-+--------+--------------+---------+--------------+--------------+-----------------------------------------------------------------------------------+-----------------------------------------------------------------------------------------------------------------+
++------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+; Analysis & Synthesis IP Cores Summary                                                                                                                                                                                                                                                          ;
++--------+--------------+---------+--------------+--------------+-------------------------------------------------------------------------------------+------------------------------------------------------------------------------------------------------------------------------------------+
+; Vendor ; IP Core Name ; Version ; Release Date ; License Type ; Entity Instance                                                                     ; IP Include File                                                                                                                          ;
++--------+--------------+---------+--------------+--------------+-------------------------------------------------------------------------------------+------------------------------------------------------------------------------------------------------------------------------------------+
+; Altera ; RAM: 2-PORT  ; 13.0    ; N/A          ; N/A          ; |Microcomputer|SBCTextDisplayRGB:io2|DisplayRam2K:\GEN_2KATTRAM:dispAttRam          ; C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_EP2C5/Z80-CPM-VGA-PS2-ExtRAM/Components/TERMINAL/DisplayRam2K.vhd ;
+; Altera ; RAM: 2-PORT  ; 13.0    ; N/A          ; N/A          ; |Microcomputer|SBCTextDisplayRGB:io2|DisplayRam2K:\GEN_2KRAM:dispCharRam            ; C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_EP2C5/Z80-CPM-VGA-PS2-ExtRAM/Components/TERMINAL/DisplayRam2K.vhd ;
+; Altera ; ROM: 1-PORT  ; N/A     ; N/A          ; N/A          ; |Microcomputer|SBCTextDisplayRGB:io2|SansBoldRomReduced:\GEN_REDUCED_SCHARS:fontRom ; C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/TERMINAL/SansBoldRomReduced.vhd           ;
+; Altera ; ROM: 1-PORT  ; 13.0    ; N/A          ; N/A          ; |Microcomputer|Z80_CPM_BASIC_ROM:rom1                                               ; C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_EP2C5/Z80-CPM-VGA-PS2-ExtRAM/ROMS/Z80/Z80_CPM_BASIC_ROM.vhd       ;
++--------+--------------+---------+--------------+--------------+-------------------------------------------------------------------------------------+------------------------------------------------------------------------------------------------------------------------------------------+
 
 
 Encoding Type:  One-Hot
@@ -411,16 +413,16 @@ Encoding Type:  One-Hot
 
 
 Encoding Type:  One-Hot
-+----------------------------------------------------------------------------------------------------------------------------------------------------------+
-; State Machine - |Microcomputer|SBCTextDisplayRGB:io2|nextState                                                                                           ;
-+--------------------------------------+--------------------------------------+----------------------------+------------------------------+----------------+
-; Name                                 ; nextState.processingAdditionalParams ; nextState.processingParams ; nextState.waitForLeftBracket ; nextState.none ;
-+--------------------------------------+--------------------------------------+----------------------------+------------------------------+----------------+
-; nextState.none                       ; 0                                    ; 0                          ; 0                            ; 0              ;
-; nextState.waitForLeftBracket         ; 0                                    ; 0                          ; 1                            ; 1              ;
-; nextState.processingParams           ; 0                                    ; 1                          ; 0                            ; 1              ;
-; nextState.processingAdditionalParams ; 1                                    ; 0                          ; 0                            ; 1              ;
-+--------------------------------------+--------------------------------------+----------------------------+------------------------------+----------------+
++-----------------------------------------------------------------------------------------------------------------------------------------------------+
+; State Machine - |Microcomputer|SBCTextDisplayRGB:io2|escState                                                                                       ;
++-------------------------------------+-------------------------------------+---------------------------+-----------------------------+---------------+
+; Name                                ; escState.processingAdditionalParams ; escState.processingParams ; escState.waitForLeftBracket ; escState.none ;
++-------------------------------------+-------------------------------------+---------------------------+-----------------------------+---------------+
+; escState.none                       ; 0                                   ; 0                         ; 0                           ; 0             ;
+; escState.waitForLeftBracket         ; 0                                   ; 0                         ; 1                           ; 1             ;
+; escState.processingParams           ; 0                                   ; 1                         ; 0                           ; 1             ;
+; escState.processingAdditionalParams ; 1                                   ; 0                         ; 0                           ; 1             ;
++-------------------------------------+-------------------------------------+---------------------------+-----------------------------+---------------+
 
 
 Encoding Type:  One-Hot
@@ -466,8 +468,8 @@ Encoding Type:  One-Hot
 ; SBCTextDisplayRGB:io2|ps2WriteByte2[4..7]        ; Merged with SBCTextDisplayRGB:io2|ps2WriteByte2[3] ;
 ; SBCTextDisplayRGB:io2|ps2WriteByte[5..7]         ; Merged with SBCTextDisplayRGB:io2|ps2WriteByte[3]  ;
 ; SBCTextDisplayRGB:io2|pixelClockCount[1..3]      ; Stuck at GND due to stuck port data_in             ;
-; SBCTextDisplayRGB:io2|nextState.none             ; Lost fanout                                        ;
-; SBCTextDisplayRGB:io2|nextState.processingParams ; Lost fanout                                        ;
+; SBCTextDisplayRGB:io2|escState.none              ; Lost fanout                                        ;
+; SBCTextDisplayRGB:io2|escState.processingParams  ; Lost fanout                                        ;
 ; sd_controller:sd1|return_state.init              ; Merged with sd_controller:sd1|return_state.cmd0    ;
 ; sd_controller:sd1|return_state.read_block_cmd    ; Merged with sd_controller:sd1|return_state.cmd0    ;
 ; sd_controller:sd1|return_state.receive_byte      ; Merged with sd_controller:sd1|return_state.cmd0    ;
@@ -479,8 +481,8 @@ Encoding Type:  One-Hot
 ; sd_controller:sd1|return_state.cmd0              ; Stuck at GND due to stuck port data_in             ;
 ; SBCTextDisplayRGB:io2|startAddr[0]               ; Stuck at GND due to stuck port data_in             ;
 ; sd_controller:sd1|cmd_out[0]                     ; Stuck at VCC due to stuck port data_in             ;
-; SBCTextDisplayRGB:io2|kbInPointer[3]             ; Stuck at GND due to stuck port data_in             ;
 ; SBCTextDisplayRGB:io2|kbReadPointer[3]           ; Stuck at GND due to stuck port data_in             ;
+; SBCTextDisplayRGB:io2|kbInPointer[3]             ; Stuck at GND due to stuck port data_in             ;
 ; Total Number of Removed Registers = 39           ;                                                    ;
 +--------------------------------------------------+----------------------------------------------------+
 
@@ -504,12 +506,12 @@ Encoding Type:  One-Hot
 +----------------------------------------------+-------+
 ; Statistic                                    ; Value ;
 +----------------------------------------------+-------+
-; Total registers                              ; 1154  ;
+; Total registers                              ; 1155  ;
 ; Number of registers using Synchronous Clear  ; 175   ;
 ; Number of registers using Synchronous Load   ; 107   ;
-; Number of registers using Asynchronous Clear ; 251   ;
+; Number of registers using Asynchronous Clear ; 254   ;
 ; Number of registers using Asynchronous Load  ; 0     ;
-; Number of registers using Clock Enable       ; 883   ;
+; Number of registers using Clock Enable       ; 891   ;
 ; Number of registers using Preset             ; 0     ;
 +----------------------------------------------+-------+
 
@@ -521,11 +523,11 @@ Encoding Type:  One-Hot
 +-----------------------------------------+---------+
 ; T80s:cpu1|WR_n                          ; 3       ;
 ; T80s:cpu1|MREQ_n                        ; 3       ;
-; T80s:cpu1|RD_n                          ; 4       ;
-; T80s:cpu1|IORQ_n                        ; 4       ;
+; T80s:cpu1|RD_n                          ; 5       ;
+; T80s:cpu1|IORQ_n                        ; 5       ;
 ; sd_controller:sd1|sdCS                  ; 2       ;
 ; sd_controller:sd1|cmd_mode              ; 2       ;
-; T80s:cpu1|T80:u0|MCycle[0]              ; 79      ;
+; T80s:cpu1|T80:u0|MCycle[0]              ; 77      ;
 ; T80s:cpu1|T80:u0|F[6]                   ; 11      ;
 ; T80s:cpu1|T80:u0|F[0]                   ; 16      ;
 ; T80s:cpu1|T80:u0|F[2]                   ; 8       ;
@@ -561,7 +563,7 @@ Encoding Type:  One-Hot
 ; sd_controller:sd1|led_on_count[7]       ; 2       ;
 ; sd_controller:sd1|led_on_count[6]       ; 2       ;
 ; sd_controller:sd1|led_on_count[3]       ; 2       ;
-; T80s:cpu1|T80:u0|F[1]                   ; 20      ;
+; T80s:cpu1|T80:u0|F[1]                   ; 19      ;
 ; T80s:cpu1|T80:u0|F[4]                   ; 7       ;
 ; T80s:cpu1|T80:u0|Fp[6]                  ; 1       ;
 ; T80s:cpu1|T80:u0|Fp[0]                  ; 1       ;
@@ -577,15 +579,15 @@ Encoding Type:  One-Hot
 ; T80s:cpu1|T80:u0|Ap[7]                  ; 1       ;
 ; SBCTextDisplayRGB:io2|dispAttWRData[3]  ; 5       ;
 ; sd_controller:sd1|response_mode         ; 4       ;
-; SBCTextDisplayRGB:io2|ps2ClkOut         ; 3       ;
+; SBCTextDisplayRGB:io2|ps2ClkOut         ; 2       ;
 ; SBCTextDisplayRGB:io2|ps2DataOut        ; 4       ;
-; T80s:cpu1|T80:u0|Fp[1]                  ; 2       ;
+; T80s:cpu1|T80:u0|Fp[1]                  ; 1       ;
 ; T80s:cpu1|T80:u0|Fp[4]                  ; 1       ;
 ; T80s:cpu1|T80:u0|F[5]                   ; 2       ;
 ; T80s:cpu1|T80:u0|F[3]                   ; 2       ;
 ; bufferedUART:io1|rxdFiltered            ; 5       ;
 ; SBCTextDisplayRGB:io2|attBold           ; 5       ;
-; SBCTextDisplayRGB:io2|n_kbWR            ; 26      ;
+; SBCTextDisplayRGB:io2|n_kbWR            ; 28      ;
 ; SBCTextDisplayRGB:io2|ps2WriteByte[4]   ; 2       ;
 ; SBCTextDisplayRGB:io2|ps2WriteByte[3]   ; 3       ;
 ; SBCTextDisplayRGB:io2|ps2WriteByte[1]   ; 2       ;
@@ -604,106 +606,107 @@ Encoding Type:  One-Hot
 +-----------------------------------------+---------+
 
 
-+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
-; Multiplexer Restructuring Statistics (Restructuring Performed)                                                                                                                          ;
-+--------------------+-----------+---------------+----------------------+------------------------+------------+---------------------------------------------------------------------------+
-; Multiplexer Inputs ; Bus Width ; Baseline Area ; Area if Restructured ; Saving if Restructured ; Registered ; Example Multiplexer Output                                                ;
-+--------------------+-----------+---------------+----------------------+------------------------+------------+---------------------------------------------------------------------------+
-; 3:1                ; 2 bits    ; 4 LEs         ; 2 LEs                ; 2 LEs                  ; Yes        ; |Microcomputer|T80s:cpu1|T80:u0|ALU_Op_r[0]                               ;
-; 3:1                ; 5 bits    ; 10 LEs        ; 5 LEs                ; 5 LEs                  ; Yes        ; |Microcomputer|SBCTextDisplayRGB:io2|charVert[0]                          ;
-; 3:1                ; 2 bits    ; 4 LEs         ; 4 LEs                ; 0 LEs                  ; Yes        ; |Microcomputer|T80s:cpu1|T80:u0|RegAddrC[1]                               ;
-; 3:1                ; 4 bits    ; 8 LEs         ; 8 LEs                ; 0 LEs                  ; Yes        ; |Microcomputer|T80s:cpu1|T80:u0|Read_To_Reg_r[2]                          ;
-; 3:1                ; 6 bits    ; 12 LEs        ; 0 LEs                ; 12 LEs                 ; Yes        ; |Microcomputer|bufferedUART:io1|rxFilter[5]                               ;
-; 3:1                ; 6 bits    ; 12 LEs        ; 0 LEs                ; 12 LEs                 ; Yes        ; |Microcomputer|SBCTextDisplayRGB:io2|ps2ClkFilter[0]                      ;
-; 4:1                ; 2 bits    ; 4 LEs         ; 2 LEs                ; 2 LEs                  ; Yes        ; |Microcomputer|T80s:cpu1|T80:u0|XY_State[1]                               ;
-; 3:1                ; 8 bits    ; 16 LEs        ; 8 LEs                ; 8 LEs                  ; Yes        ; |Microcomputer|SBCTextDisplayRGB:io2|ps2Byte[2]                           ;
-; 3:1                ; 2 bits    ; 4 LEs         ; 4 LEs                ; 0 LEs                  ; Yes        ; |Microcomputer|SBCTextDisplayRGB:io2|ps2ConvertedByte[5]                  ;
-; 3:1                ; 3 bits    ; 6 LEs         ; 3 LEs                ; 3 LEs                  ; Yes        ; |Microcomputer|SBCTextDisplayRGB:io2|pixelCount[1]                        ;
-; 4:1                ; 26 bits   ; 52 LEs        ; 26 LEs               ; 26 LEs                 ; Yes        ; |Microcomputer|SBCTextDisplayRGB:io2|kbWatchdogTimer[5]                   ;
-; 4:1                ; 4 bits    ; 8 LEs         ; 4 LEs                ; 4 LEs                  ; Yes        ; |Microcomputer|SBCTextDisplayRGB:io2|charScanLine[3]                      ;
-; 5:1                ; 6 bits    ; 18 LEs        ; 6 LEs                ; 12 LEs                 ; Yes        ; |Microcomputer|bufferedUART:io1|rxClockCount[5]                           ;
-; 6:1                ; 8 bits    ; 32 LEs        ; 8 LEs                ; 24 LEs                 ; Yes        ; |Microcomputer|T80s:cpu1|T80:u0|IR[1]                                     ;
-; 5:1                ; 2 bits    ; 6 LEs         ; 4 LEs                ; 2 LEs                  ; Yes        ; |Microcomputer|T80s:cpu1|T80:u0|MCycle[2]                                 ;
-; 5:1                ; 4 bits    ; 12 LEs        ; 4 LEs                ; 8 LEs                  ; Yes        ; |Microcomputer|SBCTextDisplayRGB:io2|pixelClockCount[3]                   ;
-; 5:1                ; 9 bits    ; 27 LEs        ; 9 LEs                ; 18 LEs                 ; Yes        ; |Microcomputer|sd_controller:sd1|cmd_out[55]                              ;
-; 5:1                ; 4 bits    ; 12 LEs        ; 4 LEs                ; 8 LEs                  ; Yes        ; |Microcomputer|bufferedUART:io1|rxBitCount[3]                             ;
-; 4:1                ; 7 bits    ; 14 LEs        ; 7 LEs                ; 7 LEs                  ; Yes        ; |Microcomputer|T80s:cpu1|T80:u0|R[1]                                      ;
-; 5:1                ; 8 bits    ; 24 LEs        ; 16 LEs               ; 8 LEs                  ; Yes        ; |Microcomputer|SBCTextDisplayRGB:io2|dispCharWRData[0]                    ;
-; 4:1                ; 7 bits    ; 14 LEs        ; 7 LEs                ; 7 LEs                  ; Yes        ; |Microcomputer|SBCTextDisplayRGB:io2|charHoriz[3]                         ;
-; 11:1               ; 8 bits    ; 56 LEs        ; 48 LEs               ; 8 LEs                  ; Yes        ; |Microcomputer|T80s:cpu1|T80:u0|BusB[2]                                   ;
-; 12:1               ; 8 bits    ; 64 LEs        ; 32 LEs               ; 32 LEs                 ; Yes        ; |Microcomputer|T80s:cpu1|T80:u0|BusA[0]                                   ;
-; 6:1                ; 2 bits    ; 8 LEs         ; 4 LEs                ; 4 LEs                  ; Yes        ; |Microcomputer|sd_controller:sd1|cmd_out[41]                              ;
-; 6:1                ; 4 bits    ; 16 LEs        ; 8 LEs                ; 8 LEs                  ; Yes        ; |Microcomputer|sd_controller:sd1|cmd_out[5]                               ;
-; 6:1                ; 3 bits    ; 12 LEs        ; 6 LEs                ; 6 LEs                  ; Yes        ; |Microcomputer|sd_controller:sd1|cmd_out[7]                               ;
-; 6:1                ; 4 bits    ; 16 LEs        ; 4 LEs                ; 12 LEs                 ; Yes        ; |Microcomputer|bufferedUART:io1|txBitCount[0]                             ;
-; 6:1                ; 7 bits    ; 28 LEs        ; 7 LEs                ; 21 LEs                 ; Yes        ; |Microcomputer|bufferedUART:io1|txBuffer[1]                               ;
-; 6:1                ; 6 bits    ; 24 LEs        ; 6 LEs                ; 18 LEs                 ; Yes        ; |Microcomputer|bufferedUART:io1|txClockCount[3]                           ;
-; 7:1                ; 3 bits    ; 12 LEs        ; 12 LEs               ; 0 LEs                  ; Yes        ; |Microcomputer|SBCTextDisplayRGB:io2|videoR1                              ;
-; 7:1                ; 2 bits    ; 8 LEs         ; 4 LEs                ; 4 LEs                  ; Yes        ; |Microcomputer|T80s:cpu1|T80:u0|ISet[0]                                   ;
-; 6:1                ; 5 bits    ; 20 LEs        ; 10 LEs               ; 10 LEs                 ; Yes        ; |Microcomputer|T80s:cpu1|T80:u0|TmpAddr[0]                                ;
-; 6:1                ; 3 bits    ; 12 LEs        ; 6 LEs                ; 6 LEs                  ; Yes        ; |Microcomputer|T80s:cpu1|T80:u0|TmpAddr[3]                                ;
-; 6:1                ; 8 bits    ; 32 LEs        ; 16 LEs               ; 16 LEs                 ; Yes        ; |Microcomputer|T80s:cpu1|T80:u0|TmpAddr[15]                               ;
-; 7:1                ; 4 bits    ; 16 LEs        ; 4 LEs                ; 12 LEs                 ; Yes        ; |Microcomputer|SBCTextDisplayRGB:io2|ps2ClkCount[2]                       ;
-; 6:1                ; 8 bits    ; 32 LEs        ; 8 LEs                ; 24 LEs                 ; Yes        ; |Microcomputer|sd_controller:sd1|recv_data[0]                             ;
-; 7:1                ; 9 bits    ; 36 LEs        ; 18 LEs               ; 18 LEs                 ; Yes        ; |Microcomputer|sd_controller:sd1|cmd_out[10]                              ;
-; 7:1                ; 23 bits   ; 92 LEs        ; 46 LEs               ; 46 LEs                 ; Yes        ; |Microcomputer|sd_controller:sd1|cmd_out[19]                              ;
-; 7:1                ; 7 bits    ; 28 LEs        ; 7 LEs                ; 21 LEs                 ; Yes        ; |Microcomputer|SBCTextDisplayRGB:io2|startAddr[5]                         ;
-; 10:1               ; 3 bits    ; 18 LEs        ; 18 LEs               ; 0 LEs                  ; Yes        ; |Microcomputer|SBCTextDisplayRGB:io2|videoB0                              ;
-; 10:1               ; 7 bits    ; 42 LEs        ; 7 LEs                ; 35 LEs                 ; Yes        ; |Microcomputer|SBCTextDisplayRGB:io2|param4[4]                            ;
-; 10:1               ; 7 bits    ; 42 LEs        ; 14 LEs               ; 28 LEs                 ; Yes        ; |Microcomputer|sd_controller:sd1|data_sig[6]                              ;
-; 10:1               ; 3 bits    ; 18 LEs        ; 12 LEs               ; 6 LEs                  ; Yes        ; |Microcomputer|SBCTextDisplayRGB:io2|paramCount[1]                        ;
-; 11:1               ; 7 bits    ; 49 LEs        ; 21 LEs               ; 28 LEs                 ; Yes        ; |Microcomputer|T80s:cpu1|T80:u0|PC[2]                                     ;
-; 11:1               ; 8 bits    ; 56 LEs        ; 32 LEs               ; 24 LEs                 ; Yes        ; |Microcomputer|T80s:cpu1|T80:u0|PC[12]                                    ;
-; 12:1               ; 5 bits    ; 40 LEs        ; 5 LEs                ; 35 LEs                 ; Yes        ; |Microcomputer|SBCTextDisplayRGB:io2|ps2WriteClkCount[4]                  ;
-; 17:1               ; 8 bits    ; 88 LEs        ; 32 LEs               ; 56 LEs                 ; Yes        ; |Microcomputer|T80s:cpu1|T80:u0|A[7]                                      ;
-; 17:1               ; 8 bits    ; 88 LEs        ; 40 LEs               ; 48 LEs                 ; Yes        ; |Microcomputer|T80s:cpu1|T80:u0|A[12]                                     ;
-; 13:1               ; 7 bits    ; 56 LEs        ; 7 LEs                ; 49 LEs                 ; Yes        ; |Microcomputer|sd_controller:sd1|byte_counter[5]                          ;
-; 14:1               ; 3 bits    ; 27 LEs        ; 6 LEs                ; 21 LEs                 ; Yes        ; |Microcomputer|sd_controller:sd1|byte_counter[0]                          ;
-; 14:1               ; 7 bits    ; 63 LEs        ; 14 LEs               ; 49 LEs                 ; Yes        ; |Microcomputer|SBCTextDisplayRGB:io2|param1[4]                            ;
-; 15:1               ; 7 bits    ; 70 LEs        ; 14 LEs               ; 56 LEs                 ; Yes        ; |Microcomputer|SBCTextDisplayRGB:io2|param2[4]                            ;
-; 16:1               ; 7 bits    ; 70 LEs        ; 14 LEs               ; 56 LEs                 ; Yes        ; |Microcomputer|SBCTextDisplayRGB:io2|param3[0]                            ;
-; 20:1               ; 5 bits    ; 65 LEs        ; 5 LEs                ; 60 LEs                 ; Yes        ; |Microcomputer|SBCTextDisplayRGB:io2|cursorVertRestore[1]                 ;
-; 20:1               ; 3 bits    ; 39 LEs        ; 12 LEs               ; 27 LEs                 ; Yes        ; |Microcomputer|sd_controller:sd1|bit_counter[6]                           ;
-; 22:1               ; 7 bits    ; 98 LEs        ; 7 LEs                ; 91 LEs                 ; Yes        ; |Microcomputer|SBCTextDisplayRGB:io2|cursorHorizRestore[0]                ;
-; 21:1               ; 26 bits   ; 364 LEs       ; 26 LEs               ; 338 LEs                ; Yes        ; |Microcomputer|SBCTextDisplayRGB:io2|kbWriteTimer[24]                     ;
-; 21:1               ; 3 bits    ; 42 LEs        ; 12 LEs               ; 30 LEs                 ; Yes        ; |Microcomputer|sd_controller:sd1|bit_counter[4]                           ;
-; 21:1               ; 2 bits    ; 28 LEs        ; 8 LEs                ; 20 LEs                 ; Yes        ; |Microcomputer|sd_controller:sd1|bit_counter[2]                           ;
-; 45:1               ; 7 bits    ; 210 LEs       ; 84 LEs               ; 126 LEs                ; Yes        ; |Microcomputer|SBCTextDisplayRGB:io2|cursorHoriz[6]                       ;
-; 50:1               ; 3 bits    ; 99 LEs        ; 36 LEs               ; 63 LEs                 ; Yes        ; |Microcomputer|SBCTextDisplayRGB:io2|cursorVert[4]                        ;
-; 5:1                ; 8 bits    ; 24 LEs        ; 24 LEs               ; 0 LEs                  ; Yes        ; |Microcomputer|T80s:cpu1|T80:u0|DO[7]                                     ;
-; 7:1                ; 8 bits    ; 32 LEs        ; 16 LEs               ; 16 LEs                 ; Yes        ; |Microcomputer|T80s:cpu1|T80:u0|SP[6]                                     ;
-; 7:1                ; 8 bits    ; 32 LEs        ; 16 LEs               ; 16 LEs                 ; Yes        ; |Microcomputer|T80s:cpu1|T80:u0|SP[13]                                    ;
-; 8:1                ; 8 bits    ; 40 LEs        ; 24 LEs               ; 16 LEs                 ; Yes        ; |Microcomputer|T80s:cpu1|T80:u0|ACC[2]                                    ;
-; 18:1               ; 2 bits    ; 24 LEs        ; 12 LEs               ; 12 LEs                 ; Yes        ; |Microcomputer|T80s:cpu1|T80:u0|F[3]                                      ;
-; 18:1               ; 5 bits    ; 60 LEs        ; 5 LEs                ; 55 LEs                 ; Yes        ; |Microcomputer|SBCTextDisplayRGB:io2|ps2WriteByte[0]                      ;
-; 3:1                ; 4 bits    ; 8 LEs         ; 4 LEs                ; 4 LEs                  ; No         ; |Microcomputer|T80s:cpu1|T80:u0|T80_ALU:alu|Q_t                           ;
-; 3:1                ; 2 bits    ; 4 LEs         ; 2 LEs                ; 2 LEs                  ; No         ; |Microcomputer|T80s:cpu1|T80:u0|T80_MCode:mcode|Mux47                     ;
-; 4:1                ; 3 bits    ; 6 LEs         ; 6 LEs                ; 0 LEs                  ; No         ; |Microcomputer|T80s:cpu1|T80:u0|T80_ALU:alu|DAA_Q[3]                      ;
-; 3:1                ; 3 bits    ; 6 LEs         ; 3 LEs                ; 3 LEs                  ; No         ; |Microcomputer|SBCTextDisplayRGB:io2|paramCount                           ;
-; 3:1                ; 2 bits    ; 4 LEs         ; 4 LEs                ; 0 LEs                  ; No         ; |Microcomputer|T80s:cpu1|T80:u0|Save_Mux[1]                               ;
-; 4:1                ; 2 bits    ; 4 LEs         ; 2 LEs                ; 2 LEs                  ; No         ; |Microcomputer|SBCTextDisplayRGB:io2|dispState                            ;
-; 8:1                ; 16 bits   ; 80 LEs        ; 80 LEs               ; 0 LEs                  ; No         ; |Microcomputer|T80s:cpu1|T80:u0|T80_Reg:Regs|Mux36                        ;
-; 4:1                ; 8 bits    ; 16 LEs        ; 8 LEs                ; 8 LEs                  ; No         ; |Microcomputer|sd_controller:sd1|dout                                     ;
-; 8:1                ; 8 bits    ; 40 LEs        ; 16 LEs               ; 24 LEs                 ; No         ; |Microcomputer|T80s:cpu1|T80:u0|T80_ALU:alu|Mux13                         ;
-; 4:1                ; 2 bits    ; 4 LEs         ; 4 LEs                ; 0 LEs                  ; No         ; |Microcomputer|T80s:cpu1|T80:u0|T80_ALU:alu|DAA_Q[7]                      ;
-; 4:1                ; 16 bits   ; 32 LEs        ; 32 LEs               ; 0 LEs                  ; No         ; |Microcomputer|T80s:cpu1|T80:u0|RegDIL[6]                                 ;
-; 8:1                ; 16 bits   ; 80 LEs        ; 80 LEs               ; 0 LEs                  ; No         ; |Microcomputer|T80s:cpu1|T80:u0|T80_Reg:Regs|Mux28                        ;
-; 8:1                ; 16 bits   ; 80 LEs        ; 80 LEs               ; 0 LEs                  ; No         ; |Microcomputer|T80s:cpu1|T80:u0|T80_Reg:Regs|Mux5                         ;
-; 5:1                ; 2 bits    ; 6 LEs         ; 6 LEs                ; 0 LEs                  ; No         ; |Microcomputer|T80s:cpu1|T80:u0|RegAddrA[1]                               ;
-; 17:1               ; 4 bits    ; 44 LEs        ; 24 LEs               ; 20 LEs                 ; No         ; |Microcomputer|T80s:cpu1|T80:u0|Save_Mux[2]                               ;
-; 7:1                ; 4 bits    ; 16 LEs        ; 16 LEs               ; 0 LEs                  ; No         ; |Microcomputer|cpuDataIn[0]                                               ;
-; 7:1                ; 3 bits    ; 12 LEs        ; 6 LEs                ; 6 LEs                  ; No         ; |Microcomputer|bufferedUART:io1|Selector34                                ;
-; 8:1                ; 4 bits    ; 20 LEs        ; 16 LEs               ; 4 LEs                  ; No         ; |Microcomputer|cpuDataIn[4]                                               ;
-; 8:1                ; 3 bits    ; 15 LEs        ; 6 LEs                ; 9 LEs                  ; No         ; |Microcomputer|bufferedUART:io1|Selector11                                ;
-; 19:1               ; 2 bits    ; 24 LEs        ; 4 LEs                ; 20 LEs                 ; No         ; |Microcomputer|T80s:cpu1|T80:u0|RegWEH                                    ;
-; 10:1               ; 2 bits    ; 12 LEs        ; 12 LEs               ; 0 LEs                  ; No         ; |Microcomputer|T80s:cpu1|T80:u0|Save_Mux[7]                               ;
-; 11:1               ; 13 bits   ; 91 LEs        ; 52 LEs               ; 39 LEs                 ; No         ; |Microcomputer|sd_controller:sd1|return_state.send_cmd                    ;
-; 20:1               ; 7 bits    ; 91 LEs        ; 21 LEs               ; 70 LEs                 ; No         ; |Microcomputer|sd_controller:sd1|Selector84                               ;
-; 21:1               ; 11 bits   ; 154 LEs       ; 44 LEs               ; 110 LEs                ; No         ; |Microcomputer|SBCTextDisplayRGB:io2|dispState                            ;
-; 23:1               ; 2 bits    ; 30 LEs        ; 4 LEs                ; 26 LEs                 ; No         ; |Microcomputer|SBCTextDisplayRGB:io2|nextState.processingParams           ;
-; 23:1               ; 2 bits    ; 30 LEs        ; 6 LEs                ; 24 LEs                 ; No         ; |Microcomputer|SBCTextDisplayRGB:io2|nextState.processingAdditionalParams ;
-; 23:1               ; 2 bits    ; 30 LEs        ; 10 LEs               ; 20 LEs                 ; No         ; |Microcomputer|sd_controller:sd1|Selector92                               ;
-+--------------------+-----------+---------------+----------------------+------------------------+------------+---------------------------------------------------------------------------+
++----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+; Multiplexer Restructuring Statistics (Restructuring Performed)                                                                                                                         ;
++--------------------+-----------+---------------+----------------------+------------------------+------------+--------------------------------------------------------------------------+
+; Multiplexer Inputs ; Bus Width ; Baseline Area ; Area if Restructured ; Saving if Restructured ; Registered ; Example Multiplexer Output                                               ;
++--------------------+-----------+---------------+----------------------+------------------------+------------+--------------------------------------------------------------------------+
+; 3:1                ; 2 bits    ; 4 LEs         ; 2 LEs                ; 2 LEs                  ; Yes        ; |Microcomputer|T80s:cpu1|T80:u0|ALU_Op_r[2]                              ;
+; 3:1                ; 5 bits    ; 10 LEs        ; 5 LEs                ; 5 LEs                  ; Yes        ; |Microcomputer|SBCTextDisplayRGB:io2|charVert[2]                         ;
+; 3:1                ; 2 bits    ; 4 LEs         ; 4 LEs                ; 0 LEs                  ; Yes        ; |Microcomputer|T80s:cpu1|T80:u0|RegAddrC[0]                              ;
+; 3:1                ; 4 bits    ; 8 LEs         ; 8 LEs                ; 0 LEs                  ; Yes        ; |Microcomputer|T80s:cpu1|T80:u0|Read_To_Reg_r[1]                         ;
+; 3:1                ; 6 bits    ; 12 LEs        ; 0 LEs                ; 12 LEs                 ; Yes        ; |Microcomputer|bufferedUART:io1|rxFilter[1]                              ;
+; 3:1                ; 6 bits    ; 12 LEs        ; 0 LEs                ; 12 LEs                 ; Yes        ; |Microcomputer|SBCTextDisplayRGB:io2|ps2ClkFilter[5]                     ;
+; 4:1                ; 2 bits    ; 4 LEs         ; 2 LEs                ; 2 LEs                  ; Yes        ; |Microcomputer|T80s:cpu1|T80:u0|XY_State[1]                              ;
+; 3:1                ; 8 bits    ; 16 LEs        ; 8 LEs                ; 8 LEs                  ; Yes        ; |Microcomputer|SBCTextDisplayRGB:io2|ps2Byte[2]                          ;
+; 3:1                ; 3 bits    ; 6 LEs         ; 6 LEs                ; 0 LEs                  ; Yes        ; |Microcomputer|SBCTextDisplayRGB:io2|ps2ConvertedByte[6]                 ;
+; 3:1                ; 4 bits    ; 8 LEs         ; 4 LEs                ; 4 LEs                  ; Yes        ; |Microcomputer|SBCTextDisplayRGB:io2|pixelClockCount[1]                  ;
+; 3:1                ; 3 bits    ; 6 LEs         ; 3 LEs                ; 3 LEs                  ; Yes        ; |Microcomputer|SBCTextDisplayRGB:io2|pixelCount[2]                       ;
+; 4:1                ; 26 bits   ; 52 LEs        ; 26 LEs               ; 26 LEs                 ; Yes        ; |Microcomputer|SBCTextDisplayRGB:io2|kbWatchdogTimer[8]                  ;
+; 4:1                ; 4 bits    ; 8 LEs         ; 4 LEs                ; 4 LEs                  ; Yes        ; |Microcomputer|SBCTextDisplayRGB:io2|charScanLine[2]                     ;
+; 5:1                ; 6 bits    ; 18 LEs        ; 6 LEs                ; 12 LEs                 ; Yes        ; |Microcomputer|bufferedUART:io1|rxClockCount[0]                          ;
+; 6:1                ; 8 bits    ; 32 LEs        ; 8 LEs                ; 24 LEs                 ; Yes        ; |Microcomputer|T80s:cpu1|T80:u0|IR[4]                                    ;
+; 5:1                ; 2 bits    ; 6 LEs         ; 4 LEs                ; 2 LEs                  ; Yes        ; |Microcomputer|T80s:cpu1|T80:u0|MCycle[1]                                ;
+; 3:1                ; 7 bits    ; 14 LEs        ; 7 LEs                ; 7 LEs                  ; Yes        ; |Microcomputer|SBCTextDisplayRGB:io2|charHoriz[5]                        ;
+; 5:1                ; 9 bits    ; 27 LEs        ; 9 LEs                ; 18 LEs                 ; Yes        ; |Microcomputer|sd_controller:sd1|cmd_out[55]                             ;
+; 5:1                ; 4 bits    ; 12 LEs        ; 4 LEs                ; 8 LEs                  ; Yes        ; |Microcomputer|bufferedUART:io1|rxBitCount[0]                            ;
+; 4:1                ; 7 bits    ; 14 LEs        ; 7 LEs                ; 7 LEs                  ; Yes        ; |Microcomputer|T80s:cpu1|T80:u0|R[5]                                     ;
+; 5:1                ; 8 bits    ; 24 LEs        ; 16 LEs               ; 8 LEs                  ; Yes        ; |Microcomputer|SBCTextDisplayRGB:io2|dispCharWRData[3]                   ;
+; 11:1               ; 8 bits    ; 56 LEs        ; 48 LEs               ; 8 LEs                  ; Yes        ; |Microcomputer|T80s:cpu1|T80:u0|BusB[1]                                  ;
+; 12:1               ; 8 bits    ; 64 LEs        ; 32 LEs               ; 32 LEs                 ; Yes        ; |Microcomputer|T80s:cpu1|T80:u0|BusA[1]                                  ;
+; 6:1                ; 2 bits    ; 8 LEs         ; 4 LEs                ; 4 LEs                  ; Yes        ; |Microcomputer|sd_controller:sd1|cmd_out[42]                             ;
+; 6:1                ; 4 bits    ; 16 LEs        ; 8 LEs                ; 8 LEs                  ; Yes        ; |Microcomputer|sd_controller:sd1|cmd_out[6]                              ;
+; 6:1                ; 3 bits    ; 12 LEs        ; 6 LEs                ; 6 LEs                  ; Yes        ; |Microcomputer|sd_controller:sd1|cmd_out[7]                              ;
+; 6:1                ; 4 bits    ; 16 LEs        ; 4 LEs                ; 12 LEs                 ; Yes        ; |Microcomputer|bufferedUART:io1|txBitCount[3]                            ;
+; 6:1                ; 7 bits    ; 28 LEs        ; 7 LEs                ; 21 LEs                 ; Yes        ; |Microcomputer|bufferedUART:io1|txBuffer[0]                              ;
+; 6:1                ; 6 bits    ; 24 LEs        ; 6 LEs                ; 18 LEs                 ; Yes        ; |Microcomputer|bufferedUART:io1|txClockCount[1]                          ;
+; 7:1                ; 3 bits    ; 12 LEs        ; 12 LEs               ; 0 LEs                  ; Yes        ; |Microcomputer|SBCTextDisplayRGB:io2|videoB1                             ;
+; 7:1                ; 2 bits    ; 8 LEs         ; 4 LEs                ; 4 LEs                  ; Yes        ; |Microcomputer|T80s:cpu1|T80:u0|ISet[0]                                  ;
+; 6:1                ; 5 bits    ; 20 LEs        ; 10 LEs               ; 10 LEs                 ; Yes        ; |Microcomputer|T80s:cpu1|T80:u0|TmpAddr[6]                               ;
+; 6:1                ; 3 bits    ; 12 LEs        ; 6 LEs                ; 6 LEs                  ; Yes        ; |Microcomputer|T80s:cpu1|T80:u0|TmpAddr[3]                               ;
+; 6:1                ; 8 bits    ; 32 LEs        ; 16 LEs               ; 16 LEs                 ; Yes        ; |Microcomputer|T80s:cpu1|T80:u0|TmpAddr[15]                              ;
+; 7:1                ; 4 bits    ; 16 LEs        ; 4 LEs                ; 12 LEs                 ; Yes        ; |Microcomputer|SBCTextDisplayRGB:io2|ps2ClkCount[0]                      ;
+; 6:1                ; 8 bits    ; 32 LEs        ; 8 LEs                ; 24 LEs                 ; Yes        ; |Microcomputer|sd_controller:sd1|recv_data[0]                            ;
+; 7:1                ; 9 bits    ; 36 LEs        ; 18 LEs               ; 18 LEs                 ; Yes        ; |Microcomputer|sd_controller:sd1|cmd_out[8]                              ;
+; 7:1                ; 23 bits   ; 92 LEs        ; 46 LEs               ; 46 LEs                 ; Yes        ; |Microcomputer|sd_controller:sd1|cmd_out[29]                             ;
+; 7:1                ; 7 bits    ; 28 LEs        ; 7 LEs                ; 21 LEs                 ; Yes        ; |Microcomputer|SBCTextDisplayRGB:io2|startAddr[5]                        ;
+; 10:1               ; 3 bits    ; 18 LEs        ; 18 LEs               ; 0 LEs                  ; Yes        ; |Microcomputer|SBCTextDisplayRGB:io2|videoR0                             ;
+; 10:1               ; 7 bits    ; 42 LEs        ; 7 LEs                ; 35 LEs                 ; Yes        ; |Microcomputer|SBCTextDisplayRGB:io2|param4[4]                           ;
+; 10:1               ; 7 bits    ; 42 LEs        ; 14 LEs               ; 28 LEs                 ; Yes        ; |Microcomputer|sd_controller:sd1|data_sig[4]                             ;
+; 10:1               ; 3 bits    ; 18 LEs        ; 12 LEs               ; 6 LEs                  ; Yes        ; |Microcomputer|SBCTextDisplayRGB:io2|paramCount[2]                       ;
+; 11:1               ; 7 bits    ; 49 LEs        ; 21 LEs               ; 28 LEs                 ; Yes        ; |Microcomputer|T80s:cpu1|T80:u0|PC[2]                                    ;
+; 11:1               ; 8 bits    ; 56 LEs        ; 32 LEs               ; 24 LEs                 ; Yes        ; |Microcomputer|T80s:cpu1|T80:u0|PC[10]                                   ;
+; 12:1               ; 5 bits    ; 40 LEs        ; 5 LEs                ; 35 LEs                 ; Yes        ; |Microcomputer|SBCTextDisplayRGB:io2|ps2WriteClkCount[1]                 ;
+; 17:1               ; 8 bits    ; 88 LEs        ; 32 LEs               ; 56 LEs                 ; Yes        ; |Microcomputer|T80s:cpu1|T80:u0|A[2]                                     ;
+; 17:1               ; 8 bits    ; 88 LEs        ; 40 LEs               ; 48 LEs                 ; Yes        ; |Microcomputer|T80s:cpu1|T80:u0|A[11]                                    ;
+; 13:1               ; 7 bits    ; 56 LEs        ; 7 LEs                ; 49 LEs                 ; Yes        ; |Microcomputer|sd_controller:sd1|byte_counter[7]                         ;
+; 14:1               ; 3 bits    ; 27 LEs        ; 6 LEs                ; 21 LEs                 ; Yes        ; |Microcomputer|sd_controller:sd1|byte_counter[9]                         ;
+; 14:1               ; 7 bits    ; 63 LEs        ; 14 LEs               ; 49 LEs                 ; Yes        ; |Microcomputer|SBCTextDisplayRGB:io2|param1[3]                           ;
+; 15:1               ; 7 bits    ; 70 LEs        ; 14 LEs               ; 56 LEs                 ; Yes        ; |Microcomputer|SBCTextDisplayRGB:io2|param2[0]                           ;
+; 16:1               ; 7 bits    ; 70 LEs        ; 14 LEs               ; 56 LEs                 ; Yes        ; |Microcomputer|SBCTextDisplayRGB:io2|param3[1]                           ;
+; 4:1                ; 4 bits    ; 8 LEs         ; 4 LEs                ; 4 LEs                  ; Yes        ; |Microcomputer|SBCTextDisplayRGB:io2|kbInPointer[3]                      ;
+; 20:1               ; 5 bits    ; 65 LEs        ; 5 LEs                ; 60 LEs                 ; Yes        ; |Microcomputer|SBCTextDisplayRGB:io2|cursorVertRestore[2]                ;
+; 20:1               ; 3 bits    ; 39 LEs        ; 12 LEs               ; 27 LEs                 ; Yes        ; |Microcomputer|sd_controller:sd1|bit_counter[3]                          ;
+; 22:1               ; 7 bits    ; 98 LEs        ; 7 LEs                ; 91 LEs                 ; Yes        ; |Microcomputer|SBCTextDisplayRGB:io2|cursorHorizRestore[5]               ;
+; 21:1               ; 26 bits   ; 364 LEs       ; 26 LEs               ; 338 LEs                ; Yes        ; |Microcomputer|SBCTextDisplayRGB:io2|kbWriteTimer[7]                     ;
+; 21:1               ; 3 bits    ; 42 LEs        ; 12 LEs               ; 30 LEs                 ; Yes        ; |Microcomputer|sd_controller:sd1|bit_counter[7]                          ;
+; 21:1               ; 2 bits    ; 28 LEs        ; 8 LEs                ; 20 LEs                 ; Yes        ; |Microcomputer|sd_controller:sd1|bit_counter[2]                          ;
+; 42:1               ; 7 bits    ; 196 LEs       ; 77 LEs               ; 119 LEs                ; Yes        ; |Microcomputer|SBCTextDisplayRGB:io2|cursorHoriz[3]                      ;
+; 50:1               ; 3 bits    ; 99 LEs        ; 36 LEs               ; 63 LEs                 ; Yes        ; |Microcomputer|SBCTextDisplayRGB:io2|cursorVert[3]                       ;
+; 5:1                ; 8 bits    ; 24 LEs        ; 24 LEs               ; 0 LEs                  ; Yes        ; |Microcomputer|T80s:cpu1|T80:u0|DO[7]                                    ;
+; 7:1                ; 8 bits    ; 32 LEs        ; 16 LEs               ; 16 LEs                 ; Yes        ; |Microcomputer|T80s:cpu1|T80:u0|SP[2]                                    ;
+; 7:1                ; 8 bits    ; 32 LEs        ; 16 LEs               ; 16 LEs                 ; Yes        ; |Microcomputer|T80s:cpu1|T80:u0|SP[10]                                   ;
+; 8:1                ; 8 bits    ; 40 LEs        ; 24 LEs               ; 16 LEs                 ; Yes        ; |Microcomputer|T80s:cpu1|T80:u0|ACC[4]                                   ;
+; 18:1               ; 2 bits    ; 24 LEs        ; 12 LEs               ; 12 LEs                 ; Yes        ; |Microcomputer|T80s:cpu1|T80:u0|F[3]                                     ;
+; 18:1               ; 5 bits    ; 60 LEs        ; 5 LEs                ; 55 LEs                 ; Yes        ; |Microcomputer|SBCTextDisplayRGB:io2|ps2WriteByte[0]                     ;
+; 3:1                ; 4 bits    ; 8 LEs         ; 4 LEs                ; 4 LEs                  ; No         ; |Microcomputer|T80s:cpu1|T80:u0|T80_ALU:alu|Q_t                          ;
+; 3:1                ; 2 bits    ; 4 LEs         ; 2 LEs                ; 2 LEs                  ; No         ; |Microcomputer|T80s:cpu1|T80:u0|T80_MCode:mcode|Mux47                    ;
+; 4:1                ; 3 bits    ; 6 LEs         ; 6 LEs                ; 0 LEs                  ; No         ; |Microcomputer|T80s:cpu1|T80:u0|T80_ALU:alu|DAA_Q[2]                     ;
+; 3:1                ; 3 bits    ; 6 LEs         ; 3 LEs                ; 3 LEs                  ; No         ; |Microcomputer|SBCTextDisplayRGB:io2|paramCount                          ;
+; 3:1                ; 2 bits    ; 4 LEs         ; 4 LEs                ; 0 LEs                  ; No         ; |Microcomputer|T80s:cpu1|T80:u0|Save_Mux[1]                              ;
+; 4:1                ; 2 bits    ; 4 LEs         ; 2 LEs                ; 2 LEs                  ; No         ; |Microcomputer|SBCTextDisplayRGB:io2|dispState                           ;
+; 8:1                ; 16 bits   ; 80 LEs        ; 80 LEs               ; 0 LEs                  ; No         ; |Microcomputer|T80s:cpu1|T80:u0|T80_Reg:Regs|Mux47                       ;
+; 4:1                ; 8 bits    ; 16 LEs        ; 8 LEs                ; 8 LEs                  ; No         ; |Microcomputer|sd_controller:sd1|dout                                    ;
+; 8:1                ; 8 bits    ; 40 LEs        ; 16 LEs               ; 24 LEs                 ; No         ; |Microcomputer|T80s:cpu1|T80:u0|T80_ALU:alu|Mux14                        ;
+; 4:1                ; 2 bits    ; 4 LEs         ; 4 LEs                ; 0 LEs                  ; No         ; |Microcomputer|T80s:cpu1|T80:u0|T80_ALU:alu|DAA_Q[7]                     ;
+; 4:1                ; 16 bits   ; 32 LEs        ; 32 LEs               ; 0 LEs                  ; No         ; |Microcomputer|T80s:cpu1|T80:u0|RegDIH[2]                                ;
+; 8:1                ; 16 bits   ; 80 LEs        ; 80 LEs               ; 0 LEs                  ; No         ; |Microcomputer|T80s:cpu1|T80:u0|T80_Reg:Regs|Mux22                       ;
+; 8:1                ; 16 bits   ; 80 LEs        ; 80 LEs               ; 0 LEs                  ; No         ; |Microcomputer|T80s:cpu1|T80:u0|T80_Reg:Regs|Mux4                        ;
+; 5:1                ; 2 bits    ; 6 LEs         ; 6 LEs                ; 0 LEs                  ; No         ; |Microcomputer|T80s:cpu1|T80:u0|RegAddrA[0]                              ;
+; 17:1               ; 4 bits    ; 44 LEs        ; 24 LEs               ; 20 LEs                 ; No         ; |Microcomputer|T80s:cpu1|T80:u0|Save_Mux[4]                              ;
+; 7:1                ; 4 bits    ; 16 LEs        ; 16 LEs               ; 0 LEs                  ; No         ; |Microcomputer|cpuDataIn[0]                                              ;
+; 7:1                ; 3 bits    ; 12 LEs        ; 6 LEs                ; 6 LEs                  ; No         ; |Microcomputer|bufferedUART:io1|Selector35                               ;
+; 8:1                ; 4 bits    ; 20 LEs        ; 16 LEs               ; 4 LEs                  ; No         ; |Microcomputer|cpuDataIn[4]                                              ;
+; 8:1                ; 3 bits    ; 15 LEs        ; 6 LEs                ; 9 LEs                  ; No         ; |Microcomputer|bufferedUART:io1|Selector12                               ;
+; 19:1               ; 2 bits    ; 24 LEs        ; 4 LEs                ; 20 LEs                 ; No         ; |Microcomputer|T80s:cpu1|T80:u0|RegWEH                                   ;
+; 10:1               ; 2 bits    ; 12 LEs        ; 12 LEs               ; 0 LEs                  ; No         ; |Microcomputer|T80s:cpu1|T80:u0|Save_Mux[7]                              ;
+; 11:1               ; 13 bits   ; 91 LEs        ; 52 LEs               ; 39 LEs                 ; No         ; |Microcomputer|sd_controller:sd1|return_state.rst                        ;
+; 20:1               ; 7 bits    ; 91 LEs        ; 21 LEs               ; 70 LEs                 ; No         ; |Microcomputer|sd_controller:sd1|Selector96                              ;
+; 21:1               ; 9 bits    ; 126 LEs       ; 9 LEs                ; 117 LEs                ; No         ; |Microcomputer|SBCTextDisplayRGB:io2|dispState                           ;
+; 23:1               ; 2 bits    ; 30 LEs        ; 4 LEs                ; 26 LEs                 ; No         ; |Microcomputer|SBCTextDisplayRGB:io2|escState.processingParams           ;
+; 23:1               ; 2 bits    ; 30 LEs        ; 6 LEs                ; 24 LEs                 ; No         ; |Microcomputer|SBCTextDisplayRGB:io2|escState.processingAdditionalParams ;
+; 23:1               ; 2 bits    ; 30 LEs        ; 10 LEs               ; 20 LEs                 ; No         ; |Microcomputer|sd_controller:sd1|Selector92                              ;
++--------------------+-----------+---------------+----------------------+------------------------+------------+--------------------------------------------------------------------------+
 
 
 +--------------------------------------------------------------------------------------------------------------+
@@ -715,13 +718,13 @@ Encoding Type:  One-Hot
 +---------------------------------+--------------------+------+------------------------------------------------+
 
 
-+----------------------------------------------------------------------------------------------------------------------------------------------------------+
-; Source assignments for SBCTextDisplayRGB:io2|CGABoldRomReduced:\GEN_REDUCED_CHARS:fontRom|altsyncram:altsyncram_component|altsyncram_h8b1:auto_generated ;
-+---------------------------------+--------------------+------+--------------------------------------------------------------------------------------------+
-; Assignment                      ; Value              ; From ; To                                                                                         ;
-+---------------------------------+--------------------+------+--------------------------------------------------------------------------------------------+
-; OPTIMIZE_POWER_DURING_SYNTHESIS ; NORMAL_COMPILATION ; -    ; -                                                                                          ;
-+---------------------------------+--------------------+------+--------------------------------------------------------------------------------------------+
++------------------------------------------------------------------------------------------------------------------------------------------------------------+
+; Source assignments for SBCTextDisplayRGB:io2|SansBoldRomReduced:\GEN_REDUCED_SCHARS:fontRom|altsyncram:altsyncram_component|altsyncram_g891:auto_generated ;
++---------------------------------+--------------------+------+----------------------------------------------------------------------------------------------+
+; Assignment                      ; Value              ; From ; To                                                                                           ;
++---------------------------------+--------------------+------+----------------------------------------------------------------------------------------------+
+; OPTIMIZE_POWER_DURING_SYNTHESIS ; NORMAL_COMPILATION ; -    ; -                                                                                            ;
++---------------------------------+--------------------+------+----------------------------------------------------------------------------------------------+
 
 
 +-------------------------------------------------------------------------------------------------------------------------------------------------+
@@ -881,7 +884,7 @@ Note: In order to hide this table in the UI and the text report file, please set
 ; horiz_chars          ; 80       ; Signed Integer                   ;
 ; clocks_per_scanline  ; 1600     ; Signed Integer                   ;
 ; display_top_scanline ; 75       ; Signed Integer                   ;
-; display_left_clock   ; 296      ; Signed Integer                   ;
+; display_left_clock   ; 298      ; Signed Integer                   ;
 ; vert_scanlines       ; 525      ; Signed Integer                   ;
 ; vsync_scanlines      ; 2        ; Signed Integer                   ;
 ; hsync_clocks         ; 192      ; Signed Integer                   ;
@@ -891,68 +894,69 @@ Note: In order to hide this table in the UI and the text report file, please set
 ; v_sync_active        ; '0'      ; Enumerated                       ;
 ; default_att          ; 00001111 ; Unsigned Binary                  ;
 ; ansi_default_att     ; 00000111 ; Unsigned Binary                  ;
+; sans_serif_font      ; 1        ; Signed Integer                   ;
 +----------------------+----------+----------------------------------+
 Note: In order to hide this table in the UI and the text report file, please set the "Show Parameter Settings in Synthesis Report" option in "Analysis and Synthesis Settings -> More Settings" to "Off".
 
 
-+-------------------------------------------------------------------------------------------------------------------------------------------------+
-; Parameter Settings for User Entity Instance: SBCTextDisplayRGB:io2|CGABoldRomReduced:\GEN_REDUCED_CHARS:fontRom|altsyncram:altsyncram_component ;
-+------------------------------------+-----------------------------------------------+------------------------------------------------------------+
-; Parameter Name                     ; Value                                         ; Type                                                       ;
-+------------------------------------+-----------------------------------------------+------------------------------------------------------------+
-; BYTE_SIZE_BLOCK                    ; 8                                             ; Untyped                                                    ;
-; AUTO_CARRY_CHAINS                  ; ON                                            ; AUTO_CARRY                                                 ;
-; IGNORE_CARRY_BUFFERS               ; OFF                                           ; IGNORE_CARRY                                               ;
-; AUTO_CASCADE_CHAINS                ; ON                                            ; AUTO_CASCADE                                               ;
-; IGNORE_CASCADE_BUFFERS             ; OFF                                           ; IGNORE_CASCADE                                             ;
-; WIDTH_BYTEENA                      ; 1                                             ; Untyped                                                    ;
-; OPERATION_MODE                     ; ROM                                           ; Untyped                                                    ;
-; WIDTH_A                            ; 8                                             ; Signed Integer                                             ;
-; WIDTHAD_A                          ; 10                                            ; Signed Integer                                             ;
-; NUMWORDS_A                         ; 1024                                          ; Signed Integer                                             ;
-; OUTDATA_REG_A                      ; UNREGISTERED                                  ; Untyped                                                    ;
-; ADDRESS_ACLR_A                     ; NONE                                          ; Untyped                                                    ;
-; OUTDATA_ACLR_A                     ; NONE                                          ; Untyped                                                    ;
-; WRCONTROL_ACLR_A                   ; NONE                                          ; Untyped                                                    ;
-; INDATA_ACLR_A                      ; NONE                                          ; Untyped                                                    ;
-; BYTEENA_ACLR_A                     ; NONE                                          ; Untyped                                                    ;
-; WIDTH_B                            ; 1                                             ; Untyped                                                    ;
-; WIDTHAD_B                          ; 1                                             ; Untyped                                                    ;
-; NUMWORDS_B                         ; 1                                             ; Untyped                                                    ;
-; INDATA_REG_B                       ; CLOCK1                                        ; Untyped                                                    ;
-; WRCONTROL_WRADDRESS_REG_B          ; CLOCK1                                        ; Untyped                                                    ;
-; RDCONTROL_REG_B                    ; CLOCK1                                        ; Untyped                                                    ;
-; ADDRESS_REG_B                      ; CLOCK1                                        ; Untyped                                                    ;
-; OUTDATA_REG_B                      ; UNREGISTERED                                  ; Untyped                                                    ;
-; BYTEENA_REG_B                      ; CLOCK1                                        ; Untyped                                                    ;
-; INDATA_ACLR_B                      ; NONE                                          ; Untyped                                                    ;
-; WRCONTROL_ACLR_B                   ; NONE                                          ; Untyped                                                    ;
-; ADDRESS_ACLR_B                     ; NONE                                          ; Untyped                                                    ;
-; OUTDATA_ACLR_B                     ; NONE                                          ; Untyped                                                    ;
-; RDCONTROL_ACLR_B                   ; NONE                                          ; Untyped                                                    ;
-; BYTEENA_ACLR_B                     ; NONE                                          ; Untyped                                                    ;
-; WIDTH_BYTEENA_A                    ; 1                                             ; Signed Integer                                             ;
-; WIDTH_BYTEENA_B                    ; 1                                             ; Untyped                                                    ;
-; RAM_BLOCK_TYPE                     ; AUTO                                          ; Untyped                                                    ;
-; BYTE_SIZE                          ; 8                                             ; Untyped                                                    ;
-; READ_DURING_WRITE_MODE_MIXED_PORTS ; DONT_CARE                                     ; Untyped                                                    ;
-; READ_DURING_WRITE_MODE_PORT_A      ; NEW_DATA_NO_NBE_READ                          ; Untyped                                                    ;
-; READ_DURING_WRITE_MODE_PORT_B      ; NEW_DATA_NO_NBE_READ                          ; Untyped                                                    ;
-; INIT_FILE                          ; ../Components/TERMINAL/CGAFontBoldReduced.HEX ; Untyped                                                    ;
-; INIT_FILE_LAYOUT                   ; PORT_A                                        ; Untyped                                                    ;
-; MAXIMUM_DEPTH                      ; 0                                             ; Untyped                                                    ;
-; CLOCK_ENABLE_INPUT_A               ; BYPASS                                        ; Untyped                                                    ;
-; CLOCK_ENABLE_INPUT_B               ; NORMAL                                        ; Untyped                                                    ;
-; CLOCK_ENABLE_OUTPUT_A              ; BYPASS                                        ; Untyped                                                    ;
-; CLOCK_ENABLE_OUTPUT_B              ; NORMAL                                        ; Untyped                                                    ;
-; CLOCK_ENABLE_CORE_A                ; USE_INPUT_CLKEN                               ; Untyped                                                    ;
-; CLOCK_ENABLE_CORE_B                ; USE_INPUT_CLKEN                               ; Untyped                                                    ;
-; ENABLE_ECC                         ; FALSE                                         ; Untyped                                                    ;
-; ECC_PIPELINE_STAGE_ENABLED         ; FALSE                                         ; Untyped                                                    ;
-; WIDTH_ECCSTATUS                    ; 3                                             ; Untyped                                                    ;
-; DEVICE_FAMILY                      ; Cyclone II                                    ; Untyped                                                    ;
-; CBXI_PARAMETER                     ; altsyncram_h8b1                               ; Untyped                                                    ;
-+------------------------------------+-----------------------------------------------+------------------------------------------------------------+
++---------------------------------------------------------------------------------------------------------------------------------------------------+
+; Parameter Settings for User Entity Instance: SBCTextDisplayRGB:io2|SansBoldRomReduced:\GEN_REDUCED_SCHARS:fontRom|altsyncram:altsyncram_component ;
++------------------------------------+-------------------------+------------------------------------------------------------------------------------+
+; Parameter Name                     ; Value                   ; Type                                                                               ;
++------------------------------------+-------------------------+------------------------------------------------------------------------------------+
+; BYTE_SIZE_BLOCK                    ; 8                       ; Untyped                                                                            ;
+; AUTO_CARRY_CHAINS                  ; ON                      ; AUTO_CARRY                                                                         ;
+; IGNORE_CARRY_BUFFERS               ; OFF                     ; IGNORE_CARRY                                                                       ;
+; AUTO_CASCADE_CHAINS                ; ON                      ; AUTO_CASCADE                                                                       ;
+; IGNORE_CASCADE_BUFFERS             ; OFF                     ; IGNORE_CASCADE                                                                     ;
+; WIDTH_BYTEENA                      ; 1                       ; Untyped                                                                            ;
+; OPERATION_MODE                     ; ROM                     ; Untyped                                                                            ;
+; WIDTH_A                            ; 8                       ; Signed Integer                                                                     ;
+; WIDTHAD_A                          ; 10                      ; Signed Integer                                                                     ;
+; NUMWORDS_A                         ; 1024                    ; Signed Integer                                                                     ;
+; OUTDATA_REG_A                      ; UNREGISTERED            ; Untyped                                                                            ;
+; ADDRESS_ACLR_A                     ; NONE                    ; Untyped                                                                            ;
+; OUTDATA_ACLR_A                     ; NONE                    ; Untyped                                                                            ;
+; WRCONTROL_ACLR_A                   ; NONE                    ; Untyped                                                                            ;
+; INDATA_ACLR_A                      ; NONE                    ; Untyped                                                                            ;
+; BYTEENA_ACLR_A                     ; NONE                    ; Untyped                                                                            ;
+; WIDTH_B                            ; 1                       ; Untyped                                                                            ;
+; WIDTHAD_B                          ; 1                       ; Untyped                                                                            ;
+; NUMWORDS_B                         ; 1                       ; Untyped                                                                            ;
+; INDATA_REG_B                       ; CLOCK1                  ; Untyped                                                                            ;
+; WRCONTROL_WRADDRESS_REG_B          ; CLOCK1                  ; Untyped                                                                            ;
+; RDCONTROL_REG_B                    ; CLOCK1                  ; Untyped                                                                            ;
+; ADDRESS_REG_B                      ; CLOCK1                  ; Untyped                                                                            ;
+; OUTDATA_REG_B                      ; UNREGISTERED            ; Untyped                                                                            ;
+; BYTEENA_REG_B                      ; CLOCK1                  ; Untyped                                                                            ;
+; INDATA_ACLR_B                      ; NONE                    ; Untyped                                                                            ;
+; WRCONTROL_ACLR_B                   ; NONE                    ; Untyped                                                                            ;
+; ADDRESS_ACLR_B                     ; NONE                    ; Untyped                                                                            ;
+; OUTDATA_ACLR_B                     ; NONE                    ; Untyped                                                                            ;
+; RDCONTROL_ACLR_B                   ; NONE                    ; Untyped                                                                            ;
+; BYTEENA_ACLR_B                     ; NONE                    ; Untyped                                                                            ;
+; WIDTH_BYTEENA_A                    ; 1                       ; Signed Integer                                                                     ;
+; WIDTH_BYTEENA_B                    ; 1                       ; Untyped                                                                            ;
+; RAM_BLOCK_TYPE                     ; AUTO                    ; Untyped                                                                            ;
+; BYTE_SIZE                          ; 8                       ; Untyped                                                                            ;
+; READ_DURING_WRITE_MODE_MIXED_PORTS ; DONT_CARE               ; Untyped                                                                            ;
+; READ_DURING_WRITE_MODE_PORT_A      ; NEW_DATA_NO_NBE_READ    ; Untyped                                                                            ;
+; READ_DURING_WRITE_MODE_PORT_B      ; NEW_DATA_NO_NBE_READ    ; Untyped                                                                            ;
+; INIT_FILE                          ; SansFontBoldReduced.HEX ; Untyped                                                                            ;
+; INIT_FILE_LAYOUT                   ; PORT_A                  ; Untyped                                                                            ;
+; MAXIMUM_DEPTH                      ; 0                       ; Untyped                                                                            ;
+; CLOCK_ENABLE_INPUT_A               ; BYPASS                  ; Untyped                                                                            ;
+; CLOCK_ENABLE_INPUT_B               ; NORMAL                  ; Untyped                                                                            ;
+; CLOCK_ENABLE_OUTPUT_A              ; BYPASS                  ; Untyped                                                                            ;
+; CLOCK_ENABLE_OUTPUT_B              ; NORMAL                  ; Untyped                                                                            ;
+; CLOCK_ENABLE_CORE_A                ; USE_INPUT_CLKEN         ; Untyped                                                                            ;
+; CLOCK_ENABLE_CORE_B                ; USE_INPUT_CLKEN         ; Untyped                                                                            ;
+; ENABLE_ECC                         ; FALSE                   ; Untyped                                                                            ;
+; ECC_PIPELINE_STAGE_ENABLED         ; FALSE                   ; Untyped                                                                            ;
+; WIDTH_ECCSTATUS                    ; 3                       ; Untyped                                                                            ;
+; DEVICE_FAMILY                      ; Cyclone II              ; Untyped                                                                            ;
+; CBXI_PARAMETER                     ; altsyncram_g891         ; Untyped                                                                            ;
++------------------------------------+-------------------------+------------------------------------------------------------------------------------+
 Note: In order to hide this table in the UI and the text report file, please set the "Show Parameter Settings in Synthesis Report" option in "Analysis and Synthesis Settings -> More Settings" to "Off".
 
 
@@ -1134,57 +1138,57 @@ Note: In order to hide this table in the UI and the text report file, please set
 Note: In order to hide this table in the UI and the text report file, please set the "Show Parameter Settings in Synthesis Report" option in "Analysis and Synthesis Settings -> More Settings" to "Off".
 
 
-+------------------------------------------------------------------------------------------------------------------------------------------------+
-; altsyncram Parameter Settings by Entity Instance                                                                                               ;
-+-------------------------------------------+----------------------------------------------------------------------------------------------------+
-; Name                                      ; Value                                                                                              ;
-+-------------------------------------------+----------------------------------------------------------------------------------------------------+
-; Number of entity instances                ; 4                                                                                                  ;
-; Entity Instance                           ; Z80_CPM_BASIC_ROM:rom1|altsyncram:altsyncram_component                                             ;
-;     -- OPERATION_MODE                     ; ROM                                                                                                ;
-;     -- WIDTH_A                            ; 8                                                                                                  ;
-;     -- NUMWORDS_A                         ; 8192                                                                                               ;
-;     -- OUTDATA_REG_A                      ; UNREGISTERED                                                                                       ;
-;     -- WIDTH_B                            ; 1                                                                                                  ;
-;     -- NUMWORDS_B                         ; 1                                                                                                  ;
-;     -- ADDRESS_REG_B                      ; CLOCK1                                                                                             ;
-;     -- OUTDATA_REG_B                      ; UNREGISTERED                                                                                       ;
-;     -- RAM_BLOCK_TYPE                     ; AUTO                                                                                               ;
-;     -- READ_DURING_WRITE_MODE_MIXED_PORTS ; DONT_CARE                                                                                          ;
-; Entity Instance                           ; SBCTextDisplayRGB:io2|CGABoldRomReduced:\GEN_REDUCED_CHARS:fontRom|altsyncram:altsyncram_component ;
-;     -- OPERATION_MODE                     ; ROM                                                                                                ;
-;     -- WIDTH_A                            ; 8                                                                                                  ;
-;     -- NUMWORDS_A                         ; 1024                                                                                               ;
-;     -- OUTDATA_REG_A                      ; UNREGISTERED                                                                                       ;
-;     -- WIDTH_B                            ; 1                                                                                                  ;
-;     -- NUMWORDS_B                         ; 1                                                                                                  ;
-;     -- ADDRESS_REG_B                      ; CLOCK1                                                                                             ;
-;     -- OUTDATA_REG_B                      ; UNREGISTERED                                                                                       ;
-;     -- RAM_BLOCK_TYPE                     ; AUTO                                                                                               ;
-;     -- READ_DURING_WRITE_MODE_MIXED_PORTS ; DONT_CARE                                                                                          ;
-; Entity Instance                           ; SBCTextDisplayRGB:io2|DisplayRam2K:\GEN_2KRAM:dispCharRam|altsyncram:altsyncram_component          ;
-;     -- OPERATION_MODE                     ; BIDIR_DUAL_PORT                                                                                    ;
-;     -- WIDTH_A                            ; 8                                                                                                  ;
-;     -- NUMWORDS_A                         ; 2048                                                                                               ;
-;     -- OUTDATA_REG_A                      ; UNREGISTERED                                                                                       ;
-;     -- WIDTH_B                            ; 8                                                                                                  ;
-;     -- NUMWORDS_B                         ; 2048                                                                                               ;
-;     -- ADDRESS_REG_B                      ; CLOCK0                                                                                             ;
-;     -- OUTDATA_REG_B                      ; UNREGISTERED                                                                                       ;
-;     -- RAM_BLOCK_TYPE                     ; AUTO                                                                                               ;
-;     -- READ_DURING_WRITE_MODE_MIXED_PORTS ; DONT_CARE                                                                                          ;
-; Entity Instance                           ; SBCTextDisplayRGB:io2|DisplayRam2K:\GEN_2KATTRAM:dispAttRam|altsyncram:altsyncram_component        ;
-;     -- OPERATION_MODE                     ; BIDIR_DUAL_PORT                                                                                    ;
-;     -- WIDTH_A                            ; 8                                                                                                  ;
-;     -- NUMWORDS_A                         ; 2048                                                                                               ;
-;     -- OUTDATA_REG_A                      ; UNREGISTERED                                                                                       ;
-;     -- WIDTH_B                            ; 8                                                                                                  ;
-;     -- NUMWORDS_B                         ; 2048                                                                                               ;
-;     -- ADDRESS_REG_B                      ; CLOCK0                                                                                             ;
-;     -- OUTDATA_REG_B                      ; UNREGISTERED                                                                                       ;
-;     -- RAM_BLOCK_TYPE                     ; AUTO                                                                                               ;
-;     -- READ_DURING_WRITE_MODE_MIXED_PORTS ; DONT_CARE                                                                                          ;
-+-------------------------------------------+----------------------------------------------------------------------------------------------------+
++--------------------------------------------------------------------------------------------------------------------------------------------------+
+; altsyncram Parameter Settings by Entity Instance                                                                                                 ;
++-------------------------------------------+------------------------------------------------------------------------------------------------------+
+; Name                                      ; Value                                                                                                ;
++-------------------------------------------+------------------------------------------------------------------------------------------------------+
+; Number of entity instances                ; 4                                                                                                    ;
+; Entity Instance                           ; Z80_CPM_BASIC_ROM:rom1|altsyncram:altsyncram_component                                               ;
+;     -- OPERATION_MODE                     ; ROM                                                                                                  ;
+;     -- WIDTH_A                            ; 8                                                                                                    ;
+;     -- NUMWORDS_A                         ; 8192                                                                                                 ;
+;     -- OUTDATA_REG_A                      ; UNREGISTERED                                                                                         ;
+;     -- WIDTH_B                            ; 1                                                                                                    ;
+;     -- NUMWORDS_B                         ; 1                                                                                                    ;
+;     -- ADDRESS_REG_B                      ; CLOCK1                                                                                               ;
+;     -- OUTDATA_REG_B                      ; UNREGISTERED                                                                                         ;
+;     -- RAM_BLOCK_TYPE                     ; AUTO                                                                                                 ;
+;     -- READ_DURING_WRITE_MODE_MIXED_PORTS ; DONT_CARE                                                                                            ;
+; Entity Instance                           ; SBCTextDisplayRGB:io2|SansBoldRomReduced:\GEN_REDUCED_SCHARS:fontRom|altsyncram:altsyncram_component ;
+;     -- OPERATION_MODE                     ; ROM                                                                                                  ;
+;     -- WIDTH_A                            ; 8                                                                                                    ;
+;     -- NUMWORDS_A                         ; 1024                                                                                                 ;
+;     -- OUTDATA_REG_A                      ; UNREGISTERED                                                                                         ;
+;     -- WIDTH_B                            ; 1                                                                                                    ;
+;     -- NUMWORDS_B                         ; 1                                                                                                    ;
+;     -- ADDRESS_REG_B                      ; CLOCK1                                                                                               ;
+;     -- OUTDATA_REG_B                      ; UNREGISTERED                                                                                         ;
+;     -- RAM_BLOCK_TYPE                     ; AUTO                                                                                                 ;
+;     -- READ_DURING_WRITE_MODE_MIXED_PORTS ; DONT_CARE                                                                                            ;
+; Entity Instance                           ; SBCTextDisplayRGB:io2|DisplayRam2K:\GEN_2KRAM:dispCharRam|altsyncram:altsyncram_component            ;
+;     -- OPERATION_MODE                     ; BIDIR_DUAL_PORT                                                                                      ;
+;     -- WIDTH_A                            ; 8                                                                                                    ;
+;     -- NUMWORDS_A                         ; 2048                                                                                                 ;
+;     -- OUTDATA_REG_A                      ; UNREGISTERED                                                                                         ;
+;     -- WIDTH_B                            ; 8                                                                                                    ;
+;     -- NUMWORDS_B                         ; 2048                                                                                                 ;
+;     -- ADDRESS_REG_B                      ; CLOCK0                                                                                               ;
+;     -- OUTDATA_REG_B                      ; UNREGISTERED                                                                                         ;
+;     -- RAM_BLOCK_TYPE                     ; AUTO                                                                                                 ;
+;     -- READ_DURING_WRITE_MODE_MIXED_PORTS ; DONT_CARE                                                                                            ;
+; Entity Instance                           ; SBCTextDisplayRGB:io2|DisplayRam2K:\GEN_2KATTRAM:dispAttRam|altsyncram:altsyncram_component          ;
+;     -- OPERATION_MODE                     ; BIDIR_DUAL_PORT                                                                                      ;
+;     -- WIDTH_A                            ; 8                                                                                                    ;
+;     -- NUMWORDS_A                         ; 2048                                                                                                 ;
+;     -- OUTDATA_REG_A                      ; UNREGISTERED                                                                                         ;
+;     -- WIDTH_B                            ; 8                                                                                                    ;
+;     -- NUMWORDS_B                         ; 2048                                                                                                 ;
+;     -- ADDRESS_REG_B                      ; CLOCK0                                                                                               ;
+;     -- OUTDATA_REG_B                      ; UNREGISTERED                                                                                         ;
+;     -- RAM_BLOCK_TYPE                     ; AUTO                                                                                                 ;
+;     -- READ_DURING_WRITE_MODE_MIXED_PORTS ; DONT_CARE                                                                                            ;
++-------------------------------------------+------------------------------------------------------------------------------------------------------+
 
 
 +-----------------------------------------------------------------------------------------+
@@ -1263,7 +1267,7 @@ Note: In order to hide this table in the UI and the text report file, please set
 +----------------+--------------+
 ; Partition Name ; Elapsed Time ;
 +----------------+--------------+
-; Top            ; 00:00:27     ;
+; Top            ; 00:00:23     ;
 +----------------+--------------+
 
 
@@ -1273,72 +1277,67 @@ Note: In order to hide this table in the UI and the text report file, please set
 Info: *******************************************************************
 Info: Running Quartus II 64-Bit Analysis & Synthesis
     Info: Version 13.0.1 Build 232 06/12/2013 Service Pack 1 SJ Web Edition
-    Info: Processing started: Thu Apr 27 16:29:32 2017
+    Info: Processing started: Wed Oct 23 14:56:06 2019
 Info: Command: quartus_map --read_settings_files=on --write_settings_files=off Microcomputer -c Microcomputer
 Warning (20028): Parallel compilation is not licensed and has been disabled
-Info (12021): Found 2 design units, including 1 entities, in source file /users/dgilliland/documents/github/multicomp/z80-cpm-vga-ps2-extram/components/io/outlatch.vhd
+Info (12021): Found 2 design units, including 1 entities, in source file /users/hpz420/documents/github/doug gilliland/multicomp/multicomp (vhdl template)/components/terminal/sansboldromreduced.vhd
+    Info (12022): Found design unit 1: sansboldromreduced-SYN
+    Info (12023): Found entity 1: SansBoldRomReduced
+Info (12021): Found 2 design units, including 1 entities, in source file /users/hpz420/documents/github/doug gilliland/multicomp/multicomp (vhdl template)/components/terminal/sansboldrom.vhd
+    Info (12022): Found design unit 1: sansboldrom-SYN
+    Info (12023): Found entity 1: SansBoldRom
+Info (12021): Found 2 design units, including 1 entities, in source file /users/hpz420/documents/github/doug gilliland/multicomp/multicomp_on_ep2c5/z80-cpm-vga-ps2-extram/components/io/outlatch.vhd
     Info (12022): Found design unit 1: OUT_LATCH-behv
     Info (12023): Found entity 1: OUT_LATCH
 Info (12021): Found 2 design units, including 1 entities, in source file microcomputer.vhd
     Info (12022): Found design unit 1: Microcomputer-struct
     Info (12023): Found entity 1: Microcomputer
-Info (12021): Found 2 design units, including 1 entities, in source file internalram1k.vhd
-    Info (12022): Found design unit 1: internalram1k-SYN
-    Info (12023): Found entity 1: InternalRam1K
-Info (12021): Found 2 design units, including 1 entities, in source file internalram2k.vhd
-    Info (12022): Found design unit 1: internalram2k-SYN
-    Info (12023): Found entity 1: InternalRam2K
-Info (12021): Found 2 design units, including 1 entities, in source file internalram4k.vhd
-    Info (12022): Found design unit 1: internalram4k-SYN
-    Info (12023): Found entity 1: InternalRam4K
-Info (12021): Found 2 design units, including 1 entities, in source file /users/dgilliland/documents/github/multicomp/z80-cpm-vga-ps2-extram/components/z80/t80s.vhd
+Info (12021): Found 2 design units, including 1 entities, in source file /users/hpz420/documents/github/doug gilliland/multicomp/multicomp_on_ep2c5/z80-cpm-vga-ps2-extram/components/z80/t80s.vhd
     Info (12022): Found design unit 1: T80s-rtl
     Info (12023): Found entity 1: T80s
-Info (12021): Found 2 design units, including 1 entities, in source file /users/dgilliland/documents/github/multicomp/z80-cpm-vga-ps2-extram/components/z80/t80_reg.vhd
+Info (12021): Found 2 design units, including 1 entities, in source file /users/hpz420/documents/github/doug gilliland/multicomp/multicomp_on_ep2c5/z80-cpm-vga-ps2-extram/components/z80/t80_reg.vhd
     Info (12022): Found design unit 1: T80_Reg-rtl
     Info (12023): Found entity 1: T80_Reg
-Info (12021): Found 1 design units, including 0 entities, in source file /users/dgilliland/documents/github/multicomp/z80-cpm-vga-ps2-extram/components/z80/t80_pack.vhd
+Info (12021): Found 1 design units, including 0 entities, in source file /users/hpz420/documents/github/doug gilliland/multicomp/multicomp_on_ep2c5/z80-cpm-vga-ps2-extram/components/z80/t80_pack.vhd
     Info (12022): Found design unit 1: T80_Pack
-Info (12021): Found 2 design units, including 1 entities, in source file /users/dgilliland/documents/github/multicomp/z80-cpm-vga-ps2-extram/components/z80/t80_mcode.vhd
+Info (12021): Found 2 design units, including 1 entities, in source file /users/hpz420/documents/github/doug gilliland/multicomp/multicomp_on_ep2c5/z80-cpm-vga-ps2-extram/components/z80/t80_mcode.vhd
     Info (12022): Found design unit 1: T80_MCode-rtl
     Info (12023): Found entity 1: T80_MCode
-Info (12021): Found 2 design units, including 1 entities, in source file /users/dgilliland/documents/github/multicomp/z80-cpm-vga-ps2-extram/components/z80/t80_alu.vhd
+Info (12021): Found 2 design units, including 1 entities, in source file /users/hpz420/documents/github/doug gilliland/multicomp/multicomp_on_ep2c5/z80-cpm-vga-ps2-extram/components/z80/t80_alu.vhd
     Info (12022): Found design unit 1: T80_ALU-rtl
     Info (12023): Found entity 1: T80_ALU
-Info (12021): Found 2 design units, including 1 entities, in source file /users/dgilliland/documents/github/multicomp/z80-cpm-vga-ps2-extram/components/z80/t80.vhd
+Info (12021): Found 2 design units, including 1 entities, in source file /users/hpz420/documents/github/doug gilliland/multicomp/multicomp_on_ep2c5/z80-cpm-vga-ps2-extram/components/z80/t80.vhd
     Info (12022): Found design unit 1: T80-rtl
     Info (12023): Found entity 1: T80
-Info (12021): Found 2 design units, including 1 entities, in source file /users/dgilliland/documents/github/multicomp/z80-cpm-vga-ps2-extram/components/sdcard/sd_controller.vhd
+Info (12021): Found 2 design units, including 1 entities, in source file /users/hpz420/documents/github/doug gilliland/multicomp/multicomp_on_ep2c5/z80-cpm-vga-ps2-extram/components/sdcard/sd_controller.vhd
     Info (12022): Found design unit 1: sd_controller-rtl
     Info (12023): Found entity 1: sd_controller
-Info (12021): Found 2 design units, including 1 entities, in source file /users/dgilliland/documents/github/multicomp/z80-cpm-vga-ps2-extram/components/terminal/sbctextdisplayrgb.vhd
+Info (12021): Found 2 design units, including 1 entities, in source file /users/hpz420/documents/github/doug gilliland/multicomp/multicomp_on_ep2c5/z80-cpm-vga-ps2-extram/components/terminal/sbctextdisplayrgb.vhd
     Info (12022): Found design unit 1: SBCTextDisplayRGB-rtl
     Info (12023): Found entity 1: SBCTextDisplayRGB
-Info (12021): Found 2 design units, including 1 entities, in source file /users/dgilliland/documents/github/multicomp/z80-cpm-vga-ps2-extram/components/terminal/cgaboldrom.vhd
+Info (12021): Found 2 design units, including 1 entities, in source file /users/hpz420/documents/github/doug gilliland/multicomp/multicomp_on_ep2c5/z80-cpm-vga-ps2-extram/components/terminal/cgaboldrom.vhd
     Info (12022): Found design unit 1: cgaboldrom-SYN
     Info (12023): Found entity 1: CGABoldRom
-Info (12021): Found 2 design units, including 1 entities, in source file /users/dgilliland/documents/github/multicomp/z80-cpm-vga-ps2-extram/components/terminal/displayram1k.vhd
+Info (12021): Found 2 design units, including 1 entities, in source file /users/hpz420/documents/github/doug gilliland/multicomp/multicomp_on_ep2c5/z80-cpm-vga-ps2-extram/components/terminal/displayram1k.vhd
     Info (12022): Found design unit 1: displayram1k-SYN
     Info (12023): Found entity 1: DisplayRam1K
-Info (12021): Found 2 design units, including 1 entities, in source file /users/dgilliland/documents/github/multicomp/z80-cpm-vga-ps2-extram/components/terminal/displayram2k.vhd
+Info (12021): Found 2 design units, including 1 entities, in source file /users/hpz420/documents/github/doug gilliland/multicomp/multicomp_on_ep2c5/z80-cpm-vga-ps2-extram/components/terminal/displayram2k.vhd
     Info (12022): Found design unit 1: displayram2k-SYN
     Info (12023): Found entity 1: DisplayRam2K
-Info (12021): Found 2 design units, including 1 entities, in source file /users/dgilliland/documents/github/multicomp/z80-cpm-vga-ps2-extram/components/terminal/cgaboldromreduced.vhd
+Info (12021): Found 2 design units, including 1 entities, in source file /users/hpz420/documents/github/doug gilliland/multicomp/multicomp_on_ep2c5/z80-cpm-vga-ps2-extram/components/terminal/cgaboldromreduced.vhd
     Info (12022): Found design unit 1: cgaboldromreduced-SYN
     Info (12023): Found entity 1: CGABoldRomReduced
-Info (12021): Found 2 design units, including 1 entities, in source file /users/dgilliland/documents/github/multicomp/z80-cpm-vga-ps2-extram/components/uart/buffereduart.vhd
+Info (12021): Found 2 design units, including 1 entities, in source file /users/hpz420/documents/github/doug gilliland/multicomp/multicomp_on_ep2c5/z80-cpm-vga-ps2-extram/components/uart/buffereduart.vhd
     Info (12022): Found design unit 1: bufferedUART-rtl
     Info (12023): Found entity 1: bufferedUART
-Info (12021): Found 2 design units, including 1 entities, in source file /users/dgilliland/documents/github/multicomp/z80-cpm-vga-ps2-extram/roms/z80/z80_cpm_basic_rom.vhd
+Info (12021): Found 2 design units, including 1 entities, in source file /users/hpz420/documents/github/doug gilliland/multicomp/multicomp_on_ep2c5/z80-cpm-vga-ps2-extram/roms/z80/z80_cpm_basic_rom.vhd
     Info (12022): Found design unit 1: z80_cpm_basic_rom-SYN
     Info (12023): Found entity 1: Z80_CPM_BASIC_ROM
 Info (12127): Elaborating entity "Microcomputer" for the top level hierarchy
 Warning (10541): VHDL Signal Declaration warning at Microcomputer.vhd(28): used implicit default value for signal "txd2" because signal was never assigned a value or an explicit default value. Use of implicit default value may introduce unintended design optimizations.
 Warning (10541): VHDL Signal Declaration warning at Microcomputer.vhd(29): used implicit default value for signal "rts2" because signal was never assigned a value or an explicit default value. Use of implicit default value may introduce unintended design optimizations.
-Warning (10541): VHDL Signal Declaration warning at Microcomputer.vhd(66): used implicit default value for signal "internalRam1DataOut" because signal was never assigned a value or an explicit default value. Use of implicit default value may introduce unintended design optimizations.
 Warning (10036): Verilog HDL or VHDL warning at Microcomputer.vhd(81): object "n_int1" assigned a value but never read
 Warning (10036): Verilog HDL or VHDL warning at Microcomputer.vhd(82): object "n_int2" assigned a value but never read
-Warning (10540): VHDL Signal Declaration warning at Microcomputer.vhd(85): used explicit default value for signal "n_internalRam1CS" because signal was never assigned a value
 Info (12128): Elaborating entity "T80s" for hierarchy "T80s:cpu1"
 Info (12128): Elaborating entity "T80" for hierarchy "T80s:cpu1|T80:u0"
 Info (12128): Elaborating entity "T80_MCode" for hierarchy "T80s:cpu1|T80:u0|T80_MCode:mcode"
@@ -1372,13 +1371,13 @@ Info (12021): Found 1 design units, including 1 entities, in source file db/mux_
 Info (12128): Elaborating entity "mux_hib" for hierarchy "Z80_CPM_BASIC_ROM:rom1|altsyncram:altsyncram_component|altsyncram_4391:auto_generated|mux_hib:mux2"
 Info (12128): Elaborating entity "bufferedUART" for hierarchy "bufferedUART:io1"
 Info (12128): Elaborating entity "SBCTextDisplayRGB" for hierarchy "SBCTextDisplayRGB:io2"
-Info (12128): Elaborating entity "CGABoldRomReduced" for hierarchy "SBCTextDisplayRGB:io2|CGABoldRomReduced:\GEN_REDUCED_CHARS:fontRom"
-Info (12128): Elaborating entity "altsyncram" for hierarchy "SBCTextDisplayRGB:io2|CGABoldRomReduced:\GEN_REDUCED_CHARS:fontRom|altsyncram:altsyncram_component"
-Info (12130): Elaborated megafunction instantiation "SBCTextDisplayRGB:io2|CGABoldRomReduced:\GEN_REDUCED_CHARS:fontRom|altsyncram:altsyncram_component"
-Info (12133): Instantiated megafunction "SBCTextDisplayRGB:io2|CGABoldRomReduced:\GEN_REDUCED_CHARS:fontRom|altsyncram:altsyncram_component" with the following parameter:
+Info (12128): Elaborating entity "SansBoldRomReduced" for hierarchy "SBCTextDisplayRGB:io2|SansBoldRomReduced:\GEN_REDUCED_SCHARS:fontRom"
+Info (12128): Elaborating entity "altsyncram" for hierarchy "SBCTextDisplayRGB:io2|SansBoldRomReduced:\GEN_REDUCED_SCHARS:fontRom|altsyncram:altsyncram_component"
+Info (12130): Elaborated megafunction instantiation "SBCTextDisplayRGB:io2|SansBoldRomReduced:\GEN_REDUCED_SCHARS:fontRom|altsyncram:altsyncram_component"
+Info (12133): Instantiated megafunction "SBCTextDisplayRGB:io2|SansBoldRomReduced:\GEN_REDUCED_SCHARS:fontRom|altsyncram:altsyncram_component" with the following parameter:
     Info (12134): Parameter "clock_enable_input_a" = "BYPASS"
     Info (12134): Parameter "clock_enable_output_a" = "BYPASS"
-    Info (12134): Parameter "init_file" = "../Components/TERMINAL/CGAFontBoldReduced.HEX"
+    Info (12134): Parameter "init_file" = "SansFontBoldReduced.HEX"
     Info (12134): Parameter "intended_device_family" = "Cyclone II"
     Info (12134): Parameter "lpm_hint" = "ENABLE_RUNTIME_MOD=NO"
     Info (12134): Parameter "lpm_type" = "altsyncram"
@@ -1389,9 +1388,21 @@ Info (12133): Instantiated megafunction "SBCTextDisplayRGB:io2|CGABoldRomReduced
     Info (12134): Parameter "widthad_a" = "10"
     Info (12134): Parameter "width_a" = "8"
     Info (12134): Parameter "width_byteena_a" = "1"
-Info (12021): Found 1 design units, including 1 entities, in source file db/altsyncram_h8b1.tdf
-    Info (12023): Found entity 1: altsyncram_h8b1
-Info (12128): Elaborating entity "altsyncram_h8b1" for hierarchy "SBCTextDisplayRGB:io2|CGABoldRomReduced:\GEN_REDUCED_CHARS:fontRom|altsyncram:altsyncram_component|altsyncram_h8b1:auto_generated"
+Info (12021): Found 1 design units, including 1 entities, in source file db/altsyncram_g891.tdf
+    Info (12023): Found entity 1: altsyncram_g891
+Info (12128): Elaborating entity "altsyncram_g891" for hierarchy "SBCTextDisplayRGB:io2|SansBoldRomReduced:\GEN_REDUCED_SCHARS:fontRom|altsyncram:altsyncram_component|altsyncram_g891:auto_generated"
+Warning (113007): Byte addressed memory initialization file "SansFontBoldReduced.HEX" was read in the word-addressed format
+Warning (113015): Width of data items in "SansFontBoldReduced.HEX" is greater than the memory width. Wrapping data items to subsequent addresses. Found 32 warnings, reporting 10
+    Warning (113009): Data at line (1) of memory initialization file "SansFontBoldReduced.HEX" is too wide to fit in one memory word. Wrapping data to subsequent addresses.
+    Warning (113009): Data at line (2) of memory initialization file "SansFontBoldReduced.HEX" is too wide to fit in one memory word. Wrapping data to subsequent addresses.
+    Warning (113009): Data at line (3) of memory initialization file "SansFontBoldReduced.HEX" is too wide to fit in one memory word. Wrapping data to subsequent addresses.
+    Warning (113009): Data at line (4) of memory initialization file "SansFontBoldReduced.HEX" is too wide to fit in one memory word. Wrapping data to subsequent addresses.
+    Warning (113009): Data at line (5) of memory initialization file "SansFontBoldReduced.HEX" is too wide to fit in one memory word. Wrapping data to subsequent addresses.
+    Warning (113009): Data at line (6) of memory initialization file "SansFontBoldReduced.HEX" is too wide to fit in one memory word. Wrapping data to subsequent addresses.
+    Warning (113009): Data at line (7) of memory initialization file "SansFontBoldReduced.HEX" is too wide to fit in one memory word. Wrapping data to subsequent addresses.
+    Warning (113009): Data at line (8) of memory initialization file "SansFontBoldReduced.HEX" is too wide to fit in one memory word. Wrapping data to subsequent addresses.
+    Warning (113009): Data at line (9) of memory initialization file "SansFontBoldReduced.HEX" is too wide to fit in one memory word. Wrapping data to subsequent addresses.
+    Warning (113009): Data at line (10) of memory initialization file "SansFontBoldReduced.HEX" is too wide to fit in one memory word. Wrapping data to subsequent addresses.
 Info (12128): Elaborating entity "DisplayRam2K" for hierarchy "SBCTextDisplayRGB:io2|DisplayRam2K:\GEN_2KRAM:dispCharRam"
 Info (12128): Elaborating entity "altsyncram" for hierarchy "SBCTextDisplayRGB:io2|DisplayRam2K:\GEN_2KRAM:dispCharRam|altsyncram:altsyncram_component"
 Info (12130): Elaborated megafunction instantiation "SBCTextDisplayRGB:io2|DisplayRam2K:\GEN_2KRAM:dispCharRam|altsyncram:altsyncram_component"
@@ -1463,16 +1474,16 @@ Info (16010): Generating hard_block partition "hard_block:auto_generated_inst"
     Info (16011): Adding 0 node(s), including 0 DDIO, 0 PLL, 0 transceiver and 0 LCELL
 Warning (21074): Design contains 1 input pin(s) that do not drive logic
     Warning (15610): No output dependent on input pin "rxd2"
-Info (21057): Implemented 4582 device resources after synthesis - the final resource count might be different
+Info (21057): Implemented 4580 device resources after synthesis - the final resource count might be different
     Info (21058): Implemented 5 input pins
     Info (21059): Implemented 47 output pins
     Info (21060): Implemented 10 bidirectional pins
-    Info (21061): Implemented 4480 logic cells
+    Info (21061): Implemented 4478 logic cells
     Info (21064): Implemented 40 RAM segments
-Info: Quartus II 64-Bit Analysis & Synthesis was successful. 0 errors, 18 warnings
-    Info: Peak virtual memory: 549 megabytes
-    Info: Processing ended: Thu Apr 27 16:30:03 2017
-    Info: Elapsed time: 00:00:31
-    Info: Total CPU time (on all processors): 00:00:31
+Info: Quartus II 64-Bit Analysis & Synthesis was successful. 0 errors, 28 warnings
+    Info: Peak virtual memory: 4683 megabytes
+    Info: Processing ended: Wed Oct 23 14:56:34 2019
+    Info: Elapsed time: 00:00:28
+    Info: Total CPU time (on all processors): 00:00:27
 
 
