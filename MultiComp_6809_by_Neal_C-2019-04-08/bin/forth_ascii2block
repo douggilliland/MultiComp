@@ -1,0 +1,63 @@
+#!/usr/bin/perl -W
+#
+# read a forth block file created by forth_block2ascii and convert it back to
+# a forth block file: "binary" with 16 lines of 64 characters per block.
+#
+# forth_block2ascii foo.blk > foo.txt
+# <mass edit or manipulation>
+# forth_ascii2block foo.txt > foo2.blk
+#
+# Requires (and checks for) sequential blocks and a complete set of
+# lines per block.
+
+$MAX_LINE_PER_BLOCK = 15; # numbered 0-15
+$CHAR_PER_LINE = 64;
+
+$block_expected = 0;
+$line_expected = 0;
+
+$file = $ARGV[0];
+open INFILE, $file or die "ERROR could not open $file";
+
+while (!eof(INFILE)) {
+    my $in = <INFILE>;
+    if ($in =~ / ([0-9]+):([0-9]+)  \|(.*)\|/) {
+        my $block = $1;
+        my $line = $2;
+        my $txt = $3;
+        my $len = length $txt;
+
+        if (($block == $block_expected) &&
+            ($line == $line_expected) &&
+            ($len == $CHAR_PER_LINE) )  {
+            # all good
+            print $txt;
+        }
+        else {
+            print STDERR $in;
+            print STDERR "ERROR at line $. ^^";
+            print STDERR " Expected Block=$block_expected, Line=$line_expected, $CHAR_PER_LINE characters of text.\n";
+            print STDERR "                    Got      Block=$block, Line=$line, $len characters of text.\n\n";
+
+            if ($len != $CHAR_PER_LINE) {
+                print STDERR "Cannot recover.\n";
+                exit 1;
+            }
+            else {
+                # try to recover so that all errors can be reported.
+                print $txt;
+                $block_expected = $block;
+                $line_expected = $line;
+            }
+        }
+
+        if ($line_expected == $MAX_LINE_PER_BLOCK) {
+            $line_expected = 0;
+            $block_expected = $block_expected + 1;
+        }
+        else {
+            $line_expected = $line_expected + 1;
+        }
+    }
+}
+close INFILE;

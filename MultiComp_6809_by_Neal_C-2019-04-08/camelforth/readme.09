@@ -1,0 +1,186 @@
+       CAMELFORTH FOR THE 6809 - ALPHA TEST VERSION - 7 MAY 1995
+       =========================================================
+
+This is an ALPHA TEST version of CamelForth/09, an ANSI Standard Forth
+for the Motorola 6809 microprocessor.  This means that, although I have
+tested the bulk of this code for correct functioning, you ARE LIKELY to
+discover bugs.  I'd appreciate hearing of any such, via email at
+bj@camelforth.com
+
+I'll also answer questions and try to solve problems.
+
+       ========== RECOMPILING THE CAMELFORTH/09 KERNEL ==========
+
+CamelForth/09 is supplied as source code, and is compiled with a Forth
+metacompiler, Chromium 2.  This compiler, and the corresponding 6809
+cross-assembler, are distributed with CamelForth/09.  To run this
+compiler you must have Laxen & Perry F83 for the IBM PC (available from
+the Forth Interest Group, many IBM PC shareware distributors, or by
+download from GEnie).
+
+To compile CamelForth/09, put CHROMIUM.SCR and F83.COM in your working
+directory, and then type the two commands
+
+        F83 CHROMIUM.SCR
+        1 LOAD
+
+This will start F83, load the compiler, compile the 6809 kernel, and
+save the result to an Intel hex file 6809.HEX.  This file can be
+downloaded to an EPROM emulator or burned into an EPROM.
+
+The Chromium compiler should work with any version of F83 (such as for
+the Atari ST or for CP/M)...but this has not yet been tested.
+Unfortunately, the hex file utility is specific to the IBM PC, and must
+be rewritten for any other computer system.
+
+                ========== MEMORY AND I/O MAP ==========
+
+CamelForth is distributed to run on the ScroungeMaster II 6809 board, as
+described in The Computer Journal [see below].  The program compiles to
+run in ROM at address E000 hex, allowing the use of either an 8K (2764),
+16K (27128), or 32K (27256) EPROM.  CamelForth's initialization code
+will map the ScroungeMaster RAM to the address space 0000-7BFF hex, and
+the on-board I/O to the space 7C00-7FFF hex.  As distributed, CamelForth
+only uses RAM locations 6000-7BFF hex, allowing the use of either an 8K
+(6264), 32K (62256), or 128K (628128) static RAM.
+
+        0000 +--------------------+
+             |       unused       |
+             |                    |
+        6000 +--------------------+
+             |Forth RAM dictionary|
+             |                    |
+        7980 +--------------------+
+             |        TIB         |
+        7A00 +--------------------+
+             |     user area      |
+        7A80 +--------------------+
+             |  parameter stack   |
+        7B00 +--------------------+
+             |   HOLD,PAD areas   |
+        7B80 +--------------------+
+             |    return stack    |
+        7C00 +--------------------+
+             |    on-board I/O    |
+        8000 +====================+
+             |       unused       |
+             |                    |
+        E000 +--------------------+
+             |    Forth kernel    |
+             |                    |
+        FFF0 +--------------------+
+             | 6809 reset vectors |
+        FFFF +--------------------+
+
+This memory map is controlled by screen 61 of the CHROMIUM.SCR file:
+
+        HEX 0E000 FFFF DICTIONARY ROM   ROM    ( A )
+            7A00  EQU UP-INIT                  ( B )
+            7A    EQU UP-INIT-HI               ( C )
+            6000  EQU DP-INIT                  ( D )
+
+Line A specifies the lower and upper ROM limits.  Thus, to use a full
+32K ROM, you would change '0E000' to '8000'.  Do not change the 'FFFF'
+limit, since the reset vectors must be compiled.
+
+Lines B and C control the location of the RAM data area.  This area
+extends from 80h bytes before UP-INIT, to 200h bytes after (7980h to
+7C00h in this example).  You may move these by changing UP-INIT,
+provided that UP-INIT is always on a 256-byte boundary (i.e., has the
+value xx00 hex), and provided that you change Line C to match Line B
+(i.e., the corresponding value xx hex).
+
+Line D controls the starting location of the RAM dictionary.  This is
+where the CamelForth compiler/interpreter adds new Forth words.  This
+can be changed to any RAM address.  Thus to use a full 32K RAM you could
+change this to '0000'.
+
+I recommend that you leave the I/O mapping alone (controlled by the 6809
+initialization code in screen 118).  Its location at 7C00h gives the
+largest contiguous RAM space if 32K or 128K RAMs are used.  If you are
+not using a ScroungeMaster II, you should delete this memory mapping
+code, and you should adjust the CamelForth memory map to suit your
+hardware.  (You will also need to change the serial I/O initialization,
+and rewrite the words KEY KEY? and EMIT.)
+
+      ========== UPLOADING A FORTH PROGRAM TO THE 6809 ==========
+
+On the ScroungeMaster II, CamelForth uses serial port A (port A of the
+first Zilog 8530 SCC, U10). With a 4 MHz crystal oscillator, this port
+will be set to 4800 baud; with an 8 MHz crystal, 9600 baud.
+
+You can communicate with the 6809 using a terminal program such as
+Procomm.  You can type new words from the keyboard, test them as they
+are defined, and re-define them to make changes.  Or you can edit an
+ASCII text file, and upload this file from the PC to the 6809.
+
+A line of Forth code takes an appreciable fraction of a second to
+compile, so you can't send it "full blast" at 4800 or 9600 baud.
+Instead, set Procomm's ASCII Transfer "pace character" to 10 decimal
+(line feed).  CamelForth will not send the CR/LF pair until it has
+finished processing the line, so you can use LF as a synchronization
+character.  You should also set Procomm to strip LF characters from the
+uploaded file.  (Other terminal programs should have similar options.)
+Be sure that no line in your file exceeds 80 characters.
+
+    ========== ADDING YOUR FORTH CODE TO THE PROM KERNEL ==========
+
+If you want to burn your program into PROM, you can add it to the kernel
+source code in CHROMIUM.SCR.  I recommend you use a contiguous set of
+screens for your source code, and add them as a separate line to screen
+1 (the master load screen), immediately after the line
+
+        DECIMAL 61 119 THRU
+
+which loads the 6809 Forth kernel.  The CHROMIUM.SCR file contains:
+
+          0 +---------------+   120 +---------------+
+            |  metacompiler |       |   "shadow"    |
+            |  source code  |       | documentation |
+         30 +---------------+   150 +---------------+
+            | 6809 assembler|       |               |
+         45 +---------------+       |    unused     |
+            |    unused     |       |               |
+            |               |   176 +---------------+
+         60 +---------------+       |     6809      |
+            |   6809 Forth  |       |    binary     |
+            |  source code  |       |     image     |
+        119 +---------------+   239 +---------------+
+
+You may use screens 45-59, and 150-175, for your source code.  Do NOT
+use screens 176-239, even if they appear empty.  These 64 screens hold a
+copy of the 64K binary image being generated by the metacompiler, and a
+mistake in the source code could corrupt any of these screens.
+
+The metacompiler will accept "normal-looking" Forth code: colon
+definitions, CODE definitions, VARIABLEs, CONSTANTs, CREATEs, ALLOTs,
+etc. -- look at the CamelForth source code for examples.  Vocabularies
+are not yet supported.  IMMEDIATE words (e.g. CASE) and defining words
+(CREATE..DOES>) can be metacompiled, but require special metacompiler
+phrases to be added to your source code.  If you are not familiar with
+Forth metacompilers, I suggest you refrain from using these features
+until the next release of the Chromium metacompiler.
+
+                  ========== LICENSE TERMS ==========
+
+------------------------------------------------------------------------
+CamelForth for the Motorola 6809 Copyright 1995 Bradford J. Rodriguez.
+Chromium 2 metacompiler Copyright 1995 Bradford J. Rodriguez.
+
+This program is free software; you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation; either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
+Commercial inquiries should be directed to the author at 
+115 First St., #105, Collingwood, Ontario L9Y 4W3 Canada
+or via email to bj@camelforth.com
+------------------------------------------------------------------------

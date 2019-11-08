@@ -1,0 +1,165 @@
+#!/bin/bash
+#
+# make fpga release
+
+# Edit these to suit
+FROM=multicomp/MicrocomputerPCB
+TO=multicomp_release_extram
+
+# These should not need to change
+ROMS=multicomp/ROMS
+COMPONENTS=multicomp/Components
+
+
+if [ -e $TO ];
+then
+   echo "ERROR $TO already exists, move it out of the way"
+   exit
+fi
+
+if [ -e multicomp09.zip ];
+then
+   echo "ERROR multicomp09.zip already exists, move it out of the way"
+   exit
+fi
+
+if [ ! -e $FROM ];
+then
+   echo "ERROR $FROM not found"
+   exit
+fi
+
+
+echo "Copying.."
+
+mkdir $TO
+# Project files
+cp -RpL $FROM $TO
+# Common
+cp -RpL $FROM $TO
+cp -RpL $ROMS $TO
+cp -RpL $COMPONENTS $TO
+
+echo "Pruning.."
+
+# Cruft
+find $TO -name "*~" -delete
+find $TO -name "#*#" -delete
+find $TO -name "*__writeable" -delete
+find $TO -name "*bak" -delete
+
+
+# Only keep stuff associated with 6809
+rm -rf $TO/Components/M6502
+rm -rf $TO/Components/M6800
+# CPU we use is in Components/M6809p
+rm -rf $TO/Components/M6809
+rm -rf $TO/Components/MMAPPER
+rm -rf $TO/Components/old_TERMINAL
+rm -rf $TO/Components/Z80
+rm -rf $TO/Components/SDCARD/CRC*
+rm -rf $TO/Components/SDCARD/sdcard_*
+rm -rf $TO/Components/SDCARD/sd_controller_*_*
+rm -rf $TO/Components/TERMINAL/notes.txt
+rm -rf $TO/Components/TERMINAL/rhk_vga_mods
+rm -rf $TO/Components/TERMINAL/key*
+rm -rf $TO/Components/TERMINAL/SBCTextDisplayRGB.vhd__kbd_lookup
+#
+rm -rf $TO/ROMS/6502
+rm -rf $TO/ROMS/Z80
+# Only keep the latest version
+rm -rf $TO/ROMS/6809/*.asm
+rm -rf $TO/ROMS/6809/*.lst
+rm -rf $TO/ROMS/6809/g*.hex
+rm -rf $TO/ROMS/6809/n*.hex
+rm -rf $TO/ROMS/6809/r*.hex
+rm -rf $TO/ROMS/6809/s*.hex
+rm -rf $TO/ROMS/6809/t*.hex
+rm -rf $TO/ROMS/6809/u*.hex
+rm -rf $TO/ROMS/6809/*.fixed_hex
+rm -rf $TO/ROMS/6809/*_romdis
+rm -rf $TO/ROMS/6809/*_simtest_loop
+rm -rf $TO/ROMS/6809/*_simtest_romoff
+rm -rf $TO/ROMS/6809/*EXT_BASIC*
+rm -rf $TO/ROMS/6809/*.s19
+rm -rf $TO/ROMS/6809/*.*__mk*
+rm -rf $TO/ROMS/6809/buildit
+#
+# Only keep what's needed to rebuild
+rm -rf $TO/MicrocomputerPCB/greybox_tmp
+rm -rf $TO/MicrocomputerPCB/incremental_db
+rm -rf $TO/MicrocomputerPCB/M6809_EXT_BASIC*
+rm -rf $TO/MicrocomputerPCB/*_simulation.rpt
+rm -rf $TO/MicrocomputerPCB/*.vhd__writeable_rom
+#
+rm -rf $TO/MicrocomputerPCB/db/logic_util*
+rm -rf $TO/MicrocomputerPCB/db/*.cbx*
+rm -rf $TO/MicrocomputerPCB/db/*.tdf
+rm -rf $TO/MicrocomputerPCB/db/*.cmp*
+rm -rf $TO/MicrocomputerPCB/db/*.cnf.*
+rm -rf $TO/MicrocomputerPCB/db/*.asm.*
+rm -rf $TO/MicrocomputerPCB/db/*.eda.*
+rm -rf $TO/MicrocomputerPCB/db/*.fit.*
+rm -rf $TO/MicrocomputerPCB/db/*.hier.*
+rm -rf $TO/MicrocomputerPCB/db/*.hif
+rm -rf $TO/MicrocomputerPCB/db/*.ipinfo
+rm -rf $TO/MicrocomputerPCB/db/*.ddb
+rm -rf $TO/MicrocomputerPCB/db/*.map*
+rm -rf $TO/MicrocomputerPCB/db/*.pplq*
+rm -rf $TO/MicrocomputerPCB/db/*.pre*
+rm -rf $TO/MicrocomputerPCB/db/*.routing.*
+rm -rf $TO/MicrocomputerPCB/db/*.rtlv.*
+rm -rf $TO/MicrocomputerPCB/db/*.sgdiff.*
+rm -rf $TO/MicrocomputerPCB/db/*.lpc.*
+rm -rf $TO/MicrocomputerPCB/db/*.cdb
+rm -rf $TO/MicrocomputerPCB/db/prev_cmp*
+rm -rf $TO/MicrocomputerPCB/db/*smart*
+rm -rf $TO/MicrocomputerPCB/db/*.smp_dump.*
+rm -rf $TO/MicrocomputerPCB/db/*.sta**
+rm -rf $TO/MicrocomputerPCB/db/*.tmw*
+rm -rf $TO/MicrocomputerPCB/db/*.vpr.*
+#
+rm -rf $TO/MicrocomputerPCB/simulation/Components
+rm -rf $TO/MicrocomputerPCB/simulation/ROMS
+rm -rf $TO/MicrocomputerPCB/simulation/modelsim/*.hex
+rm -rf $TO/MicrocomputerPCB/simulation/modelsim/*.HEX
+rm -rf $TO/MicrocomputerPCB/simulation/modelsim/*.vho
+rm -rf $TO/MicrocomputerPCB/simulation/modelsim/*.xrf
+rm -rf $TO/MicrocomputerPCB/simulation/modelsim/*.do.bak*
+rm -rf $TO/MicrocomputerPCB/simulation/modelsim/*.sft
+rm -rf $TO/MicrocomputerPCB/simulation/modelsim/*.sdo
+rm -rf $TO/MicrocomputerPCB/simulation/modelsim/modelsim.ini
+rm -rf $TO/MicrocomputerPCB/simulation/modelsim/msim_transcript
+rm -rf $TO/MicrocomputerPCB/simulation/modelsim/*.wlf
+rm -rf $TO/MicrocomputerPCB/simulation/modelsim/wlf*
+rm -rf $TO/MicrocomputerPCB/simulation/modelsim/rtl_work
+
+date > $TO/readme.txt
+cat << EOF >> $TO/readme.txt
+
+This is a set of FPGA design files the 6809 multicomp. It contains pre-built
+images (both .pof and .sof) for the version of the design that uses external
+RAM. This will work with one small (128Kbyte) or with either one or two large
+(512KByte) RAMs.
+
+Refer to the instructions here:
+
+http://www.retrobrewcomputers.org/doku.php?id=boards:sbc:multicomp:cycloneii-c:start
+
+If you report a problem with this image please include this file
+because the checksums below provide some degree of traceability for
+the images.
+
+To see the latest versions of the source files or of the CamelForth code,
+visit my github repository: https://github.com/nealcrook/multicomp6809
+
+For more details (particularly of the software available) refer to the
+WIKI associated with that github repository:
+https://github.com/nealcrook/multicomp6809/wiki
+
+EOF
+
+find $TO -exec md5sum {} \; >> $TO/readme.txt
+
+echo "..create zip"
+zip -r   multicomp09.zip $TO

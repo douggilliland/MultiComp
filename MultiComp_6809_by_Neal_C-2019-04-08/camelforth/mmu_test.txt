@@ -1,0 +1,56 @@
+\ test special MMU magic from FORTH
+\ from the slash to end of line is a comment - no need to type it
+
+HEX
+
+\ enable MMU with 1-1 mapping
+MMUMAP
+
+\ copy FORTH ROM image to address C000-DFFF (RAM block 6)
+E000 C000 2000 MOVE
+
+\ map RAM block 6 to address E000 and RAM block 7 to address C000
+\ ! is "store" .. <address> <data> !
+2706 FFDE !  \ 7 is the address (E000), 6 is the RAM block
+2607 FFDE !  \ 6 is the address (C000), 7 is the RAM block
+
+\ copy FORTH ROM image to address C000-DFFF (RAM block 7)
+E000 C000 2000 MOVE
+
+\ branch through RAM, disable ROM, branch back through
+\ reset vector (trust me on this one)
+PIVOTRST
+
+\ should be back at the CAMELFORTH banner, but now
+\ we are running from RAM.
+
+\ we lost all state so..
+HEX
+
+\ should be identical copies. The 20's are unused space in the ROM
+DF00 20 DUMP
+FF00 20 DUMP
+
+\ write and see it written: ie the destinations are unique
+1234 DF00 !
+5678 FF00 !
+DF00 20 DUMP
+FF00 20 DUMP
+
+\ MMU is enabled and ROM is disabled so we are in the right
+\ state to enable magic behaviour
+20 FFDE C!    \ C! is char-store -- ie, 8-bit
+
+\ now, the top of memory should show data from RAM block 7
+DF00 20 DUMP \ should be as before
+FF00 20 DUMP \ expect data from RAM block 7 -- see the 1234 NOT the 5678
+
+\ two bytes straddling the border
+ABCD DDFF !  \ write to RAM block 7
+DDF0 20 DUMP \ RAM block 7 -- see both bytes cross the border
+FDF0 20 DUMP \ RAM block 6 -- see the CD because it's in the top $200 bytes
+
+\ and again
+789A FDFF !  \ write to RAM block 6
+DDF0 20 DUMP \ RAM block 7 -- see the 9A because it's in the top $200 bytes
+FDF0 20 DUMP \ RAM block 6 -- see both bytes cross the border

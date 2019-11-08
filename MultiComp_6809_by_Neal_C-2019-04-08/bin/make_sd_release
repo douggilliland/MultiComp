@@ -1,0 +1,100 @@
+#!/bin/bash
+#
+# make SD card image release
+
+# Edit these to suit
+FROM=.
+TO=multicomp09_sd
+FILE=multicomp09_sd_.zip
+
+PARTS=(
+fpgacubix.img
+cubix_autoboot.bin
+forthblk0.blk
+forthblk1.blk
+forthblk2.blk
+chromium.scr
+EXT_BASIC_NO_USING.bin
+../flex/multicomp09_flex_qload.bin
+../flex/multicomp09_flex_io.bin
+../flex/multicomp09_flex_sd.bin
+../flex/multicomp09_flex_buggy.bin
+flex_drive0.img
+flex_drive1.img
+flex_drive2.img
+flex_drive3.img
+nitros9_0.img
+nitros9_1.img
+nitros9_2.img
+nitros9_3.img
+fuzixfs.dsk
+)
+
+
+if [ -e $TO ];
+then
+   echo "ERROR Directory $TO already exists, move it out of the way"
+   exit
+fi
+
+if [ -e $FILE ];
+then
+   echo "ERROR File $FILE already exists, move it out of the way"
+   exit
+fi
+
+if [ ! -e $FROM ];
+then
+   echo "ERROR Directory $FROM not found"
+   exit
+fi
+
+echo "Copying.."
+
+mkdir $TO
+cp -Rpl $FROM/multicomp09_sd.img $TO/multicomp09_sd.img
+
+
+date > $TO/readme.txt
+cat << EOF >> $TO/readme.txt
+
+This is an SDcard image for the 6809 multicomp. It contains
+images for BASIC, BUGGY, FLEX, FORTH, FUZIX, CUBIX and NITROS9.
+
+Refer to the instructions here:
+
+http://www.retrobrewcomputers.org/doku.php?id=boards:sbc:multicomp:cycloneii-c:start
+
+If you report a problem with this image please include this file
+because the checksums below provide some degree of traceability for
+the images.
+
+If you want to build any of this from source, or want more documentation or
+want to report a bug, the best starting point is my github repository and its
+associated WIKI:
+
+https://github.com/nealcrook/multicomp6809
+https://github.com/nealcrook/multicomp6809/wiki
+
+EOF
+
+
+
+
+for xx in ${PARTS[@]} ; do
+    md5sum $xx >> $TO/readme.txt
+done
+
+md5sum $TO/multicomp09_sd.img >> $TO/readme.txt
+md5sum $TO/readme.txt         >> $TO/readme.txt
+
+cat << EOF >> $TO/readme.txt
+
+Enjoy!
+
+Neal.
+EOF
+
+echo "..create zip"
+zip -r   $FILE $TO
+rm -rf $TO

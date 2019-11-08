@@ -1,0 +1,175 @@
+Compilers:
+
+: CREATE ASM: CODE ;C CONSTANT VARIABLE :NONAME
+
+;CODE is like DOES but for assembler.
+
+The oldest word in the wordlist has lfa=0:
+
+ 0  1  2  3  4  5  6  7  8  9  a  b  c  d  e  f  10 11 12 13
+      v---------------------------------------------+
++--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+
+|00 00|03| F  O  O|bd xx yy| xt1 | xt2 | ... |exit |00 02|04
++--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+
+^     ^           ^        ^                       ^     ^
+lfa   nfa         cfa      pfa                     lfa   nfa
+
+lfa - link field address
+nfa - name field address
+cfa - code field address
+pfa - parameter field address (CREATEd words only)
+
+The newest word in the wordlist has no lfa. LATEST points to the
+nfa for that word (ie, the value that will be used as the value
+of the next lfa to be created):
+
+ 0  1  2  3  4  5  6  7  8  9  a  b  c  d  e  f  10 11 12 13
+      v---------------------------------------- LATEST @
++--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+
+|00 00|03| F  O  O|bd xx yy| xt1 | xt2 | ... |exit |
++--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+
+^     ^           ^        ^                       ^-- DP @
+lfa   nfa         cfa      pfa
+
+HERE is defined as : HERE DP @ ;
+NFA>CFA steps forward past the name to the cfa
+NFA>LFA steps backwards 2 to the LFA of the previous (older) word.
+
+CHAR at nfa holds:
+b7   - smudge
+b6   - immediate
+b5:0 - length
+
+CREATE lays down a call to its runtime
+VARIABLE uses create.
+CONSTANT uses ??
+
+ASM: changes the wordlist and updates some state used to track
+opcodes.
+
+CODE creates a header then calls ASM: (ASM: is a way of
+creating code with no header).
+
+NEXT and NEXT, are identical (I don't understand the distinction
+of which should be used where). They compile JMP [,Y++].
+
+;C ends assembler definition; it restores the wordlists and
+calls EXITCODE which is a NOP.
+
+When a new word is built, the first step is to lay down the
+current value of LATEST at HERE and update the value of LATEST.
+
+Search starts at the newest word, ie with the value in LATEST.
+
+Examples
+--------
+
+In each case, definition is in a fresh system with an initial
+HERE of 0.
+
+==============================================================
+: TEST1 DUP 2 + + ;
+
+ 0  1  2  3  4  5  6  7  8  9  a  b  c  d  e  f  10 11 12
++--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+
+|ff 77|05| T  E  S  T  1|bd|e0 3f|e0 7a|e0 5e|00 02|e1 74|
++--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+
+^     ^                 ^  <DOCOLON>   LIT         +
+lfa   nfa               cfa      DUP         2
+
+ 13 14 15 16 17 18 19 1a 1b 1c 1d 1e 1f 20 21 22 23 24 25
++--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+
+|e1 74|e0 54|
++--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+
+ +
+       EXIT
+
+"ff77" links back to the last word in ROM (UINIT). 
+
+==============================================================
+CREATE XYZ CREATE PQR
+
+ 0  1  2  3  4  5  6  7  8  9  a  b  c  d  e  f  10 11
++--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+
+|ff 77|03| X  Y  Z|bd|e0 45|00 02|03| P  Q  R|bd|e0 45|
++--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+
+^     ^              <DOCREATE>  ^              <DOCREATE>
+lfa   nfa                  ^lfa  nfa
+
+<DOCREATE> is the following code fragment:
+
+PULS X       temp (word) address pointer
+PSHS D       move TOD to parameter stack
+TFR X D      value from X is now TOS
+JMP [,Y++]   next word
+==============================================================
+HEX CREATE ABC 15 ,
+
+ 0  1  2  3  4  5  6  7  8  9  a  b  c  d  e  f  10 11 12
++--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+
+|ff 77|03| A  B  C|bd|e0 45|00 15|
++--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+
+^     ^              <DOCREATE>
+lfa   nfa                  ^pda
+
+==============================================================
+CODE DROP   \ x --           drop top of stack
+    6 # ( D) PULS,   NEXT ;C
+
+ 0  1  2  3  4  5  6  7  8  9  a  b  c  d  e  f  10 11 12
++--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+
+|e0 80|04| D  R  O  P|35|06|6e|b1|e0|91|04| S  W  A  P|
++--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+
+^     ^                          ^     ^
+lfa   nfa                        lfa   nfa
+
+35 06 PULS D
+6e b1 JMP [,Y++]
+
+==============================================================
+HEX VARIABLE BOB VARIABLE JIM
+1234 BOB !
+
+ 0  1  2  3  4  5  6  7  8  9  a  b  c  d  e  f  10 11 12
++--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+
+|ff 77|03| B  O  B|bd|e0 45|12 34|00 02|03| J  I  M|bd (etc)
++--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+
+^     ^              <DOCREATE>  ^     ^
+lfa   nfa                        lfa   nfa
+
+==============================================================
+HEX ABCD CONSTANT SAM 2468 CONSTANT KAT
+
+ 0  1  2  3  4  5  6  7  8  9  a  b  c  d  e  f  10 11 12
++--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+
+|ff 77|03| S  A  M|bd|e5 f7|ab cd|00 02|03| K  A  T|bd (etc)
++--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+
+^     ^              ^           ^     ^
+lfa   nfa            ;CODE       lfa   nfa
+                     for CONSTANT
+==============================================================
+: FOO CREATE , DOES> @ ;
+HEX ABCD FOO BOB
+
+ 0  1  2  3  4  5  6  7  8  9  a  b  c  d  e  f  10 11 12 13
++--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+
+|ff 77|03| F  O  O|bd|e0 3f|f1 61|ed 2d|e5 9b|bd|e5 85|e1 5e|
++--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+
+^     ^              <DOCOLON>      ,           <DODOES>
+lfa   nfa                   CREATE     (DOES>)           @
+
+ 14 15 16 17 18 19 1a 1b 1c 1d 1e 1f 20 21 22 23 24 25
++--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+
+|e0 54|00 02|03| B  O  B|bd 00 0f|ab cd|
++--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+
+ EXIT ^     ^              DOES> ^
+      lfa   nfa         for FOO  pfa
+
+==============================================================
+:NONAME DUP 2 + + ;
+
+:NONAME is not implemented in CamelForth. How should it be
+implemented? It need not be part of any wordlist. Therefore,
+creating a :NONAME definition can advance HERE ( DP @) without
+changing the value pointed to by LATEST ( LATEST @). Hence it
+has a CFA and a PFA but no LFA or NFA.

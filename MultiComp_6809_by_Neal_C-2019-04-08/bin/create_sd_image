@@ -1,0 +1,180 @@
+#!/bin/sh
+# Create image file for multicomp
+# SDcard is 2GByte so everything must fit within that footprint.
+#
+# TODO: write a PERL program to do this in a more controlled way
+# so that the resultant image can be created easily and slopped onto
+# SDcard using RAWWRITE or similar from Windows.
+#
+#
+
+
+# CUBIX file system
+# ~35MByte, at offset 0.
+dd if=fpgacubix.img of=multicomp09_sd.img
+
+
+# CUBIX boot ROM
+# 2Kbytes at offset 64Mbyte
+# 64MByte is block offset 1048576 * 64/512 = 0x2.0000
+dd if=cubix_autoboot.bin of=multicomp09_sd.img obs=1M seek=64
+
+
+# FORTH block files (optional)
+# 4 files each of up to 256Kbytes, starting at offset 65MByte
+# Block offset 256*1024 * 260/512 = 0x2.0800 (260 = 4*65)
+dd if=forthblk0.blk of=multicomp09_sd.img obs=256K seek=260
+# Block offset 256*1024 * 261/512 = 0x2.0A00
+dd if=forthblk1.blk of=multicomp09_sd.img obs=256K seek=261
+# Block offset 256*1024 * 262/512 = 0x2.0C00
+dd if=forthblk2.blk of=multicomp09_sd.img obs=256K seek=262
+# Copy of CamelForth Chromium source (just to give some text to look at!)
+# Block offset 256*1024 * 263/512 = 0x2.0E00
+dd if=chromium.scr  of=multicomp09_sd.img obs=256K seek=263
+
+
+# BASIC ROM
+# 8KBytes at offset 66MByte
+# 66MByte is block offset 1048576 * 66/512 = 0x2.1000
+dd if=EXT_BASIC_NO_USING.bin of=multicomp09_sd.img obs=1M seek=66
+
+
+# Binaries for FLEX bootstrap
+# 3 blocks-worth at offset 67MByte
+# Block offset 256*1024 * 268/512 = 0x2.1800
+dd if=../flex/multicomp09_flex_qload.bin of=multicomp09_sd.img obs=256K seek=268
+# Block offset 256*1024 * 269/512 = 0x2.1a00
+dd if=../flex/multicomp09_flex_io.bin    of=multicomp09_sd.img obs=256K seek=269
+# Block offset 256*1024 * 270/512 = 0x2.1c00
+dd if=../flex/multicomp09_flex_sd.bin    of=multicomp09_sd.img obs=256K seek=270
+
+# Binary for bootstrap of debug monitor (14 blocks)
+# Block offset 256*1024 * 271/512 = 0x2.1e00
+dd if=../flex/multicomp09_flex_buggy.bin of=multicomp09_sd.img obs=256K seek=271
+
+
+
+
+
+# Drive 0: FLEX system disk
+# (Allow) 3MBytes at offset 68MByte
+# 68MByte is block offset 1048576 * 68/512 = 0x2.2000
+# This is being developed in the flex directory
+# there is a multicomp09_flex.dsk which needs to be expanded to
+# 512byte sectors.
+flex_disk_manip ../flex/multicomp09_flex.dsk -outsd flex_drive0.img
+dd if=flex_drive0.img of=multicomp09_sd.img obs=1M seek=68
+
+
+###############################################################
+## Drive 0 (above) is all that you need to boot FLEX. The lines
+## below add additional disk images for Drive 1, Drive 2 and
+## Drive 3. If you don't have any other .dsk files then just
+## use copies of Drive 0 like this:
+## flex_disk_manip multicomp09_flex.dsk -outsd flex_drive1.img
+## ..
+## ..
+##
+## You *need* something here for these 3 drives, otherwise
+## FLEX will get very upset if you ever reference a drive
+## other than Drive 0.
+##
+## For a good source of FLEX disk images install Michael
+## Evenson's SWTPC6800 emulator, from:
+## http://www.evenson-consulting.com/swtpc/Downloads.htm
+###############################################################
+
+
+# Drive 1
+# (Allow) 3MBytes at offset 71MByte
+# 71MByte is block offset 1048576 * 71/512 = 0x2.3800
+# The .dsk file needs to be expanded to 512byte sectors.
+flex_disk_manip ../flex/adventure.dsk -outsd flex_drive1.img
+dd if=flex_drive1.img of=multicomp09_sd.img obs=1M seek=71
+
+# Drive 2
+# (Allow) 3MBytes at offset 74MByte
+# 74MByte is block offset 1048576 * 74/512 = 0x2.5000
+# The .dsk file needs to be expanded to 512byte sectors.
+flex_disk_manip ../flex/multicomp09_flexsrc.dsk -outsd flex_drive2.img
+dd if=flex_drive2.img of=multicomp09_sd.img obs=1M seek=74
+
+# Drive 3
+# (Allow) 3MBytes at offset 77MByte
+# 77MByte is block offset 1048576 * 77/512 = 0x2.6800
+# The .dsk file needs to be expanded to 512byte sectors.
+flex_disk_manip ../../FLEX/flex09_dsk_files/SBUG.DSK -outsd flex_drive3.img
+dd if=flex_drive3.img of=multicomp09_sd.img obs=1M seek=77
+
+
+
+###############################################################
+# NITROS9 boot disk
+# (Allow) 2MBytes at offset 80MByte
+# 80MByte is block offset 1048576 * 80/512 = 0x2.8000
+# The .dsk file needs to be expanded to 512byte sectors.
+nitros9_disk_manip NOS9_6809_L1_v030300_mc09_80d.dsk -outsd nitros9_0.img
+dd if=nitros9_0.img of=multicomp09_sd.img obs=1M seek=80
+
+###############################################################
+# NITROS extras disk 1
+# use the "toolshed" utilities to create a disk image like this:
+# os9 format -e -t80 -ds -dd nitros9_1.dsk -n"NitrOS-9/6809 Level 1 util disk1"
+#
+# (Allow) 2MBytes at offset 82MByte
+# 82MByte is block offset 1048576 * 82/512 = 0x2.9000
+# The .dsk file needs to be expanded to 512byte sectors.
+nitros9_disk_manip nitros9_1.dsk -outsd nitros9_1.img
+dd if=nitros9_1.img of=multicomp09_sd.img obs=1M seek=82
+
+###############################################################
+# NITROS extras disk 2
+# (Allow) 2MBytes at offset 84MByte
+# 84MByte is block offset 1048576 * 84/512 = 0x2.A000
+# The .dsk file needs to be expanded to 512byte sectors.
+nitros9_disk_manip nitros9_2.dsk -outsd nitros9_2.img
+dd if=nitros9_2.img of=multicomp09_sd.img obs=1M seek=84
+
+###############################################################
+# NITROS extras disk 3
+# (Allow) 2MBytes at offset 86MByte
+# 86MByte is block offset 1048576 * 86/512 = 0x2.B000
+# The .dsk file needs to be expanded to 512byte sectors.
+nitros9_disk_manip nitros9_3.dsk -outsd nitros9_3.img
+dd if=nitros9_3.img of=multicomp09_sd.img obs=1M seek=86
+
+##this is a much bigger image, but it runs from the same start
+##point and so the driver should be able to cope without modification
+##nitros9_disk_manip VCCEmuDisk.vhd -outsd nitros9_3.img
+##dd if=nitros9_3.img of=multicomp09_sd.img obs=1M seek=86
+
+###############################################################
+# FUZIX Kernel
+# (Allow) 1MByte at offset 96MByte
+# boot loader: load and execute at 0xd000
+# 96MByte   is block offset 1048576/2 * 192/512 = 0x3.0000
+dd if=fuzix_boot.bin of=multicomp09_sd.img obs=512K seek=192
+# Kernel: loaded by the boot loaded
+# 96.5MByte is block offset 1048576/2 * 193/512 = 0x3.0400
+dd if=fuzix.bin      of=multicomp09_sd.img obs=512K seek=193
+
+###############################################################
+# TODO FUZIX Swap file
+# Reserve 1MByte at offset 97MByte
+# 97MByte is block offset 1048576 * 97/512 = 0x3.0800
+
+###############################################################
+# FUZIX Root file system
+# 32Mbyte at offset 98MByte
+# 98MByte is block offset 1048576 * 98/512 = 0x3.1000
+# The root file system is in FUZIX format
+dd if=fuzixfs.dsk of=multicomp09_sd.img obs=1M seek=98
+
+###############################################################
+# FUZIX Additional file system
+# 32Mbyte at offset 130MByte
+# 130MByte is block offset 1048576 * 130/512 = 0x4.1000
+# The root file system is in FUZIX format .. TODO? 512 or 256?
+#dd if=fuzixfs_blank.dsk of=multicomp09_sd.img obs=1M seek=130
+
+

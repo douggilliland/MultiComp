@@ -1,0 +1,149 @@
+#!/bin/sh
+#
+# given an SDcard image file for multicomp, created by
+# create_sd_image, extract .dsk images for the CamelForth
+# blocks, each of the four FLEX disks, each of the four
+# NITROS9 disks and the FUZIX disk.
+#
+# All of the offsets here need to match with the values
+# in create_sd_image.
+
+SDFILE=from_multicomp09_sd.img
+
+
+echo working on $SDFILE
+
+
+
+###############################################################
+###############################################################
+# CamelForth Block files; 4, 256Kbyte files
+###############################################################
+###############################################################
+
+# 65MByte is block offset 1048576 * 65/512 = 133120 (0x2.0800)
+# blk file is 256*1024/512=512 blocks
+echo
+echo "Extract FORTH Block files"
+dd if=$SDFILE of=forthblk0.blk_extracted ibs=512 obs=512 skip=133120 count=512
+dd if=$SDFILE of=forthblk1.blk_extracted ibs=512 obs=512 skip=133632 count=512
+dd if=$SDFILE of=forthblk2.blk_extracted ibs=512 obs=512 skip=134144 count=512
+dd if=$SDFILE of=forthblk3.blk_extracted ibs=512 obs=512 skip=134656 count=512
+
+
+
+###############################################################
+###############################################################
+# FLEX disks
+###############################################################
+###############################################################
+echo
+echo "Extract FLEX .dsk images"
+
+# Extract Drive 0: FLEX system disk
+# (Allow) 3MBytes at offset 68MByte
+# 68MByte is block offset 1048576 * 68/512 = 139264 (0x2.2000)
+# img File is 2949120/512=5760 blocks
+dd if=$SDFILE of=tmp.img ibs=512 obs=512 skip=139264 count=5760
+flex_disk_manip -insd tmp.img -out flex_drive0.dsk_extracted
+
+
+# Extract Drive 1
+# (Allow) 3MBytes at offset 71MByte
+# 71MByte is block offset 1048576 * 71/512 = 145408 (0x2.3800)
+# img File is 2949120/512=5760 blocks
+dd if=$SDFILE of=tmp.img ibs=512 obs=512 skip=145408 count=5760
+flex_disk_manip -insd tmp.img -out flex_drive1.dsk_extracted
+
+
+# Extract Drive 2
+# (Allow) 3MBytes at offset 74MByte
+# 74MByte is block offset 1048576 * 74/512 = 151552 (0x2.5000)
+# img File is 1474560/512=2880 blocks
+dd if=$SDFILE of=tmp.img ibs=512 obs=512 skip=151552 count=5760
+flex_disk_manip -insd tmp.img -out flex_drive2.dsk_extracted
+
+
+# Extract Drive 3
+# (Allow) 3MBytes at offset 77MByte
+# 77MByte is block offset 1048576 * 77/512 = 157696 (0x2.6800)
+# img File is 1474560/512=2880 blocks
+##dd if=$SDFILE of=tmp.img ibs=512 obs=512 skip=157696 count=2880
+dd if=$SDFILE of=tmp.img ibs=512 obs=512 skip=157696 count=5760
+flex_disk_manip -insd tmp.img -out flex_drive3.dsk_extracted
+
+
+###############################################################
+###############################################################
+# NITROS9 disks
+###############################################################
+###############################################################
+echo
+echo "Extract NITROS9 .dsk images"
+
+# Extract NITROS9 boot disk
+# (Allow) 2MBytes at offset 80MByte, but disk is only 1MByte
+# 80MByte is block offset 1048576 * 80/512 = 163840 (0x2.8000)
+# img File is 1024*1024/512=2880 blocks
+dd if=$SDFILE of=tmp.img ibs=512 obs=512 skip=163840 count=2880
+nitros9_disk_manip -insd tmp.img -out nitros9_0.dsk_extracted
+
+
+# Extract NITROS extras disk 1
+# use the "toolshed" utilities to create a disk image like this:
+# os9 format -e -t80 -ds -dd nitros9_1.dsk -n"NitrOS-9/6809 Level 1 util disk1"
+#
+# (Allow) 2MBytes at offset 82MByte, but disk is only 1MByte
+# 82MByte is block offset 1048576 * 82/512 = 167936 (0x2.9000)
+# img File is 1024*1024/512=2880 blocks
+dd if=$SDFILE of=tmp.img ibs=512 obs=512 skip=167936 count=2880
+nitros9_disk_manip -insd tmp.img -out nitros9_1.dsk_extracted
+
+
+# Extract NITROS extras disk 2
+# (Allow) 2MBytes at offset 84MByte, but disk is only 1MByte
+# 84MByte is block offset 1048576 * 84/512 = 172032 (0x2.A000)
+# img File is 1024*1024/512=2880 blocks
+dd if=$SDFILE of=tmp.img ibs=512 obs=512 skip=172032 count=2880
+nitros9_disk_manip -insd tmp.img -out nitros9_2.dsk_extracted
+
+
+# Extract NITROS extras disk 3
+# (Allow) 2MBytes at offset 86MByte, but disk is only 1MByte
+# 86MByte is block offset 1048576 * 86/512 = 176128 (0x2.B000)
+# img File is 1024*1024/512=2880 blocks
+dd if=$SDFILE of=tmp.img ibs=512 obs=512 skip=176128 count=2880
+nitros9_disk_manip -insd tmp.img -out nitros9_3.dsk_extracted
+
+
+###############################################################
+###############################################################
+# FUZIX disk
+###############################################################
+###############################################################
+echo
+echo "Extract FUZIX boot-loader, kernel and root file system"
+
+# FUZIX boot loader: load and execute at 0xd000
+# 96MByte   is block offset 1048576/2 * 192/512 = 196608 (0x3.0000)
+# image is and will always be 512 bytes (1 block with obs=512)
+dd if=$SDFILE of=fuzix_boot.bin_extracted ibs=512 obs=512 skip=196608 count=1
+
+# FUZIX Kernel: loaded by the boot loader
+# 96.5MByte is block offset 1048576/2 * 193/512 = 197632 (0x3.0400)
+# image can vary in size: we should be pessimistic and extract too
+# much rather than too little. It's currently around 35kbyte, so
+# extract 48kbyte
+dd if=$SDFILE of=fuzix.bin_extracted ibs=512 obs=512 skip=197632 count=96
+
+# FUZIX Root file system
+# 32Mbyte at offset 98MByte
+# 98MByte is block offset 1048576 * 98/512 = 200704 (0x3.1000)
+# 32Mbyte is count 32*1024*1024/512 = 65536
+# .. image is actually 32MByte minus 1 block: 65535.
+dd if=$SDFILE of=fuzixfs.dsk_extracted ibs=512 obs=512 skip=200704 count=65535
+
+
+
+# tidy up
+rm -f tmp.img

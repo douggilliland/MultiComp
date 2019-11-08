@@ -1,0 +1,39 @@
+#!/bin/bash
+#
+# assumes as9 srec_cat and (PERL script) hex2bin are on $PATH
+
+# loader
+NAME=multicomp09_flex_loader.asm
+BASE=`basename -s asm $NAME`
+as9 $NAME -l s19 now
+srec_cat ${BASE}s19 -Output ${BASE}hex -Intel -Data-Only -address-length=2
+hex2bin ${BASE}hex > ${BASE}bin
+
+# bootstrap tool
+NAME=multicomp09_flex_qload.asm
+BASE=`basename -s asm $NAME`
+as9 $NAME -l s19 now
+srec_cat ${BASE}s19 -Output ${BASE}hex -Intel -Data-Only -address-length=2
+hex2bin ${BASE}hex > ${BASE}bin
+
+# io drivers
+NAME=multicomp09_flex_io.asm
+BASE=`basename -s asm $NAME`
+as9 $NAME -l s19 now
+srec_cat ${BASE}s19 -Output ${BASE}hex -Intel -Data-Only -address-length=2
+hex2bin ${BASE}hex > ${BASE}bin
+
+# disk drivers
+NAME=multicomp09_flex_sd.asm
+BASE=`basename -s asm $NAME`
+as9 $NAME -l s19 now
+srec_cat ${BASE}s19 -Output ${BASE}hex -Intel -Data-Only -address-length=2
+hex2bin ${BASE}hex > ${BASE}bin
+
+# memory-resident debug monitor
+NAME=multicomp09_flex_buggy.asm
+BASE=`basename -s asm $NAME`
+as9 $NAME -l s19 now
+srec_cat ${BASE}s19 -Output ${BASE}hex -Intel -Data-Only -address-length=2
+hex2bin ${BASE}hex > ${BASE}bin
+

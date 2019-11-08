@@ -1,0 +1,22 @@
+#!/bin/sh
+# Given an SD card image with NITROS disk0 image at offset 80MBytes
+# overwrite that disk image with a new dsk image.
+#
+# Usage:
+# ./replace_nitros_disk0 FOO.DSK
+#
+#
+
+SDFILE=multicomp09_sd.img
+
+
+
+echo Replace NITROS disk0 image on $SDFILE with $1
+
+# NITROS9 boot disk
+# (Allow) 2MBytes at offset 80MByte
+# 80MByte is block offset 1048576 * 80/512 = 0x2.8000
+# The .dsk file needs to be expanded to 512byte sectors.
+nitros9_disk_manip $1 -outsd tmp.img
+dd if=tmp.img of=$SDFILE obs=1M seek=80 conv=notrunc
+rm -f tmp.img

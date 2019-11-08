@@ -1,0 +1,80 @@
+#!/usr/bin/perl -W
+#
+# read a forth block file: "binary" with 16 lines of 64 characters per block.
+#
+# generate formatted ASCII output suitable for printing or for reading back in
+# and compiling.
+#
+# forth_block2ascii foo.blk > foo.txt
+# forth_block2ascii -noprint foo.blk > foo.fth
+
+
+$LINES_PER_BLOCK = 16;
+$CHAR_PER_LINE = 64;
+$BLOCKS_PER_PAGE = 3;
+$FF = "\f";
+
+# [NAC HACK 2015Mar08] numbered from 0 or 1??
+$block = 0;
+$line = 0;
+
+$spacer = "-" x $CHAR_PER_LINE;
+
+if ($ARGV[0] eq "-noprint") {
+    $print = 0;
+    $file = $ARGV[1];
+}
+else {
+    $file = $ARGV[0];
+    $print = 1;
+}
+
+open INFILE, $file or die "ERROR could not open $file";
+
+while (!eof(INFILE)) {
+    my $txt;
+    my $unprintables;
+    my $block_sum = 0;
+    if ($print) {
+        printf("                  +%s+\n", $spacer);
+    }
+    else {
+        printf("( ------------------ Block %03d --------------------------------)\n", $block);
+    }
+    for (my $l = $line; $l < $LINES_PER_BLOCK+$line; $l=$l+1) {
+        my $bytes = read INFILE,  $txt, $CHAR_PER_LINE;
+        my $sum = 0;
+        if ($bytes != $CHAR_PER_LINE) {
+            print STDERR "ERROR at block $block -- file ended mid-block\n";
+            exit 1;
+        }
+        for my $i (0..$CHAR_PER_LINE - 1) {
+            $sum = $sum + ord(substr $txt, $i, 1);
+        }
+        $block_sum = $block_sum + $sum;
+        # remove unprintables
+        $unprintables = ($txt =~ s/[^ \w\*\(\)\-\.\,\'\"\;\:\#\$\&\^\?\@\/\\\>\<\+\!\[\]\=\|]/\?/g);
+        $unprintables = $unprintables == 0 ? " " : "*";
+        if ($print) {
+            printf("          %03d:%02d  |%s|%s %04X\n",$block, $l, $txt, $unprintables, $sum);
+        }
+        else {
+            printf("$txt\n");
+        }
+    }
+    $block = $block + 1;
+    if ($print) {
+        if (($block % $BLOCKS_PER_PAGE) == 0) {
+            printf("                  +%s+  %4X\n$FF\n", $spacer, $block_sum);
+        }
+        else {
+            printf("                  +%s+  %04X\n\n",  $spacer, $block_sum);
+        }
+    }
+    else {
+        printf("\n\n");
+    }
+}
+
+
+close INFILE;

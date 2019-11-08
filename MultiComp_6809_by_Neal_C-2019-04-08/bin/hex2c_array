@@ -1,0 +1,93 @@
+#!/usr/bin/perl -w
+#
+# convert input file in Intel Hex format to comma-separated ASCII hex bytes
+# eg: 0x00, 0x01, 0x02
+#
+# so that they could be stored in a file foo.h and then used in a C program
+# like this:
+#
+# unsigned char ROM[] = {
+#    include "foo.h"
+# };
+#
+# usage: hex2c_array foo.hex > foo.h
+#
+
+$nxt_adr = "unknown";
+
+$PER_LINE = 16;
+$total_bytes = 0;
+
+sub put_byte {
+    my $byte = $_[0];
+
+    printf "0x%02x, ", $byte;
+    $total_bytes++;
+
+    if ($total_bytes % $PER_LINE == 0) {
+        print "\n";
+    }
+}
+
+
+open INFILE, $ARGV[0] or die "Could not open input file $ARGV[0]";
+while (my $line = <INFILE>) {
+    $line =~/(\:)([0-9A-F][0-9A-F])([0-9A-F][0-9A-F][0-9A-F][0-9A-F])([0-9A-F][0-9A-F])(\w+)/;
+    my $len=hex($2);
+    my $adr=hex($3);
+    my $typ=hex($4);
+    my $dat=$5; # data and checksum
+
+    # support Extended Segment Address (type 2) provided that the 16-bit data field is 0
+    if ($typ == 2) {
+        die "Unsupported type 2 record at line $. - unexpected length:\n$line" if ($len != 2);
+        die "Unsupported type 2 record at line $. - unsupported value:\n$line" if ($dat ne "0000FC");
+        # it's a nop
+        next;
+    }
+
+    # support Start Segment Address (type 3) provided that the length is 0
+    if ($typ == 3) {
+        die "Unsupported type 3 record at line $. - unexpected length:\n$line" if ($len != 0);
+        die "Unsupported type 3 record at line $. - unsupported value:\n$line" if ($dat ne "FD");
+        # it's a nop
+        next;
+    }
+
+    # support Extended Linear Address (type 4) provided that the 16-bit data field is 0
+    if ($typ == 4) {
+        die "Unsupported type 4 record at line $. - unexpected length:\n$line" if ($len != 2);
+        die "Unsupported type 4 record at line $. - unsupported value:\n$line" if ($dat ne "0000FA");
+        # it's a nop
+        next;
+    }
+
+    # ignore type 5 (entry point)
+    if ($typ == 5) {
+        next;
+    }
+
+    # of the remainder, only support data records and end-of-file records
+    if (($typ != 0) && ($typ != 1)) {
+        die "Unsupported record: type $typ at line $. :\n$line";
+    }
+
+    # pad if data is not contiguous
+    # .. assumes records are in incrementing order!! If not, will pad ~forever!!
+    if ( ($nxt_adr ne "unknown") && ($typ==0) && ($adr != $nxt_adr) ) {
+        printf STDERR "pad from %d (0x%04x) to %d (0x%04x) -- %d (0x%04x) bytes\n", $nxt_adr, $nxt_adr, $adr-1, $adr-1, ($adr-$nxt_adr-1), ($adr-$nxt_adr-1);
+        while ($adr != $nxt_adr) {
+            put_byte(255);
+            $nxt_adr = $nxt_adr + 1;
+        }
+    }
+
+    # process $len bytes of data from $dat.
+    for (my $i=0; $i<$len; $i++) {
+        my $hex=substr $dat, 2*$i, 2;
+        put_byte(hex($hex));
+    }
+    $nxt_adr = $adr + $len;
+}
+close INFILE;
+

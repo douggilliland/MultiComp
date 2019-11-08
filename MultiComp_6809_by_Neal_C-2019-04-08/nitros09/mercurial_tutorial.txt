@@ -1,0 +1,225 @@
+Mercurial cheat-sheet
+=====================
+
+From info. gleaned from tutorial at http://hginit.com/index.html
+
+from within a directory containing your code:
+
+$ hg init
+
+creates/populates .hg area
+
+$ hg add
+$ hg commit
+
+(but before you can do that you need to configure username etc
+in ~/.hgrc)
+
+history of changes:
+
+$ hg log
+$ hg log -l3                 # just the latest 3
+
+get back to a clean version:
+
+$ hg revert foo.txt
+$ hg revert --all
+
+what files are changed, missing etc:
+
+$ hg status
+
+what changed in a file:
+
+$ hg diff foo.txt
+
+add and delete files:
+
+$ hg remove foo.txt
+$ hg add newby.txt
+$ hg commit
+$ hg commit -m "a message"
+
+look at any version of a file:
+
+$ hg cat foo.txt
+$ hg cat -r 0 foo.txt
+
+(where 0 is the changeset number, from hg log)
+
+what is the difference between two versions of a file (the versions that existed
+in two different specific repository revisions)
+
+$ hg diff -r 0:3 foo.txt
+
+go forward and backward to any repository revision:
+
+$ hg update -r 4
+
+serve a repository through built-in web-server:
+
+$ hg serve
+
+now look on http://foo.example.com:8000/
+
+clone a repository from the server to my computer, into directory named "recipes"
+
+$ hg clone http://foo.example.com:8000/ recipes
+
+push changes from my repository to the parent repository
+
+$ hg push
+
+may have to change permisisons in .hg/hgrc on the server:
+
+[web]
+push_ssl=False
+allow_push=*
+
+then get the new settings:
+
+$ hg serve
+
+(insecure! intranet only!)
+
+what commits do I have that the central repository does not have:
+
+$ hg outgoing
+
+what commits does the central repository have that I do not have:
+
+$ hg incoming
+
+get those incoming changesets (but do NOT change the working copy; "hg update" to do that)
+
+$ hg pull
+
+resolving merge conflicts:
+
+if you get "+1 heads" or similar, you need to merge:
+
+$ hg heads
+$ hg merge
+$ hg commit
+
+then sync the central repository:
+
+$ hg push
+
+find out what is the current working copy
+
+$ hg parent
+
+undo 1 commit (ONLY if you haven't pushed it to anyone else):
+
+$ hg rollback
+
+make an experimental clone of your tree:
+
+$ pwd
+recipes
+$ cd ..
+$ hg clone recipes recipes-experiment
+
+commit freely in the clone. Finally, either abandon it (just delete it) or
+push changes. Where will they go to?
+
+$ hg paths
+
+shows they will go to the parent (where the repository was cloned from)
+
+You can also explicitly send them to another repository.
+
+backout the changes associated with an OLD changeset
+
+$ hg backout -r 2 --merge
+$ hg diff
+$ hg commit -m "fix the unholy mess I made last week"
+
+
+TODO: part 4, merging
+      part 5, structure/tags
+
+==================================================================
+Cheat-sheet for my repositories
+
+nitros9-public has the sourceforge repo as its ancestor
+nitros9-mc09 has nitros9-public repo as its ancestor.
+
+Commit "generic" changes in nitros9-public, then
+
+> cd nitros9-mc09
+> hg incoming
+> hg update
+
+
+To generate a changeset..
+
+> hg bundle --base 1234 my_changes
+
+where 1234 is the oldest change NOT to include in the changeset.
+
+To apply it, the recipient must have a repository at the same state
+(?or including the same state it its past)
+
+> hg unbundle my_changes
+
+
+To generate patches..
+
+> hg export -o my_patch -r REV1 -r REV2 -r REV3
+
+Or do them one at a time. For example, use "hg log" to identify a particular commit
+and then generate a patch that represents the changes of that commit:
+
+> hg export -o mc09_3092 -r 3092
+
+In another repository, apply the patch like this:
+
+> hg patch mc09_3092
+
+
+To update from parent..
+
+> hg incoming
+> hg pull
+> hg update
+
+then see changesets with different parents. Finally:
+
+> hg merge
+> hg commit
+
+==================================================================
+Working with branches:
+
+> hg branch my-branch
+> # do some changes
+> hg commit -m "started implementing my-feature"
+
+after "hg branch" commits go into that branch by default. "hg update default" to go back to mainline
+
+..and then, to get back to the branch:
+
+> hg update --check my-branch
+> # do some more changes
+> hg commit -m "continued implementing my-feature"
+
+merge default into the branch whenever you like:
+
+> hg update my-branch
+> hg merge default
+> hg commit -m "merged default into my-feature"
+
+eventually, merge branch into default:
+
+> hg update default
+> hg merge my-feature
+> hg commit -m "merged my-feature"
+
+and then close the branch:
+
+> hg update my-branch
+> hg commit --close-branch -m "finished my-feature"
+
+you can work on the branch again later if you want.

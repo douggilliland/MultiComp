@@ -1,0 +1,27 @@
+#!/bin/sh
+
+# Given an SDcard image, extract the FLEX system disk image and
+# convert it back to .dsk format.
+
+
+# FLEX system disk
+# 3MBytes at offset 68MByte
+# 66MByte is block offset 1048576 * 68/512 = 0x2.2000
+# there is a multicomp09_flex.dsk which needs to be expanded to
+# 512byte sectors.
+
+
+
+
+# original .img size is 2949120 (2.8MBytes)
+# simplest to do it in 2 steps.
+# (if the image is at the end of the .sd file the second step is redundant and
+# the file gets truncated at the correct size.)
+dd if=multicomp09_sd.img of=flex_tmp.img ibs=1M obs=1M skip=68 count=3
+# TODO this is super-slow (~10s). Better to use a block size of 512 and adjust count
+##dd if=flex_tmp.img of=multicomp09_flex.img_extracted ibs=1 obs=1 count=2949120
+dd if=flex_tmp.img of=multicomp09_flex.img_extracted ibs=512 obs=512 count=5760
+rm flex_tmp.img
+
+# convert back to dsk format
+flex_disk_manip -insd multicomp09_flex.img_extracted -out multicomp09_flex.dsk_extracted

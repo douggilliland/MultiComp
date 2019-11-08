@@ -1,0 +1,287 @@
+An approach for saving/loading Camel code on multicomp.
+-------------------------------------------------------
+
+Current ROM allocates 2K of RAM: 0-$7FF. Definitions grow from 0 upwards. Up at
+the top is the data area for ROM-defined variables, along with the data and
+subroutine stacks.
+
+A simple way of "escaping" to 2K limit is to do an ALLOT that pushes HERE beyond
+$7FF. Can then grow upwards from this address and leave the low 1K region wasted
+except for it stack usage. That still leaves 64-8-2=54KBytes of RAM so that
+should not be a problem.
+
+Problems to solve/desirable qualities:
+
+- Ability to load and then link in a block of pre-compiled code (no requirement
+  for this to be relocated, and it's OK to require the system to be in a clean
+  state when this is done. It would be nice, however if this lump of code could
+  be linked to successive ROM versions.
+
+- Ability to save block of compiled code, with linkage rules embedded within it
+  (so that loading it doesn't require gory knowledge about how it was saved).
+
+- Ability to edit source code in block form using a WYSIWYG editor (from
+  Kelly&Spies) on the Multicomp ANSI VDU
+
+- Ability to compile code from a blocks file - including LOAD and THRU and
+  nesting thereof.
+
+- Support block-based VM system based on a blocks file stored on SDcard
+
+- Best if block file contained 3 sections: source code, shadow screens, compiled
+  code (any combination of these)
+
+- Want all of this to be boot-strappable from ROM. Therefore, need the minimum
+  word-set needed to support all of this to be stored in the ROM. The source
+  file currently has 3 spare blocks so it would be GREAT if it could fit in that
+  size. And it needs to fit into the spare ROM space, too.
+
+- Want the ability to discard compiled code (in the same way as "marker" but explicit)
+
+Blocks file:
+
+- SDcard start address
+- number of blocks (sectors = blocks*2)
+- initialised to 0 or to $20 (space)
+
+Q: how do we know how big it is? Maybe don't care. Caveat emptor if we access
+beyond the end.
+
+0 LOAD to get going?
+
+Q: Blocks start at 0 or 1? Check ANS.
+
+
+\ screen0:
+
+MARKER MYDEFN    \ in low memory; not saved
+44 MAXBLK !      \ blocks 0-44 exist. Variable or value?
+20 BINBLK !      \ blocks 20-44 reserved for binary code
+
+MARKER M-VOCAB 1 15 THRU
+MARKER M-EDITOR 16 25 THRU
+
+\ \\\\\\\\\\\\\\\\\
+
+Bootstrap: need these words
+
+BLKADRS            double variable storing sda2, sda10 of blocks file. ie:
+                   lba2 BLKADRS ! lba10 BLKADRS CELL+ !
+BADBLOB ( -- )     error message then QUIT or ABORT?
+BLOB ( "FOO" -- )  create marker data structure for binary blob
+"FOO"              seal/reseal the data structure created by BLOB FOO
+SDWRZ  ( sda10 blocks -- ) zero out that many 512-byte blocks on the SDcard -
+                   like other SD words, assumes SDLBA2 has been run already.
+WRBLOB ( n "FOO" -- ) write binary of FOO (defined by BLOB) to the current blocks
+                   file starting at 1k block n. Error if FOO fails magic
+                   number check. Error if FOO has a byte count of 0.
+RDBLOB ( n -- )    Read binary from the current blocks file, at 1k block n, into
+                   memory starting at HERE. Error if the binary fails
+                   magic number check. Error if HERE does not match load address.
+                   After the load, HERE and LATEST are updated so that the definitions
+                   in the binary appear as though they were just compiled.
+RMBLOB ( "FOO -- ) Update HERE and LATEST so that FOO and anything defined after it
+                   (including the whole of the binary) disappear from the wordlist
+FIXBLOB ( "FOO" --)Patch FOO so that it can be used to reseal the binary even if
+                   the ROM has been updated since FOO was originally created (see
+                   notes below)
+MARKER ( "BAR" --) Not needed for this but handy to add now.
+
+Example:
+
+BLOB FRED \ creates a dictionary entry with a DOES> effect
+: MYDEF1 .... ;
+: MYDEF2 .... ;
+(etc)
+
+FRED \ "seals" the binary by setting the end-addr
+
+40 WRBLOB FRED     \ write FRED to block file at block offset 40
+
+( power cycle )
+
+40 RDBLOB          \ restore definitions
+
+(etc)
+
+RMBLOB FRED        \ delete definitions
+
+(etc)
+
+40 RDBLOB          \ restore definitions
+: MYDEF99 ... ;
+FRED               \ "re-seal" by writing new end-addr
+50 WRBLOB FRED     \ store FRED with new additions
+
+Notes:
+
+1/ There is no relocation going on. The blob must always be loaded to the
+same address it was saved from. Typically, by doing a SKIPTO first?
+
+2/ The DOES> effect baked in to FRED references an address in the definition of BLOB.
+If that location has changed (eg, because BLOB is in ROM and the ROM has been modified
+and rebuilt), executing FRED will cause undefined behaviour. That is the purpose of
+FIXBLOB. FIXBLOB finds the current DOES> address of BLOB and patches FRED. FIXBLOB is
+not itself portable but provided it is defined alongside BLOB it will work correctly.
+
+3/ The parameter field of FRED holds:
+2 bytes store start-addr -- the first address used by FRED. Set once. Used in the save
+and also as a check during the load.
+2 bytes store end-addr -- the first free address when FRED was sealed. Set by the
+run-time effect of FRED.
+2 bytes link field for the newest definition -- copied from @ LATEST when FRED was
+sealed. Set by the run-time effect of FRED.
+4 bytes hold the "magic value" of "CF09" (CamelForth6809) as a sanity check.
+
+** Look at K&S for block-related words. And SOURCE. How to nest LOAD?
+
+
+LOAD, THRU:
+
+- how to get code line by line (no line endings) -> gforth manual says no need
+  and only \ comment is handled especially to break on 64 boundary
+- how to "nest" loads?
+- must have to know block/line/position (block/offset?) and to store that on
+  the stack to resume
+- Kelly&Spies has definitions for \ --> THRU (gforth says --> is a bad idea)
+- gforth manual has good explanation
+
+words are:
+
+SOURCE-ID
+SAVE-INPUT
+RESTORE-INPUT
+BLK - variable. 0 => input source is not a block; identified by SOURCE-ID
+BLOCK - u block puts that block in the buffer and returns address
+BUFFER - assign buffer
+modifies >IN
+
+LATEST is not a standard word.
+
+
+# SET UP FILE MAX SIZE 256k IE 0X100 BLOCKS
+# GIVING BLOCKS 0-255.
+
+TODO: ALWAYS NEED TO SKIP ABOVE THE STACK, ELSE WHEN I READ BACK
+I COULD OVERWRITE THE STACK. NEED TO KNOW WHERE RAMTOP IS TO AVOID
+THIS PROBLEM. ALSO, NEED TO READ BACK MORE CAREFULLY, NOT JUST IN
+CHUNKS OF 512B, TO GUARANTEE NOT TO OVERWRITE SOMETHING.
+
+TODO: BECAUSE TRANSIENT INPUT BUFFER IS JUST BEYOND HERE, IT
+GETS OVERWRITTEN DURING THE LOAD. CAN EVERYTHING REC0VER OK?
+HOW DOES THAT WORK FOR NORMAL COMPILATION AT HERE?
+
+TODO: BLOCK CAN GO TO FINAL CHAR ON COMMENT LINE BUT NOT ON
+NORMAL LINE; LOOKS LIKE GFORTH HAS A BUG HERE AS IT WRAPS A
+COMMENT LINE TO THE NEXT LINE
+
+GOTCHA: WHEN ADDING NEW USER VARIABLE (SCR 90) ALSO NEED
+TO CHANGE INIT TABLE VALUES *AND* SIZE (BOTH IN SCR 50/120)
+
+\ \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
+\ CODE
+
+HEX 1000 ALLOT
+
+VARIABLE BLKADRS CELL ALLOT
+0002 BLKADRS ! 0800 BLKADRS CELL+ ! \ Is endian correct?
+
+: BADBLOB ." ERROR BAD BLOB " TYPE CR ABORT ;
+\ Abort if CFA does not contain magic number
+: BADMAG DUP 6 + S" CF09" S= IF S" MAGIC NUMBER" BADBLOB THEN ;
+\ Abort if CFA has load-addr == end-addr
+: BADSIZ DUP @ OVER CELL+ @ = IF S" ZERO BYTES" BADBLOB THEN ;
+\ Abort if CFA has load-addr that differs from HERE
+: BADLD  DUP @ HERE <> IF S" LOAD ADDR" BADBLOB THEN ;
+
+: BLOB LATEST @ HERE DUP CREATE , , , \ start-addr, end-addr, link-addr
+  4346 , 3039 , DOES>       \ "CF09" magic number
+    CELL+ DUP HERE SWAP !   \ run-time: fill in end-addr
+    CELL+ LATEST @ SWAP ! ; \ and link-addr
+
+: RMBLOB ' >BODY BADMAG DUP @ DP ! @ @ LATEST ! ;
+
+HEX
+
+\ A word created by BLOB contains code field: BD xx yy
+\ Where xxyy is an address in BLOB. That address is
+\ a fixed offset from ' BLOB. Find the offset (currently
+\ 21) and code it below.
+: FIXBLOB ['] BLOB 21 +  \ current addr for BLOB DOES>
+  ' >BODY BADMAG 2 - ! ; \ overwrite addr of BLOB DOES> in defined blob
+
+: WRBLOB 1 LSHIFT BLKADRS 2 + @ +
+  ' >BODY BADMAG BADSIZ
+  DUP CELL+ @ OVER @ - \ size in bytes
+  9 RSHIFT 1 + \ size in 512b sd sectors
+  SWAP @ SWAP
+  BLKADRS @ SDLBA2 SDWRn ;
+
+: RDBLOB ( n -- ) \ read blob from block file starting at block n
+  BLKADRS @ SDLBA2 1 LSHIFT BLKADRS CELL+ @ + HERE \ 1st-sector load-addr
+  2DUP SDRD \ load first sector.
+  HERE CELL+ NFA>CFA 3 + \ PFA of blob
+  BADMAG BADLD  \ sanity checks
+  \ 1st-sector load-addr pfa
+
+  \ calculate how many more sectors, then load them
+  DUP CELL+ @ OVER @ - \ size in bytes
+  9 RSHIFT \ remaining 512b sd sectors
+  SWAP >R  \ 1st-sector load-addr count
+  BEGIN
+    DUP 0 <> WHILE
+    >R \ stash current count
+    200 + SWAP 1+ SWAP \ next addr sector
+    2DUP SDRD \ load next sector
+    R> 1-
+  REPEAT
+  DROP 2DROP R>
+
+  \ stitch the blob into place
+  LATEST    @ HERE !     \ Update ..oldest link in loaded blob
+  CELL+ DUP @ DP !       \ ..HERE from blob's end-addr
+  CELL+     @ LATEST ! ; \ ..LATEST from value stored in blob
+
+
+\ TEST CODE. AIM IS TO BE >1 BLOCK WORTH OF DATA
+BLOB NEAL
+: N0 ." NOW IS THE TIME FOR ALL GOOD MEN TO COME TO THE AID OF THE PARTY" ;
+: N1 ." NOW IS THE TIME FOR ALL GOOD MEN TO COME TO THE AID OF THE PARTY" ;
+: N2 ." NOW IS THE TIME FOR ALL GOOD MEN TO COME TO THE AID OF THE PARTY" ;
+: N3 ." NOW IS THE TIME FOR ALL GOOD MEN TO COME TO THE AID OF THE PARTY" ;
+: N4 ." NOW IS THE TIME FOR ALL GOOD MEN TO COME TO THE AID OF THE PARTY" ;
+: N5 ." NOW IS THE TIME FOR ALL GOOD MEN TO COME TO THE AID OF THE PARTY" ;
+: N6 ." NOW IS THE TIME FOR ALL GOOD MEN TO COME TO THE AID OF THE PARTY" ;
+: N7 ." NOW IS THE TIME FOR ALL GOOD MEN TO COME TO THE AID OF THE PARTY" ;
+: N8 ." NOW IS THE TIME FOR ALL GOOD MEN TO COME TO THE AID OF THE PARTY" ;
+: N9 ." NOW IS THE TIME FOR ALL GOOD MEN TO COME TO THE AID OF THE PARTY" ;
+: X0 ." THE QUICK BROWN FOX JUMPS OVER THE LAZY DOGS OR SO THEY SOMETIMES CLAIM" ;
+: X1 ." THE QUICK BROWN FOX JUMPS OVER THE LAZY DOGS OR SO THEY SOMETIMES CLAIM" ;
+: X2 ." THE QUICK BROWN FOX JUMPS OVER THE LAZY DOGS OR SO THEY SOMETIMES CLAIM" ;
+: X3 ." THE QUICK BROWN FOX JUMPS OVER THE LAZY DOGS OR SO THEY SOMETIMES CLAIM" ;
+: X4 ." THE QUICK BROWN FOX JUMPS OVER THE LAZY DOGS OR SO THEY SOMETIMES CLAIM" ;
+: X5 ." THE QUICK BROWN FOX JUMPS OVER THE LAZY DOGS OR SO THEY SOMETIMES CLAIM" ;
+: X6 ." THE QUICK BROWN FOX JUMPS OVER THE LAZY DOGS OR SO THEY SOMETIMES CLAIM" ;
+: X7 ." THE QUICK BROWN FOX JUMPS OVER THE LAZY DOGS OR SO THEY SOMETIMES CLAIM" ;
+: X8 ." THE QUICK BROWN FOX JUMPS OVER THE LAZY DOGS OR SO THEY SOMETIMES CLAIM" ;
+: X9 ." THE QUICK BROWN FOX JUMPS OVER THE LAZY DOGS OR SO THEY SOMETIMES CLAIM" ;
+
+
+\ EXAMPLE LOOP CONSTRUCT THAT LOOPS 0 OR MORE TIMES (IE, TEST AT START)
+: LOO ( N -- )
+  BEGIN
+    DUP 0 <> WHILE
+    DUP .
+    1-
+  REPEAT
+;
+
+
+\ With save/load words in ROM, typical usage:
+
+restore:
+COLD HEX 1000 ALLOT 0 RDBLOB
+
+do some stuff then:
+NEAL 0 WRBLOB NEAL
+

@@ -1,0 +1,135 @@
+\ BLOCK words support for Camelforth
+\
+\ Implements all words from BLOCK and all but REFILL from BLOCK EXT
+\ (REFILL extends the behaviour of CORE EXT word REFILL, which is
+\ not implemented in CamelForth).
+
+MARKER BLKWRDS
+HEX
+
+\ Changes needed elsewhere:
+\ Extend EVALUATE to store 0 in BLK - that also means that BLK
+\ need not be initialised here.
+
+VARIABLE BLK ( -- a-addr)
+VARIABLE SCR ( -- u-addr)
+
+0 BLK !
+
+: \
+  \ skip input until end of buffer OR to next 64-char boundary
+  BLK @
+  IF >IN @ DUP 40 MOD 40 SWAP - + >IN ! EXIT
+  THEN SOURCE >IN ! DROP ;
+
+\ Support 4 buffers, each 1Kbyte in size, at this base address
+D000 CONSTANT BBBASE
+
+\ Data structure describing the buffer state
+\ A buffer that is Modified is implicitly Assigned.
+CREATE BSTATE
+0 ,  \ b15:12 reserved.
+     \ b11:10 "current" buffer
+     \ b9:8 next buffer to assign
+     \ bit 7:0 hold buffer state:
+     \ b7 buffer 3 Assigned
+     \ b6 buffer 2 Assigned
+     \ b5 buffer 1 Assigned
+     \ b4 buffer 0 Assigned
+     \ b3 buffer 3 Modified
+     \ b2 buffer 2 Modified
+     \ b1 buffer 1 Modified
+     \ b0 buffer 0 Modified
+0 ,  \ if Assigned, block associated with buffer 0
+0 ,  \ if Assigned, block associated with buffer 1
+0 ,  \ if Assigned, block associated with buffer 2
+0 ,  \ if Assigned, block associated with buffer 3
+
+\ return the buf to be (re)-assigned, increment the next buffer
+\ field.
+: nxtbuf ( -- buf)
+  BSTATE @ DUP 300 AND DUP 8 RSHIFT >R
+  100 + 300 AND SWAP FCFF AND OR BSTATE ! R> ;
+
+\ make the specified buffer the Current buffer
+: curbuf ( buf --)
+  A LSHIFT BSTATE @ F3FF AND OR BSTATE ! ;
+
+\ given a buffer number return the start address of that buffer
+: buf2a ( buf -- a-addr)
+  A LSHIFT BBBASE + ;
+
+\ given a buffer number set up SDLBA2 and end with parameters
+\ ready for SD operation
+\ TODO make sure BLKADRS is stored the right way around. By
+\ inspection, the code here is correct for the current imp.
+\ Remember, SDcard blocks are 512bytes.
+: buf2sd ( buf -- sdblock c-addr-src 2)
+  DUP buf2a SWAP BLKADRS 2@ SDLBA2
+  SWAP 2* CELL+ BSTATE + @ 2* + SWAP 2 ;
+
+\ given a buffer number, read the assigned block into that buffer
+\ UNLESS it's marked as Modified -- in which case, it must already
+\ BE in the buffer, and re-reading it would corrupt the new version
+: bufrd ( buf --)
+  1 OVER LSHIFT BSTATE @ AND ( Modified?)
+  IF DROP ELSE buf2sd SDRDn THEN ;
+
+: bufwr ( buf -- ) \ if buf is Modified, save it, mark !Modified
+  1 OVER LSHIFT BSTATE @ AND DUP IF
+    ( buf bitmask) BSTATE @ XOR BSTATE ! ( clear Modified)
+    ( buf) buf2sd SDWRn
+  ELSE 2DROP THEN ;
+
+\ given a blk number, see if it's already associated with an assigned buffer
+\ if not assign a buffer. In either case, return buf number.
+\ Current buffer is undefined after this!!
+: asnblk ( blk -- buf)
+  4 0 DO BSTATE @ 1 I 4 + LSHIFT AND IF
+      ( Assigned) I CELLS CELL+ BSTATE + @ OVER =
+      IF ( Match) DROP I UNLOOP EXIT THEN
+  THEN LOOP
+  ( No match) nxtbuf DUP bufwr
+  DUP >R CELLS CELL+ BSTATE + ! ( save blk)
+  R> 1 OVER 4 + LSHIFT BSTATE @ OR BSTATE ! ( mark as Assigned) ;
+
+\ block assignment - assign, read, make Current
+: BLOCK ( blk -- a-addr)
+  asnblk DUP curbuf DUP bufrd buf2a ;
+
+\ buffer assignment - assign (don't read), make Current
+: BUFFER ( blk -- a-addr)
+  asnblk DUP curbuf           buf2a ;
+
+\ have to save current input source. If current source
+\ is block, need to save the block number; to resume, the
+\ block may not be in a buffer any more, so need to read
+\ it again and fix up the address in case it is now in
+\ a different buffer.
+: LOAD ( blk --)
+  'SOURCE 2@ >R >R  BLK @ >R  >IN @ >R ( save)
+  DUP BLK ! BLOCK 0 >IN ! 400 INTERPRET
+  R> >IN !  R> DUP 0= IF DROP 0 ELSE DUP BLK ! BLOCK THEN
+  R> 3FF AND OR R> 'SOURCE 2! ( restore) ;
+
+: THRU ( blk1 blk2 -- ) \ LOAD a range of blocks
+  1+ SWAP DO I LOAD LOOP ;
+
+: SAVE-BUFFERS ( --) \ save then mark as !Modified
+  4 0 DO I bufwr LOOP ;
+
+: FLUSH ( --) \ save and unAssign all buffers
+  SAVE-BUFFERS 0 BSTATE ! ;
+
+: UPDATE ( --) \ mark the Current buffer as Modified
+  BSTATE DUP @ DUP A RSHIFT 3 AND 1 SWAP LSHIFT OR SWAP ! ;
+
+: EMPTY-BUFFERS ( --) \ unassign all buffers, Modified or otherwise
+  0 BSTATE ! ;
+
+: ltop 40 0 DO 2D EMIT LOOP CR ;
+
+: LIST ( blk --)
+  CR ltop DUP SCR ! BLOCK 10 0 DO
+       40 0 DO .A      LOOP CR
+  LOOP DROP ltop ;

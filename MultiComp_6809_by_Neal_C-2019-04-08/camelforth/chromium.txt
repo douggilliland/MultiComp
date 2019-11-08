@@ -1,0 +1,900 @@
+                CHROMIUM 2 METACOMPILER FOR F83
+
+               Glossary and Shadow documentation
+
+Revision History
+================
+
+24 Apr 88  Image Compiler for real-Forth
+    Original compiler under Charles Curley's real-Forth.
+    Target: Zilog Super8, DTC, real-Forth model.
+
+12 Feb 93  Chromium 1 metacompiler for F83
+    Converted to F83 for IBM PC and Atari ST.
+    Target: Motorola 6809, ITC, real-Forth model.
+
+25 Apr 95  Chromium 2 metacompiler for F83
+    Target: Motorola 6809, DTC, ANS CamelForth model.
+    Generalized the forward-reference mechanism so it can be
+        used within the compiler, e.g. for LIT.
+    Eliminated special variables 'LIT 'DOVAR etc.
+    Added ability to predefine host actions of target words.
+    Added DUAL mechanism to build host analogs of target words.
+    Factored STC/ITC/DTC dependencies into a small word set.
+    Rationalized vocabulary usage under F83.
+    Used T-prefix names to eliminate name collisions between
+        metacompiler and F83.
+
+Limitations
+===========
+
+1. The target Forth word size must be the same as or smaller
+   than the host's.  Only 16-bit Forths can be built under F83.
+2. When metacompiling, the same WIDTH is used in the host and
+   target dictionaries.  (This isn't really a limitation.)
+3. I'm still not satisfied with the STC/ITC/DTC factoring.
+4. Alignment needs to be incorporated and tested.
+5. The selection of "put-code" really belongs in the forward
+   reference element, and not the mirror word.
+6. T['] cannot do forward references.
+7. Target colon definitions cannot span multiple blocks
+   (without special tricks).
+8. STC dependencies have not been factored out of T: and T;.
+   These words have to be modified when STC is to be generated.
+
+screen #1 
+=========
+This is the load screen for the metacompiler and target.
+To run the metacompiler, type
+    F83 CHROMIUM.SCR
+    1 LOAD
+Comment out the HEXFILE line if not using an IBM PC.  (HEXFILE
+is an MS-DOS utility.)
+
+screen #2 
+=========
+These are words added to the FORTH vocabulary (F83 extensions).
+CELL ( - n )  is the cell size of the host (F83).
+OFFSET name ( n - )  defines simple data-structure words.
+    Typical use:  base-address offset-word @
+AKA oldname newname ( - )  defines a synonym word.
+THRU ( lo hi - )  is redefined to print screen number and stack
+    contents as each screen is loaded.
+
+The following words support headerless definitions in the host.
+Note that these are specific to the host Forth (F83).
+NEST ( - a )  is the code field of an F83 ITC colon definition.
+:NONAME ( - cfa )  is the ANS word to begin a headerless colon
+    definition.  It returns the cfa of the new definition.
+;NONAME ( - )  ends a headerless colon definition.  Not ANSI;
+    required because of F83's peculiar HIDE/REVEAL mechanism.
+COMPILE, ( xt - )  is the ANS word to append an execution token
+    to a colon definition.  (In F83, xt = cfa.)
+
+These are the vocabularies which hold the metacompiler.
+META ( - )  holds all of the metacompiler words.  This is an
+    esthetic measure; all metacompiler words have been renamed
+    to avoid redefinition of host Forth (F83) words.
+ASSEMBLER ( - )  holds the cross-assembler.  Note the
+    distinction between META ASSEMBLER and FORTH ASSEMBLER.
+    (The one name collision I permitted.)
+TARGET ( - )  every time a word is defined in the target, a
+    "mirror" word (containing symbol information) is defined in
+    the host.  TARGET holds all these mirror words. If the
+    target system has vocabularies, a parallel vocabulary
+    structure is built within TARGET. TARGET is the active
+    vocabulary when metacompiling or meta- interpreting.  It may
+    also hold target-related compiler directives (which exist
+    only in the host).
+
+screen #3
+=========
+The metacompiler generates a binary image of the target Forth.
+This image may be stored in a memory array or segment, in disk
+blocks, or even directly in the target hardware (via a
+"tether").  This screen defines how the target image is stored.
+ALL references to the target image are done with these words.
+
+These words all expect "target addresses".  If the target
+address unit is different from the host (e.g., the target is a
+word-addressed machine), the address translation is done here.
+(Probably in the word VIRTUAL.)
+
+These words also embody the target's byte order (big-endian vs.
+little-endian).
+
+BASE-SCREEN ( - n )  is the staring disk BLOCK number where the
+    target image is stored.  64 consecutive blocks are reserved
+    for a 64 Kbyte image.
+><  ( n - n )  swaps the high and low bytes of a 16-bit cell.
+VIRTUAL ( tadr - hadr )  given a target address, accesses the
+    appropriate disk block, and returns the host address where
+    that target byte can be found.
+TC@ ( tadr - c )  fetches the byte at the given target address.
+TC! ( c tadr - )  stores a byte at the given target address.
+T@ ( tadr - n )  fetches the cell at the given target address.
+T! ( n tadr - )  stores a cell at the given target address.
+    Note that, when BLOCK storage is used, T@ and T! must be
+    constructed from byte operations.  This is because a cell
+    could span two blocks.  The order of the byte operations
+    in T@ and T! decides big- or little-endian target storage.
+>TCMOVE ( hadr tadr n - )  copies a string from the host (hadr)
+    to the target image (tadr).  Written with TC! to allow
+    strings to span multiple disk blocks (see previous note).
+
+A "tethered" metacompiler may execute words interactively in the
+target system.  (Ref. Rodriguez, "Interactive Embedded Meta-
+compilation", Proc. 1990 Rochester Forth Conference.)  These
+words, when implemented, support interactive metacompilation.
+
+OOPS ( - )  prints the source screen, line, and column number,
+    then aborts.  (When loading from Forth screens.)
+TEXECUTE ( tcfa - )  instructs the target to execute the Forth
+    word at 'tcfa'.
+>T ( n - )  moves one cell from host stack to target stack.
+T> ( - n )  moves one cell from target stack to host stack.
+
+screen #4
+=========
+These words further define the target memory size.  The parallel
+to the ANSI words CHARS CELLS etc. is deliberate.
+
+TCELL ( - n )  target cell size, in target address units.
+TCELLS ( n1 - n2 )  number of address units for n1 target cells.
+TCELL+ ( a1 - a2 )  add one cell to the given target address.
+TCHAR ( - n )  target char size, in target address units.
+    Note: do not confuse this with the ANSI word CHAR, which has
+    a totally different meaning!
+TCHARS ( n1 - n2 )  number of address units for n1 target chars.
+TCHAR+ ( a1 - a2 )  add one char to the given target address.
+
+Note that these constants specify cell and character sizes in
+_target_ address units.  The "address unit" is the smallest
+addressible memory unit.  Thus, on a word-addressed 16-bit
+machine (e.g. TMS320C25 or RTX2000), CELL would be 1. (CHAR
+would also be 1 -- ANS Forth prohibits character sizes smaller
+than an address unit.)
+
+In general, T-prefix words refer to the target system.  Thus
+TCELL is the target cell size; CELL is the host's cell size.  I
+normally disdain the T prefix, but host and target actions are
+so thoroughly mixed in the metacompiler that this is the only
+way to preserve sanity.  This also allows the metacompiler to
+reside in the FORTH vocabulary, if absolutely necessary.
+
+screen #5
+=========
+One of the innovations of the Chromium metacompiler is that it
+allows any number of target dictionaries.  A "dictionary" is a
+contiguous region of memory which is allocated from the bottom
+up.  The current state of the allocation is indicated by the
+Dictionary Pointer (DP).  Most "ordinary" Forths have one
+dictionary and one DP.  Many metacompilers have two (one for
+ROM, and one for RAM).
+
+'TDP ( - a )  holds a pointer to the current Dictionary Pointer.
+    Note that this is _not_ the dictionary pointer itself.
+    'TDP is set when a dictionary is selected.
+DICTIONARY name ( base limit - )  defines a target dictionary
+    starting at address 'base' and extending to 'limit'.  This
+    creates a Dictionary Pointer and initializes it.  Executing
+    'name' will make make this the current Dictionary Pointer.
+TDP ( - hadr )  returns the address of the current DP.  (This is
+    an address in the host.)
+THERE ( - tadr )  returns the contents of the current DP.  (This
+    is a target address.)
+?FULL ( - )  checks to see if the current dictionary has
+    overflowed (if DP exceeds its stored 'limit').
+TALLOT ( n - )  allots 'n' address units in the current dict.
+T,  ( n - )  appends a cell to the current target dictionary.
+TC, ( c - )  appends a char to the current target dictionary.
+ORG ( tadr - )  sets the current dictionary pointer to 'tadr'.
+
+screen #6
+=========
+Some target CPUs (e.g. 68000) require that word-alignment be
+enforced.  These words parallel the ANS Forth alignment words.
+*NOTE* these words have not been properly incorporated into the
+metacompiler yet.
+
+TALIGNED ( tadr - tadr )  Force the given target address to be
+    aligned.  If alignment is not required, this is a no-op.
+    For even alignment, this could be   DUP 1 AND +
+TALIGN ( - )  Align the current dictionary pointer.  If
+    alignment is not required, this is a no-op.  Otherwise, it
+    could be  THERE TALIGNED TDP !
+
+Chromium 2 supports Direct-Threaded (DTC), Indirect-Threaded
+(ITC), and Subroutine-Threaded (STC) targets.  Each of these
+stores code fields, Forth threads, and CODE words differently.
+The following words embody these and related dependencies.
+
+(JSR) ( - n )  is the JSR/CALL opcode for the target machine.
+,!VAL ( value tadr - n )  stores the value as an absolute
+    address.  This is for future use by the assembler.
+,!REL ( value tadr - n )  stores the value as an 8-bit relative
+    offset.  This is for future use by the assembler.
+,!JSR ( value tadr - n )  stores a JSR to 'value'.  This is used
+    for DODOES (which requires a JSR in all threading models).
+,!XT ( value tadr - n )  store the value as an execution token,
+    i.e., as part of a high-level Forth thread.  For ITC/DTC
+    just store the value; for STC store a JSR to 'value'.
+,!CF ( value tadr - n )  store the value in the Code Field of a
+    target Forth word.  For ITC, just store the value; for
+    STC/DTC, store a JSR to 'value'.
+
+These "put" words all expect a value and target address, and
+return the number of bytes stored.  This peculiar definition
+allows them to either append a value to the dictionary ("comma",
+for normal Forth references), or to patch a previously stored
+value ("store", to resolve forward references), thus:
+  THERE T!xxx TALLOT   gives the "comma" function ( n - )
+  T!xxx DROP           gives the "store" function ( n adr - )
+
+T!CF ( value tcfa - )  stores 'value' in the Code Field of a
+    target Forth word.
+,CODE ( - )  appends the Code Field for a CODE definition.  For
+    DTC/STC this is a "no-op" (the definition begins with
+    machine code).  For ITC this must append the address of the
+    machine code which follows, e.g., THERE TCELL+ T,
+T>BODY ( tcfa - tpfa )  given a target cfa, returns the
+    corresponding target pfa.  Normally this just adds the size
+    of the Code Field.
+
+screen #7
+=========
+This screen defines the structure of the target Forth's headers.
+The model shown here is quite simple.  If the target uses n-way
+hashing, multiple target vocabularies, truncated names, view
+fields, or the like, this code can become quite complex, and
+should be LOADed from a set of supplementary screens.
+
+HEADS ( - a )  is a variable in the host.  If set to zero,
+    headers will NOT be generated in the target.
+TLATEST ( - a )  is a variable in the host, which holds the
+    target address of the latest target definition.  (Normally
+    this will be the target nfa, or whatever is used to build
+    the linked list in the target header.)
+(THEADER) ( - )  builds the (optional) header in the target.
+    This is everything up to but NOT including the Code Field.
+    Note that (THEADER) must save and restore >IN, so that it
+    can parse the name non-destructively from the input stream.
+    If HEADS is off, this word should do nothing.
+(TIMMEDIATE) ( - )  changes the latest target header to
+    "immediate" status.  If HEADS is off, should do nothing.
+
+CamelForth uses the simplest header structure: one vocabulary
+thread, a singly-linked list, name stored in full as a simple
+counted string, immediate flag stored in a separate byte.
+
+screen #8  Mirror words
+=========
+Every time a Forth word is defined in the target image, a
+corresponding "mirror" word is defined in the host dictionary.
+This mirror word is a data structure (a "defined" word) in the
+host which contains the following information about the target
+Forth word:
+
+TARG-VALUE  the address (cfa) of the word in the target image.
+    (Called "value" because it's sometimes used for other data.)
+HOST-COMP  what the host should do to compile this word into a
+    target colon definition.  (This is an execution vector,
+    i.e., it holds the address of a _host_ Forth word.)
+    Normally this will use the PUT-CODE to append this word to
+    the target image.  But if this word is not yet defined (i.e.
+    a forward reference) this will invoke the forward-ref logic.
+HOST-EXEC  what the host should do if this word is encountered
+    _outside_ a target colon definition.  (An execution vector.)
+PUT-CODE  defines how the host should store this word's address
+    in the target image.  Usually this is ,!XT to store the word
+    into a target colon definition.  Storing other actions for
+    PUT-CODE allows the forward-reference logic to be used for
+    Code Fields or JSRs as well.  (An execution vector.)
+IMM-FLAG  if nonzero, indicates the target word is "immediate",
+    and causes the HOST-EXEC action to be done even when this
+    word is encountered _inside_ a colon definition.
+FWD-LIST  if this target word is forward-referenced, this will
+    point to the latest element in the reference list.  Note
+    that the reference list is kept in the _host_.
+MIRR-LINK  all of the mirror words in the host are linked
+    together in a list.  This allows (for example) all of the
+    unresolved forward references to be located.
+
+Mirror words are also created for target words which have not
+yet been defined.  These "forward-reference" mirror words can be
+explicitly defined, or can be created automatically when an
+unknown target word is encountered.
+
+TSTATE ( - a )  is the metacompiler's STATE.  This is nonzero
+    when compiling a colon definition; zero otherwise.
+'MIRROR ( - a )  is a host variable holding the address (pfa) of
+    the latest mirror word built in the host.  This includes
+    words which are automatically defined as part of the
+    forward-reference process.  'MIRROR is the "head" of the
+    linked list of mirror words.
+MLATEST ( - a )  is a host variable holding the address (pfa) of
+    the mirror word corresponding to the latest word created in
+    the target, i.e., the last CODE, CREATE, or colon definition
+    in the target.  This is _not_ affected when forward-
+    reference mirror words are automatically created.
+'MA ( - a )  is a host variable which will hold the address
+    (pfa) of a mirror word, when that mirror word executes.
+MA ( - mpfa )  fetches the address (pfa) of the mirror word
+    which is executing.  ("Mirror Address")
+
+MIRROR ( host-exec host-comp targ-val - )  builds a mirror word
+    in the host.  The name of the mirror word is parsed from the
+    input stream.  It expects the address of the HOST-EXEC code,
+    the address of the HOST-COMP code, and the TARG-VALUE.
+    'MIRROR is changed to point to the new mirror word, which is
+    linked into the mirror list.  The IMM-FLAG and FWD-LIST are
+    initialized to zero, and PUT-CODE to the default of ,!XT.
+
+    When the mirror word is executed, it stores its pfa in the
+    variable 'MA.  Then, if an "immediate" word or in the meta-
+    interpreting state (TSTATE=0), the HOST-EXEC vector will be
+    fetched and executed.  If compiling, the HOST-COMP vector
+    will be fetched and executed.  (I believe the use of two
+    vectors is unique to the Chromium metacompiler.)
+
+Having mirror words means we don't have to write a TFIND which
+searches for a word in the target image.  To find a target word,
+we simply search for the corresponding mirror word in the host
+(using the host's FIND).  Since we never search for names in the
+target image, we can build target images without headers.
+
+screen #9  Forward referencing
+=========
+When a word which has not been defined is used in the target,
+Chromium compiles a "dummy" reference to that word in the target
+image.  Later, when the word is defined, Chromium can go back
+and "patch" all the dummy references to hold the true address of
+the word.
+
+To do this, the metacompiler must keep a list of all the places
+in the target image which need to be patched.  (A list of all
+the "forward references" to the word.)  This list is kept in the
+_host_.  Each element in the list contains two cells:
+
+REF-LINK  link to the previous element in the list (a host
+    address).  A value of 0 signifies the end of the list.
+REF-ADRS  the target address which must be patched.
+
+The "head" of this list is contained in a special "forward-
+reference" mirror word, which is created when an unknown target
+word is used. When the unknown target word is finally defined,
+the forward references will be patched, and then the mirror word
+will be changed to a "normal" mirror word.
+
+PUT-REF ( value tadr - n )  executes the PUT-CODE for the
+    currently executing (MA) mirror word.  The "put-code" is a
+    single routine which can either append a reference to the
+    target image, or patch a previous reference.  (Refer to
+    screen #6 for an explanation of this technique.)
+!REF ( value tadr - )  uses the mirror's PUT-CODE to patch a
+    reference in the target image.
+,REF ( value - )  uses the mirror's PUT-CODE to append a
+    reference to the target image.
+
++FWDREF ( - )  compiles a dummy reference in the target image
+    (with ,REF), and adds it to the FWD-LIST of the currently
+    executing mirror word.  A two-cell list element is added to
+    the host's dictionary as part of this process.
+
+(RESOLVE) ( value - )  "resolves" all the forward references for
+    the currently executing mirror word.  The FWD-LIST of the
+    mirror word is traversed, and every target location is
+    patched (with !REF) to contain 'value'.  Note that this will
+    correctly handle the special case of an empty list.  The
+    mirror word's TARG-VALUE is changed to 'value', and FWD-LIST
+    is changed to 0 (empty list).  The HOST-COMP and HOST-EXEC
+    actions are _not_ changed by (RESOLVE).
+
+screen #10
+==========
+These words control the creation of forward-reference mirror
+words.
+
+.UNDEF ( - )  is the HOST-EXEC routine for any mirror word which
+    doesn't have a defined "execute" action...such as a forward-
+    reference mirror word.
+
+(PRESUME) ( - )  builds a forward-reference mirror word.  Its
+    compile action is "add a forward reference" (+FWDREF), its
+    execute action is "error", and its initial TARG-VALUE is 0.
+
+PRESUME name ( - )  builds a forward-reference mirror word, AND
+    makes its address available in MLATEST.  This allows other
+    HOST-EXEC actions to be specified (with EMULATES and
+    EMULATE:, described below), and "immediate" status to be set
+    (with MIMMEDIATE).  PRESUME is used by the programmer to
+    explicitly pre-declare a forward reference.
+
+The following use or change the various fields of a mirror word.
+
+IS-CF ( - )  changes the PUT-CODE of the last PRESUMEd word to
+    store Code Field references.  This is used to build forward-
+    reference words for Code Fields (e.g., this allows DOCOLON
+    to be used before it is defined).
+IS-JSR ( - )  changes the PUT-CODE of the last PRESUMEd word to
+    store a subroutine call.  This allows DODOES to be forward-
+    referenced.
+MIMMEDIATE ( - )  sets the IMM-FLAG in the MLATEST mirror word.
+    (Corresponding to the last created target word, or the last
+    PRESUMEd target word.)
+EMULATES name ( - )  changes the HOST-EXEC action of the MLATEST
+    mirror word to the host word 'name'.  'name' should be in
+    the META vocabulary.  EMULATES can be used with either newly
+    created or PRESUMEd target words, eg, PRESUME @ EMULATES T@
+    will cause the word 'T@' to be executed if '@' is
+    encountered while metainterpreting.
+EMULATE: ( - )  changes the HOST-EXEC action of the MLATEST
+    mirror word to the following Forth code.  This starts a
+    headerless Forth definition in the host, and adds META to
+    the search order.
+;EMULATE ( - )  terminates the EMULATE: definition, and restores
+    the original search order.
+
+M,REF ( - )  is the usual HOST-COMP action for target words.  It
+    compiles the TARG-VALUE into the target image.  Because it
+    uses the PUT-CODE (via ,REF), it works for code fields (e.g.
+    DOCREATE) as well as target Forth words.
+DOCOMP ( - )  does the HOST-COMP action of the currently
+    selected (MA) mirror word, regardless of TSTATE.
+MCOMPILE, ( mcfa - )  given the (host) cfa of a mirror word,
+    does the HOST-COMP action of that word.  (Note that 'MA
+    must be set for the HOST-COMP routine.)  "mirror-compile"
+[TCOMPILE] ( - )  does the HOST-COMP action of the following
+    word.  This is how "immediate" words are compiled.
+T' ( - tcfa )  returns the cfa of a target word (similar to ' in
+    the host).  T' works by returning the TARG-VALUE of the
+    mirror word, so it must only be applied to mirror words, and
+    will not work with unresolved forward references!
+TPFA ( - tpfa )  returns the target pfa corresponding to the
+    currently selected (MA) mirror word.  The target cfa is
+    obtained from TARG-VALUE, then T>BODY converts this to pfa.
+
+screen #11  automatic resolution of forward references
+==========
+
+?MIRROR ( host-exec host-comp targ-val - )  is used to build a
+    mirror for a new target word.  It recognizes if a forward-
+    reference word has already been defined for that target
+    word, and if so, resolves it.  ?MIRROR recognizes 3 cases:
+    1. The mirror already exists and is a forward-reference
+       (compile action = +FWDREF).  Store 'targ-val', resolve
+       the forward references, and set the 'host-comp' action.
+       The 'host-exec' action is NOT set, since an exec action
+       may already have been defined for the mirror word.
+    2. The mirror already exists and is not a forward ref.
+       This is a duplicate definition; build a new mirror word.
+    3. The mirror does not exist.  Build it.
+    In any case, the address of the mirror word which is built
+    or resolved is saved in MLATEST.  This allows EMULATE:,
+    EMULATES, or MDOES> to change the execute action of the
+    mirror word.
+
+RESOLVES name ( value - )  is used to explicitly resolve a
+    forward-reference.  This is normally used for forward
+    references which are not Forth words (e.g., code fields like
+    DOCREATE).  It stores 'value' in the forward references and
+    TARG-VALUE, and changes the HOST-COMP action to M,REF.
+
+screen #12
+==========
+This screen implements the metacompiler's CREATE.
+
+DOCREATE  is a mirror word in the TARGET vocabulary.  It is
+    predefined here with PRESUME, so the compiler can use it to
+    compile forward-references to the target's DOCREATE.  When
+    the label DOCREATE is defined in the target code, all prior
+    uses of DOCREATE will be patched with its address.  (Note
+    the use of IS-CF to make DOCREATE compile code fields.)
+
+M+HEADER ( - )  builds a Forth word header in the target, and a
+    corresponding mirror word in the host, with default
+    HOST-COMP and HOST-EXEC actions.  This is a common factor of
+    TCREATE and CODE.
+TCREATE ( - )  builds a CREATEd word in the target.  This builds
+    a header, then does the compile action of DOCREATE.  This
+    compile action will either lay a DOCREATE code field, or a
+    forward reference to DOCREATE.
+ASM: ( - )  starts an assembler code fragment.  This initializes
+    the cross-assembler and adds it to the search order.
+CODE ( - )  builds a CODE word in the target.  This builds a
+    header and code field (?CODE) for the target word, then
+    starts the cross-assembler and adds it to the search order.
+;C ( - )  ends an ASM or CODE definition, and removes the cross-
+    assembler from the search order.
+
+screen #13  numeric literals
+==========
+The following words handle compilation of numeric literals
+(numbers in the source code).
+
+LIT  is a mirror word in the TARGET vocabulary.  It is pre-
+    defined here with PRESUME, so the compiler can use it to
+    compile forward-references to the target's LIT.  When the
+    target word LIT is defined, all prior uses of LIT will be
+    patched with its address.
+TLITERAL ( n - )  stores 'n' as a literal in the target Forth
+    code.  It does the compile action of LIT, to lay a reference
+    to LIT (normal or forward).  It then appneds a cell
+    containing the literal value.  Note that only single-
+    precision literals are supported.
+T['] name ( - )  stores the target cfa of 'name' as a literal in
+    the target Forth code.  It uses T' to get the target cfa
+    from the mirror word.  *NOTE* that this cannot be used for
+    forward-referenced words.
+M['] name ( - )  stores the target cfa of 'name' as a literal in
+    the HOST Forth code.  This is used to build metacompiler
+    actions for IMMEDIATE target words.  (E.g., the compile
+    action of IF is to append the cfa of the target's (IF).)
+
+The following words allow definition of EQUates in the target
+source code.  When an EQUate is meta-interpreted, it returns
+its value.  When metacompiled, it compiles its value into the
+current definition as a numeric literal.
+
+@EQU ( - n )  is the HOST-EXEC action of an EQUate.  It returns
+    the equate's value (stored as TARG-VALUE in a mirror word).
+,EQU ( - )  is the HOST-COMP action of an EQUate.  It gets the
+    equate's value and compiles it as a numeric literal.
+EQU name ( n - )  defines an EQUate.  This builds a mirror word
+    with the given value, and with actions @EQU and ,EQU.  Note
+    that this does _not_ build a word in the target image.
+
+*** the following is experimental and untested ***
+A defining word in the target Forth contains two parts: the
+CREATE phrase (the target action of the _defining_ word), and
+the DOES> phrase (the target action of the _defined_ word).
+Chromium 1 also allowed CREATE and DOES> actions to be specified
+for the host.  Thus the host (metacompiler) could define
+CONSTANTs (for example), and could execute target CONSTANTs
+after they were defined.  This code had to be explicitly added
+to the target source code, and had to be written using special
+metacompiler words.
+
+Chromium 2 has the ability to automatically generate host
+equivalents of the target's CREATE and DOES> actions.  This
+requires that host equivalents be specified for every target
+word used in the CREATE and DOES>.  With that prerequisite, the
+"dual" mechanism will automatically generate a host analog of
+any high-level target Forth code (not limited to CREATE and
+DOES> phrases).
+
+DUAL ( - a )  is a host variable.  Make it true (-1) to enable
+    the automatic "dual" function.
+DUAL? ( - f )  returns true if DUAL is enabled, and in "meta-
+    compiling" state (TSTATE nonzero).
+MIRROR-CF ( - n )  is the code field _contents_ of a mirror
+    word.  This is used to determine if a given word is a mirror
+    word.  Note that this may not work in all Forths, and is NOT
+    valid ANS Forth!
+DUAL, ( xt - )  given the execution token (cfa) of a host Forth
+    word, compiles its host-execute action into a "dual"
+    definition.  If this is the xt of a mirror word, the
+    HOST-EXEC vector is fetched and compiled.  Otherwise, the xt
+    itself is compiled.  Note that we can't just compile the xt
+    of a mirror word, since the "dual" definition may later be
+    executed while in metacompile state, and that would perform
+    the wrong action of the mirror word.  We always want the
+    "host-exec" action to be compiled into the dual definition.
+
+screen #14  the compiler loop
+==========
+Unlike the "normal" Forth compiler -- and like a Forth assembler
+-- the metacompiler runs entirely in the "interpret" state in
+the host Forth system.  Each word in the input stream is looked
+up in the host dictionary and _executed_, and this causes code
+to be compiled into the target image.  Thus, for every word
+which may be compiled in the target, there is a "mirror" word in
+the TARGET vocabulary; and each mirror word, when executed,
+compiles its equivalent target word into the target image.
+
+Rather than use the host's normal Forth interpreter, we write a
+modified interpreter loop to metacompile.  This modified loop
+works as follows:
+1. Parse a word from the input stream, and FIND it.
+2. If the word is found, execute it.  (We can ignore the host
+   STATE; it is always "interpret" during metacompilation.)
+3. If the word is not found, convert it as a number.  If valid,
+   compile it as a target literal (TLITERAL).
+4. If the word is not found and not a valid number, assume it is
+   a forward reference.  Create a suitable mirror word for the
+   unknown word, and compile a forward-reference in the target.
+
+When the "dual" logic is enabled, we must also build a parallel
+definition in the host.  Steps 2-4 are supplemented as follows:
+2a. Compile the host's action for the word (usually the
+    HOST-EXEC action) into the host's Forth definition (DUAL,).
+3a. Compile the number as a literal in the host's definition.
+4a. Display an error, because we can't forward-reference actions
+    in the host.  All words used to build "dual" definitions
+    must be defined beforehand (e.g. with PRESUME).
+
+T[ ( - )  sets TSTATE 'false'.  This will cause the compiler
+    loop to terminate.
+T] ( - )  sets TSTATE 'true', and begins the compiler loop.
+    The compiler loop will continue until TSTATE is set false,
+    or the end of a block is encountered.
+
+Note that F83's LOAD requires the compiler loop to exit at the
+end of block (when END? is true).  F83 restarts its own compiler
+or interpreter at the beginning of each new block.  This means
+that a target colon definition cannot span multiple blocks.
+(Actually it can, but you have to put T[ at the end of the
+block, and T] at the start of the next block to resume
+metacompilation.)  Putting the compiler loop in T] ensures that
+the metacompiler is running for every target colon definition.
+
+screen #15  reserved
+==========
+
+*** screen #15 was the "tethered" metainterpreter from Chromium
+    1, and has not yet been converted to Chromium 2. ***
+
+screen #16  target : and ;
+==========
+
+DOCOLON  is a mirror word in the TARGET vocabulary.  It is
+    predefined here with PRESUME, so the compiler can use it to
+    compile forward-references to the target's DOCOLON.  When
+    the label DOCOLON is defined in the target code, all prior
+    uses of DOCOLON will be patched with its address.  (Note
+    the use of IS-CF to make DOCREATE compile code fields.)
+
+EXIT  is a mirror word in the TARGET vocabulary, allowing the
+    compiler to compile forward-references to the target's EXIT.
+    These will be resolved when the target's EXIT is defined.
+
+*** Note: STC is not properly supported here yet.
+    T: and T; have to be rewritten when STC is to be used. ***
+
+T: ( - )  begins a target colon definition.  It builds a header
+    in the target and a mirror word in the host, compiles the
+    DOCOLON code field, and starts the compiler loop.  If DUAL
+    is enabled, T: will begin a headerless definition in the
+    host, and make that definition the mirror word's HOST-EXEC
+    action.
+
+T; ( - )  ends a target colon definition.  It compiles EXIT into
+    the target, and ends the compiler loop.  If DUAL is enabled,
+    T; will also end the headerless definition in the host (in
+    F83, by compiling UNNEST into the host).
+
+TIMMEDIATE ( - )  sets immediate status in the most recently
+    created target word _and_ its mirror word.
+
+screen #17  target DOES>
+==========
+These words allow Chromium to compile defining words ("parents")
+and defined words ("children") in the target.  In the general
+case, any of the following actions can be specified:
+1. the target's CREATE action (action of the defining word)
+2. the target's DOES> action  (action of the defined words)
+3. the host's CREATE action (how the host defines the children)
+4. the host's DOES> action  (host action of the children)
+
+A simple example is
+    : CONSTANT  CREATE , DOES> @ ;
+    3 CONSTANT THREE 9 CONSTANT NINE
+
+In a DTC target this will create the following code:
+
+           <------- create part -------->|<--- action part --->
++---------+-----------+------+---+-------+<1>-------+---+------+
+| CONSTANT|JSR DOCOLON|CREATE| , |(DOES>)|JSR DODOES| @ | EXIT |
++---------+-----------+------+---+-------+----------+---+------+
+        +------+-----+-----+------+------+-----+-----+------+
+        | THREE| JSR <1>   |   3  | NINE | JSR <1>   |   9  |
+        +------+-----------+------+------+-----------+------+
+
+In the host system this will create the following code:
+
+                    value  h-comp  h-exec
++---------+--------+------+-------+------+--+--+--+--+
+| CONSTANT|DOMIRROR| tcfa | M,REF | <2>  | ...       |
++---------+--------+------+-------+------+--+--+--+--+
++<2>--+-------+----+---+-----+--------+<3>--+----+----+------+
+|NEST |TCREATE| T, |LIT| <1> |(MDOES>)|NEST |TPFA| T@ |UNNEST|
++-----+-------+----+---+-----+--------+-----+----+----+------+
++---------+--------+------+-------+------+--+--+--+--+
+|  THREE  |DOMIRROR| tcfa | M,REF | <3>  | ...       |
++---------+--------+------+-------+------+--+--+--+--+
++---------+--------+------+-------+------+--+--+--+--+
+|  NINE   |DOMIRROR| tcfa | M,REF | <3>  | ...       |
++---------+--------+------+-------+------+--+--+--+--+
+
+where <1> is the address of the target's DOES> code, <2> is the
+address of the host's CREATE code, and <3> is the address of the
+host's DOES> code.  <2> and <3> are headerless colon definitions
+in the host machine. Notice how <3> extracts the constant's
+values (3, 9) from the target address space, using T@.
+
+(DOES>)  is a mirror word in the TARGET vocabulary, allowing the
+    compiler to compile forward-references to the target's
+    (DOES>).  Resolved when the target's (DOES>) is defined.
+    Note that (DOES>) is an ordinary Forth word in the target.
+DODOES  is a mirror word in TARGET, allowing the compiler to
+    compile forward-references to the target's DODOES routine.
+    This is a special assembler routine in the target, which is
+    always entered by a JSR/CALL.  (Note the use of IS-JSR:
+    DODOES will, when executed, compile a JSR to the target's
+    DODOES code.)
+
+TARG-DOES  holds the address <1> of the target's DOES> code.
+    For a DOES> clause, this will be a JSR DODOES followed by
+    high-level Forth code.  For a ;CODE clause, this will just
+    be target assembler code.
+(MDOES>) ( tadr - )  is executed at the end of the host's CREATE
+    action.  It expects the address 'tadr' of the target's DOES
+    code <1>; this is stored in the Code Field of the latest
+    target definition.  (MDOES>) is immediately followed by a
+    headerless Forth definition containing the host's DOES
+    action; its address <3> is stored as the HOST-EXEC of the
+    corresponding mirror word (the mirror of the "child").
+MDOES> ( - )  a) compiles the latest specified TARG-DOES address
+    as a literal in the current host Forth definition; b)
+    compiles (MDOES>); c) begins a headerless Forth definition
+    (with NEST in F83); and d) compiles TPFA into this new Forth
+    definition.  Step (a) permanently associates the target's
+    DOES> address with this host code (after all, TARG-DOES
+    may change before we use this defining word).  Step (d)
+    ensures that the host's DOES> phrase will be entered with
+    the pfa of the corresponding target "child" on the stack.
+
+MDOES> ("mirror-does") may be used explicitly in the EMULATE:
+code for a defining word, e.g.
+    : CONSTANT  CREATE  , DOES>  @   ;         (target's code)
+    EMULATE:  TCREATE T, MDOES> T@  ;EMULATE  (host's code)
+This example should make the parallel between the target words
+and the metacompiler words obvious.
+
+T;CODE ( - )  begins a ;CODE phrase in the target, by compiling
+    the target's (DOES>).  The address immediately following is
+    saved in the variable TARG-DOES, so that it can be built
+    into the host's CREATE code.  (See MDOES>.)
+TDOES> ( - )  begins a DOES> phrase in the target, by compiling
+    the target's (DOES>) followed by a JSR DODOES.  The address
+    of the JSR is saved in the variable TARG-DOES.  Also, if the
+    host equivalent is being automatically constructed (DUAL),
+    TDOES> also begins the host's DOES phrase (by doing MDOES>).
+
+This is without doubt the most convoluted code in the entire
+metacompiler.
+
+screen #18  metacompiler directives
+==========
+During metacompilation, only the TARGET vocabulary* (and its
+subvocabularies) will be active.  But there are certain actions
+which take place only in the host computer, which must be
+performed while metacompiling.  For example, we will want to use
+the host's LOAD to control the loading of target source code. To
+make these words appear in the TARGET vocabulary, we use AKA to
+create a synonym (in TARGET) of a word in the FORTH or META
+vocabulary.
+
+In some cases we rename the TARGET version of the word, to
+elminate the T prefix.  Thus T;CODE in the META vocabulary
+appears as the word ;CODE in the TARGET vocabulary.
+
+Those host actions which DO have a parallel in the target system
+are defined on the following screens.
+
++DUAL ( - )  turns on the metacompiler's DUAL function.
+-DUAL ( - )  turns off the metacompiler's DUAL function.
+    N.B.: the DUAL function is experimental and not yet tested.
+    For the time being, do not use this feature.
+
++HEADS ( - )  enables generation of headers in the target.
+-HEADS ( - )  disables generation of headers in the target.
+    Forth word headers are normally generated in the target
+    image, for use by the target Forth interpreter.  Target
+    headers are not used by the metacompiler.  If a Forth
+    interpreter will not be used on the target, headers can be
+    switched off to save target memory.  This function can also
+    be used selectively to create "hidden" words in the target
+    system.
+
+* Note: during development of Chromium 2, I am leaving access to
+the ROOT vocabulary during metacompilation.  (The search order
+is TARGET ROOT.)  This means that host words in the ROOT
+vocabulary (e.g., WORDS, ORDER) can be accessed directly by
+name.  More importantly, the word FORTH will put the _host's_
+FORTH (F83) in the search order.  Using the phrase SEAL TARGET
+when starting the metacompiler will block access to ROOT.
+
+screens #19,20
+==============
+Several mirror words, corresponding to as-yet-undefined target
+words, are predefined in the TARGET vocabulary with PRESUME.
+Each will be treated as a forward reference until the target
+word of the same name is defined.  There are three reasons for
+doing this:
+
+1.  Certain compiler words must be known by the metacompiler.
+    For example, to compile target literals, a reference to the
+    target's LIT is required.  These words are PRESUMEd within
+    the metacompiler source code, and don't appear here.
+
+2.  As described for the previous screen, many host actions need
+    to be performed while metacompiling.  Some of these will
+    have a direct equivalent in the target Forth, and so can't
+    be defined with AKA.  For example, @ and ! are defined in
+    the TARGET vocabulary (corresponding to T@ and T! in META),
+    to allow the target image to be explicitly manipulated in
+    the target source code.  Since @ and ! will exist in the
+    target Forth, they are PRESUMEd, and then the host action is
+    assigned with EMULATES.
+
+3.  For some target words, e.g. : ; and DOES>, we may wish to
+    specify the metacompiler action in the metacompiler rather
+    than in the target source code (as was done in Chromium 1).
+    PRESUME allows us to specify the metacompiler action in
+    advance for any target word.
+
+Note the use of the word MIMMEDIATE to create compile-time
+directives.  Since PRESUME builds _only_ the mirror word in the
+host, we can't use TIMMEDIATE (which will also set immediate
+status in the target image).
+
+screen #21  CamelForth DO loops
+==========
+The CamelForth model uses a compile-time loop stack to handle
+LEAVEs, and has a small set of words to manage this stack.  To
+build the parallel logic for the metacompiler (i.e., to write
+the EMULATE: phrase), equivalent T-prefix words must be
+available in the metacompiler.
+
+LOOPSTACK ( - adrs )  is a 20-cell array which contains the loop
+    stack.  This stack grows upward from the LOOPSTACK address.
+TLP ( - adrs )  is a variable holding the current loop stack
+    pointer.  Its initial value is LOOPSTACK.
+T>L ( n - )  ( L: - n )  moves a cell from the host's parameter
+    stack to the metacompiler loop stack.
+TL> ( - n )  ( L: n - )  moves a cell from the metacompiler loop
+    stack to the host's parameter stack.
+
+Between EMULATE: and ;EMULATE, the search order is META TARGET.
+But certain words from the FORTH vocabulary (F83) are needed to
+write EMULATE: phrases.  To solve this dilemma, synonyms of
+those FORTH words are declared in the META vocabulary with AKA.
+
+*** This is a temporary fix.  It may be better to add FORTH to
+    the search order between EMULATE: and ;EMULATE.  ***
+
+Between CODE (or ASM) and ;C, the search order is ASSEMBLER
+TARGET.  Certain words from the FORTH vocabulary (F83) are
+useful to write arithmetic expressions in the assembler source
+code.  So, synonyms of those FORTH words are declared in the
+ASSEMBLER vocabulary with AKA.
+
+*** This is a temporary fix.  It may be better to PRESUME those
+    words in the TARGET vocabulary, and assign them equivalent
+    host actions, e.g.,  PRESUME + EMULATES +   ***
+
+screen #22  unused
+==========
+
+screen #23
+==========
+
+.MIRRORS is a utility word which prints the contents of the
+    mirror words in the host system.  If the variable EVERYONE
+    is true, all mirror words in the host (in any vocabulary)
+    will be displayed.  This is useful for metacompiler
+    debugging.
+
+    If the variable EVERYONE is false (the default), only those
+    words which have been referenced but not defined (having a
+    non-zero FWDLIST) will be displayed.  This is useful to find
+    unresolved forward references.
+
+    Note that words which have been PRESUMEd, but never used in
+    the target code, will not be displayed as unresolved
+    references.  This means we can use PRESUME freely to create
+    host actions for words, even if those words will not be
+    defined in the target.  The PRESUMEd word will be reported
+    only if the _target_ code references the word.
+

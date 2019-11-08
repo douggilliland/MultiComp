@@ -1,0 +1,24 @@
+#!/bin/sh
+# Given an SD card image with FLEX disk0 image at offset 68MBytes
+# overwrite that disk image with a new dsk image.
+#
+# Usage:
+# ./replace_flex_disk0 FOO.DSK
+#
+#
+
+SDFILE=multicomp09_sd.img
+
+
+
+echo Replace FLEX disk0 image on $SDFILE with $1
+
+# Drive 0: FLEX system disk
+# (Allow) 3MBytes at offset 68MByte
+# 68MByte is block offset 1048576 * 68/512 = 0x2.2000
+# This is being developed in the flex directory
+# there is a multicomp09_flex.dsk which needs to be expanded to
+# 512byte sectors.
+flex_disk_manip $1  -outsd tmp.img
+dd if=tmp.img of=$SDFILE obs=1M seek=68 conv=notrunc
+rm -rf tmp.img

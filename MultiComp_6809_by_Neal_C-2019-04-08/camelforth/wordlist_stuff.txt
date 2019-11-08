@@ -1,0 +1,258 @@
+\ a WID is an address. WID @ is the address of the NFA of
+\ youngest definition in the WID's wordlist; therefore,
+\ the WID is just like LATEST (because LATEST @ acts in
+\ the same way for the single-wordlist system).
+\ WID CELL+ @ is either 0 (for a WID created by WORDLIST)
+\ or (for a WID created by VOCABULARY) is the address of
+\ the NFA of the VOCABULARY -- .wid needs/uses this
+\ distinction to identify un-named wordlists.
+
+HEX 800 ALLOT
+
+\ USER data structure:
+\ ( This needs to be done somewhat differently when it's
+\ in ROM space).
+
+VARIABLE CURRENT             \ WID of compilation wordlist
+CREATE #WIDS 0 C,            \ number of WIDs in the stack
+CREATE CONTEXT 8 CELLS ALLOT \ search stack. CONTEXT @ is TOS.
+
+\ non-ANS. Create a definition "name" and associate a new
+\ wordlist with it. The run-time effect of "name" is to replace
+\ the first WID in the search order with the WID of this
+\ wordlist.
+: VOCABULARY ( "name" --)
+   HERE CELL+ CREATE      \ the created definition's nfa
+   0 , ,                  \ 0 for empty wordlist, nfa for .wid
+   DOES> CONTEXT ! ;      \ replace top wid with this wid
+
+\ create a new, empty wordlist. Wordlists created in this
+\ way are nameless: they are not linked into any wordlist
+\ and there is no way to locate them using FIND. The layout
+\ is a cell containing the WID followed by a cell containing
+\ 0. The second cell of 0 is ONLY there to allow .wid to
+\ identify it.
+: WORDLIST ( -- wid)    \ create a new, empty wordlist
+    HERE 0 DUP , , ;    \ 0 for empty wordlist, 0 for nameless
+
+\ non-ANS. Print name of wordlist associated with WID
+: .wid ( wid --)
+   DUP U. 4 SPACES CELL+ @ ?DUP IF DUP CHAR+ SWAP C@ 3F AND TYPE
+   ELSE ." <unnamed>" THEN ;
+
+: GET-CURRENT ( -- wid) \ wid of the compilation wordlist
+    CURRENT @ ;
+
+: SET-CURRENT ( wid --) \ set the compilation wordlist to the
+    CURRENT ! ;         \ wordlist identified by wid
+
+: DEFINITIONS ( -- ) \ Make compilation wordlist the same as
+                     \ the first wordlist in the search order
+    CONTEXT @ CURRENT ! ;
+
+: GET-ORDER ( -- widn .. wid1 n)
+    #WIDS C@ ?DUP IF 1- -1 SWAP BEGIN
+        DUP CELLS CONTEXT + @ ROT ROT \ run loop for
+        1- 2DUP =                     \ n-1, n-2, .. 0
+    UNTIL 2DROP THEN #WIDS C@ ;
+
+: SET-ORDER ( widn .. wid1 n --)
+    DUP #WIDS C!
+    ?DUP IF
+        0 DO I CELLS CONTEXT + ! LOOP
+    THEN ;
+
+: ALSO ( --) \ like DUP on wid-stack
+    CONTEXT DUP CELL+ 7 CELLS CMOVE>
+    #WIDS DUP C@ 1+ DUP 8 > IF 2DROP ELSE SWAP C! THEN ;
+
+: PREVIOUS ( --) \ like DROP on wid-stack
+    #WIDS DUP C@ DUP 0= IF 2DROP ELSE
+        1- SWAP C!
+        CONTEXT DUP CELL+ SWAP 7 CELLS CMOVE THEN ;
+
+\ non-ANS. Push a wid onto the search order
+: >ORDER ( wid --)
+    ALSO CONTEXT ! ;
+
+: ORDER ( --) \ display wid-stack, from first to last searched,
+              \ and the compilation wid, in human-readable
+              \ format.
+    CR #WIDS C@ 0 2DUP <> IF
+        DO I CELLS CONTEXT + @ .wid CR LOOP
+    THEN
+    CR CURRENT @ .wid ."  (Compilation)" CR ;
+
+
+\ FORTH is ANS. ROOT is the conventional name for the search
+\ order left on the wid-stack by ONLY.
+VOCABULARY FORTH
+VOCABULARY ROOT
+VOCABULARY ASSEMBLER
+VOCABULARY NON-STD
+
+\ FORTH-WORDLIST ( -- wid)
+\ non-destructive ANS way to get wid applied by FORTH
+\ in order to create ANS word FORTH-WORDLIST.
+GET-CURRENT
+ALSO FORTH DEFINITIONS PREVIOUS GET-CURRENT
+CONSTANT FORTH-WORDLIST
+SET-CURRENT
+
+: ONLY ( --)  \ set wid-stack to minimum (eg "root") containing
+              \ at least FORTH-WORDLIST and SET-ORDER
+    ROOT 1 #WIDS C! ;
+
+\ Search a single word list for a match with the given name.
+\ Return execution token and -1 or 1 ( IMMEDIATE) if found.
+\ Return 0 if not found.
+\ Reworked from hForth
+\
+\ format is: wid---->[   a    ]
+\                 nfa    |
+\              +---------+
+\              V
+\   [   a'   ][nnaa][bbcc]...
+\       |
+\       +------+
+\              V
+\   [   a''  ][nnaa][bbcc]...
+\
+\ a, a' etc. point to the NFA (length cell)
+\ Eventually, a''' contains 0 to indicate the end of the wordlist
+\ (oldest entry). a=0 indicates an empty wordlist.
+\ xt is the xt of the word. aabbccddeedd etc. is the name of
+\ the word, packed into cells.
+\
+: SEARCH-WORDLIST ( c-addr u wid -- 0 | xt 1 | xt -1)
+  ROT >R SWAP
+  >R                                \ wid  R: ca1 u
+  BEGIN @                           \ ca2  R: ca1 u
+    DUP 0= IF R> R> 2DROP EXIT THEN \ not found
+    DUP COUNT 3F AND R@ =           \ ca2 ca2+char f
+      IF   R> R@ SWAP DUP >R        \ ca2 ca2+char ca1 u
+        S=                          \ ca2 flag
+      THEN
+    WHILE CELL -                    \ pointer to next word in wordlist
+    REPEAT
+    R> R> 2DROP DUP NFA>CFA SWAP    \ xt ca2
+    IMMED? 0= 2* 1+ ;
+
+\ search-word ( c-addr u -- c-addr u 0 | xt 1 | xt -1)
+\ Search dictionary for a match with the given name. Return
+\ execution token and -1 or 1 ( IMMEDIATE) if found;
+\ c-addr u 0 if not.
+: search-word
+  #WIDS @ DUP                     \ not found if #WIDS is 0
+  IF 0
+    DO 2DUP                     \ ca u ca u
+      I CELLS #WIDS CELL+ + @   \ ca u ca u wid
+      SEARCH-WORDLIST           \ ca u; 0 | w 1 | w -1
+      ?DUP IF                   \ ca u; 0 | w 1 | w -1
+        >R 2SWAP 2DROP R> UNLOOP EXIT \ xt 1 | xt -1
+      THEN                      \ ca u
+    LOOP 0                      \ ca u 0
+  THEN ;
+
+\ Search all the searchlists in the current search order
+\ Return execution token and -1 or 1 ( IMMEDIATE) if found;
+\ c-addr 0 if not found.
+: FIND ( c-addr -- c-addr 0 | xt 1 | xt -1)
+  DUP COUNT search-word ." AFTER SW:" .S CR ?DUP IF ROT DROP EXIT THEN 2DROP 0 ;
+
+\ Hack - create a thing that has the look and feel of a
+\ VOCABULARY but which is actually an alias of an existing
+\ storage location at addr.
+\ The run-time effect of "name" is to replace
+\ the first WID in the search order with the WID of this
+\ wordlist.. it is like an indirect version of VOCABULARY.
+\ Unfortunately, it doesn't allow .wid to print the name
+\ because .wid expects to find the name link next to the
+\ storage location
+: ALIAS-VOC ( addr "name" --)
+   HERE CELL+ CREATE    \ the created definition's nfa
+   SWAP ,               \ compile address of wordlist
+   DOES> @ CONTEXT ! ;  \ replace top wid with this wid
+
+\ use it to associate the storage of LATEST with a vocabulary
+\ named FOO.
+LATEST ALIAS-VOC FOO
+
+
+
+
+\ ************ TEST ************
+\ Hook in LATEST - even though it isn't formatted
+\ as a WID (but it could be..) and so it prints wrongly.
+ONLY ALSO ASSEMBLER ALSO FORTH ALSO FOO DEFINITIONS
+ORDER
+
+\ Test: Search a single search-order
+\ FOUND, IMMEDIATE
+: T1 S" DOES>" LATEST SEARCH-WORDLIST .S ;
+\ NOT FOUND
+: T2 S" FOOBAT" LATEST SEARCH-WORDLIST .S ;
+\ FOUND, NON-IMMEDIATE
+: T3 S" DUP" LATEST SEARCH-WORDLIST .S ;
+
+\ Test: Search all search-orders using search-word
+\ FOUND, IMMEDIATE
+: S1 S" DOES>" search-word .S ;
+\ NOT FOUND
+: S2 S" FOOBAT" search-word .S ;
+\ FOUND, NON-IMMEDIATE
+: S3 S" DUP" search-word .S ;
+
+\ Test: Search all search-orders using FIND
+\ FOUND, IMMEDIATE
+: F1 S" DOES>" DROP 1- FIND .S ;
+\ NOT FOUND
+: F2 S" FOOBAT" DROP 1- FIND .S ;
+\ FOUND, NON-IMMEDIATE
+: F3 S" DUP" DROP 1- FIND .S ;
+
+
+\ Now that FOO will access the original wordlist it's safe
+\ to redefine LATEST so that a subsequent redefine of the
+\ compiler words will use the current wordlist instead of
+\ the original wordlist.
+
+\ TODO note that WORDS still uses the original wordlist ONLY!!
+
+: LATEST CURRENT @ ;
+
+: '           \ -- xt        find word in dictionary
+  BL WORD FIND   0= ABORT" ?" ;
+
+\ HACK!! Can change with source changes.
+E045 CONSTANT <DOCREATE>
+
+
+: CREATE      \ --        create an empty definition
+  LATEST @  ,             \ link field
+  HERE LATEST !           \ new "latest" link
+  BL WORD C@ 1+ ALLOT     \ name field
+  <DOCREATE> ,CF ;        \ code field
+
+: IMMEDIATE   \ --        make last definition immediate
+  LATEST @ DUP  C@ 40 OR  SWAP C! ;
+
+: RECURSE     \ --        recurse current definition
+  LATEST @ NFA>CFA COMPILE, ;  IMMEDIATE
+
+: HIDE        \ --        "hide" latest definition
+  LATEST @ DUP  C@ 80 OR SWAP C! ;
+
+: REVEAL      \ --        "reveal" latest definition
+  LATEST @ DUP  C@ 7F AND SWAP C! ;
+
+: [']         \ --        find word and compile as literal
+  '  ['] LIT COMPILE,  , ;  IMMEDIATE
+
+: [CHAR]      \ --        compile character literal
+  CHAR  ['] LIT COMPILE,  , ;  IMMEDIATE
+
+: :   CREATE HIDE ] !COLON ;
+
+\ TODO NEED [COMPILE] FOR TARGET.. AND MAYBE POSTPONE AS WELL.
+: ;   REVEAL ,EXIT  [COMPILE] [  ;   IMMEDIATE

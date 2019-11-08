@@ -1,0 +1,43 @@
+#!/usr/bin/perl -w
+#
+# read .HEX file. Apply offset to each record's address field and
+# recompute the checksum accordingly.
+# Application: .HEX file has absolute address. To go into a ROM, needs to
+# relative address (ie relative to the start of the ROM)
+#
+# usage: hex_addr_remap <hex-offset> foo.hex > foo2.hex
+#
+# The offset, which should be in hex, is SUBTRACTED from each entry. Eg
+# ROM assembled at 0xE000 will be
+# hex_addr_remap e000 foo.hex > foo2.hex
+
+$offset = hex($ARGV[0]);
+open INFILE, $ARGV[1] or die "Could not open input file $ARGV[1]";
+while (my $line = <INFILE>) {
+    $line =~/(\:)([0-9A-F][0-9A-F])([0-9A-F][0-9A-F][0-9A-F][0-9A-F])([0-9A-F][0-9A-F])(\w+)/;
+    my $len=hex($2); # 2 digits
+    my $adr=hex($3); # 4 digits
+    my $typ=hex($4); # 2 digits
+    my $dat=$5; # data and checksum
+    my $char = length $dat;
+
+    # adjust addresss
+    $adr = 0xffff & ($adr - $offset);
+
+    # do len adr typ
+    my $sum = $len + ($adr & 0xff) + (($adr>>8) & 0xff) + $typ;
+    printf ":%02X%04X%02X", $len, $adr, $typ;
+
+    # process the rest upto but excluding the last byte (the old checksum)
+    for (my $i=0; $i<($char-2); $i=$i+2) {
+        my $hex=substr $dat, $i, 2;
+        printf "%02X", hex($hex);
+        $sum = $sum + hex($hex);
+    }
+
+    my $current_csum = hex(substr $dat, $char -2, 2);
+    my $new_csum = (($sum ^ 0xff) + 1) & 0xff;
+    printf "%02X\r\n", $new_csum;
+}
+close INFILE;
+

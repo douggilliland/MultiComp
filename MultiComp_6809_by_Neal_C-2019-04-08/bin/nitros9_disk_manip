@@ -1,0 +1,145 @@
+#!/usr/bin/perl
+#
+# Manipulator for NITROS9 disk images. Only has 2 functions:
+# to "expand" each 256 block to 512 bytes
+# to "shrink" an expanded image back to its original
+#
+# Neal Crook, June 2015.
+
+use strict;
+use warnings;
+
+
+# What to do
+my %action;
+my $blocks = 0;      # number of blocks
+my $sdmismatch = 0;  # number of blocks for which first and second halves mismatch
+my $data;
+my %dsk;             # hash of disk parameters
+
+# constants
+$dsk{BYTES_BLK} = 256; # Bytes in input block. Changed by -insd
+$dsk{BYTES_SECTOR} = 256;
+
+# process command-line arguments
+while (my $arg = shift @ARGV) {
+    if ($arg eq "-help") {
+        help_exit();
+    }
+    elsif ($arg eq "-insd") {
+        $action{insd} = 1;
+        $dsk{BYTES_BLK} = 512;
+    }
+    elsif ($arg eq "-out") {
+        $action{out} = shift @ARGV;
+    }
+    elsif ($arg eq "-outsd") {
+        $action{outsd} = shift @ARGV;
+    }
+    elsif ($arg =~ "^-") {
+        print "ERROR unrecognised option -- try using -help\n";
+        exit;
+    }
+    else {
+        # INFILE - just once
+        if (defined $action{infile}) {
+            print "ERROR unrecognised option or multiple input files specified -- try using -help\n";
+            exit;
+        }
+        else {
+            $action{infile} = $arg;
+        }
+    }
+}
+
+# Sanity check
+if (!defined $action{infile}) {
+    print "ERROR no input file specified -- try using -help\n";
+    exit;
+}
+
+# Open input file for read/write, output files for write-only
+open INFILE, "$action{infile}" or die "ERROR could not open input file $action{infile}\n";
+if (defined $action{out}) {
+    open OUT, ">$action{out}" or die "ERROR could not open output file $action{out}\n";
+}
+if (defined $action{outsd}) {
+    open OUTSD, ">$action{outsd}" or die "ERROR could not open output file $action{outsd}\n";
+}
+
+# Read the file block by block. In the process:
+# - Honour the input format.
+# - Verify data matching if input is SD format.
+# - If selected, write output files
+while(my $bytes_actual = read INFILE, $data, $dsk{BYTES_BLK}) {
+    if ($bytes_actual == $dsk{BYTES_BLK}) {
+
+        # sector-worth of data (maybe all of the data)
+        my $data0 = substr $data, 0, $dsk{BYTES_SECTOR};
+
+        if ($action{insd}) {
+            my $data1 = substr $data, $dsk{BYTES_SECTOR}, $dsk{BYTES_SECTOR};
+            if ($data0 ne $data1) {
+                $sdmismatch = $sdmismatch + 1;
+            }
+        }
+
+        if ($action{out}) {
+            print OUT $data0;
+        }
+        if ($action{outsd}) {
+            print OUTSD $data0, $data0;
+        }
+
+        # All is well
+        $blocks = $blocks + 1;
+    }
+    else {
+        if ($bytes_actual != 0) {
+            print "ERROR input file is not a multiple of $dsk{BYTES_BLK} -- $bytes_actual bytes left over\n";
+        }
+    }
+}
+
+# Tidy up
+close INFILE;
+if (defined $action{out}) {
+    close OUT;
+}
+if (defined $action{outsd}) {
+    close OUTSD;
+}
+
+
+###########################################################################################
+## Subroutines
+
+sub help_exit {
+    print <<EOF
+
+Manipulator for NITROS9 disk images. Usage:
+
+nitros9_disk_manip [-help] [INFILE <options>]
+
+    -help              print usage information and terminate
+    INFILE             name of a NITROS9 disk image file (usually .dsk)
+    -insd              by default input files are in .dsk format. This specifies
+                       that the input file is in SD file format (notes below)
+    -out OUTFILE       write disk image out in .dsk file format
+    -outsd OUTFILE     write disk image out in SD file format (notes below)
+
+SD File format
+
+A NITROS9 disk image has a fixed sector size of 256 bytes. In order to transfer it to an
+SDCARD it is convenient (though inefficient) to place each sector in the first half of a 512
+byte block. This has the effect of generating an output image that is exactly twice the size of
+the input image.
+
+For no particularly good reason (but maybe for integrity checking later) "-outsd" achieves this
+by duplicating each 256 byte data chunk.
+
+"-insd" performs the opposite check: for each 512 bytes in, it reports whether the first and
+second half of each 512 byte block contain identical data or not.
+
+EOF
+}

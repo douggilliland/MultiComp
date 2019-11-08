@@ -1,0 +1,44 @@
+[this material is now on the WIKI]
+
+After hardware reset, Multicomp09 executes the Camel FORTH ROM. From the FORTH
+prompt, the word NITROS9 performs the primary bootstrap: it will load and
+execute a program from track 34 of the NITROS virtual disk image stored on the
+SD card. Specifically, the primary bootstrap looks like this:
+
+: NITROS9 \ load track34 and start it
+  \ disk is on SD at 0x2.8000 so track34 is at 0x2.84C8
+  MMUMAP EFTOCD
+  2 SDLBA2 84C8 2600   \ load from 0x2.84C8 to 2600
+  12 SDRD256n 0 SDLBA2 \ 18 (hex 12) 256-byte sectors
+  \ vectors to RAM expected by krn
+  0100 DFF2 ! 0103 DFF4 ! 010F DFF6 ! \ SWI3 SWI2 FIRQ
+  010C DFF8 ! 0106 DFFA ! 0109 DFFC ! \ IRQ  SWI  NMI
+  CDTOCD 2602 PIVOT ;  \ restore map, start at 2602
+
+Description:
+
+1/ enable the MMU with 1-1 mapping (ie, low 8 8K blocks of RAM map to the 8 blocks of
+physical address space. MMU is enabled, ROM still enabled)
+
+1A/ the Fixed RAM Top (FRT) mode of the MMU is *not* enabled.
+
+2/ load data from the SDcard: 18, 256-byte sectors from track 34 of the disk image loaded
+into memory starting at address $2600 (SD card blocks are 512 bytes. I fit 1 256byte sector
+into each block -- wasting half the block)
+
+3/ RAM block 7 is obscured by the ROM. We want to load vectors into it. Therefore, remap it
+to block's 6 physical address space. Write the vectors, then map it back (for example,
+"0100 DFF2 !" is a 16-bit store of data $0100 to address $DFF2. After mapping this back it
+will appear at address $FFF2)
+
+4/ Finally, (2602 PIVOT) disable the ROM and jump to address $2602 to enter the NITROS boot
+code.
+
+On entry to the NITROS boot code.. the boot code sees a full 64Kbyte RAM address
+space (with the exception of the I/O region $FFD0-$FFDF), interrupts are
+disabled, timer is disabled, ROM is disabled, vectors are set up at the top of
+memory as expected by L2 NITROS, MMU is enabled with TR=0.  IF the MMU was to be
+disabled at this point, everything would continue quite happily because the
+virtual address space is an exact match for the physical address space.
+
+

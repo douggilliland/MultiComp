@@ -1,0 +1,705 @@
+1. first, I should supplement my description of the Multicomp boot-to-NITROS9
+description by noting that, although the MMU is enabled, the Fixed RAM Top (FRT)
+mode is *not* enabled. An additional write to the MMU is needed (eg, as part of
+the start-up code in REL) in order to enable this mode.
+
+
+29Nov2016 NAC 1st edit
+30Nov2015 NAC New section on modules, module ordering and alignment
+02Dec2015 NAC New section on what to include in the bootfile. Update section
+              on mc09 bootfile with new L2 target names.
+05Dec2015 NAC Update section on mc09 bootfile with new L1 target names.
+05Dec2015 NAC Add section on sysgo
+05Dec2015 NAC Add section on memory size
+09Dec2015 NAC Add section on data structures
+
+
+NITROS9 Level 1, Level 2, Level 3
+================================
+
+[this section is now on the WIKI]
+
+Coco1 and Coco2 (neither of which have the MMU) originally ran OS9 Level 1. For
+Coco3 (which has the MMU in the chip called GIME), OS9 Level 1 version 2 was
+developed, which eventually morphed into OS9 Level 2.
+
+NITROS9 Level 1 and Level 2 correspond to the OS9 versions of the same
+name. NITROS9 adds a couple more function calls?
+
+Level 3 was a NITROS9 development. It requires a Coco3 MMU. It contains
+additional features to manage system memory more efficiently.
+
+In the Sourceforge repository, the Level 1 and Level 2 code has build-time
+options that allow a 6809 version or a 6309 version to be generated. I read
+elsewhere that the Level 3 code is only intended to run on a 6309 but I have not
+inspected the code to know if that is true. I'm not sure how mature the Level 3
+code is or how many people are using it.
+
+Bill Nobel has a github repository of Level 3 code (unchanged in 2 years), which
+seems to contain 3 variants of the code, but some useful background
+documentation. It's not clear to me whether the sourceforge repository is in
+sync with this or not.
+
+Based on all this, I propose that we concentrate on Level 2.
+
+References:
+
+http://www.nitros9.org/documents.html
+https://github.com/bnobel/Nitros9-Level-3
+
+
+Level2 Kernel Versions
+======================
+
+[this section is now on the WIKI]
+
+The Level 2 kernel files are in level2/modules/kernel. There are two versions of
+the kernel:
+
+krn.asm
+ccbkrn.asm
+
+Both of these contain a set of "use" statements to pull in other chunks of code
+from the level2/modules/kernel tree. There are two kernel-specific "use"d files:
+fnproc.asm/ccbfnproc.asm and an fsrqmem.asm/ccbfsrqmem.asm. All the others are
+common between the two kernels.
+
+"ccb" stands for CocoBoot and is a project by Brett Gordon, who also works on
+Fuzix. CocoBoot is intended as a better booting mechanism for a Coco. Since it
+seems to not be actively developed, I propose that we use krn.asm as our
+starting point. However, I patched the krn and ccbkrn sources to minimise the
+differences between them (mainly, taking comment additions from Brett) and I
+note that he has fixed what looks like a bug in the krn.asm code; we should take
+that bug-fix and his automatic code-padding change.
+
+References:
+
+(NOT to be confused with https://github.com/hackndev/cocoboot)
+https://sourceforge.net/projects/cocoboot/
+https://code.google.com/archive/p/legsforth/
+https://sites.google.com/site/cocoboot2/home
+
+Coco3 boot environment
+======================
+
+Here are some notes that I wrote when getting Fuzix to boot on Multicomp; they
+describe the way that Coco3 MMU is set up at boot time:
+
+;;; coco3:
+;;; $ff91   writeonly
+;;; $ffa0
+;;; $ff90
+;;; $ffd9   high-speed poke
+;;; $ff9c   scroll register
+;;; $ffae   super basic in MMU
+;;; $c033   BASIC mirror of video reg
+;;; $ff98   video row setup
+;;; $ff99   video col setup
+;;; $ff9d   video map setup
+;;; $ffb0   video colour
+;;; $ffb0   video colour
+;;; $ffb8   video colour
+;;; $ffb0   video colour
+;;; $ffb0   video colour
+
+;;; coco3 MMU
+;;; accessed through registers $ff91 and $ffa0-$ffaf
+;;; 2 possible memory maps: map0, map1 selected by $ff91[0]
+;;; map0 is used for User mode, map1 is used for Kernel mode.
+;;; map1 is selected at boot (ie, now).
+;;; when 0, select map0 using pages stored in $ffa0-$ffa7
+;;; when 1, select map1 using pages stored in $ffa8-$ffaf
+;;; a 512K system has 64 blocks, numbered $00 to $3f
+;;; write the block number to the paging register. On readback,
+;;; only bits 5:0 are valid; the other bits can contain junk.
+
+;;; multicomp09 MMU
+;;; accessed through two WRITE-ONLY registers MMUADR, MMUDAT
+;;; 2 possible memory maps: map0, map1 selected by MMUADR[6]
+;;; map0 is used for User mode, map1 is used for Kernel mode.
+;;; map0 is selected at boot (ie, now)
+;;; .. to avoid pointless divergence from coco3, the first
+;;; hardware setup step will be to flip to map1.
+;;; [NAC HACK 2016Apr23] in the future, may handle this in
+;;; forth or in the bootstrap
+;;; when 0, select map0 using MAPSEL values 0-7
+;;; when 1, select map1 using MAPSEL values 8-15
+;;; MAPSEL is MMUADR[3:0]
+;;; a  512K system has  64 blocks, numbered $00 to $3f
+;;; a 1024K system has 128 blocks, numbered $00 to $7f
+;;; Write the block number to MMUDAT[6:0]
+;;; MMUDAT[7]=1 write-protects the selected block - NOT USED HERE!
+
+;;; coco3: at the time the boot loader passes control this the code here,
+;;; map1 is selected (Kernel space) and the map1 mapping
+;;; registers are selecting blocks 0-7.
+;;; map0 is selecting blocks $38-$3f.
+
+;;; multicomp09: at the time the boot loader passes control this the code here,
+;;; map0 is selected (user space) and the map0 mapping
+;;; registers are selecting blocks 0-7.
+;;; map1 mapping registers are uninitialised.
+
+
+NITROS9 Kernel direct page data
+==============================
+
+NITROS9 keeps a set of variables in the direct page, and these are named
+D.<something> for example D.Poll and D.TINIT (defined in defs/os9.d).
+
+D.TINIT is a shadow copy of the MMU DAT.Task register. When the kernel wants to
+flip the TR bit, it never reads DAT.Task but performs a mask on D.TINIT and
+writes the revised version to both D.TINIT and D.Task. For the multicomp09 port,
+the TR bit is in a different position in D.Task, and the other bits in that
+register are also different.
+
+Q: How are the initial values for D.* (and D.TINIT in particular) formed? I
+can't see it obviously in the code, but I think have read a comment about
+zeroing out the whole of the direct page. If so, that's something that will need
+tweaking because 0 is not a good initial value for our D.TINIT.
+
+
+BOOT PROCESS
+============
+
+(This come from the reference below but with additional comments that I inserted
+when debugging the Level 1 port)
+
+The boot process involves 2 binary lumps. The first is named (in the makefile
+target) KERNELFILE_xxx and the second is named BOOTFILE_yyy - where xxx and yyy
+identify variants targeting different hardware configurations.
+
+In each case, the lump is created by concatenating multiple binary modules (see
+next section).
+
+The lump KERNELFILE_xxx is written to track 34 of the boot disk and is the first
+part of NITROS9 to be loaded and executed. The lump BOOTFILE_yyy is stored in
+the filesystem of the boot disk just like any other file. However, to make it
+findable early in the boot process, its start LSN is encoded in the LSN0 data
+structure. The toolshed os9 tool's "gen" command sets up LSN0. The NITROS9 build
+process does this automatically for the disk images it creates. For example,
+from level1/mc09/makefile:
+
+        $(OS9FORMAT_DS80) -q $@ -n"NitrOS-9/$(CPU) Level $(LEVEL)"
+        $(OS9GEN) $@ -b=$(BOOTFILE_COVDG_SD80) -t=$(KERNELFILE_COCOSDC)
+
+I think there is also a requirement that the bootfile uses contiguous blocks on
+the disk (ie, is not fragmented).
+
+
+Typing 'DOS' at the Disk Extended Color BASIC 'OK' prompt on a CoCo loads in track 34 off of the disk.
+Track 34 consists of 18 total 256 byte sectors; that's 4,608 ($1200) bytes. Here's what happens when 'DOS' is typed:
+
+    Track 34 gets loaded into address $2600. The first blob of code comes from the REL module. The first two bytes of the
+    contents at track 34 are 'O' and 'S'. Upon load, execution of code starts at $2602
+    $2602 contains a BRA to the execution point of the REL module.
+    (CamelForth is all set up to load and start this)
+    REL clears the VDU screen and prints a message "NITROSy`BOOT" [TODO why the wierd text?]
+    REL copies the boot track ($2600 to $3800) to address $EE00 [TODO though docs said $ED00 - correct for Level 2 apparently],
+    then jumps to code at the new address.
+
+the copy destination is Bt.Start, set in defs/os9.def - it is $EE00 for level 1, $ED00 otherwise.
+the copy size is Bt.Size and is set to $1080 ($1000 for DRAGON).
+the actual track 34 size is $1200 bytes for this disk so the final part is ignored - that's consistent
+with what I learned from the disassembly (notes below).
+
+    That means the code ends up in memory at $EE00-$FFFF.
+    Disassembly shows that the code has an unused area at the end that pads it to FFFF. I think most targets might not
+    have RAM at those regions, or else the copy loop (check it) in REL doesn't copy beyond the end of the valid code
+    Must not copy that whole region for multicomp as it encompasses the I/O region... looks as tho that's fine: rel
+    copies up to FE80.
+[TODO check coco memory maps to see why it stops there]
+
+    REL then jumps to KRN, at M$Exec? Which I assume (hope!) is OS9Cold at EE8C
+    KRN, which sets up system variables, the system memory map, system call tables, IRQ & SWI setup, and calls BOOT.
+    BOOT reads sector $000000 off of a disk, and finds out where the OS9Boot file is.
+    BOOT requests system memory for the size of OS9Boot, seeks to where OS9Boot is, and loads it directly into RAM.
+    It then returns to KRN, after setting up pointers in low memory to the OS9Boot file.
+    KRN links to KRNP2, and jumps into it.
+[TODO for level1 krnp2 is part of the trk34 code and it gets linked and entered BEFORE the boot file is loaded:
+JmpBoot is part of krnp2]
+
+    KRNP2 sets up more system calls, links to the CLOCK module, and calls it.
+    CLOCK sets up some more system calls, starts multitasking, and returns to KRNP2.
+    KRNP2 then does F$Chain of SYSGO. This prints a start up banner, and runs your 'startup' file through a shell.
+
+The code in the (L1) boot track comes from (in order)
+rel.lst
+krn.lst
+krnp2.lst
+init.lst
+boot_1773_6ms.lst (which includes code from boot_common.asm)
+
+
+Reference:
+
+https://sourceforge.net/p/nitros9/wiki/The_NitrOS-9_Boot_Process_Explained/
+
+
+MODULES, MODULE ORDERING AND ALIGNMENT
+======================================
+
+The KERNELFILE and BOOTFILE are created by concatenating multiple binary
+modules.
+
+This works because each module is relocatable code and because there is a header
+on each module which allows the modules to be treated as a linked list that is
+searchable by module name.
+
+Theoretically, this allows the modules to be concatenated in any order. However,
+there are some assumptions about module ordering for the KERNELFILE as a result
+of assumptions/simplifications made in the boot process:
+
+1/ The module REL must always be first, because the bootstrap code that loads
+the "Track 34" branches to a fixed offset from the start of the KERNELFILE,
+corresponding the the entry point of the first module, so that first module must
+be REL.
+
+2/ For Level 1, the KRN must be adjacent to REL because REL computes the entry
+point of KRN as a fixed offset from the end of REL.
+
+3/ For Level 2, the KRN must be the last item in the list because the end parts
+of KRN must be up in the $FExx address range.
+
+Comparing the KERNELFILE ordering for Level 1 and Level 2 (see below)
+demonstrates this ordering difference.
+
+The Level 2 code in REL says that KRN starts at the fixed address $F000 in
+memory. Given that KRN is bolted on the end of REL and BOOT (the simplified disk
+driver) a little more investigation (below) is needed to reveal how that is
+achieved.
+
+The level1/coco1/bootfiles/makefile has a step that pads KERNELFILE to a size of
+4608 bytes. There is no similar padding step in the level2 makefile. However,
+both files are exactly 4608 bytes. In fact, all of the kernel_* variants are
+4608, even in the Level 2 case where there is no pad step but there are
+different components making up each variant.
+
+In all cases the KERNELFILE is made up of REL (304=$130 bytes in all variants),
+BOOT_* (464=$1D0 bytes in all variants) KRN (3840=$F00 bytes) -- 4608=$1200) in
+total.
+
+If this gets copied to $ED00 then the memory map looks like this:
+
+$ED00 start of REL
+$EE30 start of BOOT
+$F000 start of KRN
+
+..which matches the KRN start address assertion in REL.
+
+By inspection, REL is padded:
+
+Pad      fill  $39,$127-*
+
+The reason why that is $127 rather than $130 is as follows: (1) there are 6
+bytes at the start of the file, before the "mod" statement which resets the PC
+count to 0. (2) there are 3 bytes at the end of the file; the module end
+stuff. Together that's 9 bytes. $127+9=$130. The pad statement would be better
+represented as: $130-XX.Size-3-* -- that would be consistent with the way it's
+done in the boot files and more obvious. Adding a comment would also help.
+
+By inspection, the BOOT files are padded:
+
+* Filler to get $1D0
+Filler   fill  $39,$1D0-3-2-1-*
+
+By inspection, the KRN file is padded:
+
+* FILL - all unused bytes are now here
+
+or, more neatly, in ccbkrn:
+
+* CCB: this code (after pad) start assembling *before* 0xfe00, it's too big to
+* fit into the memory as stated above!!!!
+PAD     fill    $00,($0df1-*)   fill memory to ensure the above happens
+
+Notice that the padding can only be achieved by implementing it in each module;
+no module knows anything about the others, so it's not possible to, for example,
+lump all of the padding into KRN.
+
+Multicomp09 krn code will be larger, and we know that there is memory available
+to accommodate it (address range $FF00-$FFCF) but the current code exactly fills
+the track 34 space available, so how to accommodate a larger kernel? Options:
+
+1/ allocate the space differently between the modules. Multicomp09 SD driver
+needs less than $100 bytes, freeing up 48=$30 bytes. However, we want the start
+address of krn to be unchanged, and therefore will need to make REL copy the
+code a bit higher up in memory than $ED00.
+
+2/ store the KERNELFILE somewhere else on the SD card, not in the track 34
+space. That's quite simple to do. As for 1, will also need to make REL copy
+the code a bit higher up in memory.
+
+We can choose one of these options later, depending upon how large the
+KERNELFILE ends up being.
+
+
+DEVICE DRIVERS: SD CARD
+=======================
+
+NITROS9 disk use logical sector number (LSN). A floppy disk uses track/sector
+addressing. A device driver for a real floppy controller has to convert the
+logical sector number into a track/sector, and the maths for doing that depends
+upon the geometry of the floppy (number of sides, number of tracks, number of
+sectors per track). The first sector of a disk, sector 0, is named LSN0 and
+contains information that includes a description of the disk geometry (use
+the toolshed os9 tool's "id" command to display this information)
+
+The Multicomp09 disk driver, level1/modules/mc09sdc.asm, uses 4 regions of the
+SD card as 4 virtual disks. Each virtual disk is 720kbytes in size. The 4
+descriptors, (D0-D3) are created from level1/modules/mc09sdcdesc.asm.
+
+The initial virtual disk images are created by the toolshed os9 tool using a
+sequence like this:
+
+# create disk
+os9 format -e -t80 -ds -dd nitros9_2.dsk -n"NitrOS-9/6809 Level 1 util disk2"
+# create some stuff on each of them
+os9 makdir nitros9_2.dsk,CMDS
+os9 makdir nitros9_2.dsk,DSK2_INFO
+
+I thought that it *ought* to be the case that the geometry of the drive is
+invisible outside of the device driver, but apparently that is not correct. The
+track and sector count are needed for calculations by RBF during writes.
+
+Even allowing that this is so, it should be possible to create a disk with a
+maximum of 256 tracks and 256 sectors (ie, much larger than the current disks)
+but we can save that question until things are up-and-running. In addition, the
+toolshed os9 tool allows the creation of a virtual hard-disk image (presumably
+larger), but I don't know how this works and whether the driver would need any
+changes. Again, answering this question can be left until later.
+
+There is also a device driver called the "Superdriver" which seems to be geared
+towards larger devices, but I have not looked into this as it's more complex and
+the current SD driver is very simple and works.
+
+Q: Go back and find the email from Bill Nobel explaining why this is. Consult
+the RBF code to see why this is needed and how it is used.
+
+References:
+
+https://sourceforge.net/p/toolshed/wiki/Documentation/
+
+
+DEVICE DRIVERS: DRIVEWIRE
+=========================
+
+Drivewire is a protocol typically implemented across an RS232 link and used to
+allow a modern computer (acting as the server) to provide print, disk and
+network services to an 'old' computer (acting as the client). In emulation, the
+RS232 is usually replaced by a virtual parallel connection (named a Becker
+Interface after its original author) between the client and the server; the
+server is implemented as part of the emulator. The current version of the
+protocol is named Drivewire 4, leading to the abbreviation DW4.
+
+There are multiple implementations of the DW4 server code, but the "standard"
+one is implemented in JAVA and runs on Windows/Linux/Mac. I have it running on a
+Raspberry Pi.
+
+Using Drivewire device drivers in NITROS9 allows the system to access virtual
+disk images (in DECB format??) on the server. Usually, you can't boot NITROS9 in
+this way - because there are no device drivers available on the target system
+until after NITROS9 has booted. However, there are recipes for building a
+KERNELFILE that contains the DW drivers, so that the associated BOOTFILE can be
+loaded from a DW4 server.
+
+On the Coco machines, the RS232 ports are implemented by bit-banging and
+hand-tuned code loops. Since Multicomp09 has real UARTs, adding DW4 support
+should be straightforward. I did not do it when I did the original Level 1 port
+but I have subsequently added DW4 support for Multicomp09 in Fuzix and I think
+it will be easy to go back and add it to Multicomp09 Level 1 and Level 2.
+
+
+BOOT FILES FOR COCO2 LEVEL1
+===========================
+
+There are lots of options; this is one representative example (from
+level1/coco1/bootfiles/makefile)
+
+The makefile targets are named KERNELFILE_1773 BOOTFILE_COVDG_SD80
+
+KERNEL_1773     = $(MD)/rel $(MD)/krn $(MD)/krnp2 $(MD)/init \
+                $(MD)/boot_1773_6ms
+
+BOOTFILE_COVDG  = $(MD)/ioman \
+                $(MD)/rbf.mn \
+                $(FLOPPY_40D) \
+                $(MD)/ddd0_40d.dd \
+                $(MD)/scf.mn \
+                $(VTIO_COVDG) \
+                $(MD)/scbbp.dr $(MD)/p_scbbp.dd \
+                $(MD)/scbbt.dr $(MD)/t1_scbbt.dd \
+                $(PIPE) \
+                $(CLOCK60HZ) \
+                $(MD)/sysgo_dd
+
+VTIO_COVDG      = $(MD)/vtio.dr $(MD)/covdg.io $(MD)/term_vdg.dt
+
+"1773" refers to a particular disk controller. The VTIO stuff is code to control
+text output on the memory-mapped/character mapped display, including code to do
+scroll under software control. For multicomp09 that is all replaced with code to
+talk to a serial port (remember, the multicomp09 kbd/vdu behaves like a virtual
+UART).
+
+
+THE BOOTLIST
+============
+
+On a build NITROS9 system disk there is a NITROS9/BOOTLISTS directory. The make
+process just copies in stuff from the bootlists directory of the tree. ie: dw.bl
+standard.bl
+
+The bootlist provides a mechanism for creating a new/customised bootfile on a
+running system. First edit the bootlist, then run the mb script. This creates a
+new bootfile (presumably with the correct name and indexed by LSN0). The new
+bootfile would then be used after a reboot.
+
+Bottom line: the bootlist is not something that we need to worry about during
+the porting process.
+
+
+BOOT FILES FOR MULTICOMP09 LEVEL1
+=================================
+
+(from level1/mc09/bootfiles/makefile)
+
+The makefile targets (level1/mc09/makefile) are named KERNELFILE and
+BOOTFILE_MC09SD, corresponding (in level1/mc09/bootfiles/makefile) to
+KERNEL_MC09SD and BOOTFILE_MC09SD.
+
+KERNEL_MC09SD = $(MD)/rel $(MD)/krn $(MD)/krnp2 $(MD)/init \
+                $(MD)/boot_sdc
+
+(boot_sdc contains a cut-down subset of the disk driver code; just enough to be
+able to read a file from a specified start LSN).
+
+BOOTFILE_MC09SD = $(MD)/ioman \
+                $(MD)/rbf.mn \
+                $(MD)/dds0_80d.dd \
+                $(MC09SDC_80D) \
+                $(MD)/scf.mn \
+                $(TERM_MC09) \
+                $(PIPE) \
+                $(CLOCK50HZMC09) \
+                $(MD)/sysgo_dd
+
+where:
+TERM_MC09       = $(MD)/mc6850.dr $(MD)/term_mc6850.dt $(MD)/term_mc6850_t0.dt $(MD)/term_mc6850_t1.dt
+MC09SDC_80D     = $(MD)/mc09sdc.dr $(MD)/s0_80d.dd $(MD)/s1_80d.dd $(MD)/s2_80d.dd $(MD)/s3_80d.dd
+
+(the Multicomp09 Level 1 makefiles still contain *lots* of redundant junk that I
+inherited from cloning the coco1 stuff. I need to go back and strip them right
+back).
+
+BOOT FILES FOR COCO3 LEVEL2
+===========================
+
+There are lots of options; this is one representative example (from
+level2/coco3/bootfiles/makefile)
+
+The makefile targets are named KERNELFILE_1773 BOOTFILE_80D
+
+KERNEL_1773     = $(MD)/rel_80 $(MD)/boot_1773_6ms $(MD)/krn
+
+BOOTFILE_80D    = $(MD)/krnp2 $(MD)/ioman $(MD)/init \
+                $(MD)/rbf.mn \
+                $(FLOPPY_80D) \
+                $(MD)/ddd0_80d.dd \
+                $(MD)/scf.mn \
+                $(VTIO_COGRF_80) \
+                $(PIPE) \
+                $(CLOCK60HZ)
+
+VTIO_COGRF_80 = $(MD)/vtio.dr \
+                $(MD)/keydrv_cc3.sb $(MD)/joydrv_joy.sb $(MD)/snddrv_cc3.sb \
+                $(MD)/cogrf.io \
+                $(MD)/term_win80.dt \
+                $(MD)/w.dw $(MD)/w1.dw $(MD)/w2.dw $(MD)/w3.dw $(MD)/w4.dw \
+                $(MD)/w5.dw $(MD)/w6.dw $(MD)/w7.dw
+
+
+BOOT FILES FOR MULTICOMP09 LEVEL2
+=================================
+
+Based on the stuff above, looks like we need this..
+
+The makefile targets (level2/mc09l2/makefile) are named KERNELFILE and
+BOOTFILE_MC09SD, corresponding (in level2/mc09l2/bootfiles/makefile) to
+KERNEL_MC09SD and BOOTFILE_MC09SD.
+
+KERNEL_MC09SD   = $(MD)/rel_80 $(MD)/boot_sdc $(MD)/krn
+
+(the _80 refers to 80-column output. boot_sdc contains a cut-down subset of the
+disk driver code; just enough to be able to read a file from a specified start
+LSN).
+
+BOOTFILE_MC09SD =  $(MD)/krnp2 $(MD)/ioman $(MD)/init \
+                $(MD)/rbf.mn \
+                $(MD)/dds0_80d.dd \
+                $(MC09SDC_80D) \
+                $(MD)/scf.mn \
+                $(TERM_MC09) \
+                $(PIPE) \
+                $(CLOCK50HZMC09)
+
+where:
+TERM_MC09       = $(MD)/mc6850.dr $(MD)/term_mc6850.dt $(MD)/term_mc6850_t0.dt $(MD)/term_mc6850_t1.dt
+MC09SDC_80D     = $(MD)/mc09sdc.dr $(MD)/s0_80d.dd $(MD)/s1_80d.dd $(MD)/s2_80d.dd $(MD)/s3_80d.dd
+
+Q: Why is there no SysGo in the Level 2 bootfile?
+
+The coding changes are restricted to:
+
+rel     - source file has conditionals for Level1 and Level2. Needs mc09-specific
+          code added for Level2 section.
+krn     - separate version for Level2. Needs mc09-specific code for system setup and for MMU control
+krnp2   - separate version for Level2. Needs mc09-specific code for system setup and for MMU control
+clock   - separate version for Level2. For Level1 I created an mc09-specific module rather than adding
+          a lot of conditional code. Likewise, need a new Level2 version.
+
+The other mc09 device drivers written for Level 1 (SD control, terminal control)
+should continue to work correctly for Level 2.
+
+
+WHAT TO INCLUDE IN A BOOT FILE
+==============================
+
+A bootfile stays in memory for the life of the session; there is no way to
+unstitch parts of it. For Level 1, the restricted amount of memory means that
+the bootfile should only contain what's necessary to boot the system. For Level
+2, the additional memory made available by the MMU means that you may not need
+to be so determined to restrict what's present.
+
+At one point, I planned to make 2 different disks for Multicomp09 Level 2: one
+without DW support and one with. In the end though, I decided that it was
+sufficient to just do the "without" version. It's possible to load the DW stuff
+later. The only reason to have a DW version would be if DW was required for the
+boot process, and I don't have that as a goal: we always need the SD card to be
+present, so we should do the whole boot from there.
+
+To load DW later (explanation from Kip)
+
+1/ append all the driver and associated descriptor modules into a file:
+
+merge driver descriptor1 [descriptor2..]>somename
+
+2/ make it executable:
+
+attr somename e pe
+
+3/ load it:
+
+load somename
+
+You can see all of the loaded modules like this:
+
+mdir
+
+You can remove a module from memory like this:
+
+unlink somename
+
+You should only unlink modules that have been placed in memory by use of 'load'.
+
+
+SYSGO OR NOT
+============
+
+The Level 1 boot files all include the sysgo module. The Level 2 boot files do
+not. There is a comment in level2/coco3/bootlists/standard.bl:
+
+  * Choose which startup module you wish to use. (sysgo_dd is recommended
+  * for most configurations.)
+  *
+  * Alternatively, this module can reside in the root directory of the
+  * boot device, saving precious system RAM.
+
+There is no such comment in the level1 boot list files. It's not clear to me
+that there is any *difference* in this regard between level1 and level2, but I
+have not yet performed the experiment of trying to start up a level1 system with
+sysgo removed from the bootlist and added to the boot device root directory.
+
+Don't know/see where the sysgo module is searched for in the root directory. In
+all cases, the *name* of the module is set by the entry in init.asm: "SysGo"
+but, of course, that tells you nothing about the name of the file that it might
+reside in.
+
+
+MEMORY SIZE
+===========
+
+Q: How does the code determine how much (how many pages) of memory are
+available, and how does it restrict MMU page allocation to memory that
+actually exists?
+
+A: It is done in krn.asm "Setup system memory map" refers to:
+D.BlkMap 4 bytes "memory block map ptr" - points to start and
+                 end of map
+D.SysMem 2 bytes "system memory map ptr"
+D.CCStk  2 bytes "pointer to top of CC Memory ($A7)"
+D.MemSz  1 byte  either "# 8k mem blocks that exist" or "128/512 memory flag (CC)"
+
+How are these initialised?
+How and where is memory assigned for the BlkMap
+
+
+D.CCStk is initialised to $2000 in krn (around L001C) - the top of the 1st 8K page, "global memory".
+
+D.BlkMap+0 is initialised in krn (around L001C)
+D.BlkMap+2 is initialised in krn (around L0111).
+Each entry represents one 8Kbyte physical block. The end point is set by the memory sizing
+routine; up to 2MBytes can be accomodated, corresponding to $100 physical blocks.
+
+[NAC HACK 2016Dec06] found and fixed a benign bug where BlkMap+2 was set
+
+D.SysMem has 256 entries - represents a map of (256-byte) pages in the processor address space?
+
+
+Multicomp MMU can accommodate a 7-bit physical block number (128, 8K pages -> 1MByte)
+
+
+COCO3 STARTUP STATE
+=====-=============
+
+Based on memory dumps from the emulator, courtesy of Ole.
+
+When COCO3 loads the boot track and before it has started executing REL, its MMU setup looks like this:
+
+FF91 1B
+FFA0 38 39 3A 3B 3C 3D 3E 3F 38 30 31 32 33 3F 35 3F
+
+The 1B says that TR=1, ie the upper set of mappings are in use.
+
+When Boot has started to run, the MMU setup looks like this:
+
+FF91 1B
+FFA0 00 3E 3A 3B 3B 00 3E 3F 38 30 31 32 33 3D 35 3F
+
+The 1B says that TR=1, ie the upper set of mappings are (still) in use.
+
+There is also useful stuff to be gleaned from the memory map dump from Ole at
+the point that the booter is entered. Need to look at that further to compare
+against what I see.
+
+
+
+DATA STRUCTURES
+===============
+
+Want to understand global data structures
+
+eg D.BlkMap
+   D.SysMem
+
+And per-process data structures
+
+and kernel memory map and mappings
+
+and per-process memory map and mappings
+
+and TR setting. I think TR=0 is Kernel, TR=1 is user, assuming those concepts exist.
+
+"DAT image pointer"
+
+
+

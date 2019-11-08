@@ -1,0 +1,27 @@
+#!/bin/sh
+# make 3 blank disks for NitrOS9
+# Disk0 is the boot disk, created from the source files.
+# The SDcard layout allows 2MBytes of space for disk 0,1,2 and 10MBytes
+# of space for disk3. The normal NitrOS9 build allows 720Kbyte of space
+# for the boot disk (maybe it could be biggger with no problem)
+# Also, the usable size of the disk is *half* the space it takes on disk
+# because each 256Byte block occupies 1 512byte SD card block.
+#
+# So, disk1,2 are 1MByte in size and disk3 is 5MByte in size.
+#
+# 1MByte = 4096 sectors of 256 bytes (4096*256=1MByte)
+# 5MByte = 20480 sectors of 256 bytes (20480*256=5MByte)
+
+os9 format -e -l4096   nitros9_1.dsk -n"NitrOS-9/6809 Level 2 util disk1"
+os9 format -e -l4096   nitros9_2.dsk -n"NitrOS-9/6809 Level 2 util disk2"
+os9 format -e -l20480  nitros9_3.dsk -n"NitrOS-9/6809 Level 2 util disk3"
+
+# create some stuff on each of them to identify then
+os9 makdir nitros9_1.dsk,CMDS
+os9 makdir nitros9_1.dsk,DSK1_INFO
+
+os9 makdir nitros9_2.dsk,CMDS
+os9 makdir nitros9_2.dsk,DSK2_INFO
+
+os9 makdir nitros9_3.dsk,CMDS
+os9 makdir nitros9_3.dsk,DSK3_INFO

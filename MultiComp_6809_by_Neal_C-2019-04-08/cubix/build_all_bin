@@ -1,0 +1,17 @@
+#!/bin/bash
+#
+# assumes as9 srec_cat and (PERL script) hex2bin are on $PATH
+
+# AG5AT boot/monitor
+NAME=r09sase.asm
+BASE=`basename -s asm $NAME`
+as9 $NAME -l s19 now
+srec_cat ${BASE}s19 -Output ${BASE}hex -Intel -Data-Only -address-length=2
+hex2bin ${BASE}hex > ${BASE}bin
+
+# cut-down version that auto-boots to CUBIX
+NAME=cubix_autoboot.asm
+BASE=`basename -s asm $NAME`
+as9 $NAME -l s19 now
+srec_cat ${BASE}s19 -Output ${BASE}hex -Intel -Data-Only -address-length=2
+hex2bin ${BASE}hex > ${BASE}bin

@@ -1,0 +1,2952 @@
+need to know about
+
+- memory map
+- interrupts
+- io
+- disk format
+- boot process
+- how to make a new build target
+- a spec for the coco mmu (for a level2 target)
+
+
+BUILD PROCESS
+=============
+
+If you later want to update your NitrOS-9 build, pull the latest repository changes and update your tree, and build again:
+
+hg pull
+hg update
+make dsk
+
+(other build options:
+$ make clean PORTS=...
+$ make dskclean PORTS=...
+)
+
+
+BUILD A PARTICULAR TARGET
+=========================
+
+Stay in the top folder and specify a "port" (coco2, coco3, coco3_6309, etc):
+
+make dsk PORTS=coco1
+make dsk PORTS=mc09
+make dsk PORTS=mc09l2
+
+mkdir nac_listings
+make dsk PORTS=mc09 LISTDIR=/home/crook/_neal/mc6809_stuff/nitros9/l1_lst
+
+(put the listings outside of the repository root so they do not get reported by "hg status")
+
+
+You should now find disk images have been created in the various
+directories. For instance, the boot disks for level 2, 6309 can be found in the
+level2/coco3_6309 subdirectory.
+
+
+
+Creating a new target
+=====================
+
+$ cd level1
+$ cp -a coco1 multicomp09
+$ cd ..
+$ make dsk PORTS=multicomp09
+
+add target to nitros09/level1/makefile
+
+edit nitros09/level1/multicomp09/port.mak
+
+
+Boot process
+============
+
+(This come from the reference below but with additional comments that I inserted
+when debugging the Level 1 port)
+
+The boot process involves 2 binary lumps. The first is named (in the makefile
+target) KERNELFILE_xxx and the second is named BOOTFILE_yyy - where xxx and yyy
+identify variants targeting different hardware configurations.
+
+In each case, the lump is created by concatenating multiple binary modules. This
+works because each module is relocatable code and because there is a header on
+each module which allows the modules to be treated as a linked list that is
+searchable by module name.
+
+The lump KERNELFILE_xxx is written to track 34 of the boot disk and is the first
+part of NITROS9 to be loaded and executed. The lump BOOTFILE_yyy is stored in
+the filesystem of the boot disk just like any other file. However, to make it
+findable early in the boot process, its start LSN is encoded in the LSN0 data
+structure. The toolshed os9 tool's "gen" command sets up LSN0. The NITROS9 build
+process does this automatically for the disk images it creates. For example,
+from level1/mc09/makefile:
+
+        $(OS9FORMAT_DS80) -q $@ -n"NitrOS-9/$(CPU) Level $(LEVEL)"
+        $(OS9GEN) $@ -b=$(BOOTFILE_COVDG_SD80) -t=$(KERNELFILE_COCOSDC)
+
+I think there is also a requirement that the bootfile uses contiguous blocks on
+the disk (ie, is not fragmented).
+
+Typing 'DOS' at the Disk Extended Color BASIC 'OK' prompt on a CoCo loads in track 34 off of the disk.
+Track 34 consists of 18 total 256 byte sectors; that's 4,608 ($1200) bytes. Here's what happens when 'DOS' is typed:
+
+    Track 34 gets loaded into address $2600. The first blob of code comes from the REL module. The first two bytes of the
+    contents at track 34 are 'O' and 'S'. Upon load, execution of code starts at $2602
+    $2602 contains a BRA to the execution point of the REL module.
+    (CamelForth is all set up to load and start this)
+    REL clears the VDU screen and prints a message "NITROSy`BOOT" [TODO why the wierd text?]
+    REL copies the boot track ($2600 to $3800) to address $EE00 [TODO though docs said $ED00 - correct for Level 2 apparently],
+    then jumps to code at the new address.
+
+the copy destination is Bt.Start, set in defs/os9.def - it is $EE00 for level 1, $ED00 otherwise.
+the copy size is Bt.Size and is set to $1080 ($1000 for DRAGON).
+the actual track 34 size is $1200 bytes for this disk so the final part is ignored - that's consistent
+with what I learned from the disassembly (notes below).
+
+    That means the code ends up in memory at $EE00-$FFFF.
+    Disassembly shows that the code has an unused area at the end that pads it to FFFF. I think most targets might not
+    have RAM at those regions, or else the copy loop (check it) in REL doesn't copy beyond the end of the valid code
+    Must not copy that whole region for multicomp as it encompasses the I/O region... looks as tho that's fine: rel
+    copies up to FE80.
+[TODO check coco memory maps to see why it stops there]
+
+    REL then jumps to KRN, at M$Exec? Which I assume (hope!) is OS9Cold at EE8C
+    KRN, which sets up system variables, the system memory map, system call tables, IRQ & SWI setup, and calls BOOT.
+    BOOT reads sector $000000 off of a disk, and finds out where the OS9Boot file is.
+    BOOT requests system memory for the size of OS9Boot, seeks to where OS9Boot is, and loads it directly into RAM.
+    It then returns to KRN, after setting up pointers in low memory to the OS9Boot file.
+    KRN links to KRNP2, and jumps into it.
+[TODO for level1 krnp2 is part of the trk34 code and it gets linked and entered BEFORE the boot file is loaded:
+JmpBoot is part of krnp2]
+
+    KRNP2 sets up more system calls, links to the CLOCK module, and calls it.
+    CLOCK sets up some more system calls, starts multitasking, and returns to KRNP2.
+    KRNP2 then does F$Chain of SYSGO. This prints a start up banner, and runs your 'startup' file through a shell.
+
+The code in the (L1) boot track comes from (in order)
+rel.lst
+krn.lst
+krnp2.lst
+init.lst
+boot_1773_6ms.lst (which includes code from boot_common.asm)
+
+
+DISK FORMAT
+===========
+
+There are two double-sided 40 track DSK images ending in '_ds40_1.dsk',
+and '_ds40_2.dsk' for disks 1 and 2, respectively.  For those with
+3.5" 720K drives, an 80 track DSK image ending in '_ds80.dsk' is also
+included in the distribution.
+
+
+$ ls level1/multicomp09/nos96809l1v030300multicomp09_80d.dsk
+
+Use the os9 tool from "toolshed":
+
+$ os9 dir level1/multicomp09/nos96809l1v030300multicomp09_80d.dsk, -e
+
+                           Directory of nos96809l1v030300multicomp09_80d.dsk,.
+ Owner    Last modified    Attributes Sector Bytecount Name
+-------   ---------------  ---------- ------ --------- ----
+  0.0     2015/08/31 2233   ------wr       C     14133 OS9Boot
+  0.0     2015/08/31 2233   d-ewrewr      45      2432 CMDS
+  0.0     2015/08/31 2233   d-ewrewr      4E       224 SYS
+  0.0     2015/08/31 2233   d-ewrewr      57       256 DEFS
+  0.0     2015/06/12 2250   ----r-wr     485       154 startup
+  0.0     2015/08/31 2233   d-ewrewr     487        96 NITROS9
+
+.. OR use -aer for full list
+
+
+Seems sensible to target ONLY the _80d disks -- ie, 80-track
+
+
+$ os9 id level1/multicomp09/nnos96809l1v030300multicomp09_80d.dsk,
+
+LSN0 Information:
+  Total sectors   :   2880
+  Track size      :   18
+  Bytes in bitmap :   360
+  Sectors/Cluster :   1
+  Root dir sector :   3
+  Disk owner      :   0.0
+  Disk attributes :   dsewrewr
+  Disk ID         :   $180
+  Disk format     :   $3 (48 TPI, Double Density, Double Sided)
+  Sectors/track   :   18
+  Boot sector     :   13
+  Bootfile size   :   14133
+  Creation date   :   08/31/2015 22:33
+  Disk name       :   NitrOS-9/6809 Level 1
+  Bytes/Sector    :   256
+
+from this it seems that OS9Boot is the boot file.
+
+$ os9 fstat  level1/multicomp09/nos96809l1v030300multicomp09_80d.dsk,OS9Boot
+File Information for level1/multicomp09/nos96809l1v030300multicomp09_80d.dsk,OS9Boot
+  Attributes         : ------wr
+  Owner              : 0.0
+  Last modified date : 06/13/2015 22:02
+  Link count         : 1
+  File size          : 14133
+  Creation date      : 06/13/2015
+  Segment list:
+     1. LSN1 ($D)   56 sectors
+
+Boot process refers to loading track34: 18, 256-byte sectors.
+
+
+if tracks are ordered side0, side1 and tracks are numbered from 0, then track 34 is after 34*2*18*256=4c800 ->yes.
+
+?? work out the logic of the above
+
+FILES INVOLVED IN THE BOOT PROCESS
+==================================
+
+level1/modules/rel.asm
+level1/modules/kernel/krn.asm
+
+Q: what does track34 contain. It's 4608 bytes. It can't just be rel. Does it contain krn? If not, don't know how that gets loaded.
+
+rel "calls boot" but how does boot get loaded?
+
+Sector 0 contains the "LSN0" which is a data structure that incluses the location of the boot sector. eg
+13 for the disk above.
+
+rel Boot OS9p1
+
+need to look at the build process to learn more.
+
+
+disassembly of track34 doesn't really correlate to the assembler listing of rel.asm
+
+boot track should include "rel" and "booters" (See coco1/modules/makefile)
+
+
+
+TODO
+
+2. suggestion on WIKI that there is a whole directory that is no longer needed - investigate
+
+3. what hardware is required for a drivewire connection?
+
+
+
+===============================================================================
+===============================================================================
+1. check out and build whole tree per the nitros9 web site
+
+===============================================================================
+2. clone ?? for level 1 build
+choose target name
+rebuild, make my disk.
+
+
+
+===============================================================================
+3. booter infrastructure: expand disk image 256->512 using ???
+choose to use ?? .dsk file
+boot involves loading track ??
+this is at offset ??
+camelforth words
+onto sdcard at offset ??
+track 34 is offset ??
+therefore, loader looks like this:
+
+??
+??
+
+try it out: load the image to RAM and inspect it. Extract track34 from .dsk file
+like this ???
+
+of course it won't boot at the moment but make sure first and last few bytes match and
+image is correct size.
+
+===============================================================================
+4. device drivers. Minimum is
+
+timer
+vdu
+disk
+
+after that add serial port
+
+pick "best" starting point
+
+also need to define memory map and io addresses
+
+
+
+===============================================================================
+5. choose modules for boot?
+
+
+
+===============================================================================
+===============================================================================
+when that's all working.. level2 port.
+
+===============================================================================
+26-aug-2015
+
+(temporarily) reduce the amount of stuff that gets built:
+
+in nitros9/makefile
+
+##dirs  =  $(NOSLIB) $(LEVEL1) $(LEVEL2) $(LEVEL3) $(3RDPARTY)
+dirs    =  $(NOSLIB) $(LEVEL1) $(LEVEL2) $(LEVEL3) $(3RDPARTY
+
+make dsk PORTS=multicomp09 LISTDIR=/home/crook/_neal/mc6809_stuff/nitros9/l1_lst > log 2>&1
+
+===============================================================================
+Q: lots of LWASM lines give the message:
+
+Warning: IFP1 if is not supported; ignoring
+
+A: means "if in pass1 of the assembler". The manual says:
+
+"the common practice of using "ifp1" around the inclusion of the OS9Defs file is
+discouraged as it is pointless and can lead to unintentional problems and
+phasing errors. Because LWASM reads each file exactly once, there is no benefit
+to restricting the inclusion to the first assembly pass."
+
+Confusingly, the IFP1 is not echoed into the listing file but the corresponding
+ENDC *is* echoed. Does that mean that they are processed correctly as a matching
+pair?
+
+===============================================================================
+Q: how/why does rel get a .lst file automatically in the build tree?
+
+A: in the clean level1/coco1/modules/makefile, rel is listed as a special case
+and I had already hand-edited in the --list=rel.lst stuff:
+
+rel: rel.asm
+        $(AS) $(AFLAGS) --list=rel.lst $(ASOUT)$@ $<
+
+I've removed that now, to use the generic listing directory instead.
+
+===============================================================================
+Q: how does the makeup of the boot track get defined?
+
+A: in the level1/multicomp09/makefile
+
+I'm using the disk nos96809l1v030300multicomp09_80d.dsk
+which is "DSK720K"
+
+From the makefile I can see that construction of this disk involves
+an OS9GEN using the bootfile bootfiles/bootfile_covdg_ds80
+and the kernelfile bootfiles/kernel_1773
+
+These are built objects: the contents of each of these is defined by
+nitros9/level1/multicomp09/bootfiles/makefile
+
+from that makefile:
+
+KERNEL_1773     = $(MD)/rel $(MD)/krn $(MD)/krnp2 $(MD)/init \
+                $(MD)/boot_1773_6ms
+
+..which matches the list I inferred from my disassembly of the boot
+track (see notes above) ie:
+rel krn krnp2 init boot_1773_6ms
+
+Hoorah!
+
+Also:
+
+BOOTFILE_COVDG  = $(MD)/ioman \
+                $(MD)/rbf.mn \
+                $(FLOPPY_40D) \
+                $(MD)/ddd0_40d.dd \
+                $(MD)/scf.mn \
+                $(VTIO_COVDG) \
+                $(MD)/scbbp.dr $(MD)/p_scbbp.dd \
+                $(MD)/scbbt.dr $(MD)/t1_scbbt.dd \
+                $(PIPE) \
+                $(CLOCK60HZ) \
+                $(MD)/sysgo_dd
+
+I will probably need to change some things there - or maybe generate a custom
+disk. That's all for the future though; getting a boot track that does something
+sensible is a good first step.
+
+===============================================================================
+Q: how do the conditionals work?
+
+A: IFNE means if-not-equal-to-zero and therefore is a synonym of IF meaning
+if-true. Examples:
+
+IFNE H6309
+H6309 code
+ENDIF
+
+if H6309 is true (ie, non-zero) assemble the stuff inside
+
+IFNE Level-1
+(level 2 and level 3 stuff, omitted)
+ENDC
+
+that is Level subtract 1 ie false when Level=1, true otherwise
+
+IFEQ Level-1
+(level 1 stuff only)
+ENDC
+
+that is Level subtract 1 ie equal to 0 (true) when Level=1, true otherwise
+
+IFNE atari
+use atari.d
+ENDC
+
+if atari is true (ie, non-zero) assemble the stuff inside.
+
+===============================================================================
+Build flow:
+
+1/ make
+2/ copy disk image to ../../multicomp6809/nitros9
+3/ from SDcard go ./create_sd_image
+4/ from exec09 go ./m6809-run -s multicomp09 -b ../6809M.bin -d
+5/ then c to continue (get to CamelForth)
+6/ then SDINIT NITROS9
+
+===============================================================================
+With initial image not getting boot message, as tho CAMELFORTH is not doing
+its stuff.
+
+: NITROS9 \ load track34 and start it
+\ disk is on SD at 0x2.8000 so track34 is at 0x2.84C8
+\ load 18 (hex 12) 256-byte sectors to 2600, go at 2602
+  2 SDLBA2 84C8 2600 12 SDRD256n 0 SDLBA2
+  2602 PIVOT ;
+
+well, that all looks fine. No!! Need MMUMAP coz PIVOT disables ROM
+*and* enables MMU. Change last line to:
+
+  2602 MMUMAP PIVOT ;
+
+-> now fixed in camelforth.
+
+TODO: bug in makefile; editing rel.asm doesn't cause .dsk images to be regenerated.
+TODO: bug in makefile; make clean leaves these files:
+ level2/coco3/modules/kernel/ccbkrn
+ level2/coco3_6309/modules/kernel/ccbkrn
+
+===============================================================================
+Now I can get from REL to KRN. Falls over at first SWI. Need to set up my
+vectors at the top of memory to vector down in line with this table in krn:
+
+VectCode bra   SWI3Jmp          $0100
+         nop
+         bra   SWI2Jmp          $0103
+         nop
+         bra   SWIJmp           $0106
+         nop
+         bra   NMIJmp           $0109
+         nop
+         bra   IRQJmp           $010C
+         nop
+         bra   FIRQJmp          $010F
+
+eg
+        org $fff2
+        $0100                SWI3
+        $0103                SWI2
+        $010F                FIRQ
+        $010C                IRQ
+        $0106                SWI
+        $0109                NMI
+        $XXXX               RESET
+
+XXXX could be the hi-ROM copy of trk34?
+===============================================================================
+27Aug2015
+
+Could get those vectors in place from FORTH or from REL. Probably cleanest to
+do it in FORTH. Add a target machine description above somewhere and make sure
+it includes that info.
+
+-> now fixed in camelforth
+
+TODO exec09 bug: breakpoints are on virtual rather than physical addresses
+so if I break at 0xee74 BEFORE switching out the ROM I don't get there
+when excuting from RAM.
+
+Can step through the code and get to JmpBoot in krnp2 then to $FC53 -- "start"
+in the boot module. This in turn calls hardware init which will fail right
+away, so it's time to do some more coding.
+
+===============================================================================
+29Aug2015 - equates file.
+
+edit level1/multicomp09/defs/defsfile.asm
+
+- change coco.d to multicomp09.d
+
+edit level1/multicomp09/defs/makefile
+
+- change coco.d to multicomp09.d
+- change cocovtio.d to multicomp09vtio.d
+
+in nitros9/defs create multicomp09.d multicomp09vtio.d by copying coco
+equivalents - will need to go through later and strip out all the coco stuff but
+for the moment this will tend to ensure that the code will continue to compile.
+
+add multicomp09 stuff to .d file
+
+TODO looks like I have no need for vtio.d file..
+
+at the same time, edit  init.asm to add system name to the conditional tree there.
+
+TODO dependency bug: defsfile was not regenerated until I deleted it
+TODO dependency bug: after deleting defsfile it did not trigger the
+rebuild of everything, as it should have.
+TODO defsfile was not regenerated and caused build to fail. Had to make
+it by hand.
+
+Tidied up REL to use defines created here.
+
+===============================================================================
+Q: how do PwrLnFrq and TkPerSec get set?
+
+A: These are used in multicomp09.d and control the interrupt rate and maybe
+other stuff. multicomp09 has a interrupt rate of 50Hz and no dependency on
+power line frequency.
+
+They should not be set elsewhere so all I need to do is edit multicomp09.d
+to make the default values correct and they should not get overwritten.
+
+===============================================================================
+Q: in krn.asm
+
+* memory $0000-$04FF is used by the system
+         ldb   #%11111000
+         stb   ,x
+
+.. but that code is reserving $0000-$02FF, NOT $0000-$04FF. What gives?
+
+A: reservation goes MSB->LSB and a reservation is indicated by a 1, so
+the top 5 bits as 1 reserve the bottom 5 pages.
+
+I wondered if I needed to make any changes to cope with my memory map.
+krn.asm is the place to do it, but my map (nearly all RAM) did not
+require changes here.
+
+===============================================================================
+Switch trk34 from boot_1773 to boot_sdc
+
+reference: level1/multicomp09/bootfile/makefile
+
+I want my disk to use KERNEL_COCOSDC instead of KERNEL_1773
+
+reference: level1/multicomp09/makefile
+
+I am using DSK720K which uses BOOTFILE_COVDG_DS80 and KERNELFILE
+
+KERNELFILE is bootfiles/kernel_1773
+
+edit level1/multicomp09/makefile so that DSK720K uses KERNELFILE_COCOSDC instead.
+
+(could have chosen a different disk, that already uses COCOSDC. That decision is
+deferred for the tidyup phase)
+
+===============================================================================
+modify boot_sdc.asm
+
+quite simple. My disk image is at offset $02.8000. Each 256-byte sector occupies
+a 512-byte block so I simply add the LSN to the offset to get the SD block
+number.
+
+with this done,
+break 0x2602
+c
+NITROS9
+breakpoint reached
+break 0xfce1             // ldsdadrs
+- gets there (once)
+
+first call reads block 0 off the disk to memory. Confirm that the parameters get
+adjusted correctly and that correct data is loaded into the buffer. Woo!!
+
+JmpBoot 1st call (from fb0f.. IOMgr which itself is called from krn)
+boot mod name is Boot
+link is OK
+jsr to fc24 - in boot_sdc
+back from there have Carry clear
+.. tracing shows that it reads about 58 sectors before returning.
+D = size of bootfile $3735 --> 14133 decimal, the value shown above for the disk!!
+X = address of bootfile $B500
+
+that all happens before krnp2 start.
+
+in krnp2 start, never get back from first bsr ChdDir $f6bf
+
+TODO: carry needs to be clear on return from HWRead, but comments did not say so.
+Fixed comments there but comments might need fixing in other boot_* files.
+
+===============================================================================
+The file that it loaded to memory was "OS9Boot"
+
+in the level1/multicomp09/makefile:
+
+        $(OS9GEN) $@ -b=$(BOOTFILE_COVDG_DS80) -t=$(KERNELFILE_COCOSDC)
+
+The track34 stuff is the KERNELFILE_COCOSDC. Now I need to worry about the
+BOOTFILE_COVDG_DS80
+
+which is bootfiles/bootfile_covdg
+
+and from level1/multicomp09/bootfiles/makefile I can see:
+
+BOOTFILE_COVDG  = $(MD)/ioman \
+                $(MD)/rbf.mn \
+                $(FLOPPY_40D) \
+                $(MD)/ddd0_40d.dd \
+                $(MD)/scf.mn \
+                $(VTIO_COVDG) \
+                $(MD)/scbbp.dr $(MD)/p_scbbp.dd \
+                $(MD)/scbbt.dr $(MD)/t1_scbbt.dd \
+                $(PIPE) \
+                $(CLOCK60HZ) \
+                $(MD)/sysgo_dd
+
+VTIO_COVDG      = $(MD)/vtio.dr $(MD)/covdg.io $(MD)/term_vdg.dt
+FLOPPY_40D      = $(MD)/rb1773.dr $(MD)/d0_40d.dd $(MD)/d1_40d.dd $(MD)/d2_40d.dd
+
+ddd0_40d is from rb1773desc
+
+the bootfile is just a cat of all this stuff.
+
+The return from JmpBoot showed this was in memory at $B500
+
+I can grab level1/multicomp09/bootfiles/bootfile_covdg and disassemble it as tho it was at B500.
+
+I can see that I get to IOMan, the first module in the bootfile, and to its entry return
+
+Q: What are d0_40d.dd d1_40d.dd d2_40d.dd?
+
+A: there are no source files for them but they all got built.
+
+they are the different drives (drive 0,1,2)
+
+.. specified in the bootlist
+.. build by rules in level1/multicomp09/modules/makefile
+
+eg:
+
+d0_40d.dd: rb1773desc.asm
+        $(AS) $< $(ASOUT)$@ $(AFLAGS) $(DSDD40) -DDNum=0
+
+provides parameters to a device descriptor template
+which in turn specifies the driver name as rb1773
+
+looks as though I should modify llcocosdc.asm
+
+RBCOCOSDC
+ddsd0_cocosdc.dd - from superdesc.asm -- don't want that
+sd0_cocosdc.dd - from superdesc.asm -- don't want that
+
+===============================================================================
+Infrastructure for sd card driver modelled on rb17773.
+
+I do *not* want to model it on llcocosdc becausue that is layered on something
+called the rbsuper driver. I specifically want a driver that will read/write
+disk images dd'd onto the sd card.
+
+
+There are DEVICE DRIVERS and there are DEVICE DESCRIPTORS. Every device needs
+a DEVICE DESCRIPTOR. Multiple DEVICE DESCRIPTORs can share a single DEVICE DRIVER.
+
+The device driver has to detect LSN=0 and do something special (refer to TechRef).
+My device driver needs to have all the same data structure as a disk because I
+want it to read images of disks (specifically, of an 720k 80track disk).
+
+The device driver needs to supply a set of jump tables at a location defined by
+its header. That gives access to 6 routines. When called, a routine sees
+U point to the device memory area -- ie, the local data for the device driver
+Y point to the address of the device descriptor (on init)
+Y point to the address of the path descriptor (on others?)
+path descriptor provides access to eg the buffer where data is to be stored
+when a file is opened, the initialisation table (data from the device descriptor)
+is copied into the PD.OPT section of the path descriptor - that's how a device
+driver can "know" which device it is operating for (eg, which drive is in use)
+
+
+in level1/modules create:
+
+mc09sdc.asm
+mc09sdcdesc.asm
+
+as copies of rb1773.asm rb1773desc.asm
+
+in level1/multicomp09/modules/makefile
+
+- no assembly entry needed for mc09sdc.asm (it's "normal")
+- entry on RBF line needed for mc09sdc.dr
+- device entries needed for s0_80d.dd etc,
+- entry on RBF line needed for s0_80d.dd etc.
+- device entry needed for dds0_80d.dd
+- entry on RBF line needed for dds0_80d.dd
+
+(the dd device is the "default" device?? specified in init file and used for boot)
+
+in level1/multicomp09/bootfiles/makefile
+
+- clone BOOTFILE_COVDG_DS80 to make BOOTFILE_COVDG_SD80
+- replace FLOPPY_80D with new MC09SDC_80D
+- create that MC09SDC_80D
+- change CLOCK60HZ with CLOCK50HZ
+- in BOOTFILES section add bootfile_covdg_sd80
+- add new dependency line for this bootfile
+
+in level1/multicomp09/makefile
+
+- in the DSK720K that is my hack target, change the boot file
+from BOOTFILE_COVDG_DS80 to BOOTFILE_COVDG_SD80
+
+TODO: in level1/coco/bootfiles/makefile
+
+FLOPPY_40D      = $(MD)/rb1773.dr $(MD)/d0_40d.dd $(MD)/d1_40d.dd $(MD)/d2_40d.dd
+
+FLOPPY_80D      = $(MD)/rb1773.dr $(MD)/d0_40d.dd $(MD)/d1_40d.dd $(MD)/d2_40d.dd
+
+should the second line be referencing d*_80d.dd ?? maybe elsewhere as well.
+
+===============================================================================
+Q: how are the components of track34 bolted together?
+
+A: each is a well-formed module and the binary files are simply
+concatenated. They are allocated memory as one entity and all remain
+memory-resident for the lifetime of the session.
+
+Q: how do the components of track34 find one another?
+
+A: the components are:
+rel
+krn
+krnp2
+init
+boot_xxx
+
+rel is the entry point. The last thing that rel does is compute the absolute
+address of the entry point of the next module (which had better be krn!) and
+jump there.
+
+all of the different boot modules (boot_*) have the same module name, Boot.
+
+krn uses the os9 F$Link call to locate krnp2 and Init by name.
+
+TODO: how is Boot located?
+
+TODO: the module header in Init has some hard-coded values (address and size) is
+that a problem, given that I have modified that file? Think address is
+irrelevant becasue I don't think Init is ever executed. What does the size
+indicate?
+
+Q: how are the components of OS9Boot (the boot file) bolted together?
+
+A: as for track34 stuff; each is a well-formed module and the binary files are
+simply concatenated. They are allocated memory as one entity and all remain
+memory-resident for the lifetime of the session.
+
+Q: how do the components of track34 and OS9Boot find one another?
+
+A: In krnp2 JmpBoot loads the boot module (boot_xxxx)
+
+TODO: how? See question above. BootStr is used but where? The Init module declares
+the name "Boot" with the label DefBoot
+
+The boot module pulls in boot_common.asm
+
+TODO: how does boot know the name (OS9Boot) of the file to locate and load?
+
+Guess: Boot reads LSN0 which identifies the "Boot sector" eg as 13 and the
+bootfile size eg as 14133 (presumably the "Boot sector" is first LSN. It is one
+beyond the value in the directory listing (see example at start) because the
+first sector contains a file allocation table, but this file is non-fragmented
+so we don't need to use the table in the boot process).
+
+Once the bootfile (OS9Boot) has been loaded the code in krn2 JmpBoot "searches
+through" the bootfile and validates modules.
+
+The bootfile might contain:
+ioman
+rbf
+disk driver
+vt driver
+pipe
+clock
+sysgo
+
+In krnp2 IOMAN and Clock are explicitly linked by name.
+
+The Init module contains an Init Table which declares names for SysGo (the root
+process?), for /DD (the boot device) for /Term (the boot console?) and for Boot
+(the dedicated device driver whose function is to load the bootfile).
+
+All of this means that, for my new device driver, I *do* need to create the DD
+device just as the floppy driver did. I updated comments in previous section
+accordingly.
+
+===============================================================================
+Q: what is the bootlist and how does it work?
+
+A: on a built NITROS9 system disk there is a NITROS9/BOOTLISTS directory. The
+make process just copies in stuff from the bootlists directory of the tree. ie:
+dw.bl standard.bl
+
+The bootlist provides a mechanism for creating a new/customised bootfile on a
+running system. First edit the bootlist, then run the mb script. This creates a
+new bootfile (presumably with the correct name and indexed by LSN0). The new
+bootfile would then be used after a reboot.
+
+Bottom line: the bootlist is not something that we need to worry about during
+the porting process.
+
+===============================================================================
+Q: What is the module format?
+
+A: See tech ref. In brief:
+
+9-byte header
+$87 $CD sync bytes
+$xx $xx module size
+$xx $xx offset to module name. Module name has MSB set on last character
+$xx     module type/language
+$xx     attributes/revision level
+$xx     header check
+
+beyond this the format depends upon the module type. Eg, for executable:
+
+$xx $xx execution offset
+$xx $xx permanent storage size
+
+===============================================================================
+Update makefiles, build target-specific library.
+
+do a "make clean" then in level1/multicomp09:
+
+$ find . -exec grep -H coco {} \;
+
+abbreviated result:
+
+./bootfiles/makefile:ifeq ($(PORT),coco1)
+./bootfiles/makefile:ifeq ($(PORT),coco1)
+./cmds/makefile:LFLAGS          += -L $(NITROS9DIR)/lib -lnet -lcoco -lalib
+./modules/kernel/makefile:        PORT=coco1
+
+look at equivalent files in the atari tree to see if these should be changed.
+The first 2 are OK - they will get pruned out of the makefile eventually.
+The cmds/makefile I fixed
+The modules/kernel/makefile I fixed
+
+TODO: the atari modules/kernel/makefile shows a cleaner way; just define
+the platform then pull in the coco version. Move to this approach here and
+see whether it holds elsewhere.
+
+The cmds/makefile change causes build to fail.
+
+In nitros9/lib:
+
+edit makefile to add libmulticomp09.a
+copy atari.as to multicomp09.as and edit appropriately
+go to usual place and do make dsk etc.
+
+
+===============================================================================
+Coding for mc09sdc.asm, mc09sdcdesc.asm
+
+coding for mc09sdcdesc.asm is straightforward; just change some names.
+initial coding for mc09sdc.asm, likewise. Resulting file build OK.
+
+TODO the data structure at the start of the --desc.asm file has drive number
+first followed by type. The tech ref shows them the other way around.
+
+coded mc09sdc.asm. Cheaty first version will make all 4 drives look the same.
+proper version will
+- store offsets for each drive and use them in calculating sector address
+- provide get/set for controlling offsets (for bonus points, get will validate
+the LSN0 and succeed/fail)
+
+now can see the read get called multiple times. After about 40 sectors have been
+read, get to $F093 CWAI - not supported by exec09. After about the 3rd sector
+there is some activity to undefined I/O space so could be some other unported
+device driver kicking in.
+
+From the boot description, it's not clear what's happening next; what those reads
+are for.
+
+By setting watchpoint on the I/O stuff it's apparent that this is being done
+by code in VTIO so that's the next thing to look at.
+
+===============================================================================
+Coding for clock
+
+TODO: to my bootfile_covdg I added CLOCK50HZ but no such symbol/label (what's
+the term?) existed.. this omission does not cause an error. Result was that I
+had no clock module! Added it to level1/multicomp/bootfiles/makefile
+
+clock is composed of 2 modules:
+
+"Clock" in module clock_50hz (or clock_60hz) built from clock.asm
+"Clock2" in module clock2_soft (or variant) built from clock2_soft.asm
+
+It looks as though Clock is the portable bit and Clock2 is the
+target/hardware-dependent bit.
+
+"Clock" is specified by name in krnp2. In turn, Clock does an F$Link to "Clock2"
+by name and link failure causes a fatal error. Clock2 is the portable part for
+a design with no RTC. Clock needs a multicomp version.
+
+Copied clock.asm as mc09clock.asm
+Amended level1/multicomp09/bootfiles/makefile to use it in bootfile
+Amended level1/multicomp09/modules/makefile to create mc09clock_50hz
+
+Edited mc09clock.asm, using existing code plus my timer interrupt test code
+as a guide.
+
+===============================================================================
+Coding for console
+
+The boot console device, defined in init, is /Term
+
+The VTIO_COVDG stuff is:
+
+vtio
+covdg
+term_vtg
+
+Remove all the VTIO_COVDG from the disk build in level1/multicomp09/bootfiles and create a new macro TERM_MC09 that is
+made up of sc6551.dr and term_sc6551.dt
+
+Modify sc6551.dr for multicomp09
+modify term_sc6551.dt for multicomp09 - virtual UART base address
+
+===============================================================================
+What's going on
+
+tracing through "start" in krnp2 I traced the "normal" boot flow and added some
+comments.
+
+with reference to os9.d I understood the format of init.asm
+
+TODO found an error in init.asm - $27 is entries in device table, NOT IRQ
+polling entries. Also, added comment to describe the weird header format in
+that module.
+
+Get to start of OpenCons but do not return successfully. By this point, the
+bootfile has been loaded successfully. Added some more comments and fixed a few
+bugs in my terminal coding. Now get to boot in the emulator:
+
+crook@obelix:~/Desktop/Public/_neal/mc6809_stuff/exec09$ ./m6809-run -s multicomp09 -b ../6809M.bin
+warning: no symbols for ../6809M.bin
+6809 CamelForth v1.0  25 Apr 95
+NITROS9 NITROS9 BOOTNitrOS-9/6809 Level 1 V3.3.0
+Multicomp09
+(C) 2014 The NitrOS-9 Project
+**   DEVELOPMENT BUILD   **
+** NOT FOR DISTRIBUTION! **
+Wed Sep 16 22:56:11 2015
+http://www.nitros9.org
+
+* Welcome to NitrOS-9 Level 1 *
+*    on the Color Computer    *
+
+       yyyy/mm/dd hh:mm:ss
+m6809-run: (at PC=F093) CWAI - not supported yet!Time ?
+
+===============================================================================
+On the real hardware, I (obviously) don't get the CWAI error, but once I get
+to the "time" prompt, the keyboard is unresponsive.
+
+? is the *output* a sign that interrupts are working (timer interrupt)
+  -> no! since this works in the emulator, which has no interrupts, there is
+  no evidence that interrupts are working on the real system.
+  -> OTOH, the emulator runs straight through CWAI but the real hardware does
+  not, so maybe that is an indication that we ARE seeing the timer interrupt
+  on the real hardware.
+? add a check that I'm getting timer interrupt
+? once I'm confident that I get timer interrupt, check uart interrupt (FORTH
+  polling loop)
+? rework device driver from Dragon version
+? write test program for VDU interrupt
+? change the UART to be blocking -- just to make some progress.
+
+
+
+..back to my hacked-up sc6551.asm
+
+
+..works!! It boots! I simply had to enable interrupts in the UART.
+
+===============================================================================
+After a "make clean" this is the "hg status" of the tree (with my notes)
+
+M level1/makefile                     -- DONE add new target
+M level1/modules/boot_sdc.asm         -- DONE lots of new stuff conditional on multicomp09
+M level1/modules/clock2_soft.asm      -- DONE mergeable: whitespace and comments tidyup
+M level1/modules/init.asm             -- DONE partially mergeable: whitespace and comment corrections and additions
+M level1/modules/kernel/krn.asm       -- DONE mergeable: whitespace and comments tidyup
+M level1/modules/kernel/krnp2.asm     -- DONE mergeable: whitespace and additional comments
+M level1/modules/rel.asm              -- DONE partially mergeable: whitespace and additional comments.
+M level1/modules/sc6551.asm           -- DONE not mergeable
+M level1/modules/term_sc6551.asm      -- DONE not mergeable
+M lib/makefile                        -- DONE add new target
+M makefile                            -- temporary hack to remove rebuild of 3rd-party stuff
+? .hgignore
+? defs/multicomp09.d                  -- DONE NEW FILE needed for multicomp09 port
+? defs/multicomp09vtio.d              -- DONE NEW FILE needed for multicomp09 port (may NOT be needed)
+? docs/Lomont_CoCoHardware.pdf        -- ?? copied??
+? docs/NitrOS-9 Technical Reference.pdf -- I converted this from .doc using libreoffice
+? docs/basic09/basic09.pdf              -- I built this from docbook source
+? docs/ccguide/ccguide.pdf              -- I built this from docbook source
+? level1/modules/mc09clock.asm          -- DONE NEW FILE needed for multicomp09 port
+? level1/modules/mc09sdc.asm            -- DONE NEW FILE needed for multicomp09 port
+? level1/modules/mc09sdcdesc.asm        -- DONE NEW FILE needed for multicomp09 port
+? level1/multicomp09/bootfiles/defsfile  -- DONE NEW FILE needed for multicomp09 port
+? level1/multicomp09/bootfiles/makefile  -- DONE NEW FILE needed for multicomp09 port
+? level1/multicomp09/bootlists/dw.bl     -- DONE NEW FILE needed for multicomp09 port
+? level1/multicomp09/bootlists/standard.bl -- DONE NEW FILE needed for multicomp09 port
+? level1/multicomp09/bootroms/makefile     -- **NOT DONE** HOPE NOT TO NEED IT NEW FILE needed for multicomp09 port
+? level1/multicomp09/cmds/defsfile         -- DONE NEW FILE needed for multicomp09 port
+? level1/multicomp09/cmds/makefile         -- DONE NEW FILE needed for multicomp09 port
+? level1/multicomp09/defs/defsfile.asm     -- DONE NEW FILE needed for multicomp09 port
+? level1/multicomp09/defs/makefile          --DONE NEW FILE needed for multicomp09 port
+? level1/multicomp09/defsfile                DONE etc.
+? level1/multicomp09/makefile                DONE
+? level1/multicomp09/modules/defsfile        DONE
+? level1/multicomp09/modules/kernel/defsfile DONE
+? level1/multicomp09/modules/kernel/makefile DONE
+? level1/multicomp09/modules/makefile        DONE
+? level1/multicomp09/port.mak                DONE
+? level1/multicomp09/scripts/mb.dw           DONE
+? level1/multicomp09/scripts/mb.floppy       DONE
+? level1/multicomp09/startup                 DONE
+? level1/multicomp09/startup.dw              DONE
+? level1/multicomp09/sys/makefile            DONE
+? level1/multicomp09/wwwroot/Makefile        DONE
+? level2/coco3/modules/kernel/ccbkrn          -- ??
+? level2/coco3_6309/modules/kernel/ccbkrn     -- ??
+? lib/multicomp09.as                          -- DONE needed for multicomp09 port
+
+
+===============================================================================
+Supporting multiple disks
+
+with a complete build, get stuff in 3rdparty
+
+make a new "blank" disk:
+
+os9 format -e -t80 -ds -dd nitros9_1.dsk -n"NitrOS-9/6809 Level 1 util disk1"
+os9 format -e -t80 -ds -dd nitros9_2.dsk -n"NitrOS-9/6809 Level 1 util disk2"
+os9 format -e -t80 -ds -dd nitros9_3.dsk -n"NitrOS-9/6809 Level 1 util disk3"
+
+see script multicomp09/nitros9/create_blank_dsk
+
+check it like this:
+
+os9 dir nitros9_2.dsk -e
+
+===============================================================================
+Cleanup of disk driver.
+
+Put 4 disk images on SDcard at different offsets.
+Change the modules/makefile to pass the offset into each mc09sdcdesc build.
+Inspect the .lst files and verify it made it.
+
+TODO the offset for drive 0 also needs to be coded into/passed to
+boot_sdc.asm at build time because that is responsible for pulling in the bootfile.
+
+recap: bootfile does the first disk access so it is the disassembly there, not
+of the track34 stuff, that's important.
+
+TODO: nitros9 Tech Ref, page 64, refers to init table in the device descriptor
+module. Is this format mandatory? It says that offset $12 is the device type
+but in eg d0_35s.dd.lst built from rb1773desc.asm offset $12 is the initialisation
+table size; device type is offset $13.
+
+I put the stuff I needed into offsets associated with step rate, so that the
+overall size did not change.
+
+All works fine.
+
+TODO: tidy up the driver or the devices to remove unused data allocations.
+
+TODO: the clock seems to increment slowly, as though expecting a 60Hz tick.
+
+TODO: Bug! modules/makefile does stuff like this:
+
+clock_50hz: clock.asm
+        $(AS) $(AFLAGS) $(ASOUT)$@ $< -DPwrLnFrq=50
+
+but the defs files use it like this:
+
+Hz50           EQU       1                   Assemble clock for 50 hz power
+Hz60           EQU       2                   Assemble clock for 60 hz power
+               IFNDEF    PwrLnFrq
+PwrLnFrq       SET       Hz50                Set to Appropriate freq
+               ENDC
+
+I have fixed it by changing the defs file to
+
+Hz50           EQU       50                  Assemble clock for 50 hz power
+Hz60           EQU       60                  Assemble clock for 60 hz power
+
+
+breakpoints
+
+1/ break at $2602 after boot track's been loaded
+2/ NITROS9 from FORTH, hit that first breakpoint
+3/ break at $FB66 end of "JmpBoot" in krnp2 in trk34.lst.
+4/ can now inspect boot file loaded into memory; set breakpoints in it and
+   continue.
+
+
+
+===============================================================================
+===============================================================================
+===============================================================================
+===============================================================================
+Oct2015. Set up a level2 tree. OBSOLETE. SEE 2ND VERSION BELOW.
+
+$ cd level2
+$ cp -a coco3 l2multicomp09
+edit makefile to add l2multicomp09
+in l2multicomp09 edit port.mak
+                      defsfile
+                      makefile
+and edit DSKS in makefile to only include 720k disk.
+
+
+TODO: the makefile has PORT MACHINE CPU LEVEL defined. Better to include port.mak as the level1 does.
+
+TODO: how can I get this to build without the nastiness of naming the port l2multicomp09?
+
+With this done, it builds the disk images (but who knows what's in them!!)
+
+make dsk PORTS=l2multicomp09 LISTDIR=/home/crook/_neal/mc6809_stuff/nitros9/l1_lst
+
+recap: the track34 stuff pulls in the bootfile
+       the track34 stuff is called the KERNELFILE and is defined in bootfiles/makefile
+       the bootfile is also defined in that same makefile.
+
+edit l2multicomp09/makefile and l2multicomp09/bootfiles/makefile to add new kernel and bootfile.
+
+check that it builds OK.
+
+next: add component parts to those two items (they are currently clones of the coco3 versions)
+
+
+components are:
+
+modules/ccbkrn                  - made up of krn and krnp2
+bootfiles/bootfile_80d_mc09
+bootfiles/kernel_mc09
+
+krnp2 uses cocovtio.d
+
+TODO why?
+TODO uses symbols WGlobal and G.AlPID for F$Alarm
+
+kernel_mc09:
+
+rel_80           - the "80" means 80-column.
+boot_sdc
+krn
+
+bootfile_80d_mc09:
+
+krnp2
+ioman
+init
+rbf
+FLOPPY_MC09
+dds0_80d.dd
+TERM_MC09
+PIPE
+##CLOCK50HZMC09
+CLOCK60HZ
+
+TODO maybe the disk descriptors I used should have been d0_80d not s0_80d..
+for level1 port and then for level2 port "double sized double density"
+
+TODO cut back all the coco stuff out of the multicomp09 defs file, and make
+sure it all rebuilds still.
+
+TODO CLOCK50HZMC09 doesn't build: clock needs to be a level2 version; different from level1
+TODO need VTIO swapped out for terminal.
+
+===============================================================================
+===============================================================================
+Working model
+
+3 workspaces:
+
+nitros9-old  -- a 3.3.0 checkout where I did the original port. Will be
+                deleted once I have a new clean/checked in port running
+nitros9-public -- a "latest" checkout.
+                my "portable" changes will be committed here for potential
+                push upstream
+                changes in the central repository will be pulled here (and
+                potentially merged with my portable changes)
+nitros9-mc09   -- a clone of nitros9-public.
+                changes in the central repository and my "portable" changes
+                will be pulled to here. The multicomp09 tree will be committed
+                here and will NOT be pushed upstream.
+
+
+
+
+~/_neal/mc6809_stuff/nitros9$ hg clone http://hg.code.sf.net/p/nitros9/code nitros9-public
+
+
+mkdir ../l1_lst
+make dsk PORTS=mc09 LISTDIR=/home/crook/_neal/mc6809_stuff/nitros9/l1_lst
+
+-> TODO: use the same approach I used to build terminal descriptors to do the same for
+other devices and remove the duplicated source files.
+
+===============================================================================
+RTC stuff
+
+* reference manual F$Time has format missing
+* reference manual F$STime refers to "day" when it should be "date"
+* reference manual does not say whether date format is zero referenced
+* assume it is not.
+
+===============================================================================
+xxOct2016. 2nd attempt at setting up a level2 tree.
+
+Based on existing tree, cannot have the same target name in level1 and level2.
+
+Already have level1/mc09 so make level2/mc09l2.
+
+.. but the PORT name used in the makefiles and the name used in the code, for conditional,
+assembly, is mc09 (for both level1 and level2); a separate test of Level can be made, if
+necessary, to distinguish level-specific mc09 code.
+
+$ cd level2
+$ cp -a coco3 mc09l2
+edit makefile to add mc09l2 to 'dirs' and to recognise mc09 as a LEVEL2 target.
+
+in mc09l2 edit port.mak  - change PORT and MACHINE (PORT is mc09, *not* mc09l2)
+               defsfile  - change coco.d to mc09.d
+               makefile  - Only want to make a 80d disk image. Not interested in Becker or
+                           Arduino or Headless or any of those other types of boot:
+                           Change DSKS and LDSKS on only contain *DSK720K_50HZ
+                         - Delete line PORT and MACHINE and LEVEL and replace it with:
+                           include port.mak
+
+and edit these files. In each case change coco3 to mc09.
+
+./defs/makefile:PORT = coco3
+./cmds/makefile:PORT = coco3
+./modules/kernel/makefile:PORT = coco3
+./modules/makefile:PORT = coco3
+
+and edit this file to remove the 6309 option and to replace -lcoco3 with -lmc09
+
+./cmds/makefile:LFLAGS          += -lcoco3_6309
+./cmds/makefile:LFLAGS          += -lcoco3
+
+and edit this file to change coco3.d to mc09.d
+
+./defs/Defsfile:         use   /dd/defs/coco3.d
+
+TODO: change coco3 top-level makefile to reference port.mak
+
+
+Now (need the *full path name* for the listings directory in the make line)
+
+$ cd ../..   # root of repository
+$ mkdir ../l2_lst
+$ make dsk PORTS=mc09l2 LISTDIR=/home/crook/_neal/mc6809_stuff/nitros9/l2_lst
+
+
+You might also want to make a golden reference thus:
+
+$ mkdir ../l2coco3_lst
+$ make dsk PORTS=coco3 LISTDIR=/home/crook/_neal/mc6809_stuff/nitros9/l2coco3_lst
+
+Now:
+
+$ diff l2_lst/krn.lst l2coco3_lst/krn.lst
+
+- you will see that the *includes* differ and the *symbol tables* differ, but the actual code portion of the listing is identical.
+
+$ diff l2_lst/init.lst l2coco3_lst/init.lst
+
+- again, you will see the includes and symbol tables differ, and a bit of data differs in the middle where there is ASCII text describing the name of the platform.
+
+Examining the krn.lst file, there is a comment before S.SysIRQ that the code
+"must appear no earlier than $E00" - but the listing clearly shows that the
+routine starts at $DF1 -- 15 bytes too soon.
+
+This problem was also identified by Brett Gordon in his "cocoboot" kernel,
+ccbkrn.
+
+edit mc09l2/modules/kernel/makefile:
+
+swap the commented/uncommented ALLOBJS lines so that the KERNEL_CCB target is
+build. Rebuild.
+
+Look at ccbkrn.lst - he has aligned it to exactly the same address, through
+an automatic pad rather than the hacky method used in the "proper" kernel.
+
+The question remains: how does S.SysIRQ work correctly when it is straddling
+the $0F00 boundary?
+
+BUG: In fdebug.asm (used by krn2) there's a use of $FF91 and other addresses
+directly - should be using symbolic names (DAT.TASK etc.) -> Fixed.
+
+===============================================================================
+01Dec2016
+
+Cleaned up makefiles for mc09l2 build. Had to create a new mc09clock.asm for l2
+but it's just a copy of the l2 clock.asm atm; no mc09 features.
+
+Builds to completion successfully. To do a build you need 2 steps:
+
+$ make dskclean PORTS=mc09l2 LISTDIR=/home/crook/_neal/mc6809_stuff/nitros9/l2_lst
+$ make dsk PORTS=mc09l2 LISTDIR=/home/crook/_neal/mc6809_stuff/nitros9/l2_lst
+
+without the first, the code is built but the disks are not rebuilt.
+
+===============================================================================
+05Dec2016
+
+Put padding in place for all modules. Test build to see how much space I could
+recover if I reallocated space:
+
+could reclaim 214 bytes from boot_sdc
+===============================================================================
+06Dec2016
+
+Lots of hacking to REL and I can now get to Krn. I have commented out pretty
+much all of the crash-dump/debug stuff in REL. I need to go back to it and tidy it
+up. That code would benefit from being laid out better and having better comments.
+
+In its current state, could reclaim 89 bytes from rel; more if I strip out
+some more of the (unused) crash-dump/debug code.
+
+Added some FRT behaviour to exec09 but this needs completing.
+
+===============================================================================
+xxDec2016
+
+Review of the stuff that needs changing for L2
+
+Level2 port needs these files changed:
+
+TODO: there must be something somewhere that determines how many MMU
+pages are usable, and restrict them accordingly. Yes: code in krn.
+
+TODO: fdebug.asm needs other changes, in "REBOOT" routine, but is marked
+as "highly coco 3 specific". Not needed for now.
+
+TODO: krn etc. end up in both <platform>/modules and <platform>/modules/kernel
+and touching krn.asm does not trigger a rebuild either of the kernel or of the
+kernelfile. Makefile bug - but is it one I have introduced?
+
+TODO: need to code something - even just a UART indication - for D.Crash
+
+exec09                             -- finish FRT support and commit
+level1/modules/rel.asm             -- DONE hacked and apparently working
+level2/modules/mc09clock.asm       -- copied from clock.asm; needs rework for mc09
+                                      timer interrupt and MMU
+level2/modules/rammer.asm          -- postpone until "phase2"
+level2/modules/kernel/falltsk.asm  -- DONE. MMU
+level2/modules/kernel/fdebug.asm   -- MMU, task-switch and others (see above)
+level2/modules/kernel/fldabx.asm   -- DONE. MMU
+level2/modules/kernel/fld.asm      -- DONE. MMU
+level2/modules/kernel/fmove.asm    -- DONE. MMU
+level2/modules/kernel/krn.asm      -- DONE. MMU, task-switch
+level2/modules/kernel/krnp2.asm    -- MMU
+
+
+MMU changes are identified by "DAT.Regs"
+task-switch changes are identified by "DAT.Task"
+
+
+krn has 1053 lines
+audited/apparently working up to line 394.
+
+TINIT ~ lines:
+
+DONE 802
+DONE 825
+DONE 834
+DONE 865
+DONE 880
+DONE 937
+DONE 980
+
+DAT.Regs ~ lines:
+
+309
+319
+614
+628
+895
+
+===============================================================================
+07Dec2016
+
+Status: gets to FBoot. Gets to FLink call from FBoot, returns with error (carry
+set). My *guess* is that the search in the module catalog failed (maybe because
+that catalog did not get created correctly)
+
+Can set write watch on $FFA0 (etc) to see unfixed MMU access. First is in
+fld.asm which occurs during the search for modules - which is when the catalog
+gets created, so this is the next thing to work on.
+
+.. Gets to the point in the kernel where it tries to pull in the bootfile: does
+an "os9 F$Boot" -- but this fails and we end up at D.Crash (which I have not
+coded).
+
+===============================================================================
+07Dec2016
+
+Corrected makefile bug spotted by Ole - added DD to bootfile, which now appears
+in the module list above: now DD D0 etc.
+
+===============================================================================
+10Dec2016
+
+After forcing block 7 (TR=0) and block 15 (TR=1) to hold block 0x3f, everything
+got a lot further:
+
+NITROS9 BOOTKREL Boot Krn tb0..............................................................bKrnP2 IOMan?-krnp3 Init RBF mc09sd D0 D1 D2 D3 SCF mc6850 Term T0 T1 PipeMan Piper Pipe Clock Clock2 t*jm6809-run: (at PC=ED1F) maximum cycle count exceeded at $ED1F
+
+
+NITROS9 BOOT - message from REL before passing control to the kernel
+K - got to the Kernel
+REL Boot Krn - list of modules discovered in the kernelfile
+t - tried to boot (function FBoot)
+b - calling boot (loaded boot file from disk image successfully)
+0 - boot_sdc loaded in LSN0
+.... - printed by boot_sdc, one period per sector read
+b - boot returns OK
+KrnP2 IOMan?-krnp3 Init RBF mc09sd D0 D1 D2 D3 SCF mc6850 Term T0 T1 PipeMan Piper Pipe Clock Clock2 - list of modules discovered
+   in the bootfile. I think the "?-krnp3" arises because IOMan contains the byte-stream 87CD which gets detected as a module
+   header. The next bytes are then treated as a pointer to a module name, which the debug code prints out. It is only the debug
+   code that is getting confused here, there are no other consequences.
+t - tried to boot (ie, went to function FBOOT a second time.. bad)
+*j - jump to CRASH routine. The j represents an error code but doesn't mean anything useful.
+
+
+So, the kernel is succeeding in pulling in the bootfile from disk, and is at least partially successful in getting it started up,
+but - even though the Init module is present, the kernel is not detecting it and instead attempts to reboot, leading to the crash.
+
+===============================================================================
+11Dec2016
+
+Sorted out the block mapping then got even further:
+NITROS9 NITROS9 BOOTKREL Boot Krn tb0..............................................................bKrnP2 IOMan Init RBF mc09sd D0 D1 D2 D3 SCF mc6850 Term T0 T1 PipeMan Piper Pipe Clock Clock2 i2xm6809-run: (at PC=AFFB) invalid opcode '0B'
+
+*except* that I also got lots of bad writes to the MMU in the process; writing
+to map register 1 attempting to select a (non-existent) memory page 0x4f -- I
+deleted those messages from this output for clarity!
+
+The modules in the bootfile are now being recognised correctly and "stepped
+over" - as shown by the fact that the "?-krnp3" message (which was found due to
+stepping through the internals of IOMan rather than detecting its header and
+stepping over it, as is done now)
+
+This time, at the end of the bootfile inspection, instead of "t*j" (tried to
+(re)boot, crash) we get "i2x" which means:
+
+i - found the init module
+2 - into krnp2
+x - tried chd'ing
+
+.. don't know whether chd was successful, and I'll have to think about how to
+trace the absolute memory address where krnp2 is loaded, in order to trace code
+there. Also, need to hunt down the source of the bad MMU writes before getting
+too concerned about things going wrong in krnp2.
+
+Probably makes sense to do another trap on coco register writes..
+
+===============================================================================
+12Jan2017
+
+My l1 code and l2 infrastructure are now in the official nitros repository.
+This includes some source-cleanup on the l2 krn. All this means that I can
+start doing work in (a branch of) the public repository, and retire (pronounced
+'rm -rf' my nitros9-mc09 repository.
+
+===============================================================================
+13Jan2017
+
+Current status is that I can get to the point of loading and checking the
+bootfile, but something gets corrupted so that validating the bootfile fails
+and results in a sequence of writes of illegal (out-of-range) values to the
+MMU.
+
+===============================================================================
+??Jan2017
+
+Revamped the MMU setup. Now a lot cleaner but exactly the same failure mode
+changeset:   3137:790406bc31a5
+
+
+===============================================================================
+22Jan2017
+
+after inspecting your logs and being assured that the double-allocation was not
+happening there, I have traced through FSRqMem. I have found where a bad data
+structure causes block 0 to be allocated when it should have been reserved. I
+have manually reserved it and allowed the allocation routine to
+complete. Result: we get krnp2 loaded and started, and end in a crash (but there
+is other code that I know needs to be changed so that's all expected).
+
+Here is the detective story, ending with a quick recipe that you can try for yourself.
+
+I have not looked for the root cause of the problem yet but I can't think it
+will be hard to find (Ski Sunday is on so I have run out of time for today)
+
+Neal.
+
+debug of FSRqMem
+
+at entry, D.SysMem points to $0900 so the system memory map is $0900-$09FF (256 bytes). By inspection it looks like this:
+
+(dbg) x/256 0x0900
+01:0x0900                    : 0x01 0x01 0x01 0x01 0x01 0x01 0x01 0x01 0x01 0x01 0x01 0x01 0x01 0x01 0x01 0x01
+01:0x0910                    : 0x01 0x01 0x01 0x01 0x01 0x01 0x01 0x01 0x01 0x01 0x01 0x01 0x01 0x01 0x01 0x01
+01:0x0920                    : 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00
+01:0x0930                    : 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00
+01:0x0940                    : 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00
+01:0x0950                    : 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00
+01:0x0960                    : 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00
+01:0x0970                    : 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00
+01:0x0980                    : 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00
+01:0x0990                    : 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00
+01:0x09A0                    : 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00
+01:0x09B0                    : 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00
+01:0x09C0                    : 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00
+01:0x09D0                    : 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00
+01:0x09E0                    : 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x01 0x01 0x01
+01:0x09F0                    : 0x01 0x01 0x01 0x01 0x01 0x01 0x01 0x01 0x01 0x01 0x01 0x01 0x01 0x01 0x01 0x80
+
+every 2 rows (32 bytes) represents 8Kbytes.
+
+0x00 means unassigned
+the bits are flags.
+0x01 means "RAMinUse"
+0x80 means "NotRAM"
+
+so, the lowest 8k is pre-assigned (as expected). The top 19 pages are pre-assigned (as expected) - for Rel/Boot/Krn
+then for vectors and (coco3) I/O. This can be optimised for mc09 eventually.
+
+All looks correct.
+
+When the allocation routine finds the desired number of pages, Y is the address in the allocation map of the
+first page we're going to grab. We wanted 3E pages and Y=0x09AF
+
+So, we're going to assign the 3E pages marked [...] below:
+
+(dbg) x/256 0x0900                                                                                      8k blocks -v
+01:0x0900                    : 0x01 0x01 0x01 0x01 0x01 0x01 0x01 0x01 0x01 0x01 0x01 0x01 0x01 0x01 0x01 0x01     0
+01:0x0910                    : 0x01 0x01 0x01 0x01 0x01 0x01 0x01 0x01 0x01 0x01 0x01 0x01 0x01 0x01 0x01 0x01
+01:0x0920                    : 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00     1
+01:0x0930                    : 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00
+01:0x0940                    : 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00     2
+01:0x0950                    : 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00
+01:0x0960                    : 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00     3
+01:0x0970                    : 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00
+01:0x0980                    : 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00     4
+01:0x0990                    : 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00
+01:0x09A0                    : 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00[0x00<--Y 5
+01:0x09B0                    : 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00
+01:0x09C0                    : 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00     6
+01:0x09D0                    : 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00
+01:0x09E0                    : 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00]0x01 0x01 0x01     7
+01:0x09F0                    : 0x01 0x01 0x01 0x01 0x01 0x01 0x01 0x01 0x01 0x01 0x01 0x01 0x01 0x01 0x01 0x80
+
+Fast-forward to just before the routine returns, at $F823, inspect the map again:
+
+(dbg) x/256 0x900
+01:0x0900                    : 0x01 0x01 0x01 0x01 0x01 0x01 0x01 0x01 0x01 0x01 0x01 0x01 0x01 0x01 0x01 0x01
+01:0x0910                    : 0x01 0x01 0x01 0x01 0x01 0x01 0x01 0x01 0x01 0x01 0x01 0x01 0x01 0x01 0x01 0x01
+01:0x0920                    : 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00
+01:0x0930                    : 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00
+01:0x0940                    : 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00
+01:0x0950                    : 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00
+01:0x0960                    : 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00
+01:0x0970                    : 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00
+01:0x0980                    : 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00
+01:0x0990                    : 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00
+01:0x09A0                    : 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x01
+01:0x09B0                    : 0x01 0x01 0x01 0x01 0x01 0x01 0x01 0x01 0x01 0x01 0x01 0x01 0x01 0x01 0x01 0x01
+01:0x09C0                    : 0x01 0x01 0x01 0x01 0x01 0x01 0x01 0x01 0x01 0x01 0x01 0x01 0x01 0x01 0x01 0x01
+01:0x09D0                    : 0x01 0x01 0x01 0x01 0x01 0x01 0x01 0x01 0x01 0x01 0x01 0x01 0x01 0x01 0x01 0x01
+01:0x09E0                    : 0x01 0x01 0x01 0x01 0x01 0x01 0x01 0x01 0x01 0x01 0x01 0x01 0x01 0x01 0x01 0x01
+01:0x09F0                    : 0x01 0x01 0x01 0x01 0x01 0x01 0x01 0x01 0x01 0x01 0x01 0x01 0x01 0x01 0x01 0x80
+
+the allocation here is exactly as expected.
+
+The start address of this allocated memory is $AF00 (read the high byte from the low byte of the map)
+
+In boot_sdc.lst, GrabBootMem, return from this system call with U=AF00, which is as expected.
+
+*BUT* the MMU setup shows that mapping 5 (A000-BFFF) has been set to 0, which will overwrite the zero
+page. This re-allocation of physical page 0 is the (apparent) root cause of our problems.
+
+So, now go back through FSRqMem and look at the functionality that we ignored before..
+
+(dbg) b 01:0x7f7fe
+Breakpoint 0 at 01:0x7F7FE
+(dbg) c
+6809 CamelForth v1.1  20 Mar 16
+NITROS9 NITROS9 BOOTKREL Boot Krn tb0Breakpoint 0 reached.
+01:0x7F7FE 10AFE4                STY   ,S
+
+
+.. at this point, the allocation has been successful.
+
+Now we're going to start messing with the system process descriptor
+at D.SysPrc
+
+D.SysPrc = 0x600
+
+(dbg) x/16 0x600
+01:0x0600                    : 0x01 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0xFF 0xFF 0x80 0x00 0x00 0x00
+
+
+not sure what thay means, yet.
+
+Does a LBSR to L09BE - internal entry point to F$AllImg "allocate image RAM blocks"
+
+A = starting block number      -> 05
+B = number of blocks           -> 03
+X = process descriptor pointer -> 0600
+
+"number of blocks" is "number of 8KByte blocks" -- and, as shown above, that is correct: the requested memory
+straddles 3 8Kbyte blocks
+
+D.BlkMap is also involved. 4 bytes: start and end ptr Points to $0200 and $0240 (but there's a bug.. the
+actual assignment is 100 bytes, to accommodate 2MByte. The end value is set correctly for the memory size
+that we have.
+
+This is a map of the physical memory: each byte represents 1 8Kbyte block
+
+(dbg) x/64 0x200
+01:0x0200                    : 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00
+01:0x0210                    : 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00
+01:0x0220                    : 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00
+01:0x0230                    : 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x01
+
+can see that block $3F is reserved -- but block $00 is *not* -- oops! That will cause trouble (and it does)
+
+Go back and look at Ole's pre-Christmas screen grabs of the system state at boot time:
+
+4.1.memory_0000-04FF_at_bp_PC_$ee42.png
+
+sure enough, that has 01 at address 0x200 and at address 0x23F
+
+cheat:
+
+(dbg) set 0x200=1
+(dbg) x/64 0x200
+01:0x0200  P$Size            : 0x01 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00
+01:0x0210                    : 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00
+01:0x0220                    : 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00
+01:0x0230                    : 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x01
+
+now let rip and see what happens:
+
+
+(dbg) d
+Deleting all breakpoints.
+(dbg) c
+..............................................................bKrnP2 IOMan Init RBF mc09sd DD D0 D1 D2 D3 SCF mc6850 Term T0 T1 PipeMan Piper Pipe Clock Clock2 i2xto*Wm6809-run: (at PC=ED1F) maximum cycle count exceeded at $ED1F
+
+i   -- found the init module (in the bootfile)
+2   -- into krnp2
+x   -- tried chd'ing krnp2
+t   -- tried to boot?? krn
+o   -- tried opening window krnp2
+*   -- crash error
+W
+
+
+
+Quick recipe:
+
+$ ./m6809-run -s multicomp09 -b ../6809M.bin  -d
+Reading symbols from '../6809M.map'...
+02:0x1F7E 8606                  LDA   #$06
+(dbg) b 01:0x7f7fe
+Breakpoint 0 at 01:0x7F7FE
+(dbg) c
+6809 CamelForth v1.1  20 Mar 16
+NITROS9 NITROS9 BOOTKREL Boot Krn tb0Breakpoint 0 reached.
+01:0x7F7FE 10AFE4                STY   ,S
+(dbg) x/64 0x200
+01:0x0200  P$Size            : 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00
+01:0x0210                    : 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00
+01:0x0220                    : 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00
+01:0x0230                    : 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x01
+(dbg) set 0x200=1
+(dbg) d
+Deleting all breakpoints.
+(dbg) c
+..............................................................bKrnP2 IOMan Init RBF mc09sd DD D0 D1 D2 D3 SCF mc6850 Term T0 T1 PipeMan Piper Pipe Clock Clock2 i2xto*W
+
+===============================================================================
+24Jan2017
+
+OK, not kicking but puking. Here's the code. First a snippet from the log, then
+a snippet from the instruction trace that you generated last week.
+
+
+PC 0xEDF1 Write @ 0xFFA0 Data 3B
+PC 0xEDFC Read @  0xFFA0 Data 09
+PC 0xEDFC Write @ 0xFFA0 Data 00
+PC 0xF196 Write @ 0xFFA5 Data 10
+Read Access  to $200  PC 0xF1A0 Read @  0x0200 Data 01  [NAC HACK 2017Jan24] this is the memory sizing routine
+PC 0xF196 Write @ 0xFFA5 Data 20
+Read Access  to $200  PC 0xF1A0 Read @  0x0200 Data 01
+PC 0xF196 Write @ 0xFFA5 Data 40
+Read Access  to $200  PC 0xF1A0 Read @  0x0200 Data 01
+
+0x0200 gets cleared earlier, but now it is reading back as 1 as part of a loop in the memory sizing routine ??what??
+
+
+
+Here's the memory sizing routine from the instruction trace, with the source code pasted alongside:
+
+A=00 F189: LDX   $40                      ldx     <D.BlkMap       get ptr to 8k block map
+A=00 F18B: INC   $3F,X                    inc     <$3F,x          mark block $3F as used (kernel)
+A=00 F18E: LDD   #$0008                   ldd     #$0008
+A=00 F191: ASLB                   L0111   aslb
+A=00 F192: ROLA                           rola
+A=00 F193: STB   $FFA5                    stb     >DAT.Regs+5     Map block into block 6 of my task
+A=00 F196: PSHS  A                        pshs    a
+A=00 F198: LDA   #$01                     lda     #$01
+A=01 F19A: STA   -$6000,X                 sta     >-$6000,x       save marker to that block
+A=01 F19E: CMPA  ,X                       cmpa    ,x              did it ghost to block 0? <<-- READ FROM $0200
+A=01 F1A0: PULS  A                        puls    a
+A=00 F1A2: BNE   $F191                    bne     L0111           No, keep going till ghost is found
+A=00 F191: ASLB                           (loop)
+A=00 F192: ROLA
+A=00 F193: STB   $FFA5
+A=00 F196: PSHS  A
+A=00 F198: LDA   #$01
+A=01 F19A: STA   -$6000,X
+A=01 F19E: CMPA  ,X
+A=01 F1A0: PULS  A
+A=00 F1A2: BNE   $F191                    (loop)
+
+   (loops for 9 instructions)
+
+A=00 F1A4: STB   $A3                      stb     <D.MemSz       save # 8k mem blocks that exist
+A=00 F1A6: PSHS  X                        pshs    x
+A=00 F1A8: ADDD  ,S++                     addd    ,s++           add number of blocks to block map start
+A=02 F1AA: STD   $42                      std     <D.BlkMap+2    save block map end pointer
+
+
+basically what is happening here is this: MMU block 5 (which maps physical
+memory at address $A000 which is the same as -$6000 (the value used in the
+code)) is used as a "scratch" mapping register. RAM page numbers are written
+into this register -- and thus, a sequence of physical RAM pages is mapped in
+turn into this $A000 address window. Once mapped, the code stores a "magic
+value" into an address in the 8k block (sta >-$6000,x) and then tries to read it
+back at address 0,x to see whether it is mirrored there. The mirror indicates
+that the ACTUAL block that has been mapped is block 0, and this shows that no
+more physical memory exists..
+
+Now, rather than storing at address 0 in the 8k block it's storing at ,x in the
+block, and x is D.BlkMap -- in other words, it's pointing to the location
+($0200) that we want to be set to 1 in order to "reserve" it. Furthermore, the
+"magic value" that's being written is a 1, which is the value that we see end up
+in this location.
+
+Since the routine runs destructively (it writes 1 but never restores the
+original value) it has the undocumented but essential side-effect of reserving
+block 0.
+
+For mc09 I did not code a memory sizing routine because we're debugging with a
+fixed size and anyhow there are only 2 possible sizes so the algorithm could be
+much simpler -- so we don't run this code and don't get this side-effect
+
+Anyway, I want to puke over this piece of code for so many reasons (not least of
+which is the amount of time it's taken to find)
+
+
+And, the fix is trivial:
+
+ * Deduce how many 8Kbyte pages of physical memory are available and
+-* update the block map end pointer (BlkMap+2) accordingly
++* update the memory block map end pointer (D.BlkMap+2) accordingly
+         ldx     <D.BlkMap       get ptr to 8k block map
+         inc     <$3F,x          mark block $3F as used (kernel)
+       IFNE  mc09
++        inc     <$00,x          mark block $00 as used (global memory)
+ * For mc09 memory size is 512Kbyte or 1MByte. For now, hard-wire
+ * the memory size to 512Kbyte.
+         ldd     #$0240
+       ELSE
++* This memory sizing routine uses location at X (D.BlkMap) as
++* a scratch location. At exit, it leaves this location at 1 which
++* has the (until now) undocumented side-effect of marking block 0
++* as used. It is essential that this is done because that block
++* does need to be reserved; its used for global memory.
+         IFNE    H6309
+         ldq     #$00080100      e=Marker, D=Block # to check
+ L0111   asld                    get next block #
+
+
+$ ./m6809-run -s multicomp09 -b ../6809M.bin
+Reading symbols from '../6809M.map'...
+6809 CamelForth v1.1  20 Mar 16
+NITROS9 NITROS9 BOOTKREL Boot Krn tb0..............................................................bKrnP2 IOMan Init RBF mc09sd DD D0 D1 D2 D3 SCF mc6850 Term T0 T1 PipeMan Piper Pipe Clock Clock2 i2xto*W
+
+changeset:   3138:e67cc3c5234a
+
+===============================================================================
+25Jan2017
+
+first attempt at MMU changes for fldabx.asm
+KREL Boot Krn tb0..............................................................bKrnP2 IOMan Init RBF mc09sd DD D0 D1 D2 D3 SCF mc6850 Term T0 T1 PipeMan Piper Pipe Clock Clock2 i2xINFO In sdmapper_read with addr=0x00000007
+INFO In sdmapper_read with addr=0x00000007
+oINFO In sdmapper_read with addr=0x00000007
+[uart0 stat wr of 0x82
+CINFO In sdmapper_read with addr=0x00000007
+INFO In sdmapper_read with addr=0x00000007
+Watchpoint 8 triggered. [pc=0xFB2D 05:0x0025                     = 0x02]
+Watchpoint 9 triggered. [pc=0xFB2D 05:0x0026                     = 0x01]
+01:0x7FB2D 1F02                  TFR   D,Y
+(dbg) c
+Watchpoint 8 triggered. [pc=0xFB66 05:0x0025                     = 0x01]
+Watchpoint 9 triggered. [pc=0xFB66 05:0x0026                     = 0x02]
+01:0x7FB66 3501                  PULS  CC
+(dbg) c
+*X
+
+i   -- found the init module (in the bootfile)
+2   -- into krnp2
+x   -- tried chd'ing krnp2
+o   -- tried opening window krnp2
+C   -- tried to CC3go
+*   -- crash error
+X
+
+The "In sdmapper_read" messages are due to a read from the MMU data register
+which happens as a side-effect of a CLR instruction. It is benign but
+annoying. Need to decide whether to change exec09..
+
+The watchpoints are triggering in fmove.asm so that is the next routine to
+work on.
+
+===============================================================================
+Revised fmove.asm
+
+Ole bolted SysGo and Shell onto the bootfile and made a step forwards.
+With his "working" session, the last debug character he sees is C (starting
+cc3go, aka SysGo) then he gets the sign-on messages from SysGo/Init.
+
+Clocks: the bootfile/makefile has:
+
+CLOCK50HZMC09   = $(MD)/mc09clock_50hz $(MD)/clock2_soft
+
+The modules/makefile has:
+
+CLOCKS          = clock_50hz clock2_soft clock2_dw mc09clock_50hz
+
+.. mc09clock_50hz is built from mc09clock.asm which is a literal copy
+of clock.asm.
+
+clock2_soft is from the level1/modules tree and is used in L1 also; should
+not require any changes.
+
+
+in L04B1 (krnp2) called from ffork
+
+
+Call to F$SLink - succeeds if module is already in memory (add this to the
+comments)
+If it fails, backup is to call F$Load to try to load it.
+
+===============================================================================
+[NAC HACK 2017Jan31]
+
+Ole traced the startup to the point where the filesystem root directory
+is being searched for sysgo. With a few watchpoints I detected that there was
+a bug in my fmove code - the copy length was being corrupted so that only the
+S was being copied across.
+
+This bug prevented the string "SysGo" being copied correctly for file-system
+search. (Ole explained to me that the NITR0S9 file-system is NOT case-sensitive)
+
+Fix to fmove.asm was a 1-liner.
+
+changeset:   3146:62abe7a89a7b
+===============================================================================
+[NAC HACK 2017Feb01]
+
+Traced the next bug to the absence of FRT support in exec09. Added it and can
+now get to the boot message:
+
+NITROS9 NITROS9 BOOTKREL Boot Krn tb0..............................................................bKrnP2 IOMan Init RBF mc09sd DD D0 D1 D2 D3 SCF mc6850 Term T0 T1 PipeMan Piper Pipe Clock Clock2 i2xINFO In sdmapper_read with addr=0x0007
+INFO In sdmapper_read with addr=0x0007
+oINFO In sdmapper_read with addr=0x0007
+[uart0 stat wr: PC=0xe29d, addr=0x0000, wdata=0x82]
+CINFO In sdmapper_read with addr=0x0007
+INFO In sdmapper_read with addr=0x0007
+NitrOS-9/6809 Level 2 V3.3.0
+Multicomp09
+(C) 2014 The NitrOS-9 Project
+**   DEVELOPMENT BUILD   **
+** NOT FOR DISTRIBUTION! **
+Tue Jan 31 21:39:15 2017
+http://www.nitros9.org
+
+INFO In sdmapper_read with addr=0x0007
+INFO In sdmapper_read with addr=0x0007
+INFO In sdmapper_read with addr=0x0007
+INFO In sdmapper_read with addr=0x0007
+INFO In sdmapper_read with addr=0x0007
+INFO In sdmapper_read with addr=0x0007
+INFO In sdmapper_read with addr=0x0007
+INFO In sdmapper_read with addr=0x0007
+INFO In sdmapper_read with addr=0x0007
+INFO In sdmapper_read with addr=0x0007
+INFO In sdmapper_read with addr=0x0007
+INFO In sdmapper_read with addr=0x0007
+INFO In sdmapper_read with addr=0x0007
+m6809-run: (at PC=00B8) invalid opcode '42'
+01:0xC0B8 42                    ???   ???
+
+The next bug is to make mc09 MMU updates to krn around "Copy a register stack"
+
+Convert final coco3 MMU access to mc09. This blew the code budget by 15 bytes
+so I had to comment out 4 debug BtBug calls (4@4byte) recovering 16 bytes. Might
+be able to recover some of these by code optimisation or by changing the MMU
+control RTL (eg, auto-increment) -- to be explored once things are working.
+
+Changeset: 3147:648820cd8bbf
+
+===============================================================================
+[NAC HACK 2017Feb02] Partial conversion of mc09 clock code
+
+Changeset: 3148:dfbec26a8de6
+
+===============================================================================
+[NAC HACK 2017Mar30] Updates to exec09 to add rx uart FIFO and interrupt
+support.
+
+===============================================================================
+[NAC HACK 2017Apr01]
+
+With changes to nitros:
+  - in term_mc6850.asm remove paging pause (IT.PAU = 0)
+  - add commands to startup file
+  - create an "XL" disk with shell and utilities and sysgo as part of
+    the bootfile
+
+With timer interrupts off, boots to the terminal prompt but does
+not respond to anything (can't even get UART input FIFO to overflow,
+which implies char are being removed but not processed):
+
+NITROS9 NITROS9 BOOTREL Boot Krn 0..................................................................................................bKrnP2 IOMan Init RBF mc09sd DD D0 D1 D2 D3 SCF mc6850 Term T0 T1 PipeMan Piper Pipe Clock Clock2 SysGo Shell Date DeIniz Echo Iniz Link Load Save Unlink MDir Echo Setime 2xo[uart0 stat wr: PC=0xbe9d, addr=0x0000, wdata=0x82]
+CNitrOS-9/6809 Level 2 V3.3.0
+Multicomp09
+(C) 2014 The NitrOS-9 Project
+**   DEVELOPMENT BUILD   **
+** NOT FOR DISTRIBUTION! **
+Sat Apr  1 14:19:24 2017
+http://www.nitros9.org
+
+* Welcome to NitrOS-9 Level 2 on the Multicomp09 *
+list /dd/startup **************************
+
+<snip snip>
+
+Shell+ v2.2a 17/04/01 14:19:59
+
+{Term|02}/DD:
+
+
+ctrl-C shows that it's executing code. Seems eventually to hit a CWAI,
+and pressing some keys releases it. Never seems to hit FIFO overflow.
+Sits in this loop:
+
+01:0x3E2F ADB804                JSR   [$04,Y]            * ioman.lst "execute service routine"
+01:0x611A 3408                  PSHS  DP                 * mc6850.dr.lst IRQSvc
+01:0x611C 1F30                  TFR   U,D
+01:0x611E 1F8B                  TFR   A,DP
+01:0x6120 9E01                  LDX   <$0001  <V.PORT>
+01:0x6122 E684                  LDB   ,X
+01:0x6124 D71D                  STB   <$001D  <V.MapSct>
+01:0x6126 C570                  BITB  #$70
+01:0x6128 271D                  BEQ   01:0x6147
+01:0x6147 C501                  BITB  #$01                * is there rx data?
+01:0x6149 102700EE              LBEQ  01:0x623B           * no, go check DCD transition
+01:0x623B 9E01                  LDX   <$0001  <V.PORT>
+01:0x623D 961D                  LDA   <$001D  <V.MapSct>
+01:0x623F 1F89                  TFR   A,B
+01:0x6241 981E                  EORA  <$001E  <V.ResBit>  * mark changes
+01:0x6243 D71E                  STB   <$001E  <V.ResBit>  * save new status copy
+01:0x6245 951F                  BITA  <$001F  <V.ScTkOf>  * DCD transition?
+01:0x6247 2729                  BEQ   01:0x6272           * no, go check for suspended process
+01:0x6272 5F                    CLRB                      * clear carry for exit and LSB of process descriptor address
+01:0x6273 9605                  LDA   <$0005  <V.WAKE>    * anybody waiting
+01:0x6275 270A                  BEQ   01:0x6281           * no, go return
+01:0x6281 3588                  PULS  PC,DP               * recover system DP, return
+                                                          *******************************
+                                                          * now we are back in ioman
+01:0x3E32 3524                  PULS  Y,B                 * restore device # & poll address
+01:0x3E34 25EE                  BCS   01:0x3E24           * go to next device if error
+01:0x3E36 39                    RTS                       * return
+                                                          *******************************
+                                                          * now we are back in mc09clock_50hz.lst
+01:0x66A8 24FA                  BCC   01:0x66A4           * until error (error -> no interrupt found)
+                                                          * so.. we are waiting for CARRY to be set.. and it never is.. so
+                                                          * we stay in the interrupt routine??
+01:0x66A4 AD9F0026              JSR   [$0026  <SS.ScSiz>] * call interrupt polling routine (in ioman)
+                                                          *******************************
+                                                          * now we are in IRQPoll in ioman.lst
+01:0x3E15 109E82                LDY   <$0082  <SS.Mount>  * get pointer to polling table
+01:0x3E18 9E24                  LDX   <$0024  <SS.SetMF>  * get pointer to init module
+01:0x3E1A E60C                  LDB   12,X                * get number of entries in table
+                                                          * b=0x15
+01:0x3E1C A6B4                  LDA   [,Y]                * get device's status register
+                                                          * a=0x82 (UART is interrupting but has no data?!
+01:0x3E1E A822                  EORA  2,Y
+01:0x3E20 A523                  BITA  3,Y
+01:0x3E22 2607                  BNE   01:0x3E2B
+01:0x3E2B EE26                  LDU   6,Y
+01:0x3E2D 3424                  PSHS  Y,B
+01:0x3E2F ADB804                JSR   [$04,Y]
+
+
+Problem was that there was a bug in the exec09 emulation of the UART status
+register: the status register was flagging an interrupt when there was no
+rx character available. The fix was a one-liner. With that fix, the "XL"
+system (the one with extra modules in the bootfile) boots to a shell prompt
+and allows interactive commands!!
+
+
+===============================================================================
+[NAC HACK 2017Apr01]
+
+The recipe to trace the "invalid opcode" on timer interrupt was really simple,
+and the code failed very quickly after the interrupt occurred:
+
+
+$ ./mc09-run-int
+Reading symbols from '../6809M.map'...
+02:0x1F7E 8606                  LDA   #$06
+(dbg) b 1:0x42dc
+Breakpoint 0 at 01:0x42DC
+(dbg) c
+6809 CamelForth v1.1  20 Mar 16
+NITROS9 NITROS9 BOOTREL Boot Krn 0.............................................................................................bKrnP2 IOMan Init RBF mc09sd DD D0 D1 D2 D3 SCF mc6850 Term T0 T1 PipeMan Piper Pipe Clock Clock2 SysGo Shell Date DeIniz Echo Iniz Link Load Save Unlink 2xoBreakpoint 0 reached.
+01:0x42DC ED04                  STD   4,X
+(dbg) awa 0xfff8
+Watchpoint(RW) 1 at 05:0x0078
+(dbg) c
+[uart0 stat wr: PC=0xc39d, addr=0x0000, wdata=0x82]
+CNitrOS-9/6809 Level 2 V3.3.0
+Multicomp09
+(C) 2014 The NitrOS-9 Project
+**   DEVELOPMENT BUILD   **
+** NOT FOR DISTRIBUTION! **
+Sat Apr  1 21:42:35 2017
+http://www.nitros9.org
+
+Watchpoint 1 triggered. [pc=0xCE4D 05:0x0078                    ]
+01:0x7FE89 1A50                  ORCC  #$50
+(dbg) dumpi 1
+Instruction dump is on
+(dbg) c
+                                                           *** krn.lst IRQVCT
+01:0x7FE8B 8E00F8                LDX   #$00F8              * D.IRQ get DP offset of vector
+01:0x7FE8E 86A0                  LDA   #$A0
+01:0x7FE90 B7FFDE                STA   $FFDE               * force to system state (Task 0)
+01:0x7FE93 4F                    CLRA
+01:0x7FE94 1F8B                  TFR   A,DP                * Assume: A=0 from earlier
+01:0x7FE96 9691                  LDA   <$0091  <SS.Palet>
+01:0x7FE98 84BF                  ANDA  #$BF                * force TR=0 in mc09 MMU shadow
+01:0x7FE9A 9791                  STA   <$0091  <SS.Palet>
+01:0x7FE9C B7FFDE                STA   $FFDE
+01:0x7FE9F 6E94                  JMP   [,X]                * execute it (The interrupt vector)
+                                                           *** mc09clock_50hz.lst SvcIRQ
+01:0x6B00 7CFFDD                INC   $FFDD
+01:0x6B03 2B08                  BMI   01:0x6B0D            * timer interrupt?
+01:0x6B0D 9FCE                  STX   <$00CE  <E$DirFul>   * This is supposedly posting away the timer's ISR
+                                                             address for later, but it doesn't seem to be doing
+                                                             the right thing...
+01:0x6B0F 6E9F00E8              JMP   [$00E8  <E$BMCRC>]   * chain through kernel to continue IRQ handling
+                                                           *** krn XIRQ
+01:0x7FCFA 9E50                  LDX   <$0050  <F$ClrBlk>  * get current process pointer
+01:0x7FCFC 10EF04                STS   4,X                 * save the stack pointer
+01:0x7FCFF 10DECC                LDS   <$00CC  <E$DevOvf>  * get system stack pointer
+01:0x7FD02 DCC0                  LDD   <$00C0  <P$TimBeg>  * set system service routine to current
+01:0x7FD04 DDE4                  STD   <$00E4  <E$PrcAbt>
+01:0x7FD06 DCC4                  LDD   <$00C4  <E$WUndef>  * set system IRQ routine to current
+01:0x7FD08 DDE8                  STD   <$00E8  <E$BMCRC>
+01:0x7FD0A AD9F00CE              JSR   [$00CE  <E$DirFul>] * execute irq service
+01:0x00F8 CB00      E$Full      ADDB  #$00                 * what? Suddenly executing code in the zero page
+01:0x00FA F037F0    E$DevBsy    SUBB  $37F0
+01:0x00FD 3700      E$Share     PULU
+01:0x00FF 0001                  NEG   <$0001  <V.PORT>
+01:0x0101 01                    ???   ???
+m6809-run: (at PC=0101) invalid opcode '01'
+01:0x0101 01                    ???   ???
+01:0x0101 01                    ???   ???
+
+The JSR is coded as "jsr [>D.SvcIRQ]" - indirect through 00CE.
+
+How is D.SvcIRQ supposed to get set up? Bug in mc09 clock code. Now it is
+set up.. and works!
+
+Commit 3149:5f88c9ea2b46
+
+files:       level1/modules/sysgo.asm level2/modules/ioman.asm
+description:
+Whitespace and comment tidy-up.
+
+
+Commit 3150:036316796e23
+
+files:       level2/mc09l2/bootfiles/makefile level2/mc09l2/makefile level2/mc09l2/modules/makefile
+description:
+Fix benign bug in disk build sequence (it tried to delete a link
+that did not exist)
+Add new/additional disk for mc09, "xl" disk - has a bootfile that
+includes sysgo and shell. At the moment, this is the only one that
+works on mc09.
+
+
+Commit 3151:ce6c49189cb7
+
+files:       level2/modules/mc09clock.asm
+description:
+fixed setup of second-stage interrupt handler. First version to
+do something sensible when timer interrupts are on.
+
+===============================================================================
+[NAC HACK 2017Apr02]
+
+Q: will big bootfile work with shell but no sysgo, or does it need both?
+
+A: *only* needs shell.
+
+===============================================================================
+[NAC HACK 2017Apr02]
+
+changed files for mc09l2 port:
+
+level1/modules/rel.asm                 -- mc09 additions to shared file
+level1/modules/sysgo.asm               -- comments tidy-up
+level2/mc09l2/bootfiles/makefile       -- mc09 private file
+level2/mc09l2/makefile                 -- mc09 private file
+level2/mc09l2/modules/kernel/makefile  -- mc09 private file
+level2/mc09l2/modules/makefile         -- mc09 private file
+level2/modules/ioman.asm               -- comments tidy-up
+level2/modules/kernel/falltsk.asm      }
+level2/modules/kernel/fld.asm          }
+level2/modules/kernel/fldabx.asm       } some are comment-only changes
+level2/modules/kernel/fmove.asm        } some are minor mc09-specific code
+level2/modules/kernel/fnproc.asm       } some are major and invasive
+level2/modules/kernel/fsrqmem.asm      } some are a mix.
+level2/modules/kernel/fvmodul.asm      }
+level2/modules/kernel/krn.asm          }
+level2/modules/mc09clock.asm           -- mc09 only
+
+.. need to learn how to cherry-pick changes and then create some patches for
+Tormod.
+
+===============================================================================
+[NAC HACK 2017Apr04]
+
+Trying to get L2 working on real hardware: needs FRT fix. As a starting-point,
+reduced the MMU setup to a minimum in REL and did other tidy-up there.
+
+changeset:   3152:359979ba6ce3
+files:       defs/mc09.d level1/modules/rel.asm
+description:
+Tidy up mc09 code in REL. Reduce MMU setup to a minimum and
+expand/correct the comments. Move MMU bit-field defines to mc09.d
+
+===============================================================================
+[NAC HACK 2017Apr05]
+
+changeset:   3155:af1b050fd828
+changeset:   3154:f7e407adf37f
+changeset:   3153:c37b5486fc0c
+
+Now works on real hardware! Big comment tidy-up and made the kernel
+block an equate.
+
+===============================================================================
+[NAC HACK 2017Apr02] pull latest changes from default and merge to branch
+
+Summary of commands:
+
+1. do "hg status" and make sure you have no modified files in the branch
+(do "hg revert <filename>" if necessary)
+
+$ hg update default
+$ hg incoming
+$ hg pull
+$ hg update
+$ hg update mc09l2_port_mk1
+$ hg merge default
+<build and test it still works>
+$ hg commit
+
+transcript:
+
+----
+$ hg update default
+resolving manifests
+getting defs/mc09.d
+getting defs/os9.d
+getting level1/modules/rel.asm
+getting level1/modules/sysgo.asm
+getting level2/mc09l2/bootfiles/makefile
+getting level2/mc09l2/makefile
+getting level2/mc09l2/modules/kernel/makefile
+getting level2/mc09l2/modules/makefile
+getting level2/modules/ioman.asm
+getting level2/modules/kernel/falltsk.asm
+getting level2/modules/kernel/fld.asm
+getting level2/modules/kernel/fldabx.asm
+getting level2/modules/kernel/fmove.asm
+getting level2/modules/kernel/fnproc.asm
+getting level2/modules/kernel/fsrqmem.asm
+getting level2/modules/kernel/fvmodul.asm
+getting level2/modules/kernel/krn.asm
+getting level2/modules/mc09clock.asm
+18 files updated, 0 files merged, 0 files removed, 0 files unresolved
+
+$ hg incoming
+
+--snip snip--
+
+$hg pull
+pulling from http://hg.code.sf.net/p/nitros9/code
+searching for changes
+sampling from both directions
+adding changesets
+adding manifests
+adding file changes
+added 21 changesets with 109 changes to 91 files (+1 heads)
+(run 'hg heads' to see heads)
+
+$ hg update
+resolving manifests
+getting 3rdparty/utils/fpgarom/AUTOEXEC.BAS
+getting 3rdparty/utils/fpgarom/LICENSE
+getting 3rdparty/utils/fpgarom/README.md
+getting 3rdparty/utils/fpgarom/boot.asm
+getting 3rdparty/utils/fpgarom/makefile
+getting 3rdparty/utils/fpgarom/notes.txt
+getting 3rdparty/utils/fpgarom/rom.asm
+getting 3rdparty/utils/fpgarom/sd.asm
+getting 3rdparty/utils/fpgarom/sd.def
+getting 3rdparty/utils/fpgarom/test.asm
+getting 3rdparty/utils/fpgarom/test.lnk
+getting 3rdparty/utils/makefile
+getting 3rdparty/utils/sleuth3/cssauxil3.asm
+getting 3rdparty/utils/sleuth3/csschgdf.txt
+getting 3rdparty/utils/sleuth3/csschge1.txt
+getting 3rdparty/utils/sleuth3/csschge2.txt
+getting 3rdparty/utils/sleuth3/csschge9.txt
+getting 3rdparty/utils/sleuth3/csschgf1.txt
+getting 3rdparty/utils/sleuth3/csschgf2.txt
+getting 3rdparty/utils/sleuth3/csschgf9.txt
+getting 3rdparty/utils/sleuth3/cssconst3.asm
+getting 3rdparty/utils/sleuth3/cssdisas3.asm
+getting 3rdparty/utils/sleuth3/cssdkdsk3.asm
+getting 3rdparty/utils/sleuth3/cssdmptb3.asm
+getting 3rdparty/utils/sleuth3/cssgetcd3.asm
+getting 3rdparty/utils/sleuth3/csshelps.txt
+getting 3rdparty/utils/sleuth3/cssiafcb3.asm
+getting 3rdparty/utils/sleuth3/cssinitz3.asm
+getting 3rdparty/utils/sleuth3/cssinput3.asm
+getting 3rdparty/utils/sleuth3/cssleuth3.asm
+getting 3rdparty/utils/sleuth3/cssmapdk3.asm
+getting 3rdparty/utils/sleuth3/cssmiscl3.asm
+getting 3rdparty/utils/sleuth3/cssnames3.asm
+getting 3rdparty/utils/sleuth3/cssoutcd3.asm
+getting 3rdparty/utils/sleuth3/cssparam3.asm
+getting 3rdparty/utils/sleuth3/cssshowc3.asm
+getting 3rdparty/utils/sleuth3/csstable3.asm
+getting 3rdparty/utils/sleuth3/cssvarbl3.asm
+getting 3rdparty/utils/sleuth3/cssxiort3.asm
+getting 3rdparty/utils/sleuth3/cssxrefs3.asm
+getting 3rdparty/utils/sleuth3/csszapcd3.asm
+getting 3rdparty/utils/sleuth3/defsfile
+getting 3rdparty/utils/sleuth3/genes.notes
+getting 3rdparty/utils/sleuth3/makefile
+getting 3rdparty/utils/sleuth3/sleuth3.asm
+getting level1/modules/clock2_coco3fpga.asm
+getting level1/modules/init.asm
+getting level1/modules/llcoco3fpga.asm
+getting level1/modules/superdesc.asm
+getting level1/modules/sysgo_bd.asm
+getting level2/coco3/bootfiles/makefile
+getting level2/coco3/bootroms/makefile
+getting level2/coco3/cmds/makefile
+getting level2/coco3/defs/makefile
+getting level2/coco3/makefile
+getting level2/coco3/modules/kernel/makefile
+getting level2/coco3/modules/makefile
+getting level2/coco3/sys/makefile
+getting level2/coco3fpga/bootfiles/makefile
+getting level2/coco3fpga/bootlists/standard.bl
+getting level2/coco3fpga/cmds/defsfile
+getting level2/coco3fpga/cmds/makefile
+getting level2/coco3fpga/defs/Defsfile
+getting level2/coco3fpga/defs/makefile
+getting level2/coco3fpga/defsfile
+getting level2/coco3fpga/makefile
+getting level2/coco3fpga/modules/defsfile
+getting level2/coco3fpga/modules/kernel/defsfile
+getting level2/coco3fpga/modules/kernel/makefile
+getting level2/coco3fpga/modules/makefile
+getting level2/coco3fpga/port.mak
+getting level2/coco3fpga/scripts/mb.dw
+getting level2/coco3fpga/scripts/mb.floppy
+getting level2/coco3fpga/startup.fpga
+getting level2/coco3fpga/startup.fpgadw
+getting level2/coco3fpga/sys/makefile
+getting level2/coco3fpga/wwwroot/makefile
+getting level2/makefile
+getting level2/modules/ramd_coco3fpga.asm
+getting level2/modules/ramddesc_coco3fpga.asm
+getting level2/modules/term_win40.asm
+getting level2/modules/term_win80.asm
+getting level2/modules/w1.asm
+getting level2/modules/w2.asm
+getting level2/modules/w3.asm
+getting level2/modules/w4.asm
+getting level2/modules/w5.asm
+getting level2/modules/w6.asm
+getting level2/modules/w7.asm
+getting level2/sys/sysgo.cfg
+getting scripts/mkdskindex
+91 files updated, 0 files merged, 0 files removed, 0 files unresolved
+
+$ hg update mc09l2_port_mk1
+resolving manifests
+removing 3rdparty/utils/fpgarom/AUTOEXEC.BAS
+removing 3rdparty/utils/fpgarom/LICENSE
+removing 3rdparty/utils/fpgarom/README.md
+removing 3rdparty/utils/fpgarom/boot.asm
+removing 3rdparty/utils/fpgarom/makefile
+removing 3rdparty/utils/fpgarom/notes.txt
+removing 3rdparty/utils/fpgarom/rom.asm
+removing 3rdparty/utils/fpgarom/sd.asm
+removing 3rdparty/utils/fpgarom/sd.def
+removing 3rdparty/utils/fpgarom/test.asm
+removing 3rdparty/utils/fpgarom/test.lnk
+removing 3rdparty/utils/sleuth3/cssauxil3.asm
+removing 3rdparty/utils/sleuth3/csschgdf.txt
+removing 3rdparty/utils/sleuth3/csschge1.txt
+removing 3rdparty/utils/sleuth3/csschge2.txt
+removing 3rdparty/utils/sleuth3/csschge9.txt
+removing 3rdparty/utils/sleuth3/csschgf1.txt
+removing 3rdparty/utils/sleuth3/csschgf2.txt
+removing 3rdparty/utils/sleuth3/csschgf9.txt
+removing 3rdparty/utils/sleuth3/cssconst3.asm
+removing 3rdparty/utils/sleuth3/cssdisas3.asm
+removing 3rdparty/utils/sleuth3/cssdkdsk3.asm
+removing 3rdparty/utils/sleuth3/cssdmptb3.asm
+removing 3rdparty/utils/sleuth3/cssgetcd3.asm
+removing 3rdparty/utils/sleuth3/csshelps.txt
+removing 3rdparty/utils/sleuth3/cssiafcb3.asm
+removing 3rdparty/utils/sleuth3/cssinitz3.asm
+removing 3rdparty/utils/sleuth3/cssinput3.asm
+removing 3rdparty/utils/sleuth3/cssleuth3.asm
+removing 3rdparty/utils/sleuth3/cssmapdk3.asm
+removing 3rdparty/utils/sleuth3/cssmiscl3.asm
+removing 3rdparty/utils/sleuth3/cssnames3.asm
+removing 3rdparty/utils/sleuth3/cssoutcd3.asm
+removing 3rdparty/utils/sleuth3/cssparam3.asm
+removing 3rdparty/utils/sleuth3/cssshowc3.asm
+removing 3rdparty/utils/sleuth3/csstable3.asm
+removing 3rdparty/utils/sleuth3/cssvarbl3.asm
+removing 3rdparty/utils/sleuth3/cssxiort3.asm
+removing 3rdparty/utils/sleuth3/cssxrefs3.asm
+removing 3rdparty/utils/sleuth3/csszapcd3.asm
+removing 3rdparty/utils/sleuth3/defsfile
+removing 3rdparty/utils/sleuth3/genes.notes
+removing 3rdparty/utils/sleuth3/makefile
+removing 3rdparty/utils/sleuth3/sleuth3.asm
+removing level1/modules/clock2_coco3fpga.asm
+removing level1/modules/llcoco3fpga.asm
+removing level1/modules/sysgo_bd.asm
+removing level2/coco3fpga/bootfiles/makefile
+removing level2/coco3fpga/bootlists/standard.bl
+removing level2/coco3fpga/cmds/defsfile
+removing level2/coco3fpga/cmds/makefile
+removing level2/coco3fpga/defs/Defsfile
+removing level2/coco3fpga/defs/makefile
+removing level2/coco3fpga/defsfile
+removing level2/coco3fpga/makefile
+removing level2/coco3fpga/modules/defsfile
+removing level2/coco3fpga/modules/kernel/defsfile
+removing level2/coco3fpga/modules/kernel/makefile
+removing level2/coco3fpga/modules/makefile
+removing level2/coco3fpga/port.mak
+removing level2/coco3fpga/scripts/mb.dw
+removing level2/coco3fpga/scripts/mb.floppy
+removing level2/coco3fpga/startup.fpga
+removing level2/coco3fpga/startup.fpgadw
+removing level2/coco3fpga/sys/makefile
+removing level2/coco3fpga/wwwroot/makefile
+removing level2/modules/ramd_coco3fpga.asm
+removing level2/modules/ramddesc_coco3fpga.asm
+removing level2/sys/sysgo.cfg
+getting 3rdparty/utils/makefile
+getting defs/mc09.d
+getting defs/os9.d
+getting level1/modules/init.asm
+getting level1/modules/rel.asm
+getting level1/modules/superdesc.asm
+getting level1/modules/sysgo.asm
+getting level2/coco3/bootfiles/makefile
+getting level2/coco3/bootroms/makefile
+getting level2/coco3/cmds/makefile
+getting level2/coco3/defs/makefile
+getting level2/coco3/makefile
+getting level2/coco3/modules/kernel/makefile
+getting level2/coco3/modules/makefile
+getting level2/coco3/sys/makefile
+getting level2/makefile
+getting level2/mc09l2/bootfiles/makefile
+getting level2/mc09l2/makefile
+getting level2/mc09l2/modules/kernel/makefile
+getting level2/mc09l2/modules/makefile
+getting level2/modules/ioman.asm
+getting level2/modules/kernel/falltsk.asm
+getting level2/modules/kernel/fld.asm
+getting level2/modules/kernel/fldabx.asm
+getting level2/modules/kernel/fmove.asm
+getting level2/modules/kernel/fnproc.asm
+getting level2/modules/kernel/fsrqmem.asm
+getting level2/modules/kernel/fvmodul.asm
+getting level2/modules/kernel/krn.asm
+getting level2/modules/mc09clock.asm
+getting level2/modules/term_win40.asm
+getting level2/modules/term_win80.asm
+getting level2/modules/w1.asm
+getting level2/modules/w2.asm
+getting level2/modules/w3.asm
+getting level2/modules/w4.asm
+getting level2/modules/w5.asm
+getting level2/modules/w6.asm
+getting level2/modules/w7.asm
+getting scripts/mkdskindex
+40 files updated, 0 files merged, 69 files removed, 0 files unresolved
+
+$ hg merge default
+resolving manifests
+getting 3rdparty/utils/fpgarom/AUTOEXEC.BAS
+getting 3rdparty/utils/fpgarom/LICENSE
+getting 3rdparty/utils/fpgarom/README.md
+getting 3rdparty/utils/fpgarom/boot.asm
+getting 3rdparty/utils/fpgarom/makefile
+getting 3rdparty/utils/fpgarom/notes.txt
+getting 3rdparty/utils/fpgarom/rom.asm
+getting 3rdparty/utils/fpgarom/sd.asm
+getting 3rdparty/utils/fpgarom/sd.def
+getting 3rdparty/utils/fpgarom/test.asm
+getting 3rdparty/utils/fpgarom/test.lnk
+getting 3rdparty/utils/makefile
+getting 3rdparty/utils/sleuth3/cssauxil3.asm
+getting 3rdparty/utils/sleuth3/csschgdf.txt
+getting 3rdparty/utils/sleuth3/csschge1.txt
+getting 3rdparty/utils/sleuth3/csschge2.txt
+getting 3rdparty/utils/sleuth3/csschge9.txt
+getting 3rdparty/utils/sleuth3/csschgf1.txt
+getting 3rdparty/utils/sleuth3/csschgf2.txt
+getting 3rdparty/utils/sleuth3/csschgf9.txt
+getting 3rdparty/utils/sleuth3/cssconst3.asm
+getting 3rdparty/utils/sleuth3/cssdisas3.asm
+getting 3rdparty/utils/sleuth3/cssdkdsk3.asm
+getting 3rdparty/utils/sleuth3/cssdmptb3.asm
+getting 3rdparty/utils/sleuth3/cssgetcd3.asm
+getting 3rdparty/utils/sleuth3/csshelps.txt
+getting 3rdparty/utils/sleuth3/cssiafcb3.asm
+getting 3rdparty/utils/sleuth3/cssinitz3.asm
+getting 3rdparty/utils/sleuth3/cssinput3.asm
+getting 3rdparty/utils/sleuth3/cssleuth3.asm
+getting 3rdparty/utils/sleuth3/cssmapdk3.asm
+getting 3rdparty/utils/sleuth3/cssmiscl3.asm
+getting 3rdparty/utils/sleuth3/cssnames3.asm
+getting 3rdparty/utils/sleuth3/cssoutcd3.asm
+getting 3rdparty/utils/sleuth3/cssparam3.asm
+getting 3rdparty/utils/sleuth3/cssshowc3.asm
+getting 3rdparty/utils/sleuth3/csstable3.asm
+getting 3rdparty/utils/sleuth3/cssvarbl3.asm
+getting 3rdparty/utils/sleuth3/cssxiort3.asm
+getting 3rdparty/utils/sleuth3/cssxrefs3.asm
+getting 3rdparty/utils/sleuth3/csszapcd3.asm
+getting 3rdparty/utils/sleuth3/defsfile
+getting 3rdparty/utils/sleuth3/genes.notes
+getting 3rdparty/utils/sleuth3/makefile
+getting 3rdparty/utils/sleuth3/sleuth3.asm
+getting level1/modules/clock2_coco3fpga.asm
+getting level1/modules/init.asm
+getting level1/modules/llcoco3fpga.asm
+getting level1/modules/superdesc.asm
+getting level1/modules/sysgo_bd.asm
+getting level2/coco3/bootfiles/makefile
+getting level2/coco3/bootroms/makefile
+getting level2/coco3/cmds/makefile
+getting level2/coco3/defs/makefile
+getting level2/coco3/makefile
+getting level2/coco3/modules/kernel/makefile
+getting level2/coco3/modules/makefile
+getting level2/coco3/sys/makefile
+getting level2/coco3fpga/bootfiles/makefile
+getting level2/coco3fpga/bootlists/standard.bl
+getting level2/coco3fpga/cmds/defsfile
+getting level2/coco3fpga/cmds/makefile
+getting level2/coco3fpga/defs/Defsfile
+getting level2/coco3fpga/defs/makefile
+getting level2/coco3fpga/defsfile
+getting level2/coco3fpga/makefile
+getting level2/coco3fpga/modules/defsfile
+getting level2/coco3fpga/modules/kernel/defsfile
+getting level2/coco3fpga/modules/kernel/makefile
+getting level2/coco3fpga/modules/makefile
+getting level2/coco3fpga/port.mak
+getting level2/coco3fpga/scripts/mb.dw
+getting level2/coco3fpga/scripts/mb.floppy
+getting level2/coco3fpga/startup.fpga
+getting level2/coco3fpga/startup.fpgadw
+getting level2/coco3fpga/sys/makefile
+getting level2/coco3fpga/wwwroot/makefile
+getting level2/makefile
+getting level2/modules/ramd_coco3fpga.asm
+getting level2/modules/ramddesc_coco3fpga.asm
+getting level2/modules/term_win40.asm
+getting level2/modules/term_win80.asm
+getting level2/modules/w1.asm
+getting level2/modules/w2.asm
+getting level2/modules/w3.asm
+getting level2/modules/w4.asm
+getting level2/modules/w5.asm
+getting level2/modules/w6.asm
+getting level2/modules/w7.asm
+getting level2/sys/sysgo.cfg
+getting scripts/mkdskindex
+91 files updated, 0 files merged, 0 files removed, 0 files unresolved
+(branch merge, don't forget to commit)
+
+< build and test>
+
+$hg commit
+committing files:
+3rdparty/utils/fpgarom/AUTOEXEC.BAS
+3rdparty/utils/fpgarom/LICENSE
+3rdparty/utils/fpgarom/README.md
+3rdparty/utils/fpgarom/boot.asm
+3rdparty/utils/fpgarom/makefile
+3rdparty/utils/fpgarom/notes.txt
+3rdparty/utils/fpgarom/rom.asm
+3rdparty/utils/fpgarom/sd.asm
+3rdparty/utils/fpgarom/sd.def
+3rdparty/utils/fpgarom/test.asm
+3rdparty/utils/fpgarom/test.lnk
+3rdparty/utils/makefile
+3rdparty/utils/sleuth3/cssauxil3.asm
+3rdparty/utils/sleuth3/csschgdf.txt
+3rdparty/utils/sleuth3/csschge1.txt
+3rdparty/utils/sleuth3/csschge2.txt
+3rdparty/utils/sleuth3/csschge9.txt
+3rdparty/utils/sleuth3/csschgf1.txt
+3rdparty/utils/sleuth3/csschgf2.txt
+3rdparty/utils/sleuth3/csschgf9.txt
+3rdparty/utils/sleuth3/cssconst3.asm
+3rdparty/utils/sleuth3/cssdisas3.asm
+3rdparty/utils/sleuth3/cssdkdsk3.asm
+3rdparty/utils/sleuth3/cssdmptb3.asm
+3rdparty/utils/sleuth3/cssgetcd3.asm
+3rdparty/utils/sleuth3/csshelps.txt
+3rdparty/utils/sleuth3/cssiafcb3.asm
+3rdparty/utils/sleuth3/cssinitz3.asm
+3rdparty/utils/sleuth3/cssinput3.asm
+3rdparty/utils/sleuth3/cssleuth3.asm
+3rdparty/utils/sleuth3/cssmapdk3.asm
+3rdparty/utils/sleuth3/cssmiscl3.asm
+3rdparty/utils/sleuth3/cssnames3.asm
+3rdparty/utils/sleuth3/cssoutcd3.asm
+3rdparty/utils/sleuth3/cssparam3.asm
+3rdparty/utils/sleuth3/cssshowc3.asm
+3rdparty/utils/sleuth3/csstable3.asm
+3rdparty/utils/sleuth3/cssvarbl3.asm
+3rdparty/utils/sleuth3/cssxiort3.asm
+3rdparty/utils/sleuth3/cssxrefs3.asm
+3rdparty/utils/sleuth3/csszapcd3.asm
+3rdparty/utils/sleuth3/defsfile
+3rdparty/utils/sleuth3/genes.notes
+3rdparty/utils/sleuth3/makefile
+3rdparty/utils/sleuth3/sleuth3.asm
+level1/modules/clock2_coco3fpga.asm
+level1/modules/init.asm
+level1/modules/llcoco3fpga.asm
+level1/modules/superdesc.asm
+level1/modules/sysgo_bd.asm
+level2/coco3/bootfiles/makefile
+level2/coco3/bootroms/makefile
+level2/coco3/cmds/makefile
+level2/coco3/defs/makefile
+level2/coco3/makefile
+level2/coco3/modules/kernel/makefile
+level2/coco3/modules/makefile
+level2/coco3/sys/makefile
+level2/coco3fpga/bootfiles/makefile
+level2/coco3fpga/bootlists/standard.bl
+level2/coco3fpga/cmds/defsfile
+level2/coco3fpga/cmds/makefile
+level2/coco3fpga/defs/Defsfile
+level2/coco3fpga/defs/makefile
+level2/coco3fpga/defsfile
+level2/coco3fpga/makefile
+level2/coco3fpga/modules/defsfile
+level2/coco3fpga/modules/kernel/defsfile
+level2/coco3fpga/modules/kernel/makefile
+level2/coco3fpga/modules/makefile
+level2/coco3fpga/port.mak
+level2/coco3fpga/scripts/mb.dw
+level2/coco3fpga/scripts/mb.floppy
+level2/coco3fpga/startup.fpga
+level2/coco3fpga/startup.fpgadw
+level2/coco3fpga/sys/makefile
+level2/coco3fpga/wwwroot/makefile
+level2/makefile
+level2/modules/ramd_coco3fpga.asm
+level2/modules/ramddesc_coco3fpga.asm
+level2/modules/term_win40.asm
+level2/modules/term_win80.asm
+level2/modules/w1.asm
+level2/modules/w2.asm
+level2/modules/w3.asm
+level2/modules/w4.asm
+level2/modules/w5.asm
+level2/modules/w6.asm
+level2/modules/w7.asm
+level2/sys/sysgo.cfg
+scripts/mkdskindex
+committing manifest
+committing changelog
+committed changeset 3177:aa2549e92239
+
+===============================================================================
+[NAC HACK 2017Apr02] Updating default..
+
+18 Changed files, divided into groups
+
+These only affect mc09:
+
+$ hg cat defs/mc09.d -r mc09l2_port_mk1 > defs/mc09.d
+$ hg cat level2/mc09l2/bootfiles/makefile -r mc09l2_port_mk1 > level2/mc09l2/bootfiles/makefile
+$ hg cat level2/mc09l2/makefile -r mc09l2_port_mk1 > level2/mc09l2/makefile
+$ hg cat level2/mc09l2/modules/kernel/makefile -r mc09l2_port_mk1 > level2/mc09l2/modules/kernel/makefile
+$ hg cat level2/mc09l2/modules/makefile -r mc09l2_port_mk1 > level2/mc09l2/modules/makefile
+$ hg cat level2/modules/mc09clock.asm -r mc09l2_port_mk1 > level2/modules/mc09clock.asm
+
+changesets 3178, 3179, 3180.
+
+defs/os9.d                         -- comment only. Changeset 3181
+level1/modules/sysgo.asm           -- comment only. Changeset 3182
+level2/modules/ioman.asm           -- comment only. Changeset 3183
+level2/modules/kernel/fsrqmem.asm  -- comment only. Changeset 3184
+level2/modules/kernel/fvmodul.asm  -- comment only.  "
+
+level2/modules/kernel/fld.asm      -- only some of my changes; comments. Changeset 3185
+level2/modules/kernel/fldabx.asm   -- "
+level2/modules/kernel/falltsk.asm  -- "
+level2/modules/kernel/fmove.asm    -- "
+
+level2/modules/kernel/krn.asm      -- only some of my changes; comments. Changeset 3186
+
+
+For Tormod:
+
+
+
+
+level2/modules/kernel/fnproc.asm   -- branch went out of range for mc09
+
+level1/modules/rel.asm
+
+
+
+
+$ hg update default
+$ hg update mc09l2_port_mk1
+$ hg s
+
+$ hg update default
+$ hg cat defs/mc09.d -r mc09l2_port_mk1 > defs/mc09.d
+$ hg cat defs/mc09.d -r mc09l2_port_mk1 > defs/mc09.d
+
+
+or example, to grab myfile.c form branch somefeature, and replace the working copy version, do:
+
+hg cat path/to/myfile.c -r somefeature > path/to/myfile.c
+
+
+===============================================================================
+[NAC HACK 2017Apr17] patch for Tormod:
+
+hg update default
+hg export -o def_diff_3178 -r 3178
+..           def_diff_3187 -r 3187
+
+After Tormod's commit..
+
+hg incoming
+hg pull
+hg merge
+hg commit
+
+
+hg update mc09l2_port_mk1
+# tried and failed to merge default!
+
+
+getting 3rdparty/utils/fpgarom/makefile
+getting level1/modules/rel.asm
+getting level1/modules/sysgo.asm
+getting level1/sys/error.hp
+getting level1/sys/help.hp
+getting level2/coco3/sys/makefile
+getting level2/mc09l2/modules/kernel/makefile
+getting level2/mc09l2/modules/makefile
+getting level2/mc09l2/sys/makefile
+getting level2/modules/ioman.asm
+getting level2/modules/kernel/falltsk.asm
+getting level2/modules/kernel/fld.asm
+getting level2/modules/kernel/fldabx.asm
+getting level2/modules/kernel/fmove.asm
+getting level2/modules/kernel/fnproc.asm
+getting level2/modules/kernel/fsrqmem.asm
+getting level2/modules/kernel/krn.asm
+getting level2/modules/mc09clock.asm
+getting makefile
+
+tidied some of these up in the branch and got down from 19 to 17
+
+in default:
+
+getting level1/modules/rel.asm                  -- DIFFER needs clean-up
+getting level1/modules/sysgo.asm                -- IDENTICAL between branch and default
+getting level1/sys/error.hp                     -- ported to default
+getting level1/sys/help.hp                      -- ported to default
+getting level2/coco3/sys/makefile               -- IDENTICAL between branch and default
+getting level2/mc09l2/bootfiles/makefile        -- ported to default
+getting level2/mc09l2/modules/kernel/makefile   -- IDENTICAL between branch and default
+getting level2/mc09l2/modules/makefile          -- IDENTICAL between branch and default
+getting level2/mc09l2/sys/makefile              -- ported to default
+getting level2/modules/ioman.asm                -- IDENTICAL between branch and default
+getting level2/modules/kernel/falltsk.asm
+getting level2/modules/kernel/fld.asm
+getting level2/modules/kernel/fldabx.asm
+getting level2/modules/kernel/fmove.asm
+getting level2/modules/kernel/fnproc.asm        -- IDENTICAL between branch and default
+getting level2/modules/kernel/fsrqmem.asm
+getting level2/modules/kernel/krn.asm
+getting level2/modules/mc09clock.asm            -- IDENTICAL between branch and default
+
+Sent 2 more patches. With those in default the only remaining differences should
+be these 8 files:
+
+getting level1/modules/rel.asm                  -- rework reboot/options code
+getting level2/modules/kernel/falltsk.asm       -- 1 conditional set.
+getting level2/modules/kernel/fld.asm           -- 3 conditional sets.
+getting level2/modules/kernel/fldabx.asm        -- 2 conditional sets.
+getting level2/modules/kernel/fmove.asm         -- 2 conditional sets.
+getting level2/modules/kernel/fsrqmem.asm       -- 1 debug output commented out. Need to save 1 byte
+getting level2/modules/kernel/krn.asm           -- rework some common code. make it fit again.
+
+===============================================================================
+[NAC HACK 2017Apr20] Final merge with default
+
+getting level1/modules/rel.asm
+getting level1/modules/sysgo.asm
+getting level2/coco3/sys/makefile
+getting level2/mc09l2/modules/kernel/makefile
+getting level2/mc09l2/modules/makefile
+getting level2/mc09l2/sys/makefile
+getting level2/modules/ioman.asm
+getting level2/modules/kernel/falltsk.asm
+getting level2/modules/kernel/fld.asm
+getting level2/modules/kernel/fldabx.asm
+getting level2/modules/kernel/fmove.asm
+getting level2/modules/kernel/fnproc.asm
+getting level2/modules/kernel/fsrqmem.asm
+getting level2/modules/kernel/krn.asm
+getting level2/modules/mc09clock.asm
+
+End result is just these new/changed files
+M level1/modules/rel.asm
+M level2/modules/kernel/falltsk.asm
+M level2/modules/kernel/fld.asm
+M level2/modules/kernel/fldabx.asm
+M level2/modules/kernel/fmove.asm
+M level2/modules/kernel/fsrqmem.asm
+level2/modules/kernel/mc09krn.asm
+
+After modifying makefile accordingly:
+
+M level1/modules/rel.asm
+M level2/mc09l2/bootfiles/makefile
+M level2/mc09l2/modules/makefile
+M level2/modules/kernel/falltsk.asm
+M level2/modules/kernel/fld.asm
+M level2/modules/kernel/fldabx.asm
+M level2/modules/kernel/fmove.asm
+M level2/modules/kernel/fsrqmem.asm
+A level2/modules/kernel/mc09krn.asm
+
+
+===============================================================================
+[NAC HACK 2017Apr23] After Tormod's import
+
+$ # make a backup first!
+$ make clean
+$ make dskclean
+$ hg status
+$ hg checkout default
+$ hg incoming
+$ hg pull
+$ hg merge
+
+- all looked fine.
+
+===============================================================================
+[NAC HACK 2017Apr02] next steps:
+
+- support 512Kbyte and 1024KByte systems.
+- get an editor that works
+  - scred? DONE
+  - minted adaption to ANSI (now I have emulation)
+  - flex vi port?
+- get something useful onto other disks
+  - c compiler?
+- tidy up mc09.d file
+- make "reboot" utility work
+- make mem? utility work now that I have changed blocks
+- get/add crc utility - use F$CRCMod call
+- TODO list from below
+- learn how help/sys directory works
+  - in source: sys/*.hp
+  - single help file, hard-wired to /DD/SYS/helpmsg
+  - concat of all .hp file (done by makefile)
+  - .hp file is plain text. Help topic @NAME starting in column 1
+  - check that all cmds/ have help
+- documentation for "edit"
+
+===============================================================================
+[NAC HACK 2019Mar03] Serial drivers
+
+Boisy Pitre explained to me that all SCF drivers should start with the letters
+"sc". He created an sc6850.asm and suggested that I migrate to it and retire
+the mc6850.asm and term_mc6850.asm
+
+Switching to this driver makes it necessary to specify the hw address for
+the term_ version of the driver, which means that it needs its own line in
+the makefile in the same was as the corsham port has; the current mc09
+port buildsfrom default rules because it has the HWaddr baked in.
+
+Also I should change the name of my .dt files to match the names used elsewhere
+
+===============================================================================
+
+TODO
+
+DONE                 get Makefile in wwwroot renamed to makefile (consistency)
+                     - affects filenames and some file contents.
+DONE (not by me)     change coco3 top-level makefile to reference port.mak
+                     like mc09
+[NAC HACK 2016Dec01] create mc09 readme in documentation area.
+[NAC HACK 2016Dec01] in level1/modules there are files that differ only
+                     in a constant within them. Use the approach that I used
+                     to build terminal descriptors to remove this duplication.
+                     Specifically:
+                     term_sc6551.asm t2_sc6551.asm  t3_sc6551.asm should be term_sc6551.asm
+                     -
+                     t2_sc6552.asm  t3_sc6552.asm should be term_sc6552.asm
+                     -- they have no driver. Surely they are unused
+[NAC HACK 2016Dec01] in level2/modules there are file that differ only
+                     in a constant within them. Use the approach that I used
+                     to build terminal descriptors to remove this duplication.
+                     Specifically:
+                     * merge v*.asm into a single descriptor, remove address
+                     defines from coco.d
+                     * (the w descriptors actually are different.. merge
+                     the non-functional differences between them.
+                     * rename term_mc6850.asm to mc6850desc.asm (my bad)
+                     * derive term_sc6551.dd from sc6551desc.asm
+                     * merge t1_scbbt.asm term_scbbt.asm
+                     * merge t0_scdwt.asm term_scdwt.asm
+DONE                 rework the l1 mc09 makefiles - rationalise the names of
+                     the bootfiles and kernel files - match level2 names.
+[NAC HACK 2016Dec01] add DW support to l1 (and l2)
+[NAC HACK 2016Dec01] review whether PwrLnFrq is used correctly (see
+                     my bug report earlier herein)
+[NAC HACK 2016Dec01] in level1/coco/bootfiles/makefile FLOPPY_80D is
+                     actually pulling in _40d.dd -- typo??
+DONE: commit 3111:   in boot_* need carry clear on return from HWRead;
+                     was not clear from comments. Fixed comments in
+                     boot_sdc.asm but other booters also need their
+                     comments updating.
+[NAC HACK 2016Dec01] why does top-level makefile reference beckerdsk,
+                     becker, dwdsk targets explicitly? should all
+                     be taken care of as part of the lower-level
+                     makefiles.
+DONE                 search for instances of CC3Go in the comments
+                     and change to SysGo
+DONE                 in rel.asm change FFA0 to DAT.Regs
+[NAC HACK 2016Dec07] multiple places encode "$8C" as a way of skipping
+                     over 2 bytes (does a cmpx). Make the comments
+                     clearer in all cases.
+[NAC HACK 2016Dec08] level2 makefiles do not rebuild when krn.asm or
+                     other module/kernel stuff changes. True for old
+                     and new platforms. Also, krn bins end up in both
+                     <target>/modules/ and <target>/modules/kernel which
+                     is confusing.
+DONE                 tidy level1/mc09/modules/makefile to remove
+                     unneeded stuff.
+DONE                 Change asm build options to suit defaults on
+                     new release of lwtools
+[NAC HACK 2017Jan25] after make clean, there are undeleted files in
+                     level1/dalpha/modules/ eg: d0_40d.dd
+DONE                 krnp2 "(usually '/term')" should read "(usually '/Term')"
+DONE                 krnp2 add debug: comment to debug output
+DONE                 krnp2 "tried to to CC3Go" should read "tried to fork SysGo"
+                     ..and change other references CC3Go to SysGo
+[NAC HACK 2017Jan28] remove tabs from sysgo
+[NAC HACK 2017Jan29] remove unused clock/clock build options
+                     from l1/mc09/modules/makefile and from
+                     l2/mc09l2/modules/makefile
+DONE                 in rbf string match "Check for a match of 2 names"
+                     should say "Check for a match of 2 names, ignoring
+                     case"
+[NAC HACK 2017Apr08] I committed makefile changes to the trunk and then
+                     also to the branch (for the 91hx clock module) but those
+                     have not been sent to Tormod yet.
+[NAC HACK 2019Mar03] Change serial drivers per input from Boisey (See "serial
+                     drivers" above
+[NAC HACK 2019Mar03] L2 boot problem with minimal bootfile is a Known Bug.
+                     Change the makefile to remove the broken image and
+                     add comments to cross-reference the bug report.
+[NAC HACK 2019Mar03] When I rebuild from source and generate disk images
+                     here, it would be good to generate both L1 and L2
+                     images and also to generate a manifest to provide
+                     traceability on what source tree they were built
+                     from
+[NAC HACK 2019Mar03] Create a readme.md in this area, with links to the
+                     proper source and an index to the other material
+                     in this directory.

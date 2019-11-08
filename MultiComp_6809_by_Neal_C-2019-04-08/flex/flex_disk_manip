@@ -1,0 +1,617 @@
+#!/usr/bin/perl
+#
+# Manipulator for FLEX disk images. Designed to analyse, extract, report and
+# convert them.
+#
+# For description of the FLEX disk image format refer to:
+# 1. The 6809 FLEX adaption guide, 6809FADG.PDF (NEWDISK program, SIR format)
+# 2. The FLEX Advanced Programmers Guide FLEXAPG.PDF (sector format, binary
+#    file format, directory format)
+# 3. The article at http://www.waveguide.se/?article=reading-flex-disk-images
+#
+# The designers of FLEX were far-sighted in making the disk format
+# self-describing: an area at a defined area from the start of the disk
+# (the SIR) describes the track and sector arrangement of the disk.
+#
+# Tracks are numbered 0..n
+# Sectors are numbered 1..n
+#
+# The .dsk image contains a linear sequence of sector-sized data.
+# This program uses the word "block" to refer to the linear offset.
+# For example, track=0, sector=1 is block 0.
+# block <-> track/sector conversion is easy for the first track
+# but requires knowledge of the system information record (SIR)
+# in order to do conversions beyond the first track.
+#
+# TODO: add command to perform the "dos link" operation: locate the system
+# file and reference it in the boot sector.
+# TODO validate the reference in the boot sector
+# TODO more manipulation capability (true random r/w to the image rather than
+# the current one-pass sequential)
+# - delete files, trim sectors, look for packing and trimming opportunities
+# in binaries.
+#
+# Neal Crook, May 2015.
+
+use strict;
+use warnings;
+
+# Give up after 50 errors 
+my $errors = 0;
+
+# What to do
+my %action;
+# Store the data field of each sector/block (the first 4 bytes)
+# $blk_hdr[BLOCK]->[0] track number of next sector in chain
+# $blk_hdr[BLOCK]->[1] sector number of next sector in chain
+# $blk_hdr[BLOCK]->[2] file logical record number
+# $blk_hdr[BLOCK]->[3] file logical record number
+# $blk_hdr[BLOCK]->[4] reference count for sector (0 if never referenced)
+my @blk_hdr;
+# List of directory entries
+my @dir;
+my $blocks = 0;      # number of blocks
+my $sdmismatch = 0;  # number of blocks for which first and second halves mismatch
+my $data;
+my %dsk;             # hash of disk parameters
+
+# FLEX constants
+$dsk{BYTES_BLK} = 256; # Bytes in input block. Changed by -insd
+$dsk{BYTES_SECTOR} = 256;
+$dsk{SIR_BLK} = 2; # Track=0 Sector=3
+$dsk{LDR_BLK} = 0; # Track=0 Sector=1
+$dsk{DIR_BLK} = 4; # Track=0 Sector=5
+
+# As the directory is processed, sector by sector, this is updated with the block
+# number containing the next sector. A value of 0 indicates that all of the sectors
+# associated with the directory have been processed.
+my $dir_blk = $dsk{DIR_BLK};
+
+# process command-line arguments
+while (my $arg = shift @ARGV) {
+    if ($arg eq "-help") {
+        help_exit();
+    }
+    elsif ($arg eq "-info") {
+        $action{info} = 1;
+    }
+    elsif ($arg eq "-dir") {
+        $action{dir} = 1;
+    }
+    elsif ($arg eq "-insd") {
+        $action{insd} = 1;
+        $dsk{BYTES_BLK} = 512;
+    }
+    elsif ($arg eq "-out") {
+        $action{out} = shift @ARGV;
+    }
+    elsif ($arg eq "-outsd") {
+        $action{outsd} = shift @ARGV;
+    }
+    elsif ($arg eq "-extract") {
+        my @files;
+        while (my $file = shift @ARGV) {
+            push @files, $file;
+        }
+        $action{extract} = \@files;
+    }
+    elsif ($arg eq "-extractall") {
+        $action{extractall} = 1;
+    }
+    elsif ($arg eq "-extractloader") {
+        $action{extractloader} = 1;
+    }
+    elsif ($arg =~ "-hack") {
+        # handled below..
+        $action{hack} = 1;
+    }
+    elsif ($arg =~ "^-") {
+        print "ERROR unrecognised option -- try using -help\n";
+        exit;
+    }
+    else {
+        # INFILE - just once
+        if (defined $action{infile}) {
+            print "ERROR unrecognised option or multiple input files specified -- try using -help\n";
+            exit;
+        }
+        else {
+            $action{infile} = $arg;
+        }
+    }
+}
+
+# Sanity check
+if (!defined $action{infile}) {
+    print "ERROR no input file specified -- try using -help\n";
+    exit;
+}
+
+# Open input file for read/write, output files for write-only
+open INFILE, "$action{infile}" or die "ERROR could not open input file $action{infile}\n";
+if (defined $action{out}) {
+    open OUT, ">$action{out}" or die "ERROR could not open output file $action{out}\n";
+}
+if (defined $action{outsd}) {
+    open OUTSD, ">$action{outsd}" or die "ERROR could not open output file $action{outsd}\n";
+}
+if (defined $action{extractloader}) {
+    open OUTLDR, ">flex_loader.bin" or die "ERROR could not open output file flex_loader.bin\n";
+}
+
+# Read the file block by block. In the process:
+# - Honour the input format.
+# - Verify data matching if input is SD format.
+# - If selected, write output files
+# - Build a list of the sector headers
+# - Recognise the SIR and build a data structure that describes it
+# - Recognise the directory and build a data structure that describes it
+# - If selected, extract and save the loader
+while(my $bytes_actual = read INFILE, $data, $dsk{BYTES_BLK}) {
+    if ($bytes_actual == $dsk{BYTES_BLK}) {
+
+        # sector-worth of data (maybe all of the data)
+        my $data0 = substr $data, 0, $dsk{BYTES_SECTOR};
+
+        if ($action{insd}) {
+            my $data1 = substr $data, $dsk{BYTES_SECTOR}, $dsk{BYTES_SECTOR};
+            if ($data0 ne $data1) {
+                $sdmismatch = $sdmismatch + 1;
+            }
+        }
+
+        if ($action{out}) {
+            print OUT $data0;
+        }
+        if ($action{outsd}) {
+            print OUTSD $data0, $data0;
+        }
+        if ($action{extractloader} && ($blocks == $dsk{LDR_BLK})) {
+            print OUTLDR $data0;
+        }
+        if ($blocks == $dsk{SIR_BLK}) {
+            extract_sir(\%dsk, $data0);
+        }
+        if ($blocks == $dir_blk) {
+            extract_dir($data0);
+        }
+
+        # [0..3] are the first 4 bytes of the sector. [4] will be used
+        # as a sector use-count to detect dangling or double-linked sectors
+        # do this for ALL sectors whilst recognising that the first few sectors
+        # in the disk do NOT form part of a linked list.
+        my @first4 = (ord substr($data0, 0, 1), ord substr($data0, 1, 1),
+                      ord substr($data0, 2, 1), ord substr($data0, 3, 1), 0 );
+        $blk_hdr[$blocks] = \@first4;
+
+        # All is well
+        $blocks = $blocks + 1;
+    }
+    else {
+        if ($bytes_actual != 0) {
+            print "ERROR input file is not a multiple of $dsk{BYTES_BLK} -- $bytes_actual bytes left over\n";
+        }
+    }
+}
+
+
+# Fill in final pieces
+$dsk{BLKS} = $blocks;
+$dsk{SDMISMATCH} = $sdmismatch;
+
+
+# Integrity tests
+check_dsk(\%dsk);
+
+
+# Info
+if ($action{info}) {
+    describe_dsk(\%dsk);
+}
+
+
+if ($action{dir}) {
+    print_directory();
+}
+
+
+# [NAC HACK 2015May23] TODO "extract" and "extractall"
+
+
+################################################
+################################################
+## HACK to extract FLEX.sys
+
+if ($action{hack}) {
+    seek INFILE,0,0;
+    $blocks = 0;
+    my $fb = ts_to_blk(37,65);
+
+    open OUT, ">hack.dsk" or die "ERROR could not open output file hack.dsk\n";
+
+    # set up here because a record can span a sector boundary
+    my $SEARCH = 0;
+    my $LOADH  = 1;
+    my $LOADL  = 2;
+    my $COUNT  = 3;
+    my $DATA   = 4;
+    my $XFERH  = 5;
+    my $XFERL  = 6;
+
+    my $state = $SEARCH;
+
+    my $count;
+    my $record_addr;
+    my $delete = 0;
+
+    while(my $bytes_actual = read INFILE, $data, $dsk{BYTES_BLK}) {
+        if ($bytes_actual == $dsk{BYTES_BLK}) {
+
+
+            ## see if this is good enough to walk through the chain
+            ## by inspection, it is (the sectors don't have to be in order but
+            ## luckily they are)
+            if ($blocks == $fb) {
+                print "Found block $blocks. Next is t$blk_hdr[$blocks]->[0], s$blk_hdr[$blocks]->[1]\n";
+                $fb = ts_to_blk($blk_hdr[$blocks]->[0], $blk_hdr[$blocks]->[1]);
+
+                # potentially modify the sector payload (starts at byte 4)
+                foreach my $i(4..255) {
+                    my $byte = substr $data, $i, 1;
+
+                    if ($state == $SEARCH) {
+                        if (ord $byte == 0x02) {
+                            $state = $LOADH;
+                        }
+                        elsif (ord $byte == 0x16) {
+                            $state = $XFERH;
+                        }
+                        else {
+                            printf "SKIP 0x%02d  (last address is 0x%04X)\n",ord $data, $record_addr;
+                        }
+                    }
+                    elsif ($state == $LOADH) {
+                        $record_addr = (ord $byte) * 256;
+                        $state = $LOADL;
+                    }
+                    elsif ($state == $LOADL) {
+                        $record_addr = $record_addr + (ord $byte);
+                        $state = $COUNT;
+                    }
+                    elsif ($state == $COUNT) {
+                        $count = ord $byte;
+                        $state = $DATA;
+                        printf "INFO record_addr 0x%04X, length 0x%02x\n", $record_addr, $count;
+
+                        if (($record_addr == 0xde00) || ($record_addr == 0xdec4) || ($record_addr == 0xd3e7)
+                            || ($record_addr == 0xd370) || ($record_addr == 0xd3e1)) {
+                            # delete the part of the record that has gone by
+                            substr($data, $i-3, 1) = chr 0; # record header
+                            substr($data, $i-2, 1) = chr 0; # address hi
+                            substr($data, $i-1, 1) = chr 0; # address lo
+                            substr($data, $i,   1) = chr 0; # count
+                            # flag makes us delete the data
+                            $delete=1;
+                        }
+
+                        # [NAC HACK 2015May27] does 0 mean 0 or does it mean 256?
+                        if ($count == 0) {
+                            print "INFO: count of 0 encountered. Don't know if this means 0 or 256";
+                        }
+                    }
+                    elsif ($state == $DATA) {
+                        $count = $count - 1;
+                        if ($delete) {
+                            substr($data, $i, 1) = chr 0;
+                        }
+                        if ($count == 0) {
+                            $state = $SEARCH;
+                            $delete = 0;
+                        }
+                    }
+                    elsif ($state == $XFERH) {
+                        $state = $XFERL
+                    }
+                    elsif ($state == $XFERL) {
+                        $state = $SEARCH;
+                    }
+                    else {
+                        die "ERROR Unknown state\n";
+                    }
+                }
+            }
+            # copy out this sector
+            print OUT $data;
+
+            # All is well
+            $blocks = $blocks + 1;
+        }
+    }
+    close OUT;
+}
+
+
+# Tidy up
+close INFILE;
+if (defined $action{out}) {
+    close OUT;
+}
+if (defined $action{outsd}) {
+    close OUTSD;
+}
+if (defined $action{extractloader}) {
+    close OUTLDR;
+}
+
+
+###########################################################################################
+## Subroutines
+
+# Load %dsk with parameters extracted from the SIR
+sub extract_sir {
+    my $dsk_ref = $_[0];
+    my $sir = $_[1];
+
+    # SIR format is described in section 9.1.5 of the 6809FAG
+    $dsk_ref->{LNK}     = 256 * (ord substr $sir,  0) + (ord substr $sir,  1);
+    $dsk_ref->{NAME}    = substr $sir, 16, 26-16+1;
+    $dsk_ref->{NUM}     = 256 * (ord substr $sir, 27) + (ord substr $sir, 28);
+    $dsk_ref->{FIRST_T} = ord substr $sir, 29, 1;
+    $dsk_ref->{FIRST_S} = ord substr $sir, 30, 1;
+    $dsk_ref->{LAST_T}  = ord substr $sir, 31, 1;
+    $dsk_ref->{LAST_S}  = ord substr $sir, 32, 1;
+    $dsk_ref->{FREE}    = 256 * (ord substr $sir, 33) + (ord substr $sir, 34);
+    $dsk_ref->{DATE_M}  = ord substr $sir, 35, 1;
+    $dsk_ref->{DATE_D}  = ord substr $sir, 36, 1;
+    $dsk_ref->{DATE_Y}  = (ord substr $sir, 37, 1) %100; # Y2K fixup
+    $dsk_ref->{MAX_T}   = ord substr $sir, 38, 1;
+    $dsk_ref->{MAX_S}   = ord substr $sir, 39, 1;
+
+    # need to make a guess now so that the directory can be inspected. Verify the guess
+    # later on and confess if we got it wrong.
+    $dsk_ref->{T1_OFFSET} = $dsk_ref->{MAX_S};
+}
+
+
+# Dump the SIR in human-readable format
+sub describe_dsk {
+    my $dsk_ref = $_[0];
+
+    printf "Image size:   %d blocks (%d bytes)\n",
+    $dsk_ref->{BLKS}, $dsk_ref->{BLKS} * $dsk_ref->{BYTES_BLK};
+    if ($action{insd}) {
+        printf "%d blocks with data first/second half mismatches\n", $dsk_ref->{SDMISMATCH};
+    }
+
+    printf "Disk name:   %12s\n", $dsk_ref->{NAME};
+    printf "Disk number:  %d\n",  $dsk_ref->{NUM};
+    printf "Disk date:    %02d-%02d-%02d\n", $dsk_ref->{DATE_M}, $dsk_ref->{DATE_D}, $dsk_ref->{DATE_Y};
+    printf "Free sectors: %d. Free chain t%02d,s%02d - t%02d,s%02d\n",
+    $dsk_ref->{FREE}, $dsk_ref->{FIRST_T}, $dsk_ref->{FIRST_S}, $dsk_ref->{LAST_T}, $dsk_ref->{LAST_S};
+    printf "Range:        t00-t%02s, s01-s%02s\n", $dsk_ref->{MAX_T}, $dsk_ref->{MAX_S};
+    printf "Track0 sectors: $dsk_ref->{T1_OFFSET}\n";
+}
+
+
+# Load @dir with directory entries extracted from one sector. Update global $dir_blk with the
+# block number associated with the next sector of directory information (-1 if none)
+sub extract_dir {
+    my $dat = $_[0];
+
+    # next sector of directory entries -- t0,s0 (blk -1) if none
+    $dir_blk = ts_to_blk(ord(substr $dat,  0), ord (substr $dat,  1));
+
+    # Directory format is described in FLEXAPG
+    my $offset = 16;
+    foreach my $entry(0..9) {
+        my %d;
+
+        # first byte of filename is 0 if it has never been used
+        # or has bit 7 set if it has been deleted.
+        my $nstart = 4 -4+$offset+($entry*24);
+        my $first = ord substr($dat, $nstart, 1);
+        next if (($first == 0) || ($first & 0x80));
+
+        # the name can be null-terminated, which is non-printing but tidiest to remove them
+        my $name = substr($dat, $nstart, 8);
+        $name =~ /(^[a-zA-Z0-9\-\_]+)/;
+        $d{NAME} = $1;
+
+        # likewise the extension
+        my $ext = substr($dat, $nstart+8, 3);
+        $ext =~ /(^[a-zA-Z]+)/;
+        $d{EXT} = $1;
+
+        $d{ATTR}    = ord substr($dat, 15-4+$offset+($entry*24), 1);
+        $d{FIRST_T} = ord substr($dat, 17-4+$offset+($entry*24), 1);
+        $d{FIRST_S} = ord substr($dat, 18-4+$offset+($entry*24), 1);
+        $d{LAST_T}  = ord substr($dat, 19-4+$offset+($entry*24), 1);
+        $d{LAST_S}  = ord substr($dat, 20-4+$offset+($entry*24), 1);
+        $d{USED}    = 256 * (ord substr($dat, 21+0-4+$offset+($entry*24), 1)) +
+                   (ord substr($dat, 21+1-4+$offset+($entry*24), 1));
+        $d{DATE_M}  = ord substr($dat, 25+0-4+$offset+($entry*24), 1);
+        $d{DATE_D}  = ord substr($dat, 25+1-4+$offset+($entry*24), 1);
+        $d{DATE_Y}  = (ord substr($dat, 25+2-4+$offset+($entry*24), 1)) %100; # Y2K fixup
+
+        push @dir,\%d;
+    }
+
+}
+
+
+# Check the integrity of the chain (are all sectors accounted for)
+sub check_dsk {
+    my $dsk_ref = $_[0];
+
+
+    # check SIR link
+    if ($dsk_ref->{LNK} != 0) {
+        print "ERROR SIR link bytes are non-zero\n";
+    }
+
+    # check that our guess was correct for sectors for first track
+    my $data_sectors = $dsk_ref->{MAX_S} * $dsk_ref->{MAX_T};
+    my $track0_sectors = $dsk_ref->{BLKS} - $data_sectors;
+    if ($track0_sectors != $dsk_ref->{MAX_S}) {
+        printf "INFO: Track 0 has different sector count: %d instead of %d\n", $track0_sectors,$dsk_ref->{MAX_S};
+        print "INFO: This means that the directory sectors after track 0 will have been parsed wrongly\n";
+        print "INFO: If this ever occurs, add a parameter that allows the T1_OFFSET to be forced at the\n";
+        print "INFO: command line.\n";
+    }
+
+    # walk list of free sectors
+    my ($last_t, $last_s, $count) = walk_chain($dsk_ref->{FIRST_T}, $dsk_ref->{FIRST_S}, "Free List");
+
+    if ($count != $dsk_ref->{FREE}) {
+        print "ERROR sector count of free sector chain does not match value in SIR\n";
+    }
+
+    if (($last_t != $dsk_ref->{LAST_T}) || ($last_s != $dsk_ref->{LAST_S})) {
+        print "ERROR last sector of free sector chain does not match t,s value in SIR\n";
+    }
+
+
+    # walk list of sectors making up the directory
+    ($last_t, $last_s, $count) = walk_chain(0, 5, "Directory");
+    print "Directory:    $count sectors\n";
+
+    # TODO walk chain of sectors associated with each non-deleted file
+
+    # TODO check all sectors accounted for #[NAC HACK 2015May23]
+
+
+}
+
+
+# Given a start block, walk the chain of sectors to the end.
+# Return a list containing the track and sector of the last sector
+# in the chain, and the number of sectors in the chain. Increase
+# reference count for each sector in the chain and report any
+# sector that is referenced more than once.
+# Uses global variables %dsk @blk_hdr
+sub walk_chain {
+    my $track = $_[0];
+    my $sector = $_[1];
+    my $description = $_[2];
+
+    my $length = 0;
+    my $next_t = $track;
+    my $next_s = $sector;
+
+
+    while (($next_t != 0) || ($next_s != 0)) {
+        $length = $length+1;
+        $track = $next_t;
+        $sector = $next_s;
+        my $blk = ts_to_blk($track, $sector);
+        if ($blk_hdr[$blk]->[4] == 0) {
+            $blk_hdr[$blk]->[4] = 1;
+        }
+        else {
+            $blk_hdr[$blk]->[4] = $blk_hdr[$blk]->[4] + 1;
+            print "ERROR multiple reference to sector t=$track,s=$sector (block $blk) in $description chain\n";
+            $errors = $errors + 1;
+            if ($errors > 50) {
+                print "ERROR too many errors. Chain loop? Giving up\n";
+                exit 1;
+            }
+        }
+        ##printf "Go from t%02d s%02d to block %d (free $length)\n", $track, $sector, $blk;
+        ##printf "Get t%02d s%02d from header\n", $blk_hdr[$blk]->[0],$blk_hdr[$blk]->[1];
+        $next_t = $blk_hdr[$blk]->[0];
+        $next_s = $blk_hdr[$blk]->[1];
+    }
+    return ($track, $sector, $length);
+}
+
+
+# Convert track, sector into block number (block offset from 0)
+sub ts_to_blk {
+    my $track = $_[0];
+    my $sector = $_[1];
+
+    # Cannot call this sub until T1_OFFSET has been calculated
+    if ($dsk{T1_OFFSET} == 0) {
+        die "FATAL ERROR T1_OFFSET set to 0!!\n";
+    }
+
+    if ($track > $dsk{MAX_T}) {
+        print "ERROR track $track is out of range\n";
+    }
+    if ($sector > $dsk{MAX_S}) {
+        print "ERROR sector $sector is out of range\n";
+    }
+
+    if ($track == 0) {
+        return $sector - 1;
+    }
+    else {
+        return $dsk{T1_OFFSET} + ($dsk{MAX_S} * ($track - 1)) + $sector - 1;
+    }
+}
+
+# Print directory
+sub print_directory {
+
+    foreach my $i (@dir) {
+        # attributes
+        my $attr = "    ";
+        if ($i->{ATTR} & 0x80) {substr($attr, 0, 1) = "W"};
+        if ($i->{ATTR} & 0x40) {substr($attr, 1, 1) = "D"};
+        if ($i->{ATTR} & 0x20) {substr($attr, 2, 1) = "R"};
+        if ($i->{ATTR} & 0x10) {substr($attr, 3, 1) = "C"};
+
+        printf "% 8s.%-3s $attr t%02d,s%02d - t%02d,s%02d (%4d sectors) %02d-%02d-%02d\n", $i->{NAME}, $i->{EXT}, $i->{FIRST_T}, $i->{FIRST_S}, $i->{LAST_T}, $i->{LAST_S}, $i->{USED}, $i->{DATE_M}, $i->{DATE_D}, $i->{DATE_Y};
+    }
+}
+
+
+sub help_exit {
+    print <<EOF
+
+Manipulator for FLEX disk images. Usage:
+
+flex_disk_manip [-help] [INFILE <options>]
+
+    -help              print usage information and terminate
+    INFILE             name of a FLEX disk image file (usually .dsk)
+    -info              perform integrity check and report information about the
+                       image
+    -dir               report names of all files contained in the image
+    -insd              by default input files are in .dsk format. This specifies
+                       that the input file is in SD file format (notes below)
+    -out OUTFILE       write disk image out in .dsk file format
+    -outsd OUTFILE     write disk image out in SD file format (notes below)
+    -extract [name1 name2..] extract files from disk (notes below)
+    -extractall        extract all files from disk
+    -extractloader     extract FLEX loader (notes below)
+
+SD File format
+
+A FLEX disk image has a fixed sector size of 256 bytes. In order to transfer it to an SDCARD it
+is convenient (though inefficient) to place each sector in the first half of a 512 byte block.
+This has the effect of generating an output image that is exactly twice the size of the input
+image.
+
+For no particularly good reason (but maybe for integrity checking later) "-outsd" achieves this
+by duplicating each 256 byte data chunk.
+
+"-insd" performs the opposite check: for each 512 bytes in, it reports whether the first and
+second half of each 512 byte block contain identical data or not.
+
+Extracting files
+
+If the "-extract" option is used, the remaining command-line parameters are assumed to be the
+names of files in the disk image. Each file is extracted to the current directory as a file
+with the same name as it had in the disk image.
+
+The "-extractloader" option extracts track 0 sector 1 and saves it as "flex_loader.bin". For
+a system disk this expected to contain the FLEX boot loader -- but note that this is target
+system dependent as some target systems may boot straight from ROM with no need for this
+intermediate bootstrap. Other systems may have a loader that extends beyond this one sector.
+If this image is a valid FLEX boot loader it will be designed to load at address \$C100 and to
+be executed from that address. The bytes at address \$C105, \$C106 specify the track and
+sector at which the FLEX image is stored on the disk.
+
+EOF
+}
