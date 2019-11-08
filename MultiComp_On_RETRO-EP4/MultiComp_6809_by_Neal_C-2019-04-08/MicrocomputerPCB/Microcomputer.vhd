@@ -118,8 +118,8 @@ entity Microcomputer is
         txd2		: out std_logic;
         rts2		: out std_logic;
 
-        videoSync   : out std_logic;
-        video       : out std_logic;
+--        videoSync   : out std_logic;
+--        video       : out std_logic;
 
         videoR0     : out std_logic;
         videoG0     : out std_logic;
@@ -318,8 +318,8 @@ begin
             videoB1 => videoB1,
 
             -- Monochrome video signals (when using TV timings only)
-            sync => videoSync,
-            video => video,
+--            sync => videoSync,
+--            video => video,
 
             n_wr => n_WR_vdu,
             n_rd => n_RD_vdu,
