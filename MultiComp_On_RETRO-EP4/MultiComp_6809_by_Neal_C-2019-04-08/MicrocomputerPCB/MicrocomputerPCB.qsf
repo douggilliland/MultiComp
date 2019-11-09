@@ -49,27 +49,20 @@ set_global_assignment -name ERROR_CHECK_FREQUENCY_DIVISOR 1
 set_global_assignment -name PARTITION_NETLIST_TYPE SOURCE -section_id Top
 set_global_assignment -name PARTITION_FITTER_PRESERVATION_LEVEL PLACEMENT_AND_ROUTING -section_id Top
 set_global_assignment -name PARTITION_COLOR 16764057 -section_id Top
-
+set_location_assignment PIN_23 -to clk
+set_location_assignment PIN_125 -to n_reset
 set_location_assignment PIN_3 -to n_LED9
 set_location_assignment PIN_7 -to n_LED7
-set_location_assignment PIN_84 -to vduffd0
-
+set_location_assignment PIN_85 -to vduffd0
 set_location_assignment PIN_132 -to rxd1
 set_location_assignment PIN_128 -to txd1
 set_location_assignment PIN_129 -to rts1
-
 set_location_assignment PIN_111 -to rxd2
 set_location_assignment PIN_110 -to txd2
 set_location_assignment PIN_106 -to rts2
-
 set_instance_assignment -name WEAK_PULL_UP_RESISTOR ON -to rxd1
 set_instance_assignment -name WEAK_PULL_UP_RESISTOR ON -to rxd2
 set_instance_assignment -name WEAK_PULL_UP_RESISTOR ON -to vduffd0
-
-set_location_assignment PIN_23 -to clk
-set_location_assignment PIN_125 -to n_reset
-
-set_location_assignment PIN_75 -to n_sRamWE
 set_location_assignment PIN_68 -to n_sRamCS
 set_location_assignment PIN_50 -to n_sRamOE
 set_location_assignment PIN_54 -to sRamAddress[18]
@@ -85,7 +78,6 @@ set_location_assignment PIN_80 -to sRamAddress[9]
 set_location_assignment PIN_83 -to sRamAddress[8]
 set_location_assignment PIN_76 -to sRamAddress[7]
 set_location_assignment PIN_77 -to sRamAddress[6]
-set_location_assignment PIN_74 -to sRamAddress[5]
 set_location_assignment PIN_69 -to sRamAddress[4]
 set_location_assignment PIN_66 -to sRamAddress[3]
 set_location_assignment PIN_67 -to sRamAddress[2]
@@ -99,7 +91,6 @@ set_location_assignment PIN_72 -to sRamData[3]
 set_location_assignment PIN_73 -to sRamData[2]
 set_location_assignment PIN_70 -to sRamData[1]
 set_location_assignment PIN_71 -to sRamData[0]
-
 set_location_assignment PIN_136 -to gpio2[7]
 set_location_assignment PIN_135 -to gpio2[6]
 set_location_assignment PIN_138 -to gpio2[5]
@@ -108,16 +99,11 @@ set_location_assignment PIN_142 -to gpio2[3]
 set_location_assignment PIN_141 -to gpio2[2]
 set_location_assignment PIN_144 -to gpio2[1]
 set_location_assignment PIN_143 -to gpio2[0]
-
 set_location_assignment PIN_105 -to gpio0[2]
 set_location_assignment PIN_104 -to gpio0[1]
 set_location_assignment PIN_103 -to gpio0[0]
-
-set_location_assignment PIN_75 -to video
-set_location_assignment PIN_74 -to videoSync
 set_location_assignment PIN_126 -to ps2Data
 set_location_assignment PIN_127 -to ps2Clk
-
 set_location_assignment PIN_120 -to videoB0
 set_location_assignment PIN_124 -to videoB1
 set_location_assignment PIN_115 -to videoG0
@@ -131,7 +117,7 @@ set_instance_assignment -name WEAK_PULL_UP_RESISTOR ON -to sdMISO
 set_location_assignment PIN_60 -to sdSCLK
 set_location_assignment PIN_55 -to sdMOSI
 set_location_assignment PIN_58 -to sdCS
-set_location_assignment PIN_85 -to driveLED
+set_location_assignment PIN_10 -to driveLED
 set_instance_assignment -name WEAK_PULL_UP_RESISTOR ON -to n_reset
 set_global_assignment -name STRATIX_DEVICE_IO_STANDARD "3.3-V LVTTL"
 set_global_assignment -name OPTIMIZE_HOLD_TIMING "IO PATHS AND MINIMUM TPD PATHS"
@@ -157,7 +143,6 @@ set_instance_assignment -name CURRENT_STRENGTH_NEW 8MA -to sRamAddress[9]
 set_instance_assignment -name CURRENT_STRENGTH_NEW 8MA -to sRamAddress[8]
 set_instance_assignment -name CURRENT_STRENGTH_NEW 8MA -to sRamAddress[7]
 set_instance_assignment -name CURRENT_STRENGTH_NEW 8MA -to sRamAddress[6]
-set_instance_assignment -name CURRENT_STRENGTH_NEW 8MA -to sRamAddress[5]
 set_instance_assignment -name CURRENT_STRENGTH_NEW 8MA -to sRamAddress[4]
 set_instance_assignment -name CURRENT_STRENGTH_NEW 8MA -to sRamAddress[3]
 set_instance_assignment -name CURRENT_STRENGTH_NEW 8MA -to sRamAddress[2]
@@ -166,7 +151,6 @@ set_instance_assignment -name CURRENT_STRENGTH_NEW 8MA -to sRamAddress[0]
 set_instance_assignment -name CURRENT_STRENGTH_NEW 8MA -to n_sRamCS
 set_instance_assignment -name CURRENT_STRENGTH_NEW 8MA -to n_sRamCS2
 set_instance_assignment -name CURRENT_STRENGTH_NEW 8MA -to n_sRamOE
-set_instance_assignment -name CURRENT_STRENGTH_NEW 8MA -to n_sRamWE
 set_instance_assignment -name CURRENT_STRENGTH_NEW 8MA -to gpio0[2]
 set_instance_assignment -name CURRENT_STRENGTH_NEW 8MA -to gpio0[1]
 set_instance_assignment -name CURRENT_STRENGTH_NEW 8MA -to gpio0[0]
@@ -190,8 +174,6 @@ set_global_assignment -name QIP_FILE ../Components/TERMINAL/CGABoldRomReduced.qi
 set_global_assignment -name QIP_FILE ../Components/TERMINAL/SansBoldRom.qip
 set_global_assignment -name QIP_FILE ../Components/TERMINAL/SansBoldRomReduced.qip
 set_global_assignment -name VHDL_FILE ../Components/TERMINAL/CGABoldRomReduced.vhd
-set_global_assignment -name VHDL_FILE ../Components/TERMINAL/SansBoldRom.vhd
-set_global_assignment -name VHDL_FILE ../Components/TERMINAL/SansBoldRomReduced.vhd
 set_global_assignment -name VHDL_FILE ../Components/M6809p/cpu09p.vhd
 set_global_assignment -name VHDL_FILE ../Components/SDCARD/sd_controller.vhd
 set_global_assignment -name VHDL_FILE ../Components/UART/bufferedUART.vhd
@@ -205,10 +187,8 @@ set_global_assignment -name QIP_FILE ../ROMS/6809/M6809_CAMELFORTH_ROM.qip
 set_global_assignment -name DEVICE_FILTER_PACKAGE TQFP
 set_global_assignment -name DEVICE_FILTER_PIN_COUNT 144
 set_global_assignment -name DEVICE_FILTER_SPEED_GRADE 8
-set_instance_assignment -name CURRENT_STRENGTH_NEW 8MA -to video
 set_instance_assignment -name CURRENT_STRENGTH_NEW 8MA -to gpio2
 set_instance_assignment -name CURRENT_STRENGTH_NEW 8MA -to gpio0
-set_instance_assignment -name CURRENT_STRENGTH_NEW 8MA -to videoSync
 set_instance_assignment -name CURRENT_STRENGTH_NEW 8MA -to sRamAddress
 set_global_assignment -name ENABLE_OCT_DONE OFF
 set_global_assignment -name ENABLE_CONFIGURATION_PINS OFF
@@ -222,4 +202,6 @@ set_global_assignment -name OUTPUT_IO_TIMING_NEAR_END_VMEAS "HALF VCCIO" -rise
 set_global_assignment -name OUTPUT_IO_TIMING_NEAR_END_VMEAS "HALF VCCIO" -fall
 set_global_assignment -name OUTPUT_IO_TIMING_FAR_END_VMEAS "HALF SIGNAL SWING" -rise
 set_global_assignment -name OUTPUT_IO_TIMING_FAR_END_VMEAS "HALF SIGNAL SWING" -fall
+set_location_assignment PIN_75 -to n_sRamWE
+set_location_assignment PIN_74 -to sRamAddress[5]
 set_instance_assignment -name PARTITION_HIERARCHY root_partition -to | -section_id Top

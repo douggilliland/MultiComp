@@ -87,8 +87,8 @@ entity Microcomputer is
     -- need this set to 0 normally, so that there are enough resources for
     -- 80-column VDU. Set to 1 for minimal system, AND change the generics
     -- for the SBCTextDisplayRGB entity below.
-    generic( constant INTERNAL_RAM : integer := 0
-             );
+--    generic( constant INTERNAL_RAM : integer := 0
+--             );
     port(
         n_reset     : in std_logic;
         clk         : in std_logic;
@@ -98,7 +98,7 @@ entity Microcomputer is
         n_LED7        : out std_logic := '1';
         n_LED9        : out std_logic := '1';
 
-        -- External pull-up so this defaults to 1. When pulled to gnd
+        -- Internal pull-up so this defaults to 1. When pulled to gnd
         -- this swaps the address decodes so that the Serial A port is
         -- decoded at $FFD0 and the VDU at $FFD2.
         vduffd0     : in std_logic;
@@ -113,13 +113,6 @@ entity Microcomputer is
         rxd1            : in std_logic;
         txd1            : out std_logic;
         rts1            : out std_logic;
-
-        rxd2		: in std_logic;
-        txd2		: out std_logic;
-        rts2		: out std_logic;
-
---        videoSync   : out std_logic;
---        video       : out std_logic;
 
         videoR0     : out std_logic;
         videoG0     : out std_logic;
@@ -173,7 +166,6 @@ architecture struct of Microcomputer is
     signal internalRam1DataOut    : std_logic_vector(7 downto 0);
     signal interface1DataOut      : std_logic_vector(7 downto 0);
     signal interface2DataOut      : std_logic_vector(7 downto 0);
-    signal interface3DataOut      : std_logic_vector(7 downto 0);
     signal gpioDataOut            : std_logic_vector(7 downto 0);
     signal sdCardDataOut          : std_logic_vector(7 downto 0);
     signal mmDataOut              : std_logic_vector(7 downto 0);
@@ -189,7 +181,6 @@ architecture struct of Microcomputer is
     signal n_basRomCS             : std_logic :='1';
     signal n_interface1CS         : std_logic :='1';
     signal n_interface2CS         : std_logic :='1';
-    signal n_interface3CS         : std_logic :='1';
     signal n_sdCardCS             : std_logic :='1';
     signal n_gpioCS               : std_logic :='1';
 
@@ -199,8 +190,6 @@ architecture struct of Microcomputer is
 
     signal n_WR_uart              : std_logic := '1';
     signal n_RD_uart              : std_logic := '1';
-    signal n_WR_uart2             : std_logic := '1';
-    signal n_RD_uart2             : std_logic := '1';
 
     signal n_WR_sd                : std_logic := '1';
     signal n_RD_sd                : std_logic := '1';
@@ -209,8 +198,6 @@ architecture struct of Microcomputer is
 
     signal n_WR_vdu               : std_logic := '1';
     signal n_RD_vdu               : std_logic := '1';
-
-    signal wren_internalRam1      : std_logic := '1';
 
     signal romInhib               : std_logic := '0';
     signal ramWrInhib             : std_logic := '0';
@@ -230,7 +217,7 @@ begin
 -- ____________________________________________________________________________________
 -- CPU CHOICE GOES HERE
 
-    irq <= not(n_tint and n_int1 and n_int2 and n_int3);
+    irq <= not(n_tint and n_int1 and n_int2);
 
     cpu1 : entity work.cpu09p
     port map(
@@ -259,28 +246,12 @@ begin
 -- Assign to pins. Set the address width to match external RAM/pin assignments
     sRamAddress(18 downto 0) <= sRamAddress_i(18 downto 0);
     n_sRamCS  <= n_sRamCSLo_i;
-    n_sRamCS2 <= n_sRamCSHi_i;
+    n_sRamCS2  <= n_sRamCSHi_i;
 
 -- External RAM - high-order address lines come from the mem_mapper
     sRamAddress_i(12 downto 0) <= cpuAddress(12 downto 0);
     sRamData <= cpuDataOut when n_WR='0' else (others => 'Z');
-
-
--- Internal 2K RAM
-    OPT_INTERNAL_RAM: if (INTERNAL_RAM=1) generate
-    begin
-        wren_internalRam1 <= not(n_WR or n_internalRam1CS);
-
-        ram1: entity work.InternalRam2K
-        port map(
-             address => cpuAddress(10 downto 0),
-             clock => clk,
-             data => cpuDataOut,
-             wren => wren_internalRam1,
-             q => internalRam1DataOut);
-     end generate OPT_INTERNAL_RAM;
-
-
+	 
 -- ____________________________________________________________________________________
 -- INPUT/OUTPUT DEVICES GO HERE
 
@@ -350,26 +321,6 @@ begin
             n_cts => '0',
             n_dcd => '0',
             n_rts => rts1);
-
-    n_WR_uart2 <= n_interface3CS or n_WR;
-    n_RD_uart2 <= n_interface3CS or n_RD;
-
-    io3 : entity work.bufferedUART
-    port map(
-            clk => clk,
-            n_wr => n_WR_uart2,
-            n_rd => n_RD_uart2,
-            n_int => n_int3,
-            regSel => cpuAddress(0),
-            dataIn => cpuDataOut,
-            dataOut => interface3DataOut,
-            rxClkEn => serialClkEn,
-            txClkEn => serialClkEn,
-            rxd => rxd2,
-            txd => txd2,
-            n_cts => '0',
-            n_dcd => '0',
-            n_rts => rts2);
 
     n_WR_sd <= n_sdCardCS or n_WR;
     n_RD_sd <= n_sdCardCS or n_RD;
@@ -470,8 +421,6 @@ begin
 -- ____________________________________________________________________________________
 -- CHIP SELECTS GO HERE
     n_basRomCS <= '0' when cpuAddress(15 downto 13) = "111" and romInhib='0' else '1'; --8K at top of memory
---    n_interface1CS <= '0' when cpuAddress(15 downto 1) = "111111111101000" else '1'; -- 2 bytes FFD0-FFD1
---    n_interface2CS <= '0' when cpuAddress(15 downto 1) = "111111111101001" else '1'; -- 2 bytes FFD2-FFD3
 
     -- vduffd0 swaps the assignment. Internal pullup means it is 1 by default
     n_interface1CS <= '0' when ((cpuAddress(15 downto 1) = "111111111101000" and vduffd0 = '0')  -- 2 bytes FFD0-FFD1
@@ -481,7 +430,6 @@ begin
                               or(cpuAddress(15 downto 1) = "111111111101001" and vduffd0 = '0')) -- 2 bytes FFD2-FFD3
                       else '1';
 
-    n_interface3CS <= '0' when cpuAddress(15 downto 1) = "111111111101010" else '1'; -- 2 bytes FFD4-FFD5
     n_gpioCS       <= '0' when cpuAddress(15 downto 1) = "111111111101011" else '1'; -- 2 bytes FFD6-FFD7
     n_sdCardCS     <= '0' when cpuAddress(15 downto 3) = "1111111111011"   else '1'; -- 8 bytes FFD8-FFDF
     n_internalRam1CS <= '0' when cpuAddress(15 downto 11) = "00000" else '1';
@@ -495,7 +443,6 @@ begin
     cpuDataIn <=
                         interface1DataOut    when n_interface1CS = '0' else
                         interface2DataOut    when n_interface2CS = '0' else
-                        interface3DataOut    when n_interface3CS = '0' else
                         gpioDataOut          when n_gpioCS = '0'       else
                         sdCardDataOut or mmDataOut  when n_sdCardCS = '0' else
                         basRomData           when n_basRomCS = '0' else
