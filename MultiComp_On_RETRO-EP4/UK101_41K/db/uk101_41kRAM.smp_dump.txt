@@ -1,0 +1,57 @@
+
+State Machine - |uk101|bufferedUART:u5|txState
+Name txState.stopBit txState.dataBit txState.idle 
+txState.idle 0 0 0 
+txState.dataBit 0 1 1 
+txState.stopBit 1 0 1 
+
+State Machine - |uk101|bufferedUART:u5|rxState
+Name rxState.stopBit rxState.dataBit rxState.idle 
+rxState.idle 0 0 0 
+rxState.dataBit 0 1 1 
+rxState.stopBit 1 0 1 
+
+State Machine - |uk101|T65:u1|Set_Addr_To_r
+Name Set_Addr_To_r.Set_Addr_To_BA Set_Addr_To_r.Set_Addr_To_ZPG Set_Addr_To_r.Set_Addr_To_SP Set_Addr_To_r.Set_Addr_To_PBR 
+Set_Addr_To_r.Set_Addr_To_PBR 0 0 0 0 
+Set_Addr_To_r.Set_Addr_To_SP 0 0 1 1 
+Set_Addr_To_r.Set_Addr_To_ZPG 0 1 0 1 
+Set_Addr_To_r.Set_Addr_To_BA 1 0 0 1 
+
+State Machine - |uk101|T65:u1|Write_Data_r
+Name Write_Data_r.Write_Data_DONTCARE Write_Data_r.Write_Data_YB Write_Data_r.Write_Data_XB Write_Data_r.Write_Data_AXB Write_Data_r.Write_Data_AX Write_Data_r.Write_Data_PCH Write_Data_r.Write_Data_PCL Write_Data_r.Write_Data_P Write_Data_r.Write_Data_S Write_Data_r.Write_Data_Y Write_Data_r.Write_Data_X Write_Data_r.Write_Data_ABC Write_Data_r.Write_Data_DL 
+Write_Data_r.Write_Data_DL 0 0 0 0 0 0 0 0 0 0 0 0 0 
+Write_Data_r.Write_Data_ABC 0 0 0 0 0 0 0 0 0 0 0 1 1 
+Write_Data_r.Write_Data_X 0 0 0 0 0 0 0 0 0 0 1 0 1 
+Write_Data_r.Write_Data_Y 0 0 0 0 0 0 0 0 0 1 0 0 1 
+Write_Data_r.Write_Data_S 0 0 0 0 0 0 0 0 1 0 0 0 1 
+Write_Data_r.Write_Data_P 0 0 0 0 0 0 0 1 0 0 0 0 1 
+Write_Data_r.Write_Data_PCL 0 0 0 0 0 0 1 0 0 0 0 0 1 
+Write_Data_r.Write_Data_PCH 0 0 0 0 0 1 0 0 0 0 0 0 1 
+Write_Data_r.Write_Data_AX 0 0 0 0 1 0 0 0 0 0 0 0 1 
+Write_Data_r.Write_Data_AXB 0 0 0 1 0 0 0 0 0 0 0 0 1 
+Write_Data_r.Write_Data_XB 0 0 1 0 0 0 0 0 0 0 0 0 1 
+Write_Data_r.Write_Data_YB 0 1 0 0 0 0 0 0 0 0 0 0 1 
+Write_Data_r.Write_Data_DONTCARE 1 0 0 0 0 0 0 0 0 0 0 0 1 
+
+State Machine - |uk101|T65:u1|ALU_Op_r
+Name ALU_Op_r.ALU_OP_XAA ALU_Op_r.ALU_OP_SAX ALU_Op_r.ALU_OP_ANC ALU_Op_r.ALU_OP_ARR ALU_Op_r.ALU_OP_INC ALU_Op_r.ALU_OP_DEC ALU_Op_r.ALU_OP_OR ALU_Op_r.ALU_OP_ROR ALU_Op_r.ALU_OP_LSR ALU_Op_r.ALU_OP_ROL ALU_Op_r.ALU_OP_ASL ALU_Op_r.ALU_OP_SBC ALU_Op_r.ALU_OP_CMP ALU_Op_r.ALU_OP_EQ2 ALU_Op_r.ALU_OP_EQ1 ALU_Op_r.ALU_OP_ADC ALU_Op_r.ALU_OP_EOR ALU_Op_r.ALU_OP_AND ALU_Op_r.ALU_OP_BIT 
+ALU_Op_r.ALU_OP_BIT 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 
+ALU_Op_r.ALU_OP_AND 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 1 
+ALU_Op_r.ALU_OP_EOR 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 1 
+ALU_Op_r.ALU_OP_ADC 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 1 
+ALU_Op_r.ALU_OP_EQ1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 1 
+ALU_Op_r.ALU_OP_EQ2 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 0 1 
+ALU_Op_r.ALU_OP_CMP 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 0 0 1 
+ALU_Op_r.ALU_OP_SBC 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 0 0 0 1 
+ALU_Op_r.ALU_OP_ASL 0 0 0 0 0 0 0 0 0 0 1 0 0 0 0 0 0 0 1 
+ALU_Op_r.ALU_OP_ROL 0 0 0 0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 1 
+ALU_Op_r.ALU_OP_LSR 0 0 0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0 1 
+ALU_Op_r.ALU_OP_ROR 0 0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0 0 1 
+ALU_Op_r.ALU_OP_OR 0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0 0 0 1 
+ALU_Op_r.ALU_OP_DEC 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0 0 0 0 1 
+ALU_Op_r.ALU_OP_INC 0 0 0 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 1 
+ALU_Op_r.ALU_OP_ARR 0 0 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 
+ALU_Op_r.ALU_OP_ANC 0 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 
+ALU_Op_r.ALU_OP_SAX 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 
+ALU_Op_r.ALU_OP_XAA 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 
