@@ -1,1 +1,27 @@
 https://www.retrobrewcomputers.org/doku.php?id=builderpages:rhkoolstar:mc-2g-1024
+
+The system's main specifications are:
+
+* New ROM monitor with multi-boot capability, Format, Getsys and Putsys tools and debug capabilities. No BASIC in ROM.
+* SD-HC capable card controller. Init at 250 kHz, running at 25 MHz.
+* Improved keyboard definition featuring external keymap and added key functionality.
+* Multi volume disk system, which currently supports upto 253 8MB disk volumes (which uses 2GB+ on the SD-card). All these volumes can be loaded with a separate OS bootimage.
+* OSes configured with 3 drives: A:, B: and C:. A: for the system drive (holding the volume booted from) while B: and C: can be assigned and re-assigned one of the remaining volumes. Also a RAM disk is available for CP/M 2 and CP/M 3 systems.
+* Y2k compatible system clock (date and time) for all OSes.
+* Included are CP/M 2.2, Dos+ 2.5, CP/M 3.0, MPMII 2.1, ZSDOS 1.1/ZCPR2, ZPM3/ZCCP and NASCOM ROM Basic
+* It runs on the EP2C5T144C8N Cyclone II FPGA and the configuration assumes it to be wired up as indicated on Grant's page. You should have wired up 2 serial terminals, an SD-card and at least 512k Memory. 
+* James Moxhams Cyclone2 boards will work without modifications. 
+* 2 extra serial terminals can be wired to the touch screen connector, using RS-232 or USB converters. 
+* You can also use a monochrome (RCA) terminal and 2 serial interfaces. In this case all unused signals need to be commented out. Examples of these configurations are included. 
+
+This package contains VHDL updates for
+
+* ROM monitor; (new concept)
+* SD-card controller; (with added SD-HC capability)
+* Serial terminals with programmable baudrates (simplified version introduced by Max Scane)
+* MMU; (simplified version from the one introduced by James Moxham)
+* Microcomputer .vdh file. (ROM-switch, timer interrupt, SD-clock)
+* SCBTextDisplayRGB.vhd, to include an external keymap and key updates.
+* These are available as source files, with additionally, the .pof file for the default configuration.
+* The package includes all binaries, source files, manuals and instructions for building and running the various operating systems, including tools for the additional features (disk mounting system reset etc.) Pre-configured images are included for system disks and Cyclone programming. 
+* The OS specific transient commands are included as binary only. An Open Document Spreadsheet is provided to build custom keymaps.
