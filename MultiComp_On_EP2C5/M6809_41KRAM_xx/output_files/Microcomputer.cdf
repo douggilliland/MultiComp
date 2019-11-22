@@ -4,7 +4,7 @@ JedecChain;
 	DefaultMfr(6E);
 
 	P ActionCode(Cfg)
-		Device PartName(EP2C5T144) Path("C:/Users/doug_000/Documents/GitHub/MultiComp/Z80-CP_M-IO-Port/output_files/") File("Microcomputer.sof") MfrSpec(OpMask(1));
+		Device PartName(EP2C5T144) Path("C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_EP2C5/M6809_41KRAM_xx/output_files/") File("Microcomputer.sof") MfrSpec(OpMask(1));
 
 ChainEnd;
 

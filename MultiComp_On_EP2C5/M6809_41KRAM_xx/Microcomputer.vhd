@@ -16,7 +16,7 @@ entity Microcomputer is
 		clk			: in std_logic;
 
 		sramData		: inout std_logic_vector(7 downto 0);
-		sramAddress	: out std_logic_vector(15 downto 0);
+		sramAddress	: out std_logic_vector(16 downto 0);
 		n_sRamWE		: out std_logic;
 		n_sRamCS		: out std_logic;
 		n_sRamOE		: out std_logic;
@@ -122,7 +122,7 @@ begin
 	
 	-- ____________________________________________________________________________________
 	-- RAM GOES HERE
-	sramAddress(15 downto 0) <= cpuAddress(15 downto 0);
+	sramAddress(16 downto 0) <= '0'&cpuAddress(15 downto 0);
 	sramData <= cpuDataOut when n_WR='0' else (others => 'Z');
 	n_sRamWE <= n_memWR;
 	n_sRamOE <= n_memRD;
@@ -130,23 +130,23 @@ begin
 	
 	-- ____________________________________________________________________________________
 	-- INPUT/OUTPUT DEVICES GO HERE	
---	io1 : entity work.bufferedUART
---		port map(
---			clk => clk,
---			n_wr => n_interface1CS or cpuClock or n_WR,
---			n_rd => n_interface1CS or cpuClock or (not n_WR),
---			n_int => n_int1,
---			regSel => cpuAddress(0),
---			dataIn => cpuDataOut,
---			dataOut => interface1DataOut,
---			rxClock => serialClock,
---			txClock => serialClock,
---			rxd => rxd1,
---			txd => txd1,
---			n_cts => '0',
---			n_dcd => '0',
---			n_rts => rts1
---		);
+	io1 : entity work.bufferedUART
+		port map(
+			clk => clk,
+			n_wr => n_interface1CS or cpuClock or n_WR,
+			n_rd => n_interface1CS or cpuClock or (not n_WR),
+			n_int => n_int1,
+			regSel => cpuAddress(0),
+			dataIn => cpuDataOut,
+			dataOut => interface1DataOut,
+			rxClock => serialClock,
+			txClock => serialClock,
+			rxd => rxd1,
+			txd => txd1,
+			n_cts => '0',
+			n_dcd => '0',
+			n_rts => rts1
+		);
 	
 	io2 : entity work.SBCTextDisplayRGB
 		generic map(
@@ -206,8 +206,8 @@ begin
 	-- ____________________________________________________________________________________
 	-- CHIP SELECTS GO HERE
 	n_basRomCS <= '0' when cpuAddress(15 downto 13) = "111" else '1'; --8K at top of memory
-	n_interface1CS <= '0' when cpuAddress(15 downto 1) = "111111111101000" else '1'; -- 2 bytes FFD0-FFD1
-	n_interface2CS <= '0' when cpuAddress(15 downto 1) = "111111111101001" else '1'; -- 2 bytes FFD2-FFD3
+	n_interface2CS <= '0' when cpuAddress(15 downto 1) = "111111111101000" else '1'; -- 2 bytes FFD0-FFD1
+	n_interface1CS <= '0' when cpuAddress(15 downto 1) = "111111111101001" else '1'; -- 2 bytes FFD2-FFD3
 --	n_sdCardCS <= '0' when cpuAddress(15 downto 3) = "1111111111011" else '1'; -- 8 bytes FFD8-FFDF
 	n_externalRamCS <= not n_basRomCS;
 --	n_internalRam1CS <= '0' when cpuAddress(15 downto 11) = "00000" else '1';
@@ -237,12 +237,12 @@ begin
 		begin
 			if rising_edge(clk) then
 			
-			if cpuClkCount < 8 then -- 4 = 10MHz, 3 = 12.5MHz, 2=16.6MHz, 1=25MHz
+			if cpuClkCount < 4 then -- 4 = 10MHz, 3 = 12.5MHz, 2=16.6MHz, 1=25MHz
 				cpuClkCount <= cpuClkCount + 1;
 			else
 				cpuClkCount <= (others=>'0');
 			end if;
-			if cpuClkCount < 4 then -- 2 when 10MHz, 2 when 12.5MHz, 2 when 16.6MHz, 1 when 25MHz
+			if cpuClkCount < 2 then -- 2 when 10MHz, 2 when 12.5MHz, 2 when 16.6MHz, 1 when 25MHz
 				cpuClock <= '0';
 			else
 				cpuClock <= '1';
