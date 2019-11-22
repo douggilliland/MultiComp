@@ -24,9 +24,9 @@ entity Microcomputer is
 		txd1			: out std_logic;
 		rts1			: out std_logic;
 
-		rxd2			: in std_logic;
-		txd2			: out std_logic;
-		rts2			: out std_logic;
+--		rxd2			: in std_logic;
+--		txd2			: out std_logic;
+--		rts2			: out std_logic;
 		
 		videoSync	: out std_logic;
 		video			: out std_logic;
@@ -63,8 +63,6 @@ architecture struct of Microcomputer is
 	signal cpuDataIn					: std_logic_vector(7 downto 0);
 
 	signal basRomData					: std_logic_vector(7 downto 0);
---	signal internalRam1DataOut		: std_logic_vector(7 downto 0);
---	signal internalRam2DataOut		: std_logic_vector(7 downto 0);
 	signal interface1DataOut		: std_logic_vector(7 downto 0);
 	signal interface2DataOut		: std_logic_vector(7 downto 0);
 	signal sdCardDataOut				: std_logic_vector(7 downto 0);
@@ -104,41 +102,43 @@ begin
 --CPM
 -- Disable ROM if out 38. Re-enable when (asynchronous) reset pressed
 process (n_ioWR, n_reset) begin
-if (n_reset = '0') then
-n_RomActive <= '0';
-elsif (rising_edge(n_ioWR)) then
-if cpuAddress(7 downto 0) = "00111000" then -- $38
-n_RomActive <= '1';
-end if;
-end if;
+	if (n_reset = '0') then
+		n_RomActive <= '0';
+	elsif (rising_edge(n_ioWR)) then
+		if cpuAddress(7 downto 0) = "00111000" then -- $38
+			n_RomActive <= '1';
+		end if;
+	end if;
 end process;
 -- ____________________________________________________________________________________
 -- CPU CHOICE GOES HERE
 cpu1 : entity work.t80s
 generic map(mode => 1, t2write => 1, iowait => 0)
+
 port map(
-reset_n => n_reset,
-clk_n => cpuClock,
-wait_n => '1',
-int_n => '1',
-nmi_n => '1',
-busrq_n => '1',
-mreq_n => n_MREQ,
-iorq_n => n_IORQ,
-rd_n => n_RD,
-wr_n => n_WR,
-a => cpuAddress,
-di => cpuDataIn,
-do => cpuDataOut);
+	reset_n => n_reset,
+	clk_n => cpuClock,
+	wait_n => '1',
+	int_n => '1',
+	nmi_n => '1',
+	busrq_n => '1',
+	mreq_n => n_MREQ,
+	iorq_n => n_IORQ,
+	rd_n => n_RD,
+	wr_n => n_WR,
+	a => cpuAddress,
+	di => cpuDataIn,
+	do => cpuDataOut
+);
 
 -- ____________________________________________________________________________________
 -- ROM GOES HERE	
 
 rom1 : entity work.Z80_CPM_BASIC_ROM -- 8KB BASIC and CP/M boot
 port map(
-address => cpuAddress(12 downto 0),
-clock => clk,
-q => basRomData
+	address => cpuAddress(12 downto 0),
+	clock => clk,
+	q => basRomData
 );
 
 -- ____________________________________________________________________________________
@@ -175,31 +175,31 @@ port map(
 io2 : entity work.SBCTextDisplayRGB	-- VGA/Composite output
 
 port map (
-n_reset => n_reset,
-clk => clk,
+	n_reset => n_reset,
+	clk => clk,
 
--- RGB video signals
-hSync => hSync,
-vSync => vSync,
-videoR0 => videoR0,
-videoR1 => videoR1,
-videoG0 => videoG0,
-videoG1 => videoG1,
-videoB0 => videoB0,
-videoB1 => videoB1,
+	-- RGB video signals
+	hSync => hSync,
+	vSync => vSync,
+	videoR0 => videoR0,
+	videoR1 => videoR1,
+	videoG0 => videoG0,
+	videoG1 => videoG1,
+	videoB0 => videoB0,
+	videoB1 => videoB1,
 
--- Monochrome video signals (when using TV timings only)
-sync => videoSync,
-video => video,
+	-- Monochrome video signals (when using TV timings only)
+	sync => videoSync,
+	video => video,
 
-n_wr => n_interface2CS or n_ioWR,
-n_rd => n_interface2CS or n_ioRD,
-n_int => n_int2,
-regSel => cpuAddress(0),
-dataIn => cpuDataOut,
-dataOut => interface2DataOut,
-ps2Clk => ps2Clk,
-ps2Data => ps2Data
+	n_wr => n_interface2CS or n_ioWR,
+	n_rd => n_interface2CS or n_ioRD,
+	n_int => n_int2,
+	regSel => cpuAddress(0),
+	dataIn => cpuDataOut,
+	dataOut => interface2DataOut,
+	ps2Clk => ps2Clk,
+	ps2Data => ps2Data
 );
 
 latchIO : entity work.OUT_LATCH	--Output LatchIO
@@ -231,18 +231,18 @@ port map(
 
 sd1 : entity work.sd_controller
 port map(
-sdCS => sdCS,
-sdMOSI => sdMOSI,
-sdMISO => sdMISO,
-sdSCLK => sdSCLK,
-n_wr => n_sdCardCS or n_ioWR,
-n_rd => n_sdCardCS or n_ioRD,
-n_reset => n_reset,
-dataIn => cpuDataOut,
-dataOut => sdCardDataOut,
-regAddr => cpuAddress(2 downto 0),
-driveLED => driveLED,
-clk => sdClock -- twice the spi clk
+	sdCS => sdCS,
+	sdMOSI => sdMOSI,
+	sdMISO => sdMISO,
+	sdSCLK => sdSCLK,
+	n_wr => n_sdCardCS or n_ioWR,
+	n_rd => n_sdCardCS or n_ioRD,
+	n_reset => n_reset,
+	dataIn => cpuDataOut,
+	dataOut => sdCardDataOut,
+	regAddr => cpuAddress(2 downto 0),
+	driveLED => driveLED,
+	clk => sdClock -- twice the spi clk
 );
 
 -- ____________________________________________________________________________________
@@ -265,13 +265,13 @@ n_externalRamCS<= not n_basRomCS;
 -- ____________________________________________________________________________________
 -- BUS ISOLATION GOES HERE
 cpuDataIn <=
-interface1DataOut when n_interface1CS = '0' else	-- UART 1
-interface2DataOut when n_interface2CS = '0' else	-- UART 2
-sdCardDataOut when n_sdCardCS = '0' else				-- SD Card
-basRomData when n_basRomCS = '0' else
---internalRam1DataOut when n_internalRam1CS= '0' else
-sramData when n_externalRamCS= '0' else
-x"FF";
+	interface1DataOut when n_interface1CS = '0' else	-- UART 1
+	interface2DataOut when n_interface2CS = '0' else	-- UART 2
+	sdCardDataOut when n_sdCardCS = '0' else				-- SD Card
+	basRomData when n_basRomCS = '0' else
+	--internalRam1DataOut when n_internalRam1CS= '0' else
+	sramData when n_externalRamCS= '0' else
+	x"FF";
 
 -- n_ChipSS <= n_sdChipCS;
 n_ChipSS <= n_sdChipCS;
@@ -284,12 +284,12 @@ process (clk)
 begin
 if rising_edge(clk) then
 
-if cpuClkCount < 4 then -- 4 = 10MHz, 3 = 12.5MHz, 2=16.6MHz, 1=25MHz
+if cpuClkCount < 1 then -- 4 = 10MHz, 3 = 12.5MHz, 2=16.6MHz, 1=25MHz
 cpuClkCount <= cpuClkCount + 1;
 else
 cpuClkCount <= (others=>'0');
 end if;
-if cpuClkCount < 2 then -- 2 when 10MHz, 2 when 12.5MHz, 2 when 16.6MHz, 1 when 25MHz
+if cpuClkCount < 1 then -- 2 when 10MHz, 2 when 12.5MHz, 2 when 16.6MHz, 1 when 25MHz
 cpuClock <= '0';
 else
 cpuClock <= '1';
