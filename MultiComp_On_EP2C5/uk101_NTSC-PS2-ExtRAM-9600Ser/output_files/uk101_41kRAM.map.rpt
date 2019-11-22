@@ -1,5 +1,5 @@
 Analysis & Synthesis report for uk101_41kRAM
-Wed Oct 23 14:59:20 2019
+Fri Nov 22 10:50:22 2019
 Quartus II 64-Bit Version 13.0.1 Build 232 06/12/2013 Service Pack 1 SJ Web Edition
 
 
@@ -67,7 +67,7 @@ applicable agreement for further details.
 +--------------------------------------------------------------------------------------+
 ; Analysis & Synthesis Summary                                                         ;
 +------------------------------------+-------------------------------------------------+
-; Analysis & Synthesis Status        ; Successful - Wed Oct 23 14:59:20 2019           ;
+; Analysis & Synthesis Status        ; Successful - Fri Nov 22 10:50:22 2019           ;
 ; Quartus II 64-Bit Version          ; 13.0.1 Build 232 06/12/2013 SP 1 SJ Web Edition ;
 ; Revision Name                      ; uk101_41kRAM                                    ;
 ; Top-level Entity Name              ; uk101                                           ;
@@ -76,7 +76,7 @@ applicable agreement for further details.
 ;     Total combinational functions  ; 3,910                                           ;
 ;     Dedicated logic registers      ; 615                                             ;
 ; Total registers                    ; 615                                             ;
-; Total pins                         ; 62                                              ;
+; Total pins                         ; 55                                              ;
 ; Total virtual pins                 ; 0                                               ;
 ; Total memory bits                  ; 73,728                                          ;
 ; Embedded Multiplier 9-bit elements ; 0                                               ;
@@ -209,7 +209,7 @@ Parallel compilation was disabled, but you have multiple processors available. E
 ; altram.inc                            ; yes             ; Megafunction                           ; c:/altera/13.0sp1/quartus/libraries/megafunctions/altram.inc                                                                                  ;         ;
 ; altdpram.inc                          ; yes             ; Megafunction                           ; c:/altera/13.0sp1/quartus/libraries/megafunctions/altdpram.inc                                                                                ;         ;
 ; db/altsyncram_4371.tdf                ; yes             ; Auto-Generated Megafunction            ; C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_EP2C5/uk101_NTSC-PS2-ExtRAM-9600Ser/db/altsyncram_4371.tdf             ;         ;
-; BASIC.HEX                             ; yes             ; Auto-Found Memory Initialization File  ; C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_EP2C5/uk101_NTSC-PS2-ExtRAM-9600Ser/BASIC.HEX                          ;         ;
+; basic.hex                             ; yes             ; Auto-Found Memory Initialization File  ; C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_EP2C5/uk101_NTSC-PS2-ExtRAM-9600Ser/basic.hex                          ;         ;
 ; db/decode_1oa.tdf                     ; yes             ; Auto-Generated Megafunction            ; C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_EP2C5/uk101_NTSC-PS2-ExtRAM-9600Ser/db/decode_1oa.tdf                  ;         ;
 ; db/mux_hib.tdf                        ; yes             ; Auto-Generated Megafunction            ; C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_EP2C5/uk101_NTSC-PS2-ExtRAM-9600Ser/db/mux_hib.tdf                     ;         ;
 ; db/altsyncram_qi52.tdf                ; yes             ; Auto-Generated Megafunction            ; C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_EP2C5/uk101_NTSC-PS2-ExtRAM-9600Ser/db/altsyncram_qi52.tdf             ;         ;
@@ -237,13 +237,13 @@ Parallel compilation was disabled, but you have multiple processors available. E
 ;     -- Dedicated logic registers            ; 615            ;
 ;     -- I/O registers                        ; 0              ;
 ;                                             ;                ;
-; I/O pins                                    ; 62             ;
+; I/O pins                                    ; 55             ;
 ; Total memory bits                           ; 73728          ;
 ; Embedded Multiplier 9-bit elements          ; 0              ;
 ; Maximum fan-out node                        ; T65:u1|Mux76~1 ;
 ; Maximum fan-out                             ; 706            ;
 ; Total fan-out                               ; 17081          ;
-; Average fan-out                             ; 3.70           ;
+; Average fan-out                             ; 3.71           ;
 +---------------------------------------------+----------------+
 
 
@@ -252,7 +252,7 @@ Parallel compilation was disabled, but you have multiple processors available. E
 +-------------------------------------------+-------------------+--------------+-------------+--------------+---------+-----------+------+--------------+-------------------------------------------------------------------------------------+--------------+
 ; Compilation Hierarchy Node                ; LC Combinationals ; LC Registers ; Memory Bits ; DSP Elements ; DSP 9x9 ; DSP 18x18 ; Pins ; Virtual Pins ; Full Hierarchy Name                                                                 ; Library Name ;
 +-------------------------------------------+-------------------+--------------+-------------+--------------+---------+-----------+------+--------------+-------------------------------------------------------------------------------------+--------------+
-; |uk101                                    ; 3910 (96)         ; 615 (23)     ; 73728       ; 0            ; 0       ; 0         ; 62   ; 0            ; |uk101                                                                              ; work         ;
+; |uk101                                    ; 3910 (96)         ; 615 (23)     ; 73728       ; 0            ; 0       ; 0         ; 55   ; 0            ; |uk101                                                                              ; work         ;
 ;    |BasicRom:u2|                          ; 0 (0)             ; 2 (0)        ; 65536       ; 0            ; 0       ; 0         ; 0    ; 0            ; |uk101|BasicRom:u2                                                                  ; work         ;
 ;       |altsyncram:altsyncram_component|   ; 0 (0)             ; 2 (0)        ; 65536       ; 0            ; 0       ; 0         ; 0    ; 0            ; |uk101|BasicRom:u2|altsyncram:altsyncram_component                                  ; work         ;
 ;          |altsyncram_4371:auto_generated| ; 0 (0)             ; 2 (2)        ; 65536       ; 0            ; 0       ; 0         ; 0    ; 0            ; |uk101|BasicRom:u2|altsyncram:altsyncram_component|altsyncram_4371:auto_generated   ; work         ;
@@ -338,7 +338,7 @@ Note: All latches listed above may not be present at the end of synthesis due to
 +----------------------------------------+---------------------------------------------+
 ; Register name                          ; Reason for Removal                          ;
 +----------------------------------------+---------------------------------------------+
-; OUT_LATCH:latchLED|Q_tmp[0..7]         ; Stuck at GND due to stuck port clock_enable ;
+; OUT_LATCH:latchLED|Q_tmp[0]            ; Stuck at GND due to stuck port clock_enable ;
 ; OUT_LATCH:latchIO1|Q_tmp[0..7]         ; Stuck at GND due to stuck port clock_enable ;
 ; OUT_LATCH:latchIO0|Q_tmp[0..7]         ; Stuck at GND due to stuck port clock_enable ;
 ; T65:u1|SO_n_o                          ; Lost fanout                                 ;
@@ -351,7 +351,7 @@ Note: All latches listed above may not be present at the end of synthesis due to
 ; T65:u1|P[5]                            ; Merged with T65:u1|P[4]                     ;
 ; T65:u1|S[8..15]                        ; Lost fanout                                 ;
 ; UK101TextDisplay:u6|pixelClockCount[3] ; Stuck at GND due to stuck port data_in      ;
-; Total Number of Removed Registers = 42 ;                                             ;
+; Total Number of Removed Registers = 35 ;                                             ;
 +----------------------------------------+---------------------------------------------+
 
 
@@ -716,13 +716,14 @@ Note: In order to hide this table in the UI and the text report file, please set
 +-------+--------+----------+-------------------------------------------------------------------------------------+
 
 
-+------------------------------------------------+
-; Port Connectivity Checks: "OUT_LATCH:latchLED" ;
-+------+-------+----------+----------------------+
-; Port ; Type  ; Severity ; Details              ;
-+------+-------+----------+----------------------+
-; load ; Input ; Info     ; Stuck at VCC         ;
-+------+-------+----------+----------------------+
++--------------------------------------------------------------------------------------------------------------------------+
+; Port Connectivity Checks: "OUT_LATCH:latchLED"                                                                           ;
++----------------+--------+----------+-------------------------------------------------------------------------------------+
+; Port           ; Type   ; Severity ; Details                                                                             ;
++----------------+--------+----------+-------------------------------------------------------------------------------------+
+; load           ; Input  ; Info     ; Stuck at VCC                                                                        ;
+; latchout[7..1] ; Output ; Info     ; Connected to dangling logic. Logic that only feeds a dangling port will be removed. ;
++----------------+--------+----------+-------------------------------------------------------------------------------------+
 
 
 +------------------------------------------------+
@@ -802,7 +803,7 @@ Note: In order to hide this table in the UI and the text report file, please set
 +----------------+--------------+
 ; Partition Name ; Elapsed Time ;
 +----------------+--------------+
-; Top            ; 00:00:40     ;
+; Top            ; 00:00:43     ;
 +----------------+--------------+
 
 
@@ -812,7 +813,7 @@ Note: In order to hide this table in the UI and the text report file, please set
 Info: *******************************************************************
 Info: Running Quartus II 64-Bit Analysis & Synthesis
     Info: Version 13.0.1 Build 232 06/12/2013 Service Pack 1 SJ Web Edition
-    Info: Processing started: Wed Oct 23 14:58:35 2019
+    Info: Processing started: Fri Nov 22 10:49:35 2019
 Info: Command: quartus_map --read_settings_files=on --write_settings_files=off uk101_41kRAM -c uk101_41kRAM
 Warning (20028): Parallel compilation is not licensed and has been disabled
 Info (12021): Found 2 design units, including 1 entities, in source file components/io/outlatch.vhd
@@ -863,20 +864,20 @@ Info (12021): Found 2 design units, including 1 entities, in source file basicro
     Info (12022): Found design unit 1: BasicRom-SYN
     Info (12023): Found entity 1: BasicRom
 Info (12127): Elaborating entity "uk101" for the top level hierarchy
-Warning (10540): VHDL Signal Declaration warning at uk101_41kRAM.vhd(55): used explicit default value for signal "n_J6IOCS" because signal was never assigned a value
-Warning (10540): VHDL Signal Declaration warning at uk101_41kRAM.vhd(56): used explicit default value for signal "n_J8IOCS" because signal was never assigned a value
-Warning (10540): VHDL Signal Declaration warning at uk101_41kRAM.vhd(57): used explicit default value for signal "n_LEDCS" because signal was never assigned a value
-Critical Warning (10920): VHDL Incomplete Partial Association warning at uk101_41kRAM.vhd(102): port or argument "A" has 8/24 unassociated elements
-Warning (10492): VHDL Process Statement warning at uk101_41kRAM.vhd(249): signal "cpuDataOut" is read inside the Process Statement but isn't in the Process Statement's sensitivity list
-Warning (10631): VHDL Process Statement warning at uk101_41kRAM.vhd(246): inferring latch(es) for signal or variable "kbRowSel", which holds its previous value in one or more paths through the process
-Info (10041): Inferred latch for "kbRowSel[0]" at uk101_41kRAM.vhd(246)
-Info (10041): Inferred latch for "kbRowSel[1]" at uk101_41kRAM.vhd(246)
-Info (10041): Inferred latch for "kbRowSel[2]" at uk101_41kRAM.vhd(246)
-Info (10041): Inferred latch for "kbRowSel[3]" at uk101_41kRAM.vhd(246)
-Info (10041): Inferred latch for "kbRowSel[4]" at uk101_41kRAM.vhd(246)
-Info (10041): Inferred latch for "kbRowSel[5]" at uk101_41kRAM.vhd(246)
-Info (10041): Inferred latch for "kbRowSel[6]" at uk101_41kRAM.vhd(246)
-Info (10041): Inferred latch for "kbRowSel[7]" at uk101_41kRAM.vhd(246)
+Warning (10540): VHDL Signal Declaration warning at uk101_41kRAM.vhd(64): used explicit default value for signal "n_J6IOCS" because signal was never assigned a value
+Warning (10540): VHDL Signal Declaration warning at uk101_41kRAM.vhd(65): used explicit default value for signal "n_J8IOCS" because signal was never assigned a value
+Warning (10540): VHDL Signal Declaration warning at uk101_41kRAM.vhd(66): used explicit default value for signal "n_LEDCS" because signal was never assigned a value
+Critical Warning (10920): VHDL Incomplete Partial Association warning at uk101_41kRAM.vhd(112): port or argument "A" has 8/24 unassociated elements
+Warning (10492): VHDL Process Statement warning at uk101_41kRAM.vhd(261): signal "cpuDataOut" is read inside the Process Statement but isn't in the Process Statement's sensitivity list
+Warning (10631): VHDL Process Statement warning at uk101_41kRAM.vhd(258): inferring latch(es) for signal or variable "kbRowSel", which holds its previous value in one or more paths through the process
+Info (10041): Inferred latch for "kbRowSel[0]" at uk101_41kRAM.vhd(258)
+Info (10041): Inferred latch for "kbRowSel[1]" at uk101_41kRAM.vhd(258)
+Info (10041): Inferred latch for "kbRowSel[2]" at uk101_41kRAM.vhd(258)
+Info (10041): Inferred latch for "kbRowSel[3]" at uk101_41kRAM.vhd(258)
+Info (10041): Inferred latch for "kbRowSel[4]" at uk101_41kRAM.vhd(258)
+Info (10041): Inferred latch for "kbRowSel[5]" at uk101_41kRAM.vhd(258)
+Info (10041): Inferred latch for "kbRowSel[6]" at uk101_41kRAM.vhd(258)
+Info (10041): Inferred latch for "kbRowSel[7]" at uk101_41kRAM.vhd(258)
 Info (12128): Elaborating entity "T65" for hierarchy "T65:u1"
 Warning (10036): Verilog HDL or VHDL warning at T65.vhd(100): object "D" assigned a value but never read
 Warning (10036): Verilog HDL or VHDL warning at T65.vhd(125): object "B_o" assigned a value but never read
@@ -902,18 +903,6 @@ Info (12133): Instantiated megafunction "BasicRom:u2|altsyncram:altsyncram_compo
 Info (12021): Found 1 design units, including 1 entities, in source file db/altsyncram_4371.tdf
     Info (12023): Found entity 1: altsyncram_4371
 Info (12128): Elaborating entity "altsyncram_4371" for hierarchy "BasicRom:u2|altsyncram:altsyncram_component|altsyncram_4371:auto_generated"
-Warning (113007): Byte addressed memory initialization file "BASIC.HEX" was read in the word-addressed format
-Warning (113015): Width of data items in "BASIC.HEX" is greater than the memory width. Wrapping data items to subsequent addresses. Found 256 warnings, reporting 10
-    Warning (113009): Data at line (1) of memory initialization file "BASIC.HEX" is too wide to fit in one memory word. Wrapping data to subsequent addresses.
-    Warning (113009): Data at line (2) of memory initialization file "BASIC.HEX" is too wide to fit in one memory word. Wrapping data to subsequent addresses.
-    Warning (113009): Data at line (3) of memory initialization file "BASIC.HEX" is too wide to fit in one memory word. Wrapping data to subsequent addresses.
-    Warning (113009): Data at line (4) of memory initialization file "BASIC.HEX" is too wide to fit in one memory word. Wrapping data to subsequent addresses.
-    Warning (113009): Data at line (5) of memory initialization file "BASIC.HEX" is too wide to fit in one memory word. Wrapping data to subsequent addresses.
-    Warning (113009): Data at line (6) of memory initialization file "BASIC.HEX" is too wide to fit in one memory word. Wrapping data to subsequent addresses.
-    Warning (113009): Data at line (7) of memory initialization file "BASIC.HEX" is too wide to fit in one memory word. Wrapping data to subsequent addresses.
-    Warning (113009): Data at line (8) of memory initialization file "BASIC.HEX" is too wide to fit in one memory word. Wrapping data to subsequent addresses.
-    Warning (113009): Data at line (9) of memory initialization file "BASIC.HEX" is too wide to fit in one memory word. Wrapping data to subsequent addresses.
-    Warning (113009): Data at line (10) of memory initialization file "BASIC.HEX" is too wide to fit in one memory word. Wrapping data to subsequent addresses.
 Info (12021): Found 1 design units, including 1 entities, in source file db/decode_1oa.tdf
     Info (12023): Found entity 1: decode_1oa
 Info (12128): Elaborating entity "decode_1oa" for hierarchy "BasicRom:u2|altsyncram:altsyncram_component|altsyncram_4371:auto_generated|decode_1oa:deep_decode"
@@ -1018,14 +1007,7 @@ Info (13000): Registers with preset signals will power-up high
 Info (13003): DEV_CLRn pin will set, and not reset, register with preset signal due to NOT Gate Push-Back
 Warning (13024): Output pins are stuck at VCC or GND
     Warning (13410): Pin "sramAddress[16]" is stuck at GND
-    Warning (13410): Pin "ledOut8[0]" is stuck at GND
-    Warning (13410): Pin "ledOut8[1]" is stuck at GND
-    Warning (13410): Pin "ledOut8[2]" is stuck at GND
-    Warning (13410): Pin "ledOut8[3]" is stuck at GND
-    Warning (13410): Pin "ledOut8[4]" is stuck at GND
-    Warning (13410): Pin "ledOut8[5]" is stuck at GND
-    Warning (13410): Pin "ledOut8[6]" is stuck at GND
-    Warning (13410): Pin "ledOut8[7]" is stuck at GND
+    Warning (13410): Pin "ledOut" is stuck at GND
     Warning (13410): Pin "J6IO8[0]" is stuck at GND
     Warning (13410): Pin "J6IO8[1]" is stuck at GND
     Warning (13410): Pin "J6IO8[2]" is stuck at GND
@@ -1045,16 +1027,16 @@ Warning (13024): Output pins are stuck at VCC or GND
 Info (17049): 9 registers lost all their fanouts during netlist optimizations.
 Info (16010): Generating hard_block partition "hard_block:auto_generated_inst"
     Info (16011): Adding 0 node(s), including 0 DDIO, 0 PLL, 0 transceiver and 0 LCELL
-Info (21057): Implemented 4354 device resources after synthesis - the final resource count might be different
+Info (21057): Implemented 4347 device resources after synthesis - the final resource count might be different
     Info (21058): Implemented 5 input pins
-    Info (21059): Implemented 49 output pins
+    Info (21059): Implemented 42 output pins
     Info (21060): Implemented 8 bidirectional pins
     Info (21061): Implemented 4268 logic cells
     Info (21064): Implemented 24 RAM segments
-Info: Quartus II 64-Bit Analysis & Synthesis was successful. 0 errors, 88 warnings
-    Info: Peak virtual memory: 4674 megabytes
-    Info: Processing ended: Wed Oct 23 14:59:20 2019
-    Info: Elapsed time: 00:00:45
-    Info: Total CPU time (on all processors): 00:00:44
+Info: Quartus II 64-Bit Analysis & Synthesis was successful. 0 errors, 69 warnings
+    Info: Peak virtual memory: 4675 megabytes
+    Info: Processing ended: Fri Nov 22 10:50:22 2019
+    Info: Elapsed time: 00:00:47
+    Info: Total CPU time (on all processors): 00:00:47
 
 

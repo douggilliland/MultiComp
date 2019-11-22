@@ -1,3 +1,11 @@
+---------------------------------------------------------------------------
+-- 6502 CPU
+-- 41K External SRAM
+-- PS/2 Keyboard
+-- CEGMON Monitor
+-- 8K BASIC in ROM
+-- Composite Video
+---------------------------------------------------------------------------
 
 library ieee;
 use ieee.std_logic_1164.all;
@@ -6,17 +14,18 @@ use  IEEE.STD_LOGIC_UNSIGNED.all;
 
 entity uk101 is
 	port(
-		sramData : inout std_logic_vector(7 downto 0);
+		sramData 	: inout std_logic_vector(7 downto 0);
 		sramAddress : out std_logic_vector(16 downto 0);
-		n_sRamWE : out std_logic;
-		n_sRamCS : out std_logic;
-		n_sRamOE : out std_logic;
+		n_sRamWE 	: out std_logic;
+		n_sRamCS 	: out std_logic;
+		n_sRamOE 	: out std_logic;
 		
 		n_reset		: in std_logic;
 		clk			: in std_logic;
 		rxd			: in std_logic;
 		txd			: out std_logic;
 		rts			: out std_logic;
+		
 		videoSync	: out std_logic;
 		video			: out std_logic;
 		
@@ -25,7 +34,7 @@ entity uk101 is
 		ps2Clk		: in std_logic;
 		ps2Data		: in std_logic;
 		
-		ledOut8		: out std_logic_vector(7 downto 0);
+		ledOut		: out std_logic;
 		J6IO8			: out std_logic_vector(7 downto 0);
 		J8IO8			: out std_logic_vector(7 downto 0)
 	);
@@ -69,6 +78,7 @@ architecture struct of uk101 is
 
 	signal kbReadData 		: std_logic_vector(7 downto 0);
 	signal kbRowSel 			: std_logic_vector(7 downto 0);
+	signal ledOut8 			: std_logic_vector(7 downto 0);
 
 begin
 
@@ -79,8 +89,8 @@ begin
 	n_sRamOE <= n_memRD;
 	n_sRamCS <= n_ramCS;
 	n_memRD <= not(cpuClock) nand n_WR;
-
 	n_memWR <= not(cpuClock) nand (not n_WR);
+	
 	reset_LED <= n_reset;
 
 	n_dispRamCS <= '0' when cpuAddress(15 downto 10) = "110100" else '1';
@@ -223,6 +233,8 @@ port map(
 	dataIn8 => cpuDataOut,
 	latchOut => J8IO8
 );
+
+ledOut <= ledOut8(0);
 
 latchLED : entity work.OUT_LATCH	--Output LatchIO
 port map(

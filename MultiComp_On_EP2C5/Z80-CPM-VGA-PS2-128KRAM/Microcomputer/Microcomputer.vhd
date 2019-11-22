@@ -48,7 +48,7 @@ entity Microcomputer is
 		sdMISO		: in std_logic;
 		sdSCLK		: out std_logic;
 		driveLED		: out std_logic :='1';
-		ledOut8		: out std_logic_vector(7 downto 0);
+--		ledOut8		: out std_logic_vector(7 downto 0);
 		J6IO8			: out std_logic_vector(7 downto 0);
 		J8IO8			: out std_logic_vector(7 downto 0)
 	);
@@ -95,6 +95,7 @@ architecture struct of Microcomputer is
 	signal serialClkCount			: std_logic_vector(15 downto 0);
 	signal cpuClkCount				: std_logic_vector(5 downto 0); 
 	signal sdClkCount					: std_logic_vector(5 downto 0); 	
+	signal ledOut8						: std_logic_vector(7 downto 0); 	
 	signal cpuClock					: std_logic;
 	signal serialClock				: std_logic;
 	signal sdClock						: std_logic;	
@@ -288,12 +289,12 @@ process (clk)
 begin
 if rising_edge(clk) then
 
-if cpuClkCount < 4 then -- 4 = 10MHz, 3 = 12.5MHz, 2=16.6MHz, 1=25MHz
+if cpuClkCount < 1 then -- 4 = 10MHz, 3 = 12.5MHz, 2=16.6MHz, 1=25MHz
 	cpuClkCount <= cpuClkCount + 1;
 else
 	cpuClkCount <= (others=>'0');
 end if;
-if cpuClkCount < 2 then -- 2 when 10MHz, 2 when 12.5MHz, 2 when 16.6MHz, 1 when 25MHz
+if cpuClkCount < 1 then -- 2 when 10MHz, 2 when 12.5MHz, 2 when 16.6MHz, 1 when 25MHz
 	cpuClock <= '0';
 else
 	cpuClock <= '1';
