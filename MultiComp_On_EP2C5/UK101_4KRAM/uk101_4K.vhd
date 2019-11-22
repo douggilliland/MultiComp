@@ -1,3 +1,9 @@
+-------------------------------------------------------------------------------------------
+-- UK101 (OSI C1P)
+-- 4K internal SRAM
+-- 8K BASIC in ROM
+-- Composite Video output
+-------------------------------------------------------------------------------------------
 
 library ieee;
 use ieee.std_logic_1164.all;
@@ -85,11 +91,10 @@ begin
 		NMI_n => '1',
 		SO_n => '1',
 		R_W_n => n_WR,
-		A(15 downto 0) => cpuAddress,
+		A(15 downto 0) => cpuAddress(15 downto 0),
 		DI => cpuDataIn,
 		DO => cpuDataOut);
 			
-
 	u2 : entity work.BasicRom -- 8KB
 	port map(
 		address => cpuAddress(12 downto 0),
