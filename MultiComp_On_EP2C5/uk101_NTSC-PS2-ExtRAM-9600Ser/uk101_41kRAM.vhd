@@ -1,5 +1,6 @@
 ---------------------------------------------------------------------------
 -- 6502 CPU
+-- At 1 MHz (limited due to the keyboard scanner
 -- 41K External SRAM
 -- PS/2 Keyboard
 -- CEGMON Monitor
@@ -14,22 +15,23 @@ use  IEEE.STD_LOGIC_UNSIGNED.all;
 
 entity uk101 is
 	port(
+		n_reset		: in std_logic;
+		clk			: in std_logic;
+		
+		reset_LED	: out std_logic;
+		
 		sramData 	: inout std_logic_vector(7 downto 0);
 		sramAddress : out std_logic_vector(16 downto 0);
 		n_sRamWE 	: out std_logic;
 		n_sRamCS 	: out std_logic;
 		n_sRamOE 	: out std_logic;
 		
-		n_reset		: in std_logic;
-		clk			: in std_logic;
 		rxd			: in std_logic;
 		txd			: out std_logic;
 		rts			: out std_logic;
 		
 		videoSync	: out std_logic;
 		video			: out std_logic;
-		
-		reset_LED	: out std_logic;
 		
 		ps2Clk		: in std_logic;
 		ps2Data		: in std_logic;
@@ -55,12 +57,12 @@ architecture struct of uk101 is
 	signal n_memWR				: std_logic;
 	signal n_memRD 			: std_logic;
 
-	signal n_dispRamCS		: std_logic;
-	signal n_ramCS				: std_logic;
-	signal n_basRomCS			: std_logic;
-	signal n_monitorRomCS 	: std_logic;
-	signal n_aciaCS			: std_logic;
-	signal n_kbCS				: std_logic;
+	signal n_dispRamCS		: std_logic :='1';
+	signal n_ramCS				: std_logic :='1';
+	signal n_basRomCS			: std_logic :='1';
+	signal n_monitorRomCS 	: std_logic :='1';
+	signal n_aciaCS			: std_logic :='1';
+	signal n_kbCS				: std_logic :='1';
 	signal n_J6IOCS			: std_logic :='1';
 	signal n_J8IOCS			: std_logic :='1';
 	signal n_LEDCS				: std_logic :='1';
@@ -82,8 +84,7 @@ architecture struct of uk101 is
 
 begin
 
-	sramAddress(15 downto 0) <= cpuAddress(15 downto 0);
-	sramAddress(16) <= '0';
+	sramAddress <= '0' & cpuAddress(15 downto 0);
 	sramData <= cpuDataOut when n_WR='0' else (others => 'Z');
 	n_sRamWE <= n_memWR;
 	n_sRamOE <= n_memRD;
@@ -93,12 +94,12 @@ begin
 	
 	reset_LED <= n_reset;
 
-	n_dispRamCS <= '0' when cpuAddress(15 downto 10) = "110100" else '1';
-	n_basRomCS <= '0' when cpuAddress(15 downto 13) = "101" else '1'; --8k
+	n_dispRamCS 	<= '0' when cpuAddress(15 downto 10) = "110100" else '1';
+	n_basRomCS 		<= '0' when cpuAddress(15 downto 13) = "101" else '1'; --8k
 	n_monitorRomCS <= '0' when cpuAddress(15 downto 11) = "11111" else '1'; --2K
-	n_ramCS <= not(n_dispRamCS and n_basRomCS and n_monitorRomCS and n_aciaCS and n_kbCS);
-	n_aciaCS <= '0' when cpuAddress(15 downto 1) = "111100000000000" else '1';
-	n_kbCS <= '0' when cpuAddress(15 downto 10) = "110111" else '1';
+	n_aciaCS 		<= '0' when cpuAddress(15 downto 1) = "111100000000000" else '1';
+	n_kbCS 			<= '0' when cpuAddress(15 downto 10) = "110111" else '1';
+	n_ramCS 			<= not(n_dispRamCS and n_basRomCS and n_monitorRomCS and n_aciaCS and n_kbCS);
 	
 	cpuDataIn <=
 		basRomData when n_basRomCS = '0' else
@@ -216,7 +217,7 @@ begin
 		q_b => dispRamDataOutB
 	);
 	
-latchIO0 : entity work.OUT_LATCH	--Output LatchIO
+latchIO0 : entity work.OutLatch	--Output LatchIO
 port map(
 	clear => n_reset,
 	clock => clk,
@@ -225,7 +226,7 @@ port map(
 	latchOut => J6IO8
 );
 
-latchIO1 : entity work.OUT_LATCH	--Output LatchIO
+latchIO1 : entity work.OutLatch	--Output LatchIO
 port map(
 	clear => n_reset,
 	clock => clk,
@@ -236,7 +237,7 @@ port map(
 
 ledOut <= ledOut8(0);
 
-latchLED : entity work.OUT_LATCH	--Output LatchIO
+latchLED : entity work.OutLatch	--Output LatchIO
 port map(
 	clear => n_reset,
 	clock => clk,

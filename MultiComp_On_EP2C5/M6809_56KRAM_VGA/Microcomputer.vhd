@@ -120,7 +120,7 @@ begin
 	
 	-- ____________________________________________________________________________________
 	-- RAM GOES HERE
-	sramAddress(16 downto 0) <= '0'&cpuAddress(15 downto 0);
+	sramAddress <= '0'&cpuAddress(15 downto 0);
 	sramData <= cpuDataOut when n_WR='0' else (others => 'Z');
 	n_sRamWE <= n_memWR;
 	n_sRamOE <= n_memRD;
@@ -141,7 +141,9 @@ begin
 			txClock => serialClock,
 			rxd => rxd1,
 			txd => txd1,
-			n_rts => rts1
+			n_rts => rts1,
+			n_cts => '0',
+			n_dcd => '0'
 		);
 	
 	io2 : entity work.SBCTextDisplayRGB
@@ -201,11 +203,11 @@ begin
 	
 	-- ____________________________________________________________________________________
 	-- CHIP SELECTS GO HERE
-	n_basRomCS <= '0' when cpuAddress(15 downto 13) = "111" else '1'; --8K at top of memory
-	n_interface2CS <= '0' when cpuAddress(15 downto 1) = "111111111101000" else '1'; -- 2 bytes FFD0-FFD1
-	n_interface1CS <= '0' when cpuAddress(15 downto 1) = "111111111101001" else '1'; -- 2 bytes FFD2-FFD3
+	n_basRomCS 			<= '0' when cpuAddress(15 downto 13) = "111" else '1'; --8K at top of memory
+	n_interface2CS 	<= '0' when cpuAddress(15 downto 1) = "111111111101000" else '1'; -- 2 bytes FFD0-FFD1
+	n_interface1CS 	<= '0' when cpuAddress(15 downto 1) = "111111111101001" else '1'; -- 2 bytes FFD2-FFD3
 --	n_sdCardCS <= '0' when cpuAddress(15 downto 3) = "1111111111011" else '1'; -- 8 bytes FFD8-FFDF
-	n_externalRamCS <= not n_basRomCS;
+	n_externalRamCS 	<= (not n_basRomCS);
 	
 	-- ____________________________________________________________________________________
 	-- BUS ISOLATION GOES HERE
@@ -226,7 +228,7 @@ begin
 		begin
 			if rising_edge(clk) then
 			
-			if cpuClkCount < 2 then -- 4 = 10MHz, 3 = 12.5MHz, 2=16.6MHz, 1=25MHz
+			if cpuClkCount < 4 then -- 4 = 10MHz, 3 = 12.5MHz, 2=16.6MHz, 1=25MHz
 				cpuClkCount <= cpuClkCount + 1;
 			else
 				cpuClkCount <= (others=>'0');

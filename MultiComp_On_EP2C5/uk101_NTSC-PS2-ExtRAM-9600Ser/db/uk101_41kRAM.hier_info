@@ -1,36 +1,8 @@
 |uk101
-sramData[0] <> sramData[0]
-sramData[1] <> sramData[1]
-sramData[2] <> sramData[2]
-sramData[3] <> sramData[3]
-sramData[4] <> sramData[4]
-sramData[5] <> sramData[5]
-sramData[6] <> sramData[6]
-sramData[7] <> sramData[7]
-sramAddress[0] <= t65:u1.A[0]
-sramAddress[1] <= t65:u1.A[1]
-sramAddress[2] <= t65:u1.A[2]
-sramAddress[3] <= t65:u1.A[3]
-sramAddress[4] <= t65:u1.A[4]
-sramAddress[5] <= t65:u1.A[5]
-sramAddress[6] <= t65:u1.A[6]
-sramAddress[7] <= t65:u1.A[7]
-sramAddress[8] <= t65:u1.A[8]
-sramAddress[9] <= t65:u1.A[9]
-sramAddress[10] <= t65:u1.A[10]
-sramAddress[11] <= t65:u1.A[11]
-sramAddress[12] <= t65:u1.A[12]
-sramAddress[13] <= t65:u1.A[13]
-sramAddress[14] <= t65:u1.A[14]
-sramAddress[15] <= t65:u1.A[15]
-sramAddress[16] <= <GND>
-n_sRamWE <= n_memWR.DB_MAX_OUTPUT_PORT_TYPE
-n_sRamCS <= n_ramCS.DB_MAX_OUTPUT_PORT_TYPE
-n_sRamOE <= n_memRD.DB_MAX_OUTPUT_PORT_TYPE
 n_reset => t65:u1.Res_n
-n_reset => out_latch:latchIO0.clear
-n_reset => out_latch:latchIO1.clear
-n_reset => out_latch:latchLED.clear
+n_reset => outlatch:latchIO0.clear
+n_reset => outlatch:latchIO1.clear
+n_reset => outlatch:latchLED.clear
 n_reset => uk101keyboard:u9.nRESET
 n_reset => reset_LED.DATAIN
 clk => basicrom:u2.clock
@@ -59,35 +31,63 @@ clk => cpuClkCount[4].CLK
 clk => cpuClkCount[5].CLK
 clk => uk101textdisplay:u6.clk
 clk => displayram:u8.clock
-clk => out_latch:latchIO0.clock
-clk => out_latch:latchIO1.clock
-clk => out_latch:latchLED.clock
+clk => outlatch:latchIO0.clock
+clk => outlatch:latchIO1.clock
+clk => outlatch:latchLED.clock
 clk => uk101keyboard:u9.CLK
+reset_LED <= n_reset.DB_MAX_OUTPUT_PORT_TYPE
+sramData[0] <> sramData[0]
+sramData[1] <> sramData[1]
+sramData[2] <> sramData[2]
+sramData[3] <> sramData[3]
+sramData[4] <> sramData[4]
+sramData[5] <> sramData[5]
+sramData[6] <> sramData[6]
+sramData[7] <> sramData[7]
+sramAddress[0] <= t65:u1.A[0]
+sramAddress[1] <= t65:u1.A[1]
+sramAddress[2] <= t65:u1.A[2]
+sramAddress[3] <= t65:u1.A[3]
+sramAddress[4] <= t65:u1.A[4]
+sramAddress[5] <= t65:u1.A[5]
+sramAddress[6] <= t65:u1.A[6]
+sramAddress[7] <= t65:u1.A[7]
+sramAddress[8] <= t65:u1.A[8]
+sramAddress[9] <= t65:u1.A[9]
+sramAddress[10] <= t65:u1.A[10]
+sramAddress[11] <= t65:u1.A[11]
+sramAddress[12] <= t65:u1.A[12]
+sramAddress[13] <= t65:u1.A[13]
+sramAddress[14] <= t65:u1.A[14]
+sramAddress[15] <= t65:u1.A[15]
+sramAddress[16] <= <GND>
+n_sRamWE <= n_memWR.DB_MAX_OUTPUT_PORT_TYPE
+n_sRamCS <= n_ramCS.DB_MAX_OUTPUT_PORT_TYPE
+n_sRamOE <= n_memRD.DB_MAX_OUTPUT_PORT_TYPE
 rxd => buffereduart:u5.rxd
 txd <= buffereduart:u5.txd
 rts <= buffereduart:u5.n_rts
 videoSync <= uk101textdisplay:u6.sync
 video <= uk101textdisplay:u6.video
-reset_LED <= n_reset.DB_MAX_OUTPUT_PORT_TYPE
 ps2Clk => uk101keyboard:u9.PS2_CLK
 ps2Data => uk101keyboard:u9.PS2_DATA
-ledOut <= out_latch:latchLED.latchOut[0]
-J6IO8[0] <= out_latch:latchIO0.latchOut[0]
-J6IO8[1] <= out_latch:latchIO0.latchOut[1]
-J6IO8[2] <= out_latch:latchIO0.latchOut[2]
-J6IO8[3] <= out_latch:latchIO0.latchOut[3]
-J6IO8[4] <= out_latch:latchIO0.latchOut[4]
-J6IO8[5] <= out_latch:latchIO0.latchOut[5]
-J6IO8[6] <= out_latch:latchIO0.latchOut[6]
-J6IO8[7] <= out_latch:latchIO0.latchOut[7]
-J8IO8[0] <= out_latch:latchIO1.latchOut[0]
-J8IO8[1] <= out_latch:latchIO1.latchOut[1]
-J8IO8[2] <= out_latch:latchIO1.latchOut[2]
-J8IO8[3] <= out_latch:latchIO1.latchOut[3]
-J8IO8[4] <= out_latch:latchIO1.latchOut[4]
-J8IO8[5] <= out_latch:latchIO1.latchOut[5]
-J8IO8[6] <= out_latch:latchIO1.latchOut[6]
-J8IO8[7] <= out_latch:latchIO1.latchOut[7]
+ledOut <= outlatch:latchLED.latchOut[0]
+J6IO8[0] <= outlatch:latchIO0.latchOut[0]
+J6IO8[1] <= outlatch:latchIO0.latchOut[1]
+J6IO8[2] <= outlatch:latchIO0.latchOut[2]
+J6IO8[3] <= outlatch:latchIO0.latchOut[3]
+J6IO8[4] <= outlatch:latchIO0.latchOut[4]
+J6IO8[5] <= outlatch:latchIO0.latchOut[5]
+J6IO8[6] <= outlatch:latchIO0.latchOut[6]
+J6IO8[7] <= outlatch:latchIO0.latchOut[7]
+J8IO8[0] <= outlatch:latchIO1.latchOut[0]
+J8IO8[1] <= outlatch:latchIO1.latchOut[1]
+J8IO8[2] <= outlatch:latchIO1.latchOut[2]
+J8IO8[3] <= outlatch:latchIO1.latchOut[3]
+J8IO8[4] <= outlatch:latchIO1.latchOut[4]
+J8IO8[5] <= outlatch:latchIO1.latchOut[5]
+J8IO8[6] <= outlatch:latchIO1.latchOut[6]
+J8IO8[7] <= outlatch:latchIO1.latchOut[7]
 
 
 |uk101|T65:u1
@@ -2411,8 +2411,8 @@ dispData[5] => charAddr[8].DATAIN
 dispData[6] => charAddr[9].DATAIN
 dispData[7] => charAddr[10].DATAIN
 clk => video~reg0.CLK
-clk => vSync.CLK
-clk => hSync.CLK
+clk => n_vSync.CLK
+clk => n_hSync.CLK
 clk => charScanLine[0].CLK
 clk => charScanLine[1].CLK
 clk => charScanLine[2].CLK
@@ -2911,7 +2911,7 @@ wren_b => ram_block1a6.PORTBRE
 wren_b => ram_block1a7.PORTBRE
 
 
-|uk101|OUT_LATCH:latchIO0
+|uk101|OutLatch:latchIO0
 dataIn8[0] => Q_tmp[0].DATAIN
 dataIn8[1] => Q_tmp[1].DATAIN
 dataIn8[2] => Q_tmp[2].DATAIN
@@ -2954,7 +2954,7 @@ latchOut[6] <= Q_tmp[6].DB_MAX_OUTPUT_PORT_TYPE
 latchOut[7] <= Q_tmp[7].DB_MAX_OUTPUT_PORT_TYPE
 
 
-|uk101|OUT_LATCH:latchIO1
+|uk101|OutLatch:latchIO1
 dataIn8[0] => Q_tmp[0].DATAIN
 dataIn8[1] => Q_tmp[1].DATAIN
 dataIn8[2] => Q_tmp[2].DATAIN
@@ -2997,7 +2997,7 @@ latchOut[6] <= Q_tmp[6].DB_MAX_OUTPUT_PORT_TYPE
 latchOut[7] <= Q_tmp[7].DB_MAX_OUTPUT_PORT_TYPE
 
 
-|uk101|OUT_LATCH:latchLED
+|uk101|OutLatch:latchLED
 dataIn8[0] => Q_tmp[0].DATAIN
 dataIn8[1] => Q_tmp[1].DATAIN
 dataIn8[2] => Q_tmp[2].DATAIN
