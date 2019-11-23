@@ -42,6 +42,12 @@ entity Microcomputer is
 		ps2Clk		: inout std_logic;
 		ps2Data		: inout std_logic;
 
+--		sdCS			: out std_logic;
+--		sdMOSI		: out std_logic;
+--		sdMISO		: in std_logic;
+--		sdSCLK		: out std_logic;
+--		driveLED		: out std_logic :='1';
+
 		J6_3			: out std_logic;
 		J6_4			: out std_logic;
 		J6_5			: out std_logic;
@@ -50,12 +56,6 @@ entity Microcomputer is
 		J6_8			: out std_logic;
 		J6_9			: out std_logic;
 		J6_10			: out std_logic
-		
---		sdCS			: out std_logic;
---		sdMOSI		: out std_logic;
---		sdMISO		: in std_logic;
---		sdSCLK		: out std_logic;
---		driveLED		: out std_logic :='1'	
 	);
 end Microcomputer;
 
@@ -141,8 +141,6 @@ begin
 			txClock => serialClock,
 			rxd => rxd1,
 			txd => txd1,
-			n_cts => '0',
-			n_dcd => '0',
 			n_rts => rts1
 		);
 	
@@ -218,12 +216,12 @@ begin
 	-- BUS ISOLATION GOES HERE
 	-- Order matters since SRAM overlaps I/O chip selects
 	cpuDataIn <=
-	interface1DataOut when n_interface1CS = '0' else
-	interface2DataOut when n_interface2CS = '0' else
---	sdCardDataOut when n_sdCardCS = '0' else
-	basRomData when n_basRomCS = '0' else
-	sramData when n_externalRamCS= '0' else
-	x"FF";
+		interface1DataOut when n_interface1CS = '0' else
+		interface2DataOut when n_interface2CS = '0' else
+	--	sdCardDataOut when n_sdCardCS = '0' else
+		basRomData when n_basRomCS = '0' else
+		sramData when n_externalRamCS= '0' else
+		x"FF";
 	
 	-- ____________________________________________________________________________________
 	-- SYSTEM CLOCKS GO HERE
@@ -233,12 +231,12 @@ begin
 		begin
 			if rising_edge(clk) then
 			
-			if cpuClkCount < 4 then -- 1 = 10MHz, 3 = 12.5MHz, 2=16.6MHz, 1=25MHz
+			if cpuClkCount < 2 then -- 4 = 10MHz, 3 = 12.5MHz, 2=16.6MHz, 1=25MHz
 				cpuClkCount <= cpuClkCount + 1;
 			else
 				cpuClkCount <= (others=>'0');
 			end if;
-			if cpuClkCount < 2 then -- 1 when 10MHz, 2 when 12.5MHz, 2 when 16.6MHz, 1 when 25MHz
+			if cpuClkCount < 2 then -- 2 when 10MHz, 2 when 12.5MHz, 2 when 16.6MHz, 1 when 25MHz
 				cpuClock <= '0';
 			else
 				cpuClock <= '1';
