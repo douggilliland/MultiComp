@@ -24,10 +24,6 @@ entity Microcomputer is
 		txd1			: out std_logic;
 		rts1			: out std_logic;
 
-		-- rxd2			: in std_logic;
-		-- txd2			: out std_logic;
-		-- rts2			: out std_logic;
-		
 		videoSync	: out std_logic;
 		video			: out std_logic;
 
@@ -48,7 +44,6 @@ entity Microcomputer is
 		sdMISO		: in std_logic;
 		sdSCLK		: out std_logic;
 		driveLED		: out std_logic :='1';
---		ledOut8		: out std_logic_vector(7 downto 0);
 		J6IO8			: out std_logic_vector(7 downto 0);
 		J8IO8			: out std_logic_vector(7 downto 0)
 	);
@@ -63,8 +58,6 @@ architecture struct of Microcomputer is
 	signal cpuDataIn					: std_logic_vector(7 downto 0);
 
 	signal basRomData					: std_logic_vector(7 downto 0);
---	signal internalRam1DataOut		: std_logic_vector(7 downto 0);
---	signal internalRam2DataOut		: std_logic_vector(7 downto 0);
 	signal interface1DataOut		: std_logic_vector(7 downto 0);
 	signal interface2DataOut		: std_logic_vector(7 downto 0);
 	signal sdCardDataOut				: std_logic_vector(7 downto 0);
@@ -82,8 +75,6 @@ architecture struct of Microcomputer is
 	signal n_int2						: std_logic :='1';	
 	
 	signal n_externalRamCS			: std_logic :='1';
---	signal n_internalRam1CS			: std_logic :='1';
---	signal n_internalRam2CS			: std_logic :='1';
 	signal n_basRomCS					: std_logic :='1';
 	signal n_interface1CS			: std_logic :='1';
 	signal n_interface2CS			: std_logic :='1';
@@ -107,13 +98,13 @@ begin
 --CPM
 -- Disable ROM if out 38. Re-enable when (asynchronous) reset pressed
 process (n_ioWR, n_reset) begin
-if (n_reset = '0') then
-n_RomActive <= '0';
-elsif (rising_edge(n_ioWR)) then
-if cpuAddress(7 downto 0) = "00111000" then -- $38
-n_RomActive <= '1';
-end if;
-end if;
+	if (n_reset = '0') then
+	n_RomActive <= '0';
+	elsif (rising_edge(n_ioWR)) then
+		if cpuAddress(7 downto 0) = "00111000" then -- $38
+		n_RomActive <= '1';
+		end if;
+	end if;
 end process;
 
 -- ____________________________________________________________________________________
@@ -271,13 +262,13 @@ n_externalRamCS<= not n_basRomCS;
 -- ____________________________________________________________________________________
 -- BUS ISOLATION GOES HERE
 cpuDataIn <=
-interface1DataOut when n_interface1CS = '0' else	-- UART 1
-interface2DataOut when n_interface2CS = '0' else	-- UART 2
-sdCardDataOut when n_sdCardCS = '0' else				-- SD Card
-basRomData when n_basRomCS = '0' else
--- internalRam1DataOut when n_internalRam1CS= '0' else
-sramData when n_externalRamCS= '0' else
-x"FF";
+	interface1DataOut when n_interface1CS = '0' else	-- UART 1
+	interface2DataOut when n_interface2CS = '0' else	-- UART 2
+	sdCardDataOut when n_sdCardCS = '0' else				-- SD Card
+	basRomData when n_basRomCS = '0' else
+	-- internalRam1DataOut when n_internalRam1CS= '0' else
+	sramData when n_externalRamCS= '0' else
+	x"FF";
 
 -- n_ChipSS <= n_PIOCS;
 
@@ -287,40 +278,40 @@ x"FF";
 serialClock <= serialClkCount(15);
 process (clk)
 begin
-if rising_edge(clk) then
+	if rising_edge(clk) then
+		if cpuClkCount < 1 then -- 4 = 10MHz, 3 = 12.5MHz, 2=16.6MHz, 1=25MHz
+			cpuClkCount <= cpuClkCount + 1;
+		else
+			cpuClkCount <= (others=>'0');
+		end if;
+		if cpuClkCount < 1 then -- 2 when 10MHz, 2 when 12.5MHz, 2 when 16.6MHz, 1 when 25MHz
+			cpuClock <= '0';
+		else
+			cpuClock <= '1';
+		end if;
 
-if cpuClkCount < 1 then -- 4 = 10MHz, 3 = 12.5MHz, 2=16.6MHz, 1=25MHz
-	cpuClkCount <= cpuClkCount + 1;
-else
-	cpuClkCount <= (others=>'0');
-end if;
-if cpuClkCount < 1 then -- 2 when 10MHz, 2 when 12.5MHz, 2 when 16.6MHz, 1 when 25MHz
-	cpuClock <= '0';
-else
-	cpuClock <= '1';
-end if;
+		if sdClkCount < 49 then -- 1MHz
+			sdClkCount <= sdClkCount + 1;
+		else
+			sdClkCount <= (others=>'0');
+		end if;
+		if sdClkCount < 25 then
+			sdClock <= '0';
+		else
+			sdClock <= '1';
+		end if;
 
-if sdClkCount < 49 then -- 1MHz
-	sdClkCount <= sdClkCount + 1;
-else
-	sdClkCount <= (others=>'0');
-end if;
-if sdClkCount < 25 then
-	sdClock <= '0';
-else
-	sdClock <= '1';
-end if;
-
--- Serial clock DDS
--- 50MHz master input clock:
--- Baud Increment
--- 115200 2416
--- 38400 805
--- 19200 403
--- 9600 201
--- 4800 101
--- 2400 50
-serialClkCount <= serialClkCount + 2416;
-end if;
+		-- Serial clock DDS
+		-- 50MHz master input clock:
+		-- Baud Increment
+		-- 115200 2416
+		-- 38400 805
+		-- 19200 403
+		-- 9600 201
+		-- 4800 101
+		-- 2400 50
+		serialClkCount <= serialClkCount + 2416;
+	end if;
 end process;
+
 end;
