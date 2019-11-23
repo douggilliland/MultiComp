@@ -207,11 +207,6 @@ begin
 --	n_sdCardCS <= '0' when cpuAddress(15 downto 3) = "1111111111011" else '1'; -- 8 bytes FFD8-FFDF
 	n_externalRamCS <= not n_basRomCS;
 	
-	J6_3 <= n_basRomCS;
-	J6_5 <= n_externalRamCS;
-	J6_7 <= cpuClock;
-	J6_9 <= serialClock;
-	
 	-- ____________________________________________________________________________________
 	-- BUS ISOLATION GOES HERE
 	-- Order matters since SRAM overlaps I/O chip selects
