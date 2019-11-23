@@ -6,6 +6,7 @@
 ** Grant's projects re-create 1970's and 1980's vintage computers using recent (or relatively recent) inexpensive FPGA cards.
 * We down-selected some of the Multicomp designs and checked [our https://github.com/douggilliland/Retro-Computers/tree/master/FPGA%20Retro%20Computers/MultiComp%20Archives FPGA archives here]
 * Our [http://land-boards.com/blwiki/index.php?title=RetroComputing RetroComputing Wiki page] for these projects is here].
+* Compiled with Quartus II 13 SP 1.
 
 === Daughtercard for Multicomp ===
 
@@ -33,26 +34,17 @@
 ! IO Port
 ! SD Card
 |-
-| M6809_ExtRAM_MBasic
+| M6809_56KRAM_VGA
 | 6809, 50MHz (with wait states)
-| 128K External (bank switched)
+| External SRAM
 | VGA/PS-2
 | No
 | No
 | J6 Test Points
 | No
 |-
-| M6809_VGA_PS2_IntlRAM(2K)
-| 6809, 10MHz
-| 2K Internal
-| VGA/PS-2
-| No
-| No
-| J6 Test Points
-| No
-|-
-| M6502_uk101_NTSC-4K-9600Ser
-| 6502, 2 MHz
+| M6502_uk101_4KRAM
+| 6502, 1 MHz
 | 4K Internal
 | NTSC Composite/PS-2
 | 9600 baud
@@ -60,18 +52,18 @@
 | No
 | No
 |-
-| M6502_uk101_NTSC-PS2-ExtRAM-9600Ser
-| 6502, 2 MHz
-| 41K External
-| NTSC Composite/PS-2
-| 9600 baud
+| Z80-CPM-VGA-PS2-128KRAM
+| Z80, 25 MHz
+| 128K External
+| VGA/PS-2
+| 115200 baud
 | No
-| No
-| No
+| Latch-8
+| Yes (CP/M)
 |-
 | Z80-CPM-VGA-PS2-ExtRAM
-| Z80, 10 MHz
-| 64K External
+| Z80, 25 MHz
+| 128K External
 | VGA/PS-2
 | 115200 baud
 | No
