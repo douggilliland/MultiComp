@@ -63,76 +63,76 @@ begin
 
 	n_memWR <= not(cpuClock) nand (not n_WR);
 
-	n_dispRamCS <= '0' when cpuAddress(15 downto 10) = "110100" else '1';
-	n_basRomCS <= '0' when cpuAddress(15 downto 13) = "101" else '1'; --8k
+	n_dispRamCS 	<= '0' when cpuAddress(15 downto 10) = "110100" else '1';
+	n_basRomCS 		<= '0' when cpuAddress(15 downto 13) = "101" else '1'; --8k
 	n_monitorRomCS <= '0' when cpuAddress(15 downto 11) = "11111" else '1'; --2K
-	n_ramCS <= '0' when cpuAddress(15 downto 12)="0000" else '1';
-	n_aciaCS <= '0' when cpuAddress(15 downto 1) = "111100000000000" else '1';
-	n_kbCS <= '0' when cpuAddress(15 downto 10) = "110111" else '1';
+	n_ramCS 			<= '0' when cpuAddress(15 downto 12) = "0000" else '1';
+	n_aciaCS 		<= '0' when cpuAddress(15 downto 1)  = "111100000000000" else '1';
+	n_kbCS 			<= '0' when cpuAddress(15 downto 10) = "110111" else '1';
  
 	cpuDataIn <=
-		basRomData when n_basRomCS = '0' else
-		monitorRomData when n_monitorRomCS = '0' else
-		aciaData when n_aciaCS = '0' else
-		ramDataOut when n_ramCS = '0' else
-		dispRamDataOutA when n_dispRamCS = '0' else
-		kbReadData when n_kbCS='0'
+		basRomData 			when n_basRomCS = '0' 		else
+		monitorRomData 	when n_monitorRomCS = '0' 	else
+		aciaData 			when n_aciaCS = '0' 			else
+		ramDataOut 			when n_ramCS = '0' 			else
+		dispRamDataOutA 	when n_dispRamCS = '0' 		else
+		kbReadData 			when n_kbCS='0'
 		else x"FF";
 		
 	u1 : entity work.T65
 	port map(
-		Enable => '1',
-		Mode => "00",
-		Res_n => n_reset,
-		Clk => cpuClock,
-		Rdy => '1',
-		Abort_n => '1',
-		IRQ_n => '1',
-		NMI_n => '1',
-		SO_n => '1',
-		R_W_n => n_WR,
-		A(15 downto 0) => cpuAddress(15 downto 0),
-		DI => cpuDataIn,
-		DO => cpuDataOut);
+		Enable				=> '1',
+		Mode 					=> "00",
+		Res_n 				=> n_reset,
+		Clk 					=> cpuClock,
+		Rdy 					=> '1',
+		Abort_n 				=> '1',
+		IRQ_n 				=> '1',
+		NMI_n 				=> '1',
+		SO_n 					=> '1',
+		R_W_n 				=> n_WR,
+		A(15 downto 0) 	=> cpuAddress(15 downto 0),
+		DI 					=> cpuDataIn,
+		DO 					=> cpuDataOut);
 			
 	u2 : entity work.BasicRom -- 8KB
 	port map(
-		address => cpuAddress(12 downto 0),
-		clock => clk,
-		q => basRomData
+		address	=> cpuAddress(12 downto 0),
+		clock 	=> clk,
+		q 			=> basRomData
 	);
 
 	u3: entity work.ProgRam 
 	port map
 	(
-		address => cpuAddress(11 downto 0),
-		clock => clk,
-		data => cpuDataOut,
-		wren => not(n_memWR or n_ramCS),
-		q => ramDataOut
+		address	=> cpuAddress(11 downto 0),
+		clock 	=> clk,
+		data 		=> cpuDataOut,
+		wren 		=> not(n_memWR or n_ramCS),
+		q 			=> ramDataOut
 	);
 	
 	u4: entity work.CegmonRom
 	port map
 	(
-		address => cpuAddress(10 downto 0),
-		q => monitorRomData
+		address	=> cpuAddress(10 downto 0),
+		q 			=> monitorRomData
 	);
 
 	u5: entity work.bufferedUART
 	port map(
-		n_wr => n_aciaCS or cpuClock or n_WR,
-		n_rd => n_aciaCS or cpuClock or (not n_WR),
-		regSel => cpuAddress(0),
-		dataIn => cpuDataOut,
-		dataOut => aciaData,
-		rxClock => serialClock,
-		txClock => serialClock,
-		rxd => rxd,
-		txd => txd,
-		n_cts => '0',
-		n_dcd => '0',
-		n_rts => rts
+		n_wr 		=> n_aciaCS or cpuClock or n_WR,
+		n_rd 		=> n_aciaCS or cpuClock or (not n_WR),
+		regSel 	=> cpuAddress(0),
+		dataIn 	=> cpuDataOut,
+		dataOut 	=> aciaData,
+		rxClock 	=> serialClock,
+		txClock 	=> serialClock,
+		rxd 		=> rxd,
+		txd 		=> txd,
+		n_cts 	=> '0',
+		n_dcd 	=> '0',
+		n_rts 	=> rts
 	);
 
 	process (clk)
@@ -166,44 +166,44 @@ begin
 
 	u6 : entity work.UK101TextDisplay
 	port map (
-		charAddr => charAddr,
-		charData => charData,
-		dispAddr => dispAddrB,
-		dispData => dispRamDataOutB,
-		clk => clk,
-		sync => videoSync,
-		video => video
+		charAddr 	=> charAddr,
+		charData 	=> charData,
+		dispAddr 	=> dispAddrB,
+		dispData 	=> dispRamDataOutB,
+		clk 			=> clk,
+		sync 			=> videoSync,
+		video 		=> video
 	);
 
 	u7: entity work.CharRom
 	port map
 	(
-		address => charAddr,
-		q => charData
+		address 	=> charAddr,
+		q 			=> charData
 	);
 
 	u8: entity work.DisplayRam 
 	port map
 	(
-		address_a => cpuAddress(9 downto 0),
-		address_b => dispAddrB,
-		clock	=> clk,
-		data_a => cpuDataOut,
-		data_b => (others => '0'),
-		wren_a => not(n_memWR or n_dispRamCS),
-		wren_b => '0',
-		q_a => dispRamDataOutA,
-		q_b => dispRamDataOutB
+		address_a	=> cpuAddress(9 downto 0),
+		address_b	=> dispAddrB,
+		clock			=> clk,
+		data_a 		=> cpuDataOut,
+		data_b 		=> (others => '0'),
+		wren_a 		=> not(n_memWR or n_dispRamCS),
+		wren_b 		=> '0',
+		q_a 			=> dispRamDataOutA,
+		q_b 			=> dispRamDataOutB
 	);
 	
 	u9 : entity work.UK101keyboard
 	port map(
-		CLK => clk,
-		nRESET => n_reset,
+		CLK 		=> clk,
+		nRESET 	=> n_reset,
 		PS2_CLK	=> ps2Clk,
 		PS2_DATA	=> ps2Data,
-		A	=> kbRowSel,
-		KEYB	=> kbReadData
+		A			=> kbRowSel,
+		KEYB		=> kbReadData
 	);
 	
 	process (n_kbCS,n_memWR)
