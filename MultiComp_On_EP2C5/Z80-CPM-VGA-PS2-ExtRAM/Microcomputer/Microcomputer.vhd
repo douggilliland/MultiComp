@@ -202,7 +202,7 @@ port map (
 	ps2Data => ps2Data
 );
 
-latchIO : entity work.OUT_LATCH	--Output LatchIO
+latchIO : entity work.OutLatch	--Output LatchIO
 port map(
 	clear => n_reset,
 	clock => clk,
@@ -229,7 +229,7 @@ port map(
 --n_rts => rts2
 --);
 
-sd1 : entity work.sd_controller
+sd1 : entity work.sd_controller_NealC
 port map(
 	sdCS => sdCS,
 	sdMOSI => sdMOSI,
