@@ -96,26 +96,4 @@ begin
 end process;
 
 
---process(clk,n_cs,n_rd)  -- Baud rate selection register read-back
---begin
---	if rising_edge(clk) then
---	
---		if (n_cs = '0' and n_rd = '0') then 
---		
---			if    reload = B1200 then dataOut <= "00000000";
---			elsif reload = B2400 then dataOut <= "00000001";
---			elsif reload = B4800 then dataOut <= "00000010";
---			elsif reload = B9600 then dataOut <= "00000011";
---			elsif reload = B19200 then dataOut <= "00000100";
---			elsif reload = B38400 then dataOut <= "00000101";
---			elsif reload = B57600 then dataOut <= "00000110";
---			elsif  reload = B115200 then dataOut <= "00000111";
---			end if;
---	
---		end if;	
---	end if;
---end process;
-
-
-
 end rtl;

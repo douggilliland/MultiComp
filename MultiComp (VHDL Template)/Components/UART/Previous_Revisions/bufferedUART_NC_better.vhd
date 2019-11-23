@@ -104,6 +104,7 @@ begin
 	-- RTS with hysteresis
 	-- enable flow if less than 2 characters in buffer
 	-- stop flow if greater that 8 chars in buffer (to allow 8 byte overflow)
+	
 	process (clk)
 	begin
 		if falling_edge(clk) then
