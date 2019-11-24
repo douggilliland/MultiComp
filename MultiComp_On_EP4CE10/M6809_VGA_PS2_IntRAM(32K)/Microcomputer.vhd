@@ -127,7 +127,7 @@ begin
 		x"FF";
 	
 	-- SD Card interface updates for SDHC by Neal Crook based on Grant Searle's design
-	sdCard	: entity work.sd_controller_NealC
+	sdCard	: entity work.sd_controller
 	port map (
 		clk 		=> i_clk_50,
 		n_reset	=> i_n_reset,
