@@ -100,7 +100,7 @@ use ieee.std_logic_1164.all;
 use ieee.numeric_std.all;
 use ieee.std_logic_unsigned.all;
 
-entity sd_controller_NealC is
+entity sd_controller is
 generic (
         constant CLKEDGE_DIVIDER : integer := 50  -- 50MHz / 50 gives edges at 1MHz ie output
                                                   -- sdSCLK of 500kHz.
@@ -120,9 +120,9 @@ port (
 	driveLED : out std_logic := '1'
 );
 
-end sd_controller_NealC;
+end sd_controller;
 
-architecture rtl of sd_controller_NealC is
+architecture rtl of sd_controller is
 type states is (
 	rst,
 	init,

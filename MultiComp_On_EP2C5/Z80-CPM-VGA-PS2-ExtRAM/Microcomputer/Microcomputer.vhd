@@ -229,7 +229,7 @@ port map(
 --n_rts => rts2
 --);
 
-sd1 : entity work.sd_controller_NealC
+sd1 : entity work.sd_controller
 port map(
 	sdCS => sdCS,
 	sdMOSI => sdMOSI,
