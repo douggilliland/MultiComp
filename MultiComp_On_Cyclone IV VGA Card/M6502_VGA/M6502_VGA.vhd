@@ -15,22 +15,9 @@ entity M6502_VGA is
 		txd			: out std_logic;
 		rts			: out std_logic;
 		
-		videoR0		: out std_logic;
-		videoR1		: out std_logic;
-		videoR2		: out std_logic;
-		videoR3		: out std_logic;
-		videoR4		: out std_logic;
-		videoG0		: out std_logic;
-		videoG1		: out std_logic;
-		videoG2		: out std_logic;
-		videoG3		: out std_logic;
-		videoG4		: out std_logic;
-		videoG5		: out std_logic;
-		videoB0		: out std_logic;
-		videoB1		: out std_logic;
-		videoB2		: out std_logic;
-		videoB3		: out std_logic;
-		videoB4		: out std_logic;
+		videoRed		: out std_logic_vector(4 downto 0);
+		videoGrn		: out std_logic_vector(5 downto 0);
+		videoBlu		: out std_logic_vector(4 downto 0);
 		hSync		: out std_logic;
 		vSync		: out std_logic;
 		
@@ -67,7 +54,6 @@ architecture struct of M6502_VGA is
 	signal ramDataOut			: std_logic_vector(7 downto 0);
 	
 	signal n_memWR				: std_logic;
---	signal n_memRD 			: std_logic :='1';
 	
 	signal n_basRomCS					: std_logic :='1';
 	signal n_videoInterfaceCS		: std_logic :='1';
@@ -92,22 +78,15 @@ architecture struct of M6502_VGA is
 	signal funKeys						: std_logic_vector(12 downto 0);
 
 	signal txdBuff						: std_logic;
+	
+	signal videoVec					: std_logic_vector(5 downto 0);
 
 begin
 	-- ____________________________________________________________________________________
 	-- Card has 16 bits of RGB digital data
-	-- Drive the least significant bits with 0's since Multi-Comp only has 6 bits of RGB digital data
-	-- Drive a blue background with white text
-	videoR0 <= '0';
-	videoR1 <= '0';
-	videoR2 <= '0';
-	videoG0 <= '0';
-	videoG1 <= '0';
-	videoG2 <= '0';
-	videoG3 <= '0'; 
-	videoB0 <= '0';
-	videoB1 <= '0';
-	videoB2 <= '0';
+	videoRed <= videoVec(5) & videoVec(5) & videoVec(4) & videoVec(4) & videoVec(4);
+	videoGrn <= videoVec(3) & videoVec(3) & videoVec(2) & videoVec(2) & videoVec(2) & videoVec(2);
+	videoBlu <= videoVec(1) & videoVec(1) & videoVec(0) & videoVec(0) & videoVec(0);
 
 	LED1 <= latchedBits(0);
 	LED2 <= fKey1;
@@ -116,23 +95,23 @@ begin
 	txd <= txdBuff;
 	
 	switchesRead(7 downto 0) <= "00000"&switch2&switch1&switch0;
+	
 	-- Chip Selects
-	n_ramCS <= '0' when cpuAddress(15 downto 14)="00" else '1';					-- x0000-x3FFF (16KB)
-	n_basRomCS <= '0' when cpuAddress(15 downto 13) = "111" else '1'; 		-- xA000-xBFFF (8KB)
-	n_videoInterfaceCS <= '0' when ((cpuAddress(15 downto 1) = "111111111101000" and fKey1 = '0') or (cpuAddress(15 downto 1) = "111111111101001" and fKey1 = '1')) else '1';
-	n_aciaCS <= '0'           when ((cpuAddress(15 downto 1) = "111111111101001" and fKey1 = '0') or (cpuAddress(15 downto 1) = "111111111101000" and fKey1 = '1')) else '1';
-	n_IOCS <= '0' when cpuAddress(15 downto 0) = "1111111111010100" else '1'; -- 1 byte FFD4 (65492 dec)
-	n_IOCS_Write <= n_memWR or n_IOCS;
-	n_IOCS_Read <= not n_memWR or n_IOCS;
-	n_memWR <= not(cpuClock) nand (not n_WR);
---	n_memRD <= not(cpuClock) nand n_WR;
+	n_ramCS 					<= '0' when cpuAddress(15 downto 14)="00" else '1';					-- x0000-x3FFF (16KB)
+	n_basRomCS 				<= '0' when cpuAddress(15 downto 13) = "111" else '1'; 		-- xA000-xBFFF (8KB)
+	n_videoInterfaceCS 	<= '0' when ((cpuAddress(15 downto 1) = "111111111101000" and fKey1 = '0') or (cpuAddress(15 downto 1) = "111111111101001" and fKey1 = '1')) else '1';
+	n_aciaCS 				<= '0' when ((cpuAddress(15 downto 1) = "111111111101001" and fKey1 = '0') or (cpuAddress(15 downto 1) = "111111111101000" and fKey1 = '1')) else '1';
+	n_IOCS 					<= '0' when cpuAddress(15 downto 0) = "1111111111010100" else '1'; -- 1 byte FFD4 (65492 dec)
+	n_IOCS_Write 			<= n_memWR or n_IOCS;
+	n_IOCS_Read 			<= not n_memWR or n_IOCS;
+	n_memWR 					<= not(cpuClock) nand (not n_WR);
  
 	cpuDataIn <=
-		interface1DataOut when n_videoInterfaceCS = '0' else
-		aciaData when n_aciaCS = '0' else
-		switchesRead when n_IOCS_Read = '0' else
-		basRomData when n_basRomCS = '0' else
-		ramDataOut when n_ramCS = '0' else
+		interface1DataOut when n_videoInterfaceCS = '0'	else
+		aciaData 			when n_aciaCS = '0' 				else
+		switchesRead 		when n_IOCS_Read = '0' 			else
+		basRomData 			when n_basRomCS = '0' 			else
+		ramDataOut 			when n_ramCS = '0' 				else
 		x"FF";
 		
 	cpu : entity work.T65
@@ -194,12 +173,12 @@ begin
 		-- RGB video signals
 		hSync => hSync,
 		vSync => vSync,
-		videoR0 => videoR3,
-		videoR1 => videoR4,
-		videoG0 => videoG4,
-		videoG1 => videoG5,
-		videoB0 => videoB3,
-		videoB1 => videoB4,
+		videoR1 => videoVec(5),
+		videoR0 => videoVec(4),
+		videoG1 => videoVec(3),
+		videoG0 => videoVec(2),
+		videoB1 => videoVec(1),
+		videoB0 => videoVec(0),
 
 		n_wr => n_videoInterfaceCS or cpuClock or n_WR,
 		n_rd => n_videoInterfaceCS or cpuClock or (not n_WR),
@@ -283,7 +262,7 @@ begin
 	-- 4800 101
 	-- 2400 50
 
-	baud_div: process (serialClkCount_d, serialClkCount)
+	baud_div: process (serialClkCount_d, serialClkCount, fKey2)
 		begin
 			if fKey2 = '0' then
 				serialClkCount_d <= serialClkCount + 2416;	-- 115,200 baud

@@ -4,7 +4,7 @@ JedecChain;
 	DefaultMfr(6E);
 
 	P ActionCode(Cfg)
-		Device PartName(EP4CE6E22) Path("C:/Users/HPz420/Documents/GitHub/EP4CE6/SampleVHDL/23bell/") File("buzzer.sof") MfrSpec(OpMask(1));
+		Device PartName(EP4CE6E22) Path("C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_Cyclone IV VGA Card/Buzzer_Scales/") File("buzzer.sof") MfrSpec(OpMask(1));
 
 ChainEnd;
 

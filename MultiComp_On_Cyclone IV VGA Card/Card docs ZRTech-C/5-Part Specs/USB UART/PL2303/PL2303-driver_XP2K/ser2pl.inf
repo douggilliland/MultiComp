@@ -1,0 +1,76 @@
+;
+;   SER2PL.INF (for Windows 2000/XP/2003)
+;
+;   Copyright (c) 2000, Prolific Technology Inc.
+
+[version]
+signature="$Windows NT$"
+Class=Ports
+ClassGuid={4D36E978-E325-11CE-BFC1-08002BE10318}
+Provider=%Pro%
+catalogfile=pl2303.cat
+DriverVer=07/25/2005,2.0.2.1
+
+[SourceDisksNames]
+1=%Pro.Disk%,,,
+
+[ControlFlags]
+ExcludeFromSelect = USB\VID_067b&PID_2303
+
+[SourceDisksFiles]
+ser2pl.sys=1
+
+[DestinationDirs]
+DefaultDestDir=12
+ComPort.NT.Copy=12
+
+[Manufacturer]
+%Pro%=Pro
+
+[Pro]
+%DeviceDesc% = ComPort, USB\VID_067B&PID_2303
+
+[ComPort.NT]
+CopyFiles=ComPort.NT.Copy
+AddReg=ComPort.NT.AddReg
+
+[ComPort.NT.HW]
+AddReg=ComPort.NT.HW.AddReg
+
+[ComPort.NT.Copy]
+ser2pl.sys
+
+[ComPort.NT.AddReg]
+HKR,,DevLoader,,*ntkern
+HKR,,NTMPDriver,,ser2pl.sys
+HKR,,EnumPropPages32,,"MsPorts.dll,SerialPortPropPageProvider"
+
+[ComPort.NT.HW.AddReg]
+HKR,,"UpperFilters",0x00010000,"serenum"
+
+[ComPort.NT.Services]
+AddService = Ser2pl, 0x00000002, Serial_Service_Inst
+AddService = Serenum,,Serenum_Service_Inst
+
+[Serial_Service_Inst]
+DisplayName    = %Serial.SVCDESC%
+ServiceType    = 1               ; SERVICE_KERNEL_DRIVER
+StartType      = 3               ; SERVICE_SYSTEM_START (this driver may do detection)
+ErrorControl   = 1               ; SERVICE_ERROR_IGNORE
+ServiceBinary  = %12%\ser2pl.sys
+LoadOrderGroup = Base
+
+[Serenum_Service_Inst]
+DisplayName    = %Serenum.SVCDESC%
+ServiceType    = 1               ; SERVICE_KERNEL_DRIVER
+StartType      = 3               ; SERVICE_DEMAND_START
+ErrorControl   = 1               ; SERVICE_ERROR_NORMAL
+ServiceBinary  = %12%\serenum.sys
+LoadOrderGroup = PNP Filter
+
+[Strings]
+Pro = "Prolific"
+Pro.Disk="USB-Serial Cable Diskette"
+DeviceDesc = "Prolific USB-to-Serial Comm Port"
+Serial.SVCDESC   = "Prolific2 Serial port driver"
+Serenum.SVCDESC = "Serenum Filter Driver"
