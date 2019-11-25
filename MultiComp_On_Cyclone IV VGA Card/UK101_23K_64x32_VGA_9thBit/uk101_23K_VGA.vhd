@@ -86,7 +86,7 @@ architecture struct of uk101_23K_VGA is
 
 	signal videoOut		: std_logic;
 
-	signal txdBuff			: std_logic;
+--	signal txdBuff			: std_logic;
 
 begin
 
@@ -197,7 +197,7 @@ begin
 			rxClkEn => serialClkEn,
 			txClkEn => serialClkEn,
 			rxd => rxd,
-			txd => txdBuff,
+			txd => txd,
 			n_cts => '0',
 			n_dcd => '0',
 			n_rts => rts
@@ -229,7 +229,7 @@ pll : work.pll PORT MAP (
 		q => charData
 	);
 
-	u8: entity work.DisplayRam2k
+	u8: entity work.DisplayRam
 	port map
 	(
 		address_a => cpuAddress(10 downto 0),

@@ -4,7 +4,7 @@ JedecChain;
 	DefaultMfr(6E);
 
 	P ActionCode(Cfg)
-		Device PartName(EP4CE6E22) Path("") File("") MfrSpec(OpMask(1) SEC_Device(EPCS4) Child_OpMask(1 1) SFLPath("C:/Users/HPz420/Documents/GitHub/MultiComp/MultiComp_On_Cyclone IV VGA Card/UK101_23K_64x32_VGA_9thBit/output_files/output.jic"));
+		Device PartName(EP4CE6E22) Path("C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_Cyclone IV VGA Card/UK101_23K_64x32_VGA_9thBit/output_files/") File("uk101_23K_VGA.sof") MfrSpec(OpMask(1));
 
 ChainEnd;
 

@@ -4,7 +4,7 @@ JedecChain;
 	DefaultMfr(6E);
 
 	P ActionCode(Cfg)
-		Device PartName(EP4CE6E22) Path("C:/Users/Doug/Documents/GitHub/MultiComp/MultiComp_On_Cyclone IV VGA Card/UK101_Min_Features_Set/output_files/") File("uk101.sof") MfrSpec(OpMask(1));
+		Device PartName(EP4CE6E22) Path("C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_Cyclone IV VGA Card/UK101_Min_Features_Set/output_files/") File("uk101.sof") MfrSpec(OpMask(1));
 
 ChainEnd;
 
