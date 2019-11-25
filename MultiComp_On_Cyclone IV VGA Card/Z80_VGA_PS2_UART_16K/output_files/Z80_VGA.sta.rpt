@@ -1,5 +1,5 @@
 Timing Analyzer report for Z80_VGA
-Sun Apr 28 12:04:31 2019
+Mon Nov 25 07:01:49 2019
 Quartus Prime Version 18.1.0 Build 625 09/12/2018 SJ Lite Edition
 
 
@@ -121,15 +121,17 @@ refer to the applicable agreement for further details.
 +----------------------------+-------------+
 ; Processors                 ; Number      ;
 +----------------------------+-------------+
-; Number detected on machine ; 2           ;
-; Maximum allowed            ; 2           ;
+; Number detected on machine ; 8           ;
+; Maximum allowed            ; 4           ;
 ;                            ;             ;
-; Average used               ; 1.22        ;
-; Maximum used               ; 2           ;
+; Average used               ; 1.27        ;
+; Maximum used               ; 4           ;
 ;                            ;             ;
 ; Usage by Processor         ; % Time Used ;
 ;     Processor 1            ; 100.0%      ;
-;     Processor 2            ;  21.6%      ;
+;     Processor 2            ;  12.9%      ;
+;     Processor 3            ;   8.2%      ;
+;     Processor 4            ;   6.0%      ;
 +----------------------------+-------------+
 
 
@@ -770,7 +772,7 @@ HTML report is unavailable in plain text report export.
 ; 0.433 ; SBCTextDisplayRGB:io1|dispWR                ; SBCTextDisplayRGB:io1|dispWR                                                                                                                                        ; clk              ; clk         ; 0.000        ; 0.101      ; 0.746      ;
 ; 0.433 ; SBCTextDisplayRGB:io1|ps2ClkCount[1]        ; SBCTextDisplayRGB:io1|ps2ClkCount[1]                                                                                                                                ; clk              ; clk         ; 0.000        ; 0.101      ; 0.746      ;
 ; 0.435 ; SBCTextDisplayRGB:io1|dispCharWRData[5]     ; SBCTextDisplayRGB:io1|DisplayRam2K:\GEN_2KRAM:dispCharRam|altsyncram:altsyncram_component|altsyncram_ldr3:auto_generated|ram_block1a4~portb_datain_reg0             ; clk              ; clk         ; 0.000        ; 0.486      ; 1.175      ;
-; 0.442 ; SBCTextDisplayRGB:io1|charScanLine[2]       ; SBCTextDisplayRGB:io1|SansBoldRomReduced:\GEN_REDUCED_SCHARS:fontRom|altsyncram:altsyncram_component|altsyncram_s2e1:auto_generated|ram_block1a0~porta_address_reg0 ; clk              ; clk         ; 0.000        ; 0.473      ; 1.169      ;
+; 0.442 ; SBCTextDisplayRGB:io1|charScanLine[2]       ; SBCTextDisplayRGB:io1|SansBoldRomReduced:\GEN_REDUCED_SCHARS:fontRom|altsyncram:altsyncram_component|altsyncram_2d91:auto_generated|ram_block1a0~porta_address_reg0 ; clk              ; clk         ; 0.000        ; 0.473      ; 1.169      ;
 ; 0.445 ; counter:myCounter|Pre_Q[0]                  ; counter:myCounter|Pre_Q[0]                                                                                                                                          ; clk              ; clk         ; 0.000        ; 0.101      ; 0.758      ;
 ; 0.445 ; SBCTextDisplayRGB:io1|ps2ClkCount[0]        ; SBCTextDisplayRGB:io1|ps2ClkCount[0]                                                                                                                                ; clk              ; clk         ; 0.000        ; 0.101      ; 0.758      ;
 ; 0.451 ; bufferedUART:UART|rxdFiltered               ; bufferedUART:UART|rxdFiltered                                                                                                                                       ; clk              ; clk         ; 0.000        ; 0.083      ; 0.746      ;
@@ -815,7 +817,7 @@ HTML report is unavailable in plain text report export.
 ; 0.453 ; SBCTextDisplayRGB:io1|ps2Num                ; SBCTextDisplayRGB:io1|ps2Num                                                                                                                                        ; clk              ; clk         ; 0.000        ; 0.081      ; 0.746      ;
 ; 0.453 ; SBCTextDisplayRGB:io1|ps2Caps               ; SBCTextDisplayRGB:io1|ps2Caps                                                                                                                                       ; clk              ; clk         ; 0.000        ; 0.081      ; 0.746      ;
 ; 0.458 ; bufferedUART:UART|rxInPointer[3]            ; bufferedUART:UART|altsyncram:rxBuffer_rtl_0|altsyncram_3ce1:auto_generated|ram_block1a0~porta_address_reg0                                                          ; clk              ; clk         ; 0.000        ; 0.497      ; 1.209      ;
-; 0.461 ; SBCTextDisplayRGB:io1|charScanLine[1]       ; SBCTextDisplayRGB:io1|SansBoldRomReduced:\GEN_REDUCED_SCHARS:fontRom|altsyncram:altsyncram_component|altsyncram_s2e1:auto_generated|ram_block1a0~porta_address_reg0 ; clk              ; clk         ; 0.000        ; 0.473      ; 1.188      ;
+; 0.461 ; SBCTextDisplayRGB:io1|charScanLine[1]       ; SBCTextDisplayRGB:io1|SansBoldRomReduced:\GEN_REDUCED_SCHARS:fontRom|altsyncram:altsyncram_component|altsyncram_2d91:auto_generated|ram_block1a0~porta_address_reg0 ; clk              ; clk         ; 0.000        ; 0.473      ; 1.188      ;
 ; 0.465 ; SBCTextDisplayRGB:io1|kbInPointer[0]        ; SBCTextDisplayRGB:io1|kbInPointer[0]                                                                                                                                ; clk              ; clk         ; 0.000        ; 0.081      ; 0.758      ;
 ; 0.465 ; bufferedUART:UART|rxBitCount[0]             ; bufferedUART:UART|rxBitCount[0]                                                                                                                                     ; clk              ; clk         ; 0.000        ; 0.081      ; 0.758      ;
 ; 0.465 ; serialClkCount[1]                           ; serialClkCount[1]                                                                                                                                                   ; clk              ; clk         ; 0.000        ; 0.081      ; 0.758      ;
@@ -1653,10 +1655,10 @@ This panel reports FMAX for every clock in the design, regardless of the user-sp
 ; 0.416 ; SBCTextDisplayRGB:io1|kbInPointer[0]        ; SBCTextDisplayRGB:io1|kbInPointer[0]                                                                                                                                ; clk              ; clk         ; 0.000        ; 0.073      ; 0.684      ;
 ; 0.416 ; bufferedUART:UART|rxBitCount[0]             ; bufferedUART:UART|rxBitCount[0]                                                                                                                                     ; clk              ; clk         ; 0.000        ; 0.073      ; 0.684      ;
 ; 0.416 ; serialClkCount[1]                           ; serialClkCount[1]                                                                                                                                                   ; clk              ; clk         ; 0.000        ; 0.073      ; 0.684      ;
-; 0.419 ; SBCTextDisplayRGB:io1|charScanLine[2]       ; SBCTextDisplayRGB:io1|SansBoldRomReduced:\GEN_REDUCED_SCHARS:fontRom|altsyncram:altsyncram_component|altsyncram_s2e1:auto_generated|ram_block1a0~porta_address_reg0 ; clk              ; clk         ; 0.000        ; 0.417      ; 1.066      ;
+; 0.419 ; SBCTextDisplayRGB:io1|charScanLine[2]       ; SBCTextDisplayRGB:io1|SansBoldRomReduced:\GEN_REDUCED_SCHARS:fontRom|altsyncram:altsyncram_component|altsyncram_2d91:auto_generated|ram_block1a0~porta_address_reg0 ; clk              ; clk         ; 0.000        ; 0.417      ; 1.066      ;
 ; 0.430 ; Toggle_On_FN_Key:FNKey1Toggle|loopback      ; Toggle_On_FN_Key:FNKey1Toggle|loopback                                                                                                                              ; clk              ; clk         ; 0.000        ; 0.044      ; 0.669      ;
 ; 0.431 ; bufferedUART:UART|rxInPointer[3]            ; bufferedUART:UART|altsyncram:rxBuffer_rtl_0|altsyncram_3ce1:auto_generated|ram_block1a0~porta_address_reg0                                                          ; clk              ; clk         ; 0.000        ; 0.439      ; 1.100      ;
-; 0.436 ; SBCTextDisplayRGB:io1|charScanLine[1]       ; SBCTextDisplayRGB:io1|SansBoldRomReduced:\GEN_REDUCED_SCHARS:fontRom|altsyncram:altsyncram_component|altsyncram_s2e1:auto_generated|ram_block1a0~porta_address_reg0 ; clk              ; clk         ; 0.000        ; 0.417      ; 1.083      ;
+; 0.436 ; SBCTextDisplayRGB:io1|charScanLine[1]       ; SBCTextDisplayRGB:io1|SansBoldRomReduced:\GEN_REDUCED_SCHARS:fontRom|altsyncram:altsyncram_component|altsyncram_2d91:auto_generated|ram_block1a0~porta_address_reg0 ; clk              ; clk         ; 0.000        ; 0.417      ; 1.083      ;
 ; 0.449 ; SBCTextDisplayRGB:io1|dispCharWRData[4]     ; SBCTextDisplayRGB:io1|DisplayRam2K:\GEN_2KRAM:dispCharRam|altsyncram:altsyncram_component|altsyncram_ldr3:auto_generated|ram_block1a4~portb_datain_reg0             ; clk              ; clk         ; 0.000        ; 0.430      ; 1.109      ;
 ; 0.453 ; SBCTextDisplayRGB:io1|dispCharWRData[2]     ; SBCTextDisplayRGB:io1|DisplayRam2K:\GEN_2KRAM:dispCharRam|altsyncram:altsyncram_component|altsyncram_ldr3:auto_generated|ram_block1a0~portb_datain_reg0             ; clk              ; clk         ; 0.000        ; 0.430      ; 1.113      ;
 ; 0.459 ; bufferedUART:UART|rxBitCount[0]             ; bufferedUART:UART|rxBitCount[2]                                                                                                                                     ; clk              ; clk         ; 0.000        ; 0.073      ; 0.727      ;
@@ -2423,9 +2425,9 @@ No synchronizer chains to report.
 ; Slack ; From Node                                   ; To Node                                                                                                                                                             ; Launch Clock ; Latch Clock ; Relationship ; Clock Skew ; Data Delay ;
 +-------+---------------------------------------------+---------------------------------------------------------------------------------------------------------------------------------------------------------------------+--------------+-------------+--------------+------------+------------+
 ; 0.153 ; SBCTextDisplayRGB:io1|dispCharWRData[5]     ; SBCTextDisplayRGB:io1|DisplayRam2K:\GEN_2KRAM:dispCharRam|altsyncram:altsyncram_component|altsyncram_ldr3:auto_generated|ram_block1a4~portb_datain_reg0             ; clk          ; clk         ; 0.000        ; 0.226      ; 0.483      ;
-; 0.156 ; SBCTextDisplayRGB:io1|charScanLine[2]       ; SBCTextDisplayRGB:io1|SansBoldRomReduced:\GEN_REDUCED_SCHARS:fontRom|altsyncram:altsyncram_component|altsyncram_s2e1:auto_generated|ram_block1a0~porta_address_reg0 ; clk          ; clk         ; 0.000        ; 0.218      ; 0.478      ;
+; 0.156 ; SBCTextDisplayRGB:io1|charScanLine[2]       ; SBCTextDisplayRGB:io1|SansBoldRomReduced:\GEN_REDUCED_SCHARS:fontRom|altsyncram:altsyncram_component|altsyncram_2d91:auto_generated|ram_block1a0~porta_address_reg0 ; clk          ; clk         ; 0.000        ; 0.218      ; 0.478      ;
 ; 0.160 ; bufferedUART:UART|rxInPointer[3]            ; bufferedUART:UART|altsyncram:rxBuffer_rtl_0|altsyncram_3ce1:auto_generated|ram_block1a0~porta_address_reg0                                                          ; clk          ; clk         ; 0.000        ; 0.235      ; 0.499      ;
-; 0.164 ; SBCTextDisplayRGB:io1|charScanLine[1]       ; SBCTextDisplayRGB:io1|SansBoldRomReduced:\GEN_REDUCED_SCHARS:fontRom|altsyncram:altsyncram_component|altsyncram_s2e1:auto_generated|ram_block1a0~porta_address_reg0 ; clk          ; clk         ; 0.000        ; 0.218      ; 0.486      ;
+; 0.164 ; SBCTextDisplayRGB:io1|charScanLine[1]       ; SBCTextDisplayRGB:io1|SansBoldRomReduced:\GEN_REDUCED_SCHARS:fontRom|altsyncram:altsyncram_component|altsyncram_2d91:auto_generated|ram_block1a0~porta_address_reg0 ; clk          ; clk         ; 0.000        ; 0.218      ; 0.486      ;
 ; 0.165 ; SBCTextDisplayRGB:io1|dispCharWRData[4]     ; SBCTextDisplayRGB:io1|DisplayRam2K:\GEN_2KRAM:dispCharRam|altsyncram:altsyncram_component|altsyncram_ldr3:auto_generated|ram_block1a4~portb_datain_reg0             ; clk          ; clk         ; 0.000        ; 0.226      ; 0.495      ;
 ; 0.171 ; SBCTextDisplayRGB:io1|dispCharWRData[2]     ; SBCTextDisplayRGB:io1|DisplayRam2K:\GEN_2KRAM:dispCharRam|altsyncram:altsyncram_component|altsyncram_ldr3:auto_generated|ram_block1a0~portb_datain_reg0             ; clk          ; clk         ; 0.000        ; 0.224      ; 0.499      ;
 ; 0.178 ; SBCTextDisplayRGB:io1|param4[0]             ; SBCTextDisplayRGB:io1|param4[0]                                                                                                                                     ; clk          ; clk         ; 0.000        ; 0.045      ; 0.307      ;
@@ -3009,11 +3011,11 @@ No non-DPA dedicated SERDES Receiver circuitry present in device or used in desi
 Info: *******************************************************************
 Info: Running Quartus Prime Timing Analyzer
     Info: Version 18.1.0 Build 625 09/12/2018 SJ Lite Edition
-    Info: Processing started: Sun Apr 28 12:04:25 2019
+    Info: Processing started: Mon Nov 25 07:01:42 2019
 Info: Command: quartus_sta Z80_VGA -c Z80_VGA
 Info: qsta_default_script.tcl version: #1
 Warning (18236): Number of processors has not been specified which may cause overloading on shared machines.  Set the global assignment NUM_PARALLEL_PROCESSORS in your QSF to an appropriate value for best performance.
-Info (20030): Parallel compilation is enabled and will use 2 of the 2 processors detected
+Info (20030): Parallel compilation is enabled and will use 4 of the 4 processors detected
 Info (21077): Low junction temperature is 0 degrees C
 Info (21077): High junction temperature is 85 degrees C
 Critical Warning (332012): Synopsys Design Constraints File file not found: 'Z80_VGA.sdc'. A Synopsys Design Constraints File is required by the Timing Analyzer to get proper timing constraints. Without it, the Compiler will not properly optimize the design.
@@ -3125,8 +3127,8 @@ Info (332146): Worst-case minimum pulse width slack is -3.000
 Info (332102): Design is not fully constrained for setup requirements
 Info (332102): Design is not fully constrained for hold requirements
 Info: Quartus Prime Timing Analyzer was successful. 0 errors, 5 warnings
-    Info: Peak virtual memory: 634 megabytes
-    Info: Processing ended: Sun Apr 28 12:04:31 2019
+    Info: Peak virtual memory: 4811 megabytes
+    Info: Processing ended: Mon Nov 25 07:01:48 2019
     Info: Elapsed time: 00:00:06
     Info: Total CPU time (on all processors): 00:00:07
 
