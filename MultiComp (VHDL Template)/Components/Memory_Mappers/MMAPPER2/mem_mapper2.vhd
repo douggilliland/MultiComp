@@ -202,7 +202,7 @@ port (
         -- high-order lines to external RAM - upto 512x8.
         ramAddr : out std_logic_vector(18 downto 13);
         -- RAM chip select - upto 2 devices.
-        n_ramCSHi : out std_logic;
+--        n_ramCSHi : out std_logic;
         n_ramCSLo : out std_logic;
         ramWrInhib : out std_logic;
         romInhib   : out std_logic;
@@ -265,7 +265,7 @@ architecture rtl of mem_mapper2 is
 begin
   -- outputs
   ramAddr <= val(5 downto 0);
-  n_ramCSHi <= not val(6);
+--  n_ramCSHi <= not val(6);
   n_ramCSLo <= val(6);
   ramWrInhib <= val(7);
   n_tint <= n_tint_i;
