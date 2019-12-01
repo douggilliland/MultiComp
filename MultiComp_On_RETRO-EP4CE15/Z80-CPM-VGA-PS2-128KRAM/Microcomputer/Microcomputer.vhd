@@ -3,6 +3,21 @@
 -- acknowledgement.
 --
 -- Changes by Doug Gilliland 2017-2019
+--
+-- EP4CE15 FPGA
+-- Z80 CPU
+--		25 MHz
+--	Serial Port
+--		115,200 baud
+--	VGA
+--		2:2:2 RGB
+--	External SRAM
+--		1 MB
+--	SD Card
+--		25 MHz high speed
+--	Runs CP/M
+--		Autodetect Serial port by waiting on space
+
 
 library ieee;
 use ieee.std_logic_1164.all;
@@ -40,21 +55,20 @@ entity Microcomputer is
 		sdMOSI		: out std_logic :='1';
 		sdMISO		: in std_logic;
 		sdSCLK		: out std_logic :='1';
-		
-		-- Not using the SD RAM but making sure that it's not active
-		n_sdRamCas		: out std_logic := '1';		-- CAS on schematic
-		n_sdRamRas		: out std_logic := '1';		-- RAS
-		n_sdRamWe			: out std_logic := '1';		-- SDWE
-		n_sdRamCe			: out std_logic := '1';		-- SD_NCS0
-		sdRamClk			: out std_logic := '1';		-- SDCLK0
-		sdRamClkEn		: out std_logic := '1';		-- SDCKE0
-		sdRamAddr			: out std_logic_vector(14 downto 0) := "000"&x"000";
-		sdRamData			: in std_logic_vector(15 downto 0);
-		
 		driveLED		: out std_logic :='1';
+		-- Not using the SD RAM but making sure that it's not active
+		n_sdRamCas	: out std_logic := '1';		-- CAS on schematic
+		n_sdRamRas	: out std_logic := '1';		-- RAS
+		n_sdRamWe	: out std_logic := '1';		-- SDWE
+		n_sdRamCe	: out std_logic := '1';		-- SD_NCS0
+		sdRamClk		: out std_logic := '1';		-- SDCLK0
+		sdRamClkEn	: out std_logic := '1';		-- SDCKE0
+		sdRamAddr	: out std_logic_vector(14 downto 0) := "000"&x"000";
+		sdRamData	: in std_logic_vector(15 downto 0);
+		-- I/O connector
+		J6IO8			: out std_logic_vector(7 downto 0);
+		J8IO8			: out std_logic_vector(7 downto 0);
 		ledOut8		: out std_logic_vector(7 downto 0)
-		--J6IO8			: out std_logic_vector(7 downto 0);
-		--J8IO8			: out std_logic_vector(7 downto 0)
 	);
 end Microcomputer;
 
@@ -204,23 +218,23 @@ port map (
 	ps2Data => ps2Data
 );
 
---latchIO0 : entity work.OUT_LATCH	--Output LatchIO
---port map(
---	clear => n_reset,
---	clock => clk,
---	load => n_J6IOCS,
---	dataIn8 => cpuDataOut,
---	latchOut => J6IO8
---);
---
---latchIO1 : entity work.OUT_LATCH	--Output LatchIO
---port map(
---	clear => n_reset,
---	clock => clk,
---	load => n_J8IOCS,
---	dataIn8 => cpuDataOut,
---	latchOut => J8IO8
---);
+latchIO0 : entity work.OUT_LATCH	--Output LatchIO
+port map(
+	clear => n_reset,
+	clock => clk,
+	load => n_J6IOCS,
+	dataIn8 => cpuDataOut,
+	latchOut => J6IO8
+);
+
+latchIO1 : entity work.OUT_LATCH	--Output LatchIO
+port map(
+	clear => n_reset,
+	clock => clk,
+	load => n_J8IOCS,
+	dataIn8 => cpuDataOut,
+	latchOut => J8IO8
+);
 
 latchLED : entity work.OUT_LATCH	--Output LatchIO
 port map(
@@ -284,11 +298,11 @@ begin
 if rising_edge(clk) then
 
 if cpuClkCount < 4 then -- 4 = 10MHz, 3 = 12.5MHz, 2=16.6MHz, 1=25MHz
-	cpuClkCount <= cpuClkCount + 4;
+	cpuClkCount <= cpuClkCount + 1;
 else
 	cpuClkCount <= (others=>'0');
 end if;
-if cpuClkCount < 2 then -- 2 when 10MHz, 2 when 12.5MHz, 2 when 16.6MHz, 1 when 25MHz
+if cpuClkCount < 1 then -- 2 when 10MHz, 2 when 12.5MHz, 2 when 16.6MHz, 1 when 25MHz
 	cpuClock <= '0';
 else
 	cpuClock <= '1';

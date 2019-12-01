@@ -106,8 +106,8 @@ begin
 	n_kbCS 			<= '0' when w_cpuAddress(15 downto 10) 	= "110111" 	else '1';				-- xDC00-xDFFF (1KB)
 	n_dispRamCS 	<= '0' when w_cpuAddress(15 downto 11) 	= "11010" 	else '1';				-- xD000-xD7FF (2KB)
 	n_aciaCS 		<= '0' when w_cpuAddress(15 downto 1)  	= "111100000000000"  else '1';	-- xF000-xF001 (2B) = 61440 dec
-	w_rLEDCS1 		<= '1' when w_cpuAddress  						= x"F001"  	else '0';				-- xF001 (1B) = 61441 dec
-	w_DIPSwCS		<= '1' when w_cpuAddress  						= x"F002"  	else '0';				-- xF002 (1B) = 61442 dec
+	w_rLEDCS1 		<= '1' when w_cpuAddress  						= x"F002"  	else '0';				-- xF002 (1B) = 61442 dec
+	w_DIPSwCS		<= '1' when w_cpuAddress  						= x"F003"  	else '0';				-- xF003 (1B) = 61443 dec
 	n_monRomCS 		<= '0' when w_cpuAddress(15 downto 11) 	= "11111"	else '1'; 				-- xF800-xFFFF (2KB)
  
 	w_cpuDataIn <=
