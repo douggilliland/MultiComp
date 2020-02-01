@@ -3,7 +3,7 @@
 -- Grant Searle's "multicomp" page at http://searle.hostei.com/grant/Multicomp/index.html
 --
 -- Changes to this code by Doug Gilliland 2019
---	48K (external) RAM version
+--	56K (external) RAM version
 --
 -- Jumper in pin 85 to ground (adjacent pin) of the FPGA selects the VDU/Serial port
 -- Install to make serial port default

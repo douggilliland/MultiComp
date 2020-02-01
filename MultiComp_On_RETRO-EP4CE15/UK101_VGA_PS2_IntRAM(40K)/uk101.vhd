@@ -62,14 +62,14 @@ architecture struct of uk101 is
 
 	signal n_WR						: std_logic;
 	signal n_RD						: std_logic;
-	signal w_cpuAddress				: std_logic_vector(15 downto 0);
-	signal w_cpuDataOut				: std_logic_vector(7 downto 0);
-	signal w_cpuDataIn				: std_logic_vector(7 downto 0);
+	signal w_cpuAddress			: std_logic_vector(15 downto 0);
+	signal w_cpuDataOut			: std_logic_vector(7 downto 0);
+	signal w_cpuDataIn			: std_logic_vector(7 downto 0);
 
-	signal w_basRomData				: std_logic_vector(7 downto 0);
+	signal w_basRomData			: std_logic_vector(7 downto 0);
 	signal w_monitorRomData		: std_logic_vector(7 downto 0);
 	signal w_aciaData				: std_logic_vector(7 downto 0);
-	signal w_ramDataOut				: std_logic_vector(7 downto 0);
+	signal w_ramDataOut			: std_logic_vector(7 downto 0);
 	signal w_ramDataOut2			: std_logic_vector(7 downto 0);
 	signal w_displayRamData		: std_logic_vector(7 downto 0);
 
@@ -79,17 +79,17 @@ architecture struct of uk101 is
 	signal n_basRomCS				: std_logic;
 	signal n_dispRamCS			: std_logic;
 	signal n_aciaCS				: std_logic;
-	signal w_n_ramCS					: std_logic;
+	signal w_n_ramCS				: std_logic;
 	signal w_n_ramCS2				: std_logic;
-	signal n_monRomCS 		: std_logic;
+	signal n_monRomCS 			: std_logic;
 	signal n_kbCS					: std_logic;
 	signal w_rLEDCS1				: std_logic;
 	signal w_pbuttonCS			: std_logic;
 	signal w_DIPSwCS				: std_logic;
 	
 	signal w_serialClkCount		: std_logic_vector(15 downto 0); 
-	signal w_serialClkCount_d    : std_logic_vector(15 downto 0);
-	signal w_serialClkEn         : std_logic;
+	signal w_serialClkCount_d  : std_logic_vector(15 downto 0);
+	signal w_serialClkEn       : std_logic;
 	signal w_serialClock			: std_logic;
 	
 	signal CLOCK_100				: std_ulogic;
@@ -118,15 +118,15 @@ begin
 	o_Vid_Blu <= w_VoutVect(0) & w_VoutVect(0);
 
 	-- Chip Selects
-	w_n_ramCS 			<= '0' when w_cpuAddress(15) 				= '0'			else '1';  				-- x0000-x7fff (32KB)
-	w_n_ramCS2			<= '0' when w_cpuAddress(15 downto 13) = "100" 		else '1';  				-- x8000-x90ff (8KB)
-	n_basRomCS 		<= '0' when w_cpuAddress(15 downto 13) 	= "101" 		else '1'; 				-- xA000-xBFFF (8KB)
-	n_dispRamCS 	<= '0' when w_cpuAddress(15 downto 11) 	= "11010" 	else '1';				-- xD000-xD7FF (2KB)
-	n_kbCS 			<= '0' when w_cpuAddress(15 downto 10) 	= "110111" 	else '1';				-- xDC00-xDFFF (1KB)
-	n_aciaCS 		<= '0' when w_cpuAddress(15 downto 1)  	= "111100000000000"  else '1';	-- xF000-xF001 (2B) = 61440-61441 dec
-	w_rLEDCS1 		<= '1' when w_cpuAddress  						= x"F002"  	else '0';				-- xF002 (1B) = 61442 dec
-	w_DIPSwCS		<= '1' when w_cpuAddress  						= x"F003"  	else '0';				-- xF003 (1B) = 61443 dec
-	n_monRomCS 		<= '0' when w_cpuAddress(15 downto 11) 	= "11111"	else '1'; 				-- xF800-xFFFF (2KB)
+	w_n_ramCS 		<= '0' when w_cpuAddress(15) 				= '0'			else '1';  				-- x0000-x7fff (32KB)
+	w_n_ramCS2		<= '0' when w_cpuAddress(15 downto 13) = "100" 		else '1';  				-- x8000-x90ff (8KB)
+	n_basRomCS 		<= '0' when w_cpuAddress(15 downto 13) = "101" 		else '1'; 				-- xA000-xBFFF (8KB)
+	n_dispRamCS 	<= '0' when w_cpuAddress(15 downto 11) = "11010" 	else '1';				-- xD000-xD7FF (2KB)
+	n_kbCS 			<= '0' when w_cpuAddress(15 downto 10) = "110111" 	else '1';				-- xDC00-xDFFF (1KB)
+	n_aciaCS 		<= '0' when w_cpuAddress(15 downto 1)  = "111100000000000"  else '1';	-- xF000-xF001 (2B) = 61440-61441 dec
+	w_rLEDCS1 		<= '1' when w_cpuAddress  					= x"F002"  	else '0';				-- xF002 (1B) = 61442 dec
+	w_DIPSwCS		<= '1' when w_cpuAddress  					= x"F003"  	else '0';				-- xF003 (1B) = 61443 dec
+	n_monRomCS 		<= '0' when w_cpuAddress(15 downto 11) = "11111"	else '1'; 				-- xF800-xFFFF (2KB)
  
 	w_cpuDataIn <=
 		w_aciaData 									when n_aciaCS 		= '0'	else
