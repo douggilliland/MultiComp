@@ -1,5 +1,5 @@
 Flow report for Microcomputer
-Sat Feb 01 08:41:06 2020
+Sat Feb 08 18:12:01 2020
 Quartus Prime Version 18.1.0 Build 625 09/12/2018 SJ Lite Edition
 
 
@@ -40,14 +40,14 @@ refer to the applicable agreement for further details.
 +----------------------------------------------------------------------------------+
 ; Flow Summary                                                                     ;
 +------------------------------------+---------------------------------------------+
-; Flow Status                        ; Successful - Sat Feb 01 08:40:57 2020       ;
+; Flow Status                        ; Successful - Sat Feb 08 18:11:52 2020       ;
 ; Quartus Prime Version              ; 18.1.0 Build 625 09/12/2018 SJ Lite Edition ;
 ; Revision Name                      ; Microcomputer                               ;
 ; Top-level Entity Name              ; Microcomputer                               ;
 ; Family                             ; Cyclone IV E                                ;
 ; Device                             ; EP4CE15F23C8                                ;
 ; Timing Models                      ; Final                                       ;
-; Total logic elements               ; 3,436 / 15,408 ( 22 % )                     ;
+; Total logic elements               ; 3,430 / 15,408 ( 22 % )                     ;
 ;     Total combinational functions  ; 3,353 / 15,408 ( 22 % )                     ;
 ;     Dedicated logic registers      ; 823 / 15,408 ( 5 % )                        ;
 ; Total registers                    ; 823                                         ;
@@ -96,7 +96,11 @@ refer to the applicable agreement for further details.
 ; Fitter               ; 00:00:40     ; 1.1                     ; 5647 MB             ; 00:00:56                           ;
 ; Assembler            ; 00:00:02     ; 1.0                     ; 4696 MB             ; 00:00:02                           ;
 ; Timing Analyzer      ; 00:00:08     ; 1.8                     ; 4825 MB             ; 00:00:09                           ;
-; Total                ; 00:01:27     ; --                      ; --                  ; 00:01:58                           ;
+; Fitter               ; 00:00:04     ; 1.0                     ; 4946 MB             ; 00:00:05                           ;
+; Fitter               ; 00:00:44     ; 1.1                     ; 5661 MB             ; 00:00:58                           ;
+; Assembler            ; 00:00:02     ; 1.0                     ; 4695 MB             ; 00:00:02                           ;
+; Timing Analyzer      ; 00:00:08     ; 1.9                     ; 4822 MB             ; 00:00:09                           ;
+; Total                ; 00:02:25     ; --                      ; --                  ; 00:03:12                           ;
 +----------------------+--------------+-------------------------+---------------------+------------------------------------+
 
 
@@ -106,6 +110,10 @@ refer to the applicable agreement for further details.
 ; Module Name          ; Machine Hostname ; OS Name    ; OS Version ; Processor type ;
 +----------------------+------------------+------------+------------+----------------+
 ; Analysis & Synthesis ; DESKTOP-2UF8LNB  ; Windows 10 ; 10.0       ; x86_64         ;
+; Fitter               ; DESKTOP-2UF8LNB  ; Windows 10 ; 10.0       ; x86_64         ;
+; Assembler            ; DESKTOP-2UF8LNB  ; Windows 10 ; 10.0       ; x86_64         ;
+; Timing Analyzer      ; DESKTOP-2UF8LNB  ; Windows 10 ; 10.0       ; x86_64         ;
+; Fitter               ; DESKTOP-2UF8LNB  ; Windows 10 ; 10.0       ; x86_64         ;
 ; Fitter               ; DESKTOP-2UF8LNB  ; Windows 10 ; 10.0       ; x86_64         ;
 ; Assembler            ; DESKTOP-2UF8LNB  ; Windows 10 ; 10.0       ; x86_64         ;
 ; Timing Analyzer      ; DESKTOP-2UF8LNB  ; Windows 10 ; 10.0       ; x86_64         ;
@@ -119,6 +127,10 @@ quartus_map --read_settings_files=on --write_settings_files=off m6809_vga_16K -c
 quartus_fit --read_settings_files=off --write_settings_files=off m6809_vga_16K -c Microcomputer
 quartus_asm --read_settings_files=off --write_settings_files=off m6809_vga_16K -c Microcomputer
 quartus_sta m6809_vga_16K -c Microcomputer
+quartus_fit --read_settings_files=on --write_settings_files=off m6809_vga_56K -c Microcomputer
+quartus_fit --read_settings_files=on --write_settings_files=off m6809_vga_56K -c Microcomputer
+quartus_asm --read_settings_files=off --write_settings_files=off m6809_vga_56K -c Microcomputer
+quartus_sta m6809_vga_56K -c Microcomputer
 
 
 

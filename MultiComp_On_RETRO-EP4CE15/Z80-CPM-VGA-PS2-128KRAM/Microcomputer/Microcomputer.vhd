@@ -210,33 +210,6 @@ port map (
 	ps2Data => ps2Data
 );
 
---latchIO0 : entity work.OUT_LATCH	--Output LatchIO
---port map(
---	clear => n_reset,
---	clock => clk,
---	load => n_J6IOCS,
---	dataIn8 => cpuDataOut,
---	latchOut => J6IO8
---);
---
---latchIO1 : entity work.OUT_LATCH	--Output LatchIO
---port map(
---	clear => n_reset,
---	clock => clk,
---	load => n_J8IOCS,
---	dataIn8 => cpuDataOut,
---	latchOut => J8IO8
---);
---
---latchLED : entity work.OUT_LATCH	--Output LatchIO
---port map(
---	clear => n_reset,
---	clock => clk,
---	load => n_LEDCS,
---	dataIn8 => not cpuDataOut,
---	latchOut => ledOut8
---);
-
 sd1 : entity work.sd_controller
 port map(
 	sdCS => sdCS,
@@ -266,9 +239,6 @@ n_basRomCS <= '0' when cpuAddress(15 downto 13)   = "000" and n_RomActive = '0' 
 n_interface1CS <= '0' when cpuAddress(7 downto 1) = "1000000" and (n_ioWR='0' or n_ioRD = '0') else '1'; -- 2 Bytes $80-$81
 n_interface2CS <= '0' when cpuAddress(7 downto 1) = "1000001" and (n_ioWR='0' or n_ioRD = '0') else '1'; -- 2 Bytes $82-$83
 n_sdCardCS <= '0' when cpuAddress(7 downto 3)     = "10001"   and (n_ioWR='0' or n_ioRD = '0') else '1'; -- 8 Bytes $88-$8F
---n_LEDCS <= '0' when cpuAddress(7 downto 1)        = "1000011" and (n_ioWR='0' or n_ioRD = '0') else '1'; -- 2 Bytes $86-$87
---n_J6IOCS <= '0' when cpuAddress(7 downto 1)       = "1000010" and (n_ioWR='0' or n_ioRD = '0') else '1'; -- 2 Bytes $84-$85
---n_J8IOCS <= '0' when cpuAddress(7 downto 1)       = "1000100" and (n_ioWR='0' or n_ioRD = '0') else '1'; -- 2 Bytes $88-$89
 n_externalRamCS<= not n_basRomCS;
 
 -- ____________________________________________________________________________________

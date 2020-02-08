@@ -52,14 +52,17 @@ set_global_assignment -name PARTITION_COLOR 16764057 -section_id Top
 set_global_assignment -name POWER_PRESET_COOLING_SOLUTION "23 MM HEAT SINK WITH 200 LFPM AIRFLOW"
 set_global_assignment -name POWER_BOARD_THERMAL_MODEL "NONE (CONSERVATIVE)"
 set_global_assignment -name STRATIX_DEVICE_IO_STANDARD "2.5 V"
+# Clock and reset
 set_location_assignment PIN_T2 -to i_CLOCK_50
 set_location_assignment PIN_W13 -to n_reset
 set_instance_assignment -name WEAK_PULL_UP_RESISTOR ON -to n_reset
+# PS/2
 set_location_assignment PIN_R1 -to ps2Clk
 set_instance_assignment -name WEAK_PULL_UP_RESISTOR ON -to ps2Clk
 set_location_assignment PIN_R2 -to ps2Data
 set_instance_assignment -name WEAK_PULL_UP_RESISTOR ON -to ps2Data
-set_location_assignment PIN_C22 -to serSelect
+# Serial
+set_location_assignment PIN_B22 -to serSelect
 set_instance_assignment -name WEAK_PULL_UP_RESISTOR ON -to serSelect
 set_location_assignment PIN_A10 -to cts1
 set_instance_assignment -name WEAK_PULL_UP_RESISTOR ON -to cts1
@@ -67,14 +70,16 @@ set_location_assignment PIN_A13 -to rts1
 set_location_assignment PIN_B10 -to rxd1
 set_instance_assignment -name WEAK_PULL_UP_RESISTOR ON -to rxd1
 set_location_assignment PIN_B13 -to txd1
-set_location_assignment PIN_B17 -to videoB0
-set_location_assignment PIN_A17 -to videoB1
-set_location_assignment PIN_B16 -to videoG0
-set_location_assignment PIN_A16 -to videoG1
-set_location_assignment PIN_B20 -to videoR0
-set_location_assignment PIN_A15 -to videoR1
-set_location_assignment PIN_B18 -to hSync
-set_location_assignment PIN_A18 -to vSync
+# Video
+set_location_assignment PIN_E22 -to videoB0
+set_location_assignment PIN_E21 -to videoB1
+set_location_assignment PIN_D22 -to videoG0
+set_location_assignment PIN_D21 -to videoG1
+set_location_assignment PIN_C22 -to videoR0
+set_location_assignment PIN_C21 -to videoR1
+set_location_assignment PIN_F21 -to hSync
+set_location_assignment PIN_F22 -to vSync
+# SRAM
 set_location_assignment PIN_F1 -to n_sRamCS
 set_location_assignment PIN_B4 -to n_sRamWE
 set_location_assignment PIN_J2 -to n_sRamOE
@@ -143,6 +148,7 @@ set_location_assignment PIN_V10 -to sdRamData[12]
 set_location_assignment PIN_Y10 -to sdRamData[13]
 set_location_assignment PIN_W10 -to sdRamData[14]
 set_location_assignment PIN_V11 -to sdRamData[15]
+# I/O voltages
 set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to hSync
 set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to n_reset
 set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to ps2Clk
@@ -187,20 +193,6 @@ set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to sramAddress[12]
 set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to sramAddress[16]
 set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to sramAddress[17]
 set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to sramAddress[18]
-set_global_assignment -name VHDL_FILE "Components/M6809/cpu09-l.vhd"
-set_global_assignment -name VHDL_FILE "../../MultiComp (VHDL Template)/Components/ROMs/6809/M6809_EXT_BASIC_ROM.vhd"
-set_global_assignment -name VHDL_FILE "../../MultiComp (VHDL Template)/Components/Debounce/Debounce.vhd"
-set_global_assignment -name VHDL_FILE "../../MultiComp (VHDL Template)/Components/UART/bufferedUART.vhd"
-set_global_assignment -name VHDL_FILE "../../MultiComp (VHDL Template)/Components/TERMINAL/SansBoldRomReduced.vhd"
-set_global_assignment -name VHDL_FILE "../../MultiComp (VHDL Template)/Components/TERMINAL/SansBoldRom.vhd"
-set_global_assignment -name VHDL_FILE "../../MultiComp (VHDL Template)/Components/Internal_RAM/InternalRam16K.vhd"
-set_global_assignment -name VHDL_FILE "../../MultiComp (VHDL Template)/Components/TERMINAL/DisplayRam2K.vhd"
-set_global_assignment -name VHDL_FILE "../../MultiComp (VHDL Template)/Components/TERMINAL/DisplayRam1K.vhd"
-set_global_assignment -name VHDL_FILE "../../MultiComp (VHDL Template)/Components/TERMINAL/CGABoldRom.vhd"
-set_global_assignment -name VHDL_FILE "../../MultiComp (VHDL Template)/Components/TERMINAL/CGABoldRomReduced.vhd"
-set_global_assignment -name VHDL_FILE "../../MultiComp (VHDL Template)/Components/TERMINAL/SBCTextDisplayRGB.vhd"
-set_global_assignment -name VHDL_FILE Microcomputer.vhd
-set_global_assignment -name DEVICE_FILTER_PACKAGE FBGA
 set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to sramAddress[19]
 set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to serSelect
 set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to sdRamData[0]
@@ -242,6 +234,21 @@ set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to n_sdRamCe
 set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to n_sdRamCas
 set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to i_CLOCK_50
 set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to cts1
-set_instance_assignment -name PARTITION_HIERARCHY root_partition -to | -section_id Top
+set_global_assignment -name VHDL_FILE "Components/M6809/cpu09-l.vhd"
+set_global_assignment -name VHDL_FILE "../../MultiComp (VHDL Template)/Components/ROMs/6809/M6809_EXT_BASIC_ROM.vhd"
+set_global_assignment -name VHDL_FILE "../../MultiComp (VHDL Template)/Components/Debounce/Debounce.vhd"
+set_global_assignment -name VHDL_FILE "../../MultiComp (VHDL Template)/Components/UART/bufferedUART.vhd"
+set_global_assignment -name VHDL_FILE "../../MultiComp (VHDL Template)/Components/TERMINAL/SansBoldRomReduced.vhd"
+set_global_assignment -name VHDL_FILE "../../MultiComp (VHDL Template)/Components/TERMINAL/SansBoldRom.vhd"
+set_global_assignment -name VHDL_FILE "../../MultiComp (VHDL Template)/Components/Internal_RAM/InternalRam16K.vhd"
+set_global_assignment -name VHDL_FILE "../../MultiComp (VHDL Template)/Components/TERMINAL/DisplayRam2K.vhd"
+set_global_assignment -name VHDL_FILE "../../MultiComp (VHDL Template)/Components/TERMINAL/DisplayRam1K.vhd"
+set_global_assignment -name VHDL_FILE "../../MultiComp (VHDL Template)/Components/TERMINAL/CGABoldRom.vhd"
+set_global_assignment -name VHDL_FILE "../../MultiComp (VHDL Template)/Components/TERMINAL/CGABoldRomReduced.vhd"
+set_global_assignment -name VHDL_FILE "../../MultiComp (VHDL Template)/Components/TERMINAL/SBCTextDisplayRGB.vhd"
+set_global_assignment -name VHDL_FILE Microcomputer.vhd
+set_global_assignment -name DEVICE_FILTER_PACKAGE FBGA
 set_global_assignment -name TIMING_ANALYZER_MULTICORNER_ANALYSIS ON
 set_global_assignment -name SMART_RECOMPILE ON
+
+set_instance_assignment -name PARTITION_HIERARCHY root_partition -to | -section_id Top
