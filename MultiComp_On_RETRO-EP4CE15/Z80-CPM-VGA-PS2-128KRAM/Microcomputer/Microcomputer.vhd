@@ -64,11 +64,7 @@ entity Microcomputer is
 		sdRamClk		: out std_logic := '1';		-- SDCLK0
 		sdRamClkEn	: out std_logic := '1';		-- SDCKE0
 		sdRamAddr	: out std_logic_vector(14 downto 0) := "000"&x"000";
-		sdRamData	: in std_logic_vector(15 downto 0);
-		-- I/O connector
-		J6IO8			: out std_logic_vector(7 downto 0);
-		J8IO8			: out std_logic_vector(7 downto 0);
-		ledOut8		: out std_logic_vector(7 downto 0)
+		sdRamData	: in std_logic_vector(15 downto 0)
 	);
 end Microcomputer;
 
@@ -104,9 +100,6 @@ architecture struct of Microcomputer is
 	signal n_interface1CS			: std_logic :='1';
 	signal n_interface2CS			: std_logic :='1';
 	signal n_sdCardCS					: std_logic :='1';
-	signal n_J6IOCS					: std_logic :='1';
-	signal n_J8IOCS					: std_logic :='1';
-	signal n_LEDCS						: std_logic :='1';
 
 	signal serialClkCount			: std_logic_vector(15 downto 0);
 	signal cpuClkCount				: std_logic_vector(5 downto 0); 
@@ -193,7 +186,6 @@ port map(
 );
 
 io2 : entity work.SBCTextDisplayRGB	-- VGA output
-
 port map (
 	n_reset => n_reset,
 	clk => clk,
@@ -218,32 +210,32 @@ port map (
 	ps2Data => ps2Data
 );
 
-latchIO0 : entity work.OUT_LATCH	--Output LatchIO
-port map(
-	clear => n_reset,
-	clock => clk,
-	load => n_J6IOCS,
-	dataIn8 => cpuDataOut,
-	latchOut => J6IO8
-);
-
-latchIO1 : entity work.OUT_LATCH	--Output LatchIO
-port map(
-	clear => n_reset,
-	clock => clk,
-	load => n_J8IOCS,
-	dataIn8 => cpuDataOut,
-	latchOut => J8IO8
-);
-
-latchLED : entity work.OUT_LATCH	--Output LatchIO
-port map(
-	clear => n_reset,
-	clock => clk,
-	load => n_LEDCS,
-	dataIn8 => not cpuDataOut,
-	latchOut => ledOut8
-);
+--latchIO0 : entity work.OUT_LATCH	--Output LatchIO
+--port map(
+--	clear => n_reset,
+--	clock => clk,
+--	load => n_J6IOCS,
+--	dataIn8 => cpuDataOut,
+--	latchOut => J6IO8
+--);
+--
+--latchIO1 : entity work.OUT_LATCH	--Output LatchIO
+--port map(
+--	clear => n_reset,
+--	clock => clk,
+--	load => n_J8IOCS,
+--	dataIn8 => cpuDataOut,
+--	latchOut => J8IO8
+--);
+--
+--latchLED : entity work.OUT_LATCH	--Output LatchIO
+--port map(
+--	clear => n_reset,
+--	clock => clk,
+--	load => n_LEDCS,
+--	dataIn8 => not cpuDataOut,
+--	latchOut => ledOut8
+--);
 
 sd1 : entity work.sd_controller
 port map(
@@ -274,9 +266,9 @@ n_basRomCS <= '0' when cpuAddress(15 downto 13)   = "000" and n_RomActive = '0' 
 n_interface1CS <= '0' when cpuAddress(7 downto 1) = "1000000" and (n_ioWR='0' or n_ioRD = '0') else '1'; -- 2 Bytes $80-$81
 n_interface2CS <= '0' when cpuAddress(7 downto 1) = "1000001" and (n_ioWR='0' or n_ioRD = '0') else '1'; -- 2 Bytes $82-$83
 n_sdCardCS <= '0' when cpuAddress(7 downto 3)     = "10001"   and (n_ioWR='0' or n_ioRD = '0') else '1'; -- 8 Bytes $88-$8F
-n_LEDCS <= '0' when cpuAddress(7 downto 1)        = "1000011" and (n_ioWR='0' or n_ioRD = '0') else '1'; -- 2 Bytes $86-$87
-n_J6IOCS <= '0' when cpuAddress(7 downto 1)       = "1000010" and (n_ioWR='0' or n_ioRD = '0') else '1'; -- 2 Bytes $84-$85
-n_J8IOCS <= '0' when cpuAddress(7 downto 1)       = "1000100" and (n_ioWR='0' or n_ioRD = '0') else '1'; -- 2 Bytes $88-$89
+--n_LEDCS <= '0' when cpuAddress(7 downto 1)        = "1000011" and (n_ioWR='0' or n_ioRD = '0') else '1'; -- 2 Bytes $86-$87
+--n_J6IOCS <= '0' when cpuAddress(7 downto 1)       = "1000010" and (n_ioWR='0' or n_ioRD = '0') else '1'; -- 2 Bytes $84-$85
+--n_J8IOCS <= '0' when cpuAddress(7 downto 1)       = "1000100" and (n_ioWR='0' or n_ioRD = '0') else '1'; -- 2 Bytes $88-$89
 n_externalRamCS<= not n_basRomCS;
 
 -- ____________________________________________________________________________________

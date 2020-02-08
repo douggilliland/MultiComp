@@ -4,7 +4,7 @@ JedecChain;
 	DefaultMfr(6E);
 
 	P ActionCode(Cfg)
-		Device PartName(EP4CE6E22) Path("C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4/Z80-CPM-VGA-PS2-128KRAM/Microcomputer/output_files/") File("Microcomputer.sof") MfrSpec(OpMask(1));
+		Device PartName(EP4CE15F23) Path("C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15/Z80-CPM-VGA-PS2-128KRAM/Microcomputer/output_files/") File("Microcomputer.sof") MfrSpec(OpMask(1));
 
 ChainEnd;
 
