@@ -62,10 +62,29 @@ set_global_assignment -name OUTPUT_IO_TIMING_FAR_END_VMEAS "HALF SIGNAL SWING" -
 set_global_assignment -name OUTPUT_IO_TIMING_FAR_END_VMEAS "HALF SIGNAL SWING" -fall
 set_global_assignment -name CYCLONEII_RESERVE_NCEO_AFTER_CONFIGURATION "USE AS REGULAR IO"
 # Clock and reset
+set_location_assignment PIN_W13 -to i_n_reset
+set_instance_assignment -name WEAK_PULL_UP_RESISTOR ON -to n_reset
+set_location_assignment PIN_T2 -to i_clk
 # PS/2
+set_location_assignment PIN_R1 -to i_ps2Clk
+set_instance_assignment -name WEAK_PULL_UP_RESISTOR ON -to i_ps2Clk
+set_location_assignment PIN_R2 -to i_ps2Data
+set_instance_assignment -name WEAK_PULL_UP_RESISTOR ON -to i_ps2Data
 # Serial
 set_location_assignment PIN_A10 -to cts1
+set_location_assignment PIN_A13 -to rts
+set_location_assignment PIN_B10 -to i_rxd
+set_instance_assignment -name WEAK_PULL_UP_RESISTOR ON -to i_rxd
+set_location_assignment PIN_B13 -to o_txd
 # Video
+set_location_assignment PIN_B15 -to o_Vid_Red[0]
+set_location_assignment PIN_A15 -to o_Vid_Red[1]
+set_location_assignment PIN_A16 -to o_Vid_Grn[1]
+set_location_assignment PIN_B16 -to o_Vid_Grn[0]
+set_location_assignment PIN_A17 -to o_Vid_Blu[1]
+set_location_assignment PIN_B17 -to o_Vid_Blu[0]
+set_location_assignment PIN_B18 -to o_Vid_hSync
+set_location_assignment PIN_A18 -to o_Vid_vSync
 # SD Card
 set_location_assignment PIN_B19 -to sdCS
 set_location_assignment PIN_A20 -to sdMISO
@@ -113,16 +132,31 @@ set_location_assignment PIN_Y10 -to sdRamData[13]
 set_location_assignment PIN_W10 -to sdRamData[14]
 set_location_assignment PIN_V11 -to sdRamData[15]
 #
+set_global_assignment -name INFER_RAMS_FROM_RAW_LOGIC OFF
+set_global_assignment -name AUTO_SHIFT_REGISTER_RECOGNITION ALWAYS
+set_global_assignment -name TIMING_ANALYZER_MULTICORNER_ANALYSIS ON
+set_global_assignment -name SMART_RECOMPILE ON
+# I/O voltages
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to sdRamAddr[14]
 set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to driveLED
 set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to sdSCLK
 set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to sdMOSI
 set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to sdMISO
 set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to sdCS
-set_global_assignment -name INFER_RAMS_FROM_RAW_LOGIC OFF
-set_global_assignment -name AUTO_SHIFT_REGISTER_RECOGNITION ALWAYS
-set_global_assignment -name TIMING_ANALYZER_MULTICORNER_ANALYSIS ON
-set_global_assignment -name SMART_RECOMPILE ON
-
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to o_Vid_Blu[1]
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to o_Vid_Blu[0]
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to o_Vid_Blu
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to o_Vid_Grn[1]
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to o_Vid_Grn[0]
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to o_Vid_Grn
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to o_Vid_hSync
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to o_Vid_Red[1]
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to o_Vid_Red[0]
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to o_Vid_Red
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to o_Vid_vSync
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to i_cts
+set_instance_assignment -name PARTITION_HIERARCHY root_partition -to | -section_id Top
+set_global_assignment -name VHDL_FILE uk101.vhd
 set_global_assignment -name VHDL_FILE "../../MultiComp (VHDL Template)/Components/RAM_Internal/InternalRam8K.vhd"
 set_global_assignment -name VHDL_FILE "../../MultiComp (VHDL Template)/Components/RAM_Internal/InternalRam32K.vhd"
 set_global_assignment -name VHDL_FILE "../../MultiComp (VHDL Template)/Components/CPU/M6502/T65_Pack.vhd"
@@ -142,56 +176,4 @@ set_global_assignment -name VHDL_FILE "../../MultiComp (VHDL Template)/Component
 set_global_assignment -name VHDL_FILE "../../MultiComp (VHDL Template)/Components/PS2KB/UK101keyboard.vhd"
 set_global_assignment -name VHDL_FILE "../../MultiComp (VHDL Template)/Components/ROMs/OSI/BasicRom.vhd"
 set_global_assignment -name VHDL_FILE "../../MultiComp (VHDL Template)/Components/ROMs/OSI/CegmonRom_Patched_64x32.VHD"
-set_global_assignment -name VHDL_FILE uk101.vhd
-set_location_assignment PIN_C22 -to o_Vid_Red[0]
-set_location_assignment PIN_C21 -to o_Vid_Red[1]
-set_location_assignment PIN_D21 -to o_Vid_Grn[1]
-set_location_assignment PIN_D22 -to o_Vid_Grn[0]
-set_location_assignment PIN_E21 -to o_Vid_Blu[1]
-set_location_assignment PIN_E22 -to o_Vid_Blu[0]
-set_location_assignment PIN_F21 -to o_Vid_hSync
-set_location_assignment PIN_F22 -to o_Vid_vSync
-set_location_assignment PIN_W13 -to i_n_reset
-set_location_assignment PIN_T2 -to i_clk
-set_location_assignment PIN_A13 -to rts
-set_location_assignment PIN_B10 -to i_rxd
-set_location_assignment PIN_B13 -to o_txd
-set_location_assignment PIN_U21 -to o_LED[0]
-set_location_assignment PIN_U22 -to o_LED[1]
-set_location_assignment PIN_V21 -to o_LED[2]
-set_location_assignment PIN_V22 -to o_LED[3]
-set_location_assignment PIN_W21 -to o_LED[4]
-set_location_assignment PIN_W22 -to o_LED[5]
-set_location_assignment PIN_Y21 -to o_LED[6]
-set_location_assignment PIN_Y22 -to o_LED[7]
-set_location_assignment PIN_AB16 -to i_DipSw[0]
-set_location_assignment PIN_AA16 -to i_DipSw[1]
-set_location_assignment PIN_AB15 -to i_DipSw[2]
-set_location_assignment PIN_AA15 -to i_DipSw[3]
-set_location_assignment PIN_AB14 -to i_DipSw[4]
-set_location_assignment PIN_AA14 -to i_DipSw[5]
-set_location_assignment PIN_AB13 -to i_DipSw[6]
-set_location_assignment PIN_AA13 -to i_DipSw[7]
-set_location_assignment PIN_R1 -to i_ps2Clk
-set_location_assignment PIN_R2 -to i_ps2Data
-set_instance_assignment -name WEAK_PULL_UP_RESISTOR ON -to i_ps2Clk
-set_instance_assignment -name WEAK_PULL_UP_RESISTOR ON -to i_ps2Data
-set_location_assignment PIN_AB20 -to o_BUZZER
-set_location_assignment PIN_AA17 -to driveLED
-set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to o_Vid_Blu[1]
-set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to o_Vid_Blu[0]
-set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to o_Vid_Blu
-set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to o_Vid_Grn[1]
-set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to o_Vid_Grn[0]
-set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to o_Vid_Grn
-set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to sdRamAddr[14]
-set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to o_Vid_hSync
-set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to o_Vid_Red[1]
-set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to o_Vid_Red[0]
-set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to o_Vid_Red
-set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to o_Vid_vSync
 set_global_assignment -name CDF_FILE output_files/uk101_eprom.cdf
-set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to i_cts
-set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to i_DipSw[7]
-set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to i_DipSw[6]
-set_instance_assignment -name PARTITION_HIERARCHY root_partition -to | -section_id Top

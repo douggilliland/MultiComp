@@ -60,25 +60,7 @@ set_location_assignment PIN_W13 -to n_reset
 set_instance_assignment -name WEAK_PULL_UP_RESISTOR ON -to n_reset
 set_location_assignment PIN_T2 -to clk
 # LEDs
-set_location_assignment PIN_AA19 -to n_LED7
-set_location_assignment PIN_AB20 -to n_LED9
 # LED
-set_location_assignment PIN_U21 -to ledOut8[0]
-set_location_assignment PIN_U22 -to ledOut8[1]
-set_location_assignment PIN_V21 -to ledOut8[2]
-set_location_assignment PIN_V22 -to ledOut8[3]
-set_location_assignment PIN_W21 -to ledOut8[4]
-set_location_assignment PIN_W22 -to ledOut8[5]
-set_location_assignment PIN_Y21 -to ledOut8[6]
-set_location_assignment PIN_Y22 -to ledOut8[7]
-set_location_assignment PIN_AB13 -to J6IO8[6]
-set_location_assignment PIN_AA13 -to J6IO8[7]
-set_location_assignment PIN_AB20 -to J8IO8[0]
-set_location_assignment PIN_AA20 -to J8IO8[1]
-set_location_assignment PIN_AB19 -to J8IO8[2]
-set_location_assignment PIN_AA19 -to J8IO8[3]
-set_location_assignment PIN_AB18 -to J8IO8[4]
-set_location_assignment PIN_AA18 -to J8IO8[5]
 # PS/2
 set_location_assignment PIN_R1 -to ps2Clk
 set_instance_assignment -name WEAK_PULL_UP_RESISTOR ON -to ps2Clk
@@ -91,14 +73,14 @@ set_location_assignment PIN_B13 -to fpgaTx
 set_location_assignment PIN_A13 -to fpgaRts
 set_location_assignment PIN_A10 -to fpgaCts
 # Video
-set_location_assignment PIN_A15 -to vgaRedHi
-set_location_assignment PIN_B15 -to vgaRedLo
-set_location_assignment PIN_A16 -to vgaGrnHi
-set_location_assignment PIN_B16 -to vgaGrnLo
-set_location_assignment PIN_A17 -to vgaBluHi
-set_location_assignment PIN_B17 -to vgaBluLo
-set_location_assignment PIN_B18 -to vgaHsync
-set_location_assignment PIN_A18 -to vgaVsync
+set_location_assignment PIN_C21 -to vgaRedHi
+set_location_assignment PIN_C22 -to vgaRedLo
+set_location_assignment PIN_D21 -to vgaGrnHi
+set_location_assignment PIN_D22 -to vgaGrnLo
+set_location_assignment PIN_E21 -to vgaBluHi
+set_location_assignment PIN_E22 -to vgaBluLo
+set_location_assignment PIN_F21 -to vgaHsync
+set_location_assignment PIN_F22 -to vgaVsync
 # SD Card
 set_location_assignment PIN_B19 -to sdCS
 set_location_assignment PIN_A20 -to sdMISO
@@ -209,7 +191,6 @@ set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to sramData[3]
 set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to sramData[2]
 set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to sramData[1]
 set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to sramData[0]
-set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to reset_LED
 set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to fpgaTx
 set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to fpgaRx
 set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to fpgaRts
@@ -233,4 +214,5 @@ set_global_assignment -name VHDL_FILE "../../MultiComp (VHDL Template)/Component
 set_global_assignment -name VHDL_FILE uk101_41kRAM.vhd
 set_global_assignment -name TIMING_ANALYZER_MULTICORNER_ANALYSIS ON
 set_global_assignment -name SMART_RECOMPILE ON
+set_global_assignment -name NUM_PARALLEL_PROCESSORS 4
 set_instance_assignment -name PARTITION_HIERARCHY root_partition -to | -section_id Top
