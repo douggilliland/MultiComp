@@ -6,7 +6,7 @@
 --		Serial port (USB-Serial)
 --		Off-the-shelf FPGA card (Cyclone IV EP4CE15)
 -- Implements Grant Searle's modifications for 64x32 screens as described here:
--- https://searle.x10host.com/uk101FPGA/index.html
+--		https://searle.x10host.com/uk101FPGA/index.html
 
 library ieee;
 use ieee.std_logic_1164.all;
@@ -28,12 +28,6 @@ entity uk101 is
 		o_Vid_Blu	: out	std_logic_vector(1 downto 0) := "00";
 		o_Vid_hSync	: out	std_logic := '1';
 		o_Vid_vSync	: out	std_logic := '1';
-		
-		i_DipSw		: in std_logic_vector(7 downto 0) := x"FF";
-
-		o_LED			: out std_logic_vector(7 downto 0) := x"00";
-
-		o_BUZZER		: out std_logic := '1';
 		
 		-- Not using the SD RAM but reserving pins and making inactive
 		n_sdRamCas	: out std_logic := '1';		-- CAS on schematic
@@ -83,9 +77,6 @@ architecture struct of uk101 is
 	signal w_n_ramCS2				: std_logic;
 	signal n_monRomCS 			: std_logic;
 	signal n_kbCS					: std_logic;
-	signal w_rLEDCS1				: std_logic;
-	signal w_pbuttonCS			: std_logic;
-	signal w_DIPSwCS				: std_logic;
 	
 	signal w_serialClkCount		: std_logic_vector(15 downto 0); 
 	signal w_serialClkCount_d  : std_logic_vector(15 downto 0);
@@ -105,11 +96,7 @@ architecture struct of uk101 is
 
 	signal w_txdBuff				: std_logic;
 	
-	signal w_ringLEDs				: std_logic_vector(15 downto 0);
-	
 begin
-
-	o_LED <= w_ringLEDs(7 downto 0);
 
 	n_memWR <= not(w_cpuClock) nand (not n_WR);
 
@@ -124,8 +111,6 @@ begin
 	n_dispRamCS 	<= '0' when w_cpuAddress(15 downto 11) = "11010" 	else '1';				-- xD000-xD7FF (2KB)
 	n_kbCS 			<= '0' when w_cpuAddress(15 downto 10) = "110111" 	else '1';				-- xDC00-xDFFF (1KB)
 	n_aciaCS 		<= '0' when w_cpuAddress(15 downto 1)  = "111100000000000"  else '1';	-- xF000-xF001 (2B) = 61440-61441 dec
-	w_rLEDCS1 		<= '1' when w_cpuAddress  					= x"F002"  	else '0';				-- xF002 (1B) = 61442 dec
-	w_DIPSwCS		<= '1' when w_cpuAddress  					= x"F003"  	else '0';				-- xF003 (1B) = 61443 dec
 	n_monRomCS 		<= '0' when w_cpuAddress(15 downto 11) = "11111"	else '1'; 				-- xF800-xFFFF (2KB)
  
 	w_cpuDataIn <=
@@ -135,9 +120,6 @@ begin
 		w_displayRamData 							when n_dispRamCS	= '0' else
 		w_basRomData 									when n_basRomCS	= '0' else
 		w_kbReadData 								when n_kbCS			= '0' else
-		w_ringLEDs(7 downto 0)					when w_rLEDCS1 	= '1' else
---		"00000"&i_pbutton							when w_pbuttonCS	= '1' else
-		i_DipSw										when w_DIPSwCS		= '1' else
 		w_monitorRomData 							when n_monRomCS 	= '0' else		-- has to be after any I/O
 		x"FF";
 		
@@ -181,7 +163,6 @@ pll : work.VideoClk_XVGA_1024x768 PORT MAP (
 		c0	 => w_Video_Clk,	-- 65 MHz Video Clock
 		c1	 => w_cpuClock,	-- 1 MHz CPU clock
 		c2	 => w_CLOCK_50		-- 50 Mhz Logic Clock
---		c3 => baudRate_1p432		-- 1.8432 MHz baud rate i_clk
 	);
 	
 
@@ -219,16 +200,6 @@ pll : work.VideoClk_XVGA_1024x768 PORT MAP (
 	(
 		address => w_cpuAddress(10 downto 0),
 		q => w_monitorRomData
-	);
-
-
-	RingLeds1	:	entity work.OutLatch
-	port map (
-		dataIn8	=> w_cpuDataOut,
-		clock		=> w_CLOCK_50,
-		load		=> not (w_rLEDCS1 and (not n_WR)),
-		clear		=> i_n_reset,
-		latchOut	=> w_ringLEDs(7 downto 0)
 	);
 
 	UART : entity work.bufferedUART
