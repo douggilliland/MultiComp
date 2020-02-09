@@ -168,7 +168,7 @@ architecture struct of Microcomputer is
     signal cpuAddress             : std_logic_vector(15 downto 0);
     signal cpuDataOut             : std_logic_vector(7 downto 0);
     signal cpuDataIn              : std_logic_vector(7 downto 0);
-    signal sramAddress_i          : std_logic_vector(19 downto 0);
+    signal sramAddress_i          : std_logic_vector(18 downto 0);
 --    signal n_sRamCSHi_i           : std_logic;
     signal n_sRamCSLo_i           : std_logic;
 

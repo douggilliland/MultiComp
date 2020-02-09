@@ -2,10 +2,10 @@
 -- Grant Searle's web site http://searle.hostei.com/grant/    
 -- Grant Searle's "multicomp" page at http://searle.hostei.com/grant/Multicomp/index.html
 --
--- Changes to this code by Doug Gilliland 2019
+-- Changes to this code by Doug Gilliland 2020
 --	56K (external) RAM version
 --
--- Jumper in pin 85 to ground (adjacent pin) of the FPGA selects the VDU/Serial port
+-- Jumper in pin B22 to ground (adjacent pin) of the FPGA selects the VDU/Serial port
 -- Install to make serial port default
 -- Remove jumper to make the VDU default
 --
@@ -29,32 +29,32 @@ entity Microcomputer is
 		n_sRamCS		: out std_logic;
 		n_sRamOE		: out std_logic;
 		
-		rxd1			: in std_logic;
+		rxd1			: in std_logic := '1';
 		txd1			: out std_logic;
-		cts1			: in std_logic;
+		cts1			: in std_logic := '1';
 		rts1			: out std_logic;
 		
-		videoR0		: out std_logic;
-		videoG0		: out std_logic;
-		videoB0		: out std_logic;
-		videoR1		: out std_logic;
-		videoG1		: out std_logic;
-		videoB1		: out std_logic;
-		hSync			: out std_logic;
-		vSync			: out std_logic;
+		videoR0		: out std_logic := '1';
+		videoG0		: out std_logic := '1';
+		videoB0		: out std_logic := '1';
+		videoR1		: out std_logic := '1';
+		videoG1		: out std_logic := '1';
+		videoB1		: out std_logic := '1';
+		hSync			: out std_logic := '1';
+		vSync			: out std_logic := '1';
 
 		ps2Clk		: inout std_logic;
 		ps2Data		: inout std_logic;
 		
 		-- Not using the SD RAM but making sure that it's not active
-		n_sdRamCas		: out std_logic := '1';		-- CAS on schematic
-		n_sdRamRas		: out std_logic := '1';		-- RAS
-		n_sdRamWe			: out std_logic := '1';		-- SDWE
-		n_sdRamCe			: out std_logic := '1';		-- SD_NCS0
-		sdRamClk			: out std_logic := '1';		-- SDCLK0
-		sdRamClkEn		: out std_logic := '1';		-- SDCKE0
-		sdRamAddr			: out std_logic_vector(14 downto 0) := "000"&x"000";
-		sdRamData			: in std_logic_vector(15 downto 0);
+		n_sdRamCas	: out std_logic := '1';		-- CAS on schematic
+		n_sdRamRas	: out std_logic := '1';		-- RAS
+		n_sdRamWe	: out std_logic := '1';		-- SDWE
+		n_sdRamCe	: out std_logic := '1';		-- SD_NCS0
+		sdRamClk		: out std_logic := '1';		-- SDCLK0
+		sdRamClkEn	: out std_logic := '1';		-- SDCKE0
+		sdRamAddr	: out std_logic_vector(14 downto 0) := "000"&x"000";
+		sdRamData	: in std_logic_vector(15 downto 0);
 
 		serSelect	: in std_logic := '1'
 	);
@@ -70,7 +70,6 @@ architecture struct of Microcomputer is
 
 	signal basRomData					: std_logic_vector(7 downto 0);
 	signal interface1DataOut		: std_logic_vector(7 downto 0);
-	signal internalRam1DataOut		: std_logic_vector(7 downto 0);
 	signal interface2DataOut		: std_logic_vector(7 downto 0);
 
 	signal n_memWR						: std_logic :='1';
@@ -86,11 +85,11 @@ architecture struct of Microcomputer is
 
 	signal cpuCount					: std_logic_vector(5 downto 0); 
 	signal cpuClock					: std_logic;
-	signal resetLow						: std_logic := '1';
+	signal resetLow					: std_logic := '1';
 
-    signal serialCount         : std_logic_vector(15 downto 0) := x"0000";
-    signal serialCount_d       : std_logic_vector(15 downto 0);
-    signal serialEn            : std_logic;
+   signal serialCount         	: std_logic_vector(15 downto 0) := x"0000";
+   signal serialCount_d       	: std_logic_vector(15 downto 0);
+   signal serialEn            	: std_logic;
 	
 begin
 
@@ -101,7 +100,6 @@ begin
 		i_PinIn		=> n_reset,
 		o_PinOut		=> resetLow
 	);
-
 	
 	-- SRAM
 	sramAddress(19 downto 16) <= "0000";
@@ -157,7 +155,6 @@ begin
 			videoG1 => videoG1,
 			videoB0 => videoB0,
 			videoB1 => videoB1,
-			
 			n_wr => n_interface1CS or cpuClock or n_WR,
 			n_rd => n_interface1CS or cpuClock or (not n_WR),
 			n_int => n_int1,
@@ -194,7 +191,7 @@ begin
 	-- ____________________________________________________________________________________
 	-- CHIP SELECTS
 	-- Jumper Pin_85 selects whether UART or VDU are default
-	n_basRomCS <= '0' when cpuAddress(15 downto 13) = "111" else '1'; --8K at top of memory
+	n_basRomCS 		<= '0' when cpuAddress(15 downto 13) = "111" else '1'; --8K at top of memory
 	n_interface1CS <= '0' when ((cpuAddress(15 downto 1) = "111111111101000" and serSelect = '1') or 
 										 (cpuAddress(15 downto 1) = "111111111101001" and serSelect = '0')) else '1'; -- 2 bytes FFD0-FFD1
 	n_interface2CS <= '0' when ((cpuAddress(15 downto 1) = "111111111101001" and serSelect = '1') or 
