@@ -1,5 +1,5 @@
 Flow report for Microcomputer
-Sat Nov 30 18:14:20 2019
+Tue Feb 11 19:05:29 2020
 Quartus Prime Version 18.1.0 Build 625 09/12/2018 SJ Lite Edition
 
 
@@ -40,14 +40,14 @@ refer to the applicable agreement for further details.
 +----------------------------------------------------------------------------------+
 ; Flow Summary                                                                     ;
 +------------------------------------+---------------------------------------------+
-; Flow Status                        ; Successful - Sat Nov 30 18:14:11 2019       ;
+; Flow Status                        ; Successful - Tue Feb 11 19:05:18 2020       ;
 ; Quartus Prime Version              ; 18.1.0 Build 625 09/12/2018 SJ Lite Edition ;
 ; Revision Name                      ; Microcomputer                               ;
 ; Top-level Entity Name              ; Microcomputer                               ;
 ; Family                             ; Cyclone IV E                                ;
 ; Device                             ; EP4CE15F23C8                                ;
 ; Timing Models                      ; Final                                       ;
-; Total logic elements               ; 4,453 / 15,408 ( 29 % )                     ;
+; Total logic elements               ; 4,447 / 15,408 ( 29 % )                     ;
 ;     Total combinational functions  ; 4,242 / 15,408 ( 28 % )                     ;
 ;     Dedicated logic registers      ; 1,249 / 15,408 ( 8 % )                      ;
 ; Total registers                    ; 1249                                        ;
@@ -100,7 +100,10 @@ refer to the applicable agreement for further details.
 ; Fitter               ; 00:00:36     ; 1.1                     ; 5650 MB             ; 00:00:57                           ;
 ; Assembler            ; 00:00:03     ; 1.0                     ; 4692 MB             ; 00:00:02                           ;
 ; Timing Analyzer      ; 00:00:08     ; 1.3                     ; 4834 MB             ; 00:00:08                           ;
-; Total                ; 00:01:25     ; --                      ; --                  ; 00:02:01                           ;
+; Fitter               ; 00:00:47     ; 1.1                     ; 5637 MB             ; 00:01:00                           ;
+; Assembler            ; 00:00:02     ; 1.0                     ; 4692 MB             ; 00:00:02                           ;
+; Timing Analyzer      ; 00:00:10     ; 1.2                     ; 4835 MB             ; 00:00:09                           ;
+; Total                ; 00:02:24     ; --                      ; --                  ; 00:03:12                           ;
 +----------------------+--------------+-------------------------+---------------------+------------------------------------+
 
 
@@ -113,6 +116,9 @@ refer to the applicable agreement for further details.
 ; Fitter               ; DESKTOP-2UF8LNB  ; Windows 10 ; 10.0       ; x86_64         ;
 ; Assembler            ; DESKTOP-2UF8LNB  ; Windows 10 ; 10.0       ; x86_64         ;
 ; Timing Analyzer      ; DESKTOP-2UF8LNB  ; Windows 10 ; 10.0       ; x86_64         ;
+; Fitter               ; DESKTOP-2UF8LNB  ; Windows 10 ; 10.0       ; x86_64         ;
+; Assembler            ; DESKTOP-2UF8LNB  ; Windows 10 ; 10.0       ; x86_64         ;
+; Timing Analyzer      ; DESKTOP-2UF8LNB  ; Windows 10 ; 10.0       ; x86_64         ;
 +----------------------+------------------+------------+------------+----------------+
 
 
@@ -121,6 +127,9 @@ refer to the applicable agreement for further details.
 ------------
 quartus_map --read_settings_files=on --write_settings_files=off Microcomputer -c Microcomputer
 quartus_fit --read_settings_files=off --write_settings_files=off Microcomputer -c Microcomputer
+quartus_asm --read_settings_files=off --write_settings_files=off Microcomputer -c Microcomputer
+quartus_sta Microcomputer -c Microcomputer
+quartus_fit --read_settings_files=on --write_settings_files=off Microcomputer -c Microcomputer
 quartus_asm --read_settings_files=off --write_settings_files=off Microcomputer -c Microcomputer
 quartus_sta Microcomputer -c Microcomputer
 
