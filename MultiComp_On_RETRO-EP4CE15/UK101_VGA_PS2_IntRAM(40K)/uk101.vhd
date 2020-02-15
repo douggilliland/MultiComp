@@ -29,16 +29,6 @@ entity uk101 is
 		o_Vid_hSync	: out	std_logic := '1';
 		o_Vid_vSync	: out	std_logic := '1';
 		
-		-- Not using the SD RAM but reserving pins and making inactive
-		n_sdRamCas	: out std_logic := '1';		-- CAS on schematic
-		n_sdRamRas	: out std_logic := '1';		-- RAS
-		n_sdRamWe	: out std_logic := '1';		-- SDWE
-		n_sdRamCe	: out std_logic := '1';		-- SD_NCS0
-		sdRamClk		: out std_logic := '1';		-- SDCLK0
-		sdRamClkEn	: out std_logic := '1';		-- SDCKE0
-		sdRamAddr	: out std_logic_vector(14 downto 0) := "000"&x"000";
-		sdRamData	: in std_logic_vector(15 downto 0);
-		
 		-- Not using the SD Card but reserving pins and making inactive
 		sdCS			: out std_logic :='1';
 		sdMOSI		: out std_logic :='0';
