@@ -169,6 +169,11 @@ set_global_assignment -name DEVICE_FILTER_SPEED_GRADE 8
 set_global_assignment -name TIMING_ANALYZER_MULTICORNER_ANALYSIS ON
 set_global_assignment -name SMART_RECOMPILE ON
 set_global_assignment -name NUM_PARALLEL_PROCESSORS 4
+set_location_assignment PIN_AB14 -to cts4
+set_location_assignment PIN_AA14 -to rts4
+set_location_assignment PIN_AB15 -to rxd4
+set_location_assignment PIN_AA15 -to txd4
+set_global_assignment -name VHDL_FILE ../Components/TERMINAL/SBCTextDisplayRGB.vhd
 set_global_assignment -name VHDL_FILE "../../../MultiComp (VHDL Template)/Components/Memory_Mappers/MMU4/MMU4.vhd"
 set_global_assignment -name VHDL_FILE "../../../MultiComp (VHDL Template)/Components/CPU/Z80/T80s.vhd"
 set_global_assignment -name VHDL_FILE "../../../MultiComp (VHDL Template)/Components/CPU/Z80/T80_Reg.vhd"
@@ -185,14 +190,9 @@ set_global_assignment -name VHDL_FILE "../../../MultiComp (VHDL Template)/Compon
 set_global_assignment -name VHDL_FILE "../../../MultiComp (VHDL Template)/Components/TERMINAL/CGABoldRomReduced.vhd"
 set_global_assignment -name VHDL_FILE "../../../MultiComp (VHDL Template)/Components/TERMINAL/CGABoldRom.vhd"
 set_global_assignment -name VHDL_FILE ../Components/TERMINAL/keyMapRom.vhd
-set_global_assignment -name VHDL_FILE ../Components/TERMINAL/SBCTextDisplayRGB.vhd
 set_global_assignment -name VHDL_FILE ../Components/BRG/brg.vhd
 set_global_assignment -name SOURCE_FILE Microcomputer.qsf
 set_global_assignment -name VHDL_FILE Microcomputer.vhd
 set_global_assignment -name SOURCE_FILE db/Microcomputer.cmp.rdb
 set_global_assignment -name CDF_FILE ../../../../gameserver/QuartusII/Microcomputer_VGA/output_files/Chain1.cdf
-set_location_assignment PIN_AB14 -to cts4
-set_location_assignment PIN_AA14 -to rts4
-set_location_assignment PIN_AB15 -to rxd4
-set_location_assignment PIN_AA15 -to txd4
 set_instance_assignment -name PARTITION_HIERARCHY root_partition -to | -section_id Top
