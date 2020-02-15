@@ -23,14 +23,13 @@ entity Microcomputer is
 		n_reset		: in std_logic;
 		clk			: in std_logic;
 
-		-- External SRAM
 		sramData		: inout std_logic_vector(7 downto 0);
 		sramAddress	: out std_logic_vector(19 downto 0);
 		n_sRamWE		: out std_logic;
 		n_sRamOE		: out std_logic;
 		n_sRam1CS	: out std_logic;
+--		n_sRam2CS	: out std_logic;
 		
-		-- Serial port
 		rxd1			: in std_logic;
 		txd1			: out std_logic;
 		rts1			: out std_logic;
@@ -51,7 +50,9 @@ entity Microcomputer is
 		rts4			: out std_logic;
 		cts4			: in std_logic;
 
-		-- Video
+--		videoSync	: out std_logic;
+--		video			: out std_logic;
+
 		videoR0		: out std_logic;
 		videoG0		: out std_logic;
 		videoB0		: out std_logic;
@@ -61,7 +62,6 @@ entity Microcomputer is
 		hSync			: out std_logic;
 		vSync			: out std_logic;
 
-		-- PS/2 Keyboard
 		ps2Clk		: inout std_logic;
 		ps2Data		: inout std_logic;
 		
@@ -75,12 +75,12 @@ entity Microcomputer is
 		sdRamAddr	: out std_logic_vector(14 downto 0) := "000"&x"000";
 		sdRamData	: in std_logic_vector(15 downto 0);
 		
-		-- SD Card
+
 		sdCS			: out std_logic;
 		sdMOSI		: out std_logic;
 		sdMISO		: in std_logic;
 		sdSCLK		: out std_logic;
-		driveLED		: out std_logic :='1'		-- D5 LED
+		driveLED		: out std_logic :='1'	
 	);
 end Microcomputer;
 
@@ -142,6 +142,8 @@ architecture struct of Microcomputer is
 
 	signal sdCardDataOut			: std_logic_vector(7 downto 0);
 	signal n_sdCardCS				: std_logic :='1';
+
+
 
 begin
 
@@ -210,6 +212,7 @@ begin
 	n_sRamWE <= n_memWR;
 	n_sRamOE <= n_memRD;
 	n_sRam1CS <= n_externalRam1CS;
+--	n_sRam2CS <= n_externalRam2CS;
 
 -- ____________________________________________________________________________________
 -- INPUT/OUTPUT DEVICES GO HERE	
@@ -275,6 +278,10 @@ port map (
 	videoG1 => videoG1,
 	videoB0 => videoB0,
 	videoB1 => videoB1,
+
+-- Monochrome (RCA) video signals (when using TV timings only)
+--	sync => videoSync,
+--	video => video,
 
 -- Common
 	n_wr    => n_interface2CS or n_ioWR,
@@ -409,8 +416,9 @@ port map (
 	n_sdCardCS 		<= '0' when cpuAddress(7 downto 3) = "10001" and (n_ioWR='0' or n_ioRD = '0') else '1'; 		-- 8 Bytes 	$88-$8F
 	n_mmuCS 			<= '0' when cpuAddress(7 downto 3) = "11111" and (n_ioWR='0' or n_ioRD = '0') else '1'; 		-- 8 bytes 	$F8-$FF
 	
+--	n_externalRam1CS<= not(n_monRomCS and not physicaladdr(19));
 	n_externalRam1CS<= not(n_monRomCS);
-	
+--	n_externalRam2CS<= not(n_monRomCS and physicaladdr(19));
 -- ____________________________________________________________________________________
 -- BUS ISOLATION GOES HERE
 	cpuDataIn <=
