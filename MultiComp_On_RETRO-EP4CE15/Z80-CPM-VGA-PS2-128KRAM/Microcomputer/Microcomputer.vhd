@@ -119,10 +119,10 @@ process (n_ioWR, n_reset)
 		if (n_reset = '0') then
 			n_RomActive <= '0';
 		elsif (rising_edge(n_ioWR)) then
-		if cpuAddress(7 downto 0) = "00111000" then -- $38
-			n_RomActive <= '1';
+			if cpuAddress(7 downto 0) = "00111000" then -- $38
+				n_RomActive <= '1';
+			end if;
 		end if;
-	end if;
 end process;
 
 -- ____________________________________________________________________________________
@@ -259,7 +259,7 @@ process (clk)
 begin
 if rising_edge(clk) then
 
-if cpuClkCount < 4 then -- 4 = 10MHz, 3 = 12.5MHz, 2=16.6MHz, 1=25MHz
+if cpuClkCount < 1 then -- 4 = 10MHz, 3 = 12.5MHz, 2=16.6MHz, 1=25MHz
 	cpuClkCount <= cpuClkCount + 1;
 else
 	cpuClkCount <= (others=>'0');
