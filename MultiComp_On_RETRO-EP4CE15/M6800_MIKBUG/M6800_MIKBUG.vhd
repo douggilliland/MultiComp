@@ -66,7 +66,7 @@ architecture struct of M6800_MIKBUG is
 	signal n_int1			: std_logic :='1';	
 	signal n_if1CS			: std_logic :='1';
 
-	signal cpuClkCount	: std_logic_vector(5 downto 0); 
+	signal q_cpuClkCount	: std_logic_vector(5 downto 0); 
 	signal w_cpuClock		: std_logic;
 	
 begin
@@ -162,12 +162,12 @@ begin
 process (i_CLOCK_50)
 	begin
 		if rising_edge(i_CLOCK_50) then
-			if cpuClkCount < 50 then
-				cpuClkCount <= cpuClkCount + 1;
+			if q_cpuClkCount < 50 then
+				q_cpuClkCount <= q_cpuClkCount + 1;
 			else
-				cpuClkCount <= (others=>'0');
+				q_cpuClkCount <= (others=>'0');
 			end if;
-			if cpuClkCount < 25 then
+			if q_cpuClkCount < 25 then
 				w_cpuClock <= '0';
 			else
 				w_cpuClock <= '1';
