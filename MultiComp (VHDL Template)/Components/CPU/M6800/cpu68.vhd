@@ -66,7 +66,7 @@ use IEEE.STD_LOGIC_ARITH.ALL;
 use IEEE.STD_LOGIC_UNSIGNED.ALL;
 
 entity cpu68 is
-	port (	
+	port (
 		clk:	    in  std_logic;
 		rst:	    in  std_logic;
 		rw:	    out std_logic;
