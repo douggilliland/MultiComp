@@ -20,7 +20,7 @@ library ieee;
 
 entity SBCTextDisplayRGB is
 	generic(
-		constant EXTENDED_CHARSET : integer := 0; -- 1 = 256 chars, 0 = 128 chars
+		constant EXTENDED_CHARSET : integer := 1; -- 1 = 256 chars, 0 = 128 chars
 		constant COLOUR_ATTS_ENABLED : integer := 1; -- 1=Colour for each character, 0=Colour applied to whole display
 		-- VGA 640x480 Default values
 		constant VERT_CHARS : integer := 25;
