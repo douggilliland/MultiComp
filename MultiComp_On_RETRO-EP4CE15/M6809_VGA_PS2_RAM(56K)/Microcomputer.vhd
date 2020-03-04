@@ -33,6 +33,7 @@ entity Microcomputer is
 		txd1			: out std_logic;
 		cts1			: in std_logic := '1';
 		rts1			: out std_logic;
+		serSelect	: in std_logic := '1';
 		
 		videoR0		: out std_logic := '1';
 		videoG0		: out std_logic := '1';
@@ -54,9 +55,7 @@ entity Microcomputer is
 		sdRamClk		: out std_logic := '1';		-- SDCLK0
 		sdRamClkEn	: out std_logic := '1';		-- SDCKE0
 		sdRamAddr	: out std_logic_vector(14 downto 0) := "000"&x"000";
-		sdRamData	: in std_logic_vector(15 downto 0);
-
-		serSelect	: in std_logic := '1'
+		sdRamData	: in std_logic_vector(15 downto 0)
 	);
 end Microcomputer;
 

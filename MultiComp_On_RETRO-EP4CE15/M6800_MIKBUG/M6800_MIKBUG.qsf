@@ -54,74 +54,32 @@ set_global_assignment -name POWER_BOARD_THERMAL_MODEL "NONE (CONSERVATIVE)"
 set_global_assignment -name STRATIX_DEVICE_IO_STANDARD "2.5 V"
 # Clock and reset
 set_location_assignment PIN_T2 -to i_CLOCK_50
+set_location_assignment PIN_W13 -to i_n_reset
 # PS/2
+set_location_assignment PIN_R1 -to io_ps2Clk
+set_location_assignment PIN_R2 -to io_ps2Data
 # Serial
+set_location_assignment PIN_B22 -to serSelect
+set_instance_assignment -name WEAK_PULL_UP_RESISTOR ON -to serSelect
+set_location_assignment PIN_A10 -to cts1
+set_instance_assignment -name WEAK_PULL_UP_RESISTOR ON -to cts1
+set_location_assignment PIN_A13 -to rts1
+set_location_assignment PIN_B10 -to rxd1
+set_instance_assignment -name WEAK_PULL_UP_RESISTOR ON -to rxd1
+set_location_assignment PIN_B13 -to txd1
 # Video
-# SRAM
-# SDRAM
-set_location_assignment PIN_Y6 -to sdRamClk
-set_location_assignment PIN_W6 -to sdRamClkEn
-set_location_assignment PIN_AA4 -to n_sdRamCas
-set_location_assignment PIN_AA3 -to n_sdRamCe
-set_location_assignment PIN_AB3 -to n_sdRamRas
-set_location_assignment PIN_AB4 -to n_sdRamWe
-set_location_assignment PIN_V2 -to sdRamAddr[0]
-set_location_assignment PIN_V1 -to sdRamAddr[1]
-set_location_assignment PIN_U2 -to sdRamAddr[2]
-set_location_assignment PIN_U1 -to sdRamAddr[3]
-set_location_assignment PIN_V3 -to sdRamAddr[4]
-set_location_assignment PIN_V4 -to sdRamAddr[5]
-set_location_assignment PIN_Y2 -to sdRamAddr[6]
-set_location_assignment PIN_AA1 -to sdRamAddr[7]
-set_location_assignment PIN_Y3 -to sdRamAddr[8]
-set_location_assignment PIN_V5 -to sdRamAddr[9]
-set_location_assignment PIN_W1 -to sdRamAddr[10]
-set_location_assignment PIN_Y4 -to sdRamAddr[11]
-set_location_assignment PIN_V6 -to sdRamAddr[12]
-set_location_assignment PIN_Y1 -to sdRamAddr[13]
-set_location_assignment PIN_W2 -to sdRamAddr[14]
-# I/O voltages
-set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to sdRamClkEn
-set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to sdRamClk
-set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to sdRamAddr[0]
-set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to sdRamAddr[1]
-set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to sdRamAddr[2]
-set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to sdRamAddr[3]
-set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to sdRamAddr[4]
-set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to sdRamAddr[5]
-set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to sdRamAddr[6]
-set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to sdRamAddr[7]
-set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to sdRamAddr[9]
-set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to sdRamAddr[8]
-set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to sdRamAddr[10]
-set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to sdRamAddr[11]
-set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to sdRamAddr[12]
-set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to sdRamAddr[13]
-set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to sdRamAddr[14]
-set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to n_sdRamWe
-set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to n_sdRamRas
-set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to n_sdRamCe
-set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to n_sdRamCas
-set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to i_CLOCK_50
-set_global_assignment -name DEVICE_FILTER_PACKAGE FBGA
-set_global_assignment -name TIMING_ANALYZER_MULTICORNER_ANALYSIS ON
-set_global_assignment -name SMART_RECOMPILE ON
-
-set_global_assignment -name ENABLE_SIGNALTAP OFF
-set_global_assignment -name USE_SIGNALTAP_FILE stp1.stp
 set_location_assignment PIN_E22 -to o_videoB0
 set_location_assignment PIN_E21 -to o_videoB1
 set_location_assignment PIN_D22 -to o_videoG0
-set_location_assignment PIN_W13 -to i_n_reset
-set_location_assignment PIN_R1 -to io_ps2Clk
-set_location_assignment PIN_R2 -to io_ps2Data
 set_location_assignment PIN_D21 -to o_videoG1
 set_location_assignment PIN_C22 -to o_videoR0
 set_location_assignment PIN_C21 -to o_videoR1
 set_location_assignment PIN_F21 -to o_hSync
 set_location_assignment PIN_F22 -to o_vSync
+# SRAM
 set_location_assignment PIN_F1 -to io_n_extSRamCS
 set_location_assignment PIN_B4 -to io_n_extSRamWE
+set_location_assignment PIN_J2 -to io_n_extSRamOE
 set_location_assignment PIN_E1 -to io_extSRamData[0]
 set_location_assignment PIN_C1 -to io_extSRamData[1]
 set_location_assignment PIN_B1 -to io_extSRamData[2]
@@ -149,6 +107,73 @@ set_location_assignment PIN_A8 -to io_extSRamAddress[15]
 set_location_assignment PIN_B7 -to io_extSRamAddress[16]
 set_location_assignment PIN_B6 -to io_extSRamAddress[17]
 set_location_assignment PIN_B5 -to io_extSRamAddress[18]
+set_location_assignment PIN_C4 -to io_extSRamAddress[19]
+# SDRAM
+set_location_assignment PIN_Y6 -to sdRamClk
+set_location_assignment PIN_W6 -to sdRamClkEn
+set_location_assignment PIN_AA4 -to n_sdRamCas
+set_location_assignment PIN_AA3 -to n_sdRamCe
+set_location_assignment PIN_AB3 -to n_sdRamRas
+set_location_assignment PIN_AB4 -to n_sdRamWe
+set_location_assignment PIN_V2 -to sdRamAddr[0]
+set_location_assignment PIN_V1 -to sdRamAddr[1]
+set_location_assignment PIN_U2 -to sdRamAddr[2]
+set_location_assignment PIN_U1 -to sdRamAddr[3]
+set_location_assignment PIN_V3 -to sdRamAddr[4]
+set_location_assignment PIN_V4 -to sdRamAddr[5]
+set_location_assignment PIN_Y2 -to sdRamAddr[6]
+set_location_assignment PIN_AA1 -to sdRamAddr[7]
+set_location_assignment PIN_Y3 -to sdRamAddr[8]
+set_location_assignment PIN_V5 -to sdRamAddr[9]
+set_location_assignment PIN_W1 -to sdRamAddr[10]
+set_location_assignment PIN_Y4 -to sdRamAddr[11]
+set_location_assignment PIN_V6 -to sdRamAddr[12]
+set_location_assignment PIN_Y1 -to sdRamAddr[13]
+set_location_assignment PIN_W2 -to sdRamAddr[14]
+set_location_assignment PIN_AA10 -to w_sdRamData[0]
+set_location_assignment PIN_AB9 -to w_sdRamData[1]
+set_location_assignment PIN_AA9 -to w_sdRamData[2]
+set_location_assignment PIN_AB8 -to w_sdRamData[3]
+set_location_assignment PIN_AA8 -to w_sdRamData[4]
+set_location_assignment PIN_AB7 -to w_sdRamData[5]
+set_location_assignment PIN_AA7 -to w_sdRamData[6]
+set_location_assignment PIN_AB5 -to w_sdRamData[7]
+set_location_assignment PIN_Y7 -to w_sdRamData[8]
+set_location_assignment PIN_W8 -to w_sdRamData[9]
+set_location_assignment PIN_Y8 -to w_sdRamData[10]
+set_location_assignment PIN_V9 -to w_sdRamData[11]
+set_location_assignment PIN_V10 -to w_sdRamData[12]
+set_location_assignment PIN_Y10 -to w_sdRamData[13]
+set_location_assignment PIN_W10 -to w_sdRamData[14]
+set_location_assignment PIN_V11 -to w_sdRamData[15]
+# I/O voltages
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to sdRamClkEn
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to sdRamClk
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to sdRamAddr[0]
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to sdRamAddr[1]
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to sdRamAddr[2]
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to sdRamAddr[3]
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to sdRamAddr[4]
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to sdRamAddr[5]
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to sdRamAddr[6]
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to sdRamAddr[7]
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to sdRamAddr[9]
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to sdRamAddr[8]
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to sdRamAddr[10]
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to sdRamAddr[11]
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to sdRamAddr[12]
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to sdRamAddr[13]
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to sdRamAddr[14]
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to n_sdRamWe
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to n_sdRamRas
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to n_sdRamCe
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to n_sdRamCas
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to i_CLOCK_50
+set_global_assignment -name DEVICE_FILTER_PACKAGE FBGA
+set_global_assignment -name TIMING_ANALYZER_MULTICORNER_ANALYSIS ON
+set_global_assignment -name SMART_RECOMPILE ON
+set_global_assignment -name ENABLE_SIGNALTAP OFF
+set_global_assignment -name USE_SIGNALTAP_FILE stp1.stp
 set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to altera_reserved_tck
 set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to altera_reserved_tdi
 set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to altera_reserved_tdo
@@ -194,24 +219,6 @@ set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to o_videoR0
 set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to o_videoR1
 set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to o_vSync
 set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to io_ps2Data
-set_location_assignment PIN_AA10 -to w_sdRamData[0]
-set_location_assignment PIN_AB9 -to w_sdRamData[1]
-set_location_assignment PIN_AA9 -to w_sdRamData[2]
-set_location_assignment PIN_AB8 -to w_sdRamData[3]
-set_location_assignment PIN_AA8 -to w_sdRamData[4]
-set_location_assignment PIN_AB7 -to w_sdRamData[5]
-set_location_assignment PIN_AA7 -to w_sdRamData[6]
-set_location_assignment PIN_AB5 -to w_sdRamData[7]
-set_location_assignment PIN_Y7 -to w_sdRamData[8]
-set_location_assignment PIN_W8 -to w_sdRamData[9]
-set_location_assignment PIN_Y8 -to w_sdRamData[10]
-set_location_assignment PIN_V9 -to w_sdRamData[11]
-set_location_assignment PIN_V10 -to w_sdRamData[12]
-set_location_assignment PIN_Y10 -to w_sdRamData[13]
-set_location_assignment PIN_W10 -to w_sdRamData[14]
-set_location_assignment PIN_V11 -to w_sdRamData[15]
-set_location_assignment PIN_J2 -to io_n_extSRamOE
-set_location_assignment PIN_C4 -to io_extSRamAddress[19]
 set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to io_n_extSRamOE
 set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to w_sdRamData[15]
 set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to w_sdRamData[0]
@@ -230,6 +237,7 @@ set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to w_sdRamData[12]
 set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to w_sdRamData[13]
 set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to w_sdRamData[14]
 set_global_assignment -name NUM_PARALLEL_PROCESSORS ALL
+set_global_assignment -name VHDL_FILE "../../MultiComp (VHDL Template)/Components/UART/bufferedUART.vhd"
 set_global_assignment -name QIP_FILE "../../MultiComp (VHDL Template)/Components/ROMs/MIKBUG_6800/MIKBUG.qip"
 set_global_assignment -name VHDL_FILE "../../MultiComp (VHDL Template)/Components/RAM_Internal/InternalRam32K.vhd"
 set_global_assignment -name VHDL_FILE "../../MultiComp (VHDL Template)/Components/Debounce/Debounce.vhd"

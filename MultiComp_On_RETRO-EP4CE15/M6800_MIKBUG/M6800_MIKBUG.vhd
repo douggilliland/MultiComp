@@ -6,10 +6,10 @@
 -- Changes to this code by Doug Gilliland 2020
 --	32K (internal) RAM version
 --
---
 
 library ieee;
 use ieee.std_logic_1164.all;
+use ieee.numeric_std.all;
 use  IEEE.STD_LOGIC_ARITH.all;
 use  IEEE.STD_LOGIC_UNSIGNED.all;
 
@@ -30,8 +30,14 @@ entity M6800_MIKBUG is
 		io_ps2Clk			: inout std_logic := '1';
 		io_ps2Data			: inout std_logic := '1';
 		
-		-- SRAM not used
-		io_extSRamData		: inout std_logic_vector(7 downto 0);
+		rxd1			: in std_logic := '1';
+		txd1			: out std_logic;
+		cts1			: in std_logic := '1';
+		rts1			: out std_logic;
+		serSelect	: in std_logic := '1';
+		
+		-- SRAM not used but making sure that it's not active
+		io_extSRamData		: inout std_logic_vector(7 downto 0) := "ZZZZZZZZ";
 		io_extSRamAddress	: out std_logic_vector(19 downto 0);
 		io_n_extSRamWE		: out std_logic := '1';
 		io_n_extSRamCS		: out std_logic := '1';
@@ -45,7 +51,7 @@ entity M6800_MIKBUG is
 		sdRamClk				: out std_logic := '1';		-- SDCLK0
 		sdRamClkEn			: out std_logic := '1';		-- SDCKE0
 		sdRamAddr			: out std_logic_vector(14 downto 0) := "000"&x"000";
-		w_sdRamData			: in std_logic_vector(15 downto 0)
+		w_sdRamData			: in std_logic_vector(15 downto 0) := "ZZZZZZZZZZZZZZZZ"
 	);
 end M6800_MIKBUG;
 
@@ -62,15 +68,22 @@ architecture struct of M6800_MIKBUG is
 	signal w_romData		: std_logic_vector(7 downto 0);
 	signal w_ramData		: std_logic_vector(7 downto 0);
 	signal w_if1DataOut	: std_logic_vector(7 downto 0);
+	signal w_if2DataOut	: std_logic_vector(7 downto 0);
 
 	signal n_int1			: std_logic :='1';	
 	signal n_if1CS			: std_logic :='1';
+	signal n_int2			: std_logic :='1';	
+	signal n_if2CS			: std_logic :='1';
 
 	signal q_cpuClkCount	: std_logic_vector(5 downto 0); 
 	signal w_cpuClock		: std_logic;
+
+   signal serialCount         	: std_logic_vector(15 downto 0) := x"0000";
+   signal serialCount_d       	: std_logic_vector(15 downto 0);
+   signal serialEn            	: std_logic;
 	
 begin
-
+	
 	-- Debounce the reset line
 	DebounceResetSwitch	: entity work.Debouncer
 	port map (
@@ -118,14 +131,18 @@ begin
 	);
 	
 	-- ____________________________________________________________________________________
-	-- CHIP SELECTS
-	n_if1CS	<= '0' when (w_cpuAddress(15 downto 1) = x"801"&"100")	 	-- $8018-$8019
-		else '1';
+	-- I/O CHIP SELECTS
+	n_if1CS	<= '0' 	when (serSelect = '1' and (w_cpuAddress(15 downto 1) = x"801"&"100")) else	-- VDU $8018-$8019
+					'0'	when (serSelect = '0' and (w_cpuAddress(15 downto 1) = x"802"&"100")) else
+							'1';
+	n_if2CS	<= '0' 	when (serSelect = '1' and (w_cpuAddress(15 downto 1) = x"802"&"100")) else	-- ACIA $8028-$8029
+					'0'	when (serSelect = '0' and (w_cpuAddress(15 downto 1) = x"801"&"100")) else
+							'1';
 	
 	-- ____________________________________________________________________________________
 	-- INPUT/OUTPUT DEVICES
 	-- Grant's VGA driver
-	io1 : entity work.SBCTextDisplayRGB
+	vdu : entity work.SBCTextDisplayRGB
 		port map (
 			n_reset	=> w_resetLow,
 			clk		=> i_CLOCK_50,
@@ -149,12 +166,32 @@ begin
 			ps2Data	=> io_ps2Data
 		);
 	
+	acia: entity work.bufferedUART
+		port map (
+			clk		=> i_CLOCK_50,     
+			n_WR		=> n_if2CS or      w_R1W0  or (not w_vma) or (not w_cpuClock),
+			n_rd		=> n_if2CS or (not w_R1W0) or (not w_vma),
+			regSel	=> w_cpuAddress(0),
+			dataIn	=> w_cpuDataOut,
+			dataOut	=> w_if2DataOut,
+			n_int		=> n_int2,
+						 -- these clock enables are asserted for one period of input clk,
+						 -- at 16x the baud rate.
+			rxClkEn	=> serialEn,
+			txClkEn	=> serialEn,
+			rxd		=> rxd1,
+			txd		=> txd1,
+			n_cts		=> cts1,
+			n_rts		=> rts1
+		);
+	
 	-- ____________________________________________________________________________________
 	-- CPU Read Data multiplexer
 	w_cpuDataIn <=
-		w_ramData		when w_cpuAddress(15) = '0'				else
-		w_if1DataOut	when w_cpuAddress(15 downto 14) = "10"	else
-		w_romData		when w_cpuAddress(15 downto 14) = "11"	else
+		w_ramData		when w_cpuAddress(15) = '0'							else
+		w_if1DataOut	when (w_cpuAddress(15 downto 1) = x"801"&"100")	else
+		w_if2DataOut	when (w_cpuAddress(15 downto 1) = x"802"&"100")	else
+		w_romData		when w_cpuAddress(15 downto 14) = "11"				else
 		x"FF";
 	
 	-- ____________________________________________________________________________________
@@ -175,4 +212,24 @@ process (i_CLOCK_50)
 		end if;
 	end process;
 	
+	-- Baud Rate CLOCK SIGNALS
+	
+baud_div: process (serialCount_d, serialCount)
+    begin
+        serialCount_d <= serialCount + 2416;
+    end process;
+
+process (i_CLOCK_50)
+	begin
+		if rising_edge(i_CLOCK_50) then
+        -- Enable for baud rate generator
+        serialCount <= serialCount_d;
+        if serialCount(15) = '0' and serialCount_d(15) = '1' then
+            serialEn <= '1';
+        else
+            serialEn <= '0';
+        end if;
+		end if;
+	end process;
+
 end;

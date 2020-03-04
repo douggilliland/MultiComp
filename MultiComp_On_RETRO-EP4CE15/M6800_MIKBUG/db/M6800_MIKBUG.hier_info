@@ -1,6 +1,19 @@
 |M6800_MIKBUG
 i_n_reset => debouncer:DebounceResetSwitch.i_PinIn
 i_CLOCK_50 => debouncer:DebounceResetSwitch.i_CLOCK_50
+i_CLOCK_50 => serialEn.CLK
+i_CLOCK_50 => serialCount[4].CLK
+i_CLOCK_50 => serialCount[5].CLK
+i_CLOCK_50 => serialCount[6].CLK
+i_CLOCK_50 => serialCount[7].CLK
+i_CLOCK_50 => serialCount[8].CLK
+i_CLOCK_50 => serialCount[9].CLK
+i_CLOCK_50 => serialCount[10].CLK
+i_CLOCK_50 => serialCount[11].CLK
+i_CLOCK_50 => serialCount[12].CLK
+i_CLOCK_50 => serialCount[13].CLK
+i_CLOCK_50 => serialCount[14].CLK
+i_CLOCK_50 => serialCount[15].CLK
 i_CLOCK_50 => w_cpuClock.CLK
 i_CLOCK_50 => q_cpuClkCount[0].CLK
 i_CLOCK_50 => q_cpuClkCount[1].CLK
@@ -10,17 +23,26 @@ i_CLOCK_50 => q_cpuClkCount[4].CLK
 i_CLOCK_50 => q_cpuClkCount[5].CLK
 i_CLOCK_50 => mikbug:rom1.clock
 i_CLOCK_50 => internalram32k:sram.clock
-i_CLOCK_50 => sbctextdisplayrgb:io1.clk
-o_videoR0 <= sbctextdisplayrgb:io1.videoR0
-o_videoR1 <= sbctextdisplayrgb:io1.videoR1
-o_videoG0 <= sbctextdisplayrgb:io1.videoG0
-o_videoG1 <= sbctextdisplayrgb:io1.videoG1
-o_videoB0 <= sbctextdisplayrgb:io1.videoB0
-o_videoB1 <= sbctextdisplayrgb:io1.videoB1
-o_hSync <= sbctextdisplayrgb:io1.hSync
-o_vSync <= sbctextdisplayrgb:io1.vSync
-io_ps2Clk <> sbctextdisplayrgb:io1.ps2Clk
-io_ps2Data <> sbctextdisplayrgb:io1.ps2Data
+i_CLOCK_50 => sbctextdisplayrgb:vdu.clk
+i_CLOCK_50 => buffereduart:acia.clk
+o_videoR0 <= sbctextdisplayrgb:vdu.videoR0
+o_videoR1 <= sbctextdisplayrgb:vdu.videoR1
+o_videoG0 <= sbctextdisplayrgb:vdu.videoG0
+o_videoG1 <= sbctextdisplayrgb:vdu.videoG1
+o_videoB0 <= sbctextdisplayrgb:vdu.videoB0
+o_videoB1 <= sbctextdisplayrgb:vdu.videoB1
+o_hSync <= sbctextdisplayrgb:vdu.hSync
+o_vSync <= sbctextdisplayrgb:vdu.vSync
+io_ps2Clk <> sbctextdisplayrgb:vdu.ps2Clk
+io_ps2Data <> sbctextdisplayrgb:vdu.ps2Data
+rxd1 => buffereduart:acia.rxd
+txd1 <= buffereduart:acia.txd
+cts1 => buffereduart:acia.n_cts
+rts1 <= buffereduart:acia.n_rts
+serSelect => n_if1CS.IN1
+serSelect => n_if2CS.IN1
+serSelect => n_if1CS.IN1
+serSelect => n_if2CS.IN1
 io_extSRamData[0] <> <UNC>
 io_extSRamData[1] <> <UNC>
 io_extSRamData[2] <> <UNC>
@@ -2070,7 +2092,7 @@ sel[1] => _.IN0
 sel[1] => _.IN0
 
 
-|M6800_MIKBUG|SBCTextDisplayRGB:io1
+|M6800_MIKBUG|SBCTextDisplayRGB:vdu
 n_reset => dispState.del3.OUTPUTSELECT
 n_reset => dispState.del2.OUTPUTSELECT
 n_reset => dispState.deleteLine.OUTPUTSELECT
@@ -2647,7 +2669,7 @@ FNtoggledKeys[11] <= FNtoggledKeysSig[11].DB_MAX_OUTPUT_PORT_TYPE
 FNtoggledKeys[12] <= FNtoggledKeysSig[12].DB_MAX_OUTPUT_PORT_TYPE
 
 
-|M6800_MIKBUG|SBCTextDisplayRGB:io1|SansBoldRom:\GEN_EXT_SCHARS:fontRom
+|M6800_MIKBUG|SBCTextDisplayRGB:vdu|SansBoldRom:\GEN_EXT_SCHARS:fontRom
 address[0] => altsyncram:altsyncram_component.address_a[0]
 address[1] => altsyncram:altsyncram_component.address_a[1]
 address[2] => altsyncram:altsyncram_component.address_a[2]
@@ -2670,7 +2692,7 @@ q[6] <= altsyncram:altsyncram_component.q_a[6]
 q[7] <= altsyncram:altsyncram_component.q_a[7]
 
 
-|M6800_MIKBUG|SBCTextDisplayRGB:io1|SansBoldRom:\GEN_EXT_SCHARS:fontRom|altsyncram:altsyncram_component
+|M6800_MIKBUG|SBCTextDisplayRGB:vdu|SansBoldRom:\GEN_EXT_SCHARS:fontRom|altsyncram:altsyncram_component
 wren_a => ~NO_FANOUT~
 rden_a => ~NO_FANOUT~
 wren_b => ~NO_FANOUT~
@@ -2722,7 +2744,7 @@ eccstatus[1] <= <GND>
 eccstatus[2] <= <GND>
 
 
-|M6800_MIKBUG|SBCTextDisplayRGB:io1|SansBoldRom:\GEN_EXT_SCHARS:fontRom|altsyncram:altsyncram_component|altsyncram_6fv3:auto_generated
+|M6800_MIKBUG|SBCTextDisplayRGB:vdu|SansBoldRom:\GEN_EXT_SCHARS:fontRom|altsyncram:altsyncram_component|altsyncram_6fv3:auto_generated
 address_a[0] => ram_block1a0.PORTAADDR
 address_a[0] => ram_block1a1.PORTAADDR
 address_a[0] => ram_block1a2.PORTAADDR
@@ -2829,7 +2851,7 @@ q_a[6] <= ram_block1a6.PORTADATAOUT
 q_a[7] <= ram_block1a7.PORTADATAOUT
 
 
-|M6800_MIKBUG|SBCTextDisplayRGB:io1|DisplayRam2K:\GEN_2KRAM:dispCharRam
+|M6800_MIKBUG|SBCTextDisplayRGB:vdu|DisplayRam2K:\GEN_2KRAM:dispCharRam
 address_a[0] => altsyncram:altsyncram_component.address_a[0]
 address_a[1] => altsyncram:altsyncram_component.address_a[1]
 address_a[2] => altsyncram:altsyncram_component.address_a[2]
@@ -2889,7 +2911,7 @@ q_b[6] <= altsyncram:altsyncram_component.q_b[6]
 q_b[7] <= altsyncram:altsyncram_component.q_b[7]
 
 
-|M6800_MIKBUG|SBCTextDisplayRGB:io1|DisplayRam2K:\GEN_2KRAM:dispCharRam|altsyncram:altsyncram_component
+|M6800_MIKBUG|SBCTextDisplayRGB:vdu|DisplayRam2K:\GEN_2KRAM:dispCharRam|altsyncram:altsyncram_component
 wren_a => altsyncram_ldr3:auto_generated.wren_a
 rden_a => ~NO_FANOUT~
 wren_b => altsyncram_ldr3:auto_generated.wren_b
@@ -2965,7 +2987,7 @@ eccstatus[1] <= <GND>
 eccstatus[2] <= <GND>
 
 
-|M6800_MIKBUG|SBCTextDisplayRGB:io1|DisplayRam2K:\GEN_2KRAM:dispCharRam|altsyncram:altsyncram_component|altsyncram_ldr3:auto_generated
+|M6800_MIKBUG|SBCTextDisplayRGB:vdu|DisplayRam2K:\GEN_2KRAM:dispCharRam|altsyncram:altsyncram_component|altsyncram_ldr3:auto_generated
 address_a[0] => ram_block1a0.PORTAADDR
 address_a[0] => ram_block1a1.PORTAADDR
 address_a[0] => ram_block1a2.PORTAADDR
@@ -3200,7 +3222,7 @@ wren_b => ram_block1a6.PORTBWE
 wren_b => ram_block1a7.PORTBWE
 
 
-|M6800_MIKBUG|SBCTextDisplayRGB:io1|DisplayRam2K:\GEN_2KATTRAM:dispAttRam
+|M6800_MIKBUG|SBCTextDisplayRGB:vdu|DisplayRam2K:\GEN_2KATTRAM:dispAttRam
 address_a[0] => altsyncram:altsyncram_component.address_a[0]
 address_a[1] => altsyncram:altsyncram_component.address_a[1]
 address_a[2] => altsyncram:altsyncram_component.address_a[2]
@@ -3260,7 +3282,7 @@ q_b[6] <= altsyncram:altsyncram_component.q_b[6]
 q_b[7] <= altsyncram:altsyncram_component.q_b[7]
 
 
-|M6800_MIKBUG|SBCTextDisplayRGB:io1|DisplayRam2K:\GEN_2KATTRAM:dispAttRam|altsyncram:altsyncram_component
+|M6800_MIKBUG|SBCTextDisplayRGB:vdu|DisplayRam2K:\GEN_2KATTRAM:dispAttRam|altsyncram:altsyncram_component
 wren_a => altsyncram_ldr3:auto_generated.wren_a
 rden_a => ~NO_FANOUT~
 wren_b => altsyncram_ldr3:auto_generated.wren_b
@@ -3336,7 +3358,7 @@ eccstatus[1] <= <GND>
 eccstatus[2] <= <GND>
 
 
-|M6800_MIKBUG|SBCTextDisplayRGB:io1|DisplayRam2K:\GEN_2KATTRAM:dispAttRam|altsyncram:altsyncram_component|altsyncram_ldr3:auto_generated
+|M6800_MIKBUG|SBCTextDisplayRGB:vdu|DisplayRam2K:\GEN_2KATTRAM:dispAttRam|altsyncram:altsyncram_component|altsyncram_ldr3:auto_generated
 address_a[0] => ram_block1a0.PORTAADDR
 address_a[0] => ram_block1a1.PORTAADDR
 address_a[0] => ram_block1a2.PORTAADDR
@@ -3569,5 +3591,214 @@ wren_b => ram_block1a4.PORTBWE
 wren_b => ram_block1a5.PORTBWE
 wren_b => ram_block1a6.PORTBWE
 wren_b => ram_block1a7.PORTBWE
+
+
+|M6800_MIKBUG|bufferedUART:acia
+clk => rxBuffer~12.CLK
+clk => rxBuffer~0.CLK
+clk => rxBuffer~1.CLK
+clk => rxBuffer~2.CLK
+clk => rxBuffer~3.CLK
+clk => rxBuffer~4.CLK
+clk => rxBuffer~5.CLK
+clk => rxBuffer~6.CLK
+clk => rxBuffer~7.CLK
+clk => rxBuffer~8.CLK
+clk => rxBuffer~9.CLK
+clk => rxBuffer~10.CLK
+clk => rxBuffer~11.CLK
+clk => txBuffer[0].CLK
+clk => txBuffer[1].CLK
+clk => txBuffer[2].CLK
+clk => txBuffer[3].CLK
+clk => txBuffer[4].CLK
+clk => txBuffer[5].CLK
+clk => txBuffer[6].CLK
+clk => txBuffer[7].CLK
+clk => txd~reg0.CLK
+clk => txByteSent.CLK
+clk => txClockCount[0].CLK
+clk => txClockCount[1].CLK
+clk => txClockCount[2].CLK
+clk => txClockCount[3].CLK
+clk => txClockCount[4].CLK
+clk => txClockCount[5].CLK
+clk => txBitCount[0].CLK
+clk => txBitCount[1].CLK
+clk => txBitCount[2].CLK
+clk => txBitCount[3].CLK
+clk => rxCurrentByteBuffer[0].CLK
+clk => rxCurrentByteBuffer[1].CLK
+clk => rxCurrentByteBuffer[2].CLK
+clk => rxCurrentByteBuffer[3].CLK
+clk => rxCurrentByteBuffer[4].CLK
+clk => rxCurrentByteBuffer[5].CLK
+clk => rxCurrentByteBuffer[6].CLK
+clk => rxCurrentByteBuffer[7].CLK
+clk => rxInPointer[0].CLK
+clk => rxInPointer[1].CLK
+clk => rxInPointer[2].CLK
+clk => rxInPointer[3].CLK
+clk => rxInPointer[4].CLK
+clk => rxInPointer[5].CLK
+clk => rxClockCount[0].CLK
+clk => rxClockCount[1].CLK
+clk => rxClockCount[2].CLK
+clk => rxClockCount[3].CLK
+clk => rxClockCount[4].CLK
+clk => rxClockCount[5].CLK
+clk => rxBitCount[0].CLK
+clk => rxBitCount[1].CLK
+clk => rxBitCount[2].CLK
+clk => rxBitCount[3].CLK
+clk => rxFilter[0].CLK
+clk => rxFilter[1].CLK
+clk => rxFilter[2].CLK
+clk => rxFilter[3].CLK
+clk => rxFilter[4].CLK
+clk => rxFilter[5].CLK
+clk => rxdFiltered.CLK
+clk => func_reset.CLK
+clk => n_rts~reg0.CLK
+clk => txState~4.DATAIN
+clk => rxState~4.DATAIN
+clk => rxBuffer.CLK0
+n_wr => controlReg[5].CLK
+n_wr => controlReg[6].CLK
+n_wr => controlReg[7].CLK
+n_wr => txByteLatch[0].CLK
+n_wr => txByteLatch[1].CLK
+n_wr => txByteLatch[2].CLK
+n_wr => txByteLatch[3].CLK
+n_wr => txByteLatch[4].CLK
+n_wr => txByteLatch[5].CLK
+n_wr => txByteLatch[6].CLK
+n_wr => txByteLatch[7].CLK
+n_wr => txByteWritten.CLK
+n_wr => process_1.IN1
+n_rd => dataOut[0]~reg0.CLK
+n_rd => dataOut[1]~reg0.CLK
+n_rd => dataOut[2]~reg0.CLK
+n_rd => dataOut[3]~reg0.CLK
+n_rd => dataOut[4]~reg0.CLK
+n_rd => dataOut[5]~reg0.CLK
+n_rd => dataOut[6]~reg0.CLK
+n_rd => dataOut[7]~reg0.CLK
+n_rd => rxReadPointer[0].CLK
+n_rd => rxReadPointer[1].CLK
+n_rd => rxReadPointer[2].CLK
+n_rd => rxReadPointer[3].CLK
+n_rd => rxReadPointer[4].CLK
+n_rd => rxReadPointer[5].CLK
+regSel => dataOut.OUTPUTSELECT
+regSel => dataOut.OUTPUTSELECT
+regSel => dataOut.OUTPUTSELECT
+regSel => dataOut.OUTPUTSELECT
+regSel => dataOut.OUTPUTSELECT
+regSel => dataOut.OUTPUTSELECT
+regSel => dataOut.OUTPUTSELECT
+regSel => dataOut.OUTPUTSELECT
+regSel => process_1.IN1
+regSel => rxReadPointer[5].ENA
+regSel => rxReadPointer[4].ENA
+regSel => rxReadPointer[3].ENA
+regSel => rxReadPointer[2].ENA
+regSel => rxReadPointer[1].ENA
+regSel => rxReadPointer[0].ENA
+regSel => controlReg[5].ENA
+regSel => controlReg[6].ENA
+regSel => controlReg[7].ENA
+regSel => txByteLatch[0].ENA
+regSel => txByteLatch[1].ENA
+regSel => txByteLatch[2].ENA
+regSel => txByteLatch[3].ENA
+regSel => txByteLatch[4].ENA
+regSel => txByteLatch[5].ENA
+regSel => txByteLatch[6].ENA
+regSel => txByteLatch[7].ENA
+regSel => txByteWritten.ENA
+dataIn[0] => Equal1.IN3
+dataIn[0] => txByteLatch[0].DATAIN
+dataIn[1] => Equal1.IN2
+dataIn[1] => txByteLatch[1].DATAIN
+dataIn[2] => txByteLatch[2].DATAIN
+dataIn[3] => txByteLatch[3].DATAIN
+dataIn[4] => txByteLatch[4].DATAIN
+dataIn[5] => controlReg[5].DATAIN
+dataIn[5] => txByteLatch[5].DATAIN
+dataIn[6] => controlReg[6].DATAIN
+dataIn[6] => txByteLatch[6].DATAIN
+dataIn[7] => controlReg[7].DATAIN
+dataIn[7] => txByteLatch[7].DATAIN
+dataOut[0] <= dataOut[0]~reg0.DB_MAX_OUTPUT_PORT_TYPE
+dataOut[1] <= dataOut[1]~reg0.DB_MAX_OUTPUT_PORT_TYPE
+dataOut[2] <= dataOut[2]~reg0.DB_MAX_OUTPUT_PORT_TYPE
+dataOut[3] <= dataOut[3]~reg0.DB_MAX_OUTPUT_PORT_TYPE
+dataOut[4] <= dataOut[4]~reg0.DB_MAX_OUTPUT_PORT_TYPE
+dataOut[5] <= dataOut[5]~reg0.DB_MAX_OUTPUT_PORT_TYPE
+dataOut[6] <= dataOut[6]~reg0.DB_MAX_OUTPUT_PORT_TYPE
+dataOut[7] <= dataOut[7]~reg0.DB_MAX_OUTPUT_PORT_TYPE
+n_int <= n_int_internal.DB_MAX_OUTPUT_PORT_TYPE
+rxClkEn => rxBuffer.OUTPUTSELECT
+rxClkEn => rxCurrentByteBuffer[0].OUTPUTSELECT
+rxClkEn => rxCurrentByteBuffer[1].OUTPUTSELECT
+rxClkEn => rxCurrentByteBuffer[2].OUTPUTSELECT
+rxClkEn => rxCurrentByteBuffer[3].OUTPUTSELECT
+rxClkEn => rxCurrentByteBuffer[4].OUTPUTSELECT
+rxClkEn => rxCurrentByteBuffer[5].OUTPUTSELECT
+rxClkEn => rxCurrentByteBuffer[6].OUTPUTSELECT
+rxClkEn => rxCurrentByteBuffer[7].OUTPUTSELECT
+rxClkEn => rxState.stopBit.OUTPUTSELECT
+rxClkEn => rxState.dataBit.OUTPUTSELECT
+rxClkEn => rxState.idle.OUTPUTSELECT
+rxClkEn => rxInPointer[0].ENA
+rxClkEn => rxInPointer[1].ENA
+rxClkEn => rxInPointer[2].ENA
+rxClkEn => rxInPointer[3].ENA
+rxClkEn => rxInPointer[4].ENA
+rxClkEn => rxInPointer[5].ENA
+rxClkEn => rxClockCount[0].ENA
+rxClkEn => rxClockCount[1].ENA
+rxClkEn => rxClockCount[2].ENA
+rxClkEn => rxClockCount[3].ENA
+rxClkEn => rxClockCount[4].ENA
+rxClkEn => rxClockCount[5].ENA
+rxClkEn => rxBitCount[0].ENA
+rxClkEn => rxBitCount[1].ENA
+rxClkEn => rxBitCount[2].ENA
+rxClkEn => rxBitCount[3].ENA
+txClkEn => txBuffer[0].OUTPUTSELECT
+txClkEn => txBuffer[1].OUTPUTSELECT
+txClkEn => txBuffer[2].OUTPUTSELECT
+txClkEn => txBuffer[3].OUTPUTSELECT
+txClkEn => txBuffer[4].OUTPUTSELECT
+txClkEn => txBuffer[5].OUTPUTSELECT
+txClkEn => txBuffer[6].OUTPUTSELECT
+txClkEn => txBuffer[7].OUTPUTSELECT
+txClkEn => txd.OUTPUTSELECT
+txClkEn => txState.stopBit.OUTPUTSELECT
+txClkEn => txState.dataBit.OUTPUTSELECT
+txClkEn => txState.idle.OUTPUTSELECT
+txClkEn => txByteSent.ENA
+txClkEn => txClockCount[0].ENA
+txClkEn => txClockCount[1].ENA
+txClkEn => txClockCount[2].ENA
+txClkEn => txClockCount[3].ENA
+txClkEn => txClockCount[4].ENA
+txClkEn => txClockCount[5].ENA
+txClkEn => txBitCount[0].ENA
+txClkEn => txBitCount[1].ENA
+txClkEn => txBitCount[2].ENA
+txClkEn => txBitCount[3].ENA
+rxd => process_2.IN1
+rxd => process_2.IN1
+rxd => process_2.IN1
+rxd => process_2.IN1
+txd <= txd~reg0.DB_MAX_OUTPUT_PORT_TYPE
+n_rts <= n_rts~reg0.DB_MAX_OUTPUT_PORT_TYPE
+n_cts => dataOut.DATAA
+n_cts => tx_fsm.IN1
+n_dcd => dataOut.DATAA
+n_dcd => tx_fsm.IN1
 
 
