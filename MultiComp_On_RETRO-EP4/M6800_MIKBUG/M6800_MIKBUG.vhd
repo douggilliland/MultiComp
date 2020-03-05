@@ -4,7 +4,15 @@
 --
 -- MC6800 CPU running MIKBUG from back in the day
 -- Changes to this code by Doug Gilliland 2020
---	32K (internal) RAM version
+-- Hardware is RETRO-EP4 Card
+--		http://land-boards.com/blwiki/index.php?title=RETRO-EP4
+--	16KB (internal) RAM version
+-- 1KB (Internal) scratchpad RAM (512B used by MIKBUG)
+-- MIKBUG ROM
+--		http://www.retrotechnology.com/restore/smithbug.html
+-- Select Jumper (FPGA Pin 111 on P4) switches between
+--		VDU (Video Display Unit) VGA + PS/2 keyboard
+--		External Serial Port
 --
 
 library ieee;
@@ -38,20 +46,10 @@ entity M6800_MIKBUG is
 		
 		-- SRAM not used but making sure that it's not active
 		io_extSRamData		: inout std_logic_vector(7 downto 0) := "ZZZZZZZZ";
-		io_extSRamAddress	: out std_logic_vector(19 downto 0);
+		io_extSRamAddress	: out std_logic_vector(18 downto 0) := "000"&x"0000";
 		io_n_extSRamWE		: out std_logic := '1';
 		io_n_extSRamCS		: out std_logic := '1';
-		io_n_extSRamOE		: out std_logic := '1';
-
-		-- Not using the SD RAM but making sure that it's not active
-		n_sdRamCas			: out std_logic := '1';		-- CAS
-		n_sdRamRas			: out std_logic := '1';		-- RAS
-		n_sdRamWe			: out std_logic := '1';		-- SDWE
-		n_sdRamCe			: out std_logic := '1';		-- SD_NCS0
-		sdRamClk				: out std_logic := '1';		-- SDCLK0
-		sdRamClkEn			: out std_logic := '1';		-- SDCKE0
-		sdRamAddr			: out std_logic_vector(14 downto 0) := "000"&x"000";
-		w_sdRamData			: in std_logic_vector(15 downto 0) := "ZZZZZZZZZZZZZZZZ"
+		io_n_extSRamOE		: out std_logic := '1'
 	);
 end M6800_MIKBUG;
 
@@ -59,30 +57,36 @@ architecture struct of M6800_MIKBUG is
 
 	signal w_resetLow		: std_logic := '1';
 
+	-- CPU Signals
 	signal w_cpuAddress	: std_logic_vector(15 downto 0);
 	signal w_cpuDataOut	: std_logic_vector(7 downto 0);
 	signal w_cpuDataIn	: std_logic_vector(7 downto 0);
 	signal w_R1W0			: std_logic;
 	signal w_vma			: std_logic;
 
+	-- Memory and Peripheral Data
 	signal w_romData		: std_logic_vector(7 downto 0);
 	signal w_ramDataLo	: std_logic_vector(7 downto 0);
 	signal w_ramDataHi	: std_logic_vector(7 downto 0);
 	signal w_if1DataOut	: std_logic_vector(7 downto 0);
 	signal w_if2DataOut	: std_logic_vector(7 downto 0);
 
+	-- Interface control lines
 	signal n_int1			: std_logic :='1';	
 	signal n_if1CS			: std_logic :='1';
 	signal n_int2			: std_logic :='1';	
 	signal n_if2CS			: std_logic :='1';
 
+	-- Memory Chip Selects
 	signal ramCSLo			: std_logic :='0';
 	signal ramCSHi			: std_logic :='0';
 
+	-- CPU Clock
 	signal q_cpuClkCount	: std_logic_vector(5 downto 0); 
 	signal w_cpuClock		: std_logic;
 
-   signal serialCount         	: std_logic_vector(15 downto 0) := x"0000";
+   -- External Serial Port Cloc
+	signal serialCount         	: std_logic_vector(15 downto 0) := x"0000";
    signal serialCount_d       	: std_logic_vector(15 downto 0);
    signal serialEn            	: std_logic;
 	
@@ -124,10 +128,10 @@ begin
 		);
 		
 	-- ____________________________________________________________________________________
-	-- 8KB RAM	
-	sramLo : entity work.InternalRam8K
+	-- 16KB RAM	Located at the bottom 16KB of the memory space
+	sramLo : entity work.InternalRam16K
 	PORT map  (
-		address	=> w_cpuAddress(12 downto 0),
+		address	=> w_cpuAddress(13 downto 0),
 		clock 	=> i_CLOCK_50,
 		data 		=> w_cpuDataOut,
 		wren		=> (not w_R1W0) and ramCSLo and w_vma and (not w_cpuClock),
@@ -135,7 +139,7 @@ begin
 	);
 	
 	-- ____________________________________________________________________________________
-	-- 1KB RAM	
+	-- 1KB RAM Located at the top of the bottom 32KB of memory space
 	sramHi : entity work.InternalRam1K
 	PORT map  (
 		address	=> w_cpuAddress(9 downto 0),
@@ -153,9 +157,9 @@ begin
 	n_if2CS	<= '0' 	when (serSelect = '1' and (w_cpuAddress(15 downto 1) = x"802"&"100")) else	-- ACIA $8028-$8029
 					'0'	when (serSelect = '0' and (w_cpuAddress(15 downto 1) = x"801"&"100")) else
 					'1';
-	ramCSLo	<= '1'   when w_cpuAddress(15 downto 13) = "000" else					-- 8KB SRAM $0000-$1FFF
+	ramCSLo	<= '1'   when w_cpuAddress(15 downto 12) = "00" else					-- 16KB SRAM $0000-$3FFF
 					'0';
-	ramCSHi	<= '1'   when w_cpuAddress(15 downto 10) = "0111111" else			-- 1KB SRAM $7E00-$7FFF
+	ramCSHi	<= '1'   when w_cpuAddress(15 downto 10) = "0111111" else			-- 1KB SRAM $7E00-$7FFF (Only 512B are used by MIKBUG)
 					'0';
 	
 	-- ____________________________________________________________________________________

@@ -31,7 +31,7 @@
  --                  Bank 3:       3.3V
  --                  Bank 4:       3.3V
  --                  Bank 5:       3.3V
- --                  Bank 6:       3.3V
+ --                  Bank 6:       2.5V
  --                  Bank 7:       3.3V
  --                  Bank 8:       3.3V
  -- GND           : Dedicated ground pin. Dedicated GND pins MUST be connected to GND.
@@ -68,17 +68,17 @@ CHIP  "M6800_MIKBUG"  ASSIGNED TO AN: EP4CE6E22C8
 
 Pin Name/Usage               : Location  : Dir.   : I/O Standard      : Voltage : I/O Bank  : User Assignment
 -------------------------------------------------------------------------------------------------------------
-sdRamAddr[12]                : 1         : output : 3.3-V LVTTL       :         : 1         : N              
-w_sdRamData[2]               : 2         : input  : 3.3-V LVTTL       :         : 1         : N              
-io_n_extSRamOE               : 3         : output : 3.3-V LVTTL       :         : 1         : N              
+RESERVED_INPUT_WITH_WEAK_PULLUP : 1         :        :                   :         : 1         :                
+RESERVED_INPUT_WITH_WEAK_PULLUP : 2         :        :                   :         : 1         :                
+RESERVED_INPUT_WITH_WEAK_PULLUP : 3         :        :                   :         : 1         :                
 GND                          : 4         : gnd    :                   :         :           :                
 VCCINT                       : 5         : power  :                   : 1.2V    :           :                
 ~ALTERA_ASDO_DATA1~ / RESERVED_INPUT_WITH_WEAK_PULLUP : 6         : input  : 3.3-V LVTTL       :         : 1         : N              
-sdRamAddr[6]                 : 7         : output : 3.3-V LVTTL       :         : 1         : N              
+RESERVED_INPUT_WITH_WEAK_PULLUP : 7         :        :                   :         : 1         :                
 ~ALTERA_FLASH_nCE_nCSO~ / RESERVED_INPUT_WITH_WEAK_PULLUP : 8         : input  : 3.3-V LVTTL       :         : 1         : N              
 nSTATUS                      : 9         :        :                   :         : 1         :                
-io_extSRamAddress[13]        : 10        : output : 3.3-V LVTTL       :         : 1         : N              
-n_sdRamCe                    : 11        : output : 3.3-V LVTTL       :         : 1         : N              
+RESERVED_INPUT_WITH_WEAK_PULLUP : 10        :        :                   :         : 1         :                
+RESERVED_INPUT_WITH_WEAK_PULLUP : 11        :        :                   :         : 1         :                
 ~ALTERA_DCLK~                : 12        : output : 3.3-V LVTTL       :         : 1         : N              
 ~ALTERA_DATA0~ / RESERVED_INPUT_WITH_WEAK_PULLUP : 13        : input  : 3.3-V LVTTL       :         : 1         : N              
 nCONFIG                      : 14        :        :                   :         : 1         :                
@@ -90,126 +90,126 @@ GND                          : 19        : gnd    :                   :         
 altera_reserved_tdo          : 20        : output : 3.3-V LVTTL       :         : 1         : N              
 nCE                          : 21        :        :                   :         : 1         :                
 GND                          : 22        : gnd    :                   :         :           :                
-i_CLOCK_50                   : 23        : input  : 3.3-V LVTTL       :         : 1         : N              
-w_sdRamData[7]               : 24        : input  : 3.3-V LVTTL       :         : 2         : N              
-w_sdRamData[8]               : 25        : input  : 3.3-V LVTTL       :         : 2         : N              
+i_CLOCK_50                   : 23        : input  : 3.3-V LVTTL       :         : 1         : Y              
+GND+                         : 24        :        :                   :         : 2         :                
+GND+                         : 25        :        :                   :         : 2         :                
 VCCIO2                       : 26        : power  :                   : 3.3V    : 2         :                
 GND                          : 27        : gnd    :                   :         :           :                
-sdRamAddr[11]                : 28        : output : 3.3-V LVTTL       :         : 2         : N              
+RESERVED_INPUT_WITH_WEAK_PULLUP : 28        :        :                   :         : 2         :                
 VCCINT                       : 29        : power  :                   : 1.2V    :           :                
-n_sdRamRas                   : 30        : output : 3.3-V LVTTL       :         : 2         : N              
-io_extSRamAddress[18]        : 31        : output : 3.3-V LVTTL       :         : 2         : N              
-io_extSRamAddress[3]         : 32        : output : 3.3-V LVTTL       :         : 2         : N              
-io_extSRamData[7]            : 33        : bidir  : 3.3-V LVTTL       :         : 2         : N              
-io_extSRamAddress[2]         : 34        : output : 3.3-V LVTTL       :         : 2         : N              
+RESERVED_INPUT_WITH_WEAK_PULLUP : 30        :        :                   :         : 2         :                
+RESERVED_INPUT_WITH_WEAK_PULLUP : 31        :        :                   :         : 2         :                
+RESERVED_INPUT_WITH_WEAK_PULLUP : 32        :        :                   :         : 2         :                
+io_extSRamAddress[11]        : 33        : output : 3.3-V LVTTL       :         : 2         : Y              
+io_extSRamAddress[10]        : 34        : output : 3.3-V LVTTL       :         : 2         : Y              
 VCCA1                        : 35        : power  :                   : 2.5V    :           :                
 GNDA1                        : 36        : gnd    :                   :         :           :                
 VCCD_PLL1                    : 37        : power  :                   : 1.2V    :           :                
-io_extSRamAddress[14]        : 38        : output : 3.3-V LVTTL       :         : 3         : N              
-sdRamAddr[8]                 : 39        : output : 3.3-V LVTTL       :         : 3         : N              
+io_extSRamAddress[12]        : 38        : output : 3.3-V LVTTL       :         : 3         : Y              
+io_extSRamAddress[13]        : 39        : output : 3.3-V LVTTL       :         : 3         : Y              
 VCCIO3                       : 40        : power  :                   : 3.3V    : 3         :                
 GND                          : 41        : gnd    :                   :         :           :                
-sdRamAddr[5]                 : 42        : output : 3.3-V LVTTL       :         : 3         : N              
-io_extSRamAddress[17]        : 43        : output : 3.3-V LVTTL       :         : 3         : N              
-w_sdRamData[13]              : 44        : input  : 3.3-V LVTTL       :         : 3         : N              
+io_extSRamAddress[14]        : 42        : output : 3.3-V LVTTL       :         : 3         : Y              
+io_extSRamData[4]            : 43        : bidir  : 3.3-V LVTTL       :         : 3         : Y              
+io_extSRamData[5]            : 44        : bidir  : 3.3-V LVTTL       :         : 3         : Y              
 VCCINT                       : 45        : power  :                   : 1.2V    :           :                
-io_n_extSRamWE               : 46        : output : 3.3-V LVTTL       :         : 3         : N              
+io_extSRamData[6]            : 46        : bidir  : 3.3-V LVTTL       :         : 3         : Y              
 VCCIO3                       : 47        : power  :                   : 3.3V    : 3         :                
 GND                          : 48        : gnd    :                   :         :           :                
-rxd1                         : 49        : input  : 3.3-V LVTTL       :         : 3         : N              
-sdRamClkEn                   : 50        : output : 3.3-V LVTTL       :         : 3         : N              
-io_extSRamAddress[8]         : 51        : output : 3.3-V LVTTL       :         : 3         : N              
-io_n_extSRamCS               : 52        : output : 3.3-V LVTTL       :         : 3         : N              
-sdRamAddr[2]                 : 53        : output : 3.3-V LVTTL       :         : 3         : N              
-io_extSRamData[0]            : 54        : bidir  : 3.3-V LVTTL       :         : 4         : N              
-w_sdRamData[14]              : 55        : input  : 3.3-V LVTTL       :         : 4         : N              
+io_extSRamData[7]            : 49        : bidir  : 3.3-V LVTTL       :         : 3         : Y              
+io_n_extSRamOE               : 50        : output : 3.3-V LVTTL       :         : 3         : Y              
+io_extSRamAddress[15]        : 51        : output : 3.3-V LVTTL       :         : 3         : Y              
+io_extSRamAddress[16]        : 52        : output : 3.3-V LVTTL       :         : 3         : Y              
+io_extSRamAddress[17]        : 53        : output : 3.3-V LVTTL       :         : 3         : Y              
+io_extSRamAddress[18]        : 54        : output : 3.3-V LVTTL       :         : 4         : Y              
+RESERVED_INPUT_WITH_WEAK_PULLUP : 55        :        :                   :         : 4         :                
 VCCIO4                       : 56        : power  :                   : 3.3V    : 4         :                
 GND                          : 57        : gnd    :                   :         :           :                
-txd1                         : 58        : output : 3.3-V LVTTL       :         : 4         : N              
-io_extSRamData[6]            : 59        : bidir  : 3.3-V LVTTL       :         : 4         : N              
-sdRamAddr[0]                 : 60        : output : 3.3-V LVTTL       :         : 4         : N              
+RESERVED_INPUT_WITH_WEAK_PULLUP : 58        :        :                   :         : 4         :                
+RESERVED_INPUT_WITH_WEAK_PULLUP : 59        :        :                   :         : 4         :                
+RESERVED_INPUT_WITH_WEAK_PULLUP : 60        :        :                   :         : 4         :                
 VCCINT                       : 61        : power  :                   : 1.2V    :           :                
 VCCIO4                       : 62        : power  :                   : 3.3V    : 4         :                
 GND                          : 63        : gnd    :                   :         :           :                
-sdRamAddr[1]                 : 64        : output : 3.3-V LVTTL       :         : 4         : N              
-o_videoG1                    : 65        : output : 3.3-V LVTTL       :         : 4         : N              
-w_sdRamData[11]              : 66        : input  : 3.3-V LVTTL       :         : 4         : N              
-io_extSRamAddress[6]         : 67        : output : 3.3-V LVTTL       :         : 4         : N              
-io_extSRamData[5]            : 68        : bidir  : 3.3-V LVTTL       :         : 4         : N              
-w_sdRamData[9]               : 69        : input  : 3.3-V LVTTL       :         : 4         : N              
-io_extSRamData[3]            : 70        : bidir  : 3.3-V LVTTL       :         : 4         : N              
-io_extSRamAddress[1]         : 71        : output : 3.3-V LVTTL       :         : 4         : N              
-io_extSRamAddress[12]        : 72        : output : 3.3-V LVTTL       :         : 4         : N              
-io_extSRamAddress[0]         : 73        : output : 3.3-V LVTTL       :         : 5         : N              
-io_extSRamAddress[16]        : 74        : output : 3.3-V LVTTL       :         : 5         : N              
-sdRamClk                     : 75        : output : 3.3-V LVTTL       :         : 5         : N              
-io_extSRamAddress[19]        : 76        : output : 3.3-V LVTTL       :         : 5         : N              
-sdRamAddr[4]                 : 77        : output : 3.3-V LVTTL       :         : 5         : N              
+io_extSRamAddress[1]         : 64        : output : 3.3-V LVTTL       :         : 4         : Y              
+io_extSRamAddress[0]         : 65        : output : 3.3-V LVTTL       :         : 4         : Y              
+io_extSRamAddress[3]         : 66        : output : 3.3-V LVTTL       :         : 4         : Y              
+io_extSRamAddress[2]         : 67        : output : 3.3-V LVTTL       :         : 4         : Y              
+io_n_extSRamCS               : 68        : output : 3.3-V LVTTL       :         : 4         : Y              
+io_extSRamAddress[4]         : 69        : output : 3.3-V LVTTL       :         : 4         : Y              
+io_extSRamData[1]            : 70        : bidir  : 3.3-V LVTTL       :         : 4         : Y              
+io_extSRamData[0]            : 71        : bidir  : 3.3-V LVTTL       :         : 4         : Y              
+io_extSRamData[3]            : 72        : bidir  : 3.3-V LVTTL       :         : 4         : Y              
+io_extSRamData[2]            : 73        : bidir  : 3.3-V LVTTL       :         : 5         : Y              
+io_extSRamAddress[5]         : 74        : output : 3.3-V LVTTL       :         : 5         : Y              
+io_n_extSRamWE               : 75        : output : 3.3-V LVTTL       :         : 5         : Y              
+io_extSRamAddress[7]         : 76        : output : 3.3-V LVTTL       :         : 5         : Y              
+io_extSRamAddress[6]         : 77        : output : 3.3-V LVTTL       :         : 5         : Y              
 VCCINT                       : 78        : power  :                   : 1.2V    :           :                
 GND                          : 79        : gnd    :                   :         :           :                
-o_videoR1                    : 80        : output : 3.3-V LVTTL       :         : 5         : N              
+io_extSRamAddress[9]         : 80        : output : 3.3-V LVTTL       :         : 5         : Y              
 VCCIO5                       : 81        : power  :                   : 3.3V    : 5         :                
 GND                          : 82        : gnd    :                   :         :           :                
-o_videoG0                    : 83        : output : 3.3-V LVTTL       :         : 5         : N              
-o_videoB0                    : 84        : output : 3.3-V LVTTL       :         : 5         : N              
-o_videoB1                    : 85        : output : 3.3-V LVTTL       :         : 5         : N              
-o_videoR0                    : 86        : output : 3.3-V LVTTL       :         : 5         : N              
+io_extSRamAddress[8]         : 83        : output : 3.3-V LVTTL       :         : 5         : Y              
+RESERVED_INPUT_WITH_WEAK_PULLUP : 84        :        :                   :         : 5         :                
+RESERVED_INPUT_WITH_WEAK_PULLUP : 85        :        :                   :         : 5         :                
+RESERVED_INPUT_WITH_WEAK_PULLUP : 86        :        :                   :         : 5         :                
 RESERVED_INPUT_WITH_WEAK_PULLUP : 87        :        :                   :         : 5         :                
-w_sdRamData[3]               : 88        : input  : 3.3-V LVTTL       :         : 5         : N              
-w_sdRamData[4]               : 89        : input  : 3.3-V LVTTL       :         : 5         : N              
-w_sdRamData[0]               : 90        : input  : 3.3-V LVTTL       :         : 6         : N              
-w_sdRamData[1]               : 91        : input  : 3.3-V LVTTL       :         : 6         : N              
+GND+                         : 88        :        :                   :         : 5         :                
+GND+                         : 89        :        :                   :         : 5         :                
+GND+                         : 90        :        :                   :         : 6         :                
+GND+                         : 91        :        :                   :         : 6         :                
 CONF_DONE                    : 92        :        :                   :         : 6         :                
-VCCIO6                       : 93        : power  :                   : 3.3V    : 6         :                
+VCCIO6                       : 93        : power  :                   : 2.5V    : 6         :                
 MSEL0                        : 94        :        :                   :         : 6         :                
 GND                          : 95        : gnd    :                   :         :           :                
 MSEL1                        : 96        :        :                   :         : 6         :                
 MSEL2                        : 97        :        :                   :         : 6         :                
-o_vSync                      : 98        : output : 3.3-V LVTTL       :         : 6         : N              
-cts1                         : 99        : input  : 3.3-V LVTTL       :         : 6         : N              
-n_sdRamWe                    : 100       : output : 3.3-V LVTTL       :         : 6         : N              
-~ALTERA_nCEO~ / RESERVED_OUTPUT_OPEN_DRAIN : 101       : output : 3.3-V LVTTL       :         : 6         : N              
+RESERVED_INPUT_WITH_WEAK_PULLUP : 98        :        :                   :         : 6         :                
+RESERVED_INPUT_WITH_WEAK_PULLUP : 99        :        :                   :         : 6         :                
+RESERVED_INPUT_WITH_WEAK_PULLUP : 100       :        :                   :         : 6         :                
+~ALTERA_nCEO~ / RESERVED_OUTPUT_OPEN_DRAIN : 101       : output : 2.5 V             :         : 6         : N              
 VCCINT                       : 102       : power  :                   : 1.2V    :           :                
-sdRamAddr[14]                : 103       : output : 3.3-V LVTTL       :         : 6         : N              
-io_extSRamAddress[10]        : 104       : output : 3.3-V LVTTL       :         : 6         : N              
-o_hSync                      : 105       : output : 3.3-V LVTTL       :         : 6         : N              
-sdRamAddr[9]                 : 106       : output : 3.3-V LVTTL       :         : 6         : N              
+RESERVED_INPUT_WITH_WEAK_PULLUP : 103       :        :                   :         : 6         :                
+RESERVED_INPUT_WITH_WEAK_PULLUP : 104       :        :                   :         : 6         :                
+RESERVED_INPUT_WITH_WEAK_PULLUP : 105       :        :                   :         : 6         :                
+RESERVED_INPUT_WITH_WEAK_PULLUP : 106       :        :                   :         : 6         :                
 VCCA2                        : 107       : power  :                   : 2.5V    :           :                
 GNDA2                        : 108       : gnd    :                   :         :           :                
 VCCD_PLL2                    : 109       : power  :                   : 1.2V    :           :                
-io_extSRamAddress[15]        : 110       : output : 3.3-V LVTTL       :         : 7         : N              
-w_sdRamData[6]               : 111       : input  : 3.3-V LVTTL       :         : 7         : N              
-w_sdRamData[5]               : 112       : input  : 3.3-V LVTTL       :         : 7         : N              
-sdRamAddr[3]                 : 113       : output : 3.3-V LVTTL       :         : 7         : N              
-w_sdRamData[10]              : 114       : input  : 3.3-V LVTTL       :         : 7         : N              
-io_extSRamData[2]            : 115       : bidir  : 3.3-V LVTTL       :         : 7         : N              
+RESERVED_INPUT_WITH_WEAK_PULLUP : 110       :        :                   :         : 7         :                
+serSelect                    : 111       : input  : 3.3-V LVTTL       :         : 7         : Y              
+o_videoR1                    : 112       : output : 3.3-V LVTTL       :         : 7         : Y              
+o_videoR0                    : 113       : output : 3.3-V LVTTL       :         : 7         : Y              
+o_videoG1                    : 114       : output : 3.3-V LVTTL       :         : 7         : Y              
+o_videoG0                    : 115       : output : 3.3-V LVTTL       :         : 7         : Y              
 VCCINT                       : 116       : power  :                   : 1.2V    :           :                
 VCCIO7                       : 117       : power  :                   : 3.3V    : 7         :                
 GND                          : 118       : gnd    :                   :         :           :                
-io_extSRamAddress[9]         : 119       : output : 3.3-V LVTTL       :         : 7         : N              
-sdRamAddr[7]                 : 120       : output : 3.3-V LVTTL       :         : 7         : N              
-io_extSRamAddress[4]         : 121       : output : 3.3-V LVTTL       :         : 7         : N              
+o_hSync                      : 119       : output : 3.3-V LVTTL       :         : 7         : Y              
+o_videoB0                    : 120       : output : 3.3-V LVTTL       :         : 7         : Y              
+o_vSync                      : 121       : output : 3.3-V LVTTL       :         : 7         : Y              
 VCCIO7                       : 122       : power  :                   : 3.3V    : 7         :                
 GND                          : 123       : gnd    :                   :         :           :                
-io_ps2Clk                    : 124       : bidir  : 3.3-V LVTTL       :         : 7         : N              
-w_sdRamData[12]              : 125       : input  : 3.3-V LVTTL       :         : 7         : N              
-io_extSRamAddress[11]        : 126       : output : 3.3-V LVTTL       :         : 7         : N              
-serSelect                    : 127       : input  : 3.3-V LVTTL       :         : 7         : N              
-sdRamAddr[13]                : 128       : output : 3.3-V LVTTL       :         : 8         : N              
-i_n_reset                    : 129       : input  : 3.3-V LVTTL       :         : 8         : N              
+o_videoB1                    : 124       : output : 3.3-V LVTTL       :         : 7         : Y              
+i_n_reset                    : 125       : input  : 3.3-V LVTTL       :         : 7         : Y              
+io_ps2Data                   : 126       : bidir  : 3.3-V LVTTL       :         : 7         : Y              
+io_ps2Clk                    : 127       : bidir  : 3.3-V LVTTL       :         : 7         : Y              
+txd1                         : 128       : output : 3.3-V LVTTL       :         : 8         : Y              
+rts1                         : 129       : output : 3.3-V LVTTL       :         : 8         : Y              
 VCCIO8                       : 130       : power  :                   : 3.3V    : 8         :                
 GND                          : 131       : gnd    :                   :         :           :                
-n_sdRamCas                   : 132       : output : 3.3-V LVTTL       :         : 8         : N              
-io_extSRamAddress[7]         : 133       : output : 3.3-V LVTTL       :         : 8         : N              
+rxd1                         : 132       : input  : 3.3-V LVTTL       :         : 8         : Y              
+cts1                         : 133       : input  : 3.3-V LVTTL       :         : 8         : Y              
 VCCINT                       : 134       : power  :                   : 1.2V    :           :                
-rts1                         : 135       : output : 3.3-V LVTTL       :         : 8         : N              
-io_ps2Data                   : 136       : bidir  : 3.3-V LVTTL       :         : 8         : N              
+RESERVED_INPUT_WITH_WEAK_PULLUP : 135       :        :                   :         : 8         :                
+RESERVED_INPUT_WITH_WEAK_PULLUP : 136       :        :                   :         : 8         :                
 RESERVED_INPUT_WITH_WEAK_PULLUP : 137       :        :                   :         : 8         :                
-io_extSRamData[4]            : 138       : bidir  : 3.3-V LVTTL       :         : 8         : N              
+RESERVED_INPUT_WITH_WEAK_PULLUP : 138       :        :                   :         : 8         :                
 VCCIO8                       : 139       : power  :                   : 3.3V    : 8         :                
 GND                          : 140       : gnd    :                   :         :           :                
-io_extSRamData[1]            : 141       : bidir  : 3.3-V LVTTL       :         : 8         : N              
-w_sdRamData[15]              : 142       : input  : 3.3-V LVTTL       :         : 8         : N              
-sdRamAddr[10]                : 143       : output : 3.3-V LVTTL       :         : 8         : N              
-io_extSRamAddress[5]         : 144       : output : 3.3-V LVTTL       :         : 8         : N              
+RESERVED_INPUT_WITH_WEAK_PULLUP : 141       :        :                   :         : 8         :                
+RESERVED_INPUT_WITH_WEAK_PULLUP : 142       :        :                   :         : 8         :                
+RESERVED_INPUT_WITH_WEAK_PULLUP : 143       :        :                   :         : 8         :                
+RESERVED_INPUT_WITH_WEAK_PULLUP : 144       :        :                   :         : 8         :                
 GND                          : EPAD      :        :                   :         :           :                

@@ -1,5 +1,5 @@
 Analysis & Synthesis report for M6800_MIKBUG
-Thu Mar 05 09:15:21 2020
+Thu Mar 05 10:36:43 2020
 Quartus Prime Version 18.1.0 Build 625 09/12/2018 SJ Lite Edition
 
 
@@ -26,14 +26,14 @@ Quartus Prime Version 18.1.0 Build 625 09/12/2018 SJ Lite Edition
  18. Inverted Register Statistics
  19. Multiplexer Restructuring Statistics (Restructuring Performed)
  20. Source assignments for MIKBUG:rom1|altsyncram:altsyncram_component|altsyncram_it24:auto_generated|altsyncram_le33:altsyncram1
- 21. Source assignments for InternalRam8K:sramLo|altsyncram:altsyncram_component|altsyncram_ebp3:auto_generated
+ 21. Source assignments for InternalRam16K:sramLo|altsyncram:altsyncram_component|altsyncram_m3q3:auto_generated
  22. Source assignments for InternalRam1K:sramHi|altsyncram:altsyncram_component|altsyncram_j1q3:auto_generated
  23. Source assignments for SBCTextDisplayRGB:vdu|SansBoldRom:\GEN_EXT_SCHARS:fontRom|altsyncram:altsyncram_component|altsyncram_6fv3:auto_generated
  24. Source assignments for SBCTextDisplayRGB:vdu|DisplayRam2K:\GEN_2KRAM:dispCharRam|altsyncram:altsyncram_component|altsyncram_ldr3:auto_generated
  25. Source assignments for SBCTextDisplayRGB:vdu|DisplayRam2K:\GEN_2KATTRAM:dispAttRam|altsyncram:altsyncram_component|altsyncram_ldr3:auto_generated
  26. Source assignments for bufferedUART:acia|altsyncram:rxBuffer_rtl_0|altsyncram_3ce1:auto_generated
  27. Parameter Settings for User Entity Instance: MIKBUG:rom1|altsyncram:altsyncram_component
- 28. Parameter Settings for User Entity Instance: InternalRam8K:sramLo|altsyncram:altsyncram_component
+ 28. Parameter Settings for User Entity Instance: InternalRam16K:sramLo|altsyncram:altsyncram_component
  29. Parameter Settings for User Entity Instance: InternalRam1K:sramHi|altsyncram:altsyncram_component
  30. Parameter Settings for User Entity Instance: SBCTextDisplayRGB:vdu
  31. Parameter Settings for User Entity Instance: SBCTextDisplayRGB:vdu|SansBoldRom:\GEN_EXT_SCHARS:fontRom|altsyncram:altsyncram_component
@@ -77,18 +77,18 @@ refer to the applicable agreement for further details.
 +----------------------------------------------------------------------------------+
 ; Analysis & Synthesis Summary                                                     ;
 +------------------------------------+---------------------------------------------+
-; Analysis & Synthesis Status        ; Successful - Thu Mar 05 09:15:21 2020       ;
+; Analysis & Synthesis Status        ; Successful - Thu Mar 05 10:36:43 2020       ;
 ; Quartus Prime Version              ; 18.1.0 Build 625 09/12/2018 SJ Lite Edition ;
 ; Revision Name                      ; M6800_MIKBUG                                ;
 ; Top-level Entity Name              ; M6800_MIKBUG                                ;
 ; Family                             ; Cyclone IV E                                ;
-; Total logic elements               ; 2,964                                       ;
-;     Total combinational functions  ; 2,818                                       ;
-;     Dedicated logic registers      ; 801                                         ;
-; Total registers                    ; 801                                         ;
-; Total pins                         ; 85                                          ;
+; Total logic elements               ; 2,975                                       ;
+;     Total combinational functions  ; 2,829                                       ;
+;     Dedicated logic registers      ; 802                                         ;
+; Total registers                    ; 802                                         ;
+; Total pins                         ; 47                                          ;
 ; Total virtual pins                 ; 0                                           ;
-; Total memory bits                  ; 155,776                                     ;
+; Total memory bits                  ; 221,312                                     ;
 ; Embedded Multiplier 9-bit elements ; 0                                           ;
 ; Total PLLs                         ; 0                                           ;
 +------------------------------------+---------------------------------------------+
@@ -205,7 +205,7 @@ refer to the applicable agreement for further details.
 +-----------------------------------------------------------------------------+-----------------+----------------------------------------------+-------------------------------------------------------------------------------------------------------------------------------------------------------+-------------+
 ; File Name with User-Entered Path                                            ; Used in Netlist ; File Type                                    ; File Name with Absolute Path                                                                                                                          ; Library     ;
 +-----------------------------------------------------------------------------+-----------------+----------------------------------------------+-------------------------------------------------------------------------------------------------------------------------------------------------------+-------------+
-; ../../MultiComp (VHDL Template)/Components/RAM_Internal/InternalRam8K.vhd   ; yes             ; User Wizard-Generated File                   ; C:/Users/dgilliland/Documents/GitHub/MultiComp/MultiComp (VHDL Template)/Components/RAM_Internal/InternalRam8K.vhd                                    ;             ;
+; ../../MultiComp (VHDL Template)/Components/RAM_Internal/InternalRam16K.vhd  ; yes             ; User Wizard-Generated File                   ; C:/Users/dgilliland/Documents/GitHub/MultiComp/MultiComp (VHDL Template)/Components/RAM_Internal/InternalRam16K.vhd                                   ;             ;
 ; ../../MultiComp (VHDL Template)/Components/RAM_Internal/InternalRam1K.vhd   ; yes             ; User Wizard-Generated File                   ; C:/Users/dgilliland/Documents/GitHub/MultiComp/MultiComp (VHDL Template)/Components/RAM_Internal/InternalRam1K.vhd                                    ;             ;
 ; ../../MultiComp (VHDL Template)/Components/UART/bufferedUART.vhd            ; yes             ; User VHDL File                               ; C:/Users/dgilliland/Documents/GitHub/MultiComp/MultiComp (VHDL Template)/Components/UART/bufferedUART.vhd                                             ;             ;
 ; ../../MultiComp (VHDL Template)/Components/ROMs/MIKBUG_6800/MIKBUG.vhd      ; yes             ; User Wizard-Generated File                   ; C:/Users/dgilliland/Documents/GitHub/MultiComp/MultiComp (VHDL Template)/Components/ROMs/MIKBUG_6800/MIKBUG.vhd                                       ;             ;
@@ -235,7 +235,10 @@ refer to the applicable agreement for further details.
 ; sld_jtag_endpoint_adapter.vhd                                               ; yes             ; Encrypted Megafunction                       ; c:/intelfpga_lite/18.1/quartus/libraries/megafunctions/sld_jtag_endpoint_adapter.vhd                                                                  ;             ;
 ; sld_jtag_endpoint_adapter_impl.sv                                           ; yes             ; Encrypted Megafunction                       ; c:/intelfpga_lite/18.1/quartus/libraries/megafunctions/sld_jtag_endpoint_adapter_impl.sv                                                              ;             ;
 ; sld_rom_sr.vhd                                                              ; yes             ; Encrypted Megafunction                       ; c:/intelfpga_lite/18.1/quartus/libraries/megafunctions/sld_rom_sr.vhd                                                                                 ;             ;
-; db/altsyncram_ebp3.tdf                                                      ; yes             ; Auto-Generated Megafunction                  ; C:/Users/dgilliland/Documents/GitHub/MultiComp/MultiComp_On_RETRO-EP4/M6800_MIKBUG/db/altsyncram_ebp3.tdf                                             ;             ;
+; db/altsyncram_m3q3.tdf                                                      ; yes             ; Auto-Generated Megafunction                  ; C:/Users/dgilliland/Documents/GitHub/MultiComp/MultiComp_On_RETRO-EP4/M6800_MIKBUG/db/altsyncram_m3q3.tdf                                             ;             ;
+; db/decode_jsa.tdf                                                           ; yes             ; Auto-Generated Megafunction                  ; C:/Users/dgilliland/Documents/GitHub/MultiComp/MultiComp_On_RETRO-EP4/M6800_MIKBUG/db/decode_jsa.tdf                                                  ;             ;
+; db/decode_c8a.tdf                                                           ; yes             ; Auto-Generated Megafunction                  ; C:/Users/dgilliland/Documents/GitHub/MultiComp/MultiComp_On_RETRO-EP4/M6800_MIKBUG/db/decode_c8a.tdf                                                  ;             ;
+; db/mux_3nb.tdf                                                              ; yes             ; Auto-Generated Megafunction                  ; C:/Users/dgilliland/Documents/GitHub/MultiComp/MultiComp_On_RETRO-EP4/M6800_MIKBUG/db/mux_3nb.tdf                                                     ;             ;
 ; db/altsyncram_j1q3.tdf                                                      ; yes             ; Auto-Generated Megafunction                  ; C:/Users/dgilliland/Documents/GitHub/MultiComp/MultiComp_On_RETRO-EP4/M6800_MIKBUG/db/altsyncram_j1q3.tdf                                             ;             ;
 ; db/altsyncram_6fv3.tdf                                                      ; yes             ; Auto-Generated Megafunction                  ; C:/Users/dgilliland/Documents/GitHub/MultiComp/MultiComp_On_RETRO-EP4/M6800_MIKBUG/db/altsyncram_6fv3.tdf                                             ;             ;
 ; ../../../MultiComp (VHDL Template)/Components/TERMINAL/SansFontBold.HEX     ; yes             ; Auto-Found Memory Initialization File        ; C:/Users/dgilliland/Documents/GitHub/MultiComp/MultiComp (VHDL Template)/Components/TERMINAL/SansFontBold.HEX                                         ;             ;
@@ -270,31 +273,31 @@ refer to the applicable agreement for further details.
 +---------------------------------------------+------------------+
 ; Resource                                    ; Usage            ;
 +---------------------------------------------+------------------+
-; Estimated Total logic elements              ; 2,964            ;
+; Estimated Total logic elements              ; 2,975            ;
 ;                                             ;                  ;
-; Total combinational functions               ; 2818             ;
+; Total combinational functions               ; 2829             ;
 ; Logic element usage by number of LUT inputs ;                  ;
-;     -- 4 input functions                    ; 1561             ;
-;     -- 3 input functions                    ; 643              ;
-;     -- <=2 input functions                  ; 614              ;
+;     -- 4 input functions                    ; 1563             ;
+;     -- 3 input functions                    ; 645              ;
+;     -- <=2 input functions                  ; 621              ;
 ;                                             ;                  ;
 ; Logic elements by mode                      ;                  ;
-;     -- normal mode                          ; 2367             ;
+;     -- normal mode                          ; 2378             ;
 ;     -- arithmetic mode                      ; 451              ;
 ;                                             ;                  ;
-; Total registers                             ; 801              ;
-;     -- Dedicated logic registers            ; 801              ;
+; Total registers                             ; 802              ;
+;     -- Dedicated logic registers            ; 802              ;
 ;     -- I/O registers                        ; 0                ;
 ;                                             ;                  ;
-; I/O pins                                    ; 85               ;
-; Total memory bits                           ; 155776           ;
+; I/O pins                                    ; 47               ;
+; Total memory bits                           ; 221312           ;
 ;                                             ;                  ;
 ; Embedded Multiplier 9-bit elements          ; 0                ;
 ;                                             ;                  ;
 ; Maximum fan-out node                        ; i_CLOCK_50~input ;
-; Maximum fan-out                             ; 509              ;
-; Total fan-out                               ; 13057            ;
-; Average fan-out                             ; 3.38             ;
+; Maximum fan-out                             ; 518              ;
+; Total fan-out                               ; 13185            ;
+; Average fan-out                             ; 3.46             ;
 +---------------------------------------------+------------------+
 
 
@@ -303,14 +306,15 @@ refer to the applicable agreement for further details.
 +-----------------------------------------------------------------------------------------------------------------------------------------+---------------------+---------------------------+-------------+--------------+---------+-----------+------+--------------+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+-----------------------------------+--------------+
 ; Compilation Hierarchy Node                                                                                                              ; Combinational ALUTs ; Dedicated Logic Registers ; Memory Bits ; DSP Elements ; DSP 9x9 ; DSP 18x18 ; Pins ; Virtual Pins ; Full Hierarchy Name                                                                                                                                                                                                                                                                                                                                      ; Entity Name                       ; Library Name ;
 +-----------------------------------------------------------------------------------------------------------------------------------------+---------------------+---------------------------+-------------+--------------+---------+-----------+------+--------------+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+-----------------------------------+--------------+
-; |M6800_MIKBUG                                                                                                                           ; 2818 (69)           ; 801 (20)                  ; 155776      ; 0            ; 0       ; 0         ; 85   ; 0            ; |M6800_MIKBUG                                                                                                                                                                                                                                                                                                                                            ; M6800_MIKBUG                      ; work         ;
+; |M6800_MIKBUG                                                                                                                           ; 2829 (77)           ; 802 (20)                  ; 221312      ; 0            ; 0       ; 0         ; 47   ; 0            ; |M6800_MIKBUG                                                                                                                                                                                                                                                                                                                                            ; M6800_MIKBUG                      ; work         ;
 ;    |Debouncer:DebounceResetSwitch|                                                                                                      ; 3 (3)               ; 7 (7)                     ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |M6800_MIKBUG|Debouncer:DebounceResetSwitch                                                                                                                                                                                                                                                                                                              ; Debouncer                         ; work         ;
+;    |InternalRam16K:sramLo|                                                                                                              ; 1 (0)               ; 1 (0)                     ; 131072      ; 0            ; 0       ; 0         ; 0    ; 0            ; |M6800_MIKBUG|InternalRam16K:sramLo                                                                                                                                                                                                                                                                                                                      ; InternalRam16K                    ; work         ;
+;       |altsyncram:altsyncram_component|                                                                                                 ; 1 (0)               ; 1 (0)                     ; 131072      ; 0            ; 0       ; 0         ; 0    ; 0            ; |M6800_MIKBUG|InternalRam16K:sramLo|altsyncram:altsyncram_component                                                                                                                                                                                                                                                                                      ; altsyncram                        ; work         ;
+;          |altsyncram_m3q3:auto_generated|                                                                                               ; 1 (0)               ; 1 (1)                     ; 131072      ; 0            ; 0       ; 0         ; 0    ; 0            ; |M6800_MIKBUG|InternalRam16K:sramLo|altsyncram:altsyncram_component|altsyncram_m3q3:auto_generated                                                                                                                                                                                                                                                       ; altsyncram_m3q3                   ; work         ;
+;             |decode_jsa:decode3|                                                                                                        ; 1 (1)               ; 0 (0)                     ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |M6800_MIKBUG|InternalRam16K:sramLo|altsyncram:altsyncram_component|altsyncram_m3q3:auto_generated|decode_jsa:decode3                                                                                                                                                                                                                                    ; decode_jsa                        ; work         ;
 ;    |InternalRam1K:sramHi|                                                                                                               ; 0 (0)               ; 0 (0)                     ; 8192        ; 0            ; 0       ; 0         ; 0    ; 0            ; |M6800_MIKBUG|InternalRam1K:sramHi                                                                                                                                                                                                                                                                                                                       ; InternalRam1K                     ; work         ;
 ;       |altsyncram:altsyncram_component|                                                                                                 ; 0 (0)               ; 0 (0)                     ; 8192        ; 0            ; 0       ; 0         ; 0    ; 0            ; |M6800_MIKBUG|InternalRam1K:sramHi|altsyncram:altsyncram_component                                                                                                                                                                                                                                                                                       ; altsyncram                        ; work         ;
 ;          |altsyncram_j1q3:auto_generated|                                                                                               ; 0 (0)               ; 0 (0)                     ; 8192        ; 0            ; 0       ; 0         ; 0    ; 0            ; |M6800_MIKBUG|InternalRam1K:sramHi|altsyncram:altsyncram_component|altsyncram_j1q3:auto_generated                                                                                                                                                                                                                                                        ; altsyncram_j1q3                   ; work         ;
-;    |InternalRam8K:sramLo|                                                                                                               ; 0 (0)               ; 0 (0)                     ; 65536       ; 0            ; 0       ; 0         ; 0    ; 0            ; |M6800_MIKBUG|InternalRam8K:sramLo                                                                                                                                                                                                                                                                                                                       ; InternalRam8K                     ; work         ;
-;       |altsyncram:altsyncram_component|                                                                                                 ; 0 (0)               ; 0 (0)                     ; 65536       ; 0            ; 0       ; 0         ; 0    ; 0            ; |M6800_MIKBUG|InternalRam8K:sramLo|altsyncram:altsyncram_component                                                                                                                                                                                                                                                                                       ; altsyncram                        ; work         ;
-;          |altsyncram_ebp3:auto_generated|                                                                                               ; 0 (0)               ; 0 (0)                     ; 65536       ; 0            ; 0       ; 0         ; 0    ; 0            ; |M6800_MIKBUG|InternalRam8K:sramLo|altsyncram:altsyncram_component|altsyncram_ebp3:auto_generated                                                                                                                                                                                                                                                        ; altsyncram_ebp3                   ; work         ;
 ;    |MIKBUG:rom1|                                                                                                                        ; 63 (0)              ; 41 (0)                    ; 32768       ; 0            ; 0       ; 0         ; 0    ; 0            ; |M6800_MIKBUG|MIKBUG:rom1                                                                                                                                                                                                                                                                                                                                ; MIKBUG                            ; work         ;
 ;       |altsyncram:altsyncram_component|                                                                                                 ; 63 (0)              ; 41 (0)                    ; 32768       ; 0            ; 0       ; 0         ; 0    ; 0            ; |M6800_MIKBUG|MIKBUG:rom1|altsyncram:altsyncram_component                                                                                                                                                                                                                                                                                                ; altsyncram                        ; work         ;
 ;          |altsyncram_it24:auto_generated|                                                                                               ; 63 (0)              ; 41 (0)                    ; 32768       ; 0            ; 0       ; 0         ; 0    ; 0            ; |M6800_MIKBUG|MIKBUG:rom1|altsyncram:altsyncram_component|altsyncram_it24:auto_generated                                                                                                                                                                                                                                                                 ; altsyncram_it24                   ; work         ;
@@ -338,7 +342,7 @@ refer to the applicable agreement for further details.
 ;    |bufferedUART:acia|                                                                                                                  ; 128 (128)           ; 93 (93)                   ; 128         ; 0            ; 0       ; 0         ; 0    ; 0            ; |M6800_MIKBUG|bufferedUART:acia                                                                                                                                                                                                                                                                                                                          ; bufferedUART                      ; work         ;
 ;       |altsyncram:rxBuffer_rtl_0|                                                                                                       ; 0 (0)               ; 0 (0)                     ; 128         ; 0            ; 0       ; 0         ; 0    ; 0            ; |M6800_MIKBUG|bufferedUART:acia|altsyncram:rxBuffer_rtl_0                                                                                                                                                                                                                                                                                                ; altsyncram                        ; work         ;
 ;          |altsyncram_3ce1:auto_generated|                                                                                               ; 0 (0)               ; 0 (0)                     ; 128         ; 0            ; 0       ; 0         ; 0    ; 0            ; |M6800_MIKBUG|bufferedUART:acia|altsyncram:rxBuffer_rtl_0|altsyncram_3ce1:auto_generated                                                                                                                                                                                                                                                                 ; altsyncram_3ce1                   ; work         ;
-;    |cpu68:cpu1|                                                                                                                         ; 1049 (1049)         ; 169 (169)                 ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |M6800_MIKBUG|cpu68:cpu1                                                                                                                                                                                                                                                                                                                                 ; cpu68                             ; work         ;
+;    |cpu68:cpu1|                                                                                                                         ; 1051 (1051)         ; 169 (169)                 ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |M6800_MIKBUG|cpu68:cpu1                                                                                                                                                                                                                                                                                                                                 ; cpu68                             ; work         ;
 ;    |sld_hub:auto_hub|                                                                                                                   ; 123 (1)             ; 87 (0)                    ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |M6800_MIKBUG|sld_hub:auto_hub                                                                                                                                                                                                                                                                                                                           ; sld_hub                           ; altera_sld   ;
 ;       |alt_sld_fab_with_jtag_input:\instrumentation_fabric_with_node_gen:fabric_gen_new_way:with_jtag_input_gen:instrumentation_fabric| ; 122 (0)             ; 87 (0)                    ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |M6800_MIKBUG|sld_hub:auto_hub|alt_sld_fab_with_jtag_input:\instrumentation_fabric_with_node_gen:fabric_gen_new_way:with_jtag_input_gen:instrumentation_fabric                                                                                                                                                                                           ; alt_sld_fab_with_jtag_input       ; altera_sld   ;
 ;          |alt_sld_fab:instrumentation_fabric|                                                                                           ; 122 (0)             ; 87 (0)                    ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |M6800_MIKBUG|sld_hub:auto_hub|alt_sld_fab_with_jtag_input:\instrumentation_fabric_with_node_gen:fabric_gen_new_way:with_jtag_input_gen:instrumentation_fabric|alt_sld_fab:instrumentation_fabric                                                                                                                                                        ; alt_sld_fab                       ; alt_sld_fab  ;
@@ -351,19 +355,19 @@ refer to the applicable agreement for further details.
 Note: For table entries with two numbers listed, the numbers in parentheses indicate the number of resources of the given type used by the specific entity alone. The numbers listed outside of parentheses indicate the total resources of the given type used by the specific entity and all of its sub-entities in the hierarchy.
 
 
-+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
-; Analysis & Synthesis RAM Summary                                                                                                                                                                                                                                                                                  ;
-+---------------------------------------------------------------------------------------------------------------------------------------+------+------------------+--------------+--------------+--------------+--------------+-------+-----------------------------------------------------------------------------+
-; Name                                                                                                                                  ; Type ; Mode             ; Port A Depth ; Port A Width ; Port B Depth ; Port B Width ; Size  ; MIF                                                                         ;
-+---------------------------------------------------------------------------------------------------------------------------------------+------+------------------+--------------+--------------+--------------+--------------+-------+-----------------------------------------------------------------------------+
-; InternalRam1K:sramHi|altsyncram:altsyncram_component|altsyncram_j1q3:auto_generated|ALTSYNCRAM                                        ; AUTO ; Single Port      ; 1024         ; 8            ; --           ; --           ; 8192  ; None                                                                        ;
-; InternalRam8K:sramLo|altsyncram:altsyncram_component|altsyncram_ebp3:auto_generated|ALTSYNCRAM                                        ; AUTO ; Single Port      ; 8192         ; 8            ; --           ; --           ; 65536 ; None                                                                        ;
-; MIKBUG:rom1|altsyncram:altsyncram_component|altsyncram_it24:auto_generated|altsyncram_le33:altsyncram1|ALTSYNCRAM                     ; AUTO ; True Dual Port   ; 4096         ; 8            ; 4096         ; 8            ; 32768 ; ../../../MultiComp (VHDL Template)/Components/ROMs/MIKBUG_6800/smithbug.hex ;
-; SBCTextDisplayRGB:vdu|DisplayRam2K:\GEN_2KATTRAM:dispAttRam|altsyncram:altsyncram_component|altsyncram_ldr3:auto_generated|ALTSYNCRAM ; AUTO ; True Dual Port   ; 2048         ; 8            ; 2048         ; 8            ; 16384 ; None                                                                        ;
-; SBCTextDisplayRGB:vdu|DisplayRam2K:\GEN_2KRAM:dispCharRam|altsyncram:altsyncram_component|altsyncram_ldr3:auto_generated|ALTSYNCRAM   ; AUTO ; True Dual Port   ; 2048         ; 8            ; 2048         ; 8            ; 16384 ; None                                                                        ;
-; SBCTextDisplayRGB:vdu|SansBoldRom:\GEN_EXT_SCHARS:fontRom|altsyncram:altsyncram_component|altsyncram_6fv3:auto_generated|ALTSYNCRAM   ; AUTO ; ROM              ; 2048         ; 8            ; --           ; --           ; 16384 ; ../../../MultiComp (VHDL Template)/Components/TERMINAL/SansFontBold.HEX     ;
-; bufferedUART:acia|altsyncram:rxBuffer_rtl_0|altsyncram_3ce1:auto_generated|ALTSYNCRAM                                                 ; AUTO ; Simple Dual Port ; 16           ; 8            ; 16           ; 8            ; 128   ; None                                                                        ;
-+---------------------------------------------------------------------------------------------------------------------------------------+------+------------------+--------------+--------------+--------------+--------------+-------+-----------------------------------------------------------------------------+
++--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+; Analysis & Synthesis RAM Summary                                                                                                                                                                                                                                                                                   ;
++---------------------------------------------------------------------------------------------------------------------------------------+------+------------------+--------------+--------------+--------------+--------------+--------+-----------------------------------------------------------------------------+
+; Name                                                                                                                                  ; Type ; Mode             ; Port A Depth ; Port A Width ; Port B Depth ; Port B Width ; Size   ; MIF                                                                         ;
++---------------------------------------------------------------------------------------------------------------------------------------+------+------------------+--------------+--------------+--------------+--------------+--------+-----------------------------------------------------------------------------+
+; InternalRam16K:sramLo|altsyncram:altsyncram_component|altsyncram_m3q3:auto_generated|ALTSYNCRAM                                       ; AUTO ; Single Port      ; 16384        ; 8            ; --           ; --           ; 131072 ; None                                                                        ;
+; InternalRam1K:sramHi|altsyncram:altsyncram_component|altsyncram_j1q3:auto_generated|ALTSYNCRAM                                        ; AUTO ; Single Port      ; 1024         ; 8            ; --           ; --           ; 8192   ; None                                                                        ;
+; MIKBUG:rom1|altsyncram:altsyncram_component|altsyncram_it24:auto_generated|altsyncram_le33:altsyncram1|ALTSYNCRAM                     ; AUTO ; True Dual Port   ; 4096         ; 8            ; 4096         ; 8            ; 32768  ; ../../../MultiComp (VHDL Template)/Components/ROMs/MIKBUG_6800/smithbug.hex ;
+; SBCTextDisplayRGB:vdu|DisplayRam2K:\GEN_2KATTRAM:dispAttRam|altsyncram:altsyncram_component|altsyncram_ldr3:auto_generated|ALTSYNCRAM ; AUTO ; True Dual Port   ; 2048         ; 8            ; 2048         ; 8            ; 16384  ; None                                                                        ;
+; SBCTextDisplayRGB:vdu|DisplayRam2K:\GEN_2KRAM:dispCharRam|altsyncram:altsyncram_component|altsyncram_ldr3:auto_generated|ALTSYNCRAM   ; AUTO ; True Dual Port   ; 2048         ; 8            ; 2048         ; 8            ; 16384  ; None                                                                        ;
+; SBCTextDisplayRGB:vdu|SansBoldRom:\GEN_EXT_SCHARS:fontRom|altsyncram:altsyncram_component|altsyncram_6fv3:auto_generated|ALTSYNCRAM   ; AUTO ; ROM              ; 2048         ; 8            ; --           ; --           ; 16384  ; ../../../MultiComp (VHDL Template)/Components/TERMINAL/SansFontBold.HEX     ;
+; bufferedUART:acia|altsyncram:rxBuffer_rtl_0|altsyncram_3ce1:auto_generated|ALTSYNCRAM                                                 ; AUTO ; Simple Dual Port ; 16           ; 8            ; 16           ; 8            ; 128    ; None                                                                        ;
++---------------------------------------------------------------------------------------------------------------------------------------+------+------------------+--------------+--------------+--------------+--------------+--------+-----------------------------------------------------------------------------+
 
 
 +----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
@@ -548,7 +552,7 @@ Encoding Type:  One-Hot
 +----------------------------------------------+-------+
 ; Statistic                                    ; Value ;
 +----------------------------------------------+-------+
-; Total registers                              ; 801   ;
+; Total registers                              ; 802   ;
 ; Number of registers using Synchronous Clear  ; 205   ;
 ; Number of registers using Synchronous Load   ; 55    ;
 ; Number of registers using Asynchronous Clear ; 110   ;
@@ -648,17 +652,17 @@ Encoding Type:  One-Hot
 ; 4:1                ; 2 bits    ; 4 LEs         ; 2 LEs                ; 2 LEs                  ; No         ; |M6800_MIKBUG|SBCTextDisplayRGB:vdu|dispState                                                                                                                                         ;
 ; 4:1                ; 8 bits    ; 16 LEs        ; 8 LEs                ; 8 LEs                  ; No         ; |M6800_MIKBUG|cpu68:cpu1|state                                                                                                                                                        ;
 ; 4:1                ; 13 bits   ; 26 LEs        ; 26 LEs               ; 0 LEs                  ; No         ; |M6800_MIKBUG|cpu68:cpu1|Selector6                                                                                                                                                    ;
-; 4:1                ; 8 bits    ; 16 LEs        ; 16 LEs               ; 0 LEs                  ; No         ; |M6800_MIKBUG|cpu68:cpu1|Selector47                                                                                                                                                   ;
-; 4:1                ; 8 bits    ; 16 LEs        ; 16 LEs               ; 0 LEs                  ; No         ; |M6800_MIKBUG|cpu68:cpu1|Selector29                                                                                                                                                   ;
+; 4:1                ; 8 bits    ; 16 LEs        ; 16 LEs               ; 0 LEs                  ; No         ; |M6800_MIKBUG|cpu68:cpu1|Selector49                                                                                                                                                   ;
+; 4:1                ; 8 bits    ; 16 LEs        ; 16 LEs               ; 0 LEs                  ; No         ; |M6800_MIKBUG|cpu68:cpu1|Selector25                                                                                                                                                   ;
 ; 4:1                ; 8 bits    ; 16 LEs        ; 16 LEs               ; 0 LEs                  ; No         ; |M6800_MIKBUG|cpu68:cpu1|Selector40                                                                                                                                                   ;
-; 6:1                ; 8 bits    ; 32 LEs        ; 24 LEs               ; 8 LEs                  ; No         ; |M6800_MIKBUG|w_cpuDataIn[2]                                                                                                                                                          ;
 ; 5:1                ; 8 bits    ; 24 LEs        ; 16 LEs               ; 8 LEs                  ; No         ; |M6800_MIKBUG|cpu68:cpu1|Selector143                                                                                                                                                  ;
-; 5:1                ; 8 bits    ; 24 LEs        ; 24 LEs               ; 0 LEs                  ; No         ; |M6800_MIKBUG|cpu68:cpu1|Selector152                                                                                                                                                  ;
-; 5:1                ; 8 bits    ; 24 LEs        ; 16 LEs               ; 8 LEs                  ; No         ; |M6800_MIKBUG|cpu68:cpu1|Selector56                                                                                                                                                   ;
-; 7:1                ; 2 bits    ; 8 LEs         ; 4 LEs                ; 4 LEs                  ; No         ; |M6800_MIKBUG|SBCTextDisplayRGB:vdu|escState.processingParams                                                                                                                         ;
-; 7:1                ; 2 bits    ; 8 LEs         ; 6 LEs                ; 2 LEs                  ; No         ; |M6800_MIKBUG|SBCTextDisplayRGB:vdu|escState.processingAdditionalParams                                                                                                               ;
-; 7:1                ; 3 bits    ; 12 LEs        ; 6 LEs                ; 6 LEs                  ; No         ; |M6800_MIKBUG|bufferedUART:acia|txState.idle                                                                                                                                          ;
-; 7:1                ; 3 bits    ; 12 LEs        ; 6 LEs                ; 6 LEs                  ; No         ; |M6800_MIKBUG|bufferedUART:acia|rxState.idle                                                                                                                                          ;
+; 5:1                ; 8 bits    ; 24 LEs        ; 24 LEs               ; 0 LEs                  ; No         ; |M6800_MIKBUG|cpu68:cpu1|Selector148                                                                                                                                                  ;
+; 5:1                ; 8 bits    ; 24 LEs        ; 16 LEs               ; 8 LEs                  ; No         ; |M6800_MIKBUG|cpu68:cpu1|Selector57                                                                                                                                                   ;
+; 7:1                ; 2 bits    ; 8 LEs         ; 4 LEs                ; 4 LEs                  ; No         ; |M6800_MIKBUG|SBCTextDisplayRGB:vdu|escState.waitForLeftBracket                                                                                                                       ;
+; 7:1                ; 2 bits    ; 8 LEs         ; 6 LEs                ; 2 LEs                  ; No         ; |M6800_MIKBUG|SBCTextDisplayRGB:vdu|escState.none                                                                                                                                     ;
+; 7:1                ; 8 bits    ; 32 LEs        ; 32 LEs               ; 0 LEs                  ; No         ; |M6800_MIKBUG|w_cpuDataIn[6]                                                                                                                                                          ;
+; 7:1                ; 3 bits    ; 12 LEs        ; 6 LEs                ; 6 LEs                  ; No         ; |M6800_MIKBUG|bufferedUART:acia|txState.stopBit                                                                                                                                       ;
+; 7:1                ; 3 bits    ; 12 LEs        ; 6 LEs                ; 6 LEs                  ; No         ; |M6800_MIKBUG|bufferedUART:acia|rxState.dataBit                                                                                                                                       ;
 ; 9:1                ; 9 bits    ; 54 LEs        ; 9 LEs                ; 45 LEs                 ; No         ; |M6800_MIKBUG|SBCTextDisplayRGB:vdu|dispState                                                                                                                                         ;
 ; 9:1                ; 8 bits    ; 48 LEs        ; 48 LEs               ; 0 LEs                  ; No         ; |M6800_MIKBUG|cpu68:cpu1|Selector17                                                                                                                                                   ;
 ; 13:1               ; 6 bits    ; 48 LEs        ; 48 LEs               ; 0 LEs                  ; No         ; |M6800_MIKBUG|cpu68:cpu1|Selector178                                                                                                                                                  ;
@@ -675,13 +679,13 @@ Encoding Type:  One-Hot
 +---------------------------------+--------------------+------+-----------------------------------------------------------------+
 
 
-+------------------------------------------------------------------------------------------------------------+
-; Source assignments for InternalRam8K:sramLo|altsyncram:altsyncram_component|altsyncram_ebp3:auto_generated ;
-+---------------------------------+--------------------+------+----------------------------------------------+
-; Assignment                      ; Value              ; From ; To                                           ;
-+---------------------------------+--------------------+------+----------------------------------------------+
-; OPTIMIZE_POWER_DURING_SYNTHESIS ; NORMAL_COMPILATION ; -    ; -                                            ;
-+---------------------------------+--------------------+------+----------------------------------------------+
++-------------------------------------------------------------------------------------------------------------+
+; Source assignments for InternalRam16K:sramLo|altsyncram:altsyncram_component|altsyncram_m3q3:auto_generated ;
++---------------------------------+--------------------+------+-----------------------------------------------+
+; Assignment                      ; Value              ; From ; To                                            ;
++---------------------------------+--------------------+------+-----------------------------------------------+
+; OPTIMIZE_POWER_DURING_SYNTHESIS ; NORMAL_COMPILATION ; -    ; -                                             ;
++---------------------------------+--------------------+------+-----------------------------------------------+
 
 
 +------------------------------------------------------------------------------------------------------------+
@@ -790,64 +794,64 @@ Encoding Type:  One-Hot
 Note: In order to hide this table in the UI and the text report file, please set the "Show Parameter Settings in Synthesis Report" option in "Analysis and Synthesis Settings -> More Settings" to "Off".
 
 
-+---------------------------------------------------------------------------------------------------+
-; Parameter Settings for User Entity Instance: InternalRam8K:sramLo|altsyncram:altsyncram_component ;
-+------------------------------------+----------------------+---------------------------------------+
-; Parameter Name                     ; Value                ; Type                                  ;
-+------------------------------------+----------------------+---------------------------------------+
-; BYTE_SIZE_BLOCK                    ; 8                    ; Untyped                               ;
-; AUTO_CARRY_CHAINS                  ; ON                   ; AUTO_CARRY                            ;
-; IGNORE_CARRY_BUFFERS               ; OFF                  ; IGNORE_CARRY                          ;
-; AUTO_CASCADE_CHAINS                ; ON                   ; AUTO_CASCADE                          ;
-; IGNORE_CASCADE_BUFFERS             ; OFF                  ; IGNORE_CASCADE                        ;
-; WIDTH_BYTEENA                      ; 1                    ; Untyped                               ;
-; OPERATION_MODE                     ; SINGLE_PORT          ; Untyped                               ;
-; WIDTH_A                            ; 8                    ; Signed Integer                        ;
-; WIDTHAD_A                          ; 13                   ; Signed Integer                        ;
-; NUMWORDS_A                         ; 8192                 ; Signed Integer                        ;
-; OUTDATA_REG_A                      ; CLOCK0               ; Untyped                               ;
-; ADDRESS_ACLR_A                     ; NONE                 ; Untyped                               ;
-; OUTDATA_ACLR_A                     ; NONE                 ; Untyped                               ;
-; WRCONTROL_ACLR_A                   ; NONE                 ; Untyped                               ;
-; INDATA_ACLR_A                      ; NONE                 ; Untyped                               ;
-; BYTEENA_ACLR_A                     ; NONE                 ; Untyped                               ;
-; WIDTH_B                            ; 1                    ; Signed Integer                        ;
-; WIDTHAD_B                          ; 1                    ; Signed Integer                        ;
-; NUMWORDS_B                         ; 0                    ; Signed Integer                        ;
-; INDATA_REG_B                       ; CLOCK1               ; Untyped                               ;
-; WRCONTROL_WRADDRESS_REG_B          ; CLOCK1               ; Untyped                               ;
-; RDCONTROL_REG_B                    ; CLOCK1               ; Untyped                               ;
-; ADDRESS_REG_B                      ; CLOCK1               ; Untyped                               ;
-; OUTDATA_REG_B                      ; UNREGISTERED         ; Untyped                               ;
-; BYTEENA_REG_B                      ; CLOCK1               ; Untyped                               ;
-; INDATA_ACLR_B                      ; NONE                 ; Untyped                               ;
-; WRCONTROL_ACLR_B                   ; NONE                 ; Untyped                               ;
-; ADDRESS_ACLR_B                     ; NONE                 ; Untyped                               ;
-; OUTDATA_ACLR_B                     ; NONE                 ; Untyped                               ;
-; RDCONTROL_ACLR_B                   ; NONE                 ; Untyped                               ;
-; BYTEENA_ACLR_B                     ; NONE                 ; Untyped                               ;
-; WIDTH_BYTEENA_A                    ; 1                    ; Signed Integer                        ;
-; WIDTH_BYTEENA_B                    ; 1                    ; Signed Integer                        ;
-; RAM_BLOCK_TYPE                     ; AUTO                 ; Untyped                               ;
-; BYTE_SIZE                          ; 8                    ; Signed Integer                        ;
-; READ_DURING_WRITE_MODE_MIXED_PORTS ; DONT_CARE            ; Untyped                               ;
-; READ_DURING_WRITE_MODE_PORT_A      ; NEW_DATA_NO_NBE_READ ; Untyped                               ;
-; READ_DURING_WRITE_MODE_PORT_B      ; NEW_DATA_NO_NBE_READ ; Untyped                               ;
-; INIT_FILE                          ; UNUSED               ; Untyped                               ;
-; INIT_FILE_LAYOUT                   ; PORT_A               ; Untyped                               ;
-; MAXIMUM_DEPTH                      ; 0                    ; Signed Integer                        ;
-; CLOCK_ENABLE_INPUT_A               ; BYPASS               ; Untyped                               ;
-; CLOCK_ENABLE_INPUT_B               ; NORMAL               ; Untyped                               ;
-; CLOCK_ENABLE_OUTPUT_A              ; BYPASS               ; Untyped                               ;
-; CLOCK_ENABLE_OUTPUT_B              ; NORMAL               ; Untyped                               ;
-; CLOCK_ENABLE_CORE_A                ; USE_INPUT_CLKEN      ; Untyped                               ;
-; CLOCK_ENABLE_CORE_B                ; USE_INPUT_CLKEN      ; Untyped                               ;
-; ENABLE_ECC                         ; FALSE                ; Untyped                               ;
-; ECC_PIPELINE_STAGE_ENABLED         ; FALSE                ; Untyped                               ;
-; WIDTH_ECCSTATUS                    ; 3                    ; Signed Integer                        ;
-; DEVICE_FAMILY                      ; Cyclone IV E         ; Untyped                               ;
-; CBXI_PARAMETER                     ; altsyncram_ebp3      ; Untyped                               ;
-+------------------------------------+----------------------+---------------------------------------+
++----------------------------------------------------------------------------------------------------+
+; Parameter Settings for User Entity Instance: InternalRam16K:sramLo|altsyncram:altsyncram_component ;
++------------------------------------+----------------------+----------------------------------------+
+; Parameter Name                     ; Value                ; Type                                   ;
++------------------------------------+----------------------+----------------------------------------+
+; BYTE_SIZE_BLOCK                    ; 8                    ; Untyped                                ;
+; AUTO_CARRY_CHAINS                  ; ON                   ; AUTO_CARRY                             ;
+; IGNORE_CARRY_BUFFERS               ; OFF                  ; IGNORE_CARRY                           ;
+; AUTO_CASCADE_CHAINS                ; ON                   ; AUTO_CASCADE                           ;
+; IGNORE_CASCADE_BUFFERS             ; OFF                  ; IGNORE_CASCADE                         ;
+; WIDTH_BYTEENA                      ; 1                    ; Untyped                                ;
+; OPERATION_MODE                     ; SINGLE_PORT          ; Untyped                                ;
+; WIDTH_A                            ; 8                    ; Signed Integer                         ;
+; WIDTHAD_A                          ; 14                   ; Signed Integer                         ;
+; NUMWORDS_A                         ; 16384                ; Signed Integer                         ;
+; OUTDATA_REG_A                      ; UNREGISTERED         ; Untyped                                ;
+; ADDRESS_ACLR_A                     ; NONE                 ; Untyped                                ;
+; OUTDATA_ACLR_A                     ; NONE                 ; Untyped                                ;
+; WRCONTROL_ACLR_A                   ; NONE                 ; Untyped                                ;
+; INDATA_ACLR_A                      ; NONE                 ; Untyped                                ;
+; BYTEENA_ACLR_A                     ; NONE                 ; Untyped                                ;
+; WIDTH_B                            ; 1                    ; Signed Integer                         ;
+; WIDTHAD_B                          ; 1                    ; Signed Integer                         ;
+; NUMWORDS_B                         ; 0                    ; Signed Integer                         ;
+; INDATA_REG_B                       ; CLOCK1               ; Untyped                                ;
+; WRCONTROL_WRADDRESS_REG_B          ; CLOCK1               ; Untyped                                ;
+; RDCONTROL_REG_B                    ; CLOCK1               ; Untyped                                ;
+; ADDRESS_REG_B                      ; CLOCK1               ; Untyped                                ;
+; OUTDATA_REG_B                      ; UNREGISTERED         ; Untyped                                ;
+; BYTEENA_REG_B                      ; CLOCK1               ; Untyped                                ;
+; INDATA_ACLR_B                      ; NONE                 ; Untyped                                ;
+; WRCONTROL_ACLR_B                   ; NONE                 ; Untyped                                ;
+; ADDRESS_ACLR_B                     ; NONE                 ; Untyped                                ;
+; OUTDATA_ACLR_B                     ; NONE                 ; Untyped                                ;
+; RDCONTROL_ACLR_B                   ; NONE                 ; Untyped                                ;
+; BYTEENA_ACLR_B                     ; NONE                 ; Untyped                                ;
+; WIDTH_BYTEENA_A                    ; 1                    ; Signed Integer                         ;
+; WIDTH_BYTEENA_B                    ; 1                    ; Signed Integer                         ;
+; RAM_BLOCK_TYPE                     ; AUTO                 ; Untyped                                ;
+; BYTE_SIZE                          ; 8                    ; Signed Integer                         ;
+; READ_DURING_WRITE_MODE_MIXED_PORTS ; DONT_CARE            ; Untyped                                ;
+; READ_DURING_WRITE_MODE_PORT_A      ; NEW_DATA_NO_NBE_READ ; Untyped                                ;
+; READ_DURING_WRITE_MODE_PORT_B      ; NEW_DATA_NO_NBE_READ ; Untyped                                ;
+; INIT_FILE                          ; UNUSED               ; Untyped                                ;
+; INIT_FILE_LAYOUT                   ; PORT_A               ; Untyped                                ;
+; MAXIMUM_DEPTH                      ; 0                    ; Signed Integer                         ;
+; CLOCK_ENABLE_INPUT_A               ; BYPASS               ; Untyped                                ;
+; CLOCK_ENABLE_INPUT_B               ; NORMAL               ; Untyped                                ;
+; CLOCK_ENABLE_OUTPUT_A              ; BYPASS               ; Untyped                                ;
+; CLOCK_ENABLE_OUTPUT_B              ; NORMAL               ; Untyped                                ;
+; CLOCK_ENABLE_CORE_A                ; USE_INPUT_CLKEN      ; Untyped                                ;
+; CLOCK_ENABLE_CORE_B                ; USE_INPUT_CLKEN      ; Untyped                                ;
+; ENABLE_ECC                         ; FALSE                ; Untyped                                ;
+; ECC_PIPELINE_STAGE_ENABLED         ; FALSE                ; Untyped                                ;
+; WIDTH_ECCSTATUS                    ; 3                    ; Signed Integer                         ;
+; DEVICE_FAMILY                      ; Cyclone IV E         ; Untyped                                ;
+; CBXI_PARAMETER                     ; altsyncram_m3q3      ; Untyped                                ;
++------------------------------------+----------------------+----------------------------------------+
 Note: In order to hide this table in the UI and the text report file, please set the "Show Parameter Settings in Synthesis Report" option in "Analysis and Synthesis Settings -> More Settings" to "Off".
 
 
@@ -1245,11 +1249,11 @@ Note: In order to hide this table in the UI and the text report file, please set
 ;     -- OUTDATA_REG_B                      ; UNREGISTERED                                                                                ;
 ;     -- RAM_BLOCK_TYPE                     ; AUTO                                                                                        ;
 ;     -- READ_DURING_WRITE_MODE_MIXED_PORTS ; DONT_CARE                                                                                   ;
-; Entity Instance                           ; InternalRam8K:sramLo|altsyncram:altsyncram_component                                        ;
+; Entity Instance                           ; InternalRam16K:sramLo|altsyncram:altsyncram_component                                       ;
 ;     -- OPERATION_MODE                     ; SINGLE_PORT                                                                                 ;
 ;     -- WIDTH_A                            ; 8                                                                                           ;
-;     -- NUMWORDS_A                         ; 8192                                                                                        ;
-;     -- OUTDATA_REG_A                      ; CLOCK0                                                                                      ;
+;     -- NUMWORDS_A                         ; 16384                                                                                       ;
+;     -- OUTDATA_REG_A                      ; UNREGISTERED                                                                                ;
 ;     -- WIDTH_B                            ; 1                                                                                           ;
 ;     -- NUMWORDS_B                         ; 0                                                                                           ;
 ;     -- ADDRESS_REG_B                      ; CLOCK1                                                                                      ;
@@ -1388,8 +1392,8 @@ Note: In order to hide this table in the UI and the text report file, please set
 +-----------------------+-----------------------------+
 ; Type                  ; Count                       ;
 +-----------------------+-----------------------------+
-; boundary_port         ; 112                         ;
-; cycloneiii_ff         ; 714                         ;
+; boundary_port         ; 74                          ;
+; cycloneiii_ff         ; 715                         ;
 ;     CLR               ; 21                          ;
 ;     ENA               ; 296                         ;
 ;     ENA CLR           ; 21                          ;
@@ -1399,22 +1403,22 @@ Note: In order to hide this table in the UI and the text report file, please set
 ;     ENA SCLR SLD      ; 24                          ;
 ;     ENA SLD           ; 5                           ;
 ;     SCLR              ; 54                          ;
-;     plain             ; 162                         ;
+;     plain             ; 163                         ;
 ; cycloneiii_io_obuf    ; 10                          ;
-; cycloneiii_lcell_comb ; 2696                        ;
+; cycloneiii_lcell_comb ; 2707                        ;
 ;     arith             ; 443                         ;
 ;         2 data inputs ; 238                         ;
 ;         3 data inputs ; 205                         ;
-;     normal            ; 2253                        ;
+;     normal            ; 2264                        ;
 ;         0 data inputs ; 17                          ;
 ;         1 data inputs ; 38                          ;
-;         2 data inputs ; 286                         ;
-;         3 data inputs ; 404                         ;
-;         4 data inputs ; 1508                        ;
-; cycloneiii_ram_block  ; 56                          ;
+;         2 data inputs ; 293                         ;
+;         3 data inputs ; 406                         ;
+;         4 data inputs ; 1510                        ;
+; cycloneiii_ram_block  ; 64                          ;
 ;                       ;                             ;
-; Max LUT depth         ; 17.80                       ;
-; Average LUT depth     ; 7.73                        ;
+; Max LUT depth         ; 18.80                       ;
+; Average LUT depth     ; 7.78                        ;
 +-----------------------+-----------------------------+
 
 
@@ -1433,12 +1437,12 @@ Note: In order to hide this table in the UI and the text report file, please set
 Info: *******************************************************************
 Info: Running Quartus Prime Analysis & Synthesis
     Info: Version 18.1.0 Build 625 09/12/2018 SJ Lite Edition
-    Info: Processing started: Thu Mar 05 09:14:38 2020
+    Info: Processing started: Thu Mar 05 10:36:02 2020
 Info: Command: quartus_map --read_settings_files=on --write_settings_files=off M6800_MIKBUG -c M6800_MIKBUG
 Info (20030): Parallel compilation is enabled and will use 4 of the 4 processors detected
-Info (12021): Found 2 design units, including 1 entities, in source file /users/dgilliland/documents/github/multicomp/multicomp (vhdl template)/components/ram_internal/internalram8k.vhd
-    Info (12022): Found design unit 1: internalram8k-SYN File: C:/Users/dgilliland/Documents/GitHub/MultiComp/MultiComp (VHDL Template)/Components/RAM_Internal/InternalRam8K.vhd Line: 54
-    Info (12023): Found entity 1: InternalRam8K File: C:/Users/dgilliland/Documents/GitHub/MultiComp/MultiComp (VHDL Template)/Components/RAM_Internal/InternalRam8K.vhd Line: 42
+Info (12021): Found 2 design units, including 1 entities, in source file /users/dgilliland/documents/github/multicomp/multicomp (vhdl template)/components/ram_internal/internalram16k.vhd
+    Info (12022): Found design unit 1: internalram16k-SYN File: C:/Users/dgilliland/Documents/GitHub/MultiComp/MultiComp (VHDL Template)/Components/RAM_Internal/InternalRam16K.vhd Line: 54
+    Info (12023): Found entity 1: InternalRam16K File: C:/Users/dgilliland/Documents/GitHub/MultiComp/MultiComp (VHDL Template)/Components/RAM_Internal/InternalRam16K.vhd Line: 42
 Info (12021): Found 2 design units, including 1 entities, in source file /users/dgilliland/documents/github/multicomp/multicomp (vhdl template)/components/ram_internal/internalram1k.vhd
     Info (12022): Found design unit 1: internalram1k-SYN File: C:/Users/dgilliland/Documents/GitHub/MultiComp/MultiComp (VHDL Template)/Components/RAM_Internal/InternalRam1K.vhd Line: 54
     Info (12023): Found entity 1: InternalRam1K File: C:/Users/dgilliland/Documents/GitHub/MultiComp/MultiComp (VHDL Template)/Components/RAM_Internal/InternalRam1K.vhd Line: 42
@@ -1476,26 +1480,19 @@ Info (12021): Found 2 design units, including 1 entities, in source file /users/
     Info (12022): Found design unit 1: SBCTextDisplayRGB-rtl File: C:/Users/dgilliland/Documents/GitHub/MultiComp/MultiComp (VHDL Template)/Components/TERMINAL/SBCTextDisplayRGB.vhd Line: 79
     Info (12023): Found entity 1: SBCTextDisplayRGB File: C:/Users/dgilliland/Documents/GitHub/MultiComp/MultiComp (VHDL Template)/Components/TERMINAL/SBCTextDisplayRGB.vhd Line: 21
 Info (12021): Found 2 design units, including 1 entities, in source file m6800_mikbug.vhd
-    Info (12022): Found design unit 1: M6800_MIKBUG-struct File: C:/Users/dgilliland/Documents/GitHub/MultiComp/MultiComp_On_RETRO-EP4/M6800_MIKBUG/M6800_MIKBUG.vhd Line: 58
-    Info (12023): Found entity 1: M6800_MIKBUG File: C:/Users/dgilliland/Documents/GitHub/MultiComp/MultiComp_On_RETRO-EP4/M6800_MIKBUG/M6800_MIKBUG.vhd Line: 16
+    Info (12022): Found design unit 1: M6800_MIKBUG-struct File: C:/Users/dgilliland/Documents/GitHub/MultiComp/MultiComp_On_RETRO-EP4/M6800_MIKBUG/M6800_MIKBUG.vhd Line: 55
+    Info (12023): Found entity 1: M6800_MIKBUG File: C:/Users/dgilliland/Documents/GitHub/MultiComp/MultiComp_On_RETRO-EP4/M6800_MIKBUG/M6800_MIKBUG.vhd Line: 23
 Info (12127): Elaborating entity "M6800_MIKBUG" for the top level hierarchy
-Warning (10541): VHDL Signal Declaration warning at M6800_MIKBUG.vhd(36): used implicit default value for signal "rts1" because signal was never assigned a value or an explicit default value. Use of implicit default value may introduce unintended design optimizations. File: C:/Users/dgilliland/Documents/GitHub/MultiComp/MultiComp_On_RETRO-EP4/M6800_MIKBUG/M6800_MIKBUG.vhd Line: 36
-Warning (10541): VHDL Signal Declaration warning at M6800_MIKBUG.vhd(41): used implicit default value for signal "io_extSRamAddress" because signal was never assigned a value or an explicit default value. Use of implicit default value may introduce unintended design optimizations. File: C:/Users/dgilliland/Documents/GitHub/MultiComp/MultiComp_On_RETRO-EP4/M6800_MIKBUG/M6800_MIKBUG.vhd Line: 41
-Warning (10540): VHDL Signal Declaration warning at M6800_MIKBUG.vhd(42): used explicit default value for signal "io_n_extSRamWE" because signal was never assigned a value File: C:/Users/dgilliland/Documents/GitHub/MultiComp/MultiComp_On_RETRO-EP4/M6800_MIKBUG/M6800_MIKBUG.vhd Line: 42
-Warning (10540): VHDL Signal Declaration warning at M6800_MIKBUG.vhd(43): used explicit default value for signal "io_n_extSRamCS" because signal was never assigned a value File: C:/Users/dgilliland/Documents/GitHub/MultiComp/MultiComp_On_RETRO-EP4/M6800_MIKBUG/M6800_MIKBUG.vhd Line: 43
-Warning (10540): VHDL Signal Declaration warning at M6800_MIKBUG.vhd(44): used explicit default value for signal "io_n_extSRamOE" because signal was never assigned a value File: C:/Users/dgilliland/Documents/GitHub/MultiComp/MultiComp_On_RETRO-EP4/M6800_MIKBUG/M6800_MIKBUG.vhd Line: 44
-Warning (10540): VHDL Signal Declaration warning at M6800_MIKBUG.vhd(47): used explicit default value for signal "n_sdRamCas" because signal was never assigned a value File: C:/Users/dgilliland/Documents/GitHub/MultiComp/MultiComp_On_RETRO-EP4/M6800_MIKBUG/M6800_MIKBUG.vhd Line: 47
-Warning (10540): VHDL Signal Declaration warning at M6800_MIKBUG.vhd(48): used explicit default value for signal "n_sdRamRas" because signal was never assigned a value File: C:/Users/dgilliland/Documents/GitHub/MultiComp/MultiComp_On_RETRO-EP4/M6800_MIKBUG/M6800_MIKBUG.vhd Line: 48
-Warning (10540): VHDL Signal Declaration warning at M6800_MIKBUG.vhd(49): used explicit default value for signal "n_sdRamWe" because signal was never assigned a value File: C:/Users/dgilliland/Documents/GitHub/MultiComp/MultiComp_On_RETRO-EP4/M6800_MIKBUG/M6800_MIKBUG.vhd Line: 49
-Warning (10540): VHDL Signal Declaration warning at M6800_MIKBUG.vhd(50): used explicit default value for signal "n_sdRamCe" because signal was never assigned a value File: C:/Users/dgilliland/Documents/GitHub/MultiComp/MultiComp_On_RETRO-EP4/M6800_MIKBUG/M6800_MIKBUG.vhd Line: 50
-Warning (10540): VHDL Signal Declaration warning at M6800_MIKBUG.vhd(51): used explicit default value for signal "sdRamClk" because signal was never assigned a value File: C:/Users/dgilliland/Documents/GitHub/MultiComp/MultiComp_On_RETRO-EP4/M6800_MIKBUG/M6800_MIKBUG.vhd Line: 51
-Warning (10540): VHDL Signal Declaration warning at M6800_MIKBUG.vhd(52): used explicit default value for signal "sdRamClkEn" because signal was never assigned a value File: C:/Users/dgilliland/Documents/GitHub/MultiComp/MultiComp_On_RETRO-EP4/M6800_MIKBUG/M6800_MIKBUG.vhd Line: 52
-Warning (10540): VHDL Signal Declaration warning at M6800_MIKBUG.vhd(53): used explicit default value for signal "sdRamAddr" because signal was never assigned a value File: C:/Users/dgilliland/Documents/GitHub/MultiComp/MultiComp_On_RETRO-EP4/M6800_MIKBUG/M6800_MIKBUG.vhd Line: 53
+Warning (10541): VHDL Signal Declaration warning at M6800_MIKBUG.vhd(43): used implicit default value for signal "rts1" because signal was never assigned a value or an explicit default value. Use of implicit default value may introduce unintended design optimizations. File: C:/Users/dgilliland/Documents/GitHub/MultiComp/MultiComp_On_RETRO-EP4/M6800_MIKBUG/M6800_MIKBUG.vhd Line: 43
+Warning (10540): VHDL Signal Declaration warning at M6800_MIKBUG.vhd(48): used explicit default value for signal "io_extSRamAddress" because signal was never assigned a value File: C:/Users/dgilliland/Documents/GitHub/MultiComp/MultiComp_On_RETRO-EP4/M6800_MIKBUG/M6800_MIKBUG.vhd Line: 48
+Warning (10540): VHDL Signal Declaration warning at M6800_MIKBUG.vhd(49): used explicit default value for signal "io_n_extSRamWE" because signal was never assigned a value File: C:/Users/dgilliland/Documents/GitHub/MultiComp/MultiComp_On_RETRO-EP4/M6800_MIKBUG/M6800_MIKBUG.vhd Line: 49
+Warning (10540): VHDL Signal Declaration warning at M6800_MIKBUG.vhd(50): used explicit default value for signal "io_n_extSRamCS" because signal was never assigned a value File: C:/Users/dgilliland/Documents/GitHub/MultiComp/MultiComp_On_RETRO-EP4/M6800_MIKBUG/M6800_MIKBUG.vhd Line: 50
+Warning (10540): VHDL Signal Declaration warning at M6800_MIKBUG.vhd(51): used explicit default value for signal "io_n_extSRamOE" because signal was never assigned a value File: C:/Users/dgilliland/Documents/GitHub/MultiComp/MultiComp_On_RETRO-EP4/M6800_MIKBUG/M6800_MIKBUG.vhd Line: 51
 Warning (10036): Verilog HDL or VHDL warning at M6800_MIKBUG.vhd(74): object "n_int1" assigned a value but never read File: C:/Users/dgilliland/Documents/GitHub/MultiComp/MultiComp_On_RETRO-EP4/M6800_MIKBUG/M6800_MIKBUG.vhd Line: 74
 Warning (10036): Verilog HDL or VHDL warning at M6800_MIKBUG.vhd(76): object "n_int2" assigned a value but never read File: C:/Users/dgilliland/Documents/GitHub/MultiComp/MultiComp_On_RETRO-EP4/M6800_MIKBUG/M6800_MIKBUG.vhd Line: 76
-Info (12128): Elaborating entity "Debouncer" for hierarchy "Debouncer:DebounceResetSwitch" File: C:/Users/dgilliland/Documents/GitHub/MultiComp/MultiComp_On_RETRO-EP4/M6800_MIKBUG/M6800_MIKBUG.vhd Line: 92
-Info (12128): Elaborating entity "cpu68" for hierarchy "cpu68:cpu1" File: C:/Users/dgilliland/Documents/GitHub/MultiComp/MultiComp_On_RETRO-EP4/M6800_MIKBUG/M6800_MIKBUG.vhd Line: 101
-Info (12128): Elaborating entity "MIKBUG" for hierarchy "MIKBUG:rom1" File: C:/Users/dgilliland/Documents/GitHub/MultiComp/MultiComp_On_RETRO-EP4/M6800_MIKBUG/M6800_MIKBUG.vhd Line: 119
+Info (12128): Elaborating entity "Debouncer" for hierarchy "Debouncer:DebounceResetSwitch" File: C:/Users/dgilliland/Documents/GitHub/MultiComp/MultiComp_On_RETRO-EP4/M6800_MIKBUG/M6800_MIKBUG.vhd Line: 95
+Info (12128): Elaborating entity "cpu68" for hierarchy "cpu68:cpu1" File: C:/Users/dgilliland/Documents/GitHub/MultiComp/MultiComp_On_RETRO-EP4/M6800_MIKBUG/M6800_MIKBUG.vhd Line: 104
+Info (12128): Elaborating entity "MIKBUG" for hierarchy "MIKBUG:rom1" File: C:/Users/dgilliland/Documents/GitHub/MultiComp/MultiComp_On_RETRO-EP4/M6800_MIKBUG/M6800_MIKBUG.vhd Line: 122
 Info (12128): Elaborating entity "altsyncram" for hierarchy "MIKBUG:rom1|altsyncram:altsyncram_component" File: C:/Users/dgilliland/Documents/GitHub/MultiComp/MultiComp (VHDL Template)/Components/ROMs/MIKBUG_6800/MIKBUG.vhd Line: 59
 Info (12130): Elaborated megafunction instantiation "MIKBUG:rom1|altsyncram:altsyncram_component" File: C:/Users/dgilliland/Documents/GitHub/MultiComp/MultiComp (VHDL Template)/Components/ROMs/MIKBUG_6800/MIKBUG.vhd Line: 59
 Info (12133): Instantiated megafunction "MIKBUG:rom1|altsyncram:altsyncram_component" with the following parameter: File: C:/Users/dgilliland/Documents/GitHub/MultiComp/MultiComp (VHDL Template)/Components/ROMs/MIKBUG_6800/MIKBUG.vhd Line: 59
@@ -1588,10 +1585,10 @@ Info (12133): Instantiated megafunction "MIKBUG:rom1|altsyncram:altsyncram_compo
 Info (12128): Elaborating entity "sld_jtag_endpoint_adapter" for hierarchy "MIKBUG:rom1|altsyncram:altsyncram_component|altsyncram_it24:auto_generated|sld_mod_ram_rom:mgl_prim2|sld_jtag_endpoint_adapter:jtag_signal_adapter" File: c:/intelfpga_lite/18.1/quartus/libraries/megafunctions/sld_mod_ram_rom.vhd Line: 302
 Info (12128): Elaborating entity "sld_jtag_endpoint_adapter_impl" for hierarchy "MIKBUG:rom1|altsyncram:altsyncram_component|altsyncram_it24:auto_generated|sld_mod_ram_rom:mgl_prim2|sld_jtag_endpoint_adapter:jtag_signal_adapter|sld_jtag_endpoint_adapter_impl:sld_jtag_endpoint_adapter_impl_inst" File: c:/intelfpga_lite/18.1/quartus/libraries/megafunctions/sld_jtag_endpoint_adapter.vhd Line: 232
 Info (12128): Elaborating entity "sld_rom_sr" for hierarchy "MIKBUG:rom1|altsyncram:altsyncram_component|altsyncram_it24:auto_generated|sld_mod_ram_rom:mgl_prim2|sld_rom_sr:\ram_rom_logic_gen:name_gen:info_rom_sr" File: c:/intelfpga_lite/18.1/quartus/libraries/megafunctions/sld_mod_ram_rom.vhd Line: 828
-Info (12128): Elaborating entity "InternalRam8K" for hierarchy "InternalRam8K:sramLo" File: C:/Users/dgilliland/Documents/GitHub/MultiComp/MultiComp_On_RETRO-EP4/M6800_MIKBUG/M6800_MIKBUG.vhd Line: 128
-Info (12128): Elaborating entity "altsyncram" for hierarchy "InternalRam8K:sramLo|altsyncram:altsyncram_component" File: C:/Users/dgilliland/Documents/GitHub/MultiComp/MultiComp (VHDL Template)/Components/RAM_Internal/InternalRam8K.vhd Line: 61
-Info (12130): Elaborated megafunction instantiation "InternalRam8K:sramLo|altsyncram:altsyncram_component" File: C:/Users/dgilliland/Documents/GitHub/MultiComp/MultiComp (VHDL Template)/Components/RAM_Internal/InternalRam8K.vhd Line: 61
-Info (12133): Instantiated megafunction "InternalRam8K:sramLo|altsyncram:altsyncram_component" with the following parameter: File: C:/Users/dgilliland/Documents/GitHub/MultiComp/MultiComp (VHDL Template)/Components/RAM_Internal/InternalRam8K.vhd Line: 61
+Info (12128): Elaborating entity "InternalRam16K" for hierarchy "InternalRam16K:sramLo" File: C:/Users/dgilliland/Documents/GitHub/MultiComp/MultiComp_On_RETRO-EP4/M6800_MIKBUG/M6800_MIKBUG.vhd Line: 131
+Info (12128): Elaborating entity "altsyncram" for hierarchy "InternalRam16K:sramLo|altsyncram:altsyncram_component" File: C:/Users/dgilliland/Documents/GitHub/MultiComp/MultiComp (VHDL Template)/Components/RAM_Internal/InternalRam16K.vhd Line: 61
+Info (12130): Elaborated megafunction instantiation "InternalRam16K:sramLo|altsyncram:altsyncram_component" File: C:/Users/dgilliland/Documents/GitHub/MultiComp/MultiComp (VHDL Template)/Components/RAM_Internal/InternalRam16K.vhd Line: 61
+Info (12133): Instantiated megafunction "InternalRam16K:sramLo|altsyncram:altsyncram_component" with the following parameter: File: C:/Users/dgilliland/Documents/GitHub/MultiComp/MultiComp (VHDL Template)/Components/RAM_Internal/InternalRam16K.vhd Line: 61
     Info (12134): Parameter "address_aclr_a" = "UNUSED"
     Info (12134): Parameter "address_aclr_b" = "NONE"
     Info (12134): Parameter "address_reg_b" = "CLOCK1"
@@ -1615,12 +1612,12 @@ Info (12133): Instantiated megafunction "InternalRam8K:sramLo|altsyncram:altsync
     Info (12134): Parameter "init_file" = "UNUSED"
     Info (12134): Parameter "init_file_layout" = "PORT_A"
     Info (12134): Parameter "maximum_depth" = "0"
-    Info (12134): Parameter "numwords_a" = "8192"
+    Info (12134): Parameter "numwords_a" = "16384"
     Info (12134): Parameter "numwords_b" = "0"
     Info (12134): Parameter "operation_mode" = "SINGLE_PORT"
     Info (12134): Parameter "outdata_aclr_a" = "NONE"
     Info (12134): Parameter "outdata_aclr_b" = "NONE"
-    Info (12134): Parameter "outdata_reg_a" = "CLOCK0"
+    Info (12134): Parameter "outdata_reg_a" = "UNREGISTERED"
     Info (12134): Parameter "outdata_reg_b" = "UNREGISTERED"
     Info (12134): Parameter "power_up_uninitialized" = "FALSE"
     Info (12134): Parameter "ram_block_type" = "AUTO"
@@ -1635,17 +1632,26 @@ Info (12133): Instantiated megafunction "InternalRam8K:sramLo|altsyncram:altsync
     Info (12134): Parameter "width_byteena_a" = "1"
     Info (12134): Parameter "width_byteena_b" = "1"
     Info (12134): Parameter "width_eccstatus" = "3"
-    Info (12134): Parameter "widthad_a" = "13"
+    Info (12134): Parameter "widthad_a" = "14"
     Info (12134): Parameter "widthad_b" = "1"
     Info (12134): Parameter "wrcontrol_aclr_a" = "UNUSED"
     Info (12134): Parameter "wrcontrol_aclr_b" = "NONE"
     Info (12134): Parameter "wrcontrol_wraddress_reg_b" = "CLOCK1"
     Info (12134): Parameter "lpm_hint" = "ENABLE_RUNTIME_MOD=NO"
     Info (12134): Parameter "lpm_type" = "altsyncram"
-Info (12021): Found 1 design units, including 1 entities, in source file db/altsyncram_ebp3.tdf
-    Info (12023): Found entity 1: altsyncram_ebp3 File: C:/Users/dgilliland/Documents/GitHub/MultiComp/MultiComp_On_RETRO-EP4/M6800_MIKBUG/db/altsyncram_ebp3.tdf Line: 27
-Info (12128): Elaborating entity "altsyncram_ebp3" for hierarchy "InternalRam8K:sramLo|altsyncram:altsyncram_component|altsyncram_ebp3:auto_generated" File: c:/intelfpga_lite/18.1/quartus/libraries/megafunctions/altsyncram.tdf Line: 791
-Info (12128): Elaborating entity "InternalRam1K" for hierarchy "InternalRam1K:sramHi" File: C:/Users/dgilliland/Documents/GitHub/MultiComp/MultiComp_On_RETRO-EP4/M6800_MIKBUG/M6800_MIKBUG.vhd Line: 139
+Info (12021): Found 1 design units, including 1 entities, in source file db/altsyncram_m3q3.tdf
+    Info (12023): Found entity 1: altsyncram_m3q3 File: C:/Users/dgilliland/Documents/GitHub/MultiComp/MultiComp_On_RETRO-EP4/M6800_MIKBUG/db/altsyncram_m3q3.tdf Line: 33
+Info (12128): Elaborating entity "altsyncram_m3q3" for hierarchy "InternalRam16K:sramLo|altsyncram:altsyncram_component|altsyncram_m3q3:auto_generated" File: c:/intelfpga_lite/18.1/quartus/libraries/megafunctions/altsyncram.tdf Line: 791
+Info (12021): Found 1 design units, including 1 entities, in source file db/decode_jsa.tdf
+    Info (12023): Found entity 1: decode_jsa File: C:/Users/dgilliland/Documents/GitHub/MultiComp/MultiComp_On_RETRO-EP4/M6800_MIKBUG/db/decode_jsa.tdf Line: 22
+Info (12128): Elaborating entity "decode_jsa" for hierarchy "InternalRam16K:sramLo|altsyncram:altsyncram_component|altsyncram_m3q3:auto_generated|decode_jsa:decode3" File: C:/Users/dgilliland/Documents/GitHub/MultiComp/MultiComp_On_RETRO-EP4/M6800_MIKBUG/db/altsyncram_m3q3.tdf Line: 43
+Info (12021): Found 1 design units, including 1 entities, in source file db/decode_c8a.tdf
+    Info (12023): Found entity 1: decode_c8a File: C:/Users/dgilliland/Documents/GitHub/MultiComp/MultiComp_On_RETRO-EP4/M6800_MIKBUG/db/decode_c8a.tdf Line: 22
+Info (12128): Elaborating entity "decode_c8a" for hierarchy "InternalRam16K:sramLo|altsyncram:altsyncram_component|altsyncram_m3q3:auto_generated|decode_c8a:rden_decode" File: C:/Users/dgilliland/Documents/GitHub/MultiComp/MultiComp_On_RETRO-EP4/M6800_MIKBUG/db/altsyncram_m3q3.tdf Line: 44
+Info (12021): Found 1 design units, including 1 entities, in source file db/mux_3nb.tdf
+    Info (12023): Found entity 1: mux_3nb File: C:/Users/dgilliland/Documents/GitHub/MultiComp/MultiComp_On_RETRO-EP4/M6800_MIKBUG/db/mux_3nb.tdf Line: 22
+Info (12128): Elaborating entity "mux_3nb" for hierarchy "InternalRam16K:sramLo|altsyncram:altsyncram_component|altsyncram_m3q3:auto_generated|mux_3nb:mux2" File: C:/Users/dgilliland/Documents/GitHub/MultiComp/MultiComp_On_RETRO-EP4/M6800_MIKBUG/db/altsyncram_m3q3.tdf Line: 45
+Info (12128): Elaborating entity "InternalRam1K" for hierarchy "InternalRam1K:sramHi" File: C:/Users/dgilliland/Documents/GitHub/MultiComp/MultiComp_On_RETRO-EP4/M6800_MIKBUG/M6800_MIKBUG.vhd Line: 142
 Info (12128): Elaborating entity "altsyncram" for hierarchy "InternalRam1K:sramHi|altsyncram:altsyncram_component" File: C:/Users/dgilliland/Documents/GitHub/MultiComp/MultiComp (VHDL Template)/Components/RAM_Internal/InternalRam1K.vhd Line: 61
 Info (12130): Elaborated megafunction instantiation "InternalRam1K:sramHi|altsyncram:altsyncram_component" File: C:/Users/dgilliland/Documents/GitHub/MultiComp/MultiComp (VHDL Template)/Components/RAM_Internal/InternalRam1K.vhd Line: 61
 Info (12133): Instantiated megafunction "InternalRam1K:sramHi|altsyncram:altsyncram_component" with the following parameter: File: C:/Users/dgilliland/Documents/GitHub/MultiComp/MultiComp (VHDL Template)/Components/RAM_Internal/InternalRam1K.vhd Line: 61
@@ -1702,7 +1708,7 @@ Info (12133): Instantiated megafunction "InternalRam1K:sramHi|altsyncram:altsync
 Info (12021): Found 1 design units, including 1 entities, in source file db/altsyncram_j1q3.tdf
     Info (12023): Found entity 1: altsyncram_j1q3 File: C:/Users/dgilliland/Documents/GitHub/MultiComp/MultiComp_On_RETRO-EP4/M6800_MIKBUG/db/altsyncram_j1q3.tdf Line: 27
 Info (12128): Elaborating entity "altsyncram_j1q3" for hierarchy "InternalRam1K:sramHi|altsyncram:altsyncram_component|altsyncram_j1q3:auto_generated" File: c:/intelfpga_lite/18.1/quartus/libraries/megafunctions/altsyncram.tdf Line: 791
-Info (12128): Elaborating entity "SBCTextDisplayRGB" for hierarchy "SBCTextDisplayRGB:vdu" File: C:/Users/dgilliland/Documents/GitHub/MultiComp/MultiComp_On_RETRO-EP4/M6800_MIKBUG/M6800_MIKBUG.vhd Line: 164
+Info (12128): Elaborating entity "SBCTextDisplayRGB" for hierarchy "SBCTextDisplayRGB:vdu" File: C:/Users/dgilliland/Documents/GitHub/MultiComp/MultiComp_On_RETRO-EP4/M6800_MIKBUG/M6800_MIKBUG.vhd Line: 167
 Info (12128): Elaborating entity "SansBoldRom" for hierarchy "SBCTextDisplayRGB:vdu|SansBoldRom:\GEN_EXT_SCHARS:fontRom" File: C:/Users/dgilliland/Documents/GitHub/MultiComp/MultiComp (VHDL Template)/Components/TERMINAL/SBCTextDisplayRGB.vhd Line: 296
 Info (12128): Elaborating entity "altsyncram" for hierarchy "SBCTextDisplayRGB:vdu|SansBoldRom:\GEN_EXT_SCHARS:fontRom|altsyncram:altsyncram_component" File: C:/Users/dgilliland/Documents/GitHub/MultiComp/MultiComp (VHDL Template)/Components/TERMINAL/SansBoldRom.vhd Line: 59
 Info (12130): Elaborated megafunction instantiation "SBCTextDisplayRGB:vdu|SansBoldRom:\GEN_EXT_SCHARS:fontRom|altsyncram:altsyncram_component" File: C:/Users/dgilliland/Documents/GitHub/MultiComp/MultiComp (VHDL Template)/Components/TERMINAL/SansBoldRom.vhd Line: 59
@@ -1836,9 +1842,9 @@ Info (12133): Instantiated megafunction "SBCTextDisplayRGB:vdu|DisplayRam2K:\GEN
 Info (12021): Found 1 design units, including 1 entities, in source file db/altsyncram_ldr3.tdf
     Info (12023): Found entity 1: altsyncram_ldr3 File: C:/Users/dgilliland/Documents/GitHub/MultiComp/MultiComp_On_RETRO-EP4/M6800_MIKBUG/db/altsyncram_ldr3.tdf Line: 27
 Info (12128): Elaborating entity "altsyncram_ldr3" for hierarchy "SBCTextDisplayRGB:vdu|DisplayRam2K:\GEN_2KRAM:dispCharRam|altsyncram:altsyncram_component|altsyncram_ldr3:auto_generated" File: c:/intelfpga_lite/18.1/quartus/libraries/megafunctions/altsyncram.tdf Line: 791
-Info (12128): Elaborating entity "bufferedUART" for hierarchy "bufferedUART:acia" File: C:/Users/dgilliland/Documents/GitHub/MultiComp/MultiComp_On_RETRO-EP4/M6800_MIKBUG/M6800_MIKBUG.vhd Line: 188
+Info (12128): Elaborating entity "bufferedUART" for hierarchy "bufferedUART:acia" File: C:/Users/dgilliland/Documents/GitHub/MultiComp/MultiComp_On_RETRO-EP4/M6800_MIKBUG/M6800_MIKBUG.vhd Line: 191
 Info (11170): Starting IP generation for the debug fabric: alt_sld_fab.
-Info (11172): 2020.03.05.09:14:56 Progress: Loading sld7a317a57/alt_sld_fab_wrapper_hw.tcl
+Info (11172): 2020.03.05.10:36:19 Progress: Loading sld7a317a57/alt_sld_fab_wrapper_hw.tcl
 Info (11172): Alt_sld_fab.alt_sld_fab: SLD fabric agents which did not specify prefer_host were connected to JTAG
 Info (11172): Alt_sld_fab: Generating alt_sld_fab "alt_sld_fab" for QUARTUS_SYNTH
 Info (11172): Alt_sld_fab: "alt_sld_fab" instantiated alt_sld_fab "alt_sld_fab"
@@ -1946,94 +1952,56 @@ Info (12021): Found 1 design units, including 1 entities, in source file db/add_
 Info (12021): Found 1 design units, including 1 entities, in source file db/add_sub_8pc.tdf
     Info (12023): Found entity 1: add_sub_8pc File: C:/Users/dgilliland/Documents/GitHub/MultiComp/MultiComp_On_RETRO-EP4/M6800_MIKBUG/db/add_sub_8pc.tdf Line: 22
 Warning (13039): The following bidirectional pins have no drivers
-    Warning (13040): bidirectional pin "io_extSRamData[0]" has no driver File: C:/Users/dgilliland/Documents/GitHub/MultiComp/MultiComp_On_RETRO-EP4/M6800_MIKBUG/M6800_MIKBUG.vhd Line: 40
-    Warning (13040): bidirectional pin "io_extSRamData[1]" has no driver File: C:/Users/dgilliland/Documents/GitHub/MultiComp/MultiComp_On_RETRO-EP4/M6800_MIKBUG/M6800_MIKBUG.vhd Line: 40
-    Warning (13040): bidirectional pin "io_extSRamData[2]" has no driver File: C:/Users/dgilliland/Documents/GitHub/MultiComp/MultiComp_On_RETRO-EP4/M6800_MIKBUG/M6800_MIKBUG.vhd Line: 40
-    Warning (13040): bidirectional pin "io_extSRamData[3]" has no driver File: C:/Users/dgilliland/Documents/GitHub/MultiComp/MultiComp_On_RETRO-EP4/M6800_MIKBUG/M6800_MIKBUG.vhd Line: 40
-    Warning (13040): bidirectional pin "io_extSRamData[4]" has no driver File: C:/Users/dgilliland/Documents/GitHub/MultiComp/MultiComp_On_RETRO-EP4/M6800_MIKBUG/M6800_MIKBUG.vhd Line: 40
-    Warning (13040): bidirectional pin "io_extSRamData[5]" has no driver File: C:/Users/dgilliland/Documents/GitHub/MultiComp/MultiComp_On_RETRO-EP4/M6800_MIKBUG/M6800_MIKBUG.vhd Line: 40
-    Warning (13040): bidirectional pin "io_extSRamData[6]" has no driver File: C:/Users/dgilliland/Documents/GitHub/MultiComp/MultiComp_On_RETRO-EP4/M6800_MIKBUG/M6800_MIKBUG.vhd Line: 40
-    Warning (13040): bidirectional pin "io_extSRamData[7]" has no driver File: C:/Users/dgilliland/Documents/GitHub/MultiComp/MultiComp_On_RETRO-EP4/M6800_MIKBUG/M6800_MIKBUG.vhd Line: 40
+    Warning (13040): bidirectional pin "io_extSRamData[0]" has no driver File: C:/Users/dgilliland/Documents/GitHub/MultiComp/MultiComp_On_RETRO-EP4/M6800_MIKBUG/M6800_MIKBUG.vhd Line: 47
+    Warning (13040): bidirectional pin "io_extSRamData[1]" has no driver File: C:/Users/dgilliland/Documents/GitHub/MultiComp/MultiComp_On_RETRO-EP4/M6800_MIKBUG/M6800_MIKBUG.vhd Line: 47
+    Warning (13040): bidirectional pin "io_extSRamData[2]" has no driver File: C:/Users/dgilliland/Documents/GitHub/MultiComp/MultiComp_On_RETRO-EP4/M6800_MIKBUG/M6800_MIKBUG.vhd Line: 47
+    Warning (13040): bidirectional pin "io_extSRamData[3]" has no driver File: C:/Users/dgilliland/Documents/GitHub/MultiComp/MultiComp_On_RETRO-EP4/M6800_MIKBUG/M6800_MIKBUG.vhd Line: 47
+    Warning (13040): bidirectional pin "io_extSRamData[4]" has no driver File: C:/Users/dgilliland/Documents/GitHub/MultiComp/MultiComp_On_RETRO-EP4/M6800_MIKBUG/M6800_MIKBUG.vhd Line: 47
+    Warning (13040): bidirectional pin "io_extSRamData[5]" has no driver File: C:/Users/dgilliland/Documents/GitHub/MultiComp/MultiComp_On_RETRO-EP4/M6800_MIKBUG/M6800_MIKBUG.vhd Line: 47
+    Warning (13040): bidirectional pin "io_extSRamData[6]" has no driver File: C:/Users/dgilliland/Documents/GitHub/MultiComp/MultiComp_On_RETRO-EP4/M6800_MIKBUG/M6800_MIKBUG.vhd Line: 47
+    Warning (13040): bidirectional pin "io_extSRamData[7]" has no driver File: C:/Users/dgilliland/Documents/GitHub/MultiComp/MultiComp_On_RETRO-EP4/M6800_MIKBUG/M6800_MIKBUG.vhd Line: 47
 Info (13000): Registers with preset signals will power-up high File: C:/Users/dgilliland/Documents/GitHub/MultiComp/MultiComp (VHDL Template)/Components/TERMINAL/SBCTextDisplayRGB.vhd Line: 866
 Info (13003): DEV_CLRn pin will set, and not reset, register with preset signal due to NOT Gate Push-Back
 Warning (13024): Output pins are stuck at VCC or GND
-    Warning (13410): Pin "rts1" is stuck at GND File: C:/Users/dgilliland/Documents/GitHub/MultiComp/MultiComp_On_RETRO-EP4/M6800_MIKBUG/M6800_MIKBUG.vhd Line: 36
-    Warning (13410): Pin "io_extSRamAddress[0]" is stuck at GND File: C:/Users/dgilliland/Documents/GitHub/MultiComp/MultiComp_On_RETRO-EP4/M6800_MIKBUG/M6800_MIKBUG.vhd Line: 41
-    Warning (13410): Pin "io_extSRamAddress[1]" is stuck at GND File: C:/Users/dgilliland/Documents/GitHub/MultiComp/MultiComp_On_RETRO-EP4/M6800_MIKBUG/M6800_MIKBUG.vhd Line: 41
-    Warning (13410): Pin "io_extSRamAddress[2]" is stuck at GND File: C:/Users/dgilliland/Documents/GitHub/MultiComp/MultiComp_On_RETRO-EP4/M6800_MIKBUG/M6800_MIKBUG.vhd Line: 41
-    Warning (13410): Pin "io_extSRamAddress[3]" is stuck at GND File: C:/Users/dgilliland/Documents/GitHub/MultiComp/MultiComp_On_RETRO-EP4/M6800_MIKBUG/M6800_MIKBUG.vhd Line: 41
-    Warning (13410): Pin "io_extSRamAddress[4]" is stuck at GND File: C:/Users/dgilliland/Documents/GitHub/MultiComp/MultiComp_On_RETRO-EP4/M6800_MIKBUG/M6800_MIKBUG.vhd Line: 41
-    Warning (13410): Pin "io_extSRamAddress[5]" is stuck at GND File: C:/Users/dgilliland/Documents/GitHub/MultiComp/MultiComp_On_RETRO-EP4/M6800_MIKBUG/M6800_MIKBUG.vhd Line: 41
-    Warning (13410): Pin "io_extSRamAddress[6]" is stuck at GND File: C:/Users/dgilliland/Documents/GitHub/MultiComp/MultiComp_On_RETRO-EP4/M6800_MIKBUG/M6800_MIKBUG.vhd Line: 41
-    Warning (13410): Pin "io_extSRamAddress[7]" is stuck at GND File: C:/Users/dgilliland/Documents/GitHub/MultiComp/MultiComp_On_RETRO-EP4/M6800_MIKBUG/M6800_MIKBUG.vhd Line: 41
-    Warning (13410): Pin "io_extSRamAddress[8]" is stuck at GND File: C:/Users/dgilliland/Documents/GitHub/MultiComp/MultiComp_On_RETRO-EP4/M6800_MIKBUG/M6800_MIKBUG.vhd Line: 41
-    Warning (13410): Pin "io_extSRamAddress[9]" is stuck at GND File: C:/Users/dgilliland/Documents/GitHub/MultiComp/MultiComp_On_RETRO-EP4/M6800_MIKBUG/M6800_MIKBUG.vhd Line: 41
-    Warning (13410): Pin "io_extSRamAddress[10]" is stuck at GND File: C:/Users/dgilliland/Documents/GitHub/MultiComp/MultiComp_On_RETRO-EP4/M6800_MIKBUG/M6800_MIKBUG.vhd Line: 41
-    Warning (13410): Pin "io_extSRamAddress[11]" is stuck at GND File: C:/Users/dgilliland/Documents/GitHub/MultiComp/MultiComp_On_RETRO-EP4/M6800_MIKBUG/M6800_MIKBUG.vhd Line: 41
-    Warning (13410): Pin "io_extSRamAddress[12]" is stuck at GND File: C:/Users/dgilliland/Documents/GitHub/MultiComp/MultiComp_On_RETRO-EP4/M6800_MIKBUG/M6800_MIKBUG.vhd Line: 41
-    Warning (13410): Pin "io_extSRamAddress[13]" is stuck at GND File: C:/Users/dgilliland/Documents/GitHub/MultiComp/MultiComp_On_RETRO-EP4/M6800_MIKBUG/M6800_MIKBUG.vhd Line: 41
-    Warning (13410): Pin "io_extSRamAddress[14]" is stuck at GND File: C:/Users/dgilliland/Documents/GitHub/MultiComp/MultiComp_On_RETRO-EP4/M6800_MIKBUG/M6800_MIKBUG.vhd Line: 41
-    Warning (13410): Pin "io_extSRamAddress[15]" is stuck at GND File: C:/Users/dgilliland/Documents/GitHub/MultiComp/MultiComp_On_RETRO-EP4/M6800_MIKBUG/M6800_MIKBUG.vhd Line: 41
-    Warning (13410): Pin "io_extSRamAddress[16]" is stuck at GND File: C:/Users/dgilliland/Documents/GitHub/MultiComp/MultiComp_On_RETRO-EP4/M6800_MIKBUG/M6800_MIKBUG.vhd Line: 41
-    Warning (13410): Pin "io_extSRamAddress[17]" is stuck at GND File: C:/Users/dgilliland/Documents/GitHub/MultiComp/MultiComp_On_RETRO-EP4/M6800_MIKBUG/M6800_MIKBUG.vhd Line: 41
-    Warning (13410): Pin "io_extSRamAddress[18]" is stuck at GND File: C:/Users/dgilliland/Documents/GitHub/MultiComp/MultiComp_On_RETRO-EP4/M6800_MIKBUG/M6800_MIKBUG.vhd Line: 41
-    Warning (13410): Pin "io_extSRamAddress[19]" is stuck at GND File: C:/Users/dgilliland/Documents/GitHub/MultiComp/MultiComp_On_RETRO-EP4/M6800_MIKBUG/M6800_MIKBUG.vhd Line: 41
-    Warning (13410): Pin "io_n_extSRamWE" is stuck at VCC File: C:/Users/dgilliland/Documents/GitHub/MultiComp/MultiComp_On_RETRO-EP4/M6800_MIKBUG/M6800_MIKBUG.vhd Line: 42
-    Warning (13410): Pin "io_n_extSRamCS" is stuck at VCC File: C:/Users/dgilliland/Documents/GitHub/MultiComp/MultiComp_On_RETRO-EP4/M6800_MIKBUG/M6800_MIKBUG.vhd Line: 43
-    Warning (13410): Pin "io_n_extSRamOE" is stuck at VCC File: C:/Users/dgilliland/Documents/GitHub/MultiComp/MultiComp_On_RETRO-EP4/M6800_MIKBUG/M6800_MIKBUG.vhd Line: 44
-    Warning (13410): Pin "n_sdRamCas" is stuck at VCC File: C:/Users/dgilliland/Documents/GitHub/MultiComp/MultiComp_On_RETRO-EP4/M6800_MIKBUG/M6800_MIKBUG.vhd Line: 47
-    Warning (13410): Pin "n_sdRamRas" is stuck at VCC File: C:/Users/dgilliland/Documents/GitHub/MultiComp/MultiComp_On_RETRO-EP4/M6800_MIKBUG/M6800_MIKBUG.vhd Line: 48
-    Warning (13410): Pin "n_sdRamWe" is stuck at VCC File: C:/Users/dgilliland/Documents/GitHub/MultiComp/MultiComp_On_RETRO-EP4/M6800_MIKBUG/M6800_MIKBUG.vhd Line: 49
-    Warning (13410): Pin "n_sdRamCe" is stuck at VCC File: C:/Users/dgilliland/Documents/GitHub/MultiComp/MultiComp_On_RETRO-EP4/M6800_MIKBUG/M6800_MIKBUG.vhd Line: 50
-    Warning (13410): Pin "sdRamClk" is stuck at VCC File: C:/Users/dgilliland/Documents/GitHub/MultiComp/MultiComp_On_RETRO-EP4/M6800_MIKBUG/M6800_MIKBUG.vhd Line: 51
-    Warning (13410): Pin "sdRamClkEn" is stuck at VCC File: C:/Users/dgilliland/Documents/GitHub/MultiComp/MultiComp_On_RETRO-EP4/M6800_MIKBUG/M6800_MIKBUG.vhd Line: 52
-    Warning (13410): Pin "sdRamAddr[0]" is stuck at GND File: C:/Users/dgilliland/Documents/GitHub/MultiComp/MultiComp_On_RETRO-EP4/M6800_MIKBUG/M6800_MIKBUG.vhd Line: 53
-    Warning (13410): Pin "sdRamAddr[1]" is stuck at GND File: C:/Users/dgilliland/Documents/GitHub/MultiComp/MultiComp_On_RETRO-EP4/M6800_MIKBUG/M6800_MIKBUG.vhd Line: 53
-    Warning (13410): Pin "sdRamAddr[2]" is stuck at GND File: C:/Users/dgilliland/Documents/GitHub/MultiComp/MultiComp_On_RETRO-EP4/M6800_MIKBUG/M6800_MIKBUG.vhd Line: 53
-    Warning (13410): Pin "sdRamAddr[3]" is stuck at GND File: C:/Users/dgilliland/Documents/GitHub/MultiComp/MultiComp_On_RETRO-EP4/M6800_MIKBUG/M6800_MIKBUG.vhd Line: 53
-    Warning (13410): Pin "sdRamAddr[4]" is stuck at GND File: C:/Users/dgilliland/Documents/GitHub/MultiComp/MultiComp_On_RETRO-EP4/M6800_MIKBUG/M6800_MIKBUG.vhd Line: 53
-    Warning (13410): Pin "sdRamAddr[5]" is stuck at GND File: C:/Users/dgilliland/Documents/GitHub/MultiComp/MultiComp_On_RETRO-EP4/M6800_MIKBUG/M6800_MIKBUG.vhd Line: 53
-    Warning (13410): Pin "sdRamAddr[6]" is stuck at GND File: C:/Users/dgilliland/Documents/GitHub/MultiComp/MultiComp_On_RETRO-EP4/M6800_MIKBUG/M6800_MIKBUG.vhd Line: 53
-    Warning (13410): Pin "sdRamAddr[7]" is stuck at GND File: C:/Users/dgilliland/Documents/GitHub/MultiComp/MultiComp_On_RETRO-EP4/M6800_MIKBUG/M6800_MIKBUG.vhd Line: 53
-    Warning (13410): Pin "sdRamAddr[8]" is stuck at GND File: C:/Users/dgilliland/Documents/GitHub/MultiComp/MultiComp_On_RETRO-EP4/M6800_MIKBUG/M6800_MIKBUG.vhd Line: 53
-    Warning (13410): Pin "sdRamAddr[9]" is stuck at GND File: C:/Users/dgilliland/Documents/GitHub/MultiComp/MultiComp_On_RETRO-EP4/M6800_MIKBUG/M6800_MIKBUG.vhd Line: 53
-    Warning (13410): Pin "sdRamAddr[10]" is stuck at GND File: C:/Users/dgilliland/Documents/GitHub/MultiComp/MultiComp_On_RETRO-EP4/M6800_MIKBUG/M6800_MIKBUG.vhd Line: 53
-    Warning (13410): Pin "sdRamAddr[11]" is stuck at GND File: C:/Users/dgilliland/Documents/GitHub/MultiComp/MultiComp_On_RETRO-EP4/M6800_MIKBUG/M6800_MIKBUG.vhd Line: 53
-    Warning (13410): Pin "sdRamAddr[12]" is stuck at GND File: C:/Users/dgilliland/Documents/GitHub/MultiComp/MultiComp_On_RETRO-EP4/M6800_MIKBUG/M6800_MIKBUG.vhd Line: 53
-    Warning (13410): Pin "sdRamAddr[13]" is stuck at GND File: C:/Users/dgilliland/Documents/GitHub/MultiComp/MultiComp_On_RETRO-EP4/M6800_MIKBUG/M6800_MIKBUG.vhd Line: 53
-    Warning (13410): Pin "sdRamAddr[14]" is stuck at GND File: C:/Users/dgilliland/Documents/GitHub/MultiComp/MultiComp_On_RETRO-EP4/M6800_MIKBUG/M6800_MIKBUG.vhd Line: 53
+    Warning (13410): Pin "rts1" is stuck at GND File: C:/Users/dgilliland/Documents/GitHub/MultiComp/MultiComp_On_RETRO-EP4/M6800_MIKBUG/M6800_MIKBUG.vhd Line: 43
+    Warning (13410): Pin "io_extSRamAddress[0]" is stuck at GND File: C:/Users/dgilliland/Documents/GitHub/MultiComp/MultiComp_On_RETRO-EP4/M6800_MIKBUG/M6800_MIKBUG.vhd Line: 48
+    Warning (13410): Pin "io_extSRamAddress[1]" is stuck at GND File: C:/Users/dgilliland/Documents/GitHub/MultiComp/MultiComp_On_RETRO-EP4/M6800_MIKBUG/M6800_MIKBUG.vhd Line: 48
+    Warning (13410): Pin "io_extSRamAddress[2]" is stuck at GND File: C:/Users/dgilliland/Documents/GitHub/MultiComp/MultiComp_On_RETRO-EP4/M6800_MIKBUG/M6800_MIKBUG.vhd Line: 48
+    Warning (13410): Pin "io_extSRamAddress[3]" is stuck at GND File: C:/Users/dgilliland/Documents/GitHub/MultiComp/MultiComp_On_RETRO-EP4/M6800_MIKBUG/M6800_MIKBUG.vhd Line: 48
+    Warning (13410): Pin "io_extSRamAddress[4]" is stuck at GND File: C:/Users/dgilliland/Documents/GitHub/MultiComp/MultiComp_On_RETRO-EP4/M6800_MIKBUG/M6800_MIKBUG.vhd Line: 48
+    Warning (13410): Pin "io_extSRamAddress[5]" is stuck at GND File: C:/Users/dgilliland/Documents/GitHub/MultiComp/MultiComp_On_RETRO-EP4/M6800_MIKBUG/M6800_MIKBUG.vhd Line: 48
+    Warning (13410): Pin "io_extSRamAddress[6]" is stuck at GND File: C:/Users/dgilliland/Documents/GitHub/MultiComp/MultiComp_On_RETRO-EP4/M6800_MIKBUG/M6800_MIKBUG.vhd Line: 48
+    Warning (13410): Pin "io_extSRamAddress[7]" is stuck at GND File: C:/Users/dgilliland/Documents/GitHub/MultiComp/MultiComp_On_RETRO-EP4/M6800_MIKBUG/M6800_MIKBUG.vhd Line: 48
+    Warning (13410): Pin "io_extSRamAddress[8]" is stuck at GND File: C:/Users/dgilliland/Documents/GitHub/MultiComp/MultiComp_On_RETRO-EP4/M6800_MIKBUG/M6800_MIKBUG.vhd Line: 48
+    Warning (13410): Pin "io_extSRamAddress[9]" is stuck at GND File: C:/Users/dgilliland/Documents/GitHub/MultiComp/MultiComp_On_RETRO-EP4/M6800_MIKBUG/M6800_MIKBUG.vhd Line: 48
+    Warning (13410): Pin "io_extSRamAddress[10]" is stuck at GND File: C:/Users/dgilliland/Documents/GitHub/MultiComp/MultiComp_On_RETRO-EP4/M6800_MIKBUG/M6800_MIKBUG.vhd Line: 48
+    Warning (13410): Pin "io_extSRamAddress[11]" is stuck at GND File: C:/Users/dgilliland/Documents/GitHub/MultiComp/MultiComp_On_RETRO-EP4/M6800_MIKBUG/M6800_MIKBUG.vhd Line: 48
+    Warning (13410): Pin "io_extSRamAddress[12]" is stuck at GND File: C:/Users/dgilliland/Documents/GitHub/MultiComp/MultiComp_On_RETRO-EP4/M6800_MIKBUG/M6800_MIKBUG.vhd Line: 48
+    Warning (13410): Pin "io_extSRamAddress[13]" is stuck at GND File: C:/Users/dgilliland/Documents/GitHub/MultiComp/MultiComp_On_RETRO-EP4/M6800_MIKBUG/M6800_MIKBUG.vhd Line: 48
+    Warning (13410): Pin "io_extSRamAddress[14]" is stuck at GND File: C:/Users/dgilliland/Documents/GitHub/MultiComp/MultiComp_On_RETRO-EP4/M6800_MIKBUG/M6800_MIKBUG.vhd Line: 48
+    Warning (13410): Pin "io_extSRamAddress[15]" is stuck at GND File: C:/Users/dgilliland/Documents/GitHub/MultiComp/MultiComp_On_RETRO-EP4/M6800_MIKBUG/M6800_MIKBUG.vhd Line: 48
+    Warning (13410): Pin "io_extSRamAddress[16]" is stuck at GND File: C:/Users/dgilliland/Documents/GitHub/MultiComp/MultiComp_On_RETRO-EP4/M6800_MIKBUG/M6800_MIKBUG.vhd Line: 48
+    Warning (13410): Pin "io_extSRamAddress[17]" is stuck at GND File: C:/Users/dgilliland/Documents/GitHub/MultiComp/MultiComp_On_RETRO-EP4/M6800_MIKBUG/M6800_MIKBUG.vhd Line: 48
+    Warning (13410): Pin "io_extSRamAddress[18]" is stuck at GND File: C:/Users/dgilliland/Documents/GitHub/MultiComp/MultiComp_On_RETRO-EP4/M6800_MIKBUG/M6800_MIKBUG.vhd Line: 48
+    Warning (13410): Pin "io_n_extSRamWE" is stuck at VCC File: C:/Users/dgilliland/Documents/GitHub/MultiComp/MultiComp_On_RETRO-EP4/M6800_MIKBUG/M6800_MIKBUG.vhd Line: 49
+    Warning (13410): Pin "io_n_extSRamCS" is stuck at VCC File: C:/Users/dgilliland/Documents/GitHub/MultiComp/MultiComp_On_RETRO-EP4/M6800_MIKBUG/M6800_MIKBUG.vhd Line: 50
+    Warning (13410): Pin "io_n_extSRamOE" is stuck at VCC File: C:/Users/dgilliland/Documents/GitHub/MultiComp/MultiComp_On_RETRO-EP4/M6800_MIKBUG/M6800_MIKBUG.vhd Line: 51
 Info (286031): Timing-Driven Synthesis is running on partition "Top"
 Info (17049): 4 registers lost all their fanouts during netlist optimizations.
 Info (16010): Generating hard_block partition "hard_block:auto_generated_inst"
     Info (16011): Adding 0 node(s), including 0 DDIO, 0 PLL, 0 transceiver and 0 LCELL
-Warning (21074): Design contains 17 input pin(s) that do not drive logic
-    Warning (15610): No output dependent on input pin "cts1" File: C:/Users/dgilliland/Documents/GitHub/MultiComp/MultiComp_On_RETRO-EP4/M6800_MIKBUG/M6800_MIKBUG.vhd Line: 35
-    Warning (15610): No output dependent on input pin "w_sdRamData[0]" File: C:/Users/dgilliland/Documents/GitHub/MultiComp/MultiComp_On_RETRO-EP4/M6800_MIKBUG/M6800_MIKBUG.vhd Line: 54
-    Warning (15610): No output dependent on input pin "w_sdRamData[1]" File: C:/Users/dgilliland/Documents/GitHub/MultiComp/MultiComp_On_RETRO-EP4/M6800_MIKBUG/M6800_MIKBUG.vhd Line: 54
-    Warning (15610): No output dependent on input pin "w_sdRamData[2]" File: C:/Users/dgilliland/Documents/GitHub/MultiComp/MultiComp_On_RETRO-EP4/M6800_MIKBUG/M6800_MIKBUG.vhd Line: 54
-    Warning (15610): No output dependent on input pin "w_sdRamData[3]" File: C:/Users/dgilliland/Documents/GitHub/MultiComp/MultiComp_On_RETRO-EP4/M6800_MIKBUG/M6800_MIKBUG.vhd Line: 54
-    Warning (15610): No output dependent on input pin "w_sdRamData[4]" File: C:/Users/dgilliland/Documents/GitHub/MultiComp/MultiComp_On_RETRO-EP4/M6800_MIKBUG/M6800_MIKBUG.vhd Line: 54
-    Warning (15610): No output dependent on input pin "w_sdRamData[5]" File: C:/Users/dgilliland/Documents/GitHub/MultiComp/MultiComp_On_RETRO-EP4/M6800_MIKBUG/M6800_MIKBUG.vhd Line: 54
-    Warning (15610): No output dependent on input pin "w_sdRamData[6]" File: C:/Users/dgilliland/Documents/GitHub/MultiComp/MultiComp_On_RETRO-EP4/M6800_MIKBUG/M6800_MIKBUG.vhd Line: 54
-    Warning (15610): No output dependent on input pin "w_sdRamData[7]" File: C:/Users/dgilliland/Documents/GitHub/MultiComp/MultiComp_On_RETRO-EP4/M6800_MIKBUG/M6800_MIKBUG.vhd Line: 54
-    Warning (15610): No output dependent on input pin "w_sdRamData[8]" File: C:/Users/dgilliland/Documents/GitHub/MultiComp/MultiComp_On_RETRO-EP4/M6800_MIKBUG/M6800_MIKBUG.vhd Line: 54
-    Warning (15610): No output dependent on input pin "w_sdRamData[9]" File: C:/Users/dgilliland/Documents/GitHub/MultiComp/MultiComp_On_RETRO-EP4/M6800_MIKBUG/M6800_MIKBUG.vhd Line: 54
-    Warning (15610): No output dependent on input pin "w_sdRamData[10]" File: C:/Users/dgilliland/Documents/GitHub/MultiComp/MultiComp_On_RETRO-EP4/M6800_MIKBUG/M6800_MIKBUG.vhd Line: 54
-    Warning (15610): No output dependent on input pin "w_sdRamData[11]" File: C:/Users/dgilliland/Documents/GitHub/MultiComp/MultiComp_On_RETRO-EP4/M6800_MIKBUG/M6800_MIKBUG.vhd Line: 54
-    Warning (15610): No output dependent on input pin "w_sdRamData[12]" File: C:/Users/dgilliland/Documents/GitHub/MultiComp/MultiComp_On_RETRO-EP4/M6800_MIKBUG/M6800_MIKBUG.vhd Line: 54
-    Warning (15610): No output dependent on input pin "w_sdRamData[13]" File: C:/Users/dgilliland/Documents/GitHub/MultiComp/MultiComp_On_RETRO-EP4/M6800_MIKBUG/M6800_MIKBUG.vhd Line: 54
-    Warning (15610): No output dependent on input pin "w_sdRamData[14]" File: C:/Users/dgilliland/Documents/GitHub/MultiComp/MultiComp_On_RETRO-EP4/M6800_MIKBUG/M6800_MIKBUG.vhd Line: 54
-    Warning (15610): No output dependent on input pin "w_sdRamData[15]" File: C:/Users/dgilliland/Documents/GitHub/MultiComp/MultiComp_On_RETRO-EP4/M6800_MIKBUG/M6800_MIKBUG.vhd Line: 54
-Info (21057): Implemented 3134 device resources after synthesis - the final resource count might be different
-    Info (21058): Implemented 24 input pins
-    Info (21059): Implemented 55 output pins
+Warning (21074): Design contains 1 input pin(s) that do not drive logic
+    Warning (15610): No output dependent on input pin "cts1" File: C:/Users/dgilliland/Documents/GitHub/MultiComp/MultiComp_On_RETRO-EP4/M6800_MIKBUG/M6800_MIKBUG.vhd Line: 42
+Info (21057): Implemented 3116 device resources after synthesis - the final resource count might be different
+    Info (21058): Implemented 8 input pins
+    Info (21059): Implemented 33 output pins
     Info (21060): Implemented 10 bidirectional pins
-    Info (21061): Implemented 2988 logic cells
-    Info (21064): Implemented 56 RAM segments
-Info: Quartus Prime Analysis & Synthesis was successful. 0 errors, 153 warnings
-    Info: Peak virtual memory: 4851 megabytes
-    Info: Processing ended: Thu Mar 05 09:15:21 2020
-    Info: Elapsed time: 00:00:43
-    Info: Total CPU time (on all processors): 00:01:10
+    Info (21061): Implemented 3000 logic cells
+    Info (21064): Implemented 64 RAM segments
+Info: Quartus Prime Analysis & Synthesis was successful. 0 errors, 108 warnings
+    Info: Peak virtual memory: 4855 megabytes
+    Info: Processing ended: Thu Mar 05 10:36:43 2020
+    Info: Elapsed time: 00:00:41
+    Info: Total CPU time (on all processors): 00:01:05
 
 
