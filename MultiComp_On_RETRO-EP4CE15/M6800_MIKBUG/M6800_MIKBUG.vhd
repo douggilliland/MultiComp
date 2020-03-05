@@ -180,17 +180,15 @@ begin
 			rxClkEn	=> serialEn,
 			txClkEn	=> serialEn,
 			rxd		=> rxd1,
-			txd		=> txd1,
-			n_cts		=> cts1,
-			n_rts		=> rts1
+			txd		=> txd1
 		);
 	
 	-- ____________________________________________________________________________________
 	-- CPU Read Data multiplexer
 	w_cpuDataIn <=
 		w_ramData		when w_cpuAddress(15) = '0'							else
-		w_if1DataOut	when (w_cpuAddress(15 downto 1) = x"801"&"100")	else
-		w_if2DataOut	when (w_cpuAddress(15 downto 1) = x"802"&"100")	else
+		w_if1DataOut	when (n_if1CS = '0')	else
+		w_if2DataOut	when (n_if2CS = '0')	else
 		w_romData		when w_cpuAddress(15 downto 14) = "11"				else
 		x"FF";
 	
