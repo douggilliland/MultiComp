@@ -221,12 +221,12 @@ begin
 process (i_CLOCK_50)
 	begin
 		if rising_edge(i_CLOCK_50) then
-			if q_cpuClkCount < 50 then
+			if q_cpuClkCount < 4 then
 				q_cpuClkCount <= q_cpuClkCount + 1;
 			else
 				q_cpuClkCount <= (others=>'0');
 			end if;
-			if q_cpuClkCount < 25 then
+			if q_cpuClkCount < 2 then
 				w_cpuClock <= '0';
 			else
 				w_cpuClock <= '1';
