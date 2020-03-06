@@ -151,15 +151,15 @@ begin
 	
 	-- ____________________________________________________________________________________
 	-- I/O CHIP SELECTS
-	n_if1CS	<= '0' 	when (serSelect = '1' and (w_cpuAddress(15 downto 1) = x"801"&"100")) else	-- VDU $8018-$8019
-					'0'	when (serSelect = '0' and (w_cpuAddress(15 downto 1) = x"802"&"100")) else
+	n_if1CS	<= '0' 	when (serSelect = '0' and (w_cpuAddress(15 downto 1) = x"801"&"100")) else	-- VDU $8018-$8019
+					'0'	when (serSelect = '1' and (w_cpuAddress(15 downto 1) = x"802"&"100")) else
 					'1';
-	n_if2CS	<= '0' 	when (serSelect = '1' and (w_cpuAddress(15 downto 1) = x"802"&"100")) else	-- ACIA $8028-$8029
-					'0'	when (serSelect = '0' and (w_cpuAddress(15 downto 1) = x"801"&"100")) else
+	n_if2CS	<= '0' 	when (serSelect = '0' and (w_cpuAddress(15 downto 1) = x"802"&"100")) else	-- ACIA $8028-$8029
+					'0'	when (serSelect = '1' and (w_cpuAddress(15 downto 1) = x"801"&"100")) else
 					'1';
-	ramCSLo	<= '1'   when w_cpuAddress(15 downto 12) = "00" else					-- 16KB SRAM $0000-$3FFF
+	ramCSLo	<= '1'   when w_cpuAddress(15 downto 14) = "00" else					-- 16KB SRAM $0000-$3FFF
 					'0';
-	ramCSHi	<= '1'   when w_cpuAddress(15 downto 10) = "0111111" else			-- 1KB SRAM $7E00-$7FFF (Only 512B are used by MIKBUG)
+	ramCSHi	<= '1'   when w_cpuAddress(15 downto 10) = "011111" else			-- 1KB SRAM $7E00-$7FFF (Only 512B are used by MIKBUG)
 					'0';
 	
 	-- ____________________________________________________________________________________
