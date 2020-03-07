@@ -165,11 +165,6 @@ n_sRamWE <= n_memWR or n_externalRamCS;
 n_sRamOE <= n_memRD or n_externalRamCS;
 n_sRamCS <= n_externalRamCS;
 
--- ____________________________________________________________________________________
--- INPUT/OUTPUT DEVICES
-
-urxd1 <= utxd1;
-
 io1 : entity work.bufferedUART	-- First Serial port
 port map(
 	clk => clk,
@@ -180,11 +175,11 @@ port map(
 	dataIn => cpuDataOut,
 	dataOut => interface1DataOut,
 	rxClock => serialClock,
-	txClock => serialClock
---	rxd => utxd1,
---	txd => urxd1,
---	n_cts => urts1,
---	n_rts => ucts1
+	txClock => serialClock,
+	rxd => utxd1,
+	txd => urxd1,
+	n_cts => urts1,
+	n_rts => ucts1
 );
 
 io2 : entity work.SBCTextDisplayRGB	-- VGA output
