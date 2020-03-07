@@ -51,7 +51,13 @@ set_global_assignment -name PARTITION_FITTER_PRESERVATION_LEVEL PLACEMENT_AND_RO
 set_global_assignment -name PARTITION_COLOR 16764057 -section_id Top
 set_global_assignment -name POWER_PRESET_COOLING_SOLUTION "23 MM HEAT SINK WITH 200 LFPM AIRFLOW"
 set_global_assignment -name POWER_BOARD_THERMAL_MODEL "NONE (CONSERVATIVE)"
-set_global_assignment -name STRATIX_DEVICE_IO_STANDARD "2.5 V"
+set_global_assignment -name STRATIX_DEVICE_IO_STANDARD "3.3 V"
+set_global_assignment -name DEVICE_FILTER_PACKAGE FBGA
+set_global_assignment -name TIMING_ANALYZER_MULTICORNER_ANALYSIS ON
+set_global_assignment -name SMART_RECOMPILE ON
+set_global_assignment -name ENABLE_SIGNALTAP OFF
+set_global_assignment -name USE_SIGNALTAP_FILE stp1.stp
+set_global_assignment -name NUM_PARALLEL_PROCESSORS ALL
 # Clock and reset
 set_location_assignment PIN_T2 -to i_CLOCK_50
 set_location_assignment PIN_W13 -to i_n_reset
@@ -61,6 +67,10 @@ set_location_assignment PIN_R2 -to io_ps2Data
 # Serial
 set_location_assignment PIN_B22 -to serSelect
 set_instance_assignment -name WEAK_PULL_UP_RESISTOR ON -to serSelect
+set_location_assignment PIN_A13 -to urts1
+set_location_assignment PIN_A10 -to ucts1
+set_location_assignment PIN_B10 -to urxd1
+set_location_assignment PIN_B13 -to utxd1
 # Video
 set_location_assignment PIN_B17 -to o_videoB0
 set_location_assignment PIN_A17 -to o_videoB1
@@ -70,6 +80,12 @@ set_location_assignment PIN_B15 -to o_videoR0
 set_location_assignment PIN_A15 -to o_videoR1
 set_location_assignment PIN_B18 -to o_hSync
 set_location_assignment PIN_A18 -to o_vSync
+# SD Card
+set_location_assignment PIN_B19 -to sdCS
+set_location_assignment PIN_A20 -to sdMISO
+set_location_assignment PIN_A19 -to sdMOSI
+set_location_assignment PIN_B20 -to sdSCLK
+set_instance_assignment -name WEAK_PULL_UP_RESISTOR ON -to sdMISO
 # SRAM
 set_location_assignment PIN_F1 -to io_n_extSRamCS
 set_location_assignment PIN_B4 -to io_n_extSRamWE
@@ -163,11 +179,6 @@ set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to n_sdRamRas
 set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to n_sdRamCe
 set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to n_sdRamCas
 set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to i_CLOCK_50
-set_global_assignment -name DEVICE_FILTER_PACKAGE FBGA
-set_global_assignment -name TIMING_ANALYZER_MULTICORNER_ANALYSIS ON
-set_global_assignment -name SMART_RECOMPILE ON
-set_global_assignment -name ENABLE_SIGNALTAP OFF
-set_global_assignment -name USE_SIGNALTAP_FILE stp1.stp
 set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to altera_reserved_tck
 set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to altera_reserved_tdi
 set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to altera_reserved_tdo
@@ -230,7 +241,11 @@ set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to w_sdRamData[11]
 set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to w_sdRamData[12]
 set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to w_sdRamData[13]
 set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to w_sdRamData[14]
-set_global_assignment -name NUM_PARALLEL_PROCESSORS ALL
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to serSelect
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to ucts1
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to urts1
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to urxd1
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to utxd1
 set_global_assignment -name VHDL_FILE "../../MultiComp (VHDL Template)/Components/UART/bufferedUART.vhd"
 set_global_assignment -name QIP_FILE "../../MultiComp (VHDL Template)/Components/ROMs/MIKBUG_6800/MIKBUG.qip"
 set_global_assignment -name VHDL_FILE "../../MultiComp (VHDL Template)/Components/RAM_Internal/InternalRam32K.vhd"
@@ -245,13 +260,4 @@ set_global_assignment -name VHDL_FILE "../../MultiComp (VHDL Template)/Component
 set_global_assignment -name VHDL_FILE "../../MultiComp (VHDL Template)/Components/TERMINAL/SBCTextDisplayRGB.vhd"
 set_global_assignment -name VHDL_FILE M6800_MIKBUG.vhd
 set_global_assignment -name SDC_FILE SDC1.sdc
-set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to serSelect
-set_location_assignment PIN_A13 -to urts1
-set_location_assignment PIN_A10 -to ucts1
-set_location_assignment PIN_B10 -to urxd1
-set_location_assignment PIN_B13 -to utxd1
-set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to ucts1
-set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to urts1
-set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to urxd1
-set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to utxd1
 set_instance_assignment -name PARTITION_HIERARCHY root_partition -to | -section_id Top
