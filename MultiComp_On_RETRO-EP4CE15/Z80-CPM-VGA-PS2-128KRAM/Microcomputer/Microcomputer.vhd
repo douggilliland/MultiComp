@@ -35,9 +35,10 @@ entity Microcomputer is
 		n_sRamCS		: out std_logic :='1';
 		n_sRamOE		: out std_logic :='1';
 		-- Serial Port
-		rxd1			: in std_logic;
-		txd1			: out std_logic :='1';
-		rts1			: out std_logic;
+		utxd1			: in std_logic := '1';
+		urxd1			: out std_logic := '1';
+		ucts1			: out std_logic := '0';
+		urts1			: in std_logic := '0';
 		-- Video RGB
 		videoR0		: out std_logic :='0';
 		videoG0		: out std_logic :='0';
@@ -167,6 +168,8 @@ n_sRamCS <= n_externalRamCS;
 -- ____________________________________________________________________________________
 -- INPUT/OUTPUT DEVICES
 
+urxd1 <= utxd1;
+
 io1 : entity work.bufferedUART	-- First Serial port
 port map(
 	clk => clk,
@@ -177,12 +180,11 @@ port map(
 	dataIn => cpuDataOut,
 	dataOut => interface1DataOut,
 	rxClock => serialClock,
-	txClock => serialClock,
-	rxd => rxd1,
-	txd => txd1,
-	n_cts => '0',
-	n_dcd => '0',
-	n_rts => rts1
+	txClock => serialClock
+--	rxd => utxd1,
+--	txd => urxd1,
+--	n_cts => urts1,
+--	n_rts => ucts1
 );
 
 io2 : entity work.SBCTextDisplayRGB	-- VGA output

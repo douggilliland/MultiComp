@@ -35,10 +35,10 @@ o_hSync <= sbctextdisplayrgb:vdu.hSync
 o_vSync <= sbctextdisplayrgb:vdu.vSync
 io_ps2Clk <> sbctextdisplayrgb:vdu.ps2Clk
 io_ps2Data <> sbctextdisplayrgb:vdu.ps2Data
-rxd1 => buffereduart:acia.rxd
-txd1 <= buffereduart:acia.txd
-cts1 => ~NO_FANOUT~
-rts1 <= rts1.DB_MAX_OUTPUT_PORT_TYPE
+utxd1 => buffereduart:acia.rxd
+urxd1 <= buffereduart:acia.txd
+urts1 => buffereduart:acia.n_cts
+ucts1 <= buffereduart:acia.n_rts
 serSelect => n_if1CS.IN1
 serSelect => n_if2CS.IN1
 serSelect => n_if1CS.IN1

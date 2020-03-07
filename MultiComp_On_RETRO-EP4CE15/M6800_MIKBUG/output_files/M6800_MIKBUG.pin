@@ -32,7 +32,7 @@
  --                  Bank 4:       3.3V
  --                  Bank 5:       2.5V
  --                  Bank 6:       3.3V
- --                  Bank 7:       2.5V
+ --                  Bank 7:       3.3V
  --                  Bank 8:       3.3V
  -- GND           : Dedicated ground pin. Dedicated GND pins MUST be connected to GND.
  --                  It can also be used to report unused dedicated pins. The connection
@@ -77,18 +77,18 @@ io_extSRamAddress[13]        : A6        : output : 3.3-V LVTTL       :         
 io_extSRamAddress[14]        : A7        : output : 3.3-V LVTTL       :         : 8         : Y              
 io_extSRamAddress[15]        : A8        : output : 3.3-V LVTTL       :         : 8         : Y              
 RESERVED_INPUT_WITH_WEAK_PULLUP : A9        :        :                   :         : 8         :                
-cts1                         : A10       : input  : 3.3-V LVTTL       :         : 8         : Y              
+ucts1                        : A10       : output : 3.3-V LVTTL       :         : 8         : Y              
 GND+                         : A11       :        :                   :         : 8         :                
 GND+                         : A12       :        :                   :         : 7         :                
-RESERVED_INPUT_WITH_WEAK_PULLUP : A13       :        :                   :         : 7         :                
+urts1                        : A13       : input  : 3.3-V LVTTL       :         : 7         : Y              
 RESERVED_INPUT_WITH_WEAK_PULLUP : A14       :        :                   :         : 7         :                
-RESERVED_INPUT_WITH_WEAK_PULLUP : A15       :        :                   :         : 7         :                
-RESERVED_INPUT_WITH_WEAK_PULLUP : A16       :        :                   :         : 7         :                
-RESERVED_INPUT_WITH_WEAK_PULLUP : A17       :        :                   :         : 7         :                
-RESERVED_INPUT_WITH_WEAK_PULLUP : A18       :        :                   :         : 7         :                
+o_videoR1                    : A15       : output : 3.3-V LVTTL       :         : 7         : Y              
+o_videoG1                    : A16       : output : 3.3-V LVTTL       :         : 7         : Y              
+o_videoB1                    : A17       : output : 3.3-V LVTTL       :         : 7         : Y              
+o_vSync                      : A18       : output : 3.3-V LVTTL       :         : 7         : Y              
 RESERVED_INPUT_WITH_WEAK_PULLUP : A19       :        :                   :         : 7         :                
 RESERVED_INPUT_WITH_WEAK_PULLUP : A20       :        :                   :         : 7         :                
-VCCIO7                       : A21       : power  :                   : 2.5V    : 7         :                
+VCCIO7                       : A21       : power  :                   : 3.3V    : 7         :                
 GND                          : A22       : gnd    :                   :         :           :                
 sdRamAddr[7]                 : AA1       : output : 3.3-V LVTTL       :         : 2         : Y              
 GND                          : AA2       : gnd    :                   :         :           :                
@@ -143,15 +143,15 @@ io_extSRamAddress[17]        : B6        : output : 3.3-V LVTTL       :         
 io_extSRamAddress[16]        : B7        : output : 3.3-V LVTTL       :         : 8         : Y              
 RESERVED_INPUT_WITH_WEAK_PULLUP : B8        :        :                   :         : 8         :                
 RESERVED_INPUT_WITH_WEAK_PULLUP : B9        :        :                   :         : 8         :                
-RESERVED_INPUT_WITH_WEAK_PULLUP : B10       :        :                   :         : 8         :                
+urxd1                        : B10       : output : 3.3-V LVTTL       :         : 8         : Y              
 GND+                         : B11       :        :                   :         : 8         :                
 GND+                         : B12       :        :                   :         : 7         :                
-RESERVED_INPUT_WITH_WEAK_PULLUP : B13       :        :                   :         : 7         :                
+utxd1                        : B13       : input  : 3.3-V LVTTL       :         : 7         : Y              
 RESERVED_INPUT_WITH_WEAK_PULLUP : B14       :        :                   :         : 7         :                
-RESERVED_INPUT_WITH_WEAK_PULLUP : B15       :        :                   :         : 7         :                
-RESERVED_INPUT_WITH_WEAK_PULLUP : B16       :        :                   :         : 7         :                
-RESERVED_INPUT_WITH_WEAK_PULLUP : B17       :        :                   :         : 7         :                
-RESERVED_INPUT_WITH_WEAK_PULLUP : B18       :        :                   :         : 7         :                
+o_videoR0                    : B15       : output : 3.3-V LVTTL       :         : 7         : Y              
+o_videoG0                    : B16       : output : 3.3-V LVTTL       :         : 7         : Y              
+o_videoB0                    : B17       : output : 3.3-V LVTTL       :         : 7         : Y              
+o_hSync                      : B18       : output : 3.3-V LVTTL       :         : 7         : Y              
 RESERVED_INPUT_WITH_WEAK_PULLUP : B19       :        :                   :         : 7         :                
 RESERVED_INPUT_WITH_WEAK_PULLUP : B20       :        :                   :         : 7         :                
 RESERVED_INPUT_WITH_WEAK_PULLUP : B21       :        :                   :         : 6         :                
@@ -176,8 +176,8 @@ RESERVED_INPUT_WITH_WEAK_PULLUP : C17       :        :                   :      
 GND                          : C18       : gnd    :                   :         :           :                
 RESERVED_INPUT_WITH_WEAK_PULLUP : C19       :        :                   :         : 7         :                
 RESERVED_INPUT_WITH_WEAK_PULLUP : C20       :        :                   :         : 6         :                
-o_videoR1                    : C21       : output : 3.3-V LVTTL       :         : 6         : Y              
-o_videoR0                    : C22       : output : 3.3-V LVTTL       :         : 6         : Y              
+RESERVED_INPUT_WITH_WEAK_PULLUP : C21       :        :                   :         : 6         :                
+RESERVED_INPUT_WITH_WEAK_PULLUP : C22       :        :                   :         : 6         :                
 ~ALTERA_ASDO_DATA1~ / RESERVED_INPUT_WITH_WEAK_PULLUP : D1        : input  : 3.3-V LVTTL       :         : 1         : N              
 io_extSRamData[6]            : D2        : bidir  : 3.3-V LVTTL       :         : 1         : Y              
 GND                          : D3        : gnd    :                   :         :           :                
@@ -189,17 +189,17 @@ GND                          : D8        : gnd    :                   :         
 VCCIO8                       : D9        : power  :                   : 3.3V    : 8         :                
 RESERVED_INPUT_WITH_WEAK_PULLUP : D10       :        :                   :         : 8         :                
 VCCIO8                       : D11       : power  :                   : 3.3V    : 8         :                
-VCCIO7                       : D12       : power  :                   : 2.5V    : 7         :                
+VCCIO7                       : D12       : power  :                   : 3.3V    : 7         :                
 RESERVED_INPUT_WITH_WEAK_PULLUP : D13       :        :                   :         : 7         :                
-VCCIO7                       : D14       : power  :                   : 2.5V    : 7         :                
+VCCIO7                       : D14       : power  :                   : 3.3V    : 7         :                
 RESERVED_INPUT_WITH_WEAK_PULLUP : D15       :        :                   :         : 7         :                
-VCCIO7                       : D16       : power  :                   : 2.5V    : 7         :                
+VCCIO7                       : D16       : power  :                   : 3.3V    : 7         :                
 RESERVED_INPUT_WITH_WEAK_PULLUP : D17       :        :                   :         : 7         :                
-VCCIO7                       : D18       : power  :                   : 2.5V    : 7         :                
+VCCIO7                       : D18       : power  :                   : 3.3V    : 7         :                
 RESERVED_INPUT_WITH_WEAK_PULLUP : D19       :        :                   :         : 7         :                
 RESERVED_INPUT_WITH_WEAK_PULLUP : D20       :        :                   :         : 6         :                
-o_videoG1                    : D21       : output : 3.3-V LVTTL       :         : 6         : Y              
-o_videoG0                    : D22       : output : 3.3-V LVTTL       :         : 6         : Y              
+RESERVED_INPUT_WITH_WEAK_PULLUP : D21       :        :                   :         : 6         :                
+RESERVED_INPUT_WITH_WEAK_PULLUP : D22       :        :                   :         : 6         :                
 io_extSRamData[0]            : E1        : bidir  : 3.3-V LVTTL       :         : 1         : Y              
 ~ALTERA_FLASH_nCE_nCSO~ / RESERVED_INPUT_WITH_WEAK_PULLUP : E2        : input  : 3.3-V LVTTL       :         : 1         : N              
 RESERVED_INPUT_WITH_WEAK_PULLUP : E3        :        :                   :         : 1         :                
@@ -220,8 +220,8 @@ VCCD_PLL2                    : E17       : power  :                   : 1.2V    
 GNDA2                        : E18       : gnd    :                   :         :           :                
 VCCIO6                       : E19       : power  :                   : 3.3V    : 6         :                
 GND                          : E20       : gnd    :                   :         :           :                
-o_videoB1                    : E21       : output : 3.3-V LVTTL       :         : 6         : Y              
-o_videoB0                    : E22       : output : 3.3-V LVTTL       :         : 6         : Y              
+RESERVED_INPUT_WITH_WEAK_PULLUP : E21       :        :                   :         : 6         :                
+RESERVED_INPUT_WITH_WEAK_PULLUP : E22       :        :                   :         : 6         :                
 io_n_extSRamCS               : F1        : output : 3.3-V LVTTL       :         : 1         : Y              
 io_extSRamData[7]            : F2        : bidir  : 3.3-V LVTTL       :         : 1         : Y              
 GND                          : F3        : gnd    :                   :         :           :                
@@ -242,8 +242,8 @@ RESERVED_INPUT_WITH_WEAK_PULLUP : F17       :        :                   :      
 VCCA2                        : F18       : power  :                   : 2.5V    :           :                
 RESERVED_INPUT_WITH_WEAK_PULLUP : F19       :        :                   :         : 6         :                
 RESERVED_INPUT_WITH_WEAK_PULLUP : F20       :        :                   :         : 6         :                
-o_hSync                      : F21       : output : 3.3-V LVTTL       :         : 6         : Y              
-o_vSync                      : F22       : output : 3.3-V LVTTL       :         : 6         : Y              
+RESERVED_INPUT_WITH_WEAK_PULLUP : F21       :        :                   :         : 6         :                
+RESERVED_INPUT_WITH_WEAK_PULLUP : F22       :        :                   :         : 6         :                
 GND+                         : G1        :        :                   :         : 1         :                
 GND                          : G2        : gnd    :                   :         :           :                
 RESERVED_INPUT_WITH_WEAK_PULLUP : G3        :        :                   :         : 1         :                
@@ -286,8 +286,8 @@ RESERVED_INPUT_WITH_WEAK_PULLUP : H17       :        :                   :      
 RESERVED_INPUT_WITH_WEAK_PULLUP : H18       :        :                   :         : 6         :                
 RESERVED_INPUT_WITH_WEAK_PULLUP : H19       :        :                   :         : 6         :                
 RESERVED_INPUT_WITH_WEAK_PULLUP : H20       :        :                   :         : 6         :                
-txd1                         : H21       : output : 3.3-V LVTTL       :         : 6         : Y              
-rxd1                         : H22       : input  : 3.3-V LVTTL       :         : 6         : Y              
+RESERVED_INPUT_WITH_WEAK_PULLUP : H21       :        :                   :         : 6         :                
+RESERVED_INPUT_WITH_WEAK_PULLUP : H22       :        :                   :         : 6         :                
 io_extSRamAddress[1]         : J1        : output : 3.3-V LVTTL       :         : 1         : Y              
 io_n_extSRamOE               : J2        : output : 3.3-V LVTTL       :         : 1         : Y              
 RESERVED_INPUT_WITH_WEAK_PULLUP : J3        :        :                   :         : 1         :                
@@ -309,7 +309,7 @@ RESERVED_INPUT_WITH_WEAK_PULLUP : J18       :        :                   :      
 GND                          : J19       : gnd    :                   :         :           :                
 VCCIO6                       : J20       : power  :                   : 3.3V    : 6         :                
 RESERVED_INPUT_WITH_WEAK_PULLUP : J21       :        :                   :         : 6         :                
-rts1                         : J22       : output : 3.3-V LVTTL       :         : 6         : Y              
+RESERVED_INPUT_WITH_WEAK_PULLUP : J22       :        :                   :         : 6         :                
 ~ALTERA_DATA0~ / RESERVED_INPUT_WITH_WEAK_PULLUP : K1        : input  : 3.3-V LVTTL       :         : 1         : N              
 ~ALTERA_DCLK~                : K2        : output : 3.3-V LVTTL       :         : 1         : N              
 GND                          : K3        : gnd    :                   :         :           :                

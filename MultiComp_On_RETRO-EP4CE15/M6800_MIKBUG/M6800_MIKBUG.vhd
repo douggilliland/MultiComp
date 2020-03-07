@@ -30,11 +30,11 @@ entity M6800_MIKBUG is
 		io_ps2Clk			: inout std_logic := '1';
 		io_ps2Data			: inout std_logic := '1';
 		
-		rxd1			: in std_logic := '1';
-		txd1			: out std_logic;
-		cts1			: in std_logic := '1';
-		rts1			: out std_logic;
-		serSelect	: in std_logic := '1';
+		utxd1					: in	std_logic := '1';
+		urxd1					: out std_logic;
+		urts1					: in	std_logic := '1';
+		ucts1					: out std_logic;
+		serSelect			: in	std_logic := '1';
 		
 		-- SRAM not used but making sure that it's not active
 		io_extSRamData		: inout std_logic_vector(7 downto 0) := "ZZZZZZZZ";
@@ -78,9 +78,9 @@ architecture struct of M6800_MIKBUG is
 	signal q_cpuClkCount	: std_logic_vector(5 downto 0); 
 	signal w_cpuClock		: std_logic;
 
-   signal serialCount         	: std_logic_vector(15 downto 0) := x"0000";
-   signal serialCount_d       	: std_logic_vector(15 downto 0);
-   signal serialEn            	: std_logic;
+   signal serialCount   : std_logic_vector(15 downto 0) := x"0000";
+   signal serialCount_d	: std_logic_vector(15 downto 0);
+   signal serialEn      : std_logic;
 	
 begin
 	
@@ -179,8 +179,10 @@ begin
 						 -- at 16x the baud rate.
 			rxClkEn	=> serialEn,
 			txClkEn	=> serialEn,
-			rxd		=> rxd1,
-			txd		=> txd1
+			rxd		=> utxd1,
+			txd		=> urxd1,
+			n_cts		=> urts1,
+			n_rts		=> ucts1
 		);
 	
 	-- ____________________________________________________________________________________
