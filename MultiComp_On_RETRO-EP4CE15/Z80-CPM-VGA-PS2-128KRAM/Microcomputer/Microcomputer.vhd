@@ -7,7 +7,7 @@
 -- EP4CE15 FPGA
 -- Z80 CPU
 --		25 MHz
---	Serial Port
+--	USB-Serial Port
 --		115,200 baud
 --	VGA
 --		2:2:2 RGB
@@ -251,7 +251,6 @@ x"FF";
 -- ____________________________________________________________________________________
 -- SYSTEM CLOCKS
 -- SUB-CIRCUIT CLOCK SIGNALS
-serialClock <= serialClkCount(15);
 process (clk)
 begin
 if rising_edge(clk) then
@@ -293,6 +292,7 @@ end if;
 -- 2400 50
 -- 1200 25
 -- 300 6
+serialClock <= serialClkCount(15);
 serialClkCount <= serialClkCount + 2416;		-- 115,200 baud serial port
 end if;
 end process;
