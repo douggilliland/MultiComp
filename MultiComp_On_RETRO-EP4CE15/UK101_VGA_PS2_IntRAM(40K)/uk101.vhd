@@ -37,7 +37,25 @@ entity uk101 is
 		driveLED		: out std_logic :='1';
 
 		i_ps2Clk		: in std_logic := '1';
-		i_ps2Data	: in std_logic := '1'
+		i_ps2Data	: in std_logic := '1';
+		
+		-- SRAM not used but making sure that it's not active
+		io_extSRamData		: inout std_logic_vector(7 downto 0) := "ZZZZZZZZ";
+		io_extSRamAddress	: out std_logic_vector(19 downto 0);
+		io_n_extSRamWE		: out std_logic := '1';
+		io_n_extSRamCS		: out std_logic := '1';
+		io_n_extSRamOE		: out std_logic := '1';
+
+		-- Not using the SD RAM but making sure that it's not active
+		n_sdRamCas	: out std_logic := '1';		-- CAS on schematic
+		n_sdRamRas	: out std_logic := '1';		-- RAS
+		n_sdRamWe	: out std_logic := '1';		-- SDWE
+		n_sdRamCe	: out std_logic := '1';		-- SD_NCS0
+		sdRamClk		: out std_logic := '1';		-- SDCLK0
+		sdRamClkEn	: out std_logic := '1';		-- SDCKE0
+		sdRamAddr	: out std_logic_vector(14 downto 0) := "000"&x"000";
+		sdRamData	: in std_logic_vector(15 downto 0)
+
 		);
 end uk101;
 
@@ -244,7 +262,7 @@ pll : work.VideoClk_XVGA_1024x768 PORT MAP (
 
 	baud_div: process (w_serialClkCount_d, w_serialClkCount)
 		begin
-			w_serialClkCount_d <= w_serialClkCount + 6;		-- 300 baud
+			w_serialClkCount_d <= w_serialClkCount + 2416;		-- 115,200 baud
 		end process;
 
 	--Single clock wide baud rate enable

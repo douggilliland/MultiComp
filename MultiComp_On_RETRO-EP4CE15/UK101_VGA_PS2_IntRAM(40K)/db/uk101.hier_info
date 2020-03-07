@@ -4,7 +4,7 @@ i_n_reset => mem_mapped_xvga:MemMappedXVGA.n_reset
 i_n_reset => uk101keyboard:u9.nRESET
 i_clk => videoclk_xvga_1024x768:pll.inclk0
 i_rxd => buffereduart:UART.rxd
-o_txd <= comb.DB_MAX_OUTPUT_PORT_TYPE
+o_txd <= o_txd.DB_MAX_OUTPUT_PORT_TYPE
 o_rts <= buffereduart:UART.n_rts
 i_cts => buffereduart:UART.n_cts
 o_Vid_Red[0] <= mem_mapped_xvga:MemMappedXVGA.VoutVect[2]
@@ -15,6 +15,44 @@ o_Vid_Blu[0] <= mem_mapped_xvga:MemMappedXVGA.VoutVect[0]
 o_Vid_Blu[1] <= mem_mapped_xvga:MemMappedXVGA.VoutVect[0]
 o_Vid_hSync <= mem_mapped_xvga:MemMappedXVGA.hSync
 o_Vid_vSync <= mem_mapped_xvga:MemMappedXVGA.vSync
+sdCS <= <VCC>
+sdMOSI <= <GND>
+sdMISO => ~NO_FANOUT~
+sdSCLK <= <GND>
+driveLED <= <VCC>
+i_ps2Clk => uk101keyboard:u9.PS2_CLK
+i_ps2Data => uk101keyboard:u9.PS2_DATA
+io_extSRamData[0] <> <UNC>
+io_extSRamData[1] <> <UNC>
+io_extSRamData[2] <> <UNC>
+io_extSRamData[3] <> <UNC>
+io_extSRamData[4] <> <UNC>
+io_extSRamData[5] <> <UNC>
+io_extSRamData[6] <> <UNC>
+io_extSRamData[7] <> <UNC>
+io_extSRamAddress[0] <= comb.DB_MAX_OUTPUT_PORT_TYPE
+io_extSRamAddress[1] <= io_extSRamAddress[1].DB_MAX_OUTPUT_PORT_TYPE
+io_extSRamAddress[2] <= io_extSRamAddress[2].DB_MAX_OUTPUT_PORT_TYPE
+io_extSRamAddress[3] <= io_extSRamAddress[3].DB_MAX_OUTPUT_PORT_TYPE
+io_extSRamAddress[4] <= io_extSRamAddress[4].DB_MAX_OUTPUT_PORT_TYPE
+io_extSRamAddress[5] <= io_extSRamAddress[5].DB_MAX_OUTPUT_PORT_TYPE
+io_extSRamAddress[6] <= io_extSRamAddress[6].DB_MAX_OUTPUT_PORT_TYPE
+io_extSRamAddress[7] <= io_extSRamAddress[7].DB_MAX_OUTPUT_PORT_TYPE
+io_extSRamAddress[8] <= io_extSRamAddress[8].DB_MAX_OUTPUT_PORT_TYPE
+io_extSRamAddress[9] <= io_extSRamAddress[9].DB_MAX_OUTPUT_PORT_TYPE
+io_extSRamAddress[10] <= io_extSRamAddress[10].DB_MAX_OUTPUT_PORT_TYPE
+io_extSRamAddress[11] <= io_extSRamAddress[11].DB_MAX_OUTPUT_PORT_TYPE
+io_extSRamAddress[12] <= io_extSRamAddress[12].DB_MAX_OUTPUT_PORT_TYPE
+io_extSRamAddress[13] <= io_extSRamAddress[13].DB_MAX_OUTPUT_PORT_TYPE
+io_extSRamAddress[14] <= io_extSRamAddress[14].DB_MAX_OUTPUT_PORT_TYPE
+io_extSRamAddress[15] <= io_extSRamAddress[15].DB_MAX_OUTPUT_PORT_TYPE
+io_extSRamAddress[16] <= io_extSRamAddress[16].DB_MAX_OUTPUT_PORT_TYPE
+io_extSRamAddress[17] <= io_extSRamAddress[17].DB_MAX_OUTPUT_PORT_TYPE
+io_extSRamAddress[18] <= io_extSRamAddress[18].DB_MAX_OUTPUT_PORT_TYPE
+io_extSRamAddress[19] <= io_extSRamAddress[19].DB_MAX_OUTPUT_PORT_TYPE
+io_n_extSRamWE <= <VCC>
+io_n_extSRamCS <= <VCC>
+io_n_extSRamOE <= <VCC>
 n_sdRamCas <= <VCC>
 n_sdRamRas <= <VCC>
 n_sdRamWe <= <VCC>
@@ -52,13 +90,6 @@ sdRamData[12] => ~NO_FANOUT~
 sdRamData[13] => ~NO_FANOUT~
 sdRamData[14] => ~NO_FANOUT~
 sdRamData[15] => ~NO_FANOUT~
-sdCS <= <VCC>
-sdMOSI <= <GND>
-sdMISO => ~NO_FANOUT~
-sdSCLK <= <GND>
-driveLED <= <VCC>
-i_ps2Clk => uk101keyboard:u9.PS2_CLK
-i_ps2Data => uk101keyboard:u9.PS2_DATA
 
 
 |uk101|T65:CPU
