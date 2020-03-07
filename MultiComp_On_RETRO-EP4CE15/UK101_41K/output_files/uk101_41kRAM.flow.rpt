@@ -1,5 +1,5 @@
 Flow report for uk101_41kRAM
-Sat Feb 08 17:12:41 2020
+Sat Mar 07 12:05:01 2020
 Quartus Prime Version 18.1.0 Build 625 09/12/2018 SJ Lite Edition
 
 
@@ -40,14 +40,14 @@ refer to the applicable agreement for further details.
 +----------------------------------------------------------------------------------+
 ; Flow Summary                                                                     ;
 +------------------------------------+---------------------------------------------+
-; Flow Status                        ; Successful - Sat Feb 08 17:12:28 2020       ;
+; Flow Status                        ; Successful - Sat Mar 07 12:04:49 2020       ;
 ; Quartus Prime Version              ; 18.1.0 Build 625 09/12/2018 SJ Lite Edition ;
 ; Revision Name                      ; uk101_41kRAM                                ;
 ; Top-level Entity Name              ; uk101                                       ;
 ; Family                             ; Cyclone IV E                                ;
 ; Device                             ; EP4CE15F23C8                                ;
 ; Timing Models                      ; Final                                       ;
-; Total logic elements               ; 3,740 / 15,408 ( 24 % )                     ;
+; Total logic elements               ; 3,739 / 15,408 ( 24 % )                     ;
 ;     Total combinational functions  ; 3,697 / 15,408 ( 24 % )                     ;
 ;     Dedicated logic registers      ; 346 / 15,408 ( 2 % )                        ;
 ; Total registers                    ; 346                                         ;
@@ -100,7 +100,10 @@ refer to the applicable agreement for further details.
 ; Fitter               ; 00:00:40     ; 1.1                     ; 5641 MB             ; 00:00:51                           ;
 ; Assembler            ; 00:00:02     ; 1.0                     ; 4691 MB             ; 00:00:02                           ;
 ; Timing Analyzer      ; 00:00:12     ; 2.6                     ; 4851 MB             ; 00:00:14                           ;
-; Total                ; 00:01:55     ; --                      ; --                  ; 00:02:23                           ;
+; Fitter               ; 00:00:33     ; 1.1                     ; 5582 MB             ; 00:00:45                           ;
+; Assembler            ; 00:00:01     ; 1.0                     ; 4688 MB             ; 00:00:02                           ;
+; Timing Analyzer      ; 00:00:11     ; 2.7                     ; 4849 MB             ; 00:00:12                           ;
+; Total                ; 00:02:40     ; --                      ; --                  ; 00:03:22                           ;
 +----------------------+--------------+-------------------------+---------------------+------------------------------------+
 
 
@@ -113,6 +116,9 @@ refer to the applicable agreement for further details.
 ; Fitter               ; DESKTOP-2UF8LNB  ; Windows 10 ; 10.0       ; x86_64         ;
 ; Assembler            ; DESKTOP-2UF8LNB  ; Windows 10 ; 10.0       ; x86_64         ;
 ; Timing Analyzer      ; DESKTOP-2UF8LNB  ; Windows 10 ; 10.0       ; x86_64         ;
+; Fitter               ; DESKTOP-2UF8LNB  ; Windows 10 ; 10.0       ; x86_64         ;
+; Assembler            ; DESKTOP-2UF8LNB  ; Windows 10 ; 10.0       ; x86_64         ;
+; Timing Analyzer      ; DESKTOP-2UF8LNB  ; Windows 10 ; 10.0       ; x86_64         ;
 +----------------------+------------------+------------+------------+----------------+
 
 
@@ -121,6 +127,9 @@ refer to the applicable agreement for further details.
 ------------
 quartus_map --read_settings_files=on --write_settings_files=off uk101_41kRAM -c uk101_41kRAM
 quartus_fit --read_settings_files=off --write_settings_files=off uk101_41kRAM -c uk101_41kRAM
+quartus_asm --read_settings_files=off --write_settings_files=off uk101_41kRAM -c uk101_41kRAM
+quartus_sta uk101_41kRAM -c uk101_41kRAM
+quartus_fit --read_settings_files=on --write_settings_files=off uk101_41kRAM -c uk101_41kRAM
 quartus_asm --read_settings_files=off --write_settings_files=off uk101_41kRAM -c uk101_41kRAM
 quartus_sta uk101_41kRAM -c uk101_41kRAM
 
