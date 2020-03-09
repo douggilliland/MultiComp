@@ -3,6 +3,7 @@
 -- acknowledgement.
 --
 -- Changes by Doug Gilliland 2017-2020
+--	Built with Quartus II 18.1
 --
 -- EP4CE15 FPGA
 -- Z80 CPU
@@ -16,7 +17,8 @@
 --	External SRAM
 --		1 MB (only 64KB are used by this implementation)
 --	SD Card
---		25 MHz high speed
+--		25 MHz high speed (Neal Crook)
+--		Supports SD, SDHC cards
 --	Runs CP/M
 --		Autodetects Serial port or VDU by waiting on space key to be pressed
 
@@ -31,7 +33,7 @@ entity Microcomputer is
 		n_reset		: in std_logic :='1';
 		clk			: in std_logic;
 		-- External SRAM
-		sramData		: inout std_logic_vector(7 downto 0) := "ZZZZZZZZ";
+		sramData		: inout std_logic_vector(7 downto 0);
 		sramAddress	: out std_logic_vector(19 downto 0) := x"00000";
 		n_sRamWE		: out std_logic :='1';
 		n_sRamCS		: out std_logic :='1';
