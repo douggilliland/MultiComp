@@ -27,7 +27,7 @@ use  IEEE.STD_LOGIC_ARITH.all;
 use  IEEE.STD_LOGIC_UNSIGNED.all;
 
 entity Microcomputer is
-	port(
+	port (
 		n_reset		: in std_logic :='1';
 		clk			: in std_logic;
 		-- External SRAM
@@ -80,8 +80,6 @@ architecture struct of Microcomputer is
 	signal cpuDataIn					: std_logic_vector(7 downto 0);
 
 	signal basRomData					: std_logic_vector(7 downto 0);
-	signal internalRam1DataOut		: std_logic_vector(7 downto 0);
-	signal internalRam2DataOut		: std_logic_vector(7 downto 0);
 	signal interface1DataOut		: std_logic_vector(7 downto 0);
 	signal interface2DataOut		: std_logic_vector(7 downto 0);
 	signal sdCardDataOut				: std_logic_vector(7 downto 0);
@@ -110,8 +108,9 @@ architecture struct of Microcomputer is
 	signal sdClkCount					: std_logic_vector(5 downto 0);
 	signal sdClock						: std_logic;
 	
-	signal serialClkCount			: std_logic_vector(15 downto 0);
-	signal serialClock				: std_logic;
+    signal serialClkCount        : std_logic_vector(15 downto 0) := x"0000";
+    signal serialClkCount_d      : std_logic_vector(15 downto 0);
+    signal serialClkEn           : std_logic;
 
 	--CP/M
 	signal n_RomActive 				: std_logic := '0';
@@ -136,19 +135,19 @@ end process;
 cpu1 : entity work.t80s
 generic map(mode => 1, t2write => 1, iowait => 0)
 port map(
-	reset_n => n_reset,
-	clk_n => cpuClock,
-	wait_n => '1',
-	int_n => '1',
-	nmi_n => '1',
-	busrq_n => '1',
-	mreq_n => n_MREQ,
-	iorq_n => n_IORQ,
-	rd_n => n_RD,
-	wr_n => n_WR,
-	a => cpuAddress,
-	di => cpuDataIn,
-	do => cpuDataOut
+	reset_n	=> n_reset,
+	clk_n		=> cpuClock,
+	wait_n	=> '1',
+	int_n		=> '1',
+	nmi_n		=> '1',
+	busrq_n	=> '1',
+	mreq_n	=> n_MREQ,
+	iorq_n	=> n_IORQ,
+	rd_n		=> n_RD,
+	wr_n		=> n_WR,
+	a			=> cpuAddress,
+	di			=> cpuDataIn,
+	do			=> cpuDataOut
 );
 
 -- ____________________________________________________________________________________
@@ -156,15 +155,15 @@ port map(
 
 rom1 : entity work.Z80_CPM_BASIC_ROM -- 8KB BASIC and CP/M boot
 port map(
-	address => cpuAddress(12 downto 0),
-	clock => clk,
-	q => basRomData
+	address	=> cpuAddress(12 downto 0),
+	clock		=> clk,
+	q			=> basRomData
 );
 
 -- ____________________________________________________________________________________
 -- External RAM
-sramAddress(19 downto 16) <= "0000";
-sramAddress(15 downto 0) <= cpuAddress(15 downto 0);
+sramAddress(19 downto 16) 	<= "0000";
+sramAddress(15 downto 0) 	<= cpuAddress(15 downto 0);
 sramData <= cpuDataOut when n_memWR='0' else (others => 'Z');
 n_sRamWE <= n_memWR or n_externalRamCS;
 n_sRamOE <= n_memRD or n_externalRamCS;
@@ -172,19 +171,19 @@ n_sRamCS <= n_externalRamCS;
 
 io1 : entity work.bufferedUART	-- First Serial port
 port map(
-	clk => clk,
-	n_wr => n_interface1CS or n_ioWR,
-	n_rd => n_interface1CS or n_ioRD,
-	n_int => n_int1,
-	regSel => cpuAddress(0),
-	dataIn => cpuDataOut,
-	dataOut => interface1DataOut,
-	rxClock => serialClock,
-	txClock => serialClock,
-	rxd => utxd1,
-	txd => urxd1,
-	n_cts => urts1,
-	n_rts => ucts1
+	clk		=> clk,
+	n_wr		=> n_interface1CS or n_ioWR,
+	n_rd		=> n_interface1CS or n_ioRD,
+	n_int		=> n_int1,
+	regSel	=> cpuAddress(0),
+	dataIn	=> cpuDataOut,
+	dataOut	=> interface1DataOut,
+	rxClkEn	=> serialClkEn,
+	txClkEn	=> serialClkEn,
+	rxd		=> utxd1,
+	txd		=> urxd1,
+	n_cts		=> urts1,
+	n_rts		=> ucts1
 );
 
 io2 : entity work.SBCTextDisplayRGB	-- VGA output
@@ -192,43 +191,43 @@ generic map (
 	EXTENDED_CHARSET => 1
 )
 port map (
-	n_reset => n_reset,
-	clk => clk,
+	n_reset	=> n_reset,
+	clk		=> clk,
 	
 	-- RGB video signals
-	hSync => hSync,
-	vSync => vSync,
-	videoR0 => videoR0,
-	videoR1 => videoR1,
-	videoG0 => videoG0,
-	videoG1 => videoG1,
-	videoB0 => videoB0,
-	videoB1 => videoB1,
+	hSync		=> hSync,
+	vSync		=> vSync,
+	videoR0	=> videoR0,
+	videoR1	=> videoR1,
+	videoG0	=> videoG0,
+	videoG1	=> videoG1,
+	videoB0	=> videoB0,
+	videoB1	=> videoB1,
 	
-	n_wr => n_interface2CS or n_ioWR,
-	n_rd => n_interface2CS or n_ioRD,
-	n_int => n_int2,
-	regSel => cpuAddress(0),
-	dataIn => cpuDataOut,
-	dataOut => interface2DataOut,
-	ps2Clk => ps2Clk,
-	ps2Data => ps2Data
+	n_wr		=> n_interface2CS or n_ioWR,
+	n_rd		=> n_interface2CS or n_ioRD,
+	n_int		=> n_int2,
+	regSel	=> cpuAddress(0),
+	dataIn	=> cpuDataOut,
+	dataOut	=> interface2DataOut,
+	ps2Clk	=> ps2Clk,
+	ps2Data	=> ps2Data
 );
 
 sd1 : entity work.sd_controller
 port map(
-	sdCS => sdCS,
-	sdMOSI => sdMOSI,
-	sdMISO => sdMISO,
-	sdSCLK => sdSCLK,
-	n_wr => n_sdCardCS or n_ioWR,
-	n_rd => n_sdCardCS or n_ioRD,
-	n_reset => n_reset,
-	dataIn => cpuDataOut,
-	dataOut => sdCardDataOut,
-	regAddr => cpuAddress(2 downto 0),
-	driveLED => driveLED,
-	clk => sdClock -- twice the spi clk
+	sdCS		=> sdCS,
+	sdMOSI	=> sdMOSI,
+	sdMISO	=> sdMISO,
+	sdSCLK	=> sdSCLK,
+	n_wr		=> n_sdCardCS or n_ioWR,
+	n_rd		=> n_sdCardCS or n_ioRD,
+	n_reset	=> n_reset,
+	dataIn	=> cpuDataOut,
+	dataOut	=> sdCardDataOut,
+	regAddr	=> cpuAddress(2 downto 0),
+	driveLED	=> driveLED,
+	clk		=> sdClock -- twice the spi clk
 );
 
 -- ____________________________________________________________________________________
@@ -240,10 +239,10 @@ n_memRD	<= n_RD or n_MREQ;
 
 -- ____________________________________________________________________________________
 -- CHIP SELECTS
-n_basRomCS <= '0' 		when cpuAddress(15 downto 13)	= "000"			and n_RomActive = '0' 				else '1'; --8K at bottom of memory
+n_basRomCS 		<= '0' 	when cpuAddress(15 downto 13)	= "000"			and n_RomActive = '0' 				else '1'; --8K at bottom of memory
 n_interface1CS <= '0' 	when cpuAddress(7 downto 1)	= x"8"&"000"	and (n_ioWR='0' or n_ioRD = '0') else '1'; -- 2 Bytes $80-$81
 n_interface2CS <= '0'	when cpuAddress(7 downto 1)	= x"8"&"001"	and (n_ioWR='0' or n_ioRD = '0') else '1'; -- 2 Bytes $82-$83
-n_sdCardCS <= '0'			when cpuAddress(7 downto 3)	= x"8"&'1'		and (n_ioWR='0' or n_ioRD = '0') else '1'; -- 8 Bytes $88-$8F
+n_sdCardCS 		<= '0'	when cpuAddress(7 downto 3)	= x"8"&'1'		and (n_ioWR='0' or n_ioRD = '0') else '1'; -- 8 Bytes $88-$8F
 n_externalRamCS<= not n_basRomCS;
 
 -- ____________________________________________________________________________________
@@ -258,49 +257,30 @@ cpuDataIn <=
 
 -- ____________________________________________________________________________________
 -- SYSTEM CLOCKS
+    -- Serial clock DDS. With 50MHz master input clock:
+    -- Baud   Increment
+    -- 115200 2416
+    -- 38400  805
+    -- 19200  403
+    -- 9600   201
+    -- 4800   101
+    -- 2400   50
+    baud_div: process (serialClkCount_d, serialClkCount)
+    begin
+        serialClkCount_d <= serialClkCount + 2416;
+    end process;
+
 -- SUB-CIRCUIT CLOCK SIGNALS
-process (clk)
-begin
-	if rising_edge(clk) then
-		if cpuClkCount < 1 then -- 4 = 10MHz, 3 = 12.5MHz, 2=16.6MHz, 1=25MHz
-			cpuClkCount <= cpuClkCount + 1;
-		else
-			cpuClkCount <= (others=>'0');
-		end if;
-		if cpuClkCount < 1 then -- 2 when 10MHz, 2 when 12.5MHz, 2 when 16.6MHz, 1 when 25MHz
-			cpuClock <= '0';
-		else
-			cpuClock <= '1';
-		end if;
+    clk_gen: process (clk) begin
+    if rising_edge(clk) then
+        -- Enable for baud rate generator
+        serialClkCount <= serialClkCount_d;
+        if serialClkCount(15) = '0' and serialClkCount_d(15) = '1' then
+            serialClkEn <= '1';
+        else
+            serialClkEn <= '0';
+        end if;
+    end if;
+    end process;
 
-		if sdClkCount < 49 then -- 1MHz
-			sdClkCount <= sdClkCount + 1;
-		else
-			sdClkCount <= (others=>'0');
-		end if;
-		if sdClkCount < 25 then
-			sdClock <= '0';
-		else
-			sdClock <= '1';
-		end if;
-
-		-- Serial clock DDS
-		-- Basically, f = (increment x 50,000,000) / 65,536
-		-- Where f is the baud rate x 16, as required for the ACIA to run properly.
-		-- 50MHz master input clock:
-		-- OR INCREMENT = (BAUDRATE * 16 * 65526) / 50000000
-		-- Baud Increment
-		-- 115200 2416
-		-- 57600 1208
-		-- 38400 805
-		-- 19200 403
-		-- 9600 201
-		-- 4800 101
-		-- 2400 50
-		-- 1200 25
-		-- 300 6
-		serialClock <= serialClkCount(15);
-		serialClkCount <= serialClkCount + 2416;		-- 115,200 baud serial port
-	end if;
-end process;
 end;
