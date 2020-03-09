@@ -14,11 +14,11 @@
 --		2:2:2 RGB
 --		PS/2 keyboard
 --	External SRAM
---		1 MB
+--		1 MB (only 64KB are used by this implementation)
 --	SD Card
 --		25 MHz high speed
 --	Runs CP/M
---		Autodetects Serial port or VDU by waiting on space
+--		Autodetects Serial port or VDU by waiting on space key to be pressed
 
 
 library ieee;
@@ -31,8 +31,8 @@ entity Microcomputer is
 		n_reset		: in std_logic :='1';
 		clk			: in std_logic;
 		-- External SRAM
-		sramData		: inout std_logic_vector(7 downto 0);
-		sramAddress	: out std_logic_vector(19 downto 0);
+		sramData		: inout std_logic_vector(7 downto 0) := "ZZZZZZZZ";
+		sramAddress	: out std_logic_vector(19 downto 0) := x"00000";
 		n_sRamWE		: out std_logic :='1';
 		n_sRamCS		: out std_logic :='1';
 		n_sRamOE		: out std_logic :='1';
@@ -73,51 +73,51 @@ end Microcomputer;
 
 architecture struct of Microcomputer is
 
-	signal n_WR							: std_logic :='1';
-	signal n_RD							: std_logic :='1';
-	signal cpuAddress					: std_logic_vector(15 downto 0);
-	signal cpuDataOut					: std_logic_vector(7 downto 0);
-	signal cpuDataIn					: std_logic_vector(7 downto 0);
+	signal n_WR						:	std_logic :='1';
+	signal n_RD						:	std_logic :='1';
+	signal cpuAddress				:	std_logic_vector(15 downto 0);
+	signal cpuDataOut				:	std_logic_vector(7 downto 0);
+	signal cpuDataIn				:	std_logic_vector(7 downto 0);
 
-	signal basRomData					: std_logic_vector(7 downto 0);
-	signal interface1DataOut		: std_logic_vector(7 downto 0);
-	signal interface2DataOut		: std_logic_vector(7 downto 0);
-	signal sdCardDataOut				: std_logic_vector(7 downto 0);
+	signal basRomData				:	std_logic_vector(7 downto 0);
+	signal interface1DataOut	:	std_logic_vector(7 downto 0);
+	signal interface2DataOut	:	std_logic_vector(7 downto 0);
+	signal sdCardDataOut			:	std_logic_vector(7 downto 0);
 
-	signal n_memWR						: std_logic :='1';
-	signal n_memRD 					: std_logic :='1';
+	signal n_memWR					:	std_logic :='1';
+	signal n_memRD 				:	std_logic :='1';
 
-	signal n_ioWR						: std_logic :='1';
-	signal n_ioRD 						: std_logic :='1';
+	signal n_ioWR					:	std_logic :='1';
+	signal n_ioRD 					:	std_logic :='1';
 	
-	signal n_MREQ						: std_logic :='1';
-	signal n_IORQ						: std_logic :='1';	
+	signal n_MREQ					:	std_logic :='1';
+	signal n_IORQ					:	std_logic :='1';	
 
-	signal n_int1						: std_logic :='1';	
-	signal n_int2						: std_logic :='1';	
+	signal n_int1					:	std_logic :='1';	
+	signal n_int2					:	std_logic :='1';	
 	
-	signal n_externalRamCS			: std_logic :='1';
-	signal n_basRomCS					: std_logic :='1';
-	signal n_interface1CS			: std_logic :='1';
-	signal n_interface2CS			: std_logic :='1';
-	signal n_sdCardCS					: std_logic :='1';
+	signal n_extRamCS				:	std_logic :='1';
+	signal n_basRomCS				:	std_logic :='1';
+	signal n_interface1CS		:	std_logic :='1';
+	signal n_interface2CS		:	std_logic :='1';
+	signal n_sdCardCS				:	std_logic :='1';
 
-	signal cpuClkCount				: std_logic_vector(5 downto 0);
-	signal cpuClock					: std_logic;
+	signal cpuClkCount			:	std_logic_vector(5 downto 0);
+	signal cpuClock				:	std_logic;
 	
-	signal sdClkCount					: std_logic_vector(5 downto 0);
-	signal sdClock						: std_logic;
+	signal sdClkCount				:	std_logic_vector(5 downto 0);
+	signal sdClock					:	std_logic;
 	
-    signal serialClkCount        : std_logic_vector(15 downto 0) := x"0000";
-    signal serialClkCount_d      : std_logic_vector(15 downto 0);
-    signal serialClkEn           : std_logic;
+    signal serialClkCount     :	std_logic_vector(15 downto 0) := x"0000";
+    signal serialClkCount_d   :	std_logic_vector(15 downto 0);
+    signal serialClkEn        :	std_logic;
 
 	--CP/M
-	signal n_RomActive 				: std_logic := '0';
+	signal n_RomActive			:	std_logic := '0';
 
 begin
 
--- CP/M RAM space switch
+-- CP/M RAM space switch (hit space key to select at boot)
 -- Disable ROM if out 38. Re-enable when (asynchronous) reset pressed
 process (n_ioWR, n_reset) 
 	begin
@@ -152,7 +152,6 @@ port map(
 
 -- ____________________________________________________________________________________
 -- BASIC ROM
-
 rom1 : entity work.Z80_CPM_BASIC_ROM -- 8KB BASIC and CP/M boot
 port map(
 	address	=> cpuAddress(12 downto 0),
@@ -165,11 +164,13 @@ port map(
 sramAddress(19 downto 16) 	<= "0000";
 sramAddress(15 downto 0) 	<= cpuAddress(15 downto 0);
 sramData <= cpuDataOut when n_memWR='0' else (others => 'Z');
-n_sRamWE <= n_memWR or n_externalRamCS;
-n_sRamOE <= n_memRD or n_externalRamCS;
-n_sRamCS <= n_externalRamCS;
+n_sRamWE <= n_memWR or n_extRamCS;
+n_sRamOE <= n_memRD or n_extRamCS;
+n_sRamCS <= n_extRamCS;
 
-io1 : entity work.bufferedUART	-- First Serial port
+-- ____________________________________________________________________________________
+-- ACIA UART
+io1 : entity work.bufferedUART
 port map(
 	clk		=> clk,
 	n_wr		=> n_interface1CS or n_ioWR,
@@ -186,9 +187,12 @@ port map(
 	n_rts		=> ucts1
 );
 
-io2 : entity work.SBCTextDisplayRGB	-- VGA output
-generic map ( 
-	EXTENDED_CHARSET => 1
+-- ____________________________________________________________________________________
+-- VGA output
+io2 : entity work.SBCTextDisplayRGB
+generic map (
+	EXTENDED_CHARSET 		=> 1,
+	COLOUR_ATTS_ENABLED	=> 1
 )
 port map (
 	n_reset	=> n_reset,
@@ -243,16 +247,16 @@ n_basRomCS 		<= '0' 	when cpuAddress(15 downto 13)	= "000"			and n_RomActive = '
 n_interface1CS <= '0' 	when cpuAddress(7 downto 1)	= x"8"&"000"	and (n_ioWR='0' or n_ioRD = '0') else '1'; -- 2 Bytes $80-$81
 n_interface2CS <= '0'	when cpuAddress(7 downto 1)	= x"8"&"001"	and (n_ioWR='0' or n_ioRD = '0') else '1'; -- 2 Bytes $82-$83
 n_sdCardCS 		<= '0'	when cpuAddress(7 downto 3)	= x"8"&'1'		and (n_ioWR='0' or n_ioRD = '0') else '1'; -- 8 Bytes $88-$8F
-n_externalRamCS<= not n_basRomCS;
+n_extRamCS		<= not n_basRomCS;
 
 -- ____________________________________________________________________________________
 -- BUS ISOLATION
 cpuDataIn <=
-	interface1DataOut	when n_interface1CS = '0' else	-- UART 1
-	interface2DataOut	when n_interface2CS = '0' else	-- UART 2 (VGA Display)
-	sdCardDataOut		when n_sdCardCS = '0' else				-- SD Card
-	basRomData			when n_basRomCS = '0' else
-	sramData				when n_externalRamCS= '0' else
+	interface1DataOut	when n_interface1CS	= '0' else	-- UART 1
+	interface2DataOut	when n_interface2CS	= '0' else	-- UART 2 (VGA Display)
+	sdCardDataOut		when n_sdCardCS		= '0' else	-- SD Card
+	basRomData			when n_basRomCS		= '0' else	-- ROM (until CP/M is booted)
+	sramData				when n_extRamCS		= '0' else	-- SRAM
 	x"FF";
 
 -- ____________________________________________________________________________________
@@ -271,16 +275,16 @@ cpuDataIn <=
     end process;
 
 -- SUB-CIRCUIT CLOCK SIGNALS
-    clk_gen: process (clk) begin
-    if rising_edge(clk) then
-        -- Enable for baud rate generator
-        serialClkCount <= serialClkCount_d;
-        if serialClkCount(15) = '0' and serialClkCount_d(15) = '1' then
-            serialClkEn <= '1';
-        else
-            serialClkEn <= '0';
-        end if;
-    end if;
-    end process;
+clk_gen: process (clk) begin
+	if rising_edge(clk) then
+		-- Enable for baud rate generator
+		serialClkCount <= serialClkCount_d;
+		if serialClkCount(15) = '0' and serialClkCount_d(15) = '1' then
+			serialClkEn <= '1';
+		else
+			serialClkEn <= '0';
+		end if;
+	end if;
+end process;
 
 end;
