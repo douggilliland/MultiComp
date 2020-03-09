@@ -233,75 +233,74 @@ port map(
 
 -- ____________________________________________________________________________________
 -- MEMORY READ/WRITE LOGIC
-n_ioWR <= n_WR or n_IORQ;
-n_memWR <= n_WR or n_MREQ;
-n_ioRD <= n_RD or n_IORQ;
-n_memRD <= n_RD or n_MREQ;
+n_ioWR	<= n_WR or n_IORQ;
+n_memWR	<= n_WR or n_MREQ;
+n_ioRD	<= n_RD or n_IORQ;
+n_memRD	<= n_RD or n_MREQ;
 
 -- ____________________________________________________________________________________
 -- CHIP SELECTS
-n_basRomCS <= '0' when cpuAddress(15 downto 13)   = "000" and n_RomActive = '0' else '1'; --8K at bottom of memory
-n_interface1CS <= '0' when cpuAddress(7 downto 1) = "1000000" and (n_ioWR='0' or n_ioRD = '0') else '1'; -- 2 Bytes $80-$81
-n_interface2CS <= '0' when cpuAddress(7 downto 1) = "1000001" and (n_ioWR='0' or n_ioRD = '0') else '1'; -- 2 Bytes $82-$83
-n_sdCardCS <= '0' when cpuAddress(7 downto 3)     = "10001"   and (n_ioWR='0' or n_ioRD = '0') else '1'; -- 8 Bytes $88-$8F
+n_basRomCS <= '0' 		when cpuAddress(15 downto 13)	= "000"			and n_RomActive = '0' 				else '1'; --8K at bottom of memory
+n_interface1CS <= '0' 	when cpuAddress(7 downto 1)	= x"8"&"000"	and (n_ioWR='0' or n_ioRD = '0') else '1'; -- 2 Bytes $80-$81
+n_interface2CS <= '0'	when cpuAddress(7 downto 1)	= x"8"&"001"	and (n_ioWR='0' or n_ioRD = '0') else '1'; -- 2 Bytes $82-$83
+n_sdCardCS <= '0'			when cpuAddress(7 downto 3)	= x"8"&'1'		and (n_ioWR='0' or n_ioRD = '0') else '1'; -- 8 Bytes $88-$8F
 n_externalRamCS<= not n_basRomCS;
 
 -- ____________________________________________________________________________________
 -- BUS ISOLATION
 cpuDataIn <=
-interface1DataOut when n_interface1CS = '0' else	-- UART 1
-interface2DataOut when n_interface2CS = '0' else	-- UART 2 (VGA Display)
-sdCardDataOut when n_sdCardCS = '0' else				-- SD Card
-basRomData when n_basRomCS = '0' else
-sramData when n_externalRamCS= '0' else
-x"FF";
+	interface1DataOut	when n_interface1CS = '0' else	-- UART 1
+	interface2DataOut	when n_interface2CS = '0' else	-- UART 2 (VGA Display)
+	sdCardDataOut		when n_sdCardCS = '0' else				-- SD Card
+	basRomData			when n_basRomCS = '0' else
+	sramData				when n_externalRamCS= '0' else
+	x"FF";
 
 -- ____________________________________________________________________________________
 -- SYSTEM CLOCKS
 -- SUB-CIRCUIT CLOCK SIGNALS
 process (clk)
 begin
-if rising_edge(clk) then
+	if rising_edge(clk) then
+		if cpuClkCount < 1 then -- 4 = 10MHz, 3 = 12.5MHz, 2=16.6MHz, 1=25MHz
+			cpuClkCount <= cpuClkCount + 1;
+		else
+			cpuClkCount <= (others=>'0');
+		end if;
+		if cpuClkCount < 1 then -- 2 when 10MHz, 2 when 12.5MHz, 2 when 16.6MHz, 1 when 25MHz
+			cpuClock <= '0';
+		else
+			cpuClock <= '1';
+		end if;
 
-if cpuClkCount < 1 then -- 4 = 10MHz, 3 = 12.5MHz, 2=16.6MHz, 1=25MHz
-	cpuClkCount <= cpuClkCount + 1;
-else
-	cpuClkCount <= (others=>'0');
-end if;
-if cpuClkCount < 1 then -- 2 when 10MHz, 2 when 12.5MHz, 2 when 16.6MHz, 1 when 25MHz
-	cpuClock <= '0';
-else
-	cpuClock <= '1';
-end if;
+		if sdClkCount < 49 then -- 1MHz
+			sdClkCount <= sdClkCount + 1;
+		else
+			sdClkCount <= (others=>'0');
+		end if;
+		if sdClkCount < 25 then
+			sdClock <= '0';
+		else
+			sdClock <= '1';
+		end if;
 
-if sdClkCount < 49 then -- 1MHz
-	sdClkCount <= sdClkCount + 1;
-else
-	sdClkCount <= (others=>'0');
-end if;
-if sdClkCount < 25 then
-	sdClock <= '0';
-else
-	sdClock <= '1';
-end if;
-
--- Serial clock DDS
--- Basically, f = (increment x 50,000,000) / 65,536
--- Where f is the baud rate x 16, as required for the ACIA to run properly.
--- 50MHz master input clock:
--- OR INCREMENT = (BAUDRATE * 16 * 65526) / 50000000
--- Baud Increment
--- 115200 2416
--- 57600 1208
--- 38400 805
--- 19200 403
--- 9600 201
--- 4800 101
--- 2400 50
--- 1200 25
--- 300 6
-serialClock <= serialClkCount(15);
-serialClkCount <= serialClkCount + 2416;		-- 115,200 baud serial port
-end if;
+		-- Serial clock DDS
+		-- Basically, f = (increment x 50,000,000) / 65,536
+		-- Where f is the baud rate x 16, as required for the ACIA to run properly.
+		-- 50MHz master input clock:
+		-- OR INCREMENT = (BAUDRATE * 16 * 65526) / 50000000
+		-- Baud Increment
+		-- 115200 2416
+		-- 57600 1208
+		-- 38400 805
+		-- 19200 403
+		-- 9600 201
+		-- 4800 101
+		-- 2400 50
+		-- 1200 25
+		-- 300 6
+		serialClock <= serialClkCount(15);
+		serialClkCount <= serialClkCount + 2416;		-- 115,200 baud serial port
+	end if;
 end process;
 end;
