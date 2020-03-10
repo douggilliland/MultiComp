@@ -107,12 +107,9 @@ architecture struct of Microcomputer is
 	signal cpuClkCount			:	std_logic_vector(5 downto 0);
 	signal cpuClock				:	std_logic;
 	
-	signal sdClkCount				:	std_logic_vector(5 downto 0);
-	signal sdClock					:	std_logic;
-	
-    signal serialClkCount     :	std_logic_vector(15 downto 0) := x"0000";
-    signal serialClkCount_d   :	std_logic_vector(15 downto 0);
-    signal serialClkEn        :	std_logic;
+	signal serialClkCount     :	std_logic_vector(15 downto 0) := x"0000";
+	signal serialClkCount_d   :	std_logic_vector(15 downto 0);
+	Signal serialClkEn        :	std_logic;
 
 	--CP/M
 	signal n_RomActive			:	std_logic := '0';
@@ -289,18 +286,7 @@ clk_gen: process (clk) begin
 		else
 			cpuClock <= '1';
 		end if;
-
-		if sdClkCount < 49 then -- 1MHz
-			sdClkCount <= sdClkCount + 1;
-		else
-			sdClkCount <= (others=>'0');
-		end if;
-		if sdClkCount < 25 then
-			sdClock <= '0';
-		else
-			sdClock <= '1';
-		end if;
-		-- Enable for baud rate generator
+		
 		serialClkCount <= serialClkCount_d;
 		if serialClkCount(15) = '0' and serialClkCount_d(15) = '1' then
 			serialClkEn <= '1';
