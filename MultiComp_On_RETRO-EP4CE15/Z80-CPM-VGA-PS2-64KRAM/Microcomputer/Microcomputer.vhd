@@ -62,6 +62,8 @@ entity Microcomputer is
 		sdMISO		: in std_logic;
 		sdSCLK		: out std_logic :='1';
 		driveLED		: out std_logic :='1';
+		-- Output Latch
+		latOut		: out std_logic_vector(7 downto 0) := x"00";
 		-- Not using the SD RAM but making sure that it's not active
 		n_sdRamCas	: out std_logic := '1';		-- CAS on schematic
 		n_sdRamRas	: out std_logic := '1';		-- RAS
@@ -104,6 +106,7 @@ architecture struct of Microcomputer is
 	signal n_interface1CS		:	std_logic :='1';
 	signal n_interface2CS		:	std_logic :='1';
 	signal n_sdCardCS				:	std_logic :='1';
+	signal wrLatch					:	std_logic :='0';
 
 	signal cpuClkCount			:	std_logic_vector(5 downto 0);
 	signal cpuClock				:	std_logic;
@@ -234,6 +237,16 @@ port map(
 	clk		=> clk 
 );
 
+outLat8 : entity work.outLatch
+	port map(	
+		dataIn8	=> cpuDataOut,
+		clock		=> clk,
+		load		=> wrLatch,
+		clear		=> not n_reset,
+		latchOut	=> latOut
+	);
+
+
 -- ____________________________________________________________________________________
 -- MEMORY READ/WRITE LOGIC
 n_ioWR	<= n_WR or n_IORQ;
@@ -247,6 +260,7 @@ n_basRomCS 		<= '0' 	when cpuAddress(15 downto 13)	= "000"			and n_RomActive = '
 n_interface1CS <= '0' 	when cpuAddress(7 downto 1)	= x"8"&"000"	and (n_ioWR='0' or n_ioRD = '0') else '1'; -- 2 Bytes $80-$81
 n_interface2CS <= '0'	when cpuAddress(7 downto 1)	= x"8"&"001"	and (n_ioWR='0' or n_ioRD = '0') else '1'; -- 2 Bytes $82-$83
 n_sdCardCS 		<= '0'	when cpuAddress(7 downto 3)	= x"8"&'1'		and (n_ioWR='0' or n_ioRD = '0') else '1'; -- 8 Bytes $88-$8F
+wrLatch			<= '1'	when cpuAddress(7 downto 1)	= x"9"&"000"	and  n_ioWR='0'                  else '0'; -- 8 Bytes $90-$91
 n_extRamCS		<= not n_basRomCS;
 
 -- ____________________________________________________________________________________
