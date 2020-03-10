@@ -3,7 +3,7 @@
 -- acknowledgement.
 --
 -- Changes by Doug Gilliland 2017-2020
---	Built with Quartus II 18.1
+--	Built with Quartus II 18.1 
 --
 -- EP4CE15 FPGA
 -- Z80 CPU
