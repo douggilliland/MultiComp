@@ -279,6 +279,27 @@ cpuDataIn <=
 -- SUB-CIRCUIT CLOCK SIGNALS
 clk_gen: process (clk) begin
 	if rising_edge(clk) then
+		if cpuClkCount < 4 then -- 4 = 10MHz, 3 = 12.5MHz, 2=16.6MHz, 1=25MHz
+			cpuClkCount <= cpuClkCount + 4;
+		else
+			cpuClkCount <= (others=>'0');
+		end if;
+		if cpuClkCount < 2 then -- 2 when 10MHz, 2 when 12.5MHz, 2 when 16.6MHz, 1 when 25MHz
+			cpuClock <= '0';
+		else
+			cpuClock <= '1';
+		end if;
+
+		if sdClkCount < 49 then -- 1MHz
+			sdClkCount <= sdClkCount + 1;
+		else
+			sdClkCount <= (others=>'0');
+		end if;
+		if sdClkCount < 25 then
+			sdClock <= '0';
+		else
+			sdClock <= '1';
+		end if;
 		-- Enable for baud rate generator
 		serialClkCount <= serialClkCount_d;
 		if serialClkCount(15) = '0' and serialClkCount_d(15) = '1' then
