@@ -32,6 +32,7 @@ entity Microcomputer is
 	port (
 		n_reset		: in std_logic :='1';
 		clk			: in std_logic;
+		turboMode	: in std_logic;
 		-- External SRAM
 		sramData		: inout std_logic_vector(7 downto 0);
 		sramAddress	: out std_logic_vector(19 downto 0) := x"00000";
@@ -273,20 +274,39 @@ cpuDataIn <=
         serialClkCount_d <= serialClkCount + 2416;
     end process;
 
--- SUB-CIRCUIT CLOCK SIGNALS
+
+-- CPU CLOCK SIGNALS
 clk_gen: process (clk) begin
 	if rising_edge(clk) then
-		if cpuClkCount < 1 then -- 4 = 10MHz, 3 = 12.5MHz, 2=16.6MHz, 1=25MHz
-			cpuClkCount <= cpuClkCount + 4;
+		if turboMode = '1' then
+			if cpuClkCount < 1 then -- 4 = 10MHz, 3 = 12.5MHz, 2=16.6MHz, 1=25MHz
+				cpuClkCount <= cpuClkCount + 1;
+			else
+				cpuClkCount <= (others=>'0');
+			end if;
+			if cpuClkCount < 1 then -- 2 when 10MHz, 2 when 12.5MHz, 2 when 16.6MHz, 1 when 25MHz
+				cpuClock <= '0';
+			else
+				cpuClock <= '1';
+			end if;
 		else
-			cpuClkCount <= (others=>'0');
+			if cpuClkCount < 4 then -- 4 = 10MHz, 3 = 12.5MHz, 2=16.6MHz, 1=25MHz
+				cpuClkCount <= cpuClkCount + 1;
+			else
+				cpuClkCount <= (others=>'0');
+			end if;
+			if cpuClkCount < 2 then -- 2 when 10MHz, 2 when 12.5MHz, 2 when 16.6MHz, 1 when 25MHz
+				cpuClock <= '0';
+			else
+				cpuClock <= '1';
+			end if;
 		end if;
-		if cpuClkCount < 1 then -- 2 when 10MHz, 2 when 12.5MHz, 2 when 16.6MHz, 1 when 25MHz
-			cpuClock <= '0';
-		else
-			cpuClock <= '1';
-		end if;
-		
+	end if;
+end process;
+
+-- Serial Clock Signals
+serialClkGen: process (clk) begin
+	if rising_edge(clk) then
 		serialClkCount <= serialClkCount_d;
 		if serialClkCount(15) = '0' and serialClkCount_d(15) = '1' then
 			serialClkEn <= '1';
