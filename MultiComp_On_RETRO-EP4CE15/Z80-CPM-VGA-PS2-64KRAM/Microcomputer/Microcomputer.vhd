@@ -34,7 +34,7 @@ entity Microcomputer is
 		clk			: in std_logic;
 		turboMode	: in std_logic;
 		-- External SRAM
-		sramData		: inout std_logic_vector(7 downto 0);
+		sramData		: inout std_logic_vector(7 downto 0) := "ZZZZZZZZ";
 		sramAddress	: out std_logic_vector(19 downto 0) := x"00000";
 		n_sRamWE		: out std_logic :='1';
 		n_sRamCS		: out std_logic :='1';
