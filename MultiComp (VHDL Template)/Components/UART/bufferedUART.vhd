@@ -1,6 +1,6 @@
 -- 6850 ACIA COMPATIBLE UART WITH HARDWARE INPUT BUFFER AND HANDSHAKE
 
--- This file is copyright by Grant Searle 2013
+-- oRIGINAL file is copyright by Grant Searle 2013
 -- You are free to use this file in your own projects but must never charge for it nor use it without
 -- acknowledgement.
 -- Please ask permission from Grant Searle before republishing elsewhere.

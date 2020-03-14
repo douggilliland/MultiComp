@@ -2,9 +2,14 @@
 -- Grant Searle's web site http://searle.hostei.com/grant/    
 -- Grant Searle's "multicomp" page at http://searle.hostei.com/grant/Multicomp/index.html
 --
--- MC6800 CPU running MIKBUG from back in the day
 -- Changes to this code by Doug Gilliland 2020
+--
+-- MC6800 CPU running MIKBUG from back in the day
 --	32K (internal) RAM version
+-- MC6850 ACIA UART
+-- VDU
+--		XGA 80x25 character display
+--		PS/2 keyboard
 --
 
 library ieee;
@@ -37,7 +42,8 @@ entity M6800_MIKBUG is
 		serSelect			: in	std_logic := '1';
 		
 		-- SRAM not used but making sure that it's not active
-		io_extSRamData		: inout std_logic_vector(7 downto 0) := "ZZZZZZZZ";
+--		io_extSRamData		: inout std_logic_vector(7 downto 0) := "ZZZZZZZZ";
+		io_extSRamData		: inout std_logic_vector(7 downto 0) := (others=>'Z');
 		io_extSRamAddress	: out std_logic_vector(19 downto 0);
 		io_n_extSRamWE		: out std_logic := '1';
 		io_n_extSRamCS		: out std_logic := '1';
@@ -51,7 +57,7 @@ entity M6800_MIKBUG is
 		sdRamClk				: out std_logic := '1';		-- SDCLK0
 		sdRamClkEn			: out std_logic := '1';		-- SDCKE0
 		sdRamAddr			: out std_logic_vector(14 downto 0) := "000"&x"000";
-		w_sdRamData			: in std_logic_vector(15 downto 0) := "ZZZZZZZZZZZZZZZZ"
+		w_sdRamData			: in std_logic_vector(15 downto 0) := (others=>'Z')
 	);
 end M6800_MIKBUG;
 
@@ -93,6 +99,24 @@ begin
 	);
 		
 	-- ____________________________________________________________________________________
+	-- I/O CHIP SELECTS
+	n_if1CS	<= '0' 	when (serSelect = '1' and (w_cpuAddress(15 downto 1) = x"801"&"100")) else	-- VDU  $8018-$8019
+					'0'	when (serSelect = '0' and (w_cpuAddress(15 downto 1) = x"802"&"100")) else	-- ACIA $8028-$8029
+							'1';
+	n_if2CS	<= '0' 	when (serSelect = '1' and (w_cpuAddress(15 downto 1) = x"802"&"100")) else	-- ACIA $8028-$8029
+					'0'	when (serSelect = '0' and (w_cpuAddress(15 downto 1) = x"801"&"100")) else	-- VDU  $8018-$8019
+							'1';
+	
+	-- ____________________________________________________________________________________
+	-- CPU Read Data multiplexer
+	w_cpuDataIn <=
+		w_ramData		when w_cpuAddress(15) = '0'				else
+		w_if1DataOut	when (n_if1CS = '0')							else
+		w_if2DataOut	when (n_if2CS = '0')							else
+		w_romData		when w_cpuAddress(15 downto 14) = "11"	else
+		x"FF";
+	
+	-- ____________________________________________________________________________________
 	-- 6800 CPU
 	cpu1 : entity work.cpu68
 		port map(
@@ -113,7 +137,7 @@ begin
 	-- MIKBUG ROM
 	-- 4KB MIKBUG ROM - repeats in memory 4 times
 	rom1 : entity work.MIKBUG 		
-		port map(
+		port map (
 			address	=> w_cpuAddress(11 downto 0),
 			clock 	=> i_CLOCK_50,
 			q			=> w_romData
@@ -122,22 +146,13 @@ begin
 	-- ____________________________________________________________________________________
 	-- 32KB RAM	
 	sram : entity work.InternalRam32K
-	PORT map  (
-		address	=> w_cpuAddress(14 downto 0),
-		clock 	=> i_CLOCK_50,
-		data 		=> w_cpuDataOut,
-		wren		=> (not w_R1W0) and (not w_cpuAddress(15)) and w_vma and (not w_cpuClock),
-		q			=> w_ramData
-	);
-	
-	-- ____________________________________________________________________________________
-	-- I/O CHIP SELECTS
-	n_if1CS	<= '0' 	when (serSelect = '1' and (w_cpuAddress(15 downto 1) = x"801"&"100")) else	-- VDU $8018-$8019
-					'0'	when (serSelect = '0' and (w_cpuAddress(15 downto 1) = x"802"&"100")) else
-							'1';
-	n_if2CS	<= '0' 	when (serSelect = '1' and (w_cpuAddress(15 downto 1) = x"802"&"100")) else	-- ACIA $8028-$8029
-					'0'	when (serSelect = '0' and (w_cpuAddress(15 downto 1) = x"801"&"100")) else
-							'1';
+		PORT map  (
+			address	=> w_cpuAddress(14 downto 0),
+			clock 	=> i_CLOCK_50,
+			data 		=> w_cpuDataOut,
+			wren		=> (not w_R1W0) and (not w_cpuAddress(15)) and w_vma and (not w_cpuClock),
+			q			=> w_ramData
+		);
 	
 	-- ____________________________________________________________________________________
 	-- INPUT/OUTPUT DEVICES
@@ -146,7 +161,6 @@ begin
 		port map (
 			n_reset	=> w_resetLow,
 			clk		=> i_CLOCK_50,
-			
 			-- RGB Compo_video signals
 			hSync		=> o_hSync,
 			vSync		=> o_vSync,
@@ -166,6 +180,7 @@ begin
 			ps2Data	=> io_ps2Data
 		);
 	
+	-- ACIA UART serial interface
 	acia: entity work.bufferedUART
 		port map (
 			clk		=> i_CLOCK_50,     
@@ -186,15 +201,6 @@ begin
 		);
 	
 	-- ____________________________________________________________________________________
-	-- CPU Read Data multiplexer
-	w_cpuDataIn <=
-		w_ramData		when w_cpuAddress(15) = '0'							else
-		w_if1DataOut	when (n_if1CS = '0')	else
-		w_if2DataOut	when (n_if2CS = '0')	else
-		w_romData		when w_cpuAddress(15 downto 14) = "11"				else
-		x"FF";
-	
-	-- ____________________________________________________________________________________
 	-- CPU Clock
 process (i_CLOCK_50)
 	begin
@@ -212,8 +218,8 @@ process (i_CLOCK_50)
 		end if;
 	end process;
 	
+	-- ____________________________________________________________________________________
 	-- Baud Rate CLOCK SIGNALS
-	
 baud_div: process (serialCount_d, serialCount)
     begin
         serialCount_d <= serialCount + 2416;
