@@ -5,11 +5,16 @@
 -- Changes to this code by Doug Gilliland 2020
 --
 -- MC6800 CPU running MIKBUG from back in the day
---	32K (internal) RAM version
+--	2K (internal) RAM version
 -- MC6850 ACIA UART
 -- VDU
 --		XGA 80x25 character display
 --		PS/2 keyboard
+--
+-- The Memory Map is:
+--	$0000-$7FFF - SRAM (internal RAM in the EPCE15)
+--	$8000-$8001 - ACIA
+--	$C000-$CFFF - MIKBUG ROM (repeats 4 times from 0xC000-0xFFFF)
 --
 
 library ieee;
@@ -61,7 +66,8 @@ architecture struct of M6800_MIKBUG is
 	signal w_vma			: std_logic;
 
 	signal w_romData		: std_logic_vector(7 downto 0);
-	signal w_ramData		: std_logic_vector(7 downto 0);
+	signal w_ramData1		: std_logic_vector(7 downto 0);
+	signal w_ramData2		: std_logic_vector(7 downto 0);
 	signal w_if1DataOut	: std_logic_vector(7 downto 0);
 	signal w_if2DataOut	: std_logic_vector(7 downto 0);
 
@@ -99,10 +105,11 @@ begin
 	-- ____________________________________________________________________________________
 	-- CPU Read Data multiplexer
 	w_cpuDataIn <=
-		w_ramData		when w_cpuAddress(15) = '0'				else
-		w_if1DataOut	when (n_if1CS = '0')							else
-		w_if2DataOut	when (n_if2CS = '0')							else
-		w_romData		when w_cpuAddress(15 downto 14) = "11"	else
+		w_ramData1		when w_cpuAddress(15 downto 14) = "00"		else
+		w_ramData2		when w_cpuAddress(15 downto 14) = "01"		else
+		w_if1DataOut	when (n_if1CS = '0')								else
+		w_if2DataOut	when (n_if2CS = '0')								else
+		w_romData		when w_cpuAddress(15 downto 14) = "11"		else
 		x"FF";
 	
 	-- ____________________________________________________________________________________
@@ -134,13 +141,24 @@ begin
 		
 	-- ____________________________________________________________________________________
 	-- 2KB RAM	
-	sram : entity work.InternalRam2K
+	sram1 : entity work.InternalRam2K
 		PORT map  (
 			address	=> w_cpuAddress(10 downto 0),
 			clock 	=> i_CLOCK_50,
 			data 		=> w_cpuDataOut,
-			wren		=> (not w_R1W0) and (not w_cpuAddress(15)) and w_vma and (not w_cpuClock),
-			q			=> w_ramData
+			wren		=> (not w_R1W0) and (not w_cpuAddress(15)) and (not w_cpuAddress(14)) and w_vma and (not w_cpuClock),
+			q			=> w_ramData1
+		);
+	
+	-- ____________________________________________________________________________________
+	-- 2KB RAM	
+	sram2 : entity work.InternalRam1K
+		PORT map  (
+			address	=> w_cpuAddress(9 downto 0),
+			clock 	=> i_CLOCK_50,
+			data 		=> w_cpuDataOut,
+			wren		=> (not w_R1W0) and (not w_cpuAddress(15)) and (w_cpuAddress(14)) and w_vma and (not w_cpuClock),
+			q			=> w_ramData2
 		);
 	
 	-- ____________________________________________________________________________________
