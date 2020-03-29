@@ -73,7 +73,6 @@
 --    b7:0   0x00 Read block
 --           0x01 Write block
 --
---
 -- To read a 512-byte block from the SDCARD:
 -- Wait until SDSTATUS=0x80 (ensures previous cmd has completed)
 -- Write SDLBA0, SDLBA1 SDLBA2 to select block index to read from
@@ -105,7 +104,7 @@ use ieee.std_logic_unsigned.all;
 entity sd_controller is
 generic (
         constant CLKEDGE_DIVIDER : integer := 100	-- 50MHz / 100 gives edges at 500kHz ie output
-																	-- or sdSCLK of 250kHz to be used during init phase
+													-- or sdSCLK of 250kHz to be used during init phase
 );
 port (
 	sdCS : out std_logic;
