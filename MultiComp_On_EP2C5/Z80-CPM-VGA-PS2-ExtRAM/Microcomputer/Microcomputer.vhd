@@ -96,6 +96,9 @@ architecture struct of Microcomputer is
 	signal sdClock						: std_logic;	
 --CPM
 	signal n_RomActive : std_logic := '0';
+	
+	constant EXT_CHARSET_PASS			: Integer := 0;
+	constant COLOR_ATTS_ENABLED_PASS : Integer := 1;
 
 begin
 
@@ -173,7 +176,10 @@ port map(
 );
 
 io2 : entity work.SBCTextDisplayRGB	-- VGA/Composite output
-
+GENERIC MAP (
+	EXTENDED_CHARSET => 	EXT_CHARSET_PASS,
+	COLOUR_ATTS_ENABLED => COLOR_ATTS_ENABLED_PASS
+)
 port map (
 	n_reset => n_reset,
 	clk => clk,
@@ -242,7 +248,7 @@ port map(
 	dataOut => sdCardDataOut,
 	regAddr => cpuAddress(2 downto 0),
 	driveLED => driveLED,
-	clk => sdClock -- twice the spi clk
+	clk => clk -- twice the spi clk
 );
 
 -- ____________________________________________________________________________________
