@@ -2,9 +2,7 @@
 -- UK101 (OSI C1P)
 -- 4K internal SRAM
 -- 8K BASIC in ROM
--- CEGMON ROM
 -- Composite Video output
--- PS/2 Keyboard
 -------------------------------------------------------------------------------------------
 
 library ieee;
@@ -28,53 +26,53 @@ end uk101_4K;
 
 architecture struct of uk101_4K is
 
-	signal n_WR					: std_logic;
-	signal cpuAddress			: std_logic_vector(15 downto 0);
-	signal cpuDataOut			: std_logic_vector(7 downto 0);
-	signal cpuDataIn			: std_logic_vector(7 downto 0);
+	signal n_WR				: std_logic;
+	signal cpuAddress		: std_logic_vector(15 downto 0);
+	signal cpuDataOut		: std_logic_vector(7 downto 0);
+	signal cpuDataIn		: std_logic_vector(7 downto 0);
 
-	signal basRomData			: std_logic_vector(7 downto 0);
-	signal ramDataOut			: std_logic_vector(7 downto 0);
-	signal monitorRomData	: std_logic_vector(7 downto 0);
-	signal aciaData			: std_logic_vector(7 downto 0);
+	signal basRomData		: std_logic_vector(7 downto 0);
+	signal ramDataOut		: std_logic_vector(7 downto 0);
+	signal monitorRomData : std_logic_vector(7 downto 0);
+	signal aciaData		: std_logic_vector(7 downto 0);
 
-	signal n_memWR				: std_logic;
+	signal n_memWR			: std_logic;
 	
-	signal n_dispRamCS		: std_logic;
-	signal n_ramCS				: std_logic;
-	signal n_basRomCS			: std_logic;
-	signal n_monRomCS			: std_logic;
-	signal n_aciaCS			: std_logic;
-	signal n_kbCS				: std_logic;
+	signal n_dispRamCS	: std_logic;
+	signal n_ramCS			: std_logic;
+	signal n_basRomCS		: std_logic;
+	signal n_monitorRomCS : std_logic;
+	signal n_aciaCS		: std_logic;
+	signal n_kbCS			: std_logic;
 	
-	signal dispAddrB 			: std_logic_vector(9 downto 0);
-	signal dispRamDataOutA	: std_logic_vector(7 downto 0);
-	signal dispRamDataOutB	: std_logic_vector(7 downto 0);
-	signal charAddr 			: std_logic_vector(10 downto 0);
-	signal charData 			: std_logic_vector(7 downto 0);
+	signal dispAddrB 		: std_logic_vector(9 downto 0);
+	signal dispRamDataOutA : std_logic_vector(7 downto 0);
+	signal dispRamDataOutB : std_logic_vector(7 downto 0);
+	signal charAddr 		: std_logic_vector(10 downto 0);
+	signal charData 		: std_logic_vector(7 downto 0);
 
-	signal serialClkCount	: std_logic_vector(14 downto 0); 
-	signal cpuClkCount		: std_logic_vector(5 downto 0); 
-	signal cpuClock			: std_logic;
-	signal serialClock		: std_logic;
+	signal serialClkCount: std_logic_vector(14 downto 0); 
+	signal cpuClkCount	: std_logic_vector(5 downto 0); 
+	signal cpuClock		: std_logic;
+	signal serialClock	: std_logic;
 
-	signal kbReadData 		: std_logic_vector(7 downto 0);
-	signal kbRowSel 			: std_logic_vector(7 downto 0);
+	signal kbReadData 	: std_logic_vector(7 downto 0);
+	signal kbRowSel 		: std_logic_vector(7 downto 0);
 
 begin
 
 	n_memWR <= not(cpuClock) nand (not n_WR);
 
-	n_ramCS 		<= '0' when cpuAddress(15 downto 12) = x"0"	 			else '1';	-- x0000-x0fff	4KB	SRAM
-	n_basRomCS 	<= '0' when cpuAddress(15 downto 13) = "101" 			else '1';	-- xa000-xbfff	8KB 	BASIC in ROM
-	n_dispRamCS <= '0' when cpuAddress(15 downto 10) = x"d"&"00" 		else '1';	-- xd000-zd3ff	1kb	Display RAM
-	n_kbCS 		<= '0' when cpuAddress(15 downto 10) = x"d"&"11" 		else '1';	-- xdc00-xdfff			Keyboard
-	n_aciaCS 	<= '0' when cpuAddress(15 downto 1)  = x"f00"&"000"	else '1';	-- xf000-xf001			UART
-	n_monRomCS 	<= '0' when cpuAddress(15 downto 11) = x"f"&'1'			else '1';	-- xf800-xfff	2K		Monitor ROM
+	n_dispRamCS 	<= '0' when cpuAddress(15 downto 10) = "110100" else '1';
+	n_basRomCS 		<= '0' when cpuAddress(15 downto 13) = "101" else '1'; --8k
+	n_monitorRomCS <= '0' when cpuAddress(15 downto 11) = "11111" else '1'; --2K
+	n_ramCS 			<= '0' when cpuAddress(15 downto 12) = "0000" else '1';
+	n_aciaCS 		<= '0' when cpuAddress(15 downto 1)  = "111100000000000" else '1';
+	n_kbCS 			<= '0' when cpuAddress(15 downto 10) = "110111" else '1';
  
 	cpuDataIn <=
 		basRomData 			when n_basRomCS = '0' 		else
-		monitorRomData 	when n_monRomCS = '0' 	else
+		monitorRomData 	when n_monitorRomCS = '0' 	else
 		aciaData 			when n_aciaCS = '0' 			else
 		ramDataOut 			when n_ramCS = '0' 			else
 		dispRamDataOutA 	when n_dispRamCS = '0' 		else
