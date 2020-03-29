@@ -2,9 +2,14 @@
 -- Grant Searle's web site http://searle.hostei.com/grant/    
 -- Grant Searle's "multicomp" page at http://searle.hostei.com/grant/Multicomp/index.html
 --
--- Changes to this code by Doug Gilliland 2017-2019
+-- Changes to this code by Doug Gilliland 2017-2020
+--
+-- MC6809 CPU
 -- 56K External SRAM
 -- 8K Microsoft BASIC in ROM
+-- VGA
+-- PS/2 Keyboard
+-- Buffered UART
 --
 
 library ieee;
