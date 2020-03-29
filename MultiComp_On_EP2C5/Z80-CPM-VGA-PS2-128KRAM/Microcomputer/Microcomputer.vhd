@@ -2,7 +2,25 @@
 -- You are free to use this file in your own projects but must never charge for it nor use it without
 -- acknowledgement.
 --
--- Changes by Doug Gilliland 2017
+-- Changes by Doug Gilliland 2017-2020
+--
+-- EP4CE15 FPGA
+-- Z80 CPU
+--		25 MHz
+--	USB-Serial Port
+--		115,200 baud
+--	Video Display Unit (VDU)
+--    XVGA
+--		2:2:2 RGB
+--		PS/2 keyboard
+--	External SRAM
+--		128 kB (only 64KB are used by this implementation)
+--	SD Card
+--		25 MHz high speed (Neal Crook)
+--		Supports SD, SDHC cards
+--	Runs CP/M
+--		Autodetects Serial port or VDU by waiting on space key to be pressed
+ 
 
 library ieee;
 use ieee.std_logic_1164.all;
@@ -93,6 +111,10 @@ architecture struct of Microcomputer is
 --CPM
 	signal n_RomActive : std_logic := '0';
 
+	constant EXT_CHARSET_PASS			: Integer := 0;
+	constant COLOR_ATTS_ENABLED_PASS : Integer := 1;
+
+
 begin
 
 --CPM
@@ -141,7 +163,7 @@ port map(
 -- External RAM GOES HERE
 
 sramAddress(15 downto 0) <= cpuAddress(15 downto 0);
-sramAddress(16) <= '1';
+sramAddress(16) <= '0';
 sramData <= cpuDataOut when n_memWR='0' else (others => 'Z');
 n_sRamWE <= n_memWR or n_externalRamCS;
 n_sRamOE <= n_memRD or n_externalRamCS;
@@ -169,7 +191,10 @@ port map(
 );
 
 io2 : entity work.SBCTextDisplayRGB	-- VGA/Composite output
-
+GENERIC MAP (
+	EXTENDED_CHARSET => 	EXT_CHARSET_PASS,
+	COLOUR_ATTS_ENABLED => COLOR_ATTS_ENABLED_PASS
+)
 port map (
 	n_reset => n_reset,
 	clk => clk,
