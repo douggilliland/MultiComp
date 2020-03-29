@@ -4,7 +4,7 @@
 --
 -- Changes by Doug Gilliland 2017-2020
 --
--- EP4CE15 FPGA
+-- EP2CE5 FPGA
 -- Z80 CPU
 --		25 MHz
 --	USB-Serial Port
