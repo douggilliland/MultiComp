@@ -263,7 +263,7 @@ port map(
 	dataOut => sdCardDataOut,
 	regAddr => cpuAddress(2 downto 0),
 	driveLED => driveLED,
-	clk => sdClock -- twice the spi clk
+	clk => clk -- twice the spi clk
 );
 
 -- ____________________________________________________________________________________
