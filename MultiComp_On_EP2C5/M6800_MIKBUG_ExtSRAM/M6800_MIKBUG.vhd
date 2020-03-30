@@ -5,7 +5,7 @@
 -- Changes to this code by Doug Gilliland 2020
 --
 -- MC6800 CPU running MIKBUG from back in the day
---	2K (internal) RAM version
+--	32K (extternal) RAM version
 -- MC6850 ACIA UART
 -- VDU
 --		XGA 80x25 character display
