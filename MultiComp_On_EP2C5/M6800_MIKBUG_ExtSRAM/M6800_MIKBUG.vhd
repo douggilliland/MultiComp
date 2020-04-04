@@ -1,16 +1,19 @@
 -- Original file is copyright by Grant Searle 2014
 -- Grant Searle's web site http://searle.hostei.com/grant/    
--- Grant Searle's "multicomp" page at http://searle.hostei.com/grant/Multicomp/index.html
+-- Grant Searle's "multicomp" page was at http://searle.hostei.com/grant/Multicomp/index.html
 --
 -- Changes to this code by Doug Gilliland 2020
 --
 -- MC6800 CPU running MIKBUG from back in the day
+--		https://hackaday.io/project/170126-mikbug-on-multicomp
 -- Smithbug version
+--		http://www.retrotechnology.com/restore/smithbug.html
 --	32K (external) RAM version
 -- MC6850 ACIA UART
 -- VDU
 --		XGA 80x25 character display
 --		PS/2 keyboard
+--	Jumper selectable for UART/VDU
 --
 -- The Memory Map is:
 --	$0000-$7FFF - SRAM (internal RAM in the EPCE15)
@@ -196,12 +199,12 @@ begin
 process (i_CLOCK_50)
 	begin
 		if rising_edge(i_CLOCK_50) then
-			if q_cpuClkCount < 4 then
+			if q_cpuClkCount < 2 then		-- 4 = 10MHz, 3 = 12.5MHz, 2=16.6MHz, 1=25MHz
 				q_cpuClkCount <= q_cpuClkCount + 1;
 			else
 				q_cpuClkCount <= (others=>'0');
 			end if;
-			if q_cpuClkCount < 2 then
+			if q_cpuClkCount < 2 then		-- 2 when 10MHz, 2 when 12.5MHz, 2 when 16.6MHz, 1 when 25MHz
 				w_cpuClock <= '0';
 			else
 				w_cpuClock <= '1';
@@ -211,6 +214,16 @@ process (i_CLOCK_50)
 	
 	-- ____________________________________________________________________________________
 	-- Baud Rate CLOCK SIGNALS
+	-- Serial clock DDS
+	-- 50MHz master input clock:
+	-- Baud Increment
+	-- 115200 2416
+	-- 38400 805
+	-- 19200 403
+	-- 9600 201
+	-- 4800 101
+	-- 2400 50
+
 baud_div: process (serialCount_d, serialCount)
     begin
         serialCount_d <= serialCount + 2416;
