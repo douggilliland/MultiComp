@@ -5,7 +5,8 @@
 -- Changes to this code by Doug Gilliland 2020
 --
 -- MC6800 CPU running MIKBUG from back in the day
---	32K (extternal) RAM version
+-- Smithbug version
+--	32K (external) RAM version
 -- MC6850 ACIA UART
 -- VDU
 --		XGA 80x25 character display
@@ -40,11 +41,11 @@ entity M6800_MIKBUG is
 		io_ps2Clk			: inout std_logic := '1';
 		io_ps2Data			: inout std_logic := '1';
 		
-		utxd1					: in	std_logic := '1';
-		urxd1					: out std_logic;
+		i_rxd1				: in	std_logic := '1';
+		o_txd1				: out std_logic;
+		o_rts1				: out std_logic;
 --		urts1					: in	std_logic := '1';
-		ucts1					: out std_logic;
-		serSelect			: in	std_logic := '1';
+		i_serSelect			: in	std_logic := '1';
 		
 		-- SRAM not used but making sure that it's not active
 		io_extSRamData		: inout std_logic_vector(7 downto 0) := (others=>'Z');
@@ -70,9 +71,9 @@ architecture struct of M6800_MIKBUG is
 	signal w_if2DataOut	: std_logic_vector(7 downto 0);
 
 	signal n_int1			: std_logic :='1';	
-	signal n_if1CS			: std_logic :='1';
+	signal n_vduCS			: std_logic :='1';
 	signal n_int2			: std_logic :='1';	
-	signal n_if2CS			: std_logic :='1';
+	signal n_aciaCS			: std_logic :='1';
 
 	signal q_cpuClkCount	: std_logic_vector(5 downto 0); 
 	signal w_cpuClock		: std_logic;
@@ -86,7 +87,7 @@ begin
 	-- ____________________________________________________________________________________
 	-- RAM GOES HERE
 	o_extSRamAddress	<= "00"&w_cpuAddress(14 downto 0);
-	io_extSRamData		<= w_cpuDataOut when w_R1W0='0' else (others => 'Z');
+	io_extSRamData		<= w_cpuDataOut when (w_R1W0='0' and (w_cpuAddress(15) = '0')) else (others => 'Z');
 	io_n_extSRamWE		<= w_R1W0;
 	io_n_extSRamOE		<= not w_R1W0;
 	io_n_extSRamCS		<= not ((not w_cpuAddress(15)) and (not w_cpuClock));
@@ -101,19 +102,19 @@ begin
 		
 	-- ____________________________________________________________________________________
 	-- I/O CHIP SELECTS
-	n_if1CS	<= '0' 	when (serSelect = '1' and (w_cpuAddress(15 downto 1) = x"801"&"100")) else	-- VDU  $8018-$8019
-					'0'	when (serSelect = '0' and (w_cpuAddress(15 downto 1) = x"802"&"100")) else	-- ACIA $8028-$8029
+	n_vduCS	<= '0' 	when (i_serSelect = '1' and (w_cpuAddress(15 downto 1) = x"801"&"100")) else	-- VDU  $8018-$8019
+					'0'	when (i_serSelect = '0' and (w_cpuAddress(15 downto 1) = x"802"&"100")) else	-- ACIA $8028-$8029
 							'1';
-	n_if2CS	<= '0' 	when (serSelect = '1' and (w_cpuAddress(15 downto 1) = x"802"&"100")) else	-- ACIA $8028-$8029
-					'0'	when (serSelect = '0' and (w_cpuAddress(15 downto 1) = x"801"&"100")) else	-- VDU  $8018-$8019
+	n_aciaCS	<= '0' 	when (i_serSelect = '1' and (w_cpuAddress(15 downto 1) = x"802"&"100")) else	-- ACIA $8028-$8029
+					'0'	when (i_serSelect = '0' and (w_cpuAddress(15 downto 1) = x"801"&"100")) else	-- VDU  $8018-$8019
 							'1';
 	
 	-- ____________________________________________________________________________________
 	-- CPU Read Data multiplexer
 	w_cpuDataIn <=
 		io_extSRamData	when w_cpuAddress(15) = '0'					else
-		w_if1DataOut	when (n_if1CS = '0')								else
-		w_if2DataOut	when (n_if2CS = '0')								else
+		w_if1DataOut	when (n_vduCS = '0')								else
+		w_if2DataOut	when (n_aciaCS = '0')							else
 		w_romData		when w_cpuAddress(15 downto 14) = "11"		else
 		x"FF";
 	
@@ -143,7 +144,7 @@ begin
 			clock 	=> i_CLOCK_50,
 			q			=> w_romData
 		);
-		
+	
 	-- ____________________________________________________________________________________
 	-- INPUT/OUTPUT DEVICES
 	-- Grant's VGA driver
@@ -160,8 +161,8 @@ begin
 			videoG1	=> o_videoG1,
 			videoB0	=> o_videoB0,
 			videoB1	=> o_videoB1,
-			n_WR		=> n_if1CS or      w_R1W0  or (not w_vma) or (not w_cpuClock),
-			n_rd		=> n_if1CS or (not w_R1W0) or (not w_vma),
+			n_WR		=> n_vduCS or      w_R1W0  or (not w_vma) or (not w_cpuClock),
+			n_rd		=> n_vduCS or (not w_R1W0) or (not w_vma),
 			n_int		=> n_int1,
 			regSel	=> w_cpuAddress(0),
 			dataIn	=> w_cpuDataOut,
@@ -174,8 +175,8 @@ begin
 	acia: entity work.bufferedUART
 		port map (
 			clk		=> i_CLOCK_50,     
-			n_WR		=> n_if2CS or      w_R1W0  or (not w_vma) or (not w_cpuClock),
-			n_rd		=> n_if2CS or (not w_R1W0) or (not w_vma),
+			n_WR		=> n_aciaCS or      w_R1W0  or (not w_vma) or (not w_cpuClock),
+			n_rd		=> n_aciaCS or (not w_R1W0) or (not w_vma),
 			regSel	=> w_cpuAddress(0),
 			dataIn	=> w_cpuDataOut,
 			dataOut	=> w_if2DataOut,
@@ -184,10 +185,10 @@ begin
 						 -- at 16x the baud rate.
 			rxClkEn	=> serialEn,
 			txClkEn	=> serialEn,
-			rxd		=> utxd1,
-			txd		=> urxd1,
+			rxd		=> i_rxd1,
+			txd		=> o_txd1,
 --			n_cts		=> urts1,
-			n_rts		=> ucts1
+			n_rts		=> o_rts1
 		);
 	
 	-- ____________________________________________________________________________________

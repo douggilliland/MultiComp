@@ -42,10 +42,11 @@ set_location_assignment PIN_144 -to i_n_reset
 set_location_assignment PIN_86 -to io_ps2Clk
 set_location_assignment PIN_87 -to io_ps2Data
 # Serial
-set_location_assignment PIN_60 -to serSelect
-set_instance_assignment -name WEAK_PULL_UP_RESISTOR ON -to serSelect
-set_location_assignment PIN_101 -to urxd1
-set_location_assignment PIN_103 -to utxd1
+set_location_assignment PIN_60 -to i_serSelect
+set_instance_assignment -name WEAK_PULL_UP_RESISTOR ON -to i_serSelect
+set_location_assignment PIN_104 -to o_rts1
+set_location_assignment PIN_101 -to i_rxd1
+set_location_assignment PIN_103 -to o_txd1
 # Video
 set_location_assignment PIN_64 -to o_videoB0
 set_location_assignment PIN_63 -to o_videoB1
@@ -68,6 +69,23 @@ set_location_assignment PIN_114 -to io_extSRamData[4]
 set_location_assignment PIN_118 -to io_extSRamData[5]
 set_location_assignment PIN_120 -to io_extSRamData[6]
 set_location_assignment PIN_122 -to io_extSRamData[7]
+set_location_assignment PIN_121 -to o_extSRamAddress[0]
+set_location_assignment PIN_125 -to o_extSRamAddress[1]
+set_location_assignment PIN_129 -to o_extSRamAddress[2]
+set_location_assignment PIN_133 -to o_extSRamAddress[3]
+set_location_assignment PIN_135 -to o_extSRamAddress[4]
+set_location_assignment PIN_137 -to o_extSRamAddress[5]
+set_location_assignment PIN_141 -to o_extSRamAddress[6]
+set_location_assignment PIN_143 -to o_extSRamAddress[7]
+set_location_assignment PIN_142 -to o_extSRamAddress[8]
+set_location_assignment PIN_139 -to o_extSRamAddress[9]
+set_location_assignment PIN_132 -to o_extSRamAddress[10]
+set_location_assignment PIN_136 -to o_extSRamAddress[11]
+set_location_assignment PIN_28 -to o_extSRamAddress[12]
+set_location_assignment PIN_24 -to o_extSRamAddress[13]
+set_location_assignment PIN_30 -to o_extSRamAddress[14]
+set_location_assignment PIN_8 -to o_extSRamAddress[15]
+set_location_assignment PIN_32 -to o_extSRamAddress[16]
 
 set_global_assignment -name FAMILY "Cyclone II"
 set_global_assignment -name DEVICE EP2C5T144C8
@@ -101,21 +119,4 @@ set_global_assignment -name VHDL_FILE "../../MultiComp (VHDL Template)/Component
 set_global_assignment -name VHDL_FILE "../../MultiComp (VHDL Template)/Components/Debounce/Debounce.vhd"
 set_global_assignment -name TIMEQUEST_MULTICORNER_ANALYSIS ON
 set_global_assignment -name SMART_RECOMPILE ON
-set_location_assignment PIN_121 -to o_extSRamAddress[0]
-set_location_assignment PIN_125 -to o_extSRamAddress[1]
-set_location_assignment PIN_129 -to o_extSRamAddress[2]
-set_location_assignment PIN_133 -to o_extSRamAddress[3]
-set_location_assignment PIN_135 -to o_extSRamAddress[4]
-set_location_assignment PIN_137 -to o_extSRamAddress[5]
-set_location_assignment PIN_141 -to o_extSRamAddress[6]
-set_location_assignment PIN_143 -to o_extSRamAddress[7]
-set_location_assignment PIN_142 -to o_extSRamAddress[8]
-set_location_assignment PIN_139 -to o_extSRamAddress[9]
-set_location_assignment PIN_132 -to o_extSRamAddress[10]
-set_location_assignment PIN_136 -to o_extSRamAddress[11]
-set_location_assignment PIN_28 -to o_extSRamAddress[12]
-set_location_assignment PIN_24 -to o_extSRamAddress[13]
-set_location_assignment PIN_30 -to o_extSRamAddress[14]
-set_location_assignment PIN_8 -to o_extSRamAddress[15]
-set_location_assignment PIN_32 -to o_extSRamAddress[16]
 set_instance_assignment -name PARTITION_HIERARCHY root_partition -to | -section_id Top
