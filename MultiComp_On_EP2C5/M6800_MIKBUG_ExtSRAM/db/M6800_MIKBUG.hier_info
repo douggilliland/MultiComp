@@ -24,6 +24,9 @@ i_CLOCK_50 => q_cpuClkCount[5].CLK
 i_CLOCK_50 => mikbug:rom1.clock
 i_CLOCK_50 => sbctextdisplayrgb:vdu.clk
 i_CLOCK_50 => buffereduart:acia.clk
+i_CLOCK_50 => outlatch:latchIO0.clock
+i_CLOCK_50 => outlatch:latchIO1.clock
+i_CLOCK_50 => outlatch:latchLED.clock
 o_videoR0 <= sbctextdisplayrgb:vdu.videoR0
 o_videoR1 <= sbctextdisplayrgb:vdu.videoR1
 o_videoG0 <= sbctextdisplayrgb:vdu.videoG0
@@ -37,10 +40,10 @@ io_ps2Data <> sbctextdisplayrgb:vdu.ps2Data
 i_rxd1 => buffereduart:acia.rxd
 o_txd1 <= buffereduart:acia.txd
 o_rts1 <= buffereduart:acia.n_rts
-i_serSelect => n_vduCS.IN1
-i_serSelect => n_aciaCS.IN1
-i_serSelect => n_vduCS.IN1
-i_serSelect => n_aciaCS.IN1
+i_serSelect => n_vduCSN.IN1
+i_serSelect => n_aciaCSN.IN1
+i_serSelect => n_vduCSN.IN1
+i_serSelect => n_aciaCSN.IN1
 io_extSRamData[0] <> io_extSRamData[0]
 io_extSRamData[1] <> io_extSRamData[1]
 io_extSRamData[2] <> io_extSRamData[2]
@@ -69,6 +72,21 @@ o_extSRamAddress[16] <= <GND>
 io_n_extSRamWE <= cpu68:cpu1.rw
 io_n_extSRamCS <= io_n_extSRamCS.DB_MAX_OUTPUT_PORT_TYPE
 io_n_extSRamOE <= cpu68:cpu1.rw
+ledOut <> ledOut
+J6IO8[0] <> J6IO8[0]
+J6IO8[1] <> J6IO8[1]
+J6IO8[2] <> J6IO8[2]
+J6IO8[3] <> J6IO8[3]
+J6IO8[4] <> J6IO8[4]
+J6IO8[5] <> J6IO8[5]
+J6IO8[6] <> J6IO8[6]
+J6IO8[7] <> J6IO8[7]
+J8IO8[0] <> J8IO8[0]
+J8IO8[1] <> J8IO8[1]
+J8IO8[2] <> J8IO8[2]
+J8IO8[3] <> J8IO8[3]
+J8IO8[4] <> J8IO8[4]
+J8IO8[5] <> J8IO8[5]
 
 
 |M6800_MIKBUG|Debouncer:DebounceResetSwitch
@@ -2866,5 +2884,134 @@ n_cts => dataOut.DATAA
 n_cts => tx_fsm.IN1
 n_dcd => dataOut.DATAA
 n_dcd => tx_fsm.IN1
+
+
+|M6800_MIKBUG|OutLatch:latchIO0
+dataIn8[0] => Q_tmp[0].DATAIN
+dataIn8[1] => Q_tmp[1].DATAIN
+dataIn8[2] => Q_tmp[2].DATAIN
+dataIn8[3] => Q_tmp[3].DATAIN
+dataIn8[4] => Q_tmp[4].DATAIN
+dataIn8[5] => Q_tmp[5].DATAIN
+dataIn8[6] => Q_tmp[6].DATAIN
+dataIn8[7] => Q_tmp[7].DATAIN
+clock => Q_tmp[0].CLK
+clock => Q_tmp[1].CLK
+clock => Q_tmp[2].CLK
+clock => Q_tmp[3].CLK
+clock => Q_tmp[4].CLK
+clock => Q_tmp[5].CLK
+clock => Q_tmp[6].CLK
+clock => Q_tmp[7].CLK
+load => Q_tmp[7].ENA
+load => Q_tmp[6].ENA
+load => Q_tmp[5].ENA
+load => Q_tmp[4].ENA
+load => Q_tmp[3].ENA
+load => Q_tmp[2].ENA
+load => Q_tmp[1].ENA
+load => Q_tmp[0].ENA
+clear => Q_tmp[0].ACLR
+clear => Q_tmp[1].ACLR
+clear => Q_tmp[2].ACLR
+clear => Q_tmp[3].ACLR
+clear => Q_tmp[4].ACLR
+clear => Q_tmp[5].ACLR
+clear => Q_tmp[6].ACLR
+clear => Q_tmp[7].ACLR
+latchOut[0] <= Q_tmp[0].DB_MAX_OUTPUT_PORT_TYPE
+latchOut[1] <= Q_tmp[1].DB_MAX_OUTPUT_PORT_TYPE
+latchOut[2] <= Q_tmp[2].DB_MAX_OUTPUT_PORT_TYPE
+latchOut[3] <= Q_tmp[3].DB_MAX_OUTPUT_PORT_TYPE
+latchOut[4] <= Q_tmp[4].DB_MAX_OUTPUT_PORT_TYPE
+latchOut[5] <= Q_tmp[5].DB_MAX_OUTPUT_PORT_TYPE
+latchOut[6] <= Q_tmp[6].DB_MAX_OUTPUT_PORT_TYPE
+latchOut[7] <= Q_tmp[7].DB_MAX_OUTPUT_PORT_TYPE
+
+
+|M6800_MIKBUG|OutLatch:latchIO1
+dataIn8[0] => Q_tmp[0].DATAIN
+dataIn8[1] => Q_tmp[1].DATAIN
+dataIn8[2] => Q_tmp[2].DATAIN
+dataIn8[3] => Q_tmp[3].DATAIN
+dataIn8[4] => Q_tmp[4].DATAIN
+dataIn8[5] => Q_tmp[5].DATAIN
+dataIn8[6] => Q_tmp[6].DATAIN
+dataIn8[7] => Q_tmp[7].DATAIN
+clock => Q_tmp[0].CLK
+clock => Q_tmp[1].CLK
+clock => Q_tmp[2].CLK
+clock => Q_tmp[3].CLK
+clock => Q_tmp[4].CLK
+clock => Q_tmp[5].CLK
+clock => Q_tmp[6].CLK
+clock => Q_tmp[7].CLK
+load => Q_tmp[7].ENA
+load => Q_tmp[6].ENA
+load => Q_tmp[5].ENA
+load => Q_tmp[4].ENA
+load => Q_tmp[3].ENA
+load => Q_tmp[2].ENA
+load => Q_tmp[1].ENA
+load => Q_tmp[0].ENA
+clear => Q_tmp[0].ACLR
+clear => Q_tmp[1].ACLR
+clear => Q_tmp[2].ACLR
+clear => Q_tmp[3].ACLR
+clear => Q_tmp[4].ACLR
+clear => Q_tmp[5].ACLR
+clear => Q_tmp[6].ACLR
+clear => Q_tmp[7].ACLR
+latchOut[0] <= Q_tmp[0].DB_MAX_OUTPUT_PORT_TYPE
+latchOut[1] <= Q_tmp[1].DB_MAX_OUTPUT_PORT_TYPE
+latchOut[2] <= Q_tmp[2].DB_MAX_OUTPUT_PORT_TYPE
+latchOut[3] <= Q_tmp[3].DB_MAX_OUTPUT_PORT_TYPE
+latchOut[4] <= Q_tmp[4].DB_MAX_OUTPUT_PORT_TYPE
+latchOut[5] <= Q_tmp[5].DB_MAX_OUTPUT_PORT_TYPE
+latchOut[6] <= Q_tmp[6].DB_MAX_OUTPUT_PORT_TYPE
+latchOut[7] <= Q_tmp[7].DB_MAX_OUTPUT_PORT_TYPE
+
+
+|M6800_MIKBUG|OutLatch:latchLED
+dataIn8[0] => Q_tmp[0].DATAIN
+dataIn8[1] => Q_tmp[1].DATAIN
+dataIn8[2] => Q_tmp[2].DATAIN
+dataIn8[3] => Q_tmp[3].DATAIN
+dataIn8[4] => Q_tmp[4].DATAIN
+dataIn8[5] => Q_tmp[5].DATAIN
+dataIn8[6] => Q_tmp[6].DATAIN
+dataIn8[7] => Q_tmp[7].DATAIN
+clock => Q_tmp[0].CLK
+clock => Q_tmp[1].CLK
+clock => Q_tmp[2].CLK
+clock => Q_tmp[3].CLK
+clock => Q_tmp[4].CLK
+clock => Q_tmp[5].CLK
+clock => Q_tmp[6].CLK
+clock => Q_tmp[7].CLK
+load => Q_tmp[7].ENA
+load => Q_tmp[6].ENA
+load => Q_tmp[5].ENA
+load => Q_tmp[4].ENA
+load => Q_tmp[3].ENA
+load => Q_tmp[2].ENA
+load => Q_tmp[1].ENA
+load => Q_tmp[0].ENA
+clear => Q_tmp[0].ACLR
+clear => Q_tmp[1].ACLR
+clear => Q_tmp[2].ACLR
+clear => Q_tmp[3].ACLR
+clear => Q_tmp[4].ACLR
+clear => Q_tmp[5].ACLR
+clear => Q_tmp[6].ACLR
+clear => Q_tmp[7].ACLR
+latchOut[0] <= Q_tmp[0].DB_MAX_OUTPUT_PORT_TYPE
+latchOut[1] <= Q_tmp[1].DB_MAX_OUTPUT_PORT_TYPE
+latchOut[2] <= Q_tmp[2].DB_MAX_OUTPUT_PORT_TYPE
+latchOut[3] <= Q_tmp[3].DB_MAX_OUTPUT_PORT_TYPE
+latchOut[4] <= Q_tmp[4].DB_MAX_OUTPUT_PORT_TYPE
+latchOut[5] <= Q_tmp[5].DB_MAX_OUTPUT_PORT_TYPE
+latchOut[6] <= Q_tmp[6].DB_MAX_OUTPUT_PORT_TYPE
+latchOut[7] <= Q_tmp[7].DB_MAX_OUTPUT_PORT_TYPE
 
 

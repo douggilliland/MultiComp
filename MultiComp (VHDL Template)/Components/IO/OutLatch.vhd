@@ -12,10 +12,10 @@ entity OutLatch is
 generic(n: natural :=8);
 	port(	
 		dataIn8	:	in std_logic_vector(n-1 downto 0);
-		clock			:	in std_logic;
-		load			:	in std_logic;
-		clear			:	in std_logic;
-		latchOut		:	out std_logic_vector(n-1 downto 0)
+		clock		:	in std_logic;
+		load		:	in std_logic;
+		clear		:	in std_logic;
+		latchOut	:	out std_logic_vector(n-1 downto 0)
 	);
 end OutLatch;
 
