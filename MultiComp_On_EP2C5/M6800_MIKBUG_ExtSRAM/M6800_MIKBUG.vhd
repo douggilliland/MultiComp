@@ -8,7 +8,7 @@
 --		https://hackaday.io/project/170126-mikbug-on-multicomp
 -- Smithbug version
 --		http://www.retrotechnology.com/restore/smithbug.html
---	32K (external) RAM version
+--	32K (external) SRAM version
 -- MC6850 ACIA UART
 -- VDU
 --		XGA 80x25 character display
@@ -17,7 +17,14 @@
 --
 -- The Memory Map is:
 --	$0000-$7FFF - SRAM (internal RAM in the EPCE15)
---	$8000-$8001 - ACIA
+--	$8018-$8019 - ACIA J8-10 to J8-12 installed (or VDU J8-10 to J8-12 not installed)
+-- $8028-$8029 - VDU J8-10 to J8-12 installed (or ACIA J8-10 to J8-12 not installed)
+--	$8030 - J8 I/O
+--		D0-D7
+--	$8031 - J6 I/O
+--		D0-D5
+--	$8032 - LEDS
+--		D0 = DS1 LED on EP2C5-DB card (1 = ON)
 --	$C000-$CFFF - MIKBUG ROM (repeats 4 times from 0xC000-0xFFFF)
 --
 
@@ -56,7 +63,10 @@ entity M6800_MIKBUG is
 		io_n_extSRamWE		: out std_logic := '1';
 		io_n_extSRamCS		: out std_logic := '1';
 		io_n_extSRamOE		: out std_logic := '1';
-		ledOut				: inout std_logic;
+		ledDS1				: inout std_logic;
+		ledD2					: inout std_logic;
+		ledD4					: inout std_logic;
+		ledD5					: inout std_logic;
 		J6IO8					: inout std_logic_vector(7 downto 0);
 		J8IO8					: inout std_logic_vector(5 downto 0)
 	);
@@ -83,7 +93,7 @@ architecture struct of M6800_MIKBUG is
 	signal n_J6IOCS		: std_logic :='1';
 	signal n_J8IOCS		: std_logic :='1';
 	signal n_LEDCS			: std_logic :='1';
-	signal ledOut8 		: std_logic_vector(7 downto 0);
+	signal ledDS18 		: std_logic_vector(7 downto 0);
 	
 	signal q_cpuClkCount	: std_logic_vector(5 downto 0); 
 	signal w_cpuClock		: std_logic;
@@ -119,11 +129,11 @@ begin
 	n_aciaCSN <= '0' 	when (i_serSelect = '1' and (w_cpuAddress(15 downto 1) = x"802"&"100")) else	-- ACIA $8028-$8029
 					'0'	when (i_serSelect = '0' and (w_cpuAddress(15 downto 1) = x"801"&"100")) else	-- VDU  $8018-$8019
 					'1';
-	n_J8IOCS	<= '0' 	when (w_vma = '1') and (w_cpuAddress(15 downto 0) = x"8030")				else	-- J8 I/O
+	n_J8IOCS	<= '0' 	when (w_vma = '1') and (w_cpuAddress(15 downto 0) = x"8030")				else	-- J8 I/O $8030
 					'1';
-	n_J6IOCS	<= '0' 	when (w_vma = '1') and (w_cpuAddress(15 downto 0) = x"8031")				else	-- J6 I/O
+	n_J6IOCS	<= '0' 	when (w_vma = '1') and (w_cpuAddress(15 downto 0) = x"8031")				else	-- J6 I/O $8031
 					'1';
-	n_LEDCS	<= '0' 	when (w_vma = '1') and (w_cpuAddress(15 downto 0) = x"8032")				else	-- LEDS
+	n_LEDCS	<= '0' 	when (w_vma = '1') and (w_cpuAddress(15 downto 0) = x"8032")				else	-- LEDS $8032
 					'1';
 	
 	-- ____________________________________________________________________________________
@@ -133,7 +143,7 @@ begin
 		w_if1DataOut	when n_vduCSN = '0'								else
 		w_if2DataOut	when n_aciaCSN = '0'								else
 		w_romData		when w_cpuAddress(15 downto 14) = "11"		else
-		ledOut8			when n_LEDCS = '0'								else
+		ledDS18			when n_LEDCS = '0'								else
 		J6IO8				when n_J6IOCS = '0'								else
 		w_J8IO8			when n_J8IOCS = '0'								else
 		x"FF";
@@ -230,7 +240,10 @@ begin
 	);
 
 
-ledOut <= ledOut8(0);
+ledDS1	<= ledDS18(0);
+ledD2		<= not ledDS18(1);
+ledD4		<= not ledDS18(2);
+ledD5		<= not ledDS18(3);
 
 latchLED : entity work.OutLatch	--Output LatchIO
 port map(
@@ -238,7 +251,7 @@ port map(
 	clock		=> i_CLOCK_50,
 	load		=> not ((not n_LEDCS) and (not w_R1W0) and w_cpuClock),
 	dataIn8	=> w_cpuDataOut,
-	latchOut => ledOut8
+	latchOut => ledDS18
 );
 
 	-- ____________________________________________________________________________________
