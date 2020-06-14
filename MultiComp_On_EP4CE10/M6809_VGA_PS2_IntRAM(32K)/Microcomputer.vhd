@@ -56,7 +56,7 @@ entity Microcomputer is
 		i_sdMISO				: in 	std_logic := '1';
 		o_sdSCLK				: out std_logic := '1';
 		o_driveLED			: out std_logic := '1';
-						
+		
 		o_Anode_Activate	: out std_logic_vector(7 downto 0);
 		o_LED7Seg_out		: out std_logic_vector(7 downto 0)
 
@@ -263,7 +263,6 @@ begin
 	-- ____________________________________________________________________________________
 	-- MEMORY READ/WRITE LOGIC GOES HERE
 	w_n_memWR <= not(w_cpuClock) nand (not w_n_WR);
-	
 	
 	SEVEN_SEG : entity work.Loadable_7S8D_LED
 	port map (
