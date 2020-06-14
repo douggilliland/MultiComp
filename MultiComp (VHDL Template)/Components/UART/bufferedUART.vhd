@@ -37,9 +37,9 @@ entity bufferedUART is
                 -- at 16x the baud rate.
 		rxClkEn : in  std_logic; -- 16 x baud rate.
 		txClkEn : in  std_logic; -- 16 x baud rate
-		rxd     : in  std_logic;
+		rxd     : in  std_logic := '1';
 		txd     : out std_logic;
-		n_rts   : out std_logic := '0';
+		n_rts   : out std_logic;
 		n_cts   : in  std_logic := '0';
 		n_dcd   : in  std_logic := '0'
    );
