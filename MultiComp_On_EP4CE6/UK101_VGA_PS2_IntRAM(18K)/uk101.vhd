@@ -20,8 +20,9 @@ entity uk101 is
 		
 		i_rxd			: in std_logic;
 		o_txd			: out std_logic;
-		rts			: out std_logic;
-
+		o_rts			: out std_logic;
+		i_cts			: in std_logic;
+		
 		o_Vid_Red	: out	std_logic := '1';
 		o_Vid_Grn	: out	std_logic := '1';
 		o_Vid_Blu	: out	std_logic := '1';
@@ -31,7 +32,7 @@ entity uk101 is
 		i_pbutton	: in std_logic_vector(2 downto 0) := "111";
 		i_DipSw		: in std_logic_vector(7 downto 0) := x"FF";
 
-		o_LED					: out std_logic_vector(11 downto 0) := x"000";
+		o_LED					: out std_logic_vector(9 downto 0) := x"00"&"00";
 
 		o_BUZZER				: out std_logic := '1';
 
@@ -102,7 +103,7 @@ architecture struct of uk101 is
 	
 begin
 
-	o_LED <= w_ringLEDs(11 downto 0);
+	o_LED <= w_ringLEDs(9 downto 0);
 
 	w_n_memWR <= not(w_cpuClock) nand (not n_WR);
 
@@ -297,10 +298,10 @@ begin
 			rxClkEn => w_serialClkEn,
 			txClkEn => w_serialClkEn,
 			rxd => i_rxd,
-			txd => w_txdBuff,
-			n_cts => '0',
-			n_dcd => '0',
-			n_rts => rts
+			txd => o_txd,
+			n_cts => i_cts,
+			n_rts => o_rts,
+			n_dcd => '0'
 		);
 		
 	u9 : entity work.UK101keyboard
@@ -338,7 +339,7 @@ begin
 
 	baud_div: process (w_serialClkCount_d, w_serialClkCount)
 		begin
-			w_serialClkCount_d <= w_serialClkCount + 6;		-- 300 baud
+			w_serialClkCount_d <= w_serialClkCount + 2416;		-- 115,200 baud
 		end process;
 
 	--Single clock wide baud rate enable
