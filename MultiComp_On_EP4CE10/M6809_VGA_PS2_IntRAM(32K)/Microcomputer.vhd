@@ -2,8 +2,23 @@
 -- Grant Searle's "multicomp" page at http://searle.hostei.com/grant/Multicomp/index.html
 --
 -- Changes to this code by Doug Gilliland 2019
---	32K (internal) RAM version
---
+-- Features
+--		6809 CPU
+--		32K (internal) RAM
+--		PS/2 keyboard
+--		ANSI VDU
+--			VGA output
+--			128 character set
+--		ACIA
+--			115,200 baud
+--			Board mod for RTS/CTS
+--		Reset switch - SW5 - Does warm start
+--		8 position DIP switch
+--			DIP switch 0 - Selects default (On = Serial, Off = VDU)
+--		3 pushbuttons
+--		10 Ring LEDs
+--			2 positions Used for RTS/CTS mod
+--		SD card interface
 
 library ieee;
 use ieee.std_logic_1164.all;
@@ -24,19 +39,23 @@ entity Microcomputer is
 		i_pbutton			: in std_logic_vector(2 downto 0) := "111";
 		i_DipSw				: in std_logic_vector(7 downto 0) := x"FF";
 
-		o_LED					: out std_logic_vector(11 downto 0) := x"000";
+		o_LED					: out std_logic_vector(9 downto 0) := x"00"&"00";
 
 		o_BUZZER				: out std_logic := '1';
 
 		i_ps2Clk				: inout std_logic;
 		i_ps2Data			: inout std_logic;
 		
+		i_rxd					: in std_logic;
+		o_txd					: out std_logic;
+		o_rts					: out std_logic;
+		i_cts					: in std_logic;
+		
 		o_sdCS				: out std_logic := '1';
 		o_sdMOSI				: out std_logic := '1';
 		i_sdMISO				: in 	std_logic := '1';
 		o_sdSCLK				: out std_logic := '1';
 		o_driveLED			: out std_logic := '1';
-
 						
 		o_Anode_Activate	: out std_logic_vector(7 downto 0);
 		o_LED7Seg_out		: out std_logic_vector(7 downto 0)
@@ -46,34 +65,42 @@ end Microcomputer;
 
 architecture struct of Microcomputer is
 
-	signal w_n_WR							: std_logic;
-	signal w_cpuAddress					: std_logic_vector(15 downto 0);
-	signal w_cpuDataOut					: std_logic_vector(7 downto 0);
-	signal w_cpuDataIn					: std_logic_vector(7 downto 0);
+	signal w_n_WR						: std_logic;
+	signal w_cpuAddress				: std_logic_vector(15 downto 0);
+	signal w_cpuDataOut				: std_logic_vector(7 downto 0);
+	signal w_cpuDataIn				: std_logic_vector(7 downto 0);
 
-	signal w_basRomData					: std_logic_vector(7 downto 0);
-	signal w_interface1DataOut			: std_logic_vector(7 downto 0);
-	signal w_internalRam1DataOut		: std_logic_vector(7 downto 0);
-	signal w_sdCardData					: std_logic_vector(7 downto 0);
+	signal w_basRomData				: std_logic_vector(7 downto 0);
+	signal w_VDUDataOut		: std_logic_vector(7 downto 0);
+	signal w_interface2DataOut		: std_logic_vector(7 downto 0);
+	signal w_internalRam1DataOut	: std_logic_vector(7 downto 0);
+	signal w_sdCardData				: std_logic_vector(7 downto 0);
 	
-	signal w_displayed_number			: std_logic_vector(31 downto 0);
+	signal w_displayed_number		: std_logic_vector(31 downto 0);
 
-	signal w_n_memWR						: std_logic :='1';
-	signal w_n_basRomCS					: std_logic :='1';
-	signal w_n_videoInterfaceCS		: std_logic :='1';
-	signal w_n_internalRamCS			: std_logic :='1';
-	signal w_n_SDCardCS					: std_logic :='1';
-	signal w_LEDCS1						: std_logic;
-	signal w_LEDCS2						: std_logic;
-	signal w_LEDCS3						: std_logic;
-	signal w_LEDCS4						: std_logic;
-	signal w_rLEDCS1						: std_logic;
-	signal w_rLEDCS2						: std_logic;
-	signal w_pbuttonCS					: std_logic;
-	signal w_DIPSwCS						: std_logic;
+	signal w_n_memWR					: std_logic :='1';
+	signal w_n_basRomCS				: std_logic :='1';
+	signal w_n_VDUCS	: std_logic :='1';
+	signal w_n_ACIACS			: std_logic :='1';
+	signal w_n_internalRamCS		: std_logic :='1';
+	signal w_n_SDCardCS				: std_logic :='1';
+	signal w_n_int2					: std_logic;
+	signal w_LEDCS1					: std_logic;
+	signal w_LEDCS2					: std_logic;
+	signal w_LEDCS3					: std_logic;
+	signal w_LEDCS4					: std_logic;
+	signal w_rLEDCS1					: std_logic;
+	signal w_rLEDCS2					: std_logic;
+	signal w_pbuttonCS				: std_logic;
+	signal w_DIPSwCS					: std_logic;
 
 	signal w_cpuClkCount				: std_logic_vector(5 downto 0); 
 	signal w_cpuClock					: std_logic;
+	
+	signal w_serialClkCount			: std_logic_vector(15 downto 0); 
+	signal w_serialClkCount_d  	: std_logic_vector(15 downto 0);
+	signal w_serialClkEn       	: std_logic;
+	signal w_serialClock				: std_logic;
 	
 	signal w_videoR0					: std_logic := '0';
 	signal w_videoR1					: std_logic := '0';
@@ -88,16 +115,18 @@ architecture struct of Microcomputer is
 	
 begin
 
+	o_LED <= w_ringLEDs(9 downto 0);
 	o_vid_red <= w_videoR1 or w_videoR0;
 	o_vid_grn <= w_videoG1 or w_videoG0;
 	o_vid_blu <= w_videoB1 or w_videoB0;
 	
 	-- ____________________________________________________________________________________
 	-- CHIP SELECTS - Mapped to match Grant's software mapping
-	w_n_basRomCS <= '0' when w_cpuAddress(15 downto 13) = "111" else '1'; 					-- 8K at top of memory
-	w_n_videoInterfaceCS <= '0' when w_cpuAddress(15 downto 1) = x"FFD"&"000" else '1'; 	-- 2 bytes FFD0-FFD1
-	w_n_internalRamCS <= '0' when w_cpuAddress(15) = '0' else '1';								-- 32K at bottom of memory
-	w_n_SDCardCS	<= '1' when w_cpuAddress(15 downto 3)		= x"D00"&'1' else '0';		-- xF008 (8B) = 61448 dec
+	w_n_basRomCS 		<= '0' when w_cpuAddress(15 downto 13) = "111"	else '1';			-- 8K at top of memory
+	w_n_internalRamCS <= '0' when w_cpuAddress(15) = '0' 					else '1';			-- 32K at bottom of memory
+	w_n_SDCardCS		<= '1' when w_cpuAddress(15 downto 3)	= x"D00"&'1' else '0';		-- xF008 (8B) = 61448 dec
+	w_n_VDUCS 			<= '0' when ((w_cpuAddress(15 downto 1) = x"FFD"&"000") and (i_DipSw(0) = '1')) else '1'; 	-- 2 bytes FFD0-FFD1
+	w_n_ACIACS 			<= '0' when ((w_cpuAddress(15 downto 1) = x"FFD"&"000") and (i_DipSw(0) = '0')) else '1'; 	-- 2 bytes FFD2-FFD3
 
 	w_LEDCS1 		<= '1' when w_cpuAddress  						= x"D000"  	else '0';		-- xF000 (1B) = 53248 dec
 	w_LEDCS2 		<= '1' when w_cpuAddress  						= x"D001"  	else '0';		-- xF001 (1B) = 53249 dec
@@ -112,7 +141,8 @@ begin
 	-- BUS ISOLATION
 	-- Order matters since BASIC ROM overlaps I/O chip selects
 	w_cpuDataIn <=
-		w_interface1DataOut 						when w_n_videoInterfaceCS 	= '0' else
+		w_VDUDataOut 								when w_n_VDUCS 				= '0' else
+		w_interface2DataOut 						when w_n_ACIACS	 			= '0' else
 		w_basRomData 								when w_n_basRomCS				= '0' else
 		w_internalRam1DataOut 					when w_n_internalRamCS		= '0' else
 		w_sdCardData								when w_n_SDCardCS 			= '0' else
@@ -186,14 +216,18 @@ begin
 	-- Display GOES HERE
 
 	io1 : entity work.SBCTextDisplayRGB
+	generic map (
+		EXTENDED_CHARSET		=> 0,
+		COLOUR_ATTS_ENABLED	=> 1
+	)
 		port map (
 			n_reset 	=> i_n_reset,
 			clk 		=> i_clk_50,
-			n_wr 		=> w_n_videoInterfaceCS or w_cpuClock or w_n_WR,
-			n_rd 		=> w_n_videoInterfaceCS or w_cpuClock or (not w_n_WR),
+			n_wr 		=> w_n_VDUCS or w_cpuClock or w_n_WR,
+			n_rd 		=> w_n_VDUCS or w_cpuClock or (not w_n_WR),
 			regSel 	=> w_cpuAddress(0),
 			dataIn 	=> w_cpuDataOut,
-			dataOut 	=> w_interface1DataOut,
+			dataOut 	=> w_VDUDataOut,
 			-- VGA Video signals
 			hSync 	=> o_vid_hSync,
 			vSync 	=> o_vid_vSync,
@@ -207,7 +241,25 @@ begin
 			ps2Clk 	=> i_ps2Clk,
 			ps2Data 	=> i_ps2Data
 		);
-	
+
+	ACIA : entity work.bufferedUART
+		port map(
+			clk		=> i_clk_50,
+			n_wr		=> w_n_ACIACS or w_cpuClock or w_n_WR,
+			n_rd		=> w_n_ACIACS or w_cpuClock or (not w_n_WR),
+			n_int		=> w_n_int2,
+			regSel	=> w_cpuAddress(0),
+			dataIn	=> w_cpuDataOut,
+			dataOut	=> w_interface2DataOut,
+			rxClkEn	=> w_serialClkEn,
+			txClkEn	=> w_serialClkEn,
+			rxd		=> i_rxd,
+			txd		=> o_txd,
+			n_cts		=> i_cts,
+			n_rts		=> o_rts,
+			n_dcd		=> '0'
+			);	
+
 	-- ____________________________________________________________________________________
 	-- MEMORY READ/WRITE LOGIC GOES HERE
 	w_n_memWR <= not(w_cpuClock) nand (not w_n_WR);
@@ -294,4 +346,40 @@ process (i_clk_50)
 			end if;
 		end if;
 	end process;
+
+	-- ____________________________________________________________________________________
+	-- Baud Rate Clock Signals
+	-- Serial clock DDS
+	-- 50MHz master input clock:
+	-- f = (increment x 50,000,000) / 65,536 = 16X baud rate
+	-- Baud Increment
+	-- 115200 2416
+	-- 38400 805
+	-- 19200 403
+	-- 9600 201
+	-- 4800 101
+	-- 2400 50
+	-- 1200 25
+	-- 600 13
+	-- 300 6
+
+	baud_div: process (w_serialClkCount_d, w_serialClkCount)
+		begin
+			w_serialClkCount_d <= w_serialClkCount + 2416;		-- 115,200 baud
+		end process;
+
+	--Single clock wide baud rate enable
+	baud_clk: process(i_clk_50)
+		begin
+			if rising_edge(i_clk_50) then
+					w_serialClkCount <= w_serialClkCount_d;
+				if w_serialClkCount(15) = '0' and w_serialClkCount_d(15) = '1' then
+					w_serialClkEn <= '1';
+				else
+					w_serialClkEn <= '0';
+				end if;
+        end if;
+    end process;
+
 end;
+
