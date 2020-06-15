@@ -5,9 +5,10 @@ use  IEEE.STD_LOGIC_UNSIGNED.all;
 
 entity Mem_Mapped_XVGA is
 	port(
-		n_reset		: in std_logic;
-		Video_Clk	: in std_logic;
 		CLK_50		: in std_logic;
+		n_reset		: in std_logic;
+		Video_Clk	: in std_logic;	-- 65 MHz Video Clock
+		resSel		: in std_logic := '1';		-- Resolution 1 = 64x32, 0 = 48x16
 		n_dispRamCS	: in std_logic;
 		n_memWR		: in std_logic;
 		cpuAddress	: in std_logic_vector(10 downto 0);
@@ -22,6 +23,7 @@ end Mem_Mapped_XVGA;
 architecture struct of Mem_Mapped_XVGA is
 
 	signal dispAddrB 			: std_logic_vector(10 downto 0);
+	signal dispAddrMux		: std_logic_vector(10 downto 0);
 	signal dispRamDataOutB 	: std_logic_vector(7 downto 0);
 	signal charAddr 			: std_logic_vector(10 downto 0);
 	signal charData 			: std_logic_vector(7 downto 0);
@@ -32,8 +34,14 @@ begin
 		
 	VoutVect <= video&video&hAct;
 	
+	dispAddrMux <= 
+		dispAddrB 						when resSel = '1' else
+		dispAddrB	when resSel = '0' else
+		"00000000000";
+	
 	Video_XVGA_64x32 : entity work.Video_XVGA_64x32
 	port map (
+		resSel => resSel,
 		charAddr => charAddr,
 		charData => charData,
 		dispAddr => dispAddrB,

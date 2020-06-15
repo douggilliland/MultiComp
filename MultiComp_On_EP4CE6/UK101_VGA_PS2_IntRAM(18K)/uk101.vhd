@@ -1,5 +1,8 @@
 -- UK101 or Superboard II Implementation
+--		EP4CE6 FPGA Card
 --		6502 CPU
+--		CEGMON (original and 64x32 modded version)
+--			DIP Switch 1 on selects original, off selects 64x32 version
 --		18KB internal SRAM
 --		XVGA output - 64 chars/row, 32 rows
 --		PS/2 keyboard
@@ -54,7 +57,8 @@ architecture struct of uk101 is
 	signal w_cpuDataIn				: std_logic_vector(7 downto 0);
 
 	signal w_basRomData				: std_logic_vector(7 downto 0);
-	signal w_monitorRomData		: std_logic_vector(7 downto 0);
+	signal w_CEGMON_Patched		: std_logic_vector(7 downto 0);
+	signal w_CEGMON_Original 	: std_logic_vector(7 downto 0);
 	signal w_aciaData				: std_logic_vector(7 downto 0);
 	signal w_ramDataOut				: std_logic_vector(7 downto 0);
 	signal w_ramDataOut2			: std_logic_vector(7 downto 0);
@@ -143,7 +147,8 @@ begin
 		w_ringLEDs(7 downto 0)					when w_rLEDCS2 		= '1' else
 		"00000"&i_pbutton							when w_pbuttonCS		= '1' else
 		i_DipSw										when w_DIPSwCS			= '1' else
-		w_monitorRomData 							when w_n_monRomCS 	= '0' else		-- has to be after any I/O
+		w_CEGMON_Patched 							when ((w_n_monRomCS 	= '0') and (i_DipSw(0) = '1')) else		-- has to be after any I/O
+		w_CEGMON_Original							when ((w_n_monRomCS 	= '0') and (i_DipSw(0) = '0')) else		-- has to be after any I/O
 		x"FF";
 		
 	CPU : entity work.T65
@@ -167,6 +172,7 @@ begin
 		n_reset 			=> i_n_reset,
 		Video_Clk 		=> w_Video_Clk,
 		CLK_50			=> w_CLOCK_50,
+		resSel			=> i_DipSw(1),
 		n_dispRamCS		=> w_n_dispRamCS,
 		n_memWR			=> w_n_memWR,
 		cpuAddress 		=> w_cpuAddress(10 downto 0),
@@ -221,7 +227,14 @@ begin
 	port map
 	(
 		address => w_cpuAddress(10 downto 0),
-		q => w_monitorRomData
+		q => w_CEGMON_Patched
+	);
+	
+	MONITOR2 : entity work.CegmonRom
+	port map
+	(
+		address => w_cpuAddress(10 downto 0),
+		q => w_CEGMON_Original
 	);
 	
 	SEVEN_SEG : entity work.Loadable_7S8D_LED

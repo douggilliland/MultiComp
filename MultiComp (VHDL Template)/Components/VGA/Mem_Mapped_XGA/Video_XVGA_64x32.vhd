@@ -13,11 +13,12 @@ library ieee;
 
 entity Video_XVGA_64x32 is
 	port (
+		resSel		: in std_logic := '1';		-- Resolution 1 = 64x32, 0 = 48x16
 		charAddr 	: out std_LOGIC_VECTOR(10 downto 0);
 		charData 	: in std_LOGIC_VECTOR(7 downto 0);
 		dispAddr 	: out std_LOGIC_VECTOR(10 downto 0);
 		dispData 	: in std_LOGIC_VECTOR(7 downto 0);
-		clk    	 	: in  std_logic;								-- 25.6 MHz clock
+		clk    	 	: in  std_logic;								-- 65 MHz Video Clock
 		video			: out std_logic;
 		vSync 		: out std_logic;
 		hSync  		: out  std_logic;
@@ -33,7 +34,7 @@ architecture rtl of Video_XVGA_64x32 is
 	signal horizCount: STD_LOGIC_VECTOR(10 DOWNTO 0);
 	signal vertLineCount: STD_LOGIC_VECTOR(9 DOWNTO 0);
 	signal theCharRow: STD_LOGIC_VECTOR(7 DOWNTO 0);		-- 32 rows of characters x 8 rows per character
-	signal prescaleRow: STD_LOGIC_VECTOR(1 DOWNTO 0);
+	signal prescaleRow: STD_LOGIC_VECTOR(2 DOWNTO 0);
 
 begin
 
@@ -75,13 +76,25 @@ begin
 					vertLineCount <= (others => '0');
 					theCharRow <= (others => '0');
 					prescaleRow <= (others => '0');
-				else
+				else 
 					vertLineCount <= vertLineCount+1;
-					if prescaleRow = "10" then 
-						prescaleRow <= "00";
-						theCharRow <= theCharRow+1;
+					-- Prescale row counter 768 rows / 32 rows / 8 lines/row = 3 rows pre-scale
+					if resSel = '1' then
+						
+						if prescaleRow = "010" then 
+							prescaleRow <= "000";
+							theCharRow <= theCharRow+1;
+						else
+							prescaleRow <= prescaleRow+1;
+						end if;
 					else
-						prescaleRow <= prescaleRow+1;
+						-- Prescale row counter 768 rows / 16 rows / 8 lines/row = 6 rows pre-scale
+						if prescaleRow = "101" then 
+							prescaleRow <= "000";
+							theCharRow <= theCharRow+1;
+						else
+							prescaleRow <= prescaleRow+1;
+						end if;
 					end if;
 				end if;
 			end if;
