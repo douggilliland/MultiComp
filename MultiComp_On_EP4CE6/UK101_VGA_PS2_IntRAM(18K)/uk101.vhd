@@ -23,7 +23,7 @@ entity uk101 is
 		
 		i_rxd			: in std_logic;
 		o_txd			: out std_logic;
-		o_rts			: out std_logic;
+		o_rts			: buffer std_logic;
 		i_cts			: in std_logic;
 		
 		o_Vid_Red	: out	std_logic := '1';
@@ -35,7 +35,9 @@ entity uk101 is
 		i_pbutton	: in std_logic_vector(2 downto 0) := "111";
 		i_DipSw		: in std_logic_vector(7 downto 0) := x"FF";
 
-		o_LED					: out std_logic_vector(9 downto 0) := x"00"&"00";
+		o_RtsLED				: out std_logic;
+		o_CtsLED				: out std_logic;
+		o_LED					: out std_logic_vector(7 downto 0) := x"00";
 
 		o_BUZZER				: out std_logic := '1';
 
@@ -100,14 +102,18 @@ architecture struct of uk101 is
 
 	signal w_kbReadData 			: std_logic_vector(7 downto 0);
 	signal w_kbRowSel 			: std_logic_vector(7 downto 0);
-
-	signal w_txdBuff				: std_logic;
 	
 	signal w_ringLEDs				: std_logic_vector(15 downto 0);
+	signal w_RtsLED				: std_logic;
+	signal w_CtsLED				: std_logic;
 	
 begin
 
-	o_LED <= w_ringLEDs(9 downto 0);
+	w_RtsLED <= o_rts;
+	w_CtsLED <= i_cts;
+	o_RtsLED <= w_RtsLED;
+	o_CtsLED <= w_CtsLED;
+	o_LED <= w_ringLEDs(7 downto 0);
 
 	w_n_memWR <= not(w_cpuClock) nand (not n_WR);
 
