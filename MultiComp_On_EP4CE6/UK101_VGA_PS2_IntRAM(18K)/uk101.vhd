@@ -111,8 +111,8 @@ begin
 
 	w_RtsLED <= o_rts;
 	w_CtsLED <= i_cts;
-	o_RtsLED <= w_RtsLED;
-	o_CtsLED <= w_CtsLED;
+	o_RtsLED <= not w_RtsLED;
+	o_CtsLED <= not w_CtsLED;
 	o_LED <= w_ringLEDs(7 downto 0);
 
 	w_n_memWR <= not(w_cpuClock) nand (not n_WR);
