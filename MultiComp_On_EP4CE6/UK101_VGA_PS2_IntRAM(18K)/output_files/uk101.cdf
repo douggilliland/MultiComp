@@ -4,7 +4,7 @@ JedecChain;
 	DefaultMfr(6E);
 
 	P ActionCode(Cfg)
-		Device PartName(EP4CE6) Path("C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_EP4CE6/UK101_VGA_PS2_IntRAM(18K)/") File("output_file.jic") MfrSpec(OpMask(1) SEC_Device(EPCS16) Child_OpMask(1 1));
+		Device PartName(EP4CE6) Path("C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_EP4CE6/UK101_VGA_PS2_IntRAM(18K)/output_files/") File("output_file.jic") MfrSpec(OpMask(1) SEC_Device(EPCS16) Child_OpMask(1 1));
 
 ChainEnd;
 

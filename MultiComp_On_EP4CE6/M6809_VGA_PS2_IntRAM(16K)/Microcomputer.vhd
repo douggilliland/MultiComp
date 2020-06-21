@@ -13,9 +13,9 @@
 --		ACIA
 --			115,200 baud
 --			Board mod for RTS/CTS
---		Reset switch - SW5 - Does warm start
+--		Reset switch - K5 - Does warm start
 --		8 position DIP switch
---			DIP switch 1 - Selects default (On = Serial, Off = VDU)
+--			DIP switch 1 - Selects default port (On = Serial, Off = VDU)
 --		3 pushbuttons
 --		10 Ring LEDs
 --			2 positions Used for RTS/CTS mod
@@ -40,19 +40,18 @@ entity Microcomputer is
 		-- Serial port pins
 		i_rxd					: in std_logic;
 		o_txd					: out std_logic;
-		o_rts					: out std_logic;
 		i_cts					: in std_logic;
-		--	
+		o_rts					: out std_logic;
+		--	Switches and Buttons
 		i_pbutton			: in std_logic_vector(2 downto 0) := "111";
 		i_DipSw				: in std_logic_vector(7 downto 0) := x"FF";
-
+		-- Rin LEDs
 		o_LED					: out std_logic_vector(9 downto 0) := x"00"&"00";
-
+		-- 
 		o_BUZZER				: out std_logic := '1';
-		
+		-- 8 Digit, 7 Segment LEDs
 		o_Anode_Act			: out std_logic_vector(7 downto 0);
 		o_LED7Seg			: out std_logic_vector(7 downto 0);
-
 		-- PS/2 Keyboard pins
 		i_ps2Clk				: inout std_logic;
 		i_ps2Data			: inout std_logic
