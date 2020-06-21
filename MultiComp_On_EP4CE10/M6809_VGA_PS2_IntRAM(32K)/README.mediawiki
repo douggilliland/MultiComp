@@ -1,23 +1,42 @@
 == M6809 Multicomp on EP4CE10 Card ==
 
-<img src="http://land-boards.com/blwiki/images/9/94/A-C4E10_Card_002.PNG"></img>
+<img src="http://land-boards.com/blwiki/images/9/9a/P1715-CROPPED-720PX.jpg"></img>
 
-* [http://land-boards.com/blwiki/index.php?title=A-C4E6_Cyclone_IV_FPGA_EP4CE10E22C8N_Development_Board#Pin_List Off-the-shelf FPGA card (Cyclone IV EP4CE6)]
+* [http://land-boards.com/blwiki/index.php?title=A-C4E6_Cyclone_IV_FPGA_EP4CE6E22C8N_Development_Board Wiki page]
+* [http://searle.x10host.com/Multicomp/index.html Grant Searle's Multicomp page]
 ** Approx $25 from AliExpress
-* [http://searle.hostei.com/grant/Multicomp/index.html Grant Searle's Multicomp page]
 * Vintage 6809 Implementation
 ** 6809 CPU
-** 32KB internal SRAM
+** 10 MHz
+** 16KB internal SRAM
 ** Microsoft BASIC in ROM
+*** 6809 EXTENDED BASIC
+*** (C) 1982 BY MICROSOFT
 * VGA output
+** 1/1/1 R/G/B (8-colors)
 ** 80 chars/row, 25 rows
 ** PS/2 keyboard
-** Serial port (USB-Serial)
+* Serial port (USB-Serial)
+** 115,200 baud
+** [http://land-boards.com/blwiki/index.php?title=A-C4E6_Cyclone_IV_FPGA_EP4CE6E22C8N_Development_Board#RTS.2FCTS_Rework Rework removes two Ring LEDs and uses the FPGA pins as RTS/CTS]
 
 == Card Specific Functions ==
 
-* Reset using K5 pushbutton (marked DEV-OE) on the card
+* 3 Pushbutton Switches
+** Reset using K5 pushbutton (marked DEV-OE) on the card
+* 8-position DIP switch
+** Position 1 switches between VDU and USB-Serial port as default
+** On = Serial, Off = VDU
 
 == Memory Map ==
 
-* TBD
+* Seven Segment top 2 digits - xF000 (1B) = 53248 dec
+** POKE 53248,55
+* Seven Segment 2nd down 2 digits - xF001 (1B) = 53249 dec
+* Seven Segment 2n4 from bottom 2 digits - xF002 (1B) = 53250 dec
+* Seven Segment bottom 2 digits - xF003 (1B) = 53251 dec
+* (8) Ring LEDs - xF004 (1B) = 53252 dec
+* (2) Ring LEDs - xF005 (1B) = 53253 dec
+* Pushbutton Switches	- xF006 (1B) = 53254 dec
+* DIP Switch - xF007 (1B) = 53255 dec
+** PRINT PEEK(53255)
