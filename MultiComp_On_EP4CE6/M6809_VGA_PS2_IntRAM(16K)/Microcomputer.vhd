@@ -7,6 +7,7 @@
 --		16K (internal) RAM
 --		PS/2 keyboard
 --		ANSI VDU
+--			1/1/1 R/G/B (16-Colors)
 --			VGA output
 --			128 character set
 --		ACIA
@@ -14,7 +15,7 @@
 --			Board mod for RTS/CTS
 --		Reset switch - SW5 - Does warm start
 --		8 position DIP switch
---			DIP switch 0 - Selects default (On = Serial, Off = VDU)
+--			DIP switch 1 - Selects default (On = Serial, Off = VDU)
 --		3 pushbuttons
 --		10 Ring LEDs
 --			2 positions Used for RTS/CTS mod
@@ -76,7 +77,7 @@ architecture struct of Microcomputer is
 	signal w_n_basRomCS					: std_logic :='1';
 	signal w_n_VDUCS						: std_logic :='1';
 	signal w_n_ACIACS						: std_logic :='1';
-	signal w_n_internalRamCS			: std_logic :='1';
+	signal w_n_intRamCS			: std_logic :='1';
 	signal w_n_int2						: std_logic;
 
 	signal w_LEDCS1					: std_logic;
@@ -116,19 +117,24 @@ begin
 	
 	-- ____________________________________________________________________________________
 	-- CHIP SELECTS
-	w_n_basRomCS 	<= '0'				when w_cpuAddress(15 downto 13) 	= "111" 					else '1'; 	-- 8K at top of memory
-	w_n_internalRamCS <= '0' when w_cpuAddress(15) = '0' 					else '1';			-- 32K at bottom of memory
-	w_n_VDUCS 		<= '0' when ((w_cpuAddress(15 downto 1) = x"FFD"&"000") and (i_DipSw(0) = '1')) else '1'; 	-- 2 bytes FFD0-FFD1
-	w_n_ACIACS 		<= '0' when ((w_cpuAddress(15 downto 1) = x"FFD"&"000") and (i_DipSw(0) = '0')) else '1'; 	-- 2 bytes FFD2-FFD3
+	w_n_basRomCS	<= '0' when w_cpuAddress(15 downto 13) 	= "111" 	else '1'; 	-- 8K at top of memory
+	w_n_intRamCS	<= '0' when w_cpuAddress(15 downto 14) 	= "00" 	else '1';	-- 16K at bottom of memory
 
-	w_LEDCS1 		<= '1' when w_cpuAddress  						= x"D000"  	else '0';		-- xF000 (1B) = 53248 dec
-	w_LEDCS2 		<= '1' when w_cpuAddress  						= x"D001"  	else '0';		-- xF001 (1B) = 53249 dec
-	w_LEDCS3 		<= '1' when w_cpuAddress  						= x"D002"  	else '0';		-- xF002 (1B) = 53250 dec
-	w_LEDCS4 		<= '1' when w_cpuAddress  						= x"D003"  	else '0';		-- xF003 (1B) = 53251 dec
-	w_rLEDCS1 		<= '1' when w_cpuAddress  						= x"D004"  	else '0';		-- xF004 (1B) = 53252 dec
-	w_rLEDCS2 		<= '1' when w_cpuAddress  						= x"D005"  	else '0';		-- xF005 (1B) = 53253 dec
-	w_pbuttonCS		<= '1' when w_cpuAddress  						= x"D006"  	else '0';		-- xF006 (1B) = 53254 dec
-	w_DIPSwCS		<= '1' when w_cpuAddress  						= x"D007"  	else '0';		-- xF007 (1B) = 53255 dec
+	w_n_VDUCS		<= '0' when ((w_cpuAddress(15 downto 1) = x"FFD"&"000") and (i_DipSw(0) = '1')) else	-- 2 bytes FFD0-FFD1
+							'0' when ((w_cpuAddress(15 downto 1) = x"FFD"&"001") and (i_DipSw(0) = '0'))			-- 2 bytes FFD2-FFD3
+							else '1';
+	w_n_ACIACS 		<= '0' when ((w_cpuAddress(15 downto 1) = x"FFD"&"000") and (i_DipSw(0) = '0')) else	-- 2 bytes FFD0-FFD1
+							'0' when ((w_cpuAddress(15 downto 1) = x"FFD"&"001") and (i_DipSw(0) = '1'))			-- 2 bytes FFD2-FFD3
+							else '1';
+
+	w_LEDCS1 		<= '1' when w_cpuAddress  = x"D000"  	else '0';		-- xF000 (1B) = 53248 dec
+	w_LEDCS2 		<= '1' when w_cpuAddress  = x"D001"  	else '0';		-- xF001 (1B) = 53249 dec
+	w_LEDCS3 		<= '1' when w_cpuAddress  = x"D002"  	else '0';		-- xF002 (1B) = 53250 dec
+	w_LEDCS4 		<= '1' when w_cpuAddress  = x"D003"  	else '0';		-- xF003 (1B) = 53251 dec
+	w_rLEDCS1 		<= '1' when w_cpuAddress  = x"D004"  	else '0';		-- xF004 (1B) = 53252 dec
+	w_rLEDCS2 		<= '1' when w_cpuAddress  = x"D005"  	else '0';		-- xF005 (1B) = 53253 dec
+	w_pbuttonCS		<= '1' when w_cpuAddress  = x"D006"  	else '0';		-- xF006 (1B) = 53254 dec
+	w_DIPSwCS		<= '1' when w_cpuAddress  = x"D007"  	else '0';		-- xF007 (1B) = 53255 dec
 
 	-- ____________________________________________________________________________________
 	-- BUS ISOLATION
@@ -137,7 +143,7 @@ begin
 		w_VDUDataOut 							when w_n_VDUCS 			= '0' else
 		w_interface2DataOut 					when w_n_ACIACS	 		= '0' else
 		w_basRomData 							when w_n_basRomCS			= '0' else
-		w_internalRam1DataOut				when w_n_internalRamCS	= '0' else
+		w_internalRam1DataOut				when w_n_intRamCS	= '0' else
 		w_displayed_number(31 downto 24) when w_LEDCS1				= '1' else	-- read-back
 		w_displayed_number(23 downto 16) when w_LEDCS2				= '1' else	-- read-back
 		w_displayed_number(15 downto 8) 	when w_LEDCS3 				= '1' else	-- read-back
@@ -183,7 +189,7 @@ begin
 			address 	=> w_cpuAddress(13 downto 0),
 			clock 	=> i_clk_50,
 			data 		=> w_cpuDataOut,
-			wren 		=> not(w_n_memWR or w_n_internalRamCS),
+			wren 		=> not(w_n_memWR or w_n_intRamCS),
 			q 			=> w_internalRam1DataOut
 		);
 	

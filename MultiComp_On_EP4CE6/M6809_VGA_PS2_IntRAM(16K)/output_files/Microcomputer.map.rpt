@@ -1,5 +1,5 @@
 Analysis & Synthesis report for Microcomputer
-Sun Jun 14 16:44:22 2020
+Sun Jun 21 10:23:57 2020
 Quartus Prime Version 18.1.0 Build 625 09/12/2018 SJ Lite Edition
 
 
@@ -80,13 +80,13 @@ refer to the applicable agreement for further details.
 +----------------------------------------------------------------------------------+
 ; Analysis & Synthesis Summary                                                     ;
 +------------------------------------+---------------------------------------------+
-; Analysis & Synthesis Status        ; Successful - Sun Jun 14 16:44:22 2020       ;
+; Analysis & Synthesis Status        ; Successful - Sun Jun 21 10:23:57 2020       ;
 ; Quartus Prime Version              ; 18.1.0 Build 625 09/12/2018 SJ Lite Edition ;
 ; Revision Name                      ; Microcomputer                               ;
 ; Top-level Entity Name              ; Microcomputer                               ;
 ; Family                             ; Cyclone IV E                                ;
-; Total logic elements               ; 3,636                                       ;
-;     Total combinational functions  ; 3,480                                       ;
+; Total logic elements               ; 3,640                                       ;
+;     Total combinational functions  ; 3,484                                       ;
 ;     Dedicated logic registers      ; 885                                         ;
 ; Total registers                    ; 885                                         ;
 ; Total pins                         ; 51                                          ;
@@ -105,7 +105,8 @@ refer to the applicable agreement for further details.
 ; Device                                                           ; EP4CE6E22C8        ;                    ;
 ; Top-level entity name                                            ; Microcomputer      ; Microcomputer      ;
 ; Family name                                                      ; Cyclone IV E       ; Cyclone V          ;
-; Use smart compilation                                            ; Off                ; Off                ;
+; Use smart compilation                                            ; On                 ; Off                ;
+; Maximum processors allowed for parallel compilation              ; All                ;                    ;
 ; Enable parallel Assembler and Timing Analyzer during compilation ; On                 ; On                 ;
 ; Enable compact report table                                      ; Off                ; Off                ;
 ; Restructure Multiplexers                                         ; Auto               ; Auto               ;
@@ -255,16 +256,16 @@ refer to the applicable agreement for further details.
 +---------------------------------------------+----------------+
 ; Resource                                    ; Usage          ;
 +---------------------------------------------+----------------+
-; Estimated Total logic elements              ; 3,636          ;
+; Estimated Total logic elements              ; 3,640          ;
 ;                                             ;                ;
-; Total combinational functions               ; 3480           ;
+; Total combinational functions               ; 3484           ;
 ; Logic element usage by number of LUT inputs ;                ;
-;     -- 4 input functions                    ; 2119           ;
-;     -- 3 input functions                    ; 695            ;
-;     -- <=2 input functions                  ; 666            ;
+;     -- 4 input functions                    ; 2111           ;
+;     -- 3 input functions                    ; 686            ;
+;     -- <=2 input functions                  ; 687            ;
 ;                                             ;                ;
 ; Logic elements by mode                      ;                ;
-;     -- normal mode                          ; 3019           ;
+;     -- normal mode                          ; 3023           ;
 ;     -- arithmetic mode                      ; 461            ;
 ;                                             ;                ;
 ; Total registers                             ; 885            ;
@@ -278,8 +279,8 @@ refer to the applicable agreement for further details.
 ;                                             ;                ;
 ; Maximum fan-out node                        ; i_clk_50~input ;
 ; Maximum fan-out                             ; 572            ;
-; Total fan-out                               ; 15664          ;
-; Average fan-out                             ; 3.46           ;
+; Total fan-out                               ; 15647          ;
+; Average fan-out                             ; 3.45           ;
 +---------------------------------------------+----------------+
 
 
@@ -288,7 +289,7 @@ refer to the applicable agreement for further details.
 +--------------------------------------------------------+---------------------+---------------------------+-------------+--------------+---------+-----------+------+--------------+----------------------------------------------------------------------------------------------------------------------------------------------------+---------------------+--------------+
 ; Compilation Hierarchy Node                             ; Combinational ALUTs ; Dedicated Logic Registers ; Memory Bits ; DSP Elements ; DSP 9x9 ; DSP 18x18 ; Pins ; Virtual Pins ; Full Hierarchy Name                                                                                                                                ; Entity Name         ; Library Name ;
 +--------------------------------------------------------+---------------------+---------------------------+-------------+--------------+---------+-----------+------+--------------+----------------------------------------------------------------------------------------------------------------------------------------------------+---------------------+--------------+
-; |Microcomputer                                         ; 3480 (143)          ; 885 (20)                  ; 237696      ; 0            ; 0       ; 0         ; 51   ; 0            ; |Microcomputer                                                                                                                                     ; Microcomputer       ; work         ;
+; |Microcomputer                                         ; 3484 (154)          ; 885 (20)                  ; 237696      ; 0            ; 0       ; 0         ; 51   ; 0            ; |Microcomputer                                                                                                                                     ; Microcomputer       ; work         ;
 ;    |InternalRam16K:ram1|                               ; 2 (0)               ; 1 (0)                     ; 131072      ; 0            ; 0       ; 0         ; 0    ; 0            ; |Microcomputer|InternalRam16K:ram1                                                                                                                 ; InternalRam16K      ; work         ;
 ;       |altsyncram:altsyncram_component|                ; 2 (0)               ; 1 (0)                     ; 131072      ; 0            ; 0       ; 0         ; 0    ; 0            ; |Microcomputer|InternalRam16K:ram1|altsyncram:altsyncram_component                                                                                 ; altsyncram          ; work         ;
 ;          |altsyncram_m3q3:auto_generated|              ; 2 (0)               ; 1 (1)                     ; 131072      ; 0            ; 0       ; 0         ; 0    ; 0            ; |Microcomputer|InternalRam16K:ram1|altsyncram:altsyncram_component|altsyncram_m3q3:auto_generated                                                  ; altsyncram_m3q3     ; work         ;
@@ -303,7 +304,7 @@ refer to the applicable agreement for further details.
 ;    |OutLatch:SevSeg2|                                  ; 0 (0)               ; 8 (8)                     ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |Microcomputer|OutLatch:SevSeg2                                                                                                                    ; OutLatch            ; work         ;
 ;    |OutLatch:SevSeg3|                                  ; 0 (0)               ; 8 (8)                     ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |Microcomputer|OutLatch:SevSeg3                                                                                                                    ; OutLatch            ; work         ;
 ;    |OutLatch:SevSeg4|                                  ; 0 (0)               ; 8 (8)                     ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |Microcomputer|OutLatch:SevSeg4                                                                                                                    ; OutLatch            ; work         ;
-;    |SBCTextDisplayRGB:vdu|                             ; 1392 (1214)         ; 384 (384)                 ; 40960       ; 0            ; 0       ; 0         ; 0    ; 0            ; |Microcomputer|SBCTextDisplayRGB:vdu                                                                                                               ; SBCTextDisplayRGB   ; work         ;
+;    |SBCTextDisplayRGB:vdu|                             ; 1387 (1209)         ; 384 (384)                 ; 40960       ; 0            ; 0       ; 0         ; 0    ; 0            ; |Microcomputer|SBCTextDisplayRGB:vdu                                                                                                               ; SBCTextDisplayRGB   ; work         ;
 ;       |DisplayRam2K:\GEN_2KATTRAM:dispAttRam|          ; 0 (0)               ; 0 (0)                     ; 16384       ; 0            ; 0       ; 0         ; 0    ; 0            ; |Microcomputer|SBCTextDisplayRGB:vdu|DisplayRam2K:\GEN_2KATTRAM:dispAttRam                                                                         ; DisplayRam2K        ; work         ;
 ;          |altsyncram:altsyncram_component|             ; 0 (0)               ; 0 (0)                     ; 16384       ; 0            ; 0       ; 0         ; 0    ; 0            ; |Microcomputer|SBCTextDisplayRGB:vdu|DisplayRam2K:\GEN_2KATTRAM:dispAttRam|altsyncram:altsyncram_component                                         ; altsyncram          ; work         ;
 ;             |altsyncram_shh2:auto_generated|           ; 0 (0)               ; 0 (0)                     ; 16384       ; 0            ; 0       ; 0         ; 0    ; 0            ; |Microcomputer|SBCTextDisplayRGB:vdu|DisplayRam2K:\GEN_2KATTRAM:dispAttRam|altsyncram:altsyncram_component|altsyncram_shh2:auto_generated          ; altsyncram_shh2     ; work         ;
@@ -324,7 +325,7 @@ refer to the applicable agreement for further details.
 ;    |bufferedUART:ACIA|                                 ; 154 (154)           ; 94 (94)                   ; 128         ; 0            ; 0       ; 0         ; 0    ; 0            ; |Microcomputer|bufferedUART:ACIA                                                                                                                   ; bufferedUART        ; work         ;
 ;       |altsyncram:rxBuffer_rtl_0|                      ; 0 (0)               ; 0 (0)                     ; 128         ; 0            ; 0       ; 0         ; 0    ; 0            ; |Microcomputer|bufferedUART:ACIA|altsyncram:rxBuffer_rtl_0                                                                                         ; altsyncram          ; work         ;
 ;          |altsyncram_3ce1:auto_generated|              ; 0 (0)               ; 0 (0)                     ; 128         ; 0            ; 0       ; 0         ; 0    ; 0            ; |Microcomputer|bufferedUART:ACIA|altsyncram:rxBuffer_rtl_0|altsyncram_3ce1:auto_generated                                                          ; altsyncram_3ce1     ; work         ;
-;    |cpu09:cpu1|                                        ; 1734 (1734)         ; 318 (318)                 ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |Microcomputer|cpu09:cpu1                                                                                                                          ; cpu09               ; work         ;
+;    |cpu09:cpu1|                                        ; 1732 (1732)         ; 318 (318)                 ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |Microcomputer|cpu09:cpu1                                                                                                                          ; cpu09               ; work         ;
 +--------------------------------------------------------+---------------------+---------------------------+-------------+--------------+---------+-----------+------+--------------+----------------------------------------------------------------------------------------------------------------------------------------------------+---------------------+--------------+
 Note: For table entries with two numbers listed, the numbers in parentheses indicate the number of resources of the given type used by the specific entity alone. The numbers listed outside of parentheses indicate the total resources of the given type used by the specific entity and all of its sub-entities in the hierarchy.
 
@@ -952,105 +953,105 @@ Encoding Type:  One-Hot
 +-----------------------------------------+---------+
 
 
-+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
-; Multiplexer Restructuring Statistics (Restructuring Performed)                                                                                                               ;
-+--------------------+-----------+---------------+----------------------+------------------------+------------+----------------------------------------------------------------+
-; Multiplexer Inputs ; Bus Width ; Baseline Area ; Area if Restructured ; Saving if Restructured ; Registered ; Example Multiplexer Output                                     ;
-+--------------------+-----------+---------------+----------------------+------------------------+------------+----------------------------------------------------------------+
-; 3:1                ; 5 bits    ; 10 LEs        ; 5 LEs                ; 5 LEs                  ; Yes        ; |Microcomputer|SBCTextDisplayRGB:vdu|charVert[4]               ;
-; 3:1                ; 7 bits    ; 14 LEs        ; 7 LEs                ; 7 LEs                  ; Yes        ; |Microcomputer|SBCTextDisplayRGB:vdu|param4[0]                 ;
-; 3:1                ; 7 bits    ; 14 LEs        ; 7 LEs                ; 7 LEs                  ; Yes        ; |Microcomputer|SBCTextDisplayRGB:vdu|charHoriz[6]              ;
-; 3:1                ; 3 bits    ; 6 LEs         ; 3 LEs                ; 3 LEs                  ; Yes        ; |Microcomputer|SBCTextDisplayRGB:vdu|pixelCount[0]             ;
-; 3:1                ; 8 bits    ; 16 LEs        ; 8 LEs                ; 8 LEs                  ; Yes        ; |Microcomputer|SBCTextDisplayRGB:vdu|ps2Byte[5]                ;
-; 3:1                ; 4 bits    ; 8 LEs         ; 8 LEs                ; 0 LEs                  ; Yes        ; |Microcomputer|bufferedUART:ACIA|dataOut[2]                    ;
-; 3:1                ; 3 bits    ; 6 LEs         ; 6 LEs                ; 0 LEs                  ; Yes        ; |Microcomputer|bufferedUART:ACIA|dataOut[0]                    ;
-; 3:1                ; 3 bits    ; 6 LEs         ; 6 LEs                ; 0 LEs                  ; Yes        ; |Microcomputer|SBCTextDisplayRGB:vdu|ps2ConvertedByte[6]       ;
-; 3:1                ; 4 bits    ; 8 LEs         ; 4 LEs                ; 4 LEs                  ; Yes        ; |Microcomputer|SBCTextDisplayRGB:vdu|pixelClockCount[3]        ;
-; 4:1                ; 7 bits    ; 14 LEs        ; 14 LEs               ; 0 LEs                  ; Yes        ; |Microcomputer|SBCTextDisplayRGB:vdu|param1[0]                 ;
-; 4:1                ; 7 bits    ; 14 LEs        ; 14 LEs               ; 0 LEs                  ; Yes        ; |Microcomputer|SBCTextDisplayRGB:vdu|param2[6]                 ;
-; 4:1                ; 7 bits    ; 14 LEs        ; 14 LEs               ; 0 LEs                  ; Yes        ; |Microcomputer|SBCTextDisplayRGB:vdu|param3[1]                 ;
-; 3:1                ; 2 bits    ; 4 LEs         ; 2 LEs                ; 2 LEs                  ; Yes        ; |Microcomputer|cpu09:cpu1|op_code[1]                           ;
-; 4:1                ; 4 bits    ; 8 LEs         ; 4 LEs                ; 4 LEs                  ; Yes        ; |Microcomputer|SBCTextDisplayRGB:vdu|ps2ClkCount[1]            ;
-; 4:1                ; 4 bits    ; 8 LEs         ; 4 LEs                ; 4 LEs                  ; Yes        ; |Microcomputer|SBCTextDisplayRGB:vdu|kbInPointer[0]            ;
-; 4:1                ; 26 bits   ; 52 LEs        ; 26 LEs               ; 26 LEs                 ; Yes        ; |Microcomputer|SBCTextDisplayRGB:vdu|kbWatchdogTimer[17]       ;
-; 4:1                ; 4 bits    ; 8 LEs         ; 4 LEs                ; 4 LEs                  ; Yes        ; |Microcomputer|SBCTextDisplayRGB:vdu|charScanLine[0]           ;
-; 5:1                ; 6 bits    ; 18 LEs        ; 6 LEs                ; 12 LEs                 ; Yes        ; |Microcomputer|bufferedUART:ACIA|rxClockCount[1]               ;
-; 4:1                ; 8 bits    ; 16 LEs        ; 16 LEs               ; 0 LEs                  ; Yes        ; |Microcomputer|cpu09:cpu1|ea[4]                                ;
-; 4:1                ; 8 bits    ; 16 LEs        ; 16 LEs               ; 0 LEs                  ; Yes        ; |Microcomputer|cpu09:cpu1|accb[6]                              ;
-; 4:1                ; 8 bits    ; 16 LEs        ; 16 LEs               ; 0 LEs                  ; Yes        ; |Microcomputer|cpu09:cpu1|dp[4]                                ;
-; 4:1                ; 8 bits    ; 16 LEs        ; 16 LEs               ; 0 LEs                  ; Yes        ; |Microcomputer|cpu09:cpu1|xreg[2]                              ;
-; 4:1                ; 8 bits    ; 16 LEs        ; 16 LEs               ; 0 LEs                  ; Yes        ; |Microcomputer|cpu09:cpu1|xreg[13]                             ;
-; 4:1                ; 8 bits    ; 16 LEs        ; 16 LEs               ; 0 LEs                  ; Yes        ; |Microcomputer|cpu09:cpu1|yreg[2]                              ;
-; 4:1                ; 8 bits    ; 16 LEs        ; 16 LEs               ; 0 LEs                  ; Yes        ; |Microcomputer|cpu09:cpu1|yreg[13]                             ;
-; 4:1                ; 8 bits    ; 16 LEs        ; 16 LEs               ; 0 LEs                  ; Yes        ; |Microcomputer|cpu09:cpu1|sp[0]                                ;
-; 4:1                ; 8 bits    ; 16 LEs        ; 16 LEs               ; 0 LEs                  ; Yes        ; |Microcomputer|cpu09:cpu1|sp[14]                               ;
-; 4:1                ; 8 bits    ; 16 LEs        ; 16 LEs               ; 0 LEs                  ; Yes        ; |Microcomputer|cpu09:cpu1|up[1]                                ;
-; 4:1                ; 8 bits    ; 16 LEs        ; 16 LEs               ; 0 LEs                  ; Yes        ; |Microcomputer|cpu09:cpu1|up[12]                               ;
-; 5:1                ; 5 bits    ; 15 LEs        ; 5 LEs                ; 10 LEs                 ; Yes        ; |Microcomputer|SBCTextDisplayRGB:vdu|ps2WriteClkCount[0]       ;
-; 5:1                ; 4 bits    ; 12 LEs        ; 4 LEs                ; 8 LEs                  ; Yes        ; |Microcomputer|bufferedUART:ACIA|rxBitCount[0]                 ;
-; 5:1                ; 4 bits    ; 12 LEs        ; 4 LEs                ; 8 LEs                  ; Yes        ; |Microcomputer|bufferedUART:ACIA|txBitCount[2]                 ;
-; 5:1                ; 7 bits    ; 21 LEs        ; 7 LEs                ; 14 LEs                 ; Yes        ; |Microcomputer|bufferedUART:ACIA|txBuffer[0]                   ;
-; 5:1                ; 8 bits    ; 24 LEs        ; 16 LEs               ; 8 LEs                  ; Yes        ; |Microcomputer|SBCTextDisplayRGB:vdu|dispCharWRData[7]         ;
-; 5:1                ; 7 bits    ; 21 LEs        ; 14 LEs               ; 7 LEs                  ; Yes        ; |Microcomputer|cpu09:cpu1|md[7]                                ;
-; 5:1                ; 8 bits    ; 24 LEs        ; 16 LEs               ; 8 LEs                  ; Yes        ; |Microcomputer|cpu09:cpu1|ea[9]                                ;
-; 5:1                ; 8 bits    ; 24 LEs        ; 16 LEs               ; 8 LEs                  ; Yes        ; |Microcomputer|cpu09:cpu1|acca[0]                              ;
-; 5:1                ; 8 bits    ; 24 LEs        ; 16 LEs               ; 8 LEs                  ; Yes        ; |Microcomputer|cpu09:cpu1|pc[11]                               ;
-; 5:1                ; 8 bits    ; 24 LEs        ; 16 LEs               ; 8 LEs                  ; Yes        ; |Microcomputer|cpu09:cpu1|pc[2]                                ;
-; 6:1                ; 6 bits    ; 24 LEs        ; 6 LEs                ; 18 LEs                 ; Yes        ; |Microcomputer|bufferedUART:ACIA|txClockCount[1]               ;
-; 7:1                ; 3 bits    ; 12 LEs        ; 12 LEs               ; 0 LEs                  ; Yes        ; |Microcomputer|SBCTextDisplayRGB:vdu|videoR1                   ;
-; 6:1                ; 8 bits    ; 32 LEs        ; 24 LEs               ; 8 LEs                  ; Yes        ; |Microcomputer|cpu09:cpu1|md[11]                               ;
-; 8:1                ; 26 bits   ; 130 LEs       ; 26 LEs               ; 104 LEs                ; Yes        ; |Microcomputer|SBCTextDisplayRGB:vdu|kbWriteTimer[22]          ;
-; 6:1                ; 7 bits    ; 28 LEs        ; 7 LEs                ; 21 LEs                 ; Yes        ; |Microcomputer|SBCTextDisplayRGB:vdu|startAddr[5]              ;
-; 10:1               ; 3 bits    ; 18 LEs        ; 18 LEs               ; 0 LEs                  ; Yes        ; |Microcomputer|SBCTextDisplayRGB:vdu|videoR0                   ;
-; 10:1               ; 3 bits    ; 18 LEs        ; 12 LEs               ; 6 LEs                  ; Yes        ; |Microcomputer|SBCTextDisplayRGB:vdu|paramCount[0]             ;
-; 12:1               ; 7 bits    ; 56 LEs        ; 7 LEs                ; 49 LEs                 ; Yes        ; |Microcomputer|SBCTextDisplayRGB:vdu|cursorHorizRestore[6]     ;
-; 13:1               ; 5 bits    ; 40 LEs        ; 5 LEs                ; 35 LEs                 ; Yes        ; |Microcomputer|SBCTextDisplayRGB:vdu|cursorVertRestore[0]      ;
-; 35:1               ; 7 bits    ; 161 LEs       ; 77 LEs               ; 84 LEs                 ; Yes        ; |Microcomputer|SBCTextDisplayRGB:vdu|cursorHoriz[0]            ;
-; 41:1               ; 2 bits    ; 54 LEs        ; 24 LEs               ; 30 LEs                 ; Yes        ; |Microcomputer|SBCTextDisplayRGB:vdu|cursorVert[2]             ;
-; 7:1                ; 5 bits    ; 20 LEs        ; 5 LEs                ; 15 LEs                 ; Yes        ; |Microcomputer|SBCTextDisplayRGB:vdu|ps2WriteByte[2]           ;
-; 3:1                ; 2 bits    ; 4 LEs         ; 2 LEs                ; 2 LEs                  ; No         ; |Microcomputer|cpu09:cpu1|addr_ctrl                            ;
-; 3:1                ; 7 bits    ; 14 LEs        ; 7 LEs                ; 7 LEs                  ; No         ; |Microcomputer|cpu09:cpu1|alu_ctrl.alu_sub8                    ;
-; 3:1                ; 2 bits    ; 4 LEs         ; 4 LEs                ; 0 LEs                  ; No         ; |Microcomputer|cpu09:cpu1|Mux130                               ;
-; 3:1                ; 2 bits    ; 4 LEs         ; 2 LEs                ; 2 LEs                  ; No         ; |Microcomputer|cpu09:cpu1|sp_ctrl.reset_sp                     ;
-; 3:1                ; 2 bits    ; 4 LEs         ; 2 LEs                ; 2 LEs                  ; No         ; |Microcomputer|cpu09:cpu1|return_state.single_op_exec_state    ;
-; 3:1                ; 2 bits    ; 4 LEs         ; 2 LEs                ; 2 LEs                  ; No         ; |Microcomputer|cpu09:cpu1|return_state.dual_op_write8_state    ;
-; 3:1                ; 3 bits    ; 6 LEs         ; 3 LEs                ; 3 LEs                  ; No         ; |Microcomputer|SBCTextDisplayRGB:vdu|paramCount                ;
-; 3:1                ; 2 bits    ; 4 LEs         ; 2 LEs                ; 2 LEs                  ; No         ; |Microcomputer|cpu09:cpu1|ix_ctrl.reset_ix                     ;
-; 8:1                ; 4 bits    ; 20 LEs        ; 20 LEs               ; 0 LEs                  ; No         ; |Microcomputer|Loadable_7S8D_LED:SEVEN_SEG|Mux15               ;
-; 4:1                ; 2 bits    ; 4 LEs         ; 2 LEs                ; 2 LEs                  ; No         ; |Microcomputer|SBCTextDisplayRGB:vdu|dispState                 ;
-; 4:1                ; 2 bits    ; 4 LEs         ; 4 LEs                ; 0 LEs                  ; No         ; |Microcomputer|cpu09:cpu1|Mux127                               ;
-; 6:1                ; 25 bits   ; 100 LEs       ; 25 LEs               ; 75 LEs                 ; No         ; |Microcomputer|cpu09:cpu1|left_ctrl.ea_left                    ;
-; 5:1                ; 2 bits    ; 6 LEs         ; 2 LEs                ; 4 LEs                  ; No         ; |Microcomputer|cpu09:cpu1|up_ctrl.pull_lo_up                   ;
-; 5:1                ; 2 bits    ; 6 LEs         ; 2 LEs                ; 4 LEs                  ; No         ; |Microcomputer|cpu09:cpu1|sp_ctrl.pull_lo_sp                   ;
-; 5:1                ; 2 bits    ; 6 LEs         ; 2 LEs                ; 4 LEs                  ; No         ; |Microcomputer|cpu09:cpu1|ix_ctrl.pull_hi_ix                   ;
-; 5:1                ; 2 bits    ; 6 LEs         ; 2 LEs                ; 4 LEs                  ; No         ; |Microcomputer|cpu09:cpu1|iy_ctrl.pull_hi_iy                   ;
-; 4:1                ; 2 bits    ; 4 LEs         ; 2 LEs                ; 2 LEs                  ; No         ; |Microcomputer|cpu09:cpu1|alu_ctrl.alu_abx                     ;
-; 5:1                ; 12 bits   ; 36 LEs        ; 36 LEs               ; 0 LEs                  ; No         ; |Microcomputer|cpu09:cpu1|Selector322                          ;
-; 5:1                ; 3 bits    ; 9 LEs         ; 6 LEs                ; 3 LEs                  ; No         ; |Microcomputer|cpu09:cpu1|Selector366                          ;
-; 7:1                ; 2 bits    ; 8 LEs         ; 4 LEs                ; 4 LEs                  ; No         ; |Microcomputer|SBCTextDisplayRGB:vdu|escState.processingParams ;
-; 7:1                ; 2 bits    ; 8 LEs         ; 6 LEs                ; 2 LEs                  ; No         ; |Microcomputer|SBCTextDisplayRGB:vdu|escState.none             ;
-; 6:1                ; 3 bits    ; 12 LEs        ; 12 LEs               ; 0 LEs                  ; No         ; |Microcomputer|cpu09:cpu1|Selector328                          ;
-; 6:1                ; 3 bits    ; 12 LEs        ; 12 LEs               ; 0 LEs                  ; No         ; |Microcomputer|cpu09:cpu1|Selector365                          ;
-; 5:1                ; 2 bits    ; 6 LEs         ; 2 LEs                ; 4 LEs                  ; No         ; |Microcomputer|cpu09:cpu1|right_ctrl.accd_right                ;
-; 7:1                ; 3 bits    ; 12 LEs        ; 6 LEs                ; 6 LEs                  ; No         ; |Microcomputer|bufferedUART:ACIA|txState.stopBit               ;
-; 7:1                ; 3 bits    ; 12 LEs        ; 6 LEs                ; 6 LEs                  ; No         ; |Microcomputer|bufferedUART:ACIA|rxState.dataBit               ;
-; 20:1               ; 3 bits    ; 39 LEs        ; 24 LEs               ; 15 LEs                 ; No         ; |Microcomputer|cpu09:cpu1|alu_ctrl.alu_ld16                    ;
-; 6:1                ; 2 bits    ; 8 LEs         ; 4 LEs                ; 4 LEs                  ; No         ; |Microcomputer|cpu09:cpu1|left_ctrl.dp_left                    ;
-; 9:1                ; 9 bits    ; 54 LEs        ; 9 LEs                ; 45 LEs                 ; No         ; |Microcomputer|SBCTextDisplayRGB:vdu|dispState                 ;
-; 8:1                ; 7 bits    ; 35 LEs        ; 35 LEs               ; 0 LEs                  ; No         ; |Microcomputer|cpu09:cpu1|Selector360                          ;
-; 9:1                ; 8 bits    ; 48 LEs        ; 48 LEs               ; 0 LEs                  ; No         ; |Microcomputer|cpu09:cpu1|Selector339                          ;
-; 11:1               ; 8 bits    ; 56 LEs        ; 56 LEs               ; 0 LEs                  ; No         ; |Microcomputer|cpu09:cpu1|Selector347                          ;
-; 14:1               ; 5 bits    ; 45 LEs        ; 45 LEs               ; 0 LEs                  ; No         ; |Microcomputer|w_cpuDataIn[6]                                  ;
-; 14:1               ; 3 bits    ; 27 LEs        ; 24 LEs               ; 3 LEs                  ; No         ; |Microcomputer|w_cpuDataIn[1]                                  ;
-; 13:1               ; 7 bits    ; 56 LEs        ; 56 LEs               ; 0 LEs                  ; No         ; |Microcomputer|cpu09:cpu1|Selector381                          ;
-; 14:1               ; 7 bits    ; 63 LEs        ; 63 LEs               ; 0 LEs                  ; No         ; |Microcomputer|cpu09:cpu1|Selector377                          ;
-; 16:1               ; 8 bits    ; 80 LEs        ; 80 LEs               ; 0 LEs                  ; No         ; |Microcomputer|cpu09:cpu1|Selector335                          ;
-; 16:1               ; 16 bits   ; 160 LEs       ; 112 LEs              ; 48 LEs                 ; No         ; |Microcomputer|cpu09:cpu1|state                                ;
-; 17:1               ; 4 bits    ; 44 LEs        ; 8 LEs                ; 36 LEs                 ; No         ; |Microcomputer|cpu09:cpu1|state                                ;
-; 18:1               ; 6 bits    ; 72 LEs        ; 18 LEs               ; 54 LEs                 ; No         ; |Microcomputer|cpu09:cpu1|state                                ;
-; 18:1               ; 2 bits    ; 24 LEs        ; 6 LEs                ; 18 LEs                 ; No         ; |Microcomputer|cpu09:cpu1|state                                ;
-; 18:1               ; 8 bits    ; 96 LEs        ; 24 LEs               ; 72 LEs                 ; No         ; |Microcomputer|cpu09:cpu1|state                                ;
-+--------------------+-----------+---------------+----------------------+------------------------+------------+----------------------------------------------------------------+
++--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+; Multiplexer Restructuring Statistics (Restructuring Performed)                                                                                                                 ;
++--------------------+-----------+---------------+----------------------+------------------------+------------+------------------------------------------------------------------+
+; Multiplexer Inputs ; Bus Width ; Baseline Area ; Area if Restructured ; Saving if Restructured ; Registered ; Example Multiplexer Output                                       ;
++--------------------+-----------+---------------+----------------------+------------------------+------------+------------------------------------------------------------------+
+; 3:1                ; 5 bits    ; 10 LEs        ; 5 LEs                ; 5 LEs                  ; Yes        ; |Microcomputer|SBCTextDisplayRGB:vdu|charVert[4]                 ;
+; 3:1                ; 7 bits    ; 14 LEs        ; 7 LEs                ; 7 LEs                  ; Yes        ; |Microcomputer|SBCTextDisplayRGB:vdu|param4[5]                   ;
+; 3:1                ; 7 bits    ; 14 LEs        ; 7 LEs                ; 7 LEs                  ; Yes        ; |Microcomputer|SBCTextDisplayRGB:vdu|charHoriz[4]                ;
+; 3:1                ; 3 bits    ; 6 LEs         ; 3 LEs                ; 3 LEs                  ; Yes        ; |Microcomputer|SBCTextDisplayRGB:vdu|pixelCount[1]               ;
+; 3:1                ; 8 bits    ; 16 LEs        ; 8 LEs                ; 8 LEs                  ; Yes        ; |Microcomputer|SBCTextDisplayRGB:vdu|ps2Byte[5]                  ;
+; 3:1                ; 4 bits    ; 8 LEs         ; 8 LEs                ; 0 LEs                  ; Yes        ; |Microcomputer|bufferedUART:ACIA|dataOut[5]                      ;
+; 3:1                ; 3 bits    ; 6 LEs         ; 6 LEs                ; 0 LEs                  ; Yes        ; |Microcomputer|bufferedUART:ACIA|dataOut[1]                      ;
+; 3:1                ; 3 bits    ; 6 LEs         ; 6 LEs                ; 0 LEs                  ; Yes        ; |Microcomputer|SBCTextDisplayRGB:vdu|ps2ConvertedByte[6]         ;
+; 3:1                ; 4 bits    ; 8 LEs         ; 4 LEs                ; 4 LEs                  ; Yes        ; |Microcomputer|SBCTextDisplayRGB:vdu|pixelClockCount[3]          ;
+; 4:1                ; 7 bits    ; 14 LEs        ; 14 LEs               ; 0 LEs                  ; Yes        ; |Microcomputer|SBCTextDisplayRGB:vdu|param1[6]                   ;
+; 4:1                ; 7 bits    ; 14 LEs        ; 14 LEs               ; 0 LEs                  ; Yes        ; |Microcomputer|SBCTextDisplayRGB:vdu|param2[0]                   ;
+; 4:1                ; 7 bits    ; 14 LEs        ; 14 LEs               ; 0 LEs                  ; Yes        ; |Microcomputer|SBCTextDisplayRGB:vdu|param3[0]                   ;
+; 3:1                ; 2 bits    ; 4 LEs         ; 2 LEs                ; 2 LEs                  ; Yes        ; |Microcomputer|cpu09:cpu1|op_code[1]                             ;
+; 4:1                ; 4 bits    ; 8 LEs         ; 4 LEs                ; 4 LEs                  ; Yes        ; |Microcomputer|SBCTextDisplayRGB:vdu|ps2ClkCount[2]              ;
+; 4:1                ; 4 bits    ; 8 LEs         ; 4 LEs                ; 4 LEs                  ; Yes        ; |Microcomputer|SBCTextDisplayRGB:vdu|kbInPointer[0]              ;
+; 4:1                ; 26 bits   ; 52 LEs        ; 26 LEs               ; 26 LEs                 ; Yes        ; |Microcomputer|SBCTextDisplayRGB:vdu|kbWatchdogTimer[17]         ;
+; 4:1                ; 4 bits    ; 8 LEs         ; 4 LEs                ; 4 LEs                  ; Yes        ; |Microcomputer|SBCTextDisplayRGB:vdu|charScanLine[0]             ;
+; 5:1                ; 6 bits    ; 18 LEs        ; 6 LEs                ; 12 LEs                 ; Yes        ; |Microcomputer|bufferedUART:ACIA|rxClockCount[0]                 ;
+; 4:1                ; 8 bits    ; 16 LEs        ; 16 LEs               ; 0 LEs                  ; Yes        ; |Microcomputer|cpu09:cpu1|ea[4]                                  ;
+; 4:1                ; 8 bits    ; 16 LEs        ; 16 LEs               ; 0 LEs                  ; Yes        ; |Microcomputer|cpu09:cpu1|accb[4]                                ;
+; 4:1                ; 8 bits    ; 16 LEs        ; 16 LEs               ; 0 LEs                  ; Yes        ; |Microcomputer|cpu09:cpu1|dp[0]                                  ;
+; 4:1                ; 8 bits    ; 16 LEs        ; 16 LEs               ; 0 LEs                  ; Yes        ; |Microcomputer|cpu09:cpu1|xreg[7]                                ;
+; 4:1                ; 8 bits    ; 16 LEs        ; 16 LEs               ; 0 LEs                  ; Yes        ; |Microcomputer|cpu09:cpu1|xreg[10]                               ;
+; 4:1                ; 8 bits    ; 16 LEs        ; 16 LEs               ; 0 LEs                  ; Yes        ; |Microcomputer|cpu09:cpu1|yreg[4]                                ;
+; 4:1                ; 8 bits    ; 16 LEs        ; 16 LEs               ; 0 LEs                  ; Yes        ; |Microcomputer|cpu09:cpu1|yreg[12]                               ;
+; 4:1                ; 8 bits    ; 16 LEs        ; 16 LEs               ; 0 LEs                  ; Yes        ; |Microcomputer|cpu09:cpu1|sp[5]                                  ;
+; 4:1                ; 8 bits    ; 16 LEs        ; 16 LEs               ; 0 LEs                  ; Yes        ; |Microcomputer|cpu09:cpu1|sp[14]                                 ;
+; 4:1                ; 8 bits    ; 16 LEs        ; 16 LEs               ; 0 LEs                  ; Yes        ; |Microcomputer|cpu09:cpu1|up[6]                                  ;
+; 4:1                ; 8 bits    ; 16 LEs        ; 16 LEs               ; 0 LEs                  ; Yes        ; |Microcomputer|cpu09:cpu1|up[9]                                  ;
+; 5:1                ; 5 bits    ; 15 LEs        ; 5 LEs                ; 10 LEs                 ; Yes        ; |Microcomputer|SBCTextDisplayRGB:vdu|ps2WriteClkCount[4]         ;
+; 5:1                ; 4 bits    ; 12 LEs        ; 4 LEs                ; 8 LEs                  ; Yes        ; |Microcomputer|bufferedUART:ACIA|rxBitCount[3]                   ;
+; 5:1                ; 4 bits    ; 12 LEs        ; 4 LEs                ; 8 LEs                  ; Yes        ; |Microcomputer|bufferedUART:ACIA|txBitCount[0]                   ;
+; 5:1                ; 7 bits    ; 21 LEs        ; 7 LEs                ; 14 LEs                 ; Yes        ; |Microcomputer|bufferedUART:ACIA|txBuffer[3]                     ;
+; 5:1                ; 8 bits    ; 24 LEs        ; 16 LEs               ; 8 LEs                  ; Yes        ; |Microcomputer|SBCTextDisplayRGB:vdu|dispCharWRData[7]           ;
+; 5:1                ; 7 bits    ; 21 LEs        ; 14 LEs               ; 7 LEs                  ; Yes        ; |Microcomputer|cpu09:cpu1|md[3]                                  ;
+; 5:1                ; 8 bits    ; 24 LEs        ; 16 LEs               ; 8 LEs                  ; Yes        ; |Microcomputer|cpu09:cpu1|ea[15]                                 ;
+; 5:1                ; 8 bits    ; 24 LEs        ; 16 LEs               ; 8 LEs                  ; Yes        ; |Microcomputer|cpu09:cpu1|acca[5]                                ;
+; 5:1                ; 8 bits    ; 24 LEs        ; 16 LEs               ; 8 LEs                  ; Yes        ; |Microcomputer|cpu09:cpu1|pc[12]                                 ;
+; 5:1                ; 8 bits    ; 24 LEs        ; 16 LEs               ; 8 LEs                  ; Yes        ; |Microcomputer|cpu09:cpu1|pc[2]                                  ;
+; 6:1                ; 6 bits    ; 24 LEs        ; 6 LEs                ; 18 LEs                 ; Yes        ; |Microcomputer|bufferedUART:ACIA|txClockCount[5]                 ;
+; 7:1                ; 3 bits    ; 12 LEs        ; 12 LEs               ; 0 LEs                  ; Yes        ; |Microcomputer|SBCTextDisplayRGB:vdu|videoB1                     ;
+; 6:1                ; 8 bits    ; 32 LEs        ; 24 LEs               ; 8 LEs                  ; Yes        ; |Microcomputer|cpu09:cpu1|md[14]                                 ;
+; 8:1                ; 26 bits   ; 130 LEs       ; 26 LEs               ; 104 LEs                ; Yes        ; |Microcomputer|SBCTextDisplayRGB:vdu|kbWriteTimer[8]             ;
+; 6:1                ; 7 bits    ; 28 LEs        ; 7 LEs                ; 21 LEs                 ; Yes        ; |Microcomputer|SBCTextDisplayRGB:vdu|startAddr[10]               ;
+; 10:1               ; 3 bits    ; 18 LEs        ; 18 LEs               ; 0 LEs                  ; Yes        ; |Microcomputer|SBCTextDisplayRGB:vdu|videoG0                     ;
+; 10:1               ; 3 bits    ; 18 LEs        ; 12 LEs               ; 6 LEs                  ; Yes        ; |Microcomputer|SBCTextDisplayRGB:vdu|paramCount[2]               ;
+; 12:1               ; 7 bits    ; 56 LEs        ; 7 LEs                ; 49 LEs                 ; Yes        ; |Microcomputer|SBCTextDisplayRGB:vdu|cursorHorizRestore[1]       ;
+; 13:1               ; 5 bits    ; 40 LEs        ; 5 LEs                ; 35 LEs                 ; Yes        ; |Microcomputer|SBCTextDisplayRGB:vdu|cursorVertRestore[1]        ;
+; 35:1               ; 7 bits    ; 161 LEs       ; 77 LEs               ; 84 LEs                 ; Yes        ; |Microcomputer|SBCTextDisplayRGB:vdu|cursorHoriz[4]              ;
+; 41:1               ; 2 bits    ; 54 LEs        ; 24 LEs               ; 30 LEs                 ; Yes        ; |Microcomputer|SBCTextDisplayRGB:vdu|cursorVert[2]               ;
+; 7:1                ; 5 bits    ; 20 LEs        ; 5 LEs                ; 15 LEs                 ; Yes        ; |Microcomputer|SBCTextDisplayRGB:vdu|ps2WriteByte[2]             ;
+; 3:1                ; 2 bits    ; 4 LEs         ; 2 LEs                ; 2 LEs                  ; No         ; |Microcomputer|cpu09:cpu1|addr_ctrl                              ;
+; 3:1                ; 7 bits    ; 14 LEs        ; 7 LEs                ; 7 LEs                  ; No         ; |Microcomputer|cpu09:cpu1|alu_ctrl.alu_sbc                       ;
+; 3:1                ; 2 bits    ; 4 LEs         ; 4 LEs                ; 0 LEs                  ; No         ; |Microcomputer|cpu09:cpu1|Mux130                                 ;
+; 3:1                ; 2 bits    ; 4 LEs         ; 2 LEs                ; 2 LEs                  ; No         ; |Microcomputer|cpu09:cpu1|sp_ctrl.reset_sp                       ;
+; 3:1                ; 2 bits    ; 4 LEs         ; 2 LEs                ; 2 LEs                  ; No         ; |Microcomputer|cpu09:cpu1|return_state.single_op_read_state      ;
+; 3:1                ; 2 bits    ; 4 LEs         ; 2 LEs                ; 2 LEs                  ; No         ; |Microcomputer|cpu09:cpu1|return_state.dual_op_write8_state      ;
+; 3:1                ; 3 bits    ; 6 LEs         ; 3 LEs                ; 3 LEs                  ; No         ; |Microcomputer|SBCTextDisplayRGB:vdu|paramCount                  ;
+; 3:1                ; 2 bits    ; 4 LEs         ; 2 LEs                ; 2 LEs                  ; No         ; |Microcomputer|cpu09:cpu1|iy_ctrl.reset_iy                       ;
+; 8:1                ; 4 bits    ; 20 LEs        ; 20 LEs               ; 0 LEs                  ; No         ; |Microcomputer|Loadable_7S8D_LED:SEVEN_SEG|Mux17                 ;
+; 4:1                ; 2 bits    ; 4 LEs         ; 2 LEs                ; 2 LEs                  ; No         ; |Microcomputer|SBCTextDisplayRGB:vdu|dispState                   ;
+; 4:1                ; 2 bits    ; 4 LEs         ; 4 LEs                ; 0 LEs                  ; No         ; |Microcomputer|cpu09:cpu1|Mux127                                 ;
+; 6:1                ; 25 bits   ; 100 LEs       ; 25 LEs               ; 75 LEs                 ; No         ; |Microcomputer|cpu09:cpu1|alu_ctrl.alu_see                       ;
+; 5:1                ; 2 bits    ; 6 LEs         ; 2 LEs                ; 4 LEs                  ; No         ; |Microcomputer|cpu09:cpu1|up_ctrl.pull_lo_up                     ;
+; 5:1                ; 2 bits    ; 6 LEs         ; 2 LEs                ; 4 LEs                  ; No         ; |Microcomputer|cpu09:cpu1|sp_ctrl.pull_hi_sp                     ;
+; 5:1                ; 2 bits    ; 6 LEs         ; 2 LEs                ; 4 LEs                  ; No         ; |Microcomputer|cpu09:cpu1|ix_ctrl.pull_lo_ix                     ;
+; 5:1                ; 2 bits    ; 6 LEs         ; 2 LEs                ; 4 LEs                  ; No         ; |Microcomputer|cpu09:cpu1|iy_ctrl.pull_hi_iy                     ;
+; 4:1                ; 2 bits    ; 4 LEs         ; 2 LEs                ; 2 LEs                  ; No         ; |Microcomputer|cpu09:cpu1|alu_ctrl.alu_abx                       ;
+; 5:1                ; 12 bits   ; 36 LEs        ; 36 LEs               ; 0 LEs                  ; No         ; |Microcomputer|cpu09:cpu1|Selector324                            ;
+; 5:1                ; 3 bits    ; 9 LEs         ; 6 LEs                ; 3 LEs                  ; No         ; |Microcomputer|cpu09:cpu1|Selector367                            ;
+; 7:1                ; 2 bits    ; 8 LEs         ; 4 LEs                ; 4 LEs                  ; No         ; |Microcomputer|SBCTextDisplayRGB:vdu|escState.waitForLeftBracket ;
+; 7:1                ; 2 bits    ; 8 LEs         ; 6 LEs                ; 2 LEs                  ; No         ; |Microcomputer|SBCTextDisplayRGB:vdu|escState.none               ;
+; 6:1                ; 3 bits    ; 12 LEs        ; 12 LEs               ; 0 LEs                  ; No         ; |Microcomputer|cpu09:cpu1|Selector327                            ;
+; 6:1                ; 3 bits    ; 12 LEs        ; 12 LEs               ; 0 LEs                  ; No         ; |Microcomputer|cpu09:cpu1|Selector363                            ;
+; 5:1                ; 2 bits    ; 6 LEs         ; 2 LEs                ; 4 LEs                  ; No         ; |Microcomputer|cpu09:cpu1|right_ctrl.accd_right                  ;
+; 7:1                ; 3 bits    ; 12 LEs        ; 6 LEs                ; 6 LEs                  ; No         ; |Microcomputer|bufferedUART:ACIA|txState.stopBit                 ;
+; 7:1                ; 3 bits    ; 12 LEs        ; 6 LEs                ; 6 LEs                  ; No         ; |Microcomputer|bufferedUART:ACIA|rxState.dataBit                 ;
+; 20:1               ; 3 bits    ; 39 LEs        ; 24 LEs               ; 15 LEs                 ; No         ; |Microcomputer|cpu09:cpu1|alu_ctrl.alu_ld8                       ;
+; 6:1                ; 2 bits    ; 8 LEs         ; 4 LEs                ; 4 LEs                  ; No         ; |Microcomputer|cpu09:cpu1|left_ctrl.cc_left                      ;
+; 9:1                ; 9 bits    ; 54 LEs        ; 9 LEs                ; 45 LEs                 ; No         ; |Microcomputer|SBCTextDisplayRGB:vdu|dispState                   ;
+; 8:1                ; 7 bits    ; 35 LEs        ; 35 LEs               ; 0 LEs                  ; No         ; |Microcomputer|cpu09:cpu1|Selector362                            ;
+; 9:1                ; 8 bits    ; 48 LEs        ; 48 LEs               ; 0 LEs                  ; No         ; |Microcomputer|cpu09:cpu1|Selector341                            ;
+; 11:1               ; 8 bits    ; 56 LEs        ; 56 LEs               ; 0 LEs                  ; No         ; |Microcomputer|cpu09:cpu1|Selector353                            ;
+; 14:1               ; 5 bits    ; 45 LEs        ; 45 LEs               ; 0 LEs                  ; No         ; |Microcomputer|w_cpuDataIn[3]                                    ;
+; 14:1               ; 3 bits    ; 27 LEs        ; 24 LEs               ; 3 LEs                  ; No         ; |Microcomputer|w_cpuDataIn[2]                                    ;
+; 13:1               ; 7 bits    ; 56 LEs        ; 56 LEs               ; 0 LEs                  ; No         ; |Microcomputer|cpu09:cpu1|Selector383                            ;
+; 14:1               ; 7 bits    ; 63 LEs        ; 63 LEs               ; 0 LEs                  ; No         ; |Microcomputer|cpu09:cpu1|Selector378                            ;
+; 16:1               ; 8 bits    ; 80 LEs        ; 80 LEs               ; 0 LEs                  ; No         ; |Microcomputer|cpu09:cpu1|Selector338                            ;
+; 16:1               ; 16 bits   ; 160 LEs       ; 112 LEs              ; 48 LEs                 ; No         ; |Microcomputer|cpu09:cpu1|state                                  ;
+; 17:1               ; 4 bits    ; 44 LEs        ; 8 LEs                ; 36 LEs                 ; No         ; |Microcomputer|cpu09:cpu1|state                                  ;
+; 18:1               ; 6 bits    ; 72 LEs        ; 18 LEs               ; 54 LEs                 ; No         ; |Microcomputer|cpu09:cpu1|state                                  ;
+; 18:1               ; 2 bits    ; 24 LEs        ; 6 LEs                ; 18 LEs                 ; No         ; |Microcomputer|cpu09:cpu1|state                                  ;
+; 18:1               ; 8 bits    ; 96 LEs        ; 24 LEs               ; 72 LEs                 ; No         ; |Microcomputer|cpu09:cpu1|state                                  ;
++--------------------+-----------+---------------+----------------------+------------------------+------------+------------------------------------------------------------------+
 
 
 +----------------------------------------------------------------------------------------------------------------+
@@ -1762,20 +1763,20 @@ Note: In order to hide this table in the UI and the text report file, please set
 ;     SCLR              ; 90                          ;
 ;     plain             ; 179                         ;
 ; cycloneiii_io_obuf    ; 2                           ;
-; cycloneiii_lcell_comb ; 3490                        ;
+; cycloneiii_lcell_comb ; 3494                        ;
 ;     arith             ; 461                         ;
 ;         2 data inputs ; 255                         ;
 ;         3 data inputs ; 206                         ;
-;     normal            ; 3029                        ;
+;     normal            ; 3033                        ;
 ;         0 data inputs ; 17                          ;
 ;         1 data inputs ; 47                          ;
-;         2 data inputs ; 357                         ;
-;         3 data inputs ; 489                         ;
-;         4 data inputs ; 2119                        ;
+;         2 data inputs ; 378                         ;
+;         3 data inputs ; 480                         ;
+;         4 data inputs ; 2111                        ;
 ; cycloneiii_ram_block  ; 56                          ;
 ;                       ;                             ;
-; Max LUT depth         ; 22.00                       ;
-; Average LUT depth     ; 9.34                        ;
+; Max LUT depth         ; 21.00                       ;
+; Average LUT depth     ; 9.09                        ;
 +-----------------------+-----------------------------+
 
 
@@ -1784,7 +1785,7 @@ Note: In order to hide this table in the UI and the text report file, please set
 +----------------+--------------+
 ; Partition Name ; Elapsed Time ;
 +----------------+--------------+
-; Top            ; 00:00:21     ;
+; Top            ; 00:00:20     ;
 +----------------+--------------+
 
 
@@ -1794,9 +1795,8 @@ Note: In order to hide this table in the UI and the text report file, please set
 Info: *******************************************************************
 Info: Running Quartus Prime Analysis & Synthesis
     Info: Version 18.1.0 Build 625 09/12/2018 SJ Lite Edition
-    Info: Processing started: Sun Jun 14 16:43:43 2020
+    Info: Processing started: Sun Jun 21 10:23:19 2020
 Info: Command: quartus_map --read_settings_files=on --write_settings_files=off m6809_vga_16K -c Microcomputer
-Warning (18236): Number of processors has not been specified which may cause overloading on shared machines.  Set the global assignment NUM_PARALLEL_PROCESSORS in your QSF to an appropriate value for best performance.
 Info (20030): Parallel compilation is enabled and will use 4 of the 4 processors detected
 Info (12021): Found 2 design units, including 1 entities, in source file /users/hpz420/documents/github/doug gilliland/multicomp/multicomp (vhdl template)/components/io/outlatch.vhd
     Info (12022): Found design unit 1: OutLatch-behv File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/IO/OutLatch.vhd Line: 24
@@ -1838,13 +1838,13 @@ Info (12021): Found 2 design units, including 1 entities, in source file /users/
     Info (12022): Found design unit 1: sansboldrom-SYN File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/TERMINAL/SansBoldRom.vhd Line: 52
     Info (12023): Found entity 1: SansBoldRom File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/TERMINAL/SansBoldRom.vhd Line: 42
 Info (12021): Found 2 design units, including 1 entities, in source file microcomputer.vhd
-    Info (12022): Found design unit 1: Microcomputer-struct File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_EP4CE6/M6809_VGA_PS2_IntRAM(16K)/Microcomputer.vhd Line: 61
-    Info (12023): Found entity 1: Microcomputer File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_EP4CE6/M6809_VGA_PS2_IntRAM(16K)/Microcomputer.vhd Line: 29
+    Info (12022): Found design unit 1: Microcomputer-struct File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_EP4CE6/M6809_VGA_PS2_IntRAM(16K)/Microcomputer.vhd Line: 62
+    Info (12023): Found entity 1: Microcomputer File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_EP4CE6/M6809_VGA_PS2_IntRAM(16K)/Microcomputer.vhd Line: 30
 Info (12127): Elaborating entity "Microcomputer" for the top level hierarchy
-Warning (10540): VHDL Signal Declaration warning at Microcomputer.vhd(50): used explicit default value for signal "o_BUZZER" because signal was never assigned a value File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_EP4CE6/M6809_VGA_PS2_IntRAM(16K)/Microcomputer.vhd Line: 50
-Warning (10036): Verilog HDL or VHDL warning at Microcomputer.vhd(80): object "w_n_int2" assigned a value but never read File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_EP4CE6/M6809_VGA_PS2_IntRAM(16K)/Microcomputer.vhd Line: 80
-Info (12128): Elaborating entity "cpu09" for hierarchy "cpu09:cpu1" File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_EP4CE6/M6809_VGA_PS2_IntRAM(16K)/Microcomputer.vhd Line: 153
-Info (12128): Elaborating entity "M6809_EXT_BASIC_ROM" for hierarchy "M6809_EXT_BASIC_ROM:rom1" File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_EP4CE6/M6809_VGA_PS2_IntRAM(16K)/Microcomputer.vhd Line: 170
+Warning (10540): VHDL Signal Declaration warning at Microcomputer.vhd(51): used explicit default value for signal "o_BUZZER" because signal was never assigned a value File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_EP4CE6/M6809_VGA_PS2_IntRAM(16K)/Microcomputer.vhd Line: 51
+Warning (10036): Verilog HDL or VHDL warning at Microcomputer.vhd(81): object "w_n_int2" assigned a value but never read File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_EP4CE6/M6809_VGA_PS2_IntRAM(16K)/Microcomputer.vhd Line: 81
+Info (12128): Elaborating entity "cpu09" for hierarchy "cpu09:cpu1" File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_EP4CE6/M6809_VGA_PS2_IntRAM(16K)/Microcomputer.vhd Line: 159
+Info (12128): Elaborating entity "M6809_EXT_BASIC_ROM" for hierarchy "M6809_EXT_BASIC_ROM:rom1" File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_EP4CE6/M6809_VGA_PS2_IntRAM(16K)/Microcomputer.vhd Line: 176
 Info (12128): Elaborating entity "altsyncram" for hierarchy "M6809_EXT_BASIC_ROM:rom1|altsyncram:altsyncram_component" File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/ROMs/6809/M6809_EXT_BASIC_ROM.vhd Line: 84
 Info (12130): Elaborated megafunction instantiation "M6809_EXT_BASIC_ROM:rom1|altsyncram:altsyncram_component" File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/ROMs/6809/M6809_EXT_BASIC_ROM.vhd Line: 84
 Info (12133): Instantiated megafunction "M6809_EXT_BASIC_ROM:rom1|altsyncram:altsyncram_component" with the following parameter: File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/ROMs/6809/M6809_EXT_BASIC_ROM.vhd Line: 84
@@ -1872,7 +1872,7 @@ Warning (287001): Assertion warning: MGL_INTERNAL_WARNING: ( The parameter value
 Info (12021): Found 1 design units, including 1 entities, in source file db/altsyncram_cvd1.tdf
     Info (12023): Found entity 1: altsyncram_cvd1 File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_EP4CE6/M6809_VGA_PS2_IntRAM(16K)/db/altsyncram_cvd1.tdf Line: 27
 Info (12128): Elaborating entity "altsyncram_cvd1" for hierarchy "M6809_EXT_BASIC_ROM:rom1|altsyncram:altsyncram_component|altsyncram_cvd1:auto_generated" File: c:/intelfpga_lite/18.1/quartus/libraries/megafunctions/altsyncram.tdf Line: 791
-Info (12128): Elaborating entity "InternalRam16K" for hierarchy "InternalRam16K:ram1" File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_EP4CE6/M6809_VGA_PS2_IntRAM(16K)/Microcomputer.vhd Line: 180
+Info (12128): Elaborating entity "InternalRam16K" for hierarchy "InternalRam16K:ram1" File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_EP4CE6/M6809_VGA_PS2_IntRAM(16K)/Microcomputer.vhd Line: 186
 Info (12128): Elaborating entity "altsyncram" for hierarchy "InternalRam16K:ram1|altsyncram:altsyncram_component" File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/RAM_Internal/InternalRam16K.vhd Line: 61
 Info (12130): Elaborated megafunction instantiation "InternalRam16K:ram1|altsyncram:altsyncram_component" File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/RAM_Internal/InternalRam16K.vhd Line: 61
 Info (12133): Instantiated megafunction "InternalRam16K:ram1|altsyncram:altsyncram_component" with the following parameter: File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/RAM_Internal/InternalRam16K.vhd Line: 61
@@ -1938,7 +1938,7 @@ Info (12128): Elaborating entity "decode_c8a" for hierarchy "InternalRam16K:ram1
 Info (12021): Found 1 design units, including 1 entities, in source file db/mux_3nb.tdf
     Info (12023): Found entity 1: mux_3nb File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_EP4CE6/M6809_VGA_PS2_IntRAM(16K)/db/mux_3nb.tdf Line: 22
 Info (12128): Elaborating entity "mux_3nb" for hierarchy "InternalRam16K:ram1|altsyncram:altsyncram_component|altsyncram_m3q3:auto_generated|mux_3nb:mux2" File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_EP4CE6/M6809_VGA_PS2_IntRAM(16K)/db/altsyncram_m3q3.tdf Line: 45
-Info (12128): Elaborating entity "SBCTextDisplayRGB" for hierarchy "SBCTextDisplayRGB:vdu" File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_EP4CE6/M6809_VGA_PS2_IntRAM(16K)/Microcomputer.vhd Line: 193
+Info (12128): Elaborating entity "SBCTextDisplayRGB" for hierarchy "SBCTextDisplayRGB:vdu" File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_EP4CE6/M6809_VGA_PS2_IntRAM(16K)/Microcomputer.vhd Line: 199
 Info (12128): Elaborating entity "SansBoldRomReduced" for hierarchy "SBCTextDisplayRGB:vdu|SansBoldRomReduced:\GEN_REDUCED_SCHARS:fontRom" File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/TERMINAL/SBCTextDisplayRGB.vhd Line: 316
 Info (12128): Elaborating entity "altsyncram" for hierarchy "SBCTextDisplayRGB:vdu|SansBoldRomReduced:\GEN_REDUCED_SCHARS:fontRom|altsyncram:altsyncram_component" File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/TERMINAL/SansBoldRomReduced.vhd Line: 84
 Info (12130): Elaborated megafunction instantiation "SBCTextDisplayRGB:vdu|SansBoldRomReduced:\GEN_REDUCED_SCHARS:fontRom|altsyncram:altsyncram_component" File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/TERMINAL/SansBoldRomReduced.vhd Line: 84
@@ -1992,9 +1992,9 @@ Info (12133): Instantiated megafunction "SBCTextDisplayRGB:vdu|DisplayRam2K:\GEN
 Info (12021): Found 1 design units, including 1 entities, in source file db/altsyncram_shh2.tdf
     Info (12023): Found entity 1: altsyncram_shh2 File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_EP4CE6/M6809_VGA_PS2_IntRAM(16K)/db/altsyncram_shh2.tdf Line: 27
 Info (12128): Elaborating entity "altsyncram_shh2" for hierarchy "SBCTextDisplayRGB:vdu|DisplayRam2K:\GEN_2KRAM:dispCharRam|altsyncram:altsyncram_component|altsyncram_shh2:auto_generated" File: c:/intelfpga_lite/18.1/quartus/libraries/megafunctions/altsyncram.tdf Line: 791
-Info (12128): Elaborating entity "bufferedUART" for hierarchy "bufferedUART:ACIA" File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_EP4CE6/M6809_VGA_PS2_IntRAM(16K)/Microcomputer.vhd Line: 220
-Info (12128): Elaborating entity "Loadable_7S8D_LED" for hierarchy "Loadable_7S8D_LED:SEVEN_SEG" File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_EP4CE6/M6809_VGA_PS2_IntRAM(16K)/Microcomputer.vhd Line: 242
-Info (12128): Elaborating entity "OutLatch" for hierarchy "OutLatch:SevSeg1" File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_EP4CE6/M6809_VGA_PS2_IntRAM(16K)/Microcomputer.vhd Line: 251
+Info (12128): Elaborating entity "bufferedUART" for hierarchy "bufferedUART:ACIA" File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_EP4CE6/M6809_VGA_PS2_IntRAM(16K)/Microcomputer.vhd Line: 226
+Info (12128): Elaborating entity "Loadable_7S8D_LED" for hierarchy "Loadable_7S8D_LED:SEVEN_SEG" File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_EP4CE6/M6809_VGA_PS2_IntRAM(16K)/Microcomputer.vhd Line: 248
+Info (12128): Elaborating entity "OutLatch" for hierarchy "OutLatch:SevSeg1" File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_EP4CE6/M6809_VGA_PS2_IntRAM(16K)/Microcomputer.vhd Line: 257
 Warning (19016): Clock multiplexers are found and protected
     Warning (19017): Found clock multiplexer cpu09:cpu1|Mux330 File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/CPU/M6809/cpu09l.vhd Line: 3110
     Warning (19017): Found clock multiplexer cpu09:cpu1|Mux329 File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/CPU/M6809/cpu09l.vhd Line: 3110
@@ -2002,19 +2002,19 @@ Warning (276027): Inferred dual-clock RAM node "bufferedUART:ACIA|rxBuffer_rtl_0
 Info (276014): Found 1 instances of uninferred RAM logic
     Info (276004): RAM logic "SBCTextDisplayRGB:vdu|kbBuffer" is uninferred due to inappropriate RAM size File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/TERMINAL/SBCTextDisplayRGB.vhd Line: 162
 Warning (19016): Clock multiplexers are found and protected
-    Warning (19017): Found clock multiplexer cpu09:cpu1|Selector315~0 File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/CPU/M6809/cpu09l.vhd Line: 987
-    Warning (19017): Found clock multiplexer cpu09:cpu1|Selector322~0 File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/CPU/M6809/cpu09l.vhd Line: 987
-    Warning (19017): Found clock multiplexer cpu09:cpu1|Selector320~0 File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/CPU/M6809/cpu09l.vhd Line: 987
-    Warning (19017): Found clock multiplexer cpu09:cpu1|Selector316~0 File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/CPU/M6809/cpu09l.vhd Line: 987
-    Warning (19017): Found clock multiplexer cpu09:cpu1|Selector317~0 File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/CPU/M6809/cpu09l.vhd Line: 987
-    Warning (19017): Found clock multiplexer cpu09:cpu1|Selector318~0 File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/CPU/M6809/cpu09l.vhd Line: 987
-    Warning (19017): Found clock multiplexer cpu09:cpu1|Selector319~0 File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/CPU/M6809/cpu09l.vhd Line: 987
-    Warning (19017): Found clock multiplexer cpu09:cpu1|Selector321~0 File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/CPU/M6809/cpu09l.vhd Line: 987
     Warning (19017): Found clock multiplexer cpu09:cpu1|Selector323~0 File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/CPU/M6809/cpu09l.vhd Line: 987
     Warning (19017): Found clock multiplexer cpu09:cpu1|Selector324~0 File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/CPU/M6809/cpu09l.vhd Line: 987
+    Warning (19017): Found clock multiplexer cpu09:cpu1|Selector318~0 File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/CPU/M6809/cpu09l.vhd Line: 987
+    Warning (19017): Found clock multiplexer cpu09:cpu1|Selector317~0 File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/CPU/M6809/cpu09l.vhd Line: 987
+    Warning (19017): Found clock multiplexer cpu09:cpu1|Selector315~0 File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/CPU/M6809/cpu09l.vhd Line: 987
+    Warning (19017): Found clock multiplexer cpu09:cpu1|Selector316~0 File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/CPU/M6809/cpu09l.vhd Line: 987
+    Warning (19017): Found clock multiplexer cpu09:cpu1|Selector319~0 File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/CPU/M6809/cpu09l.vhd Line: 987
     Warning (19017): Found clock multiplexer cpu09:cpu1|Selector325~0 File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/CPU/M6809/cpu09l.vhd Line: 987
     Warning (19017): Found clock multiplexer cpu09:cpu1|Selector326~0 File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/CPU/M6809/cpu09l.vhd Line: 987
-    Warning (19017): Found clock multiplexer cpu09:cpu1|Selector322~1 File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/CPU/M6809/cpu09l.vhd Line: 987
+    Warning (19017): Found clock multiplexer cpu09:cpu1|Selector322~0 File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/CPU/M6809/cpu09l.vhd Line: 987
+    Warning (19017): Found clock multiplexer cpu09:cpu1|Selector320~0 File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/CPU/M6809/cpu09l.vhd Line: 987
+    Warning (19017): Found clock multiplexer cpu09:cpu1|Selector321~0 File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/CPU/M6809/cpu09l.vhd Line: 987
+    Warning (19017): Found clock multiplexer cpu09:cpu1|Selector324~1 File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/CPU/M6809/cpu09l.vhd Line: 987
 Info (19000): Inferred 1 megafunctions from design logic
     Info (276029): Inferred altsyncram megafunction from the following design logic: "bufferedUART:ACIA|rxBuffer_rtl_0" 
         Info (286033): Parameter OPERATION_MODE set to DUAL_PORT
@@ -2071,22 +2071,22 @@ Info (12021): Found 1 design units, including 1 entities, in source file db/add_
 Info (13000): Registers with preset signals will power-up high File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/TERMINAL/SBCTextDisplayRGB.vhd Line: 866
 Info (13003): DEV_CLRn pin will set, and not reset, register with preset signal due to NOT Gate Push-Back
 Warning (13024): Output pins are stuck at VCC or GND
-    Warning (13410): Pin "o_BUZZER" is stuck at VCC File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_EP4CE6/M6809_VGA_PS2_IntRAM(16K)/Microcomputer.vhd Line: 50
-    Warning (13410): Pin "o_LED7Seg[7]" is stuck at VCC File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_EP4CE6/M6809_VGA_PS2_IntRAM(16K)/Microcomputer.vhd Line: 53
+    Warning (13410): Pin "o_BUZZER" is stuck at VCC File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_EP4CE6/M6809_VGA_PS2_IntRAM(16K)/Microcomputer.vhd Line: 51
+    Warning (13410): Pin "o_LED7Seg[7]" is stuck at VCC File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_EP4CE6/M6809_VGA_PS2_IntRAM(16K)/Microcomputer.vhd Line: 54
 Info (286030): Timing-Driven Synthesis is running
 Info (17049): 5 registers lost all their fanouts during netlist optimizations.
 Info (16010): Generating hard_block partition "hard_block:auto_generated_inst"
     Info (16011): Adding 0 node(s), including 0 DDIO, 0 PLL, 0 transceiver and 0 LCELL
-Info (21057): Implemented 3764 device resources after synthesis - the final resource count might be different
+Info (21057): Implemented 3768 device resources after synthesis - the final resource count might be different
     Info (21058): Implemented 15 input pins
     Info (21059): Implemented 34 output pins
     Info (21060): Implemented 2 bidirectional pins
-    Info (21061): Implemented 3657 logic cells
+    Info (21061): Implemented 3661 logic cells
     Info (21064): Implemented 56 RAM segments
-Info: Quartus Prime Analysis & Synthesis was successful. 0 errors, 32 warnings
-    Info: Peak virtual memory: 4843 megabytes
-    Info: Processing ended: Sun Jun 14 16:44:22 2020
-    Info: Elapsed time: 00:00:39
-    Info: Total CPU time (on all processors): 00:00:54
+Info: Quartus Prime Analysis & Synthesis was successful. 0 errors, 31 warnings
+    Info: Peak virtual memory: 4857 megabytes
+    Info: Processing ended: Sun Jun 21 10:23:57 2020
+    Info: Elapsed time: 00:00:38
+    Info: Total CPU time (on all processors): 00:00:53
 
 

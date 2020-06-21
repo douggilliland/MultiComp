@@ -4,12 +4,19 @@
 --
 -- Changes to this code by Doug Gilliland 2020
 --
--- MC6800 CPU running MIKBUG from back in the day
---	32K (internal) RAM version
+-- MC6800 CPU
+--	16.7 MHz CPU cloxk
+-- MIKBUG ROM from back in the day
+--	16K (internal) RAM version
 -- MC6850 ACIA UART
+--		Rework to remove two LEDs and use the FPGA pins as RTS/CTS
 -- VDU
 --		XGA 80x25 character display
+--		2/2/2 RGB for 64 colors
 --		PS/2 keyboard
+--	Default port selection via DIP Switch 1
+--		On = USB-Serial port
+--		Off = VDU screen
 --
 
 library ieee;
@@ -195,12 +202,12 @@ begin
 process (i_CLOCK_50)
 	begin
 		if rising_edge(i_CLOCK_50) then
-			if q_cpuClkCount < 2 then
+			if q_cpuClkCount < 2 then -- 4 = 10MHz, 3 = 12.5MHz, 2=16.6MHz, 1=25MHz
 				q_cpuClkCount <= q_cpuClkCount + 1;
 			else
 				q_cpuClkCount <= (others=>'0');
 			end if;
-			if q_cpuClkCount < 1 then
+			if q_cpuClkCount < 1 then -- 2 when 10MHz, 2 when 12.5MHz, 2 when 16.6MHz, 1 when 25MHz
 				w_cpuClock <= '0';
 			else
 				w_cpuClock <= '1';
@@ -210,6 +217,14 @@ process (i_CLOCK_50)
 	
 	-- ____________________________________________________________________________________
 	-- Baud Rate CLOCK SIGNALS
+    -- Serial clock DDS. With 50MHz master input clock:
+    -- Baud   Increment
+    -- 115200 2416
+    -- 38400  805
+    -- 19200  403
+    -- 9600   201
+    -- 4800   101
+    -- 2400   50
 baud_div: process (serialCount_d, serialCount)
     begin
         serialCount_d <= serialCount + 2416;
