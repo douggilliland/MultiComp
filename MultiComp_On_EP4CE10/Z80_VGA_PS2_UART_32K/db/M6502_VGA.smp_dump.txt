@@ -1,0 +1,37 @@
+
+State Machine - |M6502_VGA|bufferedUART:UART|txState
+Name txState.stopBit txState.dataBit txState.idle 
+txState.idle 0 0 0 
+txState.dataBit 0 1 1 
+txState.stopBit 1 0 1 
+
+State Machine - |M6502_VGA|bufferedUART:UART|rxState
+Name rxState.stopBit rxState.dataBit rxState.idle 
+rxState.idle 0 0 0 
+rxState.dataBit 0 1 1 
+rxState.stopBit 1 0 1 
+
+State Machine - |M6502_VGA|SBCTextDisplayRGB:io1|dispState
+Name dispState.del3 dispState.del2 dispState.deleteLine dispState.ins3 dispState.ins2 dispState.insertLine dispState.clearC2 dispState.clearChar dispState.clearS2 dispState.clearScreen dispState.clearL2 dispState.clearLine dispState.dispNextLoc dispState.dispWrite dispState.idle 
+dispState.idle 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 
+dispState.dispWrite 0 0 0 0 0 0 0 0 0 0 0 0 0 1 1 
+dispState.dispNextLoc 0 0 0 0 0 0 0 0 0 0 0 0 1 0 1 
+dispState.clearLine 0 0 0 0 0 0 0 0 0 0 0 1 0 0 1 
+dispState.clearL2 0 0 0 0 0 0 0 0 0 0 1 0 0 0 1 
+dispState.clearScreen 0 0 0 0 0 0 0 0 0 1 0 0 0 0 1 
+dispState.clearS2 0 0 0 0 0 0 0 0 1 0 0 0 0 0 1 
+dispState.clearChar 0 0 0 0 0 0 0 1 0 0 0 0 0 0 1 
+dispState.clearC2 0 0 0 0 0 0 1 0 0 0 0 0 0 0 1 
+dispState.insertLine 0 0 0 0 0 1 0 0 0 0 0 0 0 0 1 
+dispState.ins2 0 0 0 0 1 0 0 0 0 0 0 0 0 0 1 
+dispState.ins3 0 0 0 1 0 0 0 0 0 0 0 0 0 0 1 
+dispState.deleteLine 0 0 1 0 0 0 0 0 0 0 0 0 0 0 1 
+dispState.del2 0 1 0 0 0 0 0 0 0 0 0 0 0 0 1 
+dispState.del3 1 0 0 0 0 0 0 0 0 0 0 0 0 0 1 
+
+State Machine - |M6502_VGA|SBCTextDisplayRGB:io1|escState
+Name escState.processingAdditionalParams escState.processingParams escState.waitForLeftBracket escState.none 
+escState.none 0 0 0 0 
+escState.waitForLeftBracket 0 0 1 1 
+escState.processingParams 0 1 0 1 
+escState.processingAdditionalParams 1 0 0 1 
