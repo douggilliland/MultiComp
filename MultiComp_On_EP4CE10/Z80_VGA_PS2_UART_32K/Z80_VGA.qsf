@@ -88,6 +88,23 @@ set_global_assignment -name ENABLE_OCT_DONE OFF
 set_global_assignment -name ENABLE_CONFIGURATION_PINS OFF
 set_global_assignment -name ENABLE_BOOT_SEL_PIN OFF
 set_location_assignment PIN_141 -to BUZZER
+set_global_assignment -name TIMING_ANALYZER_MULTICORNER_ANALYSIS ON
+set_global_assignment -name SMART_RECOMPILE ON
+set_global_assignment -name NUM_PARALLEL_PROCESSORS ALL
+set_location_assignment PIN_23 -to i_clk_50
+set_location_assignment PIN_70 -to i_cts
+set_location_assignment PIN_86 -to i_n_reset
+set_location_assignment PIN_11 -to i_ps2Clk
+set_location_assignment PIN_10 -to i_ps2Data
+set_location_assignment PIN_114 -to i_rxd
+set_location_assignment PIN_69 -to o_rts
+set_location_assignment PIN_113 -to o_txd
+set_location_assignment PIN_144 -to o_vid_blu
+set_location_assignment PIN_1 -to o_vid_grn
+set_location_assignment PIN_142 -to o_vid_hSync
+set_location_assignment PIN_2 -to o_vid_red
+set_location_assignment PIN_143 -to o_vid_vSync
+set_global_assignment -name VHDL_FILE "../../MultiComp (VHDL Template)/Components/RAM_Internal/InternalRam32K.vhd"
 set_global_assignment -name VHDL_FILE "../../MultiComp (VHDL Template)/Components/TERMINAL/SansBoldRom.vhd"
 set_global_assignment -name VHDL_FILE "../../MultiComp (VHDL Template)/Components/TERMINAL/DisplayRam2K.vhd"
 set_global_assignment -name VHDL_FILE "../../MultiComp (VHDL Template)/Components/TERMINAL/DisplayRam1K.vhd"
@@ -109,20 +126,4 @@ set_global_assignment -name VHDL_FILE "../../MultiComp (VHDL Template)/Component
 set_global_assignment -name VHDL_FILE "../../MultiComp (VHDL Template)/Components/TERMINAL/SBCTextDisplayRGB.vhd"
 set_global_assignment -name VHDL_FILE "../../MultiComp (VHDL Template)/Components/TERMINAL/CGABoldRom.vhd"
 set_global_assignment -name VHDL_FILE "../../MultiComp (VHDL Template)/Components/UART/bufferedUART.vhd"
-set_global_assignment -name TIMING_ANALYZER_MULTICORNER_ANALYSIS ON
-set_global_assignment -name SMART_RECOMPILE ON
-set_global_assignment -name NUM_PARALLEL_PROCESSORS ALL
-set_location_assignment PIN_23 -to i_clk_50
-set_location_assignment PIN_70 -to i_cts
-set_location_assignment PIN_86 -to i_n_reset
-set_location_assignment PIN_11 -to i_ps2Clk
-set_location_assignment PIN_10 -to i_ps2Data
-set_location_assignment PIN_114 -to i_rxd
-set_location_assignment PIN_69 -to o_rts
-set_location_assignment PIN_113 -to o_txd
-set_location_assignment PIN_144 -to o_vid_blu
-set_location_assignment PIN_1 -to o_vid_grn
-set_location_assignment PIN_142 -to o_vid_hSync
-set_location_assignment PIN_2 -to o_vid_red
-set_location_assignment PIN_143 -to o_vid_vSync
 set_instance_assignment -name PARTITION_HIERARCHY root_partition -to | -section_id Top

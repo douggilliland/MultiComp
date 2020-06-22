@@ -1,5 +1,5 @@
 Analysis & Synthesis report for Z80_VGA
-Sun Jun 21 17:37:25 2020
+Mon Jun 22 09:42:40 2020
 Quartus Prime Version 18.1.0 Build 625 09/12/2018 SJ Lite Edition
 
 
@@ -25,7 +25,7 @@ Quartus Prime Version 18.1.0 Build 625 09/12/2018 SJ Lite Edition
  17. Inverted Register Statistics
  18. Multiplexer Restructuring Statistics (Restructuring Performed)
  19. Source assignments for Z80_BASIC_ROM:rom|altsyncram:altsyncram_component|altsyncram_4nu3:auto_generated
- 20. Source assignments for InternalRam16K:u3|altsyncram:altsyncram_component|altsyncram_m3q3:auto_generated
+ 20. Source assignments for InternalRam32K:u3|altsyncram:altsyncram_component|altsyncram_6dp3:auto_generated
  21. Source assignments for SBCTextDisplayRGB:io1|SansBoldRomReduced:\GEN_REDUCED_SCHARS:fontRom|altsyncram:altsyncram_component|altsyncram_2d91:auto_generated
  22. Source assignments for SBCTextDisplayRGB:io1|DisplayRam2K:\GEN_2KRAM:dispCharRam|altsyncram:altsyncram_component|altsyncram_shh2:auto_generated
  23. Source assignments for SBCTextDisplayRGB:io1|DisplayRam2K:\GEN_2KATTRAM:dispAttRam|altsyncram:altsyncram_component|altsyncram_shh2:auto_generated
@@ -35,7 +35,7 @@ Quartus Prime Version 18.1.0 Build 625 09/12/2018 SJ Lite Edition
  27. Parameter Settings for User Entity Instance: T80s:cpu1|T80:u0|T80_MCode:mcode
  28. Parameter Settings for User Entity Instance: T80s:cpu1|T80:u0|T80_ALU:alu
  29. Parameter Settings for User Entity Instance: Z80_BASIC_ROM:rom|altsyncram:altsyncram_component
- 30. Parameter Settings for User Entity Instance: InternalRam16K:u3|altsyncram:altsyncram_component
+ 30. Parameter Settings for User Entity Instance: InternalRam32K:u3|altsyncram:altsyncram_component
  31. Parameter Settings for User Entity Instance: SBCTextDisplayRGB:io1
  32. Parameter Settings for User Entity Instance: SBCTextDisplayRGB:io1|SansBoldRomReduced:\GEN_REDUCED_SCHARS:fontRom|altsyncram:altsyncram_component
  33. Parameter Settings for User Entity Instance: SBCTextDisplayRGB:io1|DisplayRam2K:\GEN_2KRAM:dispCharRam|altsyncram:altsyncram_component
@@ -82,18 +82,18 @@ refer to the applicable agreement for further details.
 +----------------------------------------------------------------------------------+
 ; Analysis & Synthesis Summary                                                     ;
 +------------------------------------+---------------------------------------------+
-; Analysis & Synthesis Status        ; Successful - Sun Jun 21 17:37:25 2020       ;
+; Analysis & Synthesis Status        ; Successful - Mon Jun 22 09:42:40 2020       ;
 ; Quartus Prime Version              ; 18.1.0 Build 625 09/12/2018 SJ Lite Edition ;
 ; Revision Name                      ; Z80_VGA                                     ;
 ; Top-level Entity Name              ; Z80_VGA                                     ;
 ; Family                             ; Cyclone IV E                                ;
-; Total logic elements               ; 3,898                                       ;
-;     Total combinational functions  ; 3,640                                       ;
-;     Dedicated logic registers      ; 879                                         ;
-; Total registers                    ; 879                                         ;
+; Total logic elements               ; 3,917                                       ;
+;     Total combinational functions  ; 3,656                                       ;
+;     Dedicated logic registers      ; 882                                         ;
+; Total registers                    ; 882                                         ;
 ; Total pins                         ; 21                                          ;
 ; Total virtual pins                 ; 0                                           ;
-; Total memory bits                  ; 237,696                                     ;
+; Total memory bits                  ; 368,768                                     ;
 ; Embedded Multiplier 9-bit elements ; 0                                           ;
 ; Total PLLs                         ; 0                                           ;
 +------------------------------------+---------------------------------------------+
@@ -201,63 +201,61 @@ refer to the applicable agreement for further details.
 ;     Processor 1            ; 100.0%      ;
 ;     Processor 2            ;   0.1%      ;
 ;     Processor 3            ;   0.1%      ;
-;     Processor 4            ;   0.0%      ;
+;     Processor 4            ;   0.1%      ;
 +----------------------------+-------------+
 
 
-+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
-; Analysis & Synthesis Source Files Read                                                                                                                                                                                                                                             ;
-+-----------------------------------------------------------------------------+-----------------+----------------------------------------+---------------------------------------------------------------------------------------------------------------------------------+---------+
-; File Name with User-Entered Path                                            ; Used in Netlist ; File Type                              ; File Name with Absolute Path                                                                                                    ; Library ;
-+-----------------------------------------------------------------------------+-----------------+----------------------------------------+---------------------------------------------------------------------------------------------------------------------------------+---------+
-; ../../MultiComp (VHDL Template)/Components/TERMINAL/SansBoldRom.vhd         ; yes             ; User Wizard-Generated File             ; C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/TERMINAL/SansBoldRom.vhd         ;         ;
-; ../../MultiComp (VHDL Template)/Components/TERMINAL/DisplayRam2K.vhd        ; yes             ; User Wizard-Generated File             ; C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/TERMINAL/DisplayRam2K.vhd        ;         ;
-; ../../MultiComp (VHDL Template)/Components/TERMINAL/DisplayRam1K.vhd        ; yes             ; User Wizard-Generated File             ; C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/TERMINAL/DisplayRam1K.vhd        ;         ;
-; ../../MultiComp (VHDL Template)/Components/TERMINAL/CGABoldRomReduced.vhd   ; yes             ; User Wizard-Generated File             ; C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/TERMINAL/CGABoldRomReduced.vhd   ;         ;
-; ../../MultiComp (VHDL Template)/Components/RAM_Internal/InternalRam16K.vhd  ; yes             ; User Wizard-Generated File             ; C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/RAM_Internal/InternalRam16K.vhd  ;         ;
-; ../../MultiComp (VHDL Template)/Components/CPU/Z80/T80s.vhd                 ; yes             ; User VHDL File                         ; C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/CPU/Z80/T80s.vhd                 ;         ;
-; ../../MultiComp (VHDL Template)/Components/CPU/Z80/T80_Reg.vhd              ; yes             ; User VHDL File                         ; C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/CPU/Z80/T80_Reg.vhd              ;         ;
-; ../../MultiComp (VHDL Template)/Components/CPU/Z80/T80_Pack.vhd             ; yes             ; User VHDL File                         ; C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/CPU/Z80/T80_Pack.vhd             ;         ;
-; ../../MultiComp (VHDL Template)/Components/CPU/Z80/T80_MCode.vhd            ; yes             ; User VHDL File                         ; C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/CPU/Z80/T80_MCode.vhd            ;         ;
-; ../../MultiComp (VHDL Template)/Components/CPU/Z80/T80_ALU.vhd              ; yes             ; User VHDL File                         ; C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/CPU/Z80/T80_ALU.vhd              ;         ;
-; ../../MultiComp (VHDL Template)/Components/CPU/Z80/T80.vhd                  ; yes             ; User VHDL File                         ; C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/CPU/Z80/T80.vhd                  ;         ;
-; Z80_VGA.vhd                                                                 ; yes             ; User VHDL File                         ; C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_EP4CE10/Z80_VGA_PS2_UART_32K/Z80_VGA.vhd                 ;         ;
-; ../../MultiComp (VHDL Template)/Components/ROMs/Z80/Z80_BASIC_ROM.vhd       ; yes             ; User Wizard-Generated File             ; C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/ROMs/Z80/Z80_BASIC_ROM.vhd       ;         ;
-; ../../MultiComp (VHDL Template)/Components/IO/OutLatch.vhd                  ; yes             ; User VHDL File                         ; C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/IO/OutLatch.vhd                  ;         ;
-; ../../MultiComp (VHDL Template)/Components/COUNTER/Counter.vhd              ; yes             ; User VHDL File                         ; C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/COUNTER/Counter.vhd              ;         ;
-; ../../MultiComp (VHDL Template)/Components/UART/Toggle_On_FN_Key.vhd        ; yes             ; User VHDL File                         ; C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/UART/Toggle_On_FN_Key.vhd        ;         ;
-; ../../MultiComp (VHDL Template)/Components/TERMINAL/SansBoldRomReduced.vhd  ; yes             ; User Wizard-Generated File             ; C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/TERMINAL/SansBoldRomReduced.vhd  ;         ;
-; ../../MultiComp (VHDL Template)/Components/TERMINAL/SBCTextDisplayRGB.vhd   ; yes             ; User VHDL File                         ; C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/TERMINAL/SBCTextDisplayRGB.vhd   ;         ;
-; ../../MultiComp (VHDL Template)/Components/TERMINAL/CGABoldRom.vhd          ; yes             ; User Wizard-Generated File             ; C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/TERMINAL/CGABoldRom.vhd          ;         ;
-; ../../MultiComp (VHDL Template)/Components/UART/bufferedUART.vhd            ; yes             ; User VHDL File                         ; C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/UART/bufferedUART.vhd            ;         ;
-; altsyncram.tdf                                                              ; yes             ; Megafunction                           ; c:/intelfpga_lite/18.1/quartus/libraries/megafunctions/altsyncram.tdf                                                           ;         ;
-; stratix_ram_block.inc                                                       ; yes             ; Megafunction                           ; c:/intelfpga_lite/18.1/quartus/libraries/megafunctions/stratix_ram_block.inc                                                    ;         ;
-; lpm_mux.inc                                                                 ; yes             ; Megafunction                           ; c:/intelfpga_lite/18.1/quartus/libraries/megafunctions/lpm_mux.inc                                                              ;         ;
-; lpm_decode.inc                                                              ; yes             ; Megafunction                           ; c:/intelfpga_lite/18.1/quartus/libraries/megafunctions/lpm_decode.inc                                                           ;         ;
-; aglobal181.inc                                                              ; yes             ; Megafunction                           ; c:/intelfpga_lite/18.1/quartus/libraries/megafunctions/aglobal181.inc                                                           ;         ;
-; a_rdenreg.inc                                                               ; yes             ; Megafunction                           ; c:/intelfpga_lite/18.1/quartus/libraries/megafunctions/a_rdenreg.inc                                                            ;         ;
-; altrom.inc                                                                  ; yes             ; Megafunction                           ; c:/intelfpga_lite/18.1/quartus/libraries/megafunctions/altrom.inc                                                               ;         ;
-; altram.inc                                                                  ; yes             ; Megafunction                           ; c:/intelfpga_lite/18.1/quartus/libraries/megafunctions/altram.inc                                                               ;         ;
-; altdpram.inc                                                                ; yes             ; Megafunction                           ; c:/intelfpga_lite/18.1/quartus/libraries/megafunctions/altdpram.inc                                                             ;         ;
-; db/altsyncram_4nu3.tdf                                                      ; yes             ; Auto-Generated Megafunction            ; C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_EP4CE10/Z80_VGA_PS2_UART_32K/db/altsyncram_4nu3.tdf      ;         ;
-; ../../MultiComp (VHDL Template)/Components/ROMs/Z80/BASIC.HEX               ; yes             ; Auto-Found Memory Initialization File  ; C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/ROMs/Z80/BASIC.HEX               ;         ;
-; db/altsyncram_m3q3.tdf                                                      ; yes             ; Auto-Generated Megafunction            ; C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_EP4CE10/Z80_VGA_PS2_UART_32K/db/altsyncram_m3q3.tdf      ;         ;
-; db/decode_jsa.tdf                                                           ; yes             ; Auto-Generated Megafunction            ; C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_EP4CE10/Z80_VGA_PS2_UART_32K/db/decode_jsa.tdf           ;         ;
-; db/decode_c8a.tdf                                                           ; yes             ; Auto-Generated Megafunction            ; C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_EP4CE10/Z80_VGA_PS2_UART_32K/db/decode_c8a.tdf           ;         ;
-; db/mux_3nb.tdf                                                              ; yes             ; Auto-Generated Megafunction            ; C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_EP4CE10/Z80_VGA_PS2_UART_32K/db/mux_3nb.tdf              ;         ;
-; db/altsyncram_2d91.tdf                                                      ; yes             ; Auto-Generated Megafunction            ; C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_EP4CE10/Z80_VGA_PS2_UART_32K/db/altsyncram_2d91.tdf      ;         ;
-; ../../MultiComp (VHDL Template)/Components/TERMINAL/SansFontBoldReduced.HEX ; yes             ; Auto-Found Memory Initialization File  ; C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/TERMINAL/SansFontBoldReduced.HEX ;         ;
-; db/altsyncram_shh2.tdf                                                      ; yes             ; Auto-Generated Megafunction            ; C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_EP4CE10/Z80_VGA_PS2_UART_32K/db/altsyncram_shh2.tdf      ;         ;
-; db/altsyncram_3ce1.tdf                                                      ; yes             ; Auto-Generated Megafunction            ; C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_EP4CE10/Z80_VGA_PS2_UART_32K/db/altsyncram_3ce1.tdf      ;         ;
-; lpm_divide.tdf                                                              ; yes             ; Megafunction                           ; c:/intelfpga_lite/18.1/quartus/libraries/megafunctions/lpm_divide.tdf                                                           ;         ;
-; abs_divider.inc                                                             ; yes             ; Megafunction                           ; c:/intelfpga_lite/18.1/quartus/libraries/megafunctions/abs_divider.inc                                                          ;         ;
-; sign_div_unsign.inc                                                         ; yes             ; Megafunction                           ; c:/intelfpga_lite/18.1/quartus/libraries/megafunctions/sign_div_unsign.inc                                                      ;         ;
-; db/lpm_divide_icm.tdf                                                       ; yes             ; Auto-Generated Megafunction            ; C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_EP4CE10/Z80_VGA_PS2_UART_32K/db/lpm_divide_icm.tdf       ;         ;
-; db/sign_div_unsign_7nh.tdf                                                  ; yes             ; Auto-Generated Megafunction            ; C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_EP4CE10/Z80_VGA_PS2_UART_32K/db/sign_div_unsign_7nh.tdf  ;         ;
-; db/alt_u_div_2af.tdf                                                        ; yes             ; Auto-Generated Megafunction            ; C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_EP4CE10/Z80_VGA_PS2_UART_32K/db/alt_u_div_2af.tdf        ;         ;
-; db/add_sub_7pc.tdf                                                          ; yes             ; Auto-Generated Megafunction            ; C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_EP4CE10/Z80_VGA_PS2_UART_32K/db/add_sub_7pc.tdf          ;         ;
-; db/add_sub_8pc.tdf                                                          ; yes             ; Auto-Generated Megafunction            ; C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_EP4CE10/Z80_VGA_PS2_UART_32K/db/add_sub_8pc.tdf          ;         ;
-+-----------------------------------------------------------------------------+-----------------+----------------------------------------+---------------------------------------------------------------------------------------------------------------------------------+---------+
++------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+; Analysis & Synthesis Source Files Read                                                                                                                                                                                                                                 ;
++----------------------------------------------------------------------------+-----------------+------------------------------+--------------------------------------------------------------------------------------------------------------------------------+---------+
+; File Name with User-Entered Path                                           ; Used in Netlist ; File Type                    ; File Name with Absolute Path                                                                                                   ; Library ;
++----------------------------------------------------------------------------+-----------------+------------------------------+--------------------------------------------------------------------------------------------------------------------------------+---------+
+; ../../MultiComp (VHDL Template)/Components/RAM_Internal/InternalRam32K.vhd ; yes             ; User Wizard-Generated File   ; C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/RAM_Internal/InternalRam32K.vhd ;         ;
+; ../../MultiComp (VHDL Template)/Components/TERMINAL/SansBoldRom.vhd        ; yes             ; User Wizard-Generated File   ; C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/TERMINAL/SansBoldRom.vhd        ;         ;
+; ../../MultiComp (VHDL Template)/Components/TERMINAL/DisplayRam2K.vhd       ; yes             ; User Wizard-Generated File   ; C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/TERMINAL/DisplayRam2K.vhd       ;         ;
+; ../../MultiComp (VHDL Template)/Components/TERMINAL/DisplayRam1K.vhd       ; yes             ; User Wizard-Generated File   ; C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/TERMINAL/DisplayRam1K.vhd       ;         ;
+; ../../MultiComp (VHDL Template)/Components/TERMINAL/CGABoldRomReduced.vhd  ; yes             ; User Wizard-Generated File   ; C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/TERMINAL/CGABoldRomReduced.vhd  ;         ;
+; ../../MultiComp (VHDL Template)/Components/CPU/Z80/T80s.vhd                ; yes             ; User VHDL File               ; C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/CPU/Z80/T80s.vhd                ;         ;
+; ../../MultiComp (VHDL Template)/Components/CPU/Z80/T80_Reg.vhd             ; yes             ; User VHDL File               ; C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/CPU/Z80/T80_Reg.vhd             ;         ;
+; ../../MultiComp (VHDL Template)/Components/CPU/Z80/T80_Pack.vhd            ; yes             ; User VHDL File               ; C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/CPU/Z80/T80_Pack.vhd            ;         ;
+; ../../MultiComp (VHDL Template)/Components/CPU/Z80/T80_MCode.vhd           ; yes             ; User VHDL File               ; C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/CPU/Z80/T80_MCode.vhd           ;         ;
+; ../../MultiComp (VHDL Template)/Components/CPU/Z80/T80_ALU.vhd             ; yes             ; User VHDL File               ; C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/CPU/Z80/T80_ALU.vhd             ;         ;
+; ../../MultiComp (VHDL Template)/Components/CPU/Z80/T80.vhd                 ; yes             ; User VHDL File               ; C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/CPU/Z80/T80.vhd                 ;         ;
+; Z80_VGA.vhd                                                                ; yes             ; User VHDL File               ; C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_EP4CE10/Z80_VGA_PS2_UART_32K/Z80_VGA.vhd                ;         ;
+; ../../MultiComp (VHDL Template)/Components/ROMs/Z80/Z80_BASIC_ROM.vhd      ; yes             ; User Wizard-Generated File   ; C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/ROMs/Z80/Z80_BASIC_ROM.vhd      ;         ;
+; ../../MultiComp (VHDL Template)/Components/IO/OutLatch.vhd                 ; yes             ; User VHDL File               ; C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/IO/OutLatch.vhd                 ;         ;
+; ../../MultiComp (VHDL Template)/Components/COUNTER/Counter.vhd             ; yes             ; User VHDL File               ; C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/COUNTER/Counter.vhd             ;         ;
+; ../../MultiComp (VHDL Template)/Components/UART/Toggle_On_FN_Key.vhd       ; yes             ; User VHDL File               ; C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/UART/Toggle_On_FN_Key.vhd       ;         ;
+; ../../MultiComp (VHDL Template)/Components/TERMINAL/SansBoldRomReduced.vhd ; yes             ; User Wizard-Generated File   ; C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/TERMINAL/SansBoldRomReduced.vhd ;         ;
+; ../../MultiComp (VHDL Template)/Components/TERMINAL/SBCTextDisplayRGB.vhd  ; yes             ; User VHDL File               ; C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/TERMINAL/SBCTextDisplayRGB.vhd  ;         ;
+; ../../MultiComp (VHDL Template)/Components/TERMINAL/CGABoldRom.vhd         ; yes             ; User Wizard-Generated File   ; C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/TERMINAL/CGABoldRom.vhd         ;         ;
+; ../../MultiComp (VHDL Template)/Components/UART/bufferedUART.vhd           ; yes             ; User VHDL File               ; C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/UART/bufferedUART.vhd           ;         ;
+; altsyncram.tdf                                                             ; yes             ; Megafunction                 ; c:/intelfpga_lite/18.1/quartus/libraries/megafunctions/altsyncram.tdf                                                          ;         ;
+; stratix_ram_block.inc                                                      ; yes             ; Megafunction                 ; c:/intelfpga_lite/18.1/quartus/libraries/megafunctions/stratix_ram_block.inc                                                   ;         ;
+; lpm_mux.inc                                                                ; yes             ; Megafunction                 ; c:/intelfpga_lite/18.1/quartus/libraries/megafunctions/lpm_mux.inc                                                             ;         ;
+; lpm_decode.inc                                                             ; yes             ; Megafunction                 ; c:/intelfpga_lite/18.1/quartus/libraries/megafunctions/lpm_decode.inc                                                          ;         ;
+; aglobal181.inc                                                             ; yes             ; Megafunction                 ; c:/intelfpga_lite/18.1/quartus/libraries/megafunctions/aglobal181.inc                                                          ;         ;
+; a_rdenreg.inc                                                              ; yes             ; Megafunction                 ; c:/intelfpga_lite/18.1/quartus/libraries/megafunctions/a_rdenreg.inc                                                           ;         ;
+; altrom.inc                                                                 ; yes             ; Megafunction                 ; c:/intelfpga_lite/18.1/quartus/libraries/megafunctions/altrom.inc                                                              ;         ;
+; altram.inc                                                                 ; yes             ; Megafunction                 ; c:/intelfpga_lite/18.1/quartus/libraries/megafunctions/altram.inc                                                              ;         ;
+; altdpram.inc                                                               ; yes             ; Megafunction                 ; c:/intelfpga_lite/18.1/quartus/libraries/megafunctions/altdpram.inc                                                            ;         ;
+; db/altsyncram_4nu3.tdf                                                     ; yes             ; Auto-Generated Megafunction  ; C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_EP4CE10/Z80_VGA_PS2_UART_32K/db/altsyncram_4nu3.tdf     ;         ;
+; db/altsyncram_6dp3.tdf                                                     ; yes             ; Auto-Generated Megafunction  ; C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_EP4CE10/Z80_VGA_PS2_UART_32K/db/altsyncram_6dp3.tdf     ;         ;
+; db/decode_msa.tdf                                                          ; yes             ; Auto-Generated Megafunction  ; C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_EP4CE10/Z80_VGA_PS2_UART_32K/db/decode_msa.tdf          ;         ;
+; db/decode_f8a.tdf                                                          ; yes             ; Auto-Generated Megafunction  ; C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_EP4CE10/Z80_VGA_PS2_UART_32K/db/decode_f8a.tdf          ;         ;
+; db/mux_6nb.tdf                                                             ; yes             ; Auto-Generated Megafunction  ; C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_EP4CE10/Z80_VGA_PS2_UART_32K/db/mux_6nb.tdf             ;         ;
+; db/altsyncram_2d91.tdf                                                     ; yes             ; Auto-Generated Megafunction  ; C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_EP4CE10/Z80_VGA_PS2_UART_32K/db/altsyncram_2d91.tdf     ;         ;
+; db/altsyncram_shh2.tdf                                                     ; yes             ; Auto-Generated Megafunction  ; C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_EP4CE10/Z80_VGA_PS2_UART_32K/db/altsyncram_shh2.tdf     ;         ;
+; db/altsyncram_3ce1.tdf                                                     ; yes             ; Auto-Generated Megafunction  ; C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_EP4CE10/Z80_VGA_PS2_UART_32K/db/altsyncram_3ce1.tdf     ;         ;
+; lpm_divide.tdf                                                             ; yes             ; Megafunction                 ; c:/intelfpga_lite/18.1/quartus/libraries/megafunctions/lpm_divide.tdf                                                          ;         ;
+; abs_divider.inc                                                            ; yes             ; Megafunction                 ; c:/intelfpga_lite/18.1/quartus/libraries/megafunctions/abs_divider.inc                                                         ;         ;
+; sign_div_unsign.inc                                                        ; yes             ; Megafunction                 ; c:/intelfpga_lite/18.1/quartus/libraries/megafunctions/sign_div_unsign.inc                                                     ;         ;
+; db/lpm_divide_icm.tdf                                                      ; yes             ; Auto-Generated Megafunction  ; C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_EP4CE10/Z80_VGA_PS2_UART_32K/db/lpm_divide_icm.tdf      ;         ;
+; db/sign_div_unsign_7nh.tdf                                                 ; yes             ; Auto-Generated Megafunction  ; C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_EP4CE10/Z80_VGA_PS2_UART_32K/db/sign_div_unsign_7nh.tdf ;         ;
+; db/alt_u_div_2af.tdf                                                       ; yes             ; Auto-Generated Megafunction  ; C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_EP4CE10/Z80_VGA_PS2_UART_32K/db/alt_u_div_2af.tdf       ;         ;
+; db/add_sub_7pc.tdf                                                         ; yes             ; Auto-Generated Megafunction  ; C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_EP4CE10/Z80_VGA_PS2_UART_32K/db/add_sub_7pc.tdf         ;         ;
+; db/add_sub_8pc.tdf                                                         ; yes             ; Auto-Generated Megafunction  ; C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_EP4CE10/Z80_VGA_PS2_UART_32K/db/add_sub_8pc.tdf         ;         ;
++----------------------------------------------------------------------------+-----------------+------------------------------+--------------------------------------------------------------------------------------------------------------------------------+---------+
 
 
 +--------------------------------------------------------------+
@@ -265,31 +263,31 @@ refer to the applicable agreement for further details.
 +---------------------------------------------+----------------+
 ; Resource                                    ; Usage          ;
 +---------------------------------------------+----------------+
-; Estimated Total logic elements              ; 3,898          ;
+; Estimated Total logic elements              ; 3,917          ;
 ;                                             ;                ;
-; Total combinational functions               ; 3640           ;
+; Total combinational functions               ; 3656           ;
 ; Logic element usage by number of LUT inputs ;                ;
-;     -- 4 input functions                    ; 2162           ;
-;     -- 3 input functions                    ; 820            ;
-;     -- <=2 input functions                  ; 658            ;
+;     -- 4 input functions                    ; 2166           ;
+;     -- 3 input functions                    ; 818            ;
+;     -- <=2 input functions                  ; 672            ;
 ;                                             ;                ;
 ; Logic elements by mode                      ;                ;
-;     -- normal mode                          ; 3127           ;
+;     -- normal mode                          ; 3143           ;
 ;     -- arithmetic mode                      ; 513            ;
 ;                                             ;                ;
-; Total registers                             ; 879            ;
-;     -- Dedicated logic registers            ; 879            ;
+; Total registers                             ; 882            ;
+;     -- Dedicated logic registers            ; 882            ;
 ;     -- I/O registers                        ; 0              ;
 ;                                             ;                ;
 ; I/O pins                                    ; 21             ;
-; Total memory bits                           ; 237696         ;
+; Total memory bits                           ; 368768         ;
 ;                                             ;                ;
 ; Embedded Multiplier 9-bit elements          ; 0              ;
 ;                                             ;                ;
 ; Maximum fan-out node                        ; i_clk_50~input ;
-; Maximum fan-out                             ; 539            ;
-; Total fan-out                               ; 16316          ;
-; Average fan-out                             ; 3.53           ;
+; Maximum fan-out                             ; 558            ;
+; Total fan-out                               ; 16632          ;
+; Average fan-out                             ; 3.57           ;
 +---------------------------------------------+----------------+
 
 
@@ -298,13 +296,15 @@ refer to the applicable agreement for further details.
 +--------------------------------------------------------+---------------------+---------------------------+-------------+--------------+---------+-----------+------+--------------+----------------------------------------------------------------------------------------------------------------------------------------------+---------------------+--------------+
 ; Compilation Hierarchy Node                             ; Combinational ALUTs ; Dedicated Logic Registers ; Memory Bits ; DSP Elements ; DSP 9x9 ; DSP 18x18 ; Pins ; Virtual Pins ; Full Hierarchy Name                                                                                                                          ; Entity Name         ; Library Name ;
 +--------------------------------------------------------+---------------------+---------------------------+-------------+--------------+---------+-----------+------+--------------+----------------------------------------------------------------------------------------------------------------------------------------------+---------------------+--------------+
-; |Z80_VGA                                               ; 3640 (106)          ; 879 (23)                  ; 237696      ; 0            ; 0       ; 0         ; 21   ; 0            ; |Z80_VGA                                                                                                                                     ; Z80_VGA             ; work         ;
-;    |InternalRam16K:u3|                                 ; 2 (0)               ; 1 (0)                     ; 131072      ; 0            ; 0       ; 0         ; 0    ; 0            ; |Z80_VGA|InternalRam16K:u3                                                                                                                   ; InternalRam16K      ; work         ;
-;       |altsyncram:altsyncram_component|                ; 2 (0)               ; 1 (0)                     ; 131072      ; 0            ; 0       ; 0         ; 0    ; 0            ; |Z80_VGA|InternalRam16K:u3|altsyncram:altsyncram_component                                                                                   ; altsyncram          ; work         ;
-;          |altsyncram_m3q3:auto_generated|              ; 2 (0)               ; 1 (1)                     ; 131072      ; 0            ; 0       ; 0         ; 0    ; 0            ; |Z80_VGA|InternalRam16K:u3|altsyncram:altsyncram_component|altsyncram_m3q3:auto_generated                                                    ; altsyncram_m3q3     ; work         ;
-;             |decode_jsa:decode3|                       ; 2 (2)               ; 0 (0)                     ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |Z80_VGA|InternalRam16K:u3|altsyncram:altsyncram_component|altsyncram_m3q3:auto_generated|decode_jsa:decode3                                 ; decode_jsa          ; work         ;
+; |Z80_VGA                                               ; 3656 (105)          ; 882 (23)                  ; 368768      ; 0            ; 0       ; 0         ; 21   ; 0            ; |Z80_VGA                                                                                                                                     ; Z80_VGA             ; work         ;
+;    |InternalRam32K:u3|                                 ; 24 (0)              ; 4 (0)                     ; 262144      ; 0            ; 0       ; 0         ; 0    ; 0            ; |Z80_VGA|InternalRam32K:u3                                                                                                                   ; InternalRam32K      ; work         ;
+;       |altsyncram:altsyncram_component|                ; 24 (0)              ; 4 (0)                     ; 262144      ; 0            ; 0       ; 0         ; 0    ; 0            ; |Z80_VGA|InternalRam32K:u3|altsyncram:altsyncram_component                                                                                   ; altsyncram          ; work         ;
+;          |altsyncram_6dp3:auto_generated|              ; 24 (0)              ; 4 (4)                     ; 262144      ; 0            ; 0       ; 0         ; 0    ; 0            ; |Z80_VGA|InternalRam32K:u3|altsyncram:altsyncram_component|altsyncram_6dp3:auto_generated                                                    ; altsyncram_6dp3     ; work         ;
+;             |decode_f8a:rden_decode|                   ; 4 (4)               ; 0 (0)                     ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |Z80_VGA|InternalRam32K:u3|altsyncram:altsyncram_component|altsyncram_6dp3:auto_generated|decode_f8a:rden_decode                             ; decode_f8a          ; work         ;
+;             |decode_msa:decode3|                       ; 4 (4)               ; 0 (0)                     ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |Z80_VGA|InternalRam32K:u3|altsyncram:altsyncram_component|altsyncram_6dp3:auto_generated|decode_msa:decode3                                 ; decode_msa          ; work         ;
+;             |mux_6nb:mux2|                             ; 16 (16)             ; 0 (0)                     ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |Z80_VGA|InternalRam32K:u3|altsyncram:altsyncram_component|altsyncram_6dp3:auto_generated|mux_6nb:mux2                                       ; mux_6nb             ; work         ;
 ;    |OutLatch:io3|                                      ; 0 (0)               ; 5 (5)                     ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |Z80_VGA|OutLatch:io3                                                                                                                        ; OutLatch            ; work         ;
-;    |SBCTextDisplayRGB:io1|                             ; 1403 (1225)         ; 385 (385)                 ; 40960       ; 0            ; 0       ; 0         ; 0    ; 0            ; |Z80_VGA|SBCTextDisplayRGB:io1                                                                                                               ; SBCTextDisplayRGB   ; work         ;
+;    |SBCTextDisplayRGB:io1|                             ; 1400 (1222)         ; 385 (385)                 ; 40960       ; 0            ; 0       ; 0         ; 0    ; 0            ; |Z80_VGA|SBCTextDisplayRGB:io1                                                                                                               ; SBCTextDisplayRGB   ; work         ;
 ;       |DisplayRam2K:\GEN_2KATTRAM:dispAttRam|          ; 0 (0)               ; 0 (0)                     ; 16384       ; 0            ; 0       ; 0         ; 0    ; 0            ; |Z80_VGA|SBCTextDisplayRGB:io1|DisplayRam2K:\GEN_2KATTRAM:dispAttRam                                                                         ; DisplayRam2K        ; work         ;
 ;          |altsyncram:altsyncram_component|             ; 0 (0)               ; 0 (0)                     ; 16384       ; 0            ; 0       ; 0         ; 0    ; 0            ; |Z80_VGA|SBCTextDisplayRGB:io1|DisplayRam2K:\GEN_2KATTRAM:dispAttRam|altsyncram:altsyncram_component                                         ; altsyncram          ; work         ;
 ;             |altsyncram_shh2:auto_generated|           ; 0 (0)               ; 0 (0)                     ; 16384       ; 0            ; 0       ; 0         ; 0    ; 0            ; |Z80_VGA|SBCTextDisplayRGB:io1|DisplayRam2K:\GEN_2KATTRAM:dispAttRam|altsyncram:altsyncram_component|altsyncram_shh2:auto_generated          ; altsyncram_shh2     ; work         ;
@@ -322,10 +322,10 @@ refer to the applicable agreement for further details.
 ;          |lpm_divide_icm:auto_generated|               ; 89 (0)              ; 0 (0)                     ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |Z80_VGA|SBCTextDisplayRGB:io1|lpm_divide:Mod1|lpm_divide_icm:auto_generated                                                                 ; lpm_divide_icm      ; work         ;
 ;             |sign_div_unsign_7nh:divider|              ; 89 (0)              ; 0 (0)                     ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |Z80_VGA|SBCTextDisplayRGB:io1|lpm_divide:Mod1|lpm_divide_icm:auto_generated|sign_div_unsign_7nh:divider                                     ; sign_div_unsign_7nh ; work         ;
 ;                |alt_u_div_2af:divider|                 ; 89 (89)             ; 0 (0)                     ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |Z80_VGA|SBCTextDisplayRGB:io1|lpm_divide:Mod1|lpm_divide_icm:auto_generated|sign_div_unsign_7nh:divider|alt_u_div_2af:divider               ; alt_u_div_2af       ; work         ;
-;    |T80s:cpu1|                                         ; 1956 (5)            ; 346 (12)                  ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |Z80_VGA|T80s:cpu1                                                                                                                           ; T80s                ; work         ;
-;       |T80:u0|                                         ; 1951 (823)          ; 334 (206)                 ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |Z80_VGA|T80s:cpu1|T80:u0                                                                                                                    ; T80                 ; work         ;
-;          |T80_ALU:alu|                                 ; 415 (415)           ; 0 (0)                     ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |Z80_VGA|T80s:cpu1|T80:u0|T80_ALU:alu                                                                                                        ; T80_ALU             ; work         ;
-;          |T80_MCode:mcode|                             ; 457 (457)           ; 0 (0)                     ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |Z80_VGA|T80s:cpu1|T80:u0|T80_MCode:mcode                                                                                                    ; T80_MCode           ; work         ;
+;    |T80s:cpu1|                                         ; 1954 (6)            ; 346 (12)                  ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |Z80_VGA|T80s:cpu1                                                                                                                           ; T80s                ; work         ;
+;       |T80:u0|                                         ; 1948 (820)          ; 334 (206)                 ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |Z80_VGA|T80s:cpu1|T80:u0                                                                                                                    ; T80                 ; work         ;
+;          |T80_ALU:alu|                                 ; 416 (416)           ; 0 (0)                     ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |Z80_VGA|T80s:cpu1|T80:u0|T80_ALU:alu                                                                                                        ; T80_ALU             ; work         ;
+;          |T80_MCode:mcode|                             ; 456 (456)           ; 0 (0)                     ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |Z80_VGA|T80s:cpu1|T80:u0|T80_MCode:mcode                                                                                                    ; T80_MCode           ; work         ;
 ;          |T80_Reg:Regs|                                ; 256 (256)           ; 128 (128)                 ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |Z80_VGA|T80s:cpu1|T80:u0|T80_Reg:Regs                                                                                                       ; T80_Reg             ; work         ;
 ;    |Toggle_On_FN_Key:FNKey1Toggle|                     ; 1 (1)               ; 4 (4)                     ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |Z80_VGA|Toggle_On_FN_Key:FNKey1Toggle                                                                                                       ; Toggle_On_FN_Key    ; work         ;
 ;    |Toggle_On_FN_Key:FNKey2Toggle|                     ; 1 (1)               ; 4 (4)                     ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |Z80_VGA|Toggle_On_FN_Key:FNKey2Toggle                                                                                                       ; Toggle_On_FN_Key    ; work         ;
@@ -345,7 +345,7 @@ Note: For table entries with two numbers listed, the numbers in parentheses indi
 +------------------------------------------------------------------------------------------------------------------------------------------------+------+------------------+--------------+--------------+--------------+--------------+--------+---------------------------------------------------------------------+
 ; Name                                                                                                                                           ; Type ; Mode             ; Port A Depth ; Port A Width ; Port B Depth ; Port B Width ; Size   ; MIF                                                                 ;
 +------------------------------------------------------------------------------------------------------------------------------------------------+------+------------------+--------------+--------------+--------------+--------------+--------+---------------------------------------------------------------------+
-; InternalRam16K:u3|altsyncram:altsyncram_component|altsyncram_m3q3:auto_generated|ALTSYNCRAM                                                    ; AUTO ; Single Port      ; 16384        ; 8            ; --           ; --           ; 131072 ; None                                                                ;
+; InternalRam32K:u3|altsyncram:altsyncram_component|altsyncram_6dp3:auto_generated|ALTSYNCRAM                                                    ; AUTO ; Single Port      ; 32768        ; 8            ; --           ; --           ; 262144 ; None                                                                ;
 ; SBCTextDisplayRGB:io1|DisplayRam2K:\GEN_2KATTRAM:dispAttRam|altsyncram:altsyncram_component|altsyncram_shh2:auto_generated|ALTSYNCRAM          ; AUTO ; True Dual Port   ; 2048         ; 8            ; 2048         ; 8            ; 16384  ; None                                                                ;
 ; SBCTextDisplayRGB:io1|DisplayRam2K:\GEN_2KRAM:dispCharRam|altsyncram:altsyncram_component|altsyncram_shh2:auto_generated|ALTSYNCRAM            ; AUTO ; True Dual Port   ; 2048         ; 8            ; 2048         ; 8            ; 16384  ; None                                                                ;
 ; SBCTextDisplayRGB:io1|SansBoldRomReduced:\GEN_REDUCED_SCHARS:fontRom|altsyncram:altsyncram_component|altsyncram_2d91:auto_generated|ALTSYNCRAM ; AUTO ; ROM              ; 1024         ; 8            ; --           ; --           ; 8192   ; SansFontBoldReduced.HEX                                             ;
@@ -472,7 +472,7 @@ Encoding Type:  One-Hot
 +----------------------------------------------+-------+
 ; Statistic                                    ; Value ;
 +----------------------------------------------+-------+
-; Total registers                              ; 879   ;
+; Total registers                              ; 882   ;
 ; Number of registers using Synchronous Clear  ; 188   ;
 ; Number of registers using Synchronous Load   ; 53    ;
 ; Number of registers using Asynchronous Clear ; 240   ;
@@ -491,11 +491,11 @@ Encoding Type:  One-Hot
 ; SBCTextDisplayRGB:io1|cursorOn          ; 1       ;
 ; SBCTextDisplayRGB:io1|dispAttWRData[1]  ; 4       ;
 ; SBCTextDisplayRGB:io1|dispAttWRData[2]  ; 4       ;
+; T80s:cpu1|WR_n                          ; 8       ;
 ; T80s:cpu1|IORQ_n                        ; 6       ;
-; T80s:cpu1|WR_n                          ; 6       ;
 ; T80s:cpu1|RD_n                          ; 3       ;
 ; SBCTextDisplayRGB:io1|dispAttWRData[3]  ; 12      ;
-; T80s:cpu1|T80:u0|MCycle[0]              ; 85      ;
+; T80s:cpu1|T80:u0|MCycle[0]              ; 86      ;
 ; T80s:cpu1|T80:u0|F[0]                   ; 13      ;
 ; T80s:cpu1|T80:u0|F[6]                   ; 11      ;
 ; T80s:cpu1|T80:u0|F[2]                   ; 8       ;
@@ -505,10 +505,10 @@ Encoding Type:  One-Hot
 ; T80s:cpu1|T80:u0|SP[5]                  ; 4       ;
 ; T80s:cpu1|T80:u0|SP[4]                  ; 4       ;
 ; T80s:cpu1|T80:u0|SP[3]                  ; 4       ;
-; T80s:cpu1|T80:u0|SP[2]                  ; 4       ;
 ; T80s:cpu1|T80:u0|SP[1]                  ; 4       ;
+; T80s:cpu1|T80:u0|SP[2]                  ; 4       ;
 ; T80s:cpu1|T80:u0|F[4]                   ; 6       ;
-; T80s:cpu1|T80:u0|F[1]                   ; 20      ;
+; T80s:cpu1|T80:u0|F[1]                   ; 18      ;
 ; SBCTextDisplayRGB:io1|ps2ClkOut         ; 3       ;
 ; SBCTextDisplayRGB:io1|ps2DataOut        ; 3       ;
 ; T80s:cpu1|T80:u0|SP[0]                  ; 4       ;
@@ -544,10 +544,10 @@ Encoding Type:  One-Hot
 ; SBCTextDisplayRGB:io1|ps2WriteByte[2]   ; 2       ;
 ; SBCTextDisplayRGB:io1|ps2WriteByte[1]   ; 2       ;
 ; SBCTextDisplayRGB:io1|ps2WriteByte[0]   ; 2       ;
-; SBCTextDisplayRGB:io1|ps2ClkFiltered    ; 12      ;
-; SBCTextDisplayRGB:io1|ps2PrevClk        ; 10      ;
+; SBCTextDisplayRGB:io1|ps2ClkFiltered    ; 14      ;
+; SBCTextDisplayRGB:io1|ps2PrevClk        ; 12      ;
 ; T80s:cpu1|T80:u0|Ap[4]                  ; 1       ;
-; T80s:cpu1|MREQ_n                        ; 2       ;
+; T80s:cpu1|MREQ_n                        ; 4       ;
 ; T80s:cpu1|T80:u0|Ap[0]                  ; 1       ;
 ; T80s:cpu1|T80:u0|Ap[1]                  ; 1       ;
 ; T80s:cpu1|T80:u0|Ap[7]                  ; 1       ;
@@ -566,90 +566,90 @@ Encoding Type:  One-Hot
 +-----------------------------------------+---------+
 
 
-+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
-; Multiplexer Restructuring Statistics (Restructuring Performed)                                                                                                                   ;
-+--------------------+-----------+---------------+----------------------+------------------------+------------+--------------------------------------------------------------------+
-; Multiplexer Inputs ; Bus Width ; Baseline Area ; Area if Restructured ; Saving if Restructured ; Registered ; Example Multiplexer Output                                         ;
-+--------------------+-----------+---------------+----------------------+------------------------+------------+--------------------------------------------------------------------+
-; 3:1                ; 5 bits    ; 10 LEs        ; 5 LEs                ; 5 LEs                  ; Yes        ; |Z80_VGA|SBCTextDisplayRGB:io1|charVert[3]                         ;
-; 3:1                ; 2 bits    ; 4 LEs         ; 2 LEs                ; 2 LEs                  ; Yes        ; |Z80_VGA|T80s:cpu1|T80:u0|ALU_Op_r[0]                              ;
-; 3:1                ; 4 bits    ; 8 LEs         ; 8 LEs                ; 0 LEs                  ; Yes        ; |Z80_VGA|T80s:cpu1|T80:u0|Read_To_Reg_r[0]                         ;
-; 3:1                ; 2 bits    ; 4 LEs         ; 4 LEs                ; 0 LEs                  ; Yes        ; |Z80_VGA|T80s:cpu1|T80:u0|RegAddrC[0]                              ;
-; 3:1                ; 7 bits    ; 14 LEs        ; 7 LEs                ; 7 LEs                  ; Yes        ; |Z80_VGA|SBCTextDisplayRGB:io1|param4[0]                           ;
-; 4:1                ; 2 bits    ; 4 LEs         ; 2 LEs                ; 2 LEs                  ; Yes        ; |Z80_VGA|T80s:cpu1|T80:u0|XY_State[1]                              ;
-; 3:1                ; 7 bits    ; 14 LEs        ; 7 LEs                ; 7 LEs                  ; Yes        ; |Z80_VGA|SBCTextDisplayRGB:io1|charHoriz[5]                        ;
-; 3:1                ; 3 bits    ; 6 LEs         ; 3 LEs                ; 3 LEs                  ; Yes        ; |Z80_VGA|SBCTextDisplayRGB:io1|pixelCount[1]                       ;
-; 3:1                ; 8 bits    ; 16 LEs        ; 8 LEs                ; 8 LEs                  ; Yes        ; |Z80_VGA|SBCTextDisplayRGB:io1|ps2Byte[5]                          ;
-; 3:1                ; 4 bits    ; 8 LEs         ; 8 LEs                ; 0 LEs                  ; Yes        ; |Z80_VGA|bufferedUART:UART|dataOut[4]                              ;
-; 3:1                ; 3 bits    ; 6 LEs         ; 6 LEs                ; 0 LEs                  ; Yes        ; |Z80_VGA|bufferedUART:UART|dataOut[3]                              ;
-; 3:1                ; 2 bits    ; 4 LEs         ; 2 LEs                ; 2 LEs                  ; Yes        ; |Z80_VGA|T80s:cpu1|T80:u0|ISet[1]                                  ;
-; 3:1                ; 3 bits    ; 6 LEs         ; 6 LEs                ; 0 LEs                  ; Yes        ; |Z80_VGA|SBCTextDisplayRGB:io1|ps2ConvertedByte[2]                 ;
-; 3:1                ; 4 bits    ; 8 LEs         ; 4 LEs                ; 4 LEs                  ; Yes        ; |Z80_VGA|SBCTextDisplayRGB:io1|pixelClockCount[2]                  ;
-; 4:1                ; 7 bits    ; 14 LEs        ; 14 LEs               ; 0 LEs                  ; Yes        ; |Z80_VGA|SBCTextDisplayRGB:io1|param1[6]                           ;
-; 4:1                ; 7 bits    ; 14 LEs        ; 14 LEs               ; 0 LEs                  ; Yes        ; |Z80_VGA|SBCTextDisplayRGB:io1|param2[1]                           ;
-; 4:1                ; 7 bits    ; 14 LEs        ; 14 LEs               ; 0 LEs                  ; Yes        ; |Z80_VGA|SBCTextDisplayRGB:io1|param3[0]                           ;
-; 4:1                ; 2 bits    ; 4 LEs         ; 4 LEs                ; 0 LEs                  ; Yes        ; |Z80_VGA|T80s:cpu1|T80:u0|MCycle[1]                                ;
-; 4:1                ; 8 bits    ; 16 LEs        ; 8 LEs                ; 8 LEs                  ; Yes        ; |Z80_VGA|T80s:cpu1|T80:u0|IR[0]                                    ;
-; 3:1                ; 7 bits    ; 14 LEs        ; 7 LEs                ; 7 LEs                  ; Yes        ; |Z80_VGA|T80s:cpu1|T80:u0|R[6]                                     ;
-; 4:1                ; 4 bits    ; 8 LEs         ; 4 LEs                ; 4 LEs                  ; Yes        ; |Z80_VGA|SBCTextDisplayRGB:io1|ps2ClkCount[3]                      ;
-; 4:1                ; 26 bits   ; 52 LEs        ; 26 LEs               ; 26 LEs                 ; Yes        ; |Z80_VGA|SBCTextDisplayRGB:io1|kbWatchdogTimer[11]                 ;
-; 4:1                ; 4 bits    ; 8 LEs         ; 4 LEs                ; 4 LEs                  ; Yes        ; |Z80_VGA|SBCTextDisplayRGB:io1|kbInPointer[3]                      ;
-; 4:1                ; 4 bits    ; 8 LEs         ; 4 LEs                ; 4 LEs                  ; Yes        ; |Z80_VGA|SBCTextDisplayRGB:io1|charScanLine[0]                     ;
-; 5:1                ; 6 bits    ; 18 LEs        ; 6 LEs                ; 12 LEs                 ; Yes        ; |Z80_VGA|bufferedUART:UART|rxClockCount[5]                         ;
-; 5:1                ; 5 bits    ; 15 LEs        ; 10 LEs               ; 5 LEs                  ; Yes        ; |Z80_VGA|T80s:cpu1|T80:u0|TmpAddr[6]                               ;
-; 5:1                ; 3 bits    ; 9 LEs         ; 6 LEs                ; 3 LEs                  ; Yes        ; |Z80_VGA|T80s:cpu1|T80:u0|TmpAddr[3]                               ;
-; 5:1                ; 8 bits    ; 24 LEs        ; 16 LEs               ; 8 LEs                  ; Yes        ; |Z80_VGA|T80s:cpu1|T80:u0|TmpAddr[11]                              ;
-; 5:1                ; 5 bits    ; 15 LEs        ; 5 LEs                ; 10 LEs                 ; Yes        ; |Z80_VGA|SBCTextDisplayRGB:io1|ps2WriteClkCount[1]                 ;
-; 5:1                ; 4 bits    ; 12 LEs        ; 4 LEs                ; 8 LEs                  ; Yes        ; |Z80_VGA|bufferedUART:UART|rxBitCount[3]                           ;
-; 5:1                ; 4 bits    ; 12 LEs        ; 4 LEs                ; 8 LEs                  ; Yes        ; |Z80_VGA|bufferedUART:UART|txBitCount[3]                           ;
-; 5:1                ; 7 bits    ; 21 LEs        ; 7 LEs                ; 14 LEs                 ; Yes        ; |Z80_VGA|bufferedUART:UART|txBuffer[3]                             ;
-; 5:1                ; 8 bits    ; 24 LEs        ; 16 LEs               ; 8 LEs                  ; Yes        ; |Z80_VGA|SBCTextDisplayRGB:io1|dispCharWRData[7]                   ;
-; 5:1                ; 8 bits    ; 24 LEs        ; 16 LEs               ; 8 LEs                  ; Yes        ; |Z80_VGA|T80s:cpu1|T80:u0|DO[6]                                    ;
-; 11:1               ; 8 bits    ; 56 LEs        ; 48 LEs               ; 8 LEs                  ; Yes        ; |Z80_VGA|T80s:cpu1|T80:u0|BusB[2]                                  ;
-; 12:1               ; 8 bits    ; 64 LEs        ; 32 LEs               ; 32 LEs                 ; Yes        ; |Z80_VGA|T80s:cpu1|T80:u0|BusA[0]                                  ;
-; 6:1                ; 6 bits    ; 24 LEs        ; 6 LEs                ; 18 LEs                 ; Yes        ; |Z80_VGA|bufferedUART:UART|txClockCount[0]                         ;
-; 7:1                ; 3 bits    ; 12 LEs        ; 12 LEs               ; 0 LEs                  ; Yes        ; |Z80_VGA|SBCTextDisplayRGB:io1|videoB1                             ;
-; 8:1                ; 26 bits   ; 130 LEs       ; 26 LEs               ; 104 LEs                ; Yes        ; |Z80_VGA|SBCTextDisplayRGB:io1|kbWriteTimer[11]                    ;
-; 6:1                ; 7 bits    ; 28 LEs        ; 7 LEs                ; 21 LEs                 ; Yes        ; |Z80_VGA|SBCTextDisplayRGB:io1|startAddr[7]                        ;
-; 10:1               ; 3 bits    ; 18 LEs        ; 18 LEs               ; 0 LEs                  ; Yes        ; |Z80_VGA|SBCTextDisplayRGB:io1|videoR0                             ;
-; 10:1               ; 3 bits    ; 18 LEs        ; 12 LEs               ; 6 LEs                  ; Yes        ; |Z80_VGA|SBCTextDisplayRGB:io1|paramCount[0]                       ;
-; 10:1               ; 7 bits    ; 42 LEs        ; 21 LEs               ; 21 LEs                 ; Yes        ; |Z80_VGA|T80s:cpu1|T80:u0|PC[3]                                    ;
-; 10:1               ; 8 bits    ; 48 LEs        ; 32 LEs               ; 16 LEs                 ; Yes        ; |Z80_VGA|T80s:cpu1|T80:u0|PC[8]                                    ;
-; 16:1               ; 8 bits    ; 80 LEs        ; 32 LEs               ; 48 LEs                 ; Yes        ; |Z80_VGA|T80s:cpu1|T80:u0|A[3]                                     ;
-; 16:1               ; 8 bits    ; 80 LEs        ; 40 LEs               ; 40 LEs                 ; Yes        ; |Z80_VGA|T80s:cpu1|T80:u0|A[9]                                     ;
-; 12:1               ; 7 bits    ; 56 LEs        ; 7 LEs                ; 49 LEs                 ; Yes        ; |Z80_VGA|SBCTextDisplayRGB:io1|cursorHorizRestore[4]               ;
-; 13:1               ; 5 bits    ; 40 LEs        ; 5 LEs                ; 35 LEs                 ; Yes        ; |Z80_VGA|SBCTextDisplayRGB:io1|cursorVertRestore[0]                ;
-; 35:1               ; 7 bits    ; 161 LEs       ; 77 LEs               ; 84 LEs                 ; Yes        ; |Z80_VGA|SBCTextDisplayRGB:io1|cursorHoriz[1]                      ;
-; 41:1               ; 2 bits    ; 54 LEs        ; 24 LEs               ; 30 LEs                 ; Yes        ; |Z80_VGA|SBCTextDisplayRGB:io1|cursorVert[2]                       ;
-; 5:1                ; 8 bits    ; 24 LEs        ; 16 LEs               ; 8 LEs                  ; Yes        ; |Z80_VGA|T80s:cpu1|T80:u0|SP[6]                                    ;
-; 5:1                ; 8 bits    ; 24 LEs        ; 16 LEs               ; 8 LEs                  ; Yes        ; |Z80_VGA|T80s:cpu1|T80:u0|SP[8]                                    ;
-; 7:1                ; 5 bits    ; 20 LEs        ; 5 LEs                ; 15 LEs                 ; Yes        ; |Z80_VGA|SBCTextDisplayRGB:io1|ps2WriteByte[0]                     ;
-; 7:1                ; 8 bits    ; 32 LEs        ; 24 LEs               ; 8 LEs                  ; Yes        ; |Z80_VGA|T80s:cpu1|T80:u0|ACC[2]                                   ;
-; 17:1               ; 2 bits    ; 22 LEs        ; 12 LEs               ; 10 LEs                 ; Yes        ; |Z80_VGA|T80s:cpu1|T80:u0|F[3]                                     ;
-; 3:1                ; 2 bits    ; 4 LEs         ; 2 LEs                ; 2 LEs                  ; No         ; |Z80_VGA|T80s:cpu1|T80:u0|T80_MCode:mcode|Mux47                    ;
-; 3:1                ; 4 bits    ; 8 LEs         ; 4 LEs                ; 4 LEs                  ; No         ; |Z80_VGA|T80s:cpu1|T80:u0|T80_ALU:alu|Q_t                          ;
-; 3:1                ; 3 bits    ; 6 LEs         ; 6 LEs                ; 0 LEs                  ; No         ; |Z80_VGA|T80s:cpu1|T80:u0|T80_ALU:alu|DAA_Q[1]                     ;
-; 3:1                ; 3 bits    ; 6 LEs         ; 3 LEs                ; 3 LEs                  ; No         ; |Z80_VGA|SBCTextDisplayRGB:io1|paramCount                          ;
-; 3:1                ; 2 bits    ; 4 LEs         ; 4 LEs                ; 0 LEs                  ; No         ; |Z80_VGA|T80s:cpu1|T80:u0|Save_Mux[3]                              ;
-; 4:1                ; 2 bits    ; 4 LEs         ; 2 LEs                ; 2 LEs                  ; No         ; |Z80_VGA|SBCTextDisplayRGB:io1|dispState                           ;
-; 8:1                ; 8 bits    ; 40 LEs        ; 16 LEs               ; 24 LEs                 ; No         ; |Z80_VGA|T80s:cpu1|T80:u0|T80_ALU:alu|Mux8                         ;
-; 8:1                ; 16 bits   ; 80 LEs        ; 80 LEs               ; 0 LEs                  ; No         ; |Z80_VGA|T80s:cpu1|T80:u0|T80_Reg:Regs|Mux33                       ;
-; 4:1                ; 3 bits    ; 6 LEs         ; 6 LEs                ; 0 LEs                  ; No         ; |Z80_VGA|T80s:cpu1|T80:u0|T80_ALU:alu|DAA_Q[7]                     ;
-; 4:1                ; 16 bits   ; 32 LEs        ; 32 LEs               ; 0 LEs                  ; No         ; |Z80_VGA|T80s:cpu1|T80:u0|RegDIH[0]                                ;
-; 8:1                ; 16 bits   ; 80 LEs        ; 80 LEs               ; 0 LEs                  ; No         ; |Z80_VGA|T80s:cpu1|T80:u0|T80_Reg:Regs|Mux25                       ;
-; 8:1                ; 16 bits   ; 80 LEs        ; 80 LEs               ; 0 LEs                  ; No         ; |Z80_VGA|T80s:cpu1|T80:u0|T80_Reg:Regs|Mux0                        ;
-; 5:1                ; 2 bits    ; 6 LEs         ; 6 LEs                ; 0 LEs                  ; No         ; |Z80_VGA|T80s:cpu1|T80:u0|RegAddrA[1]                              ;
-; 7:1                ; 2 bits    ; 8 LEs         ; 4 LEs                ; 4 LEs                  ; No         ; |Z80_VGA|SBCTextDisplayRGB:io1|escState.waitForLeftBracket         ;
-; 7:1                ; 2 bits    ; 8 LEs         ; 6 LEs                ; 2 LEs                  ; No         ; |Z80_VGA|SBCTextDisplayRGB:io1|escState.processingAdditionalParams ;
-; 17:1               ; 4 bits    ; 44 LEs        ; 24 LEs               ; 20 LEs                 ; No         ; |Z80_VGA|T80s:cpu1|T80:u0|Save_Mux[6]                              ;
-; 7:1                ; 5 bits    ; 20 LEs        ; 20 LEs               ; 0 LEs                  ; No         ; |Z80_VGA|w_cpuDataIn[7]                                            ;
-; 7:1                ; 3 bits    ; 12 LEs        ; 12 LEs               ; 0 LEs                  ; No         ; |Z80_VGA|w_cpuDataIn[0]                                            ;
-; 7:1                ; 3 bits    ; 12 LEs        ; 6 LEs                ; 6 LEs                  ; No         ; |Z80_VGA|bufferedUART:UART|txState.dataBit                         ;
-; 7:1                ; 3 bits    ; 12 LEs        ; 6 LEs                ; 6 LEs                  ; No         ; |Z80_VGA|bufferedUART:UART|rxState.stopBit                         ;
-; 9:1                ; 9 bits    ; 54 LEs        ; 9 LEs                ; 45 LEs                 ; No         ; |Z80_VGA|SBCTextDisplayRGB:io1|dispState                           ;
-; 19:1               ; 2 bits    ; 24 LEs        ; 4 LEs                ; 20 LEs                 ; No         ; |Z80_VGA|T80s:cpu1|T80:u0|RegWEL                                   ;
-; 10:1               ; 2 bits    ; 12 LEs        ; 12 LEs               ; 0 LEs                  ; No         ; |Z80_VGA|T80s:cpu1|T80:u0|Save_Mux[5]                              ;
-+--------------------+-----------+---------------+----------------------+------------------------+------------+--------------------------------------------------------------------+
++--------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+; Multiplexer Restructuring Statistics (Restructuring Performed)                                                                                                           ;
++--------------------+-----------+---------------+----------------------+------------------------+------------+------------------------------------------------------------+
+; Multiplexer Inputs ; Bus Width ; Baseline Area ; Area if Restructured ; Saving if Restructured ; Registered ; Example Multiplexer Output                                 ;
++--------------------+-----------+---------------+----------------------+------------------------+------------+------------------------------------------------------------+
+; 3:1                ; 5 bits    ; 10 LEs        ; 5 LEs                ; 5 LEs                  ; Yes        ; |Z80_VGA|SBCTextDisplayRGB:io1|charVert[3]                 ;
+; 3:1                ; 2 bits    ; 4 LEs         ; 2 LEs                ; 2 LEs                  ; Yes        ; |Z80_VGA|T80s:cpu1|T80:u0|ALU_Op_r[0]                      ;
+; 3:1                ; 4 bits    ; 8 LEs         ; 8 LEs                ; 0 LEs                  ; Yes        ; |Z80_VGA|T80s:cpu1|T80:u0|Read_To_Reg_r[0]                 ;
+; 3:1                ; 2 bits    ; 4 LEs         ; 4 LEs                ; 0 LEs                  ; Yes        ; |Z80_VGA|T80s:cpu1|T80:u0|RegAddrC[0]                      ;
+; 3:1                ; 7 bits    ; 14 LEs        ; 7 LEs                ; 7 LEs                  ; Yes        ; |Z80_VGA|SBCTextDisplayRGB:io1|param4[0]                   ;
+; 4:1                ; 2 bits    ; 4 LEs         ; 2 LEs                ; 2 LEs                  ; Yes        ; |Z80_VGA|T80s:cpu1|T80:u0|XY_State[1]                      ;
+; 3:1                ; 7 bits    ; 14 LEs        ; 7 LEs                ; 7 LEs                  ; Yes        ; |Z80_VGA|SBCTextDisplayRGB:io1|charHoriz[5]                ;
+; 3:1                ; 3 bits    ; 6 LEs         ; 3 LEs                ; 3 LEs                  ; Yes        ; |Z80_VGA|SBCTextDisplayRGB:io1|pixelCount[1]               ;
+; 3:1                ; 8 bits    ; 16 LEs        ; 8 LEs                ; 8 LEs                  ; Yes        ; |Z80_VGA|SBCTextDisplayRGB:io1|ps2Byte[5]                  ;
+; 3:1                ; 4 bits    ; 8 LEs         ; 8 LEs                ; 0 LEs                  ; Yes        ; |Z80_VGA|bufferedUART:UART|dataOut[4]                      ;
+; 3:1                ; 3 bits    ; 6 LEs         ; 6 LEs                ; 0 LEs                  ; Yes        ; |Z80_VGA|bufferedUART:UART|dataOut[3]                      ;
+; 3:1                ; 2 bits    ; 4 LEs         ; 2 LEs                ; 2 LEs                  ; Yes        ; |Z80_VGA|T80s:cpu1|T80:u0|ISet[1]                          ;
+; 3:1                ; 3 bits    ; 6 LEs         ; 6 LEs                ; 0 LEs                  ; Yes        ; |Z80_VGA|SBCTextDisplayRGB:io1|ps2ConvertedByte[2]         ;
+; 3:1                ; 4 bits    ; 8 LEs         ; 4 LEs                ; 4 LEs                  ; Yes        ; |Z80_VGA|SBCTextDisplayRGB:io1|pixelClockCount[2]          ;
+; 4:1                ; 7 bits    ; 14 LEs        ; 14 LEs               ; 0 LEs                  ; Yes        ; |Z80_VGA|SBCTextDisplayRGB:io1|param1[6]                   ;
+; 4:1                ; 7 bits    ; 14 LEs        ; 14 LEs               ; 0 LEs                  ; Yes        ; |Z80_VGA|SBCTextDisplayRGB:io1|param2[1]                   ;
+; 4:1                ; 7 bits    ; 14 LEs        ; 14 LEs               ; 0 LEs                  ; Yes        ; |Z80_VGA|SBCTextDisplayRGB:io1|param3[0]                   ;
+; 4:1                ; 2 bits    ; 4 LEs         ; 4 LEs                ; 0 LEs                  ; Yes        ; |Z80_VGA|T80s:cpu1|T80:u0|MCycle[1]                        ;
+; 4:1                ; 8 bits    ; 16 LEs        ; 8 LEs                ; 8 LEs                  ; Yes        ; |Z80_VGA|T80s:cpu1|T80:u0|IR[0]                            ;
+; 3:1                ; 7 bits    ; 14 LEs        ; 7 LEs                ; 7 LEs                  ; Yes        ; |Z80_VGA|T80s:cpu1|T80:u0|R[6]                             ;
+; 4:1                ; 4 bits    ; 8 LEs         ; 4 LEs                ; 4 LEs                  ; Yes        ; |Z80_VGA|SBCTextDisplayRGB:io1|ps2ClkCount[3]              ;
+; 4:1                ; 26 bits   ; 52 LEs        ; 26 LEs               ; 26 LEs                 ; Yes        ; |Z80_VGA|SBCTextDisplayRGB:io1|kbWatchdogTimer[11]         ;
+; 4:1                ; 4 bits    ; 8 LEs         ; 4 LEs                ; 4 LEs                  ; Yes        ; |Z80_VGA|SBCTextDisplayRGB:io1|kbInPointer[3]              ;
+; 4:1                ; 4 bits    ; 8 LEs         ; 4 LEs                ; 4 LEs                  ; Yes        ; |Z80_VGA|SBCTextDisplayRGB:io1|charScanLine[0]             ;
+; 5:1                ; 6 bits    ; 18 LEs        ; 6 LEs                ; 12 LEs                 ; Yes        ; |Z80_VGA|bufferedUART:UART|rxClockCount[5]                 ;
+; 5:1                ; 5 bits    ; 15 LEs        ; 10 LEs               ; 5 LEs                  ; Yes        ; |Z80_VGA|T80s:cpu1|T80:u0|TmpAddr[6]                       ;
+; 5:1                ; 3 bits    ; 9 LEs         ; 6 LEs                ; 3 LEs                  ; Yes        ; |Z80_VGA|T80s:cpu1|T80:u0|TmpAddr[3]                       ;
+; 5:1                ; 8 bits    ; 24 LEs        ; 16 LEs               ; 8 LEs                  ; Yes        ; |Z80_VGA|T80s:cpu1|T80:u0|TmpAddr[11]                      ;
+; 5:1                ; 5 bits    ; 15 LEs        ; 5 LEs                ; 10 LEs                 ; Yes        ; |Z80_VGA|SBCTextDisplayRGB:io1|ps2WriteClkCount[1]         ;
+; 5:1                ; 4 bits    ; 12 LEs        ; 4 LEs                ; 8 LEs                  ; Yes        ; |Z80_VGA|bufferedUART:UART|rxBitCount[3]                   ;
+; 5:1                ; 4 bits    ; 12 LEs        ; 4 LEs                ; 8 LEs                  ; Yes        ; |Z80_VGA|bufferedUART:UART|txBitCount[3]                   ;
+; 5:1                ; 7 bits    ; 21 LEs        ; 7 LEs                ; 14 LEs                 ; Yes        ; |Z80_VGA|bufferedUART:UART|txBuffer[3]                     ;
+; 5:1                ; 8 bits    ; 24 LEs        ; 16 LEs               ; 8 LEs                  ; Yes        ; |Z80_VGA|SBCTextDisplayRGB:io1|dispCharWRData[7]           ;
+; 5:1                ; 8 bits    ; 24 LEs        ; 16 LEs               ; 8 LEs                  ; Yes        ; |Z80_VGA|T80s:cpu1|T80:u0|DO[6]                            ;
+; 11:1               ; 8 bits    ; 56 LEs        ; 48 LEs               ; 8 LEs                  ; Yes        ; |Z80_VGA|T80s:cpu1|T80:u0|BusB[2]                          ;
+; 12:1               ; 8 bits    ; 64 LEs        ; 32 LEs               ; 32 LEs                 ; Yes        ; |Z80_VGA|T80s:cpu1|T80:u0|BusA[0]                          ;
+; 6:1                ; 6 bits    ; 24 LEs        ; 6 LEs                ; 18 LEs                 ; Yes        ; |Z80_VGA|bufferedUART:UART|txClockCount[0]                 ;
+; 7:1                ; 3 bits    ; 12 LEs        ; 12 LEs               ; 0 LEs                  ; Yes        ; |Z80_VGA|SBCTextDisplayRGB:io1|videoB1                     ;
+; 8:1                ; 26 bits   ; 130 LEs       ; 26 LEs               ; 104 LEs                ; Yes        ; |Z80_VGA|SBCTextDisplayRGB:io1|kbWriteTimer[11]            ;
+; 6:1                ; 7 bits    ; 28 LEs        ; 7 LEs                ; 21 LEs                 ; Yes        ; |Z80_VGA|SBCTextDisplayRGB:io1|startAddr[7]                ;
+; 10:1               ; 3 bits    ; 18 LEs        ; 18 LEs               ; 0 LEs                  ; Yes        ; |Z80_VGA|SBCTextDisplayRGB:io1|videoR0                     ;
+; 10:1               ; 3 bits    ; 18 LEs        ; 12 LEs               ; 6 LEs                  ; Yes        ; |Z80_VGA|SBCTextDisplayRGB:io1|paramCount[0]               ;
+; 10:1               ; 7 bits    ; 42 LEs        ; 21 LEs               ; 21 LEs                 ; Yes        ; |Z80_VGA|T80s:cpu1|T80:u0|PC[3]                            ;
+; 10:1               ; 8 bits    ; 48 LEs        ; 32 LEs               ; 16 LEs                 ; Yes        ; |Z80_VGA|T80s:cpu1|T80:u0|PC[8]                            ;
+; 16:1               ; 8 bits    ; 80 LEs        ; 32 LEs               ; 48 LEs                 ; Yes        ; |Z80_VGA|T80s:cpu1|T80:u0|A[3]                             ;
+; 16:1               ; 8 bits    ; 80 LEs        ; 40 LEs               ; 40 LEs                 ; Yes        ; |Z80_VGA|T80s:cpu1|T80:u0|A[9]                             ;
+; 12:1               ; 7 bits    ; 56 LEs        ; 7 LEs                ; 49 LEs                 ; Yes        ; |Z80_VGA|SBCTextDisplayRGB:io1|cursorHorizRestore[4]       ;
+; 13:1               ; 5 bits    ; 40 LEs        ; 5 LEs                ; 35 LEs                 ; Yes        ; |Z80_VGA|SBCTextDisplayRGB:io1|cursorVertRestore[0]        ;
+; 35:1               ; 7 bits    ; 161 LEs       ; 77 LEs               ; 84 LEs                 ; Yes        ; |Z80_VGA|SBCTextDisplayRGB:io1|cursorHoriz[1]              ;
+; 41:1               ; 2 bits    ; 54 LEs        ; 24 LEs               ; 30 LEs                 ; Yes        ; |Z80_VGA|SBCTextDisplayRGB:io1|cursorVert[2]               ;
+; 5:1                ; 8 bits    ; 24 LEs        ; 16 LEs               ; 8 LEs                  ; Yes        ; |Z80_VGA|T80s:cpu1|T80:u0|SP[6]                            ;
+; 5:1                ; 8 bits    ; 24 LEs        ; 16 LEs               ; 8 LEs                  ; Yes        ; |Z80_VGA|T80s:cpu1|T80:u0|SP[8]                            ;
+; 7:1                ; 5 bits    ; 20 LEs        ; 5 LEs                ; 15 LEs                 ; Yes        ; |Z80_VGA|SBCTextDisplayRGB:io1|ps2WriteByte[0]             ;
+; 7:1                ; 8 bits    ; 32 LEs        ; 24 LEs               ; 8 LEs                  ; Yes        ; |Z80_VGA|T80s:cpu1|T80:u0|ACC[2]                           ;
+; 17:1               ; 2 bits    ; 22 LEs        ; 12 LEs               ; 10 LEs                 ; Yes        ; |Z80_VGA|T80s:cpu1|T80:u0|F[3]                             ;
+; 3:1                ; 2 bits    ; 4 LEs         ; 2 LEs                ; 2 LEs                  ; No         ; |Z80_VGA|T80s:cpu1|T80:u0|T80_MCode:mcode|Mux47            ;
+; 3:1                ; 4 bits    ; 8 LEs         ; 4 LEs                ; 4 LEs                  ; No         ; |Z80_VGA|T80s:cpu1|T80:u0|T80_ALU:alu|Q_t                  ;
+; 3:1                ; 3 bits    ; 6 LEs         ; 6 LEs                ; 0 LEs                  ; No         ; |Z80_VGA|T80s:cpu1|T80:u0|T80_ALU:alu|DAA_Q[1]             ;
+; 3:1                ; 3 bits    ; 6 LEs         ; 3 LEs                ; 3 LEs                  ; No         ; |Z80_VGA|SBCTextDisplayRGB:io1|paramCount                  ;
+; 3:1                ; 2 bits    ; 4 LEs         ; 4 LEs                ; 0 LEs                  ; No         ; |Z80_VGA|T80s:cpu1|T80:u0|Save_Mux[3]                      ;
+; 4:1                ; 2 bits    ; 4 LEs         ; 2 LEs                ; 2 LEs                  ; No         ; |Z80_VGA|SBCTextDisplayRGB:io1|dispState                   ;
+; 8:1                ; 8 bits    ; 40 LEs        ; 16 LEs               ; 24 LEs                 ; No         ; |Z80_VGA|T80s:cpu1|T80:u0|T80_ALU:alu|Mux8                 ;
+; 8:1                ; 16 bits   ; 80 LEs        ; 80 LEs               ; 0 LEs                  ; No         ; |Z80_VGA|T80s:cpu1|T80:u0|T80_Reg:Regs|Mux33               ;
+; 4:1                ; 3 bits    ; 6 LEs         ; 6 LEs                ; 0 LEs                  ; No         ; |Z80_VGA|T80s:cpu1|T80:u0|T80_ALU:alu|DAA_Q[7]             ;
+; 4:1                ; 16 bits   ; 32 LEs        ; 32 LEs               ; 0 LEs                  ; No         ; |Z80_VGA|T80s:cpu1|T80:u0|RegDIH[0]                        ;
+; 8:1                ; 16 bits   ; 80 LEs        ; 80 LEs               ; 0 LEs                  ; No         ; |Z80_VGA|T80s:cpu1|T80:u0|T80_Reg:Regs|Mux25               ;
+; 8:1                ; 16 bits   ; 80 LEs        ; 80 LEs               ; 0 LEs                  ; No         ; |Z80_VGA|T80s:cpu1|T80:u0|T80_Reg:Regs|Mux0                ;
+; 5:1                ; 2 bits    ; 6 LEs         ; 6 LEs                ; 0 LEs                  ; No         ; |Z80_VGA|T80s:cpu1|T80:u0|RegAddrA[1]                      ;
+; 6:1                ; 5 bits    ; 20 LEs        ; 15 LEs               ; 5 LEs                  ; No         ; |Z80_VGA|w_cpuDataIn[4]                                    ;
+; 6:1                ; 3 bits    ; 12 LEs        ; 9 LEs                ; 3 LEs                  ; No         ; |Z80_VGA|w_cpuDataIn[0]                                    ;
+; 7:1                ; 2 bits    ; 8 LEs         ; 4 LEs                ; 4 LEs                  ; No         ; |Z80_VGA|SBCTextDisplayRGB:io1|escState.waitForLeftBracket ;
+; 7:1                ; 2 bits    ; 8 LEs         ; 6 LEs                ; 2 LEs                  ; No         ; |Z80_VGA|SBCTextDisplayRGB:io1|escState.none               ;
+; 17:1               ; 4 bits    ; 44 LEs        ; 24 LEs               ; 20 LEs                 ; No         ; |Z80_VGA|T80s:cpu1|T80:u0|Save_Mux[0]                      ;
+; 7:1                ; 3 bits    ; 12 LEs        ; 6 LEs                ; 6 LEs                  ; No         ; |Z80_VGA|bufferedUART:UART|txState.dataBit                 ;
+; 7:1                ; 3 bits    ; 12 LEs        ; 6 LEs                ; 6 LEs                  ; No         ; |Z80_VGA|bufferedUART:UART|rxState.stopBit                 ;
+; 9:1                ; 9 bits    ; 54 LEs        ; 9 LEs                ; 45 LEs                 ; No         ; |Z80_VGA|SBCTextDisplayRGB:io1|dispState                   ;
+; 19:1               ; 2 bits    ; 24 LEs        ; 4 LEs                ; 20 LEs                 ; No         ; |Z80_VGA|T80s:cpu1|T80:u0|RegWEL                           ;
+; 10:1               ; 2 bits    ; 12 LEs        ; 12 LEs               ; 0 LEs                  ; No         ; |Z80_VGA|T80s:cpu1|T80:u0|Save_Mux[5]                      ;
++--------------------+-----------+---------------+----------------------+------------------------+------------+------------------------------------------------------------+
 
 
 +---------------------------------------------------------------------------------------------------------+
@@ -662,7 +662,7 @@ Encoding Type:  One-Hot
 
 
 +---------------------------------------------------------------------------------------------------------+
-; Source assignments for InternalRam16K:u3|altsyncram:altsyncram_component|altsyncram_m3q3:auto_generated ;
+; Source assignments for InternalRam32K:u3|altsyncram:altsyncram_component|altsyncram_6dp3:auto_generated ;
 +---------------------------------+--------------------+------+-------------------------------------------+
 ; Assignment                      ; Value              ; From ; To                                        ;
 +---------------------------------+--------------------+------+-------------------------------------------+
@@ -835,7 +835,7 @@ Note: In order to hide this table in the UI and the text report file, please set
 
 
 +------------------------------------------------------------------------------------------------+
-; Parameter Settings for User Entity Instance: InternalRam16K:u3|altsyncram:altsyncram_component ;
+; Parameter Settings for User Entity Instance: InternalRam32K:u3|altsyncram:altsyncram_component ;
 +------------------------------------+----------------------+------------------------------------+
 ; Parameter Name                     ; Value                ; Type                               ;
 +------------------------------------+----------------------+------------------------------------+
@@ -847,9 +847,9 @@ Note: In order to hide this table in the UI and the text report file, please set
 ; WIDTH_BYTEENA                      ; 1                    ; Untyped                            ;
 ; OPERATION_MODE                     ; SINGLE_PORT          ; Untyped                            ;
 ; WIDTH_A                            ; 8                    ; Signed Integer                     ;
-; WIDTHAD_A                          ; 14                   ; Signed Integer                     ;
-; NUMWORDS_A                         ; 16384                ; Signed Integer                     ;
-; OUTDATA_REG_A                      ; UNREGISTERED         ; Untyped                            ;
+; WIDTHAD_A                          ; 15                   ; Signed Integer                     ;
+; NUMWORDS_A                         ; 32768                ; Signed Integer                     ;
+; OUTDATA_REG_A                      ; CLOCK0               ; Untyped                            ;
 ; ADDRESS_ACLR_A                     ; NONE                 ; Untyped                            ;
 ; OUTDATA_ACLR_A                     ; NONE                 ; Untyped                            ;
 ; WRCONTROL_ACLR_A                   ; NONE                 ; Untyped                            ;
@@ -890,7 +890,7 @@ Note: In order to hide this table in the UI and the text report file, please set
 ; ECC_PIPELINE_STAGE_ENABLED         ; FALSE                ; Untyped                            ;
 ; WIDTH_ECCSTATUS                    ; 3                    ; Signed Integer                     ;
 ; DEVICE_FAMILY                      ; Cyclone IV E         ; Untyped                            ;
-; CBXI_PARAMETER                     ; altsyncram_m3q3      ; Untyped                            ;
+; CBXI_PARAMETER                     ; altsyncram_6dp3      ; Untyped                            ;
 +------------------------------------+----------------------+------------------------------------+
 Note: In order to hide this table in the UI and the text report file, please set the "Show Parameter Settings in Synthesis Report" option in "Analysis and Synthesis Settings -> More Settings" to "Off".
 
@@ -1248,11 +1248,11 @@ Note: In order to hide this table in the UI and the text report file, please set
 ;     -- OUTDATA_REG_B                      ; UNREGISTERED                                                                                         ;
 ;     -- RAM_BLOCK_TYPE                     ; AUTO                                                                                                 ;
 ;     -- READ_DURING_WRITE_MODE_MIXED_PORTS ; DONT_CARE                                                                                            ;
-; Entity Instance                           ; InternalRam16K:u3|altsyncram:altsyncram_component                                                    ;
+; Entity Instance                           ; InternalRam32K:u3|altsyncram:altsyncram_component                                                    ;
 ;     -- OPERATION_MODE                     ; SINGLE_PORT                                                                                          ;
 ;     -- WIDTH_A                            ; 8                                                                                                    ;
-;     -- NUMWORDS_A                         ; 16384                                                                                                ;
-;     -- OUTDATA_REG_A                      ; UNREGISTERED                                                                                         ;
+;     -- NUMWORDS_A                         ; 32768                                                                                                ;
+;     -- OUTDATA_REG_A                      ; CLOCK0                                                                                               ;
 ;     -- WIDTH_B                            ; 1                                                                                                    ;
 ;     -- NUMWORDS_B                         ; 0                                                                                                    ;
 ;     -- ADDRESS_REG_B                      ; CLOCK1                                                                                               ;
@@ -1406,7 +1406,7 @@ Note: In order to hide this table in the UI and the text report file, please set
 ; Type                  ; Count                       ;
 +-----------------------+-----------------------------+
 ; boundary_port         ; 21                          ;
-; cycloneiii_ff         ; 879                         ;
+; cycloneiii_ff         ; 882                         ;
 ;     CLR               ; 60                          ;
 ;     CLR SLD           ; 4                           ;
 ;     ENA               ; 358                         ;
@@ -1417,22 +1417,22 @@ Note: In order to hide this table in the UI and the text report file, please set
 ;     ENA SCLR SLD      ; 24                          ;
 ;     ENA SLD           ; 6                           ;
 ;     SCLR              ; 44                          ;
-;     plain             ; 105                         ;
+;     plain             ; 108                         ;
 ; cycloneiii_io_obuf    ; 2                           ;
-; cycloneiii_lcell_comb ; 3643                        ;
+; cycloneiii_lcell_comb ; 3659                        ;
 ;     arith             ; 513                         ;
 ;         2 data inputs ; 300                         ;
 ;         3 data inputs ; 213                         ;
-;     normal            ; 3130                        ;
+;     normal            ; 3146                        ;
 ;         0 data inputs ; 19                          ;
 ;         1 data inputs ; 60                          ;
-;         2 data inputs ; 282                         ;
-;         3 data inputs ; 607                         ;
-;         4 data inputs ; 2162                        ;
-; cycloneiii_ram_block  ; 56                          ;
+;         2 data inputs ; 296                         ;
+;         3 data inputs ; 605                         ;
+;         4 data inputs ; 2166                        ;
+; cycloneiii_ram_block  ; 72                          ;
 ;                       ;                             ;
 ; Max LUT depth         ; 19.00                       ;
-; Average LUT depth     ; 7.58                        ;
+; Average LUT depth     ; 7.56                        ;
 +-----------------------+-----------------------------+
 
 
@@ -1441,7 +1441,7 @@ Note: In order to hide this table in the UI and the text report file, please set
 +----------------+--------------+
 ; Partition Name ; Elapsed Time ;
 +----------------+--------------+
-; Top            ; 00:00:24     ;
+; Top            ; 00:00:25     ;
 +----------------+--------------+
 
 
@@ -1451,9 +1451,12 @@ Note: In order to hide this table in the UI and the text report file, please set
 Info: *******************************************************************
 Info: Running Quartus Prime Analysis & Synthesis
     Info: Version 18.1.0 Build 625 09/12/2018 SJ Lite Edition
-    Info: Processing started: Sun Jun 21 17:36:41 2020
+    Info: Processing started: Mon Jun 22 09:41:56 2020
 Info: Command: quartus_map --read_settings_files=on --write_settings_files=off Z80_VGA -c Z80_VGA
 Info (20030): Parallel compilation is enabled and will use 4 of the 4 processors detected
+Info (12021): Found 2 design units, including 1 entities, in source file /users/hpz420/documents/github/doug gilliland/multicomp/multicomp (vhdl template)/components/ram_internal/internalram32k.vhd
+    Info (12022): Found design unit 1: InternalRam32K-SYN File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/RAM_Internal/InternalRam32K.vhd Line: 54
+    Info (12023): Found entity 1: InternalRam32K File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/RAM_Internal/InternalRam32K.vhd Line: 42
 Info (12021): Found 2 design units, including 1 entities, in source file /users/hpz420/documents/github/doug gilliland/multicomp/multicomp (vhdl template)/components/terminal/sansboldrom.vhd
     Info (12022): Found design unit 1: sansboldrom-SYN File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/TERMINAL/SansBoldRom.vhd Line: 52
     Info (12023): Found entity 1: SansBoldRom File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/TERMINAL/SansBoldRom.vhd Line: 42
@@ -1519,13 +1522,13 @@ Info (12127): Elaborating entity "Z80_VGA" for the top level hierarchy
 Warning (10036): Verilog HDL or VHDL warning at Z80_VGA.vhd(81): object "w_n_memRD" assigned a value but never read File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_EP4CE10/Z80_VGA_PS2_UART_32K/Z80_VGA.vhd Line: 81
 Warning (10036): Verilog HDL or VHDL warning at Z80_VGA.vhd(95): object "w_n_int1" assigned a value but never read File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_EP4CE10/Z80_VGA_PS2_UART_32K/Z80_VGA.vhd Line: 95
 Warning (10036): Verilog HDL or VHDL warning at Z80_VGA.vhd(96): object "w_n_int2" assigned a value but never read File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_EP4CE10/Z80_VGA_PS2_UART_32K/Z80_VGA.vhd Line: 96
-Warning (10492): VHDL Process Statement warning at Z80_VGA.vhd(332): signal "w_fKey2" is read inside the Process Statement but isn't in the Process Statement's sensitivity list File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_EP4CE10/Z80_VGA_PS2_UART_32K/Z80_VGA.vhd Line: 332
-Info (12128): Elaborating entity "T80s" for hierarchy "T80s:cpu1" File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_EP4CE10/Z80_VGA_PS2_UART_32K/Z80_VGA.vhd Line: 147
+Warning (10492): VHDL Process Statement warning at Z80_VGA.vhd(334): signal "w_fKey2" is read inside the Process Statement but isn't in the Process Statement's sensitivity list File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_EP4CE10/Z80_VGA_PS2_UART_32K/Z80_VGA.vhd Line: 334
+Info (12128): Elaborating entity "T80s" for hierarchy "T80s:cpu1" File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_EP4CE10/Z80_VGA_PS2_UART_32K/Z80_VGA.vhd Line: 179
 Info (12128): Elaborating entity "T80" for hierarchy "T80s:cpu1|T80:u0" File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/CPU/Z80/T80s.vhd Line: 115
 Info (12128): Elaborating entity "T80_MCode" for hierarchy "T80s:cpu1|T80:u0|T80_MCode:mcode" File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/CPU/Z80/T80.vhd Line: 244
 Info (12128): Elaborating entity "T80_ALU" for hierarchy "T80s:cpu1|T80:u0|T80_ALU:alu" File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/CPU/Z80/T80.vhd Line: 309
 Info (12128): Elaborating entity "T80_Reg" for hierarchy "T80s:cpu1|T80:u0|T80_Reg:Regs" File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/CPU/Z80/T80.vhd Line: 819
-Info (12128): Elaborating entity "Z80_BASIC_ROM" for hierarchy "Z80_BASIC_ROM:rom" File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_EP4CE10/Z80_VGA_PS2_UART_32K/Z80_VGA.vhd Line: 165
+Info (12128): Elaborating entity "Z80_BASIC_ROM" for hierarchy "Z80_BASIC_ROM:rom" File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_EP4CE10/Z80_VGA_PS2_UART_32K/Z80_VGA.vhd Line: 197
 Info (12128): Elaborating entity "altsyncram" for hierarchy "Z80_BASIC_ROM:rom|altsyncram:altsyncram_component" File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/ROMs/Z80/Z80_BASIC_ROM.vhd Line: 59
 Info (12130): Elaborated megafunction instantiation "Z80_BASIC_ROM:rom|altsyncram:altsyncram_component" File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/ROMs/Z80/Z80_BASIC_ROM.vhd Line: 59
 Info (12133): Instantiated megafunction "Z80_BASIC_ROM:rom|altsyncram:altsyncram_component" with the following parameter: File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/ROMs/Z80/Z80_BASIC_ROM.vhd Line: 59
@@ -1590,22 +1593,10 @@ Warning (287001): Assertion warning: MGL_INTERNAL_WARNING: ( The parameter value
 Info (12021): Found 1 design units, including 1 entities, in source file db/altsyncram_4nu3.tdf
     Info (12023): Found entity 1: altsyncram_4nu3 File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_EP4CE10/Z80_VGA_PS2_UART_32K/db/altsyncram_4nu3.tdf Line: 27
 Info (12128): Elaborating entity "altsyncram_4nu3" for hierarchy "Z80_BASIC_ROM:rom|altsyncram:altsyncram_component|altsyncram_4nu3:auto_generated" File: c:/intelfpga_lite/18.1/quartus/libraries/megafunctions/altsyncram.tdf Line: 791
-Warning (113015): Width of data items in "BASIC.HEX" is greater than the memory width. Wrapping data items to subsequent addresses. Found 311 warnings, reporting 10 File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/ROMs/Z80/BASIC.HEX Line: 1
-    Warning (113009): Data at line (1) of memory initialization file "BASIC.HEX" is too wide to fit in one memory word. Wrapping data to subsequent addresses. File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/ROMs/Z80/BASIC.HEX Line: 1
-    Warning (113009): Data at line (2) of memory initialization file "BASIC.HEX" is too wide to fit in one memory word. Wrapping data to subsequent addresses. File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/ROMs/Z80/BASIC.HEX Line: 2
-    Warning (113009): Data at line (3) of memory initialization file "BASIC.HEX" is too wide to fit in one memory word. Wrapping data to subsequent addresses. File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/ROMs/Z80/BASIC.HEX Line: 3
-    Warning (113009): Data at line (4) of memory initialization file "BASIC.HEX" is too wide to fit in one memory word. Wrapping data to subsequent addresses. File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/ROMs/Z80/BASIC.HEX Line: 4
-    Warning (113009): Data at line (5) of memory initialization file "BASIC.HEX" is too wide to fit in one memory word. Wrapping data to subsequent addresses. File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/ROMs/Z80/BASIC.HEX Line: 5
-    Warning (113009): Data at line (6) of memory initialization file "BASIC.HEX" is too wide to fit in one memory word. Wrapping data to subsequent addresses. File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/ROMs/Z80/BASIC.HEX Line: 6
-    Warning (113009): Data at line (7) of memory initialization file "BASIC.HEX" is too wide to fit in one memory word. Wrapping data to subsequent addresses. File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/ROMs/Z80/BASIC.HEX Line: 7
-    Warning (113009): Data at line (8) of memory initialization file "BASIC.HEX" is too wide to fit in one memory word. Wrapping data to subsequent addresses. File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/ROMs/Z80/BASIC.HEX Line: 8
-    Warning (113009): Data at line (9) of memory initialization file "BASIC.HEX" is too wide to fit in one memory word. Wrapping data to subsequent addresses. File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/ROMs/Z80/BASIC.HEX Line: 9
-    Warning (113009): Data at line (10) of memory initialization file "BASIC.HEX" is too wide to fit in one memory word. Wrapping data to subsequent addresses. File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/ROMs/Z80/BASIC.HEX Line: 10
-Critical Warning (127005): Memory depth (8192) in the design file differs from memory depth (7523) in the Memory Initialization File "C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/ROMs/Z80/BASIC.HEX" -- setting initial value for remaining addresses to 0 File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/ROMs/Z80/Z80_BASIC_ROM.vhd Line: 59
-Info (12128): Elaborating entity "InternalRam16K" for hierarchy "InternalRam16K:u3" File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_EP4CE10/Z80_VGA_PS2_UART_32K/Z80_VGA.vhd Line: 172
-Info (12128): Elaborating entity "altsyncram" for hierarchy "InternalRam16K:u3|altsyncram:altsyncram_component" File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/RAM_Internal/InternalRam16K.vhd Line: 61
-Info (12130): Elaborated megafunction instantiation "InternalRam16K:u3|altsyncram:altsyncram_component" File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/RAM_Internal/InternalRam16K.vhd Line: 61
-Info (12133): Instantiated megafunction "InternalRam16K:u3|altsyncram:altsyncram_component" with the following parameter: File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/RAM_Internal/InternalRam16K.vhd Line: 61
+Info (12128): Elaborating entity "InternalRam32K" for hierarchy "InternalRam32K:u3" File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_EP4CE10/Z80_VGA_PS2_UART_32K/Z80_VGA.vhd Line: 204
+Info (12128): Elaborating entity "altsyncram" for hierarchy "InternalRam32K:u3|altsyncram:altsyncram_component" File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/RAM_Internal/InternalRam32K.vhd Line: 61
+Info (12130): Elaborated megafunction instantiation "InternalRam32K:u3|altsyncram:altsyncram_component" File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/RAM_Internal/InternalRam32K.vhd Line: 61
+Info (12133): Instantiated megafunction "InternalRam32K:u3|altsyncram:altsyncram_component" with the following parameter: File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/RAM_Internal/InternalRam32K.vhd Line: 61
     Info (12134): Parameter "address_aclr_a" = "UNUSED"
     Info (12134): Parameter "address_aclr_b" = "NONE"
     Info (12134): Parameter "address_reg_b" = "CLOCK1"
@@ -1629,12 +1620,12 @@ Info (12133): Instantiated megafunction "InternalRam16K:u3|altsyncram:altsyncram
     Info (12134): Parameter "init_file" = "UNUSED"
     Info (12134): Parameter "init_file_layout" = "PORT_A"
     Info (12134): Parameter "maximum_depth" = "0"
-    Info (12134): Parameter "numwords_a" = "16384"
+    Info (12134): Parameter "numwords_a" = "32768"
     Info (12134): Parameter "numwords_b" = "0"
     Info (12134): Parameter "operation_mode" = "SINGLE_PORT"
     Info (12134): Parameter "outdata_aclr_a" = "NONE"
     Info (12134): Parameter "outdata_aclr_b" = "NONE"
-    Info (12134): Parameter "outdata_reg_a" = "UNREGISTERED"
+    Info (12134): Parameter "outdata_reg_a" = "CLOCK0"
     Info (12134): Parameter "outdata_reg_b" = "UNREGISTERED"
     Info (12134): Parameter "power_up_uninitialized" = "FALSE"
     Info (12134): Parameter "ram_block_type" = "AUTO"
@@ -1649,26 +1640,26 @@ Info (12133): Instantiated megafunction "InternalRam16K:u3|altsyncram:altsyncram
     Info (12134): Parameter "width_byteena_a" = "1"
     Info (12134): Parameter "width_byteena_b" = "1"
     Info (12134): Parameter "width_eccstatus" = "3"
-    Info (12134): Parameter "widthad_a" = "14"
+    Info (12134): Parameter "widthad_a" = "15"
     Info (12134): Parameter "widthad_b" = "1"
     Info (12134): Parameter "wrcontrol_aclr_a" = "UNUSED"
     Info (12134): Parameter "wrcontrol_aclr_b" = "NONE"
     Info (12134): Parameter "wrcontrol_wraddress_reg_b" = "CLOCK1"
     Info (12134): Parameter "lpm_hint" = "ENABLE_RUNTIME_MOD=NO"
     Info (12134): Parameter "lpm_type" = "altsyncram"
-Info (12021): Found 1 design units, including 1 entities, in source file db/altsyncram_m3q3.tdf
-    Info (12023): Found entity 1: altsyncram_m3q3 File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_EP4CE10/Z80_VGA_PS2_UART_32K/db/altsyncram_m3q3.tdf Line: 33
-Info (12128): Elaborating entity "altsyncram_m3q3" for hierarchy "InternalRam16K:u3|altsyncram:altsyncram_component|altsyncram_m3q3:auto_generated" File: c:/intelfpga_lite/18.1/quartus/libraries/megafunctions/altsyncram.tdf Line: 791
-Info (12021): Found 1 design units, including 1 entities, in source file db/decode_jsa.tdf
-    Info (12023): Found entity 1: decode_jsa File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_EP4CE10/Z80_VGA_PS2_UART_32K/db/decode_jsa.tdf Line: 22
-Info (12128): Elaborating entity "decode_jsa" for hierarchy "InternalRam16K:u3|altsyncram:altsyncram_component|altsyncram_m3q3:auto_generated|decode_jsa:decode3" File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_EP4CE10/Z80_VGA_PS2_UART_32K/db/altsyncram_m3q3.tdf Line: 43
-Info (12021): Found 1 design units, including 1 entities, in source file db/decode_c8a.tdf
-    Info (12023): Found entity 1: decode_c8a File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_EP4CE10/Z80_VGA_PS2_UART_32K/db/decode_c8a.tdf Line: 22
-Info (12128): Elaborating entity "decode_c8a" for hierarchy "InternalRam16K:u3|altsyncram:altsyncram_component|altsyncram_m3q3:auto_generated|decode_c8a:rden_decode" File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_EP4CE10/Z80_VGA_PS2_UART_32K/db/altsyncram_m3q3.tdf Line: 44
-Info (12021): Found 1 design units, including 1 entities, in source file db/mux_3nb.tdf
-    Info (12023): Found entity 1: mux_3nb File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_EP4CE10/Z80_VGA_PS2_UART_32K/db/mux_3nb.tdf Line: 22
-Info (12128): Elaborating entity "mux_3nb" for hierarchy "InternalRam16K:u3|altsyncram:altsyncram_component|altsyncram_m3q3:auto_generated|mux_3nb:mux2" File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_EP4CE10/Z80_VGA_PS2_UART_32K/db/altsyncram_m3q3.tdf Line: 45
-Info (12128): Elaborating entity "SBCTextDisplayRGB" for hierarchy "SBCTextDisplayRGB:io1" File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_EP4CE10/Z80_VGA_PS2_UART_32K/Z80_VGA.vhd Line: 182
+Info (12021): Found 1 design units, including 1 entities, in source file db/altsyncram_6dp3.tdf
+    Info (12023): Found entity 1: altsyncram_6dp3 File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_EP4CE10/Z80_VGA_PS2_UART_32K/db/altsyncram_6dp3.tdf Line: 33
+Info (12128): Elaborating entity "altsyncram_6dp3" for hierarchy "InternalRam32K:u3|altsyncram:altsyncram_component|altsyncram_6dp3:auto_generated" File: c:/intelfpga_lite/18.1/quartus/libraries/megafunctions/altsyncram.tdf Line: 791
+Info (12021): Found 1 design units, including 1 entities, in source file db/decode_msa.tdf
+    Info (12023): Found entity 1: decode_msa File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_EP4CE10/Z80_VGA_PS2_UART_32K/db/decode_msa.tdf Line: 22
+Info (12128): Elaborating entity "decode_msa" for hierarchy "InternalRam32K:u3|altsyncram:altsyncram_component|altsyncram_6dp3:auto_generated|decode_msa:decode3" File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_EP4CE10/Z80_VGA_PS2_UART_32K/db/altsyncram_6dp3.tdf Line: 44
+Info (12021): Found 1 design units, including 1 entities, in source file db/decode_f8a.tdf
+    Info (12023): Found entity 1: decode_f8a File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_EP4CE10/Z80_VGA_PS2_UART_32K/db/decode_f8a.tdf Line: 22
+Info (12128): Elaborating entity "decode_f8a" for hierarchy "InternalRam32K:u3|altsyncram:altsyncram_component|altsyncram_6dp3:auto_generated|decode_f8a:rden_decode" File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_EP4CE10/Z80_VGA_PS2_UART_32K/db/altsyncram_6dp3.tdf Line: 45
+Info (12021): Found 1 design units, including 1 entities, in source file db/mux_6nb.tdf
+    Info (12023): Found entity 1: mux_6nb File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_EP4CE10/Z80_VGA_PS2_UART_32K/db/mux_6nb.tdf Line: 22
+Info (12128): Elaborating entity "mux_6nb" for hierarchy "InternalRam32K:u3|altsyncram:altsyncram_component|altsyncram_6dp3:auto_generated|mux_6nb:mux2" File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_EP4CE10/Z80_VGA_PS2_UART_32K/db/altsyncram_6dp3.tdf Line: 46
+Info (12128): Elaborating entity "SBCTextDisplayRGB" for hierarchy "SBCTextDisplayRGB:io1" File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_EP4CE10/Z80_VGA_PS2_UART_32K/Z80_VGA.vhd Line: 214
 Info (12128): Elaborating entity "SansBoldRomReduced" for hierarchy "SBCTextDisplayRGB:io1|SansBoldRomReduced:\GEN_REDUCED_SCHARS:fontRom" File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/TERMINAL/SBCTextDisplayRGB.vhd Line: 316
 Info (12128): Elaborating entity "altsyncram" for hierarchy "SBCTextDisplayRGB:io1|SansBoldRomReduced:\GEN_REDUCED_SCHARS:fontRom|altsyncram:altsyncram_component" File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/TERMINAL/SansBoldRomReduced.vhd Line: 84
 Info (12130): Elaborated megafunction instantiation "SBCTextDisplayRGB:io1|SansBoldRomReduced:\GEN_REDUCED_SCHARS:fontRom|altsyncram:altsyncram_component" File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/TERMINAL/SansBoldRomReduced.vhd Line: 84
@@ -1689,17 +1680,6 @@ Info (12133): Instantiated megafunction "SBCTextDisplayRGB:io1|SansBoldRomReduce
 Info (12021): Found 1 design units, including 1 entities, in source file db/altsyncram_2d91.tdf
     Info (12023): Found entity 1: altsyncram_2d91 File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_EP4CE10/Z80_VGA_PS2_UART_32K/db/altsyncram_2d91.tdf Line: 27
 Info (12128): Elaborating entity "altsyncram_2d91" for hierarchy "SBCTextDisplayRGB:io1|SansBoldRomReduced:\GEN_REDUCED_SCHARS:fontRom|altsyncram:altsyncram_component|altsyncram_2d91:auto_generated" File: c:/intelfpga_lite/18.1/quartus/libraries/megafunctions/altsyncram.tdf Line: 791
-Warning (113015): Width of data items in "SansFontBoldReduced.HEX" is greater than the memory width. Wrapping data items to subsequent addresses. Found 32 warnings, reporting 10 File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/TERMINAL/SansFontBoldReduced.HEX Line: 1
-    Warning (113009): Data at line (1) of memory initialization file "SansFontBoldReduced.HEX" is too wide to fit in one memory word. Wrapping data to subsequent addresses. File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/TERMINAL/SansFontBoldReduced.HEX Line: 1
-    Warning (113009): Data at line (2) of memory initialization file "SansFontBoldReduced.HEX" is too wide to fit in one memory word. Wrapping data to subsequent addresses. File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/TERMINAL/SansFontBoldReduced.HEX Line: 2
-    Warning (113009): Data at line (3) of memory initialization file "SansFontBoldReduced.HEX" is too wide to fit in one memory word. Wrapping data to subsequent addresses. File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/TERMINAL/SansFontBoldReduced.HEX Line: 3
-    Warning (113009): Data at line (4) of memory initialization file "SansFontBoldReduced.HEX" is too wide to fit in one memory word. Wrapping data to subsequent addresses. File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/TERMINAL/SansFontBoldReduced.HEX Line: 4
-    Warning (113009): Data at line (5) of memory initialization file "SansFontBoldReduced.HEX" is too wide to fit in one memory word. Wrapping data to subsequent addresses. File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/TERMINAL/SansFontBoldReduced.HEX Line: 5
-    Warning (113009): Data at line (6) of memory initialization file "SansFontBoldReduced.HEX" is too wide to fit in one memory word. Wrapping data to subsequent addresses. File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/TERMINAL/SansFontBoldReduced.HEX Line: 6
-    Warning (113009): Data at line (7) of memory initialization file "SansFontBoldReduced.HEX" is too wide to fit in one memory word. Wrapping data to subsequent addresses. File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/TERMINAL/SansFontBoldReduced.HEX Line: 7
-    Warning (113009): Data at line (8) of memory initialization file "SansFontBoldReduced.HEX" is too wide to fit in one memory word. Wrapping data to subsequent addresses. File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/TERMINAL/SansFontBoldReduced.HEX Line: 8
-    Warning (113009): Data at line (9) of memory initialization file "SansFontBoldReduced.HEX" is too wide to fit in one memory word. Wrapping data to subsequent addresses. File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/TERMINAL/SansFontBoldReduced.HEX Line: 9
-    Warning (113009): Data at line (10) of memory initialization file "SansFontBoldReduced.HEX" is too wide to fit in one memory word. Wrapping data to subsequent addresses. File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/TERMINAL/SansFontBoldReduced.HEX Line: 10
 Info (12128): Elaborating entity "DisplayRam2K" for hierarchy "SBCTextDisplayRGB:io1|DisplayRam2K:\GEN_2KRAM:dispCharRam" File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/TERMINAL/SBCTextDisplayRGB.vhd Line: 327
 Info (12128): Elaborating entity "altsyncram" for hierarchy "SBCTextDisplayRGB:io1|DisplayRam2K:\GEN_2KRAM:dispCharRam|altsyncram:altsyncram_component" File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/TERMINAL/DisplayRam2K.vhd Line: 111
 Info (12130): Elaborated megafunction instantiation "SBCTextDisplayRGB:io1|DisplayRam2K:\GEN_2KRAM:dispCharRam|altsyncram:altsyncram_component" File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/TERMINAL/DisplayRam2K.vhd Line: 111
@@ -1733,10 +1713,10 @@ Info (12133): Instantiated megafunction "SBCTextDisplayRGB:io1|DisplayRam2K:\GEN
 Info (12021): Found 1 design units, including 1 entities, in source file db/altsyncram_shh2.tdf
     Info (12023): Found entity 1: altsyncram_shh2 File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_EP4CE10/Z80_VGA_PS2_UART_32K/db/altsyncram_shh2.tdf Line: 27
 Info (12128): Elaborating entity "altsyncram_shh2" for hierarchy "SBCTextDisplayRGB:io1|DisplayRam2K:\GEN_2KRAM:dispCharRam|altsyncram:altsyncram_component|altsyncram_shh2:auto_generated" File: c:/intelfpga_lite/18.1/quartus/libraries/megafunctions/altsyncram.tdf Line: 791
-Info (12128): Elaborating entity "bufferedUART" for hierarchy "bufferedUART:UART" File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_EP4CE10/Z80_VGA_PS2_UART_32K/Z80_VGA.vhd Line: 211
-Info (12128): Elaborating entity "Toggle_On_FN_Key" for hierarchy "Toggle_On_FN_Key:FNKey1Toggle" File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_EP4CE10/Z80_VGA_PS2_UART_32K/Z80_VGA.vhd Line: 229
-Info (12128): Elaborating entity "OutLatch" for hierarchy "OutLatch:io3" File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_EP4CE10/Z80_VGA_PS2_UART_32K/Z80_VGA.vhd Line: 245
-Info (12128): Elaborating entity "counter" for hierarchy "counter:myCounter" File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_EP4CE10/Z80_VGA_PS2_UART_32K/Z80_VGA.vhd Line: 254
+Info (12128): Elaborating entity "bufferedUART" for hierarchy "bufferedUART:UART" File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_EP4CE10/Z80_VGA_PS2_UART_32K/Z80_VGA.vhd Line: 243
+Info (12128): Elaborating entity "Toggle_On_FN_Key" for hierarchy "Toggle_On_FN_Key:FNKey1Toggle" File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_EP4CE10/Z80_VGA_PS2_UART_32K/Z80_VGA.vhd Line: 261
+Info (12128): Elaborating entity "OutLatch" for hierarchy "OutLatch:io3" File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_EP4CE10/Z80_VGA_PS2_UART_32K/Z80_VGA.vhd Line: 277
+Info (12128): Elaborating entity "counter" for hierarchy "counter:myCounter" File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_EP4CE10/Z80_VGA_PS2_UART_32K/Z80_VGA.vhd Line: 286
 Warning (276027): Inferred dual-clock RAM node "bufferedUART:UART|rxBuffer_rtl_0" from synchronous design logic.  The read-during-write behavior of a dual-clock RAM is undefined and may not match the behavior of the original design.
 Info (276014): Found 1 instances of uninferred RAM logic
     Info (276004): RAM logic "SBCTextDisplayRGB:io1|kbBuffer" is uninferred due to inappropriate RAM size File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/TERMINAL/SBCTextDisplayRGB.vhd Line: 162
@@ -1799,15 +1779,15 @@ Info (286030): Timing-Driven Synthesis is running
 Info (17049): 18 registers lost all their fanouts during netlist optimizations.
 Info (16010): Generating hard_block partition "hard_block:auto_generated_inst"
     Info (16011): Adding 0 node(s), including 0 DDIO, 0 PLL, 0 transceiver and 0 LCELL
-Info (21057): Implemented 4024 device resources after synthesis - the final resource count might be different
+Info (21057): Implemented 4056 device resources after synthesis - the final resource count might be different
     Info (21058): Implemented 7 input pins
     Info (21059): Implemented 12 output pins
     Info (21060): Implemented 2 bidirectional pins
-    Info (21061): Implemented 3947 logic cells
-    Info (21064): Implemented 56 RAM segments
-Info: Quartus Prime Analysis & Synthesis was successful. 0 errors, 36 warnings
+    Info (21061): Implemented 3963 logic cells
+    Info (21064): Implemented 72 RAM segments
+Info: Quartus Prime Analysis & Synthesis was successful. 0 errors, 13 warnings
     Info: Peak virtual memory: 4840 megabytes
-    Info: Processing ended: Sun Jun 21 17:37:25 2020
+    Info: Processing ended: Mon Jun 22 09:42:40 2020
     Info: Elapsed time: 00:00:44
     Info: Total CPU time (on all processors): 00:00:58
 

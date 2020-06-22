@@ -49,10 +49,10 @@ entity Z80_VGA is
 		i_switch1		: in std_logic;
 		i_switch2		: in std_logic;
 		-- LEDs
-		LED1			: out std_logic;
-		LED2			: out std_logic;
-		LED3			: out std_logic;
-		LED4			: out std_logic;
+		O_LED1			: out std_logic;
+		O_LED2			: out std_logic;
+		O_LED3			: out std_logic;
+		O_LED4			: out std_logic;
 		-- Buzzer
 		BUZZER		: out std_logic;
 		-- PS/2 keyboard
@@ -86,20 +86,20 @@ architecture struct of Z80_VGA is
 	signal w_n_intlRam1CS	: std_logic :='1';
 	signal w_n_Latch_CS		: std_logic :='1';
 	
-	signal w_n_ioWR			: std_logic :='1';
-	signal w_n_ioRD 			: std_logic :='1';
+	signal w_n_ioWR		: std_logic :='1';
+	signal w_n_ioRD 		: std_logic :='1';
 
-	signal w_n_MREQ			: std_logic :='1';
-	signal w_n_IORQ			: std_logic :='1';	
+	signal w_n_MREQ		: std_logic :='1';
+	signal w_n_IORQ		: std_logic :='1';	
 
-	signal w_n_int1			: std_logic :='1';	
-	signal w_n_int2			: std_logic :='1';	
+	signal w_n_int1		: std_logic :='1';	
+	signal w_n_int2		: std_logic :='1';	
 	
-	signal w_serialCount		: std_logic_vector(15 downto 0);
-	signal w_serClkCt_d		: std_logic_vector(15 downto 0);
-	signal w_serialClkEn		: std_logic;
+	signal w_serialCount	: std_logic_vector(15 downto 0);
+	signal w_serClkCt_d	: std_logic_vector(15 downto 0);
+	signal w_serialClkEn	: std_logic;
 
-	signal w_cpuClkCount		: std_logic_vector(5 downto 0); 
+	signal w_cpuClkCount	: std_logic_vector(5 downto 0); 
 	signal w_cpuClock		: std_logic;
 	signal w_serialClock	: std_logic;
 	
@@ -127,10 +127,10 @@ begin
 	o_vid_grn <= w_Video_Grn0 or w_Video_Grn1;
 	o_vid_blu <= w_Video_Blu0 or w_Video_Blu1;
 	
-	LED1 <= w_latchedBits(0);
-	LED2 <= w_fKey1;
-	LED3 <= not w_txdBuff;
-	LED4 <= not i_rxd;
+	O_LED1 <= w_latchedBits(0);
+	O_LED2 <= w_fKey1;
+	O_LED3 <= not w_txdBuff;
+	O_LED4 <= not i_rxd;
 	o_txd <= w_txdBuff;
 	
 	swDataOut(0) <= i_switch0;
@@ -142,6 +142,38 @@ begin
 	swDataOut(6) <= '0';
 	swDataOut(7) <= '0';
 
+	-- MEMORY READ/WRITE LOGIC GOES HERE
+	w_n_ioWR <= w_n_WR or w_n_IORQ;
+	w_n_memWR <= w_n_WR or w_n_MREQ;
+	w_n_ioRD <= w_n_RD or w_n_IORQ;
+	w_n_memRD <= w_n_RD or w_n_MREQ;
+	
+	-- Chip Selects
+	w_n_basRomCS   <= '0' when   w_cpuAddress(15 downto 13) = "000" else '1';	--8K from $0000-1FFF
+	w_n_intlRam1CS <= '0' when ((w_cpuAddress(15 downto 13) = "001") or 			-- x2000-x3FFF (8KB)
+										 (w_cpuAddress(15 downto 14) = "01")  or			-- x4000-x7FFF (16KB)
+										 (w_cpuAddress(15 downto 13) = "100"))	 			-- x8000-x9FFF (8KB)
+										else '1';		
+	-- I/O accesses are via IN/OUT in Z80 NASCOM BASIC
+	-- The address decoders get swapped when the F1 key is pressed
+	w_n_IF1CS <= '0' when 
+		((w_fKey1 = '0' and w_cpuAddress(7 downto 1) = X"8"&"000" and (w_n_ioWR='0' or w_n_ioRD = '0')) or	-- 2 Bytes $80-$81
+		 (w_fKey1 = '1' and w_cpuAddress(7 downto 1) = X"8"&"001" and (w_n_ioWR='0' or w_n_ioRD = '0')))	-- 2 Bytes $82-$83
+		else '1';
+	w_n_IF2CS <= '0' when   
+		((w_fKey1 = '0' and w_cpuAddress(7 downto 1) = X"8"&"001" and (w_n_ioWR='0' or w_n_ioRD = '0'))	or	-- 2 Bytes $82-$83
+		 (w_fKey1 = '1' and w_cpuAddress(7 downto 1) = X"8"&"000" and (w_n_ioWR='0' or w_n_ioRD = '0')))	-- 2 Bytes $80-$81
+		else '1';
+	w_n_Latch_CS <= '0' when w_cpuAddress(7 downto 1) = X"8"&"010" and (w_n_ioWR='0' or w_n_ioRD = '0') else '1';  -- $84-$85 (132-133 dec)
+	
+	w_cpuDataIn <=
+		w_IF1DataOut when w_n_IF1CS = '0' else	-- UART 1
+		w_IF2DataOut when w_n_IF2CS = '0' else	-- UART 2
+		swDataOut when w_n_Latch_CS = '0' else
+		w_basRomData when w_n_basRomCS = '0' else
+		w_ramDataOut when w_n_intlRam1CS = '0' else
+		x"FF";
+		
 -- ____________________________________________________________________________________
 -- CPU CHOICE GOES HERE
 	cpu1 : entity work.t80s
@@ -169,10 +201,10 @@ begin
 		q => w_basRomData
 	);
 
-	u3: entity work.InternalRam16K 
+	u3: entity work.InternalRam32K 
 	port map
 	(
-		address => w_cpuAddress(13 downto 0),
+		address => w_cpuAddress(14 downto 0),
 		clock => i_clk_50,
 		data => w_cpuDataOut,
 		wren => not(w_n_memWR or w_n_intlRam1CS),
@@ -265,36 +297,6 @@ begin
 		(w_latchedBits(5) and w_counterOut(14)) or 
 		(w_latchedBits(6) and w_counterOut(15)) or 
 		(w_latchedBits(7) and w_counterOut(16)));
-
--- MEMORY READ/WRITE LOGIC GOES HERE
-	w_n_ioWR <= w_n_WR or w_n_IORQ;
-	w_n_memWR <= w_n_WR or w_n_MREQ;
-	w_n_ioRD <= w_n_RD or w_n_IORQ;
-	w_n_memRD <= w_n_RD or w_n_MREQ;
-	
-	-- Chip Selects
-	w_n_basRomCS       <= '0' when   w_cpuAddress(15 downto 13) = "000" else '1'; --8K from $0000-1FFF
-	w_n_intlRam1CS <= '0' when ((w_cpuAddress(15 downto 13) = "001") or (w_cpuAddress(15 downto 13) = "010"))  else '1';		-- x0002-x5FFF (16KB)
-	-- I/O accesses are via IN/OUT in Z80 NASCOM BASIC
-	-- The address decoders get swapped when the F1 key is pressed
-	w_n_IF1CS <= '0' when 
-		((w_fKey1 = '0' and w_cpuAddress(7 downto 1) = X"8"&"000" and (w_n_ioWR='0' or w_n_ioRD = '0')) or	-- 2 Bytes $80-$81
-		 (w_fKey1 = '1' and w_cpuAddress(7 downto 1) = X"8"&"001" and (w_n_ioWR='0' or w_n_ioRD = '0')))	-- 2 Bytes $82-$83
-		else '1';
-	w_n_IF2CS <= '0' when   
-		((w_fKey1 = '0' and w_cpuAddress(7 downto 1) = X"8"&"001" and (w_n_ioWR='0' or w_n_ioRD = '0'))	or	-- 2 Bytes $82-$83
-		 (w_fKey1 = '1' and w_cpuAddress(7 downto 1) = X"8"&"000" and (w_n_ioWR='0' or w_n_ioRD = '0')))	-- 2 Bytes $80-$81
-		else '1';
-	w_n_Latch_CS <= '0' when w_cpuAddress(7 downto 1) = X"8"&"010" and (w_n_ioWR='0' or w_n_ioRD = '0') else '1';  -- $84-$85 (132-133 dec)
-	
-	w_cpuDataIn <=
-		w_IF1DataOut when w_n_IF1CS = '0' else	-- UART 1
-		w_IF2DataOut when w_n_IF2CS = '0' else	-- UART 2
-		swDataOut when w_n_Latch_CS = '0' else
-		w_basRomData when w_n_basRomCS = '0' else
-		w_ramDataOut when w_n_intlRam1CS = '0' else
-		x"FF";
-		
 
 -- SUB-CIRCUIT CLOCK SIGNALS 
 	process (i_clk_50)
