@@ -3,6 +3,7 @@
 -- Grant Searle's "multicomp" page at http://searle.hostei.com/grant/Multicomp/index.html
 --
 -- Changes to this code by Doug Gilliland 2020
+--	http://land-boards.com/blwiki/index.php?title=A-C4E10_Cyclone_IV_FPGA_EP4CE10E22C8N_Development_Board
 --
 -- MC6800 CPU
 --	16.7 MHz CPU cloxk
@@ -27,23 +28,23 @@ use  IEEE.STD_LOGIC_UNSIGNED.all;
 
 entity M6800_MIKBUG is
 	port(
-		i_n_reset			: in std_logic := '1';
-		i_CLOCK_50			: in std_logic;
+		i_n_reset	: in std_logic := '1';
+		i_CLOCK_50	: in std_logic;
 
-		o_Vid_Red			: out std_logic := '1';
-		o_Vid_Grn			: out std_logic := '1';
-		o_Vid_Blu			: out std_logic := '1';
-		o_hSync				: out std_logic := '1';
-		o_vSync				: out std_logic := '1';
+		o_Vid_Red	: out std_logic := '0';
+		o_Vid_Grn	: out std_logic := '0';
+		o_Vid_Blu	: out std_logic := '0';
+		o_hSync		: out std_logic := '0';
+		o_vSync		: out std_logic := '0';
 
-		io_ps2Clk			: inout std_logic := '1';
-		io_ps2Data			: inout std_logic := '1';
+		io_ps2Clk	: inout std_logic := '1';
+		io_ps2Data	: inout std_logic := '1';
 		
-		o_txd					: out	std_logic;
-		i_rxd					: in std_logic := '1';
-		o_rts					: out	std_logic;
-		i_cts					: in std_logic := '0';
-		serSelect			: in	std_logic := '1'
+		o_txd			: out	std_logic;
+		i_rxd			: in std_logic := '1';
+		o_rts			: out	std_logic;
+		i_cts			: in std_logic := '0';
+		i_serSel		: in	std_logic := '1'
 	);
 end M6800_MIKBUG;
 
@@ -59,13 +60,13 @@ architecture struct of M6800_MIKBUG is
 
 	signal w_romData		: std_logic_vector(7 downto 0);
 	signal w_ramData		: std_logic_vector(7 downto 0);
-	signal w_if1DataOut	: std_logic_vector(7 downto 0);
-	signal w_if2DataOut	: std_logic_vector(7 downto 0);
+	signal w_vduDatOut	: std_logic_vector(7 downto 0);
+	signal w_ACIADatOut	: std_logic_vector(7 downto 0);
 
-	signal n_int1			: std_logic :='1';	
-	signal n_if1CS			: std_logic :='1';
-	signal n_int2			: std_logic :='1';	
-	signal n_if2CS			: std_logic :='1';
+	signal w_n_VDUint		: std_logic :='1';	
+	signal w_n_VDUCS		: std_logic :='1';
+	signal w_n_ACIAint	: std_logic :='1';	
+	signal w_n_ACIACS		: std_logic :='1';
 	
 	signal w_videoR0		: std_logic :='0';
 	signal w_videoR1		: std_logic :='0';
@@ -74,15 +75,20 @@ architecture struct of M6800_MIKBUG is
 	signal w_videoB0		: std_logic :='0';
 	signal w_videoB1		: std_logic :='0';
 
-	signal q_cpuClkCount	: std_logic_vector(5 downto 0); 
+	signal w_q_cpuClkCt	: std_logic_vector(5 downto 0); 
 	signal w_cpuClock		: std_logic;
 
-   signal serialCount   : std_logic_vector(15 downto 0) := x"0000";
-   signal serialCount_d	: std_logic_vector(15 downto 0);
-   signal serialEn      : std_logic;
+   signal w_serCt   		: std_logic_vector(15 downto 0) := x"0000";
+   signal w_serCt_d		: std_logic_vector(15 downto 0);
+   signal w_serialEn		: std_logic;
 	
 begin
 	
+	-- Video combines bits
+	o_Vid_Red <= w_videoR1 or w_videoR0;
+	o_Vid_Grn <= w_videoG1 or w_videoG0;
+	o_Vid_Blu <= w_videoB1 or w_videoB0;
+		
 	-- Debounce the reset line
 	DebounceResetSwitch	: entity work.Debouncer
 	port map (
@@ -91,25 +97,21 @@ begin
 		o_PinOut		=> w_resetLow
 	);
 	
-	o_Vid_Red <= w_videoR1 or w_videoR0;
-	o_Vid_Grn <= w_videoG1 or w_videoG0;
-	o_Vid_Blu <= w_videoB1 or w_videoB0;
-		
 	-- ____________________________________________________________________________________
 	-- I/O CHIP SELECTS
-	n_if1CS	<= '0' 	when (serSelect = '1' and (w_cpuAddress(15 downto 1) = x"801"&"100")) else	-- VDU  $8018-$8019
-					'0'	when (serSelect = '0' and (w_cpuAddress(15 downto 1) = x"802"&"100")) else	-- ACIA $8028-$8029
-							'1';
-	n_if2CS	<= '0' 	when (serSelect = '1' and (w_cpuAddress(15 downto 1) = x"802"&"100")) else	-- ACIA $8028-$8029
-					'0'	when (serSelect = '0' and (w_cpuAddress(15 downto 1) = x"801"&"100")) else	-- VDU  $8018-$8019
-							'1';
+	w_n_VDUCS	<= '0' 	when (i_serSel = '1' and (w_cpuAddress(15 downto 1) = x"801"&"100")) else	-- VDU  $8018-$8019
+						'0'	when (i_serSel = '0' and (w_cpuAddress(15 downto 1) = x"802"&"100")) else	-- ACIA $8028-$8029
+						'1';
+	w_n_ACIACS	<= '0' 	when (i_serSel = '1' and (w_cpuAddress(15 downto 1) = x"802"&"100")) else	-- ACIA $8028-$8029
+						'0'	when (i_serSel = '0' and (w_cpuAddress(15 downto 1) = x"801"&"100")) else	-- VDU  $8018-$8019
+						'1';
 	
 	-- ____________________________________________________________________________________
 	-- CPU Read Data multiplexer
 	w_cpuDataIn <=
 		w_ramData		when w_cpuAddress(15) = '0'				else
-		w_if1DataOut	when (n_if1CS = '0')							else
-		w_if2DataOut	when (n_if2CS = '0')							else
+		w_vduDatOut		when (w_n_VDUCS = '0')						else
+		w_ACIADatOut	when (w_n_ACIACS = '0')						else
 		w_romData		when w_cpuAddress(15 downto 14) = "11"	else
 		x"FF";
 	
@@ -142,9 +144,9 @@ begin
 		
 	-- ____________________________________________________________________________________
 	-- 32KB RAM	
-	sram : entity work.InternalRam16K
+	sram : entity work.InternalRam32K
 		PORT map  (
-			address	=> w_cpuAddress(13 downto 0),
+			address	=> w_cpuAddress(14 downto 0),
 			clock 	=> i_CLOCK_50,
 			data 		=> w_cpuDataOut,
 			wren		=> (not w_R1W0) and (not w_cpuAddress(15)) and w_vma and (not w_cpuClock),
@@ -155,6 +157,10 @@ begin
 	-- INPUT/OUTPUT DEVICES
 	-- Grant's VGA driver
 	vdu : entity work.SBCTextDisplayRGB
+	generic map ( 
+		EXTENDED_CHARSET		=> 1,
+		COLOUR_ATTS_ENABLED	=>	1
+	)
 		port map (
 			n_reset	=> w_resetLow,
 			clk		=> i_CLOCK_50,
@@ -167,12 +173,12 @@ begin
 			videoG1	=> w_videoG1,
 			videoB0	=> w_videoB0,
 			videoB1	=> w_videoB1,
-			n_WR		=> n_if1CS or      w_R1W0  or (not w_vma) or (not w_cpuClock),
-			n_rd		=> n_if1CS or (not w_R1W0) or (not w_vma),
-			n_int		=> n_int1,
+			n_WR		=> w_n_VDUCS or      w_R1W0  or (not w_vma) or (not w_cpuClock),
+			n_rd		=> w_n_VDUCS or (not w_R1W0) or (not w_vma),
+			n_int		=> w_n_VDUint,
 			regSel	=> w_cpuAddress(0),
 			dataIn	=> w_cpuDataOut,
-			dataOut	=> w_if1DataOut,
+			dataOut	=> w_vduDatOut,
 			ps2Clk	=> io_ps2Clk,
 			ps2Data	=> io_ps2Data
 		);
@@ -181,16 +187,16 @@ begin
 	acia: entity work.bufferedUART
 		port map (
 			clk		=> i_CLOCK_50,     
-			n_WR		=> n_if2CS or      w_R1W0  or (not w_vma) or (not w_cpuClock),
-			n_rd		=> n_if2CS or (not w_R1W0) or (not w_vma),
+			n_WR		=> w_n_ACIACS or      w_R1W0  or (not w_vma) or (not w_cpuClock),
+			n_rd		=> w_n_ACIACS or (not w_R1W0) or (not w_vma),
 			regSel	=> w_cpuAddress(0),
 			dataIn	=> w_cpuDataOut,
-			dataOut	=> w_if2DataOut,
-			n_int		=> n_int2,
+			dataOut	=> w_ACIADatOut,
+			n_int		=> w_n_ACIAint,
 						 -- these clock enables are asserted for one period of input clk,
 						 -- at 16x the baud rate.
-			rxClkEn	=> serialEn,
-			txClkEn	=> serialEn,
+			rxClkEn	=> w_serialEn,
+			txClkEn	=> w_serialEn,
 			rxd		=> i_rxd,
 			txd		=> o_txd,
 			n_cts		=> i_cts,
@@ -202,12 +208,12 @@ begin
 process (i_CLOCK_50)
 	begin
 		if rising_edge(i_CLOCK_50) then
-			if q_cpuClkCount < 2 then -- 4 = 10MHz, 3 = 12.5MHz, 2=16.6MHz, 1=25MHz
-				q_cpuClkCount <= q_cpuClkCount + 1;
+			if w_q_cpuClkCt < 2 then -- 4 = 10MHz, 3 = 12.5MHz, 2=16.6MHz, 1=25MHz
+				w_q_cpuClkCt <= w_q_cpuClkCt + 1;
 			else
-				q_cpuClkCount <= (others=>'0');
+				w_q_cpuClkCt <= (others=>'0');
 			end if;
-			if q_cpuClkCount < 1 then -- 2 when 10MHz, 2 when 12.5MHz, 2 when 16.6MHz, 1 when 25MHz
+			if w_q_cpuClkCt < 1 then -- 2 when 10MHz, 2 when 12.5MHz, 2 when 16.6MHz, 1 when 25MHz
 				w_cpuClock <= '0';
 			else
 				w_cpuClock <= '1';
@@ -225,20 +231,20 @@ process (i_CLOCK_50)
     -- 9600   201
     -- 4800   101
     -- 2400   50
-baud_div: process (serialCount_d, serialCount)
+baud_div: process (w_serCt_d, w_serCt)
     begin
-        serialCount_d <= serialCount + 2416;
+        w_serCt_d <= w_serCt + 2416;
     end process;
 
 process (i_CLOCK_50)
 	begin
 		if rising_edge(i_CLOCK_50) then
         -- Enable for baud rate generator
-        serialCount <= serialCount_d;
-        if serialCount(15) = '0' and serialCount_d(15) = '1' then
-            serialEn <= '1';
+        w_serCt <= w_serCt_d;
+        if w_serCt(15) = '0' and w_serCt_d(15) = '1' then
+            w_serialEn <= '1';
         else
-            serialEn <= '0';
+            w_serialEn <= '0';
         end if;
 		end if;
 	end process;
