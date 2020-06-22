@@ -89,6 +89,11 @@ architecture struct of Z80_VGA is
 	signal w_ACIADatOut	: std_logic_vector(7 downto 0);
 	signal w_ramDataOut	: std_logic_vector(7 downto 0);
 	
+	signal w_L7SegUU		: std_logic_vector(7 downto 0);
+	signal w_L7SegUM		: std_logic_vector(7 downto 0);
+	signal w_L7SegLM		: std_logic_vector(7 downto 0);
+	signal w_L7SegLL		: std_logic_vector(7 downto 0);
+	
 	signal w_n_memWR		: std_logic;
 	signal w_n_memRD 		: std_logic :='1';
 	
@@ -99,6 +104,10 @@ architecture struct of Z80_VGA is
 	signal w_n_PBSw_CS	: std_logic :='1';
 	signal w_n_DIPSw_CS	: std_logic :='1';
 	signal w_n_Lat_CS		: std_logic :='1';
+	signal w_n_7SegUU_CS	: std_logic :='1';
+	signal w_n_7SegUM_CS	: std_logic :='1';
+	signal w_n_7SegLM_CS	: std_logic :='1';
+	signal w_n_7SegLL_CS	: std_logic :='1';
 	
 	signal w_n_ioWR		: std_logic :='1';
 	signal w_n_ioRD 		: std_logic :='1';
@@ -174,6 +183,10 @@ begin
 	w_n_PBSw_CS		<= '0' when (w_cpuAddress(7 downto 0) = x"84" and (w_n_ioRD = '0')) else '1';  -- $84 (132 dec)
 	w_n_Lat_CS		<= '0' when (w_cpuAddress(7 downto 0) = x"84" and (w_n_ioWR = '0')) else '1';  -- $84 (132 dec)
 	w_n_DIPSw_CS	<= '0' when (w_cpuAddress(7 downto 0) = x"85" and (w_n_ioRD = '0')) else '1';  -- $85 (133 dec)
+	w_n_7SegUU_CS	<= '0' when (w_cpuAddress(7 downto 0) = x"88" and (w_n_ioWR = '0')) else '1';  -- $88 (136 dec)
+	w_n_7SegUM_CS	<= '0' when (w_cpuAddress(7 downto 0) = x"89" and (w_n_ioWR = '0')) else '1';  -- $89 (137 dec)
+	w_n_7SegLM_CS	<= '0' when (w_cpuAddress(7 downto 0) = x"8a" and (w_n_ioWR = '0')) else '1';  -- $8a (138 dec)
+	w_n_7SegLL_CS	<= '0' when (w_cpuAddress(7 downto 0) = x"8b" and (w_n_ioWR = '0')) else '1';  -- $8b (139 dec)
 	
 	w_cpuDataIn <=
 		w_VDUDataOut 		when w_n_VDUCS 	= '0' else	-- VDU
@@ -293,11 +306,47 @@ begin
 			latchOut => w_latchedBits
 			);
 	
+	io7SEGUU: entity work.OutLatch
+		port map (
+			dataIn8	=> w_cpuDataOut,
+			clock		=> i_clk_50,
+			load		=> w_n_7SegUU_CS or w_n_ioWR,
+			clear		=> i_n_reset,
+			latchOut => w_L7SegUU
+			);
+	
+	io7SEGUM: entity work.OutLatch
+		port map (
+			dataIn8	=> w_cpuDataOut,
+			clock		=> i_clk_50,
+			load		=> w_n_7SegUm_CS or w_n_ioWR,
+			clear		=> i_n_reset,
+			latchOut => w_L7SegUM
+			);
+	
+	io7SEGLM: entity work.OutLatch
+		port map (
+			dataIn8	=> w_cpuDataOut,
+			clock		=> i_clk_50,
+			load		=> w_n_7Seglm_CS or w_n_ioWR,
+			clear		=> i_n_reset,
+			latchOut => w_L7SegLM
+			);
+	
+	io7SEGLL: entity work.OutLatch
+		port map (
+			dataIn8	=> w_cpuDataOut,
+			clock		=> i_clk_50,
+			load		=> w_n_7Segll_CS or w_n_ioWR,
+			clear		=> i_n_reset,
+			latchOut => w_L7SegLL
+			);
+	
 	Seg78D : entity work.Loadable_7S8D_LED
 		Port map (
 			i_clock_50Mhz			=> i_clk_50,
 			i_reset					=> not i_n_reset,
-			i_displayed_number 	=> x"deadbaba",
+			i_displayed_number 	=> w_L7SegUU & w_L7SegUM & w_L7SegLM & w_L7SegLL,
 			o_Anode_Activate 		=> o_Anode_Act,
 			o_LED7Seg_out 			=> o_LED7Seg
 			);
