@@ -297,7 +297,7 @@ begin
 		Port map (
 			i_clock_50Mhz			=> i_clk_50,
 			i_reset					=> not i_n_reset,
-			i_displayed_number 	=> x"12345678",
+			i_displayed_number 	=> x"deadbaba",
 			o_Anode_Activate 		=> o_Anode_Act,
 			o_LED7Seg_out 			=> o_LED7Seg
 			);
