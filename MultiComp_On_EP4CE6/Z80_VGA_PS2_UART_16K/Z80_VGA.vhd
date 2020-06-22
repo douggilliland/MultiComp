@@ -274,7 +274,7 @@ begin
 	
 	-- Chip Selects
 	w_n_basRomCS       <= '0' when   w_cpuAddress(15 downto 13) = "000" else '1'; --8K from $0000-1FFF
-	w_n_intlRam1CS <= '0' when ((w_cpuAddress(15 downto 13) = "001") or (w_cpuAddress(15 downto 13) = "010"))  else '1';		-- x0002-x5FFF (16KB)
+	w_n_intlRam1CS <= '0' when ((w_cpuAddress(15 downto 13) = "001") or (w_cpuAddress(15 downto 13) = "010"))  else '1';		-- x2000-x5FFF (16KB)
 	-- I/O accesses are via IN/OUT in Z80 NASCOM BASIC
 	-- The address decoders get swapped when the F1 key is pressed
 	w_n_IF1CS <= '0' when 
