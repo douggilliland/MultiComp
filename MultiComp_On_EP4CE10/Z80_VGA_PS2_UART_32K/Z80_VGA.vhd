@@ -7,11 +7,12 @@
 --	25 MHz
 --	32 KB SRAM
 --	Microsoft Z80 NASCOM BASIC in ROM
---		16,051 bytes free
+--		32,435 bytes free
 --	USB-Serial Interface
 --		CH340G chip
 --		Requires RTS/CTS rework for hardware handshake
--- ANsI Video Display Unit
+-- ANSI Video Display Unit
+--		32KB SRAM does not allow extended characters
 --		80x25 character display
 --		1/1/1 - R/G/B output
 -- PS/2 Keyboard
@@ -22,17 +23,21 @@
 --	(10) LEDs
 --	(3) Pushbutton Switches
 --	(8) DIP Switch
---	o_BUZZER
+--	BUZZER
 --
 -- Memory Map
 --		x0000-x1FFF - 8KB BASIC in ROM
 --		X2000-x9FFF - 32KB SRAM
 --	I/O Map
---		x80-x81 - VDU or ACIA
---		x81-x83 - ACIA or VDU
---		x83 - (Read) Pushbuttons (d0-d2)
---		x83 - (Write) Buzzer Tone
---		x84 - DIP Switch
+--		x80-x81 (128-129 dec) - VDU or ACIA
+--		x82-x83 (13- ACIA or VDU
+--		x84 - (Read) Pushbuttons (d0-d2)
+--		x84 - (Write) Buzzer Tone
+--		x85 - DIP Switch
+--		$88 (136 dec) - Seven Segment LEDs - upper 2 digits
+--		$89 (137 dec) - Seven Segment LEDs - upper middle 2 digits
+--		$8a (138 dec) - Seven Segment LEDs - lower middle 2 digits
+--		$8b (139 dec) - Seven Segment LEDs - lower 2 digits
 
 library ieee;
 use ieee.std_logic_1164.all;
@@ -46,8 +51,8 @@ entity Z80_VGA is
 		-- Serial port
 		i_rxd			: in std_logic;
 		o_txd			: out std_logic;
-		i_cts			: in std_logic;
-		o_rts			: out std_logic;
+		i_n_cts		: in std_logic;
+		o_n_rts		: out std_logic;
 		-- Video
 		o_vid_red	: out std_logic;
 		o_vid_grn	: out std_logic;
@@ -128,7 +133,6 @@ architecture struct of Z80_VGA is
 	
 	signal w_n_LatchCS	: std_logic :='1';
 	signal w_latchedBits	: std_logic_vector(7 downto 0);
---	signal W_swDataOut	: std_logic_vector(7 downto 0);
 	signal W_DIPSwDatOut	: std_logic_vector(7 downto 0);
 
 	signal w_txdBuff		: std_logic;
@@ -170,7 +174,7 @@ begin
 										 (w_cpuAddress(15 downto 13) = "100"))	 			-- x8000-x9FFF (8KB)
 										else '1';
 										
-	-- I/O accesses are via IN/OUT in Z80 NASCOM BASIC
+	-- I/O accesses are via INP/OUT in Z80 NASCOM BASIC
 	-- The address decoders get swapped when the F1 key is pressed
 	w_n_VDUCS	<= '0' when 
 		((w_fKey1 = '0' and w_cpuAddress(7 downto 1) = x"8"&"000" and (w_n_ioWR='0' or w_n_ioRD = '0')) or	-- 2 Bytes $80-$81
@@ -276,8 +280,8 @@ begin
 			txClkEn	=> w_serialClkEn,
 			rxd		=> i_rxd,
 			txd		=> w_txdBuff,
-			n_cts		=> i_cts,
-			n_rts		=> o_rts,
+			n_cts		=> i_n_cts,
+			n_rts		=> o_n_rts,
 			n_dcd		=> '0'
 		);
 	
