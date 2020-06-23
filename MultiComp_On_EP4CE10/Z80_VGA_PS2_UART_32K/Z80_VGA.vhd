@@ -277,8 +277,8 @@ begin
 			rxd		=> i_rxd,
 			txd		=> w_txdBuff,
 			n_cts		=> i_cts,
-			n_dcd		=> '0',
-			n_rts		=> o_rts
+			n_rts		=> o_rts,
+			n_dcd		=> '0'
 		);
 	
 	FNKey1Toggle: entity work.Toggle_On_FN_Key	
