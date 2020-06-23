@@ -80,14 +80,14 @@ architecture struct of M6502_VGA is
 
 	signal w_n_WR				: std_logic;
 	signal w_n_RD				: std_logic;
-	signal W_cpuAddress		: std_logic_vector(15 downto 0);
+	signal w_cpuAddress		: std_logic_vector(15 downto 0);
 	signal w_cpuDataOut		: std_logic_vector(7 downto 0);
 	signal w_cpuDataIn		: std_logic_vector(7 downto 0);
 	
 	signal w_counterOut		: std_logic_vector(27 downto 0);
 
 	signal w_basRomData		: std_logic_vector(7 downto 0);
-	signal W_VDUDataOut		: std_logic_vector(7 downto 0);
+	signal w_VDUDataOut		: std_logic_vector(7 downto 0);
 	signal w_aciaDataOut		: std_logic_vector(7 downto 0);
 	signal w_ramDataOut		: std_logic_vector(7 downto 0);
 	signal w_LED				: std_logic_vector(7 downto 0);
@@ -141,15 +141,15 @@ begin
 	w_swRd(7 downto 0) <= "00000" & i_switch(2) & i_switch(1) & i_switch(0);
 	
 	-- Chip Selects
-	w_n_ramCS 		<= '0' when  W_cpuAddress(15 downto 14)="00" else '1';							-- x0000-x3FFF (16KB)
-	w_n_basRomCS 	<= '0' when  W_cpuAddress(15 downto 13) = "111" else '1'; 						-- xE000-xFFFF (8KB)
-	w_n_VDUCS 		<= '0' when ((W_cpuAddress(15 downto 1) = x"FFD"&"000" and w_fKey1 = '0') 	-- XFFD0-FFD1 VDU
-							or		 (W_cpuAddress(15 downto 1) = x"FFD"&"001" and w_fKey1 = '1')) 
+	w_n_ramCS 		<= '0' when  w_cpuAddress(15 downto 14)="00" else '1';							-- x0000-x3FFF (16KB)
+	w_n_basRomCS 	<= '0' when  w_cpuAddress(15 downto 13) = "111" else '1'; 						-- xE000-xFFFF (8KB)
+	w_n_VDUCS 		<= '0' when ((w_cpuAddress(15 downto 1) = x"FFD"&"000" and w_fKey1 = '0') 	-- XFFD0-FFD1 VDU
+							or		 (w_cpuAddress(15 downto 1) = x"FFD"&"001" and w_fKey1 = '1')) 
 							else '1';
-	w_n_aciaCS 	<= '0' when ((W_cpuAddress(15 downto 1) = X"FFD"&"001" and w_fKey1 = '0') 	-- XFFD2-FFD3 ACIA
-							or     (W_cpuAddress(15 downto 1) = X"FFD"&"000" and w_fKey1 = '1'))
+	w_n_aciaCS 	<= '0' when ((w_cpuAddress(15 downto 1) = X"FFD"&"001" and w_fKey1 = '0') 	-- XFFD2-FFD3 ACIA
+							or     (w_cpuAddress(15 downto 1) = X"FFD"&"000" and w_fKey1 = '1'))
 							else '1';
-	w_n_LatCS 		<= '0' when   W_cpuAddress = X"FFD4"  								-- XFFD4 (65492 dec)
+	w_n_LatCS 		<= '0' when   w_cpuAddress = X"FFD4"  								-- XFFD4 (65492 dec)
 							else '1';
 	w_n_LatCS_Read 	<= w_n_memWR or w_n_LatCS;
 	w_n_memWR 			<= not(w_cpuClk) nand (not w_n_WR);
@@ -161,7 +161,7 @@ begin
 	w_n_LEDs_CS		<= '0' when (w_cpuAddress = x"FFDA" and (w_n_WR = '0')) else '1';  -- xFFDA (65498 dec)
 	
 	w_cpuDataIn <=
-		W_VDUDataOut	when w_n_VDUCS 		= '0'	else
+		w_VDUDataOut	when w_n_VDUCS 		= '0'	else
 		w_aciaDataOut		when w_n_aciaCS 		= '0'	else
 		w_ramDataOut 		when w_n_ramCS 		= '0'	else
 		w_swRd	when w_n_LatCS_Read	= '0'	else
@@ -180,14 +180,14 @@ begin
 		IRQ_n				=> '1',
 		NMI_n				=> '1',
 		SO_n				=> '1',
-		R_W_n				=> w_n_WR,
-		A(15 downto 0)	=> W_cpuAddress,
+		R_w_n				=> w_n_WR,
+		A(15 downto 0)	=> w_cpuAddress,
 		DI 				=> w_cpuDataIn,
 		DO 				=> w_cpuDataOut);
 		
 	ROM : entity work.M6502_BASIC_ROM -- 8KB
 	port map(
-		address	=> W_cpuAddress(12 downto 0),
+		address	=> w_cpuAddress(12 downto 0),
 		clock		=> i_clk_50,
 		q			=> w_basRomData
 	);
@@ -195,7 +195,7 @@ begin
 	SRAM : entity work.InternalRam16K 
 	port map
 	(
-		address	=> W_cpuAddress(13 downto 0),
+		address	=> w_cpuAddress(13 downto 0),
 		clock		=> i_clk_50,
 		data		=> w_cpuDataOut,
 		wren		=> not(w_n_memWR or w_n_ramCS),
@@ -207,7 +207,7 @@ begin
 			clk		=> i_clk_50,
 			n_WR		=> w_n_aciaCS or w_cpuClk or w_n_WR,
 			n_RD		=> w_n_aciaCS or w_cpuClk or (not w_n_WR),
-			regSel	=> W_cpuAddress(0),
+			regSel	=> w_cpuAddress(0),
 			dataIn	=> w_cpuDataOut,
 			dataOut	=> w_aciaDataOut,
 			rxClkEn	=> w_w_serClkEn,
@@ -240,9 +240,9 @@ begin
 		n_WR => w_n_VDUCS or w_cpuClk or w_n_WR,
 		n_RD => w_n_VDUCS or w_cpuClk or (not w_n_WR),
 --		n_int => n_int1,
-		regSel => W_cpuAddress(0),
+		regSel => w_cpuAddress(0),
 		dataIn => w_cpuDataOut,
-		dataOut => W_VDUDataOut,
+		dataOut => w_VDUDataOut,
 		ps2Clk => io_ps2Clk,
 		ps2Data => io_ps2Data,
 		FNkeys => w_funKeys
