@@ -26,18 +26,12 @@
 --	Buzzer
 --
 -- Memory Map
---		x0000-x1FFF - 8KB BASIC in ROM
---		X2000-x9FFF - 32KB SRAM
+--		x0000-x3FFF - 16KB SRAM
+--		xE000-xFFFF - 8KB BASIC in ROM
 --	I/O Map
---		x80-x81 (128-129 dec) - VDU or ACIA
---		x82-x83 (13- ACIA or VDU
---		x84 - (Read) Pushbuttons (d0-d2)
---		x84 - (Write) Buzzer Tone
---		x85 - DIP Switch
---		$88 (136 dec) - Seven Segment LEDs - upper 2 digits
---		$89 (137 dec) - Seven Segment LEDs - upper middle 2 digits
---		$8a (138 dec) - Seven Segment LEDs - lower middle 2 digits
---		$8b (139 dec) - Seven Segment LEDs - lower 2 digits
+--		XFFD0-FFD1 VDU
+--		XFFD2-FFD3 ACIA
+--		XFFD4 BUZZER TONE (65492 dec)
 
 
 library ieee;
@@ -62,11 +56,15 @@ entity M6502_VGA is
 		o_vid_vSync		: out std_logic;
 		
 		i_switch		: in std_logic_vector(2 downto 0);
+		i_DipSw		: in std_logic_vector(7 downto 0);
 
 		o_LED1		: out std_logic;
 		o_LED2		: out std_logic;
 		o_LED3		: out std_logic;
 		o_LED4		: out std_logic;
+		-- 7 Seg
+		o_Anode_Act	: out std_logic_vector(7 downto 0);
+		o_LED7Seg	: out std_logic_vector(7 downto 0);
 
 		o_BUZZER		: out std_logic;
 
@@ -79,35 +77,44 @@ architecture struct of M6502_VGA is
 
 	signal n_WR					: std_logic;
 	signal n_RD					: std_logic;
-	signal cpuAddress			: std_logic_vector(15 downto 0);
-	signal cpuDataOut			: std_logic_vector(7 downto 0);
+	signal W_cpuAddress			: std_logic_vector(15 downto 0);
+	signal w_cpuDataOut			: std_logic_vector(7 downto 0);
 	signal cpuDataIn			: std_logic_vector(7 downto 0);
 	
 	signal counterOut			: std_logic_vector(27 downto 0);
 	signal buzz					: std_logic;
 
 	signal basRomData			: std_logic_vector(7 downto 0);
-	signal W_VDUDataOut	: std_logic_vector(7 downto 0);
-	signal aciaDataOut			: std_logic_vector(7 downto 0);
+	signal W_VDUDataOut		: std_logic_vector(7 downto 0);
+	signal aciaDataOut		: std_logic_vector(7 downto 0);
 	signal ramDataOut			: std_logic_vector(7 downto 0);
 	
 	signal n_memWR				: std_logic;
 	
-	signal n_basRomCS					: std_logic :='1';
-	signal n_VDUCS		: std_logic :='1';
-	signal n_ramCS						: std_logic :='1';
-	signal n_aciaCS					: std_logic :='1';
-	signal n_IOCS						: std_logic :='1';
-	signal n_IOCS_Write				: std_logic :='1';
-	signal n_IOCS_Read 				: std_logic :='1';
-	
-	signal serialClkCount			: std_logic_vector(15 downto 0);
-	signal serialClkCount_d       : std_logic_vector(15 downto 0);
-	signal serialClkEn            : std_logic;
-	signal serialClock				: std_logic;
+	signal n_basRomCS			: std_logic :='1';
+	signal n_VDUCS				: std_logic :='1';
+	signal n_ramCS				: std_logic :='1';
+	signal n_aciaCS			: std_logic :='1';
+	signal n_LatCS				: std_logic :='1';
+	signal n_LatCS_Read 		: std_logic :='1';
+	signal w_n_DIPSw_CS		: std_logic :='1';
+	signal w_n_7SegUU_CS		: std_logic :='1';
+	signal w_n_7SegUM_CS		: std_logic :='1';
+	signal w_n_7SegLM_CS		: std_logic :='1';
+	signal w_n_7SegLL_CS		: std_logic :='1';
 
-	signal cpuClkCount				: std_logic_vector(5 downto 0); 
-	signal cpuClock					: std_logic;
+	signal w_L7SegUU		: std_logic_vector(7 downto 0);
+	signal w_L7SegUM		: std_logic_vector(7 downto 0);
+	signal w_L7SegLM		: std_logic_vector(7 downto 0);
+	signal w_L7SegLL		: std_logic_vector(7 downto 0);
+	
+	signal serialClkCount	: std_logic_vector(15 downto 0);
+	signal serialClkCount_d : std_logic_vector(15 downto 0);
+	signal serialClkEn      : std_logic;
+	signal serialClock		: std_logic;
+
+	signal cpuClkCount		: std_logic_vector(5 downto 0); 
+	signal cpuClock			: std_logic;
 	
 	signal latchedBits				: std_logic_vector(7 downto 0);
 	signal switchesRead			 	: std_logic_vector(7 downto 0);
@@ -135,26 +142,31 @@ begin
 	switchesRead(7 downto 0) <= "00000" & i_switch(2) & i_switch(1) & i_switch(0);
 	
 	-- Chip Selects
-	n_ramCS 		<= '0' when  cpuAddress(15 downto 14)="00" else '1';					-- x0000-x3FFF (16KB)
-	n_basRomCS 	<= '0' when  cpuAddress(15 downto 13) = "111" else '1'; 		-- xA000-xBFFF (8KB)
-	n_VDUCS 		<= '0' when ((cpuAddress(15 downto 1) = x"FFD"&"000" and fKey1 = '0') 
-							or		 (cpuAddress(15 downto 1) = x"FFD"&"001" and fKey1 = '1')) 
+	n_ramCS 		<= '0' when  W_cpuAddress(15 downto 14)="00" else '1';							-- x0000-x3FFF (16KB)
+	n_basRomCS 	<= '0' when  W_cpuAddress(15 downto 13) = "111" else '1'; 						-- xE000-xFFFF (8KB)
+	n_VDUCS 		<= '0' when ((W_cpuAddress(15 downto 1) = x"FFD"&"000" and fKey1 = '0') 	-- XFFD0-FFD1 VDU
+							or		 (W_cpuAddress(15 downto 1) = x"FFD"&"001" and fKey1 = '1')) 
 							else '1';
-	n_aciaCS 	<= '0' when ((cpuAddress(15 downto 1) = X"FFD"&"001" and fKey1 = '0') 
-							or  (cpuAddress(15 downto 1) = X"FFD"&"000" and fKey1 = '1'))
+	n_aciaCS 	<= '0' when ((W_cpuAddress(15 downto 1) = X"FFD"&"001" and fKey1 = '0') 	-- XFFD2-FFD3 ACIA
+							or  (W_cpuAddress(15 downto 1) = X"FFD"&"000" and fKey1 = '1'))
 							else '1';
-	n_IOCS 		<= '0' when   cpuAddress(15 downto 0) = X"FFD4"  -- 1 byte FFD4 (65492 dec)
+	n_LatCS 		<= '0' when   W_cpuAddress = X"FFD4"  								-- XFFD4 (65492 dec)
 							else '1';
-	--n_IOCS_Write	<= n_memWR or n_IOCS;
-	n_IOCS_Read 	<= not n_memWR or n_IOCS;
+	n_LatCS_Read 	<= n_memWR or n_LatCS;
 	n_memWR 			<= not(cpuClock) nand (not n_WR);
+	w_n_7SegUU_CS	<= '0' when w_cpuAddress = x"FFD5" else '1';  -- xFFD5 (65493 dec)
+	w_n_7SegUM_CS	<= '0' when w_cpuAddress = x"FFD6" else '1';  -- xFFD6 (65494 dec)
+	w_n_7SegLM_CS	<= '0' when w_cpuAddress = x"FFD7" else '1';  -- xFFD7 (65495 dec)
+	w_n_7SegLL_CS	<= '0' when w_cpuAddress = x"FFD8" else '1';  -- xFFD8 (65496 dec)
+	w_n_DIPSw_CS	<= '0' when (w_cpuAddress = x"FFD9" and (n_WR = '1')) else '1';  -- xFFD9 (65497 dec)
  
 	cpuDataIn <=
 		W_VDUDataOut	when n_VDUCS 		= '0'	else
 		aciaDataOut		when n_aciaCS 		= '0'	else
-		switchesRead	when n_IOCS_Read	= '0'	else
-		basRomData		when n_basRomCS	= '0' else
 		ramDataOut 		when n_ramCS 		= '0'	else
+		switchesRead	when n_LatCS_Read	= '0'	else
+		i_DipSw			when w_n_DIPSw_CS	= '0'	else
+		basRomData		when n_basRomCS	= '0' else		-- HAS TO BE AFTER ANY I/O READS
 		x"FF";
 		
 	cpu : entity work.T65
@@ -169,14 +181,14 @@ begin
 		NMI_n				=> '1',
 		SO_n				=> '1',
 		R_W_n				=> n_WR,
-		A(15 downto 0)	=> cpuAddress,
+		A(15 downto 0)	=> W_cpuAddress,
 		DI 				=> cpuDataIn,
-		DO 				=> cpuDataOut);
+		DO 				=> w_cpuDataOut);
 			
 
 	rom : entity work.M6502_BASIC_ROM -- 8KB
 	port map(
-		address	=> cpuAddress(12 downto 0),
+		address	=> W_cpuAddress(12 downto 0),
 		clock		=> i_clk_50,
 		q			=> basRomData
 	);
@@ -184,9 +196,9 @@ begin
 	sram : entity work.InternalRam16K 
 	port map
 	(
-		address	=> cpuAddress(13 downto 0),
+		address	=> W_cpuAddress(13 downto 0),
 		clock		=> i_clk_50,
-		data		=> cpuDataOut,
+		data		=> w_cpuDataOut,
 		wren		=> not(n_memWR or n_ramCS),
 		q			=> ramDataOut
 	);
@@ -196,8 +208,8 @@ begin
 			clk		=> i_clk_50,
 			n_wr		=> n_aciaCS or cpuClock or n_WR,
 			n_rd		=> n_aciaCS or cpuClock or (not n_WR),
-			regSel	=> cpuAddress(0),
-			dataIn	=> cpuDataOut,
+			regSel	=> W_cpuAddress(0),
+			dataIn	=> w_cpuDataOut,
 			dataOut	=> aciaDataOut,
 			rxClkEn	=> serialClkEn,
 			txClkEn	=> serialClkEn,
@@ -229,8 +241,8 @@ begin
 		n_wr => n_VDUCS or cpuClock or n_WR,
 		n_rd => n_VDUCS or cpuClock or (not n_WR),
 --		n_int => n_int1,
-		regSel => cpuAddress(0),
-		dataIn => cpuDataOut,
+		regSel => W_cpuAddress(0),
+		dataIn => w_cpuDataOut,
 		dataOut => W_VDUDataOut,
 		ps2Clk => io_ps2Clk,
 		ps2Data => io_ps2Data,
@@ -255,9 +267,9 @@ begin
 		
 	io3: entity work.OutLatch
 		port map (
-			dataIn8 => cpuDataOut,
+			dataIn8 => w_cpuDataOut,
 			clock => i_clk_50,
-			load => n_memWR or n_IOCS,
+			load => n_memWR or n_LatCS,
 			clear => i_n_reset,
 			latchOut => latchedBits
 			);
@@ -277,6 +289,51 @@ begin
 		(latchedBits(6) and counterOut(15)) or 
 		(latchedBits(7) and counterOut(16)));
 
+	io7SEGUU: entity work.OutLatch
+		port map (
+			dataIn8	=> w_cpuDataOut,
+			clock		=> i_clk_50,
+			load		=> w_n_7SegUU_CS,
+			clear		=> i_n_reset,
+			latchOut => w_L7SegUU
+			);
+	
+	io7SEGUM: entity work.OutLatch
+		port map (
+			dataIn8	=> w_cpuDataOut,
+			clock		=> i_clk_50,
+			load		=> w_n_7SegUm_CS,
+			clear		=> i_n_reset,
+			latchOut => w_L7SegUM
+			);
+	
+	io7SEGLM: entity work.OutLatch
+		port map (
+			dataIn8	=> w_cpuDataOut,
+			clock		=> i_clk_50,
+			load		=> w_n_7Seglm_CS,
+			clear		=> i_n_reset,
+			latchOut => w_L7SegLM
+			);
+	
+	io7SEGLL: entity work.OutLatch
+		port map (
+			dataIn8	=> w_cpuDataOut,
+			clock		=> i_clk_50,
+			load		=> w_n_7Segll_CS,
+			clear		=> i_n_reset,
+			latchOut => w_L7SegLL
+			);
+	
+	Seg78D : entity work.Loadable_7S8D_LED
+		Port map (
+			i_clock_50Mhz			=> i_clk_50,
+			i_reset					=> not i_n_reset,
+			i_displayed_number 	=> w_L7SegUU & w_L7SegUM & w_L7SegLM & w_L7SegLL,
+			o_Anode_Activate 		=> o_Anode_Act,
+			o_LED7Seg_out 			=> o_LED7Seg
+			);
+	
 -- SUB-CIRCUIT CLOCK SIGNALS 
 	process (i_clk_50)
 	begin
