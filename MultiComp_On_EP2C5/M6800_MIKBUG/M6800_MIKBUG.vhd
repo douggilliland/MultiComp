@@ -151,7 +151,7 @@ begin
 		);
 	
 	-- ____________________________________________________________________________________
-	-- 2KB RAM	
+	-- 1KB RAM	
 	sram2 : entity work.InternalRam1K
 		PORT map  (
 			address	=> w_cpuAddress(9 downto 0),
