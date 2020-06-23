@@ -1,97 +1,104 @@
 |M6502_VGA
-i_n_reset => t65:cpu.Res_n
+i_n_reset => t65:CPU.Res_n
 i_n_reset => sbctextdisplayrgb:VDU.n_reset
 i_n_reset => toggle_on_fn_key:FNKey1Toggle.n_res
 i_n_reset => toggle_on_fn_key:FNKey2Toggle.n_res
-i_n_reset => outlatch:io3.clear
+i_n_reset => outlatch:SoundLatch.clear
+i_n_reset => outlatch:latchLEDs.clear
 i_n_reset => outlatch:io7SEGUU.clear
 i_n_reset => outlatch:io7SEGUM.clear
 i_n_reset => outlatch:io7SEGLM.clear
 i_n_reset => outlatch:io7SEGLL.clear
 i_n_reset => loadable_7s8d_led:Seg78D.i_reset
-i_clk_50 => m6502_basic_rom:rom.clock
-i_clk_50 => serialClkEn.CLK
-i_clk_50 => serialClkCount[1].CLK
-i_clk_50 => serialClkCount[2].CLK
-i_clk_50 => serialClkCount[3].CLK
-i_clk_50 => serialClkCount[4].CLK
-i_clk_50 => serialClkCount[5].CLK
-i_clk_50 => serialClkCount[6].CLK
-i_clk_50 => serialClkCount[7].CLK
-i_clk_50 => serialClkCount[8].CLK
-i_clk_50 => serialClkCount[9].CLK
-i_clk_50 => serialClkCount[10].CLK
-i_clk_50 => serialClkCount[11].CLK
-i_clk_50 => serialClkCount[12].CLK
-i_clk_50 => serialClkCount[13].CLK
-i_clk_50 => serialClkCount[14].CLK
-i_clk_50 => serialClkCount[15].CLK
-i_clk_50 => cpuClock.CLK
-i_clk_50 => cpuClkCount[0].CLK
-i_clk_50 => cpuClkCount[1].CLK
-i_clk_50 => cpuClkCount[2].CLK
-i_clk_50 => cpuClkCount[3].CLK
-i_clk_50 => cpuClkCount[4].CLK
-i_clk_50 => cpuClkCount[5].CLK
-i_clk_50 => internalram16k:sram.clock
+i_clk_50 => m6502_basic_rom:ROM.clock
+i_clk_50 => w_w_serClkEn.CLK
+i_clk_50 => w_serialClkCount[1].CLK
+i_clk_50 => w_serialClkCount[2].CLK
+i_clk_50 => w_serialClkCount[3].CLK
+i_clk_50 => w_serialClkCount[4].CLK
+i_clk_50 => w_serialClkCount[5].CLK
+i_clk_50 => w_serialClkCount[6].CLK
+i_clk_50 => w_serialClkCount[7].CLK
+i_clk_50 => w_serialClkCount[8].CLK
+i_clk_50 => w_serialClkCount[9].CLK
+i_clk_50 => w_serialClkCount[10].CLK
+i_clk_50 => w_serialClkCount[11].CLK
+i_clk_50 => w_serialClkCount[12].CLK
+i_clk_50 => w_serialClkCount[13].CLK
+i_clk_50 => w_serialClkCount[14].CLK
+i_clk_50 => w_serialClkCount[15].CLK
+i_clk_50 => w_cpuClk.CLK
+i_clk_50 => w_cpuClkCt[0].CLK
+i_clk_50 => w_cpuClkCt[1].CLK
+i_clk_50 => w_cpuClkCt[2].CLK
+i_clk_50 => w_cpuClkCt[3].CLK
+i_clk_50 => w_cpuClkCt[4].CLK
+i_clk_50 => w_cpuClkCt[5].CLK
+i_clk_50 => internalram16k:SRAM.clock
 i_clk_50 => buffereduart:UART.clk
 i_clk_50 => sbctextdisplayrgb:VDU.clk
 i_clk_50 => toggle_on_fn_key:FNKey1Toggle.clock
 i_clk_50 => toggle_on_fn_key:FNKey2Toggle.clock
-i_clk_50 => outlatch:io3.clock
+i_clk_50 => outlatch:SoundLatch.clock
 i_clk_50 => counter:myCounter.clock
+i_clk_50 => outlatch:latchLEDs.clock
 i_clk_50 => outlatch:io7SEGUU.clock
 i_clk_50 => outlatch:io7SEGUM.clock
 i_clk_50 => outlatch:io7SEGLM.clock
 i_clk_50 => outlatch:io7SEGLL.clock
 i_clk_50 => loadable_7s8d_led:Seg78D.i_clock_50Mhz
 i_rxd => buffereduart:UART.rxd
-i_rxd => o_LED4.DATAIN
-o_txd <= buffereduart:UART.txd
+o_txd << buffereduart:UART.txd
 i_n_cts => buffereduart:UART.n_cts
-o_n_rts <= buffereduart:UART.n_rts
-o_vid_red <= o_vid_red.DB_MAX_OUTPUT_PORT_TYPE
-o_vid_grn <= o_vid_grn.DB_MAX_OUTPUT_PORT_TYPE
-o_vid_blu <= o_vid_blu.DB_MAX_OUTPUT_PORT_TYPE
-o_vid_hSync <= sbctextdisplayrgb:VDU.hSync
-o_vid_vSync <= sbctextdisplayrgb:VDU.vSync
-i_switch[0] => cpuDataIn.DATAB
-i_switch[1] => cpuDataIn.DATAB
-i_switch[2] => cpuDataIn.DATAB
-i_DipSw[0] => cpuDataIn.DATAB
-i_DipSw[1] => cpuDataIn.DATAB
-i_DipSw[2] => cpuDataIn.DATAB
-i_DipSw[3] => cpuDataIn.DATAB
-i_DipSw[4] => cpuDataIn.DATAB
-i_DipSw[5] => cpuDataIn.DATAB
-i_DipSw[6] => cpuDataIn.DATAB
-i_DipSw[7] => cpuDataIn.DATAB
-o_LED1 <= outlatch:io3.latchOut[0]
-o_LED2 <= toggle_on_fn_key:FNKey1Toggle.latchFNKey
-o_LED3 <= buffereduart:UART.txd
-o_LED4 <= i_rxd.DB_MAX_OUTPUT_PORT_TYPE
-o_Anode_Act[0] <= loadable_7s8d_led:Seg78D.o_Anode_Activate[0]
-o_Anode_Act[1] <= loadable_7s8d_led:Seg78D.o_Anode_Activate[1]
-o_Anode_Act[2] <= loadable_7s8d_led:Seg78D.o_Anode_Activate[2]
-o_Anode_Act[3] <= loadable_7s8d_led:Seg78D.o_Anode_Activate[3]
-o_Anode_Act[4] <= loadable_7s8d_led:Seg78D.o_Anode_Activate[4]
-o_Anode_Act[5] <= loadable_7s8d_led:Seg78D.o_Anode_Activate[5]
-o_Anode_Act[6] <= loadable_7s8d_led:Seg78D.o_Anode_Activate[6]
-o_Anode_Act[7] <= loadable_7s8d_led:Seg78D.o_Anode_Activate[7]
-o_LED7Seg[0] <= loadable_7s8d_led:Seg78D.o_LED7Seg_out[0]
-o_LED7Seg[1] <= loadable_7s8d_led:Seg78D.o_LED7Seg_out[1]
-o_LED7Seg[2] <= loadable_7s8d_led:Seg78D.o_LED7Seg_out[2]
-o_LED7Seg[3] <= loadable_7s8d_led:Seg78D.o_LED7Seg_out[3]
-o_LED7Seg[4] <= loadable_7s8d_led:Seg78D.o_LED7Seg_out[4]
-o_LED7Seg[5] <= loadable_7s8d_led:Seg78D.o_LED7Seg_out[5]
-o_LED7Seg[6] <= loadable_7s8d_led:Seg78D.o_LED7Seg_out[6]
-o_LED7Seg[7] <= loadable_7s8d_led:Seg78D.o_LED7Seg_out[7]
-o_BUZZER <= o_BUZZER.DB_MAX_OUTPUT_PORT_TYPE
+o_n_rts << buffereduart:UART.n_rts
+o_vid_red << o_vid_red.DB_MAX_OUTPUT_PORT_TYPE
+o_vid_grn << o_vid_grn.DB_MAX_OUTPUT_PORT_TYPE
+o_vid_blu << o_vid_blu.DB_MAX_OUTPUT_PORT_TYPE
+o_vid_hSync << sbctextdisplayrgb:VDU.hSync
+o_vid_vSync << sbctextdisplayrgb:VDU.vSync
+i_switch[0] => w_cpuDataIn.DATAB
+i_switch[1] => w_cpuDataIn.DATAB
+i_switch[2] => w_cpuDataIn.DATAB
+i_DipSw[0] => w_cpuDataIn.DATAB
+i_DipSw[1] => w_cpuDataIn.DATAB
+i_DipSw[2] => w_cpuDataIn.DATAB
+i_DipSw[3] => w_cpuDataIn.DATAB
+i_DipSw[4] => w_cpuDataIn.DATAB
+i_DipSw[5] => w_cpuDataIn.DATAB
+i_DipSw[6] => w_cpuDataIn.DATAB
+i_DipSw[7] => w_cpuDataIn.DATAB
+o_LED[0] << outlatch:latchLEDs.latchOut[0]
+o_LED[1] << outlatch:latchLEDs.latchOut[1]
+o_LED[2] << outlatch:latchLEDs.latchOut[2]
+o_LED[3] << outlatch:latchLEDs.latchOut[3]
+o_LED[4] << outlatch:latchLEDs.latchOut[4]
+o_LED[5] << outlatch:latchLEDs.latchOut[5]
+o_LED[6] << outlatch:latchLEDs.latchOut[6]
+o_LED[7] << outlatch:latchLEDs.latchOut[7]
+o_LED[8] << toggle_on_fn_key:FNKey2Toggle.latchFNKey
+o_LED[9] << toggle_on_fn_key:FNKey1Toggle.latchFNKey
+o_Anode_Act[0] << loadable_7s8d_led:Seg78D.o_Anode_Activate[0]
+o_Anode_Act[1] << loadable_7s8d_led:Seg78D.o_Anode_Activate[1]
+o_Anode_Act[2] << loadable_7s8d_led:Seg78D.o_Anode_Activate[2]
+o_Anode_Act[3] << loadable_7s8d_led:Seg78D.o_Anode_Activate[3]
+o_Anode_Act[4] << loadable_7s8d_led:Seg78D.o_Anode_Activate[4]
+o_Anode_Act[5] << loadable_7s8d_led:Seg78D.o_Anode_Activate[5]
+o_Anode_Act[6] << loadable_7s8d_led:Seg78D.o_Anode_Activate[6]
+o_Anode_Act[7] << loadable_7s8d_led:Seg78D.o_Anode_Activate[7]
+o_LED7Seg[0] << loadable_7s8d_led:Seg78D.o_LED7Seg_out[0]
+o_LED7Seg[1] << loadable_7s8d_led:Seg78D.o_LED7Seg_out[1]
+o_LED7Seg[2] << loadable_7s8d_led:Seg78D.o_LED7Seg_out[2]
+o_LED7Seg[3] << loadable_7s8d_led:Seg78D.o_LED7Seg_out[3]
+o_LED7Seg[4] << loadable_7s8d_led:Seg78D.o_LED7Seg_out[4]
+o_LED7Seg[5] << loadable_7s8d_led:Seg78D.o_LED7Seg_out[5]
+o_LED7Seg[6] << loadable_7s8d_led:Seg78D.o_LED7Seg_out[6]
+o_LED7Seg[7] << loadable_7s8d_led:Seg78D.o_LED7Seg_out[7]
+o_BUZZER << o_BUZZER.DB_MAX_OUTPUT_PORT_TYPE
 io_ps2Clk <> sbctextdisplayrgb:VDU.ps2Clk
 io_ps2Data <> sbctextdisplayrgb:VDU.ps2Data
 
 
-|M6502_VGA|T65:cpu
+|M6502_VGA|T65:CPU
 Mode[0] => Mode_r.DATAB
 Mode[1] => Mode_r.DATAB
 Res_n => XF_i.PRESET
@@ -708,7 +715,7 @@ DO[6] <= Mux78.DB_MAX_OUTPUT_PORT_TYPE
 DO[7] <= Mux77.DB_MAX_OUTPUT_PORT_TYPE
 
 
-|M6502_VGA|T65:cpu|T65_MCode:mcode
+|M6502_VGA|T65:CPU|T65_MCode:mcode
 Mode[0] => Equal0.IN1
 Mode[1] => Equal0.IN0
 IR[0] => Mux1.IN5
@@ -1470,7 +1477,7 @@ SaveP <= Mux115.DB_MAX_OUTPUT_PORT_TYPE
 Write <= Mux102.DB_MAX_OUTPUT_PORT_TYPE
 
 
-|M6502_VGA|T65:cpu|T65_ALU:alu
+|M6502_VGA|T65:CPU|T65_ALU:alu
 Mode[0] => ~NO_FANOUT~
 Mode[1] => ~NO_FANOUT~
 Op[0] => Mux0.IN9
@@ -1760,7 +1767,7 @@ Q[6] <= Mux1.DB_MAX_OUTPUT_PORT_TYPE
 Q[7] <= Mux0.DB_MAX_OUTPUT_PORT_TYPE
 
 
-|M6502_VGA|M6502_BASIC_ROM:rom
+|M6502_VGA|M6502_BASIC_ROM:ROM
 address[0] => altsyncram:altsyncram_component.address_a[0]
 address[1] => altsyncram:altsyncram_component.address_a[1]
 address[2] => altsyncram:altsyncram_component.address_a[2]
@@ -1785,7 +1792,7 @@ q[6] <= altsyncram:altsyncram_component.q_a[6]
 q[7] <= altsyncram:altsyncram_component.q_a[7]
 
 
-|M6502_VGA|M6502_BASIC_ROM:rom|altsyncram:altsyncram_component
+|M6502_VGA|M6502_BASIC_ROM:ROM|altsyncram:altsyncram_component
 wren_a => ~NO_FANOUT~
 rden_a => ~NO_FANOUT~
 wren_b => ~NO_FANOUT~
@@ -1839,7 +1846,7 @@ eccstatus[1] <= <GND>
 eccstatus[2] <= <GND>
 
 
-|M6502_VGA|M6502_BASIC_ROM:rom|altsyncram:altsyncram_component|altsyncram_du81:auto_generated
+|M6502_VGA|M6502_BASIC_ROM:ROM|altsyncram:altsyncram_component|altsyncram_du81:auto_generated
 address_a[0] => ram_block1a0.PORTAADDR
 address_a[0] => ram_block1a1.PORTAADDR
 address_a[0] => ram_block1a2.PORTAADDR
@@ -1962,7 +1969,7 @@ q_a[6] <= ram_block1a6.PORTADATAOUT
 q_a[7] <= ram_block1a7.PORTADATAOUT
 
 
-|M6502_VGA|InternalRam16K:sram
+|M6502_VGA|InternalRam16K:SRAM
 address[0] => altsyncram:altsyncram_component.address_a[0]
 address[1] => altsyncram:altsyncram_component.address_a[1]
 address[2] => altsyncram:altsyncram_component.address_a[2]
@@ -1997,7 +2004,7 @@ q[6] <= altsyncram:altsyncram_component.q_a[6]
 q[7] <= altsyncram:altsyncram_component.q_a[7]
 
 
-|M6502_VGA|InternalRam16K:sram|altsyncram:altsyncram_component
+|M6502_VGA|InternalRam16K:SRAM|altsyncram:altsyncram_component
 wren_a => altsyncram_m3q3:auto_generated.wren_a
 rden_a => ~NO_FANOUT~
 wren_b => ~NO_FANOUT~
@@ -2052,7 +2059,7 @@ eccstatus[1] <= <GND>
 eccstatus[2] <= <GND>
 
 
-|M6502_VGA|InternalRam16K:sram|altsyncram:altsyncram_component|altsyncram_m3q3:auto_generated
+|M6502_VGA|InternalRam16K:SRAM|altsyncram:altsyncram_component|altsyncram_m3q3:auto_generated
 address_a[0] => ram_block1a0.PORTAADDR
 address_a[0] => ram_block1a1.PORTAADDR
 address_a[0] => ram_block1a2.PORTAADDR
@@ -2308,7 +2315,7 @@ q_a[7] <= mux_3nb:mux2.result[7]
 wren_a => decode_jsa:decode3.enable
 
 
-|M6502_VGA|InternalRam16K:sram|altsyncram:altsyncram_component|altsyncram_m3q3:auto_generated|decode_jsa:decode3
+|M6502_VGA|InternalRam16K:SRAM|altsyncram:altsyncram_component|altsyncram_m3q3:auto_generated|decode_jsa:decode3
 data[0] => eq_node[1].IN0
 data[0] => eq_node[0].IN0
 enable => eq_node[1].IN1
@@ -2317,14 +2324,14 @@ eq[0] <= eq_node[0].DB_MAX_OUTPUT_PORT_TYPE
 eq[1] <= eq_node[1].DB_MAX_OUTPUT_PORT_TYPE
 
 
-|M6502_VGA|InternalRam16K:sram|altsyncram:altsyncram_component|altsyncram_m3q3:auto_generated|decode_c8a:rden_decode
+|M6502_VGA|InternalRam16K:SRAM|altsyncram:altsyncram_component|altsyncram_m3q3:auto_generated|decode_c8a:rden_decode
 data[0] => eq_node[1].IN0
 data[0] => eq_node[0].IN0
 eq[0] <= eq_node[0].DB_MAX_OUTPUT_PORT_TYPE
 eq[1] <= eq_node[1].DB_MAX_OUTPUT_PORT_TYPE
 
 
-|M6502_VGA|InternalRam16K:sram|altsyncram:altsyncram_component|altsyncram_m3q3:auto_generated|mux_3nb:mux2
+|M6502_VGA|InternalRam16K:SRAM|altsyncram:altsyncram_component|altsyncram_m3q3:auto_generated|mux_3nb:mux2
 data[0] => result_node[0].IN1
 data[1] => result_node[1].IN1
 data[2] => result_node[2].IN1
@@ -4093,7 +4100,7 @@ n_res => FNDelta1.ACLR
 latchFNKey <= loopback.DB_MAX_OUTPUT_PORT_TYPE
 
 
-|M6502_VGA|OutLatch:io3
+|M6502_VGA|OutLatch:SoundLatch
 dataIn8[0] => Q_tmp[0].DATAIN
 dataIn8[1] => Q_tmp[1].DATAIN
 dataIn8[2] => Q_tmp[2].DATAIN
@@ -4249,6 +4256,49 @@ Q[24] <= Pre_Q[24].DB_MAX_OUTPUT_PORT_TYPE
 Q[25] <= Pre_Q[25].DB_MAX_OUTPUT_PORT_TYPE
 Q[26] <= Pre_Q[26].DB_MAX_OUTPUT_PORT_TYPE
 Q[27] <= Pre_Q[27].DB_MAX_OUTPUT_PORT_TYPE
+
+
+|M6502_VGA|OutLatch:latchLEDs
+dataIn8[0] => Q_tmp[0].DATAIN
+dataIn8[1] => Q_tmp[1].DATAIN
+dataIn8[2] => Q_tmp[2].DATAIN
+dataIn8[3] => Q_tmp[3].DATAIN
+dataIn8[4] => Q_tmp[4].DATAIN
+dataIn8[5] => Q_tmp[5].DATAIN
+dataIn8[6] => Q_tmp[6].DATAIN
+dataIn8[7] => Q_tmp[7].DATAIN
+clock => Q_tmp[0].CLK
+clock => Q_tmp[1].CLK
+clock => Q_tmp[2].CLK
+clock => Q_tmp[3].CLK
+clock => Q_tmp[4].CLK
+clock => Q_tmp[5].CLK
+clock => Q_tmp[6].CLK
+clock => Q_tmp[7].CLK
+load => Q_tmp[7].ENA
+load => Q_tmp[6].ENA
+load => Q_tmp[5].ENA
+load => Q_tmp[4].ENA
+load => Q_tmp[3].ENA
+load => Q_tmp[2].ENA
+load => Q_tmp[1].ENA
+load => Q_tmp[0].ENA
+clear => Q_tmp[0].ACLR
+clear => Q_tmp[1].ACLR
+clear => Q_tmp[2].ACLR
+clear => Q_tmp[3].ACLR
+clear => Q_tmp[4].ACLR
+clear => Q_tmp[5].ACLR
+clear => Q_tmp[6].ACLR
+clear => Q_tmp[7].ACLR
+latchOut[0] <= Q_tmp[0].DB_MAX_OUTPUT_PORT_TYPE
+latchOut[1] <= Q_tmp[1].DB_MAX_OUTPUT_PORT_TYPE
+latchOut[2] <= Q_tmp[2].DB_MAX_OUTPUT_PORT_TYPE
+latchOut[3] <= Q_tmp[3].DB_MAX_OUTPUT_PORT_TYPE
+latchOut[4] <= Q_tmp[4].DB_MAX_OUTPUT_PORT_TYPE
+latchOut[5] <= Q_tmp[5].DB_MAX_OUTPUT_PORT_TYPE
+latchOut[6] <= Q_tmp[6].DB_MAX_OUTPUT_PORT_TYPE
+latchOut[7] <= Q_tmp[7].DB_MAX_OUTPUT_PORT_TYPE
 
 
 |M6502_VGA|OutLatch:io7SEGUU
