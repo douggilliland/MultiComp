@@ -40,10 +40,10 @@ entity M6800_MIKBUG is
 		io_ps2Clk			: inout std_logic := '1';
 		io_ps2Data			: inout std_logic := '1';
 		
-		i_USB_txd					: in	std_logic := '1';
-		o_USB_rxd					: out std_logic;
+		i_USB_txd			: in	std_logic := '1';
+		o_USB_rxd			: out std_logic;
 --		urts1					: in	std_logic := '1';
-		i_USB_cts					: out std_logic;
+		i_USB_cts			: out std_logic;
 		i_SerSelect			: in	std_logic := '1';
 		
 		-- SRAM not used but making sure that it's not active
@@ -64,22 +64,25 @@ architecture struct of M6800_MIKBUG is
 	signal w_cpuDataIn	: std_logic_vector(7 downto 0);
 	signal w_R1W0			: std_logic;
 	signal w_vma			: std_logic;
-	signal w_memWR		: std_logic;
-	signal w_memRD		: std_logic;
+	signal w_memWR			: std_logic;
+	signal w_memRD			: std_logic;
 
 	signal w_romData		: std_logic_vector(7 downto 0);
 	signal w_ramData1		: std_logic_vector(7 downto 0);
 	signal w_ramData2		: std_logic_vector(7 downto 0);
 	signal w_if1DataOut	: std_logic_vector(7 downto 0);
 	signal w_if2DataOut	: std_logic_vector(7 downto 0);
+	
+	signal RAM_CS_1		: std_logic;
+	signal RAM_CS_2		: std_logic;
 
 	signal n_int1			: std_logic :='1';	
 	signal n_if1CS			: std_logic :='1';
 	signal n_int2			: std_logic :='1';	
 	signal n_if2CS			: std_logic :='1';
 
-	signal q_cpuClkCount	: std_logic_vector(5 downto 0); 
-	signal w_cpuClock		: std_logic;
+	signal w_cpuClkCt	: std_logic_vector(5 downto 0); 
+	signal w_cpuClk		: std_logic;
 
    signal serialCount   : std_logic_vector(15 downto 0) := x"0000";
    signal serialCount_d	: std_logic_vector(15 downto 0);
@@ -95,9 +98,12 @@ begin
 		o_PinOut		=> w_resetLow
 	);
 	
-	w_memWR <= (not w_R1W0) and w_vma and (not w_cpuClock);
-	w_memRD <= w_R1W0       and w_vma and (not w_cpuClock);
-		
+	w_memWR <= (not w_R1W0) and w_vma and (not w_cpuClk);
+	w_memRD <=      w_R1W0  and w_vma and (not w_cpuClk);
+	
+	RAM_CS_1 <= (not w_cpuAddress(15)) and (not w_cpuAddress(14));
+	RAM_CS_2 <= (not w_cpuAddress(15)) and      w_cpuAddress(14);
+	
 	-- ____________________________________________________________________________________
 	-- I/O CHIP SELECTS
 	n_if1CS	<= '0' 	when (i_SerSelect = '1' and (w_cpuAddress(15 downto 1) = x"801"&"100")) else	-- VDU  $8018-$8019
@@ -121,7 +127,7 @@ begin
 	-- 6800 CPU
 	cpu1 : entity work.cpu68
 		port map(
-			clk		=> w_cpuClock,
+			clk		=> w_cpuClk,
 			rst		=> not w_resetLow,
 			rw			=> w_R1W0,
 			vma		=> w_vma,
@@ -182,7 +188,7 @@ begin
 			videoG1	=> o_videoG1,
 			videoB0	=> o_videoB0,
 			videoB1	=> o_videoB1,
-			n_WR		=> n_if1CS or      w_R1W0  or (not w_vma) or (not w_cpuClock),
+			n_WR		=> n_if1CS or      w_R1W0  or (not w_vma) or (not w_cpuClk),
 			n_rd		=> n_if1CS or (not w_R1W0) or (not w_vma),
 			n_int		=> n_int1,
 			regSel	=> w_cpuAddress(0),
@@ -196,7 +202,7 @@ begin
 	acia: entity work.bufferedUART
 		port map (
 			clk		=> i_CLOCK_50,     
-			n_WR		=> n_if2CS or      w_R1W0  or (not w_vma) or (not w_cpuClock),
+			n_WR		=> n_if2CS or      w_R1W0  or (not w_vma) or (not w_cpuClk),
 			n_rd		=> n_if2CS or (not w_R1W0) or (not w_vma),
 			regSel	=> w_cpuAddress(0),
 			dataIn	=> w_cpuDataOut,
@@ -217,15 +223,15 @@ begin
 process (i_CLOCK_50)
 	begin
 		if rising_edge(i_CLOCK_50) then
-			if q_cpuClkCount < 2 then
-				q_cpuClkCount <= q_cpuClkCount + 1;
+			if w_cpuClkCt < 2 then -- 4 = 10MHz, 3 = 12.5MHz, 2=16.6MHz, 1=25MHz
+				w_cpuClkCt <= w_cpuClkCt + 1;
 			else
-				q_cpuClkCount <= (others=>'0');
+				w_cpuClkCt <= (others=>'0');
 			end if;
-			if q_cpuClkCount < 1 then
-				w_cpuClock <= '0';
+			if w_cpuClkCt < 2 then -- 2 when 10MHz, 2 when 12.5MHz, 2 when 16.6MHz, 1 when 25MHz
+				w_cpuClk <= '0';
 			else
-				w_cpuClock <= '1';
+				w_cpuClk <= '1';
 			end if;
 		end if;
 	end process;
