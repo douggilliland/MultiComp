@@ -5,14 +5,15 @@
 -- Changes to this code by Doug Gilliland 2020
 --
 -- MC6800 CPU running MIKBUG from back in the day
---	2K (internal) RAM version
+--	3K (internal) RAM version
 -- MC6850 ACIA UART
 -- VDU
 --		XGA 80x25 character display
 --		PS/2 keyboard
 --
 -- The Memory Map is:
---	$0000-$7FFF - SRAM (internal RAM in the EPCE15)
+--	$0000-$07FF - 2KB SRAM (internal RAM in the EPCE15)
+--	$7C00-$7FFF - 1KB SRAM (internal RAM in the EPCE15)
 --	$8000-$8001 - ACIA
 --	$C000-$CFFF - MIKBUG ROM (repeats 4 times from 0xC000-0xFFFF)
 --
@@ -162,7 +163,7 @@ begin
 		);
 	
 	-- ____________________________________________________________________________________
-	-- 2KB RAM	
+	-- 1KB RAM	
 	sram2 : entity work.InternalRam1K
 		PORT map  (
 			address	=> w_cpuAddress(9 downto 0),
