@@ -177,6 +177,9 @@ begin
 	-- INPUT/OUTPUT DEVICES
 	-- Grant's VGA driver
 	vdu : entity work.SBCTextDisplayRGB
+		generic map ( 
+			EXTENDED_CHARSET => 0
+		)
 		port map (
 			n_reset	=> w_resetLow,
 			clk		=> i_CLOCK_50,
@@ -197,7 +200,7 @@ begin
 			dataOut	=> w_if1DataOut,
 			ps2Clk	=> io_ps2Clk,
 			ps2Data	=> io_ps2Data
-		);
+	);
 	
 	-- ACIA UART serial interface
 	acia: entity work.bufferedUART
