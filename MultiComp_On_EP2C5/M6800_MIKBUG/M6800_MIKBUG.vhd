@@ -179,6 +179,7 @@ begin
 	vdu : entity work.SBCTextDisplayRGB
 		generic map ( 
 			EXTENDED_CHARSET => 0
+--			COLOUR_ATTS_ENABLED => 0
 		)
 		port map (
 			n_reset	=> w_resetLow,
