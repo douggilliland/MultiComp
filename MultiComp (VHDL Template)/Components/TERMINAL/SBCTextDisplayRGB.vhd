@@ -38,7 +38,7 @@ entity SBCTextDisplayRGB is
 		constant V_SYNC_ACTIVE : std_logic := '0';
 
 		constant DEFAULT_ATT : std_logic_vector(7 downto 0) := "00001111"; -- background iBGR | foreground iBGR (i=intensity)
-		constant ANSI_DEFAULT_ATT : std_logic_vector(7 downto 0) := "00000111"; -- background iBGR | foreground iBGR (i=intensity)
+		constant ANSI_DEFAULT_ATT : std_logic_vector(7 downto 0) := "00001111"; -- background iBGR | foreground iBGR (i=intensity)
 		constant SANS_SERIF_FONT : integer := 1 -- 0 => use conventional CGA font, 1 => use san serif font
 	);
 	port (

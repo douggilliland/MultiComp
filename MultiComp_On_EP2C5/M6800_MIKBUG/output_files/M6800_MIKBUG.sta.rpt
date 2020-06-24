@@ -1,5 +1,5 @@
 TimeQuest Timing Analyzer report for M6800_MIKBUG
-Wed Jun 24 11:51:59 2020
+Wed Jun 24 18:05:32 2020
 Quartus II 64-Bit Version 13.0.1 Build 232 06/12/2013 Service Pack 1 SJ Web Edition
 
 
@@ -17,20 +17,24 @@ Quartus II 64-Bit Version 13.0.1 Build 232 06/12/2013 Service Pack 1 SJ Web Edit
   9. Slow Model Removal Summary
  10. Slow Model Minimum Pulse Width Summary
  11. Slow Model Minimum Pulse Width: 'altera_reserved_tck'
- 12. Slow Model Datasheet Report
- 13. Fast Model Setup Summary
- 14. Fast Model Hold Summary
- 15. Fast Model Recovery Summary
- 16. Fast Model Removal Summary
- 17. Fast Model Minimum Pulse Width Summary
- 18. Fast Model Minimum Pulse Width: 'altera_reserved_tck'
- 19. Fast Model Datasheet Report
- 20. Multicorner Timing Analysis Summary
- 21. Clock Transfers
- 22. Report TCCS
- 23. Report RSKM
- 24. Unconstrained Paths
- 25. TimeQuest Timing Analyzer Messages
+ 12. Propagation Delay
+ 13. Minimum Propagation Delay
+ 14. Fast Model Setup Summary
+ 15. Fast Model Hold Summary
+ 16. Fast Model Recovery Summary
+ 17. Fast Model Removal Summary
+ 18. Fast Model Minimum Pulse Width Summary
+ 19. Fast Model Minimum Pulse Width: 'altera_reserved_tck'
+ 20. Propagation Delay
+ 21. Minimum Propagation Delay
+ 22. Multicorner Timing Analysis Summary
+ 23. Progagation Delay
+ 24. Minimum Progagation Delay
+ 25. Clock Transfers
+ 26. Report TCCS
+ 27. Report RSKM
+ 28. Unconstrained Paths
+ 29. TimeQuest Timing Analyzer Messages
 
 
 
@@ -134,10 +138,22 @@ No paths to report.
 +--------+--------------+----------------+-----------+---------------------+------------+---------------------+
 
 
--------------------------------
-; Slow Model Datasheet Report ;
--------------------------------
-Nothing to report.
++----------------------------------------------------+
+; Propagation Delay                                  ;
++------------+-------------+-------+----+----+-------+
+; Input Port ; Output Port ; RR    ; RF ; FR ; FF    ;
++------------+-------------+-------+----+----+-------+
+; i_CLOCK_50 ; Pin40       ; 5.787 ;    ;    ; 5.787 ;
++------------+-------------+-------+----+----+-------+
+
+
++----------------------------------------------------+
+; Minimum Propagation Delay                          ;
++------------+-------------+-------+----+----+-------+
+; Input Port ; Output Port ; RR    ; RF ; FR ; FF    ;
++------------+-------------+-------+----+----+-------+
+; i_CLOCK_50 ; Pin40       ; 5.787 ;    ;    ; 5.787 ;
++------------+-------------+-------+----+----+-------+
 
 
 ----------------------------
@@ -182,10 +198,22 @@ No paths to report.
 +--------+--------------+----------------+-----------+---------------------+------------+---------------------+
 
 
--------------------------------
-; Fast Model Datasheet Report ;
--------------------------------
-Nothing to report.
++----------------------------------------------------+
+; Propagation Delay                                  ;
++------------+-------------+-------+----+----+-------+
+; Input Port ; Output Port ; RR    ; RF ; FR ; FF    ;
++------------+-------------+-------+----+----+-------+
+; i_CLOCK_50 ; Pin40       ; 2.629 ;    ;    ; 2.629 ;
++------------+-------------+-------+----+----+-------+
+
+
++----------------------------------------------------+
+; Minimum Propagation Delay                          ;
++------------+-------------+-------+----+----+-------+
+; Input Port ; Output Port ; RR    ; RF ; FR ; FF    ;
++------------+-------------+-------+----+----+-------+
+; i_CLOCK_50 ; Pin40       ; 2.629 ;    ;    ; 2.629 ;
++------------+-------------+-------+----+----+-------+
 
 
 +--------------------------------------------------------------------------------+
@@ -198,6 +226,24 @@ Nothing to report.
 ; Design-wide TNS      ; 0.0   ; 0.0  ; 0.0      ; 0.0     ; 0.0                 ;
 ;  altera_reserved_tck ; N/A   ; N/A  ; N/A      ; N/A     ; 0.000               ;
 +----------------------+-------+------+----------+---------+---------------------+
+
+
++----------------------------------------------------+
+; Progagation Delay                                  ;
++------------+-------------+-------+----+----+-------+
+; Input Port ; Output Port ; RR    ; RF ; FR ; FF    ;
++------------+-------------+-------+----+----+-------+
+; i_CLOCK_50 ; Pin40       ; 5.787 ;    ;    ; 5.787 ;
++------------+-------------+-------+----+----+-------+
+
+
++----------------------------------------------------+
+; Minimum Progagation Delay                          ;
++------------+-------------+-------+----+----+-------+
+; Input Port ; Output Port ; RR    ; RF ; FR ; FF    ;
++------------+-------------+-------+----+----+-------+
+; i_CLOCK_50 ; Pin40       ; 2.629 ;    ;    ; 2.629 ;
++------------+-------------+-------+----+----+-------+
 
 
 -------------------
@@ -225,10 +271,10 @@ No dedicated SERDES Receiver circuitry present in device or used in design
 +---------------------------------+-------+------+
 ; Illegal Clocks                  ; 0     ; 0    ;
 ; Unconstrained Clocks            ; 3     ; 3    ;
-; Unconstrained Input Ports       ; 5     ; 5    ;
-; Unconstrained Input Port Paths  ; 106   ; 106  ;
-; Unconstrained Output Ports      ; 12    ; 12   ;
-; Unconstrained Output Port Paths ; 12    ; 12   ;
+; Unconstrained Input Ports       ; 6     ; 6    ;
+; Unconstrained Input Port Paths  ; 107   ; 107  ;
+; Unconstrained Output Ports      ; 16    ; 16   ;
+; Unconstrained Output Port Paths ; 101   ; 101  ;
 +---------------------------------+-------+------+
 
 
@@ -238,7 +284,7 @@ No dedicated SERDES Receiver circuitry present in device or used in design
 Info: *******************************************************************
 Info: Running Quartus II 64-Bit TimeQuest Timing Analyzer
     Info: Version 13.0.1 Build 232 06/12/2013 Service Pack 1 SJ Web Edition
-    Info: Processing started: Wed Jun 24 11:51:57 2020
+    Info: Processing started: Wed Jun 24 18:05:30 2020
 Info: Command: quartus_sta M6800_MIKBUG -c M6800_MIKBUG
 Info: qsta_default_script.tcl version: #1
 Warning (20028): Parallel compilation is not licensed and has been disabled
@@ -280,8 +326,8 @@ Info (332001): The selected device family is not supported by the report_metasta
 Info (332102): Design is not fully constrained for setup requirements
 Info (332102): Design is not fully constrained for hold requirements
 Info: Quartus II 64-Bit TimeQuest Timing Analyzer was successful. 0 errors, 8 warnings
-    Info: Peak virtual memory: 4574 megabytes
-    Info: Processing ended: Wed Jun 24 11:51:59 2020
+    Info: Peak virtual memory: 4585 megabytes
+    Info: Processing ended: Wed Jun 24 18:05:32 2020
     Info: Elapsed time: 00:00:02
     Info: Total CPU time (on all processors): 00:00:02
 

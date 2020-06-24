@@ -47,6 +47,15 @@ entity M6800_MIKBUG is
 		i_USB_cts			: out std_logic;
 		i_SerSelect			: in	std_logic := '1';
 		
+		Pin25					: out std_logic;
+		Pin31					: out std_logic;
+		Pin41					: out std_logic;
+		Pin40					: out std_logic;
+		Pin43					: out std_logic;
+		Pin42					: out std_logic;
+		Pin45					: out std_logic;
+		Pin44					: out std_logic;
+		
 		-- SRAM not used but making sure that it's not active
 		io_extSRamData		: inout std_logic_vector(7 downto 0) := (others=>'Z');
 		io_extSRamAddress	: out std_logic_vector(16 downto 0);
@@ -74,8 +83,8 @@ architecture struct of M6800_MIKBUG is
 	signal w_if1DataOut	: std_logic_vector(7 downto 0);
 	signal w_if2DataOut	: std_logic_vector(7 downto 0);
 	
-	signal RAM_CS_1		: std_logic;
-	signal RAM_CS_2		: std_logic;
+	signal w_RAM_CS_1		: std_logic;
+	signal w_RAM_CS_2		: std_logic;
 
 	signal n_int1			: std_logic :='1';	
 	signal n_if1CS			: std_logic :='1';
@@ -91,6 +100,12 @@ architecture struct of M6800_MIKBUG is
 	
 begin
 	
+	-- Debug
+	Pin25 <= w_cpuClk;
+	Pin31 <= w_RAM_CS_1;
+	Pin41 <= w_memWR;
+	Pin40 <= i_CLOCK_50;
+	
 	-- Debounce the reset line
 	DebounceResetSwitch	: entity work.Debouncer
 	port map (
@@ -99,11 +114,11 @@ begin
 		o_PinOut		=> w_resetLow
 	);
 	
-	w_memWR <= (not w_R1W0) and w_vma and (not w_cpuClk);
-	w_memRD <=      w_R1W0  and w_vma and (not w_cpuClk);
+	w_memWR <= (not w_R1W0) and w_vma and w_cpuClk;
+	w_memRD <=      w_R1W0  and w_vma and w_cpuClk;
 	
-	RAM_CS_1 <= (not w_cpuAddress(15)) and (not w_cpuAddress(14));
-	RAM_CS_2 <= (not w_cpuAddress(15)) and      w_cpuAddress(14);
+	w_RAM_CS_1 <= (not w_cpuAddress(15)) and (not w_cpuAddress(14)) and (not w_cpuAddress(13)) and (not w_cpuAddress(12)) and (not w_cpuAddress(11));
+	w_RAM_CS_2 <= (not w_cpuAddress(15)) and      w_cpuAddress(14)  and      w_cpuAddress(13)  and      w_cpuAddress(12)  and      w_cpuAddress(11)  and      w_cpuAddress(10);
 	
 	-- ____________________________________________________________________________________
 	-- I/O CHIP SELECTS
@@ -117,8 +132,8 @@ begin
 	-- ____________________________________________________________________________________
 	-- CPU Read Data multiplexer
 	w_cpuDataIn <=
-		w_ramData1		when w_cpuAddress(15 downto 14) = "00"		else
-		w_ramData2		when w_cpuAddress(15 downto 14) = "01"		else
+		w_ramData1		when w_RAM_CS_1 = '1'							else
+		w_ramData2		when w_RAM_CS_2 = '1'							else
 		w_if1DataOut	when (n_if1CS = '0')								else
 		w_if2DataOut	when (n_if2CS = '0')								else
 		w_romData		when w_cpuAddress(15 downto 14) = "11"		else
@@ -158,7 +173,7 @@ begin
 			address	=> w_cpuAddress(10 downto 0),
 			clock 	=> i_CLOCK_50,
 			data 		=> w_cpuDataOut,
-			wren		=> (not w_cpuAddress(15)) and (not w_cpuAddress(14)) and w_memWR,
+			wren		=> w_RAM_CS_1 and w_memWR,
 			q			=> w_ramData1
 		);
 	
@@ -169,7 +184,7 @@ begin
 			address	=> w_cpuAddress(9 downto 0),
 			clock 	=> i_CLOCK_50,
 			data 		=> w_cpuDataOut,
-			wren		=> (not w_cpuAddress(15)) and (w_cpuAddress(14)) and w_memWR,
+			wren		=> w_RAM_CS_2 and w_memWR,
 			q			=> w_ramData2
 		);
 	
@@ -178,12 +193,15 @@ begin
 	-- Grant's VGA driver
 	vdu : entity work.SBCTextDisplayRGB
 		generic map ( 
+--			COLOUR_ATTS_ENABLED => 0,
+			SANS_SERIF_FONT => 1,
 			EXTENDED_CHARSET => 0
---			COLOUR_ATTS_ENABLED => 0
 		)
 		port map (
-			n_reset	=> w_resetLow,
 			clk		=> i_CLOCK_50,
+			n_WR		=> n_if1CS or      w_R1W0  or (not w_vma) or (not w_cpuClk),
+			n_rd		=> n_if1CS or (not w_R1W0) or (not w_vma),
+			n_reset	=> w_resetLow,
 			-- RGB Compo_video signals
 			hSync		=> o_hSync,
 			vSync		=> o_vSync,
@@ -193,8 +211,6 @@ begin
 			videoG1	=> o_videoG1,
 			videoB0	=> o_videoB0,
 			videoB1	=> o_videoB1,
-			n_WR		=> n_if1CS or      w_R1W0  or (not w_vma) or (not w_cpuClk),
-			n_rd		=> n_if1CS or (not w_R1W0) or (not w_vma),
 			n_int		=> n_int1,
 			regSel	=> w_cpuAddress(0),
 			dataIn	=> w_cpuDataOut,
@@ -228,7 +244,7 @@ begin
 process (i_CLOCK_50)
 	begin
 		if rising_edge(i_CLOCK_50) then
-			if w_cpuClkCt < 2 then -- 4 = 10MHz, 3 = 12.5MHz, 2=16.6MHz, 1=25MHz
+			if w_cpuClkCt < 3 then -- 4 = 10MHz, 3 = 12.5MHz, 2=16.6MHz, 1=25MHz
 				w_cpuClkCt <= w_cpuClkCt + 1;
 			else
 				w_cpuClkCt <= (others=>'0');
@@ -242,7 +258,18 @@ process (i_CLOCK_50)
 	end process;
 	
 	-- ____________________________________________________________________________________
-	-- Baud Rate CLOCK SIGNALS
+	-- Baud Rate Clock Signals
+	-- Serial clock DDS
+	-- 50MHz master input clock:
+	-- f = (increment x 50,000,000) / 65,536 = 16X baud rate
+	-- Baud Increment
+	-- 115200 2416
+	-- 38400 805
+	-- 19200 403
+	-- 9600 201
+	-- 4800 101
+	-- 2400 50
+
 baud_div: process (serialCount_d, serialCount)
     begin
         serialCount_d <= serialCount + 2416;

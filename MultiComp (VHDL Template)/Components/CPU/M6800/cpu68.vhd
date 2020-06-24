@@ -74,10 +74,10 @@ entity cpu68 is
 		address:	 out std_logic_vector(15 downto 0);
 	   data_in:	 in  std_logic_vector(7 downto 0);
 	   data_out: out std_logic_vector(7 downto 0);
-		hold:     in  std_logic;
-		halt:     in  std_logic;
-		irq:      in  std_logic;
-		nmi:      in  std_logic;
+		hold:     in  std_logic := '0';
+		halt:     in  std_logic := '0';
+		irq:      in  std_logic := '0';
+		nmi:      in  std_logic := '0';
 		test_alu: out std_logic_vector(15 downto 0);
 		test_cc:  out std_logic_vector(7 downto 0)
 		);
