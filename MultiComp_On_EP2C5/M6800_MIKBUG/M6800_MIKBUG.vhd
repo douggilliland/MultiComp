@@ -40,11 +40,11 @@ entity M6800_MIKBUG is
 		io_ps2Clk			: inout std_logic := '1';
 		io_ps2Data			: inout std_logic := '1';
 		
-		utxd1					: in	std_logic := '1';
-		urxd1					: out std_logic;
+		i_USB_txd					: in	std_logic := '1';
+		o_USB_rxd					: out std_logic;
 --		urts1					: in	std_logic := '1';
-		ucts1					: out std_logic;
-		serSelect			: in	std_logic := '1';
+		i_USB_cts					: out std_logic;
+		i_SerSelect			: in	std_logic := '1';
 		
 		-- SRAM not used but making sure that it's not active
 		io_extSRamData		: inout std_logic_vector(7 downto 0) := (others=>'Z');
@@ -64,6 +64,8 @@ architecture struct of M6800_MIKBUG is
 	signal w_cpuDataIn	: std_logic_vector(7 downto 0);
 	signal w_R1W0			: std_logic;
 	signal w_vma			: std_logic;
+	signal w_memWR		: std_logic;
+	signal w_memRD		: std_logic;
 
 	signal w_romData		: std_logic_vector(7 downto 0);
 	signal w_ramData1		: std_logic_vector(7 downto 0);
@@ -92,14 +94,17 @@ begin
 		i_PinIn		=> i_n_reset,
 		o_PinOut		=> w_resetLow
 	);
+	
+	w_memWR <= (not w_R1W0) and w_vma and (not w_cpuClock);
+	w_memRD <= w_R1W0       and w_vma and (not w_cpuClock);
 		
 	-- ____________________________________________________________________________________
 	-- I/O CHIP SELECTS
-	n_if1CS	<= '0' 	when (serSelect = '1' and (w_cpuAddress(15 downto 1) = x"801"&"100")) else	-- VDU  $8018-$8019
-					'0'	when (serSelect = '0' and (w_cpuAddress(15 downto 1) = x"802"&"100")) else	-- ACIA $8028-$8029
+	n_if1CS	<= '0' 	when (i_SerSelect = '1' and (w_cpuAddress(15 downto 1) = x"801"&"100")) else	-- VDU  $8018-$8019
+					'0'	when (i_SerSelect = '0' and (w_cpuAddress(15 downto 1) = x"802"&"100")) else	-- ACIA $8028-$8029
 							'1';
-	n_if2CS	<= '0' 	when (serSelect = '1' and (w_cpuAddress(15 downto 1) = x"802"&"100")) else	-- ACIA $8028-$8029
-					'0'	when (serSelect = '0' and (w_cpuAddress(15 downto 1) = x"801"&"100")) else	-- VDU  $8018-$8019
+	n_if2CS	<= '0' 	when (i_SerSelect = '1' and (w_cpuAddress(15 downto 1) = x"802"&"100")) else	-- ACIA $8028-$8029
+					'0'	when (i_SerSelect = '0' and (w_cpuAddress(15 downto 1) = x"801"&"100")) else	-- VDU  $8018-$8019
 							'1';
 	
 	-- ____________________________________________________________________________________
@@ -146,18 +151,18 @@ begin
 			address	=> w_cpuAddress(10 downto 0),
 			clock 	=> i_CLOCK_50,
 			data 		=> w_cpuDataOut,
-			wren		=> (not w_R1W0) and (not w_cpuAddress(15)) and (not w_cpuAddress(14)) and w_vma and (not w_cpuClock),
+			wren		=> (not w_cpuAddress(15)) and (not w_cpuAddress(14)) and w_memWR,
 			q			=> w_ramData1
 		);
 	
 	-- ____________________________________________________________________________________
-	-- 1KB RAM	
+	-- 2KB RAM	
 	sram2 : entity work.InternalRam1K
 		PORT map  (
 			address	=> w_cpuAddress(9 downto 0),
 			clock 	=> i_CLOCK_50,
 			data 		=> w_cpuDataOut,
-			wren		=> (not w_R1W0) and (not w_cpuAddress(15)) and (w_cpuAddress(14)) and w_vma and (not w_cpuClock),
+			wren		=> (not w_cpuAddress(15)) and (w_cpuAddress(14)) and w_memWR,
 			q			=> w_ramData2
 		);
 	
@@ -201,10 +206,10 @@ begin
 						 -- at 16x the baud rate.
 			rxClkEn	=> serialEn,
 			txClkEn	=> serialEn,
-			rxd		=> utxd1,
-			txd		=> urxd1,
+			rxd		=> i_USB_txd,
+			txd		=> o_USB_rxd,
 --			n_cts		=> urts1,
-			n_rts		=> ucts1
+			n_rts		=> i_USB_cts
 		);
 	
 	-- ____________________________________________________________________________________
