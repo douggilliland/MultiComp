@@ -14,7 +14,8 @@
 -- The Memory Map is:
 --	$0000-$07FF - 2KB SRAM (internal RAM in the EPCE15)
 --	$7C00-$7FFF - 1KB SRAM (internal RAM in the EPCE15)
---	$8000-$8001 - ACIA
+--	$8018-$8019 - VDU
+--	$8028-$8029 - ACIA
 --	$C000-$CFFF - MIKBUG ROM (repeats 4 times from 0xC000-0xFFFF)
 --
 
@@ -87,9 +88,9 @@ architecture struct of M6800_MIKBUG is
 	signal w_RAM_CS_2		: std_logic;
 
 	signal n_int1			: std_logic :='1';	
-	signal n_if1CS			: std_logic :='1';
+	signal w_n_if1CS			: std_logic :='1';
 	signal n_int2			: std_logic :='1';	
-	signal n_if2CS			: std_logic :='1';
+	signal w_n_if2CS			: std_logic :='1';
 
 	signal w_cpuClkCt	: std_logic_vector(5 downto 0); 
 	signal w_cpuClk		: std_logic;
@@ -104,7 +105,7 @@ begin
 	Pin25 <= w_cpuClk;
 	Pin31 <= w_RAM_CS_1;
 	Pin41 <= w_memWR;
-	Pin40 <= i_CLOCK_50;
+	Pin40 <= i_SerSelect;
 	
 	-- Debounce the reset line
 	DebounceResetSwitch	: entity work.Debouncer
@@ -122,20 +123,20 @@ begin
 	
 	-- ____________________________________________________________________________________
 	-- I/O CHIP SELECTS
-	n_if1CS	<= '0' 	when (i_SerSelect = '1' and (w_cpuAddress(15 downto 1) = x"801"&"100")) else	-- VDU  $8018-$8019
-					'0'	when (i_SerSelect = '0' and (w_cpuAddress(15 downto 1) = x"802"&"100")) else	-- ACIA $8028-$8029
-							'1';
-	n_if2CS	<= '0' 	when (i_SerSelect = '1' and (w_cpuAddress(15 downto 1) = x"802"&"100")) else	-- ACIA $8028-$8029
-					'0'	when (i_SerSelect = '0' and (w_cpuAddress(15 downto 1) = x"801"&"100")) else	-- VDU  $8018-$8019
-							'1';
+	w_n_if1CS	<= '0' 	when (i_SerSelect = '1' and (w_cpuAddress(15 downto 1) = x"801"&"100")) else	-- VDU  $8018-$8019
+						'0'	when (i_SerSelect = '0' and (w_cpuAddress(15 downto 1) = x"802"&"100")) else	-- ACIA $8028-$8029
+						'1';
+	w_n_if2CS	<= '0' 	when (i_SerSelect = '1' and (w_cpuAddress(15 downto 1) = x"802"&"100")) else	-- ACIA $8028-$8029
+						'0'	when (i_SerSelect = '0' and (w_cpuAddress(15 downto 1) = x"801"&"100")) else	-- VDU  $8018-$8019
+						'1';
 	
 	-- ____________________________________________________________________________________
 	-- CPU Read Data multiplexer
 	w_cpuDataIn <=
 		w_ramData1		when w_RAM_CS_1 = '1'							else
 		w_ramData2		when w_RAM_CS_2 = '1'							else
-		w_if1DataOut	when (n_if1CS = '0')								else
-		w_if2DataOut	when (n_if2CS = '0')								else
+		w_if1DataOut	when (w_n_if1CS = '0')								else
+		w_if2DataOut	when (w_n_if2CS = '0')								else
 		w_romData		when w_cpuAddress(15 downto 14) = "11"		else
 		x"FF";
 	
@@ -195,12 +196,13 @@ begin
 		generic map ( 
 --			COLOUR_ATTS_ENABLED => 0,
 			SANS_SERIF_FONT => 1,
+			COLOUR_ATTS_ENABLED => 1,
 			EXTENDED_CHARSET => 0
 		)
 		port map (
 			clk		=> i_CLOCK_50,
-			n_WR		=> n_if1CS or      w_R1W0  or (not w_vma) or (not w_cpuClk),
-			n_rd		=> n_if1CS or (not w_R1W0) or (not w_vma),
+			n_WR		=> w_n_if1CS or      w_R1W0  or (not w_vma) or (not w_cpuClk),
+			n_rd		=> w_n_if1CS or (not w_R1W0) or (not w_vma),
 			n_reset	=> w_resetLow,
 			-- RGB Compo_video signals
 			hSync		=> o_hSync,
@@ -223,8 +225,8 @@ begin
 	acia: entity work.bufferedUART
 		port map (
 			clk		=> i_CLOCK_50,     
-			n_WR		=> n_if2CS or      w_R1W0  or (not w_vma) or (not w_cpuClk),
-			n_rd		=> n_if2CS or (not w_R1W0) or (not w_vma),
+			n_WR		=> w_n_if2CS or      w_R1W0  or (not w_vma) or (not w_cpuClk),
+			n_rd		=> w_n_if2CS or (not w_R1W0) or (not w_vma),
 			regSel	=> w_cpuAddress(0),
 			dataIn	=> w_cpuDataOut,
 			dataOut	=> w_if2DataOut,
