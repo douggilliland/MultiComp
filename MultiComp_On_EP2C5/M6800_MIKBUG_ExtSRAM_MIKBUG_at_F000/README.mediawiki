@@ -10,7 +10,6 @@
 * Running MIKBUG from back in the day (SmithBug ACIA version)
 * 12.5 MHz
 * 56K (external) RAM version
-* 0xDF00-0xDFFF - scratchpad used by MIKBUG
 * MC6850 ACIA UART
 * VDU
 ** XGA 80x25 ANSI character display
@@ -18,7 +17,9 @@
 
 == Memory Map ==
 
-* $0000-$DFFF - 56KB SRAM (external RAM in the EPCE15)
+* $0000-$DFFF - 56KB external sRAM
+** $0000-$DEFF - User RAM area
+** $DF00-$DFFF - scratchpad used by MIKBUG
 *	$E018-$E019 - VDU
 *	$E028-$E029 - ACIA
 ** Pin_60 of the FPGA swaps addresses of VDU and ACIA port
