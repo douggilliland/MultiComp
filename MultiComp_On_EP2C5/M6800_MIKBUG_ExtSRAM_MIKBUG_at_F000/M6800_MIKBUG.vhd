@@ -88,7 +88,8 @@ architecture struct of M6800_MIKBUG is
 	signal w_if1DataOut	: std_logic_vector(7 downto 0);
 	signal w_if2DataOut	: std_logic_vector(7 downto 0);
 	
-	signal n_int1			: std_logic :='1';	
+	signal w_ExtRamAddr	: std_logic :='0';
+	signal n_int1			: std_logic :='1';
 	signal n_vduCSN		: std_logic :='1';
 	signal n_int2			: std_logic :='1';	
 	signal n_aciaCSN		: std_logic :='1';
@@ -109,11 +110,17 @@ begin
 	J8IO8 <= w_J8IO8(5 downto 0);
 	-- ____________________________________________________________________________________
 	-- RAM GOES HERE
-	o_extSRamAddress	<= "00"&w_cpuAddress(14 downto 0);
-	io_extSRamData		<= w_cpuDataOut when (w_R1W0='0' and (w_cpuAddress(15) = '0')) else (others => 'Z');
+	w_ExtRamAddr <= ((not w_cpuAddress(15)) 										-- 0x0000 - 0x7FFF
+							or (w_cpuAddress(15) and (not w_cpuAddress(14)))	-- 0x8000 - 0XBFFF
+							or (w_cpuAddress(15) and (not w_cpuAddress(13)))	-- 0xC000 - 0xDFFF
+							);
+	
+	o_extSRamAddress	<= '0'&w_cpuAddress(15 downto 0);
+	io_extSRamData		<= w_cpuDataOut when (w_R1W0='0' and w_ExtRamAddr = '1') else
+	(others => 'Z');
 	io_n_extSRamWE		<= w_R1W0;
 	io_n_extSRamOE		<= not w_R1W0;
-	io_n_extSRamCS		<= not ((not w_cpuAddress(15)) and (not w_cpuClock));
+	io_n_extSRamCS		<= not (w_ExtRamAddr and (not w_cpuClock));
 	
 	-- Debounce the reset line
 	DebounceResetSwitch	: entity work.Debouncer
@@ -141,7 +148,7 @@ begin
 	-- ____________________________________________________________________________________
 	-- CPU Read Data multiplexer
 	w_cpuDataIn <=
-		io_extSRamData	when w_cpuAddress(15) = '0'					else
+		io_extSRamData	when w_ExtRamAddr = '1'							else
 		w_if1DataOut	when n_vduCSN = '0'								else
 		w_if2DataOut	when n_aciaCSN = '0'								else
 		w_romData		when w_cpuAddress(15 downto 12) = "1111"	else
