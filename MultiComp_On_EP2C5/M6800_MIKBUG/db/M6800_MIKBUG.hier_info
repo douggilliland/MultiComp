@@ -23,7 +23,7 @@ i_CLOCK_50 => w_cpuClkCt[4].CLK
 i_CLOCK_50 => w_cpuClkCt[5].CLK
 i_CLOCK_50 => mikbug:rom1.clock
 i_CLOCK_50 => internalram2k:sram1.clock
-i_CLOCK_50 => internalram1k:sram2.clock
+i_CLOCK_50 => internalram512b:sram2.clock
 i_CLOCK_50 => sbctextdisplayrgb:vdu.clk
 i_CLOCK_50 => buffereduart:acia.clk
 o_videoR0 <= sbctextdisplayrgb:vdu.videoR0
@@ -1376,7 +1376,7 @@ wren_a => ram_block1a6.PORTAWE
 wren_a => ram_block1a7.PORTAWE
 
 
-|M6800_MIKBUG|InternalRam1K:sram2
+|M6800_MIKBUG|InternalRam512B:sram2
 address[0] => altsyncram:altsyncram_component.address_a[0]
 address[1] => altsyncram:altsyncram_component.address_a[1]
 address[2] => altsyncram:altsyncram_component.address_a[2]
@@ -1386,7 +1386,6 @@ address[5] => altsyncram:altsyncram_component.address_a[5]
 address[6] => altsyncram:altsyncram_component.address_a[6]
 address[7] => altsyncram:altsyncram_component.address_a[7]
 address[8] => altsyncram:altsyncram_component.address_a[8]
-address[9] => altsyncram:altsyncram_component.address_a[9]
 clock => altsyncram:altsyncram_component.clock0
 data[0] => altsyncram:altsyncram_component.data_a[0]
 data[1] => altsyncram:altsyncram_component.data_a[1]
@@ -1407,34 +1406,33 @@ q[6] <= altsyncram:altsyncram_component.q_a[6]
 q[7] <= altsyncram:altsyncram_component.q_a[7]
 
 
-|M6800_MIKBUG|InternalRam1K:sram2|altsyncram:altsyncram_component
-wren_a => altsyncram_1tp3:auto_generated.wren_a
+|M6800_MIKBUG|InternalRam512B:sram2|altsyncram:altsyncram_component
+wren_a => altsyncram_cra1:auto_generated.wren_a
 rden_a => ~NO_FANOUT~
 wren_b => ~NO_FANOUT~
 rden_b => ~NO_FANOUT~
-data_a[0] => altsyncram_1tp3:auto_generated.data_a[0]
-data_a[1] => altsyncram_1tp3:auto_generated.data_a[1]
-data_a[2] => altsyncram_1tp3:auto_generated.data_a[2]
-data_a[3] => altsyncram_1tp3:auto_generated.data_a[3]
-data_a[4] => altsyncram_1tp3:auto_generated.data_a[4]
-data_a[5] => altsyncram_1tp3:auto_generated.data_a[5]
-data_a[6] => altsyncram_1tp3:auto_generated.data_a[6]
-data_a[7] => altsyncram_1tp3:auto_generated.data_a[7]
+data_a[0] => altsyncram_cra1:auto_generated.data_a[0]
+data_a[1] => altsyncram_cra1:auto_generated.data_a[1]
+data_a[2] => altsyncram_cra1:auto_generated.data_a[2]
+data_a[3] => altsyncram_cra1:auto_generated.data_a[3]
+data_a[4] => altsyncram_cra1:auto_generated.data_a[4]
+data_a[5] => altsyncram_cra1:auto_generated.data_a[5]
+data_a[6] => altsyncram_cra1:auto_generated.data_a[6]
+data_a[7] => altsyncram_cra1:auto_generated.data_a[7]
 data_b[0] => ~NO_FANOUT~
-address_a[0] => altsyncram_1tp3:auto_generated.address_a[0]
-address_a[1] => altsyncram_1tp3:auto_generated.address_a[1]
-address_a[2] => altsyncram_1tp3:auto_generated.address_a[2]
-address_a[3] => altsyncram_1tp3:auto_generated.address_a[3]
-address_a[4] => altsyncram_1tp3:auto_generated.address_a[4]
-address_a[5] => altsyncram_1tp3:auto_generated.address_a[5]
-address_a[6] => altsyncram_1tp3:auto_generated.address_a[6]
-address_a[7] => altsyncram_1tp3:auto_generated.address_a[7]
-address_a[8] => altsyncram_1tp3:auto_generated.address_a[8]
-address_a[9] => altsyncram_1tp3:auto_generated.address_a[9]
+address_a[0] => altsyncram_cra1:auto_generated.address_a[0]
+address_a[1] => altsyncram_cra1:auto_generated.address_a[1]
+address_a[2] => altsyncram_cra1:auto_generated.address_a[2]
+address_a[3] => altsyncram_cra1:auto_generated.address_a[3]
+address_a[4] => altsyncram_cra1:auto_generated.address_a[4]
+address_a[5] => altsyncram_cra1:auto_generated.address_a[5]
+address_a[6] => altsyncram_cra1:auto_generated.address_a[6]
+address_a[7] => altsyncram_cra1:auto_generated.address_a[7]
+address_a[8] => altsyncram_cra1:auto_generated.address_a[8]
 address_b[0] => ~NO_FANOUT~
 addressstall_a => ~NO_FANOUT~
 addressstall_b => ~NO_FANOUT~
-clock0 => altsyncram_1tp3:auto_generated.clock0
+clock0 => altsyncram_cra1:auto_generated.clock0
 clock1 => ~NO_FANOUT~
 clocken0 => ~NO_FANOUT~
 clocken1 => ~NO_FANOUT~
@@ -1444,21 +1442,21 @@ aclr0 => ~NO_FANOUT~
 aclr1 => ~NO_FANOUT~
 byteena_a[0] => ~NO_FANOUT~
 byteena_b[0] => ~NO_FANOUT~
-q_a[0] <= altsyncram_1tp3:auto_generated.q_a[0]
-q_a[1] <= altsyncram_1tp3:auto_generated.q_a[1]
-q_a[2] <= altsyncram_1tp3:auto_generated.q_a[2]
-q_a[3] <= altsyncram_1tp3:auto_generated.q_a[3]
-q_a[4] <= altsyncram_1tp3:auto_generated.q_a[4]
-q_a[5] <= altsyncram_1tp3:auto_generated.q_a[5]
-q_a[6] <= altsyncram_1tp3:auto_generated.q_a[6]
-q_a[7] <= altsyncram_1tp3:auto_generated.q_a[7]
+q_a[0] <= altsyncram_cra1:auto_generated.q_a[0]
+q_a[1] <= altsyncram_cra1:auto_generated.q_a[1]
+q_a[2] <= altsyncram_cra1:auto_generated.q_a[2]
+q_a[3] <= altsyncram_cra1:auto_generated.q_a[3]
+q_a[4] <= altsyncram_cra1:auto_generated.q_a[4]
+q_a[5] <= altsyncram_cra1:auto_generated.q_a[5]
+q_a[6] <= altsyncram_cra1:auto_generated.q_a[6]
+q_a[7] <= altsyncram_cra1:auto_generated.q_a[7]
 q_b[0] <= <GND>
 eccstatus[0] <= <GND>
 eccstatus[1] <= <GND>
 eccstatus[2] <= <GND>
 
 
-|M6800_MIKBUG|InternalRam1K:sram2|altsyncram:altsyncram_component|altsyncram_1tp3:auto_generated
+|M6800_MIKBUG|InternalRam512B:sram2|altsyncram:altsyncram_component|altsyncram_cra1:auto_generated
 address_a[0] => ram_block1a0.PORTAADDR
 address_a[0] => ram_block1a1.PORTAADDR
 address_a[0] => ram_block1a2.PORTAADDR
@@ -1531,14 +1529,6 @@ address_a[8] => ram_block1a4.PORTAADDR8
 address_a[8] => ram_block1a5.PORTAADDR8
 address_a[8] => ram_block1a6.PORTAADDR8
 address_a[8] => ram_block1a7.PORTAADDR8
-address_a[9] => ram_block1a0.PORTAADDR9
-address_a[9] => ram_block1a1.PORTAADDR9
-address_a[9] => ram_block1a2.PORTAADDR9
-address_a[9] => ram_block1a3.PORTAADDR9
-address_a[9] => ram_block1a4.PORTAADDR9
-address_a[9] => ram_block1a5.PORTAADDR9
-address_a[9] => ram_block1a6.PORTAADDR9
-address_a[9] => ram_block1a7.PORTAADDR9
 clock0 => ram_block1a0.CLK0
 clock0 => ram_block1a1.CLK0
 clock0 => ram_block1a2.CLK0
