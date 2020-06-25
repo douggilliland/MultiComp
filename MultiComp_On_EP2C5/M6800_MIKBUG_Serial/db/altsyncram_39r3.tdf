@@ -1,0 +1,43 @@
+--altsyncram ADDRESS_ACLR_B="NONE" ADDRESS_REG_B="CLOCK0" BYTE_SIZE=8 BYTEENA_ACLR_B="NONE" BYTEENA_REG_B="CLOCK1" CBX_DECLARE_ALL_CONNECTED_PORTS="OFF" CLOCK_ENABLE_CORE_A="USE_INPUT_CLKEN" CLOCK_ENABLE_CORE_B="USE_INPUT_CLKEN" CLOCK_ENABLE_INPUT_A="BYPASS" CLOCK_ENABLE_INPUT_B="BYPASS" CLOCK_ENABLE_OUTPUT_A="BYPASS" CLOCK_ENABLE_OUTPUT_B="BYPASS" CYCLONEII_M4K_COMPATIBILITY="ON" DEVICE_FAMILY="Cyclone II" ECC_PIPELINE_STAGE_ENABLED="FALSE" ENABLE_ECC="FALSE" IMPLEMENT_IN_LES="OFF" INDATA_ACLR_B="NONE" INDATA_REG_B="CLOCK0" INIT_FILE_LAYOUT="PORT_A" LOW_POWER_MODE="AUTO" MAXIMUM_DEPTH=0 NUMWORDS_A=2048 NUMWORDS_B=2048 OPERATION_MODE="BIDIR_DUAL_PORT" OUTDATA_ACLR_A="NONE" OUTDATA_ACLR_B="NONE" OUTDATA_REG_A="UNREGISTERED" OUTDATA_REG_B="UNREGISTERED" POWER_UP_UNINITIALIZED="FALSE" RAM_BLOCK_TYPE="AUTO" RDCONTROL_ACLR_B="NONE" RDCONTROL_REG_B="CLOCK1" READ_DURING_WRITE_MODE_MIXED_PORTS="DONT_CARE" read_during_write_mode_port_a="NEW_DATA_WITH_NBE_READ" read_during_write_mode_port_b="NEW_DATA_WITH_NBE_READ" stratixiv_m144k_allow_dual_clocks="ON" WIDTH_A=8 WIDTH_B=8 WIDTH_BYTEENA_A=1 WIDTH_BYTEENA_B=1 WIDTH_ECCSTATUS=3 WIDTHAD_A=11 WIDTHAD_B=11 WRCONTROL_ACLR_B="NONE" WRCONTROL_WRADDRESS_REG_B="CLOCK0" address_a address_b clock0 data_a data_b q_a q_b wren_a wren_b CARRY_CHAIN="MANUAL" CARRY_CHAIN_LENGTH=48
+--VERSION_BEGIN 13.0 cbx_altsyncram 2013:06:12:18:03:43:SJ cbx_cycloneii 2013:06:12:18:03:43:SJ cbx_lpm_add_sub 2013:06:12:18:03:43:SJ cbx_lpm_compare 2013:06:12:18:03:43:SJ cbx_lpm_decode 2013:06:12:18:03:43:SJ cbx_lpm_mux 2013:06:12:18:03:43:SJ cbx_mgl 2013:06:12:18:05:10:SJ cbx_stratix 2013:06:12:18:03:43:SJ cbx_stratixii 2013:06:12:18:03:43:SJ cbx_stratixiii 2013:06:12:18:03:43:SJ cbx_stratixv 2013:06:12:18:03:43:SJ cbx_util_mgl 2013:06:12:18:03:43:SJ  VERSION_END
+
+
+-- Copyright (C) 1991-2013 Altera Corporation
+--  Your use of Altera Corporation's design tools, logic functions 
+--  and other software and tools, and its AMPP partner logic 
+--  functions, and any output files from any of the foregoing 
+--  (including device programming or simulation files), and any 
+--  associated documentation or information are expressly subject 
+--  to the terms and conditions of the Altera Program License 
+--  Subscription Agreement, Altera MegaCore Function License 
+--  Agreement, or other applicable license agreement, including, 
+--  without limitation, that your use is for the sole purpose of 
+--  programming logic devices manufactured by Altera and sold by 
+--  Altera or its authorized distributors.  Please refer to the 
+--  applicable agreement for further details.
+
+
+
+--synthesis_resources = 
+SUBDESIGN altsyncram_39r3
+( 
+	address_a[10..0]	:	input;
+	address_b[10..0]	:	input;
+	clock0	:	input;
+	data_a[7..0]	:	input;
+	data_b[7..0]	:	input;
+	q_a[7..0]	:	output;
+	q_b[7..0]	:	output;
+	wren_a	:	input;
+	wren_b	:	input;
+) 
+
+BEGIN 
+	ASSERT (0) 
+	REPORT "read_during_write_mode_port_a parameter cannot be set to value NEW_DATA_WITH_NBE_READ for Cyclone II device family"
+	SEVERITY ERROR;
+	ASSERT (0) 
+	REPORT "read_during_write_mode_port_b parameter cannot be set to value NEW_DATA_WITH_NBE_READ for Cyclone II device family"
+	SEVERITY ERROR;
+END;
+--ERROR FILE

@@ -1,0 +1,194 @@
+# -------------------------------------------------------------------------- #
+#
+# Copyright (C) 1991-2013 Altera Corporation
+# Your use of Altera Corporation's design tools, logic functions 
+# and other software and tools, and its AMPP partner logic 
+# functions, and any output files from any of the foregoing 
+# (including device programming or simulation files), and any 
+# associated documentation or information are expressly subject 
+# to the terms and conditions of the Altera Program License 
+# Subscription Agreement, Altera MegaCore Function License 
+# Agreement, or other applicable license agreement, including, 
+# without limitation, that your use is for the sole purpose of 
+# programming logic devices manufactured by Altera and sold by 
+# Altera or its authorized distributors.  Please refer to the 
+# applicable agreement for further details.
+#
+# -------------------------------------------------------------------------- #
+#
+# Quartus II 64-Bit
+# Version 13.0.1 Build 232 06/12/2013 Service Pack 1 SJ Web Edition
+# Date created = 16:06:36  March 29, 2020
+#
+# -------------------------------------------------------------------------- #
+#
+# Notes:
+#
+# 1) The default values for assignments are stored in the file:
+#		M6800_MIKBUG_assignment_defaults.qdf
+#    If this file doesn't exist, see file:
+#		assignment_defaults.qdf
+#
+# 2) Altera recommends that you do not modify this file. This
+#    file is updated automatically by the Quartus II software
+#    and any changes you make may be lost or overwritten.
+#
+# -------------------------------------------------------------------------- #
+
+# Clock and reset
+set_location_assignment PIN_17 -to i_CLOCK_50
+set_location_assignment PIN_144 -to i_n_reset
+set_instance_assignment -name WEAK_PULL_UP_RESISTOR ON -to i_n_reset
+# PS/2
+set_location_assignment PIN_86 -to io_ps2Clk
+set_instance_assignment -name WEAK_PULL_UP_RESISTOR ON -to io_ps2Clk
+set_location_assignment PIN_87 -to io_ps2Data
+set_instance_assignment -name WEAK_PULL_UP_RESISTOR ON -to io_ps2Data
+# Serial
+set_location_assignment PIN_101 -to i_USB_txd
+set_location_assignment PIN_103 -to o_USB_rxd
+set_location_assignment PIN_60 -to i_SerSelect
+set_instance_assignment -name WEAK_PULL_UP_RESISTOR ON -to i_SerSelect
+set_location_assignment PIN_104 -to i_USB_cts
+# Video
+set_location_assignment PIN_64 -to o_videoB0
+set_location_assignment PIN_63 -to o_videoB1
+set_location_assignment PIN_67 -to o_videoG0
+set_location_assignment PIN_65 -to o_videoG1
+set_location_assignment PIN_70 -to o_videoR0
+set_location_assignment PIN_69 -to o_videoR1
+set_location_assignment PIN_71 -to o_hSync
+set_location_assignment PIN_72 -to o_vSync
+#
+set_location_assignment PIN_25 -to Pin25
+set_location_assignment PIN_31 -to Pin31
+set_location_assignment PIN_40 -to Pin40
+set_location_assignment PIN_41 -to Pin41
+set_location_assignment PIN_42 -to Pin42
+set_location_assignment PIN_43 -to Pin43
+set_location_assignment PIN_44 -to Pin44
+set_location_assignment PIN_45 -to Pin45
+# SD Card
+# SRAM
+set_location_assignment PIN_126 -to io_n_extSRamCS
+set_location_assignment PIN_4 -to io_n_extSRamWE
+set_location_assignment PIN_134 -to io_n_extSRamOE
+set_location_assignment PIN_119 -to io_extSRamData[0]
+set_location_assignment PIN_115 -to io_extSRamData[1]
+set_location_assignment PIN_113 -to io_extSRamData[2]
+set_location_assignment PIN_112 -to io_extSRamData[3]
+set_location_assignment PIN_114 -to io_extSRamData[4]
+set_location_assignment PIN_118 -to io_extSRamData[5]
+set_location_assignment PIN_120 -to io_extSRamData[6]
+set_location_assignment PIN_122 -to io_extSRamData[7]
+set_location_assignment PIN_121 -to io_extSRamAddress[0]
+set_location_assignment PIN_125 -to io_extSRamAddress[1]
+set_location_assignment PIN_129 -to io_extSRamAddress[2]
+set_location_assignment PIN_133 -to io_extSRamAddress[3]
+set_location_assignment PIN_135 -to io_extSRamAddress[4]
+set_location_assignment PIN_137 -to io_extSRamAddress[5]
+set_location_assignment PIN_141 -to io_extSRamAddress[6]
+set_location_assignment PIN_143 -to io_extSRamAddress[7]
+set_location_assignment PIN_142 -to io_extSRamAddress[8]
+set_location_assignment PIN_139 -to io_extSRamAddress[9]
+set_location_assignment PIN_132 -to io_extSRamAddress[10]
+set_location_assignment PIN_136 -to io_extSRamAddress[11]
+set_location_assignment PIN_28 -to io_extSRamAddress[12]
+set_location_assignment PIN_24 -to io_extSRamAddress[13]
+set_location_assignment PIN_30 -to io_extSRamAddress[14]
+set_location_assignment PIN_8 -to io_extSRamAddress[15]
+set_location_assignment PIN_32 -to io_extSRamAddress[16]
+
+set_global_assignment -name FAMILY "Cyclone II"
+set_global_assignment -name DEVICE EP2C5T144C8
+set_global_assignment -name TOP_LEVEL_ENTITY M6800_MIKBUG
+set_global_assignment -name ORIGINAL_QUARTUS_VERSION "13.0 SP1"
+set_global_assignment -name PROJECT_CREATION_TIME_DATE "16:06:36  MARCH 29, 2020"
+set_global_assignment -name LAST_QUARTUS_VERSION "13.0 SP1"
+set_global_assignment -name PROJECT_OUTPUT_DIRECTORY output_files
+set_global_assignment -name MIN_CORE_JUNCTION_TEMP 0
+set_global_assignment -name MAX_CORE_JUNCTION_TEMP 85
+set_global_assignment -name DEVICE_FILTER_PACKAGE TQFP
+set_global_assignment -name DEVICE_FILTER_PIN_COUNT 144
+set_global_assignment -name DEVICE_FILTER_SPEED_GRADE 8
+set_global_assignment -name ERROR_CHECK_FREQUENCY_DIVISOR 1
+set_global_assignment -name PARTITION_NETLIST_TYPE SOURCE -section_id Top
+set_global_assignment -name PARTITION_FITTER_PRESERVATION_LEVEL PLACEMENT_AND_ROUTING -section_id Top
+set_global_assignment -name PARTITION_COLOR 16764057 -section_id Top
+set_global_assignment -name STRATIX_DEVICE_IO_STANDARD "3.3-V LVTTL"
+set_global_assignment -name TIMEQUEST_MULTICORNER_ANALYSIS ON
+set_global_assignment -name SMART_RECOMPILE ON
+set_global_assignment -name ENABLE_SIGNALTAP OFF
+set_global_assignment -name USE_SIGNALTAP_FILE stp1.stp
+set_global_assignment -name SLD_FILE "C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_EP2C5/M6800_MIKBUG/stp1_auto_stripped.stp"
+set_instance_assignment -name CURRENT_STRENGTH_NEW 8MA -to i_CLOCK_50
+set_instance_assignment -name CURRENT_STRENGTH_NEW 8MA -to Pin45
+set_instance_assignment -name CURRENT_STRENGTH_NEW 8MA -to Pin44
+set_instance_assignment -name CURRENT_STRENGTH_NEW 8MA -to Pin43
+set_instance_assignment -name CURRENT_STRENGTH_NEW 8MA -to Pin42
+set_instance_assignment -name CURRENT_STRENGTH_NEW 8MA -to Pin41
+set_instance_assignment -name CURRENT_STRENGTH_NEW 8MA -to Pin40
+set_instance_assignment -name CURRENT_STRENGTH_NEW 8MA -to Pin31
+set_instance_assignment -name CURRENT_STRENGTH_NEW 8MA -to o_videoR1
+set_instance_assignment -name CURRENT_STRENGTH_NEW 8MA -to Pin25
+set_instance_assignment -name CURRENT_STRENGTH_NEW 8MA -to o_vSync
+set_instance_assignment -name CURRENT_STRENGTH_NEW 8MA -to o_videoR0
+set_instance_assignment -name CURRENT_STRENGTH_NEW 8MA -to o_videoG1
+set_instance_assignment -name CURRENT_STRENGTH_NEW 8MA -to o_videoG0
+set_instance_assignment -name CURRENT_STRENGTH_NEW 8MA -to o_videoB1
+set_instance_assignment -name CURRENT_STRENGTH_NEW 8MA -to o_videoB0
+set_instance_assignment -name CURRENT_STRENGTH_NEW 8MA -to o_hSync
+set_instance_assignment -name CURRENT_STRENGTH_NEW 8MA -to o_USB_rxd
+set_instance_assignment -name CURRENT_STRENGTH_NEW 8MA -to io_extSRamData[4]
+set_instance_assignment -name CURRENT_STRENGTH_NEW 8MA -to io_extSRamData[5]
+set_instance_assignment -name CURRENT_STRENGTH_NEW 8MA -to io_extSRamData[0]
+set_instance_assignment -name CURRENT_STRENGTH_NEW 8MA -to io_extSRamData[3]
+set_instance_assignment -name CURRENT_STRENGTH_NEW 8MA -to io_ps2Data
+set_instance_assignment -name CURRENT_STRENGTH_NEW 8MA -to io_extSRamData[6]
+set_instance_assignment -name CURRENT_STRENGTH_NEW 8MA -to io_extSRamAddress[0]
+set_instance_assignment -name CURRENT_STRENGTH_NEW 8MA -to io_ps2Clk
+set_instance_assignment -name CURRENT_STRENGTH_NEW 8MA -to io_n_extSRamCS
+set_instance_assignment -name CURRENT_STRENGTH_NEW 8MA -to io_n_extSRamWE
+set_instance_assignment -name CURRENT_STRENGTH_NEW 8MA -to io_n_extSRamOE
+set_instance_assignment -name CURRENT_STRENGTH_NEW 8MA -to io_extSRamData[2]
+set_instance_assignment -name CURRENT_STRENGTH_NEW 8MA -to io_extSRamData[1]
+set_instance_assignment -name CURRENT_STRENGTH_NEW 8MA -to io_extSRamData[7]
+set_instance_assignment -name CURRENT_STRENGTH_NEW 8MA -to io_extSRamAddress[1]
+set_instance_assignment -name CURRENT_STRENGTH_NEW 8MA -to io_extSRamAddress[2]
+set_instance_assignment -name CURRENT_STRENGTH_NEW 8MA -to io_extSRamAddress[3]
+set_instance_assignment -name CURRENT_STRENGTH_NEW 8MA -to io_extSRamAddress[4]
+set_instance_assignment -name CURRENT_STRENGTH_NEW 8MA -to io_extSRamAddress[5]
+set_instance_assignment -name CURRENT_STRENGTH_NEW 8MA -to io_extSRamAddress[9]
+set_instance_assignment -name CURRENT_STRENGTH_NEW 8MA -to io_extSRamAddress[6]
+set_instance_assignment -name CURRENT_STRENGTH_NEW 8MA -to io_extSRamAddress[7]
+set_instance_assignment -name CURRENT_STRENGTH_NEW 8MA -to io_extSRamAddress[8]
+set_instance_assignment -name CURRENT_STRENGTH_NEW 8MA -to io_extSRamAddress[10]
+set_instance_assignment -name CURRENT_STRENGTH_NEW 8MA -to io_extSRamAddress[11]
+set_instance_assignment -name CURRENT_STRENGTH_NEW 8MA -to i_n_reset
+set_instance_assignment -name CURRENT_STRENGTH_NEW 8MA -to i_SerSelect
+set_instance_assignment -name CURRENT_STRENGTH_NEW 8MA -to i_USB_cts
+set_instance_assignment -name CURRENT_STRENGTH_NEW 8MA -to io_extSRamAddress[12]
+set_instance_assignment -name CURRENT_STRENGTH_NEW 8MA -to io_extSRamAddress[13]
+set_instance_assignment -name CURRENT_STRENGTH_NEW 8MA -to io_extSRamAddress[14]
+set_instance_assignment -name CURRENT_STRENGTH_NEW 8MA -to io_extSRamAddress[15]
+set_instance_assignment -name CURRENT_STRENGTH_NEW 8MA -to io_extSRamAddress[16]
+set_instance_assignment -name CURRENT_STRENGTH_NEW 8MA -to i_USB_txd
+set_global_assignment -name VHDL_FILE "../../MultiComp (VHDL Template)/Components/RAM_Internal/InternalRam8K.vhd"
+set_global_assignment -name VHDL_FILE "../../MultiComp (VHDL Template)/Components/RAM_Internal/InternalRam4K.vhd"
+set_global_assignment -name VHDL_FILE "../../MultiComp (VHDL Template)/Components/RAM_Internal/InternalRam2K.vhd"
+set_global_assignment -name VHDL_FILE "../../MultiComp (VHDL Template)/Components/RAM_Internal/InternalRam1K.vhd"
+set_global_assignment -name VHDL_FILE "../../MultiComp (VHDL Template)/Components/ROMs/MIKBUG_6800/MIKBUG.vhd"
+set_global_assignment -name VHDL_FILE "../../MultiComp (VHDL Template)/Components/TERMINAL/SansBoldRomReduced.vhd"
+set_global_assignment -name VHDL_FILE "../../MultiComp (VHDL Template)/Components/TERMINAL/SansBoldRom.vhd"
+set_global_assignment -name VHDL_FILE "../../MultiComp (VHDL Template)/Components/TERMINAL/DisplayRam2K.vhd"
+set_global_assignment -name VHDL_FILE "../../MultiComp (VHDL Template)/Components/TERMINAL/DisplayRam1K.vhd"
+set_global_assignment -name VHDL_FILE "../../MultiComp (VHDL Template)/Components/TERMINAL/CGABoldRomReduced.vhd"
+set_global_assignment -name VHDL_FILE "../../MultiComp (VHDL Template)/Components/TERMINAL/CGABoldRom.vhd"
+set_global_assignment -name VHDL_FILE "../../MultiComp (VHDL Template)/Components/UART/bufferedUART.vhd"
+set_global_assignment -name VHDL_FILE "../../MultiComp (VHDL Template)/Components/TERMINAL/SBCTextDisplayRGB.vhd"
+set_global_assignment -name VHDL_FILE "../../MultiComp (VHDL Template)/Components/CPU/M6800/cpu68.vhd"
+set_global_assignment -name VHDL_FILE "../../MultiComp (VHDL Template)/Components/Debounce/Debounce.vhd"
+set_global_assignment -name SIGNALTAP_FILE stp1.stp
+set_global_assignment -name CDF_FILE output_files/M6800_MIKBUG.cdf
+set_global_assignment -name QIP_FILE "../../MultiComp (VHDL Template)/Components/RAM_Internal/InternalRam512B.qip"
+set_instance_assignment -name PARTITION_HIERARCHY root_partition -to | -section_id Top
