@@ -125,17 +125,17 @@ begin
 		
 	-- ____________________________________________________________________________________
 	-- I/O CHIP SELECTS
-	n_vduCSN	<= '0' 	when (i_serSelect = '1' and (w_cpuAddress(15 downto 1) = x"801"&"100")) else	-- VDU  $8018-$8019
-					'0'	when (i_serSelect = '0' and (w_cpuAddress(15 downto 1) = x"802"&"100")) else	-- ACIA $8028-$8029
+	n_vduCSN	<= '0' 	when (i_serSelect = '1' and (w_cpuAddress(15 downto 1) = x"E01"&"100")) else	-- VDU  $E018-$E019
+					'0'	when (i_serSelect = '0' and (w_cpuAddress(15 downto 1) = x"E02"&"100")) else	-- ACIA $E028-$E029
 					'1';
-	n_aciaCSN <= '0' 	when (i_serSelect = '1' and (w_cpuAddress(15 downto 1) = x"802"&"100")) else	-- ACIA $8028-$8029
-					'0'	when (i_serSelect = '0' and (w_cpuAddress(15 downto 1) = x"801"&"100")) else	-- VDU  $8018-$8019
+	n_aciaCSN <= '0' 	when (i_serSelect = '1' and (w_cpuAddress(15 downto 1) = x"E02"&"100")) else	-- ACIA $E028-$E029
+					'0'	when (i_serSelect = '0' and (w_cpuAddress(15 downto 1) = x"E01"&"100")) else	-- VDU  $E018-$E019
 					'1';
-	n_J8IOCS	<= '0' 	when (w_vma = '1') and (w_cpuAddress(15 downto 0) = x"8030")				else	-- J8 I/O $8030
+	n_J8IOCS	<= '0' 	when (w_vma = '1') and (w_cpuAddress(15 downto 0) = x"E030")				else	-- J8 I/O $8030
 					'1';
-	n_J6IOCS	<= '0' 	when (w_vma = '1') and (w_cpuAddress(15 downto 0) = x"8031")				else	-- J6 I/O $8031
+	n_J6IOCS	<= '0' 	when (w_vma = '1') and (w_cpuAddress(15 downto 0) = x"E031")				else	-- J6 I/O $8031
 					'1';
-	n_LEDCS	<= '0' 	when (w_vma = '1') and (w_cpuAddress(15 downto 0) = x"8032")				else	-- LEDS $8032
+	n_LEDCS	<= '0' 	when (w_vma = '1') and (w_cpuAddress(15 downto 0) = x"E032")				else	-- LEDS $8032
 					'1';
 	
 	-- ____________________________________________________________________________________
