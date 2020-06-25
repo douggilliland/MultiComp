@@ -81,16 +81,20 @@ architecture struct of M6800_MIKBUG is
 	signal w_romData		: std_logic_vector(7 downto 0);
 	signal w_ramData1		: std_logic_vector(7 downto 0);
 	signal w_ramData2		: std_logic_vector(7 downto 0);
+	signal w_ramData3		: std_logic_vector(7 downto 0);
+	signal w_SPRamData	: std_logic_vector(7 downto 0);
 	signal w_if1DataOut	: std_logic_vector(7 downto 0);
 	signal w_if2DataOut	: std_logic_vector(7 downto 0);
 	
 	signal w_RAM_CS_1		: std_logic;
+	signal w_RAM_CS_2		: std_logic;
+	signal w_RAM_CS_3		: std_logic;
 	signal w_SP_RAM_CS	: std_logic;
 
 	signal n_int1			: std_logic :='1';	
-	signal w_n_if1CS			: std_logic :='1';
+	signal w_n_if1CS		: std_logic :='1';
 	signal n_int2			: std_logic :='1';	
-	signal w_n_if2CS			: std_logic :='1';
+	signal w_n_if2CS		: std_logic :='1';
 
 	signal w_cpuClkCt	: std_logic_vector(5 downto 0); 
 	signal w_cpuClk		: std_logic;
@@ -119,7 +123,9 @@ begin
 	w_memRD <=      w_R1W0  and w_vma and w_cpuClk;
 	
 	w_RAM_CS_1	<= (not w_cpuAddress(15)) and (not w_cpuAddress(14)) and (not w_cpuAddress(13)) and (not w_cpuAddress(12)) and (not w_cpuAddress(11));
-	w_SP_RAM_CS <= (not w_cpuAddress(15)) and      w_cpuAddress(14)  and      w_cpuAddress(13)  and      w_cpuAddress(12)  and     w_cpuAddress(11) and w_cpuAddress(10) and w_cpuAddress(9);
+	w_RAM_CS_2	<= (not w_cpuAddress(15)) and (not w_cpuAddress(14)) and (not w_cpuAddress(13)) and (not w_cpuAddress(12)) and      w_cpuAddress(11)  and (not w_cpuAddress(10));
+	w_RAM_CS_3	<= (not w_cpuAddress(15)) and (not w_cpuAddress(14)) and (not w_cpuAddress(13)) and (not w_cpuAddress(12)) and (not w_cpuAddress(11)) and w_cpuAddress(10) and (not w_cpuAddress(9));
+	w_SP_RAM_CS <= (not w_cpuAddress(15)) and      w_cpuAddress(14)  and      w_cpuAddress(13)  and      w_cpuAddress(12)  and      w_cpuAddress(11)  and w_cpuAddress(10) and w_cpuAddress(9);
 	
 	-- ____________________________________________________________________________________
 	-- I/O CHIP SELECTS
@@ -133,11 +139,13 @@ begin
 	-- ____________________________________________________________________________________
 	-- CPU Read Data multiplexer
 	w_cpuDataIn <=
+		w_romData		when (w_cpuAddress(15) = '1') and (w_cpuAddress(14) = '1')	else
 		w_ramData1		when w_RAM_CS_1	= '1'	else
-		w_ramData2		when w_SP_RAM_CS	= '1'	else
+		w_ramData2		when w_RAM_CS_2	= '1'	else
+		w_ramData3		when w_RAM_CS_3	= '1'	else
+		w_SPRamData		when w_SP_RAM_CS	= '1'	else
 		w_if1DataOut	when w_n_if1CS 	= '0'	else
 		w_if2DataOut	when w_n_if2CS		= '0'	else
-		w_romData		when (w_cpuAddress(15) = '1') and (w_cpuAddress(14) = '1')	else
 		x"FF";
 	
 	-- ____________________________________________________________________________________
@@ -180,13 +188,35 @@ begin
 	
 	-- ____________________________________________________________________________________
 	-- 1KB RAM	
-	sram2 : entity work.InternalRam512b
+	sram2 : entity work.InternalRam1K
+		PORT map  (
+			address	=> w_cpuAddress(9 downto 0),
+			clock 	=> i_CLOCK_50,
+			data 		=> w_cpuDataOut,
+			wren		=> w_RAM_CS_2 and w_memWR,
+			q			=> w_ramData2
+		);
+	
+	-- ____________________________________________________________________________________
+	-- 512B RAM	
+	sram3 : entity work.InternalRam512B
+		PORT map  (
+			address	=> w_cpuAddress(8 downto 0),
+			clock 	=> i_CLOCK_50,
+			data 		=> w_cpuDataOut,
+			wren		=> w_RAM_CS_3 and w_memWR,
+			q			=> w_ramData3
+		);
+	
+	-- ____________________________________________________________________________________
+	-- 512B RAM	
+	scatchPadRam : entity work.InternalRam512b
 		PORT map  (
 			address	=> w_cpuAddress(8 downto 0),
 			clock 	=> i_CLOCK_50,
 			data 		=> w_cpuDataOut,
 			wren		=> w_SP_RAM_CS and w_memWR,
-			q			=> w_ramData2
+			q			=> w_SPRamData
 		);
 	
 	-- ____________________________________________________________________________________
