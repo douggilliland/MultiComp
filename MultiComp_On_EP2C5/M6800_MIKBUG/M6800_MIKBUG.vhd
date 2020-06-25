@@ -4,18 +4,23 @@
 --
 -- Changes to this code by Doug Gilliland 2020
 --
--- MC6800 CPU running MIKBUG from back in the day
---	3K (internal) RAM version
+-- MC6800 CPU
+--	Running MIKBUG from back in the day (SmithBug ACIA version)
+--	12.5 MHz
+--	4K (internal) RAM version
 -- MC6850 ACIA UART
 -- VDU
---		XGA 80x25 character display
+--		XGA 80x25 ANSI character display
 --		PS/2 keyboard
 --
 -- The Memory Map is:
---	$0000-$07FF - 2KB SRAM (internal RAM in the EPCE15)
---	$7C00-$7FFF - 1KB SRAM (internal RAM in the EPCE15)
+--	$0000-$0BFF - 3.5KB SRAM (internal RAM in the EPCE15)
+--	$7E00-$7FFF - 512B SRAM (internal RAM in the EPCE15)
+--		0x7F00-0x7FF are used as scratchpad RAM by MIKBUG
 --	$8018-$8019 - VDU
 --	$8028-$8029 - ACIA
+--		Pin_60 of the FPGA swaps addresses of VDU and ACIA port
+--		Installed (Pin_60 to Ground) uses Serial port
 --	$C000-$CFFF - MIKBUG ROM (repeats 4 times from 0xC000-0xFFFF)
 --
 
