@@ -64,13 +64,12 @@ entity M6800_MIKBUG is
 		io_n_extSRamCS		: out std_logic := '1';
 		io_n_extSRamOE		: out std_logic := '1';
 		
-		
-		ledDS1				: inout std_logic;
-		ledD2					: inout std_logic;
-		ledD4					: inout std_logic;
-		ledD5					: inout std_logic;
-		J6IO8					: inout std_logic_vector(7 downto 0);
-		J8IO8					: inout std_logic_vector(5 downto 0)
+		o_ledDS1				: inout std_logic;
+		o_ledD2				: inout std_logic;
+		o_ledD4				: inout std_logic;
+		o_ledD5				: inout std_logic;
+		o_J6IO8				: inout std_logic_vector(7 downto 0);
+		o_J8IO8				: inout std_logic_vector(5 downto 0)
 	);
 end M6800_MIKBUG;
 
@@ -89,6 +88,7 @@ architecture struct of M6800_MIKBUG is
 	signal w_if2DataOut	: std_logic_vector(7 downto 0);
 	
 	signal w_ExtRamAddr	: std_logic :='0';
+	signal w_IOSel			: std_logic :='0';
 	signal n_int1			: std_logic :='1';
 	signal n_vduCSN		: std_logic :='1';
 	signal n_int2			: std_logic :='1';	
@@ -96,23 +96,29 @@ architecture struct of M6800_MIKBUG is
 	signal n_J6IOCS		: std_logic :='1';
 	signal n_J8IOCS		: std_logic :='1';
 	signal n_LEDCS			: std_logic :='1';
-	signal ledDS18 		: std_logic_vector(7 downto 0);
+	signal w_ledDS18 		: std_logic_vector(7 downto 0);
 	
-	signal q_cpuClkCount	: std_logic_vector(5 downto 0); 
+	signal w_cpuClkCt		: std_logic_vector(5 downto 0); 
 	signal w_cpuClock		: std_logic;
 	
-   signal serialCount   : std_logic_vector(15 downto 0) := x"0000";
-   signal serialCount_d	: std_logic_vector(15 downto 0);
-   signal serialEn      : std_logic;
+   signal w_serialCt   	: std_logic_vector(15 downto 0) := x"0000";
+   signal w_serialCt_d	: std_logic_vector(15 downto 0);
+   signal w_serialEn    : std_logic;
+	
 	signal w_J8IO8			: std_logic_vector(7 downto 0);
 	
 begin
-	J8IO8 <= w_J8IO8(5 downto 0);
+	o_J8IO8 <= w_J8IO8(5 downto 0);
+	
+	w_IOSel <= (w_cpuAddress(15) and w_cpuAddress(14) and w_cpuAddress(13) and w_cpuAddress(12) and 
+					w_cpuAddress(11) and w_cpuAddress(10) and (not w_cpuAddress(9)) and (not w_cpuAddress(8)));
+	
 	-- ____________________________________________________________________________________
 	-- RAM GOES HERE
 	w_ExtRamAddr <= ((not w_cpuAddress(15)) 										-- 0x0000 - 0x7FFF
 							or (w_cpuAddress(15) and (not w_cpuAddress(14)))	-- 0x8000 - 0XBFFF
 							or (w_cpuAddress(15) and (not w_cpuAddress(13)))	-- 0xC000 - 0xDFFF
+							or (w_cpuAddress(15) and (not w_cpuAddress(12)))	-- 0xE000 - 0xEFFF
 							);
 	
 	o_extSRamAddress	<= '0'&w_cpuAddress(15 downto 0);
@@ -132,29 +138,29 @@ begin
 		
 	-- ____________________________________________________________________________________
 	-- I/O CHIP SELECTS
-	n_vduCSN	<= '0' 	when (i_serSelect = '1' and (w_cpuAddress(15 downto 1) = x"E01"&"100")) else	-- VDU  $E018-$E019
-					'0'	when (i_serSelect = '0' and (w_cpuAddress(15 downto 1) = x"E02"&"100")) else	-- ACIA $E028-$E029
+	n_vduCSN	<= '0' 	when (i_serSelect = '1' and (w_cpuAddress(15 downto 1) = x"FC1"&"100")) else	-- VDU  $E018-$E019
+					'0'	when (i_serSelect = '0' and (w_cpuAddress(15 downto 1) = x"FC2"&"100")) else	-- ACIA $E028-$E029
 					'1';
-	n_aciaCSN <= '0' 	when (i_serSelect = '1' and (w_cpuAddress(15 downto 1) = x"E02"&"100")) else	-- ACIA $E028-$E029
-					'0'	when (i_serSelect = '0' and (w_cpuAddress(15 downto 1) = x"E01"&"100")) else	-- VDU  $E018-$E019
+	n_aciaCSN <= '0' 	when (i_serSelect = '1' and (w_cpuAddress(15 downto 1) = x"FC2"&"100")) else	-- ACIA $E028-$E029
+					'0'	when (i_serSelect = '0' and (w_cpuAddress(15 downto 1) = x"FC1"&"100")) else	-- VDU  $E018-$E019
 					'1';
-	n_J8IOCS	<= '0' 	when (w_vma = '1') and (w_cpuAddress(15 downto 0) = x"E030")				else	-- J8 I/O $8030
+	n_J8IOCS	<= '0' 	when (w_vma = '1') and (w_cpuAddress(15 downto 0) = x"FC30")				else	-- J8 I/O $8030
 					'1';
-	n_J6IOCS	<= '0' 	when (w_vma = '1') and (w_cpuAddress(15 downto 0) = x"E031")				else	-- J6 I/O $8031
+	n_J6IOCS	<= '0' 	when (w_vma = '1') and (w_cpuAddress(15 downto 0) = x"FC31")				else	-- J6 I/O $8031
 					'1';
-	n_LEDCS	<= '0' 	when (w_vma = '1') and (w_cpuAddress(15 downto 0) = x"E032")				else	-- LEDS $8032
+	n_LEDCS	<= '0' 	when (w_vma = '1') and (w_cpuAddress(15 downto 0) = x"FC32")				else	-- LEDS $8032
 					'1';
 	
 	-- ____________________________________________________________________________________
 	-- CPU Read Data multiplexer
 	w_cpuDataIn <=
-		io_extSRamData	when w_ExtRamAddr = '1'							else
-		w_if1DataOut	when n_vduCSN = '0'								else
-		w_if2DataOut	when n_aciaCSN = '0'								else
-		w_romData		when w_cpuAddress(15 downto 12) = "1111"	else
-		ledDS18			when n_LEDCS = '0'								else
-		J6IO8				when n_J6IOCS = '0'								else
-		w_J8IO8			when n_J8IOCS = '0'								else
+		io_extSRamData	when w_ExtRamAddr = '1'								else
+		w_romData		when ((w_cpuAddress(15 downto 12) = x"F") and w_IOSel = '0')	else
+		w_if1DataOut	when n_vduCSN = '0'									else
+		w_if2DataOut	when n_aciaCSN = '0'									else
+		w_ledDS18		when n_LEDCS = '0'									else
+		o_J6IO8			when n_J6IOCS = '0'									else
+		w_J8IO8			when n_J8IOCS = '0'									else
 		x"FF";
 	
 	-- ____________________________________________________________________________________
@@ -222,8 +228,8 @@ begin
 			n_int		=> n_int2,
 						 -- these clock enables are asserted for one period of input clk,
 						 -- at 16x the baud rate.
-			rxClkEn	=> serialEn,
-			txClkEn	=> serialEn,
+			rxClkEn	=> w_serialEn,
+			txClkEn	=> w_serialEn,
 			rxd		=> i_rxd1,
 			txd		=> o_txd1,
 --			n_cts		=> urts1,
@@ -236,7 +242,7 @@ begin
 		clock		=> i_CLOCK_50,
 		load		=> not ((not n_J6IOCS) and (not w_R1W0) and w_cpuClock),
 		dataIn8	=> w_cpuDataOut,
-		latchOut	=> J6IO8
+		latchOut	=> o_J6IO8
 	);
 
 	latchIO1 : entity work.OutLatch	--Output LatchIO
@@ -249,10 +255,10 @@ begin
 	);
 
 
-ledDS1	<= ledDS18(0);
-ledD2		<= not ledDS18(1);
-ledD4		<= not ledDS18(2);
-ledD5		<= not ledDS18(3);
+o_ledDS1		<= w_ledDS18(0);
+o_ledD2		<= not w_ledDS18(1);
+o_ledD4		<= not w_ledDS18(2);
+o_ledD5		<= not w_ledDS18(3);
 
 latchLED : entity work.OutLatch	--Output LatchIO
 port map(
@@ -260,7 +266,7 @@ port map(
 	clock		=> i_CLOCK_50,
 	load		=> not ((not n_LEDCS) and (not w_R1W0) and w_cpuClock),
 	dataIn8	=> w_cpuDataOut,
-	latchOut => ledDS18
+	latchOut => w_ledDS18
 );
 
 	-- ____________________________________________________________________________________
@@ -268,12 +274,12 @@ port map(
 process (i_CLOCK_50)
 	begin
 		if rising_edge(i_CLOCK_50) then
-			if q_cpuClkCount < 2 then		-- 4 = 10MHz, 3 = 12.5MHz, 2=16.6MHz, 1=25MHz
-				q_cpuClkCount <= q_cpuClkCount + 1;
+			if w_cpuClkCt < 2 then		-- 4 = 10MHz, 3 = 12.5MHz, 2=16.6MHz, 1=25MHz
+				w_cpuClkCt <= w_cpuClkCt + 1;
 			else
-				q_cpuClkCount <= (others=>'0');
+				w_cpuClkCt <= (others=>'0');
 			end if;
-			if q_cpuClkCount < 2 then		-- 2 when 10MHz, 2 when 12.5MHz, 2 when 16.6MHz, 1 when 25MHz
+			if w_cpuClkCt < 2 then		-- 2 when 10MHz, 2 when 12.5MHz, 2 when 16.6MHz, 1 when 25MHz
 				w_cpuClock <= '0';
 			else
 				w_cpuClock <= '1';
@@ -293,20 +299,20 @@ process (i_CLOCK_50)
 	-- 4800 101
 	-- 2400 50
 
-baud_div: process (serialCount_d, serialCount)
+baud_div: process (w_serialCt_d, w_serialCt)
     begin
-        serialCount_d <= serialCount + 2416;
+        w_serialCt_d <= w_serialCt + 2416;
     end process;
 
 process (i_CLOCK_50)
 	begin
 		if rising_edge(i_CLOCK_50) then
         -- Enable for baud rate generator
-        serialCount <= serialCount_d;
-        if serialCount(15) = '0' and serialCount_d(15) = '1' then
-            serialEn <= '1';
+        w_serialCt <= w_serialCt_d;
+        if w_serialCt(15) = '0' and w_serialCt_d(15) = '1' then
+            w_serialEn <= '1';
         else
-            serialEn <= '0';
+            w_serialEn <= '0';
         end if;
 		end if;
 	end process;
