@@ -110,7 +110,7 @@ architecture struct of M6800_MIKBUG is
 begin
 	o_J8IO8 <= w_J8IO8(5 downto 0);
 	
-	w_IOSel <= (w_cpuAddress(15) and w_cpuAddress(14) and w_cpuAddress(13) and w_cpuAddress(12) and 
+	w_IOSel <= (w_cpuAddress(15) and w_cpuAddress(14) and      w_cpuAddress(13) and      w_cpuAddress(12) and 
 					w_cpuAddress(11) and w_cpuAddress(10) and (not w_cpuAddress(9)) and (not w_cpuAddress(8)));
 	
 	-- ____________________________________________________________________________________
@@ -122,11 +122,11 @@ begin
 							);
 	
 	o_extSRamAddress	<= '0'&w_cpuAddress(15 downto 0);
-	io_extSRamData		<= w_cpuDataOut when (w_R1W0='0' and w_ExtRamAddr = '1') else
-	(others => 'Z');
-	io_n_extSRamWE		<= w_R1W0;
-	io_n_extSRamOE		<= not w_R1W0;
-	io_n_extSRamCS		<= not (w_ExtRamAddr and (not w_cpuClock));
+	io_extSRamData		<= w_cpuDataOut when ((w_R1W0='0') and (w_ExtRamAddr = '1')) else
+							  (others => 'Z');
+	io_n_extSRamWE		<= not(w_ExtRamAddr and w_vma and (not w_R1W0));
+	io_n_extSRamOE		<= not(w_ExtRamAddr and w_vma and      w_R1W0);
+	io_n_extSRamCS		<= not(w_ExtRamAddr and w_vma and (not w_cpuClock));
 	
 	-- Debounce the reset line
 	DebounceResetSwitch	: entity work.Debouncer
