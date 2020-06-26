@@ -1,5 +1,5 @@
 Fitter report for M6800_MIKBUG
-Fri Jun 26 09:09:45 2020
+Fri Jun 26 09:33:31 2020
 Quartus II 64-Bit Version 13.0.1 Build 232 06/12/2013 Service Pack 1 SJ Web Edition
 
 
@@ -64,7 +64,7 @@ applicable agreement for further details.
 +--------------------------------------------------------------------------------------+
 ; Fitter Summary                                                                       ;
 +------------------------------------+-------------------------------------------------+
-; Fitter Status                      ; Successful - Fri Jun 26 09:09:45 2020           ;
+; Fitter Status                      ; Successful - Fri Jun 26 09:33:31 2020           ;
 ; Quartus II 64-Bit Version          ; 13.0.1 Build 232 06/12/2013 SP 1 SJ Web Edition ;
 ; Revision Name                      ; M6800_MIKBUG                                    ;
 ; Top-level Entity Name              ; M6800_MIKBUG                                    ;
@@ -316,8 +316,8 @@ The pin-out file can be found in C:/Users/HPz420/Documents/GitHub/Doug Gilliland
 ; Name        ; Pin # ; I/O Bank ; X coordinate ; Y coordinate ; Cell number ; Combinational Fan-Out ; Registered Fan-Out ; Global ; Input Register ; Power Up High ; PCI I/O Enabled ; Bus Hold ; Weak Pull Up ; I/O Standard ; Termination ; Location assigned by ;
 +-------------+-------+----------+--------------+--------------+-------------+-----------------------+--------------------+--------+----------------+---------------+-----------------+----------+--------------+--------------+-------------+----------------------+
 ; i_CLOCK_50  ; 17    ; 1        ; 0            ; 6            ; 0           ; 1                     ; 0                  ; yes    ; no             ; no            ; no              ; no       ; Off          ; 3.3-V LVTTL  ; Off         ; User                 ;
-; i_n_reset   ; 144   ; 2        ; 1            ; 14           ; 3           ; 1                     ; 0                  ; no     ; no             ; no            ; no              ; no       ; Off          ; 3.3-V LVTTL  ; Off         ; User                 ;
-; i_rxd1      ; 101   ; 3        ; 28           ; 11           ; 0           ; 4                     ; 0                  ; no     ; no             ; no            ; no              ; no       ; Off          ; 3.3-V LVTTL  ; Off         ; User                 ;
+; i_n_reset   ; 144   ; 2        ; 1            ; 14           ; 3           ; 1                     ; 0                  ; no     ; no             ; no            ; no              ; no       ; On           ; 3.3-V LVTTL  ; Off         ; User                 ;
+; i_rxd1      ; 101   ; 3        ; 28           ; 11           ; 0           ; 4                     ; 0                  ; no     ; no             ; no            ; no              ; no       ; On           ; 3.3-V LVTTL  ; Off         ; User                 ;
 ; i_serSelect ; 60    ; 4        ; 14           ; 0            ; 0           ; 2                     ; 0                  ; no     ; no             ; no            ; no              ; no       ; On           ; 3.3-V LVTTL  ; Off         ; User                 ;
 +-------------+-------+----------+--------------+--------------+-------------+-----------------------+--------------------+--------+----------------+---------------+-----------------+----------+--------------+--------------+-------------+----------------------+
 
@@ -513,7 +513,7 @@ The pin-out file can be found in C:/Users/HPz420/Documents/GitHub/Doug Gilliland
 ; 98       ;            ;          ; GND                                      ; gnd    ;              ;         ; --         ;                 ; --       ; --           ;
 ; 99       ; 119        ; 3        ; GND*                                     ;        ;              ;         ; Row I/O    ;                 ; --       ; --           ;
 ; 100      ; 120        ; 3        ; GND*                                     ;        ;              ;         ; Row I/O    ;                 ; no       ; Off          ;
-; 101      ; 121        ; 3        ; i_rxd1                                   ; input  ; 3.3-V LVTTL  ;         ; Row I/O    ; Y               ; no       ; Off          ;
+; 101      ; 121        ; 3        ; i_rxd1                                   ; input  ; 3.3-V LVTTL  ;         ; Row I/O    ; Y               ; no       ; On           ;
 ; 102      ;            ; 3        ; VCCIO3                                   ; power  ;              ; 3.3V    ; --         ;                 ; --       ; --           ;
 ; 103      ; 125        ; 3        ; o_txd1                                   ; output ; 3.3-V LVTTL  ;         ; Row I/O    ; Y               ; no       ; Off          ;
 ; 104      ; 126        ; 3        ; o_rts1                                   ; output ; 3.3-V LVTTL  ;         ; Row I/O    ; Y               ; no       ; Off          ;
@@ -556,7 +556,7 @@ The pin-out file can be found in C:/Users/HPz420/Documents/GitHub/Doug Gilliland
 ; 141      ; 166        ; 2        ; o_extSRamAddress[6]                      ; output ; 3.3-V LVTTL  ;         ; Column I/O ; Y               ; no       ; Off          ;
 ; 142      ; 167        ; 2        ; o_extSRamAddress[8]                      ; output ; 3.3-V LVTTL  ;         ; Column I/O ; Y               ; no       ; Off          ;
 ; 143      ; 168        ; 2        ; o_extSRamAddress[7]                      ; output ; 3.3-V LVTTL  ;         ; Column I/O ; Y               ; no       ; Off          ;
-; 144      ; 169        ; 2        ; i_n_reset                                ; input  ; 3.3-V LVTTL  ;         ; Column I/O ; Y               ; no       ; Off          ;
+; 144      ; 169        ; 2        ; i_n_reset                                ; input  ; 3.3-V LVTTL  ;         ; Column I/O ; Y               ; no       ; On           ;
 +----------+------------+----------+------------------------------------------+--------+--------------+---------+------------+-----------------+----------+--------------+
 Note: Pin directions (input, output or bidir) are based on device operating in user mode.
 
@@ -2216,7 +2216,7 @@ Info (176353): Automatically promoted node bufferedUART:acia|func_reset
 Info (176233): Starting register packing
 Info (176235): Finished register packing
     Extra Info (176219): No registers were packed into other blocks
-Info (171121): Fitter preparation operations ending: elapsed time is 00:00:02
+Info (171121): Fitter preparation operations ending: elapsed time is 00:00:01
 Info (170189): Fitter placement preparation operations beginning
 Info (170190): Fitter placement preparation operations ending: elapsed time is 00:00:02
 Info (170191): Fitter placement operations beginning
@@ -2229,7 +2229,7 @@ Info (170194): Fitter routing operations ending: elapsed time is 00:00:02
 Info (170199): The Fitter performed an Auto Fit compilation.  Optimizations were skipped to reduce compilation time.
     Info (170201): Optimizations that may affect the design's routability were skipped
     Info (170200): Optimizations that may affect the design's timing were skipped
-Info (11888): Total time spent on timing analysis during the Fitter is 0.53 seconds.
+Info (11888): Total time spent on timing analysis during the Fitter is 0.59 seconds.
 Info (306004): Started post-fitting delay annotation
 Warning (306006): Found 58 output pins without output pin load capacitance assignment
     Info (306007): Pin "io_ps2Clk" has no specified output pin load capacitance -- assuming default load capacitance of 0 pF for timing analysis
@@ -2317,8 +2317,8 @@ Warning (169064): Following 18 pins have no output enable or a GND or VCC output
 Warning (169174): The Reserve All Unused Pins setting has not been specified, and will default to 'As output driving ground'.
 Info (144001): Generated suppressed messages file C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_EP2C5/M6800_MIKBUG_ExtSRAM_MIKBUG_at_F000/output_files/M6800_MIKBUG.fit.smsg
 Info: Quartus II 64-Bit Fitter was successful. 0 errors, 9 warnings
-    Info: Peak virtual memory: 4841 megabytes
-    Info: Processing ended: Fri Jun 26 09:09:46 2020
+    Info: Peak virtual memory: 4834 megabytes
+    Info: Processing ended: Fri Jun 26 09:33:32 2020
     Info: Elapsed time: 00:00:14
     Info: Total CPU time (on all processors): 00:00:14
 
