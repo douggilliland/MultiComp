@@ -1,5 +1,5 @@
 Flow report for M6800_MIKBUG
-Fri Jun 26 09:09:52 2020
+Fri Jun 26 09:19:31 2020
 Quartus II 64-Bit Version 13.0.1 Build 232 06/12/2013 Service Pack 1 SJ Web Edition
 
 
@@ -40,7 +40,7 @@ applicable agreement for further details.
 +--------------------------------------------------------------------------------------+
 ; Flow Summary                                                                         ;
 +------------------------------------+-------------------------------------------------+
-; Flow Status                        ; Successful - Fri Jun 26 09:09:49 2020           ;
+; Flow Status                        ; Successful - Fri Jun 26 09:19:31 2020           ;
 ; Quartus II 64-Bit Version          ; 13.0.1 Build 232 06/12/2013 SP 1 SJ Web Edition ;
 ; Revision Name                      ; M6800_MIKBUG                                    ;
 ; Top-level Entity Name              ; M6800_MIKBUG                                    ;
@@ -95,7 +95,11 @@ applicable agreement for further details.
 ; Fitter                    ; 00:00:13     ; 1.0                     ; 4841 MB             ; 00:00:12                           ;
 ; Assembler                 ; 00:00:02     ; 1.0                     ; 4558 MB             ; 00:00:01                           ;
 ; TimeQuest Timing Analyzer ; 00:00:02     ; 1.0                     ; 4574 MB             ; 00:00:02                           ;
-; Total                     ; 00:00:42     ; --                      ; --                  ; 00:00:40                           ;
+; MIF/HEX Update            ; 00:00:02     ; 1.0                     ; 4598 MB             ; 00:00:01                           ;
+; MIF/HEX Update            ; 00:00:02     ; 1.0                     ; 4598 MB             ; 00:00:01                           ;
+; MIF/HEX Update            ; 00:00:01     ; 1.0                     ; 4598 MB             ; 00:00:01                           ;
+; Assembler                 ; 00:00:02     ; 1.0                     ; 4560 MB             ; 00:00:01                           ;
+; Total                     ; 00:00:49     ; --                      ; --                  ; 00:00:44                           ;
 +---------------------------+--------------+-------------------------+---------------------+------------------------------------+
 
 
@@ -108,6 +112,10 @@ applicable agreement for further details.
 ; Fitter                    ; DESKTOP-2UF8LNB  ; Windows 7 ; 6.2        ; x86_64         ;
 ; Assembler                 ; DESKTOP-2UF8LNB  ; Windows 7 ; 6.2        ; x86_64         ;
 ; TimeQuest Timing Analyzer ; DESKTOP-2UF8LNB  ; Windows 7 ; 6.2        ; x86_64         ;
+; MIF/HEX Update            ; DESKTOP-2UF8LNB  ; Windows 7 ; 6.2        ; x86_64         ;
+; MIF/HEX Update            ; DESKTOP-2UF8LNB  ; Windows 7 ; 6.2        ; x86_64         ;
+; MIF/HEX Update            ; DESKTOP-2UF8LNB  ; Windows 7 ; 6.2        ; x86_64         ;
+; Assembler                 ; DESKTOP-2UF8LNB  ; Windows 7 ; 6.2        ; x86_64         ;
 +---------------------------+------------------+-----------+------------+----------------+
 
 
@@ -118,6 +126,10 @@ quartus_map --read_settings_files=on --write_settings_files=off M6800_MIKBUG -c 
 quartus_fit --read_settings_files=off --write_settings_files=off M6800_MIKBUG -c M6800_MIKBUG
 quartus_asm --read_settings_files=off --write_settings_files=off M6800_MIKBUG -c M6800_MIKBUG
 quartus_sta M6800_MIKBUG -c M6800_MIKBUG
+quartus_cdb M6800_MIKBUG -c M6800_MIKBUG --update_mif
+quartus_cdb M6800_MIKBUG -c M6800_MIKBUG --update_mif
+quartus_cdb M6800_MIKBUG -c M6800_MIKBUG --update_mif
+quartus_asm --read_settings_files=on --write_settings_files=off M6800_MIKBUG -c M6800_MIKBUG
 
 
 
