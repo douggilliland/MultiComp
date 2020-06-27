@@ -89,13 +89,13 @@ architecture struct of M6800_MIKBUG is
 	
 	signal w_ExtRamAddr	: std_logic :='0';
 	signal w_IOSel			: std_logic :='0';
-	signal n_int1			: std_logic :='1';
+	signal w_n_VDUint		: std_logic :='1';
 	signal n_vduCSN		: std_logic :='1';
-	signal n_int2			: std_logic :='1';	
-	signal n_aciaCSN		: std_logic :='1';
-	signal n_J6IOCS		: std_logic :='1';
-	signal n_J8IOCS		: std_logic :='1';
-	signal n_LEDCS			: std_logic :='1';
+	signal w_n_ACIAint	: std_logic :='1';	
+	signal w_n_aciaCSN	: std_logic :='1';
+	signal w_n_J6IOCS		: std_logic :='1';
+	signal w_n_J8IOCS		: std_logic :='1';
+	signal w_n_LEDCS		: std_logic :='1';
 	signal w_ledDS18 		: std_logic_vector(7 downto 0);
 	
 	signal w_cpuClkCt		: std_logic_vector(5 downto 0); 
@@ -129,11 +129,11 @@ begin
 	io_n_extSRamCS		<= not(w_ExtRamAddr and w_vma and (not w_cpuClock));
 	
 	-- Debounce the reset line
-	DebounceResetSwitch	: entity work.Debouncer
+	DebounceResetSwitch	: entity work.Debounce
 	port map (
-		i_CLOCK_50	=> i_CLOCK_50,
-		i_PinIn		=> i_n_reset,
-		o_PinOut		=> w_resetLow
+		clk		=> i_CLOCK_50,
+		button	=> i_n_reset,
+		result	=> w_resetLow
 	);
 		
 	-- ____________________________________________________________________________________
@@ -141,14 +141,14 @@ begin
 	n_vduCSN	<= '0' 	when (i_serSelect = '1' and (w_cpuAddress(15 downto 1) = x"FC1"&"100")) else	-- VDU  $E018-$E019
 					'0'	when (i_serSelect = '0' and (w_cpuAddress(15 downto 1) = x"FC2"&"100")) else	-- ACIA $E028-$E029
 					'1';
-	n_aciaCSN <= '0' 	when (i_serSelect = '1' and (w_cpuAddress(15 downto 1) = x"FC2"&"100")) else	-- ACIA $E028-$E029
+	w_n_aciaCSN <= '0' 	when (i_serSelect = '1' and (w_cpuAddress(15 downto 1) = x"FC2"&"100")) else	-- ACIA $E028-$E029
 					'0'	when (i_serSelect = '0' and (w_cpuAddress(15 downto 1) = x"FC1"&"100")) else	-- VDU  $E018-$E019
 					'1';
-	n_J8IOCS	<= '0' 	when (w_vma = '1') and (w_cpuAddress(15 downto 0) = x"FC30")				else	-- J8 I/O $8030
+	w_n_J8IOCS	<= '0' 	when (w_vma = '1') and (w_cpuAddress = x"FC30")	else	-- J8 I/O $8030
 					'1';
-	n_J6IOCS	<= '0' 	when (w_vma = '1') and (w_cpuAddress(15 downto 0) = x"FC31")				else	-- J6 I/O $8031
+	w_n_J6IOCS	<= '0' 	when (w_vma = '1') and (w_cpuAddress = x"FC31")	else	-- J6 I/O $8031
 					'1';
-	n_LEDCS	<= '0' 	when (w_vma = '1') and (w_cpuAddress(15 downto 0) = x"FC32")				else	-- LEDS $8032
+	w_n_LEDCS	<= '0' 	when (w_vma = '1') and (w_cpuAddress = x"FC32")	else	-- LEDS $8032
 					'1';
 	
 	-- ____________________________________________________________________________________
@@ -157,10 +157,10 @@ begin
 		io_extSRamData	when w_ExtRamAddr = '1'								else
 		w_romData		when ((w_cpuAddress(15 downto 12) = x"F") and w_IOSel = '0')	else
 		w_if1DataOut	when n_vduCSN = '0'									else
-		w_if2DataOut	when n_aciaCSN = '0'									else
-		w_ledDS18		when n_LEDCS = '0'									else
-		o_J6IO8			when n_J6IOCS = '0'									else
-		w_J8IO8			when n_J8IOCS = '0'									else
+		w_if2DataOut	when w_n_aciaCSN = '0'									else
+		w_ledDS18		when w_n_LEDCS = '0'									else
+		o_J6IO8			when w_n_J6IOCS = '0'									else
+		w_J8IO8			when w_n_J8IOCS = '0'									else
 		x"FF";
 	
 	-- ____________________________________________________________________________________
@@ -208,7 +208,7 @@ begin
 			videoB1	=> o_videoB1,
 			n_WR		=> n_vduCSN or      w_R1W0  or (not w_vma) or (not w_cpuClock),
 			n_rd		=> n_vduCSN or (not w_R1W0) or (not w_vma),
-			n_int		=> n_int1,
+			n_int		=> w_n_VDUint,
 			regSel	=> w_cpuAddress(0),
 			dataIn	=> w_cpuDataOut,
 			dataOut	=> w_if1DataOut,
@@ -220,12 +220,12 @@ begin
 	acia: entity work.bufferedUART
 		port map (
 			clk		=> i_CLOCK_50,     
-			n_WR		=> n_aciaCSN or      w_R1W0  or (not w_vma) or (not w_cpuClock),
-			n_rd		=> n_aciaCSN or (not w_R1W0) or (not w_vma),
+			n_WR		=> w_n_aciaCSN or      w_R1W0  or (not w_vma) or (not w_cpuClock),
+			n_rd		=> w_n_aciaCSN or (not w_R1W0) or (not w_vma),
 			regSel	=> w_cpuAddress(0),
 			dataIn	=> w_cpuDataOut,
 			dataOut	=> w_if2DataOut,
-			n_int		=> n_int2,
+			n_int		=> w_n_ACIAint,
 						 -- these clock enables are asserted for one period of input clk,
 						 -- at 16x the baud rate.
 			rxClkEn	=> w_serialEn,
@@ -240,7 +240,7 @@ begin
 	port map(
 		clear		=> w_resetLow,
 		clock		=> i_CLOCK_50,
-		load		=> not ((not n_J6IOCS) and (not w_R1W0) and w_cpuClock),
+		load		=> not ((not w_n_J6IOCS) and (not w_R1W0) and w_cpuClock),
 		dataIn8	=> w_cpuDataOut,
 		latchOut	=> o_J6IO8
 	);
@@ -249,7 +249,7 @@ begin
 	port map(
 		clear		=> w_resetLow,
 		clock		=> i_CLOCK_50,
-		load		=> not ((not n_J8IOCS) and (not w_R1W0) and w_cpuClock),
+		load		=> not ((not w_n_J8IOCS) and (not w_R1W0) and w_cpuClock),
 		dataIn8	=> w_cpuDataOut,
 		latchOut	=> w_J8IO8
 	);
@@ -264,7 +264,7 @@ latchLED : entity work.OutLatch	--Output LatchIO
 port map(
 	clear		=> w_resetLow,
 	clock		=> i_CLOCK_50,
-	load		=> not ((not n_LEDCS) and (not w_R1W0) and w_cpuClock),
+	load		=> not ((not w_n_LEDCS) and (not w_R1W0) and w_cpuClock),
 	dataIn8	=> w_cpuDataOut,
 	latchOut => w_ledDS18
 );
