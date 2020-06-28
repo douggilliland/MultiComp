@@ -107,8 +107,8 @@ ACIADA	EQU	$FC19
 ;
 ;	OPT	MEMORY
 ;
-; DGG - RAM at $F000 - $FFFF with hole at 0xFC00-0xFCFF
-	ORG	$F000			;V1 has $F800H
+; DGG - RAM at $F000-$FFFF with I/O space hole at $FC00-$FCFF
+	ORG	$F000
 ;
 ;	ENTER POWER ON SEQUENCE
 ;
@@ -1063,7 +1063,7 @@ FUTABL	FCC "M"
 		FCC "2"
 		FDB BKPNT2
 		FCC "&"
-		FDB SLOAD	;new for V2 was FDB $7283
+		FDB SLOAD
 		FCC "*"
 		FDB $F800	
 		FCC "O"
@@ -1076,51 +1076,53 @@ TBLEND	EQU *
 ; 	MOTOROLA "S" LOADER PROGRAMME "S1" STARTS LOAD
 ; 	END OF LOAD "S9" RUN START END PLUS ADDRESS
 ;
-; 	"S" LOADER PROGRAMME START
+; 	"S" LOADER PROGRAM START
 ;
 S1STRING	FCC	"This S1 load has entered system scratch area"
 		FCB	$0D,$0A,$04
-;
+; DGG - S Record loader
 SLOAD		EQU 	*
-		PSHA			; Save A register
-		STX	TEMPX1		; Save X register
-GOAGAIN	BSR	GETCHAR	; Get first charactor from ACIA  
+		PSHA				; Save A register
+		STX	TEMPX1			; Save X register
+		; DGG - Next line was BSR but fixing the CPX VAR lines made it too far away
+GOAGAIN	JSR	GETCHAR			; Get first charactor from ACIA  
+		;  Wait for an S
 		CMPA	#$53		; Is it "S"
-		BNE	GOAGAIN	; If not go read again
-		BSR	GETCHAR	; Get second charactor in frame
+		BNE	GOAGAIN			; If not go read again
+		BSR	GETCHAR			; Get second charactor in frame
 		CMPA 	#$39		; Is it "9"
-		BEQ	RECOVER	; If "9" go and end read
+		BEQ	RECOVER			; If "9" go and end read
 		CMPA 	#$31		; Is it a "1"
-		BNE	GOAGAIN	; If no then go start again
-		CLR	TEMPA		; Clear Frame length
-		BSR	GETHEX		; Get frame length from input stream
+		BNE	GOAGAIN			; If no then go start again
+		CLR	TEMPA			; Clear Frame length
+		BSR	GETHEX			; Get frame length from input stream
 		SUBA	#$02		; Subtract the checksum
 		STAA	BYTESTORE	; Save frame length
-		BSR	GETADD		; Read next two bytes for dest address
+		BSR	GETADD			; Read next two bytes for dest address
 GETCOUNT	BSR	GETHEX		; Get the byte number
-		DEC	BYTESTORE	; decrement counter
-		BEQ	INCOUNT	; If zero go to increment byte count
-		STAA	0,X		; Store read byte into memory
-		CMPA	0,X		; Test if RAM OK
-		BNE	QUESTION	; If write failed send Question and abort
-		INX			; Increment address pointer
-; DGG next line was commented out
-;		CMPX	VAR		; Is it the system scratch area
-; DGG commented out this next line because previous line missing always caused next line to fail
-;		BGT	S1EXIT		; Abort if close to system scratch
-		BRA	GETCOUNT	; go get another byte
+		DEC	BYTESTORE		; decrement counter
+		BEQ	INCOUNT			; If zero go to increment byte count
+		STAA	0,X			; Store read byte into memory
+		CMPA	0,X			; Test if RAM OK
+		BNE	QUESTION		; If write failed send Question and abort
+		INX					; Increment address pointer
+; DGG - CPX was CMPX which did not compile and was commented out
+; DGG- Changed branch from BGE to BLE (I think the compare worked the other way)
+		CPX	VAR				; Is it the system scratch area
+		BGE	S1EXIT			; Abort if close to system scratch
+		BRA	GETCOUNT		; go get another byte
 ;
 S1EXIT	LDX	#S1STRING		; Protect System Scratch Abort S1
-		BSR	OUTSTR		; Print abort string
-		BRA	RECOVER	; Back to console prompt
+		BSR	OUTSTR			; Print abort string
+		BRA	RECOVER			; Back to console prompt
 ;
-INCOUNT	INC	TEMPA		; Increment tempa 
-		BEQ	GOAGAIN	; If zero go for another frame
-QUESTION	LDAA	#$3F		; Load question mark
-		JSR	OUTPUTA	; Send to console
-RECOVER	LDX	TEMPX1		; Restore "X"
-		PULA			; Restore A
-		JMP	CONTRL		; Jump to exit
+INCOUNT	INC	TEMPA			; Increment tempa 
+		BEQ	GOAGAIN			; If zero go for another frame
+QUESTION	LDAA	#$3F	; Load question mark
+		JSR	OUTPUTA			; Send to console
+RECOVER	LDX	TEMPX1			; Restore "X"
+		PULA				; Restore A
+		JMP	CONTRL			; Jump to exit
 ; 
 ;
 GETADD	BSR	GETHEX	; Read in byte
@@ -1145,29 +1147,29 @@ GETHEX	BSR	CONVHEX		; Go get byte of data and convert to binary
 		STAB	TEMPA		; Add into checksum
 		RTS			; Return from sub routine
 ; 	
-CONVHEX	JSR	GETCHAR	; Get HEX charactor from ACIA
-		SUBA	#$30		; Convert to binary
+CONVHEX	JSR	GETCHAR		; Get HEX charactor from ACIA
+		SUBA	#$30	; Convert to binary
 		BMI	QUESTION	; Convert to binary
-		CMPA	#$09		; Convert to binary
-		BLE	RETURN2	; Convert to binary
-		CMPA	#$11		; Convert to binary
+		CMPA	#$09	; Convert to binary
+		BLE	RETURN2		; Convert to binary
+		CMPA	#$11	; Convert to binary
 		BMI	INCSTACK	; Convert to binary
-		CMPA	#$16		; Convert to binary
+		CMPA	#$16	; Convert to binary
 		BGT	INCSTACK	; Convert to binary
-		SUBA	#$07		; Convert to binary
-RETURN2	RTS			; Return from sub routine
+		SUBA	#$07	; Convert to binary
+RETURN2	RTS				; Return from sub routine
 ;  
 INCSTACK	INS			; Restore stack position
-		INS			; Restore stack position
+		INS				; Restore stack position
 		BRA	QUESTION	; Go send ? and exit
 ;
 GETCHAR	PSHB
-WAITIN	LDAB ACIACS			; LOAD ACIA CONTROL REGISTER
-		ASRB			; SHIFT RIGHT  ACIADA
-		BCC 	WAITIN		; IF CARRY NOT SET THEN AGAIN
-		LDAA 	ACIADA		; LOAD DATA REGISTER
+WAITIN	LDAB ACIACS		; LOAD ACIA CONTROL REGISTER
+		ASRB			; SHIFT RIGHT  ACIADA (Rx Not Empty)
+		BCC 	WAITIN	; IF CARRY NOT SET THEN AGAIN
+		LDAA 	ACIADA	; LOAD ACIA DATA REGISTER
 		PULB			; RESTORE B REGISTER
-		BSR 	OUTPUTA	; ECHO INPUT
+;		BSR 	OUTPUTA	; ECHO INPUT
 		RTS
 ;
 OUTPUTA	PSHB			; SAVE B
@@ -1177,13 +1179,13 @@ WAITOUT	LDAB ACIACS		; LOAD ACIA CONTROL REGISTER
 		BCC 	WAITOUT	; IF CARRY NOT SET DO AGAIN
 		STAA ACIADA		; SEND CHARACTOR TO ACIA
 		PULB			; RESTORE B
-		RTS			; RETURN FROM ROUTINE
+		RTS				; RETURN FROM ROUTINE
 ;
-OUTSTR	LDAA	0,X			; Read String
+OUTSTR	LDAA	0,X		; Read String
 		CMPA	#$4		; Is it EOT?
 		BEQ	STEXIT		; Exit if EOT
-		BSR	OUTPUTA	; Print Charactor
-		INX			; Point at next charactor
+		BSR	OUTPUTA		; Print Charactor
+		INX				; Point at next charactor
 		BRA	OUTSTR		; Loop and read next
 STEXIT		RTS			;
 ;

@@ -1,0 +1,35 @@
+                        ; TESTCODE.ASM
+                        ; a68 TESTCODE.ASM -l TESTCODE.LST -s TESTCODE.s
+                        ; srec_cat TESTCODE.s -offset - -minimum-addr TESTCODE.s -o TESTCODE.hex -Intel
+                        
+   fc18                 ACIACS	EQU	$FC18
+   fc19                 ACIADA	EQU	$FC19
+                        ;
+   0000                 START	
+   0000                 			ORG	$0000
+   0000                 LBACK
+   0000   8d 05         		BSR		GETCHAR
+   0002   8d 0f         		BSR		OUTPUTA
+   0004   7e 00 00      		JMP		LBACK
+                        ;
+   0007   37            GETCHAR	PSHB
+   0008   f6 fc 18      WAITIN	LDAB	ACIACS	; LOAD ACIA CONTROL REGISTER
+   000b   57            		ASRB			; SHIFT RIGHT  ACIADA
+   000c   24 fa         		BCC 	WAITIN	; IF CARRY NOT SET THEN AGAIN
+   000e   b6 fc 19      		LDAA 	ACIADA	; LOAD DATA REGISTER
+   0011   33            		PULB			; RESTORE B REGISTER
+   0012   39            		RTS
+                        ;
+   0013   37            OUTPUTA	PSHB			; SAVE B
+   0014   f6 fc 18      WAITOUT	LDAB	ACIACS	; LOAD ACIA CONTROL REGISTER
+   0017   57            		ASRB			; SHIFT RIGHT
+   0018   57            		ASRB			; SHIFT RIGHT
+   0019   24 f9         		BCC 	WAITOUT	; IF CARRY NOT SET DO AGAIN
+   001b   b7 fc 19      		STAA 	ACIADA	; SEND CHARACTOR TO ACIA
+   001e   33            		PULB			; RESTORE B
+   001f   39            		RTS				; RETURN FROM ROUTINE
+                        
+   0020                 		END
+fc18  ACIACS        fc19  ACIADA        0007  GETCHAR       0000  LBACK     
+0013  OUTPUTA       0000  START         0008  WAITIN        0014  WAITOUT   
+

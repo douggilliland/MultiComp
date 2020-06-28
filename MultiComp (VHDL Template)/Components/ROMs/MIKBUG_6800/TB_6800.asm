@@ -1,7 +1,10 @@
 ; Tom PitIL_tman's 6800 tiny BASIC
 ; reverse analyzed from (buggy) hexdump (TB68R1.tiff and TB68R2.tiff) at 
+; http://www.ittybittycomputers.com/IttyBitty/TinyBasic/
 ; http://www.ittybittycomputers.com/IttyBitty/TinyBasic/index.htm
+; http://www.ittybittycomputers.com/IttyBitty/TinyBasic/DDJ1/Design.html
 ; by Holger Veit
+; http://www.ittybittycomputers.com/IttyBitty/TinyBasic/TB_6800.asm
 ; 
 ; Note this might look like valid assembler, but possibly isn't
 ; for reference only
@@ -9,44 +12,52 @@
 ; DGG - Noted my changes with my initials
 ; Assemble using a68
 ;	a68 TB_6800.ASM -l TB_6800.LST -s TB_6800.s
+;	(From: http://www.retrotechnology.com/restore/a68.html)
 ; Load via DGG_MIKBUG with
 ; &
 ; Then copy/paste into terminal window
 
+ACIACS	EQU	$FC18
+ACIADA	EQU	$FC19
+
+; These addresses are manually copied from MIKBUG (DGG_MIKBUG.ASM)
+INEEE		EQU	$f1f3
+OUTEEE		EQU	$f20a
+
                 org    0
                 rmb    32
-start_prgm:     rmb    2            ; start of BASIC text (0x900)
-end_ram:        rmb    2            ; end of available RAM
-end_prgm:       rmb    2            ; end of BASIC text
-top_of_stack:   rmb    2            ; top of return stack pointer location
-basic_lineno:   rmb    2            ; save for current line number to be executed
-il_pc:          rmb    2            ; program counter for IL code
-basic_ptr:      rmb    2            ; pointer to currently executed BASIC byte
-basicptr_save:  rmb    2            ; temporary save for basic_ptr
-expr_stack:     rmb    80           ; lowest byte of expr_stack (0x30)
-rnd_seed:       rmb    2            ; used as seed value for RND function
+start_prgm:     rmb    2            ; $20 - start of BASIC text (0x900)
+end_ram:        rmb    2            ; $22 - end of available RAM
+end_prgm:       rmb    2            ; $24 - end of BASIC text
+top_of_stack:   rmb    2            ; $26 - top of return stack pointer location
+basic_lineno:   rmb    2            ; $28 - save for current line number to be executed
+il_pc:          rmb    2            ; $2A - program counter for IL code
+basic_ptr:      rmb    2            ; $2C - pointer to currently executed BASIC byte
+basicptr_save:  rmb    2            ; $2E temporary save for basic_ptr
+expr_stack:     rmb    80           ; $30 - lowest byte of expr_stack (0x30)
+rnd_seed:       rmb    2            ; $80 used as seed value for RND function
                                     ; note this is actually top of predecrementing expr_stack
-var_tbl:        rmb    52           ; variables (A-Z), 26 words
-LS_end:         rmb    2            ; used to store addr of end of LS listing,
+var_tbl:        rmb    52           ; $82 variables (A-Z), 26 words
+LS_end:         rmb    2            ; $B6 - used to store addr of end of LS listing,
                                     ; start of list is in basic_ptr
-BP_save:        rmb    2            ; another temporary save for basic_ptr
-X_save:         rmb    2            ; temporary save for X
-IL_temp:        rmb    2            ; temporary for various IL operations
+BP_save:        rmb    2            ; $B8 another temporary save for basic_ptr
+X_save:         rmb    2            ; $BA - temporary save for X
+IL_temp:        rmb    2            ; $BC - temporary for various IL operations
                                     ; used for branch to IL handler routine for opcode
-lead_zero:      rmb    1            ; flag for number output and negative sign in DV
-column_cnt:     rmb    1            ; counter for output columns (required for TAB in PRINT)
+lead_zero:      rmb    1            ; $BE - flag for number output and negative sign in DV
+column_cnt:     rmb    1            ; $BF counter for output columns (required for TAB in PRINT)
                                     ; if bit 7 is set, suppress output (XOFF)
-run_mode:       rmb    1            ; run mode
+run_mode:       rmb    1            ; $C0 run mode
                                     ; = 0 direct mode
                                     ; <> 0 running program
-expr_stack_low: rmb    1            ; low addr byte of expr_stack (should be 0x30)
-expr_stack_x:   rmb    1            ; high byte of expr_stack_top (==0x00, used with X register)
-expr_stack_top: rmb    1            ; low byte of expr_stack_top (used in 8 bit comparisons)
-il_pc_save:     rmb    2            ; save of IL program counter
-                rmb    58           ; unused area in zero page (starting with 0xc6)
+expr_stack_low: rmb    1            ; $C1 - low addr byte of expr_stack (should be 0x30)
+expr_stack_x:   rmb    1            ; $C2 high byte of expr_stack_top (==0x00, used with X register)
+expr_stack_top: rmb    1            ; $C3 - low byte of expr_stack_top (used in 8 bit comparisons)
+il_pc_save:     rmb    2            ; $C4 save of IL program counter
+                rmb    58           ; $C6 - unused area in zero page (starting with 0xc6)
 
 ; cold start vector
-; DGG - Hard coded to $0100
+; DGG - PROGRAM START HERE
                 org    $0100
 
 CV:             jsr    COLD_S       ; Do cold start initialization
@@ -55,14 +66,12 @@ CV:             jsr    COLD_S       ; Do cold start initialization
 WV:             jmp    WARM_S       ; do warm start
 
 ; vector: get a character from input device into A
-; unimplemented - jump to system specific input routine
-; DGG - Calls MIKBUG input (IN1 at $f1f5)
-IN_V:           jmp    $f1f5
+; DGG - Calls MIKBUG input (INEEE)
+IN_V:           jmp    INEEE
 
 ; print a character in A to output device
-; unimplemented - jump to system specific output routine
-; DGG - Calls MIKBUG output (OUTEEE at $f20a)
-OUT_V:          jmp    $f20a
+; DGG - Calls MIKBUG output (OUTEEE)
+OUT_V:          jmp    OUTEEE
 
 ; test for break from input device, set C=1 if break
 ; unimplemented - jump to break routine
@@ -304,16 +313,19 @@ IL_baseaddr:   fdb start_of_il      ; only used address where IL code starts
 COLD_S:        ldx     #$0900		; DGG - initialize start of BASIC
                stx     start_prgm
 
-find_end_ram:  inx                  ; point to next address
-               com     1,x          ; complement following byte
-               ldaa    1,x          ; load byte
-               com     1,x          ; complement byte
-               cmpa    1,x          ; compare with value, should be different, if it is RAM
-               bne     find_end_ram ; if different, advance, until no more RAM cells found
-               stx     end_ram      ; use topmost RAM cell
-
+; DGG - Original routine will over-write MIKBUG scratch-pad area when testing SRAM
+find_end_ram:
+			; inx                  ; point to next address
+            ; com     1,x          ; complement following byte
+            ; ldaa    1,x          ; load byte
+            ; com     1,x          ; complement byte
+            ; cmpa    1,x          ; compare with value, should be different, if it is RAM
+            ; bne     find_end_ram ; if different, advance, until no more RAM cells found
+			ldx     #$EEFF		   ; Hard coded to 60KB minus 128-byte scratechpad space
+            stx     end_ram        ; use topmost RAM cell
+			
 ;------------------------------------------------------------------------------
-; IL instruction MT: clear program
+; IL instruction MT: clear program space
 ;------------------------------------------------------------------------------
 IL_MT:         ldaa    start_prgm   ; load start area
                ldab    start_prgm+1
@@ -1419,12 +1431,12 @@ il_done:       lds     top_of_stack ; finished with IL
                jmp     restart_il_nocr ; and re-enter BASIC loop
 
 ;------------------------------------------------------------------------------
-; Break routine for Motorola MINIBUG
+; Break routine for Motorola MIkBUG
 ;------------------------------------------------------------------------------
-minibug_chkbreak: ldaa    $FC18        ; ACIA control status
+minibug_chkbreak: ldaa ACIACS        ; ACIA control status
                asra                 ; check bit0: receive buffer full
                bcc     locret_776   ; no, exit, carry clear
-               ldaa    $FC19        ; load ACIA data
+               ldaa    ACIADA        ; load ACIA data
                bne     locret_776   ; if not NUL, return carry set
                clc                  ; was NUL, ignore, retun carry clear
 
@@ -1433,17 +1445,17 @@ locret_776:    rts
 ;------------------------------------------------------------------------------
 ; Input/Echo routine for Motorola MINIBUG
 ;------------------------------------------------------------------------------
-minibug_inoutput: ldaa $FC18        ; get ACIA status
+minibug_inoutput: ldaa ACIACS        ; get ACIA status
                asra                 ; check bit: receiver buffer empty?
                bcc     minibug_inoutput ; yes, wait for char
-               ldaa    $FC19        ; get ACIA data
+               ldaa    ACIADA        ; get ACIA data
                psha                 ; save it for later
 
-wait_tdre:     ldaa    $FC18        ; get ACIA status
+wait_tdre:     ldaa    minibug_inoutput        ; get ACIA status
                anda    #2           ; check bit1: transmit buf empty?
                beq     wait_tdre    ; no, wait until transmitted
                pula                 ; restore char
-               staa    $FC19        ; echo data just entered
+               staa    ACIADA        ; echo data just entered
                rts
 
 ;------------------------------------------------------------------------------

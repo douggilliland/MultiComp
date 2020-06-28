@@ -107,8 +107,8 @@
                         ;
                         ;	OPT	MEMORY
                         ;
-                        ; DGG - RAM at $F000 - $FFFF with hole at 0xFC00-0xFCFF
-   f000                 	ORG	$F000			;V1 has $F800H
+                        ; DGG - RAM at $F000-$FFFF with I/O space hole at $FC00-$FCFF
+   f000                 	ORG	$F000
                         ;
                         ;	ENTER POWER ON SEQUENCE
                         ;
@@ -1122,7 +1122,7 @@
    f7ed   32            		FCC "2"
    f7ee   f0 f3         		FDB BKPNT2
    f7f0   26            		FCC "&"
-   f7f1   f8 2b         		FDB SLOAD	;new for V2 was FDB $7283
+   f7f1   f8 2b         		FDB SLOAD
    f7f3   2a            		FCC "*"
    f7f4   f8 00         		FDB $F800	
    f7f6   4f            		FCC "O"
@@ -1135,7 +1135,7 @@
                         ; 	MOTOROLA "S" LOADER PROGRAMME "S1" STARTS LOAD
                         ; 	END OF LOAD "S9" RUN START END PLUS ADDRESS
                         ;
-                        ; 	"S" LOADER PROGRAMME START
+                        ; 	"S" LOADER PROGRAM START
                         ;
    f7fc   54 68 69 73   S1STRING	FCC	"This S1 load has entered system scratch area"
    f800   20 53 31 20   
@@ -1149,112 +1149,114 @@
    f820   74 63 68 20   
    f824   61 72 65 61   
    f828   0d 0a 04      		FCB	$0D,$0A,$04
-                        ;
+                        ; DGG - S Record loader
    f82b                 SLOAD		EQU 	*
-   f82b   36            		PSHA			; Save A register
-   f82c   ff ef 6f      		STX	TEMPX1		; Save X register
-   f82f   8d 7c         GOAGAIN	BSR	GETCHAR	; Get first charactor from ACIA  
-   f831   81 53         		CMPA	#$53		; Is it "S"
-   f833   26 fa         		BNE	GOAGAIN	; If not go read again
-   f835   8d 76         		BSR	GETCHAR	; Get second charactor in frame
-   f837   81 39         		CMPA 	#$39		; Is it "9"
-   f839   27 31         		BEQ	RECOVER	; If "9" go and end read
-   f83b   81 31         		CMPA 	#$31		; Is it a "1"
-   f83d   26 f0         		BNE	GOAGAIN	; If no then go start again
-   f83f   7f ef 74      		CLR	TEMPA		; Clear Frame length
-   f842   8d 3d         		BSR	GETHEX		; Get frame length from input stream
-   f844   80 02         		SUBA	#$02		; Subtract the checksum
-   f846   b7 ef 73      		STAA	BYTESTORE	; Save frame length
-   f849   8d 28         		BSR	GETADD		; Read next two bytes for dest address
-   f84b   8d 34         GETCOUNT	BSR	GETHEX		; Get the byte number
-   f84d   7a ef 73      		DEC	BYTESTORE	; decrement counter
-   f850   27 10         		BEQ	INCOUNT	; If zero go to increment byte count
-   f852   a7 00         		STAA	0,X		; Store read byte into memory
-   f854   a1 00         		CMPA	0,X		; Test if RAM OK
-   f856   26 0f         		BNE	QUESTION	; If write failed send Question and abort
-   f858   08            		INX			; Increment address pointer
-                        ; DGG next line was commented out
-                        ;		CMPX	VAR		; Is it the system scratch area
-                        ; DGG commented out this next line because previous line missing always caused next line to fail
-                        ;		BGT	S1EXIT		; Abort if close to system scratch
-   f859   20 f0         		BRA	GETCOUNT	; go get another byte
+   f82b   36            		PSHA				; Save A register
+   f82c   ff ef 6f      		STX	TEMPX1			; Save X register
+                        		; DGG - Next line was BSR but fixing the CPX VAR lines made it too far away
+   f82f   bd f8 b3      GOAGAIN	JSR	GETCHAR			; Get first charactor from ACIA  
+                        		;  Wait for an S
+   f832   81 53         		CMPA	#$53		; Is it "S"
+   f834   26 f9         		BNE	GOAGAIN			; If not go read again
+   f836   8d 7b         		BSR	GETCHAR			; Get second charactor in frame
+   f838   81 39         		CMPA 	#$39		; Is it "9"
+   f83a   27 36         		BEQ	RECOVER			; If "9" go and end read
+   f83c   81 31         		CMPA 	#$31		; Is it a "1"
+   f83e   26 ef         		BNE	GOAGAIN			; If no then go start again
+   f840   7f ef 74      		CLR	TEMPA			; Clear Frame length
+   f843   8d 42         		BSR	GETHEX			; Get frame length from input stream
+   f845   80 02         		SUBA	#$02		; Subtract the checksum
+   f847   b7 ef 73      		STAA	BYTESTORE	; Save frame length
+   f84a   8d 2d         		BSR	GETADD			; Read next two bytes for dest address
+   f84c   8d 39         GETCOUNT	BSR	GETHEX		; Get the byte number
+   f84e   7a ef 73      		DEC	BYTESTORE		; decrement counter
+   f851   27 15         		BEQ	INCOUNT			; If zero go to increment byte count
+   f853   a7 00         		STAA	0,X			; Store read byte into memory
+   f855   a1 00         		CMPA	0,X			; Test if RAM OK
+   f857   26 14         		BNE	QUESTION		; If write failed send Question and abort
+   f859   08            		INX					; Increment address pointer
+                        ; DGG - CPX was CMPX which did not compile and was commented out
+                        ; DGG- Changed branch from BGE to BLE (I think the compare worked the other way)
+   f85a   bc ef 00      		CPX	VAR				; Is it the system scratch area
+   f85d   2c 02         		BGE	S1EXIT			; Abort if close to system scratch
+   f85f   20 eb         		BRA	GETCOUNT		; go get another byte
                         ;
-   f85b   ce f7 fc      S1EXIT	LDX	#S1STRING		; Protect System Scratch Abort S1
-   f85e   8d 68         		BSR	OUTSTR		; Print abort string
-   f860   20 0a         		BRA	RECOVER	; Back to console prompt
+   f861   ce f7 fc      S1EXIT	LDX	#S1STRING		; Protect System Scratch Abort S1
+   f864   8d 66         		BSR	OUTSTR			; Print abort string
+   f866   20 0a         		BRA	RECOVER			; Back to console prompt
                         ;
-   f862   7c ef 74      INCOUNT	INC	TEMPA		; Increment tempa 
-   f865   27 c8         		BEQ	GOAGAIN	; If zero go for another frame
-   f867   86 3f         QUESTION	LDAA	#$3F		; Load question mark
-   f869   bd f8 bb      		JSR	OUTPUTA	; Send to console
-   f86c   fe ef 6f      RECOVER	LDX	TEMPX1		; Restore "X"
-   f86f   32            		PULA			; Restore A
-   f870   7e f0 1f      		JMP	CONTRL		; Jump to exit
+   f868   7c ef 74      INCOUNT	INC	TEMPA			; Increment tempa 
+   f86b   27 c2         		BEQ	GOAGAIN			; If zero go for another frame
+   f86d   86 3f         QUESTION	LDAA	#$3F	; Load question mark
+   f86f   bd f8 bf      		JSR	OUTPUTA			; Send to console
+   f872   fe ef 6f      RECOVER	LDX	TEMPX1			; Restore "X"
+   f875   32            		PULA				; Restore A
+   f876   7e f0 1f      		JMP	CONTRL			; Jump to exit
                         ; 
                         ;
-   f873   8d 0c         GETADD	BSR	GETHEX	; Read in byte
-   f875   b7 ef 71      		STAA	ADDRESS	; store in first part of address
-   f878   8d 07         		BSR	GETHEX		; Get another byte of data
-   f87a   b7 ef 72      		STAA	ADDRESS1	; store in second address register
-   f87d   fe ef 71      		LDX	ADDRESS	; Load X register both bytes of address
-   f880   39            		RTS			; Return from sub routine
+   f879   8d 0c         GETADD	BSR	GETHEX	; Read in byte
+   f87b   b7 ef 71      		STAA	ADDRESS	; store in first part of address
+   f87e   8d 07         		BSR	GETHEX		; Get another byte of data
+   f880   b7 ef 72      		STAA	ADDRESS1	; store in second address register
+   f883   fe ef 71      		LDX	ADDRESS	; Load X register both bytes of address
+   f886   39            		RTS			; Return from sub routine
                         ;
                         ;	ADD IN THE ADDRESS OFFSET
                         ;
-   f881   8d 10         GETHEX	BSR	CONVHEX		; Go get byte of data and convert to binary 
-   f883   48            		ASLA			; Shift the the 4 bits into msb
-   f884   48            		ASLA			; Shift the the 4 bits into msb	
-   f885   48            		ASLA			; Shift the the 4 bits into msb	
-   f886   48            		ASLA			; Shift the the 4 bits into msb	
-   f887   16            		TAB			; Transfer "A" to "B"
-   f888   8d 09         		BSR	CONVHEX	; Go get byte of data and convert to binary
-   f88a   1b            		ABA			; Add 4 bits in "A" and "B" into "B"
-   f88b   16            		TAB			; Transfer "A" to "B"
-   f88c   fb ef 74      		ADDB	TEMPA		; Add into checksum
-   f88f   f7 ef 74      		STAB	TEMPA		; Add into checksum
-   f892   39            		RTS			; Return from sub routine
+   f887   8d 10         GETHEX	BSR	CONVHEX		; Go get byte of data and convert to binary 
+   f889   48            		ASLA			; Shift the the 4 bits into msb
+   f88a   48            		ASLA			; Shift the the 4 bits into msb	
+   f88b   48            		ASLA			; Shift the the 4 bits into msb	
+   f88c   48            		ASLA			; Shift the the 4 bits into msb	
+   f88d   16            		TAB			; Transfer "A" to "B"
+   f88e   8d 09         		BSR	CONVHEX	; Go get byte of data and convert to binary
+   f890   1b            		ABA			; Add 4 bits in "A" and "B" into "B"
+   f891   16            		TAB			; Transfer "A" to "B"
+   f892   fb ef 74      		ADDB	TEMPA		; Add into checksum
+   f895   f7 ef 74      		STAB	TEMPA		; Add into checksum
+   f898   39            		RTS			; Return from sub routine
                         ; 	
-   f893   bd f8 ad      CONVHEX	JSR	GETCHAR	; Get HEX charactor from ACIA
-   f896   80 30         		SUBA	#$30		; Convert to binary
-   f898   2b cd         		BMI	QUESTION	; Convert to binary
-   f89a   81 09         		CMPA	#$09		; Convert to binary
-   f89c   2f 0a         		BLE	RETURN2	; Convert to binary
-   f89e   81 11         		CMPA	#$11		; Convert to binary
-   f8a0   2b 07         		BMI	INCSTACK	; Convert to binary
-   f8a2   81 16         		CMPA	#$16		; Convert to binary
-   f8a4   2e 03         		BGT	INCSTACK	; Convert to binary
-   f8a6   80 07         		SUBA	#$07		; Convert to binary
-   f8a8   39            RETURN2	RTS			; Return from sub routine
+   f899   bd f8 b3      CONVHEX	JSR	GETCHAR		; Get HEX charactor from ACIA
+   f89c   80 30         		SUBA	#$30	; Convert to binary
+   f89e   2b cd         		BMI	QUESTION	; Convert to binary
+   f8a0   81 09         		CMPA	#$09	; Convert to binary
+   f8a2   2f 0a         		BLE	RETURN2		; Convert to binary
+   f8a4   81 11         		CMPA	#$11	; Convert to binary
+   f8a6   2b 07         		BMI	INCSTACK	; Convert to binary
+   f8a8   81 16         		CMPA	#$16	; Convert to binary
+   f8aa   2e 03         		BGT	INCSTACK	; Convert to binary
+   f8ac   80 07         		SUBA	#$07	; Convert to binary
+   f8ae   39            RETURN2	RTS				; Return from sub routine
                         ;  
-   f8a9   31            INCSTACK	INS			; Restore stack position
-   f8aa   31            		INS			; Restore stack position
-   f8ab   20 ba         		BRA	QUESTION	; Go send ? and exit
+   f8af   31            INCSTACK	INS			; Restore stack position
+   f8b0   31            		INS				; Restore stack position
+   f8b1   20 ba         		BRA	QUESTION	; Go send ? and exit
                         ;
-   f8ad   37            GETCHAR	PSHB
-   f8ae   f6 fc 18      WAITIN	LDAB ACIACS			; LOAD ACIA CONTROL REGISTER
-   f8b1   57            		ASRB			; SHIFT RIGHT  ACIADA
-   f8b2   24 fa         		BCC 	WAITIN		; IF CARRY NOT SET THEN AGAIN
-   f8b4   b6 fc 19      		LDAA 	ACIADA		; LOAD DATA REGISTER
-   f8b7   33            		PULB			; RESTORE B REGISTER
-   f8b8   8d 01         		BSR 	OUTPUTA	; ECHO INPUT
-   f8ba   39            		RTS
+   f8b3   37            GETCHAR	PSHB
+   f8b4   f6 fc 18      WAITIN	LDAB ACIACS		; LOAD ACIA CONTROL REGISTER
+   f8b7   57            		ASRB			; SHIFT RIGHT  ACIADA (Rx Not Empty)
+   f8b8   24 fa         		BCC 	WAITIN	; IF CARRY NOT SET THEN AGAIN
+   f8ba   b6 fc 19      		LDAA 	ACIADA	; LOAD ACIA DATA REGISTER
+   f8bd   33            		PULB			; RESTORE B REGISTER
+                        ;		BSR 	OUTPUTA	; ECHO INPUT
+   f8be   39            		RTS
                         ;
-   f8bb   37            OUTPUTA	PSHB			; SAVE B
-   f8bc   f6 fc 18      WAITOUT	LDAB ACIACS		; LOAD ACIA CONTROL REGISTER
-   f8bf   57            		ASRB			; SHIFT RIGHT
-   f8c0   57            		ASRB			; SHIFT RIGHT
-   f8c1   24 f9         		BCC 	WAITOUT	; IF CARRY NOT SET DO AGAIN
-   f8c3   b7 fc 19      		STAA ACIADA		; SEND CHARACTOR TO ACIA
-   f8c6   33            		PULB			; RESTORE B
-   f8c7   39            		RTS			; RETURN FROM ROUTINE
+   f8bf   37            OUTPUTA	PSHB			; SAVE B
+   f8c0   f6 fc 18      WAITOUT	LDAB ACIACS		; LOAD ACIA CONTROL REGISTER
+   f8c3   57            		ASRB			; SHIFT RIGHT
+   f8c4   57            		ASRB			; SHIFT RIGHT
+   f8c5   24 f9         		BCC 	WAITOUT	; IF CARRY NOT SET DO AGAIN
+   f8c7   b7 fc 19      		STAA ACIADA		; SEND CHARACTOR TO ACIA
+   f8ca   33            		PULB			; RESTORE B
+   f8cb   39            		RTS				; RETURN FROM ROUTINE
                         ;
-   f8c8   a6 00         OUTSTR	LDAA	0,X			; Read String
-   f8ca   81 04         		CMPA	#$4		; Is it EOT?
-   f8cc   27 05         		BEQ	STEXIT		; Exit if EOT
-   f8ce   8d eb         		BSR	OUTPUTA	; Print Charactor
-   f8d0   08            		INX			; Point at next charactor
-   f8d1   20 f5         		BRA	OUTSTR		; Loop and read next
-   f8d3   39            STEXIT		RTS			;
+   f8cc   a6 00         OUTSTR	LDAA	0,X		; Read String
+   f8ce   81 04         		CMPA	#$4		; Is it EOT?
+   f8d0   27 05         		BEQ	STEXIT		; Exit if EOT
+   f8d2   8d eb         		BSR	OUTPUTA		; Print Charactor
+   f8d4   08            		INX				; Point at next charactor
+   f8d5   20 f5         		BRA	OUTSTR		; Loop and read next
+   f8d7   39            STEXIT		RTS			;
                         ;
                         ;END of V2 S-loader 
                         ; 
@@ -1283,20 +1285,20 @@ f3a3  BYT2          f3a6  BYT21         f3c2  BYT22         f388  BYT3
 f395  BYT31         f078  BYTE          ef67  BYTECT        ef73  BYTESTORE 
 f068  C1            f1cd  C2            f0a3  CHA51         f0a1  CHANGE    
 f0c0  CHM1          f441  CKCBA         f4fc  CKROM         f2fc  CLEAR     
-f75c  COMMX         f118  CONTG         f01f  CONTRL        f893  CONVHEX   
+f75c  COMMX         f118  CONTG         f01f  CONTRL        f899  CONVHEX   
 f1ed  CR8           f291  CR9           f2c4  CRLF          f788  CRLFAS    
 f782  CSET          f2ef  DISIN         f14e  DISPLY        f2ec  DISS      
 f2ca  DISSA         f475  DOT           f47d  DOT1          f3d7  DPOS      
 f160  DSOOP         f167  DSOOP1        ef0d  ECHO          f1d4  ECHOFF    
 f1d2  ECHON         ef06  ENDA          f24b  ENDADD        f4e8  EXEC      
 f4dd  EXR           f294  FIND          f796  FROMAD        f7c0  FUTABL    
-f873  GETADD        f8ad  GETCHAR       f84b  GETCOUNT      f881  GETHEX    
+f879  GETADD        f8b3  GETCHAR       f84c  GETCOUNT      f887  GETHEX    
 f82f  GOAGAIN       f051  GOODCH        f234  IFILL         f244  IFILL1    
 f23c  IFILL2        f51c  IMLR1         f58c  IMLR10        f597  IMLR11    
 f5a5  IMLR12        f5ad  IMLR13        f532  IMLR2         f537  IMLR3     
 f53c  IMLR4         f53f  IMLR5         f542  IMLR6         f54a  IMLR7     
 f54d  IMLR8         f56a  IMLR9         f34a  IMM           f1f5  IN1       
-f0e1  IN1HG         f094  INCH          f862  INCOUNT       f8a9  INCSTACK  
+f0e1  IN1HG         f094  INCH          f868  INCOUNT       f8af  INCSTACK  
 f1f3  INEEE         f0cd  INHEX         f055  IO            ef02  IOV       
 f4b0  ISJ           f352  ISX           f4b8  ISXD          f217  JUMP      
 f2e1  KONTIN        f254  LIMITS        f064  LOAD19        f76b  MCL       
@@ -1306,7 +1308,7 @@ f3e9  NOTBB         f4cc  NOTJ          f4d3  NOTJ1         f4e0  NOTRTI
 f4d7  NOTRTS        f042  NXTCHR        f328  OKOP          ef63  OPSAVE    
 f0e2  OUT2H         f0ed  OUT2HS        f0eb  OUT4HS        f5dc  OUTA      
 f091  OUTCH         f20a  OUTEEE        f20b  OUTEEE1       f083  OUTHL     
-f087  OUTHR         f8bb  OUTPUTA       f0ef  OUTS          f8c8  OUTSTR    
+f087  OUTHR         f8bf  OUTPUTA       f0ef  OUTS          f8cc  OUTSTR    
 f11c  OUTXHI        f407  PAVOI2        f40b  PAVOI3        f423  PAVOI4    
 f42d  PAVOI5        f41b  PAVOI8        f42f  PAVOI9        ef64  PB1       
 ef65  PB2           ef66  PB3           ef68  PC1           ef69  PC2       
@@ -1314,19 +1316,19 @@ f77e  PCTR          f1cf  PDAT          f09a  PDATA1        f097  PDATA2
 f5b0  PNT3C         f763  PNTA          f767  PNTB          f2bb  PNTBYT    
 f1aa  PNTS          f05a  POWDWN        f151  PRINT         ef4c  PRINTR    
 f1d9  PRINTS        f1d3  PRNTON        f1ea  PRTS          f35e  PUT       
-f361  PUT1          f867  QUESTION      f465  RDC           f45f  RDX       
-f86c  RECOVER       f472  RETNOT        f2e4  RETURN        f8a8  RETURN2   
-f85b  S1EXIT        f7fc  S1STRING      f1ef  SAV           f125  SFE       
+f361  PUT1          f86d  QUESTION      f465  RDC           f45f  RDX       
+f872  RECOVER       f472  RETNOT        f2e4  RETURN        f8ae  RETURN2   
+f861  S1EXIT        f7fc  S1STRING      f1ef  SAV           f125  SFE       
 f2b2  SKIP          f82b  SLOAD         f29d  SMC1          f2ab  SMC2      
 ef0a  SP            f759  SPLBD0        f77b  SREG          ef44  STACK     
-f000  START         f8d3  STEXIT        f05f  SWI           ef17  SWIPTR    
+f000  START         f8d7  STEXIT        f05f  SWI           ef17  SWIPTR    
 f633  TBL           f7fc  TBLEND        f518  TBLKUP        ef10  TEMP      
 ef74  TEMPA         ef6f  TEMPX1        ef13  TFLAG         f7a3  THRUAD    
 f7b0  TOADD         f2cf  TRACE         ef62  TSTACK        f48f  TSTB      
 f4a0  TSTJ          ef11  TW            f7b9  VALASC        f266  VALUE     
 ef00  VAR           f5e2  VCOM1         f5fc  VCOM10        f60b  VCOM2     
 f615  VCOM3         f617  VCOM4         f5e7  VCOM5         f5ef  VCOM9     
-f5df  VIEW          f8ae  WAITIN        f8bc  WAITOUT       f0cb  XBK       
+f5df  VIEW          f8b4  WAITIN        f8c0  WAITOUT       f0cb  XBK       
 ef51  XFLAG         ef0e  XHI           ef0f  XLOW          f778  XREG      
 ef14  XTEMP         
 

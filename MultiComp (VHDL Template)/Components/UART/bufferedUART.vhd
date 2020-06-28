@@ -1,6 +1,6 @@
 -- 6850 ACIA COMPATIBLE UART WITH HARDWARE INPUT BUFFER AND HANDSHAKE
 
--- oRIGINAL file is copyright by Grant Searle 2013
+-- Original file is copyright by Grant Searle 2013
 -- You are free to use this file in your own projects but must never charge for it nor use it without
 -- acknowledgement.
 -- Please ask permission from Grant Searle before republishing elsewhere.
@@ -18,6 +18,18 @@
 -- 10-Nov-2015 foofoobedoo@gmail.com
 -- Modifications to use rising clk and to use baud rate enables rather than clocks,
 -- slowly but surely moving towards a totally synchronous implementation.
+-- 
+-- control reg
+--     7               6                     5              4          3        2         1         0
+-- Rx int en | Tx control (INT/RTS) | Tx control (RTS) | ignored | ignored | ignored | reset A | reset B
+--             [        0                   1         ] = RTS LOW
+--                                                                             RESET = [  1         1  ]
+
+-- status reg
+--     7              6                5         4          3        2         1            0
+--    irq   |   parity error      | overrun | frame err | n_cts  | n_dcd |  tx empty | rx not empty
+--            always 0 (no parity)    n/a        n/a
+	
 
 library ieee;
 	use ieee.std_logic_1164.all;
@@ -87,6 +99,17 @@ signal rxFilter : integer range 0 to 50;
 
 signal rxdFiltered : std_logic := '1';
 
+-- control reg
+--     7               6                     5              4          3        2         1         0
+-- Rx int en | Tx control (INT/RTS) | Tx control (RTS) | ignored | ignored | ignored | reset A | reset B
+--             [        0                   1         ] = RTS LOW
+--                                                                             RESET = [  1         1  ]
+
+-- status reg
+--     7              6                5         4          3        2         1            0
+--    irq   |   parity error      | overrun | frame err | n_cts  | n_dcd |  tx empty | rx not empty
+--            always 0 (no parity)    n/a        n/a
+	
 begin
 	-- minimal 6850 compatibility
 	statusReg(0) <= '0' when rxInPointer=rxReadPointer else '1';
@@ -102,7 +125,7 @@ begin
 				else '1';
 
 -- raise (inhibit) n_rts when buffer over half-full
---	6850 implementatit = n_rts <= '1' when controlReg(6)='1' and controlReg(5)='0' else '0';
+--	6850 implementation = n_rts <= '1' when controlReg(6)='1' and controlReg(5)='0' else '0';
 
 	rxBuffCount <= 0 + rxInPointer - rxReadPointer when rxInPointer >= rxReadPointer
 		else 16 + rxInPointer - rxReadPointer;
@@ -122,7 +145,7 @@ begin
 		end if;
 	end process;
 		
---	n_rts <= '1' when rxBuffCount > 24 else '0';
+--	n_rts <= '1' when rxBuffCount > 8 else '0';
 	
 	-- control reg
 	--     7               6                     5              4          3        2         1         0

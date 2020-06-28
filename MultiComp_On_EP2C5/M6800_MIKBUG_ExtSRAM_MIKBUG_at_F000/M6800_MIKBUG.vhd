@@ -8,7 +8,7 @@
 --		https://hackaday.io/project/170126-mikbug-on-multicomp
 -- Smithbug version
 --		http://www.retrotechnology.com/restore/smithbug.html
---	32K (external) SRAM version
+--	60K (external) SRAM version
 -- MC6850 ACIA UART
 -- VDU
 --		XGA 80x25 character display
@@ -16,16 +16,17 @@
 --	Jumper selectable for UART/VDU
 --
 -- The Memory Map is:
---	$0000-$7FFF - SRAM (internal RAM in the EPCE15)
---	$8018-$8019 - ACIA J8-10 to J8-12 installed (or VDU J8-10 to J8-12 not installed)
--- $8028-$8029 - VDU J8-10 to J8-12 installed (or ACIA J8-10 to J8-12 not installed)
---	$8030 - J8 I/O
+--	$0000-$EFFF - SRAM (internal RAM in the EPCE15)
+--	$FC18-$FC19 - ACIA J8-10 to J8-12 installed (or VDU J8-10 to J8-12 not installed)
+-- $FC28-$FC29 - VDU J8-10 to J8-12 installed (or ACIA J8-10 to J8-12 not installed)
+--	$FC30 - J8 I/O
 --		D0-D7
---	$8031 - J6 I/O
+--	$FC31 - J6 I/O
 --		D0-D5
---	$8032 - LEDS
+--	$FC32 - LEDS
 --		D0 = DS1 LED on EP2C5-DB card (1 = ON)
---	$C000-$CFFF - MIKBUG ROM (repeats 4 times from 0xC000-0xFFFF)
+--	$F000-$FFFF - MIKBUG ROM (repeats 4 times from 0xC000-0xFFFF)
+--		Hole for I/O at $FC00-$FCFF
 --
 
 library ieee;
@@ -83,9 +84,11 @@ architecture struct of M6800_MIKBUG is
 	signal w_R1W0			: std_logic;
 	signal w_vma			: std_logic;
 	
+	signal w_n_rts			: std_logic;
+
 	signal w_romData		: std_logic_vector(7 downto 0);
-	signal w_if1DataOut	: std_logic_vector(7 downto 0);
-	signal w_if2DataOut	: std_logic_vector(7 downto 0);
+	signal w_VDUDataOut	: std_logic_vector(7 downto 0);
+	signal w_ACIADataOut	: std_logic_vector(7 downto 0);
 	
 	signal w_ExtRamAddr	: std_logic :='0';
 	signal w_IOSel			: std_logic :='0';
@@ -108,6 +111,9 @@ architecture struct of M6800_MIKBUG is
 	signal w_J8IO8			: std_logic_vector(7 downto 0);
 	
 begin
+--	o_rts1	<= w_n_rts;
+--	o_ledDS1	<= w_n_rts;
+	
 	o_J8IO8 <= w_J8IO8(5 downto 0);
 	
 	w_IOSel <= (w_cpuAddress(15) and w_cpuAddress(14) and      w_cpuAddress(13) and      w_cpuAddress(12) and 
@@ -138,11 +144,11 @@ begin
 		
 	-- ____________________________________________________________________________________
 	-- I/O CHIP SELECTS
-	n_vduCSN	<= '0' 	when (i_serSelect = '1' and (w_cpuAddress(15 downto 1) = x"FC1"&"100")) else	-- VDU  $E018-$E019
-					'0'	when (i_serSelect = '0' and (w_cpuAddress(15 downto 1) = x"FC2"&"100")) else	-- ACIA $E028-$E029
+	n_vduCSN	<= '0' 		when (i_serSelect = '1' and (w_cpuAddress(15 downto 1) = x"FC1"&"100")) else	-- VDU  $E018-$E019
+					'0'		when (i_serSelect = '0' and (w_cpuAddress(15 downto 1) = x"FC2"&"100")) else	-- ACIA $E028-$E029
 					'1';
-	w_n_aciaCSN <= '0' 	when (i_serSelect = '1' and (w_cpuAddress(15 downto 1) = x"FC2"&"100")) else	-- ACIA $E028-$E029
-					'0'	when (i_serSelect = '0' and (w_cpuAddress(15 downto 1) = x"FC1"&"100")) else	-- VDU  $E018-$E019
+	w_n_aciaCSN <= '0'	when (i_serSelect = '1' and (w_cpuAddress(15 downto 1) = x"FC2"&"100")) else	-- ACIA $E028-$E029
+					'0'		when (i_serSelect = '0' and (w_cpuAddress(15 downto 1) = x"FC1"&"100")) else	-- VDU  $E018-$E019
 					'1';
 	w_n_J8IOCS	<= '0' 	when (w_vma = '1') and (w_cpuAddress = x"FC30")	else	-- J8 I/O $8030
 					'1';
@@ -156,11 +162,11 @@ begin
 	w_cpuDataIn <=
 		io_extSRamData	when w_ExtRamAddr = '1'								else
 		w_romData		when ((w_cpuAddress(15 downto 12) = x"F") and w_IOSel = '0')	else
-		w_if1DataOut	when n_vduCSN = '0'									else
-		w_if2DataOut	when w_n_aciaCSN = '0'									else
+		w_VDUDataOut	when n_vduCSN = '0'									else
+		w_ACIADataOut	when w_n_aciaCSN = '0'								else
 		w_ledDS18		when w_n_LEDCS = '0'									else
-		o_J6IO8			when w_n_J6IOCS = '0'									else
-		w_J8IO8			when w_n_J8IOCS = '0'									else
+		o_J6IO8			when w_n_J6IOCS = '0'								else
+		w_J8IO8			when w_n_J8IOCS = '0'								else
 		x"FF";
 	
 	-- ____________________________________________________________________________________
@@ -211,7 +217,7 @@ begin
 			n_int		=> w_n_VDUint,
 			regSel	=> w_cpuAddress(0),
 			dataIn	=> w_cpuDataOut,
-			dataOut	=> w_if1DataOut,
+			dataOut	=> w_VDUDataOut,
 			ps2Clk	=> io_ps2Clk,
 			ps2Data	=> io_ps2Data
 		);
@@ -224,7 +230,7 @@ begin
 			n_rd		=> w_n_aciaCSN or (not w_R1W0) or (not w_vma),
 			regSel	=> w_cpuAddress(0),
 			dataIn	=> w_cpuDataOut,
-			dataOut	=> w_if2DataOut,
+			dataOut	=> w_ACIADataOut,
 			n_int		=> w_n_ACIAint,
 						 -- these clock enables are asserted for one period of input clk,
 						 -- at 16x the baud rate.
@@ -232,7 +238,7 @@ begin
 			txClkEn	=> w_serialEn,
 			rxd		=> i_rxd1,
 			txd		=> o_txd1,
---			n_cts		=> urts1,
+--			n_cts		=> o_cts1,
 			n_rts		=> o_rts1
 		);
 	
@@ -299,7 +305,7 @@ process (i_CLOCK_50)
 	-- 4800 101
 	-- 2400 50
 
-baud_div: process (w_serialCt_d, w_serialCt)
+baud_div: process (w_serialCt)
     begin
         w_serialCt_d <= w_serialCt + 2416;
     end process;

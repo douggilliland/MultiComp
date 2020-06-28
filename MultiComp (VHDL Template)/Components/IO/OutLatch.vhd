@@ -8,7 +8,6 @@ use ieee.std_logic_unsigned.all;
 ---------------------------------------------------
 
 entity OutLatch is
-
 generic(n: natural :=8);
 	port(	
 		dataIn8	:	in std_logic_vector(n-1 downto 0);
