@@ -1,4 +1,4 @@
-; Tom PitIL_tman's 6800 tiny BASIC
+; Tom Pittman's 6800 tiny BASIC
 ; reverse analyzed from (buggy) hexdump (TB68R1.tiff and TB68R2.tiff) at 
 ; http://www.ittybittycomputers.com/IttyBitty/TinyBasic/
 ; http://www.ittybittycomputers.com/IttyBitty/TinyBasic/index.htm
@@ -84,10 +84,11 @@ BV:             nop
 ; some standard constants
 BSC:            fcb    $5F          ; backspace code (should be 0x7f, but actually is '_')
 LSC:            fcb    $18          ; line cancel code (CTRL-X)
-PCC:            fcb    $83          ; CRLF padding characters
+PCC:            fcb    $00          ; CRLF padding characters
+									; DGG - Used with slow teletypes - no need with VDU (was $83)
                                     ; low 7 bits are number of NUL/0xFF
 									; bit7=1: send 0xFF, =0, send NUL
-TMC:            fcb    $80          ; 
+TMC:            fcb    $80          ; DGG - XON/XOFF code
 SSS:            fcb    $20          ; reserved bytes at end_prgm (to prevent return stack
                                     ; underflow (spare area)
 
@@ -1202,6 +1203,7 @@ IL_NL:         ldaa    column_cnt   ; if column > 127, suppress output
 
 ;------------------------------------------------------------------------------
 ; do a CRLF
+; DGG - Has padding for slow teletypes - not needed with Multicomp
 ;------------------------------------------------------------------------------
 crlf:          ldaa    #$D          ; emit carriage return character
                bsr     emit_char_at_0

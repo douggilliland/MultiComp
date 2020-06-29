@@ -4,7 +4,8 @@
 --
 -- Changes to this code by Doug Gilliland 2020
 --
--- MC6800 CPU running MIKBUG from back in the day
+-- MC6800 CPU
+--	MIKBUG rom (from back in the day)
 --		https://hackaday.io/project/170126-mikbug-on-multicomp
 -- Smithbug version
 --		http://www.retrotechnology.com/restore/smithbug.html
@@ -14,11 +15,12 @@
 --		XGA 80x25 character display
 --		PS/2 keyboard
 --	Jumper selectable for UART/VDU
+--		Install jumper from PIN_60 to adjacent ground pin to select ACIA
 --
 -- The Memory Map is:
---	$0000-$EFFF - SRAM (internal RAM in the EPCE15)
---	$FC18-$FC19 - ACIA J8-10 to J8-12 installed (or VDU J8-10 to J8-12 not installed)
--- $FC28-$FC29 - VDU J8-10 to J8-12 installed (or ACIA J8-10 to J8-12 not installed)
+--	$0000-$EFFF - 60KB SRAM (external RAM on the EPCE-DB card)
+--	$FC18-$FC19 - ACIA J8-18 to J8-20 installed (or VDU J8-18 to J8-20 not installed)
+-- $FC28-$FC29 - VDU J8-18 to J8-20 installed (or ACIA J8-18 to J8-20 not installed)
 --	$FC30 - J8 I/O
 --		D0-D7
 --	$FC31 - J6 I/O
