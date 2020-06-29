@@ -1,5 +1,5 @@
 Flow report for uk101_41kRAM
-Sun Mar 29 13:01:59 2020
+Mon Jun 29 18:26:32 2020
 Quartus II 64-Bit Version 13.0.1 Build 232 06/12/2013 Service Pack 1 SJ Web Edition
 
 
@@ -40,14 +40,14 @@ applicable agreement for further details.
 +--------------------------------------------------------------------------------------+
 ; Flow Summary                                                                         ;
 +------------------------------------+-------------------------------------------------+
-; Flow Status                        ; Successful - Sun Mar 29 13:01:55 2020           ;
+; Flow Status                        ; Successful - Mon Jun 29 18:26:27 2020           ;
 ; Quartus II 64-Bit Version          ; 13.0.1 Build 232 06/12/2013 SP 1 SJ Web Edition ;
 ; Revision Name                      ; uk101_41kRAM                                    ;
 ; Top-level Entity Name              ; uk101                                           ;
 ; Family                             ; Cyclone II                                      ;
 ; Device                             ; EP2C5T144C8                                     ;
 ; Timing Models                      ; Final                                           ;
-; Total logic elements               ; 4,080 / 4,608 ( 89 % )                          ;
+; Total logic elements               ; 4,076 / 4,608 ( 88 % )                          ;
 ;     Total combinational functions  ; 3,911 / 4,608 ( 85 % )                          ;
 ;     Dedicated logic registers      ; 615 / 4,608 ( 13 % )                            ;
 ; Total registers                    ; 615                                             ;
@@ -64,7 +64,7 @@ applicable agreement for further details.
 +-------------------+---------------------+
 ; Option            ; Setting             ;
 +-------------------+---------------------+
-; Start date & time ; 03/29/2020 13:00:26 ;
+; Start date & time ; 06/29/2020 12:55:57 ;
 ; Main task         ; Compilation         ;
 ; Revision Name     ; uk101_41kRAM        ;
 +-------------------+---------------------+
@@ -75,7 +75,7 @@ applicable agreement for further details.
 +-------------------------------------+---------------------------------------+---------------+-------------+------------+
 ; Assignment Name                     ; Value                                 ; Default Value ; Entity Name ; Section Id ;
 +-------------------------------------+---------------------------------------+---------------+-------------+------------+
-; COMPILER_SIGNATURE_ID               ; 198690285320223.158550122517368       ; --            ; --          ; --         ;
+; COMPILER_SIGNATURE_ID               ; 198690285320223.159344975612204       ; --            ; --          ; --         ;
 ; MAX_CORE_JUNCTION_TEMP              ; 85                                    ; --            ; --          ; --         ;
 ; MIN_CORE_JUNCTION_TEMP              ; 0                                     ; --            ; --          ; --         ;
 ; PARTITION_COLOR                     ; 16764057                              ; --            ; uk101       ; Top        ;
@@ -94,11 +94,14 @@ applicable agreement for further details.
 +---------------------------+--------------+-------------------------+---------------------+------------------------------------+
 ; Module Name               ; Elapsed Time ; Average Processors Used ; Peak Virtual Memory ; Total CPU Time (on all processors) ;
 +---------------------------+--------------+-------------------------+---------------------+------------------------------------+
-; Analysis & Synthesis      ; 00:00:48     ; 1.0                     ; 4676 MB             ; 00:00:47                           ;
-; Fitter                    ; 00:00:36     ; 1.0                     ; 4848 MB             ; 00:00:36                           ;
+; Analysis & Synthesis      ; 00:00:50     ; 1.0                     ; 4676 MB             ; 00:00:47                           ;
+; Fitter                    ; 00:00:42     ; 1.0                     ; 4848 MB             ; 00:00:40                           ;
+; Assembler                 ; 00:00:02     ; 1.0                     ; 4552 MB             ; 00:00:01                           ;
+; TimeQuest Timing Analyzer ; 00:00:04     ; 1.0                     ; 4587 MB             ; 00:00:03                           ;
+; Fitter                    ; 00:00:46     ; 1.0                     ; 4859 MB             ; 00:00:41                           ;
 ; Assembler                 ; 00:00:01     ; 1.0                     ; 4552 MB             ; 00:00:01                           ;
-; TimeQuest Timing Analyzer ; 00:00:03     ; 1.0                     ; 4587 MB             ; 00:00:02                           ;
-; Total                     ; 00:01:28     ; --                      ; --                  ; 00:01:26                           ;
+; TimeQuest Timing Analyzer ; 00:00:04     ; 1.0                     ; 4603 MB             ; 00:00:03                           ;
+; Total                     ; 00:02:29     ; --                      ; --                  ; 00:02:16                           ;
 +---------------------------+--------------+-------------------------+---------------------+------------------------------------+
 
 
@@ -111,6 +114,9 @@ applicable agreement for further details.
 ; Fitter                    ; DESKTOP-2UF8LNB  ; Windows 7 ; 6.2        ; x86_64         ;
 ; Assembler                 ; DESKTOP-2UF8LNB  ; Windows 7 ; 6.2        ; x86_64         ;
 ; TimeQuest Timing Analyzer ; DESKTOP-2UF8LNB  ; Windows 7 ; 6.2        ; x86_64         ;
+; Fitter                    ; DESKTOP-2UF8LNB  ; Windows 7 ; 6.2        ; x86_64         ;
+; Assembler                 ; DESKTOP-2UF8LNB  ; Windows 7 ; 6.2        ; x86_64         ;
+; TimeQuest Timing Analyzer ; DESKTOP-2UF8LNB  ; Windows 7 ; 6.2        ; x86_64         ;
 +---------------------------+------------------+-----------+------------+----------------+
 
 
@@ -119,6 +125,9 @@ applicable agreement for further details.
 ------------
 quartus_map --read_settings_files=on --write_settings_files=off uk101_41kRAM -c uk101_41kRAM
 quartus_fit --read_settings_files=off --write_settings_files=off uk101_41kRAM -c uk101_41kRAM
+quartus_asm --read_settings_files=off --write_settings_files=off uk101_41kRAM -c uk101_41kRAM
+quartus_sta uk101_41kRAM -c uk101_41kRAM
+quartus_fit --read_settings_files=on --write_settings_files=off uk101_41kRAM -c uk101_41kRAM
 quartus_asm --read_settings_files=off --write_settings_files=off uk101_41kRAM -c uk101_41kRAM
 quartus_sta uk101_41kRAM -c uk101_41kRAM
 
