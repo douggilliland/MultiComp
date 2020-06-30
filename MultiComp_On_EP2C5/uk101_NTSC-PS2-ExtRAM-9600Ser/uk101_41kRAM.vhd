@@ -17,7 +17,6 @@ entity uk101 is
 	port(
 		n_reset		: in std_logic;
 		clk			: in std_logic;
-		
 		reset_LED	: out std_logic;
 		
 		sramData 	: inout std_logic_vector(7 downto 0);
@@ -94,12 +93,15 @@ begin
 	
 	reset_LED <= n_reset;
 
-	n_basRomCS 		<= '0' when cpuAddress(15 downto 13) = "101" 				else '1'; --8k
+	n_basRomCS 		<= '0' when cpuAddress(15 downto 13) = "101" 				else '1';	-- 8k
 	n_dispRamCS 	<= '0' when cpuAddress(15 downto 10) = x"d"&"00" 			else '1';
 	n_kbCS 			<= '0' when cpuAddress(15 downto 10) = x"d"&"11" 			else '1';
-	n_monitorRomCS <= '0' when cpuAddress(15 downto 11) = x"f"&'1' 			else '1'; --2K
-	n_aciaCS 		<= '0' when cpuAddress(15 downto 1)  = x"f00"&"000" 		else '1';
-	n_ramCS 			<= not(n_dispRamCS and n_basRomCS and n_monitorRomCS and n_aciaCS and n_kbCS);
+	n_monitorRomCS <= '0' when cpuAddress(15 downto 11) = x"f"&'1' 			else '1';	-- 2K
+	n_aciaCS 		<= '0' when cpuAddress(15 downto 1)  = x"f00"&"000" 		else '1';	-- 61440-61441
+	n_J6IOCS			<= '0' when cpuAddress(15 downto 0)  = x"f002"				else '1';	-- 61442
+	n_J8IOCS			<= '0' when cpuAddress(15 downto 0)  = x"f003"				else '1';	-- 61443
+	n_LEDCS			<= '0' when cpuAddress(15 downto 0)  = x"f004"				else '1';	-- 61444
+	n_ramCS 			<= not(n_dispRamCS and n_basRomCS and n_monitorRomCS and n_aciaCS and n_kbCS and n_J6IOCS and n_J8IOCS and n_LEDCS);
 	
 	cpuDataIn <=
 		basRomData 			when n_basRomCS = '0' 		else
@@ -217,34 +219,34 @@ begin
 		q_b => dispRamDataOutB
 	);
 	
-latchIO0 : entity work.OutLatch	--Output LatchIO
-port map(
-	clear => n_reset,
-	clock => clk,
-	load => n_J6IOCS,
-	dataIn8 => cpuDataOut,
-	latchOut => J6IO8
-);
+	latchIO0 : entity work.OutLatch	--Output LatchIO
+	port map(
+		clear => n_reset,
+		clock => clk,
+		load => n_J6IOCS or n_wr,
+		dataIn8 => cpuDataOut,
+		latchOut => J6IO8
+	);
 
-latchIO1 : entity work.OutLatch	--Output LatchIO
-port map(
-	clear => n_reset,
-	clock => clk,
-	load => n_J8IOCS,
-	dataIn8 => cpuDataOut,
-	latchOut => J8IO8
-);
+	latchIO1 : entity work.OutLatch	--Output LatchIO
+	port map(
+		clear => n_reset,
+		clock => clk,
+		load => n_J8IOCS or n_wr,
+		dataIn8 => cpuDataOut,
+		latchOut => J8IO8
+	);
 
-ledOut <= ledOut8(0);
+	ledOut <= ledOut8(0);
 
-latchLED : entity work.OutLatch	--Output LatchIO
-port map(
-	clear => n_reset,
-	clock => clk,
-	load => n_LEDCS,
-	dataIn8 => cpuDataOut,
-	latchOut => ledOut8
-);
+	latchLED : entity work.OutLatch	--Output LatchIO
+	port map(
+		clear => n_reset,
+		clock => clk,
+		load => n_LEDCS or n_wr,
+		dataIn8 => cpuDataOut,
+		latchOut => ledOut8
+	);
 
 	u9 : entity work.UK101keyboard
 	port map(
