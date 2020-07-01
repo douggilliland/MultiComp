@@ -158,35 +158,6 @@ begin
 		n_rts => rts
 	);
 
-	process (clk)
-	begin
-		if rising_edge(clk) then
-			if cpuClkCount < 50 then
-				cpuClkCount <= cpuClkCount + 1;
-			else
-				cpuClkCount <= (others=>'0');
-			end if;
-			if cpuClkCount < 25 then
-				cpuClock <= '0';
-			else
-				cpuClock <= '1';
-			end if;	
-			
---			if serialClkCount < 10416 then -- 300 baud
-			if serialClkCount < 325 then -- 9600 baud
-				serialClkCount <= serialClkCount + 1;
-			else
-				serialClkCount <= (others => '0');
-			end if;
---			if serialClkCount < 5208 then -- 300 baud
-			if serialClkCount < 162 then -- 9600 baud
-				serialClock <= '0';
-			else
-				serialClock <= '1';
-			end if;	
-		end if;
-	end process;
-
 	u6 : entity work.UK101TextDisplay
 	port map (
 		charAddr => charAddr,
@@ -265,4 +236,33 @@ begin
 		end if;
 	end process;
 	
+	process (clk)
+	begin
+		if rising_edge(clk) then
+			if cpuClkCount < 50 then
+				cpuClkCount <= cpuClkCount + 1;
+			else
+				cpuClkCount <= (others=>'0');
+			end if;
+			if cpuClkCount < 25 then
+				cpuClock <= '0';
+			else
+				cpuClock <= '1';
+			end if;	
+			
+--			if serialClkCount < 10416 then -- 300 baud
+			if serialClkCount < 325 then -- 9600 baud
+				serialClkCount <= serialClkCount + 1;
+			else
+				serialClkCount <= (others => '0');
+			end if;
+--			if serialClkCount < 5208 then -- 300 baud
+			if serialClkCount < 162 then -- 9600 baud
+				serialClock <= '0';
+			else
+				serialClock <= '1';
+			end if;	
+		end if;
+	end process;
+
 end;
