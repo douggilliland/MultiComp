@@ -22,7 +22,7 @@ use ieee.std_logic_1164.all;
 use  IEEE.STD_LOGIC_ARITH.all;
 use  IEEE.STD_LOGIC_UNSIGNED.all;
 
-entity uk101 is
+ENTITY UK101 IS
 	port(
 		clk				: in std_logic;	-- 50 MHz clock on FPGA card
 		i_n_reset		: in std_logic;	-- Switch to the left of the JTAG connector
@@ -30,11 +30,11 @@ entity uk101 is
 		
 		io_sramData 	: inout std_logic_vector(7 downto 0);
 		o_sramAddress	: out std_logic_vector(16 downto 0);
-		o_n_sRamWE 		: out std_logic;
-		o_n_sRamCS		: out std_logic;
-		o_n_sRamOE		: out std_logic;
+		o_n_sRamWE 		: out std_logic := '1';
+		o_n_sRamCS		: out std_logic := '1';
+		o_n_sRamOE		: out std_logic := '1';
 		
-		i_rxd				: in std_logic;
+		i_rxd				: in std_logic := '1';
 		o_txd				: out std_logic;
 		o_rts				: out std_logic;
 		
@@ -44,8 +44,8 @@ entity uk101 is
 		o_Vid_hSync		: out	std_logic := '1';
 		o_Vid_vSync		: out	std_logic := '1';
 		
-		i_ps2Clk			: in std_logic;
-		i_ps2Data		: in std_logic;
+		i_ps2Clk			: in std_logic := '1';
+		i_ps2Data		: in std_logic := '1';
 		
 		o_ledOut			: out std_logic;
 		o_J6IO8			: out std_logic_vector(7 downto 0);
@@ -78,11 +78,8 @@ architecture struct of uk101 is
 	signal n_J8IOCS			: std_logic :='1';
 	signal n_LEDCS				: std_logic :='1';
 		
---	signal dispAddrB 			: std_logic_vector(9 downto 0);
---	signal dispw_ramDataOutA 	: std_logic_vector(7 downto 0);
---	signal dispw_ramDataOutB 	: std_logic_vector(7 downto 0);
-	signal charAddr 			: std_logic_vector(10 downto 0);
-	signal charData 			: std_logic_vector(7 downto 0);
+	signal w_charAddr 			: std_logic_vector(10 downto 0);
+	signal w_charData 			: std_logic_vector(7 downto 0);
 	signal w_displayRamData		: std_logic_vector(7 downto 0);
 
 	signal w_serialClkCount		: std_logic_vector(15 downto 0); 
@@ -90,18 +87,17 @@ architecture struct of uk101 is
 	signal w_serialClkEn       : std_logic;
 	signal w_serialClock			: std_logic;
 	
-	signal CLOCK_100				: std_ulogic;
 	signal w_CLOCK_50				: std_ulogic;
 	signal w_Video_Clk			: std_ulogic;
 	signal w_VoutVect				: std_logic_vector(17 downto 0);
 
 	signal w_cpuClock				: std_logic;
-	signal cpuClkCount		: std_logic_vector(5 downto 0);
+	signal w_cpuClkCount		: std_logic_vector(5 downto 0);
 
-	signal kbReadData 		: std_logic_vector(7 downto 0);
-	signal kbRowSel 			: std_logic_vector(7 downto 0);
-	signal slowMode			: std_logic;
-	signal o_ledOut8 			: std_logic_vector(7 downto 0);
+	signal w_kbReadData 		: std_logic_vector(7 downto 0);
+	signal w_kbRowSel 			: std_logic_vector(7 downto 0);
+	signal w_slowMode			: std_logic;
+	signal w_ledOut8 			: std_logic_vector(7 downto 0);
 
 begin
 
@@ -135,12 +131,12 @@ begin
 	-- Multiplexer for data into the CPU
 	w_cpuDataIn <=
 		w_basRomData 			when n_basRomCS = '0' 										else
-		x"F0" 				when (w_cpuAddress = x"FCE0" and (slowMode = '0'))	else -- Address = FCE0 key repeat speed
+		x"F0" 				when (w_cpuAddress = x"FCE0" and (w_slowMode = '0'))	else -- Address = FCE0 key repeat speed
 		w_monitorRomData 	when n_monitorRomCS = '0'									else
 		w_aciaData 			when n_aciaCS = '0' 											else
 		io_sramData 			when n_ramCS = '0' 											else
 		w_displayRamData 	when n_dispRamCS = '0' 										else
-		kbReadData 			when n_kbCS='0'												else 
+		w_kbReadData 			when n_kbCS='0'												else 
 		x"FF";
 		
 	-- Daniel Wallner's 6502 CPU core
@@ -216,15 +212,15 @@ begin
 		nRESET => i_n_reset,
 		PS2_CLK	=> i_ps2Clk,
 		PS2_DATA	=> i_ps2Data,
-		A	=> kbRowSel,
-		KEYB	=> kbReadData,
-		FNtoggledKeys(1) => slowMode		-- F1 is slow/fast select (default fast)
+		A	=> w_kbRowSel,
+		KEYB	=> w_kbReadData,
+		FNtoggledKeys(1) => w_slowMode		-- F1 is slow/fast select (default fast)
 	);
 	
 	process (n_kbCS,n_memWR)
 	begin
 		if	n_kbCS='0' and n_memWR = '0' then
-			kbRowSel <= w_cpuDataOut;
+			w_kbRowSel <= w_cpuDataOut;
 		end if;
 	end process;
 
@@ -241,24 +237,24 @@ begin
 	process (clk)
 	begin
 		 if rising_edge(clk) then
-			  if slowMode = '1' then -- 1MHz CPU clock
-					if cpuClkCount < 49 then
-						 cpuClkCount <= cpuClkCount + 1;
+			  if w_slowMode = '1' then -- 1MHz CPU clock
+					if w_cpuClkCount < 49 then
+						 w_cpuClkCount <= w_cpuClkCount + 1;
 					else
-						 cpuClkCount <= (others=>'0');
+						 w_cpuClkCount <= (others=>'0');
 					end if;
-					if cpuClkCount < 25 then
+					if w_cpuClkCount < 25 then
 						 w_cpuClock <= '0';
 					else
 						 w_cpuClock <= '1';
 					end if; 
 			  else
-					if cpuClkCount < 3 then -- 4 = 10MHz, 3 = 12.5MHz, 2=16.6MHz, 1=25MHz
-						 cpuClkCount <= cpuClkCount + 1;
+					if w_cpuClkCount < 3 then -- 4 = 10MHz, 3 = 12.5MHz, 2=16.6MHz, 1=25MHz
+						 w_cpuClkCount <= w_cpuClkCount + 1;
 					else
-						 cpuClkCount <= (others=>'0');
+						 w_cpuClkCount <= (others=>'0');
 					end if;
-					if cpuClkCount < 2 then -- 2 when 10MHz, 2 when 12.5MHz, 2 when 16.6MHz, 1 when 25MHz
+					if w_cpuClkCount < 2 then -- 2 when 10MHz, 2 when 12.5MHz, 2 when 16.6MHz, 1 when 25MHz
 						 w_cpuClock <= '0';
 					else
 						 w_cpuClock <= '1';
@@ -285,7 +281,7 @@ begin
 		latchOut => o_J8IO8
 	);
 
-	o_ledOut <= o_ledOut8(0);
+	o_ledOut <= w_ledOut8(0);
 
 	latchLED : entity work.OutLatch	--Output LatchIO
 	port map(
@@ -293,7 +289,7 @@ begin
 		clock => clk,
 		load => n_LEDCS or w_n_WR,
 		dataIn8 => w_cpuDataOut,
-		latchOut => o_ledOut8
+		latchOut => w_ledOut8
 	);
 
 	-- ____________________________________________________________________________________
@@ -318,9 +314,9 @@ begin
 		end process;
 
 	--Single clock wide baud rate enable
-	baud_clk: process(w_CLOCK_50)
+	baud_clk: process(clk)
 		begin
-			if rising_edge(w_CLOCK_50) then
+			if rising_edge(clk) then
 					w_serialClkCount <= w_serialClkCount_d;
 				if w_serialClkCount(15) = '0' and w_serialClkCount_d(15) = '1' then
 					w_serialClkEn <= '1';

@@ -1,5 +1,5 @@
 Analysis & Synthesis report for uk101_41kRAM
-Wed Jul 01 10:18:32 2020
+Wed Jul 01 10:50:45 2020
 Quartus II 64-Bit Version 13.0.1 Build 232 06/12/2013 Service Pack 1 SJ Web Edition
 
 
@@ -15,8 +15,8 @@ Quartus II 64-Bit Version 13.0.1 Build 232 06/12/2013 Service Pack 1 SJ Web Edit
   7. Analysis & Synthesis Resource Utilization by Entity
   8. Analysis & Synthesis RAM Summary
   9. Analysis & Synthesis IP Cores Summary
- 10. State Machine - |uk101|bufferedUART:UART|txState
- 11. State Machine - |uk101|bufferedUART:UART|rxState
+ 10. State Machine - |UK101|bufferedUART:UART|txState
+ 11. State Machine - |UK101|bufferedUART:UART|rxState
  12. User-Specified and Inferred Latches
  13. Registers Removed During Synthesis
  14. Removed Registers Triggering Further Register Optimizations
@@ -70,10 +70,10 @@ applicable agreement for further details.
 +--------------------------------------------------------------------------------------+
 ; Analysis & Synthesis Summary                                                         ;
 +------------------------------------+-------------------------------------------------+
-; Analysis & Synthesis Status        ; Successful - Wed Jul 01 10:18:31 2020           ;
+; Analysis & Synthesis Status        ; Successful - Wed Jul 01 10:50:45 2020           ;
 ; Quartus II 64-Bit Version          ; 13.0.1 Build 232 06/12/2013 SP 1 SJ Web Edition ;
 ; Revision Name                      ; uk101_41kRAM                                    ;
-; Top-level Entity Name              ; uk101                                           ;
+; Top-level Entity Name              ; UK101                                           ;
 ; Family                             ; Cyclone II                                      ;
 ; Total logic elements               ; 3,997                                           ;
 ;     Total combinational functions  ; 3,786                                           ;
@@ -263,27 +263,27 @@ Parallel compilation was disabled, but you have multiple processors available. E
 +----------------------------------------------+-------------------+--------------+-------------+--------------+---------+-----------+------+--------------+-----------------------------------------------------------------------------------------------------------------------------+--------------+
 ; Compilation Hierarchy Node                   ; LC Combinationals ; LC Registers ; Memory Bits ; DSP Elements ; DSP 9x9 ; DSP 18x18 ; Pins ; Virtual Pins ; Full Hierarchy Name                                                                                                         ; Library Name ;
 +----------------------------------------------+-------------------+--------------+-------------+--------------+---------+-----------+------+--------------+-----------------------------------------------------------------------------------------------------------------------------+--------------+
-; |uk101                                       ; 3786 (108)        ; 489 (20)     ; 81920       ; 0            ; 0       ; 0         ; 61   ; 0            ; |uk101                                                                                                                      ; work         ;
-;    |BasicRom:u2|                             ; 0 (0)             ; 2 (0)        ; 65536       ; 0            ; 0       ; 0         ; 0    ; 0            ; |uk101|BasicRom:u2                                                                                                          ; work         ;
-;       |altsyncram:altsyncram_component|      ; 0 (0)             ; 2 (0)        ; 65536       ; 0            ; 0       ; 0         ; 0    ; 0            ; |uk101|BasicRom:u2|altsyncram:altsyncram_component                                                                          ; work         ;
-;          |altsyncram_4371:auto_generated|    ; 0 (0)             ; 2 (2)        ; 65536       ; 0            ; 0       ; 0         ; 0    ; 0            ; |uk101|BasicRom:u2|altsyncram:altsyncram_component|altsyncram_4371:auto_generated                                           ; work         ;
-;    |CegmonRom_Patched_64x32:u4|              ; 1663 (1663)       ; 0 (0)        ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |uk101|CegmonRom_Patched_64x32:u4                                                                                           ; work         ;
-;    |Mem_Mapped_SVGA:MemMappedSVGA|           ; 821 (1)           ; 24 (0)       ; 16384       ; 0            ; 0       ; 0         ; 0    ; 0            ; |uk101|Mem_Mapped_SVGA:MemMappedSVGA                                                                                        ; work         ;
-;       |DisplayRam2k:DisplayRAM|              ; 0 (0)             ; 0 (0)        ; 16384       ; 0            ; 0       ; 0         ; 0    ; 0            ; |uk101|Mem_Mapped_SVGA:MemMappedSVGA|DisplayRam2k:DisplayRAM                                                                ; work         ;
-;          |altsyncram:altsyncram_component|   ; 0 (0)             ; 0 (0)        ; 16384       ; 0            ; 0       ; 0         ; 0    ; 0            ; |uk101|Mem_Mapped_SVGA:MemMappedSVGA|DisplayRam2k:DisplayRAM|altsyncram:altsyncram_component                                ; work         ;
-;             |altsyncram_uh52:auto_generated| ; 0 (0)             ; 0 (0)        ; 16384       ; 0            ; 0       ; 0         ; 0    ; 0            ; |uk101|Mem_Mapped_SVGA:MemMappedSVGA|DisplayRam2k:DisplayRAM|altsyncram:altsyncram_component|altsyncram_uh52:auto_generated ; work         ;
-;       |Video_SVGA_64x32:Video_SVGA_64x32|    ; 820 (820)         ; 24 (24)      ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |uk101|Mem_Mapped_SVGA:MemMappedSVGA|Video_SVGA_64x32:Video_SVGA_64x32                                                      ; work         ;
-;    |OutLatch:latchIO0|                       ; 0 (0)             ; 8 (8)        ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |uk101|OutLatch:latchIO0                                                                                                    ; work         ;
-;    |OutLatch:latchIO1|                       ; 0 (0)             ; 8 (8)        ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |uk101|OutLatch:latchIO1                                                                                                    ; work         ;
-;    |OutLatch:latchLED|                       ; 1 (1)             ; 1 (1)        ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |uk101|OutLatch:latchLED                                                                                                    ; work         ;
-;    |T65:u1|                                  ; 785 (387)         ; 126 (126)    ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |uk101|T65:u1                                                                                                               ; work         ;
-;       |T65_ALU:alu|                          ; 159 (159)         ; 0 (0)        ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |uk101|T65:u1|T65_ALU:alu                                                                                                   ; work         ;
-;       |T65_MCode:mcode|                      ; 239 (239)         ; 0 (0)        ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |uk101|T65:u1|T65_MCode:mcode                                                                                               ; work         ;
-;    |UK101keyboard:KBD|                       ; 163 (140)         ; 87 (53)      ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |uk101|UK101keyboard:KBD                                                                                                    ; work         ;
-;       |ps2_intf:ps2|                         ; 23 (23)           ; 34 (34)      ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |uk101|UK101keyboard:KBD|ps2_intf:ps2                                                                                       ; work         ;
-;    |VideoClk_SVGA_800x600:PLL|               ; 0 (0)             ; 0 (0)        ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |uk101|VideoClk_SVGA_800x600:PLL                                                                                            ; work         ;
-;       |altpll:altpll_component|              ; 0 (0)             ; 0 (0)        ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |uk101|VideoClk_SVGA_800x600:PLL|altpll:altpll_component                                                                    ; work         ;
-;    |bufferedUART:UART|                       ; 245 (245)         ; 213 (213)    ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |uk101|bufferedUART:UART                                                                                                    ; work         ;
+; |UK101                                       ; 3786 (108)        ; 489 (20)     ; 81920       ; 0            ; 0       ; 0         ; 61   ; 0            ; |UK101                                                                                                                      ; work         ;
+;    |BasicRom:u2|                             ; 0 (0)             ; 2 (0)        ; 65536       ; 0            ; 0       ; 0         ; 0    ; 0            ; |UK101|BasicRom:u2                                                                                                          ; work         ;
+;       |altsyncram:altsyncram_component|      ; 0 (0)             ; 2 (0)        ; 65536       ; 0            ; 0       ; 0         ; 0    ; 0            ; |UK101|BasicRom:u2|altsyncram:altsyncram_component                                                                          ; work         ;
+;          |altsyncram_4371:auto_generated|    ; 0 (0)             ; 2 (2)        ; 65536       ; 0            ; 0       ; 0         ; 0    ; 0            ; |UK101|BasicRom:u2|altsyncram:altsyncram_component|altsyncram_4371:auto_generated                                           ; work         ;
+;    |CegmonRom_Patched_64x32:u4|              ; 1663 (1663)       ; 0 (0)        ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |UK101|CegmonRom_Patched_64x32:u4                                                                                           ; work         ;
+;    |Mem_Mapped_SVGA:MemMappedSVGA|           ; 821 (1)           ; 24 (0)       ; 16384       ; 0            ; 0       ; 0         ; 0    ; 0            ; |UK101|Mem_Mapped_SVGA:MemMappedSVGA                                                                                        ; work         ;
+;       |DisplayRam2k:DisplayRAM|              ; 0 (0)             ; 0 (0)        ; 16384       ; 0            ; 0       ; 0         ; 0    ; 0            ; |UK101|Mem_Mapped_SVGA:MemMappedSVGA|DisplayRam2k:DisplayRAM                                                                ; work         ;
+;          |altsyncram:altsyncram_component|   ; 0 (0)             ; 0 (0)        ; 16384       ; 0            ; 0       ; 0         ; 0    ; 0            ; |UK101|Mem_Mapped_SVGA:MemMappedSVGA|DisplayRam2k:DisplayRAM|altsyncram:altsyncram_component                                ; work         ;
+;             |altsyncram_uh52:auto_generated| ; 0 (0)             ; 0 (0)        ; 16384       ; 0            ; 0       ; 0         ; 0    ; 0            ; |UK101|Mem_Mapped_SVGA:MemMappedSVGA|DisplayRam2k:DisplayRAM|altsyncram:altsyncram_component|altsyncram_uh52:auto_generated ; work         ;
+;       |Video_SVGA_64x32:Video_SVGA_64x32|    ; 820 (820)         ; 24 (24)      ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |UK101|Mem_Mapped_SVGA:MemMappedSVGA|Video_SVGA_64x32:Video_SVGA_64x32                                                      ; work         ;
+;    |OutLatch:latchIO0|                       ; 0 (0)             ; 8 (8)        ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |UK101|OutLatch:latchIO0                                                                                                    ; work         ;
+;    |OutLatch:latchIO1|                       ; 0 (0)             ; 8 (8)        ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |UK101|OutLatch:latchIO1                                                                                                    ; work         ;
+;    |OutLatch:latchLED|                       ; 1 (1)             ; 1 (1)        ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |UK101|OutLatch:latchLED                                                                                                    ; work         ;
+;    |T65:u1|                                  ; 785 (387)         ; 126 (126)    ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |UK101|T65:u1                                                                                                               ; work         ;
+;       |T65_ALU:alu|                          ; 159 (159)         ; 0 (0)        ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |UK101|T65:u1|T65_ALU:alu                                                                                                   ; work         ;
+;       |T65_MCode:mcode|                      ; 239 (239)         ; 0 (0)        ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |UK101|T65:u1|T65_MCode:mcode                                                                                               ; work         ;
+;    |UK101keyboard:KBD|                       ; 163 (140)         ; 87 (53)      ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |UK101|UK101keyboard:KBD                                                                                                    ; work         ;
+;       |ps2_intf:ps2|                         ; 23 (23)           ; 34 (34)      ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |UK101|UK101keyboard:KBD|ps2_intf:ps2                                                                                       ; work         ;
+;    |VideoClk_SVGA_800x600:PLL|               ; 0 (0)             ; 0 (0)        ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |UK101|VideoClk_SVGA_800x600:PLL                                                                                            ; work         ;
+;       |altpll:altpll_component|              ; 0 (0)             ; 0 (0)        ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |UK101|VideoClk_SVGA_800x600:PLL|altpll:altpll_component                                                                    ; work         ;
+;    |bufferedUART:UART|                       ; 245 (245)         ; 213 (213)    ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |UK101|bufferedUART:UART                                                                                                    ; work         ;
 +----------------------------------------------+-------------------+--------------+-------------+--------------+---------+-----------+------+--------------+-----------------------------------------------------------------------------------------------------------------------------+--------------+
 Note: For table entries with two numbers listed, the numbers in parentheses indicate the number of resources of the given type used by the specific entity alone. The numbers listed outside of parentheses indicate the total resources of the given type used by the specific entity and all of its sub-entities in the hierarchy.
 
@@ -303,15 +303,15 @@ Note: For table entries with two numbers listed, the numbers in parentheses indi
 +--------+--------------+---------+--------------+--------------+--------------------------------------------------------------+----------------------------------------------------------------------------------------------------------------------------------------------+
 ; Vendor ; IP Core Name ; Version ; Release Date ; License Type ; Entity Instance                                              ; IP Include File                                                                                                                              ;
 +--------+--------------+---------+--------------+--------------+--------------------------------------------------------------+----------------------------------------------------------------------------------------------------------------------------------------------+
-; Altera ; RAM: 2-PORT  ; N/A     ; N/A          ; N/A          ; |uk101|Mem_Mapped_SVGA:MemMappedSVGA|DisplayRam2k:DisplayRAM ; C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/VGA/Mem_Mapped_SVGA/DisplayRam2k.vhd          ;
-; Altera ; ALTPLL       ; N/A     ; N/A          ; N/A          ; |uk101|VideoClk_SVGA_800x600:PLL                             ; C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/VGA/Mem_Mapped_SVGA/VideoClk_SVGA_800x600.vhd ;
-; Altera ; ROM: 1-PORT  ; N/A     ; N/A          ; N/A          ; |uk101|BasicRom:u2                                           ; C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/ROMs/6502/UK101_BASIC_ROM/BasicRom.vhd        ;
+; Altera ; RAM: 2-PORT  ; N/A     ; N/A          ; N/A          ; |UK101|Mem_Mapped_SVGA:MemMappedSVGA|DisplayRam2k:DisplayRAM ; C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/VGA/Mem_Mapped_SVGA/DisplayRam2k.vhd          ;
+; Altera ; ALTPLL       ; N/A     ; N/A          ; N/A          ; |UK101|VideoClk_SVGA_800x600:PLL                             ; C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/VGA/Mem_Mapped_SVGA/VideoClk_SVGA_800x600.vhd ;
+; Altera ; ROM: 1-PORT  ; N/A     ; N/A          ; N/A          ; |UK101|BasicRom:u2                                           ; C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/ROMs/6502/UK101_BASIC_ROM/BasicRom.vhd        ;
 +--------+--------------+---------+--------------+--------------+--------------------------------------------------------------+----------------------------------------------------------------------------------------------------------------------------------------------+
 
 
 Encoding Type:  One-Hot
 +--------------------------------------------------------------------+
-; State Machine - |uk101|bufferedUART:UART|txState                   ;
+; State Machine - |UK101|bufferedUART:UART|txState                   ;
 +-----------------+-----------------+-----------------+--------------+
 ; Name            ; txState.stopBit ; txState.dataBit ; txState.idle ;
 +-----------------+-----------------+-----------------+--------------+
@@ -323,7 +323,7 @@ Encoding Type:  One-Hot
 
 Encoding Type:  One-Hot
 +--------------------------------------------------------------------+
-; State Machine - |uk101|bufferedUART:UART|rxState                   ;
+; State Machine - |UK101|bufferedUART:UART|rxState                   ;
 +-----------------+-----------------+-----------------+--------------+
 ; Name            ; rxState.stopBit ; rxState.dataBit ; rxState.idle ;
 +-----------------+-----------------+-----------------+--------------+
@@ -338,14 +338,14 @@ Encoding Type:  One-Hot
 +----------------------------------------------------+---------------------+------------------------+
 ; Latch Name                                         ; Latch Enable Signal ; Free of Timing Hazards ;
 +----------------------------------------------------+---------------------+------------------------+
-; kbRowSel[0]                                        ; process_0           ; yes                    ;
-; kbRowSel[1]                                        ; process_0           ; yes                    ;
-; kbRowSel[2]                                        ; process_0           ; yes                    ;
-; kbRowSel[3]                                        ; process_0           ; yes                    ;
-; kbRowSel[4]                                        ; process_0           ; yes                    ;
-; kbRowSel[5]                                        ; process_0           ; yes                    ;
-; kbRowSel[6]                                        ; process_0           ; yes                    ;
-; kbRowSel[7]                                        ; process_0           ; yes                    ;
+; w_kbRowSel[0]                                      ; process_0           ; yes                    ;
+; w_kbRowSel[1]                                      ; process_0           ; yes                    ;
+; w_kbRowSel[2]                                      ; process_0           ; yes                    ;
+; w_kbRowSel[3]                                      ; process_0           ; yes                    ;
+; w_kbRowSel[4]                                      ; process_0           ; yes                    ;
+; w_kbRowSel[5]                                      ; process_0           ; yes                    ;
+; w_kbRowSel[6]                                      ; process_0           ; yes                    ;
+; w_kbRowSel[7]                                      ; process_0           ; yes                    ;
 ; Number of user-specified and inferred latches = 8  ;                     ;                        ;
 +----------------------------------------------------+---------------------+------------------------+
 Note: All latches listed above may not be present at the end of synthesis due to various synthesis optimizations.
@@ -478,33 +478,33 @@ Note: All latches listed above may not be present at the end of synthesis due to
 +--------------------+-----------+---------------+----------------------+------------------------+------------+----------------------------------------------------+
 ; Multiplexer Inputs ; Bus Width ; Baseline Area ; Area if Restructured ; Saving if Restructured ; Registered ; Example Multiplexer Output                         ;
 +--------------------+-----------+---------------+----------------------+------------------------+------------+----------------------------------------------------+
-; 3:1                ; 8 bits    ; 16 LEs        ; 8 LEs                ; 8 LEs                  ; Yes        ; |uk101|T65:u1|S[12]                                ;
-; 3:1                ; 6 bits    ; 12 LEs        ; 0 LEs                ; 12 LEs                 ; Yes        ; |uk101|bufferedUART:UART|rxFilter[3]               ;
-; 3:1                ; 8 bits    ; 16 LEs        ; 8 LEs                ; 8 LEs                  ; Yes        ; |uk101|T65:u1|DL[6]                                ;
-; 4:1                ; 8 bits    ; 16 LEs        ; 16 LEs               ; 0 LEs                  ; Yes        ; |uk101|T65:u1|S[6]                                 ;
-; 4:1                ; 8 bits    ; 16 LEs        ; 16 LEs               ; 0 LEs                  ; Yes        ; |uk101|T65:u1|BAH[3]                               ;
-; 4:1                ; 6 bits    ; 12 LEs        ; 6 LEs                ; 6 LEs                  ; Yes        ; |uk101|cpuClkCount[4]                              ;
-; 4:1                ; 4 bits    ; 8 LEs         ; 4 LEs                ; 4 LEs                  ; Yes        ; |uk101|UK101keyboard:KBD|ps2_intf:ps2|bit_count[3] ;
-; 5:1                ; 6 bits    ; 18 LEs        ; 6 LEs                ; 12 LEs                 ; Yes        ; |uk101|bufferedUART:UART|rxClockCount[2]           ;
-; 5:1                ; 8 bits    ; 24 LEs        ; 16 LEs               ; 8 LEs                  ; Yes        ; |uk101|T65:u1|AD[7]                                ;
-; 6:1                ; 8 bits    ; 32 LEs        ; 16 LEs               ; 16 LEs                 ; Yes        ; |uk101|T65:u1|PC[3]                                ;
-; 6:1                ; 6 bits    ; 24 LEs        ; 12 LEs               ; 12 LEs                 ; Yes        ; |uk101|T65:u1|BAL[7]                               ;
-; 6:1                ; 2 bits    ; 8 LEs         ; 4 LEs                ; 4 LEs                  ; Yes        ; |uk101|T65:u1|BAL[1]                               ;
-; 5:1                ; 4 bits    ; 12 LEs        ; 4 LEs                ; 8 LEs                  ; Yes        ; |uk101|bufferedUART:UART|rxBitCount[0]             ;
-; 6:1                ; 4 bits    ; 16 LEs        ; 4 LEs                ; 12 LEs                 ; Yes        ; |uk101|bufferedUART:UART|txBitCount[0]             ;
-; 6:1                ; 7 bits    ; 28 LEs        ; 7 LEs                ; 21 LEs                 ; Yes        ; |uk101|bufferedUART:UART|txBuffer[0]               ;
-; 6:1                ; 6 bits    ; 24 LEs        ; 6 LEs                ; 18 LEs                 ; Yes        ; |uk101|bufferedUART:UART|txClockCount[0]           ;
-; 7:1                ; 8 bits    ; 32 LEs        ; 16 LEs               ; 16 LEs                 ; Yes        ; |uk101|T65:u1|PC[14]                               ;
-; 3:1                ; 2 bits    ; 4 LEs         ; 2 LEs                ; 2 LEs                  ; No         ; |uk101|T65:u1|T65_MCode:mcode|Mux118               ;
-; 3:1                ; 5 bits    ; 10 LEs        ; 5 LEs                ; 5 LEs                  ; No         ; |uk101|T65:u1|T65_MCode:mcode|Mux124               ;
-; 8:1                ; 8 bits    ; 40 LEs        ; 40 LEs               ; 0 LEs                  ; No         ; |uk101|T65:u1|Mux78                                ;
-; 6:1                ; 8 bits    ; 32 LEs        ; 32 LEs               ; 0 LEs                  ; No         ; |uk101|T65:u1|Mux47                                ;
-; 12:1               ; 2 bits    ; 16 LEs        ; 12 LEs               ; 4 LEs                  ; No         ; |uk101|T65:u1|T65_ALU:alu|Mux7                     ;
-; 9:1                ; 8 bits    ; 48 LEs        ; 40 LEs               ; 8 LEs                  ; No         ; |uk101|w_cpuDataIn[7]                              ;
-; 8:1                ; 3 bits    ; 15 LEs        ; 6 LEs                ; 9 LEs                  ; No         ; |uk101|bufferedUART:UART|txState.idle              ;
-; 9:1                ; 3 bits    ; 18 LEs        ; 6 LEs                ; 12 LEs                 ; No         ; |uk101|bufferedUART:UART|rxState.stopBit           ;
-; 15:1               ; 3 bits    ; 30 LEs        ; 24 LEs               ; 6 LEs                  ; No         ; |uk101|T65:u1|T65_ALU:alu|Mux6                     ;
-; 15:1               ; 3 bits    ; 30 LEs        ; 24 LEs               ; 6 LEs                  ; No         ; |uk101|T65:u1|T65_ALU:alu|Mux1                     ;
+; 3:1                ; 8 bits    ; 16 LEs        ; 8 LEs                ; 8 LEs                  ; Yes        ; |UK101|T65:u1|S[12]                                ;
+; 3:1                ; 6 bits    ; 12 LEs        ; 0 LEs                ; 12 LEs                 ; Yes        ; |UK101|bufferedUART:UART|rxFilter[3]               ;
+; 3:1                ; 8 bits    ; 16 LEs        ; 8 LEs                ; 8 LEs                  ; Yes        ; |UK101|T65:u1|DL[6]                                ;
+; 4:1                ; 8 bits    ; 16 LEs        ; 16 LEs               ; 0 LEs                  ; Yes        ; |UK101|T65:u1|S[6]                                 ;
+; 4:1                ; 8 bits    ; 16 LEs        ; 16 LEs               ; 0 LEs                  ; Yes        ; |UK101|T65:u1|BAH[3]                               ;
+; 4:1                ; 6 bits    ; 12 LEs        ; 6 LEs                ; 6 LEs                  ; Yes        ; |UK101|w_cpuClkCount[4]                            ;
+; 4:1                ; 4 bits    ; 8 LEs         ; 4 LEs                ; 4 LEs                  ; Yes        ; |UK101|UK101keyboard:KBD|ps2_intf:ps2|bit_count[3] ;
+; 5:1                ; 6 bits    ; 18 LEs        ; 6 LEs                ; 12 LEs                 ; Yes        ; |UK101|bufferedUART:UART|rxClockCount[2]           ;
+; 5:1                ; 8 bits    ; 24 LEs        ; 16 LEs               ; 8 LEs                  ; Yes        ; |UK101|T65:u1|AD[7]                                ;
+; 6:1                ; 8 bits    ; 32 LEs        ; 16 LEs               ; 16 LEs                 ; Yes        ; |UK101|T65:u1|PC[3]                                ;
+; 6:1                ; 6 bits    ; 24 LEs        ; 12 LEs               ; 12 LEs                 ; Yes        ; |UK101|T65:u1|BAL[7]                               ;
+; 6:1                ; 2 bits    ; 8 LEs         ; 4 LEs                ; 4 LEs                  ; Yes        ; |UK101|T65:u1|BAL[1]                               ;
+; 5:1                ; 4 bits    ; 12 LEs        ; 4 LEs                ; 8 LEs                  ; Yes        ; |UK101|bufferedUART:UART|rxBitCount[0]             ;
+; 6:1                ; 4 bits    ; 16 LEs        ; 4 LEs                ; 12 LEs                 ; Yes        ; |UK101|bufferedUART:UART|txBitCount[0]             ;
+; 6:1                ; 7 bits    ; 28 LEs        ; 7 LEs                ; 21 LEs                 ; Yes        ; |UK101|bufferedUART:UART|txBuffer[0]               ;
+; 6:1                ; 6 bits    ; 24 LEs        ; 6 LEs                ; 18 LEs                 ; Yes        ; |UK101|bufferedUART:UART|txClockCount[0]           ;
+; 7:1                ; 8 bits    ; 32 LEs        ; 16 LEs               ; 16 LEs                 ; Yes        ; |UK101|T65:u1|PC[14]                               ;
+; 3:1                ; 2 bits    ; 4 LEs         ; 2 LEs                ; 2 LEs                  ; No         ; |UK101|T65:u1|T65_MCode:mcode|Mux118               ;
+; 3:1                ; 5 bits    ; 10 LEs        ; 5 LEs                ; 5 LEs                  ; No         ; |UK101|T65:u1|T65_MCode:mcode|Mux124               ;
+; 8:1                ; 8 bits    ; 40 LEs        ; 40 LEs               ; 0 LEs                  ; No         ; |UK101|T65:u1|Mux78                                ;
+; 6:1                ; 8 bits    ; 32 LEs        ; 32 LEs               ; 0 LEs                  ; No         ; |UK101|T65:u1|Mux47                                ;
+; 12:1               ; 2 bits    ; 16 LEs        ; 12 LEs               ; 4 LEs                  ; No         ; |UK101|T65:u1|T65_ALU:alu|Mux7                     ;
+; 9:1                ; 8 bits    ; 48 LEs        ; 40 LEs               ; 8 LEs                  ; No         ; |UK101|w_cpuDataIn[7]                              ;
+; 8:1                ; 3 bits    ; 15 LEs        ; 6 LEs                ; 9 LEs                  ; No         ; |UK101|bufferedUART:UART|txState.idle              ;
+; 9:1                ; 3 bits    ; 18 LEs        ; 6 LEs                ; 12 LEs                 ; No         ; |UK101|bufferedUART:UART|rxState.stopBit           ;
+; 15:1               ; 3 bits    ; 30 LEs        ; 24 LEs               ; 6 LEs                  ; No         ; |UK101|T65:u1|T65_ALU:alu|Mux6                     ;
+; 15:1               ; 3 bits    ; 30 LEs        ; 24 LEs               ; 6 LEs                  ; No         ; |UK101|T65:u1|T65_ALU:alu|Mux1                     ;
 +--------------------+-----------+---------------+----------------------+------------------------+------------+----------------------------------------------------+
 
 
@@ -1219,7 +1219,7 @@ Note: In order to hide this table in the UI and the text report file, please set
 +----------------+--------------+
 ; Partition Name ; Elapsed Time ;
 +----------------+--------------+
-; Top            ; 00:00:46     ;
+; Top            ; 00:00:47     ;
 +----------------+--------------+
 
 
@@ -1229,7 +1229,7 @@ Note: In order to hide this table in the UI and the text report file, please set
 Info: *******************************************************************
 Info: Running Quartus II 64-Bit Analysis & Synthesis
     Info: Version 13.0.1 Build 232 06/12/2013 Service Pack 1 SJ Web Edition
-    Info: Processing started: Wed Jul 01 10:17:40 2020
+    Info: Processing started: Wed Jul 01 10:49:53 2020
 Info: Command: quartus_map --read_settings_files=on --write_settings_files=off uk101_41kRAM -c uk101_41kRAM
 Warning (20028): Parallel compilation is not licensed and has been disabled
 Info (12021): Found 2 design units, including 1 entities, in source file /users/hpz420/documents/github/doug gilliland/multicomp/multicomp (vhdl template)/components/ps2kb/uk101kb_fnkeys.vhd
@@ -1258,7 +1258,7 @@ Info (12021): Found 2 design units, including 1 entities, in source file /users/
     Info (12023): Found entity 1: bufferedUART
 Info (12021): Found 2 design units, including 1 entities, in source file uk101_41kram.vhd
     Info (12022): Found design unit 1: uk101-struct
-    Info (12023): Found entity 1: uk101
+    Info (12023): Found entity 1: UK101
 Info (12021): Found 1 design units, including 0 entities, in source file /users/hpz420/documents/github/doug gilliland/multicomp/multicomp (vhdl template)/components/cpu/m6502/t65_pack.vhd
     Info (12022): Found design unit 1: T65_Pack
 Info (12021): Found 2 design units, including 1 entities, in source file /users/hpz420/documents/github/doug gilliland/multicomp/multicomp (vhdl template)/components/cpu/m6502/t65_mcode.vhd
@@ -1289,18 +1289,18 @@ Info (12021): Found 2 design units, including 1 entities, in source file /users/
     Info (12022): Found design unit 1: UK101TextDisplay-rtl
     Info (12023): Found entity 1: UK101TextDisplay
 Info (12127): Elaborating entity "uk101" for the top level hierarchy
-Critical Warning (10920): VHDL Incomplete Partial Association warning at uk101_41kRAM.vhd(147): port or argument "A" has 8/24 unassociated elements
-Critical Warning (10920): VHDL Incomplete Partial Association warning at uk101_41kRAM.vhd(213): port or argument "FNtoggledKeys" has 12/13 unassociated elements
-Warning (10492): VHDL Process Statement warning at uk101_41kRAM.vhd(227): signal "w_cpuDataOut" is read inside the Process Statement but isn't in the Process Statement's sensitivity list
-Warning (10631): VHDL Process Statement warning at uk101_41kRAM.vhd(224): inferring latch(es) for signal or variable "kbRowSel", which holds its previous value in one or more paths through the process
-Info (10041): Inferred latch for "kbRowSel[0]" at uk101_41kRAM.vhd(224)
-Info (10041): Inferred latch for "kbRowSel[1]" at uk101_41kRAM.vhd(224)
-Info (10041): Inferred latch for "kbRowSel[2]" at uk101_41kRAM.vhd(224)
-Info (10041): Inferred latch for "kbRowSel[3]" at uk101_41kRAM.vhd(224)
-Info (10041): Inferred latch for "kbRowSel[4]" at uk101_41kRAM.vhd(224)
-Info (10041): Inferred latch for "kbRowSel[5]" at uk101_41kRAM.vhd(224)
-Info (10041): Inferred latch for "kbRowSel[6]" at uk101_41kRAM.vhd(224)
-Info (10041): Inferred latch for "kbRowSel[7]" at uk101_41kRAM.vhd(224)
+Critical Warning (10920): VHDL Incomplete Partial Association warning at uk101_41kRAM.vhd(143): port or argument "A" has 8/24 unassociated elements
+Critical Warning (10920): VHDL Incomplete Partial Association warning at uk101_41kRAM.vhd(209): port or argument "FNtoggledKeys" has 12/13 unassociated elements
+Warning (10492): VHDL Process Statement warning at uk101_41kRAM.vhd(223): signal "w_cpuDataOut" is read inside the Process Statement but isn't in the Process Statement's sensitivity list
+Warning (10631): VHDL Process Statement warning at uk101_41kRAM.vhd(220): inferring latch(es) for signal or variable "w_kbRowSel", which holds its previous value in one or more paths through the process
+Info (10041): Inferred latch for "w_kbRowSel[0]" at uk101_41kRAM.vhd(220)
+Info (10041): Inferred latch for "w_kbRowSel[1]" at uk101_41kRAM.vhd(220)
+Info (10041): Inferred latch for "w_kbRowSel[2]" at uk101_41kRAM.vhd(220)
+Info (10041): Inferred latch for "w_kbRowSel[3]" at uk101_41kRAM.vhd(220)
+Info (10041): Inferred latch for "w_kbRowSel[4]" at uk101_41kRAM.vhd(220)
+Info (10041): Inferred latch for "w_kbRowSel[5]" at uk101_41kRAM.vhd(220)
+Info (10041): Inferred latch for "w_kbRowSel[6]" at uk101_41kRAM.vhd(220)
+Info (10041): Inferred latch for "w_kbRowSel[7]" at uk101_41kRAM.vhd(220)
 Info (12128): Elaborating entity "T65" for hierarchy "T65:u1"
 Warning (10036): Verilog HDL or VHDL warning at T65.vhd(100): object "D" assigned a value but never read
 Warning (10036): Verilog HDL or VHDL warning at T65.vhd(125): object "B_o" assigned a value but never read
@@ -1478,17 +1478,17 @@ Warning (19016): Clock multiplexers are found and protected
     Warning (19017): Found clock multiplexer T65:u1|Mux61
 Info (276014): Found 1 instances of uninferred RAM logic
     Info (276007): RAM logic "bufferedUART:UART|rxBuffer" is uninferred due to asynchronous read logic
-Warning (13012): Latch kbRowSel[2] has unsafe behavior
+Warning (13012): Latch w_kbRowSel[2] has unsafe behavior
     Warning (13013): Ports D and ENA on the latch are fed by the same signal T65:u1|PC[10]
-Warning (13012): Latch kbRowSel[3] has unsafe behavior
+Warning (13012): Latch w_kbRowSel[3] has unsafe behavior
     Warning (13013): Ports D and ENA on the latch are fed by the same signal T65:u1|PC[11]
-Warning (13012): Latch kbRowSel[4] has unsafe behavior
+Warning (13012): Latch w_kbRowSel[4] has unsafe behavior
     Warning (13013): Ports D and ENA on the latch are fed by the same signal T65:u1|PC[12]
-Warning (13012): Latch kbRowSel[5] has unsafe behavior
+Warning (13012): Latch w_kbRowSel[5] has unsafe behavior
     Warning (13013): Ports D and ENA on the latch are fed by the same signal T65:u1|PC[13]
-Warning (13012): Latch kbRowSel[6] has unsafe behavior
+Warning (13012): Latch w_kbRowSel[6] has unsafe behavior
     Warning (13013): Ports D and ENA on the latch are fed by the same signal T65:u1|PC[14]
-Warning (13012): Latch kbRowSel[7] has unsafe behavior
+Warning (13012): Latch w_kbRowSel[7] has unsafe behavior
     Warning (13013): Ports D and ENA on the latch are fed by the same signal T65:u1|PC[15]
 Info (13000): Registers with preset signals will power-up high
 Info (13003): DEV_CLRn pin will set, and not reset, register with preset signal due to NOT Gate Push-Back
@@ -1505,9 +1505,9 @@ Info (21057): Implemented 4119 device resources after synthesis - the final reso
     Info (21064): Implemented 24 RAM segments
     Info (21065): Implemented 1 PLLs
 Info: Quartus II 64-Bit Analysis & Synthesis was successful. 0 errors, 50 warnings
-    Info: Peak virtual memory: 4675 megabytes
-    Info: Processing ended: Wed Jul 01 10:18:32 2020
+    Info: Peak virtual memory: 4685 megabytes
+    Info: Processing ended: Wed Jul 01 10:50:45 2020
     Info: Elapsed time: 00:00:52
-    Info: Total CPU time (on all processors): 00:00:50
+    Info: Total CPU time (on all processors): 00:00:51
 
 
