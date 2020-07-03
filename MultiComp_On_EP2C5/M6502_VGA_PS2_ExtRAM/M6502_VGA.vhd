@@ -4,13 +4,10 @@
 -- http://land-boards.com/blwiki/index.php?title=A-C4E6_Cyclone_IV_FPGA_EP4CE6E22C8N_Development_Board
 --
 -- 6502 CPU
---	25 MHz
---	16 KB SRAM
+--	16.6 MHz
+--	56 KB SRAM
 --	Microsoft BASIC in ROM
---		15,781 bytes free
---	USB-Serial Interface
---		CH340G chip
---		Requires RTS/CTS rework for hardware handshake
+--		56,831 bytes free
 -- ANSI Video Display Unit
 --		16KB SRAM causes this to be limited to 128 characters
 --		80x25 character display
@@ -20,25 +17,13 @@
 --			Default is VDU
 --		F2 key switches baud rate between 300 and 115,200
 --			Default is 115,200 baud
---	(10) LEDs
---	(3) Pushbutton Switches
---	(8) DIP Switch
---	Buzzer
 --
 -- Memory Map
---		x0000-x3FFF - 16KB SRAM
+--		x0000-x3FFF - 56KB SRAM
 --		xE000-xFFFF - 8KB BASIC in ROM
 --	I/O
 --		XFFD0-FFD1 VDU
 --		XFFD2-FFD3 ACIA
---		XFFD4 BUZZER TONE (65492 dec)
---		xFFD5 Seven Segment Upper 2 digits (65493 dec)
---		xFFD6 Seven Segment Upper Middle 2 digits (65494 dec)
---		xFFD7 Seven Segment Lower Middle 2 digits (65495 dec)
---		xFFD8 Seven Segment Lower 2 digits (65496 dec)
---		xFFD9 DIP Switches (65497 dec)
---		xFFDA Ring LEDs (65498 dec)
-
 
 library ieee;
 use ieee.std_logic_1164.all;
@@ -52,7 +37,6 @@ entity M6502_VGA is
 		
 		i_rxd			: in std_logic;
 		o_txd			: out std_logic;
---		i_n_cts		: in std_logic;
 		o_n_rts		: out std_logic;
 		
 		videoR0		: out std_logic;
@@ -76,7 +60,7 @@ entity M6502_VGA is
 		Pin45					: out std_logic;
 		Pin44					: out std_logic;
 		
-		-- 128KB SRAM (32KB used)
+		-- 128KB SRAM (56KB used)
 		io_extSRamData		: inout std_logic_vector(7 downto 0) := (others=>'Z');
 		o_extSRamAddress	: out std_logic_vector(16 downto 0);
 		io_n_extSRamWE		: out std_logic := '1';
@@ -96,7 +80,6 @@ architecture struct of M6502_VGA is
 	signal w_VDUDataOut		: std_logic_vector(7 downto 0);
 	signal w_aciaDataOut		: std_logic_vector(7 downto 0);
 	signal w_ramDataOut		: std_logic_vector(7 downto 0);
-	signal w_LED				: std_logic_vector(7 downto 0);
 	
 	signal w_n_memWR			: std_logic;
 	
@@ -114,7 +97,7 @@ architecture struct of M6502_VGA is
 
 	signal w_cpuClkCt			: std_logic_vector(5 downto 0); 
 	signal w_cpuClk			: std_logic;
-	
+
 	signal w_latBits			: std_logic_vector(7 downto 0);
 --	signal w_swRd			 	: std_logic_vector(7 downto 0);
 	signal w_fKey1				: std_logic;
@@ -257,7 +240,7 @@ begin
 	begin
 		if rising_edge(i_clk_50) then
 
-			if w_cpuClkCt < 4 then -- 4 = 10MHz, 3 = 12.5MHz, 2=16.6MHz, 1=25MHz
+			if w_cpuClkCt < 2 then -- 4 = 10MHz, 3 = 12.5MHz, 2=16.6MHz, 1=25MHz
 				w_cpuClkCt <= w_cpuClkCt + 1;
 			else
 				w_cpuClkCt <= (others=>'0');
