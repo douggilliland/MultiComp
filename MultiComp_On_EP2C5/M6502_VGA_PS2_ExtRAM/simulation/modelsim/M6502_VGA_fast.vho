@@ -16,7 +16,7 @@
 -- PROGRAM "Quartus II 64-Bit"
 -- VERSION "Version 13.0.1 Build 232 06/12/2013 Service Pack 1 SJ Web Edition"
 
--- DATE "07/03/2020 16:55:33"
+-- DATE "07/03/2020 17:34:15"
 
 -- 
 -- Device: Altera EP2C5T144C8 Package TQFP144
@@ -1843,7 +1843,7 @@ SIGNAL \UART|rxFilter[5]~17_combout\ : std_logic;
 SIGNAL \UART|process_2~3_combout\ : std_logic;
 SIGNAL \UART|rxdFiltered~0_combout\ : std_logic;
 SIGNAL \UART|rxdFiltered~regout\ : std_logic;
-SIGNAL \UART|rxCurrentByteBuffer[7]~4_combout\ : std_logic;
+SIGNAL \UART|rxCurrentByteBuffer[7]~3_combout\ : std_logic;
 SIGNAL \w_cpuClkCt[0]~6_combout\ : std_logic;
 SIGNAL \w_cpuClkCt[0]~7\ : std_logic;
 SIGNAL \w_cpuClkCt[1]~9\ : std_logic;
@@ -1955,7 +1955,7 @@ SIGNAL \UART|rxState.idle~4_combout\ : std_logic;
 SIGNAL \UART|rxState.idle~regout\ : std_logic;
 SIGNAL \UART|rxState.dataBit~0_combout\ : std_logic;
 SIGNAL \UART|rxState.dataBit~regout\ : std_logic;
-SIGNAL \UART|rxCurrentByteBuffer[0]~3_combout\ : std_logic;
+SIGNAL \UART|rxCurrentByteBuffer[0]~2_combout\ : std_logic;
 SIGNAL \UART|rxCurrentByteBuffer[5]~feeder_combout\ : std_logic;
 SIGNAL \UART|rxInPointer[0]~14_combout\ : std_logic;
 SIGNAL \UART|rxBuffer~236_combout\ : std_logic;
@@ -2081,7 +2081,7 @@ SIGNAL \VDU|dataOut~8_combout\ : std_logic;
 SIGNAL \ROM|altsyncram_component|auto_generated|ram_block1a7~portadataout\ : std_logic;
 SIGNAL \UART|txState.dataBit~0_combout\ : std_logic;
 SIGNAL \UART|txClockCount[0]~6_combout\ : std_logic;
-SIGNAL \UART|txd~0_combout\ : std_logic;
+SIGNAL \UART|txd~1_combout\ : std_logic;
 SIGNAL \UART|txClockCount[4]~16\ : std_logic;
 SIGNAL \UART|txClockCount[5]~17_combout\ : std_logic;
 SIGNAL \UART|Equal7~0_combout\ : std_logic;
@@ -2484,9 +2484,9 @@ SIGNAL \CPU|Add0~6_combout\ : std_logic;
 SIGNAL \CPU|Add5~6_combout\ : std_logic;
 SIGNAL \CPU|Mux73~0_combout\ : std_logic;
 SIGNAL \CPU|Mux73~1_combout\ : std_logic;
-SIGNAL \Equal6~1_combout\ : std_logic;
+SIGNAL \Equal5~1_combout\ : std_logic;
+SIGNAL \Equal5~0_combout\ : std_logic;
 SIGNAL \Equal6~0_combout\ : std_logic;
-SIGNAL \Equal7~0_combout\ : std_logic;
 SIGNAL \w_n_aciaCS~0_combout\ : std_logic;
 SIGNAL \w_cpuDataIn[7]~34_combout\ : std_logic;
 SIGNAL \CPU|BAH[0]~2_combout\ : std_logic;
@@ -2664,9 +2664,9 @@ SIGNAL \CPU|Add9~5_combout\ : std_logic;
 SIGNAL \CPU|Mux67~1_combout\ : std_logic;
 SIGNAL \CPU|Mux67~0_combout\ : std_logic;
 SIGNAL \CPU|Mux67~combout\ : std_logic;
-SIGNAL \Equal6~2_combout\ : std_logic;
-SIGNAL \Equal6~3_combout\ : std_logic;
-SIGNAL \Equal6~4_combout\ : std_logic;
+SIGNAL \Equal5~2_combout\ : std_logic;
+SIGNAL \Equal5~3_combout\ : std_logic;
+SIGNAL \Equal5~4_combout\ : std_logic;
 SIGNAL \w_n_VDUCS~0_combout\ : std_logic;
 SIGNAL \CPU|BAL[4]~2_combout\ : std_logic;
 SIGNAL \CPU|mcode|Mux13~0_combout\ : std_logic;
@@ -2784,7 +2784,7 @@ SIGNAL \CPU|Mux84~1_combout\ : std_logic;
 SIGNAL \CPU|Mux84~4_combout\ : std_logic;
 SIGNAL \io_extSRamData~16_combout\ : std_logic;
 SIGNAL \UART|Selector27~0_combout\ : std_logic;
-SIGNAL \UART|rxCurrentByteBuffer[0]~2_combout\ : std_logic;
+SIGNAL \UART|txd~0_combout\ : std_logic;
 SIGNAL \UART|txBuffer[0]~0_combout\ : std_logic;
 SIGNAL \UART|Selector28~0_combout\ : std_logic;
 SIGNAL \UART|Selector29~0_combout\ : std_logic;
@@ -2793,9 +2793,9 @@ SIGNAL \UART|Selector31~0_combout\ : std_logic;
 SIGNAL \UART|Selector32~0_combout\ : std_logic;
 SIGNAL \UART|txByteLatch[0]~feeder_combout\ : std_logic;
 SIGNAL \UART|Selector33~0_combout\ : std_logic;
-SIGNAL \UART|txd~2_combout\ : std_logic;
 SIGNAL \UART|txd~3_combout\ : std_logic;
-SIGNAL \UART|txd~1_combout\ : std_logic;
+SIGNAL \UART|txd~4_combout\ : std_logic;
+SIGNAL \UART|txd~2_combout\ : std_logic;
 SIGNAL \UART|txd~regout\ : std_logic;
 SIGNAL \UART|Add1~1\ : std_logic;
 SIGNAL \UART|Add1~3\ : std_logic;
@@ -3656,40 +3656,40 @@ SIGNAL \VDU|savedCursorHoriz\ : std_logic_vector(6 DOWNTO 0);
 SIGNAL \VDU|ps2WriteClkCount\ : std_logic_vector(4 DOWNTO 0);
 SIGNAL \VDU|ps2WriteByte2\ : std_logic_vector(7 DOWNTO 0);
 SIGNAL \VDU|ps2WriteByte\ : std_logic_vector(7 DOWNTO 0);
-SIGNAL \VDU|ps2PreviousByte\ : std_logic_vector(7 DOWNTO 0);
-SIGNAL \VDU|dispByteLatch\ : std_logic_vector(7 DOWNTO 0);
+SIGNAL \VDU|dispCharWRData\ : std_logic_vector(7 DOWNTO 0);
+SIGNAL \VDU|charVert\ : std_logic_vector(4 DOWNTO 0);
+SIGNAL \VDU|pixelClockCount\ : std_logic_vector(3 DOWNTO 0);
+SIGNAL \VDU|kbWriteTimer\ : std_logic_vector(25 DOWNTO 0);
 SIGNAL \VDU|charScanLine\ : std_logic_vector(3 DOWNTO 0);
 SIGNAL \VDU|paramCount\ : std_logic_vector(2 DOWNTO 0);
-SIGNAL \VDU|kbWatchdogTimer\ : std_logic_vector(25 DOWNTO 0);
-SIGNAL \VDU|charHoriz\ : std_logic_vector(6 DOWNTO 0);
 SIGNAL \VDU|param4\ : std_logic_vector(6 DOWNTO 0);
-SIGNAL \VDU|param3\ : std_logic_vector(6 DOWNTO 0);
-SIGNAL \VDU|cursorHoriz\ : std_logic_vector(6 DOWNTO 0);
-SIGNAL \VDU|controlReg\ : std_logic_vector(7 DOWNTO 0);
-SIGNAL \VDU|ps2ClkFilter\ : std_logic_vector(5 DOWNTO 0);
-SIGNAL \VDU|GEN_REDUCED_SCHARS:fontRom|altsyncram_component|auto_generated|q_a\ : std_logic_vector(7 DOWNTO 0);
-SIGNAL \VDU|kbInPointer\ : std_logic_vector(3 DOWNTO 0);
 SIGNAL \VDU|cursorHorizRestore\ : std_logic_vector(6 DOWNTO 0);
-SIGNAL \VDU|cursorVertRestore\ : std_logic_vector(4 DOWNTO 0);
-SIGNAL \VDU|GEN_2KRAM:dispCharRam|altsyncram_component|auto_generated|q_a\ : std_logic_vector(7 DOWNTO 0);
-SIGNAL \VDU|pixelClockCount\ : std_logic_vector(3 DOWNTO 0);
-SIGNAL \VDU|FNkeysSig\ : std_logic_vector(12 DOWNTO 0);
-SIGNAL \VDU|kbWriteTimer\ : std_logic_vector(25 DOWNTO 0);
-SIGNAL \VDU|kbReadPointer\ : std_logic_vector(3 DOWNTO 0);
-SIGNAL \VDU|pixelCount\ : std_logic_vector(2 DOWNTO 0);
-SIGNAL \VDU|dispCharWRData\ : std_logic_vector(7 DOWNTO 0);
-SIGNAL \VDU|ps2Byte\ : std_logic_vector(7 DOWNTO 0);
-SIGNAL \VDU|ps2ClkCount\ : std_logic_vector(3 DOWNTO 0);
-SIGNAL \VDU|ps2ConvertedByte\ : std_logic_vector(6 DOWNTO 0);
-SIGNAL \VDU|param1\ : std_logic_vector(6 DOWNTO 0);
-SIGNAL \VDU|horizCount\ : std_logic_vector(11 DOWNTO 0);
-SIGNAL \VDU|param2\ : std_logic_vector(6 DOWNTO 0);
-SIGNAL \VDU|cursorVert\ : std_logic_vector(4 DOWNTO 0);
-SIGNAL \VDU|charVert\ : std_logic_vector(4 DOWNTO 0);
-SIGNAL \VDU|GEN_2KRAM:dispCharRam|altsyncram_component|auto_generated|q_b\ : std_logic_vector(7 DOWNTO 0);
-SIGNAL \VDU|dispAttWRData\ : std_logic_vector(7 DOWNTO 0);
-SIGNAL \VDU|dataOut\ : std_logic_vector(7 DOWNTO 0);
 SIGNAL \VDU|cursBlinkCount\ : std_logic_vector(25 DOWNTO 0);
+SIGNAL \VDU|ps2ConvertedByte\ : std_logic_vector(6 DOWNTO 0);
+SIGNAL \VDU|GEN_2KRAM:dispCharRam|altsyncram_component|auto_generated|q_a\ : std_logic_vector(7 DOWNTO 0);
+SIGNAL \VDU|kbReadPointer\ : std_logic_vector(3 DOWNTO 0);
+SIGNAL \VDU|cursorVert\ : std_logic_vector(4 DOWNTO 0);
+SIGNAL \VDU|dataOut\ : std_logic_vector(7 DOWNTO 0);
+SIGNAL \VDU|GEN_2KRAM:dispCharRam|altsyncram_component|auto_generated|q_b\ : std_logic_vector(7 DOWNTO 0);
+SIGNAL \VDU|pixelCount\ : std_logic_vector(2 DOWNTO 0);
+SIGNAL \VDU|charHoriz\ : std_logic_vector(6 DOWNTO 0);
+SIGNAL \VDU|FNkeysSig\ : std_logic_vector(12 DOWNTO 0);
+SIGNAL \VDU|param1\ : std_logic_vector(6 DOWNTO 0);
+SIGNAL \VDU|kbWatchdogTimer\ : std_logic_vector(25 DOWNTO 0);
+SIGNAL \VDU|ps2Byte\ : std_logic_vector(7 DOWNTO 0);
+SIGNAL \VDU|horizCount\ : std_logic_vector(11 DOWNTO 0);
+SIGNAL \VDU|ps2ClkCount\ : std_logic_vector(3 DOWNTO 0);
+SIGNAL \VDU|ps2ClkFilter\ : std_logic_vector(5 DOWNTO 0);
+SIGNAL \VDU|ps2PreviousByte\ : std_logic_vector(7 DOWNTO 0);
+SIGNAL \VDU|param2\ : std_logic_vector(6 DOWNTO 0);
+SIGNAL \VDU|kbInPointer\ : std_logic_vector(3 DOWNTO 0);
+SIGNAL \VDU|GEN_REDUCED_SCHARS:fontRom|altsyncram_component|auto_generated|q_a\ : std_logic_vector(7 DOWNTO 0);
+SIGNAL \VDU|param3\ : std_logic_vector(6 DOWNTO 0);
+SIGNAL \VDU|cursorVertRestore\ : std_logic_vector(4 DOWNTO 0);
+SIGNAL \VDU|controlReg\ : std_logic_vector(7 DOWNTO 0);
+SIGNAL \VDU|dispByteLatch\ : std_logic_vector(7 DOWNTO 0);
+SIGNAL \VDU|dispAttWRData\ : std_logic_vector(7 DOWNTO 0);
+SIGNAL \VDU|cursorHoriz\ : std_logic_vector(6 DOWNTO 0);
 SIGNAL \ALT_INV_i_n_reset~combout\ : std_logic;
 SIGNAL \CPU|ALT_INV_Equal9~7_combout\ : std_logic;
 SIGNAL \VDU|ALT_INV_ps2DataOut~regout\ : std_logic;
@@ -4016,7 +4016,7 @@ PORT MAP (
 	clk => \i_clk_50~clkctrl_outclk\,
 	datain => \UART|txClockCount[3]~13_combout\,
 	aclr => \UART|func_reset~regout\,
-	sclr => \UART|txd~0_combout\,
+	sclr => \UART|txd~1_combout\,
 	ena => \UART|txClockCount[0]~8_combout\,
 	devclrn => ww_devclrn,
 	devpor => ww_devpor,
@@ -15168,8 +15168,7 @@ PORT MAP (
 -- Location: LCCOMB_X13_Y9_N22
 \UART|txBuffer[7]~3\ : cycloneii_lcell_comb
 -- Equation(s):
--- \UART|txBuffer[7]~3_combout\ = (\UART|rxCurrentByteBuffer[0]~2_combout\ & ((\UART|txBuffer[7]~2_combout\ & (\UART|txBuffer[7]~1_combout\)) # (!\UART|txBuffer[7]~2_combout\ & ((\UART|txBuffer\(7)))))) # (!\UART|rxCurrentByteBuffer[0]~2_combout\ & 
--- (((\UART|txBuffer\(7)))))
+-- \UART|txBuffer[7]~3_combout\ = (\UART|txd~0_combout\ & ((\UART|txBuffer[7]~2_combout\ & (\UART|txBuffer[7]~1_combout\)) # (!\UART|txBuffer[7]~2_combout\ & ((\UART|txBuffer\(7)))))) # (!\UART|txd~0_combout\ & (((\UART|txBuffer\(7)))))
 
 -- pragma translate_off
 GENERIC MAP (
@@ -15178,7 +15177,7 @@ GENERIC MAP (
 -- pragma translate_on
 PORT MAP (
 	dataa => \UART|txBuffer[7]~1_combout\,
-	datab => \UART|rxCurrentByteBuffer[0]~2_combout\,
+	datab => \UART|txd~0_combout\,
 	datac => \UART|txBuffer\(7),
 	datad => \UART|txBuffer[7]~2_combout\,
 	combout => \UART|txBuffer[7]~3_combout\);
@@ -30803,9 +30802,9 @@ PORT MAP (
 	regout => \UART|rxdFiltered~regout\);
 
 -- Location: LCCOMB_X15_Y1_N24
-\UART|rxCurrentByteBuffer[7]~4\ : cycloneii_lcell_comb
+\UART|rxCurrentByteBuffer[7]~3\ : cycloneii_lcell_comb
 -- Equation(s):
--- \UART|rxCurrentByteBuffer[7]~4_combout\ = !\UART|rxdFiltered~regout\
+-- \UART|rxCurrentByteBuffer[7]~3_combout\ = !\UART|rxdFiltered~regout\
 
 -- pragma translate_off
 GENERIC MAP (
@@ -30814,7 +30813,7 @@ GENERIC MAP (
 -- pragma translate_on
 PORT MAP (
 	datac => \UART|rxdFiltered~regout\,
-	combout => \UART|rxCurrentByteBuffer[7]~4_combout\);
+	combout => \UART|rxCurrentByteBuffer[7]~3_combout\);
 
 -- Location: LCCOMB_X10_Y9_N18
 \w_cpuClkCt[0]~6\ : cycloneii_lcell_comb
@@ -32284,9 +32283,9 @@ PORT MAP (
 	regout => \UART|rxState.dataBit~regout\);
 
 -- Location: LCCOMB_X13_Y7_N26
-\UART|rxCurrentByteBuffer[0]~3\ : cycloneii_lcell_comb
+\UART|rxCurrentByteBuffer[0]~2\ : cycloneii_lcell_comb
 -- Equation(s):
--- \UART|rxCurrentByteBuffer[0]~3_combout\ = (\w_w_serClkEn~regout\ & (!\UART|func_reset~regout\ & (\UART|rxState.dataBit~regout\ & \UART|Equal5~0_combout\)))
+-- \UART|rxCurrentByteBuffer[0]~2_combout\ = (\w_w_serClkEn~regout\ & (!\UART|func_reset~regout\ & (\UART|rxState.dataBit~regout\ & \UART|Equal5~0_combout\)))
 
 -- pragma translate_off
 GENERIC MAP (
@@ -32298,14 +32297,14 @@ PORT MAP (
 	datab => \UART|func_reset~regout\,
 	datac => \UART|rxState.dataBit~regout\,
 	datad => \UART|Equal5~0_combout\,
-	combout => \UART|rxCurrentByteBuffer[0]~3_combout\);
+	combout => \UART|rxCurrentByteBuffer[0]~2_combout\);
 
 -- Location: LCFF_X15_Y1_N25
 \UART|rxCurrentByteBuffer[7]\ : cycloneii_lcell_ff
 PORT MAP (
 	clk => \i_clk_50~clkctrl_outclk\,
-	datain => \UART|rxCurrentByteBuffer[7]~4_combout\,
-	ena => \UART|rxCurrentByteBuffer[0]~3_combout\,
+	datain => \UART|rxCurrentByteBuffer[7]~3_combout\,
+	ena => \UART|rxCurrentByteBuffer[0]~2_combout\,
 	devclrn => ww_devclrn,
 	devpor => ww_devpor,
 	regout => \UART|rxCurrentByteBuffer\(7));
@@ -32316,7 +32315,7 @@ PORT MAP (
 	clk => \i_clk_50~clkctrl_outclk\,
 	sdata => \UART|rxCurrentByteBuffer\(7),
 	sload => VCC,
-	ena => \UART|rxCurrentByteBuffer[0]~3_combout\,
+	ena => \UART|rxCurrentByteBuffer[0]~2_combout\,
 	devclrn => ww_devclrn,
 	devpor => ww_devpor,
 	regout => \UART|rxCurrentByteBuffer\(6));
@@ -32340,7 +32339,7 @@ PORT MAP (
 PORT MAP (
 	clk => \i_clk_50~clkctrl_outclk\,
 	datain => \UART|rxCurrentByteBuffer[5]~feeder_combout\,
-	ena => \UART|rxCurrentByteBuffer[0]~3_combout\,
+	ena => \UART|rxCurrentByteBuffer[0]~2_combout\,
 	devclrn => ww_devclrn,
 	devpor => ww_devpor,
 	regout => \UART|rxCurrentByteBuffer\(5));
@@ -34231,9 +34230,9 @@ PORT MAP (
 	cout => \UART|txClockCount[0]~7\);
 
 -- Location: LCCOMB_X12_Y5_N30
-\UART|txd~0\ : cycloneii_lcell_comb
+\UART|txd~1\ : cycloneii_lcell_comb
 -- Equation(s):
--- \UART|txd~0_combout\ = (\UART|Selector25~0_combout\) # (!\UART|txState.idle~regout\)
+-- \UART|txd~1_combout\ = (\UART|Selector25~0_combout\) # (!\UART|txState.idle~regout\)
 
 -- pragma translate_off
 GENERIC MAP (
@@ -34243,7 +34242,7 @@ GENERIC MAP (
 PORT MAP (
 	datac => \UART|Selector25~0_combout\,
 	datad => \UART|txState.idle~regout\,
-	combout => \UART|txd~0_combout\);
+	combout => \UART|txd~1_combout\);
 
 -- Location: LCCOMB_X14_Y5_N8
 \UART|txClockCount[4]~15\ : cycloneii_lcell_comb
@@ -34284,7 +34283,7 @@ PORT MAP (
 	clk => \i_clk_50~clkctrl_outclk\,
 	datain => \UART|txClockCount[5]~17_combout\,
 	aclr => \UART|func_reset~regout\,
-	sclr => \UART|txd~0_combout\,
+	sclr => \UART|txd~1_combout\,
 	ena => \UART|txClockCount[0]~8_combout\,
 	devclrn => ww_devclrn,
 	devpor => ww_devpor,
@@ -34386,7 +34385,7 @@ PORT MAP (
 	clk => \i_clk_50~clkctrl_outclk\,
 	datain => \UART|txClockCount[0]~6_combout\,
 	aclr => \UART|func_reset~regout\,
-	sclr => \UART|txd~0_combout\,
+	sclr => \UART|txd~1_combout\,
 	ena => \UART|txClockCount[0]~8_combout\,
 	devclrn => ww_devclrn,
 	devpor => ww_devpor,
@@ -34416,7 +34415,7 @@ PORT MAP (
 	clk => \i_clk_50~clkctrl_outclk\,
 	datain => \UART|txClockCount[1]~9_combout\,
 	aclr => \UART|func_reset~regout\,
-	sclr => \UART|txd~0_combout\,
+	sclr => \UART|txd~1_combout\,
 	ena => \UART|txClockCount[0]~8_combout\,
 	devclrn => ww_devclrn,
 	devpor => ww_devpor,
@@ -34446,7 +34445,7 @@ PORT MAP (
 	clk => \i_clk_50~clkctrl_outclk\,
 	datain => \UART|txClockCount[2]~11_combout\,
 	aclr => \UART|func_reset~regout\,
-	sclr => \UART|txd~0_combout\,
+	sclr => \UART|txd~1_combout\,
 	ena => \UART|txClockCount[0]~8_combout\,
 	devclrn => ww_devclrn,
 	devpor => ww_devpor,
@@ -34458,7 +34457,7 @@ PORT MAP (
 	clk => \i_clk_50~clkctrl_outclk\,
 	datain => \UART|txClockCount[4]~15_combout\,
 	aclr => \UART|func_reset~regout\,
-	sclr => \UART|txd~0_combout\,
+	sclr => \UART|txd~1_combout\,
 	ena => \UART|txClockCount[0]~8_combout\,
 	devclrn => ww_devclrn,
 	devpor => ww_devpor,
@@ -36631,7 +36630,7 @@ PORT MAP (
 PORT MAP (
 	clk => \i_clk_50~clkctrl_outclk\,
 	datain => \UART|rxCurrentByteBuffer[4]~feeder_combout\,
-	ena => \UART|rxCurrentByteBuffer[0]~3_combout\,
+	ena => \UART|rxCurrentByteBuffer[0]~2_combout\,
 	devclrn => ww_devclrn,
 	devpor => ww_devpor,
 	regout => \UART|rxCurrentByteBuffer\(4));
@@ -39933,7 +39932,7 @@ PORT MAP (
 	clk => \i_clk_50~clkctrl_outclk\,
 	sdata => \UART|rxCurrentByteBuffer\(4),
 	sload => VCC,
-	ena => \UART|rxCurrentByteBuffer[0]~3_combout\,
+	ena => \UART|rxCurrentByteBuffer[0]~2_combout\,
 	devclrn => ww_devclrn,
 	devpor => ww_devpor,
 	regout => \UART|rxCurrentByteBuffer\(3));
@@ -39944,7 +39943,7 @@ PORT MAP (
 	clk => \i_clk_50~clkctrl_outclk\,
 	sdata => \UART|rxCurrentByteBuffer\(3),
 	sload => VCC,
-	ena => \UART|rxCurrentByteBuffer[0]~3_combout\,
+	ena => \UART|rxCurrentByteBuffer[0]~2_combout\,
 	devclrn => ww_devclrn,
 	devpor => ww_devpor,
 	regout => \UART|rxCurrentByteBuffer\(2));
@@ -39968,7 +39967,7 @@ PORT MAP (
 PORT MAP (
 	clk => \i_clk_50~clkctrl_outclk\,
 	datain => \UART|rxCurrentByteBuffer[1]~feeder_combout\,
-	ena => \UART|rxCurrentByteBuffer[0]~3_combout\,
+	ena => \UART|rxCurrentByteBuffer[0]~2_combout\,
 	devclrn => ww_devclrn,
 	devpor => ww_devpor,
 	regout => \UART|rxCurrentByteBuffer\(1));
@@ -40746,9 +40745,9 @@ PORT MAP (
 	combout => \CPU|Mux73~1_combout\);
 
 -- Location: LCCOMB_X9_Y9_N4
-\Equal6~1\ : cycloneii_lcell_comb
+\Equal5~1\ : cycloneii_lcell_comb
 -- Equation(s):
--- \Equal6~1_combout\ = (\CPU|Mux70~1_combout\ & (!\CPU|Mux73~1_combout\ & (\CPU|Mux72~1_combout\ & !\CPU|Mux71~1_combout\)))
+-- \Equal5~1_combout\ = (\CPU|Mux70~1_combout\ & (!\CPU|Mux73~1_combout\ & (\CPU|Mux72~1_combout\ & !\CPU|Mux71~1_combout\)))
 
 -- pragma translate_off
 GENERIC MAP (
@@ -40760,12 +40759,12 @@ PORT MAP (
 	datab => \CPU|Mux73~1_combout\,
 	datac => \CPU|Mux72~1_combout\,
 	datad => \CPU|Mux71~1_combout\,
-	combout => \Equal6~1_combout\);
+	combout => \Equal5~1_combout\);
 
 -- Location: LCCOMB_X10_Y7_N10
-\Equal6~0\ : cycloneii_lcell_comb
+\Equal5~0\ : cycloneii_lcell_comb
 -- Equation(s):
--- \Equal6~0_combout\ = (\CPU|Mux61~combout\ & (\CPU|Mux62~combout\ & (\CPU|Mux63~combout\ & !\CPU|Mux74~1_combout\)))
+-- \Equal5~0_combout\ = (\CPU|Mux61~combout\ & (\CPU|Mux62~combout\ & (\CPU|Mux63~combout\ & !\CPU|Mux74~1_combout\)))
 
 -- pragma translate_off
 GENERIC MAP (
@@ -40777,12 +40776,12 @@ PORT MAP (
 	datab => \CPU|Mux62~combout\,
 	datac => \CPU|Mux63~combout\,
 	datad => \CPU|Mux74~1_combout\,
-	combout => \Equal6~0_combout\);
+	combout => \Equal5~0_combout\);
 
 -- Location: LCCOMB_X9_Y9_N28
-\Equal7~0\ : cycloneii_lcell_comb
+\Equal6~0\ : cycloneii_lcell_comb
 -- Equation(s):
--- \Equal7~0_combout\ = (!\CPU|Mux75~1_combout\ & (\Equal6~3_combout\ & (\Equal6~1_combout\ & \Equal6~0_combout\)))
+-- \Equal6~0_combout\ = (!\CPU|Mux75~1_combout\ & (\Equal5~3_combout\ & (\Equal5~1_combout\ & \Equal5~0_combout\)))
 
 -- pragma translate_off
 GENERIC MAP (
@@ -40791,15 +40790,15 @@ GENERIC MAP (
 -- pragma translate_on
 PORT MAP (
 	dataa => \CPU|Mux75~1_combout\,
-	datab => \Equal6~3_combout\,
-	datac => \Equal6~1_combout\,
-	datad => \Equal6~0_combout\,
-	combout => \Equal7~0_combout\);
+	datab => \Equal5~3_combout\,
+	datac => \Equal5~1_combout\,
+	datad => \Equal5~0_combout\,
+	combout => \Equal6~0_combout\);
 
 -- Location: LCCOMB_X9_Y9_N10
 \w_n_aciaCS~0\ : cycloneii_lcell_comb
 -- Equation(s):
--- \w_n_aciaCS~0_combout\ = (\FNKey1Toggle|loopback~regout\ & ((\Equal7~0_combout\))) # (!\FNKey1Toggle|loopback~regout\ & (\Equal6~4_combout\))
+-- \w_n_aciaCS~0_combout\ = (\FNKey1Toggle|loopback~regout\ & ((\Equal6~0_combout\))) # (!\FNKey1Toggle|loopback~regout\ & (\Equal5~4_combout\))
 
 -- pragma translate_off
 GENERIC MAP (
@@ -40808,8 +40807,8 @@ GENERIC MAP (
 -- pragma translate_on
 PORT MAP (
 	dataa => \FNKey1Toggle|loopback~regout\,
-	datac => \Equal6~4_combout\,
-	datad => \Equal7~0_combout\,
+	datac => \Equal5~4_combout\,
+	datad => \Equal6~0_combout\,
 	combout => \w_n_aciaCS~0_combout\);
 
 -- Location: LCCOMB_X10_Y6_N14
@@ -40897,7 +40896,7 @@ PORT MAP (
 PORT MAP (
 	clk => \i_clk_50~clkctrl_outclk\,
 	datain => \UART|rxCurrentByteBuffer[0]~feeder_combout\,
-	ena => \UART|rxCurrentByteBuffer[0]~3_combout\,
+	ena => \UART|rxCurrentByteBuffer[0]~2_combout\,
 	devclrn => ww_devclrn,
 	devpor => ww_devpor,
 	regout => \UART|rxCurrentByteBuffer\(0));
@@ -43604,9 +43603,9 @@ PORT MAP (
 	combout => \CPU|Mux67~combout\);
 
 -- Location: LCCOMB_X9_Y11_N26
-\Equal6~2\ : cycloneii_lcell_comb
+\Equal5~2\ : cycloneii_lcell_comb
 -- Equation(s):
--- \Equal6~2_combout\ = (\CPU|Mux66~combout\ & (\CPU|Mux65~combout\ & \CPU|Mux64~combout\))
+-- \Equal5~2_combout\ = (\CPU|Mux66~combout\ & (\CPU|Mux65~combout\ & \CPU|Mux64~combout\))
 
 -- pragma translate_off
 GENERIC MAP (
@@ -43617,12 +43616,12 @@ PORT MAP (
 	datab => \CPU|Mux66~combout\,
 	datac => \CPU|Mux65~combout\,
 	datad => \CPU|Mux64~combout\,
-	combout => \Equal6~2_combout\);
+	combout => \Equal5~2_combout\);
 
 -- Location: LCCOMB_X8_Y11_N10
-\Equal6~3\ : cycloneii_lcell_comb
+\Equal5~3\ : cycloneii_lcell_comb
 -- Equation(s):
--- \Equal6~3_combout\ = (\CPU|Mux68~combout\ & (\CPU|Mux67~combout\ & (\Equal6~2_combout\ & \CPU|Mux69~1_combout\)))
+-- \Equal5~3_combout\ = (\CPU|Mux68~combout\ & (\CPU|Mux67~combout\ & (\Equal5~2_combout\ & \CPU|Mux69~1_combout\)))
 
 -- pragma translate_off
 GENERIC MAP (
@@ -43632,14 +43631,14 @@ GENERIC MAP (
 PORT MAP (
 	dataa => \CPU|Mux68~combout\,
 	datab => \CPU|Mux67~combout\,
-	datac => \Equal6~2_combout\,
+	datac => \Equal5~2_combout\,
 	datad => \CPU|Mux69~1_combout\,
-	combout => \Equal6~3_combout\);
+	combout => \Equal5~3_combout\);
 
 -- Location: LCCOMB_X9_Y9_N14
-\Equal6~4\ : cycloneii_lcell_comb
+\Equal5~4\ : cycloneii_lcell_comb
 -- Equation(s):
--- \Equal6~4_combout\ = (\CPU|Mux75~1_combout\ & (\Equal6~3_combout\ & (\Equal6~1_combout\ & \Equal6~0_combout\)))
+-- \Equal5~4_combout\ = (\CPU|Mux75~1_combout\ & (\Equal5~3_combout\ & (\Equal5~1_combout\ & \Equal5~0_combout\)))
 
 -- pragma translate_off
 GENERIC MAP (
@@ -43648,15 +43647,15 @@ GENERIC MAP (
 -- pragma translate_on
 PORT MAP (
 	dataa => \CPU|Mux75~1_combout\,
-	datab => \Equal6~3_combout\,
-	datac => \Equal6~1_combout\,
-	datad => \Equal6~0_combout\,
-	combout => \Equal6~4_combout\);
+	datab => \Equal5~3_combout\,
+	datac => \Equal5~1_combout\,
+	datad => \Equal5~0_combout\,
+	combout => \Equal5~4_combout\);
 
 -- Location: LCCOMB_X9_Y9_N26
 \w_n_VDUCS~0\ : cycloneii_lcell_comb
 -- Equation(s):
--- \w_n_VDUCS~0_combout\ = (\FNKey1Toggle|loopback~regout\ & (\Equal6~4_combout\)) # (!\FNKey1Toggle|loopback~regout\ & ((\Equal7~0_combout\)))
+-- \w_n_VDUCS~0_combout\ = (\FNKey1Toggle|loopback~regout\ & (\Equal5~4_combout\)) # (!\FNKey1Toggle|loopback~regout\ & ((\Equal6~0_combout\)))
 
 -- pragma translate_off
 GENERIC MAP (
@@ -43665,8 +43664,8 @@ GENERIC MAP (
 -- pragma translate_on
 PORT MAP (
 	dataa => \FNKey1Toggle|loopback~regout\,
-	datac => \Equal6~4_combout\,
-	datad => \Equal7~0_combout\,
+	datac => \Equal5~4_combout\,
+	datad => \Equal6~0_combout\,
 	combout => \w_n_VDUCS~0_combout\);
 
 -- Location: LCCOMB_X8_Y7_N0
@@ -45572,9 +45571,9 @@ PORT MAP (
 	combout => \UART|Selector27~0_combout\);
 
 -- Location: LCCOMB_X13_Y9_N14
-\UART|rxCurrentByteBuffer[0]~2\ : cycloneii_lcell_comb
+\UART|txd~0\ : cycloneii_lcell_comb
 -- Equation(s):
--- \UART|rxCurrentByteBuffer[0]~2_combout\ = (!\UART|func_reset~regout\ & \w_w_serClkEn~regout\)
+-- \UART|txd~0_combout\ = (!\UART|func_reset~regout\ & \w_w_serClkEn~regout\)
 
 -- pragma translate_off
 GENERIC MAP (
@@ -45584,12 +45583,12 @@ GENERIC MAP (
 PORT MAP (
 	datac => \UART|func_reset~regout\,
 	datad => \w_w_serClkEn~regout\,
-	combout => \UART|rxCurrentByteBuffer[0]~2_combout\);
+	combout => \UART|txd~0_combout\);
 
 -- Location: LCCOMB_X13_Y5_N6
 \UART|txBuffer[0]~0\ : cycloneii_lcell_comb
 -- Equation(s):
--- \UART|txBuffer[0]~0_combout\ = (\UART|rxCurrentByteBuffer[0]~2_combout\ & ((\UART|txByteSent~0_combout\) # ((!\UART|Equal8~0_combout\ & \UART|Selector25~0_combout\))))
+-- \UART|txBuffer[0]~0_combout\ = (\UART|txd~0_combout\ & ((\UART|txByteSent~0_combout\) # ((!\UART|Equal8~0_combout\ & \UART|Selector25~0_combout\))))
 
 -- pragma translate_off
 GENERIC MAP (
@@ -45598,7 +45597,7 @@ GENERIC MAP (
 -- pragma translate_on
 PORT MAP (
 	dataa => \UART|Equal8~0_combout\,
-	datab => \UART|rxCurrentByteBuffer[0]~2_combout\,
+	datab => \UART|txd~0_combout\,
 	datac => \UART|Selector25~0_combout\,
 	datad => \UART|txByteSent~0_combout\,
 	combout => \UART|txBuffer[0]~0_combout\);
@@ -45838,9 +45837,9 @@ PORT MAP (
 	regout => \UART|txBuffer\(0));
 
 -- Location: LCCOMB_X13_Y5_N10
-\UART|txd~2\ : cycloneii_lcell_comb
+\UART|txd~3\ : cycloneii_lcell_comb
 -- Equation(s):
--- \UART|txd~2_combout\ = (\UART|Selector25~0_combout\ & ((\UART|txBuffer\(0)) # (\UART|Equal8~0_combout\)))
+-- \UART|txd~3_combout\ = (\UART|Selector25~0_combout\ & ((\UART|txBuffer\(0)) # (\UART|Equal8~0_combout\)))
 
 -- pragma translate_off
 GENERIC MAP (
@@ -45851,12 +45850,12 @@ PORT MAP (
 	dataa => \UART|Selector25~0_combout\,
 	datab => \UART|txBuffer\(0),
 	datad => \UART|Equal8~0_combout\,
-	combout => \UART|txd~2_combout\);
+	combout => \UART|txd~3_combout\);
 
 -- Location: LCCOMB_X13_Y5_N12
-\UART|txd~3\ : cycloneii_lcell_comb
+\UART|txd~4\ : cycloneii_lcell_comb
 -- Equation(s):
--- \UART|txd~3_combout\ = (\UART|txState.idle~regout\ & (((\UART|txd~2_combout\)))) # (!\UART|txState.idle~regout\ & (\UART|txByteSent~regout\ $ ((!\UART|txByteWritten~regout\))))
+-- \UART|txd~4_combout\ = (\UART|txState.idle~regout\ & (((\UART|txd~3_combout\)))) # (!\UART|txState.idle~regout\ & (\UART|txByteSent~regout\ $ ((!\UART|txByteWritten~regout\))))
 
 -- pragma translate_off
 GENERIC MAP (
@@ -45867,13 +45866,13 @@ PORT MAP (
 	dataa => \UART|txState.idle~regout\,
 	datab => \UART|txByteSent~regout\,
 	datac => \UART|txByteWritten~regout\,
-	datad => \UART|txd~2_combout\,
-	combout => \UART|txd~3_combout\);
+	datad => \UART|txd~3_combout\,
+	combout => \UART|txd~4_combout\);
 
 -- Location: LCCOMB_X14_Y5_N28
-\UART|txd~1\ : cycloneii_lcell_comb
+\UART|txd~2\ : cycloneii_lcell_comb
 -- Equation(s):
--- \UART|txd~1_combout\ = (\UART|rxCurrentByteBuffer[0]~2_combout\ & ((\UART|txd~3_combout\) # ((!\UART|txd~0_combout\ & \UART|txd~regout\)))) # (!\UART|rxCurrentByteBuffer[0]~2_combout\ & (((\UART|txd~regout\))))
+-- \UART|txd~2_combout\ = (\UART|txd~0_combout\ & ((\UART|txd~4_combout\) # ((!\UART|txd~1_combout\ & \UART|txd~regout\)))) # (!\UART|txd~0_combout\ & (((\UART|txd~regout\))))
 
 -- pragma translate_off
 GENERIC MAP (
@@ -45881,17 +45880,17 @@ GENERIC MAP (
 	sum_lutc_input => "datac")
 -- pragma translate_on
 PORT MAP (
-	dataa => \UART|rxCurrentByteBuffer[0]~2_combout\,
-	datab => \UART|txd~0_combout\,
+	dataa => \UART|txd~0_combout\,
+	datab => \UART|txd~1_combout\,
 	datac => \UART|txd~regout\,
-	datad => \UART|txd~3_combout\,
-	combout => \UART|txd~1_combout\);
+	datad => \UART|txd~4_combout\,
+	combout => \UART|txd~2_combout\);
 
 -- Location: LCFF_X14_Y5_N29
 \UART|txd\ : cycloneii_lcell_ff
 PORT MAP (
 	clk => \i_clk_50~clkctrl_outclk\,
-	datain => \UART|txd~1_combout\,
+	datain => \UART|txd~2_combout\,
 	devclrn => ww_devclrn,
 	devpor => ww_devpor,
 	regout => \UART|txd~regout\);

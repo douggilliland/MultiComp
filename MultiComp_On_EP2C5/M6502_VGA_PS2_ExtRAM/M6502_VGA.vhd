@@ -1,7 +1,7 @@
 -- Grant Searle's Multicomp as described here:
 -- http://searle.x10host.com/Multicomp/index.html
 -- 
--- http://land-boards.com/blwiki/index.php?title=A-C4E6_Cyclone_IV_FPGA_EP4CE6E22C8N_Development_Board
+-- http://land-boards.com/blwiki/index.php?title=EP2C5-DB
 --
 -- 6502 CPU
 --	16.6 MHz
@@ -9,9 +9,8 @@
 --	Microsoft BASIC in ROM
 --		56,831 bytes free
 -- ANSI Video Display Unit
---		16KB SRAM causes this to be limited to 128 characters
 --		80x25 character display
---		1/1/1 - R/G/B output
+--		2/2/2 - R/G/B output
 -- PS/2 Keyboard
 --		F1 key switches between VDU and Serial port
 --			Default is VDU
@@ -19,7 +18,7 @@
 --			Default is 115,200 baud
 --
 -- Memory Map
---		x0000-x3FFF - 56KB SRAM
+--		x0000-xDFFF - 56KB SRAM
 --		xE000-xFFFF - 8KB BASIC in ROM
 --	I/O
 --		XFFD0-FFD1 VDU
@@ -83,13 +82,12 @@ architecture struct of M6502_VGA is
 	
 	signal w_n_memWR			: std_logic;
 	
---	signal w_ExtRamAddr	: std_logic :='0';
 	signal w_n_basRomCS		: std_logic :='1';
 	signal w_n_VDUCS			: std_logic :='1';
 	signal w_n_ramCS			: std_logic :='1';
 	signal w_n_aciaCS			: std_logic :='1';
-	signal w_n_LatCS			: std_logic :='1';
-	signal w_n_LatCS_Read 	: std_logic :='1';
+--	signal w_n_LatCS			: std_logic :='1';
+--	signal w_n_LatCS_Read 	: std_logic :='1';
 	
 	signal w_serialClkCount	: std_logic_vector(15 downto 0);
 	signal w_serClkCt_d 		: std_logic_vector(15 downto 0);
@@ -99,12 +97,9 @@ architecture struct of M6502_VGA is
 	signal w_cpuClk			: std_logic;
 
 	signal w_latBits			: std_logic_vector(7 downto 0);
---	signal w_swRd			 	: std_logic_vector(7 downto 0);
 	signal w_fKey1				: std_logic;
 	signal w_fKey2				: std_logic;
 	signal w_funKeys			: std_logic_vector(12 downto 0);
-
---	signal w_videoVec			: std_logic_vector(5 downto 0);
 
 begin
 	-- ____________________________________________________________________________________
@@ -120,7 +115,6 @@ begin
 	w_n_ramCS 		<= '0' when w_cpuAddress(15) = '0' 							else							-- x0000-x7FFF (32KB)
 							'0' when w_cpuAddress(15 downto 14) = "10"			else							-- x8000-xBFFF (16KB)
 							'0' when w_cpuAddress(15 downto 13) = "110"			else							-- xC000-xDFFF (8KB)
-							'0' when w_cpuAddress(15 downto 11) = "1110"			else							-- xE000-xEFFF (4KB)
 							'1';
 	w_n_basRomCS 	<= '0' when   w_cpuAddress(15 downto 13) = "111" else '1'; 						-- xE000-xFFFF (8KB)
 	w_n_VDUCS 		<= '0' when ((w_cpuAddress(15 downto 1) = x"FFD"&"000" and w_fKey1 = '0') 	-- XFFD0-FFD1 VDU
@@ -129,9 +123,9 @@ begin
 	w_n_aciaCS 	<= '0' when ((w_cpuAddress(15 downto 1) = X"FFD"&"001" and w_fKey1 = '0') 		-- XFFD2-FFD3 ACIA
 							or     (w_cpuAddress(15 downto 1) = X"FFD"&"000" and w_fKey1 = '1'))
 							else '1';
-	w_n_LatCS 		<= '0' when   w_cpuAddress = X"FFD4"  								-- XFFD4 (65492 dec)
-							else '1';
-	w_n_LatCS_Read 	<= w_n_memWR or w_n_LatCS;
+--	w_n_LatCS 		<= '0' when   w_cpuAddress = X"FFD4"  								-- XFFD4 (65492 dec)
+--							else '1';
+--	w_n_LatCS_Read 	<= w_n_memWR or w_n_LatCS;
 	w_n_memWR 			<= not(w_cpuClk) nand (not w_R1W0);
 	
 	w_cpuDataIn <=
@@ -226,14 +220,14 @@ begin
 			latchFNKey => w_fKey2
 		);
 		
-	SoundLatch : entity work.OutLatch
-		port map (
-			dataIn8 => w_cpuDataOut,
-			clock => i_clk_50,
-			load => w_n_memWR or w_n_LatCS,
-			clear => i_n_reset,
-			latchOut => w_latBits
-			);
+--	SoundLatch : entity work.OutLatch
+--		port map (
+--			dataIn8 => w_cpuDataOut,
+--			clock => i_clk_50,
+--			load => w_n_memWR or w_n_LatCS,
+--			clear => i_n_reset,
+--			latchOut => w_latBits
+--			);
 
 -- SUB-CIRCUIT CLOCK SIGNALS 
 	process (i_clk_50)
