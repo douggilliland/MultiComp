@@ -126,7 +126,7 @@ begin
 	
 	w_n_RomCS <=	'0' when ((cpuAddress(23 downto 12) = x"008")       and (w_busstate = "00"))	else 		-- x008000-x00BFFF (MAIN EPROM)
 						'0' when ((cpuAddress(23 downto 3) =  x"00000"&'0') and (w_busstate = "00"))	else		-- X000000-X000007 (VECTORS)
-						'1'; 
+						'1';
 	
 	rom1 : entity work.Monitor_68K_ROM -- Monitor
 		port map (
@@ -139,15 +139,15 @@ begin
 	-- RAM
 	
 	w_n_RamCS 			<= '1' when w_n_RomCS = '1' 								else	-- Not vector table
-								'0' when cpuAddress(23 downto 14) = x"00"&"00"	else	-- x000008-x003fff
+								'0' when cpuAddress(23 downto 15) = x"00"&'0'	else	-- x000008-x007fff
 								'1';
 	w_wrRamStrobe		<= (not n_WR) and (not w_n_RamCS);
 	w_WrRamByteEn(0)	<= (not n_WR) and (not w_nLDS) and (not w_n_RamCS);
 	w_WrRamByteEn(1)	<= (not n_WR) and (not w_nUDS) and (not w_n_RamCS);
 	
-	ram1 : ENTITY work.RAM_8Kx16
+	ram1 : ENTITY work.RAM_16Kx16
 		PORT map	(
-			address		=> cpuAddress(13 downto 1),
+			address		=> cpuAddress(14 downto 1),
 			clock			=> i_CLOCK_50,
 			data			=> cpuDataOut,
 			byteena		=> w_WrRamByteEn,
