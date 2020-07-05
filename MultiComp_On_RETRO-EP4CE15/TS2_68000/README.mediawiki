@@ -26,7 +26,23 @@
 
 === Shift ROM addresses for Quartus FPGA Tool  ===
 
+* Assembler output
+<pre>
+S123800000000800000080084DF80C0042AE004A422E0048422E00496136610005D861009A
+S1238020044E49FA09D06164207C0000C00020100C80524F4D3266044EA800084E714E71EB
+</pre>
+* Addresses start at 0x8000 (AAAA below):
+<pre>
+S123800000000800000080084DF80C0042AE004A422E0048422E00496136610005D861009A
+____AAAA__________________________________________________________________
+</pre>
+* Shift the records down
+* First convert to S-Records
 <pre>
 srec_cat monitor.hex -Intel -o shifted.s -Motorola
+</pre>
+* Then shift and save as HEX file
+<pre>
 srec_cat shifted.s -offset - -minimum-addr shifted.s -o monshifted.hex -Intel
 </pre>
+* Load into Quartus in the Monitor_68K_ROM using Megawizard
