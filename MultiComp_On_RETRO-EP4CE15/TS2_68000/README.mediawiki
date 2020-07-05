@@ -51,30 +51,24 @@ srec_cat monitor.hex -Intel -o shifted.s -Motorola
 S123800000000800000080084DF80C0042AE004A422E0048422E00496136610005D861009A
 S1238020044E49FA09D06164207C0000C00020100C80524F4D3266044EA800084E714E71EB
 </pre>
-* Then shift and save as HEX file
-<pre>
-srec_cat shifted.s -offset - -minimum-addr shifted.s -o monshifted.hex -Intel
-</pre>
-* Result is
-<pre>
-:2000000000000800000080084DF80C0042AE004A422E0048422E00496136610005D861001E
-:20002000044E49FA09D06164207C0000C00020100C80524F4D3266044EA800084E714E716F
-__AAAA_____________________________________________________________________
-</pre>
-* Load into Quartus in the Monitor_68K_ROM using Megawizard
-* Unfortunately, this doesn't work
-** Addresses are shifted by one bit so every other line in the file gets loaded
-** [https://forums.parallax.com/discussion/160734/rom-hex-file-format-required-for-quartus-verilog/p2 This thread has a hint about why]
-<pre>
-srec_info.exe monshifted.hex -Intel
-Format: Intel Hexadecimal (MCS-86)
-Data:   0000 - 3FFF
-</pre>
-* Fix?
-<pre>
-srec_cat shifted.s -offset - -minimum-addr shifted.s -o monshifted.hex -Intel_HeX_16
-</pre>
-* Make Altera MIF file
+* Then shift and save as an Altera MIF file
 <pre>
 srec_cat shifted.s -offset - -minimum-addr shifted.s -o monshifted.mif -Memory_Initialization_File 16
 </pre>
+* Result is
+<pre>
+-- FFFF8000: http://srecord.sourceforge.net/
+--
+-- Generated automatically by srec_cat -o --mif
+--
+DEPTH = 8192;
+WIDTH = 16;
+ADDRESS_RADIX = HEX;
+DATA_RADIX = HEX;
+CONTENT BEGIN
+0000: 0000 0800 0000 8008 4DF8 0C00 42AE 004A 422E 0048 422E 0049 6136 6100;
+000E: 05D8 6100 044E 49FA 09D0 6164 207C 0000 C000 2010 0C80 524F 4D32 6604;
+001C: 4EA8 0008 4E71 4E71 4287 6128 614C 6100 0080 6100 00BE 60F0 41F9 0001;
+...
+</pre>
+* Load into Quartus in the Monitor_68K_ROM using Megawizard
