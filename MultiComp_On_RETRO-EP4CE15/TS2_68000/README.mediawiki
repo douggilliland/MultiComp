@@ -24,6 +24,7 @@
 == Software Tools ==
 
 * [https://darkdust.net/writings/megadrive/crosscompiler Installing binutils and GCC as cross-compiler for the Motorolla 68000]
+* [http://srecord.sourceforge.net/ S-Record Tools]
 
 == Monitor ROM ==
 
@@ -44,7 +45,7 @@ __AAAA_____________________________________________________________________
 ==== Shift the records down ====
 * First convert to S-Records using [https://github.com/douggilliland/Retro-Computers/tree/master/PC%20Tools/srecord srec_cat]
 <pre>
-srec_cat monitor.hex -Intel -o shifted.s -Motorola
+srec_cat monitor.hex -Intel -o monitor.srec -Motorola
 </pre>
 * S-Record output
 <pre>
@@ -53,7 +54,7 @@ S1238020044E49FA09D06164207C0000C00020100C80524F4D3266044EA800084E714E71EB
 </pre>
 * Then shift and save as an Altera MIF file
 <pre>
-srec_cat shifted.s -offset - -minimum-addr shifted.s -o monshifted.mif -Memory_Initialization_File 16
+srec_cat monitor.srec -offset - -minimum-addr monitor.srec -o monshifted.mif -Memory_Initialization_File 16
 </pre>
 * Result is
 <pre>
