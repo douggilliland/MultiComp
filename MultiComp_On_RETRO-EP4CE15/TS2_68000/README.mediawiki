@@ -28,21 +28,33 @@
 
 * Assembler output
 <pre>
-S123800000000800000080084DF80C0042AE004A422E0048422E00496136610005D861009A
-S1238020044E49FA09D06164207C0000C00020100C80524F4D3266044EA800084E714E71EB
+:2080000000000800000080084DF80C0042AE004A422E0048422E00496136610005D861009E
+:20802000044E49FA09D06164207C0000C00020100C80524F4D3266044EA800084E714E71EF
 </pre>
+* 
 * Addresses start at 0x8000 (AAAA below):
 <pre>
-S123800000000800000080084DF80C0042AE004A422E0048422E00496136610005D861009A
-____AAAA__________________________________________________________________
+:2080000000000800000080084DF80C0042AE004A422E0048422E00496136610005D861009E
+__AAAA_____________________________________________________________________
 </pre>
 * Shift the records down
-* First convert to S-Records
+** First convert to S-Records using [https://github.com/douggilliland/Retro-Computers/tree/master/PC%20Tools/srecord srec_cat]
 <pre>
 srec_cat monitor.hex -Intel -o shifted.s -Motorola
 </pre>
-* Then shift and save as HEX file
+** S-Record output
+<pre>
+S123800000000800000080084DF80C0042AE004A422E0048422E00496136610005D861009A
+S1238020044E49FA09D06164207C0000C00020100C80524F4D3266044EA800084E714E71EB
+</pre>
+** Then shift and save as HEX file
 <pre>
 srec_cat shifted.s -offset - -minimum-addr shifted.s -o monshifted.hex -Intel
+</pre>
+** Result is
+<pre>
+:2000000000000800000080084DF80C0042AE004A422E0048422E00496136610005D861001E
+:20002000044E49FA09D06164207C0000C00020100C80524F4D3266044EA800084E714E716F
+__AAAA_____________________________________________________________________
 </pre>
 * Load into Quartus in the Monitor_68K_ROM using Megawizard
