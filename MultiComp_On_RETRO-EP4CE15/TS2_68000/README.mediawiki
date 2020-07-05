@@ -62,3 +62,11 @@ srec_cat shifted.s -offset - -minimum-addr shifted.s -o monshifted.hex -Intel
 __AAAA_____________________________________________________________________
 </pre>
 * Load into Quartus in the Monitor_68K_ROM using Megawizard
+* Unfortunately, this doesn't work
+** Addresses are shifted by one bit so every other line in the file gets loaded
+** [https://forums.parallax.com/discussion/160734/rom-hex-file-format-required-for-quartus-verilog/p2 This thread has a hint about why]
+<pre>
+srec_info.exe monshifted.hex -Intel
+Format: Intel Hexadecimal (MCS-86)
+Data:   0000 - 3FFF
+</pre>
