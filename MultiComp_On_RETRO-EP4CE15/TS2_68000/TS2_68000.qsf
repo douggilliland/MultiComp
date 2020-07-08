@@ -58,7 +58,33 @@ set_global_assignment -name POWER_BOARD_THERMAL_MODEL "NONE (CONSERVATIVE)"
 set_global_assignment -name TIMING_ANALYZER_MULTICORNER_ANALYSIS ON
 set_global_assignment -name SMART_RECOMPILE ON
 set_global_assignment -name NUM_PARALLEL_PROCESSORS ALL
+# Clocks, Reset
+set_location_assignment PIN_T2 -to i_CLOCK_50
+set_location_assignment PIN_W13 -to n_reset
+set_instance_assignment -name WEAK_PULL_UP_RESISTOR ON -to n_reset
+# Serial Port
+set_location_assignment PIN_B22 -to serSelect
+set_instance_assignment -name WEAK_PULL_UP_RESISTOR ON -to serSelect
+set_location_assignment PIN_B10 -to txd1
 set_location_assignment PIN_A13 -to cts1
+set_instance_assignment -name WEAK_PULL_UP_RESISTOR ON -to cts1
+set_location_assignment PIN_B13 -to rxd1
+set_instance_assignment -name WEAK_PULL_UP_RESISTOR ON -to rxd1
+set_location_assignment PIN_A10 -to rts1
+# Video
+set_location_assignment PIN_B18 -to hSync
+set_location_assignment PIN_A18 -to vSync
+set_location_assignment PIN_B17 -to videoB0
+set_location_assignment PIN_A17 -to videoB1
+set_location_assignment PIN_B16 -to videoG0
+set_location_assignment PIN_A16 -to videoG1
+set_location_assignment PIN_B15 -to videoR0
+set_location_assignment PIN_A15 -to videoR1
+# PS/2 Keyboard
+set_location_assignment PIN_R1 -to ps2Clk
+set_location_assignment PIN_R2 -to ps2Data
+# External SRAM
+set_location_assignment PIN_C4 -to extSramAddress[19]
 set_location_assignment PIN_B5 -to extSramAddress[18]
 set_location_assignment PIN_B6 -to extSramAddress[17]
 set_location_assignment PIN_B7 -to extSramAddress[16]
@@ -86,18 +112,148 @@ set_location_assignment PIN_B3 -to extSramData[3]
 set_location_assignment PIN_B1 -to extSramData[2]
 set_location_assignment PIN_C1 -to extSramData[1]
 set_location_assignment PIN_E1 -to extSramData[0]
-set_location_assignment PIN_B18 -to hSync
-set_location_assignment PIN_T2 -to i_CLOCK_50
 set_location_assignment PIN_F1 -to n_extsRamCS
 set_location_assignment PIN_J2 -to n_extsRamOE
 set_location_assignment PIN_B4 -to n_extsRamWE
-set_location_assignment PIN_W13 -to n_reset
+# External SDRAM
 set_location_assignment PIN_AA4 -to n_sdRamCas
 set_location_assignment PIN_AA3 -to n_sdRamCe
 set_location_assignment PIN_AB3 -to n_sdRamRas
 set_location_assignment PIN_AB4 -to n_sdRamWe
-set_location_assignment PIN_R1 -to ps2Clk
-set_location_assignment PIN_R2 -to ps2Data
+set_location_assignment PIN_V2 -to sdRamAddr[0]
+set_location_assignment PIN_V1 -to sdRamAddr[1]
+set_location_assignment PIN_U2 -to sdRamAddr[2]
+set_location_assignment PIN_U1 -to sdRamAddr[3]
+set_location_assignment PIN_V3 -to sdRamAddr[4]
+set_location_assignment PIN_V4 -to sdRamAddr[5]
+set_location_assignment PIN_Y2 -to sdRamAddr[6]
+set_location_assignment PIN_AA1 -to sdRamAddr[7]
+set_location_assignment PIN_Y3 -to sdRamAddr[8]
+set_location_assignment PIN_V5 -to sdRamAddr[9]
+set_location_assignment PIN_W1 -to sdRamAddr[10]
+set_location_assignment PIN_Y4 -to sdRamAddr[11]
+set_location_assignment PIN_V6 -to sdRamAddr[12]
+set_location_assignment PIN_Y1 -to sdRamAddr[13]
+set_location_assignment PIN_W2 -to sdRamAddr[14]
+set_location_assignment PIN_Y6 -to sdRamClk
+set_location_assignment PIN_W6 -to sdRamClkEn
+set_location_assignment PIN_AA10 -to sdRamData[0]
+set_location_assignment PIN_AB9 -to sdRamData[1]
+set_location_assignment PIN_AA9 -to sdRamData[2]
+set_location_assignment PIN_AB8 -to sdRamData[3]
+set_location_assignment PIN_AA8 -to sdRamData[4]
+set_location_assignment PIN_AB7 -to sdRamData[5]
+set_location_assignment PIN_AA7 -to sdRamData[6]
+set_location_assignment PIN_AB5 -to sdRamData[7]
+set_location_assignment PIN_Y7 -to sdRamData[8]
+set_location_assignment PIN_W8 -to sdRamData[9]
+set_location_assignment PIN_Y8 -to sdRamData[10]
+set_location_assignment PIN_V9 -to sdRamData[11]
+set_location_assignment PIN_V10 -to sdRamData[12]
+set_location_assignment PIN_Y10 -to sdRamData[13]
+set_location_assignment PIN_W10 -to sdRamData[14]
+set_location_assignment PIN_V11 -to sdRamData[15]
+# I/O Pins on J1 connector
+set_location_assignment PIN_C22 -to IO_PIN[48]
+set_location_assignment PIN_C21 -to IO_PIN[47]
+set_location_assignment PIN_D22 -to IO_PIN[46]
+set_location_assignment PIN_D21 -to IO_PIN[45]
+set_location_assignment PIN_E22 -to IO_PIN[44]
+set_location_assignment PIN_E21 -to IO_PIN[43]
+set_location_assignment PIN_F22 -to IO_PIN[42]
+set_location_assignment PIN_F21 -to IO_PIN[41]
+set_location_assignment PIN_H22 -to IO_PIN[40]
+set_location_assignment PIN_H21 -to IO_PIN[39]
+set_location_assignment PIN_J22 -to IO_PIN[38]
+set_location_assignment PIN_J21 -to IO_PIN[37]
+set_location_assignment PIN_K22 -to IO_PIN[36]
+set_location_assignment PIN_K21 -to IO_PIN[35]
+set_location_assignment PIN_L22 -to IO_PIN[34]
+set_location_assignment PIN_L21 -to IO_PIN[33]
+set_location_assignment PIN_M22 -to IO_PIN[32]
+set_location_assignment PIN_M21 -to IO_PIN[31]
+set_location_assignment PIN_AB14 -to IO_PIN[3]
+set_location_assignment PIN_AA14 -to IO_PIN[4]
+set_location_assignment PIN_AB15 -to IO_PIN[5]
+set_location_assignment PIN_AA15 -to IO_PIN[6]
+set_location_assignment PIN_AB16 -to IO_PIN[7]
+set_location_assignment PIN_AA16 -to IO_PIN[8]
+set_location_assignment PIN_AB17 -to IO_PIN[9]
+set_location_assignment PIN_AA17 -to IO_PIN[10]
+set_location_assignment PIN_AB18 -to IO_PIN[11]
+set_location_assignment PIN_AA18 -to IO_PIN[12]
+set_location_assignment PIN_AB19 -to IO_PIN[13]
+set_location_assignment PIN_AA19 -to IO_PIN[14]
+set_location_assignment PIN_AB20 -to IO_PIN[15]
+set_location_assignment PIN_AA20 -to IO_PIN[16]
+set_location_assignment PIN_Y21 -to IO_PIN[17]
+set_location_assignment PIN_Y22 -to IO_PIN[18]
+set_location_assignment PIN_W21 -to IO_PIN[19]
+set_location_assignment PIN_W22 -to IO_PIN[20]
+set_location_assignment PIN_V21 -to IO_PIN[21]
+set_location_assignment PIN_V22 -to IO_PIN[22]
+set_location_assignment PIN_U21 -to IO_PIN[23]
+set_location_assignment PIN_U22 -to IO_PIN[24]
+set_location_assignment PIN_R21 -to IO_PIN[25]
+set_location_assignment PIN_R22 -to IO_PIN[26]
+set_location_assignment PIN_P21 -to IO_PIN[27]
+set_location_assignment PIN_P22 -to IO_PIN[28]
+set_location_assignment PIN_N21 -to IO_PIN[29]
+#
+set_global_assignment -name ENABLE_SIGNALTAP ON
+set_global_assignment -name USE_SIGNALTAP_FILE stp1.stp
+set_global_assignment -name SLD_NODE_CREATOR_ID 110 -section_id auto_signaltap_0
+set_global_assignment -name SLD_NODE_ENTITY_NAME sld_signaltap -section_id auto_signaltap_0
+set_instance_assignment -name POST_FIT_CONNECT_TO_SLD_NODE_ENTITY_PORT acq_clk -to i_CLOCK_50 -section_id auto_signaltap_0
+set_instance_assignment -name POST_FIT_CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[0] -to n_reset -section_id auto_signaltap_0
+set_instance_assignment -name POST_FIT_CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[0] -to "Monitor_68K_ROM:rom1|altsyncram:altsyncram_component|altsyncram_m924:auto_generated|altsyncram_ru23:altsyncram1|q_a[0]" -section_id auto_signaltap_0
+set_instance_assignment -name POST_FIT_CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[1] -to "Monitor_68K_ROM:rom1|altsyncram:altsyncram_component|altsyncram_m924:auto_generated|altsyncram_ru23:altsyncram1|q_a[10]" -section_id auto_signaltap_0
+set_instance_assignment -name POST_FIT_CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[2] -to "Monitor_68K_ROM:rom1|altsyncram:altsyncram_component|altsyncram_m924:auto_generated|altsyncram_ru23:altsyncram1|q_a[11]" -section_id auto_signaltap_0
+set_instance_assignment -name POST_FIT_CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[3] -to "Monitor_68K_ROM:rom1|altsyncram:altsyncram_component|altsyncram_m924:auto_generated|altsyncram_ru23:altsyncram1|q_a[12]" -section_id auto_signaltap_0
+set_instance_assignment -name POST_FIT_CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[4] -to "Monitor_68K_ROM:rom1|altsyncram:altsyncram_component|altsyncram_m924:auto_generated|altsyncram_ru23:altsyncram1|q_a[13]" -section_id auto_signaltap_0
+set_instance_assignment -name POST_FIT_CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[5] -to "Monitor_68K_ROM:rom1|altsyncram:altsyncram_component|altsyncram_m924:auto_generated|altsyncram_ru23:altsyncram1|q_a[14]" -section_id auto_signaltap_0
+set_instance_assignment -name POST_FIT_CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[6] -to "Monitor_68K_ROM:rom1|altsyncram:altsyncram_component|altsyncram_m924:auto_generated|altsyncram_ru23:altsyncram1|q_a[15]" -section_id auto_signaltap_0
+set_instance_assignment -name POST_FIT_CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[7] -to "Monitor_68K_ROM:rom1|altsyncram:altsyncram_component|altsyncram_m924:auto_generated|altsyncram_ru23:altsyncram1|q_a[1]" -section_id auto_signaltap_0
+set_instance_assignment -name POST_FIT_CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[8] -to "Monitor_68K_ROM:rom1|altsyncram:altsyncram_component|altsyncram_m924:auto_generated|altsyncram_ru23:altsyncram1|q_a[2]" -section_id auto_signaltap_0
+set_instance_assignment -name POST_FIT_CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[9] -to "Monitor_68K_ROM:rom1|altsyncram:altsyncram_component|altsyncram_m924:auto_generated|altsyncram_ru23:altsyncram1|q_a[3]" -section_id auto_signaltap_0
+set_instance_assignment -name POST_FIT_CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[10] -to "Monitor_68K_ROM:rom1|altsyncram:altsyncram_component|altsyncram_m924:auto_generated|altsyncram_ru23:altsyncram1|q_a[4]" -section_id auto_signaltap_0
+set_instance_assignment -name POST_FIT_CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[11] -to "Monitor_68K_ROM:rom1|altsyncram:altsyncram_component|altsyncram_m924:auto_generated|altsyncram_ru23:altsyncram1|q_a[5]" -section_id auto_signaltap_0
+set_instance_assignment -name POST_FIT_CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[12] -to "Monitor_68K_ROM:rom1|altsyncram:altsyncram_component|altsyncram_m924:auto_generated|altsyncram_ru23:altsyncram1|q_a[6]" -section_id auto_signaltap_0
+set_instance_assignment -name POST_FIT_CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[13] -to "Monitor_68K_ROM:rom1|altsyncram:altsyncram_component|altsyncram_m924:auto_generated|altsyncram_ru23:altsyncram1|q_a[7]" -section_id auto_signaltap_0
+set_instance_assignment -name POST_FIT_CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[14] -to "Monitor_68K_ROM:rom1|altsyncram:altsyncram_component|altsyncram_m924:auto_generated|altsyncram_ru23:altsyncram1|q_a[8]" -section_id auto_signaltap_0
+set_instance_assignment -name POST_FIT_CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[15] -to "Monitor_68K_ROM:rom1|altsyncram:altsyncram_component|altsyncram_m924:auto_generated|altsyncram_ru23:altsyncram1|q_a[9]" -section_id auto_signaltap_0
+set_global_assignment -name SLD_NODE_PARAMETER_ASSIGNMENT "SLD_RAM_BLOCK_TYPE=AUTO" -section_id auto_signaltap_0
+set_global_assignment -name SLD_NODE_PARAMETER_ASSIGNMENT "SLD_TRIGGER_BITS=1" -section_id auto_signaltap_0
+set_global_assignment -name SLD_NODE_PARAMETER_ASSIGNMENT "SLD_NODE_INFO=805334528" -section_id auto_signaltap_0
+set_global_assignment -name SLD_NODE_PARAMETER_ASSIGNMENT "SLD_POWER_UP_TRIGGER=0" -section_id auto_signaltap_0
+set_global_assignment -name SLD_NODE_PARAMETER_ASSIGNMENT "SLD_STORAGE_QUALIFIER_INVERSION_MASK_LENGTH=0" -section_id auto_signaltap_0
+set_global_assignment -name SLD_NODE_PARAMETER_ASSIGNMENT "SLD_ATTRIBUTE_MEM_MODE=OFF" -section_id auto_signaltap_0
+set_global_assignment -name SLD_NODE_PARAMETER_ASSIGNMENT "SLD_STATE_FLOW_USE_GENERATED=0" -section_id auto_signaltap_0
+set_global_assignment -name SLD_NODE_PARAMETER_ASSIGNMENT "SLD_STATE_BITS=11" -section_id auto_signaltap_0
+set_global_assignment -name SLD_NODE_PARAMETER_ASSIGNMENT "SLD_BUFFER_FULL_STOP=1" -section_id auto_signaltap_0
+set_global_assignment -name SLD_NODE_PARAMETER_ASSIGNMENT "SLD_CURRENT_RESOURCE_WIDTH=1" -section_id auto_signaltap_0
+set_global_assignment -name SLD_NODE_PARAMETER_ASSIGNMENT "SLD_INCREMENTAL_ROUTING=1" -section_id auto_signaltap_0
+set_instance_assignment -name POST_FIT_CONNECT_TO_SLD_NODE_ENTITY_PORT crc[1] -to auto_signaltap_0|vcc -section_id auto_signaltap_0
+set_instance_assignment -name POST_FIT_CONNECT_TO_SLD_NODE_ENTITY_PORT crc[2] -to auto_signaltap_0|gnd -section_id auto_signaltap_0
+set_instance_assignment -name POST_FIT_CONNECT_TO_SLD_NODE_ENTITY_PORT crc[6] -to auto_signaltap_0|vcc -section_id auto_signaltap_0
+set_instance_assignment -name POST_FIT_CONNECT_TO_SLD_NODE_ENTITY_PORT crc[8] -to auto_signaltap_0|gnd -section_id auto_signaltap_0
+set_instance_assignment -name POST_FIT_CONNECT_TO_SLD_NODE_ENTITY_PORT crc[9] -to auto_signaltap_0|vcc -section_id auto_signaltap_0
+set_instance_assignment -name POST_FIT_CONNECT_TO_SLD_NODE_ENTITY_PORT crc[11] -to auto_signaltap_0|vcc -section_id auto_signaltap_0
+set_instance_assignment -name POST_FIT_CONNECT_TO_SLD_NODE_ENTITY_PORT crc[13] -to auto_signaltap_0|vcc -section_id auto_signaltap_0
+set_instance_assignment -name POST_FIT_CONNECT_TO_SLD_NODE_ENTITY_PORT crc[14] -to auto_signaltap_0|gnd -section_id auto_signaltap_0
+set_instance_assignment -name POST_FIT_CONNECT_TO_SLD_NODE_ENTITY_PORT crc[15] -to auto_signaltap_0|vcc -section_id auto_signaltap_0
+set_instance_assignment -name POST_FIT_CONNECT_TO_SLD_NODE_ENTITY_PORT crc[16] -to auto_signaltap_0|gnd -section_id auto_signaltap_0
+set_instance_assignment -name POST_FIT_CONNECT_TO_SLD_NODE_ENTITY_PORT crc[21] -to auto_signaltap_0|gnd -section_id auto_signaltap_0
+set_instance_assignment -name POST_FIT_CONNECT_TO_SLD_NODE_ENTITY_PORT crc[24] -to auto_signaltap_0|vcc -section_id auto_signaltap_0
+set_instance_assignment -name POST_FIT_CONNECT_TO_SLD_NODE_ENTITY_PORT crc[27] -to auto_signaltap_0|vcc -section_id auto_signaltap_0
+set_global_assignment -name SLD_NODE_PARAMETER_ASSIGNMENT "SLD_TRIGGER_LEVEL=1" -section_id auto_signaltap_0
+set_global_assignment -name SLD_NODE_PARAMETER_ASSIGNMENT "SLD_TRIGGER_IN_ENABLED=0" -section_id auto_signaltap_0
+set_global_assignment -name SLD_NODE_PARAMETER_ASSIGNMENT "SLD_TRIGGER_PIPELINE=0" -section_id auto_signaltap_0
+set_global_assignment -name SLD_NODE_PARAMETER_ASSIGNMENT "SLD_RAM_PIPELINE=0" -section_id auto_signaltap_0
+set_global_assignment -name SLD_NODE_PARAMETER_ASSIGNMENT "SLD_COUNTER_PIPELINE=0" -section_id auto_signaltap_0
+set_global_assignment -name SLD_NODE_PARAMETER_ASSIGNMENT "SLD_ADVANCED_TRIGGER_ENTITY=basic,1," -section_id auto_signaltap_0
+set_global_assignment -name SLD_NODE_PARAMETER_ASSIGNMENT "SLD_TRIGGER_LEVEL_PIPELINE=1" -section_id auto_signaltap_0
+set_global_assignment -name SLD_NODE_PARAMETER_ASSIGNMENT "SLD_ENABLE_ADVANCED_TRIGGER=0" -section_id auto_signaltap_0
 set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to ps2Clk
 set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to altera_reserved_tck
 set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to altera_reserved_tdi
@@ -187,183 +343,6 @@ set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to extSramAddress[15]
 set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to extSramAddress[16]
 set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to extSramAddress[17]
 set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to extSramAddress[18]
-set_location_assignment PIN_B13 -to rxd1
-set_location_assignment PIN_A10 -to rts1
-set_location_assignment PIN_C4 -to extSramAddress[19]
-set_location_assignment PIN_V2 -to sdRamAddr[0]
-set_location_assignment PIN_V1 -to sdRamAddr[1]
-set_location_assignment PIN_U2 -to sdRamAddr[2]
-set_location_assignment PIN_U1 -to sdRamAddr[3]
-set_location_assignment PIN_V3 -to sdRamAddr[4]
-set_location_assignment PIN_V4 -to sdRamAddr[5]
-set_location_assignment PIN_Y2 -to sdRamAddr[6]
-set_location_assignment PIN_AA1 -to sdRamAddr[7]
-set_location_assignment PIN_Y3 -to sdRamAddr[8]
-set_location_assignment PIN_V5 -to sdRamAddr[9]
-set_location_assignment PIN_W1 -to sdRamAddr[10]
-set_location_assignment PIN_Y4 -to sdRamAddr[11]
-set_location_assignment PIN_V6 -to sdRamAddr[12]
-set_location_assignment PIN_Y1 -to sdRamAddr[13]
-set_location_assignment PIN_W2 -to sdRamAddr[14]
-set_location_assignment PIN_Y6 -to sdRamClk
-set_location_assignment PIN_W6 -to sdRamClkEn
-set_location_assignment PIN_AA10 -to sdRamData[0]
-set_location_assignment PIN_AB9 -to sdRamData[1]
-set_location_assignment PIN_AA9 -to sdRamData[2]
-set_location_assignment PIN_AB8 -to sdRamData[3]
-set_location_assignment PIN_AA8 -to sdRamData[4]
-set_location_assignment PIN_AB7 -to sdRamData[5]
-set_location_assignment PIN_AA7 -to sdRamData[6]
-set_location_assignment PIN_AB5 -to sdRamData[7]
-set_location_assignment PIN_Y7 -to sdRamData[8]
-set_location_assignment PIN_W8 -to sdRamData[9]
-set_location_assignment PIN_Y8 -to sdRamData[10]
-set_location_assignment PIN_V9 -to sdRamData[11]
-set_location_assignment PIN_V10 -to sdRamData[12]
-set_location_assignment PIN_Y10 -to sdRamData[13]
-set_location_assignment PIN_W10 -to sdRamData[14]
-set_location_assignment PIN_V11 -to sdRamData[15]
-set_location_assignment PIN_B22 -to serSelect
-set_location_assignment PIN_B10 -to txd1
-set_location_assignment PIN_A18 -to vSync
-set_location_assignment PIN_B17 -to videoB0
-set_location_assignment PIN_A17 -to videoB1
-set_location_assignment PIN_B16 -to videoG0
-set_location_assignment PIN_A16 -to videoG1
-set_location_assignment PIN_B15 -to videoR0
-set_location_assignment PIN_A15 -to videoR1
-set_global_assignment -name VHDL_FILE Components/RAM_16Kx16.vhd
-set_global_assignment -name VHDL_FILE Components/RAM_4Kx16.vhd
-set_global_assignment -name VHDL_FILE "../../MultiComp (VHDL Template)/Components/Debounce/Debounce.vhd"
-set_global_assignment -name VHDL_FILE "../../MultiComp (VHDL Template)/Components/TERMINAL/SBCTextDisplayRGB.vhd"
-set_global_assignment -name VHDL_FILE "../../MultiComp (VHDL Template)/Components/TERMINAL/SansBoldRomReduced.vhd"
-set_global_assignment -name VHDL_FILE "../../MultiComp (VHDL Template)/Components/TERMINAL/SansBoldRom.vhd"
-set_global_assignment -name VHDL_FILE "../../MultiComp (VHDL Template)/Components/TERMINAL/DisplayRam2K.vhd"
-set_global_assignment -name VHDL_FILE "../../MultiComp (VHDL Template)/Components/TERMINAL/DisplayRam1K.vhd"
-set_global_assignment -name VHDL_FILE "../../MultiComp (VHDL Template)/Components/TERMINAL/CGABoldRomReduced.vhd"
-set_global_assignment -name VHDL_FILE "../../MultiComp (VHDL Template)/Components/TERMINAL/CGABoldRom.vhd"
-set_global_assignment -name VHDL_FILE "../../MultiComp (VHDL Template)/Components/UART/bufferedUART.vhd"
-set_global_assignment -name VHDL_FILE "../../MultiComp (VHDL Template)/Components/CPU/M68000/TG68K_2013/TG68KdotC_Kernel.vhd"
-set_global_assignment -name VHDL_FILE "../../MultiComp (VHDL Template)/Components/CPU/M68000/TG68K_2013/TG68K_Pack.vhd"
-set_global_assignment -name VHDL_FILE "../../MultiComp (VHDL Template)/Components/CPU/M68000/TG68K_2013/TG68K_ALU.vhd"
-set_global_assignment -name VHDL_FILE TS2_68000_Top.vhd
-set_global_assignment -name QIP_FILE Components/Monitor_68K_ROM.qip
-set_global_assignment -name QIP_FILE Components/RAM_8Kx16.qip
-set_global_assignment -name ENABLE_SIGNALTAP ON
-set_global_assignment -name USE_SIGNALTAP_FILE stp1.stp
-set_global_assignment -name SIGNALTAP_FILE stp1.stp
-set_global_assignment -name SLD_NODE_CREATOR_ID 110 -section_id auto_signaltap_0
-set_global_assignment -name SLD_NODE_ENTITY_NAME sld_signaltap -section_id auto_signaltap_0
-set_instance_assignment -name POST_FIT_CONNECT_TO_SLD_NODE_ENTITY_PORT acq_clk -to i_CLOCK_50 -section_id auto_signaltap_0
-set_instance_assignment -name POST_FIT_CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[0] -to n_reset -section_id auto_signaltap_0
-set_instance_assignment -name POST_FIT_CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[0] -to "Monitor_68K_ROM:rom1|altsyncram:altsyncram_component|altsyncram_m924:auto_generated|altsyncram_ru23:altsyncram1|q_a[0]" -section_id auto_signaltap_0
-set_instance_assignment -name POST_FIT_CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[1] -to "Monitor_68K_ROM:rom1|altsyncram:altsyncram_component|altsyncram_m924:auto_generated|altsyncram_ru23:altsyncram1|q_a[10]" -section_id auto_signaltap_0
-set_instance_assignment -name POST_FIT_CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[2] -to "Monitor_68K_ROM:rom1|altsyncram:altsyncram_component|altsyncram_m924:auto_generated|altsyncram_ru23:altsyncram1|q_a[11]" -section_id auto_signaltap_0
-set_instance_assignment -name POST_FIT_CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[3] -to "Monitor_68K_ROM:rom1|altsyncram:altsyncram_component|altsyncram_m924:auto_generated|altsyncram_ru23:altsyncram1|q_a[12]" -section_id auto_signaltap_0
-set_instance_assignment -name POST_FIT_CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[4] -to "Monitor_68K_ROM:rom1|altsyncram:altsyncram_component|altsyncram_m924:auto_generated|altsyncram_ru23:altsyncram1|q_a[13]" -section_id auto_signaltap_0
-set_instance_assignment -name POST_FIT_CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[5] -to "Monitor_68K_ROM:rom1|altsyncram:altsyncram_component|altsyncram_m924:auto_generated|altsyncram_ru23:altsyncram1|q_a[14]" -section_id auto_signaltap_0
-set_instance_assignment -name POST_FIT_CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[6] -to "Monitor_68K_ROM:rom1|altsyncram:altsyncram_component|altsyncram_m924:auto_generated|altsyncram_ru23:altsyncram1|q_a[15]" -section_id auto_signaltap_0
-set_instance_assignment -name POST_FIT_CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[7] -to "Monitor_68K_ROM:rom1|altsyncram:altsyncram_component|altsyncram_m924:auto_generated|altsyncram_ru23:altsyncram1|q_a[1]" -section_id auto_signaltap_0
-set_instance_assignment -name POST_FIT_CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[8] -to "Monitor_68K_ROM:rom1|altsyncram:altsyncram_component|altsyncram_m924:auto_generated|altsyncram_ru23:altsyncram1|q_a[2]" -section_id auto_signaltap_0
-set_instance_assignment -name POST_FIT_CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[9] -to "Monitor_68K_ROM:rom1|altsyncram:altsyncram_component|altsyncram_m924:auto_generated|altsyncram_ru23:altsyncram1|q_a[3]" -section_id auto_signaltap_0
-set_instance_assignment -name POST_FIT_CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[10] -to "Monitor_68K_ROM:rom1|altsyncram:altsyncram_component|altsyncram_m924:auto_generated|altsyncram_ru23:altsyncram1|q_a[4]" -section_id auto_signaltap_0
-set_instance_assignment -name POST_FIT_CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[11] -to "Monitor_68K_ROM:rom1|altsyncram:altsyncram_component|altsyncram_m924:auto_generated|altsyncram_ru23:altsyncram1|q_a[5]" -section_id auto_signaltap_0
-set_instance_assignment -name POST_FIT_CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[12] -to "Monitor_68K_ROM:rom1|altsyncram:altsyncram_component|altsyncram_m924:auto_generated|altsyncram_ru23:altsyncram1|q_a[6]" -section_id auto_signaltap_0
-set_instance_assignment -name POST_FIT_CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[13] -to "Monitor_68K_ROM:rom1|altsyncram:altsyncram_component|altsyncram_m924:auto_generated|altsyncram_ru23:altsyncram1|q_a[7]" -section_id auto_signaltap_0
-set_instance_assignment -name POST_FIT_CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[14] -to "Monitor_68K_ROM:rom1|altsyncram:altsyncram_component|altsyncram_m924:auto_generated|altsyncram_ru23:altsyncram1|q_a[8]" -section_id auto_signaltap_0
-set_instance_assignment -name POST_FIT_CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[15] -to "Monitor_68K_ROM:rom1|altsyncram:altsyncram_component|altsyncram_m924:auto_generated|altsyncram_ru23:altsyncram1|q_a[9]" -section_id auto_signaltap_0
-set_instance_assignment -name POST_FIT_CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[16] -to n_reset -section_id auto_signaltap_0
-set_instance_assignment -name POST_FIT_CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[17] -to w_n_ACIACS~0 -section_id auto_signaltap_0
-set_global_assignment -name SLD_NODE_PARAMETER_ASSIGNMENT "SLD_RAM_BLOCK_TYPE=AUTO" -section_id auto_signaltap_0
-set_global_assignment -name SLD_NODE_PARAMETER_ASSIGNMENT "SLD_DATA_BITS=18" -section_id auto_signaltap_0
-set_global_assignment -name SLD_NODE_PARAMETER_ASSIGNMENT "SLD_TRIGGER_BITS=1" -section_id auto_signaltap_0
-set_global_assignment -name SLD_NODE_PARAMETER_ASSIGNMENT "SLD_STORAGE_QUALIFIER_BITS=18" -section_id auto_signaltap_0
-set_global_assignment -name SLD_NODE_PARAMETER_ASSIGNMENT "SLD_NODE_INFO=805334528" -section_id auto_signaltap_0
-set_global_assignment -name SLD_NODE_PARAMETER_ASSIGNMENT "SLD_POWER_UP_TRIGGER=0" -section_id auto_signaltap_0
-set_global_assignment -name SLD_NODE_PARAMETER_ASSIGNMENT "SLD_STORAGE_QUALIFIER_INVERSION_MASK_LENGTH=0" -section_id auto_signaltap_0
-set_global_assignment -name SLD_NODE_PARAMETER_ASSIGNMENT "SLD_ATTRIBUTE_MEM_MODE=OFF" -section_id auto_signaltap_0
-set_global_assignment -name SLD_NODE_PARAMETER_ASSIGNMENT "SLD_STATE_FLOW_USE_GENERATED=0" -section_id auto_signaltap_0
-set_global_assignment -name SLD_NODE_PARAMETER_ASSIGNMENT "SLD_STATE_BITS=11" -section_id auto_signaltap_0
-set_global_assignment -name SLD_NODE_PARAMETER_ASSIGNMENT "SLD_BUFFER_FULL_STOP=1" -section_id auto_signaltap_0
-set_global_assignment -name SLD_NODE_PARAMETER_ASSIGNMENT "SLD_CURRENT_RESOURCE_WIDTH=1" -section_id auto_signaltap_0
-set_global_assignment -name SLD_NODE_PARAMETER_ASSIGNMENT "SLD_INCREMENTAL_ROUTING=1" -section_id auto_signaltap_0
-set_instance_assignment -name POST_FIT_CONNECT_TO_SLD_NODE_ENTITY_PORT crc[0] -to auto_signaltap_0|gnd -section_id auto_signaltap_0
-set_instance_assignment -name POST_FIT_CONNECT_TO_SLD_NODE_ENTITY_PORT crc[1] -to auto_signaltap_0|vcc -section_id auto_signaltap_0
-set_instance_assignment -name POST_FIT_CONNECT_TO_SLD_NODE_ENTITY_PORT crc[2] -to auto_signaltap_0|gnd -section_id auto_signaltap_0
-set_instance_assignment -name POST_FIT_CONNECT_TO_SLD_NODE_ENTITY_PORT crc[3] -to auto_signaltap_0|gnd -section_id auto_signaltap_0
-set_instance_assignment -name POST_FIT_CONNECT_TO_SLD_NODE_ENTITY_PORT crc[4] -to auto_signaltap_0|gnd -section_id auto_signaltap_0
-set_instance_assignment -name POST_FIT_CONNECT_TO_SLD_NODE_ENTITY_PORT crc[5] -to auto_signaltap_0|gnd -section_id auto_signaltap_0
-set_instance_assignment -name POST_FIT_CONNECT_TO_SLD_NODE_ENTITY_PORT crc[6] -to auto_signaltap_0|vcc -section_id auto_signaltap_0
-set_instance_assignment -name POST_FIT_CONNECT_TO_SLD_NODE_ENTITY_PORT crc[7] -to auto_signaltap_0|gnd -section_id auto_signaltap_0
-set_instance_assignment -name POST_FIT_CONNECT_TO_SLD_NODE_ENTITY_PORT crc[8] -to auto_signaltap_0|gnd -section_id auto_signaltap_0
-set_instance_assignment -name POST_FIT_CONNECT_TO_SLD_NODE_ENTITY_PORT crc[9] -to auto_signaltap_0|vcc -section_id auto_signaltap_0
-set_instance_assignment -name POST_FIT_CONNECT_TO_SLD_NODE_ENTITY_PORT crc[10] -to auto_signaltap_0|vcc -section_id auto_signaltap_0
-set_instance_assignment -name POST_FIT_CONNECT_TO_SLD_NODE_ENTITY_PORT crc[11] -to auto_signaltap_0|vcc -section_id auto_signaltap_0
-set_instance_assignment -name POST_FIT_CONNECT_TO_SLD_NODE_ENTITY_PORT crc[12] -to auto_signaltap_0|vcc -section_id auto_signaltap_0
-set_instance_assignment -name POST_FIT_CONNECT_TO_SLD_NODE_ENTITY_PORT crc[13] -to auto_signaltap_0|vcc -section_id auto_signaltap_0
-set_instance_assignment -name POST_FIT_CONNECT_TO_SLD_NODE_ENTITY_PORT crc[14] -to auto_signaltap_0|gnd -section_id auto_signaltap_0
-set_instance_assignment -name POST_FIT_CONNECT_TO_SLD_NODE_ENTITY_PORT crc[15] -to auto_signaltap_0|vcc -section_id auto_signaltap_0
-set_instance_assignment -name POST_FIT_CONNECT_TO_SLD_NODE_ENTITY_PORT crc[16] -to auto_signaltap_0|gnd -section_id auto_signaltap_0
-set_instance_assignment -name POST_FIT_CONNECT_TO_SLD_NODE_ENTITY_PORT crc[19] -to auto_signaltap_0|vcc -section_id auto_signaltap_0
-set_instance_assignment -name POST_FIT_CONNECT_TO_SLD_NODE_ENTITY_PORT crc[21] -to auto_signaltap_0|gnd -section_id auto_signaltap_0
-set_instance_assignment -name POST_FIT_CONNECT_TO_SLD_NODE_ENTITY_PORT crc[22] -to auto_signaltap_0|vcc -section_id auto_signaltap_0
-set_instance_assignment -name POST_FIT_CONNECT_TO_SLD_NODE_ENTITY_PORT crc[23] -to auto_signaltap_0|vcc -section_id auto_signaltap_0
-set_instance_assignment -name POST_FIT_CONNECT_TO_SLD_NODE_ENTITY_PORT crc[24] -to auto_signaltap_0|vcc -section_id auto_signaltap_0
-set_instance_assignment -name POST_FIT_CONNECT_TO_SLD_NODE_ENTITY_PORT crc[26] -to auto_signaltap_0|vcc -section_id auto_signaltap_0
-set_instance_assignment -name POST_FIT_CONNECT_TO_SLD_NODE_ENTITY_PORT crc[27] -to auto_signaltap_0|vcc -section_id auto_signaltap_0
-set_global_assignment -name SLD_NODE_PARAMETER_ASSIGNMENT "SLD_TRIGGER_LEVEL=1" -section_id auto_signaltap_0
-set_global_assignment -name SLD_NODE_PARAMETER_ASSIGNMENT "SLD_TRIGGER_IN_ENABLED=0" -section_id auto_signaltap_0
-set_global_assignment -name SLD_NODE_PARAMETER_ASSIGNMENT "SLD_TRIGGER_PIPELINE=0" -section_id auto_signaltap_0
-set_global_assignment -name SLD_NODE_PARAMETER_ASSIGNMENT "SLD_RAM_PIPELINE=0" -section_id auto_signaltap_0
-set_global_assignment -name SLD_NODE_PARAMETER_ASSIGNMENT "SLD_COUNTER_PIPELINE=0" -section_id auto_signaltap_0
-set_global_assignment -name SLD_NODE_PARAMETER_ASSIGNMENT "SLD_ADVANCED_TRIGGER_ENTITY=basic,1," -section_id auto_signaltap_0
-set_global_assignment -name SLD_NODE_PARAMETER_ASSIGNMENT "SLD_TRIGGER_LEVEL_PIPELINE=1" -section_id auto_signaltap_0
-set_global_assignment -name SLD_NODE_PARAMETER_ASSIGNMENT "SLD_ENABLE_ADVANCED_TRIGGER=0" -section_id auto_signaltap_0
-set_location_assignment PIN_C22 -to IO_PIN[48]
-set_location_assignment PIN_C21 -to IO_PIN[47]
-set_location_assignment PIN_D22 -to IO_PIN[46]
-set_location_assignment PIN_D21 -to IO_PIN[45]
-set_location_assignment PIN_E22 -to IO_PIN[44]
-set_location_assignment PIN_E21 -to IO_PIN[43]
-set_location_assignment PIN_F22 -to IO_PIN[42]
-set_location_assignment PIN_F21 -to IO_PIN[41]
-set_location_assignment PIN_H22 -to IO_PIN[40]
-set_location_assignment PIN_H21 -to IO_PIN[39]
-set_location_assignment PIN_J22 -to IO_PIN[38]
-set_location_assignment PIN_J21 -to IO_PIN[37]
-set_location_assignment PIN_K22 -to IO_PIN[36]
-set_location_assignment PIN_K21 -to IO_PIN[35]
-set_location_assignment PIN_L22 -to IO_PIN[34]
-set_location_assignment PIN_L21 -to IO_PIN[33]
-set_location_assignment PIN_M22 -to IO_PIN[32]
-set_location_assignment PIN_M21 -to IO_PIN[31]
-set_location_assignment PIN_AB14 -to IO_PIN[3]
-set_location_assignment PIN_AA14 -to IO_PIN[4]
-set_location_assignment PIN_AB15 -to IO_PIN[5]
-set_location_assignment PIN_AA15 -to IO_PIN[6]
-set_location_assignment PIN_AB16 -to IO_PIN[7]
-set_location_assignment PIN_AA16 -to IO_PIN[8]
-set_location_assignment PIN_AB17 -to IO_PIN[9]
-set_location_assignment PIN_AA17 -to IO_PIN[10]
-set_location_assignment PIN_AB18 -to IO_PIN[11]
-set_location_assignment PIN_AA18 -to IO_PIN[12]
-set_location_assignment PIN_AB19 -to IO_PIN[13]
-set_location_assignment PIN_AA19 -to IO_PIN[14]
-set_location_assignment PIN_AB20 -to IO_PIN[15]
-set_location_assignment PIN_AA20 -to IO_PIN[16]
-set_location_assignment PIN_Y21 -to IO_PIN[17]
-set_location_assignment PIN_Y22 -to IO_PIN[18]
-set_location_assignment PIN_W21 -to IO_PIN[19]
-set_location_assignment PIN_W22 -to IO_PIN[20]
-set_location_assignment PIN_V21 -to IO_PIN[21]
-set_location_assignment PIN_V22 -to IO_PIN[22]
-set_location_assignment PIN_U21 -to IO_PIN[23]
-set_location_assignment PIN_U22 -to IO_PIN[24]
-set_location_assignment PIN_R21 -to IO_PIN[25]
-set_location_assignment PIN_R22 -to IO_PIN[26]
-set_location_assignment PIN_P21 -to IO_PIN[27]
-set_location_assignment PIN_P22 -to IO_PIN[28]
-set_location_assignment PIN_N21 -to IO_PIN[29]
 set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to IO_PIN[41]
 set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to IO_PIN[4]
 set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to IO_PIN[29]
@@ -413,14 +392,8 @@ set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to IO_PIN[36]
 set_global_assignment -name SLD_NODE_PARAMETER_ASSIGNMENT "SLD_INVERSION_MASK=00000000000000000000000000000" -section_id auto_signaltap_0
 set_global_assignment -name SLD_NODE_PARAMETER_ASSIGNMENT "SLD_INVERSION_MASK_LENGTH=29" -section_id auto_signaltap_0
 set_global_assignment -name SLD_NODE_PARAMETER_ASSIGNMENT "SLD_SEGMENT_SIZE=4096" -section_id auto_signaltap_0
-set_instance_assignment -name POST_FIT_CONNECT_TO_SLD_NODE_ENTITY_PORT crc[17] -to auto_signaltap_0|vcc -section_id auto_signaltap_0
 set_instance_assignment -name POST_FIT_CONNECT_TO_SLD_NODE_ENTITY_PORT crc[18] -to auto_signaltap_0|gnd -section_id auto_signaltap_0
 set_instance_assignment -name POST_FIT_CONNECT_TO_SLD_NODE_ENTITY_PORT crc[20] -to auto_signaltap_0|gnd -section_id auto_signaltap_0
-set_instance_assignment -name POST_FIT_CONNECT_TO_SLD_NODE_ENTITY_PORT crc[25] -to auto_signaltap_0|gnd -section_id auto_signaltap_0
-set_instance_assignment -name POST_FIT_CONNECT_TO_SLD_NODE_ENTITY_PORT crc[28] -to auto_signaltap_0|vcc -section_id auto_signaltap_0
-set_instance_assignment -name POST_FIT_CONNECT_TO_SLD_NODE_ENTITY_PORT crc[29] -to auto_signaltap_0|vcc -section_id auto_signaltap_0
-set_instance_assignment -name POST_FIT_CONNECT_TO_SLD_NODE_ENTITY_PORT crc[30] -to auto_signaltap_0|gnd -section_id auto_signaltap_0
-set_instance_assignment -name POST_FIT_CONNECT_TO_SLD_NODE_ENTITY_PORT crc[31] -to auto_signaltap_0|vcc -section_id auto_signaltap_0
 set_global_assignment -name SLD_NODE_PARAMETER_ASSIGNMENT "SLD_SAMPLE_DEPTH=4096" -section_id auto_signaltap_0
 set_location_assignment PIN_N22 -to IO_PIN[30]
 set_global_assignment -name ENABLE_OCT_DONE OFF
@@ -437,5 +410,48 @@ set_global_assignment -name CYCLONEII_RESERVE_NCEO_AFTER_CONFIGURATION "USE AS R
 set_global_assignment -name RESERVE_DATA1_AFTER_CONFIGURATION "USE AS REGULAR IO"
 set_global_assignment -name RESERVE_DATA0_AFTER_CONFIGURATION "USE AS REGULAR IO"
 set_global_assignment -name RESERVE_DCLK_AFTER_CONFIGURATION "USE AS REGULAR IO"
+set_global_assignment -name VHDL_FILE "../../MultiComp (VHDL Template)/Components/Debounce/LongDebounce/debounce.vhd"
+set_global_assignment -name VHDL_FILE Components/RAM_16Kx16.vhd
+set_global_assignment -name VHDL_FILE Components/RAM_4Kx16.vhd
+set_global_assignment -name VHDL_FILE "../../MultiComp (VHDL Template)/Components/TERMINAL/SBCTextDisplayRGB.vhd"
+set_global_assignment -name VHDL_FILE "../../MultiComp (VHDL Template)/Components/TERMINAL/SansBoldRomReduced.vhd"
+set_global_assignment -name VHDL_FILE "../../MultiComp (VHDL Template)/Components/TERMINAL/SansBoldRom.vhd"
+set_global_assignment -name VHDL_FILE "../../MultiComp (VHDL Template)/Components/TERMINAL/DisplayRam2K.vhd"
+set_global_assignment -name VHDL_FILE "../../MultiComp (VHDL Template)/Components/TERMINAL/DisplayRam1K.vhd"
+set_global_assignment -name VHDL_FILE "../../MultiComp (VHDL Template)/Components/TERMINAL/CGABoldRomReduced.vhd"
+set_global_assignment -name VHDL_FILE "../../MultiComp (VHDL Template)/Components/TERMINAL/CGABoldRom.vhd"
+set_global_assignment -name VHDL_FILE "../../MultiComp (VHDL Template)/Components/UART/bufferedUART.vhd"
+set_global_assignment -name VHDL_FILE "../../MultiComp (VHDL Template)/Components/CPU/M68000/TG68K_2013/TG68KdotC_Kernel.vhd"
+set_global_assignment -name VHDL_FILE "../../MultiComp (VHDL Template)/Components/CPU/M68000/TG68K_2013/TG68K_Pack.vhd"
+set_global_assignment -name VHDL_FILE "../../MultiComp (VHDL Template)/Components/CPU/M68000/TG68K_2013/TG68K_ALU.vhd"
+set_global_assignment -name VHDL_FILE TS2_68000_Top.vhd
+set_global_assignment -name QIP_FILE Components/Monitor_68K_ROM.qip
+set_global_assignment -name QIP_FILE Components/RAM_8Kx16.qip
+set_global_assignment -name SIGNALTAP_FILE stp1.stp
+set_instance_assignment -name POST_FIT_CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[16] -to "debounce:DebounceResetSwitch|result" -section_id auto_signaltap_0
+set_instance_assignment -name POST_FIT_CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[17] -to n_reset -section_id auto_signaltap_0
+set_instance_assignment -name POST_FIT_CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[18] -to ps2Clk -section_id auto_signaltap_0
+set_instance_assignment -name POST_FIT_CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[19] -to ps2Data -section_id auto_signaltap_0
+set_instance_assignment -name POST_FIT_CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[20] -to rxd1 -section_id auto_signaltap_0
+set_instance_assignment -name POST_FIT_CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[21] -to w_n_ACIACS~0 -section_id auto_signaltap_0
+set_global_assignment -name SLD_NODE_PARAMETER_ASSIGNMENT "SLD_DATA_BITS=22" -section_id auto_signaltap_0
+set_global_assignment -name SLD_NODE_PARAMETER_ASSIGNMENT "SLD_STORAGE_QUALIFIER_BITS=22" -section_id auto_signaltap_0
+set_instance_assignment -name POST_FIT_CONNECT_TO_SLD_NODE_ENTITY_PORT crc[3] -to auto_signaltap_0|vcc -section_id auto_signaltap_0
+set_instance_assignment -name POST_FIT_CONNECT_TO_SLD_NODE_ENTITY_PORT crc[4] -to auto_signaltap_0|vcc -section_id auto_signaltap_0
+set_instance_assignment -name POST_FIT_CONNECT_TO_SLD_NODE_ENTITY_PORT crc[5] -to auto_signaltap_0|vcc -section_id auto_signaltap_0
+set_instance_assignment -name POST_FIT_CONNECT_TO_SLD_NODE_ENTITY_PORT crc[7] -to auto_signaltap_0|vcc -section_id auto_signaltap_0
+set_instance_assignment -name POST_FIT_CONNECT_TO_SLD_NODE_ENTITY_PORT crc[17] -to auto_signaltap_0|gnd -section_id auto_signaltap_0
+set_instance_assignment -name POST_FIT_CONNECT_TO_SLD_NODE_ENTITY_PORT crc[19] -to auto_signaltap_0|gnd -section_id auto_signaltap_0
+set_instance_assignment -name POST_FIT_CONNECT_TO_SLD_NODE_ENTITY_PORT crc[22] -to auto_signaltap_0|gnd -section_id auto_signaltap_0
+set_instance_assignment -name POST_FIT_CONNECT_TO_SLD_NODE_ENTITY_PORT crc[23] -to auto_signaltap_0|gnd -section_id auto_signaltap_0
+set_instance_assignment -name POST_FIT_CONNECT_TO_SLD_NODE_ENTITY_PORT crc[25] -to auto_signaltap_0|vcc -section_id auto_signaltap_0
+set_instance_assignment -name POST_FIT_CONNECT_TO_SLD_NODE_ENTITY_PORT crc[26] -to auto_signaltap_0|gnd -section_id auto_signaltap_0
+set_instance_assignment -name POST_FIT_CONNECT_TO_SLD_NODE_ENTITY_PORT crc[28] -to auto_signaltap_0|gnd -section_id auto_signaltap_0
+set_instance_assignment -name POST_FIT_CONNECT_TO_SLD_NODE_ENTITY_PORT crc[29] -to auto_signaltap_0|gnd -section_id auto_signaltap_0
+set_instance_assignment -name POST_FIT_CONNECT_TO_SLD_NODE_ENTITY_PORT crc[30] -to auto_signaltap_0|vcc -section_id auto_signaltap_0
+set_instance_assignment -name POST_FIT_CONNECT_TO_SLD_NODE_ENTITY_PORT crc[31] -to auto_signaltap_0|gnd -section_id auto_signaltap_0
+set_instance_assignment -name POST_FIT_CONNECT_TO_SLD_NODE_ENTITY_PORT crc[0] -to auto_signaltap_0|vcc -section_id auto_signaltap_0
+set_instance_assignment -name POST_FIT_CONNECT_TO_SLD_NODE_ENTITY_PORT crc[10] -to auto_signaltap_0|gnd -section_id auto_signaltap_0
+set_instance_assignment -name POST_FIT_CONNECT_TO_SLD_NODE_ENTITY_PORT crc[12] -to auto_signaltap_0|gnd -section_id auto_signaltap_0
 set_instance_assignment -name PARTITION_HIERARCHY root_partition -to | -section_id Top
 set_global_assignment -name SLD_FILE db/stp1_auto_stripped.stp
