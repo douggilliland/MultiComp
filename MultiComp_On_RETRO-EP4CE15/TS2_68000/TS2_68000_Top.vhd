@@ -256,12 +256,12 @@ begin
 	process (i_CLOCK_50)
 		begin
 			if rising_edge(i_CLOCK_50) then
-				if w_cpuCount < 3 then -- 4 = 10MHz, 3 = 12.5MHz, 2=16.6MHz, 1=25MHz
+				if w_cpuCount < 1 then -- 4 = 10MHz, 3 = 12.5MHz, 2=16.6MHz, 1=25MHz
 					w_cpuCount <= w_cpuCount + 1;
 				else
 					w_cpuCount <= (others=>'0');
 				end if;
-				if w_cpuCount < 2 then -- 2 when 10MHz, 2 when 12.5MHz, 2 when 16.6MHz, 1 when 25MHz
+				if w_cpuCount < 1 then -- 2 when 10MHz, 2 when 12.5MHz, 2 when 16.6MHz, 1 when 25MHz
 					w_cpuClock <= '0';
 				else
 					w_cpuClock <= '1';
