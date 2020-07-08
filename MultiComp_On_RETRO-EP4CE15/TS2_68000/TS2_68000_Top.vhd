@@ -182,7 +182,7 @@ begin
 	
 	w_n_RamCS 			<= '0' when ((w_n_RomCS = '1') and (cpuAddress(23 downto 15) = x"00"&'0'))	else	-- x000008-x007fff
 								'1';
-	w_wrRamStrobe		<= (not n_WR) and (not w_n_RamCS);
+	w_wrRamStrobe		<= (not n_WR) and (not w_n_RamCS) and w_cpuClock;
 	w_WrRamByteEn(1)	<= (not n_WR) and (not w_nUDS) and (not w_n_RamCS);
 	w_WrRamByteEn(0)	<= (not n_WR) and (not w_nLDS) and (not w_n_RamCS);
 	
