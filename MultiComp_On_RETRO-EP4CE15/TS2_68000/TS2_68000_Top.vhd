@@ -180,6 +180,7 @@ begin
 	
 	-- ____________________________________________________________________________________
 	-- 32KB SRAM
+	-- The RAM address input is delayed due to being registered so the gate is the true of the clock not the low level
 	
 	w_n_RamCS 			<= '0' when ((w_n_RomCS = '1') and (cpuAddress(23 downto 15) = x"00"&'0'))	else	-- x000008-x007fff
 								'1';
