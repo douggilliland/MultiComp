@@ -41,7 +41,7 @@ BEGIN
 
   counter_set <= flipflops(0) xor flipflops(1);   --determine when to start/reset counter
   
-  PROCESS(clk)
+  PROCESS(clk,button)
   BEGIN
     IF(clk'EVENT and clk = '1') THEN
       flipflops(0) <= button;

@@ -136,7 +136,7 @@ begin
 	CPU68K : entity work.TG68KdotC_Kernel
 		port map (
 			clk				=> w_cpuClock,
-			nReset			=> w_resetLow,
+			nReset			=> n_reset,
 			clkena_in		=> '1',
 			data_in			=> cpuDataIn,
 			IPL				=> "111",
@@ -183,7 +183,7 @@ begin
 	
 	w_n_RamCS 			<= '0' when ((w_n_RomCS = '1') and (cpuAddress(23 downto 15) = x"00"&'0'))	else	-- x000008-x007fff
 								'1';
-	w_wrRamStrobe		<= (not n_WR) and (not w_n_RamCS) and w_cpuClock;
+	w_wrRamStrobe		<= (not n_WR) and (not w_n_RamCS) and (w_cpuClock);
 	w_WrRamByteEn(1)	<= (not n_WR) and (not w_nUDS) and (not w_n_RamCS);
 	w_WrRamByteEn(0)	<= (not n_WR) and (not w_nLDS) and (not w_n_RamCS);
 	
@@ -212,7 +212,7 @@ begin
 	
 	U29 : entity work.SBCTextDisplayRGB
 		port map (
-			n_reset	=> w_resetLow,
+			n_reset	=> n_reset,
 			clk		=> i_CLOCK_50,
 			
 			-- RGB CompVideo signals
