@@ -84,6 +84,7 @@ architecture struct of TS2_68000_Top is
 	signal w_sramData					: std_logic_vector(15 downto 0);
 	signal w_VDUDataOut				: std_logic_vector(7 downto 0);
 	signal w_ACIADataOut				: std_logic_vector(7 downto 0);
+	signal w_PeriphData				: std_logic_vector(7 downto 0);
 
 	-- CPU clock counts
 	signal w_cpuCount					: std_logic_vector(5 downto 0); 
@@ -196,11 +197,17 @@ begin
 			q				=> w_sramData
 		);
 	
+	-- Route the data to the peripherals
+	w_PeriphData <= 	cpuDataOut(15 downto 8)	when (w_nUDS = '0') else
+							cpuDataOut(7 downto 0)  when (w_nLDS = '0') else
+							x"00";
+	
 	-- ____________________________________________________________________________________
 	-- INPUT/OUTPUT DEVICES
 	-- Grant Searle's VGA driver
 	
 	w_n_VDUCS <= '0' when ((cpuAddress(23 downto 4) = x"01004") and (w_nUDS = '0') and (serSelect = '1'))	 else -- x01004X - Based on monitor.lst file ACIA address
+					 '0' when ((cpuAddress(23 downto 4) = x"01004") and (w_nLDS = '0') and (serSelect = '0'))	 else 
 					 '1';
 	
 	U29 : entity work.SBCTextDisplayRGB
@@ -217,11 +224,11 @@ begin
 			videoG1	=> videoG1,
 			videoB0	=> videoB0,
 			videoB1	=> videoB1,
-			n_wr		=> w_n_VDUCS or      n_WR  or w_nUDS or w_cpuClock,
-			n_rd		=> w_n_VDUCS or (not n_WR) or w_nUDS,
+			n_wr		=> w_n_VDUCS or      n_WR or w_cpuClock,
+			n_rd		=> w_n_VDUCS or (not n_WR),
 			n_int		=> w_n_IRQ5,
 			regSel	=> cpuAddress(1),
-			dataIn	=> cpuDataOut(15 downto 8),
+			dataIn	=> w_PeriphData(7 downto 0),
 			dataOut	=> w_VDUDataOut,
 			ps2clk	=> ps2Clk,
 			ps2Data	=> ps2Data
@@ -230,16 +237,17 @@ begin
 	-- Neal Crook's bufferedUART - uses clock enables
 	
 	w_n_ACIACS <= '0' when ((cpuAddress(23 downto 4) = x"01004") and (w_nLDS = '0') and (serSelect = '1')) else -- x01004X - Based on monitor.lst file ACIA address
+					  '0' when ((cpuAddress(23 downto 4) = x"01004") and (w_nUDS = '0') and (serSelect = '0')) else
 					  '1';
 							
 	U30 : entity work.bufferedUART
 		port map(
-			clk		=> i_CLOCK_50,
-			n_wr		=> w_n_ACIACS or      n_WR  or w_nLDS or w_cpuClock,
-			n_rd		=> w_n_ACIACS or (not n_WR) or w_nLDS,
+			clk		=> i_CLOCK_50, 
+			n_wr		=> w_n_ACIACS or      n_WR  or w_cpuClock,
+			n_rd		=> w_n_ACIACS or (not n_WR),
 			n_int		=> w_n_IRQ6,
 			regSel	=> cpuAddress(1),
-			dataIn	=> cpuDataOut(7 downto 0),
+			dataIn	=> w_PeriphData(7 downto 0),
 			dataOut	=> w_ACIADataOut,
 			rxClkEn	=> w_serialEn,
 			txClkEn	=> w_serialEn,			
