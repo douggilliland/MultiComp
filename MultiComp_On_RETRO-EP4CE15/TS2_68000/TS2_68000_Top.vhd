@@ -16,9 +16,9 @@ entity TS2_68000_Top is
 		
 		rxd1			: in std_logic := '1';
 		txd1			: out std_logic;
-		cts1			: in std_logic := '1';
+--		cts1			: in std_logic := '1';
 		rts1			: out std_logic;
---		serSelect	: in std_logic := '1';
+		serSelect	: in std_logic := '1';
 		
 		videoR0		: out std_logic := '1';
 		videoG0		: out std_logic := '1';
@@ -200,7 +200,7 @@ begin
 	-- INPUT/OUTPUT DEVICES
 	-- Grant Searle's VGA driver
 	
-	w_n_VDUCS <= '0' when ((cpuAddress(23 downto 4) = x"01004") and (w_nUDS = '0'))	 else -- x01004X - Based on monitor.lst file ACIA address
+	w_n_VDUCS <= '0' when ((cpuAddress(23 downto 4) = x"01004") and (w_nUDS = '0') and (serSelect = '1'))	 else -- x01004X - Based on monitor.lst file ACIA address
 					 '1';
 	
 	U29 : entity work.SBCTextDisplayRGB
@@ -229,7 +229,7 @@ begin
 	
 	-- Neal Crook's bufferedUART - uses clock enables
 	
-	w_n_ACIACS <= '0' when ((cpuAddress(23 downto 4) = x"01004") and (w_nLDS = '0')) else -- x01004X - Based on monitor.lst file ACIA address
+	w_n_ACIACS <= '0' when ((cpuAddress(23 downto 4) = x"01004") and (w_nLDS = '0') and (serSelect = '1')) else -- x01004X - Based on monitor.lst file ACIA address
 					  '1';
 							
 	U30 : entity work.bufferedUART
@@ -245,7 +245,7 @@ begin
 			txClkEn	=> w_serialEn,			
 			rxd		=> rxd1,
 			txd		=> txd1,
-			n_cts		=> cts1,
+--			n_cts		=> cts1,
 			n_rts		=> rts1
 		);
 	
