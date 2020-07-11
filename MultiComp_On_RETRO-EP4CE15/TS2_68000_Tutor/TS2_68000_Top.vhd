@@ -11,14 +11,14 @@ use  IEEE.STD_LOGIC_UNSIGNED.all;
 
 entity TS2_68000_Top is
 	port(
-		n_reset		: in std_logic;
+		n_reset		: in std_logic;				-- SW2 (back corner of FPGA)
 		i_CLOCK_50	: in std_logic;
 		
 		rxd1			: in std_logic := '1';
 		txd1			: out std_logic;
-		cts1			: in std_logic := '1';
+		--cts1			: in std_logic := '0';	-- Does not work with TUTOR and LOad S record command
 		rts1			: out std_logic;
-		serSelect	: in std_logic := '1';
+		serSelect	: in std_logic := '1';		-- J3-1 - pull to adjacent ground pin withe shunt or remove
 		
 		videoR0		: out std_logic := '1';
 		videoG0		: out std_logic := '1';
@@ -32,7 +32,8 @@ entity TS2_68000_Top is
 		ps2Clk		: inout std_logic;
 		ps2Data		: inout std_logic;
 		
-		IO_PIN		: out std_logic_vector(48 downto 3);
+		IO_PIN		: out std_logic_vector(48 downto 3);		-- Used for debugging
+		
 		
 		-- External SRAM Not used but assigning pins so it's not active
 		extSramData		: inout std_logic_vector(7 downto 0);
@@ -138,7 +139,7 @@ begin
 	CPU68K : entity work.TG68KdotC_Kernel
 		port map (
 			clk				=> w_cpuClock,
-			nReset			=> n_reset,
+			nReset			=> w_resetLow,
 			clkena_in		=> '1',
 			data_in			=> w_cpuDataIn,
 			IPL				=> w_IPL,
@@ -227,7 +228,7 @@ begin
 	
 	U29 : entity work.SBCTextDisplayRGB
 		port map (
-			n_reset	=> n_reset,
+			n_reset	=> w_resetLow,
 			clk		=> i_CLOCK_50,
 			
 			-- RGB CompVideo signals
@@ -268,7 +269,7 @@ begin
 			txClkEn	=> w_serialEn,			
 			rxd		=> rxd1,
 			txd		=> txd1,
-			n_cts		=> cts1,
+			--n_cts		=> cts1,
 			n_rts		=> rts1
 		);
 	

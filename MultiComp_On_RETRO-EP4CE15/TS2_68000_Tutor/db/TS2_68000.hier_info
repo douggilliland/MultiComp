@@ -1,7 +1,5 @@
 |TS2_68000_Top
 n_reset => debounce:DebounceResetSwitch.button
-n_reset => tg68kdotc_kernel:CPU68K.nReset
-n_reset => sbctextdisplayrgb:U29.n_reset
 i_CLOCK_50 => debounce:DebounceResetSwitch.clk
 i_CLOCK_50 => w_serialEn.CLK
 i_CLOCK_50 => w_serialCount[4].CLK
@@ -29,7 +27,6 @@ i_CLOCK_50 => sbctextdisplayrgb:U29.clk
 i_CLOCK_50 => buffereduart:U30.clk
 rxd1 => buffereduart:U30.rxd
 txd1 <= buffereduart:U30.txd
-cts1 => buffereduart:U30.n_cts
 rts1 <= buffereduart:U30.n_rts
 serSelect => w_n_VDUCS.IN1
 serSelect => w_n_ACIACS.IN1
