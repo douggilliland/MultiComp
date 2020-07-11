@@ -117,7 +117,7 @@ begin
 	IO_PIN(42) <= w_n_VDUCS;
 	IO_PIN(41) <= w_n_ACIACS;
 	IO_PIN(40) <= '0';
-	IO_PIN(39) <= '0';
+	IO_PIN(39) <= w_resetLow;
 	IO_PIN(38) <= '0';
 	IO_PIN(37) <= '0';
 	IO_PIN(36) <= '0';
