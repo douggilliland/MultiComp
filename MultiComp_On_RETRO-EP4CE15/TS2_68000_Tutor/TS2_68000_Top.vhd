@@ -16,7 +16,7 @@ entity TS2_68000_Top is
 		
 		rxd1			: in std_logic := '1';
 		txd1			: out std_logic;
---		cts1			: in std_logic := '1';
+		cts1			: in std_logic := '1';
 		rts1			: out std_logic;
 		serSelect	: in std_logic := '1';
 		
@@ -56,9 +56,9 @@ end TS2_68000_Top;
 architecture struct of TS2_68000_Top is
 
 	-- CPU Control signals
-	signal cpuAddress					: std_logic_vector(31 downto 0);
-	signal cpuDataOut					: std_logic_vector(15 downto 0);
-	signal cpuDataIn					: std_logic_vector(15 downto 0);
+	signal w_cpuAddress				: std_logic_vector(31 downto 0);
+	signal w_cpuDataOut				: std_logic_vector(15 downto 0);
+	signal w_cpuDataIn				: std_logic_vector(15 downto 0);
 	signal n_WR							: std_logic;
 	signal w_nUDS      				: std_logic;
 	signal w_nLDS      				: std_logic;
@@ -140,13 +140,13 @@ begin
 			clk				=> w_cpuClock,
 			nReset			=> n_reset,
 			clkena_in		=> '1',
-			data_in			=> cpuDataIn,
+			data_in			=> w_cpuDataIn,
 			IPL				=> w_IPL,
 			IPL_autovector => w_iack,
 			berr				=> '0',
 			CPU				=> "00",				-- 68000 CPU
-			addr				=> cpuAddress,
-			data_write		=> cpuDataOut,
+			addr				=> w_cpuAddress,
+			data_write		=> w_cpuDataOut,
 			nWr				=> n_WR,
 			nUDS				=> w_nUDS,			-- D8..15 select
 			nLDS				=> w_nLDS,			-- D0..7 - select
@@ -162,15 +162,15 @@ begin
 					"111";
 					
 		-- Interrupt Acknowledge decoder
-		w_iack <= '1' when ((w_FC = "111") and (cpuAddress(3 downto 1) = "101") and ((w_nUDS = '0') or (w_nLDS = '0'))) else		-- IRQ = 5
-					 '1' when ((w_FC = "111") and (cpuAddress(3 downto 1) = "110") and ((w_nUDS = '0') or (w_nLDS = '0'))) else		-- IRQ = 6
+		w_iack <= '1' when ((w_FC = "111") and (w_cpuAddress(3 downto 1) = "101") and ((w_nUDS = '0') or (w_nLDS = '0'))) else		-- IRQ = 5
+					 '1' when ((w_FC = "111") and (w_cpuAddress(3 downto 1) = "110") and ((w_nUDS = '0') or (w_nLDS = '0'))) else		-- IRQ = 6
 					 '0';
 		
 					
 	-- ____________________________________________________________________________________
 	-- BUS ISOLATION
 
-	cpuDataIn <=
+	w_cpuDataIn <=
 		w_VDUDataOut & w_VDUDataOut	when w_n_VDUCS 	= '0' else
 		w_ACIADataOut & w_ACIADataOut	when w_n_ACIACS	= '0' else
 		w_MonROMData						when w_n_RomCS		= '0' else
@@ -181,13 +181,13 @@ begin
 	-- TS2Bug Monitor ROM 4KB (uses less than 4KB)
 	-- Tutor Monitpr ROM needs 16KB
 	
-	w_n_RomCS <=	'0' when (cpuAddress(23 downto 14) = x"00"&"10")	else 		-- x008000-x00BFFF (MAIN EPROM)
-						'0' when (cpuAddress(23 downto 3) =  x"00000"&'0')	else		-- X000000-X000007 (VECTORS)
+	w_n_RomCS <=	'0' when (w_cpuAddress(23 downto 14) = x"00"&"10")	else 		-- x008000-x00BFFF (MAIN EPROM)
+						'0' when (w_cpuAddress(23 downto 3) =  x"00000"&'0')	else		-- X000000-X000007 (VECTORS)
 						'1';
 	
 	rom1 : entity work.Monitor_68K_ROM -- Monitor
 		port map (
-			address 	=> cpuAddress(13 downto 1),
+			address 	=> w_cpuAddress(13 downto 1),
 			clock		=> i_CLOCK_50,
 			q			=> w_MonROMData
 		);
@@ -196,7 +196,7 @@ begin
 	-- 32KB SRAM
 	-- The RAM address input is delayed due to being registered so the gate is the true of the clock not the low level
 	
-	w_n_RamCS 			<= '0' when ((w_n_RomCS = '1') and (cpuAddress(23 downto 15) = x"00"&'0'))	else	-- x000008-x007fff
+	w_n_RamCS 			<= '0' when ((w_n_RomCS = '1') and (w_cpuAddress(23 downto 15) = x"00"&'0'))	else	-- x000008-x007fff
 								'1';
 	w_wrRamStrobe		<= (not n_WR) and (not w_n_RamCS) and (w_cpuClock);
 	w_WrRamByteEn(1)	<= (not n_WR) and (not w_nUDS) and (not w_n_RamCS);
@@ -204,25 +204,25 @@ begin
 	
 	ram1 : ENTITY work.RAM_16Kx16
 		PORT map	(
-			address		=> cpuAddress(14 downto 1),
+			address		=> w_cpuAddress(14 downto 1),
 			clock			=> i_CLOCK_50,
-			data			=> cpuDataOut,
+			data			=> w_cpuDataOut,
 			byteena		=> w_WrRamByteEn,
 			wren			=> w_wrRamStrobe,
 			q				=> w_sramData
 		);
 	
 	-- Route the data to the peripherals
-	w_PeriphData <= 	cpuDataOut(15 downto 8)	when (w_nUDS = '0') else
-							cpuDataOut(7 downto 0)  when (w_nLDS = '0') else
+	w_PeriphData <= 	w_cpuDataOut(15 downto 8)	when (w_nUDS = '0') else
+							w_cpuDataOut(7 downto 0)  when (w_nLDS = '0') else
 							x"00";
 	
 	-- ____________________________________________________________________________________
 	-- INPUT/OUTPUT DEVICES
 	-- Grant Searle's VGA driver
 	
-	w_n_VDUCS <= '0' when ((cpuAddress(23 downto 4) = x"01004") and (w_nUDS = '0') and (serSelect = '1'))	 else -- x01004X - Based on monitor.lst file ACIA address
-					 '0' when ((cpuAddress(23 downto 4) = x"01004") and (w_nLDS = '0') and (serSelect = '0'))	 else 
+	w_n_VDUCS <= '0' when ((w_cpuAddress(23 downto 4) = x"01004") and (w_nUDS = '0') and (serSelect = '1'))	 else -- x01004X - Based on monitor.lst file ACIA address
+					 '0' when ((w_cpuAddress(23 downto 4) = x"01004") and (w_nLDS = '0') and (serSelect = '0'))	 else 
 					 '1';
 	
 	U29 : entity work.SBCTextDisplayRGB
@@ -242,7 +242,7 @@ begin
 			n_wr		=> w_n_VDUCS or      n_WR or w_cpuClock,
 			n_rd		=> w_n_VDUCS or (not n_WR),
 			n_int		=> w_n_IRQ5,
-			regSel	=> cpuAddress(1),
+			regSel	=> w_cpuAddress(1),
 			dataIn	=> w_PeriphData(7 downto 0),
 			dataOut	=> w_VDUDataOut,
 			ps2clk	=> ps2Clk,
@@ -251,8 +251,8 @@ begin
 	
 	-- Neal Crook's bufferedUART - uses clock enables
 	
-	w_n_ACIACS <= '0' when ((cpuAddress(23 downto 4) = x"01004") and (w_nLDS = '0') and (serSelect = '1')) else -- x01004X - Based on monitor.lst file ACIA address
-					  '0' when ((cpuAddress(23 downto 4) = x"01004") and (w_nUDS = '0') and (serSelect = '0')) else
+	w_n_ACIACS <= '0' when ((w_cpuAddress(23 downto 4) = x"01004") and (w_nLDS = '0') and (serSelect = '1')) else -- x01004X - Based on monitor.lst file ACIA address
+					  '0' when ((w_cpuAddress(23 downto 4) = x"01004") and (w_nUDS = '0') and (serSelect = '0')) else
 					  '1';
 							
 	U30 : entity work.bufferedUART
@@ -261,14 +261,14 @@ begin
 			n_wr		=> w_n_ACIACS or      n_WR  or w_cpuClock,
 			n_rd		=> w_n_ACIACS or (not n_WR),
 			n_int		=> w_n_IRQ6,
-			regSel	=> cpuAddress(1),
+			regSel	=> w_cpuAddress(1),
 			dataIn	=> w_PeriphData(7 downto 0),
 			dataOut	=> w_ACIADataOut,
 			rxClkEn	=> w_serialEn,
 			txClkEn	=> w_serialEn,			
 			rxd		=> rxd1,
 			txd		=> txd1,
---			n_cts		=> cts1,
+			n_cts		=> cts1,
 			n_rts		=> rts1
 		);
 	
