@@ -16,7 +16,7 @@ entity TS2_68000_Top is
 		
 		rxd1			: in std_logic := '1';
 		txd1			: out std_logic;
-		--cts1			: in std_logic := '0';	-- Does not work with TUTOR and LOad S record command
+		cts1			: in std_logic := '0';		-- Does not work with TUTOR and LOad S record command
 		rts1			: out std_logic;
 		serSelect	: in std_logic := '1';		-- J3-1 - pull to adjacent ground pin withe shunt or remove
 		
@@ -99,8 +99,16 @@ architecture struct of TS2_68000_Top is
    signal w_serialCount_d       	: std_logic_vector(15 downto 0);
    signal w_serialEn            	: std_logic;
 	
+   signal w_rXd	            	: std_logic;
+   signal w_txd	            	: std_logic;
+   signal w_n_cts	            	: std_logic;
+   signal w_n_rts	            	: std_logic;
+	
 begin
 
+	txd1 <= w_txd;
+	rts1 <= w_n_rts;
+	
 	-- Debounce the reset line
 	DebounceResetSwitch	: entity work.debounce
 	port map (
@@ -117,10 +125,10 @@ begin
 	IO_PIN(43) <= w_n_RamCS;
 	IO_PIN(42) <= w_n_VDUCS;
 	IO_PIN(41) <= w_n_ACIACS;
-	IO_PIN(40) <= '0';
-	IO_PIN(39) <= w_resetLow;
-	IO_PIN(38) <= '0';
-	IO_PIN(37) <= '0';
+	IO_PIN(40) <= w_txd;
+	IO_PIN(39) <= rXd1;
+	IO_PIN(38) <= w_n_rts;
+	IO_PIN(37) <= cts1;
 	IO_PIN(36) <= '0';
 	IO_PIN(35) <= '0';
 	IO_PIN(34) <= '0';
@@ -268,9 +276,9 @@ begin
 			rxClkEn	=> w_serialEn,
 			txClkEn	=> w_serialEn,			
 			rxd		=> rxd1,
-			txd		=> txd1,
-			--n_cts		=> cts1,
-			n_rts		=> rts1
+			txd		=> w_txd,
+			n_cts		=> cts1,
+			n_rts		=> w_n_rts
 		);
 	
 
@@ -295,6 +303,13 @@ begin
 	
 	
 	-- Baud Rate CLOCK SIGNALS
+    -- Baud   Increment
+    -- 115200 2416
+    -- 38400  805
+    -- 19200  403
+    -- 9600   201
+    -- 4800   101
+    -- 2400   50
 	
 	baud_div: process (w_serialCount_d, w_serialCount)
 		 begin
@@ -304,8 +319,8 @@ begin
 	process (i_CLOCK_50)
 		begin
 			if rising_edge(i_CLOCK_50) then
-			  -- Enable for baud rate generator
 			  w_serialCount <= w_serialCount_d;
+			  -- Enable for baud rate generator
 			  if w_serialCount(15) = '0' and w_serialCount_d(15) = '1' then
 					w_serialEn <= '1';
 			  else
