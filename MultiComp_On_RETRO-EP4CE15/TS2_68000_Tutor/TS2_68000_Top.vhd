@@ -65,6 +65,8 @@ architecture struct of TS2_68000_Top is
 	signal w_busstate      			: std_logic_vector(1 downto 0);
 	signal w_nResetOut      		: std_logic;
 	signal w_FC      					: std_logic_vector(2 downto 0);
+	signal w_IPL     					: std_logic_vector(2 downto 0) := "111";
+	signal w_iack	      			: std_logic := '0';
 	signal w_clr_berr      			: std_logic;
 
 	-- Interrupts from peripherals
@@ -139,10 +141,10 @@ begin
 			nReset			=> n_reset,
 			clkena_in		=> '1',
 			data_in			=> cpuDataIn,
-			IPL				=> "111",
-			IPL_autovector => '0',
+			IPL				=> w_IPL,
+			IPL_autovector => w_iack,
 			berr				=> '0',
-			CPU				=> "00",
+			CPU				=> "00",				-- 68000 CPU
 			addr				=> cpuAddress,
 			data_write		=> cpuDataOut,
 			nWr				=> n_WR,
@@ -152,8 +154,19 @@ begin
 			nResetOut		=> w_nResetOut,
 			FC					=> w_FC,
 			clr_berr			=> w_clr_berr
-		); 
-	
+		);
+		
+		-- Interrupt Priority encoder
+		w_IPL <= "010" when w_n_IRQ5 = '0' else
+					"011" when w_n_IRQ6 = '0' else
+					"111";
+					
+		-- Interrupt Acknowledge decoder
+		w_iack <= '1' when ((w_FC = "111") and (cpuAddress(3 downto 1) = "101") and ((w_nUDS = '0') or (w_nLDS = '0'))) else		-- IRQ = 5
+					 '1' when ((w_FC = "111") and (cpuAddress(3 downto 1) = "110") and ((w_nUDS = '0') or (w_nLDS = '0'))) else		-- IRQ = 6
+					 '0';
+		
+					
 	-- ____________________________________________________________________________________
 	-- BUS ISOLATION
 
