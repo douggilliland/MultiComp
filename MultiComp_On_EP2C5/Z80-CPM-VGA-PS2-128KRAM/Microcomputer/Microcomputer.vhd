@@ -250,6 +250,8 @@ port map(
 	latchOut => ledOut8
 );
 
+-- ____________________________________________________________________________________
+-- Might require Grant's "slow-speed" controller to format cards
 sd1 : entity work.sd_controller
 port map(
 	sdCS => sdCS,

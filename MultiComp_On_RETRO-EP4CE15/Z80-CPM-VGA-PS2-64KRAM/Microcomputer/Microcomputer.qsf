@@ -54,7 +54,7 @@ set_global_assignment -name DEVICE_FILTER_SPEED_GRADE 8
 set_global_assignment -name STRATIX_DEVICE_IO_STANDARD "2.5 V"
 # Clock and reset
 set_location_assignment PIN_T2 -to clk
-set_location_assignment PIN_W13 -to n_reset
+set_location_assignment PIN_Y13 -to n_reset
 set_instance_assignment -name WEAK_PULL_UP_RESISTOR ON -to n_reset
 set_location_assignment PIN_B21 -to turboMode
 set_instance_assignment -name WEAK_PULL_UP_RESISTOR ON -to turboMode
@@ -255,11 +255,27 @@ set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to ucts1
 set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to utxd1
 set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to urxd1
 set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to urts1
+set_location_assignment PIN_AB14 -to latOut[0]
+set_location_assignment PIN_AA14 -to latOut[1]
+set_location_assignment PIN_AB15 -to latOut[2]
+set_location_assignment PIN_AA15 -to latOut[3]
+set_location_assignment PIN_AB16 -to latOut[4]
+set_location_assignment PIN_AA16 -to latOut[5]
+set_location_assignment PIN_AB17 -to latOut[6]
+set_location_assignment PIN_AA17 -to latOut[7]
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to latOut[7]
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to latOut[6]
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to latOut[5]
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to latOut[4]
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to latOut[2]
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to latOut[3]
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to latOut[0]
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to latOut[1]
+set_global_assignment -name VHDL_FILE "../../../MultiComp (VHDL Template)/Components/SDCARD/sd_controller_High_Speed.vhd"
 set_global_assignment -name VHDL_FILE "../../../MultiComp (VHDL Template)/Components/ROMs/Z80/Z80_CPM_BASIC_ROM.vhd"
 set_global_assignment -name VHDL_FILE "../../../MultiComp (VHDL Template)/Components/UART/bufferedUART.vhd"
 set_global_assignment -name VHDL_FILE "../../../MultiComp (VHDL Template)/Components/TERMINAL/SBCTextDisplayRGB.vhd"
 set_global_assignment -name VHDL_FILE "../../../MultiComp (VHDL Template)/Components/IO/OutLatch.vhd"
-set_global_assignment -name VHDL_FILE "../../../MultiComp (VHDL Template)/Components/SDCARD/sd_controller_High_Speed.vhd"
 set_global_assignment -name VHDL_FILE "../../../MultiComp (VHDL Template)/Components/CPU/Z80/T80s.vhd"
 set_global_assignment -name VHDL_FILE "../../../MultiComp (VHDL Template)/Components/CPU/Z80/T80_Reg.vhd"
 set_global_assignment -name VHDL_FILE "../../../MultiComp (VHDL Template)/Components/CPU/Z80/T80_Pack.vhd"
@@ -277,20 +293,4 @@ set_global_assignment -name VHDL_FILE "../../../MultiComp (VHDL Template)/Compon
 set_global_assignment -name VHDL_FILE Microcomputer.vhd
 set_global_assignment -name SOURCE_FILE Microcomputer.qsf
 set_global_assignment -name CDF_FILE output_files/Microcomputer.cdf
-set_location_assignment PIN_AB14 -to latOut[0]
-set_location_assignment PIN_AA14 -to latOut[1]
-set_location_assignment PIN_AB15 -to latOut[2]
-set_location_assignment PIN_AA15 -to latOut[3]
-set_location_assignment PIN_AB16 -to latOut[4]
-set_location_assignment PIN_AA16 -to latOut[5]
-set_location_assignment PIN_AB17 -to latOut[6]
-set_location_assignment PIN_AA17 -to latOut[7]
-set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to latOut[7]
-set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to latOut[6]
-set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to latOut[5]
-set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to latOut[4]
-set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to latOut[2]
-set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to latOut[3]
-set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to latOut[0]
-set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to latOut[1]
 set_instance_assignment -name PARTITION_HIERARCHY root_partition -to | -section_id Top
