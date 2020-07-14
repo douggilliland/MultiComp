@@ -21,6 +21,10 @@
 --		Supports SD, SDHC cards
 --	Runs CP/M
 --		Autodetects Serial port or VDU by waiting on space key to be pressed
+-- Jumper(s)
+--		Turbo J3 pins 3-4 (2nd jumper from the right)
+--			Install for slow speed mode (10 MHz)
+--			Remove for high speed mode (25 MHz)
 
 
 library ieee;
@@ -292,7 +296,7 @@ cpuDataIn <=
 -- CPU CLOCK SIGNALS
 clk_gen: process (clk) begin
 	if rising_edge(clk) then
-		if turboMode = '1' then
+		if turboMode = '1' then	-- 25 MHz Z80
 			if cpuClkCount < 1 then -- 4 = 10MHz, 3 = 12.5MHz, 2=16.6MHz, 1=25MHz
 				cpuClkCount <= cpuClkCount + 1;
 			else
@@ -303,7 +307,7 @@ clk_gen: process (clk) begin
 			else
 				cpuClock <= '1';
 			end if;
-		else
+		else		-- 10 MHz Z80
 			if cpuClkCount < 4 then -- 4 = 10MHz, 3 = 12.5MHz, 2=16.6MHz, 1=25MHz
 				cpuClkCount <= cpuClkCount + 1;
 			else
