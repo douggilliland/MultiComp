@@ -48,15 +48,15 @@ set_global_assignment -name ERROR_CHECK_FREQUENCY_DIVISOR 1
 set_global_assignment -name PARTITION_NETLIST_TYPE SOURCE -section_id Top
 set_global_assignment -name PARTITION_FITTER_PRESERVATION_LEVEL PLACEMENT_AND_ROUTING -section_id Top
 set_global_assignment -name PARTITION_COLOR 16764057 -section_id Top
-# 
-set_location_assignment PIN_101 -to rxd1
-set_location_assignment PIN_103 -to txd1
-set_location_assignment PIN_104 -to rts1
-set_instance_assignment -name WEAK_PULL_UP_RESISTOR ON -to rxd1
-# 
+# Clocks and reset
 set_location_assignment PIN_17 -to clk
 set_location_assignment PIN_144 -to n_reset
-# 
+# ACIA
+set_location_assignment PIN_101 -to rxd1
+set_instance_assignment -name WEAK_PULL_UP_RESISTOR ON -to rxd1
+set_location_assignment PIN_103 -to txd1
+set_location_assignment PIN_104 -to rts1
+# External SRAM
 set_location_assignment PIN_4 -to n_sRamWE
 set_location_assignment PIN_126 -to n_sRamCS
 set_location_assignment PIN_134 -to n_sRamOE
@@ -84,10 +84,10 @@ set_location_assignment PIN_112 -to sramData[3]
 set_location_assignment PIN_113 -to sramData[2]
 set_location_assignment PIN_115 -to sramData[1]
 set_location_assignment PIN_119 -to sramData[0]
-# 
+# PS/2
 set_location_assignment PIN_87 -to ps2Data
 set_location_assignment PIN_86 -to ps2Clk
-# 
+# VGA
 set_location_assignment PIN_64 -to videoB0
 set_location_assignment PIN_63 -to videoB1
 set_location_assignment PIN_67 -to videoG0
@@ -96,16 +96,17 @@ set_location_assignment PIN_70 -to videoR0
 set_location_assignment PIN_69 -to videoR1
 set_location_assignment PIN_71 -to hSync
 set_location_assignment PIN_72 -to vSync
+# Composite Video
 set_location_assignment PIN_75 -to video
 set_location_assignment PIN_74 -to videoSync
-# 
+# SD Card
 set_location_assignment PIN_92 -to sdMISO
 set_instance_assignment -name WEAK_PULL_UP_RESISTOR ON -to sdMISO
 set_location_assignment PIN_94 -to sdSCLK
 set_location_assignment PIN_93 -to sdMOSI
 set_location_assignment PIN_97 -to sdCS
 set_location_assignment PIN_3 -to driveLED
-# 
+# J6 IO
 set_location_assignment PIN_25 -to J6IO8[0]
 set_location_assignment PIN_31 -to J6IO8[1]
 set_location_assignment PIN_41 -to J6IO8[2]
@@ -114,6 +115,7 @@ set_location_assignment PIN_43 -to J6IO8[4]
 set_location_assignment PIN_42 -to J6IO8[5]
 set_location_assignment PIN_45 -to J6IO8[6]
 set_location_assignment PIN_44 -to J6IO8[7]
+# J8 IO
 set_location_assignment PIN_48 -to J8IO8[0]
 set_location_assignment PIN_47 -to J8IO8[1]
 set_location_assignment PIN_52 -to J8IO8[2]

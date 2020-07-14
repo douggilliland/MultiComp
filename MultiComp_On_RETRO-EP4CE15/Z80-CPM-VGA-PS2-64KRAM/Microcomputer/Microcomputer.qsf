@@ -48,10 +48,9 @@ set_global_assignment -name PARTITION_FITTER_PRESERVATION_LEVEL PLACEMENT_AND_RO
 set_global_assignment -name PARTITION_COLOR 16764057 -section_id Top
 set_global_assignment -name MIN_CORE_JUNCTION_TEMP 0
 set_global_assignment -name MAX_CORE_JUNCTION_TEMP 85
-set_global_assignment -name DEVICE_FILTER_PACKAGE TQFP
-set_global_assignment -name DEVICE_FILTER_PIN_COUNT 144
+set_global_assignment -name DEVICE_FILTER_PACKAGE FBGA
 set_global_assignment -name DEVICE_FILTER_SPEED_GRADE 8
-set_global_assignment -name STRATIX_DEVICE_IO_STANDARD "2.5 V"
+set_global_assignment -name STRATIX_DEVICE_IO_STANDARD "3.3-V LVTTL"
 # Clock and reset
 set_location_assignment PIN_T2 -to clk
 set_location_assignment PIN_Y13 -to n_reset
@@ -120,6 +119,7 @@ set_location_assignment PIN_B6 -to sramAddress[17]
 set_location_assignment PIN_B5 -to sramAddress[18]
 set_location_assignment PIN_C4 -to sramAddress[19]
 # LED
+set_location_assignment PIN_E4 -to driveLED
 # SDRAM
 set_location_assignment PIN_Y6 -to sdRamClk
 set_location_assignment PIN_W6 -to sdRamClkEn
@@ -158,6 +158,15 @@ set_location_assignment PIN_V10 -to sdRamData[12]
 set_location_assignment PIN_Y10 -to sdRamData[13]
 set_location_assignment PIN_W10 -to sdRamData[14]
 set_location_assignment PIN_V11 -to sdRamData[15]
+#
+set_location_assignment PIN_AB14 -to latOut[0]
+set_location_assignment PIN_AA14 -to latOut[1]
+set_location_assignment PIN_AB15 -to latOut[2]
+set_location_assignment PIN_AA15 -to latOut[3]
+set_location_assignment PIN_AB16 -to latOut[4]
+set_location_assignment PIN_AA16 -to latOut[5]
+set_location_assignment PIN_AB17 -to latOut[6]
+set_location_assignment PIN_AA17 -to latOut[7]
 #
 set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to clk
 set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to driveLED
@@ -207,8 +216,6 @@ set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to n_sRamWE
 set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to n_sRamOE
 set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to n_sRamCS
 set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to n_reset
-set_global_assignment -name POWER_PRESET_COOLING_SOLUTION "23 MM HEAT SINK WITH 200 LFPM AIRFLOW"
-set_global_assignment -name POWER_BOARD_THERMAL_MODEL "NONE (CONSERVATIVE)"
 set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to sdRamData[0]
 set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to sdRamData[1]
 set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to sdRamData[2]
@@ -247,22 +254,10 @@ set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to n_sdRamCe
 set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to n_sdRamRas
 set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to n_sdRamWe
 set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to sramAddress[19]
-set_location_assignment PIN_E4 -to driveLED
-set_global_assignment -name TIMING_ANALYZER_MULTICORNER_ANALYSIS ON
-set_global_assignment -name SMART_RECOMPILE ON
-set_global_assignment -name NUM_PARALLEL_PROCESSORS 4
 set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to ucts1
 set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to utxd1
 set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to urxd1
 set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to urts1
-set_location_assignment PIN_AB14 -to latOut[0]
-set_location_assignment PIN_AA14 -to latOut[1]
-set_location_assignment PIN_AB15 -to latOut[2]
-set_location_assignment PIN_AA15 -to latOut[3]
-set_location_assignment PIN_AB16 -to latOut[4]
-set_location_assignment PIN_AA16 -to latOut[5]
-set_location_assignment PIN_AB17 -to latOut[6]
-set_location_assignment PIN_AA17 -to latOut[7]
 set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to latOut[7]
 set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to latOut[6]
 set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to latOut[5]
@@ -291,6 +286,18 @@ set_global_assignment -name HEX_FILE "../../../MultiComp (VHDL Template)/Compone
 set_global_assignment -name VHDL_FILE "../../../MultiComp (VHDL Template)/Components/TERMINAL/SansBoldRomReduced.vhd"
 set_global_assignment -name VHDL_FILE "../../../MultiComp (VHDL Template)/Components/TERMINAL/SansBoldRom.vhd"
 set_global_assignment -name VHDL_FILE Microcomputer.vhd
+set_global_assignment -name POWER_PRESET_COOLING_SOLUTION "23 MM HEAT SINK WITH 200 LFPM AIRFLOW"
+set_global_assignment -name POWER_BOARD_THERMAL_MODEL "NONE (CONSERVATIVE)"
+set_global_assignment -name TIMING_ANALYZER_MULTICORNER_ANALYSIS ON
+set_global_assignment -name SMART_RECOMPILE ON
+set_global_assignment -name NUM_PARALLEL_PROCESSORS 4
 set_global_assignment -name SOURCE_FILE Microcomputer.qsf
 set_global_assignment -name CDF_FILE output_files/Microcomputer.cdf
+set_global_assignment -name ENABLE_OCT_DONE OFF
+set_global_assignment -name USE_CONFIGURATION_DEVICE OFF
+set_global_assignment -name CRC_ERROR_OPEN_DRAIN OFF
+set_global_assignment -name OUTPUT_IO_TIMING_NEAR_END_VMEAS "HALF VCCIO" -rise
+set_global_assignment -name OUTPUT_IO_TIMING_NEAR_END_VMEAS "HALF VCCIO" -fall
+set_global_assignment -name OUTPUT_IO_TIMING_FAR_END_VMEAS "HALF SIGNAL SWING" -rise
+set_global_assignment -name OUTPUT_IO_TIMING_FAR_END_VMEAS "HALF SIGNAL SWING" -fall
 set_instance_assignment -name PARTITION_HIERARCHY root_partition -to | -section_id Top
