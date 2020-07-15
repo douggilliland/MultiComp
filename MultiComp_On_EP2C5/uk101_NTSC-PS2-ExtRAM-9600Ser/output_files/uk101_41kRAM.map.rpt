@@ -1,5 +1,5 @@
 Analysis & Synthesis report for uk101_41kRAM
-Tue Jun 30 17:02:44 2020
+Wed Jul 15 12:58:33 2020
 Quartus II 64-Bit Version 13.0.1 Build 232 06/12/2013 Service Pack 1 SJ Web Edition
 
 
@@ -15,31 +15,34 @@ Quartus II 64-Bit Version 13.0.1 Build 232 06/12/2013 Service Pack 1 SJ Web Edit
   7. Analysis & Synthesis Resource Utilization by Entity
   8. Analysis & Synthesis RAM Summary
   9. Analysis & Synthesis IP Cores Summary
- 10. State Machine - |uk101|bufferedUART:u5|txState
- 11. State Machine - |uk101|bufferedUART:u5|rxState
- 12. User-Specified and Inferred Latches
- 13. Registers Removed During Synthesis
- 14. Removed Registers Triggering Further Register Optimizations
- 15. General Register Statistics
- 16. Inverted Register Statistics
- 17. Multiplexer Restructuring Statistics (Restructuring Performed)
- 18. Source assignments for BasicRom:u2|altsyncram:altsyncram_component|altsyncram_4371:auto_generated
- 19. Source assignments for DisplayRam:u8|altsyncram:altsyncram_component|altsyncram_qi52:auto_generated
- 20. Parameter Settings for User Entity Instance: BasicRom:u2|altsyncram:altsyncram_component
- 21. Parameter Settings for User Entity Instance: DisplayRam:u8|altsyncram:altsyncram_component
- 22. Parameter Settings for User Entity Instance: OutLatch:latchIO0
- 23. Parameter Settings for User Entity Instance: OutLatch:latchIO1
- 24. Parameter Settings for User Entity Instance: OutLatch:latchLED
- 25. Parameter Settings for User Entity Instance: UK101keyboard:u9|ps2_intf:ps2
- 26. altsyncram Parameter Settings by Entity Instance
- 27. Port Connectivity Checks: "UK101keyboard:u9|ps2_intf:ps2"
- 28. Port Connectivity Checks: "OutLatch:latchLED"
- 29. Port Connectivity Checks: "DisplayRam:u8"
- 30. Port Connectivity Checks: "bufferedUART:u5"
- 31. Port Connectivity Checks: "T65:u1|T65_ALU:alu"
- 32. Port Connectivity Checks: "T65:u1"
- 33. Elapsed Time Per Partition
- 34. Analysis & Synthesis Messages
+ 10. State Machine - |uk101|sd_controller:sd1|return_state
+ 11. State Machine - |uk101|sd_controller:sd1|state
+ 12. State Machine - |uk101|bufferedUART:u5|txState
+ 13. State Machine - |uk101|bufferedUART:u5|rxState
+ 14. User-Specified and Inferred Latches
+ 15. Registers Removed During Synthesis
+ 16. Removed Registers Triggering Further Register Optimizations
+ 17. General Register Statistics
+ 18. Inverted Register Statistics
+ 19. Multiplexer Restructuring Statistics (Restructuring Performed)
+ 20. Source assignments for BasicRom:u2|altsyncram:altsyncram_component|altsyncram_4371:auto_generated
+ 21. Source assignments for DisplayRam:u8|altsyncram:altsyncram_component|altsyncram_qi52:auto_generated
+ 22. Parameter Settings for User Entity Instance: BasicRom:u2|altsyncram:altsyncram_component
+ 23. Parameter Settings for User Entity Instance: DisplayRam:u8|altsyncram:altsyncram_component
+ 24. Parameter Settings for User Entity Instance: sd_controller:sd1
+ 25. Parameter Settings for User Entity Instance: OutLatch:latchIO0
+ 26. Parameter Settings for User Entity Instance: OutLatch:latchIO1
+ 27. Parameter Settings for User Entity Instance: OutLatch:latchLED
+ 28. Parameter Settings for User Entity Instance: UK101keyboard:u9|ps2_intf:ps2
+ 29. altsyncram Parameter Settings by Entity Instance
+ 30. Port Connectivity Checks: "UK101keyboard:u9|ps2_intf:ps2"
+ 31. Port Connectivity Checks: "OutLatch:latchLED"
+ 32. Port Connectivity Checks: "DisplayRam:u8"
+ 33. Port Connectivity Checks: "bufferedUART:u5"
+ 34. Port Connectivity Checks: "T65:u1|T65_ALU:alu"
+ 35. Port Connectivity Checks: "T65:u1"
+ 36. Elapsed Time Per Partition
+ 37. Analysis & Synthesis Messages
 
 
 
@@ -65,16 +68,16 @@ applicable agreement for further details.
 +--------------------------------------------------------------------------------------+
 ; Analysis & Synthesis Summary                                                         ;
 +------------------------------------+-------------------------------------------------+
-; Analysis & Synthesis Status        ; Successful - Tue Jun 30 17:02:44 2020           ;
+; Analysis & Synthesis Status        ; Successful - Wed Jul 15 12:58:32 2020           ;
 ; Quartus II 64-Bit Version          ; 13.0.1 Build 232 06/12/2013 SP 1 SJ Web Edition ;
 ; Revision Name                      ; uk101_41kRAM                                    ;
 ; Top-level Entity Name              ; uk101                                           ;
 ; Family                             ; Cyclone II                                      ;
-; Total logic elements               ; 4,254                                           ;
-;     Total combinational functions  ; 3,916                                           ;
-;     Dedicated logic registers      ; 632                                             ;
-; Total registers                    ; 632                                             ;
-; Total pins                         ; 55                                              ;
+; Total logic elements               ; 4,684                                           ;
+;     Total combinational functions  ; 4,305                                           ;
+;     Dedicated logic registers      ; 846                                             ;
+; Total registers                    ; 846                                             ;
+; Total pins                         ; 60                                              ;
 ; Total virtual pins                 ; 0                                               ;
 ; Total memory bits                  ; 73,728                                          ;
 ; Embedded Multiplier 9-bit elements ; 0                                               ;
@@ -183,6 +186,7 @@ Parallel compilation was disabled, but you have multiple processors available. E
 +---------------------------------------------------------------------------------------------+-----------------+------------------------------+-------------------------------------------------------------------------------------------------------------------------------------------------+---------+
 ; File Name with User-Entered Path                                                            ; Used in Netlist ; File Type                    ; File Name with Absolute Path                                                                                                                    ; Library ;
 +---------------------------------------------------------------------------------------------+-----------------+------------------------------+-------------------------------------------------------------------------------------------------------------------------------------------------+---------+
+; ../../MultiComp (VHDL Template)/Components/SDCARD/sd_controller_High_Speed.vhd              ; yes             ; User VHDL File               ; C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/SDCARD/sd_controller_High_Speed.vhd              ;         ;
 ; uk101_41kRAM.vhd                                                                            ; yes             ; User VHDL File               ; C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_EP2C5/uk101_NTSC-PS2-ExtRAM-9600Ser/uk101_41kRAM.vhd                     ;         ;
 ; ../../MultiComp (VHDL Template)/Components/ROMs/CharROM/CharRom.VHD                         ; yes             ; User VHDL File               ; C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/ROMs/CharROM/CharRom.VHD                         ;         ;
 ; ../../MultiComp (VHDL Template)/Components/CPU/M6502/T65_Pack.vhd                           ; yes             ; User VHDL File               ; C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/CPU/M6502/T65_Pack.vhd                           ;         ;
@@ -218,29 +222,29 @@ Parallel compilation was disabled, but you have multiple processors available. E
 +---------------------------------------------+----------------+
 ; Resource                                    ; Usage          ;
 +---------------------------------------------+----------------+
-; Estimated Total logic elements              ; 4,254          ;
+; Estimated Total logic elements              ; 4,684          ;
 ;                                             ;                ;
-; Total combinational functions               ; 3916           ;
+; Total combinational functions               ; 4305           ;
 ; Logic element usage by number of LUT inputs ;                ;
-;     -- 4 input functions                    ; 3222           ;
-;     -- 3 input functions                    ; 416            ;
-;     -- <=2 input functions                  ; 278            ;
+;     -- 4 input functions                    ; 3408           ;
+;     -- 3 input functions                    ; 529            ;
+;     -- <=2 input functions                  ; 368            ;
 ;                                             ;                ;
 ; Logic elements by mode                      ;                ;
-;     -- normal mode                          ; 3712           ;
-;     -- arithmetic mode                      ; 204            ;
+;     -- normal mode                          ; 4078           ;
+;     -- arithmetic mode                      ; 227            ;
 ;                                             ;                ;
-; Total registers                             ; 632            ;
-;     -- Dedicated logic registers            ; 632            ;
+; Total registers                             ; 846            ;
+;     -- Dedicated logic registers            ; 846            ;
 ;     -- I/O registers                        ; 0              ;
 ;                                             ;                ;
-; I/O pins                                    ; 55             ;
+; I/O pins                                    ; 60             ;
 ; Total memory bits                           ; 73728          ;
 ; Embedded Multiplier 9-bit elements          ; 0              ;
 ; Maximum fan-out node                        ; T65:u1|Mux76~1 ;
-; Maximum fan-out                             ; 710            ;
-; Total fan-out                               ; 17189          ;
-; Average fan-out                             ; 3.71           ;
+; Maximum fan-out                             ; 717            ;
+; Total fan-out                               ; 19195          ;
+; Average fan-out                             ; 3.67           ;
 +---------------------------------------------+----------------+
 
 
@@ -249,24 +253,25 @@ Parallel compilation was disabled, but you have multiple processors available. E
 +-------------------------------------------+-------------------+--------------+-------------+--------------+---------+-----------+------+--------------+-------------------------------------------------------------------------------------+--------------+
 ; Compilation Hierarchy Node                ; LC Combinationals ; LC Registers ; Memory Bits ; DSP Elements ; DSP 9x9 ; DSP 18x18 ; Pins ; Virtual Pins ; Full Hierarchy Name                                                                 ; Library Name ;
 +-------------------------------------------+-------------------+--------------+-------------+--------------+---------+-----------+------+--------------+-------------------------------------------------------------------------------------+--------------+
-; |uk101                                    ; 3916 (104)        ; 632 (23)     ; 73728       ; 0            ; 0       ; 0         ; 55   ; 0            ; |uk101                                                                              ; work         ;
+; |uk101                                    ; 4305 (121)        ; 846 (23)     ; 73728       ; 0            ; 0       ; 0         ; 60   ; 0            ; |uk101                                                                              ; work         ;
 ;    |BasicRom:u2|                          ; 0 (0)             ; 2 (0)        ; 65536       ; 0            ; 0       ; 0         ; 0    ; 0            ; |uk101|BasicRom:u2                                                                  ; work         ;
 ;       |altsyncram:altsyncram_component|   ; 0 (0)             ; 2 (0)        ; 65536       ; 0            ; 0       ; 0         ; 0    ; 0            ; |uk101|BasicRom:u2|altsyncram:altsyncram_component                                  ; work         ;
 ;          |altsyncram_4371:auto_generated| ; 0 (0)             ; 2 (2)        ; 65536       ; 0            ; 0       ; 0         ; 0    ; 0            ; |uk101|BasicRom:u2|altsyncram:altsyncram_component|altsyncram_4371:auto_generated   ; work         ;
-;    |CegmonRom:u4|                         ; 1659 (1659)       ; 0 (0)        ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |uk101|CegmonRom:u4                                                                 ; work         ;
+;    |CegmonRom:u4|                         ; 1658 (1658)       ; 0 (0)        ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |uk101|CegmonRom:u4                                                                 ; work         ;
 ;    |DisplayRam:u8|                        ; 0 (0)             ; 0 (0)        ; 8192        ; 0            ; 0       ; 0         ; 0    ; 0            ; |uk101|DisplayRam:u8                                                                ; work         ;
 ;       |altsyncram:altsyncram_component|   ; 0 (0)             ; 0 (0)        ; 8192        ; 0            ; 0       ; 0         ; 0    ; 0            ; |uk101|DisplayRam:u8|altsyncram:altsyncram_component                                ; work         ;
 ;          |altsyncram_qi52:auto_generated| ; 0 (0)             ; 0 (0)        ; 8192        ; 0            ; 0       ; 0         ; 0    ; 0            ; |uk101|DisplayRam:u8|altsyncram:altsyncram_component|altsyncram_qi52:auto_generated ; work         ;
 ;    |OutLatch:latchIO0|                    ; 0 (0)             ; 8 (8)        ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |uk101|OutLatch:latchIO0                                                            ; work         ;
 ;    |OutLatch:latchIO1|                    ; 0 (0)             ; 8 (8)        ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |uk101|OutLatch:latchIO1                                                            ; work         ;
 ;    |OutLatch:latchLED|                    ; 1 (1)             ; 1 (1)        ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |uk101|OutLatch:latchLED                                                            ; work         ;
-;    |T65:u1|                               ; 786 (387)         ; 126 (126)    ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |uk101|T65:u1                                                                       ; work         ;
+;    |T65:u1|                               ; 793 (395)         ; 126 (126)    ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |uk101|T65:u1                                                                       ; work         ;
 ;       |T65_ALU:alu|                       ; 159 (159)         ; 0 (0)        ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |uk101|T65:u1|T65_ALU:alu                                                           ; work         ;
-;       |T65_MCode:mcode|                   ; 240 (240)         ; 0 (0)        ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |uk101|T65:u1|T65_MCode:mcode                                                       ; work         ;
-;    |UK101TextDisplay:u6|                  ; 869 (869)         ; 46 (46)      ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |uk101|UK101TextDisplay:u6                                                          ; work         ;
+;       |T65_MCode:mcode|                   ; 239 (239)         ; 0 (0)        ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |uk101|T65:u1|T65_MCode:mcode                                                       ; work         ;
+;    |UK101TextDisplay:u6|                  ; 870 (870)         ; 46 (46)      ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |uk101|UK101TextDisplay:u6                                                          ; work         ;
 ;    |UK101keyboard:u9|                     ; 164 (141)         ; 86 (52)      ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |uk101|UK101keyboard:u9                                                             ; work         ;
 ;       |ps2_intf:ps2|                      ; 23 (23)           ; 34 (34)      ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |uk101|UK101keyboard:u9|ps2_intf:ps2                                                ; work         ;
-;    |bufferedUART:u5|                      ; 333 (333)         ; 332 (332)    ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |uk101|bufferedUART:u5                                                              ; work         ;
+;    |bufferedUART:u5|                      ; 332 (332)         ; 332 (332)    ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |uk101|bufferedUART:u5                                                              ; work         ;
+;    |sd_controller:sd1|                    ; 366 (366)         ; 214 (214)    ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |uk101|sd_controller:sd1                                                            ; work         ;
 +-------------------------------------------+-------------------+--------------+-------------+--------------+---------+-----------+------+--------------+-------------------------------------------------------------------------------------+--------------+
 Note: For table entries with two numbers listed, the numbers in parentheses indicate the number of resources of the given type used by the specific entity alone. The numbers listed outside of parentheses indicate the total resources of the given type used by the specific entity and all of its sub-entities in the hierarchy.
 
@@ -289,6 +294,70 @@ Note: For table entries with two numbers listed, the numbers in parentheses indi
 ; Altera ; ROM: 1-PORT  ; N/A     ; N/A          ; N/A          ; |uk101|BasicRom:u2   ; C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/ROMs/6502/UK101_BASIC_ROM/BasicRom.vhd ;
 ; Altera ; RAM: 2-PORT  ; N/A     ; N/A          ; N/A          ; |uk101|DisplayRam:u8 ; C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/TV/UK101_Display_RAM/DisplayRam.vhd    ;
 +--------+--------------+---------+--------------+--------------+----------------------+---------------------------------------------------------------------------------------------------------------------------------------+
+
+
+Encoding Type:  One-Hot
++-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+; State Machine - |uk101|sd_controller:sd1|return_state                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       ;
++--------------------------------+-------------------------------+-------------------------------+-------------------------------+-------------------------------+------------------------------+---------------------------+--------------------------------+-------------------------------+--------------------------+-----------------------+------------------------------+------------------------------+-----------------------------+-------------------+----------------------+--------------------+-----------------------+---------------------+--------------------+-------------------+-------------------+-------------------+------------------+
+; Name                           ; return_state.write_block_wait ; return_state.write_block_byte ; return_state.write_block_data ; return_state.write_block_init ; return_state.write_block_cmd ; return_state.receive_byte ; return_state.receive_byte_wait ; return_state.receive_ocr_wait ; return_state.send_regreq ; return_state.send_cmd ; return_state.read_block_data ; return_state.read_block_wait ; return_state.read_block_cmd ; return_state.idle ; return_state.cardsel ; return_state.cmd58 ; return_state.poll_cmd ; return_state.acmd41 ; return_state.cmd55 ; return_state.cmd8 ; return_state.cmd0 ; return_state.init ; return_state.rst ;
++--------------------------------+-------------------------------+-------------------------------+-------------------------------+-------------------------------+------------------------------+---------------------------+--------------------------------+-------------------------------+--------------------------+-----------------------+------------------------------+------------------------------+-----------------------------+-------------------+----------------------+--------------------+-----------------------+---------------------+--------------------+-------------------+-------------------+-------------------+------------------+
+; return_state.rst               ; 0                             ; 0                             ; 0                             ; 0                             ; 0                            ; 0                         ; 0                              ; 0                             ; 0                        ; 0                     ; 0                            ; 0                            ; 0                           ; 0                 ; 0                    ; 0                  ; 0                     ; 0                   ; 0                  ; 0                 ; 0                 ; 0                 ; 0                ;
+; return_state.init              ; 0                             ; 0                             ; 0                             ; 0                             ; 0                            ; 0                         ; 0                              ; 0                             ; 0                        ; 0                     ; 0                            ; 0                            ; 0                           ; 0                 ; 0                    ; 0                  ; 0                     ; 0                   ; 0                  ; 0                 ; 0                 ; 1                 ; 1                ;
+; return_state.cmd0              ; 0                             ; 0                             ; 0                             ; 0                             ; 0                            ; 0                         ; 0                              ; 0                             ; 0                        ; 0                     ; 0                            ; 0                            ; 0                           ; 0                 ; 0                    ; 0                  ; 0                     ; 0                   ; 0                  ; 0                 ; 1                 ; 0                 ; 1                ;
+; return_state.cmd8              ; 0                             ; 0                             ; 0                             ; 0                             ; 0                            ; 0                         ; 0                              ; 0                             ; 0                        ; 0                     ; 0                            ; 0                            ; 0                           ; 0                 ; 0                    ; 0                  ; 0                     ; 0                   ; 0                  ; 1                 ; 0                 ; 0                 ; 1                ;
+; return_state.cmd55             ; 0                             ; 0                             ; 0                             ; 0                             ; 0                            ; 0                         ; 0                              ; 0                             ; 0                        ; 0                     ; 0                            ; 0                            ; 0                           ; 0                 ; 0                    ; 0                  ; 0                     ; 0                   ; 1                  ; 0                 ; 0                 ; 0                 ; 1                ;
+; return_state.acmd41            ; 0                             ; 0                             ; 0                             ; 0                             ; 0                            ; 0                         ; 0                              ; 0                             ; 0                        ; 0                     ; 0                            ; 0                            ; 0                           ; 0                 ; 0                    ; 0                  ; 0                     ; 1                   ; 0                  ; 0                 ; 0                 ; 0                 ; 1                ;
+; return_state.poll_cmd          ; 0                             ; 0                             ; 0                             ; 0                             ; 0                            ; 0                         ; 0                              ; 0                             ; 0                        ; 0                     ; 0                            ; 0                            ; 0                           ; 0                 ; 0                    ; 0                  ; 1                     ; 0                   ; 0                  ; 0                 ; 0                 ; 0                 ; 1                ;
+; return_state.cmd58             ; 0                             ; 0                             ; 0                             ; 0                             ; 0                            ; 0                         ; 0                              ; 0                             ; 0                        ; 0                     ; 0                            ; 0                            ; 0                           ; 0                 ; 0                    ; 1                  ; 0                     ; 0                   ; 0                  ; 0                 ; 0                 ; 0                 ; 1                ;
+; return_state.cardsel           ; 0                             ; 0                             ; 0                             ; 0                             ; 0                            ; 0                         ; 0                              ; 0                             ; 0                        ; 0                     ; 0                            ; 0                            ; 0                           ; 0                 ; 1                    ; 0                  ; 0                     ; 0                   ; 0                  ; 0                 ; 0                 ; 0                 ; 1                ;
+; return_state.idle              ; 0                             ; 0                             ; 0                             ; 0                             ; 0                            ; 0                         ; 0                              ; 0                             ; 0                        ; 0                     ; 0                            ; 0                            ; 0                           ; 1                 ; 0                    ; 0                  ; 0                     ; 0                   ; 0                  ; 0                 ; 0                 ; 0                 ; 1                ;
+; return_state.read_block_cmd    ; 0                             ; 0                             ; 0                             ; 0                             ; 0                            ; 0                         ; 0                              ; 0                             ; 0                        ; 0                     ; 0                            ; 0                            ; 1                           ; 0                 ; 0                    ; 0                  ; 0                     ; 0                   ; 0                  ; 0                 ; 0                 ; 0                 ; 1                ;
+; return_state.read_block_wait   ; 0                             ; 0                             ; 0                             ; 0                             ; 0                            ; 0                         ; 0                              ; 0                             ; 0                        ; 0                     ; 0                            ; 1                            ; 0                           ; 0                 ; 0                    ; 0                  ; 0                     ; 0                   ; 0                  ; 0                 ; 0                 ; 0                 ; 1                ;
+; return_state.read_block_data   ; 0                             ; 0                             ; 0                             ; 0                             ; 0                            ; 0                         ; 0                              ; 0                             ; 0                        ; 0                     ; 1                            ; 0                            ; 0                           ; 0                 ; 0                    ; 0                  ; 0                     ; 0                   ; 0                  ; 0                 ; 0                 ; 0                 ; 1                ;
+; return_state.send_cmd          ; 0                             ; 0                             ; 0                             ; 0                             ; 0                            ; 0                         ; 0                              ; 0                             ; 0                        ; 1                     ; 0                            ; 0                            ; 0                           ; 0                 ; 0                    ; 0                  ; 0                     ; 0                   ; 0                  ; 0                 ; 0                 ; 0                 ; 1                ;
+; return_state.send_regreq       ; 0                             ; 0                             ; 0                             ; 0                             ; 0                            ; 0                         ; 0                              ; 0                             ; 1                        ; 0                     ; 0                            ; 0                            ; 0                           ; 0                 ; 0                    ; 0                  ; 0                     ; 0                   ; 0                  ; 0                 ; 0                 ; 0                 ; 1                ;
+; return_state.receive_ocr_wait  ; 0                             ; 0                             ; 0                             ; 0                             ; 0                            ; 0                         ; 0                              ; 1                             ; 0                        ; 0                     ; 0                            ; 0                            ; 0                           ; 0                 ; 0                    ; 0                  ; 0                     ; 0                   ; 0                  ; 0                 ; 0                 ; 0                 ; 1                ;
+; return_state.receive_byte_wait ; 0                             ; 0                             ; 0                             ; 0                             ; 0                            ; 0                         ; 1                              ; 0                             ; 0                        ; 0                     ; 0                            ; 0                            ; 0                           ; 0                 ; 0                    ; 0                  ; 0                     ; 0                   ; 0                  ; 0                 ; 0                 ; 0                 ; 1                ;
+; return_state.receive_byte      ; 0                             ; 0                             ; 0                             ; 0                             ; 0                            ; 1                         ; 0                              ; 0                             ; 0                        ; 0                     ; 0                            ; 0                            ; 0                           ; 0                 ; 0                    ; 0                  ; 0                     ; 0                   ; 0                  ; 0                 ; 0                 ; 0                 ; 1                ;
+; return_state.write_block_cmd   ; 0                             ; 0                             ; 0                             ; 0                             ; 1                            ; 0                         ; 0                              ; 0                             ; 0                        ; 0                     ; 0                            ; 0                            ; 0                           ; 0                 ; 0                    ; 0                  ; 0                     ; 0                   ; 0                  ; 0                 ; 0                 ; 0                 ; 1                ;
+; return_state.write_block_init  ; 0                             ; 0                             ; 0                             ; 1                             ; 0                            ; 0                         ; 0                              ; 0                             ; 0                        ; 0                     ; 0                            ; 0                            ; 0                           ; 0                 ; 0                    ; 0                  ; 0                     ; 0                   ; 0                  ; 0                 ; 0                 ; 0                 ; 1                ;
+; return_state.write_block_data  ; 0                             ; 0                             ; 1                             ; 0                             ; 0                            ; 0                         ; 0                              ; 0                             ; 0                        ; 0                     ; 0                            ; 0                            ; 0                           ; 0                 ; 0                    ; 0                  ; 0                     ; 0                   ; 0                  ; 0                 ; 0                 ; 0                 ; 1                ;
+; return_state.write_block_byte  ; 0                             ; 1                             ; 0                             ; 0                             ; 0                            ; 0                         ; 0                              ; 0                             ; 0                        ; 0                     ; 0                            ; 0                            ; 0                           ; 0                 ; 0                    ; 0                  ; 0                     ; 0                   ; 0                  ; 0                 ; 0                 ; 0                 ; 1                ;
+; return_state.write_block_wait  ; 1                             ; 0                             ; 0                             ; 0                             ; 0                            ; 0                         ; 0                              ; 0                             ; 0                        ; 0                     ; 0                            ; 0                            ; 0                           ; 0                 ; 0                    ; 0                  ; 0                     ; 0                   ; 0                  ; 0                 ; 0                 ; 0                 ; 1                ;
++--------------------------------+-------------------------------+-------------------------------+-------------------------------+-------------------------------+------------------------------+---------------------------+--------------------------------+-------------------------------+--------------------------+-----------------------+------------------------------+------------------------------+-----------------------------+-------------------+----------------------+--------------------+-----------------------+---------------------+--------------------+-------------------+-------------------+-------------------+------------------+
+
+
+Encoding Type:  One-Hot
++-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+; State Machine - |uk101|sd_controller:sd1|state                                                                                                                                                                                                                                                                                                                                                                                                                                      ;
++-------------------------+------------------------+------------------------+------------------------+------------------------+-----------------------+--------------------+-------------------------+------------------------+-------------------+----------------+-----------------------+-----------------------+----------------------+------------+---------------+-------------+----------------+--------------+-------------+------------+------------+------------+-----------+
+; Name                    ; state.write_block_wait ; state.write_block_byte ; state.write_block_data ; state.write_block_init ; state.write_block_cmd ; state.receive_byte ; state.receive_byte_wait ; state.receive_ocr_wait ; state.send_regreq ; state.send_cmd ; state.read_block_data ; state.read_block_wait ; state.read_block_cmd ; state.idle ; state.cardsel ; state.cmd58 ; state.poll_cmd ; state.acmd41 ; state.cmd55 ; state.cmd8 ; state.cmd0 ; state.init ; state.rst ;
++-------------------------+------------------------+------------------------+------------------------+------------------------+-----------------------+--------------------+-------------------------+------------------------+-------------------+----------------+-----------------------+-----------------------+----------------------+------------+---------------+-------------+----------------+--------------+-------------+------------+------------+------------+-----------+
+; state.rst               ; 0                      ; 0                      ; 0                      ; 0                      ; 0                     ; 0                  ; 0                       ; 0                      ; 0                 ; 0              ; 0                     ; 0                     ; 0                    ; 0          ; 0             ; 0           ; 0              ; 0            ; 0           ; 0          ; 0          ; 0          ; 0         ;
+; state.init              ; 0                      ; 0                      ; 0                      ; 0                      ; 0                     ; 0                  ; 0                       ; 0                      ; 0                 ; 0              ; 0                     ; 0                     ; 0                    ; 0          ; 0             ; 0           ; 0              ; 0            ; 0           ; 0          ; 0          ; 1          ; 1         ;
+; state.cmd0              ; 0                      ; 0                      ; 0                      ; 0                      ; 0                     ; 0                  ; 0                       ; 0                      ; 0                 ; 0              ; 0                     ; 0                     ; 0                    ; 0          ; 0             ; 0           ; 0              ; 0            ; 0           ; 0          ; 1          ; 0          ; 1         ;
+; state.cmd8              ; 0                      ; 0                      ; 0                      ; 0                      ; 0                     ; 0                  ; 0                       ; 0                      ; 0                 ; 0              ; 0                     ; 0                     ; 0                    ; 0          ; 0             ; 0           ; 0              ; 0            ; 0           ; 1          ; 0          ; 0          ; 1         ;
+; state.cmd55             ; 0                      ; 0                      ; 0                      ; 0                      ; 0                     ; 0                  ; 0                       ; 0                      ; 0                 ; 0              ; 0                     ; 0                     ; 0                    ; 0          ; 0             ; 0           ; 0              ; 0            ; 1           ; 0          ; 0          ; 0          ; 1         ;
+; state.acmd41            ; 0                      ; 0                      ; 0                      ; 0                      ; 0                     ; 0                  ; 0                       ; 0                      ; 0                 ; 0              ; 0                     ; 0                     ; 0                    ; 0          ; 0             ; 0           ; 0              ; 1            ; 0           ; 0          ; 0          ; 0          ; 1         ;
+; state.poll_cmd          ; 0                      ; 0                      ; 0                      ; 0                      ; 0                     ; 0                  ; 0                       ; 0                      ; 0                 ; 0              ; 0                     ; 0                     ; 0                    ; 0          ; 0             ; 0           ; 1              ; 0            ; 0           ; 0          ; 0          ; 0          ; 1         ;
+; state.cmd58             ; 0                      ; 0                      ; 0                      ; 0                      ; 0                     ; 0                  ; 0                       ; 0                      ; 0                 ; 0              ; 0                     ; 0                     ; 0                    ; 0          ; 0             ; 1           ; 0              ; 0            ; 0           ; 0          ; 0          ; 0          ; 1         ;
+; state.cardsel           ; 0                      ; 0                      ; 0                      ; 0                      ; 0                     ; 0                  ; 0                       ; 0                      ; 0                 ; 0              ; 0                     ; 0                     ; 0                    ; 0          ; 1             ; 0           ; 0              ; 0            ; 0           ; 0          ; 0          ; 0          ; 1         ;
+; state.idle              ; 0                      ; 0                      ; 0                      ; 0                      ; 0                     ; 0                  ; 0                       ; 0                      ; 0                 ; 0              ; 0                     ; 0                     ; 0                    ; 1          ; 0             ; 0           ; 0              ; 0            ; 0           ; 0          ; 0          ; 0          ; 1         ;
+; state.read_block_cmd    ; 0                      ; 0                      ; 0                      ; 0                      ; 0                     ; 0                  ; 0                       ; 0                      ; 0                 ; 0              ; 0                     ; 0                     ; 1                    ; 0          ; 0             ; 0           ; 0              ; 0            ; 0           ; 0          ; 0          ; 0          ; 1         ;
+; state.read_block_wait   ; 0                      ; 0                      ; 0                      ; 0                      ; 0                     ; 0                  ; 0                       ; 0                      ; 0                 ; 0              ; 0                     ; 1                     ; 0                    ; 0          ; 0             ; 0           ; 0              ; 0            ; 0           ; 0          ; 0          ; 0          ; 1         ;
+; state.read_block_data   ; 0                      ; 0                      ; 0                      ; 0                      ; 0                     ; 0                  ; 0                       ; 0                      ; 0                 ; 0              ; 1                     ; 0                     ; 0                    ; 0          ; 0             ; 0           ; 0              ; 0            ; 0           ; 0          ; 0          ; 0          ; 1         ;
+; state.send_cmd          ; 0                      ; 0                      ; 0                      ; 0                      ; 0                     ; 0                  ; 0                       ; 0                      ; 0                 ; 1              ; 0                     ; 0                     ; 0                    ; 0          ; 0             ; 0           ; 0              ; 0            ; 0           ; 0          ; 0          ; 0          ; 1         ;
+; state.send_regreq       ; 0                      ; 0                      ; 0                      ; 0                      ; 0                     ; 0                  ; 0                       ; 0                      ; 1                 ; 0              ; 0                     ; 0                     ; 0                    ; 0          ; 0             ; 0           ; 0              ; 0            ; 0           ; 0          ; 0          ; 0          ; 1         ;
+; state.receive_ocr_wait  ; 0                      ; 0                      ; 0                      ; 0                      ; 0                     ; 0                  ; 0                       ; 1                      ; 0                 ; 0              ; 0                     ; 0                     ; 0                    ; 0          ; 0             ; 0           ; 0              ; 0            ; 0           ; 0          ; 0          ; 0          ; 1         ;
+; state.receive_byte_wait ; 0                      ; 0                      ; 0                      ; 0                      ; 0                     ; 0                  ; 1                       ; 0                      ; 0                 ; 0              ; 0                     ; 0                     ; 0                    ; 0          ; 0             ; 0           ; 0              ; 0            ; 0           ; 0          ; 0          ; 0          ; 1         ;
+; state.receive_byte      ; 0                      ; 0                      ; 0                      ; 0                      ; 0                     ; 1                  ; 0                       ; 0                      ; 0                 ; 0              ; 0                     ; 0                     ; 0                    ; 0          ; 0             ; 0           ; 0              ; 0            ; 0           ; 0          ; 0          ; 0          ; 1         ;
+; state.write_block_cmd   ; 0                      ; 0                      ; 0                      ; 0                      ; 1                     ; 0                  ; 0                       ; 0                      ; 0                 ; 0              ; 0                     ; 0                     ; 0                    ; 0          ; 0             ; 0           ; 0              ; 0            ; 0           ; 0          ; 0          ; 0          ; 1         ;
+; state.write_block_init  ; 0                      ; 0                      ; 0                      ; 1                      ; 0                     ; 0                  ; 0                       ; 0                      ; 0                 ; 0              ; 0                     ; 0                     ; 0                    ; 0          ; 0             ; 0           ; 0              ; 0            ; 0           ; 0          ; 0          ; 0          ; 1         ;
+; state.write_block_data  ; 0                      ; 0                      ; 1                      ; 0                      ; 0                     ; 0                  ; 0                       ; 0                      ; 0                 ; 0              ; 0                     ; 0                     ; 0                    ; 0          ; 0             ; 0           ; 0              ; 0            ; 0           ; 0          ; 0          ; 0          ; 1         ;
+; state.write_block_byte  ; 0                      ; 1                      ; 0                      ; 0                      ; 0                     ; 0                  ; 0                       ; 0                      ; 0                 ; 0              ; 0                     ; 0                     ; 0                    ; 0          ; 0             ; 0           ; 0              ; 0            ; 0           ; 0          ; 0          ; 0          ; 1         ;
+; state.write_block_wait  ; 1                      ; 0                      ; 0                      ; 0                      ; 0                     ; 0                  ; 0                       ; 0                      ; 0                 ; 0              ; 0                     ; 0                     ; 0                    ; 0          ; 0             ; 0           ; 0              ; 0            ; 0           ; 0          ; 0          ; 0          ; 1         ;
++-------------------------+------------------------+------------------------+------------------------+------------------------+-----------------------+--------------------+-------------------------+------------------------+-------------------+----------------+-----------------------+-----------------------+----------------------+------------+---------------+-------------+----------------+--------------+-------------+------------+------------+------------+-----------+
 
 
 Encoding Type:  One-Hot
@@ -320,48 +389,66 @@ Encoding Type:  One-Hot
 +----------------------------------------------------+---------------------+------------------------+
 ; Latch Name                                         ; Latch Enable Signal ; Free of Timing Hazards ;
 +----------------------------------------------------+---------------------+------------------------+
-; kbRowSel[0]                                        ; process_1           ; yes                    ;
-; kbRowSel[1]                                        ; process_1           ; yes                    ;
-; kbRowSel[2]                                        ; process_1           ; yes                    ;
-; kbRowSel[3]                                        ; process_1           ; yes                    ;
-; kbRowSel[4]                                        ; process_1           ; yes                    ;
-; kbRowSel[5]                                        ; process_1           ; yes                    ;
-; kbRowSel[6]                                        ; process_1           ; yes                    ;
-; kbRowSel[7]                                        ; process_1           ; yes                    ;
+; kbRowSel[0]                                        ; process_0           ; yes                    ;
+; kbRowSel[1]                                        ; process_0           ; yes                    ;
+; kbRowSel[2]                                        ; process_0           ; yes                    ;
+; kbRowSel[3]                                        ; process_0           ; yes                    ;
+; kbRowSel[4]                                        ; process_0           ; yes                    ;
+; kbRowSel[5]                                        ; process_0           ; yes                    ;
+; kbRowSel[6]                                        ; process_0           ; yes                    ;
+; kbRowSel[7]                                        ; process_0           ; yes                    ;
 ; Number of user-specified and inferred latches = 8  ;                     ;                        ;
 +----------------------------------------------------+---------------------+------------------------+
 Note: All latches listed above may not be present at the end of synthesis due to various synthesis optimizations.
 
 
-+---------------------------------------------------------------------------------+
-; Registers Removed During Synthesis                                              ;
-+----------------------------------------+----------------------------------------+
-; Register name                          ; Reason for Removal                     ;
-+----------------------------------------+----------------------------------------+
-; T65:u1|SO_n_o                          ; Lost fanout                            ;
-; T65:u1|NMI_n_o                         ; Stuck at VCC due to stuck port data_in ;
-; T65:u1|IRQ_n_o                         ; Stuck at VCC due to stuck port data_in ;
-; T65:u1|Mode_r[0,1]                     ; Stuck at GND due to stuck port data_in ;
-; T65:u1|NMIAct                          ; Stuck at GND due to stuck port data_in ;
-; T65:u1|IRQCycle                        ; Stuck at GND due to stuck port data_in ;
-; T65:u1|NMICycle                        ; Stuck at GND due to stuck port data_in ;
-; T65:u1|P[5]                            ; Merged with T65:u1|P[4]                ;
-; T65:u1|S[8..15]                        ; Lost fanout                            ;
-; UK101TextDisplay:u6|pixelClockCount[3] ; Stuck at GND due to stuck port data_in ;
-; Total Number of Removed Registers = 18 ;                                        ;
-+----------------------------------------+----------------------------------------+
++----------------------------------------------------------------------------------------------------+
+; Registers Removed During Synthesis                                                                 ;
++--------------------------------------------------+-------------------------------------------------+
+; Register name                                    ; Reason for Removal                              ;
++--------------------------------------------------+-------------------------------------------------+
+; sd_controller:sd1|clkCount[0..5]                 ; Stuck at GND due to stuck port data_in          ;
+; T65:u1|SO_n_o                                    ; Lost fanout                                     ;
+; T65:u1|NMI_n_o                                   ; Stuck at VCC due to stuck port data_in          ;
+; T65:u1|IRQ_n_o                                   ; Stuck at VCC due to stuck port data_in          ;
+; T65:u1|Mode_r[0,1]                               ; Stuck at GND due to stuck port data_in          ;
+; T65:u1|NMIAct                                    ; Stuck at GND due to stuck port data_in          ;
+; T65:u1|IRQCycle                                  ; Stuck at GND due to stuck port data_in          ;
+; T65:u1|NMICycle                                  ; Stuck at GND due to stuck port data_in          ;
+; T65:u1|P[5]                                      ; Merged with T65:u1|P[4]                         ;
+; sd_controller:sd1|HighSpeed                      ; Lost fanout                                     ;
+; sd_controller:sd1|dout[0..3]                     ; Lost fanout                                     ;
+; sd_controller:sd1|return_state.cmd58             ; Merged with sd_controller:sd1|return_state.cmd0 ;
+; sd_controller:sd1|return_state.init              ; Merged with sd_controller:sd1|return_state.cmd0 ;
+; sd_controller:sd1|return_state.read_block_cmd    ; Merged with sd_controller:sd1|return_state.cmd0 ;
+; sd_controller:sd1|return_state.receive_byte      ; Merged with sd_controller:sd1|return_state.cmd0 ;
+; sd_controller:sd1|return_state.receive_byte_wait ; Merged with sd_controller:sd1|return_state.cmd0 ;
+; sd_controller:sd1|return_state.receive_ocr_wait  ; Merged with sd_controller:sd1|return_state.cmd0 ;
+; sd_controller:sd1|return_state.send_cmd          ; Merged with sd_controller:sd1|return_state.cmd0 ;
+; sd_controller:sd1|return_state.send_regreq       ; Merged with sd_controller:sd1|return_state.cmd0 ;
+; sd_controller:sd1|return_state.write_block_byte  ; Merged with sd_controller:sd1|return_state.cmd0 ;
+; sd_controller:sd1|return_state.write_block_cmd   ; Merged with sd_controller:sd1|return_state.cmd0 ;
+; sd_controller:sd1|return_state.write_block_data  ; Merged with sd_controller:sd1|return_state.cmd0 ;
+; sd_controller:sd1|return_state.cmd0              ; Stuck at GND due to stuck port data_in          ;
+; T65:u1|S[8..15]                                  ; Lost fanout                                     ;
+; UK101TextDisplay:u6|pixelClockCount[3]           ; Stuck at GND due to stuck port data_in          ;
+; sd_controller:sd1|cmd_out[0]                     ; Stuck at VCC due to stuck port data_in          ;
+; Total Number of Removed Registers = 42           ;                                                 ;
++--------------------------------------------------+-------------------------------------------------+
 
 
-+-------------------------------------------------------------------------------------+
-; Removed Registers Triggering Further Register Optimizations                         ;
-+----------------+---------------------------+----------------------------------------+
-; Register name  ; Reason for Removal        ; Registers Removed due to This Register ;
-+----------------+---------------------------+----------------------------------------+
-; T65:u1|NMI_n_o ; Stuck at VCC              ; T65:u1|NMIAct                          ;
-;                ; due to stuck port data_in ;                                        ;
-; T65:u1|IRQ_n_o ; Stuck at VCC              ; T65:u1|IRQCycle                        ;
-;                ; due to stuck port data_in ;                                        ;
-+----------------+---------------------------+----------------------------------------+
++----------------------------------------------------------------------------------------------------+
+; Removed Registers Triggering Further Register Optimizations                                        ;
++-------------------------------+---------------------------+----------------------------------------+
+; Register name                 ; Reason for Removal        ; Registers Removed due to This Register ;
++-------------------------------+---------------------------+----------------------------------------+
+; sd_controller:sd1|clkCount[0] ; Stuck at GND              ; sd_controller:sd1|cmd_out[0]           ;
+;                               ; due to stuck port data_in ;                                        ;
+; T65:u1|NMI_n_o                ; Stuck at VCC              ; T65:u1|NMIAct                          ;
+;                               ; due to stuck port data_in ;                                        ;
+; T65:u1|IRQ_n_o                ; Stuck at VCC              ; T65:u1|IRQCycle                        ;
+;                               ; due to stuck port data_in ;                                        ;
++-------------------------------+---------------------------+----------------------------------------+
 
 
 +------------------------------------------------------+
@@ -369,12 +456,12 @@ Note: All latches listed above may not be present at the end of synthesis due to
 +----------------------------------------------+-------+
 ; Statistic                                    ; Value ;
 +----------------------------------------------+-------+
-; Total registers                              ; 632   ;
+; Total registers                              ; 846   ;
 ; Number of registers using Synchronous Clear  ; 77    ;
-; Number of registers using Synchronous Load   ; 21    ;
-; Number of registers using Asynchronous Clear ; 225   ;
+; Number of registers using Synchronous Load   ; 73    ;
+; Number of registers using Asynchronous Clear ; 261   ;
 ; Number of registers using Asynchronous Load  ; 0     ;
-; Number of registers using Clock Enable       ; 451   ;
+; Number of registers using Clock Enable       ; 633   ;
 ; Number of registers using Preset             ; 0     ;
 +----------------------------------------------+-------+
 
@@ -385,12 +472,15 @@ Note: All latches listed above may not be present at the end of synthesis due to
 ; Inverted Register                           ; Fan out ;
 +---------------------------------------------+---------+
 ; T65:u1|MCycle[0]                            ; 41      ;
-; T65:u1|R_W_n_i                              ; 13      ;
+; T65:u1|R_W_n_i                              ; 15      ;
 ; UK101TextDisplay:u6|n_vSync                 ; 1       ;
 ; UK101TextDisplay:u6|n_hSync                 ; 1       ;
+; sd_controller:sd1|sdCS                      ; 2       ;
+; sd_controller:sd1|cmd_mode                  ; 2       ;
 ; T65:u1|ALU_Op_r[3]                          ; 31      ;
-; T65:u1|ALU_Op_r[2]                          ; 16      ;
+; T65:u1|ALU_Op_r[2]                          ; 17      ;
 ; T65:u1|RstCycle                             ; 4       ;
+; sd_controller:sd1|init_busy                 ; 4       ;
 ; UK101keyboard:u9|keys[3][4]                 ; 2       ;
 ; UK101keyboard:u9|keys[2][4]                 ; 2       ;
 ; UK101keyboard:u9|keys[5][4]                 ; 2       ;
@@ -441,6 +531,10 @@ Note: All latches listed above may not be present at the end of synthesis due to
 ; UK101keyboard:u9|keys[1][7]                 ; 2       ;
 ; UK101keyboard:u9|keys[7][7]                 ; 2       ;
 ; UK101keyboard:u9|keys[6][7]                 ; 2       ;
+; sd_controller:sd1|led_on_count[7]           ; 2       ;
+; sd_controller:sd1|led_on_count[6]           ; 2       ;
+; sd_controller:sd1|led_on_count[3]           ; 2       ;
+; sd_controller:sd1|response_mode             ; 3       ;
 ; UK101keyboard:u9|ps2_intf:ps2|ps2_dat_in    ; 4       ;
 ; UK101keyboard:u9|ps2_intf:ps2|clk_filter[7] ; 3       ;
 ; UK101keyboard:u9|ps2_intf:ps2|clk_filter[6] ; 3       ;
@@ -451,46 +545,64 @@ Note: All latches listed above may not be present at the end of synthesis due to
 ; UK101keyboard:u9|ps2_intf:ps2|clk_filter[1] ; 3       ;
 ; UK101keyboard:u9|ps2_intf:ps2|clk_filter[0] ; 2       ;
 ; UK101keyboard:u9|ps2_intf:ps2|ps2_clk_in    ; 2       ;
-; Total number of inverted registers = 67     ;         ;
+; Total number of inverted registers = 74     ;         ;
 +---------------------------------------------+---------+
 
 
-+-----------------------------------------------------------------------------------------------------------------------------------------------------------------+
-; Multiplexer Restructuring Statistics (Restructuring Performed)                                                                                                  ;
-+--------------------+-----------+---------------+----------------------+------------------------+------------+---------------------------------------------------+
-; Multiplexer Inputs ; Bus Width ; Baseline Area ; Area if Restructured ; Saving if Restructured ; Registered ; Example Multiplexer Output                        ;
-+--------------------+-----------+---------------+----------------------+------------------------+------------+---------------------------------------------------+
-; 3:1                ; 8 bits    ; 16 LEs        ; 8 LEs                ; 8 LEs                  ; Yes        ; |uk101|T65:u1|S[14]                               ;
-; 3:1                ; 4 bits    ; 8 LEs         ; 4 LEs                ; 4 LEs                  ; Yes        ; |uk101|UK101TextDisplay:u6|charVert[3]            ;
-; 3:1                ; 8 bits    ; 16 LEs        ; 8 LEs                ; 8 LEs                  ; Yes        ; |uk101|T65:u1|DL[5]                               ;
-; 4:1                ; 8 bits    ; 16 LEs        ; 16 LEs               ; 0 LEs                  ; Yes        ; |uk101|T65:u1|S[2]                                ;
-; 4:1                ; 8 bits    ; 16 LEs        ; 16 LEs               ; 0 LEs                  ; Yes        ; |uk101|T65:u1|BAH[0]                              ;
-; 3:1                ; 3 bits    ; 6 LEs         ; 3 LEs                ; 3 LEs                  ; Yes        ; |uk101|UK101TextDisplay:u6|pixelCount[0]          ;
-; 4:1                ; 4 bits    ; 8 LEs         ; 4 LEs                ; 4 LEs                  ; Yes        ; |uk101|UK101keyboard:u9|ps2_intf:ps2|bit_count[3] ;
-; 4:1                ; 4 bits    ; 8 LEs         ; 4 LEs                ; 4 LEs                  ; Yes        ; |uk101|UK101TextDisplay:u6|charScanLine[3]        ;
-; 5:1                ; 6 bits    ; 18 LEs        ; 6 LEs                ; 12 LEs                 ; Yes        ; |uk101|bufferedUART:u5|rxClockCount[2]            ;
-; 5:1                ; 8 bits    ; 24 LEs        ; 16 LEs               ; 8 LEs                  ; Yes        ; |uk101|T65:u1|AD[1]                               ;
-; 6:1                ; 8 bits    ; 32 LEs        ; 16 LEs               ; 16 LEs                 ; Yes        ; |uk101|T65:u1|PC[7]                               ;
-; 5:1                ; 4 bits    ; 12 LEs        ; 4 LEs                ; 8 LEs                  ; Yes        ; |uk101|UK101TextDisplay:u6|pixelClockCount[2]     ;
-; 6:1                ; 6 bits    ; 24 LEs        ; 12 LEs               ; 12 LEs                 ; Yes        ; |uk101|T65:u1|BAL[2]                              ;
-; 6:1                ; 2 bits    ; 8 LEs         ; 4 LEs                ; 4 LEs                  ; Yes        ; |uk101|T65:u1|BAL[0]                              ;
-; 5:1                ; 4 bits    ; 12 LEs        ; 4 LEs                ; 8 LEs                  ; Yes        ; |uk101|bufferedUART:u5|rxBitCount[1]              ;
-; 4:1                ; 6 bits    ; 12 LEs        ; 6 LEs                ; 6 LEs                  ; Yes        ; |uk101|UK101TextDisplay:u6|charHoriz[5]           ;
-; 6:1                ; 4 bits    ; 16 LEs        ; 4 LEs                ; 12 LEs                 ; Yes        ; |uk101|bufferedUART:u5|txBitCount[0]              ;
-; 6:1                ; 7 bits    ; 28 LEs        ; 7 LEs                ; 21 LEs                 ; Yes        ; |uk101|bufferedUART:u5|txBuffer[5]                ;
-; 6:1                ; 6 bits    ; 24 LEs        ; 6 LEs                ; 18 LEs                 ; Yes        ; |uk101|bufferedUART:u5|txClockCount[4]            ;
-; 7:1                ; 8 bits    ; 32 LEs        ; 16 LEs               ; 16 LEs                 ; Yes        ; |uk101|T65:u1|PC[13]                              ;
-; 3:1                ; 2 bits    ; 4 LEs         ; 2 LEs                ; 2 LEs                  ; No         ; |uk101|T65:u1|T65_MCode:mcode|Mux118              ;
-; 3:1                ; 5 bits    ; 10 LEs        ; 5 LEs                ; 5 LEs                  ; No         ; |uk101|T65:u1|T65_MCode:mcode|Mux124              ;
-; 8:1                ; 8 bits    ; 40 LEs        ; 40 LEs               ; 0 LEs                  ; No         ; |uk101|T65:u1|Mux78                               ;
-; 6:1                ; 8 bits    ; 32 LEs        ; 32 LEs               ; 0 LEs                  ; No         ; |uk101|T65:u1|Mux49                               ;
-; 8:1                ; 8 bits    ; 40 LEs        ; 32 LEs               ; 8 LEs                  ; No         ; |uk101|cpuDataIn[5]                               ;
-; 7:1                ; 3 bits    ; 12 LEs        ; 6 LEs                ; 6 LEs                  ; No         ; |uk101|bufferedUART:u5|Selector35                 ;
-; 12:1               ; 2 bits    ; 16 LEs        ; 12 LEs               ; 4 LEs                  ; No         ; |uk101|T65:u1|T65_ALU:alu|Mux3                    ;
-; 8:1                ; 3 bits    ; 15 LEs        ; 6 LEs                ; 9 LEs                  ; No         ; |uk101|bufferedUART:u5|Selector11                 ;
-; 15:1               ; 3 bits    ; 30 LEs        ; 24 LEs               ; 6 LEs                  ; No         ; |uk101|T65:u1|T65_ALU:alu|Mux4                    ;
-; 15:1               ; 3 bits    ; 30 LEs        ; 24 LEs               ; 6 LEs                  ; No         ; |uk101|T65:u1|T65_ALU:alu|Mux1                    ;
-+--------------------+-----------+---------------+----------------------+------------------------+------------+---------------------------------------------------+
++----------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+; Multiplexer Restructuring Statistics (Restructuring Performed)                                                                                                       ;
++--------------------+-----------+---------------+----------------------+------------------------+------------+--------------------------------------------------------+
+; Multiplexer Inputs ; Bus Width ; Baseline Area ; Area if Restructured ; Saving if Restructured ; Registered ; Example Multiplexer Output                             ;
++--------------------+-----------+---------------+----------------------+------------------------+------------+--------------------------------------------------------+
+; 3:1                ; 8 bits    ; 16 LEs        ; 8 LEs                ; 8 LEs                  ; Yes        ; |uk101|T65:u1|S[11]                                    ;
+; 3:1                ; 4 bits    ; 8 LEs         ; 4 LEs                ; 4 LEs                  ; Yes        ; |uk101|UK101TextDisplay:u6|charVert[3]                 ;
+; 3:1                ; 8 bits    ; 16 LEs        ; 8 LEs                ; 8 LEs                  ; Yes        ; |uk101|T65:u1|DL[2]                                    ;
+; 5:1                ; 7 bits    ; 21 LEs        ; 7 LEs                ; 14 LEs                 ; Yes        ; |uk101|sd_controller:sd1|address[15]                   ;
+; 4:1                ; 8 bits    ; 16 LEs        ; 16 LEs               ; 0 LEs                  ; Yes        ; |uk101|T65:u1|S[4]                                     ;
+; 4:1                ; 8 bits    ; 16 LEs        ; 16 LEs               ; 0 LEs                  ; Yes        ; |uk101|T65:u1|BAH[7]                                   ;
+; 3:1                ; 3 bits    ; 6 LEs         ; 3 LEs                ; 3 LEs                  ; Yes        ; |uk101|UK101TextDisplay:u6|pixelCount[2]               ;
+; 4:1                ; 4 bits    ; 8 LEs         ; 4 LEs                ; 4 LEs                  ; Yes        ; |uk101|UK101keyboard:u9|ps2_intf:ps2|bit_count[3]      ;
+; 4:1                ; 4 bits    ; 8 LEs         ; 4 LEs                ; 4 LEs                  ; Yes        ; |uk101|UK101TextDisplay:u6|charScanLine[3]             ;
+; 5:1                ; 6 bits    ; 18 LEs        ; 6 LEs                ; 12 LEs                 ; Yes        ; |uk101|bufferedUART:u5|rxClockCount[2]                 ;
+; 5:1                ; 8 bits    ; 24 LEs        ; 16 LEs               ; 8 LEs                  ; Yes        ; |uk101|T65:u1|AD[2]                                    ;
+; 6:1                ; 8 bits    ; 32 LEs        ; 16 LEs               ; 16 LEs                 ; Yes        ; |uk101|T65:u1|PC[7]                                    ;
+; 5:1                ; 4 bits    ; 12 LEs        ; 4 LEs                ; 8 LEs                  ; Yes        ; |uk101|UK101TextDisplay:u6|pixelClockCount[1]          ;
+; 6:1                ; 6 bits    ; 24 LEs        ; 12 LEs               ; 12 LEs                 ; Yes        ; |uk101|T65:u1|BAL[2]                                   ;
+; 6:1                ; 2 bits    ; 8 LEs         ; 4 LEs                ; 4 LEs                  ; Yes        ; |uk101|T65:u1|BAL[0]                                   ;
+; 5:1                ; 4 bits    ; 12 LEs        ; 4 LEs                ; 8 LEs                  ; Yes        ; |uk101|bufferedUART:u5|rxBitCount[3]                   ;
+; 7:1                ; 7 bits    ; 28 LEs        ; 7 LEs                ; 21 LEs                 ; Yes        ; |uk101|sd_controller:sd1|address[19]                   ;
+; 4:1                ; 6 bits    ; 12 LEs        ; 6 LEs                ; 6 LEs                  ; Yes        ; |uk101|UK101TextDisplay:u6|charHoriz[0]                ;
+; 5:1                ; 9 bits    ; 27 LEs        ; 9 LEs                ; 18 LEs                 ; Yes        ; |uk101|sd_controller:sd1|cmd_out[53]                   ;
+; 6:1                ; 4 bits    ; 16 LEs        ; 4 LEs                ; 12 LEs                 ; Yes        ; |uk101|bufferedUART:u5|txBitCount[3]                   ;
+; 6:1                ; 7 bits    ; 28 LEs        ; 7 LEs                ; 21 LEs                 ; Yes        ; |uk101|bufferedUART:u5|txBuffer[6]                     ;
+; 6:1                ; 6 bits    ; 24 LEs        ; 6 LEs                ; 18 LEs                 ; Yes        ; |uk101|bufferedUART:u5|txClockCount[4]                 ;
+; 7:1                ; 8 bits    ; 32 LEs        ; 16 LEs               ; 16 LEs                 ; Yes        ; |uk101|T65:u1|PC[12]                                   ;
+; 6:1                ; 2 bits    ; 8 LEs         ; 4 LEs                ; 4 LEs                  ; Yes        ; |uk101|sd_controller:sd1|cmd_out[5]                    ;
+; 6:1                ; 32 bits   ; 128 LEs       ; 32 LEs               ; 96 LEs                 ; Yes        ; |uk101|sd_controller:sd1|recv_data[26]                 ;
+; 7:1                ; 26 bits   ; 104 LEs       ; 52 LEs               ; 52 LEs                 ; Yes        ; |uk101|sd_controller:sd1|cmd_out[18]                   ;
+; 7:1                ; 5 bits    ; 20 LEs        ; 10 LEs               ; 10 LEs                 ; Yes        ; |uk101|sd_controller:sd1|cmd_out[11]                   ;
+; 10:1               ; 7 bits    ; 42 LEs        ; 14 LEs               ; 28 LEs                 ; Yes        ; |uk101|sd_controller:sd1|data_sig[1]                   ;
+; 13:1               ; 7 bits    ; 56 LEs        ; 7 LEs                ; 49 LEs                 ; Yes        ; |uk101|sd_controller:sd1|\fsm:byte_counter[2]          ;
+; 14:1               ; 3 bits    ; 27 LEs        ; 6 LEs                ; 21 LEs                 ; Yes        ; |uk101|sd_controller:sd1|\fsm:byte_counter[9]          ;
+; 20:1               ; 2 bits    ; 26 LEs        ; 6 LEs                ; 20 LEs                 ; Yes        ; |uk101|sd_controller:sd1|\fsm:bit_counter[6]           ;
+; 21:1               ; 3 bits    ; 42 LEs        ; 12 LEs               ; 30 LEs                 ; Yes        ; |uk101|sd_controller:sd1|\fsm:bit_counter[1]           ;
+; 24:1               ; 2 bits    ; 32 LEs        ; 10 LEs               ; 22 LEs                 ; Yes        ; |uk101|sd_controller:sd1|\fsm:bit_counter[0]           ;
+; 3:1                ; 2 bits    ; 4 LEs         ; 2 LEs                ; 2 LEs                  ; No         ; |uk101|T65:u1|T65_MCode:mcode|Mux118                   ;
+; 3:1                ; 5 bits    ; 10 LEs        ; 5 LEs                ; 5 LEs                  ; No         ; |uk101|T65:u1|T65_MCode:mcode|Mux124                   ;
+; 8:1                ; 8 bits    ; 40 LEs        ; 40 LEs               ; 0 LEs                  ; No         ; |uk101|T65:u1|Mux78                                    ;
+; 4:1                ; 8 bits    ; 16 LEs        ; 8 LEs                ; 8 LEs                  ; No         ; |uk101|sd_controller:sd1|dout                          ;
+; 6:1                ; 8 bits    ; 32 LEs        ; 32 LEs               ; 0 LEs                  ; No         ; |uk101|T65:u1|Mux45                                    ;
+; 7:1                ; 3 bits    ; 12 LEs        ; 6 LEs                ; 6 LEs                  ; No         ; |uk101|bufferedUART:u5|Selector36                      ;
+; 12:1               ; 2 bits    ; 16 LEs        ; 12 LEs               ; 4 LEs                  ; No         ; |uk101|T65:u1|T65_ALU:alu|Mux3                         ;
+; 8:1                ; 3 bits    ; 15 LEs        ; 6 LEs                ; 9 LEs                  ; No         ; |uk101|bufferedUART:u5|Selector10                      ;
+; 10:1               ; 4 bits    ; 24 LEs        ; 24 LEs               ; 0 LEs                  ; No         ; |uk101|cpuDataIn[2]                                    ;
+; 11:1               ; 4 bits    ; 28 LEs        ; 24 LEs               ; 4 LEs                  ; No         ; |uk101|cpuDataIn[5]                                    ;
+; 15:1               ; 3 bits    ; 30 LEs        ; 24 LEs               ; 6 LEs                  ; No         ; |uk101|T65:u1|T65_ALU:alu|Mux4                         ;
+; 15:1               ; 3 bits    ; 30 LEs        ; 24 LEs               ; 6 LEs                  ; No         ; |uk101|T65:u1|T65_ALU:alu|Mux0                         ;
+; 11:1               ; 16 bits   ; 112 LEs       ; 64 LEs               ; 48 LEs                 ; No         ; |uk101|sd_controller:sd1|return_state.write_block_wait ;
+; 20:1               ; 9 bits    ; 117 LEs       ; 27 LEs               ; 90 LEs                 ; No         ; |uk101|sd_controller:sd1|Selector80                    ;
+; 23:1               ; 2 bits    ; 30 LEs        ; 10 LEs               ; 20 LEs                 ; No         ; |uk101|sd_controller:sd1|Selector92                    ;
++--------------------+-----------+---------------+----------------------+------------------------+------------+--------------------------------------------------------+
 
 
 +---------------------------------------------------------------------------------------------------+
@@ -630,6 +742,16 @@ Note: In order to hide this table in the UI and the text report file, please set
 ; DEVICE_FAMILY                      ; Cyclone II           ; Untyped                        ;
 ; CBXI_PARAMETER                     ; altsyncram_qi52      ; Untyped                        ;
 +------------------------------------+----------------------+--------------------------------+
+Note: In order to hide this table in the UI and the text report file, please set the "Show Parameter Settings in Synthesis Report" option in "Analysis and Synthesis Settings -> More Settings" to "Off".
+
+
++----------------------------------------------------------------+
+; Parameter Settings for User Entity Instance: sd_controller:sd1 ;
++-----------------+-------+--------------------------------------+
+; Parameter Name  ; Value ; Type                                 ;
++-----------------+-------+--------------------------------------+
+; clkedge_divider ; 100   ; Signed Integer                       ;
++-----------------+-------+--------------------------------------+
 Note: In order to hide this table in the UI and the text report file, please set the "Show Parameter Settings in Synthesis Report" option in "Analysis and Synthesis Settings -> More Settings" to "Off".
 
 
@@ -781,7 +903,7 @@ Note: In order to hide this table in the UI and the text report file, please set
 +----------------+--------------+
 ; Partition Name ; Elapsed Time ;
 +----------------+--------------+
-; Top            ; 00:00:47     ;
+; Top            ; 00:00:48     ;
 +----------------+--------------+
 
 
@@ -791,9 +913,12 @@ Note: In order to hide this table in the UI and the text report file, please set
 Info: *******************************************************************
 Info: Running Quartus II 64-Bit Analysis & Synthesis
     Info: Version 13.0.1 Build 232 06/12/2013 Service Pack 1 SJ Web Edition
-    Info: Processing started: Tue Jun 30 17:01:52 2020
+    Info: Processing started: Wed Jul 15 12:57:40 2020
 Info: Command: quartus_map --read_settings_files=on --write_settings_files=off uk101_41kRAM -c uk101_41kRAM
 Warning (20028): Parallel compilation is not licensed and has been disabled
+Info (12021): Found 2 design units, including 1 entities, in source file /users/hpz420/documents/github/doug gilliland/multicomp/multicomp (vhdl template)/components/sdcard/sd_controller_high_speed.vhd
+    Info (12022): Found design unit 1: sd_controller-rtl
+    Info (12023): Found entity 1: sd_controller
 Info (12021): Found 2 design units, including 1 entities, in source file uk101_41kram.vhd
     Info (12022): Found design unit 1: uk101-struct
     Info (12023): Found entity 1: uk101
@@ -840,17 +965,17 @@ Info (12021): Found 2 design units, including 1 entities, in source file /users/
     Info (12022): Found design unit 1: UK101TextDisplay-rtl
     Info (12023): Found entity 1: UK101TextDisplay
 Info (12127): Elaborating entity "uk101" for the top level hierarchy
-Critical Warning (10920): VHDL Incomplete Partial Association warning at uk101_41kRAM.vhd(115): port or argument "A" has 8/24 unassociated elements
-Warning (10492): VHDL Process Statement warning at uk101_41kRAM.vhd(264): signal "cpuDataOut" is read inside the Process Statement but isn't in the Process Statement's sensitivity list
-Warning (10631): VHDL Process Statement warning at uk101_41kRAM.vhd(261): inferring latch(es) for signal or variable "kbRowSel", which holds its previous value in one or more paths through the process
-Info (10041): Inferred latch for "kbRowSel[0]" at uk101_41kRAM.vhd(261)
-Info (10041): Inferred latch for "kbRowSel[1]" at uk101_41kRAM.vhd(261)
-Info (10041): Inferred latch for "kbRowSel[2]" at uk101_41kRAM.vhd(261)
-Info (10041): Inferred latch for "kbRowSel[3]" at uk101_41kRAM.vhd(261)
-Info (10041): Inferred latch for "kbRowSel[4]" at uk101_41kRAM.vhd(261)
-Info (10041): Inferred latch for "kbRowSel[5]" at uk101_41kRAM.vhd(261)
-Info (10041): Inferred latch for "kbRowSel[6]" at uk101_41kRAM.vhd(261)
-Info (10041): Inferred latch for "kbRowSel[7]" at uk101_41kRAM.vhd(261)
+Critical Warning (10920): VHDL Incomplete Partial Association warning at uk101_41kRAM.vhd(125): port or argument "A" has 8/24 unassociated elements
+Warning (10492): VHDL Process Statement warning at uk101_41kRAM.vhd(261): signal "cpuDataOut" is read inside the Process Statement but isn't in the Process Statement's sensitivity list
+Warning (10631): VHDL Process Statement warning at uk101_41kRAM.vhd(258): inferring latch(es) for signal or variable "kbRowSel", which holds its previous value in one or more paths through the process
+Info (10041): Inferred latch for "kbRowSel[0]" at uk101_41kRAM.vhd(258)
+Info (10041): Inferred latch for "kbRowSel[1]" at uk101_41kRAM.vhd(258)
+Info (10041): Inferred latch for "kbRowSel[2]" at uk101_41kRAM.vhd(258)
+Info (10041): Inferred latch for "kbRowSel[3]" at uk101_41kRAM.vhd(258)
+Info (10041): Inferred latch for "kbRowSel[4]" at uk101_41kRAM.vhd(258)
+Info (10041): Inferred latch for "kbRowSel[5]" at uk101_41kRAM.vhd(258)
+Info (10041): Inferred latch for "kbRowSel[6]" at uk101_41kRAM.vhd(258)
+Info (10041): Inferred latch for "kbRowSel[7]" at uk101_41kRAM.vhd(258)
 Info (12128): Elaborating entity "T65" for hierarchy "T65:u1"
 Warning (10036): Verilog HDL or VHDL warning at T65.vhd(100): object "D" assigned a value but never read
 Warning (10036): Verilog HDL or VHDL warning at T65.vhd(125): object "B_o" assigned a value but never read
@@ -917,6 +1042,7 @@ Info (12133): Instantiated megafunction "DisplayRam:u8|altsyncram:altsyncram_com
 Info (12021): Found 1 design units, including 1 entities, in source file db/altsyncram_qi52.tdf
     Info (12023): Found entity 1: altsyncram_qi52
 Info (12128): Elaborating entity "altsyncram_qi52" for hierarchy "DisplayRam:u8|altsyncram:altsyncram_component|altsyncram_qi52:auto_generated"
+Info (12128): Elaborating entity "sd_controller" for hierarchy "sd_controller:sd1"
 Info (12128): Elaborating entity "OutLatch" for hierarchy "OutLatch:latchIO0"
 Info (12128): Elaborating entity "UK101keyboard" for hierarchy "UK101keyboard:u9"
 Warning (10036): Verilog HDL or VHDL warning at UK101keyboard.vhd(83): object "keyb_error" assigned a value but never read
@@ -980,19 +1106,24 @@ Info (13000): Registers with preset signals will power-up high
 Info (13003): DEV_CLRn pin will set, and not reset, register with preset signal due to NOT Gate Push-Back
 Warning (13024): Output pins are stuck at VCC or GND
     Warning (13410): Pin "sramAddress[16]" is stuck at GND
-Info (17049): 9 registers lost all their fanouts during netlist optimizations.
+Critical Warning (18061): Ignored Power-Up Level option on the following registers
+    Critical Warning (18010): Register sd_controller:sd1|driveLED will power up to Low
+    Critical Warning (18010): Register sd_controller:sd1|led_on_count[7] will power up to High
+    Critical Warning (18010): Register sd_controller:sd1|led_on_count[6] will power up to High
+    Critical Warning (18010): Register sd_controller:sd1|led_on_count[3] will power up to High
+Info (17049): 14 registers lost all their fanouts during netlist optimizations.
 Info (16010): Generating hard_block partition "hard_block:auto_generated_inst"
     Info (16011): Adding 0 node(s), including 0 DDIO, 0 PLL, 0 transceiver and 0 LCELL
-Info (21057): Implemented 4369 device resources after synthesis - the final resource count might be different
-    Info (21058): Implemented 5 input pins
-    Info (21059): Implemented 42 output pins
+Info (21057): Implemented 4811 device resources after synthesis - the final resource count might be different
+    Info (21058): Implemented 6 input pins
+    Info (21059): Implemented 46 output pins
     Info (21060): Implemented 8 bidirectional pins
-    Info (21061): Implemented 4290 logic cells
+    Info (21061): Implemented 4727 logic cells
     Info (21064): Implemented 24 RAM segments
-Info: Quartus II 64-Bit Analysis & Synthesis was successful. 0 errors, 50 warnings
-    Info: Peak virtual memory: 4677 megabytes
-    Info: Processing ended: Tue Jun 30 17:02:44 2020
-    Info: Elapsed time: 00:00:52
+Info: Quartus II 64-Bit Analysis & Synthesis was successful. 0 errors, 55 warnings
+    Info: Peak virtual memory: 4674 megabytes
+    Info: Processing ended: Wed Jul 15 12:58:33 2020
+    Info: Elapsed time: 00:00:53
     Info: Total CPU time (on all processors): 00:00:51
 
 

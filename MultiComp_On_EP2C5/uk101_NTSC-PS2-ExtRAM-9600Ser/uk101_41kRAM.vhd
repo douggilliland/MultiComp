@@ -34,6 +34,12 @@ entity uk101 is
 		
 		ps2Clk		: in std_logic;
 		ps2Data		: in std_logic;
+
+		sdCS			: out std_logic;
+		sdMOSI		: out std_logic;
+		sdMISO		: in std_logic;
+		sdSCLK		: out std_logic;
+		driveLED		: out std_logic :='1';
 		
 		ledOut		: out std_logic;
 		J6IO8			: out std_logic_vector(7 downto 0);
@@ -52,6 +58,7 @@ architecture struct of uk101 is
 	signal ramDataOut			: std_logic_vector(7 downto 0);
 	signal monitorRomData 	: std_logic_vector(7 downto 0);
 	signal aciaData			: std_logic_vector(7 downto 0);
+	signal sdCardDataOut		: std_logic_vector(7 downto 0);
 
 	signal n_memWR				: std_logic;
 	signal n_memRD 			: std_logic;
@@ -61,6 +68,7 @@ architecture struct of uk101 is
 	signal n_basRomCS			: std_logic :='1';
 	signal n_monitorRomCS 	: std_logic :='1';
 	signal n_aciaCS			: std_logic :='1';
+	signal n_sdCardCS			: std_logic :='1';
 	signal n_kbCS				: std_logic :='1';
 	signal n_J6IOCS			: std_logic :='1';
 	signal n_J8IOCS			: std_logic :='1';
@@ -98,6 +106,7 @@ begin
 	n_kbCS 			<= '0' when cpuAddress(15 downto 10) = x"d"&"11" 			else '1';
 	n_monitorRomCS <= '0' when cpuAddress(15 downto 11) = x"f"&'1' 			else '1';	-- 2K
 	n_aciaCS 		<= '0' when cpuAddress(15 downto 1)  = x"f00"&"000" 		else '1';	-- 61440-61441
+	n_sdCardCS		<= '0' when cpuAddress(15 downto 1)  = x"f01"		 		else '1';	-- SD card
 	n_J6IOCS			<= '0' when cpuAddress(15 downto 0)  = x"f002"				else '1';	-- 61442
 	n_J8IOCS			<= '0' when cpuAddress(15 downto 0)  = x"f003"				else '1';	-- 61443
 	n_LEDCS			<= '0' when cpuAddress(15 downto 0)  = x"f004"				else '1';	-- 61444
@@ -109,7 +118,8 @@ begin
 		aciaData 			when n_aciaCS = '0' 			else
 		sramData 			when n_ramCS = '0' 			else
 		dispRamDataOutA 	when n_dispRamCS = '0' 		else
-		kbReadData 			when n_kbCS='0'				else 
+		kbReadData 			when n_kbCS='0'				else
+		sdCardDataOut		when n_sdCardCS = '0'		else
 		x"FF";
 		
 	u1 : entity work.T65
@@ -190,6 +200,22 @@ begin
 		q_b => dispRamDataOutB
 	);
 	
+	sd1 : entity work.sd_controller
+	port map(
+		sdCS => sdCS,
+		sdMOSI => sdMOSI,
+		sdMISO => sdMISO,
+		sdSCLK => sdSCLK,
+		n_wr => n_sdCardCS or n_memWR,
+		n_rd => n_sdCardCS or (not n_memWR),
+		n_reset => n_reset,
+		dataIn => cpuDataOut,
+		dataOut => sdCardDataOut,
+		regAddr => cpuAddress(2 downto 0),
+		driveLED => driveLED,
+		clk => clk -- twice the spi clk
+	);
+
 	latchIO0 : entity work.OutLatch	--Output LatchIO
 	port map(
 		clear => n_reset,
