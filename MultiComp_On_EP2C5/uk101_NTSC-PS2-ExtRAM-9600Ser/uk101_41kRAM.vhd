@@ -6,6 +6,7 @@
 -- CEGMON Monitor (2KB)
 -- BASIC in ROM (8K)
 -- Composite Video
+-- SD Controller
 ---------------------------------------------------------------------------
 
 library ieee;
@@ -19,28 +20,34 @@ entity uk101 is
 		clk			: in std_logic;
 		reset_LED	: out std_logic;
 		
+		-- SRAM
 		sramData 	: inout std_logic_vector(7 downto 0);
 		sramAddress : out std_logic_vector(16 downto 0);
 		n_sRamWE 	: out std_logic;
 		n_sRamCS 	: out std_logic;
 		n_sRamOE 	: out std_logic;
 		
+		-- Serial port with handshake
 		rxd			: in std_logic;
 		txd			: out std_logic;
 		rts			: out std_logic;
 		
+		-- Composite video
 		videoSync	: out std_logic;
 		video			: out std_logic;
 		
+		-- PS/2 keyboard
 		ps2Clk		: in std_logic;
 		ps2Data		: in std_logic;
 
+		-- SD Card
 		sdCS			: out std_logic;
 		sdMOSI		: out std_logic;
 		sdMISO		: in std_logic;
 		sdSCLK		: out std_logic;
 		driveLED		: out std_logic :='1';
 		
+		-- I/O ports
 		ledOut		: out std_logic;
 		J6IO8			: out std_logic_vector(7 downto 0);
 		J8IO8			: out std_logic_vector(7 downto 0)
