@@ -6,7 +6,7 @@
 -- CEGMON Monitor (2KB)
 -- BASIC in ROM (8K)
 -- Composite Video
--- SD Controller
+-- SD Hugh Speed Controller
 ---------------------------------------------------------------------------
 
 library ieee;
