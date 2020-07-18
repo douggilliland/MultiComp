@@ -111,7 +111,7 @@ begin
 	n_basRomCS 		<= '0' when cpuAddress(15 downto 13) = "101" 				else '1';	-- 8k
 	n_dispRamCS 	<= '0' when cpuAddress(15 downto 10) = x"d"&"00" 			else '1';
 	n_kbCS 			<= '0' when cpuAddress(15 downto 10) = x"d"&"11" 			else '1';
-	n_monitorRomCS <= '0' when cpuAddress(15 downto 11) = x"f"&'1' 			else '1';	-- 2K
+	n_monitorRomCS <= '0' when cpuAddress(15 downto 12) = x"f"		 			else '1';	-- 4K
 	n_aciaCS 		<= '0' when cpuAddress(15 downto 1)  = x"f00"&"000" 		else '1';	-- 61440-61441
 	n_sdCardCS		<= '0' when cpuAddress(15 downto 1)  = x"f01"		 		else '1';	-- SD card
 	n_J6IOCS			<= '0' when cpuAddress(15 downto 0)  = x"f002"				else '1';	-- 61442
@@ -121,12 +121,12 @@ begin
 	
 	cpuDataIn <=
 		basRomData 			when n_basRomCS = '0' 		else
-		monitorRomData 	when n_monitorRomCS = '0'	else
 		aciaData 			when n_aciaCS = '0' 			else
 		sramData 			when n_ramCS = '0' 			else
 		dispRamDataOutA 	when n_dispRamCS = '0' 		else
 		kbReadData 			when n_kbCS='0'				else
 		sdCardDataOut		when n_sdCardCS = '0'		else
+		monitorRomData 	when n_monitorRomCS = '0'	else
 		x"FF";
 		
 	u1 : entity work.T65
@@ -155,7 +155,7 @@ begin
 	u4: entity work.CEGMON_ROM
 	port map
 	(
-		address => cpuAddress(10 downto 0),
+		address => cpuAddress(11 downto 0),
 		clock => clk,
 		q => monitorRomData
 	);
