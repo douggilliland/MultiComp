@@ -1,12 +1,12 @@
 ---------------------------------------------------------------------------
 -- 6502 CPU
--- At 1 MHz (limited due to the keyboard scanner
+-- At 1 MHz (limited due to the keyboard scanner)
 -- 41K External SRAM
 -- PS/2 Keyboard
 -- CEGMON Monitor (2KB)
 -- BASIC in ROM (8K)
 -- Composite Video
--- SD Hugh Speed Controller
+-- SD High Speed Controller
 ---------------------------------------------------------------------------
 
 library ieee;
@@ -152,10 +152,11 @@ begin
 		q => basRomData
 	);
 
-	u4: entity work.CegmonRom
+	u4: entity work.CEGMON_ROM
 	port map
 	(
 		address => cpuAddress(10 downto 0),
+		clock => clk,
 		q => monitorRomData
 	);
 

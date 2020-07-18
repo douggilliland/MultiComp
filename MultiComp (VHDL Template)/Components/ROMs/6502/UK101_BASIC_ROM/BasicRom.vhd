@@ -4,7 +4,7 @@
 -- MODULE: altsyncram 
 
 -- ============================================================
--- File Name: Basic.vhd
+-- File Name: BasicRom.vhd
 -- Megafunction Name(s):
 -- 			altsyncram
 --
@@ -49,7 +49,7 @@ ENTITY BasicRom IS
 END BasicRom;
 
 
-ARCHITECTURE SYN OF BasicRom IS
+ARCHITECTURE SYN OF basicrom IS
 
 	SIGNAL sub_wire0	: STD_LOGIC_VECTOR (7 DOWNTO 0);
 
@@ -158,9 +158,9 @@ END SYN;
 -- Retrieval info: CONNECT: @address_a 0 0 13 0 address 0 0 13 0
 -- Retrieval info: CONNECT: @clock0 0 0 0 0 clock 0 0 0 0
 -- Retrieval info: CONNECT: q 0 0 8 0 @q_a 0 0 8 0
--- Retrieval info: GEN_FILE: TYPE_NORMAL Basic.vhd TRUE
--- Retrieval info: GEN_FILE: TYPE_NORMAL Basic.inc FALSE
--- Retrieval info: GEN_FILE: TYPE_NORMAL Basic.cmp TRUE
--- Retrieval info: GEN_FILE: TYPE_NORMAL Basic.bsf FALSE
--- Retrieval info: GEN_FILE: TYPE_NORMAL Basic_inst.vhd FALSE
+-- Retrieval info: GEN_FILE: TYPE_NORMAL BasicRom.vhd TRUE
+-- Retrieval info: GEN_FILE: TYPE_NORMAL BasicRom.inc FALSE
+-- Retrieval info: GEN_FILE: TYPE_NORMAL BasicRom.cmp TRUE
+-- Retrieval info: GEN_FILE: TYPE_NORMAL BasicRom.bsf FALSE
+-- Retrieval info: GEN_FILE: TYPE_NORMAL BasicRom_inst.vhd FALSE
 -- Retrieval info: LIB_FILE: altera_mf
