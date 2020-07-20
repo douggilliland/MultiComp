@@ -1,12 +1,12 @@
 |uk101
-n_reset => t65:u1.Res_n
-n_reset => sd_controller:sd1.n_reset
-n_reset => outlatch:latchIO0.clear
-n_reset => outlatch:latchIO1.clear
+n_reset => t65:CPU.Res_n
+n_reset => sd_controller:SD_CONTROLLER.n_reset
+n_reset => outlatch:J7IO.clear
+n_reset => outlatch:J8IO.clear
 n_reset => outlatch:latchLED.clear
 n_reset => uk101keyboard:u9.nRESET
 n_reset => reset_LED.DATAIN
-clk => basicrom:u2.clock
+clk => basicrom:BASIC_ROM.clock
 clk => serialClock.CLK
 clk => serialClkCount[0].CLK
 clk => serialClkCount[1].CLK
@@ -30,12 +30,12 @@ clk => cpuClkCount[2].CLK
 clk => cpuClkCount[3].CLK
 clk => cpuClkCount[4].CLK
 clk => cpuClkCount[5].CLK
-clk => cegmon_rom:u4.clock
-clk => uk101textdisplay:u6.clk
-clk => displayram:u8.clock
-clk => sd_controller:sd1.clk
-clk => outlatch:latchIO0.clock
-clk => outlatch:latchIO1.clock
+clk => cegmon_rom:MONITOR_ROM.clock
+clk => uk101textdisplay:VDU.clk
+clk => displayram:DISPLAY_RAM.clock
+clk => sd_controller:SD_CONTROLLER.clk
+clk => outlatch:J7IO.clock
+clk => outlatch:J8IO.clock
 clk => outlatch:latchLED.clock
 clk => uk101keyboard:u9.CLK
 reset_LED <= n_reset.DB_MAX_OUTPUT_PORT_TYPE
@@ -47,58 +47,58 @@ sramData[4] <> sramData[4]
 sramData[5] <> sramData[5]
 sramData[6] <> sramData[6]
 sramData[7] <> sramData[7]
-sramAddress[0] <= t65:u1.A[0]
-sramAddress[1] <= t65:u1.A[1]
-sramAddress[2] <= t65:u1.A[2]
-sramAddress[3] <= t65:u1.A[3]
-sramAddress[4] <= t65:u1.A[4]
-sramAddress[5] <= t65:u1.A[5]
-sramAddress[6] <= t65:u1.A[6]
-sramAddress[7] <= t65:u1.A[7]
-sramAddress[8] <= t65:u1.A[8]
-sramAddress[9] <= t65:u1.A[9]
-sramAddress[10] <= t65:u1.A[10]
-sramAddress[11] <= t65:u1.A[11]
-sramAddress[12] <= t65:u1.A[12]
-sramAddress[13] <= t65:u1.A[13]
-sramAddress[14] <= t65:u1.A[14]
-sramAddress[15] <= t65:u1.A[15]
+sramAddress[0] <= t65:CPU.A[0]
+sramAddress[1] <= t65:CPU.A[1]
+sramAddress[2] <= t65:CPU.A[2]
+sramAddress[3] <= t65:CPU.A[3]
+sramAddress[4] <= t65:CPU.A[4]
+sramAddress[5] <= t65:CPU.A[5]
+sramAddress[6] <= t65:CPU.A[6]
+sramAddress[7] <= t65:CPU.A[7]
+sramAddress[8] <= t65:CPU.A[8]
+sramAddress[9] <= t65:CPU.A[9]
+sramAddress[10] <= t65:CPU.A[10]
+sramAddress[11] <= t65:CPU.A[11]
+sramAddress[12] <= t65:CPU.A[12]
+sramAddress[13] <= t65:CPU.A[13]
+sramAddress[14] <= t65:CPU.A[14]
+sramAddress[15] <= t65:CPU.A[15]
 sramAddress[16] <= <GND>
 n_sRamWE <= n_memWR.DB_MAX_OUTPUT_PORT_TYPE
 n_sRamCS <= n_ramCS.DB_MAX_OUTPUT_PORT_TYPE
 n_sRamOE <= n_memRD.DB_MAX_OUTPUT_PORT_TYPE
-rxd => buffereduart:u5.rxd
-txd <= buffereduart:u5.txd
-rts <= buffereduart:u5.n_rts
-videoSync <= uk101textdisplay:u6.sync
-video <= uk101textdisplay:u6.video
+rxd => buffereduart:UART.rxd
+txd <= buffereduart:UART.txd
+rts <= buffereduart:UART.n_rts
+videoSync <= uk101textdisplay:VDU.sync
+video <= uk101textdisplay:VDU.video
 ps2Clk => uk101keyboard:u9.PS2_CLK
 ps2Data => uk101keyboard:u9.PS2_DATA
-sdCS <= sd_controller:sd1.sdCS
-sdMOSI <= sd_controller:sd1.sdMOSI
-sdMISO => sd_controller:sd1.sdMISO
-sdSCLK <= sd_controller:sd1.sdSCLK
-driveLED <= sd_controller:sd1.driveLED
+sdCS <= sd_controller:SD_CONTROLLER.sdCS
+sdMOSI <= sd_controller:SD_CONTROLLER.sdMOSI
+sdMISO => sd_controller:SD_CONTROLLER.sdMISO
+sdSCLK <= sd_controller:SD_CONTROLLER.sdSCLK
+driveLED <= sd_controller:SD_CONTROLLER.driveLED
 ledOut <= outlatch:latchLED.latchOut[0]
-J6IO8[0] <= outlatch:latchIO0.latchOut[0]
-J6IO8[1] <= outlatch:latchIO0.latchOut[1]
-J6IO8[2] <= outlatch:latchIO0.latchOut[2]
-J6IO8[3] <= outlatch:latchIO0.latchOut[3]
-J6IO8[4] <= outlatch:latchIO0.latchOut[4]
-J6IO8[5] <= outlatch:latchIO0.latchOut[5]
-J6IO8[6] <= outlatch:latchIO0.latchOut[6]
-J6IO8[7] <= outlatch:latchIO0.latchOut[7]
-J8IO8[0] <= outlatch:latchIO1.latchOut[0]
-J8IO8[1] <= outlatch:latchIO1.latchOut[1]
-J8IO8[2] <= outlatch:latchIO1.latchOut[2]
-J8IO8[3] <= outlatch:latchIO1.latchOut[3]
-J8IO8[4] <= outlatch:latchIO1.latchOut[4]
-J8IO8[5] <= outlatch:latchIO1.latchOut[5]
-J8IO8[6] <= outlatch:latchIO1.latchOut[6]
-J8IO8[7] <= outlatch:latchIO1.latchOut[7]
+J6IO8[0] <= outlatch:J7IO.latchOut[0]
+J6IO8[1] <= outlatch:J7IO.latchOut[1]
+J6IO8[2] <= outlatch:J7IO.latchOut[2]
+J6IO8[3] <= outlatch:J7IO.latchOut[3]
+J6IO8[4] <= outlatch:J7IO.latchOut[4]
+J6IO8[5] <= outlatch:J7IO.latchOut[5]
+J6IO8[6] <= outlatch:J7IO.latchOut[6]
+J6IO8[7] <= outlatch:J7IO.latchOut[7]
+J8IO8[0] <= outlatch:J8IO.latchOut[0]
+J8IO8[1] <= outlatch:J8IO.latchOut[1]
+J8IO8[2] <= outlatch:J8IO.latchOut[2]
+J8IO8[3] <= outlatch:J8IO.latchOut[3]
+J8IO8[4] <= outlatch:J8IO.latchOut[4]
+J8IO8[5] <= outlatch:J8IO.latchOut[5]
+J8IO8[6] <= outlatch:J8IO.latchOut[6]
+J8IO8[7] <= outlatch:J8IO.latchOut[7]
 
 
-|uk101|T65:u1
+|uk101|T65:CPU
 Mode[0] => Mode_r.DATAB
 Mode[1] => Mode_r.DATAB
 Res_n => XF_i.PRESET
@@ -715,7 +715,7 @@ DO[6] <= Mux78.DB_MAX_OUTPUT_PORT_TYPE
 DO[7] <= Mux77.DB_MAX_OUTPUT_PORT_TYPE
 
 
-|uk101|T65:u1|T65_MCode:mcode
+|uk101|T65:CPU|T65_MCode:mcode
 Mode[0] => Equal0.IN1
 Mode[1] => Equal0.IN0
 IR[0] => Mux1.IN5
@@ -1477,7 +1477,7 @@ SaveP <= Mux115.DB_MAX_OUTPUT_PORT_TYPE
 Write <= Mux102.DB_MAX_OUTPUT_PORT_TYPE
 
 
-|uk101|T65:u1|T65_ALU:alu
+|uk101|T65:CPU|T65_ALU:alu
 Mode[0] => ~NO_FANOUT~
 Mode[1] => ~NO_FANOUT~
 Op[0] => Mux0.IN9
@@ -1767,7 +1767,7 @@ Q[6] <= Mux1.DB_MAX_OUTPUT_PORT_TYPE
 Q[7] <= Mux0.DB_MAX_OUTPUT_PORT_TYPE
 
 
-|uk101|BasicRom:u2
+|uk101|BasicRom:BASIC_ROM
 address[0] => altsyncram:altsyncram_component.address_a[0]
 address[1] => altsyncram:altsyncram_component.address_a[1]
 address[2] => altsyncram:altsyncram_component.address_a[2]
@@ -1792,7 +1792,7 @@ q[6] <= altsyncram:altsyncram_component.q_a[6]
 q[7] <= altsyncram:altsyncram_component.q_a[7]
 
 
-|uk101|BasicRom:u2|altsyncram:altsyncram_component
+|uk101|BasicRom:BASIC_ROM|altsyncram:altsyncram_component
 wren_a => ~NO_FANOUT~
 rden_a => ~NO_FANOUT~
 wren_b => ~NO_FANOUT~
@@ -1846,7 +1846,7 @@ eccstatus[1] <= <GND>
 eccstatus[2] <= <GND>
 
 
-|uk101|BasicRom:u2|altsyncram:altsyncram_component|altsyncram_4371:auto_generated
+|uk101|BasicRom:BASIC_ROM|altsyncram:altsyncram_component|altsyncram_4371:auto_generated
 address_a[0] => ram_block1a0.PORTAADDR
 address_a[0] => ram_block1a1.PORTAADDR
 address_a[0] => ram_block1a2.PORTAADDR
@@ -2069,7 +2069,7 @@ q_a[6] <= mux_hib:mux2.result[6]
 q_a[7] <= mux_hib:mux2.result[7]
 
 
-|uk101|BasicRom:u2|altsyncram:altsyncram_component|altsyncram_4371:auto_generated|decode_1oa:deep_decode
+|uk101|BasicRom:BASIC_ROM|altsyncram:altsyncram_component|altsyncram_4371:auto_generated|decode_1oa:deep_decode
 data[0] => eq_node[1].IN0
 data[0] => eq_node[0].IN0
 enable => eq_node[1].IN1
@@ -2078,7 +2078,7 @@ eq[0] <= eq_node[0].DB_MAX_OUTPUT_PORT_TYPE
 eq[1] <= eq_node[1].DB_MAX_OUTPUT_PORT_TYPE
 
 
-|uk101|BasicRom:u2|altsyncram:altsyncram_component|altsyncram_4371:auto_generated|mux_hib:mux2
+|uk101|BasicRom:BASIC_ROM|altsyncram:altsyncram_component|altsyncram_4371:auto_generated|mux_hib:mux2
 data[0] => result_node[0].IN1
 data[1] => result_node[1].IN1
 data[2] => result_node[2].IN1
@@ -2121,7 +2121,7 @@ sel[0] => result_node[0].IN0
 sel[0] => _.IN0
 
 
-|uk101|CEGMON_ROM:u4
+|uk101|CEGMON_ROM:MONITOR_ROM
 address[0] => altsyncram:altsyncram_component.address_a[0]
 address[1] => altsyncram:altsyncram_component.address_a[1]
 address[2] => altsyncram:altsyncram_component.address_a[2]
@@ -2145,7 +2145,7 @@ q[6] <= altsyncram:altsyncram_component.q_a[6]
 q[7] <= altsyncram:altsyncram_component.q_a[7]
 
 
-|uk101|CEGMON_ROM:u4|altsyncram:altsyncram_component
+|uk101|CEGMON_ROM:MONITOR_ROM|altsyncram:altsyncram_component
 wren_a => ~NO_FANOUT~
 rden_a => ~NO_FANOUT~
 wren_b => ~NO_FANOUT~
@@ -2198,7 +2198,7 @@ eccstatus[1] <= <GND>
 eccstatus[2] <= <GND>
 
 
-|uk101|CEGMON_ROM:u4|altsyncram:altsyncram_component|altsyncram_sjc1:auto_generated
+|uk101|CEGMON_ROM:MONITOR_ROM|altsyncram:altsyncram_component|altsyncram_sjc1:auto_generated
 address_a[0] => ram_block1a0.PORTAADDR
 address_a[0] => ram_block1a1.PORTAADDR
 address_a[0] => ram_block1a2.PORTAADDR
@@ -2313,7 +2313,7 @@ q_a[6] <= ram_block1a6.PORTADATAOUT
 q_a[7] <= ram_block1a7.PORTADATAOUT
 
 
-|uk101|bufferedUART:u5
+|uk101|bufferedUART:UART
 n_wr => controlReg[5].CLK
 n_wr => controlReg[6].CLK
 n_wr => controlReg[7].CLK
@@ -2473,7 +2473,7 @@ n_dcd => dataOut.DATAA
 n_dcd => process_3.IN1
 
 
-|uk101|UK101TextDisplay:u6
+|uk101|UK101TextDisplay:VDU
 charAddr[0] <= charScanLine[1].DB_MAX_OUTPUT_PORT_TYPE
 charAddr[1] <= charScanLine[2].DB_MAX_OUTPUT_PORT_TYPE
 charAddr[2] <= charScanLine[3].DB_MAX_OUTPUT_PORT_TYPE
@@ -2562,7 +2562,7 @@ video <= video~reg0.DB_MAX_OUTPUT_PORT_TYPE
 sync <= sync.DB_MAX_OUTPUT_PORT_TYPE
 
 
-|uk101|CharRom:u7
+|uk101|CharRom:CHAR_ROM
 address[0] => Mux0.IN2058
 address[0] => Mux1.IN2058
 address[0] => Mux2.IN2058
@@ -2661,7 +2661,7 @@ q[6] <= Mux1.DB_MAX_OUTPUT_PORT_TYPE
 q[7] <= Mux0.DB_MAX_OUTPUT_PORT_TYPE
 
 
-|uk101|DisplayRam:u8
+|uk101|DisplayRam:DISPLAY_RAM
 address_a[0] => altsyncram:altsyncram_component.address_a[0]
 address_a[1] => altsyncram:altsyncram_component.address_a[1]
 address_a[2] => altsyncram:altsyncram_component.address_a[2]
@@ -2719,7 +2719,7 @@ q_b[6] <= altsyncram:altsyncram_component.q_b[6]
 q_b[7] <= altsyncram:altsyncram_component.q_b[7]
 
 
-|uk101|DisplayRam:u8|altsyncram:altsyncram_component
+|uk101|DisplayRam:DISPLAY_RAM|altsyncram:altsyncram_component
 wren_a => altsyncram_qi52:auto_generated.wren_a
 rden_a => ~NO_FANOUT~
 wren_b => altsyncram_qi52:auto_generated.wren_b
@@ -2793,7 +2793,7 @@ eccstatus[1] <= <GND>
 eccstatus[2] <= <GND>
 
 
-|uk101|DisplayRam:u8|altsyncram:altsyncram_component|altsyncram_qi52:auto_generated
+|uk101|DisplayRam:DISPLAY_RAM|altsyncram:altsyncram_component|altsyncram_qi52:auto_generated
 address_a[0] => ram_block1a0.PORTAADDR
 address_a[0] => ram_block1a1.PORTAADDR
 address_a[0] => ram_block1a2.PORTAADDR
@@ -3012,7 +3012,7 @@ wren_b => ram_block1a6.PORTBRE
 wren_b => ram_block1a7.PORTBRE
 
 
-|uk101|sd_controller:sd1
+|uk101|sd_controller:SD_CONTROLLER
 sdCS <= sdCS~reg0.DB_MAX_OUTPUT_PORT_TYPE
 sdMOSI <= sdMOSI.DB_MAX_OUTPUT_PORT_TYPE
 sdMISO => recv_data.DATAB
@@ -3561,7 +3561,7 @@ clk => state~24.DATAIN
 driveLED <= driveLED~reg0.DB_MAX_OUTPUT_PORT_TYPE
 
 
-|uk101|OutLatch:latchIO0
+|uk101|OutLatch:J7IO
 dataIn8[0] => Q_tmp[0].DATAIN
 dataIn8[1] => Q_tmp[1].DATAIN
 dataIn8[2] => Q_tmp[2].DATAIN
@@ -3604,7 +3604,7 @@ latchOut[6] <= Q_tmp[6].DB_MAX_OUTPUT_PORT_TYPE
 latchOut[7] <= Q_tmp[7].DB_MAX_OUTPUT_PORT_TYPE
 
 
-|uk101|OutLatch:latchIO1
+|uk101|OutLatch:J8IO
 dataIn8[0] => Q_tmp[0].DATAIN
 dataIn8[1] => Q_tmp[1].DATAIN
 dataIn8[2] => Q_tmp[2].DATAIN
@@ -3692,6 +3692,30 @@ latchOut[7] <= Q_tmp[7].DB_MAX_OUTPUT_PORT_TYPE
 
 |uk101|UK101keyboard:u9
 CLK => ps2_intf:ps2.CLK
+CLK => FNtoggledKeysSig[1].CLK
+CLK => FNtoggledKeysSig[2].CLK
+CLK => FNtoggledKeysSig[3].CLK
+CLK => FNtoggledKeysSig[4].CLK
+CLK => FNtoggledKeysSig[5].CLK
+CLK => FNtoggledKeysSig[6].CLK
+CLK => FNtoggledKeysSig[7].CLK
+CLK => FNtoggledKeysSig[8].CLK
+CLK => FNtoggledKeysSig[9].CLK
+CLK => FNtoggledKeysSig[10].CLK
+CLK => FNtoggledKeysSig[11].CLK
+CLK => FNtoggledKeysSig[12].CLK
+CLK => FNkeysSig[1].CLK
+CLK => FNkeysSig[2].CLK
+CLK => FNkeysSig[3].CLK
+CLK => FNkeysSig[4].CLK
+CLK => FNkeysSig[5].CLK
+CLK => FNkeysSig[6].CLK
+CLK => FNkeysSig[7].CLK
+CLK => FNkeysSig[8].CLK
+CLK => FNkeysSig[9].CLK
+CLK => FNkeysSig[10].CLK
+CLK => FNkeysSig[11].CLK
+CLK => FNkeysSig[12].CLK
 CLK => keys[0][0].CLK
 CLK => keys[0][1].CLK
 CLK => keys[0][2].CLK
@@ -3797,6 +3821,30 @@ nRESET => keys[7][5].PRESET
 nRESET => keys[7][6].PRESET
 nRESET => keys[7][7].PRESET
 nRESET => release.ACLR
+nRESET => FNtoggledKeysSig[1].ENA
+nRESET => FNkeysSig[12].ENA
+nRESET => FNkeysSig[11].ENA
+nRESET => FNkeysSig[10].ENA
+nRESET => FNkeysSig[9].ENA
+nRESET => FNkeysSig[8].ENA
+nRESET => FNkeysSig[7].ENA
+nRESET => FNkeysSig[6].ENA
+nRESET => FNkeysSig[5].ENA
+nRESET => FNkeysSig[4].ENA
+nRESET => FNkeysSig[3].ENA
+nRESET => FNkeysSig[2].ENA
+nRESET => FNkeysSig[1].ENA
+nRESET => FNtoggledKeysSig[12].ENA
+nRESET => FNtoggledKeysSig[11].ENA
+nRESET => FNtoggledKeysSig[10].ENA
+nRESET => FNtoggledKeysSig[9].ENA
+nRESET => FNtoggledKeysSig[8].ENA
+nRESET => FNtoggledKeysSig[7].ENA
+nRESET => FNtoggledKeysSig[6].ENA
+nRESET => FNtoggledKeysSig[5].ENA
+nRESET => FNtoggledKeysSig[4].ENA
+nRESET => FNtoggledKeysSig[3].ENA
+nRESET => FNtoggledKeysSig[2].ENA
 PS2_CLK => ps2_intf:ps2.PS2_CLK
 PS2_DATA => ps2_intf:ps2.PS2_DATA
 A[0] => KEYB.IN1
@@ -3858,6 +3906,32 @@ KEYB[4] <= KEYB.DB_MAX_OUTPUT_PORT_TYPE
 KEYB[5] <= KEYB.DB_MAX_OUTPUT_PORT_TYPE
 KEYB[6] <= KEYB.DB_MAX_OUTPUT_PORT_TYPE
 KEYB[7] <= KEYB.DB_MAX_OUTPUT_PORT_TYPE
+FNkeys[0] <= <GND>
+FNkeys[1] <= FNkeysSig[1].DB_MAX_OUTPUT_PORT_TYPE
+FNkeys[2] <= FNkeysSig[2].DB_MAX_OUTPUT_PORT_TYPE
+FNkeys[3] <= FNkeysSig[3].DB_MAX_OUTPUT_PORT_TYPE
+FNkeys[4] <= FNkeysSig[4].DB_MAX_OUTPUT_PORT_TYPE
+FNkeys[5] <= FNkeysSig[5].DB_MAX_OUTPUT_PORT_TYPE
+FNkeys[6] <= FNkeysSig[6].DB_MAX_OUTPUT_PORT_TYPE
+FNkeys[7] <= FNkeysSig[7].DB_MAX_OUTPUT_PORT_TYPE
+FNkeys[8] <= FNkeysSig[8].DB_MAX_OUTPUT_PORT_TYPE
+FNkeys[9] <= FNkeysSig[9].DB_MAX_OUTPUT_PORT_TYPE
+FNkeys[10] <= FNkeysSig[10].DB_MAX_OUTPUT_PORT_TYPE
+FNkeys[11] <= FNkeysSig[11].DB_MAX_OUTPUT_PORT_TYPE
+FNkeys[12] <= FNkeysSig[12].DB_MAX_OUTPUT_PORT_TYPE
+FNtoggledKeys[0] <= <GND>
+FNtoggledKeys[1] <= FNtoggledKeysSig[1].DB_MAX_OUTPUT_PORT_TYPE
+FNtoggledKeys[2] <= FNtoggledKeysSig[2].DB_MAX_OUTPUT_PORT_TYPE
+FNtoggledKeys[3] <= FNtoggledKeysSig[3].DB_MAX_OUTPUT_PORT_TYPE
+FNtoggledKeys[4] <= FNtoggledKeysSig[4].DB_MAX_OUTPUT_PORT_TYPE
+FNtoggledKeys[5] <= FNtoggledKeysSig[5].DB_MAX_OUTPUT_PORT_TYPE
+FNtoggledKeys[6] <= FNtoggledKeysSig[6].DB_MAX_OUTPUT_PORT_TYPE
+FNtoggledKeys[7] <= FNtoggledKeysSig[7].DB_MAX_OUTPUT_PORT_TYPE
+FNtoggledKeys[8] <= FNtoggledKeysSig[8].DB_MAX_OUTPUT_PORT_TYPE
+FNtoggledKeys[9] <= FNtoggledKeysSig[9].DB_MAX_OUTPUT_PORT_TYPE
+FNtoggledKeys[10] <= FNtoggledKeysSig[10].DB_MAX_OUTPUT_PORT_TYPE
+FNtoggledKeys[11] <= FNtoggledKeysSig[11].DB_MAX_OUTPUT_PORT_TYPE
+FNtoggledKeys[12] <= FNtoggledKeysSig[12].DB_MAX_OUTPUT_PORT_TYPE
 
 
 |uk101|UK101keyboard:u9|ps2_intf:ps2

@@ -1,12 +1,19 @@
 ---------------------------------------------------------------------------
+-- Derived from Grant Searle's UK101 design:
+-- http://searle.x10host.com/uk101FPGA/index.html
+-- 
 -- 6502 CPU
--- At 1 MHz (limited due to the keyboard scanner)
+-- 	Run at 1 MHz (limited due to the keyboard scanner)
 -- 41K External SRAM
 -- PS/2 Keyboard
 -- CEGMON Monitor (2KB)
+--	Disk Monitor Extension (2KB)
 -- BASIC in ROM (8K)
 -- Composite Video
 -- SD High Speed Controller
+-- I/O connections
+--		2x 8-bit output ports
+--		LED Output
 ---------------------------------------------------------------------------
 
 library ieee;
@@ -56,20 +63,14 @@ end uk101;
 
 architecture struct of uk101 is
 
-	signal n_WR					: std_logic;
 	signal cpuAddress			: std_logic_vector(15 downto 0);
 	signal cpuDataOut			: std_logic_vector(7 downto 0);
 	signal cpuDataIn			: std_logic_vector(7 downto 0);
-
-	signal basRomData			: std_logic_vector(7 downto 0);
-	signal ramDataOut			: std_logic_vector(7 downto 0);
-	signal monitorRomData 	: std_logic_vector(7 downto 0);
-	signal aciaData			: std_logic_vector(7 downto 0);
-	signal sdCardDataOut		: std_logic_vector(7 downto 0);
-
+	signal n_WR					: std_logic;
 	signal n_memWR				: std_logic;
 	signal n_memRD 			: std_logic;
 
+	-- Chip Selects
 	signal n_dispRamCS		: std_logic :='1';
 	signal n_ramCS				: std_logic :='1';
 	signal n_basRomCS			: std_logic :='1';
@@ -81,23 +82,35 @@ architecture struct of uk101 is
 	signal n_J8IOCS			: std_logic :='1';
 	signal n_LEDCS				: std_logic :='1';
 		
+	-- Data from peripherals
+	signal basRomData			: std_logic_vector(7 downto 0);
+	signal ramDataOut			: std_logic_vector(7 downto 0);
+	signal monitorRomData 	: std_logic_vector(7 downto 0);
+	signal aciaData			: std_logic_vector(7 downto 0);
+	signal sdCardDataOut		: std_logic_vector(7 downto 0);
+	signal kbReadData 		: std_logic_vector(7 downto 0);
+
+	-- Display RAM
 	signal dispAddrB 			: std_logic_vector(9 downto 0);
 	signal dispRamDataOutA 	: std_logic_vector(7 downto 0);
 	signal dispRamDataOutB 	: std_logic_vector(7 downto 0);
 	signal charAddr 			: std_logic_vector(10 downto 0);
 	signal charData 			: std_logic_vector(7 downto 0);
 
-	signal serialClkCount	: std_logic_vector(14 downto 0); 
+	-- Clocks
 	signal cpuClkCount		: std_logic_vector(5 downto 0); 
 	signal cpuClock			: std_logic;
 	signal serialClock		: std_logic;
+	signal serialClkCount	: std_logic_vector(14 downto 0); 
 
-	signal kbReadData 		: std_logic_vector(7 downto 0);
+	-- Keyboard latch and read buffer
 	signal kbRowSel 			: std_logic_vector(7 downto 0);
+	signal fastMode 			: std_logic;
 	signal ledOut8 			: std_logic_vector(7 downto 0);
 
 begin
 
+	-- External SRAM
 	sramAddress <= '0' & cpuAddress(15 downto 0);
 	sramData <= cpuDataOut when n_WR='0' else (others => 'Z');
 	n_sRamWE <= n_memWR;
@@ -108,28 +121,32 @@ begin
 	
 	reset_LED <= n_reset;
 
-	n_basRomCS 		<= '0' when cpuAddress(15 downto 13) = "101" 				else '1';	-- 8k
-	n_dispRamCS 	<= '0' when cpuAddress(15 downto 10) = x"d"&"00" 			else '1';
-	n_kbCS 			<= '0' when cpuAddress(15 downto 10) = x"d"&"11" 			else '1';
-	n_monitorRomCS <= '0' when cpuAddress(15 downto 12) = x"f"		 			else '1';	-- 4K
-	n_aciaCS 		<= '0' when cpuAddress(15 downto 1)  = x"f00"&"000" 		else '1';	-- 61440-61441
-	n_sdCardCS		<= '0' when cpuAddress(15 downto 1)  = x"f01"		 		else '1';	-- SD card
-	n_J6IOCS			<= '0' when cpuAddress(15 downto 0)  = x"f002"				else '1';	-- 61442
-	n_J8IOCS			<= '0' when cpuAddress(15 downto 0)  = x"f003"				else '1';	-- 61443
-	n_LEDCS			<= '0' when cpuAddress(15 downto 0)  = x"f004"				else '1';	-- 61444
-	n_ramCS 			<= not(n_dispRamCS and n_basRomCS and n_monitorRomCS and n_aciaCS and n_kbCS and n_J6IOCS and n_J8IOCS and n_LEDCS);
+	-- Chip Selects
+	n_basRomCS 		<= '0' when cpuAddress(15 downto 13) = "101" 				else '1';	-- 8k BASIC-in-ROM
+	n_dispRamCS 	<= '0' when cpuAddress(15 downto 10) = x"d"&"00" 			else '1';	-- Display RAM
+	n_kbCS 			<= '0' when cpuAddress(15 downto 10) = x"d"&"11" 			else '1';	-- PS/2 Keyboard
+	n_monitorRomCS <= '0' when cpuAddress(15 downto 12) = x"f"		 			else '1';	-- CEGMON Monitor ROM 4K
+	n_aciaCS 		<= '0' when cpuAddress(15 downto 1)  = x"f00"&"000" 		else '1';	-- ACIA (UART) 61440-61441
+	n_J6IOCS			<= '0' when cpuAddress(15 downto 0)  = x"f002"				else '1';	-- J6 I/O Connector 61442
+	n_J8IOCS			<= '0' when cpuAddress(15 downto 0)  = x"f003"				else '1';	-- J8 I/O Connector 61443
+	n_LEDCS			<= '0' when cpuAddress(15 downto 0)  = x"f004"				else '1';	-- LED 61444
+	n_sdCardCS		<= '0' when cpuAddress(15 downto 4)  = x"f01"		 		else '1';	-- SD card
+	n_ramCS 			<= not(n_basRomCS and n_dispRamCS and n_kbCS and n_monitorRomCS and n_aciaCS and n_J6IOCS and n_J8IOCS and n_LEDCS and n_sdCardCS);
 	
+	-- Data mux into CPU
 	cpuDataIn <=
 		basRomData 			when n_basRomCS = '0' 		else
+		dispRamDataOutA 	when n_dispRamCS = '0' 		else
 		aciaData 			when n_aciaCS = '0' 			else
 		sramData 			when n_ramCS = '0' 			else
-		dispRamDataOutA 	when n_dispRamCS = '0' 		else
 		kbReadData 			when n_kbCS='0'				else
 		sdCardDataOut		when n_sdCardCS = '0'		else
-		monitorRomData 	when n_monitorRomCS = '0'	else
+		x"F0" when (cpuAddress & fastMode)= "11111100111000001" else -- Address = FCE0 and fastMode = 1 : CHANGE REPEAT RATE LOOP VALUE (was $10)
+		monitorRomData 	when n_monitorRomCS = '0'	else	-- has to be after the xF00_ I/O due to address overlap
 		x"FF";
 		
-	u1 : entity work.T65
+	-- 6502 CPU
+	CPU : entity work.T65
 	port map(
 		Enable => '1',
 		Mode => "00",
@@ -145,14 +162,16 @@ begin
 		DI => cpuDataIn,
 		DO => cpuDataOut);
 
-	u2 : entity work.BasicRom -- 8KB
+	-- Microsoft BASIC in ROM
+	BASIC_ROM : entity work.BasicRom -- 8KB
 	port map(
 		address => cpuAddress(12 downto 0),
 		clock => clk,
 		q => basRomData
 	);
 
-	u4: entity work.CEGMON_ROM
+	-- CEGHMON + Extended ROM
+	MONITOR_ROM: entity work.CEGMON_ROM
 	port map
 	(
 		address => cpuAddress(11 downto 0),
@@ -160,7 +179,8 @@ begin
 		q => monitorRomData
 	);
 
-	u5: entity work.bufferedUART
+	-- 6850 ACIA
+	UART: entity work.bufferedUART
 	port map(
 		n_wr => n_aciaCS or cpuClock or n_WR,
 		n_rd => n_aciaCS or cpuClock or (not n_WR),
@@ -176,7 +196,8 @@ begin
 		n_rts => rts
 	);
 
-	u6 : entity work.UK101TextDisplay
+	-- Memory mapped Display
+	VDU : entity work.UK101TextDisplay
 	port map (
 		charAddr => charAddr,
 		charData => charData,
@@ -187,14 +208,16 @@ begin
 		video => video
 	);
 
-	u7: entity work.CharRom
+	-- Character ROM
+	CHAR_ROM: entity work.CharRom
 	port map
 	(
 		address => charAddr,
 		q => charData
 	);
 
-	u8: entity work.DisplayRam 
+	-- Display RAM
+	DISPLAY_RAM: entity work.DisplayRam 
 	port map
 	(
 		address_a => cpuAddress(9 downto 0),
@@ -208,14 +231,15 @@ begin
 		q_b => dispRamDataOutB
 	);
 	
-	sd1 : entity work.sd_controller
+	-- High Speed SD Controller
+	SD_CONTROLLER : entity work.sd_controller
 	port map(
 		sdCS => sdCS,
 		sdMOSI => sdMOSI,
 		sdMISO => sdMISO,
 		sdSCLK => sdSCLK,
 		n_wr => n_sdCardCS or n_memWR,
-		n_rd => n_sdCardCS or (not n_memWR),
+		n_rd => n_sdCardCS or n_memRD,
 		n_reset => n_reset,
 		dataIn => cpuDataOut,
 		dataOut => sdCardDataOut,
@@ -224,7 +248,8 @@ begin
 		clk => clk -- twice the spi clk
 	);
 
-	latchIO0 : entity work.OutLatch	--Output LatchIO
+	-- Output LatchIO
+	J7IO : entity work.OutLatch
 	port map(
 		clear => n_reset,
 		clock => clk,
@@ -233,7 +258,8 @@ begin
 		latchOut => J6IO8
 	);
 
-	latchIO1 : entity work.OutLatch	--Output LatchIO
+	-- Output LatchIO
+	J8IO : entity work.OutLatch
 	port map(
 		clear => n_reset,
 		clock => clk,
@@ -244,25 +270,29 @@ begin
 
 	ledOut <= ledOut8(0);
 
-	latchLED : entity work.OutLatch	--Output LatchIO
+	-- Output Latch
+	latchLED : entity work.OutLatch
 	port map(
-		clear => n_reset,
-		clock => clk,
-		load => n_LEDCS or n_wr,
-		dataIn8 => cpuDataOut,
+		clear 	=> n_reset,
+		clock 	=> clk,
+		load		=> n_LEDCS or n_wr,
+		dataIn8	=> cpuDataOut,
 		latchOut => ledOut8
 	);
 
+	-- Emulation of UK101 keyboard using PS/2 keyboard
 	u9 : entity work.UK101keyboard
 	port map(
-		CLK => clk,
-		nRESET => n_reset,
-		PS2_CLK	=> ps2Clk,
-		PS2_DATA	=> ps2Data,
-		A	=> kbRowSel,
-		KEYB	=> kbReadData
+		CLK 					=> clk,
+		nRESET 				=> n_reset,
+		PS2_CLK				=> ps2Clk,
+		PS2_DATA				=> ps2Data,
+		FNtoggledKeys(1)	=> fastMode,
+		A						=> kbRowSel,
+		KEYB					=> kbReadData
 	);
 	
+	-- Keyboard latch
 	process (n_kbCS,n_memWR)
 	begin
 		if	n_kbCS='0' and n_memWR = '0' then
@@ -270,27 +300,45 @@ begin
 		end if;
 	end process;
 	
+	-- 1 MhZ CPU
 	process (clk)
 	begin
 		if rising_edge(clk) then
-			if cpuClkCount < 50 then
-				cpuClkCount <= cpuClkCount + 1;
-			else
-				cpuClkCount <= (others=>'0');
-			end if;
-			if cpuClkCount < 25 then
-				cpuClock <= '0';
-			else
-				cpuClock <= '1';
-			end if;	
-			
---			if serialClkCount < 10416 then -- 300 baud
+        if fastMode = '0' then -- 1MHz CPU clock
+            if cpuClkCount < 49 then
+                cpuClkCount <= cpuClkCount + 1;
+            else
+                cpuClkCount <= (others=>'0');
+            end if;
+            if cpuClkCount < 25 then
+                cpuClock <= '0';
+            else
+                cpuClock <= '1';
+            end if; 
+        else
+            if cpuClkCount < 4 then -- 4 = 10MHz, 3 = 12.5MHz, 2=16.6MHz, 1=25MHz
+                cpuClkCount <= cpuClkCount + 1;
+            else
+                cpuClkCount <= (others=>'0');
+            end if;
+            if cpuClkCount < 2 then -- 2 when 10MHz, 2 when 12.5MHz, 2 when 16.6MHz, 1 when 25MHz
+                cpuClock <= '0';
+            else
+                cpuClock <= '1';
+            end if; 
+        end if;	
+     end if;	
+	end process;
+
+	-- Serial Clock 9600 baud
+	process (clk)
+	begin
+		if rising_edge(clk) then
 			if serialClkCount < 325 then -- 9600 baud
 				serialClkCount <= serialClkCount + 1;
 			else
 				serialClkCount <= (others => '0');
 			end if;
---			if serialClkCount < 5208 then -- 300 baud
 			if serialClkCount < 162 then -- 9600 baud
 				serialClock <= '0';
 			else
