@@ -171,6 +171,14 @@ begin
 	);
 
 	-- CEGHMON + Extended ROM
+--	MONITOR_ROM: entity work.CegmonRom
+--	port map
+--	(
+--		address => cpuAddress(10 downto 0),
+--		q => monitorRomData
+--	);
+
+	-- CEGHMON + Extended ROM
 	MONITOR_ROM: entity work.CEGMON_ROM
 	port map
 	(
