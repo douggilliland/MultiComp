@@ -144,7 +144,15 @@ begin
 	J6IO8(3) <= n_memWR;
 	
 	-- External SRAM
-	sramAddress <= '0' & cpuAddress(15 downto 0);
+	-- Added potential for 16 blocks of SRAM from $E000 to $EFFF
+	-- Needs bank select register
+	sramAddress(16) <= '0' when (cpuAddress(15) = '0') else
+							 '0' when (cpuAddress(15 downto 13) = "100") else
+							 '1';
+	sramAddress(15 downto 12) <= cpuAddress(15 downto 12) when (cpuAddress(15) = '0') else 					-- $0000-$7FFF - SRAM
+										  cpuAddress(15 downto 12) when (cpuAddress(15 downto 13) = "100") else		-- $8000-$9FFF - SRAM
+										  "0000";																						-- Bank select register
+	sramAddress(11 downto 0) <= cpuAddress(11 downto 0);
 	sramData <= cpuDataOut when n_WR='0' else (others => 'Z');
 	n_sRamWE <= (not cpuClock) nand (not n_WR);
 	n_sRamOE <= (not cpuClock) nand n_WR;
