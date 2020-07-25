@@ -1,5 +1,5 @@
 Analysis & Synthesis report for uk101_41kRAM
-Sat Jul 25 09:55:52 2020
+Sat Jul 25 10:10:03 2020
 Quartus II 64-Bit Version 13.0.1 Build 232 06/12/2013 Service Pack 1 SJ Web Edition
 
 
@@ -35,18 +35,20 @@ Quartus II 64-Bit Version 13.0.1 Build 232 06/12/2013 Service Pack 1 SJ Web Edit
  27. Parameter Settings for User Entity Instance: OutLatch:J7IO
  28. Parameter Settings for User Entity Instance: OutLatch:J8IO
  29. Parameter Settings for User Entity Instance: OutLatch:latchLED
- 30. Parameter Settings for User Entity Instance: UK101keyboard:u9|ps2_intf:ps2
- 31. altsyncram Parameter Settings by Entity Instance
- 32. Port Connectivity Checks: "UK101keyboard:u9|ps2_intf:ps2"
- 33. Port Connectivity Checks: "UK101keyboard:u9"
- 34. Port Connectivity Checks: "OutLatch:latchLED"
- 35. Port Connectivity Checks: "OutLatch:J7IO"
- 36. Port Connectivity Checks: "DisplayRam:DISPLAY_RAM"
- 37. Port Connectivity Checks: "bufferedUART:UART"
- 38. Port Connectivity Checks: "T65:CPU|T65_ALU:alu"
- 39. Port Connectivity Checks: "T65:CPU"
- 40. Elapsed Time Per Partition
- 41. Analysis & Synthesis Messages
+ 30. Parameter Settings for User Entity Instance: OutLatch:bankSelectReg
+ 31. Parameter Settings for User Entity Instance: UK101keyboard:u9|ps2_intf:ps2
+ 32. altsyncram Parameter Settings by Entity Instance
+ 33. Port Connectivity Checks: "UK101keyboard:u9|ps2_intf:ps2"
+ 34. Port Connectivity Checks: "UK101keyboard:u9"
+ 35. Port Connectivity Checks: "OutLatch:bankSelectReg"
+ 36. Port Connectivity Checks: "OutLatch:latchLED"
+ 37. Port Connectivity Checks: "OutLatch:J7IO"
+ 38. Port Connectivity Checks: "DisplayRam:DISPLAY_RAM"
+ 39. Port Connectivity Checks: "bufferedUART:UART"
+ 40. Port Connectivity Checks: "T65:CPU|T65_ALU:alu"
+ 41. Port Connectivity Checks: "T65:CPU"
+ 42. Elapsed Time Per Partition
+ 43. Analysis & Synthesis Messages
 
 
 
@@ -72,15 +74,15 @@ applicable agreement for further details.
 +--------------------------------------------------------------------------------------+
 ; Analysis & Synthesis Summary                                                         ;
 +------------------------------------+-------------------------------------------------+
-; Analysis & Synthesis Status        ; Successful - Sat Jul 25 09:55:52 2020           ;
+; Analysis & Synthesis Status        ; Successful - Sat Jul 25 10:10:03 2020           ;
 ; Quartus II 64-Bit Version          ; 13.0.1 Build 232 06/12/2013 SP 1 SJ Web Edition ;
 ; Revision Name                      ; uk101_41kRAM                                    ;
 ; Top-level Entity Name              ; uk101                                           ;
 ; Family                             ; Cyclone II                                      ;
-; Total logic elements               ; 3,041                                           ;
+; Total logic elements               ; 3,045                                           ;
 ;     Total combinational functions  ; 2,670                                           ;
-;     Dedicated logic registers      ; 843                                             ;
-; Total registers                    ; 843                                             ;
+;     Dedicated logic registers      ; 847                                             ;
+; Total registers                    ; 847                                             ;
 ; Total pins                         ; 60                                              ;
 ; Total virtual pins                 ; 0                                               ;
 ; Total memory bits                  ; 106,496                                         ;
@@ -228,28 +230,28 @@ Parallel compilation was disabled, but you have multiple processors available. E
 +---------------------------------------------+--------+
 ; Resource                                    ; Usage  ;
 +---------------------------------------------+--------+
-; Estimated Total logic elements              ; 3,041  ;
+; Estimated Total logic elements              ; 3,045  ;
 ;                                             ;        ;
 ; Total combinational functions               ; 2670   ;
 ; Logic element usage by number of LUT inputs ;        ;
-;     -- 4 input functions                    ; 1794   ;
-;     -- 3 input functions                    ; 507    ;
-;     -- <=2 input functions                  ; 369    ;
+;     -- 4 input functions                    ; 1798   ;
+;     -- 3 input functions                    ; 505    ;
+;     -- <=2 input functions                  ; 367    ;
 ;                                             ;        ;
 ; Logic elements by mode                      ;        ;
 ;     -- normal mode                          ; 2443   ;
 ;     -- arithmetic mode                      ; 227    ;
 ;                                             ;        ;
-; Total registers                             ; 843    ;
-;     -- Dedicated logic registers            ; 843    ;
+; Total registers                             ; 847    ;
+;     -- Dedicated logic registers            ; 847    ;
 ;     -- I/O registers                        ; 0      ;
 ;                                             ;        ;
 ; I/O pins                                    ; 60     ;
 ; Total memory bits                           ; 106496 ;
 ; Embedded Multiplier 9-bit elements          ; 0      ;
 ; Maximum fan-out node                        ; clk    ;
-; Maximum fan-out                             ; 373    ;
-; Total fan-out                               ; 12761  ;
+; Maximum fan-out                             ; 377    ;
+; Total fan-out                               ; 12783  ;
 ; Average fan-out                             ; 3.54   ;
 +---------------------------------------------+--------+
 
@@ -259,7 +261,7 @@ Parallel compilation was disabled, but you have multiple processors available. E
 +-------------------------------------------+-------------------+--------------+-------------+--------------+---------+-----------+------+--------------+----------------------------------------------------------------------------------------------+--------------+
 ; Compilation Hierarchy Node                ; LC Combinationals ; LC Registers ; Memory Bits ; DSP Elements ; DSP 9x9 ; DSP 18x18 ; Pins ; Virtual Pins ; Full Hierarchy Name                                                                          ; Library Name ;
 +-------------------------------------------+-------------------+--------------+-------------+--------------+---------+-----------+------+--------------+----------------------------------------------------------------------------------------------+--------------+
-; |uk101                                    ; 2670 (143)        ; 843 (23)     ; 106496      ; 0            ; 0       ; 0         ; 60   ; 0            ; |uk101                                                                                       ; work         ;
+; |uk101                                    ; 2670 (144)        ; 847 (23)     ; 106496      ; 0            ; 0       ; 0         ; 60   ; 0            ; |uk101                                                                                       ; work         ;
 ;    |BasicRom:BASIC_ROM|                   ; 0 (0)             ; 2 (0)        ; 65536       ; 0            ; 0       ; 0         ; 0    ; 0            ; |uk101|BasicRom:BASIC_ROM                                                                    ; work         ;
 ;       |altsyncram:altsyncram_component|   ; 0 (0)             ; 2 (0)        ; 65536       ; 0            ; 0       ; 0         ; 0    ; 0            ; |uk101|BasicRom:BASIC_ROM|altsyncram:altsyncram_component                                    ; work         ;
 ;          |altsyncram_4371:auto_generated| ; 0 (0)             ; 2 (2)        ; 65536       ; 0            ; 0       ; 0         ; 0    ; 0            ; |uk101|BasicRom:BASIC_ROM|altsyncram:altsyncram_component|altsyncram_4371:auto_generated     ; work         ;
@@ -270,10 +272,11 @@ Parallel compilation was disabled, but you have multiple processors available. E
 ;       |altsyncram:altsyncram_component|   ; 0 (0)             ; 0 (0)        ; 8192        ; 0            ; 0       ; 0         ; 0    ; 0            ; |uk101|DisplayRam:DISPLAY_RAM|altsyncram:altsyncram_component                                ; work         ;
 ;          |altsyncram_qi52:auto_generated| ; 0 (0)             ; 0 (0)        ; 8192        ; 0            ; 0       ; 0         ; 0    ; 0            ; |uk101|DisplayRam:DISPLAY_RAM|altsyncram:altsyncram_component|altsyncram_qi52:auto_generated ; work         ;
 ;    |OutLatch:J8IO|                        ; 0 (0)             ; 8 (8)        ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |uk101|OutLatch:J8IO                                                                         ; work         ;
+;    |OutLatch:bankSelectReg|               ; 0 (0)             ; 4 (4)        ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |uk101|OutLatch:bankSelectReg                                                                ; work         ;
 ;    |OutLatch:latchLED|                    ; 1 (1)             ; 1 (1)        ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |uk101|OutLatch:latchLED                                                                     ; work         ;
-;    |T65:CPU|                              ; 800 (396)         ; 126 (126)    ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |uk101|T65:CPU                                                                               ; work         ;
+;    |T65:CPU|                              ; 799 (396)         ; 126 (126)    ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |uk101|T65:CPU                                                                               ; work         ;
 ;       |T65_ALU:alu|                       ; 163 (163)         ; 0 (0)        ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |uk101|T65:CPU|T65_ALU:alu                                                                   ; work         ;
-;       |T65_MCode:mcode|                   ; 241 (241)         ; 0 (0)        ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |uk101|T65:CPU|T65_MCode:mcode                                                               ; work         ;
+;       |T65_MCode:mcode|                   ; 240 (240)         ; 0 (0)        ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |uk101|T65:CPU|T65_MCode:mcode                                                               ; work         ;
 ;    |UK101TextDisplay:VDU|                 ; 869 (869)         ; 46 (46)      ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |uk101|UK101TextDisplay:VDU                                                                  ; work         ;
 ;    |UK101keyboard:u9|                     ; 148 (125)         ; 87 (53)      ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |uk101|UK101keyboard:u9                                                                      ; work         ;
 ;       |ps2_intf:ps2|                      ; 23 (23)           ; 34 (34)      ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |uk101|UK101keyboard:u9|ps2_intf:ps2                                                         ; work         ;
@@ -464,12 +467,12 @@ Note: All latches listed above may not be present at the end of synthesis due to
 +----------------------------------------------+-------+
 ; Statistic                                    ; Value ;
 +----------------------------------------------+-------+
-; Total registers                              ; 843   ;
+; Total registers                              ; 847   ;
 ; Number of registers using Synchronous Clear  ; 72    ;
 ; Number of registers using Synchronous Load   ; 77    ;
-; Number of registers using Asynchronous Clear ; 253   ;
+; Number of registers using Asynchronous Clear ; 257   ;
 ; Number of registers using Asynchronous Load  ; 0     ;
-; Number of registers using Clock Enable       ; 629   ;
+; Number of registers using Clock Enable       ; 633   ;
 ; Number of registers using Preset             ; 0     ;
 +----------------------------------------------+-------+
 
@@ -479,7 +482,7 @@ Note: All latches listed above may not be present at the end of synthesis due to
 +---------------------------------------------+---------+
 ; Inverted Register                           ; Fan out ;
 +---------------------------------------------+---------+
-; T65:CPU|MCycle[0]                           ; 43      ;
+; T65:CPU|MCycle[0]                           ; 42      ;
 ; T65:CPU|R_W_n_i                             ; 14      ;
 ; UK101TextDisplay:VDU|n_vSync                ; 1       ;
 ; UK101TextDisplay:VDU|n_hSync                ; 1       ;
@@ -865,6 +868,16 @@ Note: In order to hide this table in the UI and the text report file, please set
 Note: In order to hide this table in the UI and the text report file, please set the "Show Parameter Settings in Synthesis Report" option in "Analysis and Synthesis Settings -> More Settings" to "Off".
 
 
++---------------------------------------------------------------------+
+; Parameter Settings for User Entity Instance: OutLatch:bankSelectReg ;
++----------------+-------+--------------------------------------------+
+; Parameter Name ; Value ; Type                                       ;
++----------------+-------+--------------------------------------------+
+; n              ; 8     ; Signed Integer                             ;
++----------------+-------+--------------------------------------------+
+Note: In order to hide this table in the UI and the text report file, please set the "Show Parameter Settings in Synthesis Report" option in "Analysis and Synthesis Settings -> More Settings" to "Off".
+
+
 +----------------------------------------------------------------------------+
 ; Parameter Settings for User Entity Instance: UK101keyboard:u9|ps2_intf:ps2 ;
 +----------------+-------+---------------------------------------------------+
@@ -935,6 +948,15 @@ Note: In order to hide this table in the UI and the text report file, please set
 ; fntoggledkeys[12..2] ; Output ; Info     ; Connected to dangling logic. Logic that only feeds a dangling port will be removed. ;
 ; fntoggledkeys[0]     ; Output ; Info     ; Connected to dangling logic. Logic that only feeds a dangling port will be removed. ;
 +----------------------+--------+----------+-------------------------------------------------------------------------------------+
+
+
++--------------------------------------------------------------------------------------------------------------------------+
+; Port Connectivity Checks: "OutLatch:bankSelectReg"                                                                       ;
++----------------+--------+----------+-------------------------------------------------------------------------------------+
+; Port           ; Type   ; Severity ; Details                                                                             ;
++----------------+--------+----------+-------------------------------------------------------------------------------------+
+; latchout[7..4] ; Output ; Info     ; Connected to dangling logic. Logic that only feeds a dangling port will be removed. ;
++----------------+--------+----------+-------------------------------------------------------------------------------------+
 
 
 +--------------------------------------------------------------------------------------------------------------------------+
@@ -1014,7 +1036,7 @@ Note: In order to hide this table in the UI and the text report file, please set
 +----------------+--------------+
 ; Partition Name ; Elapsed Time ;
 +----------------+--------------+
-; Top            ; 00:00:19     ;
+; Top            ; 00:00:18     ;
 +----------------+--------------+
 
 
@@ -1024,7 +1046,7 @@ Note: In order to hide this table in the UI and the text report file, please set
 Info: *******************************************************************
 Info: Running Quartus II 64-Bit Analysis & Synthesis
     Info: Version 13.0.1 Build 232 06/12/2013 Service Pack 1 SJ Web Edition
-    Info: Processing started: Sat Jul 25 09:55:29 2020
+    Info: Processing started: Sat Jul 25 10:09:40 2020
 Info: Command: quartus_map --read_settings_files=on --write_settings_files=off uk101_41kRAM -c uk101_41kRAM
 Warning (20028): Parallel compilation is not licensed and has been disabled
 Info (12021): Found 2 design units, including 1 entities, in source file /users/hpz420/documents/github/doug gilliland/multicomp/multicomp (vhdl template)/components/sdcard/sd_controller_high_speed.vhd
@@ -1078,19 +1100,19 @@ Info (12021): Found 2 design units, including 1 entities, in source file output_
     Info (12022): Found design unit 1: cegmon_rom-SYN
     Info (12023): Found entity 1: CEGMON_ROM
 Info (12127): Elaborating entity "uk101" for the top level hierarchy
-Critical Warning (10920): VHDL Incomplete Partial Association warning at uk101_41kRAM.vhd(194): port or argument "A" has 8/24 unassociated elements
-Critical Warning (10920): VHDL Incomplete Partial Association warning at uk101_41kRAM.vhd(340): port or argument "FNtoggledKeys" has 12/13 unassociated elements
-Warning (10492): VHDL Process Statement warning at uk101_41kRAM.vhd(355): signal "cpuDataOut" is read inside the Process Statement but isn't in the Process Statement's sensitivity list
-Warning (10631): VHDL Process Statement warning at uk101_41kRAM.vhd(352): inferring latch(es) for signal or variable "kbRowSel", which holds its previous value in one or more paths through the process
-Warning (10873): Using initial value X (don't care) for net "J6IO8[7..4]" at uk101_41kRAM.vhd(87)
-Info (10041): Inferred latch for "kbRowSel[0]" at uk101_41kRAM.vhd(352)
-Info (10041): Inferred latch for "kbRowSel[1]" at uk101_41kRAM.vhd(352)
-Info (10041): Inferred latch for "kbRowSel[2]" at uk101_41kRAM.vhd(352)
-Info (10041): Inferred latch for "kbRowSel[3]" at uk101_41kRAM.vhd(352)
-Info (10041): Inferred latch for "kbRowSel[4]" at uk101_41kRAM.vhd(352)
-Info (10041): Inferred latch for "kbRowSel[5]" at uk101_41kRAM.vhd(352)
-Info (10041): Inferred latch for "kbRowSel[6]" at uk101_41kRAM.vhd(352)
-Info (10041): Inferred latch for "kbRowSel[7]" at uk101_41kRAM.vhd(352)
+Critical Warning (10920): VHDL Incomplete Partial Association warning at uk101_41kRAM.vhd(196): port or argument "A" has 8/24 unassociated elements
+Critical Warning (10920): VHDL Incomplete Partial Association warning at uk101_41kRAM.vhd(352): port or argument "FNtoggledKeys" has 12/13 unassociated elements
+Warning (10492): VHDL Process Statement warning at uk101_41kRAM.vhd(367): signal "cpuDataOut" is read inside the Process Statement but isn't in the Process Statement's sensitivity list
+Warning (10631): VHDL Process Statement warning at uk101_41kRAM.vhd(364): inferring latch(es) for signal or variable "kbRowSel", which holds its previous value in one or more paths through the process
+Warning (10873): Using initial value X (don't care) for net "J6IO8[7..4]" at uk101_41kRAM.vhd(86)
+Info (10041): Inferred latch for "kbRowSel[0]" at uk101_41kRAM.vhd(364)
+Info (10041): Inferred latch for "kbRowSel[1]" at uk101_41kRAM.vhd(364)
+Info (10041): Inferred latch for "kbRowSel[2]" at uk101_41kRAM.vhd(364)
+Info (10041): Inferred latch for "kbRowSel[3]" at uk101_41kRAM.vhd(364)
+Info (10041): Inferred latch for "kbRowSel[4]" at uk101_41kRAM.vhd(364)
+Info (10041): Inferred latch for "kbRowSel[5]" at uk101_41kRAM.vhd(364)
+Info (10041): Inferred latch for "kbRowSel[6]" at uk101_41kRAM.vhd(364)
+Info (10041): Inferred latch for "kbRowSel[7]" at uk101_41kRAM.vhd(364)
 Info (12128): Elaborating entity "T65" for hierarchy "T65:CPU"
 Warning (10036): Verilog HDL or VHDL warning at T65.vhd(100): object "D" assigned a value but never read
 Warning (10036): Verilog HDL or VHDL warning at T65.vhd(125): object "B_o" assigned a value but never read
@@ -1251,16 +1273,16 @@ Critical Warning (18061): Ignored Power-Up Level option on the following registe
 Info (17049): 10 registers lost all their fanouts during netlist optimizations.
 Info (16010): Generating hard_block partition "hard_block:auto_generated_inst"
     Info (16011): Adding 0 node(s), including 0 DDIO, 0 PLL, 0 transceiver and 0 LCELL
-Info (21057): Implemented 3177 device resources after synthesis - the final resource count might be different
+Info (21057): Implemented 3181 device resources after synthesis - the final resource count might be different
     Info (21058): Implemented 6 input pins
     Info (21059): Implemented 46 output pins
     Info (21060): Implemented 8 bidirectional pins
-    Info (21061): Implemented 3085 logic cells
+    Info (21061): Implemented 3089 logic cells
     Info (21064): Implemented 32 RAM segments
 Info: Quartus II 64-Bit Analysis & Synthesis was successful. 0 errors, 59 warnings
     Info: Peak virtual memory: 4671 megabytes
-    Info: Processing ended: Sat Jul 25 09:55:52 2020
+    Info: Processing ended: Sat Jul 25 10:10:03 2020
     Info: Elapsed time: 00:00:23
-    Info: Total CPU time (on all processors): 00:00:23
+    Info: Total CPU time (on all processors): 00:00:22
 
 

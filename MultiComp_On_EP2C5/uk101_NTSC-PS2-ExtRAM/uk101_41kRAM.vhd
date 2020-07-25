@@ -31,7 +31,6 @@
 -- Memory Map
 --		$0000-$9FFF - SRAM (40KB)
 -- 	$A000-$BFFF - Microsoft BASIC-in-ROM (8KB)
---		$C000-$CFFF - SRAM (not detectable as BASIC RAM)
 --		$D000-$D3FF - 1KB Display RAM
 --		$$DC00 - PS/2 Keyboard
 --		$E000-$EFFF - SRAM (not detectable as BASIC RAM)
@@ -109,6 +108,7 @@ architecture struct of uk101 is
 	signal n_J6IOCS			: std_logic :='1';
 	signal n_J8IOCS			: std_logic :='1';
 	signal n_LEDCS				: std_logic :='1';
+	signal n_RAMBANKCS		: std_logic :='1';
 		
 	-- Data from peripherals
 	signal basRomData			: std_logic_vector(7 downto 0);
@@ -135,6 +135,7 @@ architecture struct of uk101 is
 	signal kbRowSel 			: std_logic_vector(7 downto 0);
 	signal fastMode 			: std_logic;
 	signal ledOut8 			: std_logic_vector(7 downto 0);
+	signal bankReg 			: std_logic_vector(7 downto 0);
 
 begin
 
@@ -151,7 +152,7 @@ begin
 							 '1';
 	sramAddress(15 downto 12) <= cpuAddress(15 downto 12) when (cpuAddress(15) = '0') else 					-- $0000-$7FFF - SRAM
 										  cpuAddress(15 downto 12) when (cpuAddress(15 downto 13) = "100") else		-- $8000-$9FFF - SRAM
-										  "0000";																						-- Bank select register
+										  bankReg(3 downto 0);																		-- Bank select register
 	sramAddress(11 downto 0) <= cpuAddress(11 downto 0);
 	sramData <= cpuDataOut when n_WR='0' else (others => 'Z');
 	n_sRamWE <= (not cpuClock) nand (not n_WR);
@@ -168,10 +169,11 @@ begin
 	n_dispRamCS 	<= '0' when cpuAddress(15 downto 10) = x"d"&"00" 			else '1';	-- $D000-$D3FF - 1KB Display RAM
 	n_kbCS 			<= '0' when cpuAddress(15 downto 10) = x"d"&"11" 			else '1';	-- $DC00 - PS/2 Keyboard
 	n_monitorRomCS <= '0' when cpuAddress(15 downto 12) = x"f"		 			else '1';	-- $F000-$FFFF - CEGMON Monitor ROM 4K
-	n_aciaCS 		<= '0' when cpuAddress(15 downto 1)  = x"f00"&"000" 		else '1';	-- $F000-$F001 - ACIA (UART) 61440-61441
-	n_J6IOCS			<= '0' when cpuAddress(15 downto 0)  = x"f002"				else '1';	-- $F002 - J6 I/O Connector 61442
-	n_J8IOCS			<= '0' when cpuAddress(15 downto 0)  = x"f003"				else '1';	-- $F003 - J8 I/O Connector 61443
-	n_LEDCS			<= '0' when cpuAddress(15 downto 0)  = x"f004"				else '1';	-- $F004 - LED 61444
+	n_aciaCS 		<= '0' when cpuAddress(15 downto 1)  = x"f00"&"000" 		else '1';	-- $F000-$F001 (61444-5 dec) - ACIA (UART)
+	n_J6IOCS			<= '0' when cpuAddress(15 downto 0)  = x"f002"				else '1';	-- $F002 (61442 dec) - J6 I/O Connector
+	n_J8IOCS			<= '0' when cpuAddress(15 downto 0)  = x"f003"				else '1';	-- $F003 (61443 dec) - J8 I/O Connector
+	n_LEDCS			<= '0' when cpuAddress(15 downto 0)  = x"f004"				else '1';	-- $F004 (61444 dec) - LED
+	n_RAMBANKCS		<= '0' when cpuAddress(15 downto 0)  = x"f005"				else '1';	-- $F005 (61445 dec) - Bank Select register
 	n_sdCardCS		<= '0' when cpuAddress(15 downto 3)  = x"f01"&'0'	 		else '1';	-- %F010-$F017 - SD card
 	n_ramCS 			<= '0' when ((cpuAddress(15) = '0') or 										-- $0000-$7FFF - SRAM
 										 (cpuAddress(15 downto 13) = "100") or							-- $8000-$9FFF - SRAM
@@ -334,6 +336,16 @@ begin
 		load		=> n_LEDCS or n_wr,
 		dataIn8	=> cpuDataOut,
 		latchOut => ledOut8
+	);
+
+	-- RAM Bank Select Register
+	bankSelectReg : entity work.OutLatch
+	port map(
+		clear 	=> n_reset,
+		clock 	=> clk,
+		load		=> n_RAMBANKCS or n_wr,
+		dataIn8	=> cpuDataOut,
+		latchOut => bankReg
 	);
 
 	-- Emulation of UK101 keyboard using PS/2 keyboard
