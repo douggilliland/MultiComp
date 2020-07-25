@@ -93,8 +93,11 @@
 -- 2 CRC bytes. CRC need not be valid in SPI mode, *except* for CMD0.
 --
 -- SDCARD specification can be downloaded from
--- https://www.sdcard.org/downloads/pls/
--- All you need is the "Part 1 Physical Layer Simplified Specification"
+-- 	https://www.sdcard.org/downloads/pls/
+-- 	All you need is the "Part 1 Physical Layer Simplified Specification"
+--
+-- FAT Filesystem
+--		https://www.win.tue.nl/~aeb/linux/fs/fat/fat.html
 
 library ieee;
 use ieee.std_logic_1164.all;
@@ -107,17 +110,20 @@ generic (
 													-- or sdSCLK of 250kHz to be used during init phase
 );
 port (
-	sdCS : out std_logic;
-	sdMOSI : out std_logic;
-	sdMISO : in std_logic;
-	sdSCLK : out std_logic;
-	n_reset : in std_logic;
-	n_rd : in std_logic;
-	n_wr : in std_logic;
-	dataIn : in std_logic_vector(7 downto 0);
-	dataOut : out std_logic_vector(7 downto 0);
-	regAddr : in std_logic_vector(2 downto 0);
-	clk : in std_logic;
+	-- CPU
+	clk		: in std_logic;
+	n_reset	: in std_logic;
+	regAddr	: in std_logic_vector(2 downto 0);
+	n_rd		: in std_logic;
+	n_wr		: in std_logic;
+	dataIn	: in std_logic_vector(7 downto 0);
+	dataOut	: out std_logic_vector(7 downto 0);
+	-- SD Card SPI connections
+	sdCS		: out std_logic;
+	sdMOSI	: out std_logic;
+	sdMISO	: in std_logic;
+	sdSCLK	: out std_logic;
+	-- LEDs
 	driveLED : out std_logic := '1'
 );
 
@@ -232,9 +238,9 @@ begin
 
         -- output data is MUXed externally based on CS so only need to
         -- drive 0 by default if dataOut is being ORed externally
-	dataOut <= dout   when regAddr = "000" else
-		   status when regAddr = "001" else
-		   x"00";
+	dataOut <=	dout		when regAddr = "000" else
+					status 	when regAddr = "001" else
+					x"00";
 
 	wr_dat_reg: process(n_wr)
 	begin

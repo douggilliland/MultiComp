@@ -1,12 +1,12 @@
 -- VHDL SD card interface
 -- Reads and writes a single block of data as a data stream
---
---
+-- Adds high speed mode to Neal Crook's build
+
 -- Adapted from design by Steven J. Merrifield, June 2008
 --		https://pastebin.com/HW3ru1cC
 -- Read states are derived from the Apple II emulator by Stephen Edwards
 --		https://github.com/MiSTer-devel/Apple-II_MiSTer
---
+
 -- This version of the code contains modifications copyright by Grant Searle 2013
 -- You are free to use this file in your own projects but must never charge for it nor use it without
 -- acknowledgement.
@@ -22,7 +22,7 @@
 -- Grant Searle
 -- eMail address available on my main web page link above.
 -- Minor changes by foofoobedoo@gmail.com
--- Additional functionality to provide SDHC support by RHKoolaap.
+-- Additional functionality to provide SDHC support and 25 MHz SPI-clock by Rienk Koolstra.
 --
 -- This design uses the SPI interface and supports "standard capacity" (SDSC) and
 -- "high capacity" (SDHC) cards.
@@ -95,9 +95,6 @@
 -- SDCARD specification can be downloaded from
 -- https://www.sdcard.org/downloads/pls/
 -- All you need is the "Part 1 Physical Layer Simplified Specification"
---
--- FAT Filesystem
---		https://www.win.tue.nl/~aeb/linux/fs/fat/fat.html
 
 library ieee;
 use ieee.std_logic_1164.all;
@@ -106,11 +103,14 @@ use ieee.std_logic_unsigned.all;
 
 entity sd_controller is
 generic (
-        constant CLKEDGE_DIVIDER : integer := 50  -- 50MHz / 50 gives edges at 1MHz ie output
-                                                  -- sdSCLK of 500kHz.
+        constant CLKEDGE_DIVIDER : integer := 100	-- 50MHz / 100 gives edges at 500kHz ie output
+													-- or sdSCLK of 250kHz to be used during init phase
 );
 port (
-	-- CPU
+	sdCS : out std_logic;
+	sdMOSI : out std_logic;
+	sdMISO : in std_logic;
+	sdSCLK : out std_logic;
 	n_reset : in std_logic;
 	n_rd : in std_logic;
 	n_wr : in std_logic;
@@ -118,12 +118,6 @@ port (
 	dataOut : out std_logic_vector(7 downto 0);
 	regAddr : in std_logic_vector(2 downto 0);
 	clk : in std_logic;
-	-- SD Card SPI connections
-	sdCS : out std_logic;
-	sdMOSI : out std_logic;
-	sdMISO : in std_logic;
-	sdSCLK : out std_logic;
-	-- LEDs
 	driveLED : out std_logic := '1'
 );
 
@@ -169,6 +163,7 @@ signal recv_data : std_logic_vector(39 downto 0);
 
 signal clkCount : std_logic_vector(5 downto 0);
 signal clkEn : std_logic;
+signal HighSpeed : std_logic := '0';		-- flag to switch to 25 MHz operation and back
 signal status : std_logic_vector(7 downto 0) := x"00";
 
 signal block_read : std_logic := '0';
@@ -208,7 +203,7 @@ begin
 		end if;
 	end process;
 
-	clkEn <= '1' when clkCount = 0 else '0';
+	clkEn <= '1' when ( clkCount = 0 ) or ( HighSpeed = '1' ) else '0';
 
 	wr_adrs_reg: process(n_wr)
 	begin
@@ -283,11 +278,13 @@ begin
 			state <= rst;
 			sclk_sig <= '0';
 			sdCS <= '1';
+			HighSpeed <= '0';
 		elsif rising_edge(clk) and clkEn = '1' then
 
 			case state is
 
 				when rst =>
+--					HighSpeed <= '0';
 					sd_read_flag <= host_read_flag;
 					sd_write_flag <= host_write_flag;
 					sclk_sig <= '0';
@@ -353,11 +350,12 @@ begin
 					if (recv_data(31) = '0' ) then	-- power up not completed
 						state <= cmd58;
 					else
-						sdhc <= recv_data(30);	-- CCS bit - autodetects the card type SDSC/SDHC
+						sdhc <= recv_data(30);	-- CCS bit
 						state <= idle;
 					end if;
 
 				when idle =>
+					HighSpeed <= '1';
 					sd_read_flag <= host_read_flag;
 					sd_write_flag <= host_write_flag;
 					sclk_sig <= '0';
