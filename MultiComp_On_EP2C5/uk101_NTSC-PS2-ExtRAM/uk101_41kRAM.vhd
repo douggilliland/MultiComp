@@ -158,15 +158,18 @@ begin
 	-- Chip Selects
 	n_basRomCS 		<= '0' when cpuAddress(15 downto 13) = "101" 				else '1';	-- $A000-$BFFF - 8k BASIC-in-ROM
 	n_dispRamCS 	<= '0' when cpuAddress(15 downto 10) = x"d"&"00" 			else '1';	-- $D000-$D3FF - 1KB Display RAM
-	n_kbCS 			<= '0' when cpuAddress(15 downto 10) = x"d"&"11" 			else '1';	-- $$DC00 - PS/2 Keyboard
+	n_kbCS 			<= '0' when cpuAddress(15 downto 10) = x"d"&"11" 			else '1';	-- $DC00 - PS/2 Keyboard
 	n_monitorRomCS <= '0' when cpuAddress(15 downto 12) = x"f"		 			else '1';	-- $F000-$FFFF - CEGMON Monitor ROM 4K
 	n_aciaCS 		<= '0' when cpuAddress(15 downto 1)  = x"f00"&"000" 		else '1';	-- $F000-$F001 - ACIA (UART) 61440-61441
 	n_J6IOCS			<= '0' when cpuAddress(15 downto 0)  = x"f002"				else '1';	-- $F002 - J6 I/O Connector 61442
 	n_J8IOCS			<= '0' when cpuAddress(15 downto 0)  = x"f003"				else '1';	-- $F003 - J8 I/O Connector 61443
 	n_LEDCS			<= '0' when cpuAddress(15 downto 0)  = x"f004"				else '1';	-- $F004 - LED 61444
 	n_sdCardCS		<= '0' when cpuAddress(15 downto 3)  = x"f01"&'0'	 		else '1';	-- %F010-$F017 - SD card
-	n_ramCS 			<= not(n_basRomCS and n_dispRamCS and n_kbCS and n_monitorRomCS and n_aciaCS and n_J6IOCS and n_J8IOCS and n_LEDCS and n_sdCardCS);
-	
+	n_ramCS 			<= '0' when ((cpuAddress(15) = '0') or 										-- $0000-$7FFF - SRAM
+										 (cpuAddress(15 downto 13) = "100") or							-- $8000-$9FFF - SRAM
+										 (cpuAddress(15 downto 12) = x"E"))  							-- $E000-$EFFF - SRAM (57344-61439 dec)
+										 else '1';
+										 
 	-- Data mux into CPU
 	cpuDataIn <=
 		basRomData 			when n_basRomCS = '0' 							else
