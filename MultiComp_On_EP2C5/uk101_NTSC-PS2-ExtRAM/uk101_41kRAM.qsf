@@ -49,16 +49,23 @@ set_global_assignment -name ERROR_CHECK_FREQUENCY_DIVISOR 1
 set_location_assignment PIN_17 -to clk
 set_location_assignment PIN_144 -to n_reset
 set_instance_assignment -name WEAK_PULL_UP_RESISTOR ON -to n_reset
-set_location_assignment PIN_3 -to reset_LED
 # Serial
 set_location_assignment PIN_101 -to rxd
+set_instance_assignment -name WEAK_PULL_UP_RESISTOR ON -to rxd
 set_location_assignment PIN_103 -to txd
 set_location_assignment PIN_104 -to rts
+# Composite Video
 set_location_assignment PIN_75 -to video
 set_location_assignment PIN_74 -to videoSync
 # PS/2
 set_location_assignment PIN_87 -to ps2Data
+set_instance_assignment -name WEAK_PULL_UP_RESISTOR ON -to ps2Data
 set_location_assignment PIN_86 -to ps2Clk
+set_instance_assignment -name WEAK_PULL_UP_RESISTOR ON -to ps2Clk
+# LEDs
+#set_location_assignment PIN_53 -to ledOut
+set_location_assignment PIN_7 -to ledOut[0]
+set_location_assignment PIN_9 -to ledOut[1]
 # I/O
 set_location_assignment PIN_25 -to J6IO8[0]
 set_location_assignment PIN_31 -to J6IO8[1]
@@ -82,6 +89,7 @@ set_instance_assignment -name WEAK_PULL_UP_RESISTOR ON -to sdMISO
 set_location_assignment PIN_94 -to sdSCLK
 set_location_assignment PIN_93 -to sdMOSI
 set_location_assignment PIN_97 -to sdCS
+set_location_assignment PIN_53 -to driveLED
 # SRAM
 set_location_assignment PIN_4 -to n_sRamWE
 set_location_assignment PIN_126 -to n_sRamCS
@@ -127,8 +135,6 @@ set_global_assignment -name CYCLONEII_RESERVE_NCEO_AFTER_CONFIGURATION "USE AS R
 set_global_assignment -name RESERVE_ASDO_AFTER_CONFIGURATION "USE AS REGULAR IO"
 set_global_assignment -name TIMEQUEST_MULTICORNER_ANALYSIS ON
 set_global_assignment -name SMART_RECOMPILE ON
-
-set_location_assignment PIN_53 -to ledOut
 set_instance_assignment -name CURRENT_STRENGTH_NEW 4MA -to videoSync
 set_global_assignment -name VHDL_FILE "../../MultiComp (VHDL Template)/Components/SDCARD/sd_controller_High_Speed.vhd"
 set_global_assignment -name VHDL_FILE "../../MultiComp-GS_Files/UK101onFPGA/UK101/CegmonRom.VHD"

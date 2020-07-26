@@ -1,12 +1,11 @@
 |uk101
 n_reset => t65:CPU.Res_n
 n_reset => sd_controller:SD_CONTROLLER.n_reset
-n_reset => outlatch:J7IO.clear
+n_reset => outlatch:J6IO.clear
 n_reset => outlatch:J8IO.clear
 n_reset => outlatch:latchLED.clear
 n_reset => outlatch:bankSelectReg.clear
 n_reset => uk101keyboard:u9.nRESET
-n_reset => reset_LED.DATAIN
 clk => sd_controller:SD_CONTROLLER.clk
 clk => serialClock.CLK
 clk => serialClkCount[0].CLK
@@ -35,12 +34,11 @@ clk => basicrom:BASIC_ROM.clock
 clk => cegmon_rom:MONITOR_ROM.clock
 clk => uk101textdisplay:VDU.clk
 clk => displayram:DISPLAY_RAM.clock
-clk => outlatch:J7IO.clock
+clk => outlatch:J6IO.clock
 clk => outlatch:J8IO.clock
 clk => outlatch:latchLED.clock
 clk => outlatch:bankSelectReg.clock
 clk => uk101keyboard:u9.CLK
-reset_LED <= n_reset.DB_MAX_OUTPUT_PORT_TYPE
 sramData[0] <> sramData[0]
 sramData[1] <> sramData[1]
 sramData[2] <> sramData[2]
@@ -81,15 +79,16 @@ sdMOSI <= sd_controller:SD_CONTROLLER.sdMOSI
 sdMISO => sd_controller:SD_CONTROLLER.sdMISO
 sdSCLK <= sd_controller:SD_CONTROLLER.sdSCLK
 driveLED <= sd_controller:SD_CONTROLLER.driveLED
-ledOut <= outlatch:latchLED.latchOut[0]
+ledOut[0] <= outlatch:latchLED.latchOut[0]
+ledOut[1] <= outlatch:latchLED.latchOut[1]
 J6IO8[0] <= cpuClock.DB_MAX_OUTPUT_PORT_TYPE
-J6IO8[1] <= Equal10.DB_MAX_OUTPUT_PORT_TYPE
-J6IO8[2] <= n_memRD.DB_MAX_OUTPUT_PORT_TYPE
-J6IO8[3] <= n_memWR.DB_MAX_OUTPUT_PORT_TYPE
-J6IO8[4] <= <GND>
-J6IO8[5] <= <GND>
-J6IO8[6] <= <GND>
-J6IO8[7] <= <GND>
+J6IO8[1] <= Equal11.DB_MAX_OUTPUT_PORT_TYPE
+J6IO8[2] <= J6IO8.DB_MAX_OUTPUT_PORT_TYPE
+J6IO8[3] <= J6IO8.DB_MAX_OUTPUT_PORT_TYPE
+J6IO8[4] <= outlatch:J6IO.latchOut[4]
+J6IO8[5] <= outlatch:J6IO.latchOut[5]
+J6IO8[6] <= outlatch:J6IO.latchOut[6]
+J6IO8[7] <= outlatch:J6IO.latchOut[7]
 J8IO8[0] <= outlatch:J8IO.latchOut[0]
 J8IO8[1] <= outlatch:J8IO.latchOut[1]
 J8IO8[2] <= outlatch:J8IO.latchOut[2]
@@ -3563,7 +3562,7 @@ wren_b => ram_block1a6.PORTBRE
 wren_b => ram_block1a7.PORTBRE
 
 
-|uk101|OutLatch:J7IO
+|uk101|OutLatch:J6IO
 dataIn8[0] => Q_tmp[0].DATAIN
 dataIn8[1] => Q_tmp[1].DATAIN
 dataIn8[2] => Q_tmp[2].DATAIN

@@ -5,25 +5,35 @@
 --			CEGMON compiled and moved to ROM
 --			Added SD Controller
 --			Added Grant's fast CPU via F1 key
---			Additional RAM sections opened although not contiguous
+--			40KB SRAM - Additional RAM sections opened although not contiguous
+--			Bank selected SRAM (16 banks of 4KB)
 --
 -- Running on Land Boards EP2C5-DB card
 --		http://land-boards.com/blwiki/index.php?title=EP2C5-DB
 -- 
+-- Features
 -- 6502 CPU
--- 	Run at 1 or 10 MHz (F1 key selects)
--- 41K External SRAM
+-- 	Runs at 1 or 12.5 MHz (F1 key selects)
+--		Power-up default is 1 MHz
+-- 41K External SRAM accessible to BASIC
+-- 16 banks of 4KB from $E000-$EFFF with bank select register
 -- PS/2 Keyboard
 --		F1 for Turno mode
 --		UK kayboard mapping (could be nice to change to US layout as option)
+--		Emulates key matrix of the original unit
+--		Keyboard mapping not standard US, see: 
 -- CEGMON Monitor (2KB)
 --		Custom build replaces "standard" UK101 CEGMON
+--		Replaces D option with S for SD card OS
 --	Disk Monitor Extension (2KB)
+--		Called from boot screen with 'S' option
 -- BASIC in ROM (8K)
 -- Composite Video
 -- 	48 chars/row
 --		16 rows
+--	Serial port at 115,200 baud
 -- SD High Speed Controller
+--		SPI mode
 -- I/O connections
 --		2x 8-bit output ports
 --		LED Output
@@ -32,13 +42,14 @@
 --		$0000-$9FFF - SRAM (40KB)
 -- 	$A000-$BFFF - Microsoft BASIC-in-ROM (8KB)
 --		$D000-$D3FF - 1KB Display RAM
---		$$DC00 - PS/2 Keyboard
---		$E000-$EFFF - SRAM (not detectable as BASIC RAM)
+--		$DC00 - PS/2 Keyboard
+--		$E000-$EFFF - Bank Selectable SRAM (not detectable as BASIC RAM)
 --		$F000-$FFFF - CEGMON Monitor ROM 4K
---		$F000-$F001 - ACIA (UART) 61440-61441
---		$F002 - J6 I/O Connector 61442
---		$F003 - J8 I/O Connector 61443
--- 	$F004 - LED 61444
+--		$F000-$F001 - ACIA (UART) 61440-61441 dec
+--		$F002 - J6 I/O Connector 61442 dec
+--		$F003 - J8 I/O Connector 61443 dec
+-- 	$F004 - LED 61444 dec
+-- 	$F005 - Bank Select Register 61445 dec
 --		%F010-$F017 - SD card
 --
 ---------------------------------------------------------------------------
@@ -52,7 +63,6 @@ entity uk101 is
 	port(
 		n_reset		: in std_logic;
 		clk			: in std_logic;
-		reset_LED	: out std_logic;
 		
 		-- SRAM
 		sramData 	: inout std_logic_vector(7 downto 0);
@@ -82,7 +92,7 @@ entity uk101 is
 		driveLED		: out std_logic :='1';
 		
 		-- I/O ports
-		ledOut		: out std_logic;
+		ledOut		: out std_logic_vector(1 downto 0);
 		J6IO8			: out std_logic_vector(7 downto 0);
 		J8IO8			: out std_logic_vector(7 downto 0)
 	);
@@ -117,6 +127,8 @@ architecture struct of uk101 is
 	signal aciaData			: std_logic_vector(7 downto 0);
 	signal sdCardDataOut		: std_logic_vector(7 downto 0);
 	signal kbReadData 		: std_logic_vector(7 downto 0);
+	signal J6Data				: std_logic_vector(7 downto 0);
+	signal J8Data				: std_logic_vector(7 downto 0);
 
 	-- Display RAM
 	signal dispAddrB 			: std_logic_vector(9 downto 0);
@@ -137,12 +149,15 @@ architecture struct of uk101 is
 	signal ledOut8 			: std_logic_vector(7 downto 0);
 	signal bankReg 			: std_logic_vector(7 downto 0);
 
+	signal sdLed	 			: std_logic;
+	
 begin
 
+	driveLED <=  not sdLed;
 	J6IO8(0) <= cpuClock;
 	J6IO8(1) <= n_sdCardCS;
-	J6IO8(2) <= n_memRD;
-	J6IO8(3) <= n_memWR;
+	J6IO8(2) <= n_sdCardCS or cpuClock or n_WR;
+	J6IO8(3) <= n_sdCardCS or cpuClock or (not n_WR) or cpuaddress(1) or cpuaddress(2);
 	
 	-- External SRAM
 	-- Added potential for 16 blocks of SRAM from $E000 to $EFFF
@@ -158,13 +173,14 @@ begin
 	n_sRamWE <= (not cpuClock) nand (not n_WR);
 	n_sRamOE <= (not cpuClock) nand n_WR;
 	n_sRamCS <= n_ramCS;
---	n_memRD <= not n_WR;
 	n_memRD <= (not cpuClock) nand n_WR;
 	n_memWR <= (not cpuClock) nand (not n_WR);
 	
-	reset_LED <= n_reset;
-
 	-- Chip Selects
+	n_ramCS 			<= '0' when ((cpuAddress(15) = '0') or 										-- $0000-$7FFF - SRAM
+										 (cpuAddress(15 downto 13) = "100") or							-- $8000-$9FFF - SRAM
+										 (cpuAddress(15 downto 12) = x"E"))  							-- $E000-$EFFF - SRAM (57344-61439 dec)
+										 else '1';
 	n_basRomCS 		<= '0' when cpuAddress(15 downto 13) = "101" 				else '1';	-- $A000-$BFFF - 8k BASIC-in-ROM
 	n_dispRamCS 	<= '0' when cpuAddress(15 downto 10) = x"d"&"00" 			else '1';	-- $D000-$D3FF - 1KB Display RAM
 	n_kbCS 			<= '0' when cpuAddress(15 downto 10) = x"d"&"11" 			else '1';	-- $DC00 - PS/2 Keyboard
@@ -175,21 +191,21 @@ begin
 	n_LEDCS			<= '0' when cpuAddress(15 downto 0)  = x"f004"				else '1';	-- $F004 (61444 dec) - LED
 	n_RAMBANKCS		<= '0' when cpuAddress(15 downto 0)  = x"f005"				else '1';	-- $F005 (61445 dec) - Bank Select register
 	n_sdCardCS		<= '0' when cpuAddress(15 downto 3)  = x"f01"&'0'	 		else '1';	-- %F010-$F017 - SD card
-	n_ramCS 			<= '0' when ((cpuAddress(15) = '0') or 										-- $0000-$7FFF - SRAM
-										 (cpuAddress(15 downto 13) = "100") or							-- $8000-$9FFF - SRAM
-										 (cpuAddress(15 downto 12) = x"E"))  							-- $E000-$EFFF - SRAM (57344-61439 dec)
-										 else '1';
 										 
 	-- Data mux into CPU
 	cpuDataIn <=
+		sramData 			when n_ramCS = '0' 								else
 		basRomData 			when n_basRomCS = '0' 							else
 		dispRamDataOutA 	when n_dispRamCS = '0' 							else
-		aciaData 			when n_aciaCS = '0' 								else
-		sramData 			when n_ramCS = '0' 								else
 		kbReadData 			when n_kbCS='0'									else
+		aciaData 			when n_aciaCS = '0' 								else
 		sdCardDataOut		when n_sdCardCS = '0'							else
 		x"F0" 				when (cpuAddress & fastMode)= x"FCE0"&'1'	else -- Address = FCE0 and fastMode = 1 : CHANGE REPEAT RATE LOOP VALUE (was $10)
 		monitorRomData 	when n_monitorRomCS = '0'						else	-- has to be after the xF00_ I/O due to address overlap
+		J6Data				when n_J6IOCS = '0'								else
+		J8Data				when n_J8IOCS = '0'								else
+		ledOut8				when n_LEDCS = '0'								else
+		bankReg				when n_RAMBANKCS = '0'							else
 		x"FF";
 		
 	-- 6502 CPU
@@ -209,7 +225,6 @@ begin
 		DI => cpuDataIn,
 		DO => cpuDataOut);
 
-	-- High Speed SD Controller
 	SD_CONTROLLER : entity work.sd_controller
 	port map(
 		-- CPU interface
@@ -217,7 +232,7 @@ begin
 		n_reset	=> n_reset,
 		regAddr	=> cpuAddress(2 downto 0),
 		n_wr		=> n_sdCardCS or cpuClock or n_WR,
-		n_rd		=> n_sdCardCS or n_memRD,
+		n_rd		=> n_sdCardCS or cpuClock or (not n_WR) or cpuaddress(1) or cpuaddress(2),
 		dataIn	=> cpuDataOut,
 		dataOut	=> sdCardDataOut,
 		-- SD card pins - SPI
@@ -226,7 +241,7 @@ begin
 		sdMISO	=> sdMISO,
 		sdSCLK	=> sdSCLK,
 		-- LED
-		driveLED	=> driveLED
+		driveLED	=> sdLed
 	);
 
 	-- Microsoft BASIC in ROM
@@ -307,26 +322,30 @@ begin
 	);
 	
 	-- Output LatchIO
-	J7IO : entity work.OutLatch
+	J6IO8(7 downto 4) <= J6Data(7 downto 4);
+	J6IO : entity work.OutLatch
 	port map(
 		clear => n_reset,
 		clock => clk,
 		load => n_J6IOCS or n_wr,
---		latchOut => J6IO8,
+		latchOut => J6Data,
 		dataIn8 => cpuDataOut
 	);
 
 	-- Output LatchIO
+	J8IO8 <= J8Data;
 	J8IO : entity work.OutLatch
 	port map(
 		clear => n_reset,
 		clock => clk,
 		load => n_J8IOCS or n_wr,
 		dataIn8 => cpuDataOut,
-		latchOut => J8IO8
+		latchOut => J8Data
 	);
 
-	ledOut <= ledOut8(0);
+	-- LEDs on the FPGAboard
+	ledOut(0) <= ledOut8(0);
+	ledOut(1) <= ledOut8(1);
 
 	-- Output Latch
 	latchLED : entity work.OutLatch
