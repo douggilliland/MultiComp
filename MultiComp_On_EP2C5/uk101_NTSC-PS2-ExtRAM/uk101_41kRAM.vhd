@@ -15,23 +15,28 @@
 -- 6502 CPU
 -- 	Runs at 1 or 12.5 MHz (F1 key selects)
 --		Power-up default is 1 MHz
--- 41K External SRAM accessible to BASIC
+-- 40K External SRAM accessible to BASIC
 -- 16 banks of 4KB from $E000-$EFFF with bank select register
 -- PS/2 Keyboard
---		F1 for Turno mode
+--		F1 toggles Turbo mode (default = fast)
 --		UK kayboard mapping (could be nice to change to US layout as option)
 --		Emulates key matrix of the original unit
 --		Keyboard mapping not standard US, see: 
+--			http://land-boards.com/blwiki/index.php?title=RetroComputers#Keyboard_Layout
 -- CEGMON Monitor (2KB)
 --		Custom build replaces "standard" UK101 CEGMON
 --		Replaces D option with S for SD card OS
---	Disk Monitor Extension (2KB)
+--	Disk Monitor Extension ROM (2KB)
 --		Called from boot screen with 'S' option
 -- BASIC in ROM (8K)
+--		Can't be directly removed without replacing I/O functions used by CEGMON
 -- Composite Video
 -- 	48 chars/row
 --		16 rows
+--		Could be upgraded to 64 chars/row and 32 rows (RAM size impact)
 --	Serial port at 115,200 baud
+--		Works with BASIC LOAD/SAVE commands
+--		To load copy BASIC code using an editor and drop into PuTTY window
 -- SD High Speed Controller
 --		SPI mode
 -- I/O connections
@@ -50,7 +55,14 @@
 --		$F003 - J8 I/O Connector 61443 dec
 -- 	$F004 - LED 61444 dec
 -- 	$F005 - Bank Select Register 61445 dec
+--			d0..d3 used for 128KB SRAMs
 --		%F010-$F017 - SD card
+--	    	0    SDDATA        read/write data
+-- 	   1    SDSTATUS      read
+--    	1    SDCONTROL     write
+--    	2    SDLBA0        write-only
+--    	3    SDLBA1        write-only
+--   		4    SDLBA2        write-only (only bits 6:0 are valid)
 --
 ---------------------------------------------------------------------------
 
@@ -105,7 +117,6 @@ architecture struct of uk101 is
 	signal cpuDataIn			: std_logic_vector(7 downto 0);
 	signal n_WR					: std_logic;
 	signal n_memWR				: std_logic;
-	signal n_memRD 			: std_logic;
 
 	-- Chip Selects
 	signal n_dispRamCS		: std_logic :='1';
@@ -146,6 +157,7 @@ architecture struct of uk101 is
 	-- Keyboard latch and read buffer
 	signal kbRowSel 			: std_logic_vector(7 downto 0);
 	signal fastMode 			: std_logic;
+	signal f1Latch 			: std_logic;
 	signal ledOut8 			: std_logic_vector(7 downto 0);
 	signal bankReg 			: std_logic_vector(7 downto 0);
 
@@ -173,7 +185,6 @@ begin
 	n_sRamWE <= (not cpuClock) nand (not n_WR);
 	n_sRamOE <= (not cpuClock) nand n_WR;
 	n_sRamCS <= n_ramCS;
-	n_memRD <= (not cpuClock) nand n_WR;
 	n_memWR <= (not cpuClock) nand (not n_WR);
 	
 	-- Chip Selects
@@ -200,7 +211,7 @@ begin
 		kbReadData 			when n_kbCS='0'									else
 		aciaData 			when n_aciaCS = '0' 								else
 		sdCardDataOut		when n_sdCardCS = '0'							else
-		x"F0" 				when (cpuAddress & fastMode)= x"FCE0"&'1'	else -- Address = FCE0 and fastMode = 1 : CHANGE REPEAT RATE LOOP VALUE (was $10)
+		x"F0" 				when (cpuAddress & fastMode)= x"FCE0"&'1'	else -- Address = $FCE0 and fastMode = 1 : CHANGE REPEAT RATE LOOP VALUE (was $10)
 		monitorRomData 	when n_monitorRomCS = '0'						else	-- has to be after the xF00_ I/O due to address overlap
 		J6Data				when n_J6IOCS = '0'								else
 		J8Data				when n_J8IOCS = '0'								else
@@ -368,13 +379,14 @@ begin
 	);
 
 	-- Emulation of UK101 keyboard using PS/2 keyboard
+	fastMode <= not f1Latch;
 	u9 : entity work.UK101keyboard
 	port map(
 		CLK 					=> clk,
 		nRESET 				=> n_reset,
 		PS2_CLK				=> ps2Clk,
 		PS2_DATA				=> ps2Data,
-		FNtoggledKeys(1)	=> fastMode,
+		FNtoggledKeys(1)	=> f1Latch,
 		A						=> kbRowSel,
 		KEYB					=> kbReadData
 	);
@@ -387,7 +399,8 @@ begin
 		end if;
 	end process;
 	
-	-- 1 MhZ CPU
+	-- 1/12.5 MHz CPU
+	-- F1 key toggles speed (default = fast)
 	process (clk)
 	begin
 		if rising_edge(clk) then
