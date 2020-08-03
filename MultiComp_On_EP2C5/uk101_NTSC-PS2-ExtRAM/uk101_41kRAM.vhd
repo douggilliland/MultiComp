@@ -355,8 +355,8 @@ begin
 	);
 
 	-- LEDs on the FPGAboard
-	ledOut(0) <= ledOut8(0);
-	ledOut(1) <= ledOut8(1);
+	ledOut(0) <= not ledOut8(0);
+	ledOut(1) <= not ledOut8(1);
 
 	-- Output Latch
 	latchLED : entity work.OutLatch
