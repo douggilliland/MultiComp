@@ -16,7 +16,7 @@ entity TS2_68000_Top is
 		
 		rxd1			: in std_logic := '1';
 		txd1			: out std_logic;
---		cts1			: in std_logic := '1';
+		cts1			: in std_logic := '1';
 		rts1			: out std_logic;
 		serSelect	: in std_logic := '1';
 		
@@ -35,11 +35,11 @@ entity TS2_68000_Top is
 		IO_PIN		: out std_logic_vector(48 downto 3);
 		
 		-- External SRAM Not used but assigning pins so it's not active
-		sramData	: inout std_logic_vector(7 downto 0);
+		sramData		: inout std_logic_vector(7 downto 0);
 		sramAddress	: out std_logic_vector(19 downto 0);
-		n_sRamWE	: out std_logic := '1';
-		n_sRamCS	: out std_logic := '1';
-		n_sRamOE	: out std_logic := '1';
+		n_sRamWE		: out std_logic := '1';
+		n_sRamCS		: out std_logic := '1';
+		n_sRamOE		: out std_logic := '1';
 		
 		-- Not using the SD RAM but making sure that it's not active
 		n_sdRamCas	: out std_logic := '1';		-- CAS on schematic
@@ -129,6 +129,29 @@ begin
 	IO_PIN(28) <= '0';
 	IO_PIN(27) <= '0';
 	IO_PIN(26) <= '0';
+	IO_PIN(25) <= '0';
+	IO_PIN(24) <= '0';
+	IO_PIN(23) <= '0';
+	IO_PIN(22) <= '0';
+	IO_PIN(21) <= '0';
+	IO_PIN(20) <= '0';
+	IO_PIN(19) <= '0';
+	IO_PIN(18) <= '0';
+	IO_PIN(17) <= '0';
+	IO_PIN(16) <= '0';
+	IO_PIN(15) <= '0';
+	IO_PIN(14) <= '0';
+	IO_PIN(13) <= '0';
+	IO_PIN(12) <= '0';
+	IO_PIN(11) <= '0';
+	IO_PIN(10) <= '0';
+	IO_PIN(9) <= '0';
+	IO_PIN(8) <= '0';
+	IO_PIN(7) <= '0';
+	IO_PIN(6) <= '0';
+	IO_PIN(5) <= '0';
+	IO_PIN(4) <= '0';
+	IO_PIN(3) <= '0';
 
 	-- ____________________________________________________________________________________
 	-- 68000 CPU
@@ -136,7 +159,7 @@ begin
 	CPU68K : entity work.TG68KdotC_Kernel
 		port map (
 			clk				=> w_cpuClock,
-			nReset			=> n_reset,
+			nReset			=> w_resetLow,
 			clkena_in		=> '1',
 			data_in			=> cpuDataIn,
 			IPL				=> "111",
@@ -211,9 +234,9 @@ begin
 					 '0' when ((cpuAddress(23 downto 4) = x"01004") and (w_nLDS = '0') and (serSelect = '0'))	 else 
 					 '1';
 	
-	U29 : entity work.SBCTextDisplayRGB
+	VDU : entity work.SBCTextDisplayRGB
 		port map (
-			n_reset	=> n_reset,
+			n_reset	=> w_resetLow,
 			clk		=> i_CLOCK_50,
 			
 			-- RGB CompVideo signals
@@ -241,7 +264,7 @@ begin
 					  '0' when ((cpuAddress(23 downto 4) = x"01004") and (w_nUDS = '0') and (serSelect = '0')) else
 					  '1';
 							
-	U30 : entity work.bufferedUART
+	ACIA : entity work.bufferedUART
 		port map(
 			clk		=> i_CLOCK_50, 
 			n_wr		=> w_n_ACIACS or      n_WR  or w_cpuClock,
@@ -254,7 +277,7 @@ begin
 			txClkEn	=> w_serialEn,			
 			rxd		=> rxd1,
 			txd		=> txd1,
---			n_cts		=> cts1,
+			n_cts		=> cts1,
 			n_rts		=> rts1
 		);
 	
@@ -280,6 +303,7 @@ begin
 	
 	
 	-- Baud Rate CLOCK SIGNALS
+	-- 2416 = 115,200 baud
 	
 	baud_div: process (w_serialCount_d, w_serialCount)
 		 begin

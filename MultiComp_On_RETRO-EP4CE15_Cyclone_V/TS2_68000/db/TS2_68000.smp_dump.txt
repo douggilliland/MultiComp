@@ -1,17 +1,17 @@
 
-State Machine - |TS2_68000_Top|bufferedUART:U30|txState
+State Machine - |TS2_68000_Top|bufferedUART:ACIA|txState
 Name txState.stopBit txState.dataBit txState.idle 
 txState.idle 0 0 0 
 txState.dataBit 0 1 1 
 txState.stopBit 1 0 1 
 
-State Machine - |TS2_68000_Top|bufferedUART:U30|rxState
+State Machine - |TS2_68000_Top|bufferedUART:ACIA|rxState
 Name rxState.stopBit rxState.dataBit rxState.idle 
 rxState.idle 0 0 0 
 rxState.dataBit 0 1 1 
 rxState.stopBit 1 0 1 
 
-State Machine - |TS2_68000_Top|SBCTextDisplayRGB:U29|dispState
+State Machine - |TS2_68000_Top|SBCTextDisplayRGB:VDU|dispState
 Name dispState.del3 dispState.del2 dispState.deleteLine dispState.ins3 dispState.ins2 dispState.insertLine dispState.clearC2 dispState.clearChar dispState.clearS2 dispState.clearScreen dispState.clearL2 dispState.clearLine dispState.dispNextLoc dispState.dispWrite dispState.idle 
 dispState.idle 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 
 dispState.dispWrite 0 0 0 0 0 0 0 0 0 0 0 0 0 1 1 
@@ -29,7 +29,7 @@ dispState.deleteLine 0 0 1 0 0 0 0 0 0 0 0 0 0 0 1
 dispState.del2 0 1 0 0 0 0 0 0 0 0 0 0 0 0 1 
 dispState.del3 1 0 0 0 0 0 0 0 0 0 0 0 0 0 1 
 
-State Machine - |TS2_68000_Top|SBCTextDisplayRGB:U29|escState
+State Machine - |TS2_68000_Top|SBCTextDisplayRGB:VDU|escState
 Name escState.processingAdditionalParams escState.processingParams escState.waitForLeftBracket escState.none 
 escState.none 0 0 0 0 
 escState.waitForLeftBracket 0 0 1 1 

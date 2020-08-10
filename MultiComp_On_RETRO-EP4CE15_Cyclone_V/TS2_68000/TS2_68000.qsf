@@ -58,7 +58,7 @@ set_global_assignment -name TIMING_ANALYZER_MULTICORNER_ANALYSIS ON
 set_global_assignment -name SMART_RECOMPILE ON
 # Clock and reset
 set_location_assignment PIN_M9 -to i_CLOCK_50
-set_location_assignment PIN_V16 -to n_reset
+set_location_assignment PIN_V18 -to n_reset
 set_instance_assignment -name WEAK_PULL_UP_RESISTOR ON -to n_reset
 # Serial
 set_location_assignment PIN_B11 -to cts1
@@ -67,10 +67,11 @@ set_location_assignment PIN_C11 -to rxd1
 set_location_assignment PIN_G10 -to txd1
 set_instance_assignment -name WEAK_PULL_UP_RESISTOR ON -to rxd1
 set_location_assignment PIN_L17 -to serSelect
+set_instance_assignment -name WEAK_PULL_UP_RESISTOR ON -to serSelect
 # SRAM
 set_location_assignment PIN_E2 -to n_sRamCS
-set_location_assignment PIN_J2 -to n_sRamOE
-set_location_assignment PIN_B4 -to n_sRamWE
+set_location_assignment PIN_L2 -to n_sRamOE
+set_location_assignment PIN_D6 -to n_sRamWE
 set_location_assignment PIN_E9 -to sramAddress[19]
 set_location_assignment PIN_B5 -to sramAddress[18]
 set_location_assignment PIN_B6 -to sramAddress[17]
@@ -116,8 +117,8 @@ set_location_assignment PIN_A13 -to videoB1
 set_location_assignment PIN_B13 -to videoB0
 set_location_assignment PIN_A14 -to vSync
 # PS/2
-set_location_assignment PIN_AA1 -to ps2Clk
-set_location_assignment PIN_AA2 -to ps2Data
+set_location_assignment PIN_AA2 -to ps2Clk
+set_location_assignment PIN_AA1 -to ps2Data
 set_instance_assignment -name WEAK_PULL_UP_RESISTOR ON -to ps2Clk
 set_instance_assignment -name WEAK_PULL_UP_RESISTOR ON -to ps2Data
 # SDRAM
@@ -125,8 +126,6 @@ set_location_assignment PIN_AA7 -to n_sdRamCas
 set_location_assignment PIN_AB5 -to n_sdRamCe
 set_location_assignment PIN_AB6 -to n_sdRamRas
 set_location_assignment PIN_W9 -to n_sdRamWe
-set_location_assignment PIN_L2 -to n_sRamOE
-set_location_assignment PIN_D6 -to n_sRamWE
 set_location_assignment PIN_P9 -to sdRamAddr[14]
 set_location_assignment PIN_T7 -to sdRamAddr[13]
 set_location_assignment PIN_Y9 -to sdRamAddr[12]
