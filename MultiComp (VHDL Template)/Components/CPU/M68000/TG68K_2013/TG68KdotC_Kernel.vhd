@@ -64,19 +64,19 @@ entity TG68KdotC_Kernel is
 		BitField       : integer := 0  --0=>no,     1=>yes,             2=>switchable with CPU(1)
 		);
    port(clk          : in std_logic;
-		nReset         : in std_logic;                 --low active
-		clkena_in      : in std_logic:='1';
+		nReset         : in std_logic;                 				-- low active
+		clkena_in      : in std_logic:='1';								-- Equivalent to not DTACKn
 		data_in        : in std_logic_vector(15 downto 0);
 		IPL            : in std_logic_vector(2 downto 0):="111";
 		IPL_autovector : in std_logic:='0';
-      berr			   : in std_logic:='0';			  -- only 68000 Stackpointer dummy
+      berr			   : in std_logic:='0';			  					-- only 68000 Stackpointer dummy
 		CPU            : in std_logic_vector(1 downto 0):="00";  -- 00->68000  01->68010  11->68020(only some parts - yet)
 		addr           : buffer std_logic_vector(31 downto 0);
 		data_write     : out std_logic_vector(15 downto 0);
-		nWr            : out std_logic;
-		nUDS           : out std_logic;
-		nLDS           : out std_logic;
-		busstate       : out std_logic_vector(1 downto 0);     -- 00-> fetch code 10->read data 11->write data 01->no memaccess
+		nWr            : out std_logic;									-- R1W0
+		nUDS           : out std_logic;									-- Upper byte Data Strobe
+		nLDS           : out std_logic;									-- Lower byte Data Strobe
+		busstate       : out std_logic_vector(1 downto 0);			-- 00-> fetch code 10->read data 11->write data 01->no memaccess
 		nResetOut      : out std_logic;
 		FC             : out std_logic_vector(2 downto 0);
 		clr_berr	  	   : out std_logic;

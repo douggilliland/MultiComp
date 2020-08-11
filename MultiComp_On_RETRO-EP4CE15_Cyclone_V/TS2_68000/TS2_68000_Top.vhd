@@ -1,5 +1,20 @@
 -- Jeff Tranter's TS2 in an FPGA
--- 68K CU Core Copyright (c) 2009-2013 Tobias Gubener        
+-- 68K CPU Core Copyright (c) 2009-2013 Tobias Gubener       
+-- Documented on Hackaday at:
+--		https://hackaday.io/project/173678-retro-68000-cpu-in-an-fpga
+-- Baseboard is
+--		http://land-boards.com/blwiki/index.php?title=RETRO-EP4CE15
+-- FPGA board is
+--		http://land-boards.com/blwiki/index.php?title=QM_Tech_Cyclone_V_FPGA_Board
+-- The main features are:
+--		M68000 CPU
+--		Teesite TS2BUG or MECB TUTOR 16KB Monitor ROMs
+--		32KB Internal SRAM
+--		ANSI Video Display Unit (VDU)
+--			VGA and PS/2
+--		6850 ACIA UART
+--			USB to Serial
+--		USB powered
 --
 -- Doug Gilliland 2020
 --
@@ -11,14 +26,14 @@ use  IEEE.STD_LOGIC_UNSIGNED.all;
 
 entity TS2_68000_Top is
 	port(
-		n_reset		: in std_logic;
 		i_CLOCK_50	: in std_logic;
+		n_reset		: in std_logic;
 		
-		rxd1			: in std_logic := '1';
+		rxd1			: in std_logic := '1';		-- Hardware Handshake needed
 		txd1			: out std_logic;
 		cts1			: in std_logic := '1';
 		rts1			: out std_logic;
-		serSelect	: in std_logic := '1';
+		serSelect	: in std_logic := '1';		-- Jumper with pullup in FPGA for selecting serial between ACIA (installed) and VDU (removed)
 		
 		videoR0		: out std_logic := '1';
 		videoG0		: out std_logic := '1';
@@ -41,7 +56,7 @@ entity TS2_68000_Top is
 		n_sRamCS		: out std_logic := '1';
 		n_sRamOE		: out std_logic := '1';
 		
-		-- Not using the SD RAM but making sure that it's not active
+		-- D RAM not used but making sure that it's not active
 		n_sdRamCas	: out std_logic := '1';		-- CAS on schematic
 		n_sdRamRas	: out std_logic := '1';		-- RAS
 		n_sdRamWe	: out std_logic := '1';		-- SDWE
@@ -81,7 +96,7 @@ architecture struct of TS2_68000_Top is
 
 	-- Data sources into CPU
 	signal w_MonROMData				: std_logic_vector(15 downto 0);
-	signal w_sramData					: std_logic_vector(15 downto 0);
+	signal w_sramDataOut					: std_logic_vector(15 downto 0);
 	signal w_VDUDataOut				: std_logic_vector(7 downto 0);
 	signal w_ACIADataOut				: std_logic_vector(7 downto 0);
 	signal w_PeriphData				: std_logic_vector(7 downto 0);
@@ -165,7 +180,7 @@ begin
 			IPL				=> "111",
 			IPL_autovector => '0',
 			berr				=> '0',
-			CPU				=> "00",
+			CPU				=> "00",				-- 68000 CPU
 			addr				=> cpuAddress,
 			data_write		=> cpuDataOut,
 			nWr				=> n_WR,
@@ -181,22 +196,22 @@ begin
 	-- BUS ISOLATION
 
 	cpuDataIn <=
-		w_VDUDataOut & w_VDUDataOut	when w_n_VDUCS 	= '0' else
-		w_ACIADataOut & w_ACIADataOut	when w_n_ACIACS	= '0' else
+		w_VDUDataOut  & w_VDUDataOut	when w_n_VDUCS 	= '0' else	-- Copy 8-bit peripheral reads to both halves of the data bus
+		w_ACIADataOut & w_ACIADataOut	when w_n_ACIACS	= '0' else	-- Copy 8-bit peripheral reads to both halves of the data bus
 		w_MonROMData						when w_n_RomCS		= '0' else
-		w_sramData							when w_n_RamCS		= '0' else
+		w_sramDataOut						when w_n_RamCS		= '0' else
 		x"FFFF";
 	
 	-- ____________________________________________________________________________________
 	-- TS2 Monitor ROM
 	
-	w_n_RomCS <=	'0' when (cpuAddress(23 downto 12) = x"008")			else 		-- x008000-x008FFF (MAIN EPROM)
+	w_n_RomCS <=	'0' when (cpuAddress(23 downto 15) = x"00"&'1')		else 		-- x008000-x008FFF (MAIN EPROM)
 						'0' when (cpuAddress(23 downto 3) =  x"00000"&'0')	else		-- X000000-X000007 (VECTORS)
 						'1';
 	
-	rom1 : entity work.Monitor_68K_ROM -- Monitor
+	rom1 : entity work.Monitor_68K_ROM -- Monitor 4KB (2Kx16)
 		port map (
-			address 	=> cpuAddress(11 downto 1),
+			address 	=> cpuAddress(13 downto 1),
 			clock		=> i_CLOCK_50,
 			q			=> w_MonROMData
 		);
@@ -211,14 +226,14 @@ begin
 	w_WrRamByteEn(1)	<= (not n_WR) and (not w_nUDS) and (not w_n_RamCS);
 	w_WrRamByteEn(0)	<= (not n_WR) and (not w_nLDS) and (not w_n_RamCS);
 	
-	ram1 : ENTITY work.RAM_16Kx16
+	ram1 : ENTITY work.RAM_16Kx16 -- 32KB
 		PORT map	(
 			address		=> cpuAddress(14 downto 1),
 			clock			=> i_CLOCK_50,
 			data			=> cpuDataOut,
 			byteena		=> w_WrRamByteEn,
 			wren			=> w_wrRamStrobe,
-			q				=> w_sramData
+			q				=> w_sramDataOut
 		);
 	
 	-- Route the data to the peripherals
@@ -252,7 +267,7 @@ begin
 			n_rd		=> w_n_VDUCS or (not n_WR),
 			n_int		=> w_n_IRQ5,
 			regSel	=> cpuAddress(1),
-			dataIn	=> w_PeriphData(7 downto 0),
+			dataIn	=> w_PeriphData,
 			dataOut	=> w_VDUDataOut,
 			ps2clk	=> ps2Clk,
 			ps2Data	=> ps2Data
@@ -271,7 +286,7 @@ begin
 			n_rd		=> w_n_ACIACS or (not n_WR),
 			n_int		=> w_n_IRQ6,
 			regSel	=> cpuAddress(1),
-			dataIn	=> w_PeriphData(7 downto 0),
+			dataIn	=> w_PeriphData,
 			dataOut	=> w_ACIADataOut,
 			rxClkEn	=> w_serialEn,
 			txClkEn	=> w_serialEn,			
