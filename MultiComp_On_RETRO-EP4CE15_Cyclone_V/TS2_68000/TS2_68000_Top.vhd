@@ -1,5 +1,5 @@
 -- Jeff Tranter's TS2 in an FPGA
--- 68K CPU Core Copyright (c) 2009-2013 Tobias Gubener       
+-- 68K CPU Core Copyright (c) 2009-2013 Tobias Gubener
 -- Documented on Hackaday at:
 --		https://hackaday.io/project/173678-retro-68000-cpu-in-an-fpga
 -- Baseboard is
@@ -8,7 +8,7 @@
 --		http://land-boards.com/blwiki/index.php?title=QM_Tech_Cyclone_V_FPGA_Board
 -- The main features are:
 --		M68000 CPU
---		Teesite TS2BUG or MECB TUTOR 16KB Monitor ROMs
+--		Teesite TS2BUG or MECB TUTOR 16KB Monitor ROMs 
 --		32KB Internal SRAM
 --		ANSI Video Display Unit (VDU)
 --			VGA and PS/2
