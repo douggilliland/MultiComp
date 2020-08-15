@@ -1,0 +1,85 @@
+<img src="http://land-boards.com/blwiki/images/3/35/RETRO-EP4CE15-P958-720PX.jpg"></img>
+
+== Land Boards RETRO-EP4 FPGA Retro-Computer Board ==
+
+* These are the VHDL files for our [http://land-boards.com/blwiki/index.php?title=RETRO-EP4CE6 RETRO-EP4 board].
+** This card presents a hardware implementation of [http://www.searle.wales Grant Searle's Multicomp] Retro-Computer.
+** Grant's projects re-create late 1970's and early 1980's era vintage computers using inexpensive FPGA cards.
+* Our [http://land-boards.com/blwiki/index.php?title=RetroComputing RetroComputing Wiki page is here].
+
+== RETRO-EP4 Features ==
+
+* Geared towards Retro-Computing
+** Grant Searle's [http://www.searle.wales Multicomp project] as an example
+** Uses WaveShare [https://www.waveshare.com/wiki/CoreEP4CE6 CoreEP4CE6] EP4CE6E22C8N FPGA Board
+* 512 KB of fast SRAM
+** Access more than 64KB from 8-bit microprocessors by using a banking/mapping register inside the FPGA
+* I/O Connectivity
+** PS/2 keyboard connector
+** VGA connector
+** FTDI socket
+** VGA, PS/2, and Serial I/O connections on a single edge
+* 5V power connector (on rear edge)
+* SD Card slot
+** SD card mounts from rear bottom of the board
+	
+== VHDL Code ==
+
+=== Blink_LED - Tested/Works ===
+
+* Blink the (4) LEDs on the FPGA card plus an external LED
+* Uses a large internal counter to divide down the 50 MHz clock rate
+
+== Various MultiComp Builds for the Cyclone IV Card ==
+
+=== M6809_VGA_PS2_RAM(56K) - Tested/Works ===
+
+* [https://github.com/douggilliland/MultiComp/blob/master/MultiComp_On_RETRO-EP4/M6809_VGA_PS2_RAM(56K)/ Docs]
+
+=== MultiComp_6809_by_Neal_C-2019-04-08 - Tested/Works ===
+
+* [https://github.com/douggilliland/MultiComp/tree/master/MultiComp_On_RETRO-EP4/MultiComp_6809_by_Neal_C-2019-04-08/ Docs]
+
+=== Multicomp-MPM - Tested/Works ===
+
+* [https://github.com/douggilliland/MultiComp/tree/master/MultiComp_On_RETRO-EP4/Multicomp-MPM Docs]
+
+=== UK101_41K - Tested/Works ===
+
+* [https://github.com/douggilliland/MultiComp/tree/master/MultiComp_On_RETRO-EP4/UK101_41K Docs]
+
+=== Z80-CPM-VGA-PS2-128KRAM - Tested/Works ===
+
+* [https://github.com/douggilliland/MultiComp/tree/master/MultiComp_On_RETRO-EP4/Z80-CPM-VGA-PS2-128KRAM Docs]
+
+== Land Boards - Other FPGA Projects ==
+
+These different folders reflect the hardware that we have got Multicomp running on. Some of these designs are Land Boards and others are based on commercial products.
+
+* [http://land-boards.com/blwiki/index.php?title=EP2C5-DB Land Boards EP2C5-DB FPGA Retro-Computer card]
+** Duplicates Grant's design down to the pin maps
+* [http://land-boards.com/blwiki/index.php?title=BASE-EP4CE6 Land Boards BASE-EP4CE6 card] is a breakout board that cables up to the [http://land-boards.com/blwiki/index.php?title=EP2C5-DB Land Boards EP2C5-DB card]
+** Adds extra logic and RAM resources beyond the EP2C5 FPGA
+*** Can do up to 16K of Internal SRAM
+** [http://land-boards.com/blwiki/index.php?title=Retro-Computer_Map_EP2_to_EP4_card Wiring is here]
+* [http://land-boards.com/blwiki/index.php?title=Cyclone_IV_FPGA_EP4CE6E22C8N_Development_Board_USB_V2 Purchased EP4 FPGA card]
+** Includes VGA, PS/2 and USB-Serial converter
+** Other I/O is serious limitation but a 16K retro machine without SD Card storage can easily be built
+
+== Other Sites ==
+
+* [https://www.retrobrewcomputers.org/doku.php?id=boards:sbc:multicomp:start Retrobrewing Multicomp forum] - covers Neal Crooks's 6809 based extensions as well as various hardware builds
+* [https://github.com/nealcrook/multicomp6809 Neal Crook's page is here]
+* [https://www.retrobrewcomputers.org/doku.php?id=builderpages:rhkoolstar:mc-2g-1024 Multi-boot Multicomp]
+
+== Ownership ==
+
+* Some of these files such as FPGA designs and software libraries were created by others.
+** There may be newer versions of these libraries "out there".
+** Some libraries even have the same names but don't work the same.
+* Many of these files were created by me based on the work of others.
+
+=== Warning ===
+
+* Use at your own risk.
+** If you brick your part or it melt to a puddle, it's on you not me.
