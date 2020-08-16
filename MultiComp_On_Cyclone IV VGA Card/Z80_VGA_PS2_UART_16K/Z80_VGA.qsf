@@ -35,7 +35,6 @@
 #
 # -------------------------------------------------------------------------- #
 
-
 set_global_assignment -name FAMILY "Cyclone IV E"
 set_global_assignment -name DEVICE EP4CE6E22C8
 set_global_assignment -name TOP_LEVEL_ENTITY Z80_VGA
@@ -55,9 +54,16 @@ set_global_assignment -name PARTITION_COLOR 16764057 -section_id Top
 set_global_assignment -name POWER_PRESET_COOLING_SOLUTION "23 MM HEAT SINK WITH 200 LFPM AIRFLOW"
 set_global_assignment -name POWER_BOARD_THERMAL_MODEL "NONE (CONSERVATIVE)"
 set_global_assignment -name STRATIX_DEVICE_IO_STANDARD "3.3-V LVTTL"
+# Clock and Reset switch
 set_location_assignment PIN_24 -to clk
+set_location_assignment PIN_89 -to n_reset
+# Serial no handshake
+set_location_assignment PIN_87 -to rxd
+set_location_assignment PIN_86 -to txd
+# PS/2
 set_location_assignment PIN_99 -to ps2Clk
 set_location_assignment PIN_98 -to ps2Data
+# Video
 set_location_assignment PIN_100 -to hSync
 set_location_assignment PIN_101 -to vSync
 set_location_assignment PIN_120 -to videoR0
@@ -76,6 +82,22 @@ set_location_assignment PIN_104 -to videoB1
 set_location_assignment PIN_105 -to videoB2
 set_location_assignment PIN_106 -to videoB3
 set_location_assignment PIN_110 -to videoB4
+# LEDs and Switches
+set_location_assignment PIN_144 -to LED4
+set_location_assignment PIN_1 -to LED1
+set_location_assignment PIN_2 -to LED2
+set_location_assignment PIN_3 -to LED3
+set_location_assignment PIN_88 -to switch0
+set_location_assignment PIN_91 -to switch1
+set_location_assignment PIN_90 -to switch2
+# Buzzer
+set_location_assignment PIN_85 -to BUZZER
+#
+set_location_assignment PIN_13 -to ~ALTERA_DATA0~
+set_location_assignment PIN_6 -to ~ALTERA_ASDO_DATA1~
+set_location_assignment PIN_8 -to ~ALTERA_FLASH_nCE_nCSO~
+set_location_assignment PIN_12 -to ~ALTERA_DCLK~
+#
 set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to clk
 set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to ps2Clk
 set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to ps2Data
@@ -86,13 +108,6 @@ set_global_assignment -name OUTPUT_IO_TIMING_NEAR_END_VMEAS "HALF VCCIO" -fall
 set_global_assignment -name OUTPUT_IO_TIMING_FAR_END_VMEAS "HALF SIGNAL SWING" -rise
 set_global_assignment -name OUTPUT_IO_TIMING_FAR_END_VMEAS "HALF SIGNAL SWING" -fall
 set_global_assignment -name CYCLONEII_RESERVE_NCEO_AFTER_CONFIGURATION "USE AS REGULAR IO"
-set_location_assignment PIN_13 -to ~ALTERA_DATA0~
-set_location_assignment PIN_6 -to ~ALTERA_ASDO_DATA1~
-set_location_assignment PIN_8 -to ~ALTERA_FLASH_nCE_nCSO~
-set_location_assignment PIN_12 -to ~ALTERA_DCLK~
-set_location_assignment PIN_89 -to n_reset
-set_location_assignment PIN_87 -to rxd
-set_location_assignment PIN_86 -to txd
 set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to hSync
 set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to LED1
 set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to LED2
@@ -126,17 +141,9 @@ set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to videoG1
 set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to videoG2
 set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to videoG4
 set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to videoG5
-set_location_assignment PIN_144 -to LED4
-set_location_assignment PIN_1 -to LED1
-set_location_assignment PIN_2 -to LED2
-set_location_assignment PIN_3 -to LED3
-set_location_assignment PIN_88 -to switch0
-set_location_assignment PIN_91 -to switch1
-set_location_assignment PIN_90 -to switch2
 set_global_assignment -name ENABLE_OCT_DONE OFF
 set_global_assignment -name ENABLE_CONFIGURATION_PINS OFF
 set_global_assignment -name ENABLE_BOOT_SEL_PIN OFF
-set_location_assignment PIN_85 -to BUZZER
 set_global_assignment -name VHDL_FILE "../../MultiComp (VHDL Template)/Components/TERMINAL/SansBoldRom.vhd"
 set_global_assignment -name VHDL_FILE "../../MultiComp (VHDL Template)/Components/TERMINAL/DisplayRam2K.vhd"
 set_global_assignment -name VHDL_FILE "../../MultiComp (VHDL Template)/Components/TERMINAL/DisplayRam1K.vhd"
