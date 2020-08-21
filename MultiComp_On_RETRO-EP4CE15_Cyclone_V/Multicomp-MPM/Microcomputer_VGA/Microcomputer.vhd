@@ -14,6 +14,7 @@
 -- eMail address available on my main web page link above.
 --
 -- Multiboot version of Multicomp version by 
+--	https://www.retrobrewcomputers.org/doku.php?id=builderpages:rhkoolstar:mc-2g-1024
 
 library ieee;
 use ieee.std_logic_1164.all;
@@ -30,7 +31,7 @@ entity Microcomputer is
 		sramAddress	: out std_logic_vector(19 downto 0);
 		n_sRamWE		: out std_logic;
 		n_sRamOE		: out std_logic;
-		n_sRam1CS	: out std_logic;
+		n_sRamCS		: out std_logic;
 		
 		-- Serial port
 		rxd1			: in std_logic;
@@ -200,7 +201,7 @@ begin
 		clk 			=> cpuClock, 				-- clock based on divided cpu clock
 		n_wr 			=> n_mmuCS or n_ioWR, 	-- group of 8 ports to write data to the MMU
 		n_rd 			=> n_mmuCS or n_ioRD, 	-- future use, for reading data back from the MMU
-		mmu_reset 	=> n_reset, 				-- and pin73RCreset, -- pushbutton reset low or RC startup low
+		mmu_reset 	=> n_reset, 				-- and pin73RCreset, -- pushbutton reset low 
 		dataIn 		=> cpuDataOut, 			-- data lines to send commands to the MMU
 		cpuAddress 	=> cpuAddress, 			-- cpu Adress lines to the MMU
 		mmuAddressOut => physicaladdr 		-- modified address lines from the MMU
@@ -211,7 +212,7 @@ begin
 	
 	n_sRamWE <= n_memWR;
 	n_sRamOE <= n_memRD;
-	n_sRam1CS <= n_externalRam1CS;
+	n_sRamCS <= n_externalRam1CS;
 
 -- ____________________________________________________________________________________
 -- INPUT/OUTPUT DEVICES GO HERE	
