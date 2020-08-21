@@ -64,7 +64,14 @@ entity TS2_68000_Top is
 		sdRamClk		: out std_logic := '1';		-- SDCLK0
 		sdRamClkEn	: out std_logic := '1';		-- SDCKE0
 		sdRamAddr	: out std_logic_vector(14 downto 0) := "000"&x"000";
-		sdRamData	: in std_logic_vector(15 downto 0)
+		sdRamData	: in std_logic_vector(15 downto 0);
+		
+		-- SD Card not used but making sure that it's not active
+		sdCS			: out std_logic := '1';
+		sdMOSI		: out std_logic := '1';
+		sdMISO		: in std_logic := '1';
+		sdSCLK		: out std_logic := '1';
+		driveLED		: out std_logic :='1'		-- D5 LED
 	);
 end TS2_68000_Top;
 
@@ -93,10 +100,12 @@ architecture struct of TS2_68000_Top is
 	signal w_wrRamStrobe				: std_logic :='0';
 	signal w_n_VDUCS					: std_logic :='1';
 	signal w_n_ACIACS					: std_logic :='1';
+	signal n_externalRam1CS			: std_logic :='1';
 
 	-- Data sources into CPU
 	signal w_MonROMData				: std_logic_vector(15 downto 0);
-	signal w_sramDataOut					: std_logic_vector(15 downto 0);
+	signal w_sramDataOut				: std_logic_vector(15 downto 0);
+	signal w_extSramDataOut			: std_logic_vector(15 downto 0);
 	signal w_VDUDataOut				: std_logic_vector(7 downto 0);
 	signal w_ACIADataOut				: std_logic_vector(7 downto 0);
 	signal w_PeriphData				: std_logic_vector(7 downto 0);
@@ -196,11 +205,12 @@ begin
 	-- BUS ISOLATION
 
 	cpuDataIn <=
-		w_VDUDataOut  & w_VDUDataOut	when w_n_VDUCS 	= '0' else	-- Copy 8-bit peripheral reads to both halves of the data bus
-		w_ACIADataOut & w_ACIADataOut	when w_n_ACIACS	= '0' else	-- Copy 8-bit peripheral reads to both halves of the data bus
-		w_MonROMData						when w_n_RomCS		= '0' else
-		w_sramDataOut						when w_n_RamCS		= '0' else
-		x"FFFF";
+		w_VDUDataOut  & w_VDUDataOut	when w_n_VDUCS 			= '0' else	-- Copy 8-bit peripheral reads to both halves of the data bus
+		w_ACIADataOut & w_ACIADataOut	when w_n_ACIACS			= '0' else	-- Copy 8-bit peripheral reads to both halves of the data bus
+		w_MonROMData						when w_n_RomCS				= '0' else	-- ROM
+		w_sramDataOut						when w_n_RamCS				= '0' else	-- Internal SRAM
+		sramData&sramData			 		when n_externalRam1CS	= '0' else	-- External SRAM (byte access only)
+		x"dead";
 	
 	-- ____________________________________________________________________________________
 	-- TS2 Monitor ROM
@@ -217,7 +227,7 @@ begin
 		);
 	
 	-- ____________________________________________________________________________________
-	-- 32KB SRAM
+	-- 32KB Internal SRAM
 	-- The RAM address input is delayed due to being registered so the gate is the true of the clock not the low level
 	
 	w_n_RamCS 			<= '0' when ((w_n_RomCS = '1') and (cpuAddress(23 downto 15) = x"00"&'0'))	else	-- x000008-x007fff
@@ -235,6 +245,20 @@ begin
 			wren			=> w_wrRamStrobe,
 			q				=> w_sramDataOut
 		);
+	
+	-- 1MB External SRAM (can only be addressed as bytes)
+	n_externalRam1CS <= '0' when ((cpuAddress(23 downto 20) = x"2") and ((w_nLDS = '0') or (w_nUDS = '0')))	else	-- x20000-x3fffff (every other location)
+							  '1';
+	sramAddress(19 downto 1) <= cpuAddress(19 downto 1);
+	sramAddress(0) <= w_nLDS;
+	sramData <= cpuDataOut(7 downto 0) when ((w_nUDS = '0') and (n_WR = '0')) else 
+					cpuDataOut(7 downto 0)  when ((w_nLDS = '0') and (n_WR = '0')) else
+					(others => 'Z');
+	
+	n_sRamWE <= n_WR or n_externalRam1CS or (w_nLDS and w_nUDS);
+	n_sRamOE <= (not n_WR) or n_externalRam1CS;
+	n_sRamCS <= n_externalRam1CS;
+
 	
 	-- Route the data to the peripherals
 	w_PeriphData <= 	cpuDataOut(15 downto 8)	when (w_nUDS = '0') else
@@ -303,12 +327,12 @@ begin
 	process (i_CLOCK_50)
 		begin
 			if rising_edge(i_CLOCK_50) then
-				if w_cpuCount < 1 then -- 4 = 10MHz, 3 = 12.5MHz, 2=16.6MHz, 1=25MHz
+				if w_cpuCount < 4 then -- 4 = 10MHz, 3 = 12.5MHz, 2=16.6MHz, 1=25MHz
 					w_cpuCount <= w_cpuCount + 1;
 				else
 					w_cpuCount <= (others=>'0');
 				end if;
-				if w_cpuCount < 1 then -- 2 when 10MHz, 2 when 12.5MHz, 2 when 16.6MHz, 1 when 25MHz
+				if w_cpuCount < 2 then -- 2 when 10MHz, 2 when 12.5MHz, 2 when 16.6MHz, 1 when 25MHz
 					w_cpuClock <= '0';
 				else
 					w_cpuClock <= '1';

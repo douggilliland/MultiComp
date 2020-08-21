@@ -113,7 +113,6 @@ architecture struct of Microcomputer is
 
 	signal physicaladdr			: std_logic_vector(19 downto 0);
 	signal n_externalRam1CS		: std_logic :='1';
-	signal n_externalRam2CS		: std_logic :='1';
 	signal n_mmuCS					: std_logic :='1';
 
 	signal intClkCount			: std_logic_vector(19 downto 0);
@@ -394,8 +393,8 @@ port map (
 -- ____________________________________________________________________________________
 -- MEMORY READ/WRITE LOGIC GOES HERE
 	n_ioWR 		<= n_WR or n_IORQ;
-	n_memWR 		<= n_WR or n_MREQ;
 	n_ioRD 		<= n_RD or n_IORQ;
+	n_memWR 		<= n_WR or n_MREQ;
 	n_memRD 		<= n_RD or n_MREQ;
 
 -- ____________________________________________________________________________________
@@ -424,7 +423,6 @@ port map (
 		sdCardDataOut when n_sdCardCS = '0' else
 		monRomData when n_monRomCS = '0' else
 		sramData when n_externalRam1CS= '0' else
-		sramData when n_externalRam2CS= '0' else
 		x"FF";
 -- ____________________________________________________________________________________
 -- SYSTEM CLOCKS GO HERE
