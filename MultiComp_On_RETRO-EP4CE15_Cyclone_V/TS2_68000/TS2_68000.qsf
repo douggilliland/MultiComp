@@ -35,7 +35,6 @@
 #
 # -------------------------------------------------------------------------- #
 
-
 set_global_assignment -name FAMILY "Cyclone V"
 set_global_assignment -name DEVICE 5CEFA2F23I7
 set_global_assignment -name TOP_LEVEL_ENTITY TS2_68000_Top
@@ -109,13 +108,13 @@ set_location_assignment PIN_D17 -to driveLED
 set_instance_assignment -name WEAK_PULL_UP_RESISTOR ON -to sdMISO
 # Video
 set_location_assignment PIN_A15 -to hSync
+set_location_assignment PIN_A14 -to vSync
 set_location_assignment PIN_D12 -to videoR1
 set_location_assignment PIN_E12 -to videoR0
 set_location_assignment PIN_C13 -to videoG1
 set_location_assignment PIN_D13 -to videoG0
 set_location_assignment PIN_A13 -to videoB1
 set_location_assignment PIN_B13 -to videoB0
-set_location_assignment PIN_A14 -to vSync
 # PS/2
 set_location_assignment PIN_AA2 -to ps2Clk
 set_location_assignment PIN_AA1 -to ps2Data
@@ -207,6 +206,7 @@ set_location_assignment PIN_L18 -to IO_PIN[46]
 set_location_assignment PIN_L22 -to IO_PIN[47]
 set_location_assignment PIN_M22 -to IO_PIN[48]
 #
+set_global_assignment -name STRATIX_DEVICE_IO_STANDARD "3.3-V LVTTL"
 set_global_assignment -name ENABLE_SIGNALTAP OFF
 set_global_assignment -name USE_SIGNALTAP_FILE stp1.stp
 set_global_assignment -name ENABLE_OCT_DONE OFF
@@ -223,6 +223,7 @@ set_global_assignment -name CYCLONEII_RESERVE_NCEO_AFTER_CONFIGURATION "USE AS R
 set_global_assignment -name RESERVE_DATA1_AFTER_CONFIGURATION "USE AS REGULAR IO"
 set_global_assignment -name RESERVE_DATA0_AFTER_CONFIGURATION "USE AS REGULAR IO"
 set_global_assignment -name RESERVE_DCLK_AFTER_CONFIGURATION "USE AS REGULAR IO"
+#
 set_global_assignment -name VHDL_FILE "../../MultiComp (VHDL Template)/Components/Debounce/LongDebounce/debounce.vhd"
 set_global_assignment -name VHDL_FILE Components/RAM_16Kx16.vhd
 set_global_assignment -name VHDL_FILE Components/RAM_4Kx16.vhd
@@ -238,7 +239,10 @@ set_global_assignment -name VHDL_FILE "../../MultiComp (VHDL Template)/Component
 set_global_assignment -name VHDL_FILE "../../MultiComp (VHDL Template)/Components/CPU/M68000/TG68K_2013/TG68K_Pack.vhd"
 set_global_assignment -name VHDL_FILE "../../MultiComp (VHDL Template)/Components/CPU/M68000/TG68K_2013/TG68K_ALU.vhd"
 set_global_assignment -name VHDL_FILE TS2_68000_Top.vhd
+#
 set_global_assignment -name QIP_FILE Components/Monitor_68K_ROM.qip
 set_global_assignment -name QIP_FILE Components/RAM_8Kx16.qip
 set_global_assignment -name NUM_PARALLEL_PROCESSORS ALL
+set_global_assignment -name QIP_FILE "../../MultiComp (VHDL Template)/Components/RAM_Internal/RAM_64KX16.qip"
+set_global_assignment -name QIP_FILE RAM_32Kx16.qip
 set_instance_assignment -name PARTITION_HIERARCHY root_partition -to | -section_id Top

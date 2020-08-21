@@ -10,6 +10,7 @@
 --		M68000 CPU
 --		Teesite TS2BUG or MECB TUTOR 16KB Monitor ROMs 
 --		32KB Internal SRAM
+-- 	1 MB External SRAM (byte addressible)
 --		ANSI Video Display Unit (VDU)
 --			VGA and PS/2
 --		6850 ACIA UART
@@ -98,6 +99,9 @@ architecture struct of TS2_68000_Top is
 	signal w_n_RamCS					: std_logic :='1';
 	signal w_WrRamByteEn				: std_logic_vector(1 downto 0) := "00";
 	signal w_wrRamStrobe				: std_logic :='0';
+	signal w_n_Ram2CS					: std_logic :='1';
+	signal w_WrRam2ByteEn				: std_logic_vector(1 downto 0) := "00";
+	signal w_wrRam2Strobe				: std_logic :='0';
 	signal w_n_VDUCS					: std_logic :='1';
 	signal w_n_ACIACS					: std_logic :='1';
 	signal n_externalRam1CS			: std_logic :='1';
@@ -105,6 +109,7 @@ architecture struct of TS2_68000_Top is
 	-- Data sources into CPU
 	signal w_MonROMData				: std_logic_vector(15 downto 0);
 	signal w_sramDataOut				: std_logic_vector(15 downto 0);
+	signal w_sram2DataOut			: std_logic_vector(15 downto 0);
 	signal w_extSramDataOut			: std_logic_vector(15 downto 0);
 	signal w_VDUDataOut				: std_logic_vector(7 downto 0);
 	signal w_ACIADataOut				: std_logic_vector(7 downto 0);
@@ -209,6 +214,7 @@ begin
 		w_ACIADataOut & w_ACIADataOut	when w_n_ACIACS			= '0' else	-- Copy 8-bit peripheral reads to both halves of the data bus
 		w_MonROMData						when w_n_RomCS				= '0' else	-- ROM
 		w_sramDataOut						when w_n_RamCS				= '0' else	-- Internal SRAM
+		w_sram2DataOut						when w_n_Ram2CS			= '0' else	-- Internal SRAM
 		sramData&sramData			 		when n_externalRam1CS	= '0' else	-- External SRAM (byte access only)
 		x"dead";
 	
@@ -246,8 +252,27 @@ begin
 			q				=> w_sramDataOut
 		);
 	
+	-- ____________________________________________________________________________________
+	-- 64KB Internal SRAM
+	-- The RAM address input is delayed due to being registered so the gate is the true of the clock not the low level
+	w_n_Ram2CS 			<= '0' when (cpuAddress(23 downto 16) = x"20")	else	-- x200008-x20ffff
+								'1';
+	w_wrRam2Strobe		<= (not n_WR) and (not w_n_Ram2CS) and (w_cpuClock);
+	w_WrRam2ByteEn(1)	<= (not n_WR) and (not w_nUDS) and (not w_n_Ram2CS);
+	w_WrRam2ByteEn(0)	<= (not n_WR) and (not w_nLDS) and (not w_n_Ram2CS);
+	
+	ram2 : ENTITY work.RAM_32Kx16 -- 64KB (32Kx16)
+		PORT map	(
+			address		=> cpuAddress(15 downto 1),
+			clock			=> i_CLOCK_50,
+			data			=> cpuDataOut,
+			byteena		=> w_WrRam2ByteEn,
+			wren			=> w_wrRam2Strobe,
+			q				=> w_sram2DataOut
+		);
+	
 	-- 1MB External SRAM (can only be addressed as bytes)
-	n_externalRam1CS <= '0' when ((cpuAddress(23 downto 20) = x"2") and ((w_nLDS = '0') or (w_nUDS = '0')))	else	-- x20000-x3fffff (every other location)
+	n_externalRam1CS <= '0' when ((cpuAddress(23 downto 20) = x"3") and ((w_nLDS = '0') or (w_nUDS = '0')))	else	-- x30000-x3fffff (every other location)
 							  '1';
 	sramAddress(19 downto 1) <= cpuAddress(19 downto 1);
 	sramAddress(0) <= w_nLDS;
