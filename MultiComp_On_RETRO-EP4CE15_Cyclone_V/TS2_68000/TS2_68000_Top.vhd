@@ -376,7 +376,7 @@ begin
 	process (i_CLOCK_50)
 		begin
 			if rising_edge(i_CLOCK_50) then
-				if w_cpuCount < 4 then -- 4 = 10MHz, 3 = 12.5MHz, 2=16.6MHz, 1=25MHz
+				if w_cpuCount < 2 then -- 4 = 10MHz, 3 = 12.5MHz, 2=16.6MHz, 1=25MHz
 					w_cpuCount <= w_cpuCount + 1;
 				else
 					w_cpuCount <= (others=>'0');
