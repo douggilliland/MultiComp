@@ -8,9 +8,10 @@
 --		http://land-boards.com/blwiki/index.php?title=QM_Tech_Cyclone_V_FPGA_Board
 -- The main features are:
 --		M68000 CPU
---		Teesite TS2BUG or MECB TUTOR 16KB Monitor ROMs 
---		32KB Internal SRAM
--- 	1 MB External SRAM (byte addressible)
+--		Teesite TS2BUG 3KB or MECB TUTOR 16KB Monitor ROMs 0x008000-0x00FFFF
+--		32KB Internal SRAM 0x000000-0x007FFF
+--		64KB Internal SRAM 0x200000-0x20FFFF
+-- 	1 MB External SRAM 0x300000-0x3FFFFF (byte addressible only)
 --		ANSI Video Display Unit (VDU)
 --			VGA and PS/2
 --		6850 ACIA UART
@@ -100,8 +101,11 @@ architecture struct of TS2_68000_Top is
 	signal w_WrRamByteEn				: std_logic_vector(1 downto 0) := "00";
 	signal w_wrRamStrobe				: std_logic :='0';
 	signal w_n_Ram2CS					: std_logic :='1';
-	signal w_WrRam2ByteEn				: std_logic_vector(1 downto 0) := "00";
-	signal w_wrRam2Strobe				: std_logic :='0';
+	signal w_WrRam2ByteEn			: std_logic_vector(1 downto 0) := "00";
+	signal w_wrRam2Strobe			: std_logic :='0';
+	signal w_n_Ram3CS					: std_logic :='1';
+	signal w_WrRam3ByteEn			: std_logic_vector(1 downto 0) := "00";
+	signal w_wrRam3Strobe			: std_logic :='0';
 	signal w_n_VDUCS					: std_logic :='1';
 	signal w_n_ACIACS					: std_logic :='1';
 	signal n_externalRam1CS			: std_logic :='1';
@@ -110,6 +114,7 @@ architecture struct of TS2_68000_Top is
 	signal w_MonROMData				: std_logic_vector(15 downto 0);
 	signal w_sramDataOut				: std_logic_vector(15 downto 0);
 	signal w_sram2DataOut			: std_logic_vector(15 downto 0);
+	signal w_sram3DataOut			: std_logic_vector(15 downto 0);
 	signal w_extSramDataOut			: std_logic_vector(15 downto 0);
 	signal w_VDUDataOut				: std_logic_vector(7 downto 0);
 	signal w_ACIADataOut				: std_logic_vector(7 downto 0);
@@ -139,10 +144,10 @@ begin
 	IO_PIN(47) <= n_WR;
 	IO_PIN(46) <= w_nLDS;
 	IO_PIN(45) <= w_nUDS;
-	IO_PIN(44) <= w_n_RomCS;
-	IO_PIN(43) <= w_n_RamCS;
-	IO_PIN(42) <= w_n_VDUCS;
-	IO_PIN(41) <= w_n_ACIACS;
+	IO_PIN(44) <= n_externalRam1CS;
+	IO_PIN(43) <= '0';
+	IO_PIN(42) <= '0';
+	IO_PIN(41) <= '0';
 	IO_PIN(40) <= '0';
 	IO_PIN(39) <= '0';
 	IO_PIN(38) <= '0';
@@ -215,6 +220,7 @@ begin
 		w_MonROMData						when w_n_RomCS				= '0' else	-- ROM
 		w_sramDataOut						when w_n_RamCS				= '0' else	-- Internal SRAM
 		w_sram2DataOut						when w_n_Ram2CS			= '0' else	-- Internal SRAM
+		w_sram3DataOut						when w_n_Ram3CS			= '0' else	-- Internal SRAM
 		sramData&sramData			 		when n_externalRam1CS	= '0' else	-- External SRAM (byte access only)
 		x"dead";
 	
@@ -271,19 +277,37 @@ begin
 			q				=> w_sram2DataOut
 		);
 	
+	-- ____________________________________________________________________________________
+	-- 32KB Internal SRAM
+	-- The RAM address input is delayed due to being registered so the gate is the true of the clock not the low level
+	w_n_Ram3CS 			<= '0' when (cpuAddress(23 downto 15) = x"21"&'0')	else	-- x210008-x217fff
+								'1';
+	w_wrRam3Strobe		<= (not n_WR) and (not w_n_Ram3CS) and (w_cpuClock);
+	w_WrRam3ByteEn(1)	<= (not n_WR) and (not w_nUDS) and (not w_n_Ram3CS);
+	w_WrRam3ByteEn(0)	<= (not n_WR) and (not w_nLDS) and (not w_n_Ram3CS);
+	
+	ram3 : ENTITY work.RAM_16Kx16 -- 32KB (16Kx16)
+		PORT map	(
+			address		=> cpuAddress(14 downto 1),
+			clock			=> i_CLOCK_50,
+			data			=> cpuDataOut,
+			byteena		=> w_WrRam3ByteEn,
+			wren			=> w_wrRam3Strobe,
+			q				=> w_sram3DataOut
+		);
+		
 	-- 1MB External SRAM (can only be addressed as bytes)
 	n_externalRam1CS <= '0' when ((cpuAddress(23 downto 20) = x"3") and ((w_nLDS = '0') or (w_nUDS = '0')))	else	-- x30000-x3fffff (every other location)
 							  '1';
 	sramAddress(19 downto 1) <= cpuAddress(19 downto 1);
 	sramAddress(0) <= w_nLDS;
 	sramData <= cpuDataOut(7 downto 0) when ((w_nUDS = '0') and (n_WR = '0')) else 
-					cpuDataOut(7 downto 0)  when ((w_nLDS = '0') and (n_WR = '0')) else
+					cpuDataOut(7 downto 0) when ((w_nLDS = '0') and (n_WR = '0')) else
 					(others => 'Z');
 	
 	n_sRamWE <= n_WR or n_externalRam1CS or (w_nLDS and w_nUDS);
 	n_sRamOE <= (not n_WR) or n_externalRam1CS;
 	n_sRamCS <= n_externalRam1CS;
-
 	
 	-- Route the data to the peripherals
 	w_PeriphData <= 	cpuDataOut(15 downto 8)	when (w_nUDS = '0') else
