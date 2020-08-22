@@ -10,7 +10,8 @@
 --		M68000 CPU
 --		Teesite TS2BUG 3KB or MECB TUTOR 16KB Monitor ROMs 0x008000-0x00FFFF
 --		32KB Internal SRAM 0x000000-0x007FFF
---		64KB Internal SRAM 0x200000-0x20FFFF
+--		64KB External SRAM 0x200000-0x20FFFF
+--		32KB External SRAM 0x210000-0x207FFF
 -- 	1 MB External SRAM 0x300000-0x3FFFFF (byte addressible only)
 --		ANSI Video Display Unit (VDU)
 --			VGA and PS/2
@@ -109,6 +110,8 @@ architecture struct of TS2_68000_Top is
 	signal w_n_VDUCS					: std_logic :='1';
 	signal w_n_ACIACS					: std_logic :='1';
 	signal n_externalRam1CS			: std_logic :='1';
+	signal w_wait_cnt					: std_logic_vector(3 downto 0) := "0000";
+	signal w_cpuclken					: std_logic :='0';
 
 	-- Data sources into CPU
 	signal w_MonROMData				: std_logic_vector(15 downto 0);
@@ -190,11 +193,28 @@ begin
 	-- ____________________________________________________________________________________
 	-- 68000 CPU
 	
+	-- Wait states for external SRAM
+	w_cpuclken <= 	'1' when n_externalRam1CS = '1' else
+						'1' when ((n_externalRam1CS = '0') and (w_wait_cnt >= "0100")) else
+						'0';
+						
+	-- Wait states for external SRAM
+	process (i_CLOCK_50,n_externalRam1CS)
+		begin
+			if rising_edge(i_CLOCK_50) then
+			  if n_externalRam1CS = '0' then
+				  w_wait_cnt <= w_wait_cnt + 1;
+			  else
+					w_wait_cnt <= "0000";
+			  end if;
+			end if;
+		end process;
+	
 	CPU68K : entity work.TG68KdotC_Kernel
 		port map (
 			clk				=> w_cpuClock,
 			nReset			=> w_resetLow,
-			clkena_in		=> '1',
+			clkena_in		=> w_cpuclken,
 			data_in			=> cpuDataIn,
 			IPL				=> "111",
 			IPL_autovector => '0',
@@ -313,7 +333,7 @@ begin
 	w_PeriphData <= 	cpuDataOut(15 downto 8)	when (w_nUDS = '0') else
 							cpuDataOut(7 downto 0)  when (w_nLDS = '0') else
 							x"00";
-	
+							
 	-- ____________________________________________________________________________________
 	-- INPUT/OUTPUT DEVICES
 	-- Grant Searle's VGA driver
@@ -376,12 +396,12 @@ begin
 	process (i_CLOCK_50)
 		begin
 			if rising_edge(i_CLOCK_50) then
-				if w_cpuCount < 2 then -- 4 = 10MHz, 3 = 12.5MHz, 2=16.6MHz, 1=25MHz
+				if w_cpuCount < 1 then -- 4 = 10MHz, 3 = 12.5MHz, 2=16.6MHz, 1=25MHz
 					w_cpuCount <= w_cpuCount + 1;
 				else
 					w_cpuCount <= (others=>'0');
 				end if;
-				if w_cpuCount < 2 then -- 2 when 10MHz, 2 when 12.5MHz, 2 when 16.6MHz, 1 when 25MHz
+				if w_cpuCount < 1 then -- 2 when 10MHz, 2 when 12.5MHz, 2 when 16.6MHz, 1 when 25MHz
 					w_cpuClock <= '0';
 				else
 					w_cpuClock <= '1';
