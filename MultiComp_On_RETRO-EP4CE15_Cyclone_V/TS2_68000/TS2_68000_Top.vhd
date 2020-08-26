@@ -282,6 +282,7 @@ begin
 	-- ____________________________________________________________________________________
 	-- 64KB Internal SRAM
 	-- The RAM address input is delayed due to being registered so the gate is the true of the clock not the low level
+	
 	w_n_Ram2CS 			<= '0' when (cpuAddress(23 downto 16) = x"20")	else	-- x200008-x20ffff
 								'1';
 	w_wrRam2Strobe		<= (not n_WR) and (not w_n_Ram2CS) and (w_cpuClock);
@@ -301,6 +302,7 @@ begin
 	-- ____________________________________________________________________________________
 	-- 32KB Internal SRAM
 	-- The RAM address input is delayed due to being registered so the gate is the true of the clock not the low level
+	
 	w_n_Ram3CS 			<= '0' when (cpuAddress(23 downto 15) = x"21"&'0')	else	-- x210008-x217fff
 								'1';
 	w_wrRam3Strobe		<= (not n_WR) and (not w_n_Ram3CS) and (w_cpuClock);
