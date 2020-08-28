@@ -1,4 +1,5 @@
 -- Jeff Tranter's TS2 in an FPGA
+--		https://jefftranter.blogspot.com/2017/01/building-68000-single-board-computer_14.html
 -- 68K CPU Core Copyright (c) 2009-2013 Tobias Gubener
 -- Documented on Hackaday at:
 --		https://hackaday.io/project/173678-retro-68000-cpu-in-an-fpga
@@ -8,17 +9,25 @@
 --		http://land-boards.com/blwiki/index.php?title=QM_Tech_Cyclone_V_FPGA_Board
 -- The main features are:
 --		M68000 CPU
---		Teesite TS2BUG 3KB or MECB TUTOR 16KB Monitor ROMs 0x008000-0x00FFFF
---		32KB Internal SRAM 0x000000-0x007FFF
---		64KB External SRAM 0x200000-0x20FFFF
---		32KB External SRAM 0x210000-0x207FFF
+--			16.7 MHz
+--			24-bit address space
+--		ROM Monitors
+--			ROM Space reserved 0x008000-0x00FFFF
+--			Teeside TS2BUG 3KB 0x008000-0x00BFFF (16KB used), or
+--			MECB TUTOR 16KB Monitor ROMs 0x008000-0x00BFFF (16KB used)
+--		Internal SRAM
+--			32KB Internal SRAM 0x000000-0x007FFF
+--			64KB Internal SRAM 0x200000-0x20FFFF
+--			32KB Internal SRAM 0x210000-0x217FFF
 -- 	1 MB External SRAM 0x300000-0x3FFFFF (byte addressible only)
 --		ANSI Video Display Unit (VDU)
 --			VGA and PS/2
 --		6850 ACIA UART - USB to Serial
 --			ACIASTAT	= 0x010041
 --			ACIADATA	= 0x010043
---		USB or DC Jack on FPGA board powered
+--		DC power options
+--			USB
+---		DC Jack on FPGA board
 --
 -- Doug Gilliland 2020
 --
@@ -248,7 +257,7 @@ begin
 	-- ____________________________________________________________________________________
 	-- TS2 Monitor ROM
 	
-	w_n_RomCS <=	'0' when (cpuAddress(23 downto 15) = x"00"&'1')		else 		-- x008000-x008FFF (MAIN EPROM)
+	w_n_RomCS <=	'0' when (cpuAddress(23 downto 15) = x"00"&'1')	else 		-- x008000-x00BFFF (MAIN EPROM)
 						'0' when (cpuAddress(23 downto 3) =  x"00000"&'0')	else		-- X000000-X000007 (VECTORS)
 						'1';
 	
