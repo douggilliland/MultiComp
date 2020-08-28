@@ -158,7 +158,7 @@ begin
 	IO_PIN(46) <= w_nLDS;
 	IO_PIN(45) <= w_nUDS;
 	IO_PIN(44) <= n_externalRam1CS;
-	IO_PIN(43) <= '0';
+	IO_PIN(43) <= w_wait_cnt(3);
 	IO_PIN(42) <= '0';
 	IO_PIN(41) <= '0';
 	IO_PIN(40) <= '0';
