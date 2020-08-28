@@ -204,9 +204,7 @@ begin
 	-- 68000 CPU
 	
 	-- Wait states for external SRAM
-	w_cpuclken <= 	'1' when n_externalRam1CS = '1' else
-						'1' when ((n_externalRam1CS = '0') and (w_wait_cnt >= "0100")) else
-						'0';
+	w_cpuclken <= 	n_externalRam1CS or ((not n_externalRam1CS) and w_wait_cnt(3));
 						
 	-- Wait states for external SRAM
 	process (i_CLOCK_50,n_externalRam1CS)
