@@ -1,12 +1,16 @@
 -- Jeff Tranter's TS2 in an FPGA
 --		https://jefftranter.blogspot.com/2017/01/building-68000-single-board-computer_14.html
+--
 -- 68K CPU Core Copyright (c) 2009-2013 Tobias Gubener
+--
 -- Documented on Hackaday at:
 --		https://hackaday.io/project/173678-retro-68000-cpu-in-an-fpga
+--
 -- Baseboard is
 --		http://land-boards.com/blwiki/index.php?title=RETRO-EP4CE15
 -- FPGA board is
 --		http://land-boards.com/blwiki/index.php?title=QM_Tech_Cyclone_V_FPGA_Board
+--
 -- The main features are:
 --		M68000 CPU
 --			16.7 MHz
@@ -159,12 +163,13 @@ begin
 	IO_PIN(45) <= w_nUDS;
 	IO_PIN(44) <= n_externalRam1CS;
 	IO_PIN(43) <= w_wait_cnt(3);
-	IO_PIN(42) <= '0';
-	IO_PIN(41) <= '0';
-	IO_PIN(40) <= '0';
-	IO_PIN(39) <= '0';
-	IO_PIN(38) <= '0';
-	IO_PIN(37) <= '0';
+	IO_PIN(42) <= w_n_RomCS;
+	IO_PIN(41) <= w_n_RamCS;
+	IO_PIN(40) <= w_busstate(0);
+	IO_PIN(39) <= w_busstate(1);
+	IO_PIN(38) <= cpuAddress(15);
+	IO_PIN(37) <= '0' when ((cpuAddress(23 downto 3) =  x"00000"&'0'))	else		-- X000000-X000007 (VECTORS)
+						'1';
 	IO_PIN(36) <= '0';
 	IO_PIN(35) <= '0';
 	IO_PIN(34) <= '0';
@@ -263,8 +268,8 @@ begin
 	-- ____________________________________________________________________________________
 	-- TS2 Monitor ROM
 	
-	w_n_RomCS <=	'0' when (cpuAddress(23 downto 15) = x"00"&'1')	else 		-- x008000-x00BFFF (MAIN EPROM)
-						'0' when (cpuAddress(23 downto 3) =  x"00000"&'0')	else		-- X000000-X000007 (VECTORS)
+	w_n_RomCS <=	'0' when ((cpuAddress(23 downto 15) = x"00"&'1') and ((w_busstate(1) = '1') or (w_busstate(0) = '0')))	else	-- x008000-x00BFFF (MAIN EPROM)
+						'0' when ((cpuAddress(23 downto 3) =  x"00000"&'0'))	else		-- X000000-X000007 (VECTORS)
 						'1';
 	
 	rom1 : entity work.Monitor_68K_ROM -- Monitor 16KB (8Kx16)
@@ -278,7 +283,7 @@ begin
 	-- 32KB Internal SRAM
 	-- The RAM address input is delayed due to being registered so the gate is the true of the clock not the low level
 	
-	w_n_RamCS 			<= '0' when ((w_n_RomCS = '1') and (cpuAddress(23 downto 15) = x"00"&'0'))	else	-- x000008-x007fff
+	w_n_RamCS 			<= '0' when ((w_n_RomCS = '1') and (cpuAddress(23 downto 15) = x"00"&'0') and ((w_busstate(1) = '1') or (w_busstate(0) = '0')))	else	-- x000008-x007fff
 								'1';
 	w_wrRamStrobe		<= (not n_WR) and (not w_n_RamCS) and (w_cpuClock);
 	w_WrRamByteEn(1)	<= (not n_WR) and (not w_nUDS) and (not w_n_RamCS);
@@ -298,7 +303,7 @@ begin
 	-- 64KB Internal SRAM
 	-- The RAM address input is delayed due to being registered so the gate is the true of the clock not the low level
 	
-	w_n_Ram2CS 			<= '0' when (cpuAddress(23 downto 16) = x"20")	else	-- x200008-x20ffff
+	w_n_Ram2CS 			<= '0' when ((cpuAddress(23 downto 16) = x"20")	and ((w_busstate(1) = '1') or (w_busstate(0) = '0'))) else	-- x200008-x20ffff
 								'1';
 	w_wrRam2Strobe		<= (not n_WR) and (not w_n_Ram2CS) and (w_cpuClock);
 	w_WrRam2ByteEn(1)	<= (not n_WR) and (not w_nUDS) and (not w_n_Ram2CS);
@@ -318,7 +323,7 @@ begin
 	-- 32KB Internal SRAM
 	-- The RAM address input is delayed due to being registered so the gate is the true of the clock not the low level
 	
-	w_n_Ram3CS 			<= '0' when (cpuAddress(23 downto 15) = x"21"&'0')	else	-- x210008-x217fff
+	w_n_Ram3CS 			<= '0' when ((cpuAddress(23 downto 15) = x"21"&'0') and ((w_busstate(1) = '1') or (w_busstate(0) = '0')))	else	-- x210008-x217fff
 								'1';
 	w_wrRam3Strobe		<= (not n_WR) and (not w_n_Ram3CS) and (w_cpuClock);
 	w_WrRam3ByteEn(1)	<= (not n_WR) and (not w_nUDS) and (not w_n_Ram3CS);
@@ -335,7 +340,7 @@ begin
 		);
 		
 	-- 1MB External SRAM (can only be accessed as bytes) - no dynamic bus sizin
-	n_externalRam1CS <= '0' when ((cpuAddress(23 downto 20) = x"3") and ((w_nLDS = '0') or (w_nUDS = '0')))	else	-- x30000-x3fffff (every other location)
+	n_externalRam1CS <= '0' when ((cpuAddress(23 downto 20) = x"3") and ((w_nLDS = '0') or (w_nUDS = '0')) and (w_busstate(1) = '1'))	else	-- x30000-x3fffff (every other location)
 							  '1';
 	sramAddress(19 downto 1) <= cpuAddress(19 downto 1);
 	sramAddress(0) <= w_nLDS;
