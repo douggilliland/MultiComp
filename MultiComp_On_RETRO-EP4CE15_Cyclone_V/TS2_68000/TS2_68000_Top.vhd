@@ -218,6 +218,14 @@ begin
 			end if;
 		end process;
 	
+--	waitCount : entity work.GrayCounter
+--		port map (
+--			Clk		=> i_CLOCK_50,
+--			Rst		=> n_externalRam1CS,
+--			En			=> not n_externalRam1CS,
+--			output	=> w_wait_cnt
+--		);
+	
 	CPU68K : entity work.TG68KdotC_Kernel
 		port map (
 			clk				=> w_cpuClock,
@@ -326,7 +334,7 @@ begin
 			q				=> w_sram3DataOut
 		);
 		
-	-- 1MB External SRAM (can only be addressed as bytes)
+	-- 1MB External SRAM (can only be accessed as bytes) - no dynamic bus sizin
 	n_externalRam1CS <= '0' when ((cpuAddress(23 downto 20) = x"3") and ((w_nLDS = '0') or (w_nUDS = '0')))	else	-- x30000-x3fffff (every other location)
 							  '1';
 	sramAddress(19 downto 1) <= cpuAddress(19 downto 1);
