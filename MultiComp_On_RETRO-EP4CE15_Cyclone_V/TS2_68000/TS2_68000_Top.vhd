@@ -268,8 +268,8 @@ begin
 	-- ____________________________________________________________________________________
 	-- TS2 Monitor ROM
 	
-	w_n_RomCS <=	'0' when ((cpuAddress(23 downto 15) = x"00"&'1') and ((w_busstate(1) = '1') or (w_busstate(0) = '0')))	else	-- x008000-x00BFFF (MAIN EPROM)
-						'0' when ((cpuAddress(23 downto 3) =  x"00000"&'0'))	else		-- X000000-X000007 (VECTORS)
+	w_n_RomCS <=	'0' when ((cpuAddress(23 downto 15) = x"00"&'1')    and ((w_busstate(1) = '1') or (w_busstate(0) = '0')))	else	-- x008000-x00BFFF (MAIN EPROM)
+						'0' when ((cpuAddress(23 downto 3) =  x"00000"&'0') and ((w_busstate(1) = '1') or (w_busstate(0) = '0')))	else	-- X000000-X000007 (VECTORS)
 						'1';
 	
 	rom1 : entity work.Monitor_68K_ROM -- Monitor 16KB (8Kx16)
@@ -361,8 +361,8 @@ begin
 	-- INPUT/OUTPUT DEVICES
 	-- Grant Searle's VGA driver
 	
-	w_n_VDUCS <= '0' when ((cpuAddress(23 downto 4) = x"01004") and (w_nUDS = '0') and (serSelect = '1'))	 else -- x01004X - Based on monitor.lst file ACIA address
-					 '0' when ((cpuAddress(23 downto 4) = x"01004") and (w_nLDS = '0') and (serSelect = '0'))	 else 
+	w_n_VDUCS <= '0' when ((cpuAddress(23 downto 4) = x"01004") and (w_nUDS = '0') and (serSelect = '1') and (w_busstate(1) = '1'))	 else -- x01004X - Based on monitor.lst file ACIA address
+					 '0' when ((cpuAddress(23 downto 4) = x"01004") and (w_nLDS = '0') and (serSelect = '0') and (w_busstate(1) = '1'))	 else 
 					 '1';
 	
 	VDU : entity work.SBCTextDisplayRGB
@@ -391,8 +391,8 @@ begin
 	
 	-- Neal Crook's bufferedUART - uses clock enables
 	
-	w_n_ACIACS <= '0' when ((cpuAddress(23 downto 4) = x"01004") and (w_nLDS = '0') and (serSelect = '1')) else -- x01004X - Based on monitor.lst file ACIA address
-					  '0' when ((cpuAddress(23 downto 4) = x"01004") and (w_nUDS = '0') and (serSelect = '0')) else
+	w_n_ACIACS <= '0' when ((cpuAddress(23 downto 4) = x"01004") and (w_nLDS = '0') and (serSelect = '1') and (w_busstate(1) = '1')) else -- x01004X - Based on monitor.lst file ACIA address
+					  '0' when ((cpuAddress(23 downto 4) = x"01004") and (w_nUDS = '0') and (serSelect = '0') and (w_busstate(1) = '1')) else
 					  '1';
 							
 	ACIA : entity work.bufferedUART
