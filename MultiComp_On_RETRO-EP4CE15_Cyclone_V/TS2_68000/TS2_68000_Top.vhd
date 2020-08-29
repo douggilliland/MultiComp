@@ -125,6 +125,7 @@ architecture struct of TS2_68000_Top is
 	signal w_n_ACIACS					: std_logic :='1';
 	signal n_externalRam1CS			: std_logic :='1';
 	signal w_wait_cnt					: std_logic_vector(3 downto 0) := "0000";
+	signal w_grey_cnt					: std_logic_vector(3 downto 0) := "0000";
 	signal w_cpuclken					: std_logic :='0';
 
 	-- Data sources into CPU
@@ -162,14 +163,13 @@ begin
 	IO_PIN(46) <= w_nLDS;
 	IO_PIN(45) <= w_nUDS;
 	IO_PIN(44) <= n_externalRam1CS;
-	IO_PIN(43) <= w_wait_cnt(3);
-	IO_PIN(42) <= w_n_RomCS;
-	IO_PIN(41) <= w_n_RamCS;
-	IO_PIN(40) <= w_busstate(0);
-	IO_PIN(39) <= w_busstate(1);
-	IO_PIN(38) <= cpuAddress(15);
-	IO_PIN(37) <= '0' when ((cpuAddress(23 downto 3) =  x"00000"&'0'))	else		-- X000000-X000007 (VECTORS)
-						'1';
+	IO_PIN(43) <= n_WR or n_externalRam1CS or (w_nLDS and w_nUDS) or (w_grey_cnt(3)); -- n_sRamWE
+	IO_PIN(42) <= (not n_WR) or n_externalRam1CS; 						-- n_sRamOE;
+	IO_PIN(41) <= n_externalRam1CS or ((not w_grey_cnt(1)) and (not w_grey_cnt(2)) and (not w_grey_cnt(3)));	-- n_SRamCS;
+	IO_PIN(40) <= w_grey_cnt(0);
+	IO_PIN(39) <= w_grey_cnt(1);
+	IO_PIN(38) <= w_grey_cnt(2);
+	IO_PIN(37) <= w_grey_cnt(3);
 	IO_PIN(36) <= '0';
 	IO_PIN(35) <= '0';
 	IO_PIN(34) <= '0';
@@ -209,27 +209,27 @@ begin
 	-- 68000 CPU
 	
 	-- Wait states for external SRAM
-	w_cpuclken <= 	n_externalRam1CS or ((not n_externalRam1CS) and w_wait_cnt(3));
+	w_cpuclken <= 	n_externalRam1CS or ((not n_externalRam1CS) and w_grey_cnt(3));
 						
-	-- Wait states for external SRAM
-	process (i_CLOCK_50,n_externalRam1CS)
-		begin
-			if rising_edge(i_CLOCK_50) then
-			  if n_externalRam1CS = '0' then
-				  w_wait_cnt <= w_wait_cnt + 1;
-			  else
-					w_wait_cnt <= "0000";
-			  end if;
-			end if;
-		end process;
+--	-- Wait states for external SRAM
+--	process (i_CLOCK_50,n_externalRam1CS)
+--		begin
+--			if rising_edge(i_CLOCK_50) then
+--			  if n_externalRam1CS = '0' then
+--				  w_wait_cnt <= w_wait_cnt + 1;
+--			  else
+--					w_wait_cnt <= "0000";
+--			  end if;
+--			end if;
+--		end process;
 	
---	waitCount : entity work.GrayCounter
---		port map (
---			Clk		=> i_CLOCK_50,
---			Rst		=> n_externalRam1CS,
---			En			=> not n_externalRam1CS,
---			output	=> w_wait_cnt
---		);
+	waitCount : entity work.GrayCounter
+		port map (
+			Clk		=> i_CLOCK_50,
+			Rst		=> n_externalRam1CS,
+			En			=> not n_externalRam1CS,
+			output	=> w_grey_cnt
+		);
 	
 	CPU68K : entity work.TG68KdotC_Kernel
 		port map (
@@ -340,17 +340,17 @@ begin
 		);
 		
 	-- 1MB External SRAM (can only be accessed as bytes) - no dynamic bus sizin
-	n_externalRam1CS <= '0' when ((cpuAddress(23 downto 20) = x"3") and ((w_nLDS = '0') or (w_nUDS = '0')) and (w_busstate(1) = '1'))	else	-- x30000-x3fffff (every other location)
+	n_externalRam1CS <= '0' when ((cpuAddress(23 downto 20) = x"3") and (w_busstate(1) = '1'))	else	-- x30000-x3fffff
 							  '1';
 	sramAddress(19 downto 1) <= cpuAddress(19 downto 1);
 	sramAddress(0) <= w_nLDS;
-	sramData <= cpuDataOut(7 downto 0) when ((w_nUDS = '0') and (n_WR = '0')) else 
-					cpuDataOut(7 downto 0) when ((w_nLDS = '0') and (n_WR = '0')) else
+	sramData <= cpuDataOut(7 downto 0) when ((n_externalRam1CS = '0') and (w_nUDS = '0') and (n_WR = '0')) else 
+					cpuDataOut(7 downto 0) when ((n_externalRam1CS = '0') and (w_nLDS = '0') and (n_WR = '0')) else
 					(others => 'Z');
-	
-	n_sRamWE <= n_WR or n_externalRam1CS or (w_nLDS and w_nUDS);
+
+	n_sRamWE <= n_WR or n_externalRam1CS or (w_nLDS and w_nUDS) or (w_grey_cnt(3));
 	n_sRamOE <= (not n_WR) or n_externalRam1CS;
-	n_sRamCS <= n_externalRam1CS;
+	n_sRamCS <= n_externalRam1CS or ((not w_grey_cnt(1)) and (not w_grey_cnt(2)) and (not w_grey_cnt(3)));
 	
 	-- Route the data to the peripherals
 	w_PeriphData <= 	cpuDataOut(15 downto 8)	when (w_nUDS = '0') else
