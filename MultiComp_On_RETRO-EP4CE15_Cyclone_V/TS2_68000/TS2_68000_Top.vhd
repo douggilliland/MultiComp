@@ -101,6 +101,7 @@ architecture struct of TS2_68000_Top is
 	signal n_WR							: std_logic;
 	signal w_nUDS      				: std_logic;
 	signal w_nLDS      				: std_logic;
+	signal w_buserr     				: std_logic;
 	signal w_busstate      			: std_logic_vector(1 downto 0);
 	signal w_nResetOut      		: std_logic;
 	signal w_FC      					: std_logic_vector(2 downto 0);
@@ -115,6 +116,9 @@ architecture struct of TS2_68000_Top is
 	signal w_n_RamCS					: std_logic :='1';
 	signal w_WrRamByteEn				: std_logic_vector(1 downto 0) := "00";
 	signal w_wrRamStrobe				: std_logic :='0';
+	signal w_n_RamCCS					: std_logic :='1';
+	signal w_WrRamCByteEn			: std_logic_vector(1 downto 0) := "00";
+	signal w_wrRamCStrobe			: std_logic :='0';
 	signal w_n_Ram2CS					: std_logic :='1';
 	signal w_WrRam2ByteEn			: std_logic_vector(1 downto 0) := "00";
 	signal w_wrRam2Strobe			: std_logic :='0';
@@ -124,13 +128,13 @@ architecture struct of TS2_68000_Top is
 	signal w_n_VDUCS					: std_logic :='1';
 	signal w_n_ACIACS					: std_logic :='1';
 	signal n_externalRam1CS			: std_logic :='1';
-	signal w_wait_cnt					: std_logic_vector(3 downto 0) := "0000";
 	signal w_grey_cnt					: std_logic_vector(3 downto 0) := "0000";
 	signal w_cpuclken					: std_logic :='0';
 
 	-- Data sources into CPU
 	signal w_MonROMData				: std_logic_vector(15 downto 0);
 	signal w_sramDataOut				: std_logic_vector(15 downto 0);
+	signal w_sramCDataOut				: std_logic_vector(15 downto 0);
 	signal w_sram2DataOut			: std_logic_vector(15 downto 0);
 	signal w_sram3DataOut			: std_logic_vector(15 downto 0);
 	signal w_extSramDataOut			: std_logic_vector(15 downto 0);
@@ -162,10 +166,10 @@ begin
 	IO_PIN(47) <= n_WR;
 	IO_PIN(46) <= w_nLDS;
 	IO_PIN(45) <= w_nUDS;
-	IO_PIN(44) <= n_externalRam1CS;
-	IO_PIN(43) <= n_WR or n_externalRam1CS or (w_nLDS and w_nUDS) or (w_grey_cnt(3)); -- n_sRamWE
-	IO_PIN(42) <= (not n_WR) or n_externalRam1CS; 						-- n_sRamOE;
-	IO_PIN(41) <= n_externalRam1CS or ((not w_grey_cnt(1)) and (not w_grey_cnt(2)) and (not w_grey_cnt(3)));	-- n_SRamCS;
+	IO_PIN(44) <= w_resetLow;
+	IO_PIN(43) <= w_n_RomCS;
+	IO_PIN(42) <= cpuAddress(14);
+	IO_PIN(41) <= cpuAddress(15);
 	IO_PIN(40) <= w_grey_cnt(0);
 	IO_PIN(39) <= w_grey_cnt(1);
 	IO_PIN(38) <= w_grey_cnt(2);
@@ -210,18 +214,6 @@ begin
 	
 	-- Wait states for external SRAM
 	w_cpuclken <= 	n_externalRam1CS or ((not n_externalRam1CS) and w_grey_cnt(3));
-						
---	-- Wait states for external SRAM
---	process (i_CLOCK_50,n_externalRam1CS)
---		begin
---			if rising_edge(i_CLOCK_50) then
---			  if n_externalRam1CS = '0' then
---				  w_wait_cnt <= w_wait_cnt + 1;
---			  else
---					w_wait_cnt <= "0000";
---			  end if;
---			end if;
---		end process;
 	
 	waitCount : entity work.GrayCounter
 		port map (
@@ -230,6 +222,10 @@ begin
 			En			=> not n_externalRam1CS,
 			output	=> w_grey_cnt
 		);
+		
+	w_buserr <= '0';
+					--'1' when ((cpuAddress(23 downto 14) = x"00"&"11") and ((w_nUDS = '0') or (w_nLDS = '0'))) else
+					--'0';
 	
 	CPU68K : entity work.TG68KdotC_Kernel
 		port map (
@@ -239,7 +235,7 @@ begin
 			data_in			=> cpuDataIn,
 			IPL				=> "111",
 			IPL_autovector => '0',
-			berr				=> '0',
+			berr				=> w_buserr,
 			CPU				=> "00",				-- 68000 CPU
 			addr				=> cpuAddress,
 			data_write		=> cpuDataOut,
@@ -259,6 +255,7 @@ begin
 		w_VDUDataOut  & w_VDUDataOut	when w_n_VDUCS 			= '0' else	-- Copy 8-bit peripheral reads to both halves of the data bus
 		w_ACIADataOut & w_ACIADataOut	when w_n_ACIACS			= '0' else	-- Copy 8-bit peripheral reads to both halves of the data bus
 		w_MonROMData						when w_n_RomCS				= '0' else	-- ROM
+		w_sramCDataOut						when w_n_RamCCS			= '0' else	-- Internal SRAM
 		w_sramDataOut						when w_n_RamCS				= '0' else	-- Internal SRAM
 		w_sram2DataOut						when w_n_Ram2CS			= '0' else	-- Internal SRAM
 		w_sram3DataOut						when w_n_Ram3CS			= '0' else	-- Internal SRAM
@@ -268,7 +265,7 @@ begin
 	-- ____________________________________________________________________________________
 	-- TS2 Monitor ROM
 	
-	w_n_RomCS <=	'0' when ((cpuAddress(23 downto 15) = x"00"&'1')    and ((w_busstate(1) = '1') or (w_busstate(0) = '0')))	else	-- x008000-x00BFFF (MAIN EPROM)
+	w_n_RomCS <=	'0' when ((cpuAddress(23 downto 14) = x"00"&"10")   and ((w_busstate(1) = '1') or (w_busstate(0) = '0')))	else	-- x008000-x00BFFF (MAIN EPROM)
 						'0' when ((cpuAddress(23 downto 3) =  x"00000"&'0') and ((w_busstate(1) = '1') or (w_busstate(0) = '0')))	else	-- X000000-X000007 (VECTORS)
 						'1';
 	
@@ -278,6 +275,26 @@ begin
 			clock		=> i_CLOCK_50,
 			q			=> w_MonROMData
 		);
+
+	-- ____________________________________________________________________________________
+	-- 16KB Internal SRAM
+	-- The RAM address input is delayed due to being registered so the gate is the true of the clock not the low level
+	
+	w_n_RamCCS 			<= '0' when ((cpuAddress(23 downto 14) = x"00"&"11")	and ((w_busstate(1) = '1') or (w_busstate(0) = '0'))) else	-- x00C000-x00ffff
+								'1';
+	w_wrRamCStrobe		<= (not n_WR) and (not w_n_RamCCS) and (w_cpuClock);
+	w_WrRamCByteEn(1)	<= (not n_WR) and (not w_nUDS) and (not w_n_RamCCS);
+	w_WrRamCByteEn(0)	<= (not n_WR) and (not w_nLDS) and (not w_n_RamCCS);
+	
+	ramC000: ENTITY work.RAM_8Kx16
+	PORT map (
+		address		=> cpuAddress(13 downto 1),
+		byteena		=> w_WrRamCByteEn,
+		clock			=> i_CLOCK_50,
+		data			=> cpuDataOut,
+		wren			=> w_wrRamCStrobe,
+		q				=> w_sramCDataOut
+	);
 	
 	-- ____________________________________________________________________________________
 	-- 32KB Internal SRAM
