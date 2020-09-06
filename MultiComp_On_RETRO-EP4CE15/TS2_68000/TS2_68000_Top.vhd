@@ -1,7 +1,7 @@
 -- Jeff Tranter's TS2 in an FPGA
 --		https://jefftranter.blogspot.com/2017/01/building-68000-single-board-computer_14.html
 --
--- 68K CU Core Copyright (c) 2009-2013 Tobias Gubener        
+-- 68K CPU Core Copyright (c) 2009-2013 Tobias Gubener        
 --
 -- Documented on Hackaday at:
 --		https://hackaday.io/project/173678-retro-68000-cpu-in-an-fpga
@@ -24,6 +24,9 @@
 -- 	1 MB External SRAM 0x300000-0x3FFFFF (byte addressible only)
 --		ANSI Video Display Unit (VDU)
 --			VGA and PS/2
+--			Appears as a 6850 ACIA interface
+--			VDUSTAT	= 0x010041
+--			VDUDATA	= 0x010043
 --		6850 ACIA UART - USB to Serial
 --			ACIASTAT	= 0x010041
 --			ACIADATA	= 0x010043
@@ -82,11 +85,11 @@ entity TS2_68000_Top is
 		sdRamData	: in std_logic_vector(15 downto 0);
 		
 		-- SD Card not used but making sure that it's not active
-		sdCS			: out std_logic := '1';
-		sdMOSI		: out std_logic := '1';
-		sdMISO		: in std_logic := '1';
-		sdSCLK		: out std_logic := '1';
-		driveLED		: out std_logic :='1'		-- D5 LED
+		sdCS			: out std_logic	:= '1';
+		sdMOSI		: out std_logic	:= '1';
+		sdMISO		: in std_logic		:= '1';
+		sdSCLK		: out std_logic	:= '1';
+		driveLED		: out std_logic	:='1'		-- D5 LED
 	);
 end TS2_68000_Top;
 
