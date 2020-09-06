@@ -1,0 +1,101 @@
+# Released under the 3-Clause BSD License:
+#
+# Copyright 2010-2019 Matthew Hagerty (matthew <at> dnotq <dot> io)
+#
+# Redistribution and use in source and binary forms, with or without
+# modification, are permitted provided that the following conditions are met:
+#
+# 1. Redistributions of source code must retain the above copyright notice,
+# this list of conditions and the following disclaimer.
+#
+# 2. Redistributions in binary form must reproduce the above copyright
+# notice, this list of conditions and the following disclaimer in the
+# documentation and/or other materials provided with the distribution.
+#
+# 3. Neither the name of the copyright holder nor the names of its
+# contributors may be used to endorse or promote products derived from this
+# software without specific prior written permission.
+#
+# THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+# AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+# IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+# ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE
+# LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+# CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
+# SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
+# INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
+# CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
+# ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
+# POSSIBILITY OF SUCH DAMAGE.
+
+# Matthew Hagerty
+# Dec 11, 2011
+#
+# Pin assignments for XULA2-LX25 board.
+
+
+TIMESPEC TS_clk = PERIOD clk_ref_grp 12MHz HIGH 50%;
+NET clk_12m0_net TNM_NET = clk_ref_grp;
+NET clk_12m0_net LOC = A9;
+NET clk_12m0_net IOSTANDARD = LVTTL;
+
+#
+# SDRAM
+#
+
+NET sdram_cke_net      LOC = J12;
+NET sdram_clk_net      LOC = K11; # Clock to SDRAM (input), 100MHz
+NET sdram_clkfb_net    LOC = K12; # Clock feedback to FPGA to use as main clock to keep sync
+NET sdram_ce_net       LOC = H4;
+NET sdram_ras_net      LOC = L4;
+NET sdram_cas_net      LOC = L3;
+NET sdram_we_net       LOC = M3;
+NET sdram_dqml_net     LOC = M4;
+NET sdram_dqmh_net     LOC = L13;
+NET sdram_bs_net<0>    LOC = H3;
+NET sdram_bs_net<1>    LOC = G3;
+
+NET sdram_addr_net<0>  LOC = E4;
+NET sdram_addr_net<1>  LOC = E3;
+NET sdram_addr_net<2>  LOC = D3;
+NET sdram_addr_net<3>  LOC = C3;
+NET sdram_addr_net<4>  LOC = B12;
+NET sdram_addr_net<5>  LOC = A12;
+NET sdram_addr_net<6>  LOC = D12;
+NET sdram_addr_net<7>  LOC = E12;
+NET sdram_addr_net<8>  LOC = G16;
+NET sdram_addr_net<9>  LOC = G12;
+NET sdram_addr_net<10> LOC = F4;
+NET sdram_addr_net<11> LOC = G11;
+NET sdram_addr_net<12> LOC = H13;
+
+NET sdram_dio_net<0>   LOC = P6;
+NET sdram_dio_net<1>   LOC = T6;
+NET sdram_dio_net<2>   LOC = T5;
+NET sdram_dio_net<3>   LOC = P5;
+NET sdram_dio_net<4>   LOC = R5;
+NET sdram_dio_net<5>   LOC = N5;
+NET sdram_dio_net<6>   LOC = P4;
+NET sdram_dio_net<7>   LOC = N4;
+NET sdram_dio_net<8>   LOC = P12;
+NET sdram_dio_net<9>   LOC = R12;
+NET sdram_dio_net<10>  LOC = T13;
+NET sdram_dio_net<11>  LOC = T14;
+NET sdram_dio_net<12>  LOC = R14;
+NET sdram_dio_net<13>  LOC = T15;
+NET sdram_dio_net<14>  LOC = T12;
+NET sdram_dio_net<15>  LOC = P11;
+
+# I/O drive levels
+NET sdram_clk_net      IOSTANDARD = LVTTL | SLEW=FAST | DRIVE=8;
+NET sdram_clkfb_net    IOSTANDARD = LVTTL;
+net sdram_cke_net      IOSTANDARD = LVTTL;
+net sdram_ce_net       IOSTANDARD = LVTTL;
+NET sdram_addr_net*    IOSTANDARD = LVTTL | SLEW=SLOW | DRIVE=6;
+NET sdram_bs_net*      IOSTANDARD = LVTTL | SLEW=SLOW | DRIVE=6;
+NET sdram_ras_net      IOSTANDARD = LVTTL | SLEW=SLOW | DRIVE=6;
+NET sdram_cas_net      IOSTANDARD = LVTTL | SLEW=SLOW | DRIVE=6;
+NET sdram_we_net       IOSTANDARD = LVTTL | SLEW=SLOW | DRIVE=6;
+NET sdram_dio_net*     IOSTANDARD = LVTTL | SLEW=SLOW | DRIVE=6;
+NET sdram_dqmh_net     IOSTANDARD = LVTTL | SLEW=SLOW | DRIVE=6;
+NET sdram_dqml_net     IOSTANDARD = LVTTL | SLEW=SLOW | DRIVE=6;
