@@ -21,8 +21,6 @@
 --			MECB TUTOR 16KB Monitor ROMs 0x008000-0x00BFFF (16KB used)
 --		Internal SRAM
 --			32KB Internal SRAM 0x000000-0x007FFF
---			64KB Internal SRAM 0x200000-0x20FFFF
---			32KB Internal SRAM 0x210000-0x217FFF
 -- 	1 MB External SRAM 0x300000-0x3FFFFF (byte addressible only)
 --		ANSI Video Display Unit (VDU)
 --			VGA and PS/2
@@ -227,13 +225,13 @@ begin
 	-- ____________________________________________________________________________________
 	-- TS2 Monitor ROM
 	
-	w_n_RomCS <=	'0' when (cpuAddress(23 downto 12) = x"008")			else 		-- x008000-x008FFF (MAIN EPROM)
-						'0' when (cpuAddress(23 downto 3) =  x"00000"&'0')	else		-- X000000-X000007 (VECTORS)
+	w_n_RomCS <=	'0' when ((cpuAddress(23 downto 14) = x"00"&"10")   and ((w_busstate(1) = '1') or (w_busstate(0) = '0')))	else	-- x008000-x00BFFF (MAIN EPROM)
+						'0' when ((cpuAddress(23 downto 3) =  x"00000"&'0') and ((w_busstate(1) = '1') or (w_busstate(0) = '0')))	else	-- X000000-X000007 (VECTORS)
 						'1';
 	
 	rom1 : entity work.Monitor_68K_ROM -- Monitor
 		port map (
-			address 	=> cpuAddress(11 downto 1),
+			address 	=> cpuAddress(13 downto 1),
 			clock		=> i_CLOCK_50,
 			q			=> w_MonROMData
 		);
