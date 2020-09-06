@@ -41,7 +41,7 @@ set_global_assignment -name DEVICE EP4CE15F23C8
 set_global_assignment -name TOP_LEVEL_ENTITY TS2_68000_Top
 set_global_assignment -name ORIGINAL_QUARTUS_VERSION 18.1.0
 set_global_assignment -name PROJECT_CREATION_TIME_DATE "07:21:26  JULY 04, 2020"
-set_global_assignment -name LAST_QUARTUS_VERSION "18.1.0 Lite Edition"
+set_global_assignment -name LAST_QUARTUS_VERSION "20.1.0 Lite Edition"
 set_global_assignment -name PROJECT_OUTPUT_DIRECTORY output_files
 set_global_assignment -name MIN_CORE_JUNCTION_TEMP 0
 set_global_assignment -name MAX_CORE_JUNCTION_TEMP 85
@@ -349,6 +349,7 @@ set_global_assignment -name CYCLONEII_RESERVE_NCEO_AFTER_CONFIGURATION "USE AS R
 set_global_assignment -name RESERVE_DATA1_AFTER_CONFIGURATION "USE AS REGULAR IO"
 set_global_assignment -name RESERVE_DATA0_AFTER_CONFIGURATION "USE AS REGULAR IO"
 set_global_assignment -name RESERVE_DCLK_AFTER_CONFIGURATION "USE AS REGULAR IO"
+set_global_assignment -name VHDL_FILE "../../MultiComp (VHDL Template)/Components/COUNTER/n-bit-gray-counter.vhd"
 set_global_assignment -name VHDL_FILE "../../MultiComp (VHDL Template)/Components/Debounce/LongDebounce/debounce.vhd"
 set_global_assignment -name VHDL_FILE Components/RAM_16Kx16.vhd
 set_global_assignment -name VHDL_FILE Components/RAM_4Kx16.vhd
@@ -366,4 +367,16 @@ set_global_assignment -name VHDL_FILE "../../MultiComp (VHDL Template)/Component
 set_global_assignment -name VHDL_FILE TS2_68000_Top.vhd
 set_global_assignment -name QIP_FILE Components/Monitor_68K_ROM.qip
 set_global_assignment -name QIP_FILE Components/RAM_8Kx16.qip
+set_location_assignment PIN_B19 -to sdCS
+set_location_assignment PIN_A20 -to sdMISO
+set_location_assignment PIN_A19 -to sdMOSI
+set_location_assignment PIN_B20 -to sdSCLK
+set_location_assignment PIN_E4 -to driveLED
+set_location_assignment PIN_A13 -to cts1
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to cts1
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to sdSCLK
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to sdMOSI
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to sdMISO
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to sdCS
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to driveLED
 set_instance_assignment -name PARTITION_HIERARCHY root_partition -to | -section_id Top

@@ -66,7 +66,7 @@ entity TS2_68000_Top is
 		
 		IO_PIN		: out std_logic_vector(48 downto 3);
 		
-		-- External SRAM Not used but assigning pins so it's not active
+		-- External SRAM
 		sramData		: inout std_logic_vector(7 downto 0);
 		sramAddress	: out std_logic_vector(19 downto 0);
 		n_sRamWE		: out std_logic := '1';
