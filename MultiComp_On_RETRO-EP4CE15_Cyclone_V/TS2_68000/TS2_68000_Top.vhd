@@ -24,14 +24,14 @@
 --			64KB Internal SRAM 0x200000-0x20FFFF
 --			32KB Internal SRAM 0x210000-0x217FFF
 -- 	1 MB External SRAM 0x300000-0x3FFFFF (byte addressible only)
---		ANSI Video Display Unit (VDU)
---			VGA and PS/2
---		6850 ACIA UART - USB to Serial
---			ACIASTAT	= 0x010041
---			ACIADATA	= 0x010043
---		DC power options
---			USB
----		DC Jack on FPGA board
+--	ANSI Video Display Unit (VDU)
+--		VGA and PS/2
+--	6850 ACIA UART - USB to Serial
+--		ACIASTAT	= 0x010041
+--		ACIADATA	= 0x010043
+--	DC power options
+--		USB
+---	DC Jack on FPGA board
 --
 -- Doug Gilliland 2020
 --

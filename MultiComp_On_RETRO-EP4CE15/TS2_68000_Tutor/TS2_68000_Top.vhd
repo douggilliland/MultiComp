@@ -3,6 +3,40 @@
 --
 -- Doug Gilliland 2020
 --
+-- Documented on Hackaday at:
+--		https://hackaday.io/project/173678-retro-68000-cpu-in-an-fpga
+--
+-- Baseboard is
+--		http://land-boards.com/blwiki/index.php?title=RETRO-EP4CE15
+-- FPGA board is
+--		http://land-boards.com/blwiki/index.php?title=QMTECH_EP4CE15_FPGA_Card
+--
+-- The main features are:
+--		M68000 CPU
+--			16.7 MHz
+--			24-bit address space
+--		ROM Monitors
+--			ROM Space reserved 0x008000-0x00FFFF
+--			Teeside TS2BUG 3KB 0x008000-0x00BFFF (16KB used), or
+--			MECB TUTOR 16KB Monitor ROMs 0x008000-0x00BFFF (16KB used)
+--		Internal SRAM
+--			32KB Internal SRAM 0x000000-0x007FFF
+--			64KB Internal SRAM 0x200000-0x20FFFF
+--			32KB Internal SRAM 0x210000-0x217FFF
+-- 	1 MB External SRAM 0x300000-0x3FFFFF (byte addressible only)
+--	ANSI Video Display Unit (VDU)
+--		VGA and PS/2
+--	6850 ACIA UART - USB to Serial
+--		ACIASTAT	= 0x010041
+--		ACIADATA	= 0x010043
+--	DC power options
+--		USB
+---	DC Jack on FPGA board
+--
+-- Doug Gilliland 2020
+--
+
+
 
 library ieee;
 use ieee.std_logic_1164.all;
