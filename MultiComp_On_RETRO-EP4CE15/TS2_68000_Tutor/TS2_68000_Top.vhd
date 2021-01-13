@@ -24,19 +24,17 @@
 --			64KB Internal SRAM 0x200000-0x20FFFF
 --			32KB Internal SRAM 0x210000-0x217FFF
 -- 	1 MB External SRAM 0x300000-0x3FFFFF (byte addressible only)
---	ANSI Video Display Unit (VDU)
---		VGA and PS/2
---	6850 ACIA UART - USB to Serial
---		ACIASTAT	= 0x010041
---		ACIADATA	= 0x010043
---	DC power options
---		USB
----	DC Jack on FPGA board
+--		ANSI Video Display Unit (VDU)
+--			VGA and PS/2
+--		6850 ACIA UART - USB to Serial
+--			ACIASTAT	= 0x010041
+--			ACIADATA	= 0x010043
+--		DC power options
+--			USB
+---		DC Jack on FPGA board
 --
 -- Doug Gilliland 2020
 --
-
-
 
 library ieee;
 use ieee.std_logic_1164.all;
@@ -52,7 +50,7 @@ entity TS2_68000_Top is
 		txd1			: out std_logic;
 		cts1			: in std_logic := '0';		-- Does not work with TUTOR and LOad S record command
 		rts1			: out std_logic;
-		serSelect	: in std_logic := '1';		-- J3-1 - pull to adjacent ground pin withe shunt or remove
+		serSelect	: in std_logic := '1';		-- J3-1 - pull to adjacent ground pin with A shunt or remove
 		
 		videoR0		: out std_logic := '1';
 		videoG0		: out std_logic := '1';
@@ -62,12 +60,11 @@ entity TS2_68000_Top is
 		videoB1		: out std_logic := '1';
 		hSync			: out std_logic := '1';
 		vSync			: out std_logic := '1';
-
+		
 		ps2Clk		: inout std_logic;
 		ps2Data		: inout std_logic;
 		
 		IO_PIN		: out std_logic_vector(48 downto 3);		-- Used for debugging
-		
 		
 		-- External SRAM Not used but assigning pins so it's not active
 		extSramData		: inout std_logic_vector(7 downto 0);
@@ -208,8 +205,7 @@ begin
 		w_iack <= '1' when ((w_FC = "111") and (w_cpuAddress(3 downto 1) = "101") and ((w_nUDS = '0') or (w_nLDS = '0'))) else		-- IRQ = 5
 					 '1' when ((w_FC = "111") and (w_cpuAddress(3 downto 1) = "110") and ((w_nUDS = '0') or (w_nLDS = '0'))) else		-- IRQ = 6
 					 '0';
-		
-					
+							
 	-- ____________________________________________________________________________________
 	-- BUS ISOLATION
 
