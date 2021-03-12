@@ -46,7 +46,7 @@
 -- * PIN3 is output: SD DRIVE LED
 -- * PIN7 is output LED (unused)
 -- * PIN9 is output LED (unused.. echoes back the state of input pin 48
--- * vduffd0 (pin 48) is input, selects I/O assignment:
+-- * vduffd0 (pin ) is input, selects I/O assignment:
 --   OFF: PS2/VGA is UART0 at address $FFD0-$FFD1, SERIALA is UART1 at $FFD2-$FFD3
 --   ON : PS2/VGA is UART0 at address $FFD2-$FFD3, SERIALA is UART1 at $FFD0-$FFD1
 --
@@ -452,16 +452,16 @@ begin
 -- ____________________________________________________________________________________
 -- BUS ISOLATION GOES HERE
 
-    cpuDataIn <=
-                        interface1DataOut    when n_interface1CS = '0' else
-                        interface2DataOut    when n_interface2CS = '0' else
-                        gpioDataOut          when n_gpioCS = '0'       else
-                        sdCardDataOut or mmDataOut  when n_sdCardCS = '0' else
-                        basRomData           when n_basRomCS = '0' else
-                        internalRam1DataOut when n_internalRam1CS= '0' else
-                        sramData;
+	cpuDataIn <=
+		interface1DataOut				when n_interface1CS = '0' else
+		interface2DataOut				when n_interface2CS = '0' else
+		gpioDataOut						when n_gpioCS = '0'       else
+		sdCardDataOut or mmDataOut	when n_sdCardCS = '0' else
+		basRomData						when n_basRomCS = '0' else
+		internalRam1DataOut			when n_internalRam1CS= '0' else
+		sramData;
 
--- ____________________________________________________________________________________
+		-- ____________________________________________________________________________________
 -- SYSTEM CLOCKS GO HERE
 
 
