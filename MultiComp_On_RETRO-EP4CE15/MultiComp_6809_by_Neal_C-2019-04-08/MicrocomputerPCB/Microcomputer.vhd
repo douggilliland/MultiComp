@@ -104,10 +104,9 @@ entity Microcomputer is
 		vduffd0     : in std_logic;
 
 		sramData        : inout std_logic_vector(7 downto 0);
-		sramAddress     : out std_logic_vector(19 downto 0); -- 18:0 -> 512KByte
+		sramAddress     : out std_logic_vector(19 downto 0); -- 19:0 -> 1MByte
 		n_sRamWE        : out std_logic;
 		n_sRamCS        : out std_logic;                     -- lower blocks
-		--        n_sRamCS2       : out std_logic;                     -- upper blocks
 		n_sRamOE        : out std_logic;
 
 		-- Not using the SD RAM but making sure that it's not active
@@ -255,9 +254,8 @@ begin
 -- RAM GOES HERE
 
 -- Assign to pins. Set the address width to match external RAM/pin assignments
-    sramAddress(19 downto 0) <= '0'&sramAddress_i(18 downto 0);
+    sramAddress(19 downto 0) <= '0'&sramAddress_i(18 downto 0);	-- Uses 512KB
     n_sRamCS  <= n_sRamCSLo_i;
---    n_sRamCS2  <= n_sRamCSHi_i;
 
 -- External RAM - high-order address lines come from the mem_mapper
     sramAddress_i(12 downto 0) <= cpuAddress(12 downto 0);
@@ -310,28 +308,31 @@ begin
             dataIn => cpuDataOut,
             dataOut => interface1DataOut,
             ps2Clk => ps2Clk,
-            ps2Data => ps2Data);
+            ps2Data => ps2Data
+				);
 
 
     n_WR_uart <= n_interface2CS or n_WR;
     n_RD_uart <= n_interface2CS or n_RD;
 
-    io2 : entity work.bufferedUART
-    port map(
-            clk => clk,
-            n_wr => n_WR_uart,
-            n_rd => n_RD_uart,
-            n_int => n_int2,
-            regSel => cpuAddress(0),
-            dataIn => cpuDataOut,
-            dataOut => interface2DataOut,
-            rxClkEn => serialClkEn,
-            txClkEn => serialClkEn,
-            rxd => rxd1,
-            txd => txd1,
-            n_cts => cts1,
-            n_dcd => '0',
-            n_rts => rts1);
+	io2 : entity work.bufferedUART
+		port map
+		(
+			clk => clk,
+			n_wr => n_WR_uart,
+			n_rd => n_RD_uart,
+			n_int => n_int2,
+			regSel => cpuAddress(0),
+			dataIn => cpuDataOut,
+			dataOut => interface2DataOut,
+			rxClkEn => serialClkEn,
+			txClkEn => serialClkEn,
+			rxd => rxd1,
+			txd => txd1,
+			n_cts => cts1,
+			n_dcd => '0',
+			n_rts => rts1
+		);
 
     n_WR_sd <= n_sdCardCS or n_WR;
     n_RD_sd <= n_sdCardCS or n_RD;
