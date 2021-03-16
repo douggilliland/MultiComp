@@ -188,30 +188,30 @@ use ieee.numeric_std.all;
 
 entity mem_mapper2 is
 port (
-        n_reset : in std_logic;
-        clk     : in std_logic;
-        hold    : in std_logic;
+        n_reset		: in std_logic;
+        clk				: in std_logic;
+        hold			: in std_logic;
         -- conditioned with chip select externally
-        n_wr    : in std_logic;
-        dataIn  : in std_logic_vector(7 downto 0);
-        dataOut : out std_logic_vector(7 downto 0);
+        n_wr			: in std_logic;
+        dataIn			: in std_logic_vector(7 downto 0);
+        dataOut		: out std_logic_vector(7 downto 0);
         -- select internal control register
-        regAddr : in std_logic_vector(2 downto 0);
+        regAddr		: in std_logic_vector(2 downto 0);
         -- incoming CPU address to decode
-        cpuAddr : in std_logic_vector(15 downto 9);
-        -- high-order lines to external RAM - upto 512x8.
-        ramAddr : out std_logic_vector(18 downto 13);
-        -- RAM chip select - upto 2 devices.
---        n_ramCSHi : out std_logic;
-        n_ramCSLo : out std_logic;
-        ramWrInhib : out std_logic;
-        romInhib   : out std_logic;
+        cpuAddr		: in std_logic_vector(15 downto 9);
+		  
+        -- high-order lines to external RAM - upto 1MB
+        ramAddr		: out std_logic_vector(19 downto 13);
+        -- RAM chip select
+        n_ramCSLo 	: out std_logic;
+        ramWrInhib	: out std_logic;
+        romInhib		: out std_logic;
         -- timer interrupt
-        n_tint  : out std_logic;
+        n_tint			: out std_logic;
         -- single-step interrupt
-        nmi     : out std_logic;
+        nmi				: out std_logic;
         -- for debug
-        frt  : out std_logic
+        frt				: out std_logic
 );
 
 end mem_mapper2;
@@ -264,14 +264,13 @@ architecture rtl of mem_mapper2 is
 
 begin
   -- outputs
-  ramAddr <= val(5 downto 0);
---  n_ramCSHi <= not val(6);
-  n_ramCSLo <= val(6);
-  ramWrInhib <= val(7);
-  n_tint <= n_tint_i;
-  nmi <= nmi_i;
-  romInhib <= romInhib_i;
-  frt <= frt_i;
+	ramAddr <= val(6 downto 0);
+	n_ramCSLo <= '0';
+	ramWrInhib <= val(7);
+	n_tint <= n_tint_i;
+	nmi <= nmi_i;
+	romInhib <= romInhib_i;
+	frt <= frt_i;
 
   index <= tr & cpuAddr(15 downto 13);
   tstat <= not n_tint_i & "00000" & tenable & '0';

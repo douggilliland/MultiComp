@@ -13,7 +13,7 @@
 -- Grant Searle
 -- eMail address available on my main web page link above.
 --
--- Modifications to Grant's original design by foofoobedoo@gmail.com
+-- Neal Crook's modifications to Grant's original design
 -- In summary:
 -- * Deploy 6809 modified to use async active-low reset, posedge clock
 -- * Clock 6809 from master (50MHz) clock and control execution rate by
@@ -43,20 +43,14 @@
 --   * Includes a NMI generator for code single-step
 --   For detailed description and programming details, refer to the
 --   detailed comments in the header of mem_mapper2.vhd)
--- * PIN3 is output: SD DRIVE LED
--- * PIN7 is output LED (unused)
--- * PIN9 is output LED (unused.. echoes back the state of input pin 48
--- * vduffd0 (pin ) is input, selects I/O assignment:
+-- * PIN_E4 is output: SD DRIVE LED
+-- * N/C is output LED (unused)
+-- * N/C is output LED (unused.. echoes back the state of input
+-- * vduffd0 (PIN_B22) is input, switches I/O assignment: J3:1-2
 --   OFF: PS2/VGA is UART0 at address $FFD0-$FFD1, SERIALA is UART1 at $FFD2-$FFD3
 --   ON : PS2/VGA is UART0 at address $FFD2-$FFD3, SERIALA is UART1 at $FFD0-$FFD1
 --
--- The pin assignments here are designed to match up with James Moxham's
--- multicomp PCB. The support for devices on that PCB is summaried below:
--- LED pin 3  - connected, controlled by SDcard
--- LED pin 7  - unused. LED off.
--- LED pin 9  - unused. LED off.
--- I/O pin 48 - vduffd0 (see description above).
--- I/O - not connected; most pins assigned for GPIO unit.
+-- I/O - ; most pins assigned for GPIO unit on J1 connector
 -- Refer to Microcomputer.qsf for GPIO (and any other) pinout details.
 -- VGA - connected and used as 1st (primary) I/O device: 80x25 colour video
 -- MONO - connected.
@@ -67,7 +61,6 @@
 -- SERIAL A - connected and used as 2nd I/O device
 -- SERIAL B - connected and used as 3rd I/O device
 -- MEMORY 512K - connected. Accessible through memory paging unit.
--- SECOND MEMORY - connected. Accessible through memory paging unit.
 --
 -- Note on confusing name: In the directory ROMS/6809 there is a file
 -- named 6809M.HEX and a file named CAMELFORTH_2KRAM.hex. The first contains
@@ -167,7 +160,7 @@ architecture struct of Microcomputer is
     signal cpuAddress             : std_logic_vector(15 downto 0);
     signal cpuDataOut             : std_logic_vector(7 downto 0);
     signal cpuDataIn              : std_logic_vector(7 downto 0);
-    signal sramAddress_i          : std_logic_vector(18 downto 0);
+    signal sramAddress_i          : std_logic_vector(19 downto 0);
 --    signal n_sRamCSHi_i           : std_logic;
     signal n_sRamCSLo_i           : std_logic;
 
@@ -254,7 +247,8 @@ begin
 -- RAM GOES HERE
 
 -- Assign to pins. Set the address width to match external RAM/pin assignments
-    sramAddress(19 downto 0) <= '0'&sramAddress_i(18 downto 0);	-- Uses 512KB
+--    sramAddress(19 downto 0) <= '0'&sramAddress_i(18 downto 0);	-- Uses 512KB
+    sramAddress(19 downto 0) <= sramAddress_i(19 downto 0);	-- Uses 1mB
     n_sRamCS  <= n_sRamCSLo_i;
 
 -- External RAM - high-order address lines come from the mem_mapper
@@ -368,7 +362,7 @@ begin
             regAddr => cpuAddress(2 downto 0),
 
             cpuAddr => cpuAddress(15 downto 9),
-            ramAddr => sramAddress_i(18 downto 13),
+            ramAddr => sramAddress_i(19 downto 13),
             ramWrInhib => ramWrInhib,
             romInhib => romInhib,
 
