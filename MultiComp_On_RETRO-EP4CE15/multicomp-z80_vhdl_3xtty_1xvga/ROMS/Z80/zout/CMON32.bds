@@ -1,0 +1,1718 @@
+binary-debuggable-source
+0000 0000 f CMON32.ASM
+0000 0000 s ;==============================================================================
+0000 0000 s ; Contents of this file are based on the work of Grant Searle who
+0000 0000 s ; holds copyright on the original.
+0000 0000 s ;    (http://searle.hostei.com/grant/index.html
+0000 0000 s ;
+0000 0000 s ; HEXload routine from Joel Owens.
+0000 0000 s ; Unpack routine from Dr.Dobb's Journal #60 october 1981
+0000 0000 s ; DectoBinary routine from David E. Cortesi
+0000 0000 s ;
+0000 0000 s ; Author: Rienk H. Koolstra
+0000 0000 s ; Monitor size - 2 kilobyte (0000h -07D0h)
+0000 0000 s ;
+0000 0000 s ; You have permission to use this for NON COMMERCIAL USE ONLY
+0000 0000 s ; If you wish to use it elsewhere, please include an acknowledgement
+0000 0000 s ; to the contributors.
+0000 0000 s ;==============================================================================
+0000 0000 s 
+0000 0000 s ; This Monitor is intended for the FPGA multicomputer by Grant Searle
+0000 0000 s ;              http://searle.hostei.com/grant/index.html
+0000 0000 s 
+0000 0000 s ; General Equates
+0000 0000 s ;-------------------------------------------------------------
+0000 0000 s 
+0000 0000 s CR              equ 0Dh
+0000 0000 s LF              equ 0Ah
+0000 0000 s ESC             equ 1Bh
+0000 0000 s CTRLC           equ 'C'-40h
+0000 0000 s BS              equ 08h
+0000 0000 s TAB             equ 'I'-40h
+0000 0000 s CLS             equ 0Ch
+0000 0000 s 
+0000 0000 s ; 8 MB volume parameters
+0000 0000 s LOADADDR        equ 0BFFEh      ; CP/M load address location in buffer
+0000 0000 s BUFFADDR        equ 08000h      ; transferbufer
+0000 0000 s FMTSECS         equ 32          ; Number of 512 sectors to be formatted
+0000 0000 s MAXVOLUME       equ 254         ; depends on SD card size
+0000 0000 s 
+0000 0000 s ; ACIA data
+0000 0000 s RTS_HIGH        equ 0D5h
+0000 0000 s RTS_LOW         equ 095h
+0000 0000 s 
+0000 0000 s ACIA0_C         EQU 080h
+0000 0000 s ACIA0_D         EQU 081h
+0000 0000 s ACIA0_B         EQU 07Bh        ; Baud rate port
+0000 0000 s ACIA1_C         EQU 082h
+0000 0000 s ACIA1_D         EQU 083h
+0000 0000 s ACIA1_B         EQU 07Ch        ; Baud rate port
+0000 0000 s 
+0000 0000 s B1200           EQU 0
+0000 0000 s B2400           EQU 1
+0000 0000 s B4800           EQU 2
+0000 0000 s B9600           EQU 3
+0000 0000 s B19200          EQU 4
+0000 0000 s B38400          EQU 5
+0000 0000 s B57600          EQU 6
+0000 0000 s B115200         EQU 7
+0000 0000 s 
+0000 0000 s ; SD disk data
+0000 0000 s SD_DATA         equ 088h
+0000 0000 s SD_CONTROL      equ 089h
+0000 0000 s SD_STATUS       equ 089h
+0000 0000 s SD_LBA0         equ 08Ah
+0000 0000 s SD_LBA1         equ 08Bh
+0000 0000 s SD_LBA2         equ 08Ch
+0000 0000 s 
+0000 0000 s MMUSELECT       equ 0F8h
+0000 0000 s MMUFRAME        equ 0FDh
+0000 0000 s 
+0000 0000 s 
+0800 0800 s         org     800h            ; variables in RAM
+0800 0800 s 
+0800 0800 s aciaCtl         ds 1            ; active acia ctl port
+0801 0801 s dmaAddr         ds 2
+0803 0803 s volume          ds 1            ; volume and sector cover all the
+0804 0804 s sector          ds 1            ; needs for the monitor. with sector
+0805 0805 s volumeID        ds 33           ; 0-255 (8 tracks)
+0826 0826 s lastMR:         ds 2            ; last used address reference
+0828 0828 s cbuff           ds 32           ; command line buffer
+0848 0848 s stackSpace      ds 32
+0868 0868 s STACK           equ $           ; Stack top
+0868 0868 s 
+0868 0868 s ;-------------------------------------------------------------
+0868 0868 s ;                START OF MONITOR ROM
+0868 0868 s ;-------------------------------------------------------------
+0868 0868 s start           equ 0000h
+0000 0000 s mon:            org     start   ; MONITOR ROM RESET VECTOR
+0000 0000 s 
+0000 0000 s 
+0000 0000 s ;  RST 00 - reset / poweron
+0000 0000 s ;-------------------------------------------------------------
+0000 0000 s reset:
+0000 0000 d f3
+0000 0000 s rst00h: di                      ; Disable Interrupts
+0001 0001 d c3b400
+0001 0001 s         jp init
+0004 0004 s         ds start+08h-$
+0008 0008 s 
+0008 0008 s 
+0008 0008 s ;  RST 08 h - console output
+0008 0008 s ;-------------------------------------------------------------
+0008 0008 d 1816
+0008 0008 s rst08h: jr conout
+000a 000a s         ds start+10h-$
+0010 0010 s 
+0010 0010 s 
+0010 0010 s ;  RST 10h - CONIN receice character from default console
+0010 0010 s ;-------------------------------------------------------------
+0010 0010 s rst10h:
+0010 0010 d c5
+0010 0010 s conin:  push BC                 ; we use C for IN/OUTput
+0011 0011 d 3a0008
+0011 0011 s         ld A,(aciaCtl)
+0014 0014 d 4f
+0014 0014 s         ld C,A
+0015 0015 d ed78
+0015 0015 s conin1: in A,(C)                ; Status byte D1=TX Buff Empty, D0=RX char ready
+0017 0017 d e601
+0017 0017 s         and 01h                 ; bit 0 set is data ready
+0019 0019 d 28fa
+0019 0019 s         jr z, conin1            ; wait for data
+001b 001b d 0c
+001b 001b s         inc C                   ; select acia data
+001c 001c d ed78
+001c 001c s         in A,(C)
+001e 001e d c1
+001e 001e s         pop BC
+001f 001f d c9
+001f 001f s         ret
+0020 0020 s 
+0020 0020 s ; CONOUT - send character to default console
+0020 0020 s ;-------------------------------------------------------------
+0020 0020 d c5
+0020 0020 s conout: PUSH BC ; we use C for in/output
+0021 0021 d f5
+0021 0021 s         PUSH AF ; Store character
+0022 0022 d 3a0008
+0022 0022 s         LD A,(aciaCtl)
+0025 0025 d 4f
+0025 0025 s         LD C,A
+0026 0026 s conout1:                        ; continued from rst 08h
+0026 0026 d ed78
+0026 0026 s         in      A,(C)           ; Status byte D1=TX Buff Empty, D0=RX char ready
+0028 0028 d e60a
+0028 0028 s         and     0Ah             ; bits n_cts and TX busy
+002a 002a d 28fa
+002a 002a s         jr      z,conout1       ; either no terminal or TX ready contiunues
+002c 002c d 0c
+002c 002c s         inc     C               ; select acia data
+002d 002d d f1
+002d 002d s         pop     AF              ; character to send
+002e 002e d ed79
+002e 002e s         out     (C),A
+0030 0030 d c1
+0030 0030 s         pop     BC
+0031 0031 d c9
+0031 0031 s         ret
+0032 0032 s 
+0032 0032 s 
+0032 0032 s 
+0032 0032 s ;  INIT - initialise hardware and start main loop
+0032 0032 s ;-------------------------------------------------------------
+0032 0032 s INITTXT:
+0032 0032 d 0c5072657373205b53504143455d20746f20616374697661746520636f6e736f6c650d0a00
+0032 0032 s         db CLS,'Press [SPACE] to activate console',CR,LF,0
+0057 0057 d 0d0a5a3830204d756c7469636f6d70204d756c7469626f6f74204d6f6e69746f722076332e320d0a
+0057 0057 s SIGNON: db CR,LF,'Z80 Multicomp Multiboot Monitor v3.2',CR,LF
+007f 007f d 6261736564206f6e2064657369676e20627920472e20536561726c650d0a0a
+007f 007f s         db 'based on design by G. Searle',CR,LF,LF
+009e 009e d 20207072657373203f20666f722068656c700d0a0a00
+009e 009e s         db '  press ? for help',CR,LF,LF,0
+00b4 00b4 s 
+00b4 00b4 s 
+00b4 00b4 d 0604
+00b4 00b4 s init:   ld b,4                  ; all 4 frames
+00b6 00b6 d af
+00b6 00b6 s         xor a                   ; start at...
+00b7 00b7 s nextBlock:
+00b7 00b7 d d3f8
+00b7 00b7 s         out (MMUSELECT),A       ; first reset mmu
+00b9 00b9 d d3fd
+00b9 00b9 s         out (MMUFRAME),A        ; make sure logical SRAM addresses
+00bb 00bb d 3c
+00bb 00bb s         inc a                   ; match the physical ones
+00bc 00bc d 10f9
+00bc 00bc s         djnz nextBlock
+00be 00be s 
+00be 00be d 316808
+00be 00be s         ld SP,STACK             ; before the Stack Pointer is set
+00c1 00c1 d 3e95
+00c1 00c1 s         ld A,RTS_LOW            ; acia configuration byte
+00c3 00c3 d d380
+00c3 00c3 s         out (ACIA0_C),A         ; Initialise ACIA0
+00c5 00c5 d d382
+00c5 00c5 s         out (ACIA1_C),A         ; Initialise ACIA1
+00c7 00c7 s 
+00c7 00c7 s ;       LD A,B115200            ; select baudrate
+00c7 00c7 s ;       OUT (ACIA0_B),A
+00c7 00c7 s ;       OUT (ACIA1_B),A
+00c7 00c7 s 
+00c7 00c7 d 3e80
+00c7 00c7 s         ld A,ACIA0_C
+00c9 00c9 d 320008
+00c9 00c9 s         ld (aciaCtl),A
+00cc 00cc d 213200
+00cc 00cc s         ld HL,INITTXT
+00cf 00cf d e5
+00cf 00cf s         push HL
+00d0 00d0 d cd1301
+00d0 00d0 s         call print
+00d3 00d3 d 3e82
+00d3 00d3 s         ld A,ACIA1_C
+00d5 00d5 d 320008
+00d5 00d5 s         ld (aciaCtl),A
+00d8 00d8 d e1
+00d8 00d8 s         pop HL
+00d9 00d9 d cd1301
+00d9 00d9 s         call print
+00dc 00dc s 
+00dc 00dc s         ; wait until Space is in one of the buffers to determine the active console
+00dc 00dc s 
+00dc 00dc d 0603
+00dc 00dc s         LD B,B9600             ; select baudrate
+00de 00de s waitForSpace:
+00de 00de d 78
+00de 00de s         LD A,B
+00df 00df d 3c
+00df 00df s         inc A
+00e0 00e0 d e607
+00e0 00e0 s         and 07h
+00e2 00e2 d 47
+00e2 00e2 s         ld B,A
+00e3 00e3 d d37b
+00e3 00e3 s         OUT (ACIA0_B),A
+00e5 00e5 d d37c
+00e5 00e5 s         OUT (ACIA1_B),A
+00e7 00e7 d 3e80
+00e7 00e7 s         ld A,ACIA0_C
+00e9 00e9 d 4f
+00e9 00e9 s         ld C,A
+00ea 00ea d ed78
+00ea 00ea s         in A,(C)                ; Status byte
+00ec 00ec d e601
+00ec 00ec s         and 01h                 ; Z flag set if no char
+00ee 00ee d 2008
+00ee 00ee s         jr nz,dataIn
+00f0 00f0 d 0c
+00f0 00f0 s         inc C
+00f1 00f1 d 0c
+00f1 00f1 s         inc C                   ; Port B
+00f2 00f2 d ed78
+00f2 00f2 s         in A,(C)                ; Status byte
+00f4 00f4 d e601
+00f4 00f4 s         and 01h                 ; Z flag set if no char
+00f6 00f6 d 28e6
+00f6 00f6 s         jr z,waitForSpace
+00f8 00f8 d 0c
+00f8 00f8 s dataIn: inc C                   ; data port
+00f9 00f9 d ed78
+00f9 00f9 s         in A,(C)
+00fb 00fb d fe20
+00fb 00fb s         cp ' '
+00fd 00fd d 20df
+00fd 00fd s         jr nz,waitForSpace
+00ff 00ff s 
+00ff 00ff s         ; Space was pressed
+00ff 00ff d 0d
+00ff 00ff s         dec C                   ; back to control port
+0100 0100 d 79
+0100 0100 s         ld A,C
+0101 0101 d 320008
+0101 0101 s         ld (aciaCtl),A          ; either 80h or 82h
+0104 0104 s 
+0104 0104 s         ; aciaCtl is now set to the channel where SPACE was pressed
+0104 0104 s 
+0104 0104 s         ; clear message on both consoles
+0104 0104 d 3e0c
+0104 0104 s         ld A,CLS
+0106 0106 d d381
+0106 0106 s         out (ACIA0_D),A         ; can't use aciaCtl because we don't
+0108 0108 d d383
+0108 0108 s         out (ACIA1_D),A         ; know what it is set to
+010a 010a s 
+010a 010a d 215700
+010a 010a s         ld HL,SIGNON            ; Print SIGNON message
+010d 010d d cd1301
+010d 010d s         call print
+0110 0110 d c35502
+0110 0110 s         jp main                 ; done with init jump to mail loop
+0113 0113 s 
+0113 0113 s 
+0113 0113 s 
+0113 0113 s ; PRINT - display a zero-terminated string on console
+0113 0113 s ;-------------------------------------------------------------
+0113 0113 d 7e
+0113 0113 s print:  ld A,(HL)               ; Get character
+0114 0114 d e67f
+0114 0114 s         and 7Fh                 ; strip high bit and set flags
+0116 0116 d c8
+0116 0116 s         ret z                   ; Return on terminator
+0117 0117 d cf
+0117 0117 s         rst 08h                 ; Print it
+0118 0118 d 23
+0118 0118 s         inc HL                  ; Next Character
+0119 0119 d 18f8
+0119 0119 s         jr print                ; Continue until 00h
+011b 011b s 
+011b 011b s 
+011b 011b s 
+011b 011b d 3e0d
+011b 011b s crlf:   ld A,CR
+011d 011d d cd2000
+011d 011d s         call conout
+0120 0120 d 3e0a
+0120 0120 s         ld A,LF
+0122 0122 d c32000
+0122 0122 s         jp conout
+0125 0125 s 
+0125 0125 s 
+0125 0125 s 
+0125 0125 s ; GETARGS - extract the volume number and a DMA address from the command string
+0125 0125 s ;-------------------------------------------------------------
+0125 0125 d 0d0a42616420566f6c756d656e756d62657200
+0125 0125 s volerr: db CR,LF,'Bad Volumenumber',0
+0138 0138 s getargs:
+0138 0138 d cd0002
+0138 0138 s         call getdec             ; get volume in DE
+013b 013b d 7a
+013b 013b s         ld A,D
+013c 013c d b7
+013c 013c s         or A
+013d 013d d 201a
+013d 013d s         jr nz, badvol           ; number way too big
+013f 013f d 7b
+013f 013f s         ld A,E
+0140 0140 d 3d
+0140 0140 s         dec A                   ; from base 1 to base 0
+0141 0141 d fefe
+0141 0141 s         cp MAXVOLUME
+0143 0143 d 3014
+0143 0143 s         jr nc,badvol            ; number just too big or '0'
+0145 0145 d 3c
+0145 0145 s         inc A
+0146 0146 d 320308
+0146 0146 s         ld (volume),A           ; store for client to use
+0149 0149 d 7e
+0149 0149 s         ld A,(HL)               ; is the next character a ','
+014a 014a d fe2c
+014a 014a s         cp ','
+014c 014c d c0
+014c 014c s         ret nz                  ; a second argument?
+014d 014d d 23
+014d 014d s         inc HL                  ; next character in string
+014e 014e d cde101
+014e 014e s         call gethex             ; get the new DMA address
+0151 0151 d 7a
+0151 0151 s         ld A,D
+0152 0152 d b3
+0152 0152 s         or E
+0153 0153 d c8
+0153 0153 s         ret z                   ; empty string
+0154 0154 d ed530108
+0154 0154 s         ld (dmaAddr),DE         ; overwrite default
+0158 0158 d c9
+0158 0158 s         ret ; getargs
+0159 0159 d 212501
+0159 0159 s badvol: ld HL, volerr
+015c 015c d cd1301
+015c 015c s         call print
+015f 015f d e1
+015f 015f s         pop HL                  ; pop calling subroutine
+0160 0160 d c9
+0160 0160 s         ret                     ; return to main
+0161 0161 s 
+0161 0161 s 
+0161 0161 s 
+0161 0161 s ;ISTRING - user adds arguments to the command string
+0161 0161 s ;-------------------------------------------------------------
+0161 0161 s istring:
+0161 0161 d cdd501
+0161 0161 s cloop:  call getchr             ; get an U/C character
+0164 0164 d fe0d
+0164 0164 s         cp CR                   ; CR - go process the command
+0166 0166 d c8
+0166 0166 s         ret z
+0167 0167 d fe08
+0167 0167 s         cp BS                   ; BS - erase previous character
+0169 0169 d 282f
+0169 0169 s         jr z,erase
+016b 016b d fe03
+016b 016b s         cp CTRLC                ; Ctrl-C
+016d 016d d 285e
+016d 016d s         jr z,escape
+016f 016f d fe1b
+016f 016f s         cp ESC                  ; ESC
+0171 0171 d 285a
+0171 0171 s         jr z,escape
+0173 0173 d fe47
+0173 0173 s         cp 'F'+1                ; filter non desirables...
+0175 0175 d 30ea
+0175 0175 s         jr nc,cloop             ; all above F is rejected
+0177 0177 d fe41
+0177 0177 s         cp 'A'
+0179 0179 d 300c
+0179 0179 s         jr nc,charok            ; A-F is ok
+017b 017b d fe3a
+017b 017b s         cp '9'+1
+017d 017d d 30e2
+017d 017d s         jr nc,cloop             ; all over 9 is rejected
+017f 017f d fe30
+017f 017f s         cp '0'
+0181 0181 d 3004
+0181 0181 s         jr nc,charok            ; 0-9 is ok
+0183 0183 d fe2c
+0183 0183 s         cp ','                  ; as is ',' the argument separator
+0185 0185 d 20da
+0185 0185 s         jr nz,cloop             ; the rest is rejected
+0187 0187 d 77
+0187 0187 s charok: ld (HL),A               ; store accepted input
+0188 0188 d cd2000
+0188 0188 s         call conout             ; show on screen
+018b 018b d 04
+018b 018b s         inc B                   ; increment counters
+018c 018c d 23
+018c 018c s         inc HL
+018d 018d d 3600
+018d 018d s         ld (HL),0               ; set end of string
+018f 018f d 78
+018f 018f s         ld A,B
+0190 0190 d fe20
+0190 0190 s         cp 32
+0192 0192 d 2806
+0192 0192 s         jr z,erase              ; string too long
+0194 0194 d 18cb
+0194 0194 s         jr cloop
+0196 0196 s 
+0196 0196 s ; erase last entry
+0196 0196 d 08200800
+0196 0196 s erastr: db 08,' ',08,0          ; BS SP BS
+019a 019a d e5
+019a 019a s erase:  push HL
+019b 019b d 219601
+019b 019b s         ld HL,erastr            ; adjust display
+019e 019e d cd1301
+019e 019e s         call print
+01a1 01a1 d e1
+01a1 01a1 s         pop HL
+01a2 01a2 d 05
+01a2 01a2 s         dec B                   ; last character entered
+01a3 01a3 d 282e
+01a3 01a3 s         jr z,escend             ; wiping entire string
+01a5 01a5 d 2b
+01a5 01a5 s         dec HL                  ; step back in string
+01a6 01a6 d 3600
+01a6 01a6 s         ld (HL),0               ; erase charcter
+01a8 01a8 d 18b7
+01a8 01a8 s         jr cloop                ; go back
+01aa 01aa s 
+01aa 01aa s 
+01aa 01aa s 
+01aa 01aa s ; ESCAPE - erase all user input and start over
+01aa 01aa s ;-------------------------------------------------------------
+01aa 01aa d 0d61626f72746564202020202020202020202020202020202020202020202020200d00
+01aa 01aa s wipe:   db CR,'aborted                         ',CR,0
+01cd 01cd d 21aa01
+01cd 01cd s escape: ld HL,wipe              ; clean up entry, start over
+01d0 01d0 d cd1301
+01d0 01d0 s         call print
+01d3 01d3 d e1
+01d3 01d3 s escend: pop HL                  ; return to main
+01d4 01d4 d c9
+01d4 01d4 s         ret ; wipe
+01d5 01d5 s 
+01d5 01d5 s 
+01d5 01d5 s 
+01d5 01d5 s ; GETCHR - get filtered user input converted to upper case
+01d5 01d5 s ;-------------------------------------------------------------
+01d5 01d5 d cd1000
+01d5 01d5 s getchr: call conin
+01d8 01d8 d fe40
+01d8 01d8 s ucase:  cp "A"-1        ; less than "A"?
+01da 01da d d8
+01da 01da s         ret c
+01db 01db d fe7b
+01db 01db s         cp 'z'+1        ; greater than "z"
+01dd 01dd d d0
+01dd 01dd s         ret nc
+01de 01de d e65f
+01de 01de s         and 5FH         ; make all ALPHA upper case
+01e0 01e0 d c9
+01e0 01e0 s         ret
+01e1 01e1 s 
+01e1 01e1 s 
+01e1 01e1 s 
+01e1 01e1 s ; GETHEX - zero terminated string is converted from ascii HEX to binary in DE
+01e1 01e1 s ;-------------------------------------------------------------
+01e1 01e1 d 110000
+01e1 01e1 s gethex: ld DE,0
+01e4 01e4 d d5
+01e4 01e4 s         push DE
+01e5 01e5 d 7e
+01e5 01e5 s gloop:  ld A,(HL)
+01e6 01e6 d d630
+01e6 01e6 s         sub '0'
+01e8 01e8 d 3814
+01e8 01e8 s         jr c,gdone              ; either a '0' or a ','
+01ea 01ea d fe0a
+01ea 01ea s         cp 0Ah
+01ec 01ec d 3802
+01ec 01ec s         jr c,noletter
+01ee 01ee d d607
+01ee 01ee s         sub 7
+01f0 01f0 s noletter:
+01f0 01f0 d 5f
+01f0 01f0 s         ld E,A
+01f1 01f1 d 1600
+01f1 01f1 s         ld D,0
+01f3 01f3 d e3
+01f3 01f3 s         ex (SP),HL
+01f4 01f4 d 29
+01f4 01f4 s         add HL,HL               ; previous result
+01f5 01f5 d 29
+01f5 01f5 s         add HL,HL               ; times 16
+01f6 01f6 d 29
+01f6 01f6 s         add HL,HL
+01f7 01f7 d 29
+01f7 01f7 s         add HL,HL
+01f8 01f8 d 19
+01f8 01f8 s         add HL,DE               ; add next entry
+01f9 01f9 d e3
+01f9 01f9 s         ex (SP),HL
+01fa 01fa d 23
+01fa 01fa s         inc HL                  ; go for next digit
+01fb 01fb d c3e501
+01fb 01fb s         jp gloop
+01fe 01fe d d1
+01fe 01fe s gdone:  pop DE                  ; reg de holds result
+01ff 01ff d c9
+01ff 01ff s         ret ; gethex
+0200 0200 s 
+0200 0200 s 
+0200 0200 s 
+0200 0200 s ; GETDEC - [0|,] terminated string is converted from ascii decimal to binary in DE
+0200 0200 s ;-------------------------------------------------------------
+0200 0200 d 110000
+0200 0200 s getdec: ld DE,0                 ; result in DE
+0203 0203 d d5
+0203 0203 s         push DE
+0204 0204 d 7e
+0204 0204 s dloop:  ld a,(HL)               ; get character
+0205 0205 d fe41
+0205 0205 s         cp 'A'
+0207 0207 d 3013
+0207 0207 s         jr nc,doops             ; number was hex.
+0209 0209 d d630
+0209 0209 s         sub '0'
+020b 020b d 380d
+020b 020b s         jr c,ddone              ; is it less than '0'? then were done
+020d 020d d 5f
+020d 020d s         ld E,A                  ; store in DE
+020e 020e d e3
+020e 020e s         ex (SP),HL              ; get result from stack
+020f 020f d 44
+020f 020f s         ld B,H                  ; store it in bc
+0210 0210 d 4d
+0210 0210 s         ld C,L
+0211 0211 d 29
+0211 0211 s         add HL,HL               ; previous result times 10
+0212 0212 d 29
+0212 0212 s         add HL,HL
+0213 0213 d 09
+0213 0213 s         add HL,BC               ; times 5
+0214 0214 d 29
+0214 0214 s         add HL,HL               ; times 2 (makes 10)
+0215 0215 d 19
+0215 0215 s         add HL,DE               ; add next digit
+0216 0216 d e3
+0216 0216 s         ex (SP),HL              ; back on stack
+0217 0217 d 23
+0217 0217 s         inc HL                  ; go for next digit
+0218 0218 d 18ea
+0218 0218 s         jr dloop
+021a 021a d d1
+021a 021a s ddone:  pop DE                  ; reg de holds result
+021b 021b d c9
+021b 021b s         ret
+021c 021c d d1
+021c 021c s doops:  pop DE                  ; number out of range
+021d 021d d 1100ff
+021d 021d s         ld DE,0FF00h            ; returns bogus result
+0220 0220 d c9
+0220 0220 s         ret ; getdec
+0221 0221 s 
+0221 0221 s 
+0221 0221 s 
+0221 0221 s ;  PRTHL - print HL or  LBYTE - print A  on console
+0221 0221 s ;-------------------------------------------------------------
+0221 0221 d 7c
+0221 0221 s prtHL:  ld A,H
+0222 0222 d cd2602
+0222 0222 s         call lByte
+0225 0225 d 7d
+0225 0225 s         ld A,L
+0226 0226 d f5
+0226 0226 s lByte:  push AF
+0227 0227 d 0f
+0227 0227 s         rrca
+0228 0228 d 0f
+0228 0228 s         rrca
+0229 0229 d 0f
+0229 0229 s         rrca
+022a 022a d 0f
+022a 022a s         rrca
+022b 022b d cd2f02
+022b 022b s         call s2
+022e 022e d f1
+022e 022e s         pop AF
+022f 022f d cd3502
+022f 022f s s2:     call conv
+0232 0232 d c32000
+0232 0232 s         jp conout
+0235 0235 s 
+0235 0235 s 
+0235 0235 s 
+0235 0235 s ;  CONV - convert HEX to ASCII
+0235 0235 s ;-------------------------------------------------------------
+0235 0235 d e60f
+0235 0235 s conv:   and 0Fh
+0237 0237 d c690
+0237 0237 s         add A,90h
+0239 0239 d 27
+0239 0239 s         daa
+023a 023a d ce40
+023a 023a s         adc A,40h
+023c 023c d 27
+023c 023c s         daa
+023d 023d d c9
+023d 023d s         ret
+023e 023e s 
+023e 023e s 
+023e 023e s 
+023e 023e s ;-------------------------------------------------------------
+023e 023e s ;  MAIN - Main command loop
+023e 023e s ;-------------------------------------------------------------
+023e 023e d 0d0a3e2000
+023e 023e s PROMPT: db CR,LF,'> ',0
+0243 0243 d 0d0a556e6b6e6f776e20436f6d6d616e6400
+0243 0243 s nocmd:  db CR,LF,'Unknown Command',0
+0255 0255 s 
+0255 0255 s main:
+0255 0255 d 215502
+0255 0255 s         ld HL,main              ; Save entry point for Monitor
+0258 0258 d e5
+0258 0258 s         push HL                 ; This is the return address
+0259 0259 d 210000
+0259 0259 s         ld HL,0
+025c 025c d 220108
+025c 025c s         ld (dmaAddr),HL         ; set default load address
+025f 025f s 
+025f 025f d 213e02
+025f 025f s         ld HL,PROMPT            ; Entry point for Monitor, Normal
+0262 0262 d cd1301
+0262 0262 s         call print              ; Get a "> "
+0265 0265 s 
+0265 0265 d cdd501
+0265 0265 s main1:  call getchr             ; Get a character from the input port
+0268 0268 d fe20
+0268 0268 s         cp ' '                  ; <spc> or less?
+026a 026a d 38f9
+026a 026a s         jr c,main1              ; Go back
+026c 026c s 
+026c 026c s         ; simple one character commands with immediate action
+026c 026c s         ; no echo
+026c 026c d fe3a
+026c 026c s         cp ':'                  ; ":"?
+026e 026e d ca8703
+026e 026e s         jp z,load               ; First character of a HEX load
+0271 0271 d fe3f
+0271 0271 s         cp '?'                  ; print instructions
+0273 0273 d ca2506
+0273 0273 s         jp z,help
+0276 0276 s ;       cp 'R'                  ; reset
+0276 0276 s ;       jp z,reset
+0276 0276 s 
+0276 0276 s         ; next, multi argument commands, execute on return
+0276 0276 d 212808
+0276 0276 s         ld HL,cbuff             ; command buffer
+0279 0279 d 77
+0279 0279 s         ld (HL),A               ; store command
+027a 027a d 23
+027a 027a s         inc HL                  ; next position
+027b 027b d 3600
+027b 027b s         ld (HL),0               ; end of string
+027d 027d d 0601
+027d 027d s         ld B,1                  ; init counter
+027f 027f d cd2000
+027f 027f s         call conout             ; show command
+0282 0282 d cd6101
+0282 0282 s         call istring            ; get arguments
+0285 0285 d 2b
+0285 0285 s         dec HL
+0286 0286 d 7e
+0286 0286 s         ld A,(HL)
+0287 0287 d fe2c
+0287 0287 s         cp ','                  ; last entry a comma?
+0289 0289 d 2002
+0289 0289 s         jr nz,main2
+028b 028b d 3600
+028b 028b s         ld (HL),0               ; then make it a '0'
+028d 028d d 212808
+028d 028d s main2:  ld HL,cbuff             ; reset pointer in command string
+0290 0290 d 7e
+0290 0290 s         ld A,(HL)               ; get command
+0291 0291 d 23
+0291 0291 s         inc HL
+0292 0292 d fe52
+0292 0292 s         cp 'R'                  ; if 'R' goto Rxxxx
+0294 0294 d ca2b06
+0294 0294 s         jp z,goto
+0297 0297 d fe53
+0297 0297 s         cp 'S'                  ; if 'S' System start Sddd
+0299 0299 d ca3006
+0299 0299 s         jp z,sysrun
+029c 029c d fe49
+029c 029c s         cp 'I'                  ; if 'I' Format Iddd
+029e 029e d cadb06
+029e 029e s         jp z,format
+02a1 02a1 d fe47
+02a1 02a1 s         cp 'G'                  ; if 'G' getsys Gddd
+02a3 02a3 d ca6306
+02a3 02a3 s         jp z,getsys
+02a6 02a6 d fe50
+02a6 02a6 s         cp 'P'                  ; if 'P' putsys Pddd[,xxxx]
+02a8 02a8 d ca8906
+02a8 02a8 s         jp z,putsys
+02ab 02ab d fe44
+02ab 02ab s         cp 'D'                  ; if 'D' dump Dxxxx[,yyyy]
+02ad 02ad d cac202
+02ad 02ad s         jp z,dump
+02b0 02b0 d fe43
+02b0 02b0 s         cp 'C'                  ; if 'C' change Cxxxx,dd[,dd,dd]
+02b2 02b2 d ca2c03
+02b2 02b2 s         jp z,change
+02b5 02b5 d 214302
+02b5 02b5 s         ld HL,nocmd             ; if none of these, express confusion
+02b8 02b8 d cd1301
+02b8 02b8 s         call print
+02bb 02bb d c9
+02bb 02bb s         ret ; to main
+02bc 02bc s 
+02bc 02bc s 
+02bc 02bc s 
+02bc 02bc s ;  DUMP - display memory Dxxxx[,yyyy]
+02bc 02bc s ;-------------------------------------------------------------
+02bc 02bc d 092020
+02bc 02bc s dSep4:  db TAB,'  '
+02bf 02bf d 202000
+02bf 02bf s dsep2:  db '  ',0
+02c2 02c2 d ed5b2608
+02c2 02c2 s dump:   ld DE,(lastMR)          ; retrieve last address used by D or C command
+02c6 02c6 d 13
+02c6 02c6 s         inc DE                  ; use next address
+02c7 02c7 d af
+02c7 02c7 s         xor A
+02c8 02c8 d be
+02c8 02c8 s         cp (HL)
+02c9 02c9 d 2803
+02c9 02c9 s         jr z,dskip              ; if no address given, use last one
+02cb 02cb d cde101
+02cb 02cb s         call gethex             ; get hex entry in DE
+02ce 02ce d 7b
+02ce 02ce s dskip:  ld A,E
+02cf 02cf d e6f0
+02cf 02cf s         and 0F0h                ; start at xxx0 boundary
+02d1 02d1 d 5f
+02d1 02d1 s         ld E,A
+02d2 02d2 d d5
+02d2 02d2 s         push DE                 ; start address on stack
+02d3 02d3 d e5
+02d3 02d3 s         push HL
+02d4 02d4 d 217f00
+02d4 02d4 s         ld HL,07Fh              ; default display 8 lines
+02d7 02d7 d 19
+02d7 02d7 s         add HL,DE
+02d8 02d8 d 3003
+02d8 02d8 s         jr nc,dendok            ; don't fold back to 0000h
+02da 02da d 21ffff
+02da 02da s         ld HL,0FFFFh
+02dd 02dd d 222608
+02dd 02dd s dendok: ld (lastMR),HL          ; save for later use
+02e0 02e0 d eb
+02e0 02e0 s         ex DE,HL                ; DE now valid endaddress
+02e1 02e1 d e1
+02e1 02e1 s         pop HL
+02e2 02e2 d 7e
+02e2 02e2 s         ld A,(HL)
+02e3 02e3 d fe2c
+02e3 02e3 s         cp ','                  ; if no second argument
+02e5 02e5 d 2004
+02e5 02e5 s         jr nz,darg2             ; DE stays DE
+02e7 02e7 d 23
+02e7 02e7 s         inc HL                  ; if not
+02e8 02e8 d cde101
+02e8 02e8 s         call gethex             ; get new DE
+02eb 02eb d e1
+02eb 02eb s darg2:  pop HL                  ; start address now in HL
+02ec 02ec d cd1b01
+02ec 02ec s dline:  call crlf               ; start line
+02ef 02ef d e5
+02ef 02ef s         push HL                 ; save for ascii output
+02f0 02f0 d cd2102
+02f0 02f0 s         call prtHL              ; print address
+02f3 02f3 d 3e20
+02f3 02f3 s         ld A,' '                ; extra space
+02f5 02f5 d cd2000
+02f5 02f5 s         call conout
+02f8 02f8 d 0610
+02f8 02f8 s         ld b,16                 ; 16 bytes
+02fa 02fa d 3e20
+02fa 02fa s dbyte:  ld A,' '                ; extra space
+02fc 02fc d cd2000
+02fc 02fc s         call conout
+02ff 02ff d 7e
+02ff 02ff s         ld a,(hl)
+0300 0300 d cd2602
+0300 0300 s         call lByte              ; print byte
+0303 0303 d 23
+0303 0303 s         inc HL                  ; next byte
+0304 0304 d 10f4
+0304 0304 s         djnz dbyte              ; repeat
+0306 0306 d 21bc02
+0306 0306 s         ld hl,dSep4             ; print separator
+0309 0309 d cd1301
+0309 0309 s         call print
+030c 030c d e1
+030c 030c s         pop hl                  ; het start of line back
+030d 030d d 0610
+030d 030d s         ld B,16                 ; now the same in ascii
+030f 030f d 7e
+030f 030f s t11:    ld A,(HL)               ; get byte
+0310 0310 d e67f
+0310 0310 s         and 7Fh
+0312 0312 d fe20
+0312 0312 s         cp ' '                  ; don't print control characters
+0314 0314 d 3002
+0314 0314 s         jr nc,t33
+0316 0316 d 3e2e
+0316 0316 s t22:    ld a,'.'                ; but print something
+0318 0318 d fe7f
+0318 0318 s t33:    cp 07Fh                 ; also skip DEL and higher
+031a 031a d 30fa
+031a 031a s         jr nc,t22
+031c 031c d cd2000
+031c 031c s         call conout
+031f 031f d 23
+031f 031f s         inc HL                  ; next byte
+0320 0320 d 10ed
+0320 0320 s         djnz t11                ; get next byte
+0322 0322 d 7d
+0322 0322 s         ld A,L                  ; pointer overflow?
+0323 0323 d b4
+0323 0323 s         or H
+0324 0324 d c8
+0324 0324 s         ret z                   ; the quit
+0325 0325 d 7b
+0325 0325 s         ld A,E                  ; compare DE and HL
+0326 0326 d 95
+0326 0326 s         sub L                   ; DE - HL
+0327 0327 d 7a
+0327 0327 s         ld A,D
+0328 0328 d 9c
+0328 0328 s         sbc A,H                 ; carry flag set if D+carry>H
+0329 0329 d d8
+0329 0329 s         ret c
+032a 032a d 18c0
+032a 032a s         jr dline
+032c 032c s 
+032c 032c s 
+032c 032c s 
+032c 032c s ;  CHANGE - Change memory addresses : Cxxxx,dd,dd,dd,dd
+032c 032c s ;-------------------------------------------------------------
+032c 032c s change:
+032c 032c d cde101
+032c 032c s         call gethex     ; get DE
+032f 032f d eb
+032f 032f s         ex DE,HL
+0330 0330 s chnext:
+0330 0330 d 222608
+0330 0330 s         ld (lastMR),HL  ; get last address used by D or C command
+0333 0333 d cd1b01
+0333 0333 s         call crlf
+0336 0336 d cd2102
+0336 0336 s         call prtHL      ; show address
+0339 0339 d 3e20
+0339 0339 s         ld A,' '
+033b 033b d cd2000
+033b 033b s         call conout     ; a space
+033e 033e d 7e
+033e 033e s         ld A,(HL)
+033f 033f d 5f
+033f 033f s         ld E,A
+0340 0340 d cd2602
+0340 0340 s         call lByte      ; memory content
+0343 0343 d 3e20
+0343 0343 s         ld A,' '
+0345 0345 d cd2000
+0345 0345 s         call conout     ; another space
+0348 0348 d 212c08
+0348 0348 s         ld HL,cbuff+4   ; command buffer
+034b 034b d af
+034b 034b s         xor A
+034c 034c d 77
+034c 034c s         ld (HL),A       ; start with end of string
+034d 034d d 0604
+034d 034d s         ld B,4          ; lengthcounter
+034f 034f d cd6101
+034f 034f s         call istring    ; get new byte (esc ends)
+0352 0352 d 212c08
+0352 0352 s         ld HL,cbuff+4
+0355 0355 d 7e
+0355 0355 s         ld A,(HL)
+0356 0356 d fe00
+0356 0356 s         cp 0            ; empty string
+0358 0358 d 2806
+0358 0358 s         jr z, chskip    ; skip change
+035a 035a d fe2c
+035a 035a s         cp ','
+035c 035c d c8
+035c 035c s         ret z           ; comma quits
+035d 035d d cde101
+035d 035d s         call gethex     ; new byte in DE (D is discarded)
+0360 0360 d 2a2608
+0360 0360 s chskip: ld HL,(lastMR)
+0363 0363 d 73
+0363 0363 s         ld (HL),E
+0364 0364 d 23
+0364 0364 s         inc HL
+0365 0365 d 18c9
+0365 0365 s         jr chnext
+0367 0367 s 
+0367 0367 s 
+0367 0367 s 
+0367 0367 s 
+0367 0367 s 
+0367 0367 s ;-------------------------------------------------------------
+0367 0367 s ; LOAD - load Intel Hex format file from the console.
+0367 0367 s ; [Intel Hex Format is:
+0367 0367 s ; 1) Colon (Frame 0)
+0367 0367 s ; 2) Record Length Field (Frames 1 and 2)
+0367 0367 s ; 3) Load Address Field (Frames 3,4,5,6)
+0367 0367 s ; 4) Record Type Field (Frames 7 and 8)
+0367 0367 s ; 5) Data Field (Frames 9 to 9+2*(Record Length)-1
+0367 0367 s ; 6) Checksum Field - Sum of all byte values from Record Length to and
+0367 0367 s ; including Checksum Field = 0 ]
+0367 0367 s ;-------------------------------------------------------------
+0367 0367 s chksumerr:
+0367 0367 d 436865636b73756d206572726f7200
+0367 0367 s         db 'Checksum error',0
+0376 0376 d 4845586c6f616420436f6d706c65746500
+0376 0376 s ldetxt: db 'HEXload Complete',0
+0387 0387 s 
+0387 0387 d 1e00
+0387 0387 s load:   ld E,0          ; First two Characters is the Record Length Field
+0389 0389 d cdc603
+0389 0389 s         call get2       ; Get us two characters into BC, convert it to a byte <A>
+038c 038c d 57
+038c 038c s         ld D,A          ; Load Record Length count into D
+038d 038d d cdc603
+038d 038d s         call get2       ; Get next two characters, Memory Load Address <H>
+0390 0390 d 67
+0390 0390 s         ld H,A          ; put value in H register.
+0391 0391 d cdc603
+0391 0391 s         call get2       ; Get next two characters, Memory Load Address <L>
+0394 0394 d 6f
+0394 0394 s         ld L,A          ; put value in L register.
+0395 0395 d cdc603
+0395 0395 s         call get2       ; Get next two characters, Record Field Type
+0398 0398 d fe01
+0398 0398 s         cp 01           ; Record Field Type 00 is Data, 01 is End of File
+039a 039a d 2009
+039a 039a s         jr nz,load2     ; Must be the end of that file
+039c 039c d cdc603
+039c 039c s         call get2       ; Get next two characters, assemble into byte
+039f 039f d 7b
+039f 039f s         ld A,E          ; Recall the Checksum byte
+03a0 03a0 d a7
+03a0 03a0 s         and A           ; Is it Zero?
+03a1 03a1 d 281d
+03a1 03a1 s         jr z,load00     ; Print footer reached message
+03a3 03a3 d 1815
+03a3 03a3 s         jr loaderr      ; Checksums don't add up, Error out
+03a5 03a5 s 
+03a5 03a5 d 7a
+03a5 03a5 s load2:  ld A,D          ; Retrieve line character counter
+03a6 03a6 d a7
+03a6 03a6 s         and A           ; Are we done with this line?
+03a7 03a7 d 280b
+03a7 03a7 s         jr z,load3      ; Get two more ascii characters, build a byte and checksum
+03a9 03a9 d cdc603
+03a9 03a9 s         call get2       ; Get next two chars, convert to byte in A, checksum it
+03ac 03ac d 77
+03ac 03ac s         ld (HL),A       ; Move converted byte in A to memory location
+03ad 03ad d 23
+03ad 03ad s         inc HL          ; Increment pointer to next memory location
+03ae 03ae d 3e2e
+03ae 03ae s         ld A,'.'        ; Print out a "." for every byte loaded
+03b0 03b0 d cf
+03b0 03b0 s         rst 08h ;
+03b1 03b1 d 15
+03b1 03b1 s         dec D           ; Decrement line character counter
+03b2 03b2 d 18f1
+03b2 03b2 s         jr load2        ; and keep loading into memory until line is complete
+03b4 03b4 s 
+03b4 03b4 d cdc603
+03b4 03b4 s load3:  call get2       ; Get two chars, build byte and checksum
+03b7 03b7 d 7b
+03b7 03b7 s         ld A,E          ; Check the checksum value
+03b8 03b8 d a7
+03b8 03b8 s         and A           ; Is it zero?
+03b9 03b9 d c8
+03b9 03b9 s         ret z
+03ba 03ba s 
+03ba 03ba s loaderr:
+03ba 03ba d 216703
+03ba 03ba s         ld HL,chksumerr ; Get "Checksum Error" message
+03bd 03bd d c31301
+03bd 03bd s         jp print        ; Print Message from (HL) and terminate the load
+03c0 03c0 s 
+03c0 03c0 d 217603
+03c0 03c0 s load00: ld HL,ldetxt    ; Print load complete message
+03c3 03c3 d c31301
+03c3 03c3 s         jp print
+03c6 03c6 s 
+03c6 03c6 s ;-------------------------------------------------------------
+03c6 03c6 s ; GET2 - Gets two ASCII characters from the console (assuming them to be HEX 0-9 A-F)
+03c6 03c6 s ; Moves them into B and C, converts them into a byte value in A and updates a
+03c6 03c6 s ; Checksum value in E
+03c6 03c6 s ;-------------------------------------------------------------
+03c6 03c6 d d7
+03c6 03c6 s get2:   rst 10h         ; Get us a valid character to work with
+03c7 03c7 d 47
+03c7 03c7 s         ld B,A          ; Load it in B
+03c8 03c8 d d7
+03c8 03c8 s         rst 10h         ; Get us another character
+03c9 03c9 d 4f
+03c9 03c9 s         ld C,A          ; load it in C
+03ca 03ca d 78
+03ca 03ca s bctoa:  ld A,B          ; Move the hi order byte to A
+03cb 03cb d d630
+03cb 03cb s         sub $30         ; Take it down from Ascii
+03cd 03cd d fe0a
+03cd 03cd s         cp $0a          ; Are we in the 0-9 range here?
+03cf 03cf d 3802
+03cf 03cf s         jr c,bctoa1     ; If so, get the next nybble
+03d1 03d1 d d607
+03d1 03d1 s         sub $07         ; But if A-F, take it down some more
+03d3 03d3 d 07
+03d3 03d3 s bctoa1: rlca            ; Rotate the nybble from low to high
+03d4 03d4 d 07
+03d4 03d4 s         rlca            ; One bit at a time
+03d5 03d5 d 07
+03d5 03d5 s         rlca            ; Until we
+03d6 03d6 d 07
+03d6 03d6 s         rlca            ; Get there with it
+03d7 03d7 d 47
+03d7 03d7 s         ld B,A          ; Save the converted high nybble
+03d8 03d8 d 79
+03d8 03d8 s         ld A,C          ; Now get the low order byte
+03d9 03d9 d d630
+03d9 03d9 s         sub '0'         ; Convert it down from Ascii
+03db 03db d fe0a
+03db 03db s         cp 0Ah          ; 0-9 at this point?
+03dd 03dd d 3802
+03dd 03dd s         jr c,bctoa2     ; Good enough then, but
+03df 03df d d607
+03df 03df s         sub 07h         ; Take off 7 more if it's A-F
+03e1 03e1 d 80
+03e1 03e1 s bctoa2: add A,B         ; Add in the high order nybble
+03e2 03e2 d 4f
+03e2 03e2 s         ld C,A          ; Build the checksum
+03e3 03e3 d 7b
+03e3 03e3 s         ld A,E
+03e4 03e4 d 91
+03e4 03e4 s         sub C           ; The checksum should always equal zero when checked
+03e5 03e5 d 5f
+03e5 03e5 s         ld E,A          ; Save the checksum back where it came from
+03e6 03e6 d 79
+03e6 03e6 s         ld A,C          ; Retrieve the byte and go back
+03e7 03e7 d c9
+03e7 03e7 s         ret
+03e8 03e8 s 
+03e8 03e8 s 
+03e8 03e8 s 
+03e8 03e8 s ; HELP - display help message
+03e8 03e8 s ;-------------------------------------------------------------
+03e8 03e8 d 0d0a
+03e8 03e8 s HLPTXT: db CR,LF
+03ea 03ea d 2020417661696c61626c6520436f6d6d616e64733a0d0a0a
+03ea 03ea s         db '  Available Commands:',CR,LF,LF
+0402 0402 s ;       db '  R',08H,08H,08H,'Reset',CR,LF
+0402 0402 d 20203a6363787878786969626262626262084c6f616420496e74656c2d4865782066696c65207265636f72640d0a
+0402 0402 s         db '  :ccxxxxiibbbbbb',08h,'Load Intel-Hex file record',CR,LF
+0430 0430 d 20205278787878080852756e2066726f6d206164647265737320787878780d0a
+0430 0430 s         db '  Rxxxx',08H,08H,'Run from address xxxx',CR,LF
+0450 0450 d 202053646464080853797374656d20626f6f740d0a
+0450 0450 s         db '  Sddd',08H,08H,'System boot',CR,LF
+0465 0465 d 2020496464640808496e69743a20466f726d6174206469726563746f72790d0a
+0465 0465 s         db '  Iddd',08H,08H,'Init: Format directory',CR,LF
+0485 0485 d 2020506464645b2c787878785d085075745379733a2077726974652073797374656d20696d6167655b2c6c6f6164616464726573735d0d0a
+0485 0485 s         db '  Pddd[,xxxx]',08H,'PutSys: write system image[,loadaddress]',CR,LF
+04bd 04bd d 0808284e6f20616464726573733a2072652d757365206c617374206c6f616461646472657373290d0a
+04bd 04bd s         db 08H,08H,'(No address: re-use last loadaddress)',CR,LF
+04e6 04e6 d 2020476464645b2c787878785d084765745379733a206c6f61642073797374656d20747261636b0d0a0a
+04e6 04e6 s         db '  Gddd[,xxxx]',08H,'GetSys: load system track',CR,LF,LF
+0510 0510 d 202044787878785b2c797979795d0844756d70206d656d6f72792066726f6d2078787878205b2c746f20797979795d0d0a
+0510 0510 s         db '  Dxxxx[,yyyy]',08H,'Dump memory from xxxx [,to yyyy]',CR,LF
+0541 0541 d 08084420286e6f2061646472657373292073686f7773206e65787420626c6f636b0d0a
+0541 0541 s         db 08H,08H,'D (no address) shows next block',CR,LF
+0564 0564 d 2020437878787808084368616e67652f73686f77206d656d6f727920617420787878780d0a
+0564 0564 s         db '  Cxxxx',08H,08H,'Change/show memory at xxxx',CR,LF
+0589 0589 d 0808435220616476616e63657320222c222071756974730d0a0a
+0589 0589 s         db 08H,08H,'CR advances "," quits',CR,LF,LF
+05a3 05a3 d 2020646464206973206120646563696d616c20766f6c756d65206e756d6265722c0d0a
+05a3 05a3 s         db '  ddd is a decimal volume number,',CR,LF
+05c6 05c6 d 2020787878782c207979797920697320612068657861646563696d616c20616464726573732e0d0a
+05c6 05c6 s         db '  xxxx, yyyy is a hexadecimal address.',CR,LF
+05ee 05ee d 20204c656164696e67207a65726f73206d6179206265206f6d69747465642e0d0a
+05ee 05ee s         db '  Leading zeros may be omitted.',CR,LF
+060f 060f d 2020455343206f72205e432061626f7274732e0d0a00
+060f 060f s         db '  ESC or ^C aborts.',CR,LF,0
+0625 0625 s 
+0625 0625 d 21e803
+0625 0625 s help:   ld HL,HLPTXT            ; Print Help message
+0628 0628 d c31301
+0628 0628 s         jp print ; end help
+062b 062b s 
+062b 062b s 
+062b 062b s 
+062b 062b s ; GOTO - jump to address
+062b 062b s ;-------------------------------------------------------------
+062b 062b d cde101
+062b 062b s goto:   call gethex             ; get hex entry in DE
+062e 062e d eb
+062e 062e s         ex DE,HL
+062f 062f d e9
+062f 062f s         jp (HL)
+0630 0630 s 
+0630 0630 s 
+0630 0630 s 
+0630 0630 s ; SYSRUN - boot (load and run) from system track of selected volume
+0630 0630 s ;-------------------------------------------------------------
+0630 0630 d cd3801
+0630 0630 s sysrun: call getargs            ; get volume and loadaddress
+0633 0633 d cdab07
+0633 0633 s         call setDskIO
+0636 0636 d cd2407
+0636 0636 s         call readsys            ; read disk contents to loadaddress
+0639 0639 d cd9b07
+0639 0639 s         call getlen             ; find loadaddress and length
+063c 063c d edb0
+063c 063c s         ldir                    ; move buffer to image
+063e 063e d 3a0008
+063e 063e s         ld A,(aciaCtl)          ; message bootdisk and console to
+0641 0641 d e602
+0641 0641 s         and 02h                 ; main program - 2 methods, on stack
+0643 0643 d 0f
+0643 0643 s         rrca                    ; and in alternate BC registers
+0644 0644 d ee01
+0644 0644 s         xor 01h                 ; convert to iobyte...
+0646 0646 d f5
+0646 0646 s         push AF                 ; ...to save bytes in BIOS
+0647 0647 d 4f
+0647 0647 s         ld C,A
+0648 0648 d 3a0308
+0648 0648 s         ld A,(volume)           ; tell BIOS which is ...
+064b 064b d f5
+064b 064b s         push AF                 ; ...the active bootvolume
+064c 064c d 47
+064c 064c s         ld B,A
+064d 064d d d9
+064d 064d s         exx                     ; also make b'=bootdisk, c'=console
+064e 064e d 2afeff
+064e 064e s         ld HL,(0FFFEh)          ; pop and run location
+0651 0651 d e9
+0651 0651 s         jp (HL)                 ; bye bye
+0652 0652 s 
+0652 0652 s 
+0652 0652 s 
+0652 0652 s ; GETSYS - load data from system track of selected volume to DMA address
+0652 0652 s ;-------------------------------------------------------------
+0652 0652 d 0d0a53797374656d2052656164204f4b00
+0652 0652 s GETTXT: db CR,LF,'System Read OK',0
+0663 0663 d cd3801
+0663 0663 s getsys: call getargs
+0666 0666 d cdab07
+0666 0666 s         call setDskIO
+0669 0669 d cd2407
+0669 0669 s         call readsys
+066c 066c d cd9b07
+066c 066c s         call getlen     ; find loadaddress and length
+066f 066f d edb0
+066f 066f s         ldir            ; write buffer to image
+0671 0671 d 215206
+0671 0671 s         ld HL,GETTXT
+0674 0674 d c31301
+0674 0674 s         jp print ; end getsys
+0677 0677 s 
+0677 0677 s 
+0677 0677 s 
+0677 0677 s ; PUTSYS - write data from DMA address to system track of selected volume
+0677 0677 s ;-------------------------------------------------------------
+0677 0677 s PTSYSTXT:
+0677 0677 d 0d0a53797374656d205772697465204f4b00
+0677 0677 s         db CR,LF,'System Write OK',0
+0689 0689 d cd3801
+0689 0689 s putsys: call getargs
+068c 068c d ed5b0108
+068c 068c s         ld DE,(dmaAddr)
+0690 0690 d af
+0690 0690 s         xor A                   ; set to zero
+0691 0691 d b2
+0691 0691 s         or D                    ; any bits in D
+0692 0692 d b3
+0692 0692 s         or E                    ; and in E
+0693 0693 d 280a
+0693 0693 s         jr z,p1                 ; no loadaddres specified: just write buffer
+0695 0695 d ed53febf
+0695 0695 s         ld (LOADADDR),DE        ; put loadaddres on top of buffer
+0699 0699 d cd9b07
+0699 0699 s         call getlen             ; get buffer start and length
+069c 069c d eb
+069c 069c s         ex DE,HL                ; swap source/destination
+069d 069d d edb0
+069d 069d s         ldir                    ; fill buffer with image
+069f 069f d cdab07
+069f 069f s p1:     call setDskIO
+06a2 06a2 d cd4607
+06a2 06a2 s         call writesys
+06a5 06a5 d 217706
+06a5 06a5 s         ld HL,PTSYSTXT
+06a8 06a8 d c31301
+06a8 06a8 s         jp print ; end putsys
+06ab 06ab s 
+06ab 06ab s 
+06ab 06ab s 
+06ab 06ab s ; FORMAT - write empty directory to selected volume and add a volume label
+06ab 06ab s ;-------------------------------------------------------------
+06ab 06ab d 002020566f6c756d65303030
+06ab 06ab s volImg: db 0,'  Volume000'
+06b7 06b7 d 0000000000000000000000000000000000000000e5
+06b7 06b7 s         db 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0E5h
+06cc 06cc d 0d0a466f726d6174204f4b202d2000
+06cc 06cc s FMTXT:  db CR,LF,'Format OK - ',0
+06db 06db d cd3801
+06db 06db s format: call getargs            ; if a loadaddress was entered we ignore it
+06de 06de d 21ab06
+06de 06de s         ld HL,volImg            ; prepare the volumelabel
+06e1 06e1 d 110508
+06e1 06e1 s         ld DE,volumeID          ; from ROM to RAM
+06e4 06e4 d 012100
+06e4 06e4 s         ld BC,33
+06e7 06e7 d edb0
+06e7 06e7 s         ldir
+06e9 06e9 s         ; convert volume into decimal again
+06e9 06e9 d 3a0308
+06e9 06e9 s         ld A,(volume)
+06ec 06ec d 6f
+06ec 06ec s         ld L,A
+06ed 06ed s ;       inc L                   ; base 1
+06ed 06ed d 0608
+06ed 06ed s         ld B,8                  ; b = count (8 bits to go)
+06ef 06ef d 110000
+06ef 06ef s         ld DE,0                 ; result, de=zero
+06f2 06f2 d cb15
+06f2 06f2 s unpack: rl L                    ; unpack hex number in L to bcd in DE
+06f4 06f4 d 7b
+06f4 06f4 s         ld A,E                  ; rotate next highest bit in carry flag
+06f5 06f5 d 8f
+06f5 06f5 s         adc A,A                 ; shift and add next high bit of L
+06f6 06f6 d 27
+06f6 06f6 s         daa                     ; adjust for BCD
+06f7 06f7 d 5f
+06f7 06f7 s         ld E,A
+06f8 06f8 d 7a
+06f8 06f8 s         ld A,D
+06f9 06f9 d 8f
+06f9 06f9 s         adc A,A                 ; shift and add carry of previous operation
+06fa 06fa d 27
+06fa 06fa s         daa                     ; adjust for BCD
+06fb 06fb d 57
+06fb 06fb s         ld D,A
+06fc 06fc d 10f4
+06fc 06fc s         djnz unpack             ; do  all 8 bits
+06fe 06fe s         ;insert volume in label
+06fe 06fe d 216808
+06fe 06fe s         ld HL,STACK             ; find a free byte
+0701 0701 d 73
+0701 0701 s         ld (HL),E               ; last two BCD digits
+0702 0702 d 7a
+0702 0702 s         ld A,D                  ; first BCD digit
+0703 0703 d 0603
+0703 0703 s         ld B,3                  ; do all three
+0705 0705 d 110e08
+0705 0705 s         ld DE,volumeID+9        ; index to labeltext
+0708 0708 d c630
+0708 0708 s         add a,'0'               ; make ascii
+070a 070a d 12
+070a 070a s labidx: ld (DE),A               ; store in label
+070b 070b d ed6f
+070b 070b s         rld                     ; rotate next digit into A
+070d 070d d 13
+070d 070d s         inc DE                  ; increment index
+070e 070e d 10fa
+070e 070e s         djnz labidx             ; all three of them
+0710 0710 d 210e08
+0710 0710 s         ld HL,volumeID+9        ; index to labeltext
+0713 0713 d cbfe
+0713 0713 s         set 7,(HL)              ; make read-only
+0715 0715 s 
+0715 0715 d cd6907
+0715 0715 s         call fmtsys             ; write to disk
+0718 0718 s 
+0718 0718 d 21cc06
+0718 0718 s         ld HL,FMTXT
+071b 071b d cd1301
+071b 071b s         call print
+071e 071e d 210608
+071e 071e s         ld HL,volumeID+1        ; display the volumelabel
+0721 0721 d c31301
+0721 0721 s         jp print ; end format
+0724 0724 s 
+0724 0724 s 
+0724 0724 s 
+0724 0724 s ; READSYS - perform I/O for physical sytem track read
+0724 0724 s ;-------------------------------------------------------------
+0724 0724 s readsys:
+0724 0724 d 1602
+0724 0724 s         ld D,2
+0726 0726 d cdb807
+0726 0726 s         call setLBAddr
+0729 0729 d af
+0729 0729 s         xor A                   ; 00 = Read block
+072a 072a d d389
+072a 072a s         out (SD_CONTROL),A
+072c 072c s 
+072c 072c s readbyte:
+072c 072c d db89
+072c 072c s         in A,(SD_STATUS)
+072e 072e d fee0
+072e 072e s         cp 0E0h                 ; output buffer has data ready
+0730 0730 d 20fa
+0730 0730 s         jr nz,readbyte          ; wait for ready
+0732 0732 d db88
+0732 0732 s         in A,(SD_DATA)          ; read next databyte from disk
+0734 0734 d 77
+0734 0734 s         ld (HL),A               ; store it
+0735 0735 d 23
+0735 0735 s         inc HL                  ; increase index
+0736 0736 d 10f4
+0736 0736 s         djnz readbyte           ; do 256 times
+0738 0738 d 15
+0738 0738 s         dec D                   ; do twice for 512 bytes
+0739 0739 d 20f1
+0739 0739 s         jr nz,readbyte
+073b 073b d 3a0408
+073b 073b s         ld A,(sector)           ; next sector to read
+073e 073e d 3c
+073e 073e s         inc A
+073f 073f d 320408
+073f 073f s         ld (sector),A
+0742 0742 d 1d
+0742 0742 s         dec E                   ; last sector yet?
+0743 0743 d 20df
+0743 0743 s         jr nz,readsys           ; if not do again
+0745 0745 d c9
+0745 0745 s         ret ; readsys
+0746 0746 s 
+0746 0746 s 
+0746 0746 s 
+0746 0746 s ; WRITESYS - perform I/O for physical system track write
+0746 0746 s ;-------------------------------------------------------------
+0746 0746 s writesys:
+0746 0746 d 1602
+0746 0746 s         ld D,2                  ; 2 x 256 bytes to read
+0748 0748 d cdb807
+0748 0748 s         call setLBAddr
+074b 074b d 3e01
+074b 074b s         ld A,1                  ; 01 = Write block
+074d 074d d d389
+074d 074d s         out (SD_CONTROL),A
+074f 074f s 
+074f 074f s writebyte:
+074f 074f d db89
+074f 074f s         in A,(SD_STATUS)
+0751 0751 d fea0
+0751 0751 s         cp 0A0h                 ; output buffer has data ready
+0753 0753 d 20fa
+0753 0753 s         jr nz,writebyte         ; wait for ready
+0755 0755 d 7e
+0755 0755 s         ld A,(HL)               ; next databyte
+0756 0756 d d388
+0756 0756 s         out (SD_DATA),A         ; write to disk
+0758 0758 d 23
+0758 0758 s         inc HL                  ; increase index
+0759 0759 d 10f4
+0759 0759 s         djnz writebyte          ; do 256 times
+075b 075b d 15
+075b 075b s         dec D                   ; do twice for 512 bytes
+075c 075c d 20f1
+075c 075c s         jr nz,writebyte
+075e 075e s 
+075e 075e d 3a0408
+075e 075e s         ld A,(sector)           ; next sector to read
+0761 0761 d 3c
+0761 0761 s         inc A
+0762 0762 d 320408
+0762 0762 s         ld (sector),a
+0765 0765 d 1d
+0765 0765 s         dec E                   ; last sector yet?
+0766 0766 d 20de
+0766 0766 s         jr nz,writesys          ; if not do again
+0768 0768 s 
+0768 0768 d c9
+0768 0768 s         ret ; writesys
+0769 0769 s 
+0769 0769 s 
+0769 0769 s 
+0769 0769 s ; FMTSYS - perform I/O for the physical format
+0769 0769 s ;-------------------------------------------------------------
+0769 0769 s fmtsys:
+0769 0769 d 3e20
+0769 0769 s         ld A,32                 ; startsector
+076b 076b d 320408
+076b 076b s         ld (sector),A
+076e 076e d 0600
+076e 076e s         ld B,0                  ; count in b (0 is 256 loops)
+0770 0770 d 210508
+0770 0770 s         ld HL,volumeID          ; source Address
+0773 0773 s 
+0773 0773 d 1602
+0773 0773 s fmtsec: ld D,2                  ; 2 x 256 bytes to write
+0775 0775 d cdb807
+0775 0775 s         call setLBAddr
+0778 0778 d 3e01
+0778 0778 s         ld A,1                  ; 01 = Write block
+077a 077a d d389
+077a 077a s         out (SD_CONTROL),A
+077c 077c s 
+077c 077c s fmtbyte:
+077c 077c d db89
+077c 077c s         in A,(SD_STATUS)
+077e 077e d fea0
+077e 077e s         cp 0A0h                 ; write buffer empty?
+0780 0780 d 20fa
+0780 0780 s         jr nz,fmtbyte
+0782 0782 d 7e
+0782 0782 s         ld A,(HL)               ; first het label,
+0783 0783 d d388
+0783 0783 s         out (SD_DATA),A         ; then
+0785 0785 d fee5
+0785 0785 s         cp 0E5h                 ; if label is done
+0787 0787 d 2801
+0787 0787 s         jr z,fskip              ; stop incrementing
+0789 0789 d 23
+0789 0789 s         inc HL
+078a 078a d 10f0
+078a 078a s fskip:  djnz fmtbyte            ; B = 0?
+078c 078c d 15
+078c 078c s         dec D                   ; do twice for 512 bytes
+078d 078d d 20ed
+078d 078d s         jr nz,fmtbyte           ; do second half
+078f 078f s 
+078f 078f d 3a0408
+078f 078f s         ld A,(sector)           ; next sector to format
+0792 0792 d 3c
+0792 0792 s         inc A
+0793 0793 d 320408
+0793 0793 s         ld (sector),a           ; stop if next is last
+0796 0796 d fe40
+0796 0796 s         cp FMTSECS+32
+0798 0798 d 20d9
+0798 0798 s         jr nz,fmtsec            ; if not do next sector
+079a 079a s 
+079a 079a d c9
+079a 079a s         ret ; fmtsys
+079b 079b s 
+079b 079b s 
+079b 079b s ; getlen sets the length of the CP/M image in BC,
+079b 079b s ;       destination address in DE and source address in HL
+079b 079b s getlen:
+079b 079b d ed5bfebf
+079b 079b s         ld DE,(LOADADDR)
+079f 079f d 7a
+079f 079f s         ld A,D          ; calculate 10000h-loadaddress
+07a0 07a0 d ed44
+07a0 07a0 s         neg
+07a2 07a2 d 47
+07a2 07a2 s         ld B,A
+07a3 07a3 d 7b
+07a3 07a3 s         ld A,E
+07a4 07a4 d ed44
+07a4 07a4 s         neg
+07a6 07a6 d 4f
+07a6 07a6 s         ld C,A
+07a7 07a7 d 210080
+07a7 07a7 s         ld HL,BUFFADDR
+07aa 07aa d c9
+07aa 07aa s         ret
+07ab 07ab s 
+07ab 07ab s 
+07ab 07ab s ; SETDSKIO - prepare SD card for physical read/write block I/O
+07ab 07ab s ;-------------------------------------------------------------
+07ab 07ab s setDskIO:
+07ab 07ab d af
+07ab 07ab s         xor A           ; a is startsector
+07ac 07ac d 320408
+07ac 07ac s         ld (sector),A
+07af 07af d 210080
+07af 07af s         ld HL,BUFFADDR  ; transfer buffer address
+07b2 07b2 d 1e20
+07b2 07b2 s         ld E,32         ; read/write the whole systemtrack
+07b4 07b4 d 7b
+07b4 07b4 s         ld A,E
+07b5 07b5 d 0600
+07b5 07b5 s         ld B,0          ; output block counter
+07b7 07b7 d c9
+07b7 07b7 s         ret ;  setDskIO
+07b8 07b8 s 
+07b8 07b8 s 
+07b8 07b8 s ; SETLBADR - convert volume and sector to Logic Block Address for the first 8 tracks
+07b8 07b8 s ;-------------------------------------------------------------
+07b8 07b8 s setLBAddr:
+07b8 07b8 d c5
+07b8 07b8 s         push BC
+07b9 07b9 d f5
+07b9 07b9 s         push AF
+07ba 07ba s 
+07ba 07ba d 3a0308
+07ba 07ba s         ld A,(volume)   ; get the physical volume
+07bd 07bd d cb0f
+07bd 07bd s         rrc A           ; move bits to line up with
+07bf 07bf d cb0f
+07bf 07bf s         rrc A           ; LBA framing
+07c1 07c1 d 4f
+07c1 07c1 s         ld C,A          ; save this part for LBA1
+07c2 07c2 d e63f
+07c2 07c2 s         and 3Fh         ; mask off the lower 6 bits
+07c4 07c4 d d38c
+07c4 07c4 s         out (SD_LBA2),A ; and set the third byte
+07c6 07c6 d 79
+07c6 07c6 s         ld A,C          ; the rotated physical volume
+07c7 07c7 d e6c0
+07c7 07c7 s         and 0C0h        ; top 2 bits for LBA1
+07c9 07c9 d d38b
+07c9 07c9 s         out (SD_LBA1),A ; second LBA byte set
+07cb 07cb d db89
+07cb 07cb s lba1:   in A,(SD_STATUS)
+07cd 07cd d fe80
+07cd 07cd s         cp 080h         ; disk ready
+07cf 07cf d 20fa
+07cf 07cf s         jr nz,lba1
+07d1 07d1 d 3a0408
+07d1 07d1 s         ld A,(sector)   ; sector includes first 8 tracks
+07d4 07d4 d d38a
+07d4 07d4 s         out (SD_LBA0),A ; first LBA byte set
+07d6 07d6 s 
+07d6 07d6 d f1
+07d6 07d6 s         pop AF
+07d7 07d7 d c1
+07d7 07d7 s         pop BC
+07d8 07d8 d c9
+07d8 07d8 s         ret
+07d9 07d9 s 
+07d9 07d9 s         end
+069f a p1
+022f a s2
+000a v lf
+000d v cr
+0008 v bs
+030f a t11
+0316 a t22
+0318 a t33
+0000 v b1200
+0001 v b2400
+0002 v b4800
+0003 v b9600
+0009 v tab
+001b v esc
+000c v cls
+0868 a mon
+0004 v b19200
+07cb a lba1
+0005 v b38400
+0006 v b57600
+03c6 a get2
+0007 v b115200
+0387 a load
+0255 a main
+011b a crlf
+0625 a help
+00b4 a init
+01aa a wipe
+0235 a conv
+02c2 a dump
+062b a goto
+02eb a darg2
+03a5 a load2
+03b4 a load3
+0265 a main1
+028d a main2
+02bf a dsep2
+02bc a dsep4
+03c0 a load00
+0828 a cbuff
+03ca a bctoa
+021a a ddone
+02ec a dline
+01fe a gdone
+019a a erase
+01d8 a ucase
+0243 a nocmd
+0868 v stack
+0010 a conin
+0003 v ctrlc
+02fa a dbyte
+02ce a dskip
+0161 a cloop
+0204 a dloop
+078a a fskip
+0226 a lbyte
+0000 a rst00h
+0010 a rst10h
+0000 a reset
+01e5 a gloop
+021c a doops
+0008 a rst08h
+0221 a prthl
+0113 a print
+0000 v start
+06cc a fmtxt
+03d3 a bctoa1
+03e1 a bctoa2
+0015 a conin1
+032c a change
+0200 a getdec
+00f8 a datain
+01cd a escape
+01d3 a escend
+070a a labidx
+02dd a dendok
+0159 a badvol
+0187 a charok
+01d5 a getchr
+007b v acia0_b
+0080 v acia0_c
+0081 v acia0_d
+0082 v acia1_c
+0083 v acia1_d
+007c v acia1_b
+01e1 a gethex
+0360 a chskip
+079b a getlen
+06f2 a unpack
+06db a format
+0330 a chnext
+0773 a fmtsec
+0057 a signon
+06ab a volimg
+0804 a sector
+0196 a erastr
+0826 a lastmr
+008a v sd_lba0
+008b v sd_lba1
+008c v sd_lba2
+0803 a volume
+0020 a conout
+0125 a volerr
+0376 a ldetxt
+0663 a getsys
+0652 a gettxt
+023e a prompt
+03e8 a hlptxt
+0769 a fmtsys
+0630 a sysrun
+0689 a putsys
+0026 a conout1
+0801 a dmaaddr
+0088 v sd_data
+0800 a aciactl
+03ba a loaderr
+0138 a getargs
+0020 v fmtsecs
+0724 a readsys
+077c a fmtbyte
+0161 a istring
+0095 v rts_low
+0032 a inittxt
+bffe v loadaddr
+8000 v buffaddr
+072c a readbyte
+00d5 v rts_high
+00fd v mmuframe
+0805 a volumeid
+07ab a setdskio
+01f0 a noletter
+0746 a writesys
+0677 a ptsystxt
+07b8 a setlbaddr
+00b7 a nextblock
+00f8 v mmuselect
+0367 a chksumerr
+0089 v sd_status
+00fe v maxvolume
+074f a writebyte
+0848 a stackspace
+0089 v sd_control
+00de a waitforspace
