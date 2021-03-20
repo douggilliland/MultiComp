@@ -26,8 +26,8 @@ use  IEEE.STD_LOGIC_UNSIGNED.all;
 
 entity Microcomputer is
 	port(
-		n_extReset	: in std_logic;
 		clk			: in std_logic;                       -- "clk" kommt vom PLL als Signal
+		n_extReset	: in std_logic;
 
 		--        leds        : out std_logic_vector(7 downto 0);
 
@@ -91,7 +91,7 @@ end Microcomputer;
 architecture struct of Microcomputer is
 
 	signal cpuClock		: std_logic;
-	signal n_reset			: std_logic :='1';        -- addition for n_extReset from CyclonIVb board
+	signal n_reset			: std_logic;
 	signal n_WR				: std_logic;
 	signal n_RD				: std_logic;
 	signal cpuAddress		: std_logic_vector(15 downto 0);
@@ -110,7 +110,7 @@ architecture struct of Microcomputer is
 
 	-- LED-Register:
 	signal n_ledsel		: std_logic :='1';        -- select signal for led register
-	signal ledreg			: std_logic_vector(7 downto 0) := "00000000";
+--	signal ledreg			: std_logic_vector(7 downto 0) := "00000000";
 	signal n_cpuidsel		: std_logic :='1';        -- select signal for CPUid register
 
 	-- ROM:
@@ -239,7 +239,7 @@ begin
 
 -- ____________________________________________________________________________________
 -- ASCII-Cursor flashing handling:
--- Set flashing with "OUT $100 = $00" to = OFF, with "OUT $101 = $00" to ON
+-- Set flashing with "OUT $9a = $00" to = OFF, with "OUT $9b = $00" to ON
 	process (n_ioWR, n_reset,cpuAddress) begin
 		if (n_reset = '0') then
 			gSelBlink <= '1';                                -- RESET => ON
@@ -619,7 +619,7 @@ io2 : entity work.SBCTextDisplayRGB           --     PS/2-Tastatur + Terminal
 	n_mmuCS           <= '0' when cpuAddress(7 downto 3) = "11111"   and (n_ioWR  = '0' or n_ioRD = '0')  else '1';    -- 8 bytes   $F8-$FF     := MMU-CS
 
 -- ext. RAM Interface
-        n_externalRam1CS <= n_monRomCS;
+        n_externalRam1CS <= not n_monRomCS;
 --        n_externalRam2CS<= not(n_monRomCS and physicaladdr(19));
 -- ____________________________________________________________________________________
 -- BUS ISOLATION GOES HERE
@@ -631,19 +631,16 @@ io2 : entity work.SBCTextDisplayRGB           --     PS/2-Tastatur + Terminal
 	interface5DataOut when n_interface5CS   = '0' else -- CS for Read from IO5 freie RS232  (ACIA1_C)
 	interface7DataOut when n_interface7CS   = '0' else -- CS for Read from Graphics-RAM (Cursor-/Address-Pos.)
 	interfaceADataOut when n_interfaceACS   = '0' else -- CS for Read from Char-ROM
-
 	x"42"        		when n_cpuidsel       = '0' else
-
 	sdCardDataOut    when n_sdCardCS       = '0' else
 	monRomData       when n_monRomCS       = '0' else
 	sramData         when n_externalRam1CS = '0' else
-
 	x"FF";
 
 	process (clk)
 	begin
 		if rising_edge(clk) then
-		  CPUClock <= not CPUClock;                 --50 MHz / 2 = 25Mhz CPU-Clock
+		  CPUClock <= not CPUClock;                 -- 50 MHz / 2 = 25Mhz CPU-Clock
 		  --generate the 20ms interrupt
 		  if intClkCount < 999999 then              -- 1,000,000 for 50 Hzfor CycloneII FPGA Board
 			  intClkCount <= intClkCount +1;
