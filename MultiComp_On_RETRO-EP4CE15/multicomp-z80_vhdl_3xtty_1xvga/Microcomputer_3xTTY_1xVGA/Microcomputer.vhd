@@ -1,4 +1,29 @@
--- This file is copyright by Grant Searle 2014
+-- Z80 FPGA Microcomputer design
+-- Ported from: https://retrobrewcomputers.org/doku.php?id=builderpages:muellerk:start
+-- Doug Gilliland
+--
+-- Features
+--		ASCII-Display is 80×30 (Col. * Row)
+--		Graphic-Display is 640x240px Black & White, no Attribute-RAM
+--		Fully programmable Font-ROM
+--		ASCII-Cursor ON/OFF via Port access
+--		Runs ROM monitor with multi-boot capability, Format, Getsys and Putsys tools and debug capabilities. No BASIC in ROM.
+--			https://retrobrewcomputers.org/doku.php?id=builderpages:rhkoolstar:mc-2g-1024
+--			SD-HC capable card controller. Init at 250 kHz, running at 25 MHz.
+--			Improved keyboard definition featuring external keymap and added key functionality.
+--			Multi volume disk system, which currently supports upto 253 8MB disk volumes (which uses 2GB+ on the SD-card). All these volumes can be loaded with a separate OS bootimage.
+--			OSes configured with 3 drives: A:, B: and C:. A: for the system drive (holding the volume booted from) while B: and C: can be assigned and re-assigned one of the remaining volumes. Also a RAM disk is available for CP/M 2 and CP/M 3 systems.
+--			Y2k compatible system clock (date and time) for all OSes.
+--			Included are CP/M 2.2, Dos+ 2.5, CP/M 3.0, MPMII 2.1, ZSDOS 1.1/ZCPR2, ZPM3/ZCCP and NASCOM ROM Basic
+--	Enhancements to Multicomp, including VHDL updates for
+--		ROM monitor; (new concept)
+--		SD-card controller; (with added SD-HC capability)
+--		Serial terminals with programmable baudrates (simplified version introduced by Max Scane)
+--		MMU; (simplified version from the one introduced by James Moxham)
+--		Microcomputer .vdh file. (ROM-switch, timer interrupt, SD-clock)
+--		SCBTextDisplayRGB.vhd, to include an external keymap and key updates
+--	
+-- The original design is copyright by Grant Searle 2014
 -- You are free to use this file in your own projects but must never charge for it nor use it without
 -- acknowledgement.
 -- Please ask permission from Grant Searle before republishing elsewhere.
@@ -28,8 +53,6 @@ entity Microcomputer is
 	port(
 		clk			: in std_logic;                       -- "clk" kommt vom PLL als Signal
 		n_extReset	: in std_logic;
-
-		--        leds        : out std_logic_vector(7 downto 0);
 
 		-- SRAM
 		sramData		: inout std_logic_vector(7 downto 0);
@@ -62,11 +85,7 @@ entity Microcomputer is
 		txd4			: out std_logic;
 		rts4			: out std_logic;
 		cts4			: in std_logic;
-
-		-- Monochrome (RCA) video signals (when using TV timings only)
-		--      videoSync       : out std_logic;
-		--      video           : out std_logic;
-
+		
 		-- VGA + PS/2-Keyboard
 		videoR0		: out std_logic;
 		videoG0		: out std_logic;
@@ -110,7 +129,6 @@ architecture struct of Microcomputer is
 
 	-- LED-Register:
 	signal n_ledsel		: std_logic :='1';        -- select signal for led register
---	signal ledreg			: std_logic_vector(7 downto 0) := "00000000";
 	signal n_cpuidsel		: std_logic :='1';        -- select signal for CPUid register
 
 	-- ROM:
@@ -127,7 +145,7 @@ architecture struct of Microcomputer is
 	signal intClkCount		: std_logic_vector(19 downto 0);
 	signal n_int50				: std_logic;
 
-	-- PS/2-Tastatur
+	-- PS/2-Display
 	signal interface2DataOut	: std_logic_vector(7 downto 0);
 	signal n_interface2CS		: std_logic := '1';
 
@@ -206,7 +224,9 @@ begin
 
 -- ____________________________________________________________________________________
 -- Graphic ON/OFF handling:
--- Disable Graphic with "OUT $94 = $00". Re-enable with "OUT $95 = $00", RESET = Graphic OFF
+-- Disable Graphic with "OUT $94 = $00".
+-- Re-enable with "OUT $95 = $00", 
+-- RESET = Graphic OFF
 	process (n_ioWR, n_reset,cpuAddress) begin
 		if (n_reset = '0') then
 			grafON <= '0';
@@ -334,30 +354,8 @@ begin
 	n_sRamWE    <= n_memWR;
 	n_sRamOE    <= n_memRD;
 	n_sRam1CS   <= n_externalRam1CS;
---        n_sRam2CS   <= n_externalRam2CS;
 
--- ____________________________________________________________________________________
--- INPUT/OUTPUT DEVICES GO HERE
-
--- LED Register
---        process(clk,n_reset)
---        begin
---           if rising_edge(clk) then
---
---              if (n_reset = '0') then
---                 ledreg <= "00000000";
---
---              elsif (n_ledsel = '0') then
---                    ledreg <= cpuDataOut;
---                    else NULL;
---              end if;
---           end if;
---        end process;
---        leds <= ledreg; -- connect the LED register to the led pins
-
-
-
-	io1 : entity work.bufferedUART                  -- IO1:RS232 = ACIA0
+	io1 : entity work.bufferedUART                  -- IO1:USB-to-Serial = ACIA0
 	port map(
 		clk      => clk,
 		n_wr     => n_interface1CS or n_ioWR,
@@ -421,10 +419,6 @@ io2 : entity work.SBCTextDisplayRGB           --     PS/2-Tastatur + Terminal
 		videoG1   => videoG1,
 		videoB0   => videoB0,
 		videoB1   => videoB1,
-		--
-		-- Monochrome (RCA) video signals (when using TV timings only)
-		--      sync => videoSync,
-		--      video => video,
 
 		-- Common, PS/2-Keyboard
 		n_wr      => n_interface2CS or n_ioWR,
@@ -432,8 +426,8 @@ io2 : entity work.SBCTextDisplayRGB           --     PS/2-Tastatur + Terminal
 		--      n_int     => n_int2,
 		n_int     => open,
 		regSel    => cpuAddress(0),            -- Register des OS/2-ACIA's, 0 = ??? / 1 = ???
-		dataIn    => cpuDataOut,               -- Ins Display-RAM/auf Keyboard schreiben
-		dataOut   => interface2DataOut,        -- Von Display-RAM/Keyboard lesen
+		dataIn    => cpuDataOut,               -- In Display-RAM/Keyboard data
+		dataOut   => interface2DataOut,        -- Von Display-RAM/Keyboard data out
 
 		-- PS/2-Keyboard
 		ps2Clk    => ps2Clk,
@@ -445,18 +439,18 @@ io2 : entity work.SBCTextDisplayRGB           --     PS/2-Tastatur + Terminal
 		gON       => grafON,                   -- Graphic ON = '1'/ OFF = '0'
 		gSEL      => '1',                      -- Graphic: direkt = '1'
 		BlinkON   => gSelBlink,                -- ASCII: Cursor flashing: '1' = ON / '0' = OFF
-		gAddrLow  => gAddrLowByte,             -- Direkte gRAM Adresse LOW
-		gAddrHigh => gAddrHighByte,            -- Direkte gRAM Adresse HIGH
-		gdataIn   => cpuDataOut,               -- Ins gRAM schreiben
-		gdataOut  => interface7DataOut,        -- Von gRAM lesen (Cursor- oder Adress-Selektiert)
+		gAddrLow  => gAddrLowByte,             -- Direct gRAM Address LOW
+		gAddrHigh => gAddrHighByte,            -- Direct gRAM Address HIGH
+		gdataIn   => cpuDataOut,               -- Ins gRAM data
+		gdataOut  => interface7DataOut,        -- Von gRAM data out (Cursor- oder Adress-Selektiert)
 
 		-- Programable Char-ROM
 		n_cwr     => n_interface9CS or n_ioWR,
 		n_crd     => n_interfaceACS or n_ioRD,
-		cAddrLow  => cAddrLowByte,             -- Char-ROM Adresse LOW-Byte
-		cAddrHigh => cAddrHighByte,            -- Char-ROM Adresse HIGH-Byte
-		cdataIn   => cDataByte,                -- Ins Char-ROM schreiben
-		cdataOut  => interfaceADataOut         -- Von Char-ROM lesen
+		cAddrLow  => cAddrLowByte,             -- Char-ROM Address LOW-Byte
+		cAddrHigh => cAddrHighByte,            -- Char-ROM Address HIGH-Byte
+		cdataIn   => cDataByte,                -- Ins Char-ROM data
+		cdataOut  => interfaceADataOut         -- Von Char-ROM data out
 
 	);
 
@@ -536,8 +530,8 @@ io2 : entity work.SBCTextDisplayRGB           --     PS/2-Tastatur + Terminal
 		txClock => sClk4,
 		rxd     => rxd4,
 		txd     => txd4,
-		--              n_cts   => cts4,
-		n_cts   => '0',         -- ESP8266 does not support RTS
+		n_cts   => cts4,
+		-- n_cts   => cts4,         -- ESP8266 does not support RTS
 		n_dcd   => '0',
 		n_rts   => rts4         -- the RTS signal is used to reset ESP8266
 	);
@@ -601,16 +595,16 @@ io2 : entity work.SBCTextDisplayRGB           --     PS/2-Tastatur + Terminal
 	n_interface7CS    <= '0' when cpuAddress(7 downto 0) = x"93" and (n_ioRD = '0') else '1';                     		-- 1 Byte    $93         := Graphic BYTE read from RAM by address
 																																							-- 1 Byte    $94         := switch Graphic-Screen OFF
 																																							-- 1 Byte    $95         := switch Graphic-Screen ON
-																																							-- 1 Byte    $96         := Set Graphic-Adresse LOW-Byte
-																																							-- 1 Byte    $97         := Set Graphic-Adresse HIGH-Byte
+																																							-- 1 Byte    $96         := Set Graphic-Address LOW-Byte
+																																							-- 1 Byte    $97         := Set Graphic-Address HIGH-Byte
 																																							-- 1 Byte    $98         := __reserved for future use__
 																																							-- 1 Byte    $99         := __reserved for future use__
 																																							-- 1 Byte    $9A         := Cursor flashing OFF
 																																							-- 1 Byte    $9B         := Cursor flashing ON
 
 	-- Programable Char-ROM access
-																																							-- 1 Byte    $9C         := Set Char-ROM Adresse LOW-Byte
-																																							-- 1 Byte    $9D         := Set Char-ROM Adresse HIGH-Byte
+																																							-- 1 Byte    $9C         := Set Char-ROM Address LOW-Byte
+																																							-- 1 Byte    $9D         := Set Char-ROM Address HIGH-Byte
 	n_interface9CS    <= '0' when cpuAddress(7 downto 0) = x"9e" and (n_ioWR = '0') else '1';                     		-- 1 Byte    $9E         := Write Byte  to  Char-ROM
 	n_interfaceACS    <= '0' when cpuAddress(7 downto 0) = x"9f" and (n_ioRD = '0') else '1';                     		-- 1 Byte    $9F         := Read  Byte from Char-ROM
 
@@ -620,7 +614,6 @@ io2 : entity work.SBCTextDisplayRGB           --     PS/2-Tastatur + Terminal
 
 -- ext. RAM Interface
         n_externalRam1CS <= not n_monRomCS;
---        n_externalRam2CS<= not(n_monRomCS and physicaladdr(19));
 -- ____________________________________________________________________________________
 -- BUS ISOLATION GOES HERE
 	cpuDataIn <=
@@ -642,7 +635,7 @@ io2 : entity work.SBCTextDisplayRGB           --     PS/2-Tastatur + Terminal
 		if rising_edge(clk) then
 		  CPUClock <= not CPUClock;                 -- 50 MHz / 2 = 25Mhz CPU-Clock
 		  --generate the 20ms interrupt
-		  if intClkCount < 999999 then              -- 1,000,000 for 50 Hzfor CycloneII FPGA Board
+		  if intClkCount < 999999 then              -- 1,000,000 for 50 Hz FPGA Board
 			  intClkCount <= intClkCount +1;
 		  else
 			  intClkCount <= (others=>'0');
