@@ -1,6 +1,6 @@
 Analysis & Synthesis report for uk101_41kRAM
-Sat Feb 08 17:11:42 2020
-Quartus Prime Version 18.1.0 Build 625 09/12/2018 SJ Lite Edition
+Fri Apr 30 09:37:10 2021
+Quartus Prime Version 20.1.0 Build 711 06/05/2020 SJ Lite Edition
 
 
 ---------------------
@@ -14,8 +14,8 @@ Quartus Prime Version 18.1.0 Build 625 09/12/2018 SJ Lite Edition
   6. Analysis & Synthesis Resource Usage Summary
   7. Analysis & Synthesis Resource Utilization by Entity
   8. Analysis & Synthesis RAM Summary
-  9. State Machine - |uk101|bufferedUART:u5|txState
- 10. State Machine - |uk101|bufferedUART:u5|rxState
+  9. State Machine - |uk101_41kRAM|bufferedUART:u5|txState
+ 10. State Machine - |uk101_41kRAM|bufferedUART:u5|rxState
  11. User-Specified and Inferred Latches
  12. Registers Removed During Synthesis
  13. Removed Registers Triggering Further Register Optimizations
@@ -26,30 +26,35 @@ Quartus Prime Version 18.1.0 Build 625 09/12/2018 SJ Lite Edition
  18. Source assignments for Mem_Mapped_XVGA:vga|DisplayRam2k:DisplayRAM|altsyncram:altsyncram_component|altsyncram_2sq3:auto_generated
  19. Source assignments for bufferedUART:u5|altsyncram:rxBuffer_rtl_0|altsyncram_1ce1:auto_generated
  20. Parameter Settings for User Entity Instance: BasicRom:u2|altsyncram:altsyncram_component
- 21. Parameter Settings for User Entity Instance: VideoClk_XVGA_1024x768:pll|altpll:altpll_component
- 22. Parameter Settings for User Entity Instance: Mem_Mapped_XVGA:vga|DisplayRam2k:DisplayRAM|altsyncram:altsyncram_component
- 23. Parameter Settings for User Entity Instance: UK101keyboard:u9|ps2_intf:ps2
- 24. Parameter Settings for Inferred Entity Instance: bufferedUART:u5|altsyncram:rxBuffer_rtl_0
- 25. altsyncram Parameter Settings by Entity Instance
- 26. altpll Parameter Settings by Entity Instance
- 27. Port Connectivity Checks: "UK101keyboard:u9|ps2_intf:ps2"
- 28. Port Connectivity Checks: "Mem_Mapped_XVGA:vga|DisplayRam2k:DisplayRAM"
- 29. Port Connectivity Checks: "VideoClk_XVGA_1024x768:pll"
- 30. Port Connectivity Checks: "bufferedUART:u5"
- 31. Port Connectivity Checks: "T65:u1|T65_ALU:alu"
- 32. Port Connectivity Checks: "T65:u1"
- 33. Post-Synthesis Netlist Statistics for Top Partition
- 34. Elapsed Time Per Partition
- 35. Analysis & Synthesis Messages
+ 21. Parameter Settings for User Entity Instance: OutLatch:u6
+ 22. Parameter Settings for User Entity Instance: OutLatch:u7
+ 23. Parameter Settings for User Entity Instance: VideoClk_XVGA_1024x768:pll|altpll:altpll_component
+ 24. Parameter Settings for User Entity Instance: Mem_Mapped_XVGA:vga|DisplayRam2k:DisplayRAM|altsyncram:altsyncram_component
+ 25. Parameter Settings for User Entity Instance: UK101keyboard:u9|ps2_intf:ps2
+ 26. Parameter Settings for Inferred Entity Instance: bufferedUART:u5|altsyncram:rxBuffer_rtl_0
+ 27. altsyncram Parameter Settings by Entity Instance
+ 28. altpll Parameter Settings by Entity Instance
+ 29. Port Connectivity Checks: "UK101keyboard:u9|ps2_intf:ps2"
+ 30. Port Connectivity Checks: "Mem_Mapped_XVGA:vga|DisplayRam2k:DisplayRAM"
+ 31. Port Connectivity Checks: "Mem_Mapped_XVGA:vga"
+ 32. Port Connectivity Checks: "VideoClk_XVGA_1024x768:pll"
+ 33. Port Connectivity Checks: "OutLatch:u7"
+ 34. Port Connectivity Checks: "OutLatch:u6"
+ 35. Port Connectivity Checks: "bufferedUART:u5"
+ 36. Port Connectivity Checks: "T65:u1|T65_ALU:alu"
+ 37. Port Connectivity Checks: "T65:u1"
+ 38. Post-Synthesis Netlist Statistics for Top Partition
+ 39. Elapsed Time Per Partition
+ 40. Analysis & Synthesis Messages
 
 
 
 ----------------
 ; Legal Notice ;
 ----------------
-Copyright (C) 2018  Intel Corporation. All rights reserved.
+Copyright (C) 2020  Intel Corporation. All rights reserved.
 Your use of Intel Corporation's design tools, logic functions 
-and other software and tools, and its AMPP partner logic 
+and other software and tools, and any partner logic 
 functions, and any output files from any of the foregoing 
 (including device programming or simulation files), and any 
 associated documentation or information are expressly subject 
@@ -59,22 +64,23 @@ the Intel FPGA IP License Agreement, or other applicable license
 agreement, including, without limitation, that your use is for
 the sole purpose of programming logic devices manufactured by
 Intel and sold by Intel or its authorized distributors.  Please
-refer to the applicable agreement for further details.
+refer to the applicable agreement for further details, at
+https://fpgasoftware.intel.com/eula.
 
 
 
 +----------------------------------------------------------------------------------+
 ; Analysis & Synthesis Summary                                                     ;
 +------------------------------------+---------------------------------------------+
-; Analysis & Synthesis Status        ; Successful - Sat Feb 08 17:11:41 2020       ;
-; Quartus Prime Version              ; 18.1.0 Build 625 09/12/2018 SJ Lite Edition ;
+; Analysis & Synthesis Status        ; Successful - Fri Apr 30 09:37:10 2021       ;
+; Quartus Prime Version              ; 20.1.0 Build 711 06/05/2020 SJ Lite Edition ;
 ; Revision Name                      ; uk101_41kRAM                                ;
-; Top-level Entity Name              ; uk101                                       ;
+; Top-level Entity Name              ; uk101_41kRAM                                ;
 ; Family                             ; Cyclone IV E                                ;
-; Total logic elements               ; 3,769                                       ;
-;     Total combinational functions  ; 3,696                                       ;
-;     Dedicated logic registers      ; 346                                         ;
-; Total registers                    ; 346                                         ;
+; Total logic elements               ; 3,795                                       ;
+;     Total combinational functions  ; 3,709                                       ;
+;     Dedicated logic registers      ; 360                                         ;
+; Total registers                    ; 360                                         ;
 ; Total pins                         ; 89                                          ;
 ; Total virtual pins                 ; 0                                           ;
 ; Total memory bits                  ; 82,176                                      ;
@@ -89,7 +95,7 @@ refer to the applicable agreement for further details.
 ; Option                                                           ; Setting            ; Default Value      ;
 +------------------------------------------------------------------+--------------------+--------------------+
 ; Device                                                           ; EP4CE15F23C8       ;                    ;
-; Top-level entity name                                            ; uk101              ; uk101_41kRAM       ;
+; Top-level entity name                                            ; uk101_41kRAM       ; uk101_41kRAM       ;
 ; Family name                                                      ; Cyclone IV E       ; Cyclone V          ;
 ; Use smart compilation                                            ; On                 ; Off                ;
 ; Maximum processors allowed for parallel compilation              ; 4                  ;                    ;
@@ -200,6 +206,7 @@ refer to the applicable agreement for further details.
 ; ../../MultiComp (VHDL Template)/Components/CPU/M6502/T65.vhd                                ; yes             ; User VHDL File               ; C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/CPU/M6502/T65.vhd                                ;         ;
 ; ../../MultiComp (VHDL Template)/Components/UART/Previous_Revisions/bufferedUART_GS_good.vhd ; yes             ; User VHDL File               ; C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/UART/Previous_Revisions/bufferedUART_GS_good.vhd ;         ;
 ; ../../MultiComp (VHDL Template)/Components/ROMs/6502/UK101_BASIC_ROM/BasicRom.vhd           ; yes             ; User Wizard-Generated File   ; C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/ROMs/6502/UK101_BASIC_ROM/BasicRom.vhd           ;         ;
+; ../../MultiComp (VHDL Template)/Components/IO/OutLatch.vhd                                  ; yes             ; User VHDL File               ; C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/IO/OutLatch.vhd                                  ;         ;
 ; ../../MultiComp (VHDL Template)/Components/PS2KB/UK101keyboard.vhd                          ; yes             ; User VHDL File               ; C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/PS2KB/UK101keyboard.vhd                          ;         ;
 ; ../../MultiComp (VHDL Template)/Components/PS2KB/ps2_intf.vhd                               ; yes             ; User VHDL File               ; C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/PS2KB/ps2_intf.vhd                               ;         ;
 ; ../../MultiComp (VHDL Template)/Components/VGA/Mem_Mapped_XGA/VideoClk_XVGA_1024x768.vhd    ; yes             ; User Wizard-Generated File   ; C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/VGA/Mem_Mapped_XGA/VideoClk_XVGA_1024x768.vhd    ;         ;
@@ -209,20 +216,20 @@ refer to the applicable agreement for further details.
 ; ../../MultiComp (VHDL Template)/Components/VGA/Mem_Mapped_XGA/CharRom.VHD                   ; yes             ; User VHDL File               ; C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/VGA/Mem_Mapped_XGA/CharRom.VHD                   ;         ;
 ; ../../MultiComp (VHDL Template)/Components/ROMs/6502/CEGMON_ROM/CegmonRom_Patched_64x32.VHD ; yes             ; User VHDL File               ; C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/ROMs/6502/CEGMON_ROM/CegmonRom_Patched_64x32.VHD ;         ;
 ; uk101_41kRAM.vhd                                                                            ; yes             ; User VHDL File               ; C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15/UK101_41K/uk101_41kRAM.vhd                                 ;         ;
-; altsyncram.tdf                                                                              ; yes             ; Megafunction                 ; c:/intelfpga_lite/18.1/quartus/libraries/megafunctions/altsyncram.tdf                                                                           ;         ;
-; stratix_ram_block.inc                                                                       ; yes             ; Megafunction                 ; c:/intelfpga_lite/18.1/quartus/libraries/megafunctions/stratix_ram_block.inc                                                                    ;         ;
-; lpm_mux.inc                                                                                 ; yes             ; Megafunction                 ; c:/intelfpga_lite/18.1/quartus/libraries/megafunctions/lpm_mux.inc                                                                              ;         ;
-; lpm_decode.inc                                                                              ; yes             ; Megafunction                 ; c:/intelfpga_lite/18.1/quartus/libraries/megafunctions/lpm_decode.inc                                                                           ;         ;
-; aglobal181.inc                                                                              ; yes             ; Megafunction                 ; c:/intelfpga_lite/18.1/quartus/libraries/megafunctions/aglobal181.inc                                                                           ;         ;
-; a_rdenreg.inc                                                                               ; yes             ; Megafunction                 ; c:/intelfpga_lite/18.1/quartus/libraries/megafunctions/a_rdenreg.inc                                                                            ;         ;
-; altrom.inc                                                                                  ; yes             ; Megafunction                 ; c:/intelfpga_lite/18.1/quartus/libraries/megafunctions/altrom.inc                                                                               ;         ;
-; altram.inc                                                                                  ; yes             ; Megafunction                 ; c:/intelfpga_lite/18.1/quartus/libraries/megafunctions/altram.inc                                                                               ;         ;
-; altdpram.inc                                                                                ; yes             ; Megafunction                 ; c:/intelfpga_lite/18.1/quartus/libraries/megafunctions/altdpram.inc                                                                             ;         ;
+; altsyncram.tdf                                                                              ; yes             ; Megafunction                 ; c:/intelfpga_lite/20.1/quartus/libraries/megafunctions/altsyncram.tdf                                                                           ;         ;
+; stratix_ram_block.inc                                                                       ; yes             ; Megafunction                 ; c:/intelfpga_lite/20.1/quartus/libraries/megafunctions/stratix_ram_block.inc                                                                    ;         ;
+; lpm_mux.inc                                                                                 ; yes             ; Megafunction                 ; c:/intelfpga_lite/20.1/quartus/libraries/megafunctions/lpm_mux.inc                                                                              ;         ;
+; lpm_decode.inc                                                                              ; yes             ; Megafunction                 ; c:/intelfpga_lite/20.1/quartus/libraries/megafunctions/lpm_decode.inc                                                                           ;         ;
+; aglobal201.inc                                                                              ; yes             ; Megafunction                 ; c:/intelfpga_lite/20.1/quartus/libraries/megafunctions/aglobal201.inc                                                                           ;         ;
+; a_rdenreg.inc                                                                               ; yes             ; Megafunction                 ; c:/intelfpga_lite/20.1/quartus/libraries/megafunctions/a_rdenreg.inc                                                                            ;         ;
+; altrom.inc                                                                                  ; yes             ; Megafunction                 ; c:/intelfpga_lite/20.1/quartus/libraries/megafunctions/altrom.inc                                                                               ;         ;
+; altram.inc                                                                                  ; yes             ; Megafunction                 ; c:/intelfpga_lite/20.1/quartus/libraries/megafunctions/altram.inc                                                                               ;         ;
+; altdpram.inc                                                                                ; yes             ; Megafunction                 ; c:/intelfpga_lite/20.1/quartus/libraries/megafunctions/altdpram.inc                                                                             ;         ;
 ; db/altsyncram_m771.tdf                                                                      ; yes             ; Auto-Generated Megafunction  ; C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15/UK101_41K/db/altsyncram_m771.tdf                           ;         ;
-; altpll.tdf                                                                                  ; yes             ; Megafunction                 ; c:/intelfpga_lite/18.1/quartus/libraries/megafunctions/altpll.tdf                                                                               ;         ;
-; stratix_pll.inc                                                                             ; yes             ; Megafunction                 ; c:/intelfpga_lite/18.1/quartus/libraries/megafunctions/stratix_pll.inc                                                                          ;         ;
-; stratixii_pll.inc                                                                           ; yes             ; Megafunction                 ; c:/intelfpga_lite/18.1/quartus/libraries/megafunctions/stratixii_pll.inc                                                                        ;         ;
-; cycloneii_pll.inc                                                                           ; yes             ; Megafunction                 ; c:/intelfpga_lite/18.1/quartus/libraries/megafunctions/cycloneii_pll.inc                                                                        ;         ;
+; altpll.tdf                                                                                  ; yes             ; Megafunction                 ; c:/intelfpga_lite/20.1/quartus/libraries/megafunctions/altpll.tdf                                                                               ;         ;
+; stratix_pll.inc                                                                             ; yes             ; Megafunction                 ; c:/intelfpga_lite/20.1/quartus/libraries/megafunctions/stratix_pll.inc                                                                          ;         ;
+; stratixii_pll.inc                                                                           ; yes             ; Megafunction                 ; c:/intelfpga_lite/20.1/quartus/libraries/megafunctions/stratixii_pll.inc                                                                        ;         ;
+; cycloneii_pll.inc                                                                           ; yes             ; Megafunction                 ; c:/intelfpga_lite/20.1/quartus/libraries/megafunctions/cycloneii_pll.inc                                                                        ;         ;
 ; db/videoclk_xvga_1024x768_altpll.v                                                          ; yes             ; Auto-Generated Megafunction  ; C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15/UK101_41K/db/videoclk_xvga_1024x768_altpll.v               ;         ;
 ; db/altsyncram_2sq3.tdf                                                                      ; yes             ; Auto-Generated Megafunction  ; C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15/UK101_41K/db/altsyncram_2sq3.tdf                           ;         ;
 ; db/altsyncram_1ce1.tdf                                                                      ; yes             ; Auto-Generated Megafunction  ; C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15/UK101_41K/db/altsyncram_1ce1.tdf                           ;         ;
@@ -234,20 +241,20 @@ refer to the applicable agreement for further details.
 +---------------------------------------------+----------------+
 ; Resource                                    ; Usage          ;
 +---------------------------------------------+----------------+
-; Estimated Total logic elements              ; 3,769          ;
+; Estimated Total logic elements              ; 3,795          ;
 ;                                             ;                ;
-; Total combinational functions               ; 3696           ;
+; Total combinational functions               ; 3709           ;
 ; Logic element usage by number of LUT inputs ;                ;
-;     -- 4 input functions                    ; 3019           ;
-;     -- 3 input functions                    ; 405            ;
-;     -- <=2 input functions                  ; 272            ;
+;     -- 4 input functions                    ; 3026           ;
+;     -- 3 input functions                    ; 406            ;
+;     -- <=2 input functions                  ; 277            ;
 ;                                             ;                ;
 ; Logic elements by mode                      ;                ;
-;     -- normal mode                          ; 3490           ;
+;     -- normal mode                          ; 3503           ;
 ;     -- arithmetic mode                      ; 206            ;
 ;                                             ;                ;
-; Total registers                             ; 346            ;
-;     -- Dedicated logic registers            ; 346            ;
+; Total registers                             ; 360            ;
+;     -- Dedicated logic registers            ; 360            ;
 ;     -- I/O registers                        ; 0              ;
 ;                                             ;                ;
 ; I/O pins                                    ; 89             ;
@@ -259,39 +266,41 @@ refer to the applicable agreement for further details.
 ;     -- PLLs                                 ; 1              ;
 ;                                             ;                ;
 ; Maximum fan-out node                        ; T65:u1|Mux76~1 ;
-; Maximum fan-out                             ; 699            ;
-; Total fan-out                               ; 15583          ;
+; Maximum fan-out                             ; 696            ;
+; Total fan-out                               ; 15683          ;
 ; Average fan-out                             ; 3.66           ;
 +---------------------------------------------+----------------+
 
 
-+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
-; Analysis & Synthesis Resource Utilization by Entity                                                                                                                                                                                                                                                                                                   ;
-+---------------------------------------------------------+---------------------+---------------------------+-------------+--------------+---------+-----------+------+--------------+-------------------------------------------------------------------------------------------------------------------+-------------------------------+--------------+
-; Compilation Hierarchy Node                              ; Combinational ALUTs ; Dedicated Logic Registers ; Memory Bits ; DSP Elements ; DSP 9x9 ; DSP 18x18 ; Pins ; Virtual Pins ; Full Hierarchy Name                                                                                               ; Entity Name                   ; Library Name ;
-+---------------------------------------------------------+---------------------+---------------------------+-------------+--------------+---------+-----------+------+--------------+-------------------------------------------------------------------------------------------------------------------+-------------------------------+--------------+
-; |uk101                                                  ; 3696 (95)           ; 346 (23)                  ; 82176       ; 0            ; 0       ; 0         ; 89   ; 0            ; |uk101                                                                                                            ; uk101                         ; work         ;
-;    |BasicRom:u2|                                        ; 0 (0)               ; 0 (0)                     ; 65536       ; 0            ; 0       ; 0         ; 0    ; 0            ; |uk101|BasicRom:u2                                                                                                ; BasicRom                      ; work         ;
-;       |altsyncram:altsyncram_component|                 ; 0 (0)               ; 0 (0)                     ; 65536       ; 0            ; 0       ; 0         ; 0    ; 0            ; |uk101|BasicRom:u2|altsyncram:altsyncram_component                                                                ; altsyncram                    ; work         ;
-;          |altsyncram_m771:auto_generated|               ; 0 (0)               ; 0 (0)                     ; 65536       ; 0            ; 0       ; 0         ; 0    ; 0            ; |uk101|BasicRom:u2|altsyncram:altsyncram_component|altsyncram_m771:auto_generated                                 ; altsyncram_m771               ; work         ;
-;    |CegmonRom_Patched_64x32:u4|                         ; 1659 (1659)         ; 0 (0)                     ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |uk101|CegmonRom_Patched_64x32:u4                                                                                 ; CegmonRom_Patched_64x32       ; work         ;
-;    |Mem_Mapped_XVGA:vga|                                ; 832 (1)             ; 35 (0)                    ; 16384       ; 0            ; 0       ; 0         ; 0    ; 0            ; |uk101|Mem_Mapped_XVGA:vga                                                                                        ; Mem_Mapped_XVGA               ; work         ;
-;       |DisplayRam2k:DisplayRAM|                         ; 0 (0)               ; 0 (0)                     ; 16384       ; 0            ; 0       ; 0         ; 0    ; 0            ; |uk101|Mem_Mapped_XVGA:vga|DisplayRam2k:DisplayRAM                                                                ; DisplayRam2k                  ; work         ;
-;          |altsyncram:altsyncram_component|              ; 0 (0)               ; 0 (0)                     ; 16384       ; 0            ; 0       ; 0         ; 0    ; 0            ; |uk101|Mem_Mapped_XVGA:vga|DisplayRam2k:DisplayRAM|altsyncram:altsyncram_component                                ; altsyncram                    ; work         ;
-;             |altsyncram_2sq3:auto_generated|            ; 0 (0)               ; 0 (0)                     ; 16384       ; 0            ; 0       ; 0         ; 0    ; 0            ; |uk101|Mem_Mapped_XVGA:vga|DisplayRam2k:DisplayRAM|altsyncram:altsyncram_component|altsyncram_2sq3:auto_generated ; altsyncram_2sq3               ; work         ;
-;       |Video_XVGA_64x32:Video_XVGA_64x32|               ; 831 (831)           ; 35 (35)                   ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |uk101|Mem_Mapped_XVGA:vga|Video_XVGA_64x32:Video_XVGA_64x32                                                      ; Video_XVGA_64x32              ; work         ;
-;    |T65:u1|                                             ; 809 (414)           ; 126 (126)                 ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |uk101|T65:u1                                                                                                     ; T65                           ; work         ;
-;       |T65_ALU:alu|                                     ; 161 (161)           ; 0 (0)                     ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |uk101|T65:u1|T65_ALU:alu                                                                                         ; T65_ALU                       ; work         ;
-;       |T65_MCode:mcode|                                 ; 234 (234)           ; 0 (0)                     ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |uk101|T65:u1|T65_MCode:mcode                                                                                     ; T65_MCode                     ; work         ;
-;    |UK101keyboard:u9|                                   ; 165 (141)           ; 86 (52)                   ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |uk101|UK101keyboard:u9                                                                                           ; UK101keyboard                 ; work         ;
-;       |ps2_intf:ps2|                                    ; 24 (24)             ; 34 (34)                   ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |uk101|UK101keyboard:u9|ps2_intf:ps2                                                                              ; ps2_intf                      ; work         ;
-;    |VideoClk_XVGA_1024x768:pll|                         ; 0 (0)               ; 0 (0)                     ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |uk101|VideoClk_XVGA_1024x768:pll                                                                                 ; VideoClk_XVGA_1024x768        ; work         ;
-;       |altpll:altpll_component|                         ; 0 (0)               ; 0 (0)                     ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |uk101|VideoClk_XVGA_1024x768:pll|altpll:altpll_component                                                         ; altpll                        ; work         ;
-;          |VideoClk_XVGA_1024x768_altpll:auto_generated| ; 0 (0)               ; 0 (0)                     ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |uk101|VideoClk_XVGA_1024x768:pll|altpll:altpll_component|VideoClk_XVGA_1024x768_altpll:auto_generated            ; VideoClk_XVGA_1024x768_altpll ; work         ;
-;    |bufferedUART:u5|                                    ; 136 (136)           ; 76 (76)                   ; 256         ; 0            ; 0       ; 0         ; 0    ; 0            ; |uk101|bufferedUART:u5                                                                                            ; bufferedUART                  ; work         ;
-;       |altsyncram:rxBuffer_rtl_0|                       ; 0 (0)               ; 0 (0)                     ; 256         ; 0            ; 0       ; 0         ; 0    ; 0            ; |uk101|bufferedUART:u5|altsyncram:rxBuffer_rtl_0                                                                  ; altsyncram                    ; work         ;
-;          |altsyncram_1ce1:auto_generated|               ; 0 (0)               ; 0 (0)                     ; 256         ; 0            ; 0       ; 0         ; 0    ; 0            ; |uk101|bufferedUART:u5|altsyncram:rxBuffer_rtl_0|altsyncram_1ce1:auto_generated                                   ; altsyncram_1ce1               ; work         ;
-+---------------------------------------------------------+---------------------+---------------------------+-------------+--------------+---------+-----------+------+--------------+-------------------------------------------------------------------------------------------------------------------+-------------------------------+--------------+
++--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+; Analysis & Synthesis Resource Utilization by Entity                                                                                                                                                                                                                                                                                                          ;
++---------------------------------------------------------+---------------------+---------------------------+-------------+--------------+---------+-----------+------+--------------+--------------------------------------------------------------------------------------------------------------------------+-------------------------------+--------------+
+; Compilation Hierarchy Node                              ; Combinational ALUTs ; Dedicated Logic Registers ; Memory Bits ; DSP Elements ; DSP 9x9 ; DSP 18x18 ; Pins ; Virtual Pins ; Full Hierarchy Name                                                                                                      ; Entity Name                   ; Library Name ;
++---------------------------------------------------------+---------------------+---------------------------+-------------+--------------+---------+-----------+------+--------------+--------------------------------------------------------------------------------------------------------------------------+-------------------------------+--------------+
+; |uk101_41kRAM                                           ; 3709 (111)          ; 360 (23)                  ; 82176       ; 0            ; 0       ; 0         ; 89   ; 0            ; |uk101_41kRAM                                                                                                            ; uk101_41kRAM                  ; work         ;
+;    |BasicRom:u2|                                        ; 0 (0)               ; 0 (0)                     ; 65536       ; 0            ; 0       ; 0         ; 0    ; 0            ; |uk101_41kRAM|BasicRom:u2                                                                                                ; BasicRom                      ; work         ;
+;       |altsyncram:altsyncram_component|                 ; 0 (0)               ; 0 (0)                     ; 65536       ; 0            ; 0       ; 0         ; 0    ; 0            ; |uk101_41kRAM|BasicRom:u2|altsyncram:altsyncram_component                                                                ; altsyncram                    ; work         ;
+;          |altsyncram_m771:auto_generated|               ; 0 (0)               ; 0 (0)                     ; 65536       ; 0            ; 0       ; 0         ; 0    ; 0            ; |uk101_41kRAM|BasicRom:u2|altsyncram:altsyncram_component|altsyncram_m771:auto_generated                                 ; altsyncram_m771               ; work         ;
+;    |CegmonRom_Patched_64x32:u4|                         ; 1658 (1658)         ; 0 (0)                     ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |uk101_41kRAM|CegmonRom_Patched_64x32:u4                                                                                 ; CegmonRom_Patched_64x32       ; work         ;
+;    |Mem_Mapped_XVGA:vga|                                ; 833 (1)             ; 36 (0)                    ; 16384       ; 0            ; 0       ; 0         ; 0    ; 0            ; |uk101_41kRAM|Mem_Mapped_XVGA:vga                                                                                        ; Mem_Mapped_XVGA               ; work         ;
+;       |DisplayRam2k:DisplayRAM|                         ; 0 (0)               ; 0 (0)                     ; 16384       ; 0            ; 0       ; 0         ; 0    ; 0            ; |uk101_41kRAM|Mem_Mapped_XVGA:vga|DisplayRam2k:DisplayRAM                                                                ; DisplayRam2k                  ; work         ;
+;          |altsyncram:altsyncram_component|              ; 0 (0)               ; 0 (0)                     ; 16384       ; 0            ; 0       ; 0         ; 0    ; 0            ; |uk101_41kRAM|Mem_Mapped_XVGA:vga|DisplayRam2k:DisplayRAM|altsyncram:altsyncram_component                                ; altsyncram                    ; work         ;
+;             |altsyncram_2sq3:auto_generated|            ; 0 (0)               ; 0 (0)                     ; 16384       ; 0            ; 0       ; 0         ; 0    ; 0            ; |uk101_41kRAM|Mem_Mapped_XVGA:vga|DisplayRam2k:DisplayRAM|altsyncram:altsyncram_component|altsyncram_2sq3:auto_generated ; altsyncram_2sq3               ; work         ;
+;       |Video_XVGA_64x32:Video_XVGA_64x32|               ; 832 (832)           ; 36 (36)                   ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |uk101_41kRAM|Mem_Mapped_XVGA:vga|Video_XVGA_64x32:Video_XVGA_64x32                                                      ; Video_XVGA_64x32              ; work         ;
+;    |OutLatch:u6|                                        ; 0 (0)               ; 7 (7)                     ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |uk101_41kRAM|OutLatch:u6                                                                                                ; OutLatch                      ; work         ;
+;    |OutLatch:u7|                                        ; 0 (0)               ; 6 (6)                     ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |uk101_41kRAM|OutLatch:u7                                                                                                ; OutLatch                      ; work         ;
+;    |T65:u1|                                             ; 807 (408)           ; 126 (126)                 ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |uk101_41kRAM|T65:u1                                                                                                     ; T65                           ; work         ;
+;       |T65_ALU:alu|                                     ; 161 (161)           ; 0 (0)                     ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |uk101_41kRAM|T65:u1|T65_ALU:alu                                                                                         ; T65_ALU                       ; work         ;
+;       |T65_MCode:mcode|                                 ; 238 (238)           ; 0 (0)                     ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |uk101_41kRAM|T65:u1|T65_MCode:mcode                                                                                     ; T65_MCode                     ; work         ;
+;    |UK101keyboard:u9|                                   ; 165 (141)           ; 86 (52)                   ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |uk101_41kRAM|UK101keyboard:u9                                                                                           ; UK101keyboard                 ; work         ;
+;       |ps2_intf:ps2|                                    ; 24 (24)             ; 34 (34)                   ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |uk101_41kRAM|UK101keyboard:u9|ps2_intf:ps2                                                                              ; ps2_intf                      ; work         ;
+;    |VideoClk_XVGA_1024x768:pll|                         ; 0 (0)               ; 0 (0)                     ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |uk101_41kRAM|VideoClk_XVGA_1024x768:pll                                                                                 ; VideoClk_XVGA_1024x768        ; work         ;
+;       |altpll:altpll_component|                         ; 0 (0)               ; 0 (0)                     ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |uk101_41kRAM|VideoClk_XVGA_1024x768:pll|altpll:altpll_component                                                         ; altpll                        ; work         ;
+;          |VideoClk_XVGA_1024x768_altpll:auto_generated| ; 0 (0)               ; 0 (0)                     ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |uk101_41kRAM|VideoClk_XVGA_1024x768:pll|altpll:altpll_component|VideoClk_XVGA_1024x768_altpll:auto_generated            ; VideoClk_XVGA_1024x768_altpll ; work         ;
+;    |bufferedUART:u5|                                    ; 135 (135)           ; 76 (76)                   ; 256         ; 0            ; 0       ; 0         ; 0    ; 0            ; |uk101_41kRAM|bufferedUART:u5                                                                                            ; bufferedUART                  ; work         ;
+;       |altsyncram:rxBuffer_rtl_0|                       ; 0 (0)               ; 0 (0)                     ; 256         ; 0            ; 0       ; 0         ; 0    ; 0            ; |uk101_41kRAM|bufferedUART:u5|altsyncram:rxBuffer_rtl_0                                                                  ; altsyncram                    ; work         ;
+;          |altsyncram_1ce1:auto_generated|               ; 0 (0)               ; 0 (0)                     ; 256         ; 0            ; 0       ; 0         ; 0    ; 0            ; |uk101_41kRAM|bufferedUART:u5|altsyncram:rxBuffer_rtl_0|altsyncram_1ce1:auto_generated                                   ; altsyncram_1ce1               ; work         ;
++---------------------------------------------------------+---------------------+---------------------------+-------------+--------------+---------+-----------+------+--------------+--------------------------------------------------------------------------------------------------------------------------+-------------------------------+--------------+
 Note: For table entries with two numbers listed, the numbers in parentheses indicate the number of resources of the given type used by the specific entity alone. The numbers listed outside of parentheses indicate the total resources of the given type used by the specific entity and all of its sub-entities in the hierarchy.
 
 
@@ -308,7 +317,7 @@ Note: For table entries with two numbers listed, the numbers in parentheses indi
 
 Encoding Type:  One-Hot
 +--------------------------------------------------------------------+
-; State Machine - |uk101|bufferedUART:u5|txState                     ;
+; State Machine - |uk101_41kRAM|bufferedUART:u5|txState              ;
 +-----------------+-----------------+-----------------+--------------+
 ; Name            ; txState.stopBit ; txState.dataBit ; txState.idle ;
 +-----------------+-----------------+-----------------+--------------+
@@ -320,7 +329,7 @@ Encoding Type:  One-Hot
 
 Encoding Type:  One-Hot
 +--------------------------------------------------------------------+
-; State Machine - |uk101|bufferedUART:u5|rxState                     ;
+; State Machine - |uk101_41kRAM|bufferedUART:u5|rxState              ;
 +-----------------+-----------------+-----------------+--------------+
 ; Name            ; rxState.stopBit ; rxState.dataBit ; rxState.idle ;
 +-----------------+-----------------+-----------------+--------------+
@@ -335,14 +344,14 @@ Encoding Type:  One-Hot
 +----------------------------------------------------+---------------------+------------------------+
 ; Latch Name                                         ; Latch Enable Signal ; Free of Timing Hazards ;
 +----------------------------------------------------+---------------------+------------------------+
-; kbRowSel[0]                                        ; process_1           ; yes                    ;
-; kbRowSel[1]                                        ; process_1           ; yes                    ;
-; kbRowSel[2]                                        ; process_1           ; yes                    ;
-; kbRowSel[3]                                        ; process_1           ; yes                    ;
-; kbRowSel[4]                                        ; process_1           ; yes                    ;
-; kbRowSel[5]                                        ; process_1           ; yes                    ;
-; kbRowSel[6]                                        ; process_1           ; yes                    ;
-; kbRowSel[7]                                        ; process_1           ; yes                    ;
+; kbRowSel[0]                                        ; process_2           ; yes                    ;
+; kbRowSel[1]                                        ; process_2           ; yes                    ;
+; kbRowSel[2]                                        ; process_2           ; yes                    ;
+; kbRowSel[3]                                        ; process_2           ; yes                    ;
+; kbRowSel[4]                                        ; process_2           ; yes                    ;
+; kbRowSel[5]                                        ; process_2           ; yes                    ;
+; kbRowSel[6]                                        ; process_2           ; yes                    ;
+; kbRowSel[7]                                        ; process_2           ; yes                    ;
 ; Number of user-specified and inferred latches = 8  ;                     ;                        ;
 +----------------------------------------------------+---------------------+------------------------+
 Note: All latches listed above may not be present at the end of synthesis due to various synthesis optimizations.
@@ -383,12 +392,12 @@ Note: All latches listed above may not be present at the end of synthesis due to
 +----------------------------------------------+-------+
 ; Statistic                                    ; Value ;
 +----------------------------------------------+-------+
-; Total registers                              ; 346   ;
+; Total registers                              ; 360   ;
 ; Number of registers using Synchronous Clear  ; 68    ;
 ; Number of registers using Synchronous Load   ; 28    ;
-; Number of registers using Asynchronous Clear ; 208   ;
+; Number of registers using Asynchronous Clear ; 221   ;
 ; Number of registers using Asynchronous Load  ; 0     ;
-; Number of registers using Clock Enable       ; 168   ;
+; Number of registers using Clock Enable       ; 182   ;
 ; Number of registers using Preset             ; 0     ;
 +----------------------------------------------+-------+
 
@@ -398,7 +407,7 @@ Note: All latches listed above may not be present at the end of synthesis due to
 +---------------------------------------------------------------+---------+
 ; Inverted Register                                             ; Fan out ;
 +---------------------------------------------------------------+---------+
-; T65:u1|MCycle[0]                                              ; 40      ;
+; T65:u1|MCycle[0]                                              ; 39      ;
 ; T65:u1|R_W_n_i                                                ; 13      ;
 ; Mem_Mapped_XVGA:vga|Video_XVGA_64x32:Video_XVGA_64x32|n_hSync ; 1       ;
 ; Mem_Mapped_XVGA:vga|Video_XVGA_64x32:Video_XVGA_64x32|n_vSync ; 1       ;
@@ -469,39 +478,41 @@ Note: All latches listed above may not be present at the end of synthesis due to
 +---------------------------------------------------------------+---------+
 
 
-+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
-; Multiplexer Restructuring Statistics (Restructuring Performed)                                                                                                                            ;
-+--------------------+-----------+---------------+----------------------+------------------------+------------+-----------------------------------------------------------------------------+
-; Multiplexer Inputs ; Bus Width ; Baseline Area ; Area if Restructured ; Saving if Restructured ; Registered ; Example Multiplexer Output                                                  ;
-+--------------------+-----------+---------------+----------------------+------------------------+------------+-----------------------------------------------------------------------------+
-; 3:1                ; 8 bits    ; 16 LEs        ; 8 LEs                ; 8 LEs                  ; Yes        ; |uk101|T65:u1|S[10]                                                         ;
-; 3:1                ; 8 bits    ; 16 LEs        ; 8 LEs                ; 8 LEs                  ; Yes        ; |uk101|Mem_Mapped_XVGA:vga|Video_XVGA_64x32:Video_XVGA_64x32|theCharRow[2]  ;
-; 3:1                ; 2 bits    ; 4 LEs         ; 2 LEs                ; 2 LEs                  ; Yes        ; |uk101|Mem_Mapped_XVGA:vga|Video_XVGA_64x32:Video_XVGA_64x32|prescaleRow[0] ;
-; 3:1                ; 4 bits    ; 8 LEs         ; 4 LEs                ; 4 LEs                  ; Yes        ; |uk101|UK101keyboard:u9|ps2_intf:ps2|bit_count[0]                           ;
-; 3:1                ; 8 bits    ; 16 LEs        ; 8 LEs                ; 8 LEs                  ; Yes        ; |uk101|T65:u1|DL[0]                                                         ;
-; 4:1                ; 8 bits    ; 16 LEs        ; 16 LEs               ; 0 LEs                  ; Yes        ; |uk101|T65:u1|S[7]                                                          ;
-; 5:1                ; 8 bits    ; 24 LEs        ; 16 LEs               ; 8 LEs                  ; Yes        ; |uk101|T65:u1|PC[3]                                                         ;
-; 4:1                ; 8 bits    ; 16 LEs        ; 16 LEs               ; 0 LEs                  ; Yes        ; |uk101|T65:u1|BAH[1]                                                        ;
-; 5:1                ; 6 bits    ; 18 LEs        ; 6 LEs                ; 12 LEs                 ; Yes        ; |uk101|bufferedUART:u5|rxClockCount[0]                                      ;
-; 5:1                ; 8 bits    ; 24 LEs        ; 16 LEs               ; 8 LEs                  ; Yes        ; |uk101|T65:u1|AD[3]                                                         ;
-; 6:1                ; 6 bits    ; 24 LEs        ; 12 LEs               ; 12 LEs                 ; Yes        ; |uk101|T65:u1|BAL[3]                                                        ;
-; 6:1                ; 2 bits    ; 8 LEs         ; 4 LEs                ; 4 LEs                  ; Yes        ; |uk101|T65:u1|BAL[1]                                                        ;
-; 5:1                ; 4 bits    ; 12 LEs        ; 4 LEs                ; 8 LEs                  ; Yes        ; |uk101|bufferedUART:u5|rxBitCount[2]                                        ;
-; 6:1                ; 8 bits    ; 32 LEs        ; 16 LEs               ; 16 LEs                 ; Yes        ; |uk101|T65:u1|PC[15]                                                        ;
-; 5:1                ; 4 bits    ; 12 LEs        ; 4 LEs                ; 8 LEs                  ; Yes        ; |uk101|bufferedUART:u5|txBitCount[0]                                        ;
-; 5:1                ; 7 bits    ; 21 LEs        ; 7 LEs                ; 14 LEs                 ; Yes        ; |uk101|bufferedUART:u5|txBuffer[1]                                          ;
-; 6:1                ; 6 bits    ; 24 LEs        ; 6 LEs                ; 18 LEs                 ; Yes        ; |uk101|bufferedUART:u5|txClockCount[0]                                      ;
-; 3:1                ; 2 bits    ; 4 LEs         ; 2 LEs                ; 2 LEs                  ; No         ; |uk101|T65:u1|T65_MCode:mcode|Mux118                                        ;
-; 3:1                ; 5 bits    ; 10 LEs        ; 5 LEs                ; 5 LEs                  ; No         ; |uk101|T65:u1|T65_MCode:mcode|Mux124                                        ;
-; 8:1                ; 8 bits    ; 40 LEs        ; 40 LEs               ; 0 LEs                  ; No         ; |uk101|T65:u1|Mux84                                                         ;
-; 6:1                ; 8 bits    ; 32 LEs        ; 32 LEs               ; 0 LEs                  ; No         ; |uk101|T65:u1|Mux47                                                         ;
-; 7:1                ; 8 bits    ; 32 LEs        ; 32 LEs               ; 0 LEs                  ; No         ; |uk101|cpuDataIn[6]                                                         ;
-; 6:1                ; 3 bits    ; 12 LEs        ; 6 LEs                ; 6 LEs                  ; No         ; |uk101|bufferedUART:u5|Selector36                                           ;
-; 6:1                ; 3 bits    ; 12 LEs        ; 6 LEs                ; 6 LEs                  ; No         ; |uk101|bufferedUART:u5|Selector12                                           ;
-; 12:1               ; 2 bits    ; 16 LEs        ; 12 LEs               ; 4 LEs                  ; No         ; |uk101|T65:u1|T65_ALU:alu|Mux3                                              ;
-; 14:1               ; 3 bits    ; 27 LEs        ; 24 LEs               ; 3 LEs                  ; No         ; |uk101|T65:u1|T65_ALU:alu|Mux5                                              ;
-; 14:1               ; 3 bits    ; 27 LEs        ; 24 LEs               ; 3 LEs                  ; No         ; |uk101|T65:u1|T65_ALU:alu|Mux0                                              ;
-+--------------------+-----------+---------------+----------------------+------------------------+------------+-----------------------------------------------------------------------------+
++--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+; Multiplexer Restructuring Statistics (Restructuring Performed)                                                                                                                                   ;
++--------------------+-----------+---------------+----------------------+------------------------+------------+------------------------------------------------------------------------------------+
+; Multiplexer Inputs ; Bus Width ; Baseline Area ; Area if Restructured ; Saving if Restructured ; Registered ; Example Multiplexer Output                                                         ;
++--------------------+-----------+---------------+----------------------+------------------------+------------+------------------------------------------------------------------------------------+
+; 3:1                ; 8 bits    ; 16 LEs        ; 8 LEs                ; 8 LEs                  ; Yes        ; |uk101_41kRAM|T65:u1|S[12]                                                         ;
+; 3:1                ; 8 bits    ; 16 LEs        ; 8 LEs                ; 8 LEs                  ; Yes        ; |uk101_41kRAM|Mem_Mapped_XVGA:vga|Video_XVGA_64x32:Video_XVGA_64x32|theCharRow[0]  ;
+; 3:1                ; 3 bits    ; 6 LEs         ; 3 LEs                ; 3 LEs                  ; Yes        ; |uk101_41kRAM|Mem_Mapped_XVGA:vga|Video_XVGA_64x32:Video_XVGA_64x32|prescaleRow[2] ;
+; 3:1                ; 4 bits    ; 8 LEs         ; 4 LEs                ; 4 LEs                  ; Yes        ; |uk101_41kRAM|UK101keyboard:u9|ps2_intf:ps2|bit_count[2]                           ;
+; 3:1                ; 8 bits    ; 16 LEs        ; 8 LEs                ; 8 LEs                  ; Yes        ; |uk101_41kRAM|T65:u1|DL[7]                                                         ;
+; 4:1                ; 8 bits    ; 16 LEs        ; 16 LEs               ; 0 LEs                  ; Yes        ; |uk101_41kRAM|T65:u1|S[0]                                                          ;
+; 5:1                ; 8 bits    ; 24 LEs        ; 16 LEs               ; 8 LEs                  ; Yes        ; |uk101_41kRAM|T65:u1|PC[2]                                                         ;
+; 4:1                ; 8 bits    ; 16 LEs        ; 16 LEs               ; 0 LEs                  ; Yes        ; |uk101_41kRAM|T65:u1|BAH[5]                                                        ;
+; 5:1                ; 6 bits    ; 18 LEs        ; 6 LEs                ; 12 LEs                 ; Yes        ; |uk101_41kRAM|bufferedUART:u5|rxClockCount[2]                                      ;
+; 5:1                ; 8 bits    ; 24 LEs        ; 16 LEs               ; 8 LEs                  ; Yes        ; |uk101_41kRAM|T65:u1|AD[7]                                                         ;
+; 6:1                ; 6 bits    ; 24 LEs        ; 12 LEs               ; 12 LEs                 ; Yes        ; |uk101_41kRAM|T65:u1|BAL[3]                                                        ;
+; 6:1                ; 2 bits    ; 8 LEs         ; 4 LEs                ; 4 LEs                  ; Yes        ; |uk101_41kRAM|T65:u1|BAL[1]                                                        ;
+; 5:1                ; 4 bits    ; 12 LEs        ; 4 LEs                ; 8 LEs                  ; Yes        ; |uk101_41kRAM|bufferedUART:u5|rxBitCount[2]                                        ;
+; 6:1                ; 8 bits    ; 32 LEs        ; 16 LEs               ; 16 LEs                 ; Yes        ; |uk101_41kRAM|T65:u1|PC[14]                                                        ;
+; 5:1                ; 4 bits    ; 12 LEs        ; 4 LEs                ; 8 LEs                  ; Yes        ; |uk101_41kRAM|bufferedUART:u5|txBitCount[0]                                        ;
+; 5:1                ; 7 bits    ; 21 LEs        ; 7 LEs                ; 14 LEs                 ; Yes        ; |uk101_41kRAM|bufferedUART:u5|txBuffer[1]                                          ;
+; 6:1                ; 6 bits    ; 24 LEs        ; 6 LEs                ; 18 LEs                 ; Yes        ; |uk101_41kRAM|bufferedUART:u5|txClockCount[0]                                      ;
+; 3:1                ; 2 bits    ; 4 LEs         ; 2 LEs                ; 2 LEs                  ; No         ; |uk101_41kRAM|T65:u1|T65_MCode:mcode|Mux118                                        ;
+; 3:1                ; 5 bits    ; 10 LEs        ; 5 LEs                ; 5 LEs                  ; No         ; |uk101_41kRAM|T65:u1|T65_MCode:mcode|Mux124                                        ;
+; 3:1                ; 2 bits    ; 4 LEs         ; 4 LEs                ; 0 LEs                  ; No         ; |uk101_41kRAM|sramAddress                                                          ;
+; 3:1                ; 4 bits    ; 8 LEs         ; 8 LEs                ; 0 LEs                  ; No         ; |uk101_41kRAM|sramAddress                                                          ;
+; 8:1                ; 8 bits    ; 40 LEs        ; 40 LEs               ; 0 LEs                  ; No         ; |uk101_41kRAM|T65:u1|Mux82                                                         ;
+; 6:1                ; 8 bits    ; 32 LEs        ; 32 LEs               ; 0 LEs                  ; No         ; |uk101_41kRAM|T65:u1|Mux49                                                         ;
+; 7:1                ; 8 bits    ; 32 LEs        ; 32 LEs               ; 0 LEs                  ; No         ; |uk101_41kRAM|cpuDataIn[2]                                                         ;
+; 6:1                ; 3 bits    ; 12 LEs        ; 6 LEs                ; 6 LEs                  ; No         ; |uk101_41kRAM|bufferedUART:u5|Selector37                                           ;
+; 6:1                ; 3 bits    ; 12 LEs        ; 6 LEs                ; 6 LEs                  ; No         ; |uk101_41kRAM|bufferedUART:u5|Selector11                                           ;
+; 12:1               ; 2 bits    ; 16 LEs        ; 12 LEs               ; 4 LEs                  ; No         ; |uk101_41kRAM|T65:u1|T65_ALU:alu|Mux3                                              ;
+; 14:1               ; 3 bits    ; 27 LEs        ; 24 LEs               ; 3 LEs                  ; No         ; |uk101_41kRAM|T65:u1|T65_ALU:alu|Mux4                                              ;
+; 14:1               ; 3 bits    ; 27 LEs        ; 24 LEs               ; 3 LEs                  ; No         ; |uk101_41kRAM|T65:u1|T65_ALU:alu|Mux2                                              ;
++--------------------+-----------+---------------+----------------------+------------------------+------------+------------------------------------------------------------------------------------+
 
 
 +---------------------------------------------------------------------------------------------------+
@@ -589,6 +600,26 @@ Note: All latches listed above may not be present at the end of synthesis due to
 ; DEVICE_FAMILY                      ; Cyclone IV E         ; Untyped                      ;
 ; CBXI_PARAMETER                     ; altsyncram_m771      ; Untyped                      ;
 +------------------------------------+----------------------+------------------------------+
+Note: In order to hide this table in the UI and the text report file, please set the "Show Parameter Settings in Synthesis Report" option in "Analysis and Synthesis Settings -> More Settings" to "Off".
+
+
++----------------------------------------------------------+
+; Parameter Settings for User Entity Instance: OutLatch:u6 ;
++----------------+-------+---------------------------------+
+; Parameter Name ; Value ; Type                            ;
++----------------+-------+---------------------------------+
+; n              ; 8     ; Signed Integer                  ;
++----------------+-------+---------------------------------+
+Note: In order to hide this table in the UI and the text report file, please set the "Show Parameter Settings in Synthesis Report" option in "Analysis and Synthesis Settings -> More Settings" to "Off".
+
+
++----------------------------------------------------------+
+; Parameter Settings for User Entity Instance: OutLatch:u7 ;
++----------------+-------+---------------------------------+
+; Parameter Name ; Value ; Type                            ;
++----------------+-------+---------------------------------+
+; n              ; 8     ; Signed Integer                  ;
++----------------+-------+---------------------------------+
 Note: In order to hide this table in the UI and the text report file, please set the "Show Parameter Settings in Synthesis Report" option in "Analysis and Synthesis Settings -> More Settings" to "Off".
 
 
@@ -1176,6 +1207,15 @@ Note: In order to hide this table in the UI and the text report file, please set
 +--------+-------+----------+---------------------------------------------+
 
 
++-------------------------------------------------+
+; Port Connectivity Checks: "Mem_Mapped_XVGA:vga" ;
++--------+-------+----------+---------------------+
+; Port   ; Type  ; Severity ; Details             ;
++--------+-------+----------+---------------------+
+; ressel ; Input ; Info     ; Stuck at VCC        ;
++--------+-------+----------+---------------------+
+
+
 +------------------------------------------------------------------------------------------------------------------+
 ; Port Connectivity Checks: "VideoClk_XVGA_1024x768:pll"                                                           ;
 +--------+--------+----------+-------------------------------------------------------------------------------------+
@@ -1186,6 +1226,24 @@ Note: In order to hide this table in the UI and the text report file, please set
 ; c2     ; Output ; Info     ; Connected to dangling logic. Logic that only feeds a dangling port will be removed. ;
 ; locked ; Output ; Info     ; Connected to dangling logic. Logic that only feeds a dangling port will be removed. ;
 +--------+--------+----------+-------------------------------------------------------------------------------------+
+
+
++--------------------------------------------------------------------------------------------------------------------------+
+; Port Connectivity Checks: "OutLatch:u7"                                                                                  ;
++----------------+--------+----------+-------------------------------------------------------------------------------------+
+; Port           ; Type   ; Severity ; Details                                                                             ;
++----------------+--------+----------+-------------------------------------------------------------------------------------+
+; latchout[7..6] ; Output ; Info     ; Connected to dangling logic. Logic that only feeds a dangling port will be removed. ;
++----------------+--------+----------+-------------------------------------------------------------------------------------+
+
+
++-----------------------------------------------------------------------------------------------------------------------+
+; Port Connectivity Checks: "OutLatch:u6"                                                                               ;
++-------------+--------+----------+-------------------------------------------------------------------------------------+
+; Port        ; Type   ; Severity ; Details                                                                             ;
++-------------+--------+----------+-------------------------------------------------------------------------------------+
+; latchout[7] ; Output ; Info     ; Connected to dangling logic. Logic that only feeds a dangling port will be removed. ;
++-------------+--------+----------+-------------------------------------------------------------------------------------+
 
 
 +-----------------------------------------------------------------------------------------------------------------+
@@ -1237,12 +1295,12 @@ Note: In order to hide this table in the UI and the text report file, please set
 ; Type                  ; Count                       ;
 +-----------------------+-----------------------------+
 ; boundary_port         ; 89                          ;
-; cycloneiii_ff         ; 346                         ;
+; cycloneiii_ff         ; 360                         ;
 ;     CLR               ; 108                         ;
 ;     CLR SCLR          ; 6                           ;
 ;     CLR SLD           ; 3                           ;
-;     ENA               ; 53                          ;
-;     ENA CLR           ; 63                          ;
+;     ENA               ; 54                          ;
+;     ENA CLR           ; 76                          ;
 ;     ENA CLR SCLR      ; 6                           ;
 ;     ENA CLR SLD       ; 22                          ;
 ;     ENA SCLR          ; 24                          ;
@@ -1250,21 +1308,21 @@ Note: In order to hide this table in the UI and the text report file, please set
 ;     SLD               ; 3                           ;
 ;     plain             ; 26                          ;
 ; cycloneiii_io_obuf    ; 8                           ;
-; cycloneiii_lcell_comb ; 3702                        ;
+; cycloneiii_lcell_comb ; 3715                        ;
 ;     arith             ; 206                         ;
 ;         2 data inputs ; 133                         ;
 ;         3 data inputs ; 73                          ;
-;     normal            ; 3496                        ;
+;     normal            ; 3509                        ;
 ;         0 data inputs ; 7                           ;
 ;         1 data inputs ; 28                          ;
-;         2 data inputs ; 110                         ;
-;         3 data inputs ; 332                         ;
-;         4 data inputs ; 3019                        ;
+;         2 data inputs ; 115                         ;
+;         3 data inputs ; 333                         ;
+;         4 data inputs ; 3026                        ;
 ; cycloneiii_pll        ; 1                           ;
 ; cycloneiii_ram_block  ; 24                          ;
 ;                       ;                             ;
 ; Max LUT depth         ; 20.80                       ;
-; Average LUT depth     ; 12.50                       ;
+; Average LUT depth     ; 12.45                       ;
 +-----------------------+-----------------------------+
 
 
@@ -1273,7 +1331,7 @@ Note: In order to hide this table in the UI and the text report file, please set
 +----------------+--------------+
 ; Partition Name ; Elapsed Time ;
 +----------------+--------------+
-; Top            ; 00:00:44     ;
+; Top            ; 00:00:46     ;
 +----------------+--------------+
 
 
@@ -1282,8 +1340,8 @@ Note: In order to hide this table in the UI and the text report file, please set
 +-------------------------------+
 Info: *******************************************************************
 Info: Running Quartus Prime Analysis & Synthesis
-    Info: Version 18.1.0 Build 625 09/12/2018 SJ Lite Edition
-    Info: Processing started: Sat Feb 08 17:10:40 2020
+    Info: Version 20.1.0 Build 711 06/05/2020 SJ Lite Edition
+    Info: Processing started: Fri Apr 30 09:36:08 2021
 Info: Command: quartus_map --read_settings_files=on --write_settings_files=off uk101_41kRAM -c uk101_41kRAM
 Info (20032): Parallel compilation is enabled and will use up to 4 processors
 Info (12021): Found 1 design units, including 0 entities, in source file /users/hpz420/documents/github/doug gilliland/multicomp/multicomp (vhdl template)/components/cpu/m6502/t65_pack.vhd
@@ -1304,7 +1362,7 @@ Info (12021): Found 2 design units, including 1 entities, in source file /users/
     Info (12022): Found design unit 1: MonUK02Rom-behavior File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/ROMs/OSI/MonUK02Rom.VHD Line: 15
     Info (12023): Found entity 1: MonUK02Rom File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/ROMs/OSI/MonUK02Rom.VHD Line: 6
 Info (12021): Found 2 design units, including 1 entities, in source file /users/hpz420/documents/github/doug gilliland/multicomp/multicomp (vhdl template)/components/roms/6502/uk101_basic_rom/basicrom.vhd
-    Info (12022): Found design unit 1: BasicRom-SYN File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/ROMs/6502/UK101_BASIC_ROM/BasicRom.vhd Line: 52
+    Info (12022): Found design unit 1: basicrom-SYN File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/ROMs/6502/UK101_BASIC_ROM/BasicRom.vhd Line: 52
     Info (12023): Found entity 1: BasicRom File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/ROMs/6502/UK101_BASIC_ROM/BasicRom.vhd Line: 42
 Info (12021): Found 2 design units, including 1 entities, in source file /users/hpz420/documents/github/doug gilliland/multicomp/multicomp (vhdl template)/components/io/outlatch.vhd
     Info (12022): Found design unit 1: OutLatch-behv File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/IO/OutLatch.vhd Line: 23
@@ -1319,10 +1377,10 @@ Info (12021): Found 2 design units, including 1 entities, in source file /users/
     Info (12022): Found design unit 1: videoclk_xvga_1024x768-SYN File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/VGA/Mem_Mapped_XGA/VideoClk_XVGA_1024x768.vhd Line: 55
     Info (12023): Found entity 1: VideoClk_XVGA_1024x768 File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/VGA/Mem_Mapped_XGA/VideoClk_XVGA_1024x768.vhd Line: 42
 Info (12021): Found 2 design units, including 1 entities, in source file /users/hpz420/documents/github/doug gilliland/multicomp/multicomp (vhdl template)/components/vga/mem_mapped_xga/video_xvga_64x32.vhd
-    Info (12022): Found design unit 1: Video_XVGA_64x32-rtl File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/VGA/Mem_Mapped_XGA/Video_XVGA_64x32.vhd Line: 28
+    Info (12022): Found design unit 1: Video_XVGA_64x32-rtl File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/VGA/Mem_Mapped_XGA/Video_XVGA_64x32.vhd Line: 29
     Info (12023): Found entity 1: Video_XVGA_64x32 File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/VGA/Mem_Mapped_XGA/Video_XVGA_64x32.vhd Line: 14
 Info (12021): Found 2 design units, including 1 entities, in source file /users/hpz420/documents/github/doug gilliland/multicomp/multicomp (vhdl template)/components/vga/mem_mapped_xga/mem_mapped_xvga.vhd
-    Info (12022): Found design unit 1: Mem_Mapped_XVGA-struct File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/VGA/Mem_Mapped_XGA/Mem_Mapped_XVGA.vhd Line: 22
+    Info (12022): Found design unit 1: Mem_Mapped_XVGA-struct File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/VGA/Mem_Mapped_XGA/Mem_Mapped_XVGA.vhd Line: 23
     Info (12023): Found entity 1: Mem_Mapped_XVGA File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/VGA/Mem_Mapped_XGA/Mem_Mapped_XVGA.vhd Line: 6
 Info (12021): Found 2 design units, including 1 entities, in source file /users/hpz420/documents/github/doug gilliland/multicomp/multicomp (vhdl template)/components/vga/mem_mapped_xga/displayram2k.vhd
     Info (12022): Found design unit 1: displayram2k-SYN File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/VGA/Mem_Mapped_XGA/DisplayRam2k.vhd Line: 59
@@ -1334,37 +1392,37 @@ Info (12021): Found 2 design units, including 1 entities, in source file /users/
     Info (12022): Found design unit 1: CegmonRom_Patched_64x32-behavior File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/ROMs/6502/CEGMON_ROM/CegmonRom_Patched_64x32.VHD Line: 61
     Info (12023): Found entity 1: CegmonRom_Patched_64x32 File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/ROMs/6502/CEGMON_ROM/CegmonRom_Patched_64x32.VHD Line: 52
 Info (12021): Found 2 design units, including 1 entities, in source file uk101_41kram.vhd
-    Info (12022): Found design unit 1: uk101-struct File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15/UK101_41K/uk101_41kRAM.vhd Line: 71
-    Info (12023): Found entity 1: uk101 File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15/UK101_41K/uk101_41kRAM.vhd Line: 23
-Info (12127): Elaborating entity "uk101" for the top level hierarchy
-Warning (10540): VHDL Signal Declaration warning at uk101_41kRAM.vhd(49): used explicit default value for signal "n_sdRamCas" because signal was never assigned a value File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15/UK101_41K/uk101_41kRAM.vhd Line: 49
-Warning (10540): VHDL Signal Declaration warning at uk101_41kRAM.vhd(50): used explicit default value for signal "n_sdRamRas" because signal was never assigned a value File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15/UK101_41K/uk101_41kRAM.vhd Line: 50
-Warning (10540): VHDL Signal Declaration warning at uk101_41kRAM.vhd(51): used explicit default value for signal "n_sdRamWe" because signal was never assigned a value File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15/UK101_41K/uk101_41kRAM.vhd Line: 51
-Warning (10540): VHDL Signal Declaration warning at uk101_41kRAM.vhd(52): used explicit default value for signal "n_sdRamCe" because signal was never assigned a value File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15/UK101_41K/uk101_41kRAM.vhd Line: 52
-Warning (10540): VHDL Signal Declaration warning at uk101_41kRAM.vhd(53): used explicit default value for signal "sdRamClk" because signal was never assigned a value File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15/UK101_41K/uk101_41kRAM.vhd Line: 53
-Warning (10540): VHDL Signal Declaration warning at uk101_41kRAM.vhd(54): used explicit default value for signal "sdRamClkEn" because signal was never assigned a value File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15/UK101_41K/uk101_41kRAM.vhd Line: 54
-Warning (10540): VHDL Signal Declaration warning at uk101_41kRAM.vhd(55): used explicit default value for signal "sdRamAddr" because signal was never assigned a value File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15/UK101_41K/uk101_41kRAM.vhd Line: 55
-Warning (10540): VHDL Signal Declaration warning at uk101_41kRAM.vhd(59): used explicit default value for signal "sdCS" because signal was never assigned a value File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15/UK101_41K/uk101_41kRAM.vhd Line: 59
-Warning (10540): VHDL Signal Declaration warning at uk101_41kRAM.vhd(60): used explicit default value for signal "sdMOSI" because signal was never assigned a value File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15/UK101_41K/uk101_41kRAM.vhd Line: 60
-Warning (10540): VHDL Signal Declaration warning at uk101_41kRAM.vhd(62): used explicit default value for signal "sdSCLK" because signal was never assigned a value File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15/UK101_41K/uk101_41kRAM.vhd Line: 62
-Warning (10540): VHDL Signal Declaration warning at uk101_41kRAM.vhd(63): used explicit default value for signal "driveLED" because signal was never assigned a value File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15/UK101_41K/uk101_41kRAM.vhd Line: 63
-Critical Warning (10920): VHDL Incomplete Partial Association warning at uk101_41kRAM.vhd(145): port or argument "A" has 8/24 unassociated elements File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15/UK101_41K/uk101_41kRAM.vhd Line: 145
-Warning (10492): VHDL Process Statement warning at uk101_41kRAM.vhd(266): signal "cpuDataOut" is read inside the Process Statement but isn't in the Process Statement's sensitivity list File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15/UK101_41K/uk101_41kRAM.vhd Line: 266
-Warning (10631): VHDL Process Statement warning at uk101_41kRAM.vhd(263): inferring latch(es) for signal or variable "kbRowSel", which holds its previous value in one or more paths through the process File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15/UK101_41K/uk101_41kRAM.vhd Line: 263
-Info (10041): Inferred latch for "kbRowSel[0]" at uk101_41kRAM.vhd(263) File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15/UK101_41K/uk101_41kRAM.vhd Line: 263
-Info (10041): Inferred latch for "kbRowSel[1]" at uk101_41kRAM.vhd(263) File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15/UK101_41K/uk101_41kRAM.vhd Line: 263
-Info (10041): Inferred latch for "kbRowSel[2]" at uk101_41kRAM.vhd(263) File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15/UK101_41K/uk101_41kRAM.vhd Line: 263
-Info (10041): Inferred latch for "kbRowSel[3]" at uk101_41kRAM.vhd(263) File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15/UK101_41K/uk101_41kRAM.vhd Line: 263
-Info (10041): Inferred latch for "kbRowSel[4]" at uk101_41kRAM.vhd(263) File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15/UK101_41K/uk101_41kRAM.vhd Line: 263
-Info (10041): Inferred latch for "kbRowSel[5]" at uk101_41kRAM.vhd(263) File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15/UK101_41K/uk101_41kRAM.vhd Line: 263
-Info (10041): Inferred latch for "kbRowSel[6]" at uk101_41kRAM.vhd(263) File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15/UK101_41K/uk101_41kRAM.vhd Line: 263
-Info (10041): Inferred latch for "kbRowSel[7]" at uk101_41kRAM.vhd(263) File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15/UK101_41K/uk101_41kRAM.vhd Line: 263
-Info (12128): Elaborating entity "T65" for hierarchy "T65:u1" File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15/UK101_41K/uk101_41kRAM.vhd Line: 145
+    Info (12022): Found design unit 1: uk101_41kRAM-struct File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15/UK101_41K/uk101_41kRAM.vhd Line: 78
+    Info (12023): Found entity 1: uk101_41kRAM File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15/UK101_41K/uk101_41kRAM.vhd Line: 30
+Info (12127): Elaborating entity "uk101_41kRAM" for the top level hierarchy
+Warning (10540): VHDL Signal Declaration warning at uk101_41kRAM.vhd(56): used explicit default value for signal "n_sdRamCas" because signal was never assigned a value File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15/UK101_41K/uk101_41kRAM.vhd Line: 56
+Warning (10540): VHDL Signal Declaration warning at uk101_41kRAM.vhd(57): used explicit default value for signal "n_sdRamRas" because signal was never assigned a value File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15/UK101_41K/uk101_41kRAM.vhd Line: 57
+Warning (10540): VHDL Signal Declaration warning at uk101_41kRAM.vhd(58): used explicit default value for signal "n_sdRamWe" because signal was never assigned a value File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15/UK101_41K/uk101_41kRAM.vhd Line: 58
+Warning (10540): VHDL Signal Declaration warning at uk101_41kRAM.vhd(59): used explicit default value for signal "n_sdRamCe" because signal was never assigned a value File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15/UK101_41K/uk101_41kRAM.vhd Line: 59
+Warning (10540): VHDL Signal Declaration warning at uk101_41kRAM.vhd(60): used explicit default value for signal "sdRamClk" because signal was never assigned a value File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15/UK101_41K/uk101_41kRAM.vhd Line: 60
+Warning (10540): VHDL Signal Declaration warning at uk101_41kRAM.vhd(61): used explicit default value for signal "sdRamClkEn" because signal was never assigned a value File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15/UK101_41K/uk101_41kRAM.vhd Line: 61
+Warning (10540): VHDL Signal Declaration warning at uk101_41kRAM.vhd(62): used explicit default value for signal "sdRamAddr" because signal was never assigned a value File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15/UK101_41K/uk101_41kRAM.vhd Line: 62
+Warning (10540): VHDL Signal Declaration warning at uk101_41kRAM.vhd(66): used explicit default value for signal "sdCS" because signal was never assigned a value File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15/UK101_41K/uk101_41kRAM.vhd Line: 66
+Warning (10540): VHDL Signal Declaration warning at uk101_41kRAM.vhd(67): used explicit default value for signal "sdMOSI" because signal was never assigned a value File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15/UK101_41K/uk101_41kRAM.vhd Line: 67
+Warning (10540): VHDL Signal Declaration warning at uk101_41kRAM.vhd(69): used explicit default value for signal "sdSCLK" because signal was never assigned a value File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15/UK101_41K/uk101_41kRAM.vhd Line: 69
+Warning (10540): VHDL Signal Declaration warning at uk101_41kRAM.vhd(70): used explicit default value for signal "driveLED" because signal was never assigned a value File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15/UK101_41K/uk101_41kRAM.vhd Line: 70
+Critical Warning (10920): VHDL Incomplete Partial Association warning at uk101_41kRAM.vhd(162): port or argument "A" has 8/24 unassociated elements File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15/UK101_41K/uk101_41kRAM.vhd Line: 162
+Warning (10492): VHDL Process Statement warning at uk101_41kRAM.vhd(306): signal "cpuDataOut" is read inside the Process Statement but isn't in the Process Statement's sensitivity list File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15/UK101_41K/uk101_41kRAM.vhd Line: 306
+Warning (10631): VHDL Process Statement warning at uk101_41kRAM.vhd(303): inferring latch(es) for signal or variable "kbRowSel", which holds its previous value in one or more paths through the process File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15/UK101_41K/uk101_41kRAM.vhd Line: 303
+Info (10041): Inferred latch for "kbRowSel[0]" at uk101_41kRAM.vhd(303) File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15/UK101_41K/uk101_41kRAM.vhd Line: 303
+Info (10041): Inferred latch for "kbRowSel[1]" at uk101_41kRAM.vhd(303) File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15/UK101_41K/uk101_41kRAM.vhd Line: 303
+Info (10041): Inferred latch for "kbRowSel[2]" at uk101_41kRAM.vhd(303) File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15/UK101_41K/uk101_41kRAM.vhd Line: 303
+Info (10041): Inferred latch for "kbRowSel[3]" at uk101_41kRAM.vhd(303) File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15/UK101_41K/uk101_41kRAM.vhd Line: 303
+Info (10041): Inferred latch for "kbRowSel[4]" at uk101_41kRAM.vhd(303) File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15/UK101_41K/uk101_41kRAM.vhd Line: 303
+Info (10041): Inferred latch for "kbRowSel[5]" at uk101_41kRAM.vhd(303) File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15/UK101_41K/uk101_41kRAM.vhd Line: 303
+Info (10041): Inferred latch for "kbRowSel[6]" at uk101_41kRAM.vhd(303) File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15/UK101_41K/uk101_41kRAM.vhd Line: 303
+Info (10041): Inferred latch for "kbRowSel[7]" at uk101_41kRAM.vhd(303) File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15/UK101_41K/uk101_41kRAM.vhd Line: 303
+Info (12128): Elaborating entity "T65" for hierarchy "T65:u1" File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15/UK101_41K/uk101_41kRAM.vhd Line: 162
 Warning (10036): Verilog HDL or VHDL warning at T65.vhd(100): object "D" assigned a value but never read File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/CPU/M6502/T65.vhd Line: 100
 Warning (10036): Verilog HDL or VHDL warning at T65.vhd(125): object "B_o" assigned a value but never read File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/CPU/M6502/T65.vhd Line: 125
 Info (12128): Elaborating entity "T65_MCode" for hierarchy "T65:u1|T65_MCode:mcode" File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/CPU/M6502/T65.vhd Line: 188
 Info (12128): Elaborating entity "T65_ALU" for hierarchy "T65:u1|T65_ALU:alu" File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/CPU/M6502/T65.vhd Line: 221
-Info (12128): Elaborating entity "BasicRom" for hierarchy "BasicRom:u2" File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15/UK101_41K/uk101_41kRAM.vhd Line: 162
+Info (12128): Elaborating entity "BasicRom" for hierarchy "BasicRom:u2" File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15/UK101_41K/uk101_41kRAM.vhd Line: 179
 Info (12128): Elaborating entity "altsyncram" for hierarchy "BasicRom:u2|altsyncram:altsyncram_component" File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/ROMs/6502/UK101_BASIC_ROM/BasicRom.vhd Line: 84
 Info (12130): Elaborated megafunction instantiation "BasicRom:u2|altsyncram:altsyncram_component" File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/ROMs/6502/UK101_BASIC_ROM/BasicRom.vhd Line: 84
 Info (12133): Instantiated megafunction "BasicRom:u2|altsyncram:altsyncram_component" with the following parameter: File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/ROMs/6502/UK101_BASIC_ROM/BasicRom.vhd Line: 84
@@ -1382,11 +1440,12 @@ Info (12133): Instantiated megafunction "BasicRom:u2|altsyncram:altsyncram_compo
     Info (12134): Parameter "width_a" = "8"
     Info (12134): Parameter "width_byteena_a" = "1"
 Info (12021): Found 1 design units, including 1 entities, in source file db/altsyncram_m771.tdf
-    Info (12023): Found entity 1: altsyncram_m771 File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15/UK101_41K/db/altsyncram_m771.tdf Line: 27
-Info (12128): Elaborating entity "altsyncram_m771" for hierarchy "BasicRom:u2|altsyncram:altsyncram_component|altsyncram_m771:auto_generated" File: c:/intelfpga_lite/18.1/quartus/libraries/megafunctions/altsyncram.tdf Line: 791
-Info (12128): Elaborating entity "CegmonRom_Patched_64x32" for hierarchy "CegmonRom_Patched_64x32:u4" File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15/UK101_41K/uk101_41kRAM.vhd Line: 170
-Info (12128): Elaborating entity "bufferedUART" for hierarchy "bufferedUART:u5" File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15/UK101_41K/uk101_41kRAM.vhd Line: 178
-Info (12128): Elaborating entity "VideoClk_XVGA_1024x768" for hierarchy "VideoClk_XVGA_1024x768:pll" File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15/UK101_41K/uk101_41kRAM.vhd Line: 224
+    Info (12023): Found entity 1: altsyncram_m771 File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15/UK101_41K/db/altsyncram_m771.tdf Line: 28
+Info (12128): Elaborating entity "altsyncram_m771" for hierarchy "BasicRom:u2|altsyncram:altsyncram_component|altsyncram_m771:auto_generated" File: c:/intelfpga_lite/20.1/quartus/libraries/megafunctions/altsyncram.tdf Line: 792
+Info (12128): Elaborating entity "CegmonRom_Patched_64x32" for hierarchy "CegmonRom_Patched_64x32:u4" File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15/UK101_41K/uk101_41kRAM.vhd Line: 187
+Info (12128): Elaborating entity "bufferedUART" for hierarchy "bufferedUART:u5" File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15/UK101_41K/uk101_41kRAM.vhd Line: 195
+Info (12128): Elaborating entity "OutLatch" for hierarchy "OutLatch:u6" File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15/UK101_41K/uk101_41kRAM.vhd Line: 211
+Info (12128): Elaborating entity "VideoClk_XVGA_1024x768" for hierarchy "VideoClk_XVGA_1024x768:pll" File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15/UK101_41K/uk101_41kRAM.vhd Line: 264
 Info (12128): Elaborating entity "altpll" for hierarchy "VideoClk_XVGA_1024x768:pll|altpll:altpll_component" File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/VGA/Mem_Mapped_XGA/VideoClk_XVGA_1024x768.vhd Line: 156
 Info (12130): Elaborated megafunction instantiation "VideoClk_XVGA_1024x768:pll|altpll:altpll_component" File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/VGA/Mem_Mapped_XGA/VideoClk_XVGA_1024x768.vhd Line: 156
 Info (12133): Instantiated megafunction "VideoClk_XVGA_1024x768:pll|altpll:altpll_component" with the following parameter: File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/VGA/Mem_Mapped_XGA/VideoClk_XVGA_1024x768.vhd Line: 156
@@ -1454,11 +1513,12 @@ Info (12133): Instantiated megafunction "VideoClk_XVGA_1024x768:pll|altpll:altpl
     Info (12134): Parameter "self_reset_on_loss_lock" = "OFF"
     Info (12134): Parameter "width_clock" = "5"
 Info (12021): Found 1 design units, including 1 entities, in source file db/videoclk_xvga_1024x768_altpll.v
-    Info (12023): Found entity 1: VideoClk_XVGA_1024x768_altpll File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15/UK101_41K/db/videoclk_xvga_1024x768_altpll.v Line: 30
-Info (12128): Elaborating entity "VideoClk_XVGA_1024x768_altpll" for hierarchy "VideoClk_XVGA_1024x768:pll|altpll:altpll_component|VideoClk_XVGA_1024x768_altpll:auto_generated" File: c:/intelfpga_lite/18.1/quartus/libraries/megafunctions/altpll.tdf Line: 897
-Info (12128): Elaborating entity "Mem_Mapped_XVGA" for hierarchy "Mem_Mapped_XVGA:vga" File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15/UK101_41K/uk101_41kRAM.vhd Line: 237
-Info (12128): Elaborating entity "Video_XVGA_64x32" for hierarchy "Mem_Mapped_XVGA:vga|Video_XVGA_64x32:Video_XVGA_64x32" File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/VGA/Mem_Mapped_XGA/Mem_Mapped_XVGA.vhd Line: 35
-Info (12128): Elaborating entity "DisplayRam2k" for hierarchy "Mem_Mapped_XVGA:vga|DisplayRam2k:DisplayRAM" File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/VGA/Mem_Mapped_XGA/Mem_Mapped_XVGA.vhd Line: 48
+    Info (12023): Found entity 1: VideoClk_XVGA_1024x768_altpll File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15/UK101_41K/db/videoclk_xvga_1024x768_altpll.v Line: 31
+Info (12128): Elaborating entity "VideoClk_XVGA_1024x768_altpll" for hierarchy "VideoClk_XVGA_1024x768:pll|altpll:altpll_component|VideoClk_XVGA_1024x768_altpll:auto_generated" File: c:/intelfpga_lite/20.1/quartus/libraries/megafunctions/altpll.tdf Line: 898
+Info (12128): Elaborating entity "Mem_Mapped_XVGA" for hierarchy "Mem_Mapped_XVGA:vga" File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15/UK101_41K/uk101_41kRAM.vhd Line: 277
+Warning (10036): Verilog HDL or VHDL warning at Mem_Mapped_XVGA.vhd(26): object "dispAddrMux" assigned a value but never read File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/VGA/Mem_Mapped_XGA/Mem_Mapped_XVGA.vhd Line: 26
+Info (12128): Elaborating entity "Video_XVGA_64x32" for hierarchy "Mem_Mapped_XVGA:vga|Video_XVGA_64x32:Video_XVGA_64x32" File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/VGA/Mem_Mapped_XGA/Mem_Mapped_XVGA.vhd Line: 42
+Info (12128): Elaborating entity "DisplayRam2k" for hierarchy "Mem_Mapped_XVGA:vga|DisplayRam2k:DisplayRAM" File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/VGA/Mem_Mapped_XGA/Mem_Mapped_XVGA.vhd Line: 56
 Info (12128): Elaborating entity "altsyncram" for hierarchy "Mem_Mapped_XVGA:vga|DisplayRam2k:DisplayRAM|altsyncram:altsyncram_component" File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/VGA/Mem_Mapped_XGA/DisplayRam2k.vhd Line: 68
 Info (12130): Elaborated megafunction instantiation "Mem_Mapped_XVGA:vga|DisplayRam2k:DisplayRAM|altsyncram:altsyncram_component" File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/VGA/Mem_Mapped_XGA/DisplayRam2k.vhd Line: 68
 Info (12133): Instantiated megafunction "Mem_Mapped_XVGA:vga|DisplayRam2k:DisplayRAM|altsyncram:altsyncram_component" with the following parameter: File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/VGA/Mem_Mapped_XGA/DisplayRam2k.vhd Line: 68
@@ -1513,10 +1573,10 @@ Info (12133): Instantiated megafunction "Mem_Mapped_XVGA:vga|DisplayRam2k:Displa
     Info (12134): Parameter "lpm_hint" = "UNUSED"
     Info (12134): Parameter "lpm_type" = "altsyncram"
 Info (12021): Found 1 design units, including 1 entities, in source file db/altsyncram_2sq3.tdf
-    Info (12023): Found entity 1: altsyncram_2sq3 File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15/UK101_41K/db/altsyncram_2sq3.tdf Line: 27
-Info (12128): Elaborating entity "altsyncram_2sq3" for hierarchy "Mem_Mapped_XVGA:vga|DisplayRam2k:DisplayRAM|altsyncram:altsyncram_component|altsyncram_2sq3:auto_generated" File: c:/intelfpga_lite/18.1/quartus/libraries/megafunctions/altsyncram.tdf Line: 791
-Info (12128): Elaborating entity "CharRom" for hierarchy "Mem_Mapped_XVGA:vga|CharRom:CharROM" File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/VGA/Mem_Mapped_XGA/Mem_Mapped_XVGA.vhd Line: 63
-Info (12128): Elaborating entity "UK101keyboard" for hierarchy "UK101keyboard:u9" File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15/UK101_41K/uk101_41kRAM.vhd Line: 253
+    Info (12023): Found entity 1: altsyncram_2sq3 File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15/UK101_41K/db/altsyncram_2sq3.tdf Line: 28
+Info (12128): Elaborating entity "altsyncram_2sq3" for hierarchy "Mem_Mapped_XVGA:vga|DisplayRam2k:DisplayRAM|altsyncram:altsyncram_component|altsyncram_2sq3:auto_generated" File: c:/intelfpga_lite/20.1/quartus/libraries/megafunctions/altsyncram.tdf Line: 792
+Info (12128): Elaborating entity "CharRom" for hierarchy "Mem_Mapped_XVGA:vga|CharRom:CharROM" File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/VGA/Mem_Mapped_XGA/Mem_Mapped_XVGA.vhd Line: 71
+Info (12128): Elaborating entity "UK101keyboard" for hierarchy "UK101keyboard:u9" File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15/UK101_41K/uk101_41kRAM.vhd Line: 293
 Warning (10036): Verilog HDL or VHDL warning at UK101keyboard.vhd(83): object "keyb_error" assigned a value but never read File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/PS2KB/UK101keyboard.vhd Line: 83
 Warning (10036): Verilog HDL or VHDL warning at UK101keyboard.vhd(89): object "extended" assigned a value but never read File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/PS2KB/UK101keyboard.vhd Line: 89
 Warning (10036): Verilog HDL or VHDL warning at UK101keyboard.vhd(90): object "shiftPressed" assigned a value but never read File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/PS2KB/UK101keyboard.vhd Line: 90
@@ -1594,85 +1654,81 @@ Info (12133): Instantiated megafunction "bufferedUART:u5|altsyncram:rxBuffer_rtl
     Info (12134): Parameter "INDATA_ACLR_A" = "NONE"
     Info (12134): Parameter "WRCONTROL_ACLR_A" = "NONE"
 Info (12021): Found 1 design units, including 1 entities, in source file db/altsyncram_1ce1.tdf
-    Info (12023): Found entity 1: altsyncram_1ce1 File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15/UK101_41K/db/altsyncram_1ce1.tdf Line: 27
-Warning (13012): Latch kbRowSel[2] has unsafe behavior File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15/UK101_41K/uk101_41kRAM.vhd Line: 263
+    Info (12023): Found entity 1: altsyncram_1ce1 File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15/UK101_41K/db/altsyncram_1ce1.tdf Line: 28
+Warning (13012): Latch kbRowSel[2] has unsafe behavior File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15/UK101_41K/uk101_41kRAM.vhd Line: 303
     Warning (13013): Ports D and ENA on the latch are fed by the same signal T65:u1|PC[10] File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/CPU/M6502/T65.vhd Line: 234
-Warning (13012): Latch kbRowSel[3] has unsafe behavior File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15/UK101_41K/uk101_41kRAM.vhd Line: 263
+Warning (13012): Latch kbRowSel[3] has unsafe behavior File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15/UK101_41K/uk101_41kRAM.vhd Line: 303
     Warning (13013): Ports D and ENA on the latch are fed by the same signal T65:u1|PC[11] File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/CPU/M6502/T65.vhd Line: 234
-Warning (13012): Latch kbRowSel[4] has unsafe behavior File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15/UK101_41K/uk101_41kRAM.vhd Line: 263
+Warning (13012): Latch kbRowSel[4] has unsafe behavior File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15/UK101_41K/uk101_41kRAM.vhd Line: 303
     Warning (13013): Ports D and ENA on the latch are fed by the same signal T65:u1|PC[12] File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/CPU/M6502/T65.vhd Line: 234
-Warning (13012): Latch kbRowSel[5] has unsafe behavior File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15/UK101_41K/uk101_41kRAM.vhd Line: 263
+Warning (13012): Latch kbRowSel[5] has unsafe behavior File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15/UK101_41K/uk101_41kRAM.vhd Line: 303
     Warning (13013): Ports D and ENA on the latch are fed by the same signal T65:u1|PC[13] File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/CPU/M6502/T65.vhd Line: 234
-Warning (13012): Latch kbRowSel[6] has unsafe behavior File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15/UK101_41K/uk101_41kRAM.vhd Line: 263
+Warning (13012): Latch kbRowSel[6] has unsafe behavior File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15/UK101_41K/uk101_41kRAM.vhd Line: 303
     Warning (13013): Ports D and ENA on the latch are fed by the same signal T65:u1|PC[14] File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/CPU/M6502/T65.vhd Line: 234
-Warning (13012): Latch kbRowSel[7] has unsafe behavior File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15/UK101_41K/uk101_41kRAM.vhd Line: 263
+Warning (13012): Latch kbRowSel[7] has unsafe behavior File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15/UK101_41K/uk101_41kRAM.vhd Line: 303
     Warning (13013): Ports D and ENA on the latch are fed by the same signal T65:u1|PC[15] File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/CPU/M6502/T65.vhd Line: 234
 Info (13000): Registers with preset signals will power-up high File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/CPU/M6502/T65.vhd Line: 530
 Info (13003): DEV_CLRn pin will set, and not reset, register with preset signal due to NOT Gate Push-Back
 Warning (13024): Output pins are stuck at VCC or GND
-    Warning (13410): Pin "sramAddress[16]" is stuck at GND File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15/UK101_41K/uk101_41kRAM.vhd Line: 29
-    Warning (13410): Pin "sramAddress[17]" is stuck at GND File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15/UK101_41K/uk101_41kRAM.vhd Line: 29
-    Warning (13410): Pin "sramAddress[18]" is stuck at GND File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15/UK101_41K/uk101_41kRAM.vhd Line: 29
-    Warning (13410): Pin "sramAddress[19]" is stuck at GND File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15/UK101_41K/uk101_41kRAM.vhd Line: 29
-    Warning (13410): Pin "n_sdRamCas" is stuck at VCC File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15/UK101_41K/uk101_41kRAM.vhd Line: 49
-    Warning (13410): Pin "n_sdRamRas" is stuck at VCC File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15/UK101_41K/uk101_41kRAM.vhd Line: 50
-    Warning (13410): Pin "n_sdRamWe" is stuck at VCC File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15/UK101_41K/uk101_41kRAM.vhd Line: 51
-    Warning (13410): Pin "n_sdRamCe" is stuck at VCC File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15/UK101_41K/uk101_41kRAM.vhd Line: 52
-    Warning (13410): Pin "sdRamClk" is stuck at VCC File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15/UK101_41K/uk101_41kRAM.vhd Line: 53
-    Warning (13410): Pin "sdRamClkEn" is stuck at VCC File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15/UK101_41K/uk101_41kRAM.vhd Line: 54
-    Warning (13410): Pin "sdRamAddr[0]" is stuck at GND File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15/UK101_41K/uk101_41kRAM.vhd Line: 55
-    Warning (13410): Pin "sdRamAddr[1]" is stuck at GND File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15/UK101_41K/uk101_41kRAM.vhd Line: 55
-    Warning (13410): Pin "sdRamAddr[2]" is stuck at GND File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15/UK101_41K/uk101_41kRAM.vhd Line: 55
-    Warning (13410): Pin "sdRamAddr[3]" is stuck at GND File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15/UK101_41K/uk101_41kRAM.vhd Line: 55
-    Warning (13410): Pin "sdRamAddr[4]" is stuck at GND File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15/UK101_41K/uk101_41kRAM.vhd Line: 55
-    Warning (13410): Pin "sdRamAddr[5]" is stuck at GND File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15/UK101_41K/uk101_41kRAM.vhd Line: 55
-    Warning (13410): Pin "sdRamAddr[6]" is stuck at GND File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15/UK101_41K/uk101_41kRAM.vhd Line: 55
-    Warning (13410): Pin "sdRamAddr[7]" is stuck at GND File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15/UK101_41K/uk101_41kRAM.vhd Line: 55
-    Warning (13410): Pin "sdRamAddr[8]" is stuck at GND File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15/UK101_41K/uk101_41kRAM.vhd Line: 55
-    Warning (13410): Pin "sdRamAddr[9]" is stuck at GND File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15/UK101_41K/uk101_41kRAM.vhd Line: 55
-    Warning (13410): Pin "sdRamAddr[10]" is stuck at GND File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15/UK101_41K/uk101_41kRAM.vhd Line: 55
-    Warning (13410): Pin "sdRamAddr[11]" is stuck at GND File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15/UK101_41K/uk101_41kRAM.vhd Line: 55
-    Warning (13410): Pin "sdRamAddr[12]" is stuck at GND File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15/UK101_41K/uk101_41kRAM.vhd Line: 55
-    Warning (13410): Pin "sdRamAddr[13]" is stuck at GND File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15/UK101_41K/uk101_41kRAM.vhd Line: 55
-    Warning (13410): Pin "sdRamAddr[14]" is stuck at GND File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15/UK101_41K/uk101_41kRAM.vhd Line: 55
-    Warning (13410): Pin "sdCS" is stuck at VCC File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15/UK101_41K/uk101_41kRAM.vhd Line: 59
-    Warning (13410): Pin "sdMOSI" is stuck at GND File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15/UK101_41K/uk101_41kRAM.vhd Line: 60
-    Warning (13410): Pin "sdSCLK" is stuck at GND File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15/UK101_41K/uk101_41kRAM.vhd Line: 62
-    Warning (13410): Pin "driveLED" is stuck at VCC File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15/UK101_41K/uk101_41kRAM.vhd Line: 63
+    Warning (13410): Pin "n_sdRamCas" is stuck at VCC File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15/UK101_41K/uk101_41kRAM.vhd Line: 56
+    Warning (13410): Pin "n_sdRamRas" is stuck at VCC File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15/UK101_41K/uk101_41kRAM.vhd Line: 57
+    Warning (13410): Pin "n_sdRamWe" is stuck at VCC File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15/UK101_41K/uk101_41kRAM.vhd Line: 58
+    Warning (13410): Pin "n_sdRamCe" is stuck at VCC File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15/UK101_41K/uk101_41kRAM.vhd Line: 59
+    Warning (13410): Pin "sdRamClk" is stuck at VCC File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15/UK101_41K/uk101_41kRAM.vhd Line: 60
+    Warning (13410): Pin "sdRamClkEn" is stuck at VCC File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15/UK101_41K/uk101_41kRAM.vhd Line: 61
+    Warning (13410): Pin "sdRamAddr[0]" is stuck at GND File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15/UK101_41K/uk101_41kRAM.vhd Line: 62
+    Warning (13410): Pin "sdRamAddr[1]" is stuck at GND File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15/UK101_41K/uk101_41kRAM.vhd Line: 62
+    Warning (13410): Pin "sdRamAddr[2]" is stuck at GND File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15/UK101_41K/uk101_41kRAM.vhd Line: 62
+    Warning (13410): Pin "sdRamAddr[3]" is stuck at GND File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15/UK101_41K/uk101_41kRAM.vhd Line: 62
+    Warning (13410): Pin "sdRamAddr[4]" is stuck at GND File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15/UK101_41K/uk101_41kRAM.vhd Line: 62
+    Warning (13410): Pin "sdRamAddr[5]" is stuck at GND File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15/UK101_41K/uk101_41kRAM.vhd Line: 62
+    Warning (13410): Pin "sdRamAddr[6]" is stuck at GND File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15/UK101_41K/uk101_41kRAM.vhd Line: 62
+    Warning (13410): Pin "sdRamAddr[7]" is stuck at GND File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15/UK101_41K/uk101_41kRAM.vhd Line: 62
+    Warning (13410): Pin "sdRamAddr[8]" is stuck at GND File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15/UK101_41K/uk101_41kRAM.vhd Line: 62
+    Warning (13410): Pin "sdRamAddr[9]" is stuck at GND File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15/UK101_41K/uk101_41kRAM.vhd Line: 62
+    Warning (13410): Pin "sdRamAddr[10]" is stuck at GND File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15/UK101_41K/uk101_41kRAM.vhd Line: 62
+    Warning (13410): Pin "sdRamAddr[11]" is stuck at GND File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15/UK101_41K/uk101_41kRAM.vhd Line: 62
+    Warning (13410): Pin "sdRamAddr[12]" is stuck at GND File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15/UK101_41K/uk101_41kRAM.vhd Line: 62
+    Warning (13410): Pin "sdRamAddr[13]" is stuck at GND File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15/UK101_41K/uk101_41kRAM.vhd Line: 62
+    Warning (13410): Pin "sdRamAddr[14]" is stuck at GND File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15/UK101_41K/uk101_41kRAM.vhd Line: 62
+    Warning (13410): Pin "sdCS" is stuck at VCC File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15/UK101_41K/uk101_41kRAM.vhd Line: 66
+    Warning (13410): Pin "sdMOSI" is stuck at GND File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15/UK101_41K/uk101_41kRAM.vhd Line: 67
+    Warning (13410): Pin "sdSCLK" is stuck at GND File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15/UK101_41K/uk101_41kRAM.vhd Line: 69
+    Warning (13410): Pin "driveLED" is stuck at VCC File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15/UK101_41K/uk101_41kRAM.vhd Line: 70
 Info (286030): Timing-Driven Synthesis is running
 Info (17049): 9 registers lost all their fanouts during netlist optimizations.
 Info (16010): Generating hard_block partition "hard_block:auto_generated_inst"
     Info (16011): Adding 1 node(s), including 0 DDIO, 1 PLL, 0 transceiver and 0 LCELL
-Warning (15899): PLL "VideoClk_XVGA_1024x768:pll|altpll:altpll_component|VideoClk_XVGA_1024x768_altpll:auto_generated|pll1" has parameters clk1_multiply_by and clk1_divide_by specified but port CLK[1] is not connected File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15/UK101_41K/db/videoclk_xvga_1024x768_altpll.v Line: 50
+Warning (15899): PLL "VideoClk_XVGA_1024x768:pll|altpll:altpll_component|VideoClk_XVGA_1024x768_altpll:auto_generated|pll1" has parameters clk1_multiply_by and clk1_divide_by specified but port CLK[1] is not connected File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15/UK101_41K/db/videoclk_xvga_1024x768_altpll.v Line: 51
 Warning (21074): Design contains 17 input pin(s) that do not drive logic
-    Warning (15610): No output dependent on input pin "sdRamData[0]" File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15/UK101_41K/uk101_41kRAM.vhd Line: 56
-    Warning (15610): No output dependent on input pin "sdRamData[1]" File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15/UK101_41K/uk101_41kRAM.vhd Line: 56
-    Warning (15610): No output dependent on input pin "sdRamData[2]" File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15/UK101_41K/uk101_41kRAM.vhd Line: 56
-    Warning (15610): No output dependent on input pin "sdRamData[3]" File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15/UK101_41K/uk101_41kRAM.vhd Line: 56
-    Warning (15610): No output dependent on input pin "sdRamData[4]" File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15/UK101_41K/uk101_41kRAM.vhd Line: 56
-    Warning (15610): No output dependent on input pin "sdRamData[5]" File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15/UK101_41K/uk101_41kRAM.vhd Line: 56
-    Warning (15610): No output dependent on input pin "sdRamData[6]" File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15/UK101_41K/uk101_41kRAM.vhd Line: 56
-    Warning (15610): No output dependent on input pin "sdRamData[7]" File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15/UK101_41K/uk101_41kRAM.vhd Line: 56
-    Warning (15610): No output dependent on input pin "sdRamData[8]" File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15/UK101_41K/uk101_41kRAM.vhd Line: 56
-    Warning (15610): No output dependent on input pin "sdRamData[9]" File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15/UK101_41K/uk101_41kRAM.vhd Line: 56
-    Warning (15610): No output dependent on input pin "sdRamData[10]" File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15/UK101_41K/uk101_41kRAM.vhd Line: 56
-    Warning (15610): No output dependent on input pin "sdRamData[11]" File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15/UK101_41K/uk101_41kRAM.vhd Line: 56
-    Warning (15610): No output dependent on input pin "sdRamData[12]" File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15/UK101_41K/uk101_41kRAM.vhd Line: 56
-    Warning (15610): No output dependent on input pin "sdRamData[13]" File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15/UK101_41K/uk101_41kRAM.vhd Line: 56
-    Warning (15610): No output dependent on input pin "sdRamData[14]" File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15/UK101_41K/uk101_41kRAM.vhd Line: 56
-    Warning (15610): No output dependent on input pin "sdRamData[15]" File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15/UK101_41K/uk101_41kRAM.vhd Line: 56
-    Warning (15610): No output dependent on input pin "sdMISO" File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15/UK101_41K/uk101_41kRAM.vhd Line: 61
-Info (21057): Implemented 3918 device resources after synthesis - the final resource count might be different
+    Warning (15610): No output dependent on input pin "sdRamData[0]" File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15/UK101_41K/uk101_41kRAM.vhd Line: 63
+    Warning (15610): No output dependent on input pin "sdRamData[1]" File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15/UK101_41K/uk101_41kRAM.vhd Line: 63
+    Warning (15610): No output dependent on input pin "sdRamData[2]" File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15/UK101_41K/uk101_41kRAM.vhd Line: 63
+    Warning (15610): No output dependent on input pin "sdRamData[3]" File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15/UK101_41K/uk101_41kRAM.vhd Line: 63
+    Warning (15610): No output dependent on input pin "sdRamData[4]" File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15/UK101_41K/uk101_41kRAM.vhd Line: 63
+    Warning (15610): No output dependent on input pin "sdRamData[5]" File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15/UK101_41K/uk101_41kRAM.vhd Line: 63
+    Warning (15610): No output dependent on input pin "sdRamData[6]" File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15/UK101_41K/uk101_41kRAM.vhd Line: 63
+    Warning (15610): No output dependent on input pin "sdRamData[7]" File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15/UK101_41K/uk101_41kRAM.vhd Line: 63
+    Warning (15610): No output dependent on input pin "sdRamData[8]" File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15/UK101_41K/uk101_41kRAM.vhd Line: 63
+    Warning (15610): No output dependent on input pin "sdRamData[9]" File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15/UK101_41K/uk101_41kRAM.vhd Line: 63
+    Warning (15610): No output dependent on input pin "sdRamData[10]" File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15/UK101_41K/uk101_41kRAM.vhd Line: 63
+    Warning (15610): No output dependent on input pin "sdRamData[11]" File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15/UK101_41K/uk101_41kRAM.vhd Line: 63
+    Warning (15610): No output dependent on input pin "sdRamData[12]" File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15/UK101_41K/uk101_41kRAM.vhd Line: 63
+    Warning (15610): No output dependent on input pin "sdRamData[13]" File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15/UK101_41K/uk101_41kRAM.vhd Line: 63
+    Warning (15610): No output dependent on input pin "sdRamData[14]" File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15/UK101_41K/uk101_41kRAM.vhd Line: 63
+    Warning (15610): No output dependent on input pin "sdRamData[15]" File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15/UK101_41K/uk101_41kRAM.vhd Line: 63
+    Warning (15610): No output dependent on input pin "sdMISO" File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15/UK101_41K/uk101_41kRAM.vhd Line: 68
+Info (21057): Implemented 3944 device resources after synthesis - the final resource count might be different
     Info (21058): Implemented 23 input pins
     Info (21059): Implemented 58 output pins
     Info (21060): Implemented 8 bidirectional pins
-    Info (21061): Implemented 3804 logic cells
+    Info (21061): Implemented 3830 logic cells
     Info (21064): Implemented 24 RAM segments
     Info (21065): Implemented 1 PLLs
-Info: Quartus Prime Analysis & Synthesis was successful. 0 errors, 107 warnings
+Info: Quartus Prime Analysis & Synthesis was successful. 0 errors, 104 warnings
     Info: Peak virtual memory: 4833 megabytes
-    Info: Processing ended: Sat Feb 08 17:11:42 2020
+    Info: Processing ended: Fri Apr 30 09:37:10 2021
     Info: Elapsed time: 00:01:02
-    Info: Total CPU time (on all processors): 00:01:16
+    Info: Total CPU time (on all processors): 00:01:23
 
 

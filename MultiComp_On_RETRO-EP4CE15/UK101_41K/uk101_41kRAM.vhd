@@ -7,6 +7,13 @@
 --		Blue background, white characters
 -- External SRAM
 --		40KB
+--	Memory Mapper
+--		Maps 512KB of external SRAM into first 4KB window
+--		Maps 256KB of external SRAM into second 4KB window
+-- 	Two bank select registers
+--			Each register Selects a 4KB window from SRAM
+--		4KB window at xc000-xcFFF (128 banks = 512KB)
+--		4KB window at xE000-xEFFF (54 banks = 256KB)
 --	USB-Serial
 --		FT230XS FTDI
 --		Hardware Handshake
@@ -20,7 +27,7 @@ use ieee.std_logic_1164.all;
 use  IEEE.STD_LOGIC_ARITH.all;
 use  IEEE.STD_LOGIC_UNSIGNED.all;
 
-entity uk101 is
+entity uk101_41kRAM is
 	port(
 		clk			: in std_logic;
 		n_reset		: in std_logic := '1';
@@ -66,14 +73,17 @@ entity uk101 is
 		ps2Clk		: in		std_logic := '1';
 		ps2Data		: in		std_logic := '1'
 	);
-end uk101;
+end uk101_41kRAM;
 
-architecture struct of uk101 is
+architecture struct of uk101_41kRAM is
 
 	signal n_WR					: std_logic := '0';
 	signal cpuAddress			: std_logic_vector(15 downto 0);
 	signal cpuDataOut			: std_logic_vector(7 downto 0);
 	signal cpuDataIn			: std_logic_vector(7 downto 0);
+	
+	signal mmapAddrLatch1		: std_logic_vector(7 downto 0);
+	signal mmapAddrLatch2		: std_logic_vector(7 downto 0);
 
 	signal basRomData			: std_logic_vector(7 downto 0);
 	signal ramDataOut			: std_logic_vector(7 downto 0);
@@ -86,12 +96,14 @@ architecture struct of uk101 is
 	signal n_dispRamCS		: std_logic :='1';
 	signal n_ramCS				: std_logic :='1';
 	signal n_basRomCS			: std_logic :='1';
-	signal n_monitorRomCS 	: std_logic :='1';
+	signal n_monRomCS 	: std_logic :='1';
 	signal n_aciaCS			: std_logic :='1';
 	signal n_kbCS				: std_logic :='1';
 	signal n_J6IOCS			: std_logic :='1';
 	signal n_J8IOCS			: std_logic :='1';
 	signal n_LEDCS				: std_logic :='1';
+	signal n_mmap1CS			: std_logic :='1';
+	signal n_mmap2CS			: std_logic :='1';
 		
 	signal Video_Clk_25p6	: std_ulogic;
 	signal VoutVect			: std_logic_vector(2 downto 0);
@@ -113,32 +125,37 @@ architecture struct of uk101 is
 begin
 
 	-- External SRAM
-	sramAddress(15 downto 0)	<= cpuAddress(15 downto 0);
-	sramAddress(19 downto 16)	<= "0000";
+	sramAddress(11 downto 0)	<= cpuAddress(11 downto 0);
+	sramAddress(19 downto 12)	<= "1"  & mmapAddrLatch1(6 downto 0) when (cpuAddress(15 downto 12)	= x"c") else		-- xc000-xcFFF (4KB) 512KB
+											"01" & mmapAddrLatch2(5 downto 0) when (cpuAddress(15 downto 12)	= x"e") else		-- xe000-xeFFF (4KB) 256KB
+											"0000"&cpuAddress(15 downto 12);
 	sramData <= cpuDataOut when n_WR='0' else (others => 'Z');
 	n_sRamWE <= n_memWR;
 	n_sRamOE <= n_memRD;
 	n_sRamCS <= n_ramCS;
 	n_memRD <= not(cpuClock) nand n_WR;
 	n_memWR <= not(cpuClock) nand (not n_WR);
+
+	-- Data buffer	-- Chip Selects
+	n_ramCS 		<= '0' when ((cpuAddress(15) = '0') or 									-- x0000-x7fff (32KB)	- External SRAM
+									(cpuAddress(15 downto 13) 	= "100") or						-- x8000-x9FFF (8KB)		- External SRAM
+									(cpuAddress(15 downto 12) 	= x"c") or						-- xc000-xcFFF (4KB)		- External SRAM
+									(cpuAddress(15 downto 12) 	= x"e")) 		else '1';  	-- xe000-xeFFF (4KB)		- External SRAM
+	n_basRomCS 	<= '0' when cpuAddress(15 downto 13) 	= "101" 			else '1'; 	-- xa000-xbFFF (8k)		- BASIC ROM
+	n_dispRamCS	<= '0' when cpuAddress(15 downto 11) 	= x"d"&"0"		else '1';	-- xd000-xd7ff (2KB)		- Display RAM
+	n_kbCS 		<= '0' when cpuAddress(15 downto 10) 	= x"d"&"11"		else '1';	-- xdc00-xdfff (1KB)		- Keyboard
+	n_aciaCS 	<= '0' when cpuAddress(15 downto 1) 	= x"f00"&"000"	else '1';	-- xf000-f001 (2B)		- Serial Port
+	n_monRomCS	<= '0' when cpuAddress(15 downto 11) 	= x"f"&'1' 		else '1'; 	-- xf800-xffff (2K)		- Monitor in ROM
+	n_mmap1CS	<= '0' when cpuAddress					 	= x"f002"		else '1';	-- xf002 (1B)				- Memory Mapper 1
+	n_mmap2CS	<= '0' when cpuAddress					 	= x"f003"		else '1';	-- xf003 (1B)				- Memory Mapper 2
 	
-	-- Chip Selects
-	n_ramCS 			<= '0' when ((cpuAddress(15) = '0') or 											-- x0000-x7fff (32KB)	- External SRAM
-										(cpuAddress(15 downto 13) 	= "100")) 				else '1';  	-- x8000-x9FFF (8KB)		- External SRAM
-	n_basRomCS 		<= '0' when cpuAddress(15 downto 13) 	= "101" 					else '1'; 	-- xa000-xbFFF (8k)		- BASIC ROM
-	n_dispRamCS 	<= '0' when cpuAddress(15 downto 11) 	= "11010" 				else '1';	-- xb000-xb7ff (2KB)		- Display RAM
-	n_kbCS 			<= '0' when cpuAddress(15 downto 10) 	= "110111" 				else '1';	-- xbc00-0bfff (1KB)		- Keyboard
-	n_aciaCS 		<= '0' when cpuAddress(15 downto 1) 	= "111100000000000" 	else '1';	-- xf000-f001 (2B)		- Serial Port
-	n_monitorRomCS <= '0' when cpuAddress(15 downto 11) 	= "11111" 				else '1'; 	-- xf800-xffff (2K)		- Monitor in ROM
-	
-	-- Data buffer
 	cpuDataIn <=
-		basRomData when n_basRomCS = '0' else
-		monitorRomData when n_monitorRomCS = '0' else
-		aciaData when n_aciaCS = '0' else
-		dispRamDataOutA when n_dispRamCS = '0' else
-		kbReadData when n_kbCS='0' else
-		sramData when n_ramCS = '0' else 
+		basRomData 			when n_basRomCS 		= '0' else
+		monitorRomData 	when n_monRomCS 	= '0' else
+		aciaData				when n_aciaCS			= '0' else
+		dispRamDataOutA	when n_dispRamCS		= '0' else
+		kbReadData			when n_kbCS				= '0' else
+		sramData				when n_ramCS			= '0' else 
 		x"FF";
 
 	-- 6502 CPU
@@ -191,6 +208,24 @@ begin
 		n_rts => fpgaRts
 	);
 
+	u6 : entity work.OutLatch
+	port map(
+		dataIn	=> cpuDataOut,
+		clock		=> clk,
+		load		=> not n_mmap1CS,
+		clear		=> not n_reset,
+		latchOut	=> mmapAddrLatch1
+	);
+	
+	u7 : entity work.OutLatch
+	port map(
+		dataIn	=> cpuDataOut,
+		clock		=> clk,
+		load		=> not n_mmap2CS,
+		clear		=> not n_reset,
+		latchOut	=> mmapAddrLatch2
+	);
+	
 	-- Baud rate clock 
 	process (clk)
 	begin
@@ -205,7 +240,12 @@ begin
 			else
 				cpuClock <= '1';
 			end if;	
+		end if;
+	end process;
 			
+	process (clk)
+	begin
+		if rising_edge(clk) then
 --			if serialClkCount < 10416 then -- 300 baud
 			if serialClkCount < 325 then -- 9600 baud
 				serialClkCount <= serialClkCount + 1;

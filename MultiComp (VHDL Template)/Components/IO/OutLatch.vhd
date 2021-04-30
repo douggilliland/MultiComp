@@ -10,7 +10,7 @@ use ieee.std_logic_unsigned.all;
 entity OutLatch is
 generic(n: natural :=8);
 	port(	
-		dataIn8	:	in std_logic_vector(n-1 downto 0);
+		dataIn	:	in std_logic_vector(n-1 downto 0);
 		clock		:	in std_logic;
 		load		:	in std_logic;
 		clear		:	in std_logic;
@@ -32,7 +32,7 @@ begin
 			Q_tmp <= (Q_tmp'range => '0');
 		elsif rising_edge(clock) then
 			if load = '0' then
-				Q_tmp <= dataIn8;
+				Q_tmp <= dataIn;
 			end if;
 		end if;
 	end process;

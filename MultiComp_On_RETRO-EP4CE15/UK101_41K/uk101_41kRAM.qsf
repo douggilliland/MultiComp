@@ -38,7 +38,7 @@
 
 set_global_assignment -name FAMILY "Cyclone IV E"
 set_global_assignment -name DEVICE EP4CE15F23C8
-set_global_assignment -name TOP_LEVEL_ENTITY uk101
+set_global_assignment -name TOP_LEVEL_ENTITY uk101_41kRAM
 set_global_assignment -name ORIGINAL_QUARTUS_VERSION "13.0 SP1"
 set_global_assignment -name PROJECT_CREATION_TIME_DATE "14:00:12  MARCH 31, 2019"
 set_global_assignment -name LAST_QUARTUS_VERSION "20.1.0 Lite Edition"
@@ -51,24 +51,17 @@ set_global_assignment -name ERROR_CHECK_FREQUENCY_DIVISOR 1
 set_global_assignment -name NOMINAL_CORE_SUPPLY_VOLTAGE 1.2V
 set_global_assignment -name POWER_PRESET_COOLING_SOLUTION "23 MM HEAT SINK WITH 200 LFPM AIRFLOW"
 set_global_assignment -name POWER_BOARD_THERMAL_MODEL "NONE (CONSERVATIVE)"
-set_global_assignment -name PARTITION_NETLIST_TYPE SOURCE -section_id Top
-set_global_assignment -name PARTITION_FITTER_PRESERVATION_LEVEL PLACEMENT_AND_ROUTING -section_id Top
-set_global_assignment -name PARTITION_COLOR 16764057 -section_id Top
 set_global_assignment -name STRATIX_DEVICE_IO_STANDARD "3.3-V LVTTL"
 # Clock and reset
 set_location_assignment PIN_W13 -to n_reset
-set_instance_assignment -name WEAK_PULL_UP_RESISTOR ON -to n_reset
 set_location_assignment PIN_T2 -to clk
 # LEDs
 # LED
 # PS/2
 set_location_assignment PIN_R1 -to ps2Clk
-set_instance_assignment -name WEAK_PULL_UP_RESISTOR ON -to ps2Clk
 set_location_assignment PIN_R2 -to ps2Data
-set_instance_assignment -name WEAK_PULL_UP_RESISTOR ON -to ps2Data
 # Serial
 set_location_assignment PIN_B13 -to fpgaRx
-set_instance_assignment -name WEAK_PULL_UP_RESISTOR ON -to fpgaRx
 set_location_assignment PIN_B10 -to fpgaTx
 set_location_assignment PIN_A10 -to fpgaRts
 set_location_assignment PIN_A13 -to fpgaCts
@@ -87,7 +80,6 @@ set_location_assignment PIN_A20 -to sdMISO
 set_location_assignment PIN_A19 -to sdMOSI
 set_location_assignment PIN_B20 -to sdSCLK
 set_location_assignment PIN_E4 -to driveLED
-set_instance_assignment -name WEAK_PULL_UP_RESISTOR ON -to sdMISO
 # SRAM
 set_location_assignment PIN_F1 -to n_sRamCS
 set_location_assignment PIN_J2 -to n_sRamOE
@@ -159,6 +151,17 @@ set_location_assignment PIN_Y10 -to sdRamData[13]
 set_location_assignment PIN_W10 -to sdRamData[14]
 set_location_assignment PIN_V11 -to sdRamData[15]
 # I/O voltages
+set_global_assignment -name TIMING_ANALYZER_MULTICORNER_ANALYSIS ON
+set_global_assignment -name SMART_RECOMPILE ON
+set_global_assignment -name NUM_PARALLEL_PROCESSORS 4
+set_global_assignment -name PARTITION_NETLIST_TYPE SOURCE -section_id Top
+set_global_assignment -name PARTITION_FITTER_PRESERVATION_LEVEL PLACEMENT_AND_ROUTING -section_id Top
+set_global_assignment -name PARTITION_COLOR 16764057 -section_id Top
+set_instance_assignment -name WEAK_PULL_UP_RESISTOR ON -to n_reset
+set_instance_assignment -name WEAK_PULL_UP_RESISTOR ON -to ps2Clk
+set_instance_assignment -name WEAK_PULL_UP_RESISTOR ON -to ps2Data
+set_instance_assignment -name WEAK_PULL_UP_RESISTOR ON -to fpgaRx
+set_instance_assignment -name WEAK_PULL_UP_RESISTOR ON -to sdMISO
 set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to clk
 set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to n_reset
 set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to n_sRamCS
@@ -212,7 +215,4 @@ set_global_assignment -name VHDL_FILE "../../MultiComp (VHDL Template)/Component
 set_global_assignment -name VHDL_FILE "../../MultiComp (VHDL Template)/Components/VGA/Mem_Mapped_XGA/CharRom.VHD"
 set_global_assignment -name VHDL_FILE "../../MultiComp (VHDL Template)/Components/ROMs/6502/CEGMON_ROM/CegmonRom_Patched_64x32.VHD"
 set_global_assignment -name VHDL_FILE uk101_41kRAM.vhd
-set_global_assignment -name TIMING_ANALYZER_MULTICORNER_ANALYSIS ON
-set_global_assignment -name SMART_RECOMPILE ON
-set_global_assignment -name NUM_PARALLEL_PROCESSORS 4
 set_instance_assignment -name PARTITION_HIERARCHY root_partition -to | -section_id Top
