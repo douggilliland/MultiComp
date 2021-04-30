@@ -6,8 +6,17 @@
 * Runs at up to TBD MHz
 * 8K OSI Basic in ROM
 * 41K External SRAM
-* Composite Video output
-* Monochrome
+*	Memory Mapper
+** Maps 512KB of external SRAM into first 4KB window
+** Maps 256KB of external SRAM into second 4KB window
+** Two bank select registers
+*** Each register Selects a 4KB window from SRAM
+**** 4KB window at xc000-xcFFF (128 banks = 512KB)
+**** 4KB window at xE000-xEFFF (54 banks = 256KB)
+* XGA Video output
+** Memory Mapped
+** 64x32 characters
+** Blue background, white characters
 * Serial port via on-board USB-to-Serial
 * PS/2 keyboard
 * SAVE/LOAD to route I/O to both serial and PS/2 keyboard
