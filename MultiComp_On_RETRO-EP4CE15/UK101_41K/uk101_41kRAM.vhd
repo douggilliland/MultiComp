@@ -99,9 +99,6 @@ architecture struct of uk101_41kRAM is
 	signal n_monRomCS 	: std_logic :='1';
 	signal n_aciaCS			: std_logic :='1';
 	signal n_kbCS				: std_logic :='1';
-	signal n_J6IOCS			: std_logic :='1';
-	signal n_J8IOCS			: std_logic :='1';
-	signal n_LEDCS				: std_logic :='1';
 	signal n_mmap1CS			: std_logic :='1';
 	signal n_mmap2CS			: std_logic :='1';
 		
@@ -110,7 +107,7 @@ architecture struct of uk101_41kRAM is
 
 	signal dispAddrB 			: std_logic_vector(9 downto 0);
 	signal dispRamDataOutA 	: std_logic_vector(7 downto 0);
-	signal dispRamDataOutB 	: std_logic_vector(7 downto 0);
+--	signal dispRamDataOutB 	: std_logic_vector(7 downto 0);
 	signal charAddr 			: std_logic_vector(10 downto 0);
 	signal charData 			: std_logic_vector(7 downto 0);
 
@@ -212,8 +209,8 @@ begin
 	port map(
 		dataIn	=> cpuDataOut,
 		clock		=> clk,
-		load		=> not n_mmap1CS,
-		clear		=> not n_reset,
+		load		=> n_mmap1CS or n_WR or cpuClock,
+		clear		=> n_reset,
 		latchOut	=> mmapAddrLatch1
 	);
 	
@@ -221,8 +218,8 @@ begin
 	port map(
 		dataIn	=> cpuDataOut,
 		clock		=> clk,
-		load		=> not n_mmap2CS,
-		clear		=> not n_reset,
+		load		=> n_mmap2CS or n_WR or cpuClock,
+		clear		=> n_reset,
 		latchOut	=> mmapAddrLatch2
 	);
 	
