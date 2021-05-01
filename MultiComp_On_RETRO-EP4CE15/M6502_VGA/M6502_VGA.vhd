@@ -4,7 +4,7 @@
 -- http://land-boards.com/blwiki/index.php?title=RETRO-EP4CE15
 --
 -- 6502 CPU
---	10 MHz (slowed down for external SRAM speed limits)
+--	12.5 MHz (slowed down for external SRAM speed limits)
 --	40KB Internal SRAM
 -- 1MB External SRAM
 --	Bank Select Register that selects between 128 of 8KB banks
@@ -263,7 +263,7 @@ begin
 	begin
 		if rising_edge(i_clk_50) then
 
-			if w_cpuClkCt < 4 then -- 4 = 10MHz, 3 = 12.5MHz, 2=16.6MHz, 1=25MHz
+			if w_cpuClkCt < 3 then -- 4 = 10MHz, 3 = 12.5MHz, 2=16.6MHz, 1=25MHz
 				w_cpuClkCt <= w_cpuClkCt + 1;
 			else
 				w_cpuClkCt <= (others=>'0');
