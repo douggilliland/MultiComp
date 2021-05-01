@@ -12,8 +12,6 @@
 --		Maps 256KB of external SRAM into second 4KB window
 -- 	Two bank select registers
 --			Each register Selects a 4KB window from SRAM
---			xf002 is first map register (7 bits used)
---			xf003 is second map register (6 bits used)
 --		4KB window at xc000-xcFFF (128 banks = 512KB)
 --		4KB window at xE000-xEFFF (54 banks = 256KB)
 --	USB-Serial

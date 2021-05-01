@@ -4,8 +4,10 @@
 -- http://land-boards.com/blwiki/index.php?title=RETRO-EP4CE15
 --
 -- 6502 CPU
---	25 MHz
---	40KB SRAM
+--	10 MHz (slowed down for external SRAM speed limits)
+--	40KB Internal SRAM
+-- 1MB External SRAM
+--	Bank Select Register that selects between 128 of 8KB banks
 --	Microsoft BASIC in ROM
 --		40,447 bytes free
 --	USB-Serial Interface
@@ -26,6 +28,7 @@
 --	I/O
 --		XFFD0-FFD1 VDU
 --		XFFD2-FFD3 ACIA
+--		xFFD4 Bank Select register 7 bits = 128 banks)
 
 
 library ieee;
@@ -37,6 +40,12 @@ entity M6502_VGA is
 	port(
 		i_n_reset	: in std_logic;
 		i_clk_50		: in std_logic;
+		
+		sramData 	: inout	std_logic_vector(7 downto 0);
+		sramAddress : out		std_logic_vector(19 downto 0);
+		n_sRamWE 	: out		std_logic := '0';
+		n_sRamCS 	: inout	std_logic := '0';
+		n_sRamOE 	: out		std_logic := '0';
 		
 		i_rxd			: in std_logic;
 		o_txd			: out std_logic;
@@ -69,7 +78,7 @@ architecture struct of M6502_VGA is
 	signal w_aciaDataOut		: std_logic_vector(7 downto 0);
 	signal w_ramDataOut1		: std_logic_vector(7 downto 0);
 	signal w_ramDataOut2		: std_logic_vector(7 downto 0);
-	signal w_LED				: std_logic_vector(7 downto 0);
+	signal memMapReg			: std_logic_vector(7 downto 0);
 	
 	signal w_n_memWR			: std_logic;
 	
@@ -78,6 +87,7 @@ architecture struct of M6502_VGA is
 	signal w_n_ramCS1			: std_logic :='1';
 	signal w_n_ramCS2			: std_logic :='1';
 	signal w_n_aciaCS			: std_logic :='1';
+	signal w_memMapCS			: std_logic :='1';
 	
 	signal w_serialClkCount	: std_logic_vector(15 downto 0);
 	signal w_serClkCt_d 		: std_logic_vector(15 downto 0);
@@ -100,9 +110,14 @@ begin
 	o_vid_blu <= w_videoVec(1 downto 0);
 	
 	-- Chip Selects
-	w_n_ramCS1 		<= '0' when  w_cpuAddress(15) = '0' else 	'1';									-- x0000-x7FFF (32KB)
-	w_n_ramCS2 		<= '0' when  w_cpuAddress(15 downto 13) = "100" else '1';					-- x8000-xBFFF (8KB)
-								
+	w_n_ramCS1 		<= '0' when  w_cpuAddress(15) = '0' else 	'1';										-- x0000-x7FFF (32KB)
+	w_n_ramCS2 		<= '0' when  w_cpuAddress(15 downto 13) = "100" else '1';						-- x8000-x9FFF (8KB)
+	
+	n_sRamCS			<= '0' when w_cpuAddress(15 downto 13) = "110" else '1';							-- xC000-xDFFF (8KB)
+	n_sRamWE <= not ((not w_cpuClk) and (not w_n_WR) and w_cpuAddress(15) and w_cpuAddress(14) and (not w_cpuAddress(13)));
+	n_sRamOE <= not (                        w_n_WR  and w_cpuAddress(15) and w_cpuAddress(14) and (not w_cpuAddress(13)));
+	sramAddress <= memMapReg(6 downto 0) & w_cpuAddress(12 downto 0);
+	
 	w_n_basRomCS 	<= '0' when  w_cpuAddress(15 downto 13) = "111" else '1'; 						-- xE000-xFFFF (8KB)
 	w_n_VDUCS 		<= '0' when ((w_cpuAddress(15 downto 1) = x"FFD"&"000" and w_fKey1 = '0') 	-- XFFD0-FFD1 VDU
 							or		 (w_cpuAddress(15 downto 1) = x"FFD"&"001" and w_fKey1 = '1')) 
@@ -110,18 +125,25 @@ begin
 	w_n_aciaCS 	<= '0' when ((w_cpuAddress(15 downto 1) = X"FFD"&"001" and w_fKey1 = '0') 		-- XFFD2-FFD3 ACIA
 							or     (w_cpuAddress(15 downto 1) = X"FFD"&"000" and w_fKey1 = '1'))
 							else '1';
+	w_memMapCS	<= '0'  when w_cpuAddress = X"FFD4"															-- XFFD4 BANK SELECT 
+						else '1';
+	
 -- Add new I/O startimg at XFFD4 (65492 dec)
 
 	w_n_memWR 			<= not(w_cpuClk) nand (not w_n_WR);
 	
 	w_cpuDataIn <=
-		w_VDUDataOut	when w_n_VDUCS 		= '0'	else
-		w_aciaDataOut	when w_n_aciaCS 		= '0'	else
-		w_ramDataOut1 	when w_n_ramCS1 		= '0'	else
-		w_ramDataOut2 	when w_n_ramCS2 		= '0'	else
+		w_VDUDataOut	when w_n_VDUCS 	= '0'	else
+		w_aciaDataOut	when w_n_aciaCS 	= '0'	else
+		w_ramDataOut1 	when w_n_ramCS1 	= '0'	else
+		w_ramDataOut2 	when w_n_ramCS2 	= '0'	else
+		sramData		 	when n_sRamCS	 	= '0'	else
+		memMapReg		when w_memMapCS 	= '0'	else
 		w_basRomData	when w_n_basRomCS	= '0' else		-- HAS TO BE AFTER ANY I/O READS
 		x"FF";
 		
+	sramData <= w_cpuDataOut when w_n_WR='0' else (others => 'Z');
+	
 	CPU : entity work.T65
 	port map(
 		Enable			=> '1',
@@ -227,17 +249,26 @@ begin
 			latchFNKey => w_fKey2
 		);
 		
+	memMapper : entity work.OutLatch
+		port map (
+		dataIn	=> w_cpuDataOut,
+		clock		=> i_clk_50,
+		load		=> w_memMapCS or w_n_WR or w_cpuClk,
+		clear		=> i_n_reset,
+		latchOut	=> memMapReg
+		);
+		
 -- SUB-CIRCUIT CLOCK SIGNALS 
 	process (i_clk_50)
 	begin
 		if rising_edge(i_clk_50) then
 
-			if w_cpuClkCt < 1 then -- 4 = 10MHz, 3 = 12.5MHz, 2=16.6MHz, 1=25MHz
+			if w_cpuClkCt < 4 then -- 4 = 10MHz, 3 = 12.5MHz, 2=16.6MHz, 1=25MHz
 				w_cpuClkCt <= w_cpuClkCt + 1;
 			else
 				w_cpuClkCt <= (others=>'0');
 			end if;
-			if w_cpuClkCt < 1 then -- 2 when 10MHz, 2 when 12.5MHz, 2 when 16.6MHz, 1 when 25MHz
+			if w_cpuClkCt < 2 then -- 2 when 10MHz, 2 when 12.5MHz, 2 when 16.6MHz, 1 when 25MHz
 				w_cpuClk <= '0';
 			else
 				w_cpuClk <= '1';

@@ -60,15 +60,57 @@ set_global_assignment -name OUTPUT_IO_TIMING_FAR_END_VMEAS "HALF SIGNAL SWING" -
 set_global_assignment -name OUTPUT_IO_TIMING_FAR_END_VMEAS "HALF SIGNAL SWING" -fall
 set_global_assignment -name CYCLONEII_RESERVE_NCEO_AFTER_CONFIGURATION "USE AS REGULAR IO"
 # Clock, reset switch (K5)
+set_location_assignment PIN_T2 -to i_clk_50
+set_location_assignment PIN_W13 -to i_n_reset
 # PS/2 keyboard
+set_location_assignment PIN_R1 -to io_ps2Clk
+set_location_assignment PIN_R2 -to io_ps2Data
 # Serial port with RTS/CTS rework
+set_location_assignment PIN_A13 -to i_n_cts
+set_location_assignment PIN_B13 -to i_rxd
+set_location_assignment PIN_A10 -to o_n_rts
+set_location_assignment PIN_B10 -to o_txd
 # Video
-# LEDs
-# Buzzer
-# Switches
-# Switches
-# LEDs
-# Seven Segment LEDs
+set_location_assignment PIN_A17 -to o_vid_blu[1]
+set_location_assignment PIN_B17 -to o_vid_blu[0]
+set_location_assignment PIN_A16 -to o_vid_grn[1]
+set_location_assignment PIN_B16 -to o_vid_grn[0]
+set_location_assignment PIN_B18 -to o_vid_hSync
+set_location_assignment PIN_A18 -to o_vid_vSync
+set_location_assignment PIN_A15 -to o_vid_red[1]
+set_location_assignment PIN_B15 -to o_vid_red[0]
+# SRAM
+set_location_assignment PIN_F1 -to n_sRamCS
+set_location_assignment PIN_B4 -to n_sRamWE
+set_location_assignment PIN_J2 -to n_sRamOE
+set_location_assignment PIN_E1 -to sramData[0]
+set_location_assignment PIN_C1 -to sramData[1]
+set_location_assignment PIN_B1 -to sramData[2]
+set_location_assignment PIN_B3 -to sramData[3]
+set_location_assignment PIN_B2 -to sramData[4]
+set_location_assignment PIN_C2 -to sramData[5]
+set_location_assignment PIN_D2 -to sramData[6]
+set_location_assignment PIN_F2 -to sramData[7]
+set_location_assignment PIN_H1 -to sramAddress[0]
+set_location_assignment PIN_J1 -to sramAddress[1]
+set_location_assignment PIN_M1 -to sramAddress[2]
+set_location_assignment PIN_N1 -to sramAddress[3]
+set_location_assignment PIN_P1 -to sramAddress[4]
+set_location_assignment PIN_P2 -to sramAddress[5]
+set_location_assignment PIN_N2 -to sramAddress[6]
+set_location_assignment PIN_M2 -to sramAddress[7]
+set_location_assignment PIN_H2 -to sramAddress[8]
+set_location_assignment PIN_A3 -to sramAddress[9]
+set_location_assignment PIN_A4 -to sramAddress[10]
+set_location_assignment PIN_C3 -to sramAddress[11]
+set_location_assignment PIN_A5 -to sramAddress[12]
+set_location_assignment PIN_A6 -to sramAddress[13]
+set_location_assignment PIN_A7 -to sramAddress[14]
+set_location_assignment PIN_A8 -to sramAddress[15]
+set_location_assignment PIN_B7 -to sramAddress[16]
+set_location_assignment PIN_B6 -to sramAddress[17]
+set_location_assignment PIN_B5 -to sramAddress[18]
+set_location_assignment PIN_C4 -to sramAddress[19]
 #
 set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to i_rxd
 set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to ~ALTERA_DCLK~
@@ -82,25 +124,8 @@ set_global_assignment -name ENABLE_BOOT_SEL_PIN OFF
 set_global_assignment -name TIMING_ANALYZER_MULTICORNER_ANALYSIS ON
 set_global_assignment -name SMART_RECOMPILE ON
 set_global_assignment -name NUM_PARALLEL_PROCESSORS ALL
-set_location_assignment PIN_T2 -to i_clk_50
-set_location_assignment PIN_A13 -to i_n_cts
-set_location_assignment PIN_W13 -to i_n_reset
-set_location_assignment PIN_B13 -to i_rxd
-set_location_assignment PIN_R1 -to io_ps2Clk
-set_location_assignment PIN_R2 -to io_ps2Data
-set_location_assignment PIN_A10 -to o_n_rts
-set_location_assignment PIN_B10 -to o_txd
-set_location_assignment PIN_A17 -to o_vid_blu[1]
-set_location_assignment PIN_B17 -to o_vid_blu[0]
-set_location_assignment PIN_A16 -to o_vid_grn[1]
-set_location_assignment PIN_B16 -to o_vid_grn[0]
-set_location_assignment PIN_B18 -to o_vid_hSync
-set_location_assignment PIN_A18 -to o_vid_vSync
-set_location_assignment PIN_A15 -to o_vid_red[1]
-set_location_assignment PIN_B15 -to o_vid_red[0]
 set_global_assignment -name VHDL_FILE "../../MultiComp (VHDL Template)/Components/RAM_Internal/InternalRam8K.vhd"
 set_global_assignment -name VHDL_FILE "../../MultiComp (VHDL Template)/Components/RAM_Internal/InternalRam32K.vhd"
-set_global_assignment -name VHDL_FILE "../../MultiComp (VHDL Template)/Components/Display_Seven_Seg/Seven_Seg_8_Digit/Loadable_7S8D_LED.vhd"
 set_global_assignment -name VHDL_FILE "../../MultiComp (VHDL Template)/Components/TERMINAL/SansBoldRomReduced.vhd"
 set_global_assignment -name VHDL_FILE "../../MultiComp (VHDL Template)/Components/TERMINAL/CGABoldRom.vhd"
 set_global_assignment -name VHDL_FILE "../../MultiComp (VHDL Template)/Components/TERMINAL/SansBoldRom.vhd"
