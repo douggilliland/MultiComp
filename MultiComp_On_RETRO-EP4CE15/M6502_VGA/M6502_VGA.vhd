@@ -28,7 +28,9 @@
 --	I/O
 --		xFFD0-FFD1 VDU
 --		xFFD2-FFD3 ACIA
---		xFFD4 Bank Select register (7 bits = 128 banks)
+--		xFFD4 Bank Select register (7 bits used = 128 banks of 8KB each)
+--		xFFD5 8-bit output latch
+--		xFFD7-FFDD SD card
 
 
 library ieee;
@@ -63,6 +65,8 @@ entity M6502_VGA is
 		sdMISO		: in std_logic;
 		sdClock		: out std_logic;
 		driveLED		: out std_logic;
+		
+		IO_PIN		: inout std_logic_vector(48 downto 3) := x"0000000000"&"00";
 	
 		-- Not using the SD RAM but making sure that it's not active
 		n_sdRamCas	: out std_logic := '1';		-- CAS on schematic
@@ -103,8 +107,9 @@ architecture struct of M6502_VGA is
 	signal w_n_VDUCS			: std_logic :='1';
 	signal w_n_ramCS1			: std_logic :='1';
 	signal w_n_ramCS2			: std_logic :='1';
-	signal w_n_aciaCS				: std_logic :='1';
-	signal n_sdCardCS		: std_logic :='1';
+	signal w_n_aciaCS			: std_logic :='1';
+	signal n_sdCardCS			: std_logic :='1';
+	signal w_latch1CS			: std_logic :='1';
 	signal w_memMapCS			: std_logic :='1';
 	
 	signal w_serialClkCount	: std_logic_vector(15 downto 0);
@@ -150,6 +155,9 @@ begin
 
 	w_memMapCS	<= '0'  when w_cpuAddress = X"FFD4"										-- XFFD4 BANK SELECT 
 						else '1';
+	w_latch1CS	<= '0'  when w_cpuAddress = X"FFD5"										-- XFFD5 Data out latch
+						else '1';
+	
 	n_sdCardCS <= '0' when w_cpuAddress(15 downto 3) = x"FFD" else '1'; 			-- 8 bytes XFFD8-FFDF
 	
 	w_n_memWR 			<= not(w_cpuClk) nand (not w_n_WR);
@@ -287,13 +295,22 @@ begin
 		clk => i_clk_50
 	);
 
-memMapper : entity work.OutLatch
+	memMapper : entity work.OutLatch
 		port map (
 		dataIn	=> w_cpuDataOut,
 		clock		=> i_clk_50,
 		load		=> w_memMapCS or w_n_WR or w_cpuClk,
 		clear		=> i_n_reset,
 		latchOut	=> memMapReg
+		);
+		
+	latch1 : entity work.OutLatch
+		port map (
+		dataIn	=> w_cpuDataOut,
+		clock		=> i_clk_50,
+		load		=> w_latch1CS or w_n_WR or w_cpuClk,
+		clear		=> i_n_reset,
+		latchOut	=> IO_PIN(10 downto 3)
 		);
 		
 -- SUB-CIRCUIT CLOCK SIGNALS 
