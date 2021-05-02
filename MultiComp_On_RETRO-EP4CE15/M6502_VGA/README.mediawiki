@@ -16,11 +16,12 @@
 * XGA video
 ** 2/2/2 bits RGB (64-colors)
 ** VDU - ANSI Terminal
-** 6850 UART interface
+** 6850 ACIA UART interface
 *** 80 column 25 rows
 *** 256 character set
 * PS/2 keyboard
 * USB Serial Port
+** 6850 ACIA UART interface
 ** FTDI FT-230FX chip
 ** Has RTS/CTS hardware handshake** F1 key switches between VDU and Serial port
 *** Default is VDU
@@ -31,10 +32,12 @@
 
 * x0000-x9FFF - 40KB SRAM
 * xC000-xDFFF - External SRAM
-* xE000-xFFFF BASIC in ROM(8KB)
-* xFFD0-xFFD1 VDU
-* xFFD2-xFFD3 ACIA
-* xFFD4 Bank Select register (7 bits = 128 banks)
+* xE000-xFFFF - BASIC in ROM(8KB)
+* xFFD0-xFFD1 - VDU
+* xFFD2-xFFD3 - ACIA
+* xFFD4 - Bank Select register (7 bits = 128 banks)
+* xFFD5 - 8-bit output latch
+* xFFD8=FFDD - SD card
 
 == Notes ==
 
