@@ -57,7 +57,23 @@ entity M6502_VGA is
 		o_vid_blu	: out std_logic_vector(1 downto 0);
 		o_vid_hSync	: out std_logic;
 		o_vid_vSync	: out std_logic;
-
+		
+		sdCS			: out std_logic;
+		sdMOSI		: out std_logic;
+		sdMISO		: in std_logic;
+		sdClock		: out std_logic;
+		driveLED		: out std_logic;
+	
+		-- Not using the SD RAM but making sure that it's not active
+		n_sdRamCas	: out std_logic := '1';		-- CAS on schematic
+		n_sdRamRas	: out std_logic := '1';		-- RAS
+		n_sdRamWe	: out std_logic := '1';		-- SDWE
+		n_sdRamCe	: out std_logic := '1';		-- SD_NCS0
+		sdRamClk		: out std_logic := '1';		-- SDCLK0
+		sdRamClkEn	: out std_logic := '1';		-- SDCKE0
+		sdRamAddr	: out std_logic_vector(14 downto 0) := "000"&x"000";
+		sdRamData	: in std_logic_vector(15 downto 0);
+	
 		io_ps2Clk	: inout std_logic;
 		io_ps2Data	: inout std_logic
 	);
@@ -78,6 +94,7 @@ architecture struct of M6502_VGA is
 	signal w_aciaDataOut		: std_logic_vector(7 downto 0);
 	signal w_ramDataOut1		: std_logic_vector(7 downto 0);
 	signal w_ramDataOut2		: std_logic_vector(7 downto 0);
+	signal sdCardDataOut		: std_logic_vector(7 downto 0);
 	signal memMapReg			: std_logic_vector(7 downto 0);
 	
 	signal w_n_memWR			: std_logic;
@@ -86,12 +103,15 @@ architecture struct of M6502_VGA is
 	signal w_n_VDUCS			: std_logic :='1';
 	signal w_n_ramCS1			: std_logic :='1';
 	signal w_n_ramCS2			: std_logic :='1';
-	signal w_n_aciaCS			: std_logic :='1';
+	signal w_n_aciaCS				: std_logic :='1';
+	signal n_sdCardCS		: std_logic :='1';
 	signal w_memMapCS			: std_logic :='1';
 	
 	signal w_serialClkCount	: std_logic_vector(15 downto 0);
 	signal w_serClkCt_d 		: std_logic_vector(15 downto 0);
 	signal w_w_serClkEn		: std_logic;
+	
+	signal sdClkCount 		: std_logic_vector(5 downto 0);
 
 	signal w_cpuClkCt			: std_logic_vector(5 downto 0); 
 	signal w_cpuClk			: std_logic;
@@ -128,8 +148,9 @@ begin
 							
 -- Add new I/O startimg at XFFD4 (65492 dec)
 
-	w_memMapCS	<= '0'  when w_cpuAddress = X"FFD4"															-- XFFD4 BANK SELECT 
+	w_memMapCS	<= '0'  when w_cpuAddress = X"FFD4"										-- XFFD4 BANK SELECT 
 						else '1';
+	n_sdCardCS <= '0' when w_cpuAddress(15 downto 3) = x"FFD" else '1'; 			-- 8 bytes XFFD8-FFDF
 	
 	w_n_memWR 			<= not(w_cpuClk) nand (not w_n_WR);
 	
@@ -140,6 +161,7 @@ begin
 		w_ramDataOut2 	when w_n_ramCS2 	= '0'	else
 		sramData		 	when n_sRamCS	 	= '0'	else
 		memMapReg		when w_memMapCS 	= '0'	else
+		sdCardDataOut	when n_sdCardCS	= '0' else
 		w_basRomData	when w_n_basRomCS	= '0' else		-- HAS TO BE AFTER ANY I/O READS
 		x"FF";
 		
@@ -249,8 +271,23 @@ begin
 			n_res => i_n_reset,
 			latchFNKey => w_fKey2
 		);
-		
-	memMapper : entity work.OutLatch
+	
+	sd1 : entity work.sd_controller
+	port map(
+		sdCS => sdCS,
+		sdMOSI => sdMOSI,
+		sdMISO => sdMISO,
+		n_wr => n_sdCardCS or w_cpuClk or w_n_WR,
+		n_rd => n_sdCardCS or w_cpuClk or (not w_n_WR),
+		n_reset => i_n_reset,
+		dataIn => w_cpuDataOut,
+		dataOut => sdCardDataOut,
+		regAddr => w_cpuAddress(2 downto 0),
+		driveLED => driveLED,
+		clk => i_clk_50
+	);
+
+memMapper : entity work.OutLatch
 		port map (
 		dataIn	=> w_cpuDataOut,
 		clock		=> i_clk_50,
@@ -263,7 +300,6 @@ begin
 	process (i_clk_50)
 	begin
 		if rising_edge(i_clk_50) then
-
 			if w_cpuClkCt < 3 then -- 4 = 10MHz, 3 = 12.5MHz, 2=16.6MHz, 1=25MHz
 				w_cpuClkCt <= w_cpuClkCt + 1;
 			else
@@ -274,8 +310,25 @@ begin
 			else
 				w_cpuClk <= '1';
 			end if; 
-		end if; 
+		end if;
     end process;
+	 
+	 
+--	process (i_clk_50)
+--	begin
+--		if rising_edge(i_clk_50) then
+--			if sdClkCount < 49 then -- 1MHz
+--				sdClkCount <= sdClkCount + 1;
+--			else
+--				sdClkCount <= (others=>'0');
+--			end if;
+--			if sdClkCount < 25 then
+--				sdClock <= '0';
+--			else
+--				sdClock <= '1';
+--			end if;
+--		end if;
+--    end process;
 
 	-- ____________________________________________________________________________________
 	-- Baud Rate Clock Signals
