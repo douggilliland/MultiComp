@@ -1,5 +1,5 @@
 Analysis & Synthesis report for M6502_VGA
-Sat May 01 14:11:27 2021
+Sun May 02 13:47:06 2021
 Quartus Prime Version 20.1.0 Build 711 06/05/2020 SJ Lite Edition
 
 
@@ -26,7 +26,7 @@ Quartus Prime Version 20.1.0 Build 711 06/05/2020 SJ Lite Edition
  18. Source assignments for M6502_BASIC_ROM:ROM|altsyncram:altsyncram_component|altsyncram_du81:auto_generated
  19. Source assignments for InternalRam32K:SRAM1|altsyncram:altsyncram_component|altsyncram_r3q3:auto_generated
  20. Source assignments for InternalRam8K:SRAM2|altsyncram:altsyncram_component|altsyncram_a8g1:auto_generated
- 21. Source assignments for SBCTextDisplayRGB:VDU|SansBoldRomReduced:\GEN_REDUCED_SCHARS:fontRom|altsyncram:altsyncram_component|altsyncram_2d91:auto_generated
+ 21. Source assignments for SBCTextDisplayRGB:VDU|SansBoldRom:\GEN_EXT_SCHARS:fontRom|altsyncram:altsyncram_component|altsyncram_6fv3:auto_generated
  22. Source assignments for SBCTextDisplayRGB:VDU|DisplayRam2K:\GEN_2KRAM:dispCharRam|altsyncram:altsyncram_component|altsyncram_shh2:auto_generated
  23. Source assignments for SBCTextDisplayRGB:VDU|DisplayRam2K:\GEN_2KATTRAM:dispAttRam|altsyncram:altsyncram_component|altsyncram_shh2:auto_generated
  24. Source assignments for bufferedUART:UART|altsyncram:rxBuffer_rtl_0|altsyncram_3ce1:auto_generated
@@ -34,7 +34,7 @@ Quartus Prime Version 20.1.0 Build 711 06/05/2020 SJ Lite Edition
  26. Parameter Settings for User Entity Instance: InternalRam32K:SRAM1|altsyncram:altsyncram_component
  27. Parameter Settings for User Entity Instance: InternalRam8K:SRAM2|altsyncram:altsyncram_component
  28. Parameter Settings for User Entity Instance: SBCTextDisplayRGB:VDU
- 29. Parameter Settings for User Entity Instance: SBCTextDisplayRGB:VDU|SansBoldRomReduced:\GEN_REDUCED_SCHARS:fontRom|altsyncram:altsyncram_component
+ 29. Parameter Settings for User Entity Instance: SBCTextDisplayRGB:VDU|SansBoldRom:\GEN_EXT_SCHARS:fontRom|altsyncram:altsyncram_component
  30. Parameter Settings for User Entity Instance: SBCTextDisplayRGB:VDU|DisplayRam2K:\GEN_2KRAM:dispCharRam|altsyncram:altsyncram_component
  31. Parameter Settings for User Entity Instance: SBCTextDisplayRGB:VDU|DisplayRam2K:\GEN_2KATTRAM:dispAttRam|altsyncram:altsyncram_component
  32. Parameter Settings for User Entity Instance: OutLatch:memMapper
@@ -77,7 +77,7 @@ https://fpgasoftware.intel.com/eula.
 +----------------------------------------------------------------------------------+
 ; Analysis & Synthesis Summary                                                     ;
 +------------------------------------+---------------------------------------------+
-; Analysis & Synthesis Status        ; Successful - Sat May 01 14:11:27 2021       ;
+; Analysis & Synthesis Status        ; Successful - Sun May 02 13:47:06 2021       ;
 ; Quartus Prime Version              ; 20.1.0 Build 711 06/05/2020 SJ Lite Edition ;
 ; Revision Name                      ; M6502_VGA                                   ;
 ; Top-level Entity Name              ; M6502_VGA                                   ;
@@ -88,7 +88,7 @@ https://fpgasoftware.intel.com/eula.
 ; Total registers                    ; 646                                         ;
 ; Total pins                         ; 47                                          ;
 ; Total virtual pins                 ; 0                                           ;
-; Total memory bits                  ; 434,304                                     ;
+; Total memory bits                  ; 442,496                                     ;
 ; Embedded Multiplier 9-bit elements ; 0                                           ;
 ; Total PLLs                         ; 0                                           ;
 +------------------------------------+---------------------------------------------+
@@ -194,62 +194,63 @@ https://fpgasoftware.intel.com/eula.
 ;                            ;             ;
 ; Usage by Processor         ; % Time Used ;
 ;     Processor 1            ; 100.0%      ;
-;     Processor 2            ;   0.0%      ;
-;     Processor 3            ;   0.0%      ;
+;     Processor 2            ;   0.1%      ;
+;     Processor 3            ;   0.1%      ;
 ;     Processor 4            ;   0.0%      ;
 +----------------------------+-------------+
 
 
-+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
-; Analysis & Synthesis Source Files Read                                                                                                                                                                                                                                 ;
-+----------------------------------------------------------------------------+-----------------+------------------------------+--------------------------------------------------------------------------------------------------------------------------------+---------+
-; File Name with User-Entered Path                                           ; Used in Netlist ; File Type                    ; File Name with Absolute Path                                                                                                   ; Library ;
-+----------------------------------------------------------------------------+-----------------+------------------------------+--------------------------------------------------------------------------------------------------------------------------------+---------+
-; ../../MultiComp (VHDL Template)/Components/RAM_Internal/InternalRam8K.vhd  ; yes             ; User Wizard-Generated File   ; C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/RAM_Internal/InternalRam8K.vhd  ;         ;
-; ../../MultiComp (VHDL Template)/Components/RAM_Internal/InternalRam32K.vhd ; yes             ; User Wizard-Generated File   ; C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/RAM_Internal/InternalRam32K.vhd ;         ;
-; ../../MultiComp (VHDL Template)/Components/TERMINAL/SansBoldRomReduced.vhd ; yes             ; User Wizard-Generated File   ; C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/TERMINAL/SansBoldRomReduced.vhd ;         ;
-; ../../MultiComp (VHDL Template)/Components/TERMINAL/CGABoldRom.vhd         ; yes             ; User Wizard-Generated File   ; C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/TERMINAL/CGABoldRom.vhd         ;         ;
-; ../../MultiComp (VHDL Template)/Components/TERMINAL/SansBoldRom.vhd        ; yes             ; User Wizard-Generated File   ; C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/TERMINAL/SansBoldRom.vhd        ;         ;
-; ../../MultiComp (VHDL Template)/Components/TERMINAL/DisplayRam2K.vhd       ; yes             ; User Wizard-Generated File   ; C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/TERMINAL/DisplayRam2K.vhd       ;         ;
-; ../../MultiComp (VHDL Template)/Components/TERMINAL/DisplayRam1K.vhd       ; yes             ; User Wizard-Generated File   ; C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/TERMINAL/DisplayRam1K.vhd       ;         ;
-; ../../MultiComp (VHDL Template)/Components/TERMINAL/CGABoldRomReduced.vhd  ; yes             ; User Wizard-Generated File   ; C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/TERMINAL/CGABoldRomReduced.vhd  ;         ;
-; ../../MultiComp (VHDL Template)/Components/CPU/M6502/T65_Pack.vhd          ; yes             ; User VHDL File               ; C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/CPU/M6502/T65_Pack.vhd          ;         ;
-; ../../MultiComp (VHDL Template)/Components/CPU/M6502/T65_MCode.vhd         ; yes             ; User VHDL File               ; C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/CPU/M6502/T65_MCode.vhd         ;         ;
-; ../../MultiComp (VHDL Template)/Components/CPU/M6502/T65_ALU.vhd           ; yes             ; User VHDL File               ; C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/CPU/M6502/T65_ALU.vhd           ;         ;
-; ../../MultiComp (VHDL Template)/Components/CPU/M6502/T65.vhd               ; yes             ; User VHDL File               ; C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/CPU/M6502/T65.vhd               ;         ;
-; ../../MultiComp (VHDL Template)/Components/IO/OutLatch.vhd                 ; yes             ; User VHDL File               ; C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/IO/OutLatch.vhd                 ;         ;
-; ../../MultiComp (VHDL Template)/Components/UART/Toggle_On_FN_Key.vhd       ; yes             ; User VHDL File               ; C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/UART/Toggle_On_FN_Key.vhd       ;         ;
-; ../../MultiComp (VHDL Template)/Components/TERMINAL/SBCTextDisplayRGB.vhd  ; yes             ; User VHDL File               ; C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/TERMINAL/SBCTextDisplayRGB.vhd  ;         ;
-; ../../MultiComp (VHDL Template)/Components/ROMs/6502/M6502_BASIC_ROM.vhd   ; yes             ; User Wizard-Generated File   ; C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/ROMs/6502/M6502_BASIC_ROM.vhd   ;         ;
-; ../../MultiComp (VHDL Template)/Components/UART/bufferedUART.vhd           ; yes             ; User VHDL File               ; C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/UART/bufferedUART.vhd           ;         ;
-; M6502_VGA.vhd                                                              ; yes             ; User VHDL File               ; C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15/M6502_VGA/M6502_VGA.vhd                   ;         ;
-; altsyncram.tdf                                                             ; yes             ; Megafunction                 ; c:/intelfpga_lite/20.1/quartus/libraries/megafunctions/altsyncram.tdf                                                          ;         ;
-; stratix_ram_block.inc                                                      ; yes             ; Megafunction                 ; c:/intelfpga_lite/20.1/quartus/libraries/megafunctions/stratix_ram_block.inc                                                   ;         ;
-; lpm_mux.inc                                                                ; yes             ; Megafunction                 ; c:/intelfpga_lite/20.1/quartus/libraries/megafunctions/lpm_mux.inc                                                             ;         ;
-; lpm_decode.inc                                                             ; yes             ; Megafunction                 ; c:/intelfpga_lite/20.1/quartus/libraries/megafunctions/lpm_decode.inc                                                          ;         ;
-; aglobal201.inc                                                             ; yes             ; Megafunction                 ; c:/intelfpga_lite/20.1/quartus/libraries/megafunctions/aglobal201.inc                                                          ;         ;
-; a_rdenreg.inc                                                              ; yes             ; Megafunction                 ; c:/intelfpga_lite/20.1/quartus/libraries/megafunctions/a_rdenreg.inc                                                           ;         ;
-; altrom.inc                                                                 ; yes             ; Megafunction                 ; c:/intelfpga_lite/20.1/quartus/libraries/megafunctions/altrom.inc                                                              ;         ;
-; altram.inc                                                                 ; yes             ; Megafunction                 ; c:/intelfpga_lite/20.1/quartus/libraries/megafunctions/altram.inc                                                              ;         ;
-; altdpram.inc                                                               ; yes             ; Megafunction                 ; c:/intelfpga_lite/20.1/quartus/libraries/megafunctions/altdpram.inc                                                            ;         ;
-; db/altsyncram_du81.tdf                                                     ; yes             ; Auto-Generated Megafunction  ; C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15/M6502_VGA/db/altsyncram_du81.tdf          ;         ;
-; db/altsyncram_r3q3.tdf                                                     ; yes             ; Auto-Generated Megafunction  ; C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15/M6502_VGA/db/altsyncram_r3q3.tdf          ;         ;
-; db/decode_msa.tdf                                                          ; yes             ; Auto-Generated Megafunction  ; C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15/M6502_VGA/db/decode_msa.tdf               ;         ;
-; db/decode_f8a.tdf                                                          ; yes             ; Auto-Generated Megafunction  ; C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15/M6502_VGA/db/decode_f8a.tdf               ;         ;
-; db/mux_6nb.tdf                                                             ; yes             ; Auto-Generated Megafunction  ; C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15/M6502_VGA/db/mux_6nb.tdf                  ;         ;
-; db/altsyncram_a8g1.tdf                                                     ; yes             ; Auto-Generated Megafunction  ; C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15/M6502_VGA/db/altsyncram_a8g1.tdf          ;         ;
-; db/altsyncram_2d91.tdf                                                     ; yes             ; Auto-Generated Megafunction  ; C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15/M6502_VGA/db/altsyncram_2d91.tdf          ;         ;
-; db/altsyncram_shh2.tdf                                                     ; yes             ; Auto-Generated Megafunction  ; C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15/M6502_VGA/db/altsyncram_shh2.tdf          ;         ;
-; db/altsyncram_3ce1.tdf                                                     ; yes             ; Auto-Generated Megafunction  ; C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15/M6502_VGA/db/altsyncram_3ce1.tdf          ;         ;
-; lpm_divide.tdf                                                             ; yes             ; Megafunction                 ; c:/intelfpga_lite/20.1/quartus/libraries/megafunctions/lpm_divide.tdf                                                          ;         ;
-; abs_divider.inc                                                            ; yes             ; Megafunction                 ; c:/intelfpga_lite/20.1/quartus/libraries/megafunctions/abs_divider.inc                                                         ;         ;
-; sign_div_unsign.inc                                                        ; yes             ; Megafunction                 ; c:/intelfpga_lite/20.1/quartus/libraries/megafunctions/sign_div_unsign.inc                                                     ;         ;
-; db/lpm_divide_icm.tdf                                                      ; yes             ; Auto-Generated Megafunction  ; C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15/M6502_VGA/db/lpm_divide_icm.tdf           ;         ;
-; db/sign_div_unsign_7nh.tdf                                                 ; yes             ; Auto-Generated Megafunction  ; C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15/M6502_VGA/db/sign_div_unsign_7nh.tdf      ;         ;
-; db/alt_u_div_2af.tdf                                                       ; yes             ; Auto-Generated Megafunction  ; C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15/M6502_VGA/db/alt_u_div_2af.tdf            ;         ;
-; db/add_sub_7pc.tdf                                                         ; yes             ; Auto-Generated Megafunction  ; C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15/M6502_VGA/db/add_sub_7pc.tdf              ;         ;
-; db/add_sub_8pc.tdf                                                         ; yes             ; Auto-Generated Megafunction  ; C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15/M6502_VGA/db/add_sub_8pc.tdf              ;         ;
-+----------------------------------------------------------------------------+-----------------+------------------------------+--------------------------------------------------------------------------------------------------------------------------------+---------+
++----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+; Analysis & Synthesis Source Files Read                                                                                                                                                                                                                                           ;
++----------------------------------------------------------------------------+-----------------+----------------------------------------+--------------------------------------------------------------------------------------------------------------------------------+---------+
+; File Name with User-Entered Path                                           ; Used in Netlist ; File Type                              ; File Name with Absolute Path                                                                                                   ; Library ;
++----------------------------------------------------------------------------+-----------------+----------------------------------------+--------------------------------------------------------------------------------------------------------------------------------+---------+
+; ../../MultiComp (VHDL Template)/Components/RAM_Internal/InternalRam8K.vhd  ; yes             ; User Wizard-Generated File             ; C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/RAM_Internal/InternalRam8K.vhd  ;         ;
+; ../../MultiComp (VHDL Template)/Components/RAM_Internal/InternalRam32K.vhd ; yes             ; User Wizard-Generated File             ; C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/RAM_Internal/InternalRam32K.vhd ;         ;
+; ../../MultiComp (VHDL Template)/Components/TERMINAL/SansBoldRomReduced.vhd ; yes             ; User Wizard-Generated File             ; C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/TERMINAL/SansBoldRomReduced.vhd ;         ;
+; ../../MultiComp (VHDL Template)/Components/TERMINAL/CGABoldRom.vhd         ; yes             ; User Wizard-Generated File             ; C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/TERMINAL/CGABoldRom.vhd         ;         ;
+; ../../MultiComp (VHDL Template)/Components/TERMINAL/SansBoldRom.vhd        ; yes             ; User Wizard-Generated File             ; C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/TERMINAL/SansBoldRom.vhd        ;         ;
+; ../../MultiComp (VHDL Template)/Components/TERMINAL/DisplayRam2K.vhd       ; yes             ; User Wizard-Generated File             ; C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/TERMINAL/DisplayRam2K.vhd       ;         ;
+; ../../MultiComp (VHDL Template)/Components/TERMINAL/DisplayRam1K.vhd       ; yes             ; User Wizard-Generated File             ; C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/TERMINAL/DisplayRam1K.vhd       ;         ;
+; ../../MultiComp (VHDL Template)/Components/TERMINAL/CGABoldRomReduced.vhd  ; yes             ; User Wizard-Generated File             ; C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/TERMINAL/CGABoldRomReduced.vhd  ;         ;
+; ../../MultiComp (VHDL Template)/Components/CPU/M6502/T65_Pack.vhd          ; yes             ; User VHDL File                         ; C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/CPU/M6502/T65_Pack.vhd          ;         ;
+; ../../MultiComp (VHDL Template)/Components/CPU/M6502/T65_MCode.vhd         ; yes             ; User VHDL File                         ; C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/CPU/M6502/T65_MCode.vhd         ;         ;
+; ../../MultiComp (VHDL Template)/Components/CPU/M6502/T65_ALU.vhd           ; yes             ; User VHDL File                         ; C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/CPU/M6502/T65_ALU.vhd           ;         ;
+; ../../MultiComp (VHDL Template)/Components/CPU/M6502/T65.vhd               ; yes             ; User VHDL File                         ; C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/CPU/M6502/T65.vhd               ;         ;
+; ../../MultiComp (VHDL Template)/Components/IO/OutLatch.vhd                 ; yes             ; User VHDL File                         ; C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/IO/OutLatch.vhd                 ;         ;
+; ../../MultiComp (VHDL Template)/Components/UART/Toggle_On_FN_Key.vhd       ; yes             ; User VHDL File                         ; C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/UART/Toggle_On_FN_Key.vhd       ;         ;
+; ../../MultiComp (VHDL Template)/Components/TERMINAL/SBCTextDisplayRGB.vhd  ; yes             ; User VHDL File                         ; C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/TERMINAL/SBCTextDisplayRGB.vhd  ;         ;
+; ../../MultiComp (VHDL Template)/Components/ROMs/6502/M6502_BASIC_ROM.vhd   ; yes             ; User Wizard-Generated File             ; C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/ROMs/6502/M6502_BASIC_ROM.vhd   ;         ;
+; ../../MultiComp (VHDL Template)/Components/UART/bufferedUART.vhd           ; yes             ; User VHDL File                         ; C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/UART/bufferedUART.vhd           ;         ;
+; M6502_VGA.vhd                                                              ; yes             ; User VHDL File                         ; C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15/M6502_VGA/M6502_VGA.vhd                   ;         ;
+; altsyncram.tdf                                                             ; yes             ; Megafunction                           ; c:/intelfpga_lite/20.1/quartus/libraries/megafunctions/altsyncram.tdf                                                          ;         ;
+; stratix_ram_block.inc                                                      ; yes             ; Megafunction                           ; c:/intelfpga_lite/20.1/quartus/libraries/megafunctions/stratix_ram_block.inc                                                   ;         ;
+; lpm_mux.inc                                                                ; yes             ; Megafunction                           ; c:/intelfpga_lite/20.1/quartus/libraries/megafunctions/lpm_mux.inc                                                             ;         ;
+; lpm_decode.inc                                                             ; yes             ; Megafunction                           ; c:/intelfpga_lite/20.1/quartus/libraries/megafunctions/lpm_decode.inc                                                          ;         ;
+; aglobal201.inc                                                             ; yes             ; Megafunction                           ; c:/intelfpga_lite/20.1/quartus/libraries/megafunctions/aglobal201.inc                                                          ;         ;
+; a_rdenreg.inc                                                              ; yes             ; Megafunction                           ; c:/intelfpga_lite/20.1/quartus/libraries/megafunctions/a_rdenreg.inc                                                           ;         ;
+; altrom.inc                                                                 ; yes             ; Megafunction                           ; c:/intelfpga_lite/20.1/quartus/libraries/megafunctions/altrom.inc                                                              ;         ;
+; altram.inc                                                                 ; yes             ; Megafunction                           ; c:/intelfpga_lite/20.1/quartus/libraries/megafunctions/altram.inc                                                              ;         ;
+; altdpram.inc                                                               ; yes             ; Megafunction                           ; c:/intelfpga_lite/20.1/quartus/libraries/megafunctions/altdpram.inc                                                            ;         ;
+; db/altsyncram_du81.tdf                                                     ; yes             ; Auto-Generated Megafunction            ; C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15/M6502_VGA/db/altsyncram_du81.tdf          ;         ;
+; db/altsyncram_r3q3.tdf                                                     ; yes             ; Auto-Generated Megafunction            ; C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15/M6502_VGA/db/altsyncram_r3q3.tdf          ;         ;
+; db/decode_msa.tdf                                                          ; yes             ; Auto-Generated Megafunction            ; C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15/M6502_VGA/db/decode_msa.tdf               ;         ;
+; db/decode_f8a.tdf                                                          ; yes             ; Auto-Generated Megafunction            ; C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15/M6502_VGA/db/decode_f8a.tdf               ;         ;
+; db/mux_6nb.tdf                                                             ; yes             ; Auto-Generated Megafunction            ; C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15/M6502_VGA/db/mux_6nb.tdf                  ;         ;
+; db/altsyncram_a8g1.tdf                                                     ; yes             ; Auto-Generated Megafunction            ; C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15/M6502_VGA/db/altsyncram_a8g1.tdf          ;         ;
+; db/altsyncram_6fv3.tdf                                                     ; yes             ; Auto-Generated Megafunction            ; C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15/M6502_VGA/db/altsyncram_6fv3.tdf          ;         ;
+; ../../../MultiComp (VHDL Template)/Components/TERMINAL/SansFontBold.HEX    ; yes             ; Auto-Found Memory Initialization File  ; C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/TERMINAL/SansFontBold.HEX       ;         ;
+; db/altsyncram_shh2.tdf                                                     ; yes             ; Auto-Generated Megafunction            ; C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15/M6502_VGA/db/altsyncram_shh2.tdf          ;         ;
+; db/altsyncram_3ce1.tdf                                                     ; yes             ; Auto-Generated Megafunction            ; C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15/M6502_VGA/db/altsyncram_3ce1.tdf          ;         ;
+; lpm_divide.tdf                                                             ; yes             ; Megafunction                           ; c:/intelfpga_lite/20.1/quartus/libraries/megafunctions/lpm_divide.tdf                                                          ;         ;
+; abs_divider.inc                                                            ; yes             ; Megafunction                           ; c:/intelfpga_lite/20.1/quartus/libraries/megafunctions/abs_divider.inc                                                         ;         ;
+; sign_div_unsign.inc                                                        ; yes             ; Megafunction                           ; c:/intelfpga_lite/20.1/quartus/libraries/megafunctions/sign_div_unsign.inc                                                     ;         ;
+; db/lpm_divide_icm.tdf                                                      ; yes             ; Auto-Generated Megafunction            ; C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15/M6502_VGA/db/lpm_divide_icm.tdf           ;         ;
+; db/sign_div_unsign_7nh.tdf                                                 ; yes             ; Auto-Generated Megafunction            ; C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15/M6502_VGA/db/sign_div_unsign_7nh.tdf      ;         ;
+; db/alt_u_div_2af.tdf                                                       ; yes             ; Auto-Generated Megafunction            ; C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15/M6502_VGA/db/alt_u_div_2af.tdf            ;         ;
+; db/add_sub_7pc.tdf                                                         ; yes             ; Auto-Generated Megafunction            ; C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15/M6502_VGA/db/add_sub_7pc.tdf              ;         ;
+; db/add_sub_8pc.tdf                                                         ; yes             ; Auto-Generated Megafunction            ; C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15/M6502_VGA/db/add_sub_8pc.tdf              ;         ;
++----------------------------------------------------------------------------+-----------------+----------------------------------------+--------------------------------------------------------------------------------------------------------------------------------+---------+
 
 
 +--------------------------------------------------------------+
@@ -274,79 +275,79 @@ https://fpgasoftware.intel.com/eula.
 ;     -- I/O registers                        ; 0              ;
 ;                                             ;                ;
 ; I/O pins                                    ; 47             ;
-; Total memory bits                           ; 434304         ;
+; Total memory bits                           ; 442496         ;
 ;                                             ;                ;
 ; Embedded Multiplier 9-bit elements          ; 0              ;
 ;                                             ;                ;
 ; Maximum fan-out node                        ; i_clk_50~input ;
 ; Maximum fan-out                             ; 550            ;
-; Total fan-out                               ; 11668          ;
-; Average fan-out                             ; 3.55           ;
+; Total fan-out                               ; 11676          ;
+; Average fan-out                             ; 3.56           ;
 +---------------------------------------------+----------------+
 
 
-+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
-; Analysis & Synthesis Resource Utilization by Entity                                                                                                                                                                                                                                                                                                                     ;
-+--------------------------------------------------------+---------------------+---------------------------+-------------+--------------+---------+-----------+------+--------------+------------------------------------------------------------------------------------------------------------------------------------------------+---------------------+--------------+
-; Compilation Hierarchy Node                             ; Combinational ALUTs ; Dedicated Logic Registers ; Memory Bits ; DSP Elements ; DSP 9x9 ; DSP 18x18 ; Pins ; Virtual Pins ; Full Hierarchy Name                                                                                                                            ; Entity Name         ; Library Name ;
-+--------------------------------------------------------+---------------------+---------------------------+-------------+--------------+---------+-----------+------+--------------+------------------------------------------------------------------------------------------------------------------------------------------------+---------------------+--------------+
-; |M6502_VGA                                             ; 2453 (111)          ; 646 (23)                  ; 434304      ; 0            ; 0       ; 0         ; 47   ; 0            ; |M6502_VGA                                                                                                                                     ; M6502_VGA           ; work         ;
-;    |InternalRam32K:SRAM1|                              ; 24 (0)              ; 2 (0)                     ; 262144      ; 0            ; 0       ; 0         ; 0    ; 0            ; |M6502_VGA|InternalRam32K:SRAM1                                                                                                                ; InternalRam32K      ; work         ;
-;       |altsyncram:altsyncram_component|                ; 24 (0)              ; 2 (0)                     ; 262144      ; 0            ; 0       ; 0         ; 0    ; 0            ; |M6502_VGA|InternalRam32K:SRAM1|altsyncram:altsyncram_component                                                                                ; altsyncram          ; work         ;
-;          |altsyncram_r3q3:auto_generated|              ; 24 (0)              ; 2 (2)                     ; 262144      ; 0            ; 0       ; 0         ; 0    ; 0            ; |M6502_VGA|InternalRam32K:SRAM1|altsyncram:altsyncram_component|altsyncram_r3q3:auto_generated                                                 ; altsyncram_r3q3     ; work         ;
-;             |decode_f8a:rden_decode|                   ; 4 (4)               ; 0 (0)                     ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |M6502_VGA|InternalRam32K:SRAM1|altsyncram:altsyncram_component|altsyncram_r3q3:auto_generated|decode_f8a:rden_decode                          ; decode_f8a          ; work         ;
-;             |decode_msa:decode3|                       ; 4 (4)               ; 0 (0)                     ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |M6502_VGA|InternalRam32K:SRAM1|altsyncram:altsyncram_component|altsyncram_r3q3:auto_generated|decode_msa:decode3                              ; decode_msa          ; work         ;
-;             |mux_6nb:mux2|                             ; 16 (16)             ; 0 (0)                     ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |M6502_VGA|InternalRam32K:SRAM1|altsyncram:altsyncram_component|altsyncram_r3q3:auto_generated|mux_6nb:mux2                                    ; mux_6nb             ; work         ;
-;    |InternalRam8K:SRAM2|                               ; 0 (0)               ; 0 (0)                     ; 65536       ; 0            ; 0       ; 0         ; 0    ; 0            ; |M6502_VGA|InternalRam8K:SRAM2                                                                                                                 ; InternalRam8K       ; work         ;
-;       |altsyncram:altsyncram_component|                ; 0 (0)               ; 0 (0)                     ; 65536       ; 0            ; 0       ; 0         ; 0    ; 0            ; |M6502_VGA|InternalRam8K:SRAM2|altsyncram:altsyncram_component                                                                                 ; altsyncram          ; work         ;
-;          |altsyncram_a8g1:auto_generated|              ; 0 (0)               ; 0 (0)                     ; 65536       ; 0            ; 0       ; 0         ; 0    ; 0            ; |M6502_VGA|InternalRam8K:SRAM2|altsyncram:altsyncram_component|altsyncram_a8g1:auto_generated                                                  ; altsyncram_a8g1     ; work         ;
-;    |M6502_BASIC_ROM:ROM|                               ; 0 (0)               ; 0 (0)                     ; 65536       ; 0            ; 0       ; 0         ; 0    ; 0            ; |M6502_VGA|M6502_BASIC_ROM:ROM                                                                                                                 ; M6502_BASIC_ROM     ; work         ;
-;       |altsyncram:altsyncram_component|                ; 0 (0)               ; 0 (0)                     ; 65536       ; 0            ; 0       ; 0         ; 0    ; 0            ; |M6502_VGA|M6502_BASIC_ROM:ROM|altsyncram:altsyncram_component                                                                                 ; altsyncram          ; work         ;
-;          |altsyncram_du81:auto_generated|              ; 0 (0)               ; 0 (0)                     ; 65536       ; 0            ; 0       ; 0         ; 0    ; 0            ; |M6502_VGA|M6502_BASIC_ROM:ROM|altsyncram:altsyncram_component|altsyncram_du81:auto_generated                                                  ; altsyncram_du81     ; work         ;
-;    |OutLatch:memMapper|                                ; 0 (0)               ; 8 (8)                     ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |M6502_VGA|OutLatch:memMapper                                                                                                                  ; OutLatch            ; work         ;
-;    |SBCTextDisplayRGB:VDU|                             ; 1377 (1220)         ; 385 (385)                 ; 40960       ; 0            ; 0       ; 0         ; 0    ; 0            ; |M6502_VGA|SBCTextDisplayRGB:VDU                                                                                                               ; SBCTextDisplayRGB   ; work         ;
-;       |DisplayRam2K:\GEN_2KATTRAM:dispAttRam|          ; 0 (0)               ; 0 (0)                     ; 16384       ; 0            ; 0       ; 0         ; 0    ; 0            ; |M6502_VGA|SBCTextDisplayRGB:VDU|DisplayRam2K:\GEN_2KATTRAM:dispAttRam                                                                         ; DisplayRam2K        ; work         ;
-;          |altsyncram:altsyncram_component|             ; 0 (0)               ; 0 (0)                     ; 16384       ; 0            ; 0       ; 0         ; 0    ; 0            ; |M6502_VGA|SBCTextDisplayRGB:VDU|DisplayRam2K:\GEN_2KATTRAM:dispAttRam|altsyncram:altsyncram_component                                         ; altsyncram          ; work         ;
-;             |altsyncram_shh2:auto_generated|           ; 0 (0)               ; 0 (0)                     ; 16384       ; 0            ; 0       ; 0         ; 0    ; 0            ; |M6502_VGA|SBCTextDisplayRGB:VDU|DisplayRam2K:\GEN_2KATTRAM:dispAttRam|altsyncram:altsyncram_component|altsyncram_shh2:auto_generated          ; altsyncram_shh2     ; work         ;
-;       |DisplayRam2K:\GEN_2KRAM:dispCharRam|            ; 0 (0)               ; 0 (0)                     ; 16384       ; 0            ; 0       ; 0         ; 0    ; 0            ; |M6502_VGA|SBCTextDisplayRGB:VDU|DisplayRam2K:\GEN_2KRAM:dispCharRam                                                                           ; DisplayRam2K        ; work         ;
-;          |altsyncram:altsyncram_component|             ; 0 (0)               ; 0 (0)                     ; 16384       ; 0            ; 0       ; 0         ; 0    ; 0            ; |M6502_VGA|SBCTextDisplayRGB:VDU|DisplayRam2K:\GEN_2KRAM:dispCharRam|altsyncram:altsyncram_component                                           ; altsyncram          ; work         ;
-;             |altsyncram_shh2:auto_generated|           ; 0 (0)               ; 0 (0)                     ; 16384       ; 0            ; 0       ; 0         ; 0    ; 0            ; |M6502_VGA|SBCTextDisplayRGB:VDU|DisplayRam2K:\GEN_2KRAM:dispCharRam|altsyncram:altsyncram_component|altsyncram_shh2:auto_generated            ; altsyncram_shh2     ; work         ;
-;       |SansBoldRomReduced:\GEN_REDUCED_SCHARS:fontRom| ; 0 (0)               ; 0 (0)                     ; 8192        ; 0            ; 0       ; 0         ; 0    ; 0            ; |M6502_VGA|SBCTextDisplayRGB:VDU|SansBoldRomReduced:\GEN_REDUCED_SCHARS:fontRom                                                                ; SansBoldRomReduced  ; work         ;
-;          |altsyncram:altsyncram_component|             ; 0 (0)               ; 0 (0)                     ; 8192        ; 0            ; 0       ; 0         ; 0    ; 0            ; |M6502_VGA|SBCTextDisplayRGB:VDU|SansBoldRomReduced:\GEN_REDUCED_SCHARS:fontRom|altsyncram:altsyncram_component                                ; altsyncram          ; work         ;
-;             |altsyncram_2d91:auto_generated|           ; 0 (0)               ; 0 (0)                     ; 8192        ; 0            ; 0       ; 0         ; 0    ; 0            ; |M6502_VGA|SBCTextDisplayRGB:VDU|SansBoldRomReduced:\GEN_REDUCED_SCHARS:fontRom|altsyncram:altsyncram_component|altsyncram_2d91:auto_generated ; altsyncram_2d91     ; work         ;
-;       |lpm_divide:Mod0|                                ; 89 (0)              ; 0 (0)                     ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |M6502_VGA|SBCTextDisplayRGB:VDU|lpm_divide:Mod0                                                                                               ; lpm_divide          ; work         ;
-;          |lpm_divide_icm:auto_generated|               ; 89 (0)              ; 0 (0)                     ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |M6502_VGA|SBCTextDisplayRGB:VDU|lpm_divide:Mod0|lpm_divide_icm:auto_generated                                                                 ; lpm_divide_icm      ; work         ;
-;             |sign_div_unsign_7nh:divider|              ; 89 (0)              ; 0 (0)                     ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |M6502_VGA|SBCTextDisplayRGB:VDU|lpm_divide:Mod0|lpm_divide_icm:auto_generated|sign_div_unsign_7nh:divider                                     ; sign_div_unsign_7nh ; work         ;
-;                |alt_u_div_2af:divider|                 ; 89 (89)             ; 0 (0)                     ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |M6502_VGA|SBCTextDisplayRGB:VDU|lpm_divide:Mod0|lpm_divide_icm:auto_generated|sign_div_unsign_7nh:divider|alt_u_div_2af:divider               ; alt_u_div_2af       ; work         ;
-;       |lpm_divide:Mod1|                                ; 68 (0)              ; 0 (0)                     ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |M6502_VGA|SBCTextDisplayRGB:VDU|lpm_divide:Mod1                                                                                               ; lpm_divide          ; work         ;
-;          |lpm_divide_icm:auto_generated|               ; 68 (0)              ; 0 (0)                     ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |M6502_VGA|SBCTextDisplayRGB:VDU|lpm_divide:Mod1|lpm_divide_icm:auto_generated                                                                 ; lpm_divide_icm      ; work         ;
-;             |sign_div_unsign_7nh:divider|              ; 68 (0)              ; 0 (0)                     ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |M6502_VGA|SBCTextDisplayRGB:VDU|lpm_divide:Mod1|lpm_divide_icm:auto_generated|sign_div_unsign_7nh:divider                                     ; sign_div_unsign_7nh ; work         ;
-;                |alt_u_div_2af:divider|                 ; 68 (68)             ; 0 (0)                     ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |M6502_VGA|SBCTextDisplayRGB:VDU|lpm_divide:Mod1|lpm_divide_icm:auto_generated|sign_div_unsign_7nh:divider|alt_u_div_2af:divider               ; alt_u_div_2af       ; work         ;
-;    |T65:CPU|                                           ; 784 (392)           ; 126 (126)                 ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |M6502_VGA|T65:CPU                                                                                                                             ; T65                 ; work         ;
-;       |T65_ALU:alu|                                    ; 159 (159)           ; 0 (0)                     ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |M6502_VGA|T65:CPU|T65_ALU:alu                                                                                                                 ; T65_ALU             ; work         ;
-;       |T65_MCode:mcode|                                ; 233 (233)           ; 0 (0)                     ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |M6502_VGA|T65:CPU|T65_MCode:mcode                                                                                                             ; T65_MCode           ; work         ;
-;    |Toggle_On_FN_Key:FNKey1Toggle|                     ; 1 (1)               ; 4 (4)                     ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |M6502_VGA|Toggle_On_FN_Key:FNKey1Toggle                                                                                                       ; Toggle_On_FN_Key    ; work         ;
-;    |Toggle_On_FN_Key:FNKey2Toggle|                     ; 1 (1)               ; 4 (4)                     ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |M6502_VGA|Toggle_On_FN_Key:FNKey2Toggle                                                                                                       ; Toggle_On_FN_Key    ; work         ;
-;    |bufferedUART:UART|                                 ; 155 (155)           ; 94 (94)                   ; 128         ; 0            ; 0       ; 0         ; 0    ; 0            ; |M6502_VGA|bufferedUART:UART                                                                                                                   ; bufferedUART        ; work         ;
-;       |altsyncram:rxBuffer_rtl_0|                      ; 0 (0)               ; 0 (0)                     ; 128         ; 0            ; 0       ; 0         ; 0    ; 0            ; |M6502_VGA|bufferedUART:UART|altsyncram:rxBuffer_rtl_0                                                                                         ; altsyncram          ; work         ;
-;          |altsyncram_3ce1:auto_generated|              ; 0 (0)               ; 0 (0)                     ; 128         ; 0            ; 0       ; 0         ; 0    ; 0            ; |M6502_VGA|bufferedUART:UART|altsyncram:rxBuffer_rtl_0|altsyncram_3ce1:auto_generated                                                          ; altsyncram_3ce1     ; work         ;
-+--------------------------------------------------------+---------------------+---------------------------+-------------+--------------+---------+-----------+------+--------------+------------------------------------------------------------------------------------------------------------------------------------------------+---------------------+--------------+
++-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+; Analysis & Synthesis Resource Utilization by Entity                                                                                                                                                                                                                                                                                                   ;
++-----------------------------------------------+---------------------+---------------------------+-------------+--------------+---------+-----------+------+--------------+---------------------------------------------------------------------------------------------------------------------------------------+---------------------+--------------+
+; Compilation Hierarchy Node                    ; Combinational ALUTs ; Dedicated Logic Registers ; Memory Bits ; DSP Elements ; DSP 9x9 ; DSP 18x18 ; Pins ; Virtual Pins ; Full Hierarchy Name                                                                                                                   ; Entity Name         ; Library Name ;
++-----------------------------------------------+---------------------+---------------------------+-------------+--------------+---------+-----------+------+--------------+---------------------------------------------------------------------------------------------------------------------------------------+---------------------+--------------+
+; |M6502_VGA                                    ; 2453 (111)          ; 646 (23)                  ; 442496      ; 0            ; 0       ; 0         ; 47   ; 0            ; |M6502_VGA                                                                                                                            ; M6502_VGA           ; work         ;
+;    |InternalRam32K:SRAM1|                     ; 24 (0)              ; 2 (0)                     ; 262144      ; 0            ; 0       ; 0         ; 0    ; 0            ; |M6502_VGA|InternalRam32K:SRAM1                                                                                                       ; InternalRam32K      ; work         ;
+;       |altsyncram:altsyncram_component|       ; 24 (0)              ; 2 (0)                     ; 262144      ; 0            ; 0       ; 0         ; 0    ; 0            ; |M6502_VGA|InternalRam32K:SRAM1|altsyncram:altsyncram_component                                                                       ; altsyncram          ; work         ;
+;          |altsyncram_r3q3:auto_generated|     ; 24 (0)              ; 2 (2)                     ; 262144      ; 0            ; 0       ; 0         ; 0    ; 0            ; |M6502_VGA|InternalRam32K:SRAM1|altsyncram:altsyncram_component|altsyncram_r3q3:auto_generated                                        ; altsyncram_r3q3     ; work         ;
+;             |decode_f8a:rden_decode|          ; 4 (4)               ; 0 (0)                     ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |M6502_VGA|InternalRam32K:SRAM1|altsyncram:altsyncram_component|altsyncram_r3q3:auto_generated|decode_f8a:rden_decode                 ; decode_f8a          ; work         ;
+;             |decode_msa:decode3|              ; 4 (4)               ; 0 (0)                     ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |M6502_VGA|InternalRam32K:SRAM1|altsyncram:altsyncram_component|altsyncram_r3q3:auto_generated|decode_msa:decode3                     ; decode_msa          ; work         ;
+;             |mux_6nb:mux2|                    ; 16 (16)             ; 0 (0)                     ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |M6502_VGA|InternalRam32K:SRAM1|altsyncram:altsyncram_component|altsyncram_r3q3:auto_generated|mux_6nb:mux2                           ; mux_6nb             ; work         ;
+;    |InternalRam8K:SRAM2|                      ; 0 (0)               ; 0 (0)                     ; 65536       ; 0            ; 0       ; 0         ; 0    ; 0            ; |M6502_VGA|InternalRam8K:SRAM2                                                                                                        ; InternalRam8K       ; work         ;
+;       |altsyncram:altsyncram_component|       ; 0 (0)               ; 0 (0)                     ; 65536       ; 0            ; 0       ; 0         ; 0    ; 0            ; |M6502_VGA|InternalRam8K:SRAM2|altsyncram:altsyncram_component                                                                        ; altsyncram          ; work         ;
+;          |altsyncram_a8g1:auto_generated|     ; 0 (0)               ; 0 (0)                     ; 65536       ; 0            ; 0       ; 0         ; 0    ; 0            ; |M6502_VGA|InternalRam8K:SRAM2|altsyncram:altsyncram_component|altsyncram_a8g1:auto_generated                                         ; altsyncram_a8g1     ; work         ;
+;    |M6502_BASIC_ROM:ROM|                      ; 0 (0)               ; 0 (0)                     ; 65536       ; 0            ; 0       ; 0         ; 0    ; 0            ; |M6502_VGA|M6502_BASIC_ROM:ROM                                                                                                        ; M6502_BASIC_ROM     ; work         ;
+;       |altsyncram:altsyncram_component|       ; 0 (0)               ; 0 (0)                     ; 65536       ; 0            ; 0       ; 0         ; 0    ; 0            ; |M6502_VGA|M6502_BASIC_ROM:ROM|altsyncram:altsyncram_component                                                                        ; altsyncram          ; work         ;
+;          |altsyncram_du81:auto_generated|     ; 0 (0)               ; 0 (0)                     ; 65536       ; 0            ; 0       ; 0         ; 0    ; 0            ; |M6502_VGA|M6502_BASIC_ROM:ROM|altsyncram:altsyncram_component|altsyncram_du81:auto_generated                                         ; altsyncram_du81     ; work         ;
+;    |OutLatch:memMapper|                       ; 0 (0)               ; 8 (8)                     ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |M6502_VGA|OutLatch:memMapper                                                                                                         ; OutLatch            ; work         ;
+;    |SBCTextDisplayRGB:VDU|                    ; 1377 (1220)         ; 385 (385)                 ; 49152       ; 0            ; 0       ; 0         ; 0    ; 0            ; |M6502_VGA|SBCTextDisplayRGB:VDU                                                                                                      ; SBCTextDisplayRGB   ; work         ;
+;       |DisplayRam2K:\GEN_2KATTRAM:dispAttRam| ; 0 (0)               ; 0 (0)                     ; 16384       ; 0            ; 0       ; 0         ; 0    ; 0            ; |M6502_VGA|SBCTextDisplayRGB:VDU|DisplayRam2K:\GEN_2KATTRAM:dispAttRam                                                                ; DisplayRam2K        ; work         ;
+;          |altsyncram:altsyncram_component|    ; 0 (0)               ; 0 (0)                     ; 16384       ; 0            ; 0       ; 0         ; 0    ; 0            ; |M6502_VGA|SBCTextDisplayRGB:VDU|DisplayRam2K:\GEN_2KATTRAM:dispAttRam|altsyncram:altsyncram_component                                ; altsyncram          ; work         ;
+;             |altsyncram_shh2:auto_generated|  ; 0 (0)               ; 0 (0)                     ; 16384       ; 0            ; 0       ; 0         ; 0    ; 0            ; |M6502_VGA|SBCTextDisplayRGB:VDU|DisplayRam2K:\GEN_2KATTRAM:dispAttRam|altsyncram:altsyncram_component|altsyncram_shh2:auto_generated ; altsyncram_shh2     ; work         ;
+;       |DisplayRam2K:\GEN_2KRAM:dispCharRam|   ; 0 (0)               ; 0 (0)                     ; 16384       ; 0            ; 0       ; 0         ; 0    ; 0            ; |M6502_VGA|SBCTextDisplayRGB:VDU|DisplayRam2K:\GEN_2KRAM:dispCharRam                                                                  ; DisplayRam2K        ; work         ;
+;          |altsyncram:altsyncram_component|    ; 0 (0)               ; 0 (0)                     ; 16384       ; 0            ; 0       ; 0         ; 0    ; 0            ; |M6502_VGA|SBCTextDisplayRGB:VDU|DisplayRam2K:\GEN_2KRAM:dispCharRam|altsyncram:altsyncram_component                                  ; altsyncram          ; work         ;
+;             |altsyncram_shh2:auto_generated|  ; 0 (0)               ; 0 (0)                     ; 16384       ; 0            ; 0       ; 0         ; 0    ; 0            ; |M6502_VGA|SBCTextDisplayRGB:VDU|DisplayRam2K:\GEN_2KRAM:dispCharRam|altsyncram:altsyncram_component|altsyncram_shh2:auto_generated   ; altsyncram_shh2     ; work         ;
+;       |SansBoldRom:\GEN_EXT_SCHARS:fontRom|   ; 0 (0)               ; 0 (0)                     ; 16384       ; 0            ; 0       ; 0         ; 0    ; 0            ; |M6502_VGA|SBCTextDisplayRGB:VDU|SansBoldRom:\GEN_EXT_SCHARS:fontRom                                                                  ; SansBoldRom         ; work         ;
+;          |altsyncram:altsyncram_component|    ; 0 (0)               ; 0 (0)                     ; 16384       ; 0            ; 0       ; 0         ; 0    ; 0            ; |M6502_VGA|SBCTextDisplayRGB:VDU|SansBoldRom:\GEN_EXT_SCHARS:fontRom|altsyncram:altsyncram_component                                  ; altsyncram          ; work         ;
+;             |altsyncram_6fv3:auto_generated|  ; 0 (0)               ; 0 (0)                     ; 16384       ; 0            ; 0       ; 0         ; 0    ; 0            ; |M6502_VGA|SBCTextDisplayRGB:VDU|SansBoldRom:\GEN_EXT_SCHARS:fontRom|altsyncram:altsyncram_component|altsyncram_6fv3:auto_generated   ; altsyncram_6fv3     ; work         ;
+;       |lpm_divide:Mod0|                       ; 89 (0)              ; 0 (0)                     ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |M6502_VGA|SBCTextDisplayRGB:VDU|lpm_divide:Mod0                                                                                      ; lpm_divide          ; work         ;
+;          |lpm_divide_icm:auto_generated|      ; 89 (0)              ; 0 (0)                     ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |M6502_VGA|SBCTextDisplayRGB:VDU|lpm_divide:Mod0|lpm_divide_icm:auto_generated                                                        ; lpm_divide_icm      ; work         ;
+;             |sign_div_unsign_7nh:divider|     ; 89 (0)              ; 0 (0)                     ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |M6502_VGA|SBCTextDisplayRGB:VDU|lpm_divide:Mod0|lpm_divide_icm:auto_generated|sign_div_unsign_7nh:divider                            ; sign_div_unsign_7nh ; work         ;
+;                |alt_u_div_2af:divider|        ; 89 (89)             ; 0 (0)                     ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |M6502_VGA|SBCTextDisplayRGB:VDU|lpm_divide:Mod0|lpm_divide_icm:auto_generated|sign_div_unsign_7nh:divider|alt_u_div_2af:divider      ; alt_u_div_2af       ; work         ;
+;       |lpm_divide:Mod1|                       ; 68 (0)              ; 0 (0)                     ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |M6502_VGA|SBCTextDisplayRGB:VDU|lpm_divide:Mod1                                                                                      ; lpm_divide          ; work         ;
+;          |lpm_divide_icm:auto_generated|      ; 68 (0)              ; 0 (0)                     ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |M6502_VGA|SBCTextDisplayRGB:VDU|lpm_divide:Mod1|lpm_divide_icm:auto_generated                                                        ; lpm_divide_icm      ; work         ;
+;             |sign_div_unsign_7nh:divider|     ; 68 (0)              ; 0 (0)                     ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |M6502_VGA|SBCTextDisplayRGB:VDU|lpm_divide:Mod1|lpm_divide_icm:auto_generated|sign_div_unsign_7nh:divider                            ; sign_div_unsign_7nh ; work         ;
+;                |alt_u_div_2af:divider|        ; 68 (68)             ; 0 (0)                     ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |M6502_VGA|SBCTextDisplayRGB:VDU|lpm_divide:Mod1|lpm_divide_icm:auto_generated|sign_div_unsign_7nh:divider|alt_u_div_2af:divider      ; alt_u_div_2af       ; work         ;
+;    |T65:CPU|                                  ; 784 (392)           ; 126 (126)                 ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |M6502_VGA|T65:CPU                                                                                                                    ; T65                 ; work         ;
+;       |T65_ALU:alu|                           ; 159 (159)           ; 0 (0)                     ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |M6502_VGA|T65:CPU|T65_ALU:alu                                                                                                        ; T65_ALU             ; work         ;
+;       |T65_MCode:mcode|                       ; 233 (233)           ; 0 (0)                     ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |M6502_VGA|T65:CPU|T65_MCode:mcode                                                                                                    ; T65_MCode           ; work         ;
+;    |Toggle_On_FN_Key:FNKey1Toggle|            ; 1 (1)               ; 4 (4)                     ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |M6502_VGA|Toggle_On_FN_Key:FNKey1Toggle                                                                                              ; Toggle_On_FN_Key    ; work         ;
+;    |Toggle_On_FN_Key:FNKey2Toggle|            ; 1 (1)               ; 4 (4)                     ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |M6502_VGA|Toggle_On_FN_Key:FNKey2Toggle                                                                                              ; Toggle_On_FN_Key    ; work         ;
+;    |bufferedUART:UART|                        ; 155 (155)           ; 94 (94)                   ; 128         ; 0            ; 0       ; 0         ; 0    ; 0            ; |M6502_VGA|bufferedUART:UART                                                                                                          ; bufferedUART        ; work         ;
+;       |altsyncram:rxBuffer_rtl_0|             ; 0 (0)               ; 0 (0)                     ; 128         ; 0            ; 0       ; 0         ; 0    ; 0            ; |M6502_VGA|bufferedUART:UART|altsyncram:rxBuffer_rtl_0                                                                                ; altsyncram          ; work         ;
+;          |altsyncram_3ce1:auto_generated|     ; 0 (0)               ; 0 (0)                     ; 128         ; 0            ; 0       ; 0         ; 0    ; 0            ; |M6502_VGA|bufferedUART:UART|altsyncram:rxBuffer_rtl_0|altsyncram_3ce1:auto_generated                                                 ; altsyncram_3ce1     ; work         ;
++-----------------------------------------------+---------------------+---------------------------+-------------+--------------+---------+-----------+------+--------------+---------------------------------------------------------------------------------------------------------------------------------------+---------------------+--------------+
 Note: For table entries with two numbers listed, the numbers in parentheses indicate the number of resources of the given type used by the specific entity alone. The numbers listed outside of parentheses indicate the total resources of the given type used by the specific entity and all of its sub-entities in the hierarchy.
 
 
-+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
-; Analysis & Synthesis RAM Summary                                                                                                                                                                                                                                          ;
-+------------------------------------------------------------------------------------------------------------------------------------------------+------+------------------+--------------+--------------+--------------+--------------+--------+---------------------------+
-; Name                                                                                                                                           ; Type ; Mode             ; Port A Depth ; Port A Width ; Port B Depth ; Port B Width ; Size   ; MIF                       ;
-+------------------------------------------------------------------------------------------------------------------------------------------------+------+------------------+--------------+--------------+--------------+--------------+--------+---------------------------+
-; InternalRam32K:SRAM1|altsyncram:altsyncram_component|altsyncram_r3q3:auto_generated|ALTSYNCRAM                                                 ; AUTO ; Single Port      ; 32768        ; 8            ; --           ; --           ; 262144 ; None                      ;
-; InternalRam8K:SRAM2|altsyncram:altsyncram_component|altsyncram_a8g1:auto_generated|ALTSYNCRAM                                                  ; AUTO ; Single Port      ; 8192         ; 8            ; --           ; --           ; 65536  ; None                      ;
-; M6502_BASIC_ROM:ROM|altsyncram:altsyncram_component|altsyncram_du81:auto_generated|ALTSYNCRAM                                                  ; AUTO ; ROM              ; 8192         ; 8            ; --           ; --           ; 65536  ; ../../ROMS/6502/BASIC.HEX ;
-; SBCTextDisplayRGB:VDU|DisplayRam2K:\GEN_2KATTRAM:dispAttRam|altsyncram:altsyncram_component|altsyncram_shh2:auto_generated|ALTSYNCRAM          ; AUTO ; True Dual Port   ; 2048         ; 8            ; 2048         ; 8            ; 16384  ; None                      ;
-; SBCTextDisplayRGB:VDU|DisplayRam2K:\GEN_2KRAM:dispCharRam|altsyncram:altsyncram_component|altsyncram_shh2:auto_generated|ALTSYNCRAM            ; AUTO ; True Dual Port   ; 2048         ; 8            ; 2048         ; 8            ; 16384  ; None                      ;
-; SBCTextDisplayRGB:VDU|SansBoldRomReduced:\GEN_REDUCED_SCHARS:fontRom|altsyncram:altsyncram_component|altsyncram_2d91:auto_generated|ALTSYNCRAM ; AUTO ; ROM              ; 1024         ; 8            ; --           ; --           ; 8192   ; SansFontBoldReduced.HEX   ;
-; bufferedUART:UART|altsyncram:rxBuffer_rtl_0|altsyncram_3ce1:auto_generated|ALTSYNCRAM                                                          ; AUTO ; Simple Dual Port ; 16           ; 8            ; 16           ; 8            ; 128    ; None                      ;
-+------------------------------------------------------------------------------------------------------------------------------------------------+------+------------------+--------------+--------------+--------------+--------------+--------+---------------------------+
++----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+; Analysis & Synthesis RAM Summary                                                                                                                                                                                                                                                                               ;
++---------------------------------------------------------------------------------------------------------------------------------------+------+------------------+--------------+--------------+--------------+--------------+--------+-------------------------------------------------------------------------+
+; Name                                                                                                                                  ; Type ; Mode             ; Port A Depth ; Port A Width ; Port B Depth ; Port B Width ; Size   ; MIF                                                                     ;
++---------------------------------------------------------------------------------------------------------------------------------------+------+------------------+--------------+--------------+--------------+--------------+--------+-------------------------------------------------------------------------+
+; InternalRam32K:SRAM1|altsyncram:altsyncram_component|altsyncram_r3q3:auto_generated|ALTSYNCRAM                                        ; AUTO ; Single Port      ; 32768        ; 8            ; --           ; --           ; 262144 ; None                                                                    ;
+; InternalRam8K:SRAM2|altsyncram:altsyncram_component|altsyncram_a8g1:auto_generated|ALTSYNCRAM                                         ; AUTO ; Single Port      ; 8192         ; 8            ; --           ; --           ; 65536  ; None                                                                    ;
+; M6502_BASIC_ROM:ROM|altsyncram:altsyncram_component|altsyncram_du81:auto_generated|ALTSYNCRAM                                         ; AUTO ; ROM              ; 8192         ; 8            ; --           ; --           ; 65536  ; ../../ROMS/6502/BASIC.HEX                                               ;
+; SBCTextDisplayRGB:VDU|DisplayRam2K:\GEN_2KATTRAM:dispAttRam|altsyncram:altsyncram_component|altsyncram_shh2:auto_generated|ALTSYNCRAM ; AUTO ; True Dual Port   ; 2048         ; 8            ; 2048         ; 8            ; 16384  ; None                                                                    ;
+; SBCTextDisplayRGB:VDU|DisplayRam2K:\GEN_2KRAM:dispCharRam|altsyncram:altsyncram_component|altsyncram_shh2:auto_generated|ALTSYNCRAM   ; AUTO ; True Dual Port   ; 2048         ; 8            ; 2048         ; 8            ; 16384  ; None                                                                    ;
+; SBCTextDisplayRGB:VDU|SansBoldRom:\GEN_EXT_SCHARS:fontRom|altsyncram:altsyncram_component|altsyncram_6fv3:auto_generated|ALTSYNCRAM   ; AUTO ; ROM              ; 2048         ; 8            ; --           ; --           ; 16384  ; ../../../MultiComp (VHDL Template)/Components/TERMINAL/SansFontBold.HEX ;
+; bufferedUART:UART|altsyncram:rxBuffer_rtl_0|altsyncram_3ce1:auto_generated|ALTSYNCRAM                                                 ; AUTO ; Simple Dual Port ; 16           ; 8            ; 16           ; 8            ; 128    ; None                                                                    ;
++---------------------------------------------------------------------------------------------------------------------------------------+------+------------------+--------------+--------------+--------------+--------------+--------+-------------------------------------------------------------------------+
 
 
 Encoding Type:  One-Hot
@@ -592,13 +593,13 @@ Encoding Type:  One-Hot
 +---------------------------------+--------------------+------+---------------------------------------------+
 
 
-+------------------------------------------------------------------------------------------------------------------------------------------------------------+
-; Source assignments for SBCTextDisplayRGB:VDU|SansBoldRomReduced:\GEN_REDUCED_SCHARS:fontRom|altsyncram:altsyncram_component|altsyncram_2d91:auto_generated ;
-+---------------------------------+--------------------+------+----------------------------------------------------------------------------------------------+
-; Assignment                      ; Value              ; From ; To                                                                                           ;
-+---------------------------------+--------------------+------+----------------------------------------------------------------------------------------------+
-; OPTIMIZE_POWER_DURING_SYNTHESIS ; NORMAL_COMPILATION ; -    ; -                                                                                            ;
-+---------------------------------+--------------------+------+----------------------------------------------------------------------------------------------+
++-------------------------------------------------------------------------------------------------------------------------------------------------+
+; Source assignments for SBCTextDisplayRGB:VDU|SansBoldRom:\GEN_EXT_SCHARS:fontRom|altsyncram:altsyncram_component|altsyncram_6fv3:auto_generated ;
++---------------------------------+--------------------+------+-----------------------------------------------------------------------------------+
+; Assignment                      ; Value              ; From ; To                                                                                ;
++---------------------------------+--------------------+------+-----------------------------------------------------------------------------------+
+; OPTIMIZE_POWER_DURING_SYNTHESIS ; NORMAL_COMPILATION ; -    ; -                                                                                 ;
++---------------------------------+--------------------+------+-----------------------------------------------------------------------------------+
 
 
 +-------------------------------------------------------------------------------------------------------------------------------------------------+
@@ -816,7 +817,7 @@ Note: In order to hide this table in the UI and the text report file, please set
 +----------------------+----------+----------------------------------+
 ; Parameter Name       ; Value    ; Type                             ;
 +----------------------+----------+----------------------------------+
-; extended_charset     ; 0        ; Signed Integer                   ;
+; extended_charset     ; 1        ; Signed Integer                   ;
 ; colour_atts_enabled  ; 1        ; Signed Integer                   ;
 ; vert_chars           ; 25       ; Signed Integer                   ;
 ; horiz_chars          ; 80       ; Signed Integer                   ;
@@ -837,64 +838,64 @@ Note: In order to hide this table in the UI and the text report file, please set
 Note: In order to hide this table in the UI and the text report file, please set the "Show Parameter Settings in Synthesis Report" option in "Analysis and Synthesis Settings -> More Settings" to "Off".
 
 
-+---------------------------------------------------------------------------------------------------------------------------------------------------+
-; Parameter Settings for User Entity Instance: SBCTextDisplayRGB:VDU|SansBoldRomReduced:\GEN_REDUCED_SCHARS:fontRom|altsyncram:altsyncram_component ;
-+------------------------------------+-------------------------+------------------------------------------------------------------------------------+
-; Parameter Name                     ; Value                   ; Type                                                                               ;
-+------------------------------------+-------------------------+------------------------------------------------------------------------------------+
-; BYTE_SIZE_BLOCK                    ; 8                       ; Untyped                                                                            ;
-; AUTO_CARRY_CHAINS                  ; ON                      ; AUTO_CARRY                                                                         ;
-; IGNORE_CARRY_BUFFERS               ; OFF                     ; IGNORE_CARRY                                                                       ;
-; AUTO_CASCADE_CHAINS                ; ON                      ; AUTO_CASCADE                                                                       ;
-; IGNORE_CASCADE_BUFFERS             ; OFF                     ; IGNORE_CASCADE                                                                     ;
-; WIDTH_BYTEENA                      ; 1                       ; Untyped                                                                            ;
-; OPERATION_MODE                     ; ROM                     ; Untyped                                                                            ;
-; WIDTH_A                            ; 8                       ; Signed Integer                                                                     ;
-; WIDTHAD_A                          ; 10                      ; Signed Integer                                                                     ;
-; NUMWORDS_A                         ; 1024                    ; Signed Integer                                                                     ;
-; OUTDATA_REG_A                      ; UNREGISTERED            ; Untyped                                                                            ;
-; ADDRESS_ACLR_A                     ; NONE                    ; Untyped                                                                            ;
-; OUTDATA_ACLR_A                     ; NONE                    ; Untyped                                                                            ;
-; WRCONTROL_ACLR_A                   ; NONE                    ; Untyped                                                                            ;
-; INDATA_ACLR_A                      ; NONE                    ; Untyped                                                                            ;
-; BYTEENA_ACLR_A                     ; NONE                    ; Untyped                                                                            ;
-; WIDTH_B                            ; 1                       ; Untyped                                                                            ;
-; WIDTHAD_B                          ; 1                       ; Untyped                                                                            ;
-; NUMWORDS_B                         ; 1                       ; Untyped                                                                            ;
-; INDATA_REG_B                       ; CLOCK1                  ; Untyped                                                                            ;
-; WRCONTROL_WRADDRESS_REG_B          ; CLOCK1                  ; Untyped                                                                            ;
-; RDCONTROL_REG_B                    ; CLOCK1                  ; Untyped                                                                            ;
-; ADDRESS_REG_B                      ; CLOCK1                  ; Untyped                                                                            ;
-; OUTDATA_REG_B                      ; UNREGISTERED            ; Untyped                                                                            ;
-; BYTEENA_REG_B                      ; CLOCK1                  ; Untyped                                                                            ;
-; INDATA_ACLR_B                      ; NONE                    ; Untyped                                                                            ;
-; WRCONTROL_ACLR_B                   ; NONE                    ; Untyped                                                                            ;
-; ADDRESS_ACLR_B                     ; NONE                    ; Untyped                                                                            ;
-; OUTDATA_ACLR_B                     ; NONE                    ; Untyped                                                                            ;
-; RDCONTROL_ACLR_B                   ; NONE                    ; Untyped                                                                            ;
-; BYTEENA_ACLR_B                     ; NONE                    ; Untyped                                                                            ;
-; WIDTH_BYTEENA_A                    ; 1                       ; Signed Integer                                                                     ;
-; WIDTH_BYTEENA_B                    ; 1                       ; Untyped                                                                            ;
-; RAM_BLOCK_TYPE                     ; AUTO                    ; Untyped                                                                            ;
-; BYTE_SIZE                          ; 8                       ; Untyped                                                                            ;
-; READ_DURING_WRITE_MODE_MIXED_PORTS ; DONT_CARE               ; Untyped                                                                            ;
-; READ_DURING_WRITE_MODE_PORT_A      ; NEW_DATA_NO_NBE_READ    ; Untyped                                                                            ;
-; READ_DURING_WRITE_MODE_PORT_B      ; NEW_DATA_NO_NBE_READ    ; Untyped                                                                            ;
-; INIT_FILE                          ; SansFontBoldReduced.HEX ; Untyped                                                                            ;
-; INIT_FILE_LAYOUT                   ; PORT_A                  ; Untyped                                                                            ;
-; MAXIMUM_DEPTH                      ; 0                       ; Untyped                                                                            ;
-; CLOCK_ENABLE_INPUT_A               ; BYPASS                  ; Untyped                                                                            ;
-; CLOCK_ENABLE_INPUT_B               ; NORMAL                  ; Untyped                                                                            ;
-; CLOCK_ENABLE_OUTPUT_A              ; BYPASS                  ; Untyped                                                                            ;
-; CLOCK_ENABLE_OUTPUT_B              ; NORMAL                  ; Untyped                                                                            ;
-; CLOCK_ENABLE_CORE_A                ; USE_INPUT_CLKEN         ; Untyped                                                                            ;
-; CLOCK_ENABLE_CORE_B                ; USE_INPUT_CLKEN         ; Untyped                                                                            ;
-; ENABLE_ECC                         ; FALSE                   ; Untyped                                                                            ;
-; ECC_PIPELINE_STAGE_ENABLED         ; FALSE                   ; Untyped                                                                            ;
-; WIDTH_ECCSTATUS                    ; 3                       ; Untyped                                                                            ;
-; DEVICE_FAMILY                      ; Cyclone IV E            ; Untyped                                                                            ;
-; CBXI_PARAMETER                     ; altsyncram_2d91         ; Untyped                                                                            ;
-+------------------------------------+-------------------------+------------------------------------------------------------------------------------+
++----------------------------------------------------------------------------------------------------------------------------------------+
+; Parameter Settings for User Entity Instance: SBCTextDisplayRGB:VDU|SansBoldRom:\GEN_EXT_SCHARS:fontRom|altsyncram:altsyncram_component ;
++------------------------------------+-------------------------------------------------------------------------+-------------------------+
+; Parameter Name                     ; Value                                                                   ; Type                    ;
++------------------------------------+-------------------------------------------------------------------------+-------------------------+
+; BYTE_SIZE_BLOCK                    ; 8                                                                       ; Untyped                 ;
+; AUTO_CARRY_CHAINS                  ; ON                                                                      ; AUTO_CARRY              ;
+; IGNORE_CARRY_BUFFERS               ; OFF                                                                     ; IGNORE_CARRY            ;
+; AUTO_CASCADE_CHAINS                ; ON                                                                      ; AUTO_CASCADE            ;
+; IGNORE_CASCADE_BUFFERS             ; OFF                                                                     ; IGNORE_CASCADE          ;
+; WIDTH_BYTEENA                      ; 1                                                                       ; Untyped                 ;
+; OPERATION_MODE                     ; ROM                                                                     ; Untyped                 ;
+; WIDTH_A                            ; 8                                                                       ; Signed Integer          ;
+; WIDTHAD_A                          ; 11                                                                      ; Signed Integer          ;
+; NUMWORDS_A                         ; 2048                                                                    ; Signed Integer          ;
+; OUTDATA_REG_A                      ; UNREGISTERED                                                            ; Untyped                 ;
+; ADDRESS_ACLR_A                     ; NONE                                                                    ; Untyped                 ;
+; OUTDATA_ACLR_A                     ; NONE                                                                    ; Untyped                 ;
+; WRCONTROL_ACLR_A                   ; NONE                                                                    ; Untyped                 ;
+; INDATA_ACLR_A                      ; NONE                                                                    ; Untyped                 ;
+; BYTEENA_ACLR_A                     ; NONE                                                                    ; Untyped                 ;
+; WIDTH_B                            ; 1                                                                       ; Signed Integer          ;
+; WIDTHAD_B                          ; 1                                                                       ; Signed Integer          ;
+; NUMWORDS_B                         ; 0                                                                       ; Signed Integer          ;
+; INDATA_REG_B                       ; CLOCK1                                                                  ; Untyped                 ;
+; WRCONTROL_WRADDRESS_REG_B          ; CLOCK1                                                                  ; Untyped                 ;
+; RDCONTROL_REG_B                    ; CLOCK1                                                                  ; Untyped                 ;
+; ADDRESS_REG_B                      ; CLOCK1                                                                  ; Untyped                 ;
+; OUTDATA_REG_B                      ; UNREGISTERED                                                            ; Untyped                 ;
+; BYTEENA_REG_B                      ; CLOCK1                                                                  ; Untyped                 ;
+; INDATA_ACLR_B                      ; NONE                                                                    ; Untyped                 ;
+; WRCONTROL_ACLR_B                   ; NONE                                                                    ; Untyped                 ;
+; ADDRESS_ACLR_B                     ; NONE                                                                    ; Untyped                 ;
+; OUTDATA_ACLR_B                     ; NONE                                                                    ; Untyped                 ;
+; RDCONTROL_ACLR_B                   ; NONE                                                                    ; Untyped                 ;
+; BYTEENA_ACLR_B                     ; NONE                                                                    ; Untyped                 ;
+; WIDTH_BYTEENA_A                    ; 1                                                                       ; Signed Integer          ;
+; WIDTH_BYTEENA_B                    ; 1                                                                       ; Signed Integer          ;
+; RAM_BLOCK_TYPE                     ; AUTO                                                                    ; Untyped                 ;
+; BYTE_SIZE                          ; 8                                                                       ; Signed Integer          ;
+; READ_DURING_WRITE_MODE_MIXED_PORTS ; DONT_CARE                                                               ; Untyped                 ;
+; READ_DURING_WRITE_MODE_PORT_A      ; NEW_DATA_NO_NBE_READ                                                    ; Untyped                 ;
+; READ_DURING_WRITE_MODE_PORT_B      ; NEW_DATA_NO_NBE_READ                                                    ; Untyped                 ;
+; INIT_FILE                          ; ../../../MultiComp (VHDL Template)/Components/TERMINAL/SansFontBold.HEX ; Untyped                 ;
+; INIT_FILE_LAYOUT                   ; PORT_A                                                                  ; Untyped                 ;
+; MAXIMUM_DEPTH                      ; 0                                                                       ; Signed Integer          ;
+; CLOCK_ENABLE_INPUT_A               ; BYPASS                                                                  ; Untyped                 ;
+; CLOCK_ENABLE_INPUT_B               ; NORMAL                                                                  ; Untyped                 ;
+; CLOCK_ENABLE_OUTPUT_A              ; BYPASS                                                                  ; Untyped                 ;
+; CLOCK_ENABLE_OUTPUT_B              ; NORMAL                                                                  ; Untyped                 ;
+; CLOCK_ENABLE_CORE_A                ; USE_INPUT_CLKEN                                                         ; Untyped                 ;
+; CLOCK_ENABLE_CORE_B                ; USE_INPUT_CLKEN                                                         ; Untyped                 ;
+; ENABLE_ECC                         ; FALSE                                                                   ; Untyped                 ;
+; ECC_PIPELINE_STAGE_ENABLED         ; FALSE                                                                   ; Untyped                 ;
+; WIDTH_ECCSTATUS                    ; 3                                                                       ; Signed Integer          ;
+; DEVICE_FAMILY                      ; Cyclone IV E                                                            ; Untyped                 ;
+; CBXI_PARAMETER                     ; altsyncram_6fv3                                                         ; Untyped                 ;
++------------------------------------+-------------------------------------------------------------------------+-------------------------+
 Note: In order to hide this table in the UI and the text report file, please set the "Show Parameter Settings in Synthesis Report" option in "Analysis and Synthesis Settings -> More Settings" to "Off".
 
 
@@ -1137,90 +1138,90 @@ Note: In order to hide this table in the UI and the text report file, please set
 Note: In order to hide this table in the UI and the text report file, please set the "Show Parameter Settings in Synthesis Report" option in "Analysis and Synthesis Settings -> More Settings" to "Off".
 
 
-+--------------------------------------------------------------------------------------------------------------------------------------------------+
-; altsyncram Parameter Settings by Entity Instance                                                                                                 ;
-+-------------------------------------------+------------------------------------------------------------------------------------------------------+
-; Name                                      ; Value                                                                                                ;
-+-------------------------------------------+------------------------------------------------------------------------------------------------------+
-; Number of entity instances                ; 7                                                                                                    ;
-; Entity Instance                           ; M6502_BASIC_ROM:ROM|altsyncram:altsyncram_component                                                  ;
-;     -- OPERATION_MODE                     ; ROM                                                                                                  ;
-;     -- WIDTH_A                            ; 8                                                                                                    ;
-;     -- NUMWORDS_A                         ; 8192                                                                                                 ;
-;     -- OUTDATA_REG_A                      ; UNREGISTERED                                                                                         ;
-;     -- WIDTH_B                            ; 1                                                                                                    ;
-;     -- NUMWORDS_B                         ; 1                                                                                                    ;
-;     -- ADDRESS_REG_B                      ; CLOCK1                                                                                               ;
-;     -- OUTDATA_REG_B                      ; UNREGISTERED                                                                                         ;
-;     -- RAM_BLOCK_TYPE                     ; AUTO                                                                                                 ;
-;     -- READ_DURING_WRITE_MODE_MIXED_PORTS ; DONT_CARE                                                                                            ;
-; Entity Instance                           ; InternalRam32K:SRAM1|altsyncram:altsyncram_component                                                 ;
-;     -- OPERATION_MODE                     ; SINGLE_PORT                                                                                          ;
-;     -- WIDTH_A                            ; 8                                                                                                    ;
-;     -- NUMWORDS_A                         ; 32768                                                                                                ;
-;     -- OUTDATA_REG_A                      ; UNREGISTERED                                                                                         ;
-;     -- WIDTH_B                            ; 1                                                                                                    ;
-;     -- NUMWORDS_B                         ; 0                                                                                                    ;
-;     -- ADDRESS_REG_B                      ; CLOCK1                                                                                               ;
-;     -- OUTDATA_REG_B                      ; UNREGISTERED                                                                                         ;
-;     -- RAM_BLOCK_TYPE                     ; AUTO                                                                                                 ;
-;     -- READ_DURING_WRITE_MODE_MIXED_PORTS ; DONT_CARE                                                                                            ;
-; Entity Instance                           ; InternalRam8K:SRAM2|altsyncram:altsyncram_component                                                  ;
-;     -- OPERATION_MODE                     ; SINGLE_PORT                                                                                          ;
-;     -- WIDTH_A                            ; 8                                                                                                    ;
-;     -- NUMWORDS_A                         ; 8192                                                                                                 ;
-;     -- OUTDATA_REG_A                      ; UNREGISTERED                                                                                         ;
-;     -- WIDTH_B                            ; 1                                                                                                    ;
-;     -- NUMWORDS_B                         ; 1                                                                                                    ;
-;     -- ADDRESS_REG_B                      ; CLOCK1                                                                                               ;
-;     -- OUTDATA_REG_B                      ; UNREGISTERED                                                                                         ;
-;     -- RAM_BLOCK_TYPE                     ; AUTO                                                                                                 ;
-;     -- READ_DURING_WRITE_MODE_MIXED_PORTS ; DONT_CARE                                                                                            ;
-; Entity Instance                           ; SBCTextDisplayRGB:VDU|SansBoldRomReduced:\GEN_REDUCED_SCHARS:fontRom|altsyncram:altsyncram_component ;
-;     -- OPERATION_MODE                     ; ROM                                                                                                  ;
-;     -- WIDTH_A                            ; 8                                                                                                    ;
-;     -- NUMWORDS_A                         ; 1024                                                                                                 ;
-;     -- OUTDATA_REG_A                      ; UNREGISTERED                                                                                         ;
-;     -- WIDTH_B                            ; 1                                                                                                    ;
-;     -- NUMWORDS_B                         ; 1                                                                                                    ;
-;     -- ADDRESS_REG_B                      ; CLOCK1                                                                                               ;
-;     -- OUTDATA_REG_B                      ; UNREGISTERED                                                                                         ;
-;     -- RAM_BLOCK_TYPE                     ; AUTO                                                                                                 ;
-;     -- READ_DURING_WRITE_MODE_MIXED_PORTS ; DONT_CARE                                                                                            ;
-; Entity Instance                           ; SBCTextDisplayRGB:VDU|DisplayRam2K:\GEN_2KRAM:dispCharRam|altsyncram:altsyncram_component            ;
-;     -- OPERATION_MODE                     ; BIDIR_DUAL_PORT                                                                                      ;
-;     -- WIDTH_A                            ; 8                                                                                                    ;
-;     -- NUMWORDS_A                         ; 2048                                                                                                 ;
-;     -- OUTDATA_REG_A                      ; UNREGISTERED                                                                                         ;
-;     -- WIDTH_B                            ; 8                                                                                                    ;
-;     -- NUMWORDS_B                         ; 2048                                                                                                 ;
-;     -- ADDRESS_REG_B                      ; CLOCK0                                                                                               ;
-;     -- OUTDATA_REG_B                      ; UNREGISTERED                                                                                         ;
-;     -- RAM_BLOCK_TYPE                     ; AUTO                                                                                                 ;
-;     -- READ_DURING_WRITE_MODE_MIXED_PORTS ; DONT_CARE                                                                                            ;
-; Entity Instance                           ; SBCTextDisplayRGB:VDU|DisplayRam2K:\GEN_2KATTRAM:dispAttRam|altsyncram:altsyncram_component          ;
-;     -- OPERATION_MODE                     ; BIDIR_DUAL_PORT                                                                                      ;
-;     -- WIDTH_A                            ; 8                                                                                                    ;
-;     -- NUMWORDS_A                         ; 2048                                                                                                 ;
-;     -- OUTDATA_REG_A                      ; UNREGISTERED                                                                                         ;
-;     -- WIDTH_B                            ; 8                                                                                                    ;
-;     -- NUMWORDS_B                         ; 2048                                                                                                 ;
-;     -- ADDRESS_REG_B                      ; CLOCK0                                                                                               ;
-;     -- OUTDATA_REG_B                      ; UNREGISTERED                                                                                         ;
-;     -- RAM_BLOCK_TYPE                     ; AUTO                                                                                                 ;
-;     -- READ_DURING_WRITE_MODE_MIXED_PORTS ; DONT_CARE                                                                                            ;
-; Entity Instance                           ; bufferedUART:UART|altsyncram:rxBuffer_rtl_0                                                          ;
-;     -- OPERATION_MODE                     ; DUAL_PORT                                                                                            ;
-;     -- WIDTH_A                            ; 8                                                                                                    ;
-;     -- NUMWORDS_A                         ; 16                                                                                                   ;
-;     -- OUTDATA_REG_A                      ; UNREGISTERED                                                                                         ;
-;     -- WIDTH_B                            ; 8                                                                                                    ;
-;     -- NUMWORDS_B                         ; 16                                                                                                   ;
-;     -- ADDRESS_REG_B                      ; CLOCK1                                                                                               ;
-;     -- OUTDATA_REG_B                      ; UNREGISTERED                                                                                         ;
-;     -- RAM_BLOCK_TYPE                     ; AUTO                                                                                                 ;
-;     -- READ_DURING_WRITE_MODE_MIXED_PORTS ; DONT_CARE                                                                                            ;
-+-------------------------------------------+------------------------------------------------------------------------------------------------------+
++-----------------------------------------------------------------------------------------------------------------------------------------+
+; altsyncram Parameter Settings by Entity Instance                                                                                        ;
++-------------------------------------------+---------------------------------------------------------------------------------------------+
+; Name                                      ; Value                                                                                       ;
++-------------------------------------------+---------------------------------------------------------------------------------------------+
+; Number of entity instances                ; 7                                                                                           ;
+; Entity Instance                           ; M6502_BASIC_ROM:ROM|altsyncram:altsyncram_component                                         ;
+;     -- OPERATION_MODE                     ; ROM                                                                                         ;
+;     -- WIDTH_A                            ; 8                                                                                           ;
+;     -- NUMWORDS_A                         ; 8192                                                                                        ;
+;     -- OUTDATA_REG_A                      ; UNREGISTERED                                                                                ;
+;     -- WIDTH_B                            ; 1                                                                                           ;
+;     -- NUMWORDS_B                         ; 1                                                                                           ;
+;     -- ADDRESS_REG_B                      ; CLOCK1                                                                                      ;
+;     -- OUTDATA_REG_B                      ; UNREGISTERED                                                                                ;
+;     -- RAM_BLOCK_TYPE                     ; AUTO                                                                                        ;
+;     -- READ_DURING_WRITE_MODE_MIXED_PORTS ; DONT_CARE                                                                                   ;
+; Entity Instance                           ; InternalRam32K:SRAM1|altsyncram:altsyncram_component                                        ;
+;     -- OPERATION_MODE                     ; SINGLE_PORT                                                                                 ;
+;     -- WIDTH_A                            ; 8                                                                                           ;
+;     -- NUMWORDS_A                         ; 32768                                                                                       ;
+;     -- OUTDATA_REG_A                      ; UNREGISTERED                                                                                ;
+;     -- WIDTH_B                            ; 1                                                                                           ;
+;     -- NUMWORDS_B                         ; 0                                                                                           ;
+;     -- ADDRESS_REG_B                      ; CLOCK1                                                                                      ;
+;     -- OUTDATA_REG_B                      ; UNREGISTERED                                                                                ;
+;     -- RAM_BLOCK_TYPE                     ; AUTO                                                                                        ;
+;     -- READ_DURING_WRITE_MODE_MIXED_PORTS ; DONT_CARE                                                                                   ;
+; Entity Instance                           ; InternalRam8K:SRAM2|altsyncram:altsyncram_component                                         ;
+;     -- OPERATION_MODE                     ; SINGLE_PORT                                                                                 ;
+;     -- WIDTH_A                            ; 8                                                                                           ;
+;     -- NUMWORDS_A                         ; 8192                                                                                        ;
+;     -- OUTDATA_REG_A                      ; UNREGISTERED                                                                                ;
+;     -- WIDTH_B                            ; 1                                                                                           ;
+;     -- NUMWORDS_B                         ; 1                                                                                           ;
+;     -- ADDRESS_REG_B                      ; CLOCK1                                                                                      ;
+;     -- OUTDATA_REG_B                      ; UNREGISTERED                                                                                ;
+;     -- RAM_BLOCK_TYPE                     ; AUTO                                                                                        ;
+;     -- READ_DURING_WRITE_MODE_MIXED_PORTS ; DONT_CARE                                                                                   ;
+; Entity Instance                           ; SBCTextDisplayRGB:VDU|SansBoldRom:\GEN_EXT_SCHARS:fontRom|altsyncram:altsyncram_component   ;
+;     -- OPERATION_MODE                     ; ROM                                                                                         ;
+;     -- WIDTH_A                            ; 8                                                                                           ;
+;     -- NUMWORDS_A                         ; 2048                                                                                        ;
+;     -- OUTDATA_REG_A                      ; UNREGISTERED                                                                                ;
+;     -- WIDTH_B                            ; 1                                                                                           ;
+;     -- NUMWORDS_B                         ; 0                                                                                           ;
+;     -- ADDRESS_REG_B                      ; CLOCK1                                                                                      ;
+;     -- OUTDATA_REG_B                      ; UNREGISTERED                                                                                ;
+;     -- RAM_BLOCK_TYPE                     ; AUTO                                                                                        ;
+;     -- READ_DURING_WRITE_MODE_MIXED_PORTS ; DONT_CARE                                                                                   ;
+; Entity Instance                           ; SBCTextDisplayRGB:VDU|DisplayRam2K:\GEN_2KRAM:dispCharRam|altsyncram:altsyncram_component   ;
+;     -- OPERATION_MODE                     ; BIDIR_DUAL_PORT                                                                             ;
+;     -- WIDTH_A                            ; 8                                                                                           ;
+;     -- NUMWORDS_A                         ; 2048                                                                                        ;
+;     -- OUTDATA_REG_A                      ; UNREGISTERED                                                                                ;
+;     -- WIDTH_B                            ; 8                                                                                           ;
+;     -- NUMWORDS_B                         ; 2048                                                                                        ;
+;     -- ADDRESS_REG_B                      ; CLOCK0                                                                                      ;
+;     -- OUTDATA_REG_B                      ; UNREGISTERED                                                                                ;
+;     -- RAM_BLOCK_TYPE                     ; AUTO                                                                                        ;
+;     -- READ_DURING_WRITE_MODE_MIXED_PORTS ; DONT_CARE                                                                                   ;
+; Entity Instance                           ; SBCTextDisplayRGB:VDU|DisplayRam2K:\GEN_2KATTRAM:dispAttRam|altsyncram:altsyncram_component ;
+;     -- OPERATION_MODE                     ; BIDIR_DUAL_PORT                                                                             ;
+;     -- WIDTH_A                            ; 8                                                                                           ;
+;     -- NUMWORDS_A                         ; 2048                                                                                        ;
+;     -- OUTDATA_REG_A                      ; UNREGISTERED                                                                                ;
+;     -- WIDTH_B                            ; 8                                                                                           ;
+;     -- NUMWORDS_B                         ; 2048                                                                                        ;
+;     -- ADDRESS_REG_B                      ; CLOCK0                                                                                      ;
+;     -- OUTDATA_REG_B                      ; UNREGISTERED                                                                                ;
+;     -- RAM_BLOCK_TYPE                     ; AUTO                                                                                        ;
+;     -- READ_DURING_WRITE_MODE_MIXED_PORTS ; DONT_CARE                                                                                   ;
+; Entity Instance                           ; bufferedUART:UART|altsyncram:rxBuffer_rtl_0                                                 ;
+;     -- OPERATION_MODE                     ; DUAL_PORT                                                                                   ;
+;     -- WIDTH_A                            ; 8                                                                                           ;
+;     -- NUMWORDS_A                         ; 16                                                                                          ;
+;     -- OUTDATA_REG_A                      ; UNREGISTERED                                                                                ;
+;     -- WIDTH_B                            ; 8                                                                                           ;
+;     -- NUMWORDS_B                         ; 16                                                                                          ;
+;     -- ADDRESS_REG_B                      ; CLOCK1                                                                                      ;
+;     -- OUTDATA_REG_B                      ; UNREGISTERED                                                                                ;
+;     -- RAM_BLOCK_TYPE                     ; AUTO                                                                                        ;
+;     -- READ_DURING_WRITE_MODE_MIXED_PORTS ; DONT_CARE                                                                                   ;
++-------------------------------------------+---------------------------------------------------------------------------------------------+
 
 
 +-----------------------------------------------------------------------------------------+
@@ -1233,15 +1234,14 @@ Note: In order to hide this table in the UI and the text report file, please set
 +--------+-------+----------+-------------------------------------------------------------+
 
 
-+------------------------------------------------------------------------------------------------------------------+
-; Port Connectivity Checks: "SBCTextDisplayRGB:VDU|DisplayRam2K:\GEN_2KRAM:dispCharRam"                            ;
-+--------+--------+----------+-------------------------------------------------------------------------------------+
-; Port   ; Type   ; Severity ; Details                                                                             ;
-+--------+--------+----------+-------------------------------------------------------------------------------------+
-; data_a ; Input  ; Info     ; Stuck at GND                                                                        ;
-; wren_a ; Input  ; Info     ; Stuck at GND                                                                        ;
-; q_a[7] ; Output ; Info     ; Connected to dangling logic. Logic that only feeds a dangling port will be removed. ;
-+--------+--------+----------+-------------------------------------------------------------------------------------+
++---------------------------------------------------------------------------------------+
+; Port Connectivity Checks: "SBCTextDisplayRGB:VDU|DisplayRam2K:\GEN_2KRAM:dispCharRam" ;
++--------+-------+----------+-----------------------------------------------------------+
+; Port   ; Type  ; Severity ; Details                                                   ;
++--------+-------+----------+-----------------------------------------------------------+
+; data_a ; Input ; Info     ; Stuck at GND                                              ;
+; wren_a ; Input ; Info     ; Stuck at GND                                              ;
++--------+-------+----------+-----------------------------------------------------------+
 
 
 +-------------------------------------------------------------------------------------------------------------------------+
@@ -1354,9 +1354,12 @@ Note: In order to hide this table in the UI and the text report file, please set
 Info: *******************************************************************
 Info: Running Quartus Prime Analysis & Synthesis
     Info: Version 20.1.0 Build 711 06/05/2020 SJ Lite Edition
-    Info: Processing started: Sat May 01 14:10:57 2021
+    Info: Processing started: Sun May 02 13:46:37 2021
 Info: Command: quartus_map --read_settings_files=on --write_settings_files=off M6502_VGA -c M6502_VGA
 Info (20030): Parallel compilation is enabled and will use 4 of the 4 processors detected
+Info (12021): Found 2 design units, including 1 entities, in source file /users/hpz420/documents/github/doug gilliland/multicomp/multicomp (vhdl template)/components/ram_internal/internalram4k.vhd
+    Info (12022): Found design unit 1: internalram4k-SYN File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/RAM_Internal/InternalRam4K.vhd Line: 54
+    Info (12023): Found entity 1: InternalRam4K File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/RAM_Internal/InternalRam4K.vhd Line: 42
 Info (12021): Found 2 design units, including 1 entities, in source file /users/hpz420/documents/github/doug gilliland/multicomp/multicomp (vhdl template)/components/ram_internal/internalram8k.vhd
     Info (12022): Found design unit 1: internalram8k-SYN File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/RAM_Internal/InternalRam8K.vhd Line: 54
     Info (12023): Found entity 1: InternalRam8K File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/RAM_Internal/InternalRam8K.vhd Line: 42
@@ -1416,13 +1419,13 @@ Info (12021): Found 2 design units, including 1 entities, in source file m6502_v
     Info (12022): Found design unit 1: M6502_VGA-struct File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15/M6502_VGA/M6502_VGA.vhd Line: 66
     Info (12023): Found entity 1: M6502_VGA File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15/M6502_VGA/M6502_VGA.vhd Line: 39
 Info (12127): Elaborating entity "M6502_VGA" for the top level hierarchy
-Critical Warning (10920): VHDL Incomplete Partial Association warning at M6502_VGA.vhd(147): port or argument "A" has 8/24 unassociated elements File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15/M6502_VGA/M6502_VGA.vhd Line: 147
-Info (12128): Elaborating entity "T65" for hierarchy "T65:CPU" File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15/M6502_VGA/M6502_VGA.vhd Line: 147
+Critical Warning (10920): VHDL Incomplete Partial Association warning at M6502_VGA.vhd(148): port or argument "A" has 8/24 unassociated elements File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15/M6502_VGA/M6502_VGA.vhd Line: 148
+Info (12128): Elaborating entity "T65" for hierarchy "T65:CPU" File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15/M6502_VGA/M6502_VGA.vhd Line: 148
 Warning (10036): Verilog HDL or VHDL warning at T65.vhd(100): object "D" assigned a value but never read File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/CPU/M6502/T65.vhd Line: 100
 Warning (10036): Verilog HDL or VHDL warning at T65.vhd(125): object "B_o" assigned a value but never read File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/CPU/M6502/T65.vhd Line: 125
 Info (12128): Elaborating entity "T65_MCode" for hierarchy "T65:CPU|T65_MCode:mcode" File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/CPU/M6502/T65.vhd Line: 188
 Info (12128): Elaborating entity "T65_ALU" for hierarchy "T65:CPU|T65_ALU:alu" File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/CPU/M6502/T65.vhd Line: 221
-Info (12128): Elaborating entity "M6502_BASIC_ROM" for hierarchy "M6502_BASIC_ROM:ROM" File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15/M6502_VGA/M6502_VGA.vhd Line: 163
+Info (12128): Elaborating entity "M6502_BASIC_ROM" for hierarchy "M6502_BASIC_ROM:ROM" File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15/M6502_VGA/M6502_VGA.vhd Line: 164
 Info (12128): Elaborating entity "altsyncram" for hierarchy "M6502_BASIC_ROM:ROM|altsyncram:altsyncram_component" File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/ROMs/6502/M6502_BASIC_ROM.vhd Line: 84
 Info (12130): Elaborated megafunction instantiation "M6502_BASIC_ROM:ROM|altsyncram:altsyncram_component" File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/ROMs/6502/M6502_BASIC_ROM.vhd Line: 84
 Info (12133): Instantiated megafunction "M6502_BASIC_ROM:ROM|altsyncram:altsyncram_component" with the following parameter: File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/ROMs/6502/M6502_BASIC_ROM.vhd Line: 84
@@ -1442,7 +1445,7 @@ Info (12133): Instantiated megafunction "M6502_BASIC_ROM:ROM|altsyncram:altsyncr
 Info (12021): Found 1 design units, including 1 entities, in source file db/altsyncram_du81.tdf
     Info (12023): Found entity 1: altsyncram_du81 File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15/M6502_VGA/db/altsyncram_du81.tdf Line: 28
 Info (12128): Elaborating entity "altsyncram_du81" for hierarchy "M6502_BASIC_ROM:ROM|altsyncram:altsyncram_component|altsyncram_du81:auto_generated" File: c:/intelfpga_lite/20.1/quartus/libraries/megafunctions/altsyncram.tdf Line: 792
-Info (12128): Elaborating entity "InternalRam32K" for hierarchy "InternalRam32K:SRAM1" File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15/M6502_VGA/M6502_VGA.vhd Line: 170
+Info (12128): Elaborating entity "InternalRam32K" for hierarchy "InternalRam32K:SRAM1" File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15/M6502_VGA/M6502_VGA.vhd Line: 171
 Info (12128): Elaborating entity "altsyncram" for hierarchy "InternalRam32K:SRAM1|altsyncram:altsyncram_component" File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/RAM_Internal/InternalRam32K.vhd Line: 61
 Info (12130): Elaborated megafunction instantiation "InternalRam32K:SRAM1|altsyncram:altsyncram_component" File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/RAM_Internal/InternalRam32K.vhd Line: 61
 Info (12133): Instantiated megafunction "InternalRam32K:SRAM1|altsyncram:altsyncram_component" with the following parameter: File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/RAM_Internal/InternalRam32K.vhd Line: 61
@@ -1508,7 +1511,7 @@ Info (12128): Elaborating entity "decode_f8a" for hierarchy "InternalRam32K:SRAM
 Info (12021): Found 1 design units, including 1 entities, in source file db/mux_6nb.tdf
     Info (12023): Found entity 1: mux_6nb File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15/M6502_VGA/db/mux_6nb.tdf Line: 23
 Info (12128): Elaborating entity "mux_6nb" for hierarchy "InternalRam32K:SRAM1|altsyncram:altsyncram_component|altsyncram_r3q3:auto_generated|mux_6nb:mux2" File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15/M6502_VGA/db/altsyncram_r3q3.tdf Line: 46
-Info (12128): Elaborating entity "InternalRam8K" for hierarchy "InternalRam8K:SRAM2" File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15/M6502_VGA/M6502_VGA.vhd Line: 180
+Info (12128): Elaborating entity "InternalRam8K" for hierarchy "InternalRam8K:SRAM2" File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15/M6502_VGA/M6502_VGA.vhd Line: 181
 Info (12128): Elaborating entity "altsyncram" for hierarchy "InternalRam8K:SRAM2|altsyncram:altsyncram_component" File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/RAM_Internal/InternalRam8K.vhd Line: 89
 Info (12130): Elaborated megafunction instantiation "InternalRam8K:SRAM2|altsyncram:altsyncram_component" File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/RAM_Internal/InternalRam8K.vhd Line: 89
 Info (12133): Instantiated megafunction "InternalRam8K:SRAM2|altsyncram:altsyncram_component" with the following parameter: File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/RAM_Internal/InternalRam8K.vhd Line: 89
@@ -1529,28 +1532,92 @@ Info (12133): Instantiated megafunction "InternalRam8K:SRAM2|altsyncram:altsyncr
 Info (12021): Found 1 design units, including 1 entities, in source file db/altsyncram_a8g1.tdf
     Info (12023): Found entity 1: altsyncram_a8g1 File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15/M6502_VGA/db/altsyncram_a8g1.tdf Line: 28
 Info (12128): Elaborating entity "altsyncram_a8g1" for hierarchy "InternalRam8K:SRAM2|altsyncram:altsyncram_component|altsyncram_a8g1:auto_generated" File: c:/intelfpga_lite/20.1/quartus/libraries/megafunctions/altsyncram.tdf Line: 792
-Info (12128): Elaborating entity "bufferedUART" for hierarchy "bufferedUART:UART" File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15/M6502_VGA/M6502_VGA.vhd Line: 190
-Info (12128): Elaborating entity "SBCTextDisplayRGB" for hierarchy "SBCTextDisplayRGB:VDU" File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15/M6502_VGA/M6502_VGA.vhd Line: 207
-Info (12128): Elaborating entity "SansBoldRomReduced" for hierarchy "SBCTextDisplayRGB:VDU|SansBoldRomReduced:\GEN_REDUCED_SCHARS:fontRom" File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/TERMINAL/SBCTextDisplayRGB.vhd Line: 316
-Info (12128): Elaborating entity "altsyncram" for hierarchy "SBCTextDisplayRGB:VDU|SansBoldRomReduced:\GEN_REDUCED_SCHARS:fontRom|altsyncram:altsyncram_component" File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/TERMINAL/SansBoldRomReduced.vhd Line: 84
-Info (12130): Elaborated megafunction instantiation "SBCTextDisplayRGB:VDU|SansBoldRomReduced:\GEN_REDUCED_SCHARS:fontRom|altsyncram:altsyncram_component" File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/TERMINAL/SansBoldRomReduced.vhd Line: 84
-Info (12133): Instantiated megafunction "SBCTextDisplayRGB:VDU|SansBoldRomReduced:\GEN_REDUCED_SCHARS:fontRom|altsyncram:altsyncram_component" with the following parameter: File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/TERMINAL/SansBoldRomReduced.vhd Line: 84
+Info (12128): Elaborating entity "bufferedUART" for hierarchy "bufferedUART:UART" File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15/M6502_VGA/M6502_VGA.vhd Line: 191
+Info (12128): Elaborating entity "SBCTextDisplayRGB" for hierarchy "SBCTextDisplayRGB:VDU" File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15/M6502_VGA/M6502_VGA.vhd Line: 208
+Info (12128): Elaborating entity "SansBoldRom" for hierarchy "SBCTextDisplayRGB:VDU|SansBoldRom:\GEN_EXT_SCHARS:fontRom" File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/TERMINAL/SBCTextDisplayRGB.vhd Line: 296
+Warning (272007): MGL_INTERNAL_WARNING: ( The parameter value is not one of the pre-specified values in the value list.) altsyncram|stratix_ram_block inst ram_block1a[0]|INIT_FILE The value assigned is ../../../MultiComp (VHDL Template)/Components/TERMINAL/SansFontBold.HEX and the valid value list is UNUSED|../../../MultiComp (VHDL Template)/Components/TERMINAL/SansFontBold.HEX File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/TERMINAL/SansBoldRom.vhd Line: 59
+Warning (272007): MGL_INTERNAL_WARNING: ( The parameter value is not one of the pre-specified values in the value list.) altsyncram|stratix_ram_block inst ram_block1a[1]|INIT_FILE The value assigned is ../../../MultiComp (VHDL Template)/Components/TERMINAL/SansFontBold.HEX and the valid value list is UNUSED|../../../MultiComp (VHDL Template)/Components/TERMINAL/SansFontBold.HEX File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/TERMINAL/SansBoldRom.vhd Line: 59
+Warning (272007): MGL_INTERNAL_WARNING: ( The parameter value is not one of the pre-specified values in the value list.) altsyncram|stratix_ram_block inst ram_block1a[2]|INIT_FILE The value assigned is ../../../MultiComp (VHDL Template)/Components/TERMINAL/SansFontBold.HEX and the valid value list is UNUSED|../../../MultiComp (VHDL Template)/Components/TERMINAL/SansFontBold.HEX File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/TERMINAL/SansBoldRom.vhd Line: 59
+Warning (272007): MGL_INTERNAL_WARNING: ( The parameter value is not one of the pre-specified values in the value list.) altsyncram|stratix_ram_block inst ram_block1a[3]|INIT_FILE The value assigned is ../../../MultiComp (VHDL Template)/Components/TERMINAL/SansFontBold.HEX and the valid value list is UNUSED|../../../MultiComp (VHDL Template)/Components/TERMINAL/SansFontBold.HEX File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/TERMINAL/SansBoldRom.vhd Line: 59
+Warning (272007): MGL_INTERNAL_WARNING: ( The parameter value is not one of the pre-specified values in the value list.) altsyncram|stratix_ram_block inst ram_block1a[4]|INIT_FILE The value assigned is ../../../MultiComp (VHDL Template)/Components/TERMINAL/SansFontBold.HEX and the valid value list is UNUSED|../../../MultiComp (VHDL Template)/Components/TERMINAL/SansFontBold.HEX File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/TERMINAL/SansBoldRom.vhd Line: 59
+Warning (272007): MGL_INTERNAL_WARNING: ( The parameter value is not one of the pre-specified values in the value list.) altsyncram|stratix_ram_block inst ram_block1a[5]|INIT_FILE The value assigned is ../../../MultiComp (VHDL Template)/Components/TERMINAL/SansFontBold.HEX and the valid value list is UNUSED|../../../MultiComp (VHDL Template)/Components/TERMINAL/SansFontBold.HEX File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/TERMINAL/SansBoldRom.vhd Line: 59
+Warning (272007): MGL_INTERNAL_WARNING: ( The parameter value is not one of the pre-specified values in the value list.) altsyncram|stratix_ram_block inst ram_block1a[6]|INIT_FILE The value assigned is ../../../MultiComp (VHDL Template)/Components/TERMINAL/SansFontBold.HEX and the valid value list is UNUSED|../../../MultiComp (VHDL Template)/Components/TERMINAL/SansFontBold.HEX File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/TERMINAL/SansBoldRom.vhd Line: 59
+Warning (272007): MGL_INTERNAL_WARNING: ( The parameter value is not one of the pre-specified values in the value list.) altsyncram|stratix_ram_block inst ram_block1a[7]|INIT_FILE The value assigned is ../../../MultiComp (VHDL Template)/Components/TERMINAL/SansFontBold.HEX and the valid value list is UNUSED|../../../MultiComp (VHDL Template)/Components/TERMINAL/SansFontBold.HEX File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/TERMINAL/SansBoldRom.vhd Line: 59
+Info (12128): Elaborating entity "altsyncram" for hierarchy "SBCTextDisplayRGB:VDU|SansBoldRom:\GEN_EXT_SCHARS:fontRom|altsyncram:altsyncram_component" File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/TERMINAL/SansBoldRom.vhd Line: 59
+Info (12130): Elaborated megafunction instantiation "SBCTextDisplayRGB:VDU|SansBoldRom:\GEN_EXT_SCHARS:fontRom|altsyncram:altsyncram_component" File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/TERMINAL/SansBoldRom.vhd Line: 59
+Info (12133): Instantiated megafunction "SBCTextDisplayRGB:VDU|SansBoldRom:\GEN_EXT_SCHARS:fontRom|altsyncram:altsyncram_component" with the following parameter: File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/TERMINAL/SansBoldRom.vhd Line: 59
+    Info (12134): Parameter "address_aclr_a" = "UNUSED"
+    Info (12134): Parameter "address_aclr_b" = "NONE"
+    Info (12134): Parameter "address_reg_b" = "CLOCK1"
+    Info (12134): Parameter "byte_size" = "8"
+    Info (12134): Parameter "byteena_aclr_a" = "UNUSED"
+    Info (12134): Parameter "byteena_aclr_b" = "NONE"
+    Info (12134): Parameter "byteena_reg_b" = "CLOCK1"
+    Info (12134): Parameter "clock_enable_core_a" = "USE_INPUT_CLKEN"
+    Info (12134): Parameter "clock_enable_core_b" = "USE_INPUT_CLKEN"
     Info (12134): Parameter "clock_enable_input_a" = "BYPASS"
+    Info (12134): Parameter "clock_enable_input_b" = "NORMAL"
     Info (12134): Parameter "clock_enable_output_a" = "BYPASS"
-    Info (12134): Parameter "init_file" = "SansFontBoldReduced.HEX"
+    Info (12134): Parameter "clock_enable_output_b" = "NORMAL"
     Info (12134): Parameter "intended_device_family" = "Cyclone II"
-    Info (12134): Parameter "lpm_hint" = "ENABLE_RUNTIME_MOD=NO"
-    Info (12134): Parameter "lpm_type" = "altsyncram"
-    Info (12134): Parameter "numwords_a" = "1024"
+    Info (12134): Parameter "ecc_pipeline_stage_enabled" = "FALSE"
+    Info (12134): Parameter "enable_ecc" = "FALSE"
+    Info (12134): Parameter "implement_in_les" = "OFF"
+    Info (12134): Parameter "indata_aclr_a" = "UNUSED"
+    Info (12134): Parameter "indata_aclr_b" = "NONE"
+    Info (12134): Parameter "indata_reg_b" = "CLOCK1"
+    Info (12134): Parameter "init_file" = "../../../MultiComp (VHDL Template)/Components/TERMINAL/SansFontBold.HEX"
+    Info (12134): Parameter "init_file_layout" = "PORT_A"
+    Info (12134): Parameter "maximum_depth" = "0"
+    Info (12134): Parameter "numwords_a" = "2048"
+    Info (12134): Parameter "numwords_b" = "0"
     Info (12134): Parameter "operation_mode" = "ROM"
     Info (12134): Parameter "outdata_aclr_a" = "NONE"
+    Info (12134): Parameter "outdata_aclr_b" = "NONE"
     Info (12134): Parameter "outdata_reg_a" = "UNREGISTERED"
-    Info (12134): Parameter "widthad_a" = "10"
+    Info (12134): Parameter "outdata_reg_b" = "UNREGISTERED"
+    Info (12134): Parameter "power_up_uninitialized" = "FALSE"
+    Info (12134): Parameter "ram_block_type" = "AUTO"
+    Info (12134): Parameter "rdcontrol_aclr_b" = "NONE"
+    Info (12134): Parameter "rdcontrol_reg_b" = "CLOCK1"
+    Info (12134): Parameter "read_during_write_mode_mixed_ports" = "DONT_CARE"
+    Info (12134): Parameter "read_during_write_mode_port_a" = "NEW_DATA_NO_NBE_READ"
+    Info (12134): Parameter "read_during_write_mode_port_b" = "NEW_DATA_NO_NBE_READ"
+    Info (12134): Parameter "stratixiv_m144k_allow_dual_clocks" = "ON"
     Info (12134): Parameter "width_a" = "8"
+    Info (12134): Parameter "width_b" = "1"
     Info (12134): Parameter "width_byteena_a" = "1"
-Info (12021): Found 1 design units, including 1 entities, in source file db/altsyncram_2d91.tdf
-    Info (12023): Found entity 1: altsyncram_2d91 File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15/M6502_VGA/db/altsyncram_2d91.tdf Line: 28
-Info (12128): Elaborating entity "altsyncram_2d91" for hierarchy "SBCTextDisplayRGB:VDU|SansBoldRomReduced:\GEN_REDUCED_SCHARS:fontRom|altsyncram:altsyncram_component|altsyncram_2d91:auto_generated" File: c:/intelfpga_lite/20.1/quartus/libraries/megafunctions/altsyncram.tdf Line: 792
+    Info (12134): Parameter "width_byteena_b" = "1"
+    Info (12134): Parameter "width_eccstatus" = "3"
+    Info (12134): Parameter "widthad_a" = "11"
+    Info (12134): Parameter "widthad_b" = "1"
+    Info (12134): Parameter "wrcontrol_aclr_a" = "UNUSED"
+    Info (12134): Parameter "wrcontrol_aclr_b" = "NONE"
+    Info (12134): Parameter "wrcontrol_wraddress_reg_b" = "CLOCK1"
+    Info (12134): Parameter "lpm_hint" = "ENABLE_RUNTIME_MOD=NO"
+    Info (12134): Parameter "lpm_type" = "altsyncram"
+Warning (287001): Assertion warning: MGL_INTERNAL_WARNING: ( The parameter value is not one of the pre-specified values in the value list.) altsyncram|stratix_ram_block inst ram_block1a[0]|INIT_FILE The value assigned is ../../../MultiComp (VHDL Template)/Components/TERMINAL/SansFontBold.HEX and the valid value list is UNUSED|../../../MultiComp (VHDL Template)/Components/TERMINAL/SansFontBold.HEX File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15/M6502_VGA/db/altsyncram_6fv3.tdf Line: 211
+Warning (287001): Assertion warning: MGL_INTERNAL_WARNING: ( The parameter value is not one of the pre-specified values in the value list.) altsyncram|stratix_ram_block inst ram_block1a[1]|INIT_FILE The value assigned is ../../../MultiComp (VHDL Template)/Components/TERMINAL/SansFontBold.HEX and the valid value list is UNUSED|../../../MultiComp (VHDL Template)/Components/TERMINAL/SansFontBold.HEX File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15/M6502_VGA/db/altsyncram_6fv3.tdf Line: 214
+Warning (287001): Assertion warning: MGL_INTERNAL_WARNING: ( The parameter value is not one of the pre-specified values in the value list.) altsyncram|stratix_ram_block inst ram_block1a[2]|INIT_FILE The value assigned is ../../../MultiComp (VHDL Template)/Components/TERMINAL/SansFontBold.HEX and the valid value list is UNUSED|../../../MultiComp (VHDL Template)/Components/TERMINAL/SansFontBold.HEX File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15/M6502_VGA/db/altsyncram_6fv3.tdf Line: 217
+Warning (287001): Assertion warning: MGL_INTERNAL_WARNING: ( The parameter value is not one of the pre-specified values in the value list.) altsyncram|stratix_ram_block inst ram_block1a[3]|INIT_FILE The value assigned is ../../../MultiComp (VHDL Template)/Components/TERMINAL/SansFontBold.HEX and the valid value list is UNUSED|../../../MultiComp (VHDL Template)/Components/TERMINAL/SansFontBold.HEX File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15/M6502_VGA/db/altsyncram_6fv3.tdf Line: 220
+Warning (287001): Assertion warning: MGL_INTERNAL_WARNING: ( The parameter value is not one of the pre-specified values in the value list.) altsyncram|stratix_ram_block inst ram_block1a[4]|INIT_FILE The value assigned is ../../../MultiComp (VHDL Template)/Components/TERMINAL/SansFontBold.HEX and the valid value list is UNUSED|../../../MultiComp (VHDL Template)/Components/TERMINAL/SansFontBold.HEX File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15/M6502_VGA/db/altsyncram_6fv3.tdf Line: 223
+Warning (287001): Assertion warning: MGL_INTERNAL_WARNING: ( The parameter value is not one of the pre-specified values in the value list.) altsyncram|stratix_ram_block inst ram_block1a[5]|INIT_FILE The value assigned is ../../../MultiComp (VHDL Template)/Components/TERMINAL/SansFontBold.HEX and the valid value list is UNUSED|../../../MultiComp (VHDL Template)/Components/TERMINAL/SansFontBold.HEX File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15/M6502_VGA/db/altsyncram_6fv3.tdf Line: 226
+Warning (287001): Assertion warning: MGL_INTERNAL_WARNING: ( The parameter value is not one of the pre-specified values in the value list.) altsyncram|stratix_ram_block inst ram_block1a[6]|INIT_FILE The value assigned is ../../../MultiComp (VHDL Template)/Components/TERMINAL/SansFontBold.HEX and the valid value list is UNUSED|../../../MultiComp (VHDL Template)/Components/TERMINAL/SansFontBold.HEX File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15/M6502_VGA/db/altsyncram_6fv3.tdf Line: 229
+Warning (287001): Assertion warning: MGL_INTERNAL_WARNING: ( The parameter value is not one of the pre-specified values in the value list.) altsyncram|stratix_ram_block inst ram_block1a[7]|INIT_FILE The value assigned is ../../../MultiComp (VHDL Template)/Components/TERMINAL/SansFontBold.HEX and the valid value list is UNUSED|../../../MultiComp (VHDL Template)/Components/TERMINAL/SansFontBold.HEX File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15/M6502_VGA/db/altsyncram_6fv3.tdf Line: 232
+Info (12021): Found 1 design units, including 1 entities, in source file db/altsyncram_6fv3.tdf
+    Info (12023): Found entity 1: altsyncram_6fv3 File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15/M6502_VGA/db/altsyncram_6fv3.tdf Line: 28
+Info (12128): Elaborating entity "altsyncram_6fv3" for hierarchy "SBCTextDisplayRGB:VDU|SansBoldRom:\GEN_EXT_SCHARS:fontRom|altsyncram:altsyncram_component|altsyncram_6fv3:auto_generated" File: c:/intelfpga_lite/20.1/quartus/libraries/megafunctions/altsyncram.tdf Line: 792
+Warning (113015): Width of data items in "SansFontBold.HEX" is greater than the memory width. Wrapping data items to subsequent addresses. Found 64 warnings, reporting 10 File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/TERMINAL/SansFontBold.HEX Line: 1
+    Warning (113009): Data at line (1) of memory initialization file "SansFontBold.HEX" is too wide to fit in one memory word. Wrapping data to subsequent addresses. File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/TERMINAL/SansFontBold.HEX Line: 1
+    Warning (113009): Data at line (2) of memory initialization file "SansFontBold.HEX" is too wide to fit in one memory word. Wrapping data to subsequent addresses. File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/TERMINAL/SansFontBold.HEX Line: 2
+    Warning (113009): Data at line (3) of memory initialization file "SansFontBold.HEX" is too wide to fit in one memory word. Wrapping data to subsequent addresses. File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/TERMINAL/SansFontBold.HEX Line: 3
+    Warning (113009): Data at line (4) of memory initialization file "SansFontBold.HEX" is too wide to fit in one memory word. Wrapping data to subsequent addresses. File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/TERMINAL/SansFontBold.HEX Line: 4
+    Warning (113009): Data at line (5) of memory initialization file "SansFontBold.HEX" is too wide to fit in one memory word. Wrapping data to subsequent addresses. File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/TERMINAL/SansFontBold.HEX Line: 5
+    Warning (113009): Data at line (6) of memory initialization file "SansFontBold.HEX" is too wide to fit in one memory word. Wrapping data to subsequent addresses. File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/TERMINAL/SansFontBold.HEX Line: 6
+    Warning (113009): Data at line (7) of memory initialization file "SansFontBold.HEX" is too wide to fit in one memory word. Wrapping data to subsequent addresses. File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/TERMINAL/SansFontBold.HEX Line: 7
+    Warning (113009): Data at line (8) of memory initialization file "SansFontBold.HEX" is too wide to fit in one memory word. Wrapping data to subsequent addresses. File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/TERMINAL/SansFontBold.HEX Line: 8
+    Warning (113009): Data at line (9) of memory initialization file "SansFontBold.HEX" is too wide to fit in one memory word. Wrapping data to subsequent addresses. File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/TERMINAL/SansFontBold.HEX Line: 9
+    Warning (113009): Data at line (10) of memory initialization file "SansFontBold.HEX" is too wide to fit in one memory word. Wrapping data to subsequent addresses. File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/TERMINAL/SansFontBold.HEX Line: 10
 Info (12128): Elaborating entity "DisplayRam2K" for hierarchy "SBCTextDisplayRGB:VDU|DisplayRam2K:\GEN_2KRAM:dispCharRam" File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/TERMINAL/SBCTextDisplayRGB.vhd Line: 327
 Info (12128): Elaborating entity "altsyncram" for hierarchy "SBCTextDisplayRGB:VDU|DisplayRam2K:\GEN_2KRAM:dispCharRam|altsyncram:altsyncram_component" File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/TERMINAL/DisplayRam2K.vhd Line: 111
 Info (12130): Elaborated megafunction instantiation "SBCTextDisplayRGB:VDU|DisplayRam2K:\GEN_2KRAM:dispCharRam|altsyncram:altsyncram_component" File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/TERMINAL/DisplayRam2K.vhd Line: 111
@@ -1584,8 +1651,8 @@ Info (12133): Instantiated megafunction "SBCTextDisplayRGB:VDU|DisplayRam2K:\GEN
 Info (12021): Found 1 design units, including 1 entities, in source file db/altsyncram_shh2.tdf
     Info (12023): Found entity 1: altsyncram_shh2 File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15/M6502_VGA/db/altsyncram_shh2.tdf Line: 28
 Info (12128): Elaborating entity "altsyncram_shh2" for hierarchy "SBCTextDisplayRGB:VDU|DisplayRam2K:\GEN_2KRAM:dispCharRam|altsyncram:altsyncram_component|altsyncram_shh2:auto_generated" File: c:/intelfpga_lite/20.1/quartus/libraries/megafunctions/altsyncram.tdf Line: 792
-Info (12128): Elaborating entity "Toggle_On_FN_Key" for hierarchy "Toggle_On_FN_Key:FNKey1Toggle" File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15/M6502_VGA/M6502_VGA.vhd Line: 236
-Info (12128): Elaborating entity "OutLatch" for hierarchy "OutLatch:memMapper" File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15/M6502_VGA/M6502_VGA.vhd Line: 252
+Info (12128): Elaborating entity "Toggle_On_FN_Key" for hierarchy "Toggle_On_FN_Key:FNKey1Toggle" File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15/M6502_VGA/M6502_VGA.vhd Line: 237
+Info (12128): Elaborating entity "OutLatch" for hierarchy "OutLatch:memMapper" File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15/M6502_VGA/M6502_VGA.vhd Line: 253
 Warning (19016): Clock multiplexers are found and protected
     Warning (19017): Found clock multiplexer T65:CPU|Mux75 File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/CPU/M6502/T65.vhd Line: 506
     Warning (19017): Found clock multiplexer T65:CPU|PCAdder[1] File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/CPU/M6502/T65.vhd Line: 119
@@ -1688,10 +1755,10 @@ Info (21057): Implemented 2778 device resources after synthesis - the final reso
     Info (21060): Implemented 11 bidirectional pins
     Info (21061): Implemented 2651 logic cells
     Info (21064): Implemented 80 RAM segments
-Info: Quartus Prime Analysis & Synthesis was successful. 0 errors, 36 warnings
-    Info: Peak virtual memory: 4835 megabytes
-    Info: Processing ended: Sat May 01 14:11:27 2021
-    Info: Elapsed time: 00:00:30
-    Info: Total CPU time (on all processors): 00:00:55
+Info: Quartus Prime Analysis & Synthesis was successful. 0 errors, 63 warnings
+    Info: Peak virtual memory: 4838 megabytes
+    Info: Processing ended: Sun May 02 13:47:06 2021
+    Info: Elapsed time: 00:00:29
+    Info: Total CPU time (on all processors): 00:00:51
 
 

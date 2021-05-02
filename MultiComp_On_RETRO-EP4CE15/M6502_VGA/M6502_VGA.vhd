@@ -14,9 +14,9 @@
 --		FTDI FT-230FX chip
 --		Has RTS/CTS hardware handshake
 -- ANSI Video Display Unit
---		Limited to 128 characters
+--		256 characters
 --		80x25 character display
---		1/1/1 - R/G/B output
+--		2/2/2 - R/G/B output
 -- PS/2 Keyboard
 --		F1 key switches between VDU and Serial port
 --			Default is VDU
@@ -26,9 +26,9 @@
 --		x0000-x7FFF - 32KB SRAM
 --		xE000-xFFFF - 8KB BASIC in ROM
 --	I/O
---		XFFD0-FFD1 VDU
---		XFFD2-FFD3 ACIA
---		xFFD4 Bank Select register 7 bits = 128 banks)
+--		xFFD0-FFD1 VDU
+--		xFFD2-FFD3 ACIA
+--		xFFD4 Bank Select register (7 bits = 128 banks)
 
 
 library ieee;
@@ -125,11 +125,12 @@ begin
 	w_n_aciaCS 	<= '0' when ((w_cpuAddress(15 downto 1) = X"FFD"&"001" and w_fKey1 = '0') 		-- XFFD2-FFD3 ACIA
 							or     (w_cpuAddress(15 downto 1) = X"FFD"&"000" and w_fKey1 = '1'))
 							else '1';
+							
+-- Add new I/O startimg at XFFD4 (65492 dec)
+
 	w_memMapCS	<= '0'  when w_cpuAddress = X"FFD4"															-- XFFD4 BANK SELECT 
 						else '1';
 	
--- Add new I/O startimg at XFFD4 (65492 dec)
-
 	w_n_memWR 			<= not(w_cpuClk) nand (not w_n_WR);
 	
 	w_cpuDataIn <=
@@ -206,7 +207,7 @@ begin
 	
 	VDU : entity work.SBCTextDisplayRGB
 	generic map ( 
-		EXTENDED_CHARSET => 0
+		EXTENDED_CHARSET => 1
 	)
 		port map (
 		n_reset	=> i_n_reset,

@@ -1,42 +1,39 @@
-== 6502 Multicomp on Purchased EP4CE10 Card ==
+== 6502 Multicomp on RETRO-EP4CE15 Card ==
 
 <img src="http://land-boards.com/blwiki/images/9/9a/P1715-CROPPED-720PX.jpg"></img>
 
-* [http://land-boards.com/blwiki/index.php?title=A-C4E6_Cyclone_IV_FPGA_EP4CE6E22C8N_Development_Board Wiki page]
+* [http://land-boards.com/blwiki/index.php?title=RETRO-EP4CE15 RETRO-EP4CE15 FPGA Card]
 * [http://searle.x10host.com/Multicomp/index.html Grant Searle's Multicomp page]
-
+* Ohio Scientific original design
 * 6502 CPU
-** Runs at 25 MHz
-* 32K internal SRAM
+** Runs at 12.5 MHz
+* 40KB internal SRAM
+* 1MB External Banked SRAM
+** Bank Select Register selects between 128 of 8KB banks
 * OSI 6502 Microsoft BASIC v3.2
-* VGA video
-** 1/1/1 bits RGB (64-colors)
-** ANSI Terminal (UK101 uses Memory Mapped VDU)
+** 40,447 bytes free
+* XGA video
+** 2/2/2 bits RGB (64-colors)
+** VDU - ANSI Terminal
+** 6850 UART interface
 *** 80 column 25 rows
-** ANSI
-*** 80x25 characters (2KB)
+*** 256 character set
 * PS/2 keyboard
 * USB Serial Port
-** [http://land-boards.com/blwiki/index.php?title=A-C4E6_Cyclone_IV_FPGA_EP4CE6E22C8N_Development_Board#RTS.2FCTS_Rework Rework removes two Ring LEDs and uses the FPGA pins as RTS/CTS]
-** DIP switch 1 - Selects default (On = Serial, Off = VDU)
-** (10) LEDs
-** (3) Pushbutton Switches
-** (8) DIP Switch
-** BUZZER
+** FTDI FT-230FX chip
+** Has RTS/CTS hardware handshake** F1 key switches between VDU and Serial port
+*** Default is VDU
+** F2 key switches baud rate between 300 and 115,200
+*** Default is 115,200 baud
 
 == Memory Map ==
 
-* x0000-x3FFF SRAM (16KB)
+* x0000-x9FFF - 40KB SRAM
+* xC000-xDFFF - External SRAM
 * xE000-xFFFF BASIC in ROM(8KB)
 * xFFD0-xFFD1 VDU
 * xFFD2-xFFD3 ACIA
-* xFFD4 Buzzer (65492 dec)
-* xFFD5 Seven Segment Upper 2 digits (65493 dec)
-* xFFD6 Seven Segment Upper Middle 2 digits (65494 dec)
-* xFFD7 Seven Segment Lower Middle 2 digits (65495 dec)
-* xFFD8 Seven Segment Lower 2 digits (65496 dec)
-* xFFD9 DIP Switches (65497 dec)
-* xFFDA Ring LEDs (65498 dec)
+* xFFD4 Bank Select register (7 bits = 128 banks)
 
 == Notes ==
 
