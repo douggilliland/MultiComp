@@ -7,30 +7,31 @@
 --	12.5 MHz (slowed down for external SRAM speed limits)
 --	40KB Internal SRAM
 -- 1MB External SRAM
---	Bank Select Register that selects between 128 of 8KB banks
+--		Bank Select Register - selects between 128 of 8KB banks
 --	Microsoft BASIC in ROM
 --		40,447 bytes free
 --	USB-Serial Interface
 --		FTDI FT-230FX chip
 --		Has RTS/CTS hardware handshake
 -- ANSI Video Display Unit
---		256 characters
+--		256 character set
 --		80x25 character display
 --		2/2/2 - R/G/B output
 -- PS/2 Keyboard
 --		F1 key switches between VDU and Serial port
 --			Default is VDU
---		F2 key switches baud rate between 300 and 115,200
+--		F2 key switches serial port baud rate between 300 and 115,200
 --			Default is 115,200 baud
 -- Memory Map
---		x0000-x7FFF - 32KB SRAM
+--		x0000-x9FFF - 40KB SRAM
+--		xC000-xDFFF - External SRAM 8KB window
 --		xE000-xFFFF - 8KB BASIC in ROM
---	I/O
---		xFFD0-FFD1 VDU
---		xFFD2-FFD3 ACIA
+--	I/O Ports
+--		xFFD0-xFFD1 VDU
+--		xFFD2-xFFD3 ACIA
 --		xFFD4 Bank Select register (7 bits used = 128 banks of 8KB each)
 --		xFFD5 8-bit output latch
---		xFFD7-FFDD SD card
+--		xFFD7-xFFDD SD card
 
 
 library ieee;
@@ -101,7 +102,7 @@ architecture struct of M6502_VGA is
 	signal sdCardDataOut		: std_logic_vector(7 downto 0);
 	signal memMapReg			: std_logic_vector(7 downto 0);
 	
-	signal w_n_memWR			: std_logic;
+--	signal w_n_memWR			: std_logic;
 	
 	signal w_n_basRomCS		: std_logic :='1';
 	signal w_n_VDUCS			: std_logic :='1';
@@ -112,28 +113,23 @@ architecture struct of M6502_VGA is
 	signal w_latch1CS			: std_logic :='1';
 	signal w_memMapCS			: std_logic :='1';
 	
-	signal w_serialClkCount	: std_logic_vector(15 downto 0);
+	signal w_serialClkCount	: std_logic_vector(15 downto 0);	-- DDS counter for baud rate
 	signal w_serClkCt_d 		: std_logic_vector(15 downto 0);
 	signal w_w_serClkEn		: std_logic;
-	
-	signal sdClkCount 		: std_logic_vector(5 downto 0);
 
-	signal w_cpuClkCt			: std_logic_vector(5 downto 0); 
-	signal w_cpuClk			: std_logic;
+	signal w_cpuClkCt			: std_logic_vector(5 downto 0);	-- 50 MHz oscillator counter
+	signal w_cpuClk			: std_logic;							-- CPU clock rate selectable
 	
-	signal w_fKey1				: std_logic;
-	signal w_fKey2				: std_logic;
+	signal w_fKey1				: std_logic;	--	F1 key switches between VDU and Serial port
+														--		Default is VDU
+	signal w_fKey2				: std_logic;	--	F2 key switches serial port baud rate between 300 and 115,200
+														--		Default is 115,200 baud
 	signal w_funKeys			: std_logic_vector(12 downto 0);
 
-	signal w_videoVec			: std_logic_vector(5 downto 0);
+--	signal w_videoVec			: std_logic_vector(5 downto 0);
 
 begin
 	-- ____________________________________________________________________________________
-	-- Card has 3 bits of RGB digital data
-	o_vid_red <= w_videoVec(5 downto 4);
-	o_vid_grn <= w_videoVec(3 downto 2);
-	o_vid_blu <= w_videoVec(1 downto 0);
-	
 	-- Chip Selects
 	w_n_ramCS1 		<= '0' when  w_cpuAddress(15) = '0' else 	'1';										-- x0000-x7FFF (32KB)
 	w_n_ramCS2 		<= '0' when  w_cpuAddress(15 downto 13) = "100" else '1';						-- x8000-x9FFF (8KB)
@@ -144,6 +140,7 @@ begin
 	sramAddress <= memMapReg(6 downto 0) & w_cpuAddress(12 downto 0);
 	
 	w_n_basRomCS 	<= '0' when  w_cpuAddress(15 downto 13) = "111" else '1'; 						-- xE000-xFFFF (8KB)
+	
 	w_n_VDUCS 		<= '0' when ((w_cpuAddress(15 downto 1) = x"FFD"&"000" and w_fKey1 = '0') 	-- XFFD0-FFD1 VDU
 							or		 (w_cpuAddress(15 downto 1) = x"FFD"&"001" and w_fKey1 = '1')) 
 							else '1';
@@ -158,9 +155,9 @@ begin
 	w_latch1CS	<= '0'  when w_cpuAddress = X"FFD5"										-- XFFD5 Data out latch
 						else '1';
 	
-	n_sdCardCS <= '0' when w_cpuAddress(15 downto 3) = x"FFD" else '1'; 			-- 8 bytes XFFD8-FFDF
+	n_sdCardCS	<= '0' when w_cpuAddress(15 downto 3) = x"FFD" else '1'; 			-- 8 bytes XFFD8-FFDF
 	
-	w_n_memWR 			<= not(w_cpuClk) nand (not w_n_WR);
+--	w_n_memWR 			<= (not w_cpuClk) nand (not w_n_WR);
 	
 	w_cpuDataIn <=
 		w_VDUDataOut	when w_n_VDUCS 	= '0'	else
@@ -204,7 +201,7 @@ begin
 		address	=> w_cpuAddress(14 downto 0),
 		clock		=> i_clk_50,
 		data		=> w_cpuDataOut,
-		wren		=> not(w_n_memWR or w_n_ramCS1 or w_cpuClk),
+		wren		=> not(w_n_WR or w_n_ramCS1 or w_cpuClk),
 		q			=> w_ramDataOut1
 	);
 
@@ -214,7 +211,7 @@ begin
 		address	=> w_cpuAddress(12 downto 0),
 		clock		=> i_clk_50,
 		data		=> w_cpuDataOut,
-		wren		=> not(w_n_memWR or w_n_ramCS2 or w_cpuClk),
+		wren		=> not(w_n_WR or w_n_ramCS2 or w_cpuClk),
 		q			=> w_ramDataOut2
 	);
 
@@ -246,12 +243,12 @@ begin
 		-- RGB video signals
 		hSync => o_vid_hSync,
 		vSync => o_vid_vSync,
-		videoR1 => w_videoVec(5),
-		videoR0 => w_videoVec(4),
-		videoG1 => w_videoVec(3),
-		videoG0 => w_videoVec(2),
-		videoB1 => w_videoVec(1),
-		videoB0 => w_videoVec(0),
+		videoR1 => o_vid_red(1),
+		videoR0 => o_vid_red(0),
+		videoG1 => o_vid_grn(1),
+		videoG0 => o_vid_grn(0),
+		videoB1 => o_vid_blu(1),
+		videoB0 => o_vid_blu(0),
 
 		n_WR => w_n_VDUCS or w_cpuClk or w_n_WR,
 		n_RD => w_n_VDUCS or w_cpuClk or (not w_n_WR),
@@ -331,22 +328,6 @@ begin
     end process;
 	 
 	 
---	process (i_clk_50)
---	begin
---		if rising_edge(i_clk_50) then
---			if sdClkCount < 49 then -- 1MHz
---				sdClkCount <= sdClkCount + 1;
---			else
---				sdClkCount <= (others=>'0');
---			end if;
---			if sdClkCount < 25 then
---				sdClock <= '0';
---			else
---				sdClock <= '1';
---			end if;
---		end if;
---    end process;
-
 	-- ____________________________________________________________________________________
 	-- Baud Rate Clock Signals
 	-- Serial clock DDS
