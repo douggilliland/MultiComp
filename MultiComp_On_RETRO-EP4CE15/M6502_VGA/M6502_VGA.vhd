@@ -41,14 +41,14 @@ use  IEEE.STD_LOGIC_UNSIGNED.all;
 
 entity M6502_VGA is
 	port(
-		i_n_reset	: in std_logic;
-		i_clk_50		: in std_logic;
+		i_n_reset		: in std_logic;
+		i_clk_50			: in std_logic;
 		
-		sramData 	: inout	std_logic_vector(7 downto 0);
-		sramAddress : out		std_logic_vector(19 downto 0);
-		n_sRamWE 	: out		std_logic := '0';
-		n_sRamCS 	: inout	std_logic := '0';
-		n_sRamOE 	: out		std_logic := '0';
+		io_sramData		: inout	std_logic_vector(7 downto 0);
+		o_sramAddress	: out		std_logic_vector(19 downto 0);
+		o_n_sRamWE		: out		std_logic := '0';
+		o_n_sRamCS		: inout	std_logic := '0';
+		o_n_sRamOE		: out		std_logic := '0';
 		
 		i_rxd			: in std_logic;
 		o_txd			: out std_logic;
@@ -134,10 +134,10 @@ begin
 	w_n_ramCS1 		<= '0' when  w_cpuAddress(15) = '0' else 	'1';										-- x0000-x7FFF (32KB)
 	w_n_ramCS2 		<= '0' when  w_cpuAddress(15 downto 13) = "100" else '1';						-- x8000-x9FFF (8KB)
 	
-	n_sRamCS			<= '0' when w_cpuAddress(15 downto 13) = "110" else '1';							-- xC000-xDFFF (8KB)
-	n_sRamWE <= not ((not w_cpuClk) and (not w_n_WR) and w_cpuAddress(15) and w_cpuAddress(14) and (not w_cpuAddress(13)));
-	n_sRamOE <= not (                        w_n_WR  and w_cpuAddress(15) and w_cpuAddress(14) and (not w_cpuAddress(13)));
-	sramAddress <= memMapReg(6 downto 0) & w_cpuAddress(12 downto 0);
+	o_n_sRamCS			<= '0' when w_cpuAddress(15 downto 13) = "110" else '1';							-- xC000-xDFFF (8KB)
+	o_n_sRamWE <= not ((not w_cpuClk) and (not w_n_WR) and w_cpuAddress(15) and w_cpuAddress(14) and (not w_cpuAddress(13)));
+	o_n_sRamOE <= not (                        w_n_WR  and w_cpuAddress(15) and w_cpuAddress(14) and (not w_cpuAddress(13)));
+	o_sramAddress <= memMapReg(6 downto 0) & w_cpuAddress(12 downto 0);
 	
 	w_n_basRomCS 	<= '0' when  w_cpuAddress(15 downto 13) = "111" else '1'; 						-- xE000-xFFFF (8KB)
 	
@@ -164,13 +164,13 @@ begin
 		w_aciaDataOut	when w_n_aciaCS 	= '0'	else
 		w_ramDataOut1 	when w_n_ramCS1 	= '0'	else
 		w_ramDataOut2 	when w_n_ramCS2 	= '0'	else
-		sramData		 	when n_sRamCS	 	= '0'	else
+		io_sramData		 	when o_n_sRamCS	 	= '0'	else
 		memMapReg		when w_memMapCS 	= '0'	else
 		sdCardDataOut	when n_sdCardCS	= '0' else
 		w_basRomData	when w_n_basRomCS	= '0' else		-- HAS TO BE AFTER ANY I/O READS
 		x"FF";
 		
-	sramData <= w_cpuDataOut when w_n_WR='0' else (others => 'Z');
+	io_sramData <= w_cpuDataOut when w_n_WR='0' else (others => 'Z');
 	
 	CPU : entity work.T65
 	port map(

@@ -59,15 +59,19 @@ set_global_assignment -name OUTPUT_IO_TIMING_NEAR_END_VMEAS "HALF VCCIO" -fall
 set_global_assignment -name OUTPUT_IO_TIMING_FAR_END_VMEAS "HALF SIGNAL SWING" -rise
 set_global_assignment -name OUTPUT_IO_TIMING_FAR_END_VMEAS "HALF SIGNAL SWING" -fall
 set_global_assignment -name CYCLONEII_RESERVE_NCEO_AFTER_CONFIGURATION "USE AS REGULAR IO"
-# Clock, reset switch (K5)
+# Clock, reset switch
 set_location_assignment PIN_T2 -to i_clk_50
 set_location_assignment PIN_W13 -to i_n_reset
+set_instance_assignment -name WEAK_PULL_UP_RESISTOR ON -to i_n_reset
 # PS/2 keyboard
 set_location_assignment PIN_R1 -to io_ps2Clk
+set_instance_assignment -name WEAK_PULL_UP_RESISTOR ON -to io_ps2Clk
 set_location_assignment PIN_R2 -to io_ps2Data
-# Serial port with RTS/CTS rework
+set_instance_assignment -name WEAK_PULL_UP_RESISTOR ON -to io_ps2Data
+# Serial port with RTS/CTS
 set_location_assignment PIN_A13 -to i_n_cts
 set_location_assignment PIN_B13 -to i_rxd
+set_instance_assignment -name WEAK_PULL_UP_RESISTOR ON -to i_rxd
 set_location_assignment PIN_A10 -to o_n_rts
 set_location_assignment PIN_B10 -to o_txd
 # Video
@@ -80,38 +84,39 @@ set_location_assignment PIN_A18 -to o_vid_vSync
 set_location_assignment PIN_A15 -to o_vid_red[1]
 set_location_assignment PIN_B15 -to o_vid_red[0]
 # SRAM
-set_location_assignment PIN_F1 -to n_sRamCS
-set_location_assignment PIN_B4 -to n_sRamWE
-set_location_assignment PIN_J2 -to n_sRamOE
-set_location_assignment PIN_E1 -to sramData[0]
-set_location_assignment PIN_C1 -to sramData[1]
-set_location_assignment PIN_B1 -to sramData[2]
-set_location_assignment PIN_B3 -to sramData[3]
-set_location_assignment PIN_B2 -to sramData[4]
-set_location_assignment PIN_C2 -to sramData[5]
-set_location_assignment PIN_D2 -to sramData[6]
-set_location_assignment PIN_F2 -to sramData[7]
-set_location_assignment PIN_H1 -to sramAddress[0]
-set_location_assignment PIN_J1 -to sramAddress[1]
-set_location_assignment PIN_M1 -to sramAddress[2]
-set_location_assignment PIN_N1 -to sramAddress[3]
-set_location_assignment PIN_P1 -to sramAddress[4]
-set_location_assignment PIN_P2 -to sramAddress[5]
-set_location_assignment PIN_N2 -to sramAddress[6]
-set_location_assignment PIN_M2 -to sramAddress[7]
-set_location_assignment PIN_H2 -to sramAddress[8]
-set_location_assignment PIN_A3 -to sramAddress[9]
-set_location_assignment PIN_A4 -to sramAddress[10]
-set_location_assignment PIN_C3 -to sramAddress[11]
-set_location_assignment PIN_A5 -to sramAddress[12]
-set_location_assignment PIN_A6 -to sramAddress[13]
-set_location_assignment PIN_A7 -to sramAddress[14]
-set_location_assignment PIN_A8 -to sramAddress[15]
-set_location_assignment PIN_B7 -to sramAddress[16]
-set_location_assignment PIN_B6 -to sramAddress[17]
-set_location_assignment PIN_B5 -to sramAddress[18]
-set_location_assignment PIN_C4 -to sramAddress[19]
+set_location_assignment PIN_F1 -to o_n_sRamCS
+set_location_assignment O_N_SRAMWE -to n_sRamWE
+set_location_assignment PIN_J2 -to o_n_sRamOE
+set_location_assignment PIN_E1 -to io_sramData[0]
+set_location_assignment PIN_C1 -to io_sramData[1]
+set_location_assignment PIN_B1 -to io_sramData[2]
+set_location_assignment PIN_B3 -to io_sramData[3]
+set_location_assignment PIN_B2 -to io_sramData[4]
+set_location_assignment PIN_C2 -to io_sramData[5]
+set_location_assignment PIN_D2 -to io_sramData[6]
+set_location_assignment PIN_F2 -to io_sramData[7]
+set_location_assignment PIN_H1 -to o_sramAddress[0]
+set_location_assignment PIN_J1 -to o_sramAddress[1]
+set_location_assignment PIN_M1 -to o_sramAddress[2]
+set_location_assignment PIN_N1 -to o_sramAddress[3]
+set_location_assignment PIN_P1 -to o_sramAddress[4]
+set_location_assignment PIN_P2 -to o_sramAddress[5]
+set_location_assignment PIN_N2 -to o_sramAddress[6]
+set_location_assignment PIN_M2 -to o_sramAddress[7]
+set_location_assignment PIN_H2 -to o_sramAddress[8]
+set_location_assignment PIN_A3 -to o_sramAddress[9]
+set_location_assignment PIN_A4 -to o_sramAddress[10]
+set_location_assignment PIN_C3 -to o_sramAddress[11]
+set_location_assignment PIN_A5 -to o_sramAddress[12]
+set_location_assignment PIN_A6 -to o_sramAddress[13]
+set_location_assignment PIN_A7 -to o_sramAddress[14]
+set_location_assignment PIN_A8 -to o_sramAddress[15]
+set_location_assignment PIN_B7 -to o_sramAddress[16]
+set_location_assignment PIN_B6 -to o_sramAddress[17]
+set_location_assignment PIN_B5 -to o_sramAddress[18]
+set_location_assignment PIN_C4 -to o_sramAddress[19]
 # SD Card
+set_location_assignment PIN_B20 -to sdClock
 set_location_assignment PIN_B19 -to sdCS
 set_location_assignment PIN_A19 -to sdMOSI
 set_location_assignment PIN_A20 -to sdMISO
@@ -183,6 +188,7 @@ set_location_assignment PIN_R22 -to IO_PIN[26]
 set_location_assignment PIN_P21 -to IO_PIN[27]
 set_location_assignment PIN_P22 -to IO_PIN[28]
 set_location_assignment PIN_N21 -to IO_PIN[29]
+set_location_assignment PIN_N22 -to IO_PIN[30]
 set_location_assignment PIN_M21 -to IO_PIN[31]
 set_location_assignment PIN_M22 -to IO_PIN[32]
 set_location_assignment PIN_L21 -to IO_PIN[33]
@@ -214,6 +220,7 @@ set_global_assignment -name ENABLE_BOOT_SEL_PIN OFF
 set_global_assignment -name TIMING_ANALYZER_MULTICORNER_ANALYSIS ON
 set_global_assignment -name SMART_RECOMPILE ON
 set_global_assignment -name NUM_PARALLEL_PROCESSORS ALL
+set_global_assignment -name VHDL_FILE M6502_VGA.vhd
 set_global_assignment -name VHDL_FILE "../../MultiComp (VHDL Template)/Components/SDCARD/sd_controller_NealC.vhd"
 set_global_assignment -name VHDL_FILE "../../MultiComp (VHDL Template)/Components/RAM_Internal/InternalRam4K.vhd"
 set_global_assignment -name VHDL_FILE "../../MultiComp (VHDL Template)/Components/RAM_Internal/InternalRam8K.vhd"
@@ -234,7 +241,5 @@ set_global_assignment -name VHDL_FILE "../../MultiComp (VHDL Template)/Component
 set_global_assignment -name VHDL_FILE "../../MultiComp (VHDL Template)/Components/TERMINAL/SBCTextDisplayRGB.vhd"
 set_global_assignment -name VHDL_FILE "../../MultiComp (VHDL Template)/Components/ROMs/6502/M6502_BASIC_ROM.vhd"
 set_global_assignment -name VHDL_FILE "../../MultiComp (VHDL Template)/Components/UART/bufferedUART.vhd"
-set_global_assignment -name VHDL_FILE M6502_VGA.vhd
-set_location_assignment PIN_N22 -to IO_PIN[30]
-set_location_assignment PIN_B20 -to sdClock
+set_location_assignment PIN_B4 -to o_n_sRamWE
 set_instance_assignment -name PARTITION_HIERARCHY root_partition -to | -section_id Top
