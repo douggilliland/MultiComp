@@ -1,11 +1,5 @@
 |M6502_VGA
-i_n_reset => t65:CPU.Res_n
-i_n_reset => sbctextdisplayrgb:VDU.n_reset
-i_n_reset => toggle_on_fn_key:FNKey1Toggle.n_res
-i_n_reset => toggle_on_fn_key:FNKey2Toggle.n_res
-i_n_reset => sd_controller:sd1.n_reset
-i_n_reset => outlatch:memMapper.clear
-i_n_reset => outlatch:latch1.clear
+i_n_reset => debouncer:debounceReset.i_PinIn
 i_clk_50 => m6502_basic_rom:ROM.clock
 i_clk_50 => w_w_serClkEn.CLK
 i_clk_50 => w_serialClkCount[1].CLK
@@ -172,6 +166,38 @@ sdRamData[14] => ~NO_FANOUT~
 sdRamData[15] => ~NO_FANOUT~
 io_ps2Clk <> sbctextdisplayrgb:VDU.ps2Clk
 io_ps2Data <> sbctextdisplayrgb:VDU.ps2Data
+
+
+|M6502_VGA|Debouncer:debounceReset
+i_CLOCK_50 => o_PinOut~reg0.CLK
+i_CLOCK_50 => dly4.CLK
+i_CLOCK_50 => dly3.CLK
+i_CLOCK_50 => dly2.CLK
+i_CLOCK_50 => dly1.CLK
+i_CLOCK_50 => pulse200ms.CLK
+i_CLOCK_50 => dig_counter[0].CLK
+i_CLOCK_50 => dig_counter[1].CLK
+i_CLOCK_50 => dig_counter[2].CLK
+i_CLOCK_50 => dig_counter[3].CLK
+i_CLOCK_50 => dig_counter[4].CLK
+i_CLOCK_50 => dig_counter[5].CLK
+i_CLOCK_50 => dig_counter[6].CLK
+i_CLOCK_50 => dig_counter[7].CLK
+i_CLOCK_50 => dig_counter[8].CLK
+i_CLOCK_50 => dig_counter[9].CLK
+i_CLOCK_50 => dig_counter[10].CLK
+i_CLOCK_50 => dig_counter[11].CLK
+i_CLOCK_50 => dig_counter[12].CLK
+i_CLOCK_50 => dig_counter[13].CLK
+i_CLOCK_50 => dig_counter[14].CLK
+i_CLOCK_50 => dig_counter[15].CLK
+i_CLOCK_50 => dig_counter[16].CLK
+i_CLOCK_50 => dig_counter[17].CLK
+i_CLOCK_50 => dig_counter[18].CLK
+i_CLOCK_50 => dig_counter[19].CLK
+i_PinIn => dly2.IN1
+i_PinIn => dly1.DATAIN
+o_PinOut <= o_PinOut~reg0.DB_MAX_OUTPUT_PORT_TYPE
 
 
 |M6502_VGA|T65:CPU

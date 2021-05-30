@@ -1,4 +1,5 @@
 -- Debouncer
+-- Avtive low input produces a single clock wide low pulse
 
 library ieee;
 use ieee.std_logic_1164.all;
@@ -16,24 +17,44 @@ end Debouncer;
 
 architecture struct of Debouncer is
 	
-signal	q_debounce					: std_logic_vector(5 downto 0) := "000000";
+	signal dig_counter	: std_logic_vector (19 downto 0) := (others => '0');
+	signal pulse200ms		: std_logic;
+	
+	signal dly1		: std_logic;
+	signal dly2		: std_logic;
+	signal dly3		: std_logic;
+	signal dly4		: std_logic;
 
 begin
 
-	process (i_PinIn, i_CLOCK_50, q_debounce)
-	begin
-		if(rising_edge(i_CLOCK_50)) then
-			q_debounce(0) <= i_PinIn;
-			q_debounce(1) <= q_debounce(0);
-			q_debounce(2) <= q_debounce(1);
-			q_debounce(3) <= q_debounce(2);
-			q_debounce(4) <= q_debounce(3);
-			q_debounce(5) <= q_debounce(4);
-			if    ((q_debounce(0) = '1') and (q_debounce(1) = '1') and (q_debounce(2) = '1') and (q_debounce(3) = '1') and (q_debounce(4) = '1') and (q_debounce(5) = '1')) then
-				o_PinOut <= '1';
-			elsif ((q_debounce(0) = '0') and (q_debounce(1) = '0') and (q_debounce(2) = '0') and (q_debounce(3) = '0') and (q_debounce(4) = '0') and (q_debounce(5) = '0')) then
-				o_PinOut <= '0';
+	----------------------------------------------------------------------------
+	-- 200 mS counter
+	-- 2^18 = 256,000, 50M/250K = 200 mS ticks
+	-- Used for prescaling pushbuttons
+	-- pulse200ms = single 20 nS clock pulse every 200 mSecs
+	----------------------------------------------------------------------------
+	process (i_CLOCK_50) begin
+		if rising_edge(i_CLOCK_50) then
+			dig_counter <= dig_counter+1;
+			if dig_counter(17 downto 0) = 0 then
+				pulse200ms <= '1';
+			else
+				pulse200ms <= '0';
 			end if;
 		end if;
 	end process;
+
+	process(i_CLOCK_50, pulse200ms)
+	begin
+		if(rising_edge(i_CLOCK_50)) then
+			if pulse200ms = '1' then
+				dly1 <= not i_PinIn;
+				dly2 <= dly1 and (not i_PinIn);
+			end if;
+			dly3 <= dly2;
+			dly4 <= dly3;
+			o_PinOut <= not( dly4 and (not dly3));
+		end if;
+	end process;
+
 end;

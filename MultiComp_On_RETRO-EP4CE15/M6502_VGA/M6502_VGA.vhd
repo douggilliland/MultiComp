@@ -22,6 +22,7 @@
 --			Default is VDU
 --		F2 key switches serial port baud rate between 300 and 115,200
 --			Default is 115,200 baud
+--	SD Card
 -- Memory Map
 --		x0000-x9FFF - 40KB SRAM
 --		xC000-xDFFF - External SRAM 8KB window
@@ -86,6 +87,7 @@ end M6502_VGA;
 
 architecture struct of M6502_VGA is
 
+	signal w_reset_n			: std_logic;
 	signal w_n_WR				: std_logic;
 	signal w_n_RD				: std_logic;
 	signal w_cpuAddress		: std_logic_vector(15 downto 0);
@@ -129,6 +131,13 @@ architecture struct of M6502_VGA is
 --	signal w_videoVec			: std_logic_vector(5 downto 0);
 
 begin
+	debounceReset : entity work.Debouncer
+	port map (
+		i_CLOCK_50 	=> w_cpuClk,
+		i_PinIn		=> i_n_reset,
+		o_PinOut		=> w_reset_n
+	);
+	
 	-- ____________________________________________________________________________________
 	-- Chip Selects
 	w_n_ramCS1 		<= '0' when  w_cpuAddress(15) = '0' else 	'1';										-- x0000-x7FFF (32KB)
@@ -176,7 +185,7 @@ begin
 	port map(
 		Enable			=> '1',
 		Mode				=> "00",
-		Res_n				=> i_n_reset,
+		Res_n				=> w_reset_n,
 		clk				=> w_cpuClk,
 		Rdy				=> '1',
 		Abort_n			=> '1',
@@ -237,7 +246,7 @@ begin
 		EXTENDED_CHARSET => 1
 	)
 		port map (
-		n_reset	=> i_n_reset,
+		n_reset	=> w_reset_n,
 		clk 		=> i_clk_50,
 
 		-- RGB video signals
@@ -265,7 +274,7 @@ begin
 		port map (		
 			FNKey => w_funKeys(1),
 			clock => i_clk_50,
-			n_res => i_n_reset,
+			n_res => w_reset_n,
 			latchFNKey => w_fKey1
 		);	
 
@@ -273,7 +282,7 @@ begin
 		port map (		
 			FNKey => w_funKeys(2),
 			clock => i_clk_50,
-			n_res => i_n_reset,
+			n_res => w_reset_n,
 			latchFNKey => w_fKey2
 		);
 	
@@ -284,7 +293,7 @@ begin
 		sdMISO => sdMISO,
 		n_wr => n_sdCardCS or w_cpuClk or w_n_WR,
 		n_rd => n_sdCardCS or w_cpuClk or (not w_n_WR),
-		n_reset => i_n_reset,
+		n_reset => w_reset_n,
 		dataIn => w_cpuDataOut,
 		dataOut => sdCardDataOut,
 		regAddr => w_cpuAddress(2 downto 0),
@@ -297,7 +306,7 @@ begin
 		dataIn	=> w_cpuDataOut,
 		clock		=> i_clk_50,
 		load		=> w_memMapCS or w_n_WR or w_cpuClk,
-		clear		=> i_n_reset,
+		clear		=> w_reset_n,
 		latchOut	=> memMapReg
 		);
 		
@@ -306,7 +315,7 @@ begin
 		dataIn	=> w_cpuDataOut,
 		clock		=> i_clk_50,
 		load		=> w_latch1CS or w_n_WR or w_cpuClk,
-		clear		=> i_n_reset,
+		clear		=> w_reset_n,
 		latchOut	=> IO_PIN(10 downto 3)
 		);
 		

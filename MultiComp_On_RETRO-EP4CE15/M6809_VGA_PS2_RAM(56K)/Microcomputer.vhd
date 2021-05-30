@@ -3,14 +3,15 @@
 -- Grant Searle's "multicomp" page at http://searle.hostei.com/grant/Multicomp/index.html
 --
 -- Changes to this code by Doug Gilliland 2020
+-- 6809 CPU
 --	56K (external) RAM version
+-- Serial interface or VGA VDU
+--		Jumper in pin B22 to ground (adjacent pin) of the FPGA selects the VDU/Serial port
+--		Install to make serial port default
+--		Remove jumper to make the VDU default
+--		115,200 baud serial port
+--		Hardware handshake RTS/CTS
 --
--- Jumper in pin B22 to ground (adjacent pin) of the FPGA selects the VDU/Serial port
--- Install to make serial port default
--- Remove jumper to make the VDU default
---
--- 115,200 baud serial port
--- Hardware handshake RTS/CTS
 --
 
 library ieee;
@@ -23,18 +24,21 @@ entity Microcomputer is
 		n_reset		: in std_logic;
 		i_CLOCK_50	: in std_logic;
 
+		-- 56KB external SRAM
 		sramData		: inout std_logic_vector(7 downto 0);
 		sramAddress	: out std_logic_vector(19 downto 0);
 		n_sRamWE		: out std_logic;
 		n_sRamCS		: out std_logic;
 		n_sRamOE		: out std_logic;
 		
+		-- Serial port (USB-Serial interface)
 		rxd1			: in std_logic := '1';
 		txd1			: out std_logic;
 		cts1			: in std_logic := '1';
 		rts1			: out std_logic;
-		serSelect	: in std_logic := '1';
+		serSelect	: in std_logic;			--		Install to make serial port default
 		
+		-- Video Display Unit (VGA)
 		videoR0		: out std_logic := '1';
 		videoG0		: out std_logic := '1';
 		videoB0		: out std_logic := '1';
@@ -44,10 +48,11 @@ entity Microcomputer is
 		hSync			: out std_logic := '1';
 		vSync			: out std_logic := '1';
 
+		-- PS/2 keyboard
 		ps2Clk		: inout std_logic;
 		ps2Data		: inout std_logic;
 		
-		-- Not using the SD RAM but making sure that it's not active
+		-- Not using the SD RAM on the QMTECH FPGA card but making sure that it's not active
 		n_sdRamCas	: out std_logic := '1';		-- CAS on schematic
 		n_sdRamRas	: out std_logic := '1';		-- RAS
 		n_sdRamWe	: out std_logic := '1';		-- SDWE
@@ -95,7 +100,7 @@ begin
 	-- Debounce the reset line
 	DebounceResetSwitch	: entity work.Debouncer
 	port map (
-		i_CLOCK_50	=> i_CLOCK_50,
+		i_CLOCK_50	=> cpuClock,
 		i_PinIn		=> n_reset,
 		o_PinOut		=> resetLow
 	);
@@ -144,8 +149,14 @@ begin
 		port map (
 			n_reset => resetLow,
 			clk => i_CLOCK_50,
-			
-			-- RGB CompVideo signals
+			-- CPU I/F
+			n_wr => n_interface1CS or cpuClock or n_WR,
+			n_rd => n_interface1CS or cpuClock or (not n_WR),
+			n_int => n_int1,
+			regSel => cpuAddress(0),
+			dataIn => cpuDataOut,
+			dataOut => interface1DataOut,
+			-- VGA signals
 			hSync => hSync,
 			vSync => vSync,
 			videoR0 => videoR0,
@@ -154,12 +165,7 @@ begin
 			videoG1 => videoG1,
 			videoB0 => videoB0,
 			videoB1 => videoB1,
-			n_wr => n_interface1CS or cpuClock or n_WR,
-			n_rd => n_interface1CS or cpuClock or (not n_WR),
-			n_int => n_int1,
-			regSel => cpuAddress(0),
-			dataIn => cpuDataOut,
-			dataOut => interface1DataOut,
+			-- PS/2 keyboard
 			ps2clk => ps2Clk,
 			ps2Data => ps2Data
 		);
