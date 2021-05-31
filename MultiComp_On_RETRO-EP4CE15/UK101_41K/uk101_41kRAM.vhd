@@ -14,7 +14,7 @@
 --			Each register Selects a 4KB window from SRAM
 --		4KB window at xc000-xcFFF (128 banks = 512KB)
 --		4KB window at xE000-xEFFF (54 banks = 256KB)
---	USB-Serial
+--	USB-Serial 
 --		FT230XS FTDI
 --		Hardware Handshake
 --	I/O connections
