@@ -22,6 +22,9 @@ entity M6800_MIKBUG is
 	port(
 		i_n_reset			: in std_logic := '1';
 		i_CLOCK_50			: in std_logic;
+		
+		O_TEST1				: out std_logic;
+		o_LEDs				: out std_logic_vector(11 downto 0) := x"000";
 
 		o_videoR0			: out std_logic := '1';
 		o_videoR1			: out std_logic := '1';
@@ -42,9 +45,8 @@ entity M6800_MIKBUG is
 		serSelect			: in	std_logic := '1';
 		
 		-- SRAM not used but making sure that it's not active
---		io_extSRamData		: inout std_logic_vector(7 downto 0) := "ZZZZZZZZ";
 		io_extSRamData		: inout std_logic_vector(7 downto 0) := (others=>'Z');
-		io_extSRamAddress	: out std_logic_vector(19 downto 0);
+		io_extSRamAddress	: out std_logic_vector(19 downto 0) := x"00000";
 		io_n_extSRamWE		: out std_logic := '1';
 		io_n_extSRamCS		: out std_logic := '1';
 		io_n_extSRamOE		: out std_logic := '1';
@@ -93,26 +95,33 @@ begin
 	-- Debounce the reset line
 	DebounceResetSwitch	: entity work.Debouncer
 	port map (
-		i_CLOCK_50	=> i_CLOCK_50,
-		i_PinIn		=> i_n_reset,
-		o_PinOut		=> w_resetLow
+		i_clk		=> w_cpuClock,
+		i_PinIn	=> i_n_reset,
+		o_PinOut	=> w_resetLow
 	);
+
+--	w_resetLow <= i_n_reset;
+--	
+	O_TEST1 <= w_resetLow;
+	
+	o_LEDs(11 downto 4) <= w_cpuDataIn;
+	o_LEDs(3 downto 0) <= w_cpuAddress(15 downto 12);
 		
 	-- ____________________________________________________________________________________
 	-- I/O CHIP SELECTS
 	n_if1CS	<= '0' 	when (serSelect = '1' and (w_cpuAddress(15 downto 1) = x"801"&"100")) else	-- VDU  $8018-$8019
 					'0'	when (serSelect = '0' and (w_cpuAddress(15 downto 1) = x"802"&"100")) else	-- ACIA $8028-$8029
-							'1';
+					'1';
 	n_if2CS	<= '0' 	when (serSelect = '1' and (w_cpuAddress(15 downto 1) = x"802"&"100")) else	-- ACIA $8028-$8029
 					'0'	when (serSelect = '0' and (w_cpuAddress(15 downto 1) = x"801"&"100")) else	-- VDU  $8018-$8019
-							'1';
+					'1';
 	
 	-- ____________________________________________________________________________________
 	-- CPU Read Data multiplexer
 	w_cpuDataIn <=
 		w_ramData		when w_cpuAddress(15) = '0'				else
-		w_if1DataOut	when (n_if1CS = '0')							else
-		w_if2DataOut	when (n_if2CS = '0')							else
+		w_if1DataOut	when n_if1CS = '0'							else
+		w_if2DataOut	when n_if2CS = '0'							else
 		w_romData		when w_cpuAddress(15 downto 14) = "11"	else
 		x"FF";
 	
@@ -136,7 +145,7 @@ begin
 	-- ____________________________________________________________________________________
 	-- MIKBUG ROM
 	-- 4KB MIKBUG ROM - repeats in memory 4 times
-	rom1 : entity work.MIKBUG 		
+	rom1 : entity work.MIKBUG
 		port map (
 			address	=> w_cpuAddress(11 downto 0),
 			clock 	=> i_CLOCK_50,
@@ -161,7 +170,13 @@ begin
 		port map (
 			n_reset	=> w_resetLow,
 			clk		=> i_CLOCK_50,
-			-- RGB Compo_video signals
+			n_WR		=> n_if1CS or      w_R1W0  or (not w_vma) or (not w_cpuClock),
+			n_rd		=> n_if1CS or (not w_R1W0) or (not w_vma),
+			n_int		=> n_int1,
+			regSel	=> w_cpuAddress(0),
+			dataIn	=> w_cpuDataOut,
+			dataOut	=> w_if1DataOut,
+			-- VGA video signals
 			hSync		=> o_hSync,
 			vSync		=> o_vSync,
 			videoR0	=> o_videoR0,
@@ -170,12 +185,7 @@ begin
 			videoG1	=> o_videoG1,
 			videoB0	=> o_videoB0,
 			videoB1	=> o_videoB1,
-			n_WR		=> n_if1CS or      w_R1W0  or (not w_vma) or (not w_cpuClock),
-			n_rd		=> n_if1CS or (not w_R1W0) or (not w_vma),
-			n_int		=> n_int1,
-			regSel	=> w_cpuAddress(0),
-			dataIn	=> w_cpuDataOut,
-			dataOut	=> w_if1DataOut,
+			-- PS/2 keyboard
 			ps2Clk	=> io_ps2Clk,
 			ps2Data	=> io_ps2Data
 		);
@@ -205,12 +215,12 @@ begin
 process (i_CLOCK_50)
 	begin
 		if rising_edge(i_CLOCK_50) then
-			if q_cpuClkCount < 2 then
+			if q_cpuClkCount < 4 then
 				q_cpuClkCount <= q_cpuClkCount + 1;
 			else
 				q_cpuClkCount <= (others=>'0');
 			end if;
-			if q_cpuClkCount < 1 then
+			if q_cpuClkCount < 2 then
 				w_cpuClock <= '0';
 			else
 				w_cpuClock <= '1';

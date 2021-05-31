@@ -1,5 +1,5 @@
 -- Debouncer
--- Avtive low input produces a single clock wide low pulse
+-- Active low input produces a single clock wide low pulse
 
 library ieee;
 use ieee.std_logic_1164.all;
@@ -8,9 +8,9 @@ use  IEEE.STD_LOGIC_UNSIGNED.all;
 
 entity Debouncer is
 	port(
-		i_CLOCK_50					: in std_logic := '1';
-		i_PinIn						: in std_logic := '1';
-		o_PinOut						: out std_logic := '1'
+		i_clk				: in std_logic := '1';
+		i_PinIn			: in std_logic := '1';
+		o_PinOut			: out std_logic := '1'
 	);
 
 end Debouncer;
@@ -33,8 +33,8 @@ begin
 	-- Used for prescaling pushbuttons
 	-- pulse200ms = single 20 nS clock pulse every 200 mSecs
 	----------------------------------------------------------------------------
-	process (i_CLOCK_50) begin
-		if rising_edge(i_CLOCK_50) then
+	process (i_clk) begin
+		if rising_edge(i_clk) then
 			dig_counter <= dig_counter+1;
 			if dig_counter(17 downto 0) = 0 then
 				pulse200ms <= '1';
@@ -44,16 +44,42 @@ begin
 		end if;
 	end process;
 
-	process(i_CLOCK_50, pulse200ms)
+	process(i_clk, pulse200ms)
 	begin
-		if(rising_edge(i_CLOCK_50)) then
+		if(rising_edge(i_clk)) then
 			if pulse200ms = '1' then
 				dly1 <= not i_PinIn;
-				dly2 <= dly1 and (not i_PinIn);
 			end if;
-			dly3 <= dly2;
+		end if;
+	end process;
+	
+	process(i_clk, pulse200ms)
+	begin
+		if(rising_edge(i_clk)) then
+			if pulse200ms = '1' then
+				dly2 <= dly1;
+			end if;
+		end if;
+	end process;
+
+	process(i_clk)
+	begin
+		if(rising_edge(i_clk)) then
+		dly3 <= dly2;
+		end if;
+	end process;
+
+	process(i_clk)
+	begin
+		if(rising_edge(i_clk)) then
 			dly4 <= dly3;
-			o_PinOut <= not( dly4 and (not dly3));
+		end if;
+	end process;
+
+	process(i_clk)
+	begin
+		if(rising_edge(i_clk)) then
+			o_PinOut <= not(dly4 and (not dly3));
 		end if;
 	end process;
 

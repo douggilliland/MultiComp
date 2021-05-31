@@ -107,7 +107,7 @@ ACIADA	EQU	$FC19
 ;
 ;	OPT	MEMORY
 ;
-; DGG - RAM at $F000-$FFFF with I/O space hole at $FC00-$FCFF
+; DGG - ROM at $F000-$FFFF with I/O space hole at $FC00-$FCFF
 	ORG	$F000
 ;
 ;	ENTER POWER ON SEQUENCE
