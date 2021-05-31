@@ -1,6 +1,6 @@
 Analysis & Synthesis report for MicrocomputerPCB
-Sun Nov 24 06:42:57 2019
-Quartus Prime Version 18.1.0 Build 625 09/12/2018 SJ Lite Edition
+Mon May 31 11:32:56 2021
+Quartus Prime Version 20.1.0 Build 711 06/05/2020 SJ Lite Edition
 
 
 ---------------------
@@ -30,8 +30,8 @@ Quartus Prime Version 18.1.0 Build 625 09/12/2018 SJ Lite Edition
  22. Multiplexer Restructuring Statistics (Restructuring Performed)
  23. Source assignments for M6809_CAMELFORTH_ROM:rom1|altsyncram:altsyncram_component|altsyncram_urr3:auto_generated
  24. Source assignments for SBCTextDisplayRGB:io1|SansBoldRomReduced:\GEN_REDUCED_SCHARS:fontRom|altsyncram:altsyncram_component|altsyncram_2d91:auto_generated
- 25. Source assignments for SBCTextDisplayRGB:io1|DisplayRam2K:\GEN_2KRAM:dispCharRam|altsyncram:altsyncram_component|altsyncram_ldr3:auto_generated
- 26. Source assignments for SBCTextDisplayRGB:io1|DisplayRam2K:\GEN_2KATTRAM:dispAttRam|altsyncram:altsyncram_component|altsyncram_ldr3:auto_generated
+ 25. Source assignments for SBCTextDisplayRGB:io1|DisplayRam2K:\GEN_2KRAM:dispCharRam|altsyncram:altsyncram_component|altsyncram_shh2:auto_generated
+ 26. Source assignments for SBCTextDisplayRGB:io1|DisplayRam2K:\GEN_2KATTRAM:dispAttRam|altsyncram:altsyncram_component|altsyncram_shh2:auto_generated
  27. Source assignments for bufferedUART:io2|altsyncram:rxBuffer_rtl_0|altsyncram_3ce1:auto_generated
  28. Parameter Settings for User Entity Instance: M6809_CAMELFORTH_ROM:rom1|altsyncram:altsyncram_component
  29. Parameter Settings for User Entity Instance: SBCTextDisplayRGB:io1
@@ -43,23 +43,24 @@ Quartus Prime Version 18.1.0 Build 625 09/12/2018 SJ Lite Edition
  35. Parameter Settings for Inferred Entity Instance: SBCTextDisplayRGB:io1|lpm_divide:Mod0
  36. Parameter Settings for Inferred Entity Instance: SBCTextDisplayRGB:io1|lpm_divide:Mod1
  37. altsyncram Parameter Settings by Entity Instance
- 38. Port Connectivity Checks: "bufferedUART:io2"
- 39. Port Connectivity Checks: "SBCTextDisplayRGB:io1|DisplayRam2K:\GEN_2KATTRAM:dispAttRam"
- 40. Port Connectivity Checks: "SBCTextDisplayRGB:io1|DisplayRam2K:\GEN_2KRAM:dispCharRam"
- 41. Port Connectivity Checks: "SBCTextDisplayRGB:io1"
- 42. Port Connectivity Checks: "cpu09p:cpu1"
- 43. Post-Synthesis Netlist Statistics for Top Partition
- 44. Elapsed Time Per Partition
- 45. Analysis & Synthesis Messages
+ 38. Port Connectivity Checks: "mem_mapper2:mm1"
+ 39. Port Connectivity Checks: "bufferedUART:io2"
+ 40. Port Connectivity Checks: "SBCTextDisplayRGB:io1|DisplayRam2K:\GEN_2KATTRAM:dispAttRam"
+ 41. Port Connectivity Checks: "SBCTextDisplayRGB:io1|DisplayRam2K:\GEN_2KRAM:dispCharRam"
+ 42. Port Connectivity Checks: "SBCTextDisplayRGB:io1"
+ 43. Port Connectivity Checks: "cpu09p:cpu1"
+ 44. Post-Synthesis Netlist Statistics for Top Partition
+ 45. Elapsed Time Per Partition
+ 46. Analysis & Synthesis Messages
 
 
 
 ----------------
 ; Legal Notice ;
 ----------------
-Copyright (C) 2018  Intel Corporation. All rights reserved.
+Copyright (C) 2020  Intel Corporation. All rights reserved.
 Your use of Intel Corporation's design tools, logic functions 
-and other software and tools, and its AMPP partner logic 
+and other software and tools, and any partner logic 
 functions, and any output files from any of the foregoing 
 (including device programming or simulation files), and any 
 associated documentation or information are expressly subject 
@@ -69,22 +70,23 @@ the Intel FPGA IP License Agreement, or other applicable license
 agreement, including, without limitation, that your use is for
 the sole purpose of programming logic devices manufactured by
 Intel and sold by Intel or its authorized distributors.  Please
-refer to the applicable agreement for further details.
+refer to the applicable agreement for further details, at
+https://fpgasoftware.intel.com/eula.
 
 
 
 +----------------------------------------------------------------------------------+
 ; Analysis & Synthesis Summary                                                     ;
 +------------------------------------+---------------------------------------------+
-; Analysis & Synthesis Status        ; Successful - Sun Nov 24 06:42:57 2019       ;
-; Quartus Prime Version              ; 18.1.0 Build 625 09/12/2018 SJ Lite Edition ;
+; Analysis & Synthesis Status        ; Successful - Mon May 31 11:32:56 2021       ;
+; Quartus Prime Version              ; 20.1.0 Build 711 06/05/2020 SJ Lite Edition ;
 ; Revision Name                      ; MicrocomputerPCB                            ;
 ; Top-level Entity Name              ; Microcomputer                               ;
 ; Family                             ; Cyclone IV E                                ;
-; Total logic elements               ; 4,314                                       ;
-;     Total combinational functions  ; 4,018                                       ;
-;     Dedicated logic registers      ; 1,246                                       ;
-; Total registers                    ; 1246                                        ;
+; Total logic elements               ; 4,291                                       ;
+;     Total combinational functions  ; 4,011                                       ;
+;     Dedicated logic registers      ; 1,230                                       ;
+; Total registers                    ; 1230                                        ;
 ; Total pins                         ; 65                                          ;
 ; Total virtual pins                 ; 0                                           ;
 ; Total memory bits                  ; 106,624                                     ;
@@ -194,54 +196,54 @@ refer to the applicable agreement for further details.
 ; Usage by Processor         ; % Time Used ;
 ;     Processor 1            ; 100.0%      ;
 ;     Processor 2            ;   0.1%      ;
-;     Processor 3            ;   0.1%      ;
-;     Processor 4            ;   0.1%      ;
+;     Processor 3            ;   0.0%      ;
+;     Processor 4            ;   0.0%      ;
 +----------------------------+-------------+
 
 
-+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
-; Analysis & Synthesis Source Files Read                                                                                                                                                                                                                                                                                                                                                    ;
-+---------------------------------------------------------------------------------------------------------------------------------------------------+-----------------+----------------------------------------+------------------------------------------------------------------------------------------------------------------------------------------------------------------+---------+
-; File Name with User-Entered Path                                                                                                                  ; Used in Netlist ; File Type                              ; File Name with Absolute Path                                                                                                                                     ; Library ;
-+---------------------------------------------------------------------------------------------------------------------------------------------------+-----------------+----------------------------------------+------------------------------------------------------------------------------------------------------------------------------------------------------------------+---------+
-; ../../../MultiComp (VHDL Template)/Components/UART/bufferedUART.vhd                                                                               ; yes             ; User VHDL File                         ; C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/UART/bufferedUART.vhd                                             ;         ;
-; ../../../MultiComp (VHDL Template)/Components/CPU/M6809/cpu09p.vhd                                                                                ; yes             ; User VHDL File                         ; C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/CPU/M6809/cpu09p.vhd                                              ;         ;
-; ../../../MultiComp (VHDL Template)/Components/TERMINAL/SansBoldRomReduced.vhd                                                                     ; yes             ; User Wizard-Generated File             ; C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/TERMINAL/SansBoldRomReduced.vhd                                   ;         ;
-; ../../../MultiComp (VHDL Template)/Components/TERMINAL/SansBoldRom.vhd                                                                            ; yes             ; User Wizard-Generated File             ; C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/TERMINAL/SansBoldRom.vhd                                          ;         ;
-; ../../../MultiComp (VHDL Template)/Components/TERMINAL/DisplayRam2K.vhd                                                                           ; yes             ; User Wizard-Generated File             ; C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/TERMINAL/DisplayRam2K.vhd                                         ;         ;
-; ../../../MultiComp (VHDL Template)/Components/TERMINAL/DisplayRam1K.vhd                                                                           ; yes             ; User Wizard-Generated File             ; C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/TERMINAL/DisplayRam1K.vhd                                         ;         ;
-; ../../../MultiComp (VHDL Template)/Components/TERMINAL/CGABoldRomReduced.vhd                                                                      ; yes             ; User Wizard-Generated File             ; C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/TERMINAL/CGABoldRomReduced.vhd                                    ;         ;
-; ../../../MultiComp (VHDL Template)/Components/TERMINAL/CGABoldRom.vhd                                                                             ; yes             ; User Wizard-Generated File             ; C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/TERMINAL/CGABoldRom.vhd                                           ;         ;
-; ../../../MultiComp (VHDL Template)/Components/SDCARD/sd_controller_High_Speed.vhd                                                                 ; yes             ; User VHDL File                         ; C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/SDCARD/sd_controller_High_Speed.vhd                               ;         ;
-; ../../../MultiComp (VHDL Template)/Components/IO/gpio.vhd                                                                                         ; yes             ; User VHDL File                         ; C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/IO/gpio.vhd                                                       ;         ;
-; ../../../MultiComp (VHDL Template)/Components/Memory_Mappers/MMAPPER2/mem_mapper2.vhd                                                             ; yes             ; User VHDL File                         ; C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/Memory_Mappers/MMAPPER2/mem_mapper2.vhd                           ;         ;
-; ../Components/TERMINAL/SBCTextDisplayRGB.vhd                                                                                                      ; yes             ; User VHDL File                         ; C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4/MultiComp_6809_by_Neal_C-2019-04-08/Components/TERMINAL/SBCTextDisplayRGB.vhd   ;         ;
-; Microcomputer.vhd                                                                                                                                 ; yes             ; User VHDL File                         ; C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4/MultiComp_6809_by_Neal_C-2019-04-08/MicrocomputerPCB/Microcomputer.vhd          ;         ;
-; ../ROMS/6809/M6809_CAMELFORTH_ROM.vhd                                                                                                             ; yes             ; User Wizard-Generated File             ; C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4/MultiComp_6809_by_Neal_C-2019-04-08/ROMS/6809/M6809_CAMELFORTH_ROM.vhd          ;         ;
-; altsyncram.tdf                                                                                                                                    ; yes             ; Megafunction                           ; c:/intelfpga_lite/18.1/quartus/libraries/megafunctions/altsyncram.tdf                                                                                            ;         ;
-; stratix_ram_block.inc                                                                                                                             ; yes             ; Megafunction                           ; c:/intelfpga_lite/18.1/quartus/libraries/megafunctions/stratix_ram_block.inc                                                                                     ;         ;
-; lpm_mux.inc                                                                                                                                       ; yes             ; Megafunction                           ; c:/intelfpga_lite/18.1/quartus/libraries/megafunctions/lpm_mux.inc                                                                                               ;         ;
-; lpm_decode.inc                                                                                                                                    ; yes             ; Megafunction                           ; c:/intelfpga_lite/18.1/quartus/libraries/megafunctions/lpm_decode.inc                                                                                            ;         ;
-; aglobal181.inc                                                                                                                                    ; yes             ; Megafunction                           ; c:/intelfpga_lite/18.1/quartus/libraries/megafunctions/aglobal181.inc                                                                                            ;         ;
-; a_rdenreg.inc                                                                                                                                     ; yes             ; Megafunction                           ; c:/intelfpga_lite/18.1/quartus/libraries/megafunctions/a_rdenreg.inc                                                                                             ;         ;
-; altrom.inc                                                                                                                                        ; yes             ; Megafunction                           ; c:/intelfpga_lite/18.1/quartus/libraries/megafunctions/altrom.inc                                                                                                ;         ;
-; altram.inc                                                                                                                                        ; yes             ; Megafunction                           ; c:/intelfpga_lite/18.1/quartus/libraries/megafunctions/altram.inc                                                                                                ;         ;
-; altdpram.inc                                                                                                                                      ; yes             ; Megafunction                           ; c:/intelfpga_lite/18.1/quartus/libraries/megafunctions/altdpram.inc                                                                                              ;         ;
-; db/altsyncram_urr3.tdf                                                                                                                            ; yes             ; Auto-Generated Megafunction            ; C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4/MultiComp_6809_by_Neal_C-2019-04-08/MicrocomputerPCB/db/altsyncram_urr3.tdf     ;         ;
-; /users/hpz420/documents/github/doug gilliland/multicomp/multicomp_on_retro-ep4/multicomp_6809_by_neal_c-2019-04-08/roms/6809/camelforth_2kram.hex ; yes             ; Auto-Found Memory Initialization File  ; /users/hpz420/documents/github/doug gilliland/multicomp/multicomp_on_retro-ep4/multicomp_6809_by_neal_c-2019-04-08/roms/6809/camelforth_2kram.hex                ;         ;
-; db/altsyncram_2d91.tdf                                                                                                                            ; yes             ; Auto-Generated Megafunction            ; C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4/MultiComp_6809_by_Neal_C-2019-04-08/MicrocomputerPCB/db/altsyncram_2d91.tdf     ;         ;
-; ../../../MultiComp (VHDL Template)/Components/TERMINAL/SansFontBoldReduced.HEX                                                                    ; yes             ; Auto-Found Memory Initialization File  ; C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/TERMINAL/SansFontBoldReduced.HEX                                  ;         ;
-; db/altsyncram_ldr3.tdf                                                                                                                            ; yes             ; Auto-Generated Megafunction            ; C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4/MultiComp_6809_by_Neal_C-2019-04-08/MicrocomputerPCB/db/altsyncram_ldr3.tdf     ;         ;
-; db/altsyncram_3ce1.tdf                                                                                                                            ; yes             ; Auto-Generated Megafunction            ; C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4/MultiComp_6809_by_Neal_C-2019-04-08/MicrocomputerPCB/db/altsyncram_3ce1.tdf     ;         ;
-; lpm_divide.tdf                                                                                                                                    ; yes             ; Megafunction                           ; c:/intelfpga_lite/18.1/quartus/libraries/megafunctions/lpm_divide.tdf                                                                                            ;         ;
-; abs_divider.inc                                                                                                                                   ; yes             ; Megafunction                           ; c:/intelfpga_lite/18.1/quartus/libraries/megafunctions/abs_divider.inc                                                                                           ;         ;
-; sign_div_unsign.inc                                                                                                                               ; yes             ; Megafunction                           ; c:/intelfpga_lite/18.1/quartus/libraries/megafunctions/sign_div_unsign.inc                                                                                       ;         ;
-; db/lpm_divide_icm.tdf                                                                                                                             ; yes             ; Auto-Generated Megafunction            ; C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4/MultiComp_6809_by_Neal_C-2019-04-08/MicrocomputerPCB/db/lpm_divide_icm.tdf      ;         ;
-; db/sign_div_unsign_7nh.tdf                                                                                                                        ; yes             ; Auto-Generated Megafunction            ; C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4/MultiComp_6809_by_Neal_C-2019-04-08/MicrocomputerPCB/db/sign_div_unsign_7nh.tdf ;         ;
-; db/alt_u_div_2af.tdf                                                                                                                              ; yes             ; Auto-Generated Megafunction            ; C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4/MultiComp_6809_by_Neal_C-2019-04-08/MicrocomputerPCB/db/alt_u_div_2af.tdf       ;         ;
-; db/add_sub_7pc.tdf                                                                                                                                ; yes             ; Auto-Generated Megafunction            ; C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4/MultiComp_6809_by_Neal_C-2019-04-08/MicrocomputerPCB/db/add_sub_7pc.tdf         ;         ;
-; db/add_sub_8pc.tdf                                                                                                                                ; yes             ; Auto-Generated Megafunction            ; C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4/MultiComp_6809_by_Neal_C-2019-04-08/MicrocomputerPCB/db/add_sub_8pc.tdf         ;         ;
-+---------------------------------------------------------------------------------------------------------------------------------------------------+-----------------+----------------------------------------+------------------------------------------------------------------------------------------------------------------------------------------------------------------+---------+
++-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+; Analysis & Synthesis Source Files Read                                                                                                                                                                                                                                                                                        ;
++---------------------------------------------------------------------------------------+-----------------+----------------------------------------+------------------------------------------------------------------------------------------------------------------------------------------------------------------+---------+
+; File Name with User-Entered Path                                                      ; Used in Netlist ; File Type                              ; File Name with Absolute Path                                                                                                                                     ; Library ;
++---------------------------------------------------------------------------------------+-----------------+----------------------------------------+------------------------------------------------------------------------------------------------------------------------------------------------------------------+---------+
+; ../../../MultiComp (VHDL Template)/Components/UART/bufferedUART.vhd                   ; yes             ; User VHDL File                         ; C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/UART/bufferedUART.vhd                                             ;         ;
+; ../../../MultiComp (VHDL Template)/Components/CPU/M6809/cpu09p.vhd                    ; yes             ; User VHDL File                         ; C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/CPU/M6809/cpu09p.vhd                                              ;         ;
+; ../../../MultiComp (VHDL Template)/Components/TERMINAL/SansBoldRomReduced.vhd         ; yes             ; User Wizard-Generated File             ; C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/TERMINAL/SansBoldRomReduced.vhd                                   ;         ;
+; ../../../MultiComp (VHDL Template)/Components/TERMINAL/SansBoldRom.vhd                ; yes             ; User Wizard-Generated File             ; C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/TERMINAL/SansBoldRom.vhd                                          ;         ;
+; ../../../MultiComp (VHDL Template)/Components/TERMINAL/DisplayRam2K.vhd               ; yes             ; User Wizard-Generated File             ; C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/TERMINAL/DisplayRam2K.vhd                                         ;         ;
+; ../../../MultiComp (VHDL Template)/Components/TERMINAL/DisplayRam1K.vhd               ; yes             ; User Wizard-Generated File             ; C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/TERMINAL/DisplayRam1K.vhd                                         ;         ;
+; ../../../MultiComp (VHDL Template)/Components/TERMINAL/CGABoldRomReduced.vhd          ; yes             ; User Wizard-Generated File             ; C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/TERMINAL/CGABoldRomReduced.vhd                                    ;         ;
+; ../../../MultiComp (VHDL Template)/Components/TERMINAL/CGABoldRom.vhd                 ; yes             ; User Wizard-Generated File             ; C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/TERMINAL/CGABoldRom.vhd                                           ;         ;
+; ../../../MultiComp (VHDL Template)/Components/SDCARD/sd_controller_High_Speed.vhd     ; yes             ; User VHDL File                         ; C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/SDCARD/sd_controller_High_Speed.vhd                               ;         ;
+; ../../../MultiComp (VHDL Template)/Components/IO/gpio.vhd                             ; yes             ; User VHDL File                         ; C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/IO/gpio.vhd                                                       ;         ;
+; ../../../MultiComp (VHDL Template)/Components/Memory_Mappers/MMAPPER2/mem_mapper2.vhd ; yes             ; User VHDL File                         ; C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/Memory_Mappers/MMAPPER2/mem_mapper2.vhd                           ;         ;
+; ../Components/TERMINAL/SBCTextDisplayRGB.vhd                                          ; yes             ; User VHDL File                         ; C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4/MultiComp_6809_by_Neal_C-2019-04-08/Components/TERMINAL/SBCTextDisplayRGB.vhd   ;         ;
+; Microcomputer.vhd                                                                     ; yes             ; User VHDL File                         ; C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4/MultiComp_6809_by_Neal_C-2019-04-08/MicrocomputerPCB/Microcomputer.vhd          ;         ;
+; ../ROMS/6809/M6809_CAMELFORTH_ROM.vhd                                                 ; yes             ; User Wizard-Generated File             ; C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4/MultiComp_6809_by_Neal_C-2019-04-08/ROMS/6809/M6809_CAMELFORTH_ROM.vhd          ;         ;
+; altsyncram.tdf                                                                        ; yes             ; Megafunction                           ; c:/intelfpga_lite/20.1/quartus/libraries/megafunctions/altsyncram.tdf                                                                                            ;         ;
+; stratix_ram_block.inc                                                                 ; yes             ; Megafunction                           ; c:/intelfpga_lite/20.1/quartus/libraries/megafunctions/stratix_ram_block.inc                                                                                     ;         ;
+; lpm_mux.inc                                                                           ; yes             ; Megafunction                           ; c:/intelfpga_lite/20.1/quartus/libraries/megafunctions/lpm_mux.inc                                                                                               ;         ;
+; lpm_decode.inc                                                                        ; yes             ; Megafunction                           ; c:/intelfpga_lite/20.1/quartus/libraries/megafunctions/lpm_decode.inc                                                                                            ;         ;
+; aglobal201.inc                                                                        ; yes             ; Megafunction                           ; c:/intelfpga_lite/20.1/quartus/libraries/megafunctions/aglobal201.inc                                                                                            ;         ;
+; a_rdenreg.inc                                                                         ; yes             ; Megafunction                           ; c:/intelfpga_lite/20.1/quartus/libraries/megafunctions/a_rdenreg.inc                                                                                             ;         ;
+; altrom.inc                                                                            ; yes             ; Megafunction                           ; c:/intelfpga_lite/20.1/quartus/libraries/megafunctions/altrom.inc                                                                                                ;         ;
+; altram.inc                                                                            ; yes             ; Megafunction                           ; c:/intelfpga_lite/20.1/quartus/libraries/megafunctions/altram.inc                                                                                                ;         ;
+; altdpram.inc                                                                          ; yes             ; Megafunction                           ; c:/intelfpga_lite/20.1/quartus/libraries/megafunctions/altdpram.inc                                                                                              ;         ;
+; db/altsyncram_urr3.tdf                                                                ; yes             ; Auto-Generated Megafunction            ; C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4/MultiComp_6809_by_Neal_C-2019-04-08/MicrocomputerPCB/db/altsyncram_urr3.tdf     ;         ;
+; ../ROMS/6809/CAMELFORTH_2KRAM.hex                                                     ; yes             ; Auto-Found Memory Initialization File  ; C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4/MultiComp_6809_by_Neal_C-2019-04-08/ROMS/6809/CAMELFORTH_2KRAM.hex              ;         ;
+; db/altsyncram_2d91.tdf                                                                ; yes             ; Auto-Generated Megafunction            ; C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4/MultiComp_6809_by_Neal_C-2019-04-08/MicrocomputerPCB/db/altsyncram_2d91.tdf     ;         ;
+; ../../../MultiComp (VHDL Template)/Components/TERMINAL/SansFontBoldReduced.HEX        ; yes             ; Auto-Found Memory Initialization File  ; C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/TERMINAL/SansFontBoldReduced.HEX                                  ;         ;
+; db/altsyncram_shh2.tdf                                                                ; yes             ; Auto-Generated Megafunction            ; C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4/MultiComp_6809_by_Neal_C-2019-04-08/MicrocomputerPCB/db/altsyncram_shh2.tdf     ;         ;
+; db/altsyncram_3ce1.tdf                                                                ; yes             ; Auto-Generated Megafunction            ; C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4/MultiComp_6809_by_Neal_C-2019-04-08/MicrocomputerPCB/db/altsyncram_3ce1.tdf     ;         ;
+; lpm_divide.tdf                                                                        ; yes             ; Megafunction                           ; c:/intelfpga_lite/20.1/quartus/libraries/megafunctions/lpm_divide.tdf                                                                                            ;         ;
+; abs_divider.inc                                                                       ; yes             ; Megafunction                           ; c:/intelfpga_lite/20.1/quartus/libraries/megafunctions/abs_divider.inc                                                                                           ;         ;
+; sign_div_unsign.inc                                                                   ; yes             ; Megafunction                           ; c:/intelfpga_lite/20.1/quartus/libraries/megafunctions/sign_div_unsign.inc                                                                                       ;         ;
+; db/lpm_divide_icm.tdf                                                                 ; yes             ; Auto-Generated Megafunction            ; C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4/MultiComp_6809_by_Neal_C-2019-04-08/MicrocomputerPCB/db/lpm_divide_icm.tdf      ;         ;
+; db/sign_div_unsign_7nh.tdf                                                            ; yes             ; Auto-Generated Megafunction            ; C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4/MultiComp_6809_by_Neal_C-2019-04-08/MicrocomputerPCB/db/sign_div_unsign_7nh.tdf ;         ;
+; db/alt_u_div_2af.tdf                                                                  ; yes             ; Auto-Generated Megafunction            ; C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4/MultiComp_6809_by_Neal_C-2019-04-08/MicrocomputerPCB/db/alt_u_div_2af.tdf       ;         ;
+; db/add_sub_7pc.tdf                                                                    ; yes             ; Auto-Generated Megafunction            ; C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4/MultiComp_6809_by_Neal_C-2019-04-08/MicrocomputerPCB/db/add_sub_7pc.tdf         ;         ;
+; db/add_sub_8pc.tdf                                                                    ; yes             ; Auto-Generated Megafunction            ; C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4/MultiComp_6809_by_Neal_C-2019-04-08/MicrocomputerPCB/db/add_sub_8pc.tdf         ;         ;
++---------------------------------------------------------------------------------------+-----------------+----------------------------------------+------------------------------------------------------------------------------------------------------------------------------------------------------------------+---------+
 
 
 +---------------------------------------------------------+
@@ -249,20 +251,20 @@ refer to the applicable agreement for further details.
 +---------------------------------------------+-----------+
 ; Resource                                    ; Usage     ;
 +---------------------------------------------+-----------+
-; Estimated Total logic elements              ; 4,314     ;
+; Estimated Total logic elements              ; 4,291     ;
 ;                                             ;           ;
-; Total combinational functions               ; 4018      ;
+; Total combinational functions               ; 4011      ;
 ; Logic element usage by number of LUT inputs ;           ;
-;     -- 4 input functions                    ; 2499      ;
-;     -- 3 input functions                    ; 771       ;
-;     -- <=2 input functions                  ; 748       ;
+;     -- 4 input functions                    ; 2484      ;
+;     -- 3 input functions                    ; 782       ;
+;     -- <=2 input functions                  ; 745       ;
 ;                                             ;           ;
 ; Logic elements by mode                      ;           ;
-;     -- normal mode                          ; 3529      ;
+;     -- normal mode                          ; 3522      ;
 ;     -- arithmetic mode                      ; 489       ;
 ;                                             ;           ;
-; Total registers                             ; 1246      ;
-;     -- Dedicated logic registers            ; 1246      ;
+; Total registers                             ; 1230      ;
+;     -- Dedicated logic registers            ; 1230      ;
 ;     -- I/O registers                        ; 0         ;
 ;                                             ;           ;
 ; I/O pins                                    ; 65        ;
@@ -271,8 +273,8 @@ refer to the applicable agreement for further details.
 ; Embedded Multiplier 9-bit elements          ; 0         ;
 ;                                             ;           ;
 ; Maximum fan-out node                        ; clk~input ;
-; Maximum fan-out                             ; 1191      ;
-; Total fan-out                               ; 18894     ;
+; Maximum fan-out                             ; 1175      ;
+; Total fan-out                               ; 18811     ;
 ; Average fan-out                             ; 3.46      ;
 +---------------------------------------------+-----------+
 
@@ -282,17 +284,17 @@ refer to the applicable agreement for further details.
 +--------------------------------------------------------+---------------------+---------------------------+-------------+--------------+---------+-----------+------+--------------+----------------------------------------------------------------------------------------------------------------------------------------------------+----------------------+--------------+
 ; Compilation Hierarchy Node                             ; Combinational ALUTs ; Dedicated Logic Registers ; Memory Bits ; DSP Elements ; DSP 9x9 ; DSP 18x18 ; Pins ; Virtual Pins ; Full Hierarchy Name                                                                                                                                ; Entity Name          ; Library Name ;
 +--------------------------------------------------------+---------------------+---------------------------+-------------+--------------+---------+-----------+------+--------------+----------------------------------------------------------------------------------------------------------------------------------------------------+----------------------+--------------+
-; |Microcomputer                                         ; 4018 (102)          ; 1246 (20)                 ; 106624      ; 0            ; 0       ; 0         ; 65   ; 0            ; |Microcomputer                                                                                                                                     ; Microcomputer        ; work         ;
+; |Microcomputer                                         ; 4011 (102)          ; 1230 (20)                 ; 106624      ; 0            ; 0       ; 0         ; 65   ; 0            ; |Microcomputer                                                                                                                                     ; Microcomputer        ; work         ;
 ;    |M6809_CAMELFORTH_ROM:rom1|                         ; 0 (0)               ; 0 (0)                     ; 65536       ; 0            ; 0       ; 0         ; 0    ; 0            ; |Microcomputer|M6809_CAMELFORTH_ROM:rom1                                                                                                           ; M6809_CAMELFORTH_ROM ; work         ;
 ;       |altsyncram:altsyncram_component|                ; 0 (0)               ; 0 (0)                     ; 65536       ; 0            ; 0       ; 0         ; 0    ; 0            ; |Microcomputer|M6809_CAMELFORTH_ROM:rom1|altsyncram:altsyncram_component                                                                           ; altsyncram           ; work         ;
 ;          |altsyncram_urr3:auto_generated|              ; 0 (0)               ; 0 (0)                     ; 65536       ; 0            ; 0       ; 0         ; 0    ; 0            ; |Microcomputer|M6809_CAMELFORTH_ROM:rom1|altsyncram:altsyncram_component|altsyncram_urr3:auto_generated                                            ; altsyncram_urr3      ; work         ;
-;    |SBCTextDisplayRGB:io1|                             ; 1359 (1202)         ; 384 (384)                 ; 40960       ; 0            ; 0       ; 0         ; 0    ; 0            ; |Microcomputer|SBCTextDisplayRGB:io1                                                                                                               ; SBCTextDisplayRGB    ; work         ;
+;    |SBCTextDisplayRGB:io1|                             ; 1357 (1200)         ; 384 (384)                 ; 40960       ; 0            ; 0       ; 0         ; 0    ; 0            ; |Microcomputer|SBCTextDisplayRGB:io1                                                                                                               ; SBCTextDisplayRGB    ; work         ;
 ;       |DisplayRam2K:\GEN_2KATTRAM:dispAttRam|          ; 0 (0)               ; 0 (0)                     ; 16384       ; 0            ; 0       ; 0         ; 0    ; 0            ; |Microcomputer|SBCTextDisplayRGB:io1|DisplayRam2K:\GEN_2KATTRAM:dispAttRam                                                                         ; DisplayRam2K         ; work         ;
 ;          |altsyncram:altsyncram_component|             ; 0 (0)               ; 0 (0)                     ; 16384       ; 0            ; 0       ; 0         ; 0    ; 0            ; |Microcomputer|SBCTextDisplayRGB:io1|DisplayRam2K:\GEN_2KATTRAM:dispAttRam|altsyncram:altsyncram_component                                         ; altsyncram           ; work         ;
-;             |altsyncram_ldr3:auto_generated|           ; 0 (0)               ; 0 (0)                     ; 16384       ; 0            ; 0       ; 0         ; 0    ; 0            ; |Microcomputer|SBCTextDisplayRGB:io1|DisplayRam2K:\GEN_2KATTRAM:dispAttRam|altsyncram:altsyncram_component|altsyncram_ldr3:auto_generated          ; altsyncram_ldr3      ; work         ;
+;             |altsyncram_shh2:auto_generated|           ; 0 (0)               ; 0 (0)                     ; 16384       ; 0            ; 0       ; 0         ; 0    ; 0            ; |Microcomputer|SBCTextDisplayRGB:io1|DisplayRam2K:\GEN_2KATTRAM:dispAttRam|altsyncram:altsyncram_component|altsyncram_shh2:auto_generated          ; altsyncram_shh2      ; work         ;
 ;       |DisplayRam2K:\GEN_2KRAM:dispCharRam|            ; 0 (0)               ; 0 (0)                     ; 16384       ; 0            ; 0       ; 0         ; 0    ; 0            ; |Microcomputer|SBCTextDisplayRGB:io1|DisplayRam2K:\GEN_2KRAM:dispCharRam                                                                           ; DisplayRam2K         ; work         ;
 ;          |altsyncram:altsyncram_component|             ; 0 (0)               ; 0 (0)                     ; 16384       ; 0            ; 0       ; 0         ; 0    ; 0            ; |Microcomputer|SBCTextDisplayRGB:io1|DisplayRam2K:\GEN_2KRAM:dispCharRam|altsyncram:altsyncram_component                                           ; altsyncram           ; work         ;
-;             |altsyncram_ldr3:auto_generated|           ; 0 (0)               ; 0 (0)                     ; 16384       ; 0            ; 0       ; 0         ; 0    ; 0            ; |Microcomputer|SBCTextDisplayRGB:io1|DisplayRam2K:\GEN_2KRAM:dispCharRam|altsyncram:altsyncram_component|altsyncram_ldr3:auto_generated            ; altsyncram_ldr3      ; work         ;
+;             |altsyncram_shh2:auto_generated|           ; 0 (0)               ; 0 (0)                     ; 16384       ; 0            ; 0       ; 0         ; 0    ; 0            ; |Microcomputer|SBCTextDisplayRGB:io1|DisplayRam2K:\GEN_2KRAM:dispCharRam|altsyncram:altsyncram_component|altsyncram_shh2:auto_generated            ; altsyncram_shh2      ; work         ;
 ;       |SansBoldRomReduced:\GEN_REDUCED_SCHARS:fontRom| ; 0 (0)               ; 0 (0)                     ; 8192        ; 0            ; 0       ; 0         ; 0    ; 0            ; |Microcomputer|SBCTextDisplayRGB:io1|SansBoldRomReduced:\GEN_REDUCED_SCHARS:fontRom                                                                ; SansBoldRomReduced   ; work         ;
 ;          |altsyncram:altsyncram_component|             ; 0 (0)               ; 0 (0)                     ; 8192        ; 0            ; 0       ; 0         ; 0    ; 0            ; |Microcomputer|SBCTextDisplayRGB:io1|SansBoldRomReduced:\GEN_REDUCED_SCHARS:fontRom|altsyncram:altsyncram_component                                ; altsyncram           ; work         ;
 ;             |altsyncram_2d91:auto_generated|           ; 0 (0)               ; 0 (0)                     ; 8192        ; 0            ; 0       ; 0         ; 0    ; 0            ; |Microcomputer|SBCTextDisplayRGB:io1|SansBoldRomReduced:\GEN_REDUCED_SCHARS:fontRom|altsyncram:altsyncram_component|altsyncram_2d91:auto_generated ; altsyncram_2d91      ; work         ;
@@ -307,9 +309,9 @@ refer to the applicable agreement for further details.
 ;    |bufferedUART:io2|                                  ; 154 (154)           ; 94 (94)                   ; 128         ; 0            ; 0       ; 0         ; 0    ; 0            ; |Microcomputer|bufferedUART:io2                                                                                                                    ; bufferedUART         ; work         ;
 ;       |altsyncram:rxBuffer_rtl_0|                      ; 0 (0)               ; 0 (0)                     ; 128         ; 0            ; 0       ; 0         ; 0    ; 0            ; |Microcomputer|bufferedUART:io2|altsyncram:rxBuffer_rtl_0                                                                                          ; altsyncram           ; work         ;
 ;          |altsyncram_3ce1:auto_generated|              ; 0 (0)               ; 0 (0)                     ; 128         ; 0            ; 0       ; 0         ; 0    ; 0            ; |Microcomputer|bufferedUART:io2|altsyncram:rxBuffer_rtl_0|altsyncram_3ce1:auto_generated                                                           ; altsyncram_3ce1      ; work         ;
-;    |cpu09p:cpu1|                                       ; 1801 (1801)         ; 329 (329)                 ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |Microcomputer|cpu09p:cpu1                                                                                                                         ; cpu09p               ; work         ;
+;    |cpu09p:cpu1|                                       ; 1807 (1807)         ; 329 (329)                 ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |Microcomputer|cpu09p:cpu1                                                                                                                         ; cpu09p               ; work         ;
 ;    |gpio:gpio1|                                        ; 33 (33)             ; 30 (30)                   ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |Microcomputer|gpio:gpio1                                                                                                                          ; gpio                 ; work         ;
-;    |mem_mapper2:mm1|                                   ; 170 (170)           ; 164 (164)                 ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |Microcomputer|mem_mapper2:mm1                                                                                                                     ; mem_mapper2          ; work         ;
+;    |mem_mapper2:mm1|                                   ; 159 (159)           ; 148 (148)                 ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |Microcomputer|mem_mapper2:mm1                                                                                                                     ; mem_mapper2          ; work         ;
 ;    |sd_controller:sd1|                                 ; 399 (399)           ; 225 (225)                 ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |Microcomputer|sd_controller:sd1                                                                                                                   ; sd_controller        ; work         ;
 +--------------------------------------------------------+---------------------+---------------------------+-------------+--------------+---------+-----------+------+--------------+----------------------------------------------------------------------------------------------------------------------------------------------------+----------------------+--------------+
 Note: For table entries with two numbers listed, the numbers in parentheses indicate the number of resources of the given type used by the specific entity alone. The numbers listed outside of parentheses indicate the total resources of the given type used by the specific entity and all of its sub-entities in the hierarchy.
@@ -321,8 +323,8 @@ Note: For table entries with two numbers listed, the numbers in parentheses indi
 ; Name                                                                                                                                           ; Type ; Mode             ; Port A Depth ; Port A Width ; Port B Depth ; Port B Width ; Size  ; MIF                               ;
 +------------------------------------------------------------------------------------------------------------------------------------------------+------+------------------+--------------+--------------+--------------+--------------+-------+-----------------------------------+
 ; M6809_CAMELFORTH_ROM:rom1|altsyncram:altsyncram_component|altsyncram_urr3:auto_generated|ALTSYNCRAM                                            ; AUTO ; ROM              ; 8192         ; 8            ; --           ; --           ; 65536 ; ../ROMS/6809/CAMELFORTH_2KRAM.hex ;
-; SBCTextDisplayRGB:io1|DisplayRam2K:\GEN_2KATTRAM:dispAttRam|altsyncram:altsyncram_component|altsyncram_ldr3:auto_generated|ALTSYNCRAM          ; AUTO ; True Dual Port   ; 2048         ; 8            ; 2048         ; 8            ; 16384 ; None                              ;
-; SBCTextDisplayRGB:io1|DisplayRam2K:\GEN_2KRAM:dispCharRam|altsyncram:altsyncram_component|altsyncram_ldr3:auto_generated|ALTSYNCRAM            ; AUTO ; True Dual Port   ; 2048         ; 8            ; 2048         ; 8            ; 16384 ; None                              ;
+; SBCTextDisplayRGB:io1|DisplayRam2K:\GEN_2KATTRAM:dispAttRam|altsyncram:altsyncram_component|altsyncram_shh2:auto_generated|ALTSYNCRAM          ; AUTO ; True Dual Port   ; 2048         ; 8            ; 2048         ; 8            ; 16384 ; None                              ;
+; SBCTextDisplayRGB:io1|DisplayRam2K:\GEN_2KRAM:dispCharRam|altsyncram:altsyncram_component|altsyncram_shh2:auto_generated|ALTSYNCRAM            ; AUTO ; True Dual Port   ; 2048         ; 8            ; 2048         ; 8            ; 16384 ; None                              ;
 ; SBCTextDisplayRGB:io1|SansBoldRomReduced:\GEN_REDUCED_SCHARS:fontRom|altsyncram:altsyncram_component|altsyncram_2d91:auto_generated|ALTSYNCRAM ; AUTO ; ROM              ; 1024         ; 8            ; --           ; --           ; 8192  ; SansFontBoldReduced.HEX           ;
 ; bufferedUART:io2|altsyncram:rxBuffer_rtl_0|altsyncram_3ce1:auto_generated|ALTSYNCRAM                                                           ; AUTO ; Simple Dual Port ; 16           ; 8            ; 16           ; 8            ; 128   ; None                              ;
 +------------------------------------------------------------------------------------------------------------------------------------------------+------+------------------+--------------+--------------+--------------+--------------+-------+-----------------------------------+
@@ -333,7 +335,7 @@ Note: For table entries with two numbers listed, the numbers in parentheses indi
 +--------+--------------+---------+--------------+--------------+------------------------------------------+---------------------------------------+
 ; Vendor ; IP Core Name ; Version ; Release Date ; License Type ; Entity Instance                          ; IP Include File                       ;
 +--------+--------------+---------+--------------+--------------+------------------------------------------+---------------------------------------+
-; Altera ; ROM: 1-PORT  ; 18.1    ; N/A          ; N/A          ; |Microcomputer|M6809_CAMELFORTH_ROM:rom1 ; ../ROMS/6809/M6809_CAMELFORTH_ROM.vhd ;
+; Altera ; ROM: 1-PORT  ; 20.1    ; N/A          ; N/A          ; |Microcomputer|M6809_CAMELFORTH_ROM:rom1 ; ../ROMS/6809/M6809_CAMELFORTH_ROM.vhd ;
 +--------+--------------+---------+--------------+--------------+------------------------------------------+---------------------------------------+
 
 
@@ -969,12 +971,12 @@ Encoding Type:  One-Hot
 +----------------------------------------------+-------+
 ; Statistic                                    ; Value ;
 +----------------------------------------------+-------+
-; Total registers                              ; 1246  ;
+; Total registers                              ; 1230  ;
 ; Number of registers using Synchronous Clear  ; 242   ;
 ; Number of registers using Synchronous Load   ; 85    ;
 ; Number of registers using Asynchronous Clear ; 298   ;
 ; Number of registers using Asynchronous Load  ; 0     ;
-; Number of registers using Clock Enable       ; 1081  ;
+; Number of registers using Clock Enable       ; 1065  ;
 ; Number of registers using Preset             ; 0     ;
 +----------------------------------------------+-------+
 
@@ -995,9 +997,9 @@ Encoding Type:  One-Hot
 ; sd_controller:sd1|led_on_count[7]       ; 2       ;
 ; sd_controller:sd1|led_on_count[6]       ; 2       ;
 ; sd_controller:sd1|led_on_count[3]       ; 2       ;
-; SBCTextDisplayRGB:io1|ps2ClkFiltered    ; 14      ;
+; SBCTextDisplayRGB:io1|ps2ClkFiltered    ; 13      ;
 ; SBCTextDisplayRGB:io1|n_kbWR            ; 22      ;
-; SBCTextDisplayRGB:io1|ps2PrevClk        ; 12      ;
+; SBCTextDisplayRGB:io1|ps2PrevClk        ; 11      ;
 ; SBCTextDisplayRGB:io1|dispAttWRData[3]  ; 12      ;
 ; sd_controller:sd1|response_mode         ; 3       ;
 ; SBCTextDisplayRGB:io1|ps2ClkOut         ; 3       ;
@@ -1023,94 +1025,94 @@ Encoding Type:  One-Hot
 +--------------------+-----------+---------------+----------------------+------------------------+------------+--------------------------------------------------------------------------+
 ; Multiplexer Inputs ; Bus Width ; Baseline Area ; Area if Restructured ; Saving if Restructured ; Registered ; Example Multiplexer Output                                               ;
 +--------------------+-----------+---------------+----------------------+------------------------+------------+--------------------------------------------------------------------------+
-; 3:1                ; 2 bits    ; 4 LEs         ; 2 LEs                ; 2 LEs                  ; Yes        ; |Microcomputer|n_RD                                                      ;
+; 3:1                ; 2 bits    ; 4 LEs         ; 2 LEs                ; 2 LEs                  ; Yes        ; |Microcomputer|n_sRamOE~reg0                                             ;
 ; 3:1                ; 5 bits    ; 10 LEs        ; 5 LEs                ; 5 LEs                  ; Yes        ; |Microcomputer|SBCTextDisplayRGB:io1|charVert[0]                         ;
-; 3:1                ; 20 bits   ; 40 LEs        ; 20 LEs               ; 20 LEs                 ; Yes        ; |Microcomputer|mem_mapper2:mm1|tcount[13]                                ;
-; 3:1                ; 7 bits    ; 14 LEs        ; 7 LEs                ; 7 LEs                  ; Yes        ; |Microcomputer|SBCTextDisplayRGB:io1|param4[1]                           ;
+; 3:1                ; 20 bits   ; 40 LEs        ; 20 LEs               ; 20 LEs                 ; Yes        ; |Microcomputer|mem_mapper2:mm1|tcount[1]                                 ;
+; 3:1                ; 7 bits    ; 14 LEs        ; 7 LEs                ; 7 LEs                  ; Yes        ; |Microcomputer|SBCTextDisplayRGB:io1|param4[6]                           ;
 ; 3:1                ; 8 bits    ; 16 LEs        ; 8 LEs                ; 8 LEs                  ; Yes        ; |Microcomputer|SBCTextDisplayRGB:io1|ps2Byte[3]                          ;
 ; 3:1                ; 7 bits    ; 14 LEs        ; 7 LEs                ; 7 LEs                  ; Yes        ; |Microcomputer|SBCTextDisplayRGB:io1|charHoriz[2]                        ;
-; 3:1                ; 3 bits    ; 6 LEs         ; 3 LEs                ; 3 LEs                  ; Yes        ; |Microcomputer|SBCTextDisplayRGB:io1|pixelCount[2]                       ;
-; 3:1                ; 5 bits    ; 10 LEs        ; 10 LEs               ; 0 LEs                  ; Yes        ; |Microcomputer|bufferedUART:io2|dataOut[3]                               ;
-; 3:1                ; 3 bits    ; 6 LEs         ; 6 LEs                ; 0 LEs                  ; Yes        ; |Microcomputer|bufferedUART:io2|dataOut[7]                               ;
-; 3:1                ; 3 bits    ; 6 LEs         ; 6 LEs                ; 0 LEs                  ; Yes        ; |Microcomputer|state[1]                                                  ;
-; 3:1                ; 3 bits    ; 6 LEs         ; 6 LEs                ; 0 LEs                  ; Yes        ; |Microcomputer|SBCTextDisplayRGB:io1|ps2ConvertedByte[2]                 ;
-; 3:1                ; 4 bits    ; 8 LEs         ; 4 LEs                ; 4 LEs                  ; Yes        ; |Microcomputer|SBCTextDisplayRGB:io1|pixelClockCount[2]                  ;
-; 4:1                ; 7 bits    ; 14 LEs        ; 14 LEs               ; 0 LEs                  ; Yes        ; |Microcomputer|SBCTextDisplayRGB:io1|param1[5]                           ;
+; 3:1                ; 3 bits    ; 6 LEs         ; 3 LEs                ; 3 LEs                  ; Yes        ; |Microcomputer|SBCTextDisplayRGB:io1|pixelCount[1]                       ;
+; 3:1                ; 5 bits    ; 10 LEs        ; 10 LEs               ; 0 LEs                  ; Yes        ; |Microcomputer|bufferedUART:io2|dataOut[2]                               ;
+; 3:1                ; 3 bits    ; 6 LEs         ; 6 LEs                ; 0 LEs                  ; Yes        ; |Microcomputer|bufferedUART:io2|dataOut[1]                               ;
+; 3:1                ; 3 bits    ; 6 LEs         ; 6 LEs                ; 0 LEs                  ; Yes        ; |Microcomputer|state[2]                                                  ;
+; 3:1                ; 3 bits    ; 6 LEs         ; 6 LEs                ; 0 LEs                  ; Yes        ; |Microcomputer|SBCTextDisplayRGB:io1|ps2ConvertedByte[5]                 ;
+; 3:1                ; 4 bits    ; 8 LEs         ; 4 LEs                ; 4 LEs                  ; Yes        ; |Microcomputer|SBCTextDisplayRGB:io1|pixelClockCount[0]                  ;
+; 4:1                ; 7 bits    ; 14 LEs        ; 14 LEs               ; 0 LEs                  ; Yes        ; |Microcomputer|SBCTextDisplayRGB:io1|param1[6]                           ;
 ; 4:1                ; 7 bits    ; 14 LEs        ; 14 LEs               ; 0 LEs                  ; Yes        ; |Microcomputer|SBCTextDisplayRGB:io1|param2[6]                           ;
-; 4:1                ; 7 bits    ; 14 LEs        ; 14 LEs               ; 0 LEs                  ; Yes        ; |Microcomputer|SBCTextDisplayRGB:io1|param3[6]                           ;
-; 3:1                ; 2 bits    ; 4 LEs         ; 2 LEs                ; 2 LEs                  ; Yes        ; |Microcomputer|cpu09p:cpu1|op_code[4]                                    ;
-; 4:1                ; 4 bits    ; 8 LEs         ; 4 LEs                ; 4 LEs                  ; Yes        ; |Microcomputer|SBCTextDisplayRGB:io1|ps2ClkCount[3]                      ;
-; 4:1                ; 5 bits    ; 10 LEs        ; 10 LEs               ; 0 LEs                  ; Yes        ; |Microcomputer|mem_mapper2:mm1|nmiDly[0]                                 ;
-; 4:1                ; 4 bits    ; 8 LEs         ; 4 LEs                ; 4 LEs                  ; Yes        ; |Microcomputer|SBCTextDisplayRGB:io1|kbInPointer[2]                      ;
-; 4:1                ; 26 bits   ; 52 LEs        ; 26 LEs               ; 26 LEs                 ; Yes        ; |Microcomputer|SBCTextDisplayRGB:io1|kbWatchdogTimer[11]                 ;
-; 4:1                ; 4 bits    ; 8 LEs         ; 4 LEs                ; 4 LEs                  ; Yes        ; |Microcomputer|SBCTextDisplayRGB:io1|charScanLine[2]                     ;
-; 5:1                ; 6 bits    ; 18 LEs        ; 6 LEs                ; 12 LEs                 ; Yes        ; |Microcomputer|bufferedUART:io2|rxClockCount[0]                          ;
-; 4:1                ; 8 bits    ; 16 LEs        ; 16 LEs               ; 0 LEs                  ; Yes        ; |Microcomputer|cpu09p:cpu1|sp[4]                                         ;
-; 4:1                ; 8 bits    ; 16 LEs        ; 16 LEs               ; 0 LEs                  ; Yes        ; |Microcomputer|cpu09p:cpu1|up[1]                                         ;
-; 4:1                ; 8 bits    ; 16 LEs        ; 16 LEs               ; 0 LEs                  ; Yes        ; |Microcomputer|cpu09p:cpu1|ea[1]                                         ;
-; 4:1                ; 8 bits    ; 16 LEs        ; 16 LEs               ; 0 LEs                  ; Yes        ; |Microcomputer|cpu09p:cpu1|sp[13]                                        ;
-; 4:1                ; 8 bits    ; 16 LEs        ; 16 LEs               ; 0 LEs                  ; Yes        ; |Microcomputer|cpu09p:cpu1|up[13]                                        ;
-; 4:1                ; 8 bits    ; 16 LEs        ; 16 LEs               ; 0 LEs                  ; Yes        ; |Microcomputer|cpu09p:cpu1|accb[0]                                       ;
-; 4:1                ; 8 bits    ; 16 LEs        ; 16 LEs               ; 0 LEs                  ; Yes        ; |Microcomputer|cpu09p:cpu1|dp[0]                                         ;
-; 4:1                ; 8 bits    ; 16 LEs        ; 16 LEs               ; 0 LEs                  ; Yes        ; |Microcomputer|cpu09p:cpu1|xreg[6]                                       ;
-; 4:1                ; 8 bits    ; 16 LEs        ; 16 LEs               ; 0 LEs                  ; Yes        ; |Microcomputer|cpu09p:cpu1|xreg[10]                                      ;
-; 4:1                ; 8 bits    ; 16 LEs        ; 16 LEs               ; 0 LEs                  ; Yes        ; |Microcomputer|cpu09p:cpu1|yreg[7]                                       ;
-; 4:1                ; 8 bits    ; 16 LEs        ; 16 LEs               ; 0 LEs                  ; Yes        ; |Microcomputer|cpu09p:cpu1|yreg[14]                                      ;
-; 5:1                ; 5 bits    ; 15 LEs        ; 5 LEs                ; 10 LEs                 ; Yes        ; |Microcomputer|SBCTextDisplayRGB:io1|ps2WriteClkCount[2]                 ;
-; 5:1                ; 4 bits    ; 12 LEs        ; 4 LEs                ; 8 LEs                  ; Yes        ; |Microcomputer|bufferedUART:io2|rxBitCount[1]                            ;
-; 5:1                ; 7 bits    ; 21 LEs        ; 14 LEs               ; 7 LEs                  ; Yes        ; |Microcomputer|cpu09p:cpu1|md[3]                                         ;
-; 5:1                ; 8 bits    ; 24 LEs        ; 16 LEs               ; 8 LEs                  ; Yes        ; |Microcomputer|cpu09p:cpu1|ea[14]                                        ;
-; 5:1                ; 8 bits    ; 24 LEs        ; 16 LEs               ; 8 LEs                  ; Yes        ; |Microcomputer|cpu09p:cpu1|pc[15]                                        ;
-; 5:1                ; 8 bits    ; 24 LEs        ; 16 LEs               ; 8 LEs                  ; Yes        ; |Microcomputer|cpu09p:cpu1|pc[4]                                         ;
-; 4:1                ; 9 bits    ; 18 LEs        ; 9 LEs                ; 9 LEs                  ; Yes        ; |Microcomputer|sd_controller:sd1|cmd_out[50]                             ;
+; 4:1                ; 7 bits    ; 14 LEs        ; 14 LEs               ; 0 LEs                  ; Yes        ; |Microcomputer|SBCTextDisplayRGB:io1|param3[3]                           ;
+; 3:1                ; 2 bits    ; 4 LEs         ; 2 LEs                ; 2 LEs                  ; Yes        ; |Microcomputer|cpu09p:cpu1|op_code[1]                                    ;
+; 4:1                ; 4 bits    ; 8 LEs         ; 4 LEs                ; 4 LEs                  ; Yes        ; |Microcomputer|SBCTextDisplayRGB:io1|ps2ClkCount[0]                      ;
+; 4:1                ; 5 bits    ; 10 LEs        ; 10 LEs               ; 0 LEs                  ; Yes        ; |Microcomputer|mem_mapper2:mm1|nmiDly[4]                                 ;
+; 4:1                ; 4 bits    ; 8 LEs         ; 4 LEs                ; 4 LEs                  ; Yes        ; |Microcomputer|SBCTextDisplayRGB:io1|kbInPointer[3]                      ;
+; 4:1                ; 26 bits   ; 52 LEs        ; 26 LEs               ; 26 LEs                 ; Yes        ; |Microcomputer|SBCTextDisplayRGB:io1|kbWatchdogTimer[17]                 ;
+; 4:1                ; 4 bits    ; 8 LEs         ; 4 LEs                ; 4 LEs                  ; Yes        ; |Microcomputer|SBCTextDisplayRGB:io1|charScanLine[3]                     ;
+; 5:1                ; 6 bits    ; 18 LEs        ; 6 LEs                ; 12 LEs                 ; Yes        ; |Microcomputer|bufferedUART:io2|rxClockCount[4]                          ;
+; 4:1                ; 8 bits    ; 16 LEs        ; 16 LEs               ; 0 LEs                  ; Yes        ; |Microcomputer|cpu09p:cpu1|sp[6]                                         ;
+; 4:1                ; 8 bits    ; 16 LEs        ; 16 LEs               ; 0 LEs                  ; Yes        ; |Microcomputer|cpu09p:cpu1|up[6]                                         ;
+; 4:1                ; 8 bits    ; 16 LEs        ; 16 LEs               ; 0 LEs                  ; Yes        ; |Microcomputer|cpu09p:cpu1|ea[4]                                         ;
+; 4:1                ; 8 bits    ; 16 LEs        ; 16 LEs               ; 0 LEs                  ; Yes        ; |Microcomputer|cpu09p:cpu1|sp[9]                                         ;
+; 4:1                ; 8 bits    ; 16 LEs        ; 16 LEs               ; 0 LEs                  ; Yes        ; |Microcomputer|cpu09p:cpu1|up[9]                                         ;
+; 4:1                ; 8 bits    ; 16 LEs        ; 16 LEs               ; 0 LEs                  ; Yes        ; |Microcomputer|cpu09p:cpu1|accb[5]                                       ;
+; 4:1                ; 8 bits    ; 16 LEs        ; 16 LEs               ; 0 LEs                  ; Yes        ; |Microcomputer|cpu09p:cpu1|dp[4]                                         ;
+; 4:1                ; 8 bits    ; 16 LEs        ; 16 LEs               ; 0 LEs                  ; Yes        ; |Microcomputer|cpu09p:cpu1|xreg[5]                                       ;
+; 4:1                ; 8 bits    ; 16 LEs        ; 16 LEs               ; 0 LEs                  ; Yes        ; |Microcomputer|cpu09p:cpu1|xreg[15]                                      ;
+; 4:1                ; 8 bits    ; 16 LEs        ; 16 LEs               ; 0 LEs                  ; Yes        ; |Microcomputer|cpu09p:cpu1|yreg[5]                                       ;
+; 4:1                ; 8 bits    ; 16 LEs        ; 16 LEs               ; 0 LEs                  ; Yes        ; |Microcomputer|cpu09p:cpu1|yreg[12]                                      ;
+; 5:1                ; 5 bits    ; 15 LEs        ; 5 LEs                ; 10 LEs                 ; Yes        ; |Microcomputer|SBCTextDisplayRGB:io1|ps2WriteClkCount[1]                 ;
+; 5:1                ; 4 bits    ; 12 LEs        ; 4 LEs                ; 8 LEs                  ; Yes        ; |Microcomputer|bufferedUART:io2|rxBitCount[0]                            ;
+; 5:1                ; 7 bits    ; 21 LEs        ; 14 LEs               ; 7 LEs                  ; Yes        ; |Microcomputer|cpu09p:cpu1|md[5]                                         ;
+; 5:1                ; 8 bits    ; 24 LEs        ; 16 LEs               ; 8 LEs                  ; Yes        ; |Microcomputer|cpu09p:cpu1|ea[13]                                        ;
+; 5:1                ; 8 bits    ; 24 LEs        ; 16 LEs               ; 8 LEs                  ; Yes        ; |Microcomputer|cpu09p:cpu1|pc[10]                                        ;
+; 5:1                ; 8 bits    ; 24 LEs        ; 16 LEs               ; 8 LEs                  ; Yes        ; |Microcomputer|cpu09p:cpu1|pc[3]                                         ;
+; 4:1                ; 9 bits    ; 18 LEs        ; 9 LEs                ; 9 LEs                  ; Yes        ; |Microcomputer|sd_controller:sd1|cmd_out[52]                             ;
 ; 5:1                ; 4 bits    ; 12 LEs        ; 4 LEs                ; 8 LEs                  ; Yes        ; |Microcomputer|bufferedUART:io2|txBitCount[1]                            ;
-; 5:1                ; 7 bits    ; 21 LEs        ; 7 LEs                ; 14 LEs                 ; Yes        ; |Microcomputer|bufferedUART:io2|txBuffer[1]                              ;
+; 5:1                ; 7 bits    ; 21 LEs        ; 7 LEs                ; 14 LEs                 ; Yes        ; |Microcomputer|bufferedUART:io2|txBuffer[2]                              ;
 ; 5:1                ; 8 bits    ; 24 LEs        ; 16 LEs               ; 8 LEs                  ; Yes        ; |Microcomputer|SBCTextDisplayRGB:io1|dispCharWRData[0]                   ;
-; 5:1                ; 8 bits    ; 24 LEs        ; 16 LEs               ; 8 LEs                  ; Yes        ; |Microcomputer|cpu09p:cpu1|acca[0]                                       ;
-; 6:1                ; 6 bits    ; 24 LEs        ; 6 LEs                ; 18 LEs                 ; Yes        ; |Microcomputer|bufferedUART:io2|txClockCount[2]                          ;
-; 6:1                ; 8 bits    ; 32 LEs        ; 24 LEs               ; 8 LEs                  ; Yes        ; |Microcomputer|cpu09p:cpu1|md[13]                                        ;
-; 7:1                ; 3 bits    ; 12 LEs        ; 12 LEs               ; 0 LEs                  ; Yes        ; |Microcomputer|SBCTextDisplayRGB:io1|videoR1                             ;
+; 5:1                ; 8 bits    ; 24 LEs        ; 16 LEs               ; 8 LEs                  ; Yes        ; |Microcomputer|cpu09p:cpu1|acca[5]                                       ;
+; 6:1                ; 6 bits    ; 24 LEs        ; 6 LEs                ; 18 LEs                 ; Yes        ; |Microcomputer|bufferedUART:io2|txClockCount[5]                          ;
+; 6:1                ; 8 bits    ; 32 LEs        ; 24 LEs               ; 8 LEs                  ; Yes        ; |Microcomputer|cpu09p:cpu1|md[9]                                         ;
+; 7:1                ; 3 bits    ; 12 LEs        ; 12 LEs               ; 0 LEs                  ; Yes        ; |Microcomputer|SBCTextDisplayRGB:io1|videoB1                             ;
 ; 5:1                ; 2 bits    ; 6 LEs         ; 4 LEs                ; 2 LEs                  ; Yes        ; |Microcomputer|sd_controller:sd1|cmd_out[6]                              ;
-; 5:1                ; 32 bits   ; 96 LEs        ; 32 LEs               ; 64 LEs                 ; Yes        ; |Microcomputer|sd_controller:sd1|recv_data[10]                           ;
-; 6:1                ; 26 bits   ; 104 LEs       ; 52 LEs               ; 52 LEs                 ; Yes        ; |Microcomputer|sd_controller:sd1|cmd_out[18]                             ;
-; 6:1                ; 5 bits    ; 20 LEs        ; 10 LEs               ; 10 LEs                 ; Yes        ; |Microcomputer|sd_controller:sd1|cmd_out[15]                             ;
-; 8:1                ; 26 bits   ; 130 LEs       ; 26 LEs               ; 104 LEs                ; Yes        ; |Microcomputer|SBCTextDisplayRGB:io1|kbWriteTimer[4]                     ;
-; 6:1                ; 7 bits    ; 28 LEs        ; 7 LEs                ; 21 LEs                 ; Yes        ; |Microcomputer|SBCTextDisplayRGB:io1|startAddr[6]                        ;
-; 8:1                ; 7 bits    ; 35 LEs        ; 7 LEs                ; 28 LEs                 ; Yes        ; |Microcomputer|sd_controller:sd1|\fsm:byte_counter[2]                    ;
-; 10:1               ; 3 bits    ; 18 LEs        ; 18 LEs               ; 0 LEs                  ; Yes        ; |Microcomputer|SBCTextDisplayRGB:io1|videoB0                             ;
-; 9:1                ; 7 bits    ; 42 LEs        ; 14 LEs               ; 28 LEs                 ; Yes        ; |Microcomputer|sd_controller:sd1|data_sig[1]                             ;
-; 9:1                ; 3 bits    ; 18 LEs        ; 6 LEs                ; 12 LEs                 ; Yes        ; |Microcomputer|sd_controller:sd1|\fsm:byte_counter[1]                    ;
-; 10:1               ; 3 bits    ; 18 LEs        ; 12 LEs               ; 6 LEs                  ; Yes        ; |Microcomputer|SBCTextDisplayRGB:io1|paramCount[0]                       ;
+; 5:1                ; 32 bits   ; 96 LEs        ; 32 LEs               ; 64 LEs                 ; Yes        ; |Microcomputer|sd_controller:sd1|recv_data[20]                           ;
+; 6:1                ; 26 bits   ; 104 LEs       ; 52 LEs               ; 52 LEs                 ; Yes        ; |Microcomputer|sd_controller:sd1|cmd_out[22]                             ;
+; 6:1                ; 5 bits    ; 20 LEs        ; 10 LEs               ; 10 LEs                 ; Yes        ; |Microcomputer|sd_controller:sd1|cmd_out[9]                              ;
+; 8:1                ; 26 bits   ; 130 LEs       ; 26 LEs               ; 104 LEs                ; Yes        ; |Microcomputer|SBCTextDisplayRGB:io1|kbWriteTimer[13]                    ;
+; 6:1                ; 7 bits    ; 28 LEs        ; 7 LEs                ; 21 LEs                 ; Yes        ; |Microcomputer|SBCTextDisplayRGB:io1|startAddr[5]                        ;
+; 8:1                ; 7 bits    ; 35 LEs        ; 7 LEs                ; 28 LEs                 ; Yes        ; |Microcomputer|sd_controller:sd1|\fsm:byte_counter[7]                    ;
+; 10:1               ; 3 bits    ; 18 LEs        ; 18 LEs               ; 0 LEs                  ; Yes        ; |Microcomputer|SBCTextDisplayRGB:io1|videoR0                             ;
+; 9:1                ; 7 bits    ; 42 LEs        ; 14 LEs               ; 28 LEs                 ; Yes        ; |Microcomputer|sd_controller:sd1|data_sig[4]                             ;
+; 9:1                ; 3 bits    ; 18 LEs        ; 6 LEs                ; 12 LEs                 ; Yes        ; |Microcomputer|sd_controller:sd1|\fsm:byte_counter[0]                    ;
+; 10:1               ; 3 bits    ; 18 LEs        ; 12 LEs               ; 6 LEs                  ; Yes        ; |Microcomputer|SBCTextDisplayRGB:io1|paramCount[2]                       ;
 ; 12:1               ; 7 bits    ; 56 LEs        ; 7 LEs                ; 49 LEs                 ; Yes        ; |Microcomputer|SBCTextDisplayRGB:io1|cursorHorizRestore[0]               ;
-; 13:1               ; 5 bits    ; 40 LEs        ; 5 LEs                ; 35 LEs                 ; Yes        ; |Microcomputer|SBCTextDisplayRGB:io1|cursorVertRestore[0]                ;
+; 13:1               ; 5 bits    ; 40 LEs        ; 5 LEs                ; 35 LEs                 ; Yes        ; |Microcomputer|SBCTextDisplayRGB:io1|cursorVertRestore[1]                ;
 ; 18:1               ; 2 bits    ; 24 LEs        ; 8 LEs                ; 16 LEs                 ; Yes        ; |Microcomputer|sd_controller:sd1|\fsm:bit_counter[4]                     ;
-; 35:1               ; 7 bits    ; 161 LEs       ; 77 LEs               ; 84 LEs                 ; Yes        ; |Microcomputer|SBCTextDisplayRGB:io1|cursorHoriz[5]                      ;
-; 41:1               ; 2 bits    ; 54 LEs        ; 24 LEs               ; 30 LEs                 ; Yes        ; |Microcomputer|SBCTextDisplayRGB:io1|cursorVert[2]                       ;
+; 35:1               ; 7 bits    ; 161 LEs       ; 77 LEs               ; 84 LEs                 ; Yes        ; |Microcomputer|SBCTextDisplayRGB:io1|cursorHoriz[4]                      ;
+; 41:1               ; 2 bits    ; 54 LEs        ; 24 LEs               ; 30 LEs                 ; Yes        ; |Microcomputer|SBCTextDisplayRGB:io1|cursorVert[3]                       ;
 ; 7:1                ; 5 bits    ; 20 LEs        ; 5 LEs                ; 15 LEs                 ; Yes        ; |Microcomputer|SBCTextDisplayRGB:io1|ps2WriteByte[4]                     ;
 ; 3:1                ; 2 bits    ; 4 LEs         ; 2 LEs                ; 2 LEs                  ; No         ; |Microcomputer|cpu09p:cpu1|addr_ctrl                                     ;
 ; 3:1                ; 7 bits    ; 14 LEs        ; 7 LEs                ; 7 LEs                  ; No         ; |Microcomputer|cpu09p:cpu1|alu_ctrl.alu_adc                              ;
 ; 3:1                ; 2 bits    ; 4 LEs         ; 4 LEs                ; 0 LEs                  ; No         ; |Microcomputer|cpu09p:cpu1|Mux131                                        ;
 ; 3:1                ; 2 bits    ; 4 LEs         ; 2 LEs                ; 2 LEs                  ; No         ; |Microcomputer|cpu09p:cpu1|up_ctrl.reset_up                              ;
 ; 3:1                ; 2 bits    ; 4 LEs         ; 2 LEs                ; 2 LEs                  ; No         ; |Microcomputer|cpu09p:cpu1|return_state.single_op_exec_state             ;
-; 3:1                ; 2 bits    ; 4 LEs         ; 2 LEs                ; 2 LEs                  ; No         ; |Microcomputer|cpu09p:cpu1|return_state.dual_op_write8_state             ;
+; 3:1                ; 2 bits    ; 4 LEs         ; 2 LEs                ; 2 LEs                  ; No         ; |Microcomputer|cpu09p:cpu1|return_state.dual_op_read8_state              ;
 ; 3:1                ; 3 bits    ; 6 LEs         ; 3 LEs                ; 3 LEs                  ; No         ; |Microcomputer|SBCTextDisplayRGB:io1|paramCount                          ;
 ; 3:1                ; 2 bits    ; 4 LEs         ; 2 LEs                ; 2 LEs                  ; No         ; |Microcomputer|cpu09p:cpu1|ix_ctrl.reset_ix                              ;
 ; 4:1                ; 2 bits    ; 4 LEs         ; 2 LEs                ; 2 LEs                  ; No         ; |Microcomputer|SBCTextDisplayRGB:io1|dispState                           ;
 ; 4:1                ; 2 bits    ; 4 LEs         ; 4 LEs                ; 0 LEs                  ; No         ; |Microcomputer|cpu09p:cpu1|Mux128                                        ;
-; 6:1                ; 25 bits   ; 100 LEs       ; 25 LEs               ; 75 LEs                 ; No         ; |Microcomputer|cpu09p:cpu1|alu_ctrl.alu_tfr                              ;
+; 6:1                ; 25 bits   ; 100 LEs       ; 25 LEs               ; 75 LEs                 ; No         ; |Microcomputer|cpu09p:cpu1|alu_ctrl.alu_orcc                             ;
 ; 5:1                ; 2 bits    ; 6 LEs         ; 2 LEs                ; 4 LEs                  ; No         ; |Microcomputer|cpu09p:cpu1|up_ctrl.pull_hi_up                            ;
-; 5:1                ; 2 bits    ; 6 LEs         ; 2 LEs                ; 4 LEs                  ; No         ; |Microcomputer|cpu09p:cpu1|sp_ctrl.pull_lo_sp                            ;
+; 5:1                ; 2 bits    ; 6 LEs         ; 2 LEs                ; 4 LEs                  ; No         ; |Microcomputer|cpu09p:cpu1|sp_ctrl.pull_hi_sp                            ;
 ; 5:1                ; 2 bits    ; 6 LEs         ; 2 LEs                ; 4 LEs                  ; No         ; |Microcomputer|cpu09p:cpu1|ix_ctrl.pull_lo_ix                            ;
 ; 5:1                ; 2 bits    ; 6 LEs         ; 2 LEs                ; 4 LEs                  ; No         ; |Microcomputer|cpu09p:cpu1|iy_ctrl.pull_hi_iy                            ;
 ; 4:1                ; 2 bits    ; 4 LEs         ; 2 LEs                ; 2 LEs                  ; No         ; |Microcomputer|cpu09p:cpu1|alu_ctrl.alu_sex                              ;
-; 5:1                ; 12 bits   ; 36 LEs        ; 36 LEs               ; 0 LEs                  ; No         ; |Microcomputer|cpu09p:cpu1|Selector316                                   ;
-; 17:1               ; 4 bits    ; 44 LEs        ; 44 LEs               ; 0 LEs                  ; No         ; |Microcomputer|mem_mapper2:mm1|ramAddr[17]                               ;
-; 17:1               ; 3 bits    ; 33 LEs        ; 33 LEs               ; 0 LEs                  ; No         ; |Microcomputer|mem_mapper2:mm1|ramAddr[15]                               ;
-; 5:1                ; 3 bits    ; 9 LEs         ; 6 LEs                ; 3 LEs                  ; No         ; |Microcomputer|cpu09p:cpu1|Selector368                                   ;
-; 6:1                ; 3 bits    ; 12 LEs        ; 12 LEs               ; 0 LEs                  ; No         ; |Microcomputer|cpu09p:cpu1|Selector328                                   ;
+; 5:1                ; 12 bits   ; 36 LEs        ; 36 LEs               ; 0 LEs                  ; No         ; |Microcomputer|cpu09p:cpu1|Selector324                                   ;
+; 17:1               ; 3 bits    ; 33 LEs        ; 33 LEs               ; 0 LEs                  ; No         ; |Microcomputer|mem_mapper2:mm1|ramAddr[16]                               ;
+; 17:1               ; 3 bits    ; 33 LEs        ; 33 LEs               ; 0 LEs                  ; No         ; |Microcomputer|mem_mapper2:mm1|ramAddr[14]                               ;
+; 5:1                ; 3 bits    ; 9 LEs         ; 6 LEs                ; 3 LEs                  ; No         ; |Microcomputer|cpu09p:cpu1|Selector367                                   ;
+; 6:1                ; 3 bits    ; 12 LEs        ; 12 LEs               ; 0 LEs                  ; No         ; |Microcomputer|cpu09p:cpu1|Selector329                                   ;
 ; 7:1                ; 2 bits    ; 8 LEs         ; 4 LEs                ; 4 LEs                  ; No         ; |Microcomputer|SBCTextDisplayRGB:io1|escState.processingParams           ;
 ; 7:1                ; 2 bits    ; 8 LEs         ; 6 LEs                ; 2 LEs                  ; No         ; |Microcomputer|SBCTextDisplayRGB:io1|escState.processingAdditionalParams ;
-; 6:1                ; 3 bits    ; 12 LEs        ; 12 LEs               ; 0 LEs                  ; No         ; |Microcomputer|cpu09p:cpu1|Selector364                                   ;
+; 6:1                ; 3 bits    ; 12 LEs        ; 12 LEs               ; 0 LEs                  ; No         ; |Microcomputer|cpu09p:cpu1|Selector365                                   ;
 ; 5:1                ; 2 bits    ; 6 LEs         ; 2 LEs                ; 4 LEs                  ; No         ; |Microcomputer|cpu09p:cpu1|right_ctrl.acca_right                         ;
 ; 7:1                ; 3 bits    ; 12 LEs        ; 6 LEs                ; 6 LEs                  ; No         ; |Microcomputer|bufferedUART:io2|txState.idle                             ;
 ; 7:1                ; 3 bits    ; 12 LEs        ; 6 LEs                ; 6 LEs                  ; No         ; |Microcomputer|bufferedUART:io2|rxState.stopBit                          ;
@@ -1126,10 +1128,10 @@ Encoding Type:  One-Hot
 ; 13:1               ; 7 bits    ; 56 LEs        ; 56 LEs               ; 0 LEs                  ; No         ; |Microcomputer|cpu09p:cpu1|Selector381                                   ;
 ; 14:1               ; 7 bits    ; 63 LEs        ; 63 LEs               ; 0 LEs                  ; No         ; |Microcomputer|cpu09p:cpu1|Selector376                                   ;
 ; 16:1               ; 8 bits    ; 80 LEs        ; 80 LEs               ; 0 LEs                  ; No         ; |Microcomputer|cpu09p:cpu1|Selector332                                   ;
-; 17:1               ; 10 bits   ; 110 LEs       ; 40 LEs               ; 70 LEs                 ; No         ; |Microcomputer|sd_controller:sd1|state.write_block_wait                  ;
+; 16:1               ; 9 bits    ; 90 LEs        ; 27 LEs               ; 63 LEs                 ; No         ; |Microcomputer|sd_controller:sd1|state.write_block_wait                  ;
 ; 15:1               ; 10 bits   ; 100 LEs       ; 50 LEs               ; 50 LEs                 ; No         ; |Microcomputer|cpu09p:cpu1|state                                         ;
 ; 16:1               ; 3 bits    ; 30 LEs        ; 6 LEs                ; 24 LEs                 ; No         ; |Microcomputer|cpu09p:cpu1|state                                         ;
-; 20:1               ; 2 bits    ; 26 LEs        ; 10 LEs               ; 16 LEs                 ; No         ; |Microcomputer|sd_controller:sd1|state.read_block_data                   ;
+; 19:1               ; 2 bits    ; 24 LEs        ; 10 LEs               ; 14 LEs                 ; No         ; |Microcomputer|sd_controller:sd1|state.read_block_data                   ;
 ; 17:1               ; 6 bits    ; 66 LEs        ; 12 LEs               ; 54 LEs                 ; No         ; |Microcomputer|cpu09p:cpu1|state                                         ;
 ; 17:1               ; 2 bits    ; 22 LEs        ; 4 LEs                ; 18 LEs                 ; No         ; |Microcomputer|cpu09p:cpu1|state                                         ;
 ; 17:1               ; 8 bits    ; 88 LEs        ; 16 LEs               ; 72 LEs                 ; No         ; |Microcomputer|cpu09p:cpu1|state                                         ;
@@ -1157,7 +1159,7 @@ Encoding Type:  One-Hot
 
 
 +-------------------------------------------------------------------------------------------------------------------------------------------------+
-; Source assignments for SBCTextDisplayRGB:io1|DisplayRam2K:\GEN_2KRAM:dispCharRam|altsyncram:altsyncram_component|altsyncram_ldr3:auto_generated ;
+; Source assignments for SBCTextDisplayRGB:io1|DisplayRam2K:\GEN_2KRAM:dispCharRam|altsyncram:altsyncram_component|altsyncram_shh2:auto_generated ;
 +---------------------------------+--------------------+------+-----------------------------------------------------------------------------------+
 ; Assignment                      ; Value              ; From ; To                                                                                ;
 +---------------------------------+--------------------+------+-----------------------------------------------------------------------------------+
@@ -1166,7 +1168,7 @@ Encoding Type:  One-Hot
 
 
 +---------------------------------------------------------------------------------------------------------------------------------------------------+
-; Source assignments for SBCTextDisplayRGB:io1|DisplayRam2K:\GEN_2KATTRAM:dispAttRam|altsyncram:altsyncram_component|altsyncram_ldr3:auto_generated ;
+; Source assignments for SBCTextDisplayRGB:io1|DisplayRam2K:\GEN_2KATTRAM:dispAttRam|altsyncram:altsyncram_component|altsyncram_shh2:auto_generated ;
 +---------------------------------+--------------------+------+-------------------------------------------------------------------------------------+
 ; Assignment                      ; Value              ; From ; To                                                                                  ;
 +---------------------------------+--------------------+------+-------------------------------------------------------------------------------------+
@@ -1333,123 +1335,123 @@ Note: In order to hide this table in the UI and the text report file, please set
 
 +----------------------------------------------------------------------------------------------------------------------------------------+
 ; Parameter Settings for User Entity Instance: SBCTextDisplayRGB:io1|DisplayRam2K:\GEN_2KRAM:dispCharRam|altsyncram:altsyncram_component ;
-+------------------------------------+------------------------+--------------------------------------------------------------------------+
-; Parameter Name                     ; Value                  ; Type                                                                     ;
-+------------------------------------+------------------------+--------------------------------------------------------------------------+
-; BYTE_SIZE_BLOCK                    ; 8                      ; Untyped                                                                  ;
-; AUTO_CARRY_CHAINS                  ; ON                     ; AUTO_CARRY                                                               ;
-; IGNORE_CARRY_BUFFERS               ; OFF                    ; IGNORE_CARRY                                                             ;
-; AUTO_CASCADE_CHAINS                ; ON                     ; AUTO_CASCADE                                                             ;
-; IGNORE_CASCADE_BUFFERS             ; OFF                    ; IGNORE_CASCADE                                                           ;
-; WIDTH_BYTEENA                      ; 1                      ; Untyped                                                                  ;
-; OPERATION_MODE                     ; BIDIR_DUAL_PORT        ; Untyped                                                                  ;
-; WIDTH_A                            ; 8                      ; Signed Integer                                                           ;
-; WIDTHAD_A                          ; 11                     ; Signed Integer                                                           ;
-; NUMWORDS_A                         ; 2048                   ; Signed Integer                                                           ;
-; OUTDATA_REG_A                      ; UNREGISTERED           ; Untyped                                                                  ;
-; ADDRESS_ACLR_A                     ; NONE                   ; Untyped                                                                  ;
-; OUTDATA_ACLR_A                     ; NONE                   ; Untyped                                                                  ;
-; WRCONTROL_ACLR_A                   ; NONE                   ; Untyped                                                                  ;
-; INDATA_ACLR_A                      ; NONE                   ; Untyped                                                                  ;
-; BYTEENA_ACLR_A                     ; NONE                   ; Untyped                                                                  ;
-; WIDTH_B                            ; 8                      ; Signed Integer                                                           ;
-; WIDTHAD_B                          ; 11                     ; Signed Integer                                                           ;
-; NUMWORDS_B                         ; 2048                   ; Signed Integer                                                           ;
-; INDATA_REG_B                       ; CLOCK0                 ; Untyped                                                                  ;
-; WRCONTROL_WRADDRESS_REG_B          ; CLOCK0                 ; Untyped                                                                  ;
-; RDCONTROL_REG_B                    ; CLOCK1                 ; Untyped                                                                  ;
-; ADDRESS_REG_B                      ; CLOCK0                 ; Untyped                                                                  ;
-; OUTDATA_REG_B                      ; UNREGISTERED           ; Untyped                                                                  ;
-; BYTEENA_REG_B                      ; CLOCK1                 ; Untyped                                                                  ;
-; INDATA_ACLR_B                      ; NONE                   ; Untyped                                                                  ;
-; WRCONTROL_ACLR_B                   ; NONE                   ; Untyped                                                                  ;
-; ADDRESS_ACLR_B                     ; NONE                   ; Untyped                                                                  ;
-; OUTDATA_ACLR_B                     ; NONE                   ; Untyped                                                                  ;
-; RDCONTROL_ACLR_B                   ; NONE                   ; Untyped                                                                  ;
-; BYTEENA_ACLR_B                     ; NONE                   ; Untyped                                                                  ;
-; WIDTH_BYTEENA_A                    ; 1                      ; Signed Integer                                                           ;
-; WIDTH_BYTEENA_B                    ; 1                      ; Signed Integer                                                           ;
-; RAM_BLOCK_TYPE                     ; AUTO                   ; Untyped                                                                  ;
-; BYTE_SIZE                          ; 8                      ; Signed Integer                                                           ;
-; READ_DURING_WRITE_MODE_MIXED_PORTS ; DONT_CARE              ; Untyped                                                                  ;
-; READ_DURING_WRITE_MODE_PORT_A      ; NEW_DATA_WITH_NBE_READ ; Untyped                                                                  ;
-; READ_DURING_WRITE_MODE_PORT_B      ; NEW_DATA_WITH_NBE_READ ; Untyped                                                                  ;
-; INIT_FILE                          ; UNUSED                 ; Untyped                                                                  ;
-; INIT_FILE_LAYOUT                   ; PORT_A                 ; Untyped                                                                  ;
-; MAXIMUM_DEPTH                      ; 0                      ; Signed Integer                                                           ;
-; CLOCK_ENABLE_INPUT_A               ; BYPASS                 ; Untyped                                                                  ;
-; CLOCK_ENABLE_INPUT_B               ; BYPASS                 ; Untyped                                                                  ;
-; CLOCK_ENABLE_OUTPUT_A              ; BYPASS                 ; Untyped                                                                  ;
-; CLOCK_ENABLE_OUTPUT_B              ; BYPASS                 ; Untyped                                                                  ;
-; CLOCK_ENABLE_CORE_A                ; USE_INPUT_CLKEN        ; Untyped                                                                  ;
-; CLOCK_ENABLE_CORE_B                ; USE_INPUT_CLKEN        ; Untyped                                                                  ;
-; ENABLE_ECC                         ; FALSE                  ; Untyped                                                                  ;
-; ECC_PIPELINE_STAGE_ENABLED         ; FALSE                  ; Untyped                                                                  ;
-; WIDTH_ECCSTATUS                    ; 3                      ; Signed Integer                                                           ;
-; DEVICE_FAMILY                      ; Cyclone IV E           ; Untyped                                                                  ;
-; CBXI_PARAMETER                     ; altsyncram_ldr3        ; Untyped                                                                  ;
-+------------------------------------+------------------------+--------------------------------------------------------------------------+
++------------------------------------+----------------------+----------------------------------------------------------------------------+
+; Parameter Name                     ; Value                ; Type                                                                       ;
++------------------------------------+----------------------+----------------------------------------------------------------------------+
+; BYTE_SIZE_BLOCK                    ; 8                    ; Untyped                                                                    ;
+; AUTO_CARRY_CHAINS                  ; ON                   ; AUTO_CARRY                                                                 ;
+; IGNORE_CARRY_BUFFERS               ; OFF                  ; IGNORE_CARRY                                                               ;
+; AUTO_CASCADE_CHAINS                ; ON                   ; AUTO_CASCADE                                                               ;
+; IGNORE_CASCADE_BUFFERS             ; OFF                  ; IGNORE_CASCADE                                                             ;
+; WIDTH_BYTEENA                      ; 1                    ; Untyped                                                                    ;
+; OPERATION_MODE                     ; BIDIR_DUAL_PORT      ; Untyped                                                                    ;
+; WIDTH_A                            ; 8                    ; Signed Integer                                                             ;
+; WIDTHAD_A                          ; 11                   ; Signed Integer                                                             ;
+; NUMWORDS_A                         ; 2048                 ; Signed Integer                                                             ;
+; OUTDATA_REG_A                      ; UNREGISTERED         ; Untyped                                                                    ;
+; ADDRESS_ACLR_A                     ; NONE                 ; Untyped                                                                    ;
+; OUTDATA_ACLR_A                     ; NONE                 ; Untyped                                                                    ;
+; WRCONTROL_ACLR_A                   ; NONE                 ; Untyped                                                                    ;
+; INDATA_ACLR_A                      ; NONE                 ; Untyped                                                                    ;
+; BYTEENA_ACLR_A                     ; NONE                 ; Untyped                                                                    ;
+; WIDTH_B                            ; 8                    ; Signed Integer                                                             ;
+; WIDTHAD_B                          ; 11                   ; Signed Integer                                                             ;
+; NUMWORDS_B                         ; 2048                 ; Signed Integer                                                             ;
+; INDATA_REG_B                       ; CLOCK0               ; Untyped                                                                    ;
+; WRCONTROL_WRADDRESS_REG_B          ; CLOCK0               ; Untyped                                                                    ;
+; RDCONTROL_REG_B                    ; CLOCK1               ; Untyped                                                                    ;
+; ADDRESS_REG_B                      ; CLOCK0               ; Untyped                                                                    ;
+; OUTDATA_REG_B                      ; UNREGISTERED         ; Untyped                                                                    ;
+; BYTEENA_REG_B                      ; CLOCK1               ; Untyped                                                                    ;
+; INDATA_ACLR_B                      ; NONE                 ; Untyped                                                                    ;
+; WRCONTROL_ACLR_B                   ; NONE                 ; Untyped                                                                    ;
+; ADDRESS_ACLR_B                     ; NONE                 ; Untyped                                                                    ;
+; OUTDATA_ACLR_B                     ; NONE                 ; Untyped                                                                    ;
+; RDCONTROL_ACLR_B                   ; NONE                 ; Untyped                                                                    ;
+; BYTEENA_ACLR_B                     ; NONE                 ; Untyped                                                                    ;
+; WIDTH_BYTEENA_A                    ; 1                    ; Signed Integer                                                             ;
+; WIDTH_BYTEENA_B                    ; 1                    ; Signed Integer                                                             ;
+; RAM_BLOCK_TYPE                     ; AUTO                 ; Untyped                                                                    ;
+; BYTE_SIZE                          ; 8                    ; Untyped                                                                    ;
+; READ_DURING_WRITE_MODE_MIXED_PORTS ; DONT_CARE            ; Untyped                                                                    ;
+; READ_DURING_WRITE_MODE_PORT_A      ; NEW_DATA_NO_NBE_READ ; Untyped                                                                    ;
+; READ_DURING_WRITE_MODE_PORT_B      ; NEW_DATA_NO_NBE_READ ; Untyped                                                                    ;
+; INIT_FILE                          ; UNUSED               ; Untyped                                                                    ;
+; INIT_FILE_LAYOUT                   ; PORT_A               ; Untyped                                                                    ;
+; MAXIMUM_DEPTH                      ; 0                    ; Untyped                                                                    ;
+; CLOCK_ENABLE_INPUT_A               ; BYPASS               ; Untyped                                                                    ;
+; CLOCK_ENABLE_INPUT_B               ; BYPASS               ; Untyped                                                                    ;
+; CLOCK_ENABLE_OUTPUT_A              ; BYPASS               ; Untyped                                                                    ;
+; CLOCK_ENABLE_OUTPUT_B              ; BYPASS               ; Untyped                                                                    ;
+; CLOCK_ENABLE_CORE_A                ; USE_INPUT_CLKEN      ; Untyped                                                                    ;
+; CLOCK_ENABLE_CORE_B                ; USE_INPUT_CLKEN      ; Untyped                                                                    ;
+; ENABLE_ECC                         ; FALSE                ; Untyped                                                                    ;
+; ECC_PIPELINE_STAGE_ENABLED         ; FALSE                ; Untyped                                                                    ;
+; WIDTH_ECCSTATUS                    ; 3                    ; Untyped                                                                    ;
+; DEVICE_FAMILY                      ; Cyclone IV E         ; Untyped                                                                    ;
+; CBXI_PARAMETER                     ; altsyncram_shh2      ; Untyped                                                                    ;
++------------------------------------+----------------------+----------------------------------------------------------------------------+
 Note: In order to hide this table in the UI and the text report file, please set the "Show Parameter Settings in Synthesis Report" option in "Analysis and Synthesis Settings -> More Settings" to "Off".
 
 
 +------------------------------------------------------------------------------------------------------------------------------------------+
 ; Parameter Settings for User Entity Instance: SBCTextDisplayRGB:io1|DisplayRam2K:\GEN_2KATTRAM:dispAttRam|altsyncram:altsyncram_component ;
-+------------------------------------+------------------------+----------------------------------------------------------------------------+
-; Parameter Name                     ; Value                  ; Type                                                                       ;
-+------------------------------------+------------------------+----------------------------------------------------------------------------+
-; BYTE_SIZE_BLOCK                    ; 8                      ; Untyped                                                                    ;
-; AUTO_CARRY_CHAINS                  ; ON                     ; AUTO_CARRY                                                                 ;
-; IGNORE_CARRY_BUFFERS               ; OFF                    ; IGNORE_CARRY                                                               ;
-; AUTO_CASCADE_CHAINS                ; ON                     ; AUTO_CASCADE                                                               ;
-; IGNORE_CASCADE_BUFFERS             ; OFF                    ; IGNORE_CASCADE                                                             ;
-; WIDTH_BYTEENA                      ; 1                      ; Untyped                                                                    ;
-; OPERATION_MODE                     ; BIDIR_DUAL_PORT        ; Untyped                                                                    ;
-; WIDTH_A                            ; 8                      ; Signed Integer                                                             ;
-; WIDTHAD_A                          ; 11                     ; Signed Integer                                                             ;
-; NUMWORDS_A                         ; 2048                   ; Signed Integer                                                             ;
-; OUTDATA_REG_A                      ; UNREGISTERED           ; Untyped                                                                    ;
-; ADDRESS_ACLR_A                     ; NONE                   ; Untyped                                                                    ;
-; OUTDATA_ACLR_A                     ; NONE                   ; Untyped                                                                    ;
-; WRCONTROL_ACLR_A                   ; NONE                   ; Untyped                                                                    ;
-; INDATA_ACLR_A                      ; NONE                   ; Untyped                                                                    ;
-; BYTEENA_ACLR_A                     ; NONE                   ; Untyped                                                                    ;
-; WIDTH_B                            ; 8                      ; Signed Integer                                                             ;
-; WIDTHAD_B                          ; 11                     ; Signed Integer                                                             ;
-; NUMWORDS_B                         ; 2048                   ; Signed Integer                                                             ;
-; INDATA_REG_B                       ; CLOCK0                 ; Untyped                                                                    ;
-; WRCONTROL_WRADDRESS_REG_B          ; CLOCK0                 ; Untyped                                                                    ;
-; RDCONTROL_REG_B                    ; CLOCK1                 ; Untyped                                                                    ;
-; ADDRESS_REG_B                      ; CLOCK0                 ; Untyped                                                                    ;
-; OUTDATA_REG_B                      ; UNREGISTERED           ; Untyped                                                                    ;
-; BYTEENA_REG_B                      ; CLOCK1                 ; Untyped                                                                    ;
-; INDATA_ACLR_B                      ; NONE                   ; Untyped                                                                    ;
-; WRCONTROL_ACLR_B                   ; NONE                   ; Untyped                                                                    ;
-; ADDRESS_ACLR_B                     ; NONE                   ; Untyped                                                                    ;
-; OUTDATA_ACLR_B                     ; NONE                   ; Untyped                                                                    ;
-; RDCONTROL_ACLR_B                   ; NONE                   ; Untyped                                                                    ;
-; BYTEENA_ACLR_B                     ; NONE                   ; Untyped                                                                    ;
-; WIDTH_BYTEENA_A                    ; 1                      ; Signed Integer                                                             ;
-; WIDTH_BYTEENA_B                    ; 1                      ; Signed Integer                                                             ;
-; RAM_BLOCK_TYPE                     ; AUTO                   ; Untyped                                                                    ;
-; BYTE_SIZE                          ; 8                      ; Signed Integer                                                             ;
-; READ_DURING_WRITE_MODE_MIXED_PORTS ; DONT_CARE              ; Untyped                                                                    ;
-; READ_DURING_WRITE_MODE_PORT_A      ; NEW_DATA_WITH_NBE_READ ; Untyped                                                                    ;
-; READ_DURING_WRITE_MODE_PORT_B      ; NEW_DATA_WITH_NBE_READ ; Untyped                                                                    ;
-; INIT_FILE                          ; UNUSED                 ; Untyped                                                                    ;
-; INIT_FILE_LAYOUT                   ; PORT_A                 ; Untyped                                                                    ;
-; MAXIMUM_DEPTH                      ; 0                      ; Signed Integer                                                             ;
-; CLOCK_ENABLE_INPUT_A               ; BYPASS                 ; Untyped                                                                    ;
-; CLOCK_ENABLE_INPUT_B               ; BYPASS                 ; Untyped                                                                    ;
-; CLOCK_ENABLE_OUTPUT_A              ; BYPASS                 ; Untyped                                                                    ;
-; CLOCK_ENABLE_OUTPUT_B              ; BYPASS                 ; Untyped                                                                    ;
-; CLOCK_ENABLE_CORE_A                ; USE_INPUT_CLKEN        ; Untyped                                                                    ;
-; CLOCK_ENABLE_CORE_B                ; USE_INPUT_CLKEN        ; Untyped                                                                    ;
-; ENABLE_ECC                         ; FALSE                  ; Untyped                                                                    ;
-; ECC_PIPELINE_STAGE_ENABLED         ; FALSE                  ; Untyped                                                                    ;
-; WIDTH_ECCSTATUS                    ; 3                      ; Signed Integer                                                             ;
-; DEVICE_FAMILY                      ; Cyclone IV E           ; Untyped                                                                    ;
-; CBXI_PARAMETER                     ; altsyncram_ldr3        ; Untyped                                                                    ;
-+------------------------------------+------------------------+----------------------------------------------------------------------------+
++------------------------------------+----------------------+------------------------------------------------------------------------------+
+; Parameter Name                     ; Value                ; Type                                                                         ;
++------------------------------------+----------------------+------------------------------------------------------------------------------+
+; BYTE_SIZE_BLOCK                    ; 8                    ; Untyped                                                                      ;
+; AUTO_CARRY_CHAINS                  ; ON                   ; AUTO_CARRY                                                                   ;
+; IGNORE_CARRY_BUFFERS               ; OFF                  ; IGNORE_CARRY                                                                 ;
+; AUTO_CASCADE_CHAINS                ; ON                   ; AUTO_CASCADE                                                                 ;
+; IGNORE_CASCADE_BUFFERS             ; OFF                  ; IGNORE_CASCADE                                                               ;
+; WIDTH_BYTEENA                      ; 1                    ; Untyped                                                                      ;
+; OPERATION_MODE                     ; BIDIR_DUAL_PORT      ; Untyped                                                                      ;
+; WIDTH_A                            ; 8                    ; Signed Integer                                                               ;
+; WIDTHAD_A                          ; 11                   ; Signed Integer                                                               ;
+; NUMWORDS_A                         ; 2048                 ; Signed Integer                                                               ;
+; OUTDATA_REG_A                      ; UNREGISTERED         ; Untyped                                                                      ;
+; ADDRESS_ACLR_A                     ; NONE                 ; Untyped                                                                      ;
+; OUTDATA_ACLR_A                     ; NONE                 ; Untyped                                                                      ;
+; WRCONTROL_ACLR_A                   ; NONE                 ; Untyped                                                                      ;
+; INDATA_ACLR_A                      ; NONE                 ; Untyped                                                                      ;
+; BYTEENA_ACLR_A                     ; NONE                 ; Untyped                                                                      ;
+; WIDTH_B                            ; 8                    ; Signed Integer                                                               ;
+; WIDTHAD_B                          ; 11                   ; Signed Integer                                                               ;
+; NUMWORDS_B                         ; 2048                 ; Signed Integer                                                               ;
+; INDATA_REG_B                       ; CLOCK0               ; Untyped                                                                      ;
+; WRCONTROL_WRADDRESS_REG_B          ; CLOCK0               ; Untyped                                                                      ;
+; RDCONTROL_REG_B                    ; CLOCK1               ; Untyped                                                                      ;
+; ADDRESS_REG_B                      ; CLOCK0               ; Untyped                                                                      ;
+; OUTDATA_REG_B                      ; UNREGISTERED         ; Untyped                                                                      ;
+; BYTEENA_REG_B                      ; CLOCK1               ; Untyped                                                                      ;
+; INDATA_ACLR_B                      ; NONE                 ; Untyped                                                                      ;
+; WRCONTROL_ACLR_B                   ; NONE                 ; Untyped                                                                      ;
+; ADDRESS_ACLR_B                     ; NONE                 ; Untyped                                                                      ;
+; OUTDATA_ACLR_B                     ; NONE                 ; Untyped                                                                      ;
+; RDCONTROL_ACLR_B                   ; NONE                 ; Untyped                                                                      ;
+; BYTEENA_ACLR_B                     ; NONE                 ; Untyped                                                                      ;
+; WIDTH_BYTEENA_A                    ; 1                    ; Signed Integer                                                               ;
+; WIDTH_BYTEENA_B                    ; 1                    ; Signed Integer                                                               ;
+; RAM_BLOCK_TYPE                     ; AUTO                 ; Untyped                                                                      ;
+; BYTE_SIZE                          ; 8                    ; Untyped                                                                      ;
+; READ_DURING_WRITE_MODE_MIXED_PORTS ; DONT_CARE            ; Untyped                                                                      ;
+; READ_DURING_WRITE_MODE_PORT_A      ; NEW_DATA_NO_NBE_READ ; Untyped                                                                      ;
+; READ_DURING_WRITE_MODE_PORT_B      ; NEW_DATA_NO_NBE_READ ; Untyped                                                                      ;
+; INIT_FILE                          ; UNUSED               ; Untyped                                                                      ;
+; INIT_FILE_LAYOUT                   ; PORT_A               ; Untyped                                                                      ;
+; MAXIMUM_DEPTH                      ; 0                    ; Untyped                                                                      ;
+; CLOCK_ENABLE_INPUT_A               ; BYPASS               ; Untyped                                                                      ;
+; CLOCK_ENABLE_INPUT_B               ; BYPASS               ; Untyped                                                                      ;
+; CLOCK_ENABLE_OUTPUT_A              ; BYPASS               ; Untyped                                                                      ;
+; CLOCK_ENABLE_OUTPUT_B              ; BYPASS               ; Untyped                                                                      ;
+; CLOCK_ENABLE_CORE_A                ; USE_INPUT_CLKEN      ; Untyped                                                                      ;
+; CLOCK_ENABLE_CORE_B                ; USE_INPUT_CLKEN      ; Untyped                                                                      ;
+; ENABLE_ECC                         ; FALSE                ; Untyped                                                                      ;
+; ECC_PIPELINE_STAGE_ENABLED         ; FALSE                ; Untyped                                                                      ;
+; WIDTH_ECCSTATUS                    ; 3                    ; Untyped                                                                      ;
+; DEVICE_FAMILY                      ; Cyclone IV E         ; Untyped                                                                      ;
+; CBXI_PARAMETER                     ; altsyncram_shh2      ; Untyped                                                                      ;
++------------------------------------+----------------------+------------------------------------------------------------------------------+
 Note: In order to hide this table in the UI and the text report file, please set the "Show Parameter Settings in Synthesis Report" option in "Analysis and Synthesis Settings -> More Settings" to "Off".
 
 
@@ -1634,6 +1636,15 @@ Note: In order to hide this table in the UI and the text report file, please set
 +-------------------------------------------+------------------------------------------------------------------------------------------------------+
 
 
++-----------------------------------------------------------------------------------------------------------------------+
+; Port Connectivity Checks: "mem_mapper2:mm1"                                                                           ;
++-------------+--------+----------+-------------------------------------------------------------------------------------+
+; Port        ; Type   ; Severity ; Details                                                                             ;
++-------------+--------+----------+-------------------------------------------------------------------------------------+
+; ramaddr[19] ; Output ; Info     ; Connected to dangling logic. Logic that only feeds a dangling port will be removed. ;
++-------------+--------+----------+-------------------------------------------------------------------------------------+
+
+
 +----------------------------------------------+
 ; Port Connectivity Checks: "bufferedUART:io2" ;
 +-------+-------+----------+-------------------+
@@ -1699,10 +1710,10 @@ Note: In order to hide this table in the UI and the text report file, please set
 ; Type                  ; Count                       ;
 +-----------------------+-----------------------------+
 ; boundary_port         ; 65                          ;
-; cycloneiii_ff         ; 1246                        ;
+; cycloneiii_ff         ; 1230                        ;
 ;     CLR               ; 43                          ;
 ;     CLR SCLR          ; 20                          ;
-;     ENA               ; 673                         ;
+;     ENA               ; 657                         ;
 ;     ENA CLR           ; 169                         ;
 ;     ENA CLR SCLR      ; 62                          ;
 ;     ENA CLR SLD       ; 4                           ;
@@ -1712,19 +1723,19 @@ Note: In order to hide this table in the UI and the text report file, please set
 ;     SCLR              ; 44                          ;
 ;     plain             ; 58                          ;
 ; cycloneiii_io_obuf    ; 21                          ;
-; cycloneiii_lcell_comb ; 4020                        ;
+; cycloneiii_lcell_comb ; 4012                        ;
 ;     arith             ; 489                         ;
 ;         2 data inputs ; 284                         ;
 ;         3 data inputs ; 205                         ;
-;     normal            ; 3531                        ;
+;     normal            ; 3523                        ;
 ;         0 data inputs ; 16                          ;
-;         1 data inputs ; 48                          ;
-;         2 data inputs ; 402                         ;
-;         3 data inputs ; 566                         ;
-;         4 data inputs ; 2499                        ;
+;         1 data inputs ; 47                          ;
+;         2 data inputs ; 399                         ;
+;         3 data inputs ; 577                         ;
+;         4 data inputs ; 2484                        ;
 ; cycloneiii_ram_block  ; 40                          ;
 ;                       ;                             ;
-; Max LUT depth         ; 19.30                       ;
+; Max LUT depth         ; 19.20                       ;
 ; Average LUT depth     ; 8.47                        ;
 +-----------------------+-----------------------------+
 
@@ -1734,7 +1745,7 @@ Note: In order to hide this table in the UI and the text report file, please set
 +----------------+--------------+
 ; Partition Name ; Elapsed Time ;
 +----------------+--------------+
-; Top            ; 00:00:20     ;
+; Top            ; 00:00:29     ;
 +----------------+--------------+
 
 
@@ -1743,14 +1754,14 @@ Note: In order to hide this table in the UI and the text report file, please set
 +-------------------------------+
 Info: *******************************************************************
 Info: Running Quartus Prime Analysis & Synthesis
-    Info: Version 18.1.0 Build 625 09/12/2018 SJ Lite Edition
-    Info: Processing started: Sun Nov 24 06:42:16 2019
+    Info: Version 20.1.0 Build 711 06/05/2020 SJ Lite Edition
+    Info: Processing started: Mon May 31 11:32:06 2021
 Info: Command: quartus_map --read_settings_files=on --write_settings_files=off MicrocomputerPCB -c MicrocomputerPCB
 Warning (18236): Number of processors has not been specified which may cause overloading on shared machines.  Set the global assignment NUM_PARALLEL_PROCESSORS in your QSF to an appropriate value for best performance.
 Info (20030): Parallel compilation is enabled and will use 4 of the 4 processors detected
 Info (12021): Found 2 design units, including 1 entities, in source file /users/hpz420/documents/github/doug gilliland/multicomp/multicomp (vhdl template)/components/uart/buffereduart.vhd
-    Info (12022): Found design unit 1: bufferedUART-rtl File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/UART/bufferedUART.vhd Line: 48
-    Info (12023): Found entity 1: bufferedUART File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/UART/bufferedUART.vhd Line: 27
+    Info (12022): Found design unit 1: bufferedUART-rtl File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/UART/bufferedUART.vhd Line: 60
+    Info (12023): Found entity 1: bufferedUART File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/UART/bufferedUART.vhd Line: 39
 Info (12021): Found 2 design units, including 1 entities, in source file /users/hpz420/documents/github/doug gilliland/multicomp/multicomp (vhdl template)/components/cpu/m6809/cpu09p.vhd
     Info (12022): Found design unit 1: cpu09p-rtl File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/CPU/M6809/cpu09p.vhd Line: 273
     Info (12023): Found entity 1: cpu09p File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/CPU/M6809/cpu09p.vhd Line: 251
@@ -1773,8 +1784,8 @@ Info (12021): Found 2 design units, including 1 entities, in source file /users/
     Info (12022): Found design unit 1: cgaboldrom-SYN File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/TERMINAL/CGABoldRom.vhd Line: 52
     Info (12023): Found entity 1: CGABoldRom File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/TERMINAL/CGABoldRom.vhd Line: 42
 Info (12021): Found 2 design units, including 1 entities, in source file /users/hpz420/documents/github/doug gilliland/multicomp/multicomp (vhdl template)/components/sdcard/sd_controller_high_speed.vhd
-    Info (12022): Found design unit 1: sd_controller-rtl File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/SDCARD/sd_controller_High_Speed.vhd Line: 127
-    Info (12023): Found entity 1: sd_controller File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/SDCARD/sd_controller_High_Speed.vhd Line: 105
+    Info (12022): Found design unit 1: sd_controller-rtl File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/SDCARD/sd_controller_High_Speed.vhd Line: 132
+    Info (12023): Found entity 1: sd_controller File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/SDCARD/sd_controller_High_Speed.vhd Line: 107
 Info (12021): Found 2 design units, including 1 entities, in source file /users/hpz420/documents/github/doug gilliland/multicomp/multicomp (vhdl template)/components/io/gpio.vhd
     Info (12022): Found design unit 1: gpio-rtl File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/IO/gpio.vhd Line: 87
     Info (12023): Found entity 1: gpio File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/IO/gpio.vhd Line: 63
@@ -1791,24 +1802,25 @@ Info (12021): Found 2 design units, including 1 entities, in source file microco
     Info (12022): Found design unit 1: Microcomputer-struct File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4/MultiComp_6809_by_Neal_C-2019-04-08/MicrocomputerPCB/Microcomputer.vhd Line: 149
     Info (12023): Found entity 1: Microcomputer File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4/MultiComp_6809_by_Neal_C-2019-04-08/MicrocomputerPCB/Microcomputer.vhd Line: 86
 Info (12021): Found 2 design units, including 1 entities, in source file internalram1k.vhd
-    Info (12022): Found design unit 1: internalram1k-SYN File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4/MultiComp_6809_by_Neal_C-2019-04-08/MicrocomputerPCB/InternalRam1K.vhd Line: 54
-    Info (12023): Found entity 1: InternalRam1K File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4/MultiComp_6809_by_Neal_C-2019-04-08/MicrocomputerPCB/InternalRam1K.vhd Line: 42
+    Info (12022): Found design unit 1: internalram1k-SYN File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4/MultiComp_6809_by_Neal_C-2019-04-08/MicrocomputerPCB/InternalRam1K.vhd Line: 55
+    Info (12023): Found entity 1: InternalRam1K File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4/MultiComp_6809_by_Neal_C-2019-04-08/MicrocomputerPCB/InternalRam1K.vhd Line: 43
 Info (12021): Found 2 design units, including 1 entities, in source file internalram2k.vhd
     Info (12022): Found design unit 1: internalram2k-SYN File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4/MultiComp_6809_by_Neal_C-2019-04-08/MicrocomputerPCB/InternalRam2K.vhd Line: 54
     Info (12023): Found entity 1: InternalRam2K File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4/MultiComp_6809_by_Neal_C-2019-04-08/MicrocomputerPCB/InternalRam2K.vhd Line: 42
 Info (12021): Found 2 design units, including 1 entities, in source file internalram4k.vhd
-    Info (12022): Found design unit 1: internalram4k-SYN File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4/MultiComp_6809_by_Neal_C-2019-04-08/MicrocomputerPCB/InternalRam4K.vhd Line: 54
-    Info (12023): Found entity 1: InternalRam4K File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4/MultiComp_6809_by_Neal_C-2019-04-08/MicrocomputerPCB/InternalRam4K.vhd Line: 42
+    Info (12022): Found design unit 1: internalram4k-SYN File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4/MultiComp_6809_by_Neal_C-2019-04-08/MicrocomputerPCB/InternalRam4K.vhd Line: 55
+    Info (12023): Found entity 1: InternalRam4K File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4/MultiComp_6809_by_Neal_C-2019-04-08/MicrocomputerPCB/InternalRam4K.vhd Line: 43
 Info (12021): Found 2 design units, including 1 entities, in source file /users/hpz420/documents/github/doug gilliland/multicomp/multicomp_on_retro-ep4/multicomp_6809_by_neal_c-2019-04-08/roms/6809/m6809_camelforth_rom.vhd
-    Info (12022): Found design unit 1: m6809_camelforth_rom-SYN File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4/MultiComp_6809_by_Neal_C-2019-04-08/ROMS/6809/M6809_CAMELFORTH_ROM.vhd Line: 52
-    Info (12023): Found entity 1: M6809_CAMELFORTH_ROM File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4/MultiComp_6809_by_Neal_C-2019-04-08/ROMS/6809/M6809_CAMELFORTH_ROM.vhd Line: 42
+    Info (12022): Found design unit 1: m6809_camelforth_rom-SYN File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4/MultiComp_6809_by_Neal_C-2019-04-08/ROMS/6809/M6809_CAMELFORTH_ROM.vhd Line: 53
+    Info (12023): Found entity 1: M6809_CAMELFORTH_ROM File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4/MultiComp_6809_by_Neal_C-2019-04-08/ROMS/6809/M6809_CAMELFORTH_ROM.vhd Line: 43
 Info (12127): Elaborating entity "Microcomputer" for the top level hierarchy
+Warning (10541): VHDL Signal Declaration warning at Microcomputer.vhd(161): used implicit default value for signal "n_sRamCSHi_i" because signal was never assigned a value or an explicit default value. Use of implicit default value may introduce unintended design optimizations. File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4/MultiComp_6809_by_Neal_C-2019-04-08/MicrocomputerPCB/Microcomputer.vhd Line: 161
 Warning (10541): VHDL Signal Declaration warning at Microcomputer.vhd(166): used implicit default value for signal "internalRam1DataOut" because signal was never assigned a value or an explicit default value. Use of implicit default value may introduce unintended design optimizations. File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4/MultiComp_6809_by_Neal_C-2019-04-08/MicrocomputerPCB/Microcomputer.vhd Line: 166
 Info (12128): Elaborating entity "cpu09p" for hierarchy "cpu09p:cpu1" File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4/MultiComp_6809_by_Neal_C-2019-04-08/MicrocomputerPCB/Microcomputer.vhd Line: 222
 Info (12128): Elaborating entity "M6809_CAMELFORTH_ROM" for hierarchy "M6809_CAMELFORTH_ROM:rom1" File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4/MultiComp_6809_by_Neal_C-2019-04-08/MicrocomputerPCB/Microcomputer.vhd Line: 238
-Info (12128): Elaborating entity "altsyncram" for hierarchy "M6809_CAMELFORTH_ROM:rom1|altsyncram:altsyncram_component" File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4/MultiComp_6809_by_Neal_C-2019-04-08/ROMS/6809/M6809_CAMELFORTH_ROM.vhd Line: 59
-Info (12130): Elaborated megafunction instantiation "M6809_CAMELFORTH_ROM:rom1|altsyncram:altsyncram_component" File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4/MultiComp_6809_by_Neal_C-2019-04-08/ROMS/6809/M6809_CAMELFORTH_ROM.vhd Line: 59
-Info (12133): Instantiated megafunction "M6809_CAMELFORTH_ROM:rom1|altsyncram:altsyncram_component" with the following parameter: File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4/MultiComp_6809_by_Neal_C-2019-04-08/ROMS/6809/M6809_CAMELFORTH_ROM.vhd Line: 59
+Info (12128): Elaborating entity "altsyncram" for hierarchy "M6809_CAMELFORTH_ROM:rom1|altsyncram:altsyncram_component" File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4/MultiComp_6809_by_Neal_C-2019-04-08/ROMS/6809/M6809_CAMELFORTH_ROM.vhd Line: 60
+Info (12130): Elaborated megafunction instantiation "M6809_CAMELFORTH_ROM:rom1|altsyncram:altsyncram_component" File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4/MultiComp_6809_by_Neal_C-2019-04-08/ROMS/6809/M6809_CAMELFORTH_ROM.vhd Line: 60
+Info (12133): Instantiated megafunction "M6809_CAMELFORTH_ROM:rom1|altsyncram:altsyncram_component" with the following parameter: File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4/MultiComp_6809_by_Neal_C-2019-04-08/ROMS/6809/M6809_CAMELFORTH_ROM.vhd Line: 60
     Info (12134): Parameter "address_aclr_a" = "UNUSED"
     Info (12134): Parameter "address_aclr_b" = "NONE"
     Info (12134): Parameter "address_reg_b" = "CLOCK1"
@@ -1860,8 +1872,19 @@ Info (12133): Instantiated megafunction "M6809_CAMELFORTH_ROM:rom1|altsyncram:al
     Info (12134): Parameter "lpm_hint" = "ENABLE_RUNTIME_MOD=NO"
     Info (12134): Parameter "lpm_type" = "altsyncram"
 Info (12021): Found 1 design units, including 1 entities, in source file db/altsyncram_urr3.tdf
-    Info (12023): Found entity 1: altsyncram_urr3 File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4/MultiComp_6809_by_Neal_C-2019-04-08/MicrocomputerPCB/db/altsyncram_urr3.tdf Line: 27
-Info (12128): Elaborating entity "altsyncram_urr3" for hierarchy "M6809_CAMELFORTH_ROM:rom1|altsyncram:altsyncram_component|altsyncram_urr3:auto_generated" File: c:/intelfpga_lite/18.1/quartus/libraries/megafunctions/altsyncram.tdf Line: 791
+    Info (12023): Found entity 1: altsyncram_urr3 File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4/MultiComp_6809_by_Neal_C-2019-04-08/MicrocomputerPCB/db/altsyncram_urr3.tdf Line: 28
+Info (12128): Elaborating entity "altsyncram_urr3" for hierarchy "M6809_CAMELFORTH_ROM:rom1|altsyncram:altsyncram_component|altsyncram_urr3:auto_generated" File: c:/intelfpga_lite/20.1/quartus/libraries/megafunctions/altsyncram.tdf Line: 792
+Warning (113015): Width of data items in "CAMELFORTH_2KRAM.hex" is greater than the memory width. Wrapping data items to subsequent addresses. Found 512 warnings, reporting 10 File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4/MultiComp_6809_by_Neal_C-2019-04-08/ROMS/6809/CAMELFORTH_2KRAM.hex Line: 1
+    Warning (113009): Data at line (1) of memory initialization file "CAMELFORTH_2KRAM.hex" is too wide to fit in one memory word. Wrapping data to subsequent addresses. File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4/MultiComp_6809_by_Neal_C-2019-04-08/ROMS/6809/CAMELFORTH_2KRAM.hex Line: 1
+    Warning (113009): Data at line (2) of memory initialization file "CAMELFORTH_2KRAM.hex" is too wide to fit in one memory word. Wrapping data to subsequent addresses. File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4/MultiComp_6809_by_Neal_C-2019-04-08/ROMS/6809/CAMELFORTH_2KRAM.hex Line: 2
+    Warning (113009): Data at line (3) of memory initialization file "CAMELFORTH_2KRAM.hex" is too wide to fit in one memory word. Wrapping data to subsequent addresses. File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4/MultiComp_6809_by_Neal_C-2019-04-08/ROMS/6809/CAMELFORTH_2KRAM.hex Line: 3
+    Warning (113009): Data at line (4) of memory initialization file "CAMELFORTH_2KRAM.hex" is too wide to fit in one memory word. Wrapping data to subsequent addresses. File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4/MultiComp_6809_by_Neal_C-2019-04-08/ROMS/6809/CAMELFORTH_2KRAM.hex Line: 4
+    Warning (113009): Data at line (5) of memory initialization file "CAMELFORTH_2KRAM.hex" is too wide to fit in one memory word. Wrapping data to subsequent addresses. File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4/MultiComp_6809_by_Neal_C-2019-04-08/ROMS/6809/CAMELFORTH_2KRAM.hex Line: 5
+    Warning (113009): Data at line (6) of memory initialization file "CAMELFORTH_2KRAM.hex" is too wide to fit in one memory word. Wrapping data to subsequent addresses. File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4/MultiComp_6809_by_Neal_C-2019-04-08/ROMS/6809/CAMELFORTH_2KRAM.hex Line: 6
+    Warning (113009): Data at line (7) of memory initialization file "CAMELFORTH_2KRAM.hex" is too wide to fit in one memory word. Wrapping data to subsequent addresses. File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4/MultiComp_6809_by_Neal_C-2019-04-08/ROMS/6809/CAMELFORTH_2KRAM.hex Line: 7
+    Warning (113009): Data at line (8) of memory initialization file "CAMELFORTH_2KRAM.hex" is too wide to fit in one memory word. Wrapping data to subsequent addresses. File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4/MultiComp_6809_by_Neal_C-2019-04-08/ROMS/6809/CAMELFORTH_2KRAM.hex Line: 8
+    Warning (113009): Data at line (9) of memory initialization file "CAMELFORTH_2KRAM.hex" is too wide to fit in one memory word. Wrapping data to subsequent addresses. File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4/MultiComp_6809_by_Neal_C-2019-04-08/ROMS/6809/CAMELFORTH_2KRAM.hex Line: 9
+    Warning (113009): Data at line (10) of memory initialization file "CAMELFORTH_2KRAM.hex" is too wide to fit in one memory word. Wrapping data to subsequent addresses. File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4/MultiComp_6809_by_Neal_C-2019-04-08/ROMS/6809/CAMELFORTH_2KRAM.hex Line: 10
 Info (12128): Elaborating entity "SBCTextDisplayRGB" for hierarchy "SBCTextDisplayRGB:io1" File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4/MultiComp_6809_by_Neal_C-2019-04-08/MicrocomputerPCB/Microcomputer.vhd Line: 261
 Info (12128): Elaborating entity "SansBoldRomReduced" for hierarchy "SBCTextDisplayRGB:io1|SansBoldRomReduced:\GEN_REDUCED_SCHARS:fontRom" File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4/MultiComp_6809_by_Neal_C-2019-04-08/Components/TERMINAL/SBCTextDisplayRGB.vhd Line: 315
 Info (12128): Elaborating entity "altsyncram" for hierarchy "SBCTextDisplayRGB:io1|SansBoldRomReduced:\GEN_REDUCED_SCHARS:fontRom|altsyncram:altsyncram_component" File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/TERMINAL/SansBoldRomReduced.vhd Line: 84
@@ -1881,8 +1904,8 @@ Info (12133): Instantiated megafunction "SBCTextDisplayRGB:io1|SansBoldRomReduce
     Info (12134): Parameter "width_a" = "8"
     Info (12134): Parameter "width_byteena_a" = "1"
 Info (12021): Found 1 design units, including 1 entities, in source file db/altsyncram_2d91.tdf
-    Info (12023): Found entity 1: altsyncram_2d91 File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4/MultiComp_6809_by_Neal_C-2019-04-08/MicrocomputerPCB/db/altsyncram_2d91.tdf Line: 27
-Info (12128): Elaborating entity "altsyncram_2d91" for hierarchy "SBCTextDisplayRGB:io1|SansBoldRomReduced:\GEN_REDUCED_SCHARS:fontRom|altsyncram:altsyncram_component|altsyncram_2d91:auto_generated" File: c:/intelfpga_lite/18.1/quartus/libraries/megafunctions/altsyncram.tdf Line: 791
+    Info (12023): Found entity 1: altsyncram_2d91 File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4/MultiComp_6809_by_Neal_C-2019-04-08/MicrocomputerPCB/db/altsyncram_2d91.tdf Line: 28
+Info (12128): Elaborating entity "altsyncram_2d91" for hierarchy "SBCTextDisplayRGB:io1|SansBoldRomReduced:\GEN_REDUCED_SCHARS:fontRom|altsyncram:altsyncram_component|altsyncram_2d91:auto_generated" File: c:/intelfpga_lite/20.1/quartus/libraries/megafunctions/altsyncram.tdf Line: 792
 Warning (113015): Width of data items in "SansFontBoldReduced.HEX" is greater than the memory width. Wrapping data items to subsequent addresses. Found 32 warnings, reporting 10 File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/TERMINAL/SansFontBoldReduced.HEX Line: 1
     Warning (113009): Data at line (1) of memory initialization file "SansFontBoldReduced.HEX" is too wide to fit in one memory word. Wrapping data to subsequent addresses. File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/TERMINAL/SansFontBoldReduced.HEX Line: 1
     Warning (113009): Data at line (2) of memory initialization file "SansFontBoldReduced.HEX" is too wide to fit in one memory word. Wrapping data to subsequent addresses. File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/TERMINAL/SansFontBoldReduced.HEX Line: 2
@@ -1895,32 +1918,17 @@ Warning (113015): Width of data items in "SansFontBoldReduced.HEX" is greater th
     Warning (113009): Data at line (9) of memory initialization file "SansFontBoldReduced.HEX" is too wide to fit in one memory word. Wrapping data to subsequent addresses. File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/TERMINAL/SansFontBoldReduced.HEX Line: 9
     Warning (113009): Data at line (10) of memory initialization file "SansFontBoldReduced.HEX" is too wide to fit in one memory word. Wrapping data to subsequent addresses. File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/TERMINAL/SansFontBoldReduced.HEX Line: 10
 Info (12128): Elaborating entity "DisplayRam2K" for hierarchy "SBCTextDisplayRGB:io1|DisplayRam2K:\GEN_2KRAM:dispCharRam" File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4/MultiComp_6809_by_Neal_C-2019-04-08/Components/TERMINAL/SBCTextDisplayRGB.vhd Line: 326
-Info (12128): Elaborating entity "altsyncram" for hierarchy "SBCTextDisplayRGB:io1|DisplayRam2K:\GEN_2KRAM:dispCharRam|altsyncram:altsyncram_component" File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/TERMINAL/DisplayRam2K.vhd Line: 67
-Info (12130): Elaborated megafunction instantiation "SBCTextDisplayRGB:io1|DisplayRam2K:\GEN_2KRAM:dispCharRam|altsyncram:altsyncram_component" File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/TERMINAL/DisplayRam2K.vhd Line: 67
-Info (12133): Instantiated megafunction "SBCTextDisplayRGB:io1|DisplayRam2K:\GEN_2KRAM:dispCharRam|altsyncram:altsyncram_component" with the following parameter: File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/TERMINAL/DisplayRam2K.vhd Line: 67
-    Info (12134): Parameter "address_aclr_a" = "UNUSED"
-    Info (12134): Parameter "address_aclr_b" = "NONE"
+Info (12128): Elaborating entity "altsyncram" for hierarchy "SBCTextDisplayRGB:io1|DisplayRam2K:\GEN_2KRAM:dispCharRam|altsyncram:altsyncram_component" File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/TERMINAL/DisplayRam2K.vhd Line: 111
+Info (12130): Elaborated megafunction instantiation "SBCTextDisplayRGB:io1|DisplayRam2K:\GEN_2KRAM:dispCharRam|altsyncram:altsyncram_component" File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/TERMINAL/DisplayRam2K.vhd Line: 111
+Info (12133): Instantiated megafunction "SBCTextDisplayRGB:io1|DisplayRam2K:\GEN_2KRAM:dispCharRam|altsyncram:altsyncram_component" with the following parameter: File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/TERMINAL/DisplayRam2K.vhd Line: 111
     Info (12134): Parameter "address_reg_b" = "CLOCK0"
-    Info (12134): Parameter "byte_size" = "8"
-    Info (12134): Parameter "byteena_aclr_a" = "UNUSED"
-    Info (12134): Parameter "byteena_aclr_b" = "NONE"
-    Info (12134): Parameter "byteena_reg_b" = "CLOCK1"
-    Info (12134): Parameter "clock_enable_core_a" = "USE_INPUT_CLKEN"
-    Info (12134): Parameter "clock_enable_core_b" = "USE_INPUT_CLKEN"
     Info (12134): Parameter "clock_enable_input_a" = "BYPASS"
     Info (12134): Parameter "clock_enable_input_b" = "BYPASS"
     Info (12134): Parameter "clock_enable_output_a" = "BYPASS"
     Info (12134): Parameter "clock_enable_output_b" = "BYPASS"
-    Info (12134): Parameter "intended_device_family" = "Cyclone IV GX"
-    Info (12134): Parameter "ecc_pipeline_stage_enabled" = "FALSE"
-    Info (12134): Parameter "enable_ecc" = "FALSE"
-    Info (12134): Parameter "implement_in_les" = "OFF"
-    Info (12134): Parameter "indata_aclr_a" = "UNUSED"
-    Info (12134): Parameter "indata_aclr_b" = "NONE"
     Info (12134): Parameter "indata_reg_b" = "CLOCK0"
-    Info (12134): Parameter "init_file" = "UNUSED"
-    Info (12134): Parameter "init_file_layout" = "PORT_A"
-    Info (12134): Parameter "maximum_depth" = "0"
+    Info (12134): Parameter "intended_device_family" = "Cyclone IV GX"
+    Info (12134): Parameter "lpm_type" = "altsyncram"
     Info (12134): Parameter "numwords_a" = "2048"
     Info (12134): Parameter "numwords_b" = "2048"
     Info (12134): Parameter "operation_mode" = "BIDIR_DUAL_PORT"
@@ -1929,28 +1937,19 @@ Info (12133): Instantiated megafunction "SBCTextDisplayRGB:io1|DisplayRam2K:\GEN
     Info (12134): Parameter "outdata_reg_a" = "UNREGISTERED"
     Info (12134): Parameter "outdata_reg_b" = "UNREGISTERED"
     Info (12134): Parameter "power_up_uninitialized" = "FALSE"
-    Info (12134): Parameter "ram_block_type" = "AUTO"
-    Info (12134): Parameter "rdcontrol_aclr_b" = "NONE"
-    Info (12134): Parameter "rdcontrol_reg_b" = "CLOCK1"
     Info (12134): Parameter "read_during_write_mode_mixed_ports" = "DONT_CARE"
-    Info (12134): Parameter "read_during_write_mode_port_a" = "NEW_DATA_WITH_NBE_READ"
-    Info (12134): Parameter "read_during_write_mode_port_b" = "NEW_DATA_WITH_NBE_READ"
-    Info (12134): Parameter "stratixiv_m144k_allow_dual_clocks" = "ON"
+    Info (12134): Parameter "read_during_write_mode_port_a" = "NEW_DATA_NO_NBE_READ"
+    Info (12134): Parameter "read_during_write_mode_port_b" = "NEW_DATA_NO_NBE_READ"
+    Info (12134): Parameter "widthad_a" = "11"
+    Info (12134): Parameter "widthad_b" = "11"
     Info (12134): Parameter "width_a" = "8"
     Info (12134): Parameter "width_b" = "8"
     Info (12134): Parameter "width_byteena_a" = "1"
     Info (12134): Parameter "width_byteena_b" = "1"
-    Info (12134): Parameter "width_eccstatus" = "3"
-    Info (12134): Parameter "widthad_a" = "11"
-    Info (12134): Parameter "widthad_b" = "11"
-    Info (12134): Parameter "wrcontrol_aclr_a" = "UNUSED"
-    Info (12134): Parameter "wrcontrol_aclr_b" = "NONE"
     Info (12134): Parameter "wrcontrol_wraddress_reg_b" = "CLOCK0"
-    Info (12134): Parameter "lpm_hint" = "UNUSED"
-    Info (12134): Parameter "lpm_type" = "altsyncram"
-Info (12021): Found 1 design units, including 1 entities, in source file db/altsyncram_ldr3.tdf
-    Info (12023): Found entity 1: altsyncram_ldr3 File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4/MultiComp_6809_by_Neal_C-2019-04-08/MicrocomputerPCB/db/altsyncram_ldr3.tdf Line: 27
-Info (12128): Elaborating entity "altsyncram_ldr3" for hierarchy "SBCTextDisplayRGB:io1|DisplayRam2K:\GEN_2KRAM:dispCharRam|altsyncram:altsyncram_component|altsyncram_ldr3:auto_generated" File: c:/intelfpga_lite/18.1/quartus/libraries/megafunctions/altsyncram.tdf Line: 791
+Info (12021): Found 1 design units, including 1 entities, in source file db/altsyncram_shh2.tdf
+    Info (12023): Found entity 1: altsyncram_shh2 File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4/MultiComp_6809_by_Neal_C-2019-04-08/MicrocomputerPCB/db/altsyncram_shh2.tdf Line: 28
+Info (12128): Elaborating entity "altsyncram_shh2" for hierarchy "SBCTextDisplayRGB:io1|DisplayRam2K:\GEN_2KRAM:dispCharRam|altsyncram:altsyncram_component|altsyncram_shh2:auto_generated" File: c:/intelfpga_lite/20.1/quartus/libraries/megafunctions/altsyncram.tdf Line: 792
 Info (12128): Elaborating entity "bufferedUART" for hierarchy "bufferedUART:io2" File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4/MultiComp_6809_by_Neal_C-2019-04-08/MicrocomputerPCB/Microcomputer.vhd Line: 308
 Info (12128): Elaborating entity "sd_controller" for hierarchy "sd_controller:sd1" File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4/MultiComp_6809_by_Neal_C-2019-04-08/MicrocomputerPCB/Microcomputer.vhd Line: 328
 Info (12128): Elaborating entity "mem_mapper2" for hierarchy "mem_mapper2:mm1" File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4/MultiComp_6809_by_Neal_C-2019-04-08/MicrocomputerPCB/Microcomputer.vhd Line: 347
@@ -1965,19 +1964,19 @@ Warning (276027): Inferred dual-clock RAM node "bufferedUART:io2|rxBuffer_rtl_0"
 Info (276014): Found 1 instances of uninferred RAM logic
     Info (276004): RAM logic "SBCTextDisplayRGB:io1|kbBuffer" is uninferred due to inappropriate RAM size File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4/MultiComp_6809_by_Neal_C-2019-04-08/Components/TERMINAL/SBCTextDisplayRGB.vhd Line: 161
 Warning (19016): Clock multiplexers are found and protected
-    Warning (19017): Found clock multiplexer cpu09p:cpu1|Selector317~0 File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/CPU/M6809/cpu09p.vhd Line: 943
-    Warning (19017): Found clock multiplexer cpu09p:cpu1|Selector316~0 File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/CPU/M6809/cpu09p.vhd Line: 943
     Warning (19017): Found clock multiplexer cpu09p:cpu1|Selector326~0 File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/CPU/M6809/cpu09p.vhd Line: 943
-    Warning (19017): Found clock multiplexer cpu09p:cpu1|Selector321~0 File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/CPU/M6809/cpu09p.vhd Line: 943
+    Warning (19017): Found clock multiplexer cpu09p:cpu1|Selector324~0 File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/CPU/M6809/cpu09p.vhd Line: 943
+    Warning (19017): Found clock multiplexer cpu09p:cpu1|Selector325~0 File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/CPU/M6809/cpu09p.vhd Line: 943
+    Warning (19017): Found clock multiplexer cpu09p:cpu1|Selector315~0 File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/CPU/M6809/cpu09p.vhd Line: 943
+    Warning (19017): Found clock multiplexer cpu09p:cpu1|Selector316~0 File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/CPU/M6809/cpu09p.vhd Line: 943
+    Warning (19017): Found clock multiplexer cpu09p:cpu1|Selector322~0 File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/CPU/M6809/cpu09p.vhd Line: 943
     Warning (19017): Found clock multiplexer cpu09p:cpu1|Selector318~0 File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/CPU/M6809/cpu09p.vhd Line: 943
     Warning (19017): Found clock multiplexer cpu09p:cpu1|Selector319~0 File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/CPU/M6809/cpu09p.vhd Line: 943
     Warning (19017): Found clock multiplexer cpu09p:cpu1|Selector320~0 File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/CPU/M6809/cpu09p.vhd Line: 943
-    Warning (19017): Found clock multiplexer cpu09p:cpu1|Selector322~0 File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/CPU/M6809/cpu09p.vhd Line: 943
+    Warning (19017): Found clock multiplexer cpu09p:cpu1|Selector317~0 File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/CPU/M6809/cpu09p.vhd Line: 943
+    Warning (19017): Found clock multiplexer cpu09p:cpu1|Selector321~0 File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/CPU/M6809/cpu09p.vhd Line: 943
     Warning (19017): Found clock multiplexer cpu09p:cpu1|Selector323~0 File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/CPU/M6809/cpu09p.vhd Line: 943
-    Warning (19017): Found clock multiplexer cpu09p:cpu1|Selector324~0 File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/CPU/M6809/cpu09p.vhd Line: 943
-    Warning (19017): Found clock multiplexer cpu09p:cpu1|Selector315~0 File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/CPU/M6809/cpu09p.vhd Line: 943
-    Warning (19017): Found clock multiplexer cpu09p:cpu1|Selector325~0 File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/CPU/M6809/cpu09p.vhd Line: 943
-    Warning (19017): Found clock multiplexer cpu09p:cpu1|Selector316~1 File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/CPU/M6809/cpu09p.vhd Line: 943
+    Warning (19017): Found clock multiplexer cpu09p:cpu1|Selector324~1 File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/CPU/M6809/cpu09p.vhd Line: 943
 Info (19000): Inferred 1 megafunctions from design logic
     Info (276029): Inferred altsyncram megafunction from the following design logic: "bufferedUART:io2|rxBuffer_rtl_0" 
         Info (286033): Parameter OPERATION_MODE set to DUAL_PORT
@@ -2014,7 +2013,7 @@ Info (12133): Instantiated megafunction "bufferedUART:io2|altsyncram:rxBuffer_rt
     Info (12134): Parameter "INDATA_ACLR_A" = "NONE"
     Info (12134): Parameter "WRCONTROL_ACLR_A" = "NONE"
 Info (12021): Found 1 design units, including 1 entities, in source file db/altsyncram_3ce1.tdf
-    Info (12023): Found entity 1: altsyncram_3ce1 File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4/MultiComp_6809_by_Neal_C-2019-04-08/MicrocomputerPCB/db/altsyncram_3ce1.tdf Line: 27
+    Info (12023): Found entity 1: altsyncram_3ce1 File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4/MultiComp_6809_by_Neal_C-2019-04-08/MicrocomputerPCB/db/altsyncram_3ce1.tdf Line: 28
 Info (12130): Elaborated megafunction instantiation "SBCTextDisplayRGB:io1|lpm_divide:Mod0" File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4/MultiComp_6809_by_Neal_C-2019-04-08/Components/TERMINAL/SBCTextDisplayRGB.vhd Line: 408
 Info (12133): Instantiated megafunction "SBCTextDisplayRGB:io1|lpm_divide:Mod0" with the following parameter: File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4/MultiComp_6809_by_Neal_C-2019-04-08/Components/TERMINAL/SBCTextDisplayRGB.vhd Line: 408
     Info (12134): Parameter "LPM_WIDTHN" = "13"
@@ -2022,36 +2021,39 @@ Info (12133): Instantiated megafunction "SBCTextDisplayRGB:io1|lpm_divide:Mod0" 
     Info (12134): Parameter "LPM_NREPRESENTATION" = "UNSIGNED"
     Info (12134): Parameter "LPM_DREPRESENTATION" = "UNSIGNED"
 Info (12021): Found 1 design units, including 1 entities, in source file db/lpm_divide_icm.tdf
-    Info (12023): Found entity 1: lpm_divide_icm File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4/MultiComp_6809_by_Neal_C-2019-04-08/MicrocomputerPCB/db/lpm_divide_icm.tdf Line: 24
+    Info (12023): Found entity 1: lpm_divide_icm File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4/MultiComp_6809_by_Neal_C-2019-04-08/MicrocomputerPCB/db/lpm_divide_icm.tdf Line: 25
 Info (12021): Found 1 design units, including 1 entities, in source file db/sign_div_unsign_7nh.tdf
-    Info (12023): Found entity 1: sign_div_unsign_7nh File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4/MultiComp_6809_by_Neal_C-2019-04-08/MicrocomputerPCB/db/sign_div_unsign_7nh.tdf Line: 24
+    Info (12023): Found entity 1: sign_div_unsign_7nh File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4/MultiComp_6809_by_Neal_C-2019-04-08/MicrocomputerPCB/db/sign_div_unsign_7nh.tdf Line: 25
 Info (12021): Found 1 design units, including 1 entities, in source file db/alt_u_div_2af.tdf
-    Info (12023): Found entity 1: alt_u_div_2af File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4/MultiComp_6809_by_Neal_C-2019-04-08/MicrocomputerPCB/db/alt_u_div_2af.tdf Line: 26
+    Info (12023): Found entity 1: alt_u_div_2af File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4/MultiComp_6809_by_Neal_C-2019-04-08/MicrocomputerPCB/db/alt_u_div_2af.tdf Line: 27
 Info (12021): Found 1 design units, including 1 entities, in source file db/add_sub_7pc.tdf
-    Info (12023): Found entity 1: add_sub_7pc File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4/MultiComp_6809_by_Neal_C-2019-04-08/MicrocomputerPCB/db/add_sub_7pc.tdf Line: 22
+    Info (12023): Found entity 1: add_sub_7pc File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4/MultiComp_6809_by_Neal_C-2019-04-08/MicrocomputerPCB/db/add_sub_7pc.tdf Line: 23
 Info (12021): Found 1 design units, including 1 entities, in source file db/add_sub_8pc.tdf
-    Info (12023): Found entity 1: add_sub_8pc File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4/MultiComp_6809_by_Neal_C-2019-04-08/MicrocomputerPCB/db/add_sub_8pc.tdf Line: 22
-Info (13000): Registers with preset signals will power-up high File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/SDCARD/sd_controller_High_Speed.vhd Line: 111
+    Info (12023): Found entity 1: add_sub_8pc File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4/MultiComp_6809_by_Neal_C-2019-04-08/MicrocomputerPCB/db/add_sub_8pc.tdf Line: 23
+Info (13000): Registers with preset signals will power-up high File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/SDCARD/sd_controller_High_Speed.vhd Line: 122
 Info (13003): DEV_CLRn pin will set, and not reset, register with preset signal due to NOT Gate Push-Back
+Warning (13024): Output pins are stuck at VCC or GND
+    Warning (13410): Pin "n_sRamCS" is stuck at GND File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4/MultiComp_6809_by_Neal_C-2019-04-08/MicrocomputerPCB/Microcomputer.vhd Line: 109
+    Warning (13410): Pin "n_sRamCS2" is stuck at GND File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4/MultiComp_6809_by_Neal_C-2019-04-08/MicrocomputerPCB/Microcomputer.vhd Line: 110
 Info (286030): Timing-Driven Synthesis is running
 Critical Warning (18061): Ignored Power-Up Level option on the following registers
-    Critical Warning (18010): Register sd_controller:sd1|driveLED will power up to Low File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/SDCARD/sd_controller_High_Speed.vhd Line: 122
-    Critical Warning (18010): Register sd_controller:sd1|led_on_count[7] will power up to High File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/SDCARD/sd_controller_High_Speed.vhd Line: 560
-    Critical Warning (18010): Register sd_controller:sd1|led_on_count[6] will power up to High File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/SDCARD/sd_controller_High_Speed.vhd Line: 560
-    Critical Warning (18010): Register sd_controller:sd1|led_on_count[3] will power up to High File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/SDCARD/sd_controller_High_Speed.vhd Line: 560
+    Critical Warning (18010): Register sd_controller:sd1|driveLED will power up to Low File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/SDCARD/sd_controller_High_Speed.vhd Line: 127
+    Critical Warning (18010): Register sd_controller:sd1|led_on_count[7] will power up to High File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/SDCARD/sd_controller_High_Speed.vhd Line: 565
+    Critical Warning (18010): Register sd_controller:sd1|led_on_count[6] will power up to High File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/SDCARD/sd_controller_High_Speed.vhd Line: 565
+    Critical Warning (18010): Register sd_controller:sd1|led_on_count[3] will power up to High File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/SDCARD/sd_controller_High_Speed.vhd Line: 565
 Info (17049): 2 registers lost all their fanouts during netlist optimizations.
 Info (16010): Generating hard_block partition "hard_block:auto_generated_inst"
     Info (16011): Adding 0 node(s), including 0 DDIO, 0 PLL, 0 transceiver and 0 LCELL
-Info (21057): Implemented 4454 device resources after synthesis - the final resource count might be different
+Info (21057): Implemented 4432 device resources after synthesis - the final resource count might be different
     Info (21058): Implemented 5 input pins
     Info (21059): Implemented 39 output pins
     Info (21060): Implemented 21 bidirectional pins
-    Info (21061): Implemented 4349 logic cells
+    Info (21061): Implemented 4327 logic cells
     Info (21064): Implemented 40 RAM segments
-Info: Quartus Prime Analysis & Synthesis was successful. 0 errors, 39 warnings
-    Info: Peak virtual memory: 4853 megabytes
-    Info: Processing ended: Sun Nov 24 06:42:57 2019
-    Info: Elapsed time: 00:00:41
-    Info: Total CPU time (on all processors): 00:00:56
+Info: Quartus Prime Analysis & Synthesis was successful. 0 errors, 54 warnings
+    Info: Peak virtual memory: 4849 megabytes
+    Info: Processing ended: Mon May 31 11:32:56 2021
+    Info: Elapsed time: 00:00:50
+    Info: Total CPU time (on all processors): 00:01:11
 
 

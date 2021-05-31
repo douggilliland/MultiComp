@@ -157,7 +157,7 @@ architecture struct of Microcomputer is
     signal cpuAddress             : std_logic_vector(15 downto 0);
     signal cpuDataOut             : std_logic_vector(7 downto 0);
     signal cpuDataIn              : std_logic_vector(7 downto 0);
-    signal sRamAddress_i          : std_logic_vector(18 downto 0);
+    signal sRamAddress_i          : std_logic_vector(19 downto 0);
     signal n_sRamCSHi_i           : std_logic;
     signal n_sRamCSLo_i           : std_logic;
 
@@ -356,11 +356,11 @@ begin
             regAddr => cpuAddress(2 downto 0),
 
             cpuAddr => cpuAddress(15 downto 9),
-            ramAddr => sRamAddress_i(18 downto 13),
+            ramAddr => sRamAddress_i(19 downto 13),
             ramWrInhib => ramWrInhib,
             romInhib => romInhib,
 
-            n_ramCSHi => n_sRamCSHi_i,
+            --n_ramCSHi => n_sRamCSHi_i,
             n_ramCSLo => n_sRamCSLo_i,
 
             n_tint => n_tint,
