@@ -9,9 +9,9 @@
 --	48KB External RAM version
 -- 32 of 8K banks from $C000-$DFFF in External SRAM
 -- Bank Select register (5 bits)
--- MIKBUG ROM
+-- MIKBUG ROM - 60 KB version
 --		http://www.retrotechnology.com/restore/smithbug.html
--- Select Jumper (FPGA Pin 111 on P4) switches between
+-- Select Jumper (FPGA Pin 85 on P4) switches between
 --		VDU (Video Display Unit) VGA + PS/2 keyboard
 --		External Serial Port
 --	Memory Map
@@ -19,10 +19,11 @@
 --		xc000-xdfff - 8Kb SRAM banks (32 banks)
 --		xe000-xefff - 4KB SRAM
 --		xf000-xffff - 4 KB ROM
---		xfc00-xfcff - I/O spave
+--		xfc00-xfcff - I/O space
 --			xfc18-xfc19 - VDU/UART (6850 Interface)
 --			xfc28-xfc29 - UART.VDU (6850 Interface)
 --			xfc30 - Bank Select register (r/w)
+--
 
 library ieee;
 use ieee.std_logic_1164.all;
