@@ -47,6 +47,8 @@ entity M6800_MIKBUG is
 		o_n_rts1				: out std_logic;
 		serSelect			: in std_logic := '1';
 		
+		o_ledOut				: out std_logic_vector(3 downto 0) := "1111";
+		
 		-- External SRAM
 		io_extSRamData		: inout std_logic_vector(7 downto 0) := "ZZZZZZZZ";
 		o_extSRamAddress	: out std_logic_vector(18 downto 0) := "000"&x"0000";
@@ -76,6 +78,8 @@ architecture struct of M6800_MIKBUG is
 	-- Memory controls
 	signal w_n_SRAMCE		: std_logic;
 	signal w_bankAdr		: std_logic;
+	signal w_ldAdrVal		: std_logic;
+	signal adrLatVal		: std_logic_vector(7 downto 0);
 
 	-- Interface control lines
 	signal n_int1			: std_logic :='1';	
@@ -94,6 +98,10 @@ architecture struct of M6800_MIKBUG is
 	
 begin
 	
+	o_ledOut(3) <= w_n_SRAMCE;
+	o_ledOut(2) <= n_if1CS;
+	o_ledOut(1) <= '0' when ((w_cpuAddress(15 downto 12) = "1111") and (w_vma = '1'))	else '1';
+
 	-- Debounce the reset line
 	DebounceResetSwitch	: entity work.Debouncer
 	port map (
@@ -108,19 +116,28 @@ begin
 						'0'   when w_cpuAddress(15 downto 13) = "110" else		-- 8KB SRAM  $C000-$DFFF
 						'0'   when w_cpuAddress(15 downto 12) = "1110" else	-- 4KB SRAM  $E000-$EFFF
 						'1';
-	w_bankAdr	<= '1' when w_cpuAddress(15 downto 12) = "1110" else '0';
+	w_bankAdr	<= '1' when w_cpuAddress(15 downto 13) = "110" else '0';
 	o_n_extSRamCS <= w_n_SRAMCE                 or (not w_vma);
 	o_n_extSRamWE <= w_n_SRAMCE or      w_R1W0  or (not w_vma)  or (not w_cpuClock);
 	o_n_extSRamOE <= w_n_SRAMCE or (not w_R1W0) or (not w_vma);
-	o_extSRamAddress(18)					<= '1' when w_cpuAddress(15 downto 12) = "1110" else '0';
+	o_extSRamAddress(18)					<= '1' when w_cpuAddress(15 downto 13) = "110" else '0';
 --	o_extSRamAddress(18)					<= '0';
-	o_extSRamAddress(17 downto 16) 	<= "00" when w_cpuAddress(15 downto 12) = "1110"  else "00";
+	o_extSRamAddress(17 downto 16) 	<= "00" when w_cpuAddress(15 downto 13) = "110"  else adrLatVal(4 downto 3);
 --	o_extSRamAddress(17 downto 16) 	<= "00";
-	o_extSRamAddress(15 downto 12) 	<= w_cpuAddress(15 downto 12) when w_bankAdr = '0' else "1110";
+	o_extSRamAddress(15 downto 13) 	<= w_cpuAddress(15 downto 13) when w_bankAdr = '0' else adrLatVal(2 downto 0);
 --	o_extSRamAddress(15 downto 12) 	<= w_cpuAddress(15 downto 12);
-	o_extSRamAddress(11 downto 0) 	<= w_cpuAddress(11 downto 0);
+	o_extSRamAddress(12 downto 0) 	<= w_cpuAddress(12 downto 0);
 	io_extSRamData <= w_cpuDataOut when ((w_n_SRAMCE = '0') and (w_R1W0 = '0')) else (others => 'Z');
 
+	addrLatch : entity work.OutLatch
+		port map (	
+			dataIn	=> w_cpuDataOut,
+			clock		=> i_CLOCK_50,
+			load		=> w_ldAdrVal or (not w_R1W0) or (not w_cpuClock) or (not w_vma),
+			clear		=> w_resetLow,
+			latchOut	=> adrLatVal
+		);
+		
 	-- ____________________________________________________________________________________
 	-- 6800 CPU
 	cpu1 : entity work.cpu68
@@ -156,6 +173,8 @@ begin
 	n_if2CS	<= '0' 	when (serSelect = '1' and (w_cpuAddress(15 downto 1) = x"FC2"&"100")) else	-- ACIA $FC28-$FC29
 					'0'	when (serSelect = '0' and (w_cpuAddress(15 downto 1) = x"FC1"&"100")) else
 					'1';
+	w_ldAdrVal <= '0' when (w_cpuAddress = x"FC30") else '1';
+	
 	-- ____________________________________________________________________________________
 	-- INPUT/OUTPUT DEVICES
 	-- Grant's VGA driver
