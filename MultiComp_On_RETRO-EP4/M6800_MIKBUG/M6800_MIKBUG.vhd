@@ -95,9 +95,9 @@ begin
 	-- Debounce the reset line
 	DebounceResetSwitch	: entity work.Debouncer
 	port map (
-		i_CLOCK_50	=> i_CLOCK_50,
-		i_PinIn		=> i_n_reset,
-		o_PinOut		=> w_resetLow
+		i_clk		=> i_CLOCK_50,
+		i_PinIn	=> i_n_reset,
+		o_PinOut	=> w_resetLow
 	);
 		
 	-- ____________________________________________________________________________________
