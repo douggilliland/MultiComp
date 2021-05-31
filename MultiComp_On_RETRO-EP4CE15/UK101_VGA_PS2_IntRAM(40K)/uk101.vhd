@@ -29,6 +29,9 @@ entity uk101 is
 		o_Vid_hSync	: out	std_logic := '1';
 		o_Vid_vSync	: out	std_logic := '1';
 		
+		i_ps2Clk		: in std_logic := '1';
+		i_ps2Data	: in std_logic := '1';
+		
 		-- Not using the SD Card but reserving pins and making inactive
 		sdCS			: out std_logic :='1';
 		sdMOSI		: out std_logic :='0';
@@ -36,9 +39,6 @@ entity uk101 is
 		sdSCLK		: out std_logic :='0';
 		driveLED		: out std_logic :='1';
 
-		i_ps2Clk		: in std_logic := '1';
-		i_ps2Data	: in std_logic := '1';
-		
 		-- SRAM not used but making sure that it's not active
 		io_extSRamData		: inout std_logic_vector(7 downto 0) := "ZZZZZZZZ";
 		io_extSRamAddress	: out std_logic_vector(19 downto 0);
