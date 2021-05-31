@@ -243,7 +243,7 @@ port map(
 
 outLat8 : entity work.outLatch
 	port map(	
-		dataIn8	=> cpuDataOut,
+		dataIn	=> cpuDataOut,
 		clock		=> clk,
 		load		=> wrLatch,
 		clear		=> not n_reset,
