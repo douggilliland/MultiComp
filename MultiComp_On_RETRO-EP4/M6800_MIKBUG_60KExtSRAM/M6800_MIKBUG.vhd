@@ -6,14 +6,23 @@
 -- Changes to this code by Doug Gilliland 2020
 -- Hardware is RETRO-EP4 Card
 --		http://land-boards.com/blwiki/index.php?title=RETRO-EP4
---	16KB (internal) RAM version
--- 1KB (Internal) scratchpad RAM (512B used by MIKBUG)
+--	48KB External RAM version
+-- 32 of 8K banks from $C000-$DFFF in External SRAM
+-- Bank Select register (5 bits)
 -- MIKBUG ROM
 --		http://www.retrotechnology.com/restore/smithbug.html
 -- Select Jumper (FPGA Pin 111 on P4) switches between
 --		VDU (Video Display Unit) VGA + PS/2 keyboard
 --		External Serial Port
---
+--	Memory Map
+--		x0000-xbfff - 48KB SRAM
+--		xc000-xdfff - 8Kb SRAM banks (32 banks)
+--		xe000-xefff - 4KB SRAM
+--		xf000-xffff - 4 KB ROM
+--		xfc00-xfcff - I/O spave
+--			xfc18-xfc19 - VDU/UART (6850 Interface)
+--			xfc28-xfc29 - UART.VDU (6850 Interface)
+--			xfc30 - Bank Select register (r/w)
 
 library ieee;
 use ieee.std_logic_1164.all;
@@ -121,11 +130,8 @@ begin
 	o_n_extSRamWE <= w_n_SRAMCE or      w_R1W0  or (not w_vma)  or (not w_cpuClock);
 	o_n_extSRamOE <= w_n_SRAMCE or (not w_R1W0) or (not w_vma);
 	o_extSRamAddress(18)					<= '1' when w_cpuAddress(15 downto 13) = "110" else '0';
---	o_extSRamAddress(18)					<= '0';
 	o_extSRamAddress(17 downto 16) 	<= "00" when w_cpuAddress(15 downto 13) = "110"  else adrLatVal(4 downto 3);
---	o_extSRamAddress(17 downto 16) 	<= "00";
 	o_extSRamAddress(15 downto 13) 	<= w_cpuAddress(15 downto 13) when w_bankAdr = '0' else adrLatVal(2 downto 0);
---	o_extSRamAddress(15 downto 12) 	<= w_cpuAddress(15 downto 12);
 	o_extSRamAddress(12 downto 0) 	<= w_cpuAddress(12 downto 0);
 	io_extSRamData <= w_cpuDataOut when ((w_n_SRAMCE = '0') and (w_R1W0 = '0')) else (others => 'Z');
 
@@ -133,7 +139,7 @@ begin
 		port map (	
 			dataIn	=> w_cpuDataOut,
 			clock		=> i_CLOCK_50,
-			load		=> w_ldAdrVal or (not w_R1W0) or (not w_cpuClock) or (not w_vma),
+			load		=> w_ldAdrVal or w_R1W0 or (not w_vma) or (not w_cpuClock),
 			clear		=> w_resetLow,
 			latchOut	=> adrLatVal
 		);
@@ -229,6 +235,7 @@ begin
 		io_extSRamData	when (w_n_SRAMCE = '0')	else
 		w_if1DataOut	when (n_if1CS = '0')	else
 		w_if2DataOut	when (n_if2CS = '0')	else
+		adrLatVal		when (w_ldAdrVal = '0') else
 		w_romData		when w_cpuAddress(15 downto 12) = "1111"	else
 		x"FF";
 	
