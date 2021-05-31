@@ -107,7 +107,7 @@
                         ;
                         ;	OPT	MEMORY
                         ;
-                        ; DGG - RAM at $F000-$FFFF with I/O space hole at $FC00-$FCFF
+                        ; DGG - ROM at $F000-$FFFF with I/O space hole at $FC00-$FCFF
    f000                 	ORG	$F000
                         ;
                         ;	ENTER POWER ON SEQUENCE
@@ -425,7 +425,7 @@
    f207   2f 01         	BLE OUTEEE
    f209   39            	RTS
                         ;
-                        ;	OUTPUT ONE CHAR 
+                        ;	OUTPUT ONE CHAR IN REG A
                         ;
    f20a   36            OUTEEE	PSH	A
    f20b   b6 fc 18      OUTEEE1 LDA A	ACIACS
@@ -1060,8 +1060,9 @@
    f766   04            	 FCB $04
    f767   20 42 20      PNTB	 FCC " B "
    f76a   04            	 FCB $04
-   f76b   0d 0a 15 13   MCL	 FCB $D,$A,$15,$13,$3E,$04
-   f76f   3e 04         
+   f76b   0d 0a 3e 20   MCL	 FCB $D,$A,$3E,$20,$04,$04
+   f76f   04 04         
+                        ;MCL	 FCB $D,$A,$15,$13,$3E,$04 ; prompt
    f771   20 42 3d 04   BREG	 FCB $20,$42,$3D,$04
    f775   41 3d 04      AREG	 FCB $41,$3D,$04
    f778   58 3d 04      XREG	 FCB $58,$3D,$04
@@ -1069,7 +1070,7 @@
    f77e   50 43 3d 04   PCTR	 FCB $50,$43,$3D,$04
    f782   48 49 4e 5a   CSET	 FCB $48,$49,$4E,$5A,$56,$43
    f786   56 43         
-   f788   0d 0a 15 04   CRLFAS 	 FCB $0D,$0A,$15,$04
+   f788   0d 0a 20 04   CRLFAS 	 FCB $0D,$0A,$20,$04
    f78c   0d 0a         ADASC	 FCB $0D,$0A
    f78e   42 4b 41 44   	 FCB $42,$4B,$41,$44,$44,$52,$20,$04
    f792   44 52 20 04   
