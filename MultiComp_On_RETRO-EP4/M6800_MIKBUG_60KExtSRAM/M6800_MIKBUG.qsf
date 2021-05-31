@@ -1,0 +1,188 @@
+# -------------------------------------------------------------------------- #
+#
+# Copyright (C) 1991-2013 Altera Corporation
+# Your use of Altera Corporation's design tools, logic functions 
+# and other software and tools, and its AMPP partner logic 
+# functions, and any output files from any of the foregoing 
+# (including device programming or simulation files), and any 
+# associated documentation or information are expressly subject 
+# to the terms and conditions of the Altera Program License 
+# Subscription Agreement, Altera MegaCore Function License 
+# Agreement, or other applicable license agreement, including, 
+# without limitation, that your use is for the sole purpose of 
+# programming logic devices manufactured by Altera and sold by 
+# Altera or its authorized distributors.  Please refer to the 
+# applicable agreement for further details.
+#
+# -------------------------------------------------------------------------- #
+#
+# Quartus II 32-bit
+# Version 13.0.1 Build 232 06/12/2013 Service Pack 1 SJ Web Edition
+# Date created = 15:37:40  March 29, 2019
+#
+# -------------------------------------------------------------------------- #
+#
+# Notes:
+#
+# 1) The default values for assignments are stored in the file:
+#		Microcomputer_assignment_defaults.qdf
+#    If this file doesn't exist, see file:
+#		assignment_defaults.qdf
+#
+# 2) Altera recommends that you do not modify this file. This
+#    file is updated automatically by the Quartus II software
+#    and any changes you make may be lost or overwritten.
+#
+# -------------------------------------------------------------------------- #
+
+
+set_global_assignment -name FAMILY "Cyclone IV E"
+set_global_assignment -name DEVICE EP4CE6E22C8
+set_global_assignment -name TOP_LEVEL_ENTITY M6800_MIKBUG
+set_global_assignment -name ORIGINAL_QUARTUS_VERSION "13.0 SP1"
+set_global_assignment -name PROJECT_CREATION_TIME_DATE "15:37:40  MARCH 29, 2019"
+set_global_assignment -name LAST_QUARTUS_VERSION "20.1.0 Lite Edition"
+set_global_assignment -name PROJECT_OUTPUT_DIRECTORY output_files
+set_global_assignment -name MIN_CORE_JUNCTION_TEMP 0
+set_global_assignment -name MAX_CORE_JUNCTION_TEMP 85
+set_global_assignment -name ERROR_CHECK_FREQUENCY_DIVISOR 1
+set_global_assignment -name PARTITION_NETLIST_TYPE SOURCE -section_id Top
+set_global_assignment -name PARTITION_FITTER_PRESERVATION_LEVEL PLACEMENT_AND_ROUTING -section_id Top
+set_global_assignment -name PARTITION_COLOR 16764057 -section_id Top
+set_global_assignment -name POWER_PRESET_COOLING_SOLUTION "23 MM HEAT SINK WITH 200 LFPM AIRFLOW"
+set_global_assignment -name POWER_BOARD_THERMAL_MODEL "NONE (CONSERVATIVE)"
+set_global_assignment -name STRATIX_DEVICE_IO_STANDARD "3.3-V LVTTL"
+set_global_assignment -name NUM_PARALLEL_PROCESSORS ALL
+set_global_assignment -name DEVICE_FILTER_PIN_COUNT 144
+set_global_assignment -name DEVICE_FILTER_SPEED_GRADE 8
+# Clock and reset
+set_location_assignment PIN_23 -to i_CLOCK_50
+set_location_assignment PIN_125 -to i_n_reset
+set_instance_assignment -name WEAK_PULL_UP_RESISTOR ON -to i_n_reset
+# PS/2
+set_location_assignment PIN_127 -to io_ps2Clk
+set_instance_assignment -name WEAK_PULL_UP_RESISTOR ON -to io_ps2Clk
+set_location_assignment PIN_126 -to io_ps2Data
+set_instance_assignment -name WEAK_PULL_UP_RESISTOR ON -to io_ps2Data
+# Serial
+set_location_assignment PIN_85 -to serSelect
+set_instance_assignment -name WEAK_PULL_UP_RESISTOR ON -to serSelect
+set_location_assignment PIN_132 -to rxd1
+set_instance_assignment -name WEAK_PULL_UP_RESISTOR ON -to rxd1
+set_location_assignment PIN_128 -to txd1
+set_location_assignment PIN_133 -to i_n_cts1
+set_instance_assignment -name WEAK_PULL_UP_RESISTOR ON -to i_n_cts1
+set_location_assignment PIN_129 -to o_n_rts1
+# Video
+set_location_assignment PIN_120 -to o_videoB0
+set_location_assignment PIN_124 -to o_videoB1
+set_location_assignment PIN_115 -to o_videoG0
+set_location_assignment PIN_114 -to o_videoG1
+set_location_assignment PIN_113 -to o_videoR0
+set_location_assignment PIN_112 -to o_videoR1
+set_location_assignment PIN_119 -to o_hSync
+set_location_assignment PIN_121 -to o_vSync
+# SRAM
+set_location_assignment PIN_50 -to o_n_extSRamOE
+set_location_assignment PIN_68 -to o_n_extSRamCS
+set_location_assignment PIN_75 -to o_n_extSRamWE
+set_location_assignment PIN_71 -to io_extSRamData[0]
+set_location_assignment PIN_70 -to io_extSRamData[1]
+set_location_assignment PIN_73 -to io_extSRamData[2]
+set_location_assignment PIN_72 -to io_extSRamData[3]
+set_location_assignment PIN_43 -to io_extSRamData[4]
+set_location_assignment PIN_44 -to io_extSRamData[5]
+set_location_assignment PIN_46 -to io_extSRamData[6]
+set_location_assignment PIN_49 -to io_extSRamData[7]
+set_location_assignment PIN_65 -to o_extSRamAddress[0]
+set_location_assignment PIN_64 -to o_extSRamAddress[1]
+set_location_assignment PIN_67 -to o_extSRamAddress[2]
+set_location_assignment PIN_66 -to o_extSRamAddress[3]
+set_location_assignment PIN_69 -to o_extSRamAddress[4]
+set_location_assignment PIN_74 -to o_extSRamAddress[5]
+set_location_assignment PIN_77 -to o_extSRamAddress[6]
+set_location_assignment PIN_76 -to o_extSRamAddress[7]
+set_location_assignment PIN_83 -to o_extSRamAddress[8]
+set_location_assignment PIN_80 -to o_extSRamAddress[9]
+set_location_assignment PIN_34 -to o_extSRamAddress[10]
+set_location_assignment PIN_33 -to o_extSRamAddress[11]
+set_location_assignment PIN_38 -to o_extSRamAddress[12]
+set_location_assignment PIN_39 -to o_extSRamAddress[13]
+set_location_assignment PIN_42 -to o_extSRamAddress[14]
+set_location_assignment PIN_51 -to o_extSRamAddress[15]
+set_location_assignment PIN_52 -to o_extSRamAddress[16]
+set_location_assignment PIN_53 -to o_extSRamAddress[17]
+set_location_assignment PIN_54 -to o_extSRamAddress[18]
+# I/O voltages
+set_global_assignment -name DEVICE_FILTER_PACKAGE "ANY QFP"
+set_global_assignment -name TIMING_ANALYZER_MULTICORNER_ANALYSIS ON
+set_global_assignment -name SMART_RECOMPILE ON
+set_global_assignment -name ENABLE_SIGNALTAP OFF
+set_global_assignment -name USE_SIGNALTAP_FILE stp1.stp
+set_global_assignment -name VHDL_FILE M6800_MIKBUG.vhd
+set_global_assignment -name VHDL_FILE "../../MultiComp (VHDL Template)/Components/RAM_Internal/InternalRam16K.vhd"
+set_global_assignment -name VHDL_FILE "../../MultiComp (VHDL Template)/Components/RAM_Internal/InternalRam1K.vhd"
+set_global_assignment -name VHDL_FILE "../../MultiComp (VHDL Template)/Components/UART/bufferedUART.vhd"
+set_global_assignment -name QIP_FILE "../../MultiComp (VHDL Template)/Components/ROMs/MIKBUG_6800/MIKBUG.qip"
+set_global_assignment -name VHDL_FILE "../../MultiComp (VHDL Template)/Components/Debounce/Debounce.vhd"
+set_global_assignment -name VHDL_FILE "../../MultiComp (VHDL Template)/Components/CPU//M6800/cpu68.vhd"
+set_global_assignment -name VHDL_FILE "../../MultiComp (VHDL Template)/Components/TERMINAL/SansBoldRomReduced.vhd"
+set_global_assignment -name VHDL_FILE "../../MultiComp (VHDL Template)/Components/TERMINAL/SansBoldRom.vhd"
+set_global_assignment -name VHDL_FILE "../../MultiComp (VHDL Template)/Components/TERMINAL/DisplayRam2K.vhd"
+set_global_assignment -name VHDL_FILE "../../MultiComp (VHDL Template)/Components/TERMINAL/DisplayRam1K.vhd"
+set_global_assignment -name VHDL_FILE "../../MultiComp (VHDL Template)/Components/TERMINAL/CGABoldRom.vhd"
+set_global_assignment -name VHDL_FILE "../../MultiComp (VHDL Template)/Components/TERMINAL/CGABoldRomReduced.vhd"
+set_global_assignment -name VHDL_FILE "../../MultiComp (VHDL Template)/Components/TERMINAL/SBCTextDisplayRGB.vhd"
+set_global_assignment -name SDC_FILE SDC1.sdc
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to altera_reserved_tck
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to altera_reserved_tdi
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to altera_reserved_tdo
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to altera_reserved_tms
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to i_CLOCK_50
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to i_n_reset
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to io_extSRamData[7]
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to io_extSRamData[6]
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to io_extSRamData[5]
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to io_extSRamData[4]
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to io_extSRamData[3]
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to io_extSRamData[2]
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to io_extSRamData[1]
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to io_extSRamData[0]
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to io_ps2Clk
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to o_hSync
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to o_videoB0
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to o_videoB1
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to o_videoG0
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to o_videoG1
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to o_videoR0
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to o_videoR1
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to o_vSync
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to io_ps2Data
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to serSelect
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to rxd1
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to txd1
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to o_n_rts1
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to o_n_extSRamWE
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to o_n_extSRamOE
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to o_n_extSRamCS
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to o_extSRamAddress[0]
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to o_extSRamAddress[1]
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to o_extSRamAddress[2]
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to o_extSRamAddress[3]
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to o_extSRamAddress[4]
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to o_extSRamAddress[5]
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to o_extSRamAddress[6]
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to o_extSRamAddress[7]
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to o_extSRamAddress[8]
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to o_extSRamAddress[9]
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to o_extSRamAddress[10]
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to o_extSRamAddress[11]
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to o_extSRamAddress[12]
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to o_extSRamAddress[13]
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to o_extSRamAddress[14]
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to o_extSRamAddress[15]
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to o_extSRamAddress[16]
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to o_extSRamAddress[17]
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to o_extSRamAddress[18]
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to i_n_cts1
+set_instance_assignment -name PARTITION_HIERARCHY root_partition -to | -section_id Top
