@@ -12,6 +12,8 @@
 --
 -- Grant Searle
 -- eMail address available on my main web page link above.
+--
+-- Z80
 
 library ieee;
 use ieee.std_logic_1164.all;
