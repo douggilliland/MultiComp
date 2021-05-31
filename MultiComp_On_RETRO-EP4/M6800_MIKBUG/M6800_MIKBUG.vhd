@@ -95,7 +95,7 @@ begin
 	-- Debounce the reset line
 	DebounceResetSwitch	: entity work.Debouncer
 	port map (
-		i_clk		=> i_CLOCK_50,
+		i_clk		=> w_cpuClock,
 		i_PinIn	=> i_n_reset,
 		o_PinOut	=> w_resetLow
 	);
@@ -166,6 +166,10 @@ begin
 	-- INPUT/OUTPUT DEVICES
 	-- Grant's VGA driver
 	vdu : entity work.SBCTextDisplayRGB
+	generic map ( 
+		EXTENDED_CHARSET		=> 1,
+		COLOUR_ATTS_ENABLED	=>	1
+	)
 		port map (
 			n_reset	=> w_resetLow,
 			clk		=> i_CLOCK_50,
