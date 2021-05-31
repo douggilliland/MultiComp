@@ -2290,10 +2290,11 @@ locked <= locked.DB_MAX_OUTPUT_PORT_TYPE
 
 
 |uk101|Mem_Mapped_XVGA:vga
+CLK_50 => displayram2k:DisplayRAM.clock_a
 n_reset => ~NO_FANOUT~
 Video_Clk => video_xvga_64x32:Video_XVGA_64x32.clk
 Video_Clk => displayram2k:DisplayRAM.clock_b
-CLK_50 => displayram2k:DisplayRAM.clock_a
+resSel => video_xvga_64x32:Video_XVGA_64x32.resSel
 n_dispRamCS => comb.IN0
 n_memWR => comb.IN1
 cpuAddress[0] => displayram2k:DisplayRAM.address_a[0]
@@ -2331,6 +2332,17 @@ vSync <= video_xvga_64x32:Video_XVGA_64x32.vSync
 
 
 |uk101|Mem_Mapped_XVGA:vga|Video_XVGA_64x32:Video_XVGA_64x32
+resSel => prescaleRow.OUTPUTSELECT
+resSel => prescaleRow.OUTPUTSELECT
+resSel => prescaleRow.OUTPUTSELECT
+resSel => theCharRow.OUTPUTSELECT
+resSel => theCharRow.OUTPUTSELECT
+resSel => theCharRow.OUTPUTSELECT
+resSel => theCharRow.OUTPUTSELECT
+resSel => theCharRow.OUTPUTSELECT
+resSel => theCharRow.OUTPUTSELECT
+resSel => theCharRow.OUTPUTSELECT
+resSel => theCharRow.OUTPUTSELECT
 charAddr[0] <= theCharRow[0].DB_MAX_OUTPUT_PORT_TYPE
 charAddr[1] <= theCharRow[1].DB_MAX_OUTPUT_PORT_TYPE
 charAddr[2] <= theCharRow[2].DB_MAX_OUTPUT_PORT_TYPE
@@ -2375,6 +2387,7 @@ clk => n_vSync.CLK
 clk => n_hSync.CLK
 clk => prescaleRow[0].CLK
 clk => prescaleRow[1].CLK
+clk => prescaleRow[2].CLK
 clk => theCharRow[0].CLK
 clk => theCharRow[1].CLK
 clk => theCharRow[2].CLK
