@@ -100,7 +100,7 @@ begin
 	-- Debounce the reset line
 	DebounceResetSwitch	: entity work.Debouncer
 	port map (
-		i_CLOCK_50	=> cpuClock,
+		i_clk			=> cpuClock,
 		i_PinIn		=> n_reset,
 		o_PinOut		=> resetLow
 	);
