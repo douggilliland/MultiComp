@@ -22,9 +22,6 @@ entity M6800_MIKBUG is
 	port(
 		i_n_reset			: in std_logic := '1';
 		i_CLOCK_50			: in std_logic;
-		
-		O_TEST1				: out std_logic;
-		o_LEDs				: out std_logic_vector(11 downto 0) := x"000";
 
 		o_videoR0			: out std_logic := '1';
 		o_videoR1			: out std_logic := '1';
@@ -99,13 +96,6 @@ begin
 		i_PinIn	=> i_n_reset,
 		o_PinOut	=> w_resetLow
 	);
-
---	w_resetLow <= i_n_reset;
---	
-	O_TEST1 <= w_resetLow;
-	
-	o_LEDs(11 downto 4) <= w_cpuDataIn;
-	o_LEDs(3 downto 0) <= w_cpuAddress(15 downto 12);
 		
 	-- ____________________________________________________________________________________
 	-- I/O CHIP SELECTS
