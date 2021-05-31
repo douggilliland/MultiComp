@@ -133,7 +133,7 @@ architecture struct of M6502_VGA is
 begin
 	debounceReset : entity work.Debouncer
 	port map (
-		i_CLOCK_50 	=> w_cpuClk,
+		i_clk		 	=> w_cpuClk,
 		i_PinIn		=> i_n_reset,
 		o_PinOut		=> w_reset_n
 	);
