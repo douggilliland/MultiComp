@@ -111,6 +111,7 @@ begin
 	o_ledOut(3) <= w_n_SRAMCE;
 	o_ledOut(2) <= n_if1CS;
 	o_ledOut(1) <= '0' when ((w_cpuAddress(15 downto 12) = "1111") and (w_vma = '1'))	else '1';
+	o_ledOut(0) <= not adrLatVal(7);
 
 	-- Debounce the reset line
 	DebounceResetSwitch	: entity work.Debouncer
