@@ -5,7 +5,7 @@
 -- Changes to this code by Doug Gilliland 2020
 --
 -- MC6800 CPU running MIKBUG from back in the day
---	32K (internal) SRAM
+--	32K+8+4 = 44KB (internal) SRAM
 --	64 banks of 16KB of external SRAM (1MB total)
 -- Bank Select register (7 bits)
 -- MIKBUG ROM - 60 KB version
@@ -282,12 +282,12 @@ begin
 process (i_CLOCK_50)
 	begin
 		if rising_edge(i_CLOCK_50) then
-			if q_cpuClkCount < 4 then
+			if q_cpuClkCount < 3 then
 				q_cpuClkCount <= q_cpuClkCount + 1;
 			else
 				q_cpuClkCount <= (others=>'0');
 			end if;
-			if q_cpuClkCount < 2 then
+			if q_cpuClkCount < 1 then
 				w_cpuClock <= '0';
 			else
 				w_cpuClock <= '1';
