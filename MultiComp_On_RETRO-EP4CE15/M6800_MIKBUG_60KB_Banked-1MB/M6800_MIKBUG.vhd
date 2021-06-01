@@ -166,7 +166,8 @@ begin
 		w_ramData4K		when (w_cpuAddress(15) = '1' and w_cpuAddress(14) = '1' and w_cpuAddress(13) = '1' and w_cpuAddress(12) = '0')	else	-- 4 KB
 		w_if1DataOut	when n_if1CS = '0'																															else
 		w_if2DataOut	when n_if2CS = '0'																															else
-		w_romData		when w_cpuAddress(15 downto 14) = "11"																									else
+		adrLatVal		when (w_ldAdrVal = '0') else
+		w_romData		when w_cpuAddress(15 downto 14) = "11"																									else -- Must be last
 		x"FF";
 	
 	-- ____________________________________________________________________________________
