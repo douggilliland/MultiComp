@@ -5,6 +5,7 @@
 -- Changes to this code by Doug Gilliland 2020
 --
 -- MC6800 CPU running MIKBUG from back in the day
+--	16.67 MHz
 --	32K+8+4 = 44KB (internal) SRAM
 --	64 banks of 16KB of external SRAM (1MB total)
 -- Bank Select register (7 bits)
@@ -122,7 +123,7 @@ architecture struct of M6800_MIKBUG is
 begin
 
 	testPt1 <= w_cpuClock;
-	testPt2 <= not w_n_SRAMCE;
+	testPt2 <= w_n_SRAMCE or (not w_R1W0) or (not w_vma);
 	
 	-- Debounce the reset line
 	DebounceResetSwitch	: entity work.Debouncer
@@ -286,15 +287,25 @@ begin
 	
 	-- ____________________________________________________________________________________
 	-- CPU Clock
-process (i_CLOCK_50)
+	-- Need 2 clocks high for externl SRAM can get by with 1 clock low
+	-- Produces a 40 nS wide wriye strobe - 45 nS SRAMs need a 35 nS write pulse, so this works
+process (i_CLOCK_50, w_n_SRAMCE)
 	begin
 		if rising_edge(i_CLOCK_50) then
-			if q_cpuClkCount < 3 then
-				q_cpuClkCount <= q_cpuClkCount + 1;
+			if w_n_SRAMCE = '0' then
+				if q_cpuClkCount < 2 then						-- 50 MHz / 3 = 16.7 
+					q_cpuClkCount <= q_cpuClkCount + 1;
+				else
+					q_cpuClkCount <= (others=>'0');
+				end if;
 			else
-				q_cpuClkCount <= (others=>'0');
+				if q_cpuClkCount < 1 then						-- 50 MHz / 2 = 25 
+					q_cpuClkCount <= q_cpuClkCount + 1;
+				else
+					q_cpuClkCount <= (others=>'0');
+				end if;
 			end if;
-			if q_cpuClkCount < 2 then
+			if q_cpuClkCount < 1 then						-- 2 clocks high, one low
 				w_cpuClock <= '0';
 			else
 				w_cpuClock <= '1';
