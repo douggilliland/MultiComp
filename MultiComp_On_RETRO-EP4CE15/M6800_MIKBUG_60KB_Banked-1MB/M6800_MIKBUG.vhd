@@ -14,9 +14,9 @@
 -- VDU
 --		XGA 80x25 character display
 --		PS/2 keyboard
--- Select Jumper (FPGA Pin ?? on J3) switches between
---		VDU (Video Display Unit) VGA + PS/2 keyboard
---		External Serial Port
+-- Select Jumper (J3-1) switches between
+--		VDU (Video Display Unit) VGA + PS/2 keyboard (jumper out)
+--		External Serial Port (jumper in)
 --	Memory Map
 --		x0000-x7fff - 32KB Internal SRAM
 --		x8000-xbfff - 16Kb SRAM bank (64 banks)
@@ -57,12 +57,15 @@ entity M6800_MIKBUG is
 		ucts1					: out std_logic;
 		serSelect			: in	std_logic := '1';
 		
-		-- SRAM not used but making sure that it's not active
+		-- SRAM banked space
 		io_extSRamData		: inout std_logic_vector(7 downto 0) := (others=>'Z');
 		o_extSRamAddress	: out std_logic_vector(19 downto 0) := x"00000";
 		o_n_extSRamWE		: out std_logic := '1';
 		o_n_extSRamCS		: out std_logic := '1';
 		o_n_extSRamOE		: out std_logic := '1';
+		
+		testPt1				: out std_logic := '1';
+		testPt2				: out std_logic := '1';
 
 		-- Not using the SD RAM but making sure that it's not active
 		n_sdRamCas			: out std_logic := '1';		-- CAS
@@ -117,6 +120,9 @@ architecture struct of M6800_MIKBUG is
    signal serialEn      : std_logic;
 	
 begin
+
+	testPt1 <= w_cpuClock;
+	testPt2 <= not w_n_SRAMCE;
 	
 	-- Debounce the reset line
 	DebounceResetSwitch	: entity work.Debouncer
@@ -131,7 +137,7 @@ begin
 						'1';
 	w_bankAdr	<= '1' when w_cpuAddress(15 downto 14) = "10" else '0';
 	o_n_extSRamCS <= w_n_SRAMCE                 or (not w_vma);
-	o_n_extSRamWE <= w_n_SRAMCE or      w_R1W0  or (not w_vma)  or (not w_cpuClock);
+	o_n_extSRamWE <= w_n_SRAMCE or      w_R1W0  or (not w_vma)  or (w_cpuClock);
 	o_n_extSRamOE <= w_n_SRAMCE or (not w_R1W0) or (not w_vma);
 	o_extSRamAddress(19 downto 14) 	<= adrLatVal(5 downto 0);
 	o_extSRamAddress(13 downto 0) 	<= w_cpuAddress(13 downto 0);
@@ -164,9 +170,10 @@ begin
 		w_ramData32K	when w_cpuAddress(15) = '0'																												else	-- 32 KB
 		w_ramData8K		when (w_cpuAddress(15) = '1' and w_cpuAddress(14) = '1' and w_cpuAddress(13) = '0')										else	-- 8KB
 		w_ramData4K		when (w_cpuAddress(15) = '1' and w_cpuAddress(14) = '1' and w_cpuAddress(13) = '1' and w_cpuAddress(12) = '0')	else	-- 4 KB
+		io_extSRamData	when (w_n_SRAMCE = '0')																														else
 		w_if1DataOut	when n_if1CS = '0'																															else
 		w_if2DataOut	when n_if2CS = '0'																															else
-		adrLatVal		when (w_ldAdrVal = '0') else
+		adrLatVal		when (w_ldAdrVal = '0') 																													else
 		w_romData		when w_cpuAddress(15 downto 14) = "11"																									else -- Must be last
 		x"FF";
 	
@@ -287,7 +294,7 @@ process (i_CLOCK_50)
 			else
 				q_cpuClkCount <= (others=>'0');
 			end if;
-			if q_cpuClkCount < 1 then
+			if q_cpuClkCount < 2 then
 				w_cpuClock <= '0';
 			else
 				w_cpuClock <= '1';
