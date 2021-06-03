@@ -4,6 +4,7 @@
 --
 -- Changes to this code by Doug Gilliland 2020
 -- 6809 CPU
+-- 	16.7 MHz
 --	56K (external) RAM version
 -- Serial interface or VGA VDU
 --		Jumper in pin B22 to ground (adjacent pin) of the FPGA selects the VDU/Serial port
@@ -52,6 +53,9 @@ entity Microcomputer is
 		ps2Clk		: inout std_logic;
 		ps2Data		: inout std_logic;
 		
+		testPt1				: out std_logic := '1';
+		testPt2				: out std_logic := '1';
+		
 		-- Not using the SD RAM on the QMTECH FPGA card but making sure that it's not active
 		n_sdRamCas	: out std_logic := '1';		-- CAS on schematic
 		n_sdRamRas	: out std_logic := '1';		-- RAS
@@ -66,52 +70,55 @@ end Microcomputer;
 
 architecture struct of Microcomputer is
 
-	signal n_WR							: std_logic;
-	signal n_RD							: std_logic;
-	signal cpuAddress					: std_logic_vector(15 downto 0);
-	signal cpuDataOut					: std_logic_vector(7 downto 0);
-	signal cpuDataIn					: std_logic_vector(7 downto 0);
+	signal w_n_WR						: std_logic;
+	signal w_n_RD						: std_logic;
+	signal w_cpuAddress				: std_logic_vector(15 downto 0);
+	signal w_cpuDataOut				: std_logic_vector(7 downto 0);
+	signal w_cpuDataIn				: std_logic_vector(7 downto 0);
 
-	signal basRomData					: std_logic_vector(7 downto 0);
-	signal interface1DataOut		: std_logic_vector(7 downto 0);
-	signal interface2DataOut		: std_logic_vector(7 downto 0);
+	signal w_basRomData				: std_logic_vector(7 downto 0);
+	signal w_interface1DataOut		: std_logic_vector(7 downto 0);
+	signal w_interface2DataOut		: std_logic_vector(7 downto 0);
 
-	signal n_memWR						: std_logic :='1';
-	signal n_memRD 					: std_logic :='1';
+	signal w_n_memWR					: std_logic :='1';
+	signal w_n_memRD 					: std_logic :='1';
 
-	signal n_int1						: std_logic :='1';	
-	signal n_int2						: std_logic :='1';	
+	signal w_n_int1					: std_logic :='1';	
+	signal w_n_int2					: std_logic :='1';	
 	
-	signal n_externalRamCS			: std_logic :='1';
-	signal n_basRomCS					: std_logic :='1';
-	signal n_interface1CS			: std_logic :='1';
-	signal n_interface2CS			: std_logic :='1';
+	signal w_n_extRamCS		: std_logic :='1';
+	signal w_n_basRomCS				: std_logic :='1';
+	signal w_n_IF1CS			: std_logic :='1';
+	signal w_n_IF2CS			: std_logic :='1';
 
-	signal cpuCount					: std_logic_vector(5 downto 0); 
-	signal cpuClock					: std_logic;
-	signal resetLow					: std_logic := '1';
+	signal q_cpuClkCount				: std_logic_vector(5 downto 0); 
+	signal w_cpuClock					: std_logic;
+	signal w_resetLow					: std_logic := '1';
 
-   signal serialCount         	: std_logic_vector(15 downto 0) := x"0000";
-   signal serialCount_d       	: std_logic_vector(15 downto 0);
-   signal serialEn            	: std_logic;
+   signal w_serialCount         	: std_logic_vector(15 downto 0) := x"0000";
+   signal w_serialCount_d       	: std_logic_vector(15 downto 0);
+   signal w_serialEn            	: std_logic;
 	
 begin
 
+	testPt2 <= w_cpuClock;
+	testPt1 <= w_n_memWR;
+	
 	-- Debounce the reset line
 	DebounceResetSwitch	: entity work.Debouncer
 	port map (
-		i_clk			=> cpuClock,
+		i_clk			=> w_cpuClock,
 		i_PinIn		=> n_reset,
-		o_PinOut		=> resetLow
+		o_PinOut		=> w_resetLow
 	);
 	
 	-- SRAM
 	sramAddress(19 downto 16) <= "0000";
-	sramAddress(15 downto 0) <= cpuAddress(15 downto 0);
-	sramData <= cpuDataOut when n_WR='0' else (others => 'Z');
-	n_sRamWE <= n_memWR;
-	n_sRamOE <= n_memRD;
-	n_sRamCS <= n_externalRamCS;
+	sramAddress(15 downto 0) <= w_cpuAddress(15 downto 0);
+	sramData <= w_cpuDataOut when w_n_WR='0' else (others => 'Z');
+	n_sRamWE <= w_n_memWR;
+	n_sRamOE <= w_n_memRD;
+	n_sRamCS <= w_n_extRamCS;
 	
 	-- ____________________________________________________________________________________
 	-- 6809 CPU
@@ -119,12 +126,12 @@ begin
 	-- Does not work with Version 1.28 FPGA core
 	cpu1 : entity work.cpu09
 		port map(
-			clk => not(cpuClock),
-			rst => not resetLow,
-			rw => n_WR,
-			addr => cpuAddress,
-			data_in => cpuDataIn,
-			data_out => cpuDataOut,
+			clk => not(w_cpuClock),
+			rst => not w_resetLow,
+			rw => w_n_WR,
+			addr => w_cpuAddress,
+			data_in => w_cpuDataIn,
+			data_out => w_cpuDataOut,
 			halt => '0',
 			hold => '0',
 			irq => '0',
@@ -136,9 +143,9 @@ begin
 	-- BASIC ROM	
 	rom1 : entity work.M6809_EXT_BASIC_ROM -- 8KB BASIC
 		port map(
-			address => cpuAddress(12 downto 0),
+			address => w_cpuAddress(12 downto 0),
 			clock => i_CLOCK_50,
-			q => basRomData
+			q => w_basRomData
 		);
 	
 	-- ____________________________________________________________________________________
@@ -147,86 +154,113 @@ begin
 	-- Removed the Composite video output
 	io1 : entity work.SBCTextDisplayRGB
 		port map (
-			n_reset => resetLow,
-			clk => i_CLOCK_50,
+			n_reset	=> w_resetLow,
+			clk		=> i_CLOCK_50,
 			-- CPU I/F
-			n_wr => n_interface1CS or cpuClock or n_WR,
-			n_rd => n_interface1CS or cpuClock or (not n_WR),
-			n_int => n_int1,
-			regSel => cpuAddress(0),
-			dataIn => cpuDataOut,
-			dataOut => interface1DataOut,
+			n_WR		=> w_n_IF1CS or w_cpuClock or w_n_WR,
+			n_RD		=> w_n_IF1CS or w_cpuClock or (not w_n_WR),
+			n_int		=> w_n_int1,
+			regSel	=> w_cpuAddress(0),
+			dataIn	=> w_cpuDataOut,
+			dataOut	=> w_interface1DataOut,
 			-- VGA signals
-			hSync => hSync,
-			vSync => vSync,
-			videoR0 => videoR0,
-			videoR1 => videoR1,
-			videoG0 => videoG0,
-			videoG1 => videoG1,
-			videoB0 => videoB0,
-			videoB1 => videoB1,
+			hSync		=> hSync,
+			vSync		=> vSync,
+			videoR0	=> videoR0,
+			videoR1	=> videoR1,
+			videoG0	=> videoG0,
+			videoG1	=> videoG1,
+			videoB0	=> videoB0,
+			videoB1	=> videoB1,
 			-- PS/2 keyboard
-			ps2clk => ps2Clk,
-			ps2Data => ps2Data
+			ps2clk	=> ps2Clk,
+			ps2Data	=> ps2Data
 		);
 	
 	-- Replaced Grant's bufferedUART with Neal Crook's version which uses clock enables instead of clock
 	io2 : entity work.bufferedUART
 		port map(
-			clk => i_CLOCK_50,
-			n_wr => n_interface2CS or cpuClock or n_WR,
-			n_rd => n_interface2CS or cpuClock or (not n_WR),
-			n_int => n_int2,
-			regSel => cpuAddress(0),
-			dataIn => cpuDataOut,
-			dataOut => interface2DataOut,
-			rxClkEn  => serialEn,
-			txClkEn => serialEn,			
-			rxd => rxd1,
-			txd => txd1,
-			n_cts => cts1,
-			n_rts => rts1
+			clk		=> i_CLOCK_50,
+			n_WR		=> w_n_IF2CS or w_cpuClock or w_n_WR,
+			n_RD		=> w_n_IF2CS or w_cpuClock or (not w_n_WR),
+			n_int		=> w_n_int2,
+			regSel	=> w_cpuAddress(0),
+			dataIn	=> w_cpuDataOut,
+			dataOut	=> w_interface2DataOut,
+			rxClkEn	=> w_serialEn,
+			txClkEn	=> w_serialEn,			
+			rxd		=> rxd1,
+			txd		=> txd1,
+			n_cts		=> cts1,
+			n_rts		=> rts1
 		);
 	
 	-- ____________________________________________________________________________________
 	-- MEMORY READ/WRITE LOGIC
-	n_memRD <= not(cpuClock) nand n_WR;
-	n_memWR <= not(cpuClock) nand (not n_WR);
+	w_n_memRD <= not(w_cpuClock) nand w_n_WR;
+	w_n_memWR <= not(w_cpuClock) nand (not w_n_WR);
 	
 	-- ____________________________________________________________________________________
 	-- CHIP SELECTS
 	-- Jumper Pin_85 selects whether UART or VDU are default
-	n_basRomCS 		<= '0' when cpuAddress(15 downto 13) = "111" else '1'; --8K at top of memory
-	n_interface1CS <= '0' when ((cpuAddress(15 downto 1) = "111111111101000" and serSelect = '1') or 
-										 (cpuAddress(15 downto 1) = "111111111101001" and serSelect = '0')) else '1'; -- 2 bytes FFD0-FFD1
-	n_interface2CS <= '0' when ((cpuAddress(15 downto 1) = "111111111101001" and serSelect = '1') or 
-										 (cpuAddress(15 downto 1) = "111111111101000" and serSelect = '0')) else '1'; -- 2 bytes FFD2-FFD3
-	n_externalRamCS <= not n_basRomCS;
+	w_n_basRomCS	<= '0' when w_cpuAddress(15 downto 13) = "111" else '1'; --8K at top of memory
+	w_n_IF1CS		<= '0' when ((w_cpuAddress(15 downto 1) = "111111111101000" and serSelect = '1') or 
+								 (w_cpuAddress(15 downto 1) = "111111111101001" and serSelect = '0')) else '1'; -- 2 bytes FFD0-FFD1
+	w_n_IF2CS		<= '0' when ((w_cpuAddress(15 downto 1) = "111111111101001" and serSelect = '1') or 
+								 (w_cpuAddress(15 downto 1) = "111111111101000" and serSelect = '0')) else '1'; -- 2 bytes FFD2-FFD3
+	w_n_extRamCS	<=  w_cpuAddress(15) and w_cpuAddress(14) and w_cpuAddress(13);	-- active low
 	
 	-- ____________________________________________________________________________________
 	-- BUS ISOLATION
 	-- Order matters since SRAM overlaps I/O chip selects
-	cpuDataIn <=
-		interface1DataOut when n_interface1CS = '0' else
-		interface2DataOut when n_interface2CS = '0' else
-		basRomData when n_basRomCS = '0' else
-		sramData when n_externalRamCS= '0' else
+	w_cpuDataIn <=
+		w_interface1DataOut	when w_n_IF1CS = '0' else
+		w_interface2DataOut	when w_n_IF2CS = '0' else
+		w_basRomData			when w_n_basRomCS = '0' else
+		sramData					when w_n_extRamCS= '0' else
 		x"FF";
 	
+	-- ____________________________________________________________________________________
+	-- CPU Clock
+	-- Need 2 clocks high for externl SRAM can get by with 1 clock low
+	-- Produces a 40 nS wide wriye strobe - 45 nS SRAMs need a 35 nS write pulse, so this works
+--process (i_CLOCK_50, w_n_extRamCS)
+--	begin
+--		if rising_edge(i_CLOCK_50) then
+--			if w_n_extRamCS = '0' then
+--				if q_cpuClkCount < 2 then						-- 50 MHz / 3 = 16.7 MHz
+--					q_cpuClkCount <= q_cpuClkCount + 1;
+--				else
+--					q_cpuClkCount <= (others=>'0');
+--				end if;
+--			else
+--				if q_cpuClkCount < 1 then						-- 50 MHz / 2 = 25 MHz
+--					q_cpuClkCount <= q_cpuClkCount + 1;
+--				else
+--					q_cpuClkCount <= (others=>'0');
+--				end if;
+--			end if;
+--			if q_cpuClkCount < 1 then						-- 2 clocks high, one low
+--				w_cpuClock <= '0';
+--			else
+--				w_cpuClock <= '1';
+--			end if;
+--		end if;
+--	end process;
 	-- ____________________________________________________________________________________
 	-- SYSTEM CLOCKS
 process (i_CLOCK_50)
 	begin
 		if rising_edge(i_CLOCK_50) then
-			if cpuCount < 4 then -- 4 = 10MHz, 3 = 12.5MHz, 2=16.6MHz, 1=25MHz
-				cpuCount <= cpuCount + 1;
+			if q_cpuClkCount < 2 then		-- 4 = 10MHz, 3 = 12.5MHz, 2=16.6MHz, 1=25MHz
+				q_cpuClkCount <= q_cpuClkCount + 1;
 			else
-				cpuCount <= (others=>'0');
+				q_cpuClkCount <= (others=>'0');
 			end if;
-			if cpuCount < 2 then -- 2 when 10MHz, 2 when 12.5MHz, 2 when 16.6MHz, 1 when 25MHz
-				cpuClock <= '0';
+			if q_cpuClkCount < 2 then		-- 2 when 10MHz, 2 when 12.5MHz, 2 when 16.6MHz, 1 when 25MHz
+				w_cpuClock <= '0';
 			else
-				cpuClock <= '1';
+				w_cpuClock <= '1';
 			end if;
 		end if;
 	end process;
@@ -234,20 +268,20 @@ process (i_CLOCK_50)
 	
 	-- Baud Rate CLOCK SIGNALS
 	
-baud_div: process (serialCount_d, serialCount)
+baud_div: process (w_serialCount_d, w_serialCount)
     begin
-        serialCount_d <= serialCount + 2416;
+        w_serialCount_d <= w_serialCount + 2416;
     end process;
 
 process (i_CLOCK_50)
 	begin
 		if rising_edge(i_CLOCK_50) then
         -- Enable for baud rate generator
-        serialCount <= serialCount_d;
-        if serialCount(15) = '0' and serialCount_d(15) = '1' then
-            serialEn <= '1';
+        w_serialCount <= w_serialCount_d;
+        if w_serialCount(15) = '0' and w_serialCount_d(15) = '1' then
+            w_serialEn <= '1';
         else
-            serialEn <= '0';
+            w_serialEn <= '0';
         end if;
 		end if;
 	end process;

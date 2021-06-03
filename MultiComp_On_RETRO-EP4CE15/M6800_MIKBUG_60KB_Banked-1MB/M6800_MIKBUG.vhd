@@ -293,13 +293,13 @@ process (i_CLOCK_50, w_n_SRAMCE)
 	begin
 		if rising_edge(i_CLOCK_50) then
 			if w_n_SRAMCE = '0' then
-				if q_cpuClkCount < 2 then						-- 50 MHz / 3 = 16.7 
+				if q_cpuClkCount < 2 then						-- 50 MHz / 3 = 16.7 MHz 
 					q_cpuClkCount <= q_cpuClkCount + 1;
 				else
 					q_cpuClkCount <= (others=>'0');
 				end if;
 			else
-				if q_cpuClkCount < 1 then						-- 50 MHz / 2 = 25 
+				if q_cpuClkCount < 1 then						-- 50 MHz / 2 = 25 MHz
 					q_cpuClkCount <= q_cpuClkCount + 1;
 				else
 					q_cpuClkCount <= (others=>'0');
