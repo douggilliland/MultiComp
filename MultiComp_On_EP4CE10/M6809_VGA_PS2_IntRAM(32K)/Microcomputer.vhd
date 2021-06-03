@@ -275,7 +275,7 @@ begin
 
 	SevSeg1:	entity work.OutLatch
 	port map (	
-		dataIn8	=> w_cpuDataOut,
+		dataIn	=> w_cpuDataOut,
 		clock		=> i_clk_50,
 		load		=> not (w_LEDCS1 and (not w_n_WR)),
 		clear		=> i_n_reset,
@@ -284,7 +284,7 @@ begin
 
 	SevSeg2:	entity work.OutLatch
 	port map (	
-		dataIn8	=> w_cpuDataOut,
+		dataIn	=> w_cpuDataOut,
 		clock		=> i_clk_50,
 		load		=> not (w_LEDCS2 and (not w_n_WR)),
 		clear		=> i_n_reset,
@@ -293,7 +293,7 @@ begin
 
 	SevSeg3:	entity work.OutLatch
 	port map (	
-		dataIn8	=> w_cpuDataOut,
+		dataIn	=> w_cpuDataOut,
 		clock		=> i_clk_50,
 		load		=> not (w_LEDCS3 and (not w_n_WR)),
 		clear		=> i_n_reset,
@@ -302,7 +302,7 @@ begin
 
 	SevSeg4:	entity work.OutLatch
 	port map (	
-		dataIn8	=> w_cpuDataOut,
+		dataIn	=> w_cpuDataOut,
 		clock		=> i_clk_50,
 		load		=> not (w_LEDCS4 and (not w_n_WR)),
 		clear		=> i_n_reset,
@@ -311,7 +311,7 @@ begin
 
 	RingLeds1	:	entity work.OutLatch
 	port map (
-		dataIn8	=> w_cpuDataOut,
+		dataIn	=> w_cpuDataOut,
 		clock		=> i_clk_50,
 		load		=> not (w_rLEDCS1 and (not w_n_WR)),
 		clear		=> i_n_reset,
@@ -320,7 +320,7 @@ begin
 
 	RingLeds2	:	entity work.OutLatch
 	port map (
-		dataIn8	=> w_cpuDataOut,
+		dataIn	=> w_cpuDataOut,
 		clock		=> i_clk_50,
 		load		=> not (w_rLEDCS2 and (not w_n_WR)),
 		clear		=> i_n_reset,
