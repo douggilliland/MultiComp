@@ -243,7 +243,7 @@ pll : work.VideoClk_XVGA_1024x768 PORT MAP (
 
 	SevSeg1:	entity work.OutLatch
 	port map (	
-		dataIn8	=> w_cpuDataOut,
+		dataIn	=> w_cpuDataOut,
 		clock		=> w_CLOCK_50,
 		load		=> not (w_LEDCS1 and (not n_WR)),
 		clear		=> i_n_reset,
@@ -252,7 +252,7 @@ pll : work.VideoClk_XVGA_1024x768 PORT MAP (
 
 	SevSeg2:	entity work.OutLatch
 	port map (	
-		dataIn8	=> w_cpuDataOut,
+		dataIn	=> w_cpuDataOut,
 		clock		=> w_CLOCK_50,
 		load		=> not (w_LEDCS2 and (not n_WR)),
 		clear		=> i_n_reset,
@@ -261,7 +261,7 @@ pll : work.VideoClk_XVGA_1024x768 PORT MAP (
 
 	SevSeg3:	entity work.OutLatch
 	port map (	
-		dataIn8	=> w_cpuDataOut,
+		dataIn	=> w_cpuDataOut,
 		clock		=> w_CLOCK_50,
 		load		=> not (w_LEDCS3 and (not n_WR)),
 		clear		=> i_n_reset,
@@ -270,7 +270,7 @@ pll : work.VideoClk_XVGA_1024x768 PORT MAP (
 
 	SevSeg4:	entity work.OutLatch
 	port map (	
-		dataIn8	=> w_cpuDataOut,
+		dataIn	=> w_cpuDataOut,
 		clock		=> w_CLOCK_50,
 		load		=> not (w_LEDCS4 and (not n_WR)),
 		clear		=> i_n_reset,
@@ -279,7 +279,7 @@ pll : work.VideoClk_XVGA_1024x768 PORT MAP (
 
 	RingLeds1	:	entity work.OutLatch
 	port map (
-		dataIn8	=> w_cpuDataOut,
+		dataIn	=> w_cpuDataOut,
 		clock		=> w_CLOCK_50,
 		load		=> not (w_rLEDCS1 and (not n_WR)),
 		clear		=> i_n_reset,
@@ -288,7 +288,7 @@ pll : work.VideoClk_XVGA_1024x768 PORT MAP (
 
 	RingLeds2	:	entity work.OutLatch
 	port map (
-		dataIn8	=> w_cpuDataOut,
+		dataIn	=> w_cpuDataOut,
 		clock		=> w_CLOCK_50,
 		load		=> not (w_rLEDCS2 and (not n_WR)),
 		clear		=> i_n_reset,
