@@ -303,7 +303,7 @@ begin
 		
 	io3: entity work.OutLatch
 		port map (
-			dataIn8	=> w_cpuDataOut,
+			dataIn	=> w_cpuDataOut,
 			clock		=> i_clk_50,
 			load		=> w_n_Lat_CS or w_n_ioWR,
 			clear		=> i_n_reset,
@@ -312,7 +312,7 @@ begin
 	
 	io7SEGUU: entity work.OutLatch
 		port map (
-			dataIn8	=> w_cpuDataOut,
+			dataIn	=> w_cpuDataOut,
 			clock		=> i_clk_50,
 			load		=> w_n_7SegUU_CS or w_n_ioWR,
 			clear		=> i_n_reset,
@@ -321,7 +321,7 @@ begin
 	
 	io7SEGUM: entity work.OutLatch
 		port map (
-			dataIn8	=> w_cpuDataOut,
+			dataIn	=> w_cpuDataOut,
 			clock		=> i_clk_50,
 			load		=> w_n_7SegUm_CS or w_n_ioWR,
 			clear		=> i_n_reset,
@@ -330,7 +330,7 @@ begin
 	
 	io7SEGLM: entity work.OutLatch
 		port map (
-			dataIn8	=> w_cpuDataOut,
+			dataIn	=> w_cpuDataOut,
 			clock		=> i_clk_50,
 			load		=> w_n_7Seglm_CS or w_n_ioWR,
 			clear		=> i_n_reset,
@@ -339,7 +339,7 @@ begin
 	
 	io7SEGLL: entity work.OutLatch
 		port map (
-			dataIn8	=> w_cpuDataOut,
+			dataIn	=> w_cpuDataOut,
 			clock		=> i_clk_50,
 			load		=> w_n_7Segll_CS or w_n_ioWR,
 			clear		=> i_n_reset,
