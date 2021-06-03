@@ -166,6 +166,10 @@ begin
 		);
 	
 	io1 : entity work.SBCTextDisplayRGB
+generic map (
+	EXTENDED_CHARSET 		=> 0,
+	COLOUR_ATTS_ENABLED	=> 0
+)
 		port map (
 		n_reset => n_reset,
 		clk => clk,
@@ -209,7 +213,7 @@ begin
 		
 	io3: entity work.OutLatch
 		port map (
-			dataIn8 => cpuDataOut,
+			dataIn => cpuDataOut,
 			clock => clk,
 			load => n_IOCS_Write,
 			clear => n_reset,
