@@ -1,0 +1,30 @@
+- Not all of the peripheral interfaces are used by the FPGA cards due to I/O pin limitations
+
+library ieee;
+use ieee.std_logic_1164.all;
+use  IEEE.STD_LOGIC_ARITH.all;
+use  IEEE.STD_LOGIC_UNSIGNED.all;
+library work;
+use work.R32V2020_Pkg.all;
+
+entity PeripheralInterface is
+	port
+	(
+		n_reset						: in std_logic := '1';
+		i_CLOCK_50					: in std_logic := '1';
+		-- External I2C connections
+		io_I2C_SCL					: inout std_logic := '1';
+		io_I2C_SDA					: inout std_logic := '1';
+		io_I2C_INT					: in std_logic := '1'
+	);
+
+architecture struct of PeripheralInterface is
+
+	attribute syn_keep: boolean;
+
+--	signal ANSI_DisplayCS 		:	std_logic := '0';
+
+begin
+
+
+end;
