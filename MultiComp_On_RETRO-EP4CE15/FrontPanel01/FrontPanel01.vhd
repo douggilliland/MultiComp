@@ -33,6 +33,8 @@ entity FrontPanel01 is
 		-- 32 outs, 32 ins
 		i_frontPanelData			: in std_logic_vector(31 downto 0) := x"deadbaba";
 		o_frontPanelData			: out std_logic_vector(31 downto 0);
+		-- Test
+		o_stateCounter				: out std_logic_vector(13 downto 0);
 		-- External I2C connections
 		io_I2C_SCL					: inout std_logic := '1';
 		io_I2C_SDA					: inout std_logic := '1';
@@ -79,16 +81,19 @@ architecture struct of FrontPanel01 is
 	signal w_initState			: std_logic;
 	signal w_highCount			: std_logic_vector(5 downto 0);
 	signal w_midCount				: std_logic_vector(3 downto 0);
+	-- Grey code counts 000 > 001 > 011 > 010 > 110 > 111 -> 101 > 100
 	signal w_lowCount				: std_logic_vector(2 downto 0);
 	signal w_stateVector			: std_logic_vector(13 downto 0);
 	
-	attribute syn_keep: boolean;
+	attribute syn_keep	: boolean;
 	attribute syn_keep of w_lowCount			: signal is true;
 	attribute syn_keep of w_stateVector		: signal is true;
 
 begin
 
 	w_stateVector <= w_initState&w_highCount&w_midCount&w_lowCount;
+	
+	o_stateCounter <= w_stateVector;
 
 --	-- External I2c Interface
 	i2cIF	: entity work.i2c

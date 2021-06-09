@@ -41,6 +41,7 @@ architecture struct of FrontPanel01_test is
 
 	-- 
 	signal i_DATA_LOOPBACK	 	:	std_logic_vector(31 downto 0);
+	signal w_stateVector			: std_logic_vector(13 downto 0);
 
 begin
 
@@ -53,7 +54,8 @@ fp_test : work.FrontPanel01
 		-- 32 outs, 32 ins
 		i_frontPanelData	=> i_DATA_LOOPBACK,
 		o_frontPanelData	=> i_DATA_LOOPBACK,
-		-- External I2C connections
+		-- 
+		o_stateCounter		=> w_stateVector,
 		io_I2C_SCL			=> io_I2C_SCL,
 		io_I2C_SDA			=> io_I2C_SDA,
 		io_I2C_INT			=> io_I2C_INT
