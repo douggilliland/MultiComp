@@ -48,7 +48,10 @@ architecture struct of FrontPanel01 is
 	signal w_i_ADRSEL		 		:	std_logic := '0';
 	signal i_DATA_IN	 			:	std_logic_vector(7 downto 0);
 	signal o_DATA_OUT	 			:	std_logic_vector(7 downto 0);
+	signal o_periphAdr 			:	std_logic_vector(7 downto 0);
 	signal w_i2cWr1Rd0			:	std_logic := '0';
+	signal w_periphWr				:	std_logic := '0';
+	signal w_periphRd				:	std_logic := '0';
 	-- I2C Counter = 400 KHz
 	signal w_i2cCount				: std_logic_vector(6 downto 0);
 	signal w_i2c_400KHz			: std_logic;
@@ -94,6 +97,8 @@ begin
 	w_stateVector <= w_initState&w_highCount&w_midCount&w_lowCount;
 	
 	o_stateCounter <= w_stateVector;
+	
+	w_i2cWr1Rd0 <= '1';
 
 --	-- External I2c Interface
 	i2cIF	: entity work.i2c
@@ -109,42 +114,38 @@ begin
 		io_I2C_SDA		=> io_I2C_SDA			-- Data to/from external I2C interface
 	);
 	
-	-- ____________________________________________________________________________________
-	-- I2C Write Data multiplexer
-	i_DATA_IN <=
-		i_frontPanelData(31 downto 24)	when w_strLEDDataUU = '1'	else
-		i_frontPanelData(23 downto 16)	when w_strLEDDataUM = '1'	else
-		i_frontPanelData(15 downto 8)		when w_strLEDDataLM = '1'	else
-		i_frontPanelData(7 downto 0)		when w_strLEDDataLL = '1'	else
-		x"40"										when w_wrI2C2_20	 = '1'	else
-		x"42"										when w_wrI2C2_21	 = '1'	else
-		x"44"										when w_wrI2C2_22	 = '1'	else
-		x"46"										when w_wrI2C2_23	 = '1'	else
-		x"41"										when w_rdI2C2_20	 = '1'	else
-		x"43"										when w_rdI2C2_21	 = '1'	else
-		x"45"										when w_rdI2C2_22	 = '1'	else
-		x"47"										when w_rdI2C2_23	 = '1'	else
-		x"00"										when w_zeros		 = '1'	else
-		x"ff"										when w_allOnes		 = '1'	else
-		x"01"										when w_oneVal		 = '1'	else
-		x"03"										when w_three		 = '1'	else
-		x"00";
-	
-	-- Lower bits are grey code for glitch-free decoding
-	-- Low 3 bits control the low level interface (strobes) to the I2C interface
-	greyLow : ENTITY work.GrayCounter
-	generic map
-	(
-		N => 3
-	)
-	PORT map
-	(
-		Clk		=> i_CLOCK_50,
-		Rst		=> not n_reset,
-		En			=> '1',
-		output	=> w_lowCount
+	iop16 : ENTITY work.IOP16
+	PORT map (
+		clk			=> not n_reset,
+		resetN		=> i_CLOCK_50,			-- 50 MHz
+		periphAdr	=> o_periphAdr,
+		periphIn		=> o_DATA_OUT,
+		periphWr		=> w_periphWr,
+		periphRd		=> w_periphRd,
+		periphOut	=> i_DATA_IN
 	);
 
+	-- ____________________________________________________________________________________
+--	-- I2C Write Data multiplexer
+--	i_DATA_IN <=
+--		i_frontPanelData(31 downto 24)	when w_strLEDDataUU = '1'	else
+--		i_frontPanelData(23 downto 16)	when w_strLEDDataUM = '1'	else
+--		i_frontPanelData(15 downto 8)		when w_strLEDDataLM = '1'	else
+--		i_frontPanelData(7 downto 0)		when w_strLEDDataLL = '1'	else
+--		x"40"										when w_wrI2C2_20	 = '1'	else
+--		x"42"										when w_wrI2C2_21	 = '1'	else
+--		x"44"										when w_wrI2C2_22	 = '1'	else
+--		x"46"										when w_wrI2C2_23	 = '1'	else
+--		x"41"										when w_rdI2C2_20	 = '1'	else
+--		x"43"										when w_rdI2C2_21	 = '1'	else
+--		x"45"										when w_rdI2C2_22	 = '1'	else
+--		x"47"										when w_rdI2C2_23	 = '1'	else
+--		x"00"										when w_zeros		 = '1'	else
+--		x"ff"										when w_allOnes		 = '1'	else
+--		x"01"										when w_oneVal		 = '1'	else
+--		x"03"										when w_three		 = '1'	else
+--		x"00";
+	
 	 -- Count states
 	process (i_CLOCK_50)
 	begin
