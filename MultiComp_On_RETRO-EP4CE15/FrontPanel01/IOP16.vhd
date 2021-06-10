@@ -23,6 +23,7 @@
 --		d15..d12 = opcode
 --		d11..d0  = offset (BEZ, BNZ)
 --		d11..d0  = address (JMP)
+--		d7..d0   = address (IOR, IOW)
 --		d11..d8  = register number (LRI, IOR, IOW, ARI, ORI)
 --		d7..d0   = Immediate value (LRI, ARI, ORI)
 --
@@ -48,47 +49,33 @@ END IOP16;
 
 ARCHITECTURE IOP16_beh OF IOP16 IS
 
-signal w_lowCount : std_logic_vector(2 DOWNTO 0);		-- Grey code step counter
-signal w_PC_out	: std_logic_vector(11 DOWNTO 0);		-- Program Couner output
-signal w_PC_in		: std_logic_vector(11 DOWNTO 0);		-- Program Couner input
-signal w_RomData	: std_logic_vector(15 DOWNTO 0);		-- Program data
--- ALU
-signal w_AluInA	: std_logic_vector(7 DOWNTO 0);
-signal w_AluOut	: std_logic_vector(7 DOWNTO 0);
--- Register File
-signal reg0			: std_logic_vector(7 DOWNTO 0);
-signal reg1			: std_logic_vector(7 DOWNTO 0);
-signal reg2			: std_logic_vector(7 DOWNTO 0);
-signal reg3			: std_logic_vector(7 DOWNTO 0);
-signal reg4			: std_logic_vector(7 DOWNTO 0);
-signal reg5			: std_logic_vector(7 DOWNTO 0);
-signal reg6			: std_logic_vector(7 DOWNTO 0);
-signal reg7			: std_logic_vector(7 DOWNTO 0);
-signal regFileIn	: std_logic_vector(7 DOWNTO 0);		-- Register file input
--- Opcode decodes
-signal w_OP_NOP	: std_logic;
-signal w_OP_LRI	: std_logic;
-signal w_OP_IOR	: std_logic;
-signal w_OP_IOW	: std_logic;
-signal w_OP_ARI	: std_logic;
-signal w_OP_ORI	: std_logic;
-signal w_OP_BEZ	: std_logic;
-signal w_OP_BNZ	: std_logic;
-signal w_OP_JMP	: std_logic;
--- Prrogram Counter controls
-signal w_incPC		: std_logic;		-- Increment PC
-signal w_ldPC		: std_logic;		-- Load PC
-signal w_zBit		: std_logic;		-- ALU Zero bit (latched)
-signal w_aluZero	: std_logic;		-- ALU zero value
--- Register file load lines
-signal ldReg0		: std_logic;
-signal ldReg1		: std_logic;
-signal ldReg2		: std_logic;
-signal ldReg3		: std_logic;
-signal ldReg4		: std_logic;
-signal ldReg5		: std_logic;
-signal ldReg6		: std_logic;
-signal ldReg7		: std_logic;
+	-- Grey code state counter
+	signal w_lowCount : std_logic_vector(2 DOWNTO 0);		-- Grey code step counter
+	-- Program Counter
+	signal w_PC_out	: std_logic_vector(11 DOWNTO 0);		-- Program Couner output
+	signal w_PC_in		: std_logic_vector(11 DOWNTO 0);		-- Program Couner input
+	-- Program Counter controls
+	signal w_incPC		: std_logic;		-- Increment PC
+	signal w_ldPC		: std_logic;		-- Load PC
+	-- ROM
+	signal w_RomData	: std_logic_vector(15 DOWNTO 0);		-- Program data
+	-- ALU
+	signal w_AluInA	: std_logic_vector(7 DOWNTO 0);
+	signal w_AluOut	: std_logic_vector(7 DOWNTO 0);
+	signal w_wrRegF	: std_logic;
+	signal w_regFileIn: std_logic_vector(7 DOWNTO 0);
+	-- Opcode decodes
+	signal w_OP_NOP	: std_logic;
+	signal w_OP_LRI	: std_logic;
+	signal w_OP_IOR	: std_logic;
+	signal w_OP_IOW	: std_logic;
+	signal w_OP_ARI	: std_logic;
+	signal w_OP_ORI	: std_logic;
+	signal w_OP_BEZ	: std_logic;
+	signal w_OP_BNZ	: std_logic;
+	signal w_OP_JMP	: std_logic;
+	signal w_zBit		: std_logic;		-- ALU Zero bit (latched)
+	signal w_aluZero	: std_logic;		-- ALU zero value
 
 BEGIN
 
@@ -127,7 +114,7 @@ BEGIN
 		q				=> w_RomData
 	);
 	
-	-- Program Counter
+	-- Program Counter (PC)
 	StateReg: PROCESS (clk, resetN, w_incPC, w_ldPC)
 	BEGIN
 		IF rising_edge(clk) THEN
@@ -141,123 +128,29 @@ BEGIN
 		END IF;
 	END PROCESS;
 	
-	w_incPC		<= '1' when (w_lowCount = "100") and (w_OP_BEZ = '0') and (w_OP_BNZ = '0') else 
-					'1' when (w_lowCount = "100") and (w_OP_BEZ = '1') and (w_zBit = '0') else
-					'1' when (w_lowCount = "100") and (w_OP_BNZ = '1') and (w_zBit = '1') else
-					'0';
-	w_ldPC		<= '1' when (w_lowCount = "100") and (w_OP_BEZ = '1') and (w_zBit = '1') else
-					'1' when (w_lowCount = "100") and (w_OP_BNZ = '1') and (w_zBit = '0') else
-					'0';
-					
 	-- Mux PC input
 	w_PC_in <=  (w_PC_out + w_RomData(11 downto 0)) when ((w_OP_BEZ = '1') and (w_zBit = '1')) else
 					(w_PC_out + w_RomData(11 downto 0)) when ((w_OP_BNZ = '1') and (w_zBit = '0')) else
+					(w_RomData(11 downto 0)) when w_OP_JMP = '1' else
 					w_PC_out;
 
-	-- Register file
-	regF0 : process (clk, ldReg0)
-	BEGIN
-		IF rising_edge(clk) THEN
-			IF resetN = '0' THEN
-				reg0 <= x"00";
-			elsif ldReg0 = '1' then
-				reg0 <= regFileIn;
-			end if;
-		end if;
-	END process;
-	
-	regF1 : process (clk, ldReg1)
-	BEGIN
-		IF rising_edge(clk) THEN
-			IF resetN = '0' THEN
-				reg1 <= x"00";
-			elsif ldReg1 = '1' then
-				reg1 <= regFileIn;
-			end if;
-		end if;
-	END process;
-	
-	regF2 : process (clk, ldReg2)
-	BEGIN
-		IF rising_edge(clk) THEN
-			IF resetN = '0' THEN
-				reg2 <= x"00";
-			elsif ldReg2 = '1' then
-				reg2 <= regFileIn;
-			end if;
-		end if;
-	END process;
-	
-	regF3 : process (clk, ldReg3)
-	BEGIN
-		IF rising_edge(clk) THEN
-			IF resetN = '0' THEN
-				reg3 <= x"00";
-			elsif ldReg3 = '1' then
-				reg3 <= regFileIn;
-			end if;
-		end if;
-	END process;
-	
-	regF4 : process (clk, ldReg4)
-	BEGIN
-		IF rising_edge(clk) THEN
-			IF resetN = '0' THEN
-				reg4 <= x"00";
-			elsif ldReg4 = '1' then
-				reg4 <= regFileIn;
-			end if;
-		end if;
-	END process;
-	
-	regF5 : process (clk, ldReg5)
-	BEGIN
-		IF rising_edge(clk) THEN
-			IF resetN = '0' THEN
-				reg5 <= x"00";
-			elsif ldReg5 = '1' then
-				reg5 <= regFileIn;
-			end if;
-		end if;
-	END process;
-	
-	regF6 : process (clk, ldReg6)
-	BEGIN
-		IF rising_edge(clk) THEN
-			IF resetN = '0' THEN
-				reg6 <= x"00";
-			elsif ldReg6 = '1' then
-				reg6 <= regFileIn;
-			end if;
-		end if;
-	END process;
-	
-	regF7 : process (clk, ldReg7)
-	BEGIN
-		IF rising_edge(clk) THEN
-			IF resetN = '0' THEN
-				reg7 <= x"00";
-			elsif ldReg7 = '1' then
-				reg7 <= regFileIn;
-			end if;
-		end if;
-	END process;
-	
-	-- ALU input multiplexer
-	w_AluInA <=	reg0 when w_RomData(11 downto 8) = x"0" else
-					reg1 when w_RomData(11 downto 8) = x"1" else
-					reg2 when w_RomData(11 downto 8) = x"2" else
-					reg3 when w_RomData(11 downto 8) = x"3" else
-					reg4 when w_RomData(11 downto 8) = x"4" else
-					reg5 when w_RomData(11 downto 8) = x"5" else
-					reg6 when w_RomData(11 downto 8) = x"6" else
-					reg7 when w_RomData(11 downto 8) = x"7";
+	w_incPC	<= '1' when (w_lowCount = "100") and (w_OP_BEZ = '0') and (w_OP_BNZ = '0') and (w_OP_JMP = '0') else 
+					'1' when (w_lowCount = "100") and (w_OP_BEZ = '1') and (w_zBit = '0') else
+					'1' when (w_lowCount = "100") and (w_OP_BNZ = '1') and (w_zBit = '1') else
+					'0';
+					
+	w_ldPC	<= '1' when (w_lowCount = "100") and (w_OP_BEZ = '1') and (w_zBit = '1') else
+					'1' when (w_lowCount = "100") and (w_OP_BNZ = '1') and (w_zBit = '0') else
+					'1' when (w_lowCount = "100") and (w_OP_JMP = '1') else
+					'0';
+
 	
 	-- Register file input dats mux
-	regFileIn <=	periphIn		when w_OP_IOR = '1' else
-						w_AluOut 	when w_OP_ARI = '1' else
-						w_AluOut 	when w_OP_ORI = '1' else
-						w_RomData(7 downto 0);
+	w_regFileIn <=	periphIn						when w_OP_IOR = '1' else
+						w_AluOut 					when w_OP_ARI = '1' else
+						w_AluOut 					when w_OP_ORI = '1' else
+						w_RomData(7 downto 0)	when w_OP_LRI = '1' else
+						x"00";
 	
 	-- ALU result
 	w_AluOut <= (w_AluInA and w_RomData(7 downto 0)) when w_OP_ARI = '1' else
@@ -278,5 +171,21 @@ BEGIN
 	-- Peripheral output data bus
 	periphOut <= w_AluInA;
 	
+	w_wrRegF <= '1' when (w_OP_ARI = '1') and (w_lowCount="101") else
+					'1' when (w_OP_ORI = '1') and (w_lowCount="101") else
+					'1' when (w_OP_LRI = '1') and (w_lowCount="101") else
+					'0';
+	
+	-- Register file (8x8)
+	RegFile : ENTITY work.RegFile8x8
+	PORT map
+	(
+		i_clk			=> clk,
+		i_resetN		=> resetN,
+		i_wrReg		=> w_wrRegF,
+		i_regNum		=> w_RomData(11 downto 8),
+		i_DataIn		=> w_regFileIn,
+		o_DataOut	=> w_AluInA
+	);
 	
 END IOP16_beh;
