@@ -1,10 +1,18 @@
--- IOP16 - I/O Processor
+-- ---------------------------------------------------------------------------------------
+-- IOP16 - I/O Processor with minimal instruction set
+--	16-bit code
+--	12-bits address (up to 4096 instructions stored in FPGA ROM)
+--	Useful for for polled I/O
+--	8 registers (8-bits) (read/write) for parameters/data
+--		Reserved space in instruction for 16 of 8-bit registers
+--	8-bit data and address peripheral interface
+--		Controls up to 256 peripherals
 --
 -- INSTRUCTIONS
---	NOP - x0 - Increments PC
+--	NOP - x0 - No Operation - Increments PC
 --	LRI - x2 - Load register with immediate value
---	IOR - x6 - I/O Read
---	IOW - x7 - I/O Write
+--	IOR - x6 - I/O Read into register
+--	IOW - x7 - I/O Write from register
 --	ARI - x8 - AND register with Immediate value and store back into register
 --	ORI - x9 - OR register with Immediate value and store back into register
 --	BEZ - xc - Branch by offset if equal to zero
@@ -31,9 +39,9 @@ ENTITY IOP16 IS
 		clk			: IN std_logic;
 		resetN		: IN std_logic;
 		periphIn		: IN std_logic_vector(7 DOWNTO 0);
-		periphWr		: OUT std_logic := '0';
-		periphRd		: OUT std_logic := '0';
-		periphOut	: OUT std_logic_vector(7 DOWNTO 0) := x"00";
+		periphWr		: OUT std_logic := '0';						-- I/O write strobe
+		periphRd		: OUT std_logic := '0';						-- I/O read strobe
+		periphOut	: OUT std_logic_vector(7 DOWNTO 0) := x"00";	-- 
 		periphAdr	: OUT std_logic_vector(7 DOWNTO 0) := x"00"
 	);
 END IOP16;
