@@ -35,7 +35,7 @@ entity FrontPanel01_test is
 		i_key1						: in std_logic := '1';
 		o_UsrLed						: out std_logic := '1';
 		-- External I2C connections
-		io_I2C_SCL					: inout std_logic := '1';	-- I2C clock to Front Panel card
+		io_I2C_SCL					: inout std_logic := '0';	-- I2C clock to Front Panel card
 		io_I2C_SDA					: inout std_logic := '1';	-- I2C data to/from Front Panel card
 		i_I2C_INTn					: in std_logic := '1'		-- Interrupt input - active low
 	);

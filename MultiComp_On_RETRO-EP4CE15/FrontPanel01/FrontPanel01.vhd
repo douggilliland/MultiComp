@@ -37,7 +37,7 @@ entity FrontPanel01 is
 		i_key1						: in std_logic := '1';
 		o_UsrLed						: out std_logic := '1';
 		-- External I2C connections
-		io_I2C_SCL					: inout std_logic := '1';
+		io_I2C_SCL					: inout std_logic;
 		io_I2C_SDA					: inout std_logic := '1';
 		i_I2C_INTn					: in std_logic := '1'
 	);

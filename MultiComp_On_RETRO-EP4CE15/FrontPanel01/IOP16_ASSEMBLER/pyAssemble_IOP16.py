@@ -213,8 +213,58 @@ class ControlClass:
 		
 		outFilePathName = outFilePathName[0:-4] + '.lst'
 		F = open(outFilePathName, 'w')
+		address = 0
 		for row in sourceFile:
-			F.writelines(row[0]+ '\t' + row[1]+ '\t' + row[2] + '\t' + row[3] + '\t' + row[4] + '\t; ' + row[5] + '\n')
+			hexAddr = hex(address)
+			hexAddr = hexAddr[2:]
+			if len(hexAddr) == 1:
+				outStr = '00' + hexAddr + '\t'
+			elif len(hexAddr) == 2:
+				outStr = '0' + hexAddr + '\t'
+			else:
+				outStr = hexAddr + '\t'
+			cellOff = 0
+			ioRd = False
+			ioWr = False
+			for cell in row:
+				if cell == '':
+					outStr += '\t\t'
+				else:
+					if cellOff == 2:
+						if cell == 'IOR':
+							ioRd = True
+						if cell == 'IOW':
+							ioWr = True
+					if cellOff == 3:
+						if cell[0:2] == '0X':
+							if cell[3:] == '8':
+								outStr += '#0x00' + '\t'
+							elif cell[3:] == '9':
+								outStr += '#0x01' + '\t'
+							elif cell[3:] == '9':
+								outStr += '#0xFF' + '\t'
+							else:
+								outStr += 'Reg' + cell[3:] + '\t'
+						else:
+							outStr += cell + '\t'
+					elif cellOff == 4:
+						if not (ioRd or ioWr):
+							outStr += cell + '\t'
+						else:
+							if cell == '0X04':
+								outStr += 'I2C_DAT' + '\t'
+							elif (cell == '0X05') and ioRd:
+								outStr += 'I2C_STA' + '\t'
+							elif (cell == '0X05') and ioWr:
+								outStr += 'I2C_CTL' + '\t'
+							else:
+								outStr += 'TBDIO' + '\t'
+					else:
+						outStr += cell + '\t'
+				cellOff += 1
+			outStr += '\n'
+			F.writelines(outStr)
+			address += 1
 		F.close()
 			
 class Dashboard:
