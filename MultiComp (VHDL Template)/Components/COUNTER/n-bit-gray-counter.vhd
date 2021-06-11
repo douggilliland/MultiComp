@@ -16,7 +16,7 @@ BEGIN
 
   StateReg: PROCESS (Clk)
   BEGIN
-    IF (Clk = '1' AND Clk'EVENT) THEN
+    IF rising_edge(Clk) THEN
       IF (Rst = '1') THEN
         Currstate <= (OTHERS =>'0');
       ELSIF (En = '1') THEN

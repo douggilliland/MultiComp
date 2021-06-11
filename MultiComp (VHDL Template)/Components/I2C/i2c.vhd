@@ -52,7 +52,7 @@ entity i2c is
 port (
 	-- CPU Interface Signals
 	i_RESET			: in std_logic := '0';
-	CPU_CLK			: in std_logic;
+	i_CLK				: in std_logic;
 	i_ENA				: in std_logic := '0';
 	i_ADRSEL			: in std_logic := '0';
 	i_WR				: in std_logic := '0';
@@ -64,20 +64,20 @@ end i2c;
 
 architecture rtc_arch of i2c is
 
-type state_t is (s_idle, s_start, s_data, s_ack, s_stop, s_done);
-signal state 			: state_t;
+	type state_t is (s_idle, s_start, s_data, s_ack, s_stop, s_done);
+	signal state 			: state_t;
 
-signal w_data_buf		: std_logic_vector(7 downto 0);
-signal w_go				: std_logic := '0';
-signal w_mode			: std_logic_vector(1 downto 0);
-signal w_shift_reg	: std_logic_vector(7 downto 0);
-signal w_ack			: std_logic := '0';
-signal w_nbit 			: std_logic_vector(2 downto 0);
-signal w_phase 		: std_logic_vector(1 downto 0);
-signal w_scl 			: std_logic := '1';
-signal w_sda 			: std_logic := '1';
-signal w_rw_bit 		: std_logic;
-signal w_rw_flag		: std_logic;
+	signal w_data_buf		: std_logic_vector(7 downto 0);
+	signal w_go				: std_logic := '0';
+	signal w_mode			: std_logic_vector(1 downto 0);
+	signal w_shift_reg	: std_logic_vector(7 downto 0);
+	signal w_ack			: std_logic := '0';
+	signal w_nbit 			: std_logic_vector(2 downto 0);
+	signal w_phase 		: std_logic_vector(1 downto 0);
+	signal w_scl 			: std_logic := '1';
+	signal w_sda 			: std_logic := '1';
+	signal w_rw_bit 		: std_logic;
+	signal w_rw_flag		: std_logic;
 
 -- attribute syn_keep: boolean;
 -- attribute syn_keep of state: signal is true;
@@ -85,9 +85,9 @@ signal w_rw_flag		: std_logic;
 begin
 
 -- Load CPU bus into internal registers
-cpu_write : process (CPU_CLK, i_WR, i_ADRSEL)
+cpu_write : process (i_CLK, i_WR, i_ADRSEL)
 begin
-	if rising_edge(CPU_CLK) then
+	if rising_edge(i_CLK) then
 		if i_WR = '1' then
 			if i_ADRSEL = '0' then
 				w_data_buf <= i_DATA_IN;
@@ -99,11 +99,11 @@ begin
 end process;
 
 -- Kicks off the write transfer
-process (i_RESET, CPU_CLK, i_WR, i_ADRSEL, state)
+process (i_RESET, i_CLK, i_WR, i_ADRSEL, state)
 begin
 	if i_RESET = '1' or state = s_data then
 		w_go <= '0';
-	elsif rising_edge(CPU_CLK) then
+	elsif rising_edge(i_CLK) then
 		if i_WR = '1' and i_ADRSEL = '0' then
 			w_go <= '1';
 		end if;
@@ -132,7 +132,7 @@ end process;
 --     i_RESET Start  Data/Slave address/Word address  w_ack Stop  Done
 
 -- I2C transfer state machine
-i2c_proc : process (i_RESET, CPU_CLK, i_ENA, w_go, w_mode, state, w_phase, w_rw_bit)
+i2c_proc : process (i_RESET, i_CLK, i_ENA, w_go, w_mode, state, w_phase, w_rw_bit)
 	begin
 		if i_RESET = '1' then
 			w_scl <= '1';
@@ -141,7 +141,7 @@ i2c_proc : process (i_RESET, CPU_CLK, i_ENA, w_go, w_mode, state, w_phase, w_rw_
 			w_ack <= '0'; -- No error
 			w_phase <= "00";
 	
-		elsif rising_edge(CPU_CLK) then
+		elsif rising_edge(i_CLK) then
 			if i_ENA = '1' then
 				w_phase <= w_phase + "01"; -- Next w_phase by default
 	

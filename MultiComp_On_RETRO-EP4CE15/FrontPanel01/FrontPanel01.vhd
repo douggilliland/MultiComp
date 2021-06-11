@@ -29,24 +29,24 @@ entity FrontPanel01 is
 	(
 		-- Clock and reset
 		i_CLOCK_50					: in std_logic := '1';
-		n_reset						: in std_logic := '1';
+		i_n_reset					: in std_logic := '1';
 		-- 32 LEDs(outs), 32 Pushbuttons (ins)
 		i_FPPushbuttons			: in std_logic_vector(31 downto 0) := x"deadbaba";
 		o_FPLEDs						: out std_logic_vector(31 downto 0);
-		-- Test
---		o_stateCounter				: out std_logic_vector(13 downto 0);
+		--
+		i_key1						: in std_logic := '1';
+		o_UsrLed						: out std_logic := '1';
 		-- External I2C connections
 		io_I2C_SCL					: inout std_logic := '1';
 		io_I2C_SDA					: inout std_logic := '1';
-		i_I2C_INT					: in std_logic := '1'
+		i_I2C_INTn					: in std_logic := '1'
 	);
 	end FrontPanel01;
 
 architecture struct of FrontPanel01 is
 	-- 
-	signal w_i_ADRSEL		 		:	std_logic := '0';
-	signal w_DATA_IN	 			:	std_logic_vector(7 downto 0);
-	signal w_DATA_OUT	 			:	std_logic_vector(7 downto 0);
+	signal w_PERIP_DATA_IN	 	:	std_logic_vector(7 downto 0);
+	signal w_PERIP_DATA_OUT	 	:	std_logic_vector(7 downto 0);
 	signal w_I2C_RD_DATA 		:	std_logic_vector(7 downto 0);
 	signal w_periphAdr 			:	std_logic_vector(7 downto 0);
 	signal w_I2CWR					:	std_logic := '0';
@@ -60,6 +60,8 @@ architecture struct of FrontPanel01 is
 	signal w_strLEDDataUM		: std_logic;
 	signal w_strLEDDataLM		: std_logic;
 	signal w_strLEDDataLL		: std_logic;
+	signal w_LED					: std_logic;
+	signal w_LatLED				: std_logic;
 	
 	attribute syn_keep	: boolean;
 --	attribute syn_keep of w_lowCount			: signal is true;
@@ -76,6 +78,7 @@ begin
 	-- x04-x5, R, I2C I/F
 	-- 	x04 - I2C Read Data
 	-- 	x05 - I2C Status
+	--	0x06. R, I2C Interript
 	-- x00, W, LEDs(31..24)
 	-- x01, W, LEDs(23..16)
 	-- x02, W, LEDs(15..8)
@@ -85,46 +88,44 @@ begin
 	-- 	x05 - I2C Command
 	iop16 : ENTITY work.IOP16
 	PORT map (
-		clk			=> not n_reset,
-		resetN		=> i_CLOCK_50,			-- 50 MHz
+		clk			=> i_CLOCK_50,
+		resetN		=> i_n_reset,			-- 50 MHz
 		periphAdr	=> w_periphAdr,
-		periphIn		=> w_DATA_IN,
+		periphIn		=> w_PERIP_DATA_IN,
 		periphWr		=> w_periphWr,
 		periphRd		=> w_periphRd,
-		periphOut	=> w_DATA_OUT
+		periphOut	=> w_PERIP_DATA_OUT
 	);
 
 	-- External I2c Interface
 	i2cIF	: entity work.i2c
 	port map (
-		i_RESET			=> not n_reset,		-- Reset pushbutton switch
-		CPU_CLK			=> i_CLOCK_50,			-- 50 MHz
+		i_RESET			=> not i_n_reset,		-- Reset pushbutton switch
+		i_CLK				=> i_CLOCK_50,			-- 50 MHz
 		i_ENA				=> w_i2c_400KHz,		-- One CPU clock wide every 400 Khz
-		i_ADRSEL			=> w_i_ADRSEL,			-- Command/Data address select line
-		i_DATA_IN		=> w_DATA_OUT,			-- Data to I2C interface
+		i_ADRSEL			=> w_periphAdr(0),	-- Command/Data address select line
+		i_DATA_IN		=> w_PERIP_DATA_OUT,			-- Data to I2C interface
 		o_DATA_OUT		=> w_I2C_RD_DATA,		-- Data from I2C interface
 		i_WR				=> w_I2CWR,				-- Write str
 		io_I2C_SCL		=> io_I2C_SCL,			-- Clock to external I2C interface
 		io_I2C_SDA		=> io_I2C_SDA			-- Data to/from external I2C interface
 	);
-	
-	w_i_ADRSEL <= w_periphAdr(0);
-	
+		
 	-- Write from the IOP16 to the LEDs
 	process (i_CLOCK_50)
 	begin
 		if rising_edge(i_CLOCK_50) then
 			if w_strLEDDataUU = '1' then
-				o_FPLEDs(31 downto 24) <= w_DATA_OUT;
+				o_FPLEDs(31 downto 24) <= w_PERIP_DATA_OUT;
 			end if;
 			if w_strLEDDataUM = '1' then
-				o_FPLEDs(23 downto 16) <= w_DATA_OUT;
+				o_FPLEDs(23 downto 16) <= w_PERIP_DATA_OUT;
 			end if;
 			if w_strLEDDataLM = '1' then
-				o_FPLEDs(15 downto 8) <= w_DATA_OUT;
+				o_FPLEDs(15 downto 8) <= w_PERIP_DATA_OUT;
 			end if;
 			if w_strLEDDataLL = '1' then
-				o_FPLEDs(7 downto 00) <= w_DATA_OUT;
+				o_FPLEDs(7 downto 00) <= w_PERIP_DATA_OUT;
 			end if;
 		end if;
 	end process;
@@ -134,15 +135,27 @@ begin
 	w_strLEDDataUM <= '1' when ((w_periphWr = '1') and (w_periphAdr = x"01")) else '0';
 	w_strLEDDataLM <= '1' when ((w_periphWr = '1') and (w_periphAdr = x"02")) else '0';
 	w_strLEDDataLL <= '1' when ((w_periphWr = '1') and (w_periphAdr = x"03")) else '0';
-	w_I2CWR 			<= '1' when (w_periphWr = '1') and (w_periphAdr(7 downto 1) = "0000100") else '0';
+	w_I2CWR 			<= '1' when  (w_periphWr = '1') and (w_periphAdr(7 downto 1) = x"0"&"010") else '0';
+
+	w_LED <= '1' when ((w_periphWr = '1') and (w_periphAdr = x"07")) else '0';
+	process (i_CLOCK_50, w_LED)
+	begin
+		if rising_edge(i_CLOCK_50) then
+			if  w_LED = '1' then
+				o_UsrLed <= w_PERIP_DATA_OUT(0);
+			end if;
+		end if;
+	end process;
 
 	-- Read data mux
-	w_DATA_IN <= 	i_FPPushbuttons(31 downto 24) when (w_periphAdr = x"00") else
-						i_FPPushbuttons(23 downto 16) when (w_periphAdr = x"01") else
-						i_FPPushbuttons(15 downto 8) when (w_periphAdr = x"02") else
-						i_FPPushbuttons(7 downto 0) when (w_periphAdr = x"03") else
-						w_I2C_RD_DATA when  (w_periphAdr(7 downto 1) = "0000100") else
-						x"00";
+	w_PERIP_DATA_IN <=	i_FPPushbuttons(31 downto 24)	when (w_periphAdr = x"00") else
+								i_FPPushbuttons(23 downto 16) when (w_periphAdr = x"01") else
+								i_FPPushbuttons(15 downto 8)	when (w_periphAdr = x"02") else
+								i_FPPushbuttons(7 downto 0)	when (w_periphAdr = x"03") else
+								w_I2C_RD_DATA 						when (w_periphAdr(7 downto 1) = x"0"&"010") else
+								"0000000"&(not i_I2C_INTn)		when (w_periphAdr = x"06") else
+								"0000000"&i_key1					when (w_periphAdr = x"07") else
+								x"00";
 	
 	-- 400 KHz I2C clock
 	-- 50.0 MHz / 400 KHz = 125 clocks

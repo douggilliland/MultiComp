@@ -1,6 +1,6 @@
 -- ---------------------------------------------------------------------------------------
 -- IOP16 - I/O Processor with minimal instruction set
---	16-bit code
+--	16-bit instruction code
 --	12-bits address (up to 4096 instructions stored in FPGA ROM)
 --	Useful for for polled I/O
 --	8 registers (8-bits) (read/write) for parameters/data
@@ -8,7 +8,7 @@
 --	8-bit data and address peripheral interface
 --		Controls up to 256 peripherals
 --
--- INSTRUCTIONS
+-- Opcodes
 --	NOP - x0 - No Operation - Increments PC
 --	LRI - x2 - Load register with immediate value
 --	IOR - x6 - I/O Read into register
@@ -21,12 +21,12 @@
 --
 -- Fields
 --		d15..d12 = opcode
---		d11..d0  = offset (BEZ, BNZ)
---		d11..d0  = address (JMP)
---		d7..d0   = address (IOR, IOW)
+--		d11..d0  = 12-bit offset (BEZ, BNZ)
+--		d11..d0  = 12-bit address (JMP)
+--		d7..d0   = 8-bit address (IOR, IOW)
 --		d11..d8  = register number (LRI, IOR, IOW, ARI, ORI)
 --		d7..d0   = Immediate value (LRI, ARI, ORI)
---
+-- ---------------------------------------------------------------------------------------
 
 LIBRARY ieee;
 USE ieee.std_logic_1164.ALL;
@@ -39,11 +39,12 @@ ENTITY IOP16 IS
 	(
 		clk			: IN std_logic;
 		resetN		: IN std_logic;
-		periphIn		: IN std_logic_vector(7 DOWNTO 0);
-		periphWr		: OUT std_logic := '0';						-- I/O write strobe
-		periphRd		: OUT std_logic := '0';						-- I/O read strobe
-		periphOut	: OUT std_logic_vector(7 DOWNTO 0) := x"00";	-- 
-		periphAdr	: OUT std_logic_vector(7 DOWNTO 0) := x"00"
+		periphIn		: IN std_logic_vector(7 DOWNTO 0);				-- Data from peripheral
+		periphWr		: OUT std_logic := '0';								-- I/O write strobe
+		periphRd		: OUT std_logic := '0';								-- I/O read strobe
+		periphOut	: OUT std_logic_vector(7 DOWNTO 0) := x"00";	-- Data to peripheral
+		periphAdr	: OUT std_logic_vector(7 DOWNTO 0) := x"00"	-- Address to peripheral|FrontPanel01_test|FrontPanel01:fp_test	
+
 	);
 END IOP16;
 
@@ -62,6 +63,9 @@ ARCHITECTURE IOP16_beh OF IOP16 IS
 	-- ALU
 	signal w_AluInA	: std_logic_vector(7 DOWNTO 0);
 	signal w_AluOut	: std_logic_vector(7 DOWNTO 0);
+	signal w_zBit		: std_logic;		-- ALU Zero bit (latched)
+	signal w_aluZero	: std_logic;		-- ALU zero value
+	-- Register file controls/data
 	signal w_wrRegF	: std_logic;
 	signal w_regFileIn: std_logic_vector(7 DOWNTO 0);
 	-- Opcode decodes
@@ -74,8 +78,9 @@ ARCHITECTURE IOP16_beh OF IOP16 IS
 	signal w_OP_BEZ	: std_logic;
 	signal w_OP_BNZ	: std_logic;
 	signal w_OP_JMP	: std_logic;
-	signal w_zBit		: std_logic;		-- ALU Zero bit (latched)
-	signal w_aluZero	: std_logic;		-- ALU zero value
+	
+	attribute syn_keep	: boolean;
+	attribute syn_keep of w_lowCount			: signal is true;
 
 BEGIN
 
@@ -92,6 +97,7 @@ BEGIN
 
 	-- Lower bits are grey code for glitch-free decoding
 	-- 3-bits that control the low level interface (strobes) to the I2C interface
+	-- 000 > 001 > 011 > 010 > 110 > 11 > 101 > 100
 	greyLow : ENTITY work.GrayCounter
 	generic map
 	(
@@ -143,7 +149,6 @@ BEGIN
 					'1' when (w_lowCount = "100") and (w_OP_BNZ = '1') and (w_zBit = '0') else
 					'1' when (w_lowCount = "100") and (w_OP_JMP = '1') else
 					'0';
-
 	
 	-- Register file input dats mux
 	w_regFileIn <=	periphIn						when w_OP_IOR = '1' else
@@ -165,16 +170,17 @@ BEGIN
 					'0' when (w_OP_ORI = '1') and (w_lowCount="101") and (w_aluZero = '0');
 
 	-- Controls
-	periphWr <= '1' when (w_OP_IOW = '1') and (w_lowCount="010") else '0';
-	periphRd <= '1' when (w_OP_IOR = '1') and (w_lowCount="010") else '0';
+	periphWr <= '1' when (w_OP_IOW = '1') and (w_lowCount="111") else '0';
+	periphRd <= '1' when (w_OP_IOR = '1') and (w_lowCount="111") else '0';
 
 	-- Peripheral output data bus
-	periphOut <= w_AluInA;
+	periphOut <= 	w_AluInA when (w_OP_IOW = '1') else
+						x"AA";
 	
-	w_wrRegF <= '1' when (w_OP_ARI = '1') and (w_lowCount="101") else
-					'1' when (w_OP_ORI = '1') and (w_lowCount="101") else
-					'1' when (w_OP_LRI = '1') and (w_lowCount="101") else
-					'0';
+	periphAdr <= 	w_RomData(7 downto 0) when w_OP_IOW = '1' else
+						w_RomData(7 downto 0) when w_OP_IOR = '1' else
+						x"ff";
+	
 	
 	-- Register file (8x8)
 	RegFile : ENTITY work.RegFile8x8
@@ -188,4 +194,10 @@ BEGIN
 		o_DataOut	=> w_AluInA
 	);
 	
+	w_wrRegF <= '1' when (w_OP_ARI = '1') and (w_lowCount="110") else
+					'1' when (w_OP_ORI = '1') and (w_lowCount="110") else
+					'1' when (w_OP_LRI = '1') and (w_lowCount="110") else
+					'1' when (w_OP_IOR = '1') and (w_lowCount="110") else
+					'0';
+					
 END IOP16_beh;
