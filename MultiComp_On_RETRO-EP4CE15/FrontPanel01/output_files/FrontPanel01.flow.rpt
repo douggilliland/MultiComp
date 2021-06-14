@@ -1,5 +1,5 @@
 Flow report for FrontPanel01
-Sun Jun 13 20:55:03 2021
+Mon Jun 14 19:24:05 2021
 Quartus Prime Version 20.1.0 Build 711 06/05/2020 SJ Lite Edition
 
 
@@ -41,7 +41,7 @@ https://fpgasoftware.intel.com/eula.
 +----------------------------------------------------------------------------------+
 ; Flow Summary                                                                     ;
 +------------------------------------+---------------------------------------------+
-; Flow Status                        ; Successful - Sun Jun 13 20:55:03 2021       ;
+; Flow Status                        ; Successful - Mon Jun 14 19:24:05 2021       ;
 ; Quartus Prime Version              ; 20.1.0 Build 711 06/05/2020 SJ Lite Edition ;
 ; Revision Name                      ; FrontPanel01                                ;
 ; Top-level Entity Name              ; FrontPanel01_test                           ;
@@ -187,7 +187,15 @@ https://fpgasoftware.intel.com/eula.
 ; Assembler            ; 00:00:03     ; 1.0                     ; 4689 MB             ; 00:00:03                           ;
 ; MIF/HEX Update       ; 00:00:01     ; 1.0                     ; 4701 MB             ; 00:00:01                           ;
 ; Assembler            ; 00:00:02     ; 1.0                     ; 4689 MB             ; 00:00:03                           ;
-; Total                ; 00:02:27     ; --                      ; --                  ; 00:03:04                           ;
+; MIF/HEX Update       ; 00:00:01     ; 1.0                     ; 4702 MB             ; 00:00:01                           ;
+; Assembler            ; 00:00:02     ; 1.0                     ; 4689 MB             ; 00:00:03                           ;
+; MIF/HEX Update       ; 00:00:01     ; 1.0                     ; 4702 MB             ; 00:00:01                           ;
+; Assembler            ; 00:00:02     ; 1.0                     ; 4689 MB             ; 00:00:03                           ;
+; MIF/HEX Update       ; 00:00:01     ; 1.0                     ; 4700 MB             ; 00:00:01                           ;
+; Assembler            ; 00:00:03     ; 1.0                     ; 4689 MB             ; 00:00:02                           ;
+; MIF/HEX Update       ; 00:00:01     ; 1.0                     ; 4700 MB             ; 00:00:01                           ;
+; Assembler            ; 00:00:02     ; 1.0                     ; 4688 MB             ; 00:00:02                           ;
+; Total                ; 00:02:40     ; --                      ; --                  ; 00:03:18                           ;
 +----------------------+--------------+-------------------------+---------------------+------------------------------------+
 
 
@@ -257,6 +265,14 @@ https://fpgasoftware.intel.com/eula.
 ; Assembler            ; DESKTOP-2UF8LNB  ; Windows 10 ; 10.0       ; x86_64         ;
 ; MIF/HEX Update       ; DESKTOP-2UF8LNB  ; Windows 10 ; 10.0       ; x86_64         ;
 ; Assembler            ; DESKTOP-2UF8LNB  ; Windows 10 ; 10.0       ; x86_64         ;
+; MIF/HEX Update       ; DESKTOP-2UF8LNB  ; Windows 10 ; 10.0       ; x86_64         ;
+; Assembler            ; DESKTOP-2UF8LNB  ; Windows 10 ; 10.0       ; x86_64         ;
+; MIF/HEX Update       ; DESKTOP-2UF8LNB  ; Windows 10 ; 10.0       ; x86_64         ;
+; Assembler            ; DESKTOP-2UF8LNB  ; Windows 10 ; 10.0       ; x86_64         ;
+; MIF/HEX Update       ; DESKTOP-2UF8LNB  ; Windows 10 ; 10.0       ; x86_64         ;
+; Assembler            ; DESKTOP-2UF8LNB  ; Windows 10 ; 10.0       ; x86_64         ;
+; MIF/HEX Update       ; DESKTOP-2UF8LNB  ; Windows 10 ; 10.0       ; x86_64         ;
+; Assembler            ; DESKTOP-2UF8LNB  ; Windows 10 ; 10.0       ; x86_64         ;
 +----------------------+------------------+------------+------------+----------------+
 
 
@@ -268,6 +284,14 @@ quartus_cdb --read_settings_files=off --write_settings_files=off FrontPanel01 -c
 quartus_fit --read_settings_files=off --write_settings_files=off FrontPanel01 -c FrontPanel01
 quartus_asm --read_settings_files=off --write_settings_files=off FrontPanel01 -c FrontPanel01
 quartus_sta FrontPanel01 -c FrontPanel01
+quartus_cdb FrontPanel01 -c FrontPanel01 --update_mif
+quartus_asm --read_settings_files=on --write_settings_files=off FrontPanel01 -c FrontPanel01
+quartus_cdb FrontPanel01 -c FrontPanel01 --update_mif
+quartus_asm --read_settings_files=on --write_settings_files=off FrontPanel01 -c FrontPanel01
+quartus_cdb FrontPanel01 -c FrontPanel01 --update_mif
+quartus_asm --read_settings_files=on --write_settings_files=off FrontPanel01 -c FrontPanel01
+quartus_cdb FrontPanel01 -c FrontPanel01 --update_mif
+quartus_asm --read_settings_files=on --write_settings_files=off FrontPanel01 -c FrontPanel01
 quartus_cdb FrontPanel01 -c FrontPanel01 --update_mif
 quartus_asm --read_settings_files=on --write_settings_files=off FrontPanel01 -c FrontPanel01
 quartus_cdb FrontPanel01 -c FrontPanel01 --update_mif

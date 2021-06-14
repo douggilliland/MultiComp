@@ -150,21 +150,26 @@ class ControlClass:
 				outList.append([label + '_3','IOR','0X07','0X05','POLL I2C STATUS BUSY'])
 				outList.append(['','ARI','0X07','0X01','MASK BUSY BIT'])
 				outList.append(['','BNZ',label + '_3','','LOOP BACK IF STILL BUSY'])
-				# READ THE MCP REGISTER TO REGISTER
-				outList.append(['','IOR','0X0' + mcpValue[-1],'0X04','READ MCP REGISTER TO REG'])
+				# ISSUE IDLE
+				outList.append(['','IOW','0X08','0X05','ISSUE IDLE COMMAND'])
+				# Bogus write?
+				outList.append(['','LRI','0X00','0X54','LOAD BOGUS WRITE'])
+				outList.append(['','IOW','0X00','0X04','WRITE BOGUS'])
 				# WAIT TILL BUSY CLEARED
 				outList.append([label + '_4','IOR','0X07','0X05','POLL I2C STATUS BUSY'])
 				outList.append(['','ARI','0X07','0X01','MASK BUSY BIT'])
 				outList.append(['','BNZ',label + '_4','','LOOP BACK IF STILL BUSY'])
+				# READ THE MCP REGISTER TO REGISTER
+				outList.append(['','IOR','0X0' + mcpValue[-1],'0X04','READ MCP REGISTER TO REG'])
+				# WAIT TILL BUSY CLEARED
+				outList.append([label + '_5','IOR','0X07','0X05','POLL I2C STATUS BUSY'])
+				outList.append(['','ARI','0X07','0X01','MASK BUSY BIT'])
+				outList.append(['','BNZ',label + '_5','','LOOP BACK IF STILL BUSY'])
 				# I2C_Ctrl = STOP
 				outList.append(['','NOP','','',''])
 				outList.append(['','LRI','0X00','0X03','STOP COMMAND'])
 				outList.append(['','IOW','0X00','0X05','ISSUE STOP COMMAND'])
 				outList.append(['','NOP','','',''])
-				# WAIT TILL BUSY CLEARED
-				outList.append([label + '_5','IOR','0X07','0X05','POLL I2C STATUS BUSY'])
-				outList.append(['','ARI','0X07','0X01','MASK BUSY BIT'])
-				outList.append(['','BNZ',label + '_5','','LOOP BACK IF STILL BUSY'])
 			elif command == 'WI2C3_REG':
 				if mcpValue[0].upper() != 'R':
 					assert False,'need register nymber in mcpValue'
