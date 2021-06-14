@@ -48,18 +48,18 @@ class ControlClass:
 			assert False,'header does not match expected values'
 		else:
 			print('header ok')
-		print('inList',inList)
+		# print('inList',inList)
 		outList = []
 		# ['LABEL', 'COMMAND', 'I2C_ADDR', '23017_REG', 'VALUE', 'COMMENT']
 		# ['WR001', 'WI2C3_CONST', '0X40', '0X00', '0XFF', 'SET IODIRA TO ALL_INS']
 		# ['WR002', 'WI2C3_CONST', '0X40', '0X01', '0X00', 'SET IODIRB TO ALL_OUTS']
 		# ['WR003', 'WI2C3_CONST', '0X40', '0X02', '0XFF', 'SET IPOLA TO INVERTED']
-		# ['WR004', 'WI2C3_CONST', '0X40', '0x04', '0XFF', 'SET GPINTENA TO ENABLED']
-		# ['WR005', 'WI2C3_CONST', '0X40', '0x05', '0X00', 'SET GPINTENB TO DISABLED']
+		# ['WR004', 'WI2C3_CONST', '0X40', '0X04', '0XFF', 'SET GPINTENA TO ENABLED']
+		# ['WR005', 'WI2C3_CONST', '0X40', '0X05', '0X00', 'SET GPINTENB TO DISABLED']
 		# ['WR006', 'WI2C3_CONST', '0X40', '0X06', '0X00', 'SET DEFVALA TO 0X00']
-		# ['WR007', 'WI2C3_CONST', '0X40', '0x08', '0x00', 'SET INTCONA TO INTCON_PREVPIN']
-		# ['WR008', 'WI2C3_CONST', '0X40', '0x0A', '0x04', 'SET IOCONA TO DISABLE SEQ']
-		# ['WR009', 'WI2C3_CONST', '0X40', '0x0B', '0x04', 'SET IOCONB TO DISABLE SEQ']
+		# ['WR007', 'WI2C3_CONST', '0X40', '0X08', '0X00', 'SET INTCONA TO INTCON_PREVPIN']
+		# ['WR008', 'WI2C3_CONST', '0X40', '0X0A', '0X04', 'SET IOCONA TO DISABLE SEQ']
+		# ['WR009', 'WI2C3_CONST', '0X40', '0X0B', '0X04', 'SET IOCONB TO DISABLE SEQ']
 		# ['WR010', 'WI2C3_CONST', '0X40', '0X0C', '0XFF', 'SET GPPUA TO PULLUPS']
 		# ['WR011', 'WI2C3_CONST', '0X40', '0X15', '0X55', 'SET OLATB TO 0X55']
 		for row in inList[1:]:
@@ -71,152 +71,134 @@ class ControlClass:
 			mcpValue = row[4]
 			comment = row[5]
 			if command == 'WI2C3_CONST':
-				# WRITE I2C_Ctrl = START (0X01)
-				outLine = []
-				outLine.append(label)
-				outLine.append('IOW')
-				outLine.append('0X09')		# rEG9 = 0X01
-				outLine.append('0X05')
-				funName = '** ' + comment + ' **'
-				outLine.append(funName)
-				outList.append(outLine)
-				# WRITE SLAVE ADDRESS TO DATA REG
-				outLine = []
-				outLine.append('')
-				outLine.append('LRI')
-				outLine.append('0X00')
-				outLine.append(i2cAddr)
-				outLine.append('LOAD I2C SLAVE ADDRESS TO CPU REG0')
-				outList.append(outLine)
-				outLine = []
-				outLine.append('')
-				outLine.append('IOW')		
-				outLine.append('0X00')
-				outLine.append('0X04')
-				outLine.append('WRITE SLAVE ADDRESS TO CMD REG')
-				outList.append(outLine)
+				# I2C_Ctrl = START
+				outList.append([label,'IOW','0X09','0X05','ISSUE START COMMAND'])
+				# I2C write command at slave address
+				outList.append(['','LRI','0X00',i2cAddr,'LOAD I2C SLAVE ADDRESS TO CPU REG0'])
+				outList.append(['','IOW','0X00','0X04','WRITE SLAVE ADDRESS TO CMD REG'])
 				# WAIT TILL BUSY CLEARED
-				outLine = []
-				loopLabel = label + '_1'
-				outLine.append(loopLabel)
-				outLine.append('IOR')
-				outLine.append('0X07')
-				outLine.append('0X05')
-				outLine.append('POLL I2C STATUS BUSY')
-				outList.append(outLine)
-				outLine = []
-				outLine.append('')
-				outLine.append('ARI')
-				outLine.append('0X07')
-				outLine.append('0X01')
-				outLine.append('MASK BUSY BIT')
-				outList.append(outLine)
-				outLine = []
-				outLine.append('')
-				outLine.append('BNZ')
-				outLine.append(loopLabel)
-				outLine.append('')
-				outLine.append('LOOP BACK IF STILL BUSY')
-				outList.append(outLine)
+				outList.append([label + '_1','IOR','0X07','0X05','POLL I2C STATUS BUSY'])
+				outList.append(['','ARI','0X07','0X01','MASK BUSY BIT'])
+				outList.append(['','BNZ',label + '_1','','LOOP BACK IF STILL BUSY'])
 				# WRITE I2C_Ctrl = IDLE = 0X00
-				outLine = []
-				outLine.append('')
-				outLine.append('IOW')		
-				outLine.append('0X08')
-				outLine.append('0X05')
-				outLine.append('ISSUE IDLE COMMAND')
-				outList.append(outLine)
+				outList.append(['','IOW','0X08','0X05','ISSUE IDLE COMMAND'])
 				# WRITE MCP REGISTER NUMBER TO I2C DATA REG
-				outLine = []
-				outLine.append('')
-				outLine.append('LRI')
-				outLine.append('0X01')
-				outLine.append(mcpReg)
-				outLine.append('LOAD MCP REGISTER NUMBER TO CPU REG1')
-				outList.append(outLine)
-				outLine = []
-				outLine.append('')
-				outLine.append('IOW')
-				outLine.append('0X01')
-				outLine.append('0X04')
-				outLine.append('WRITE MCP REGISTER TO MCP')
-				outList.append(outLine)
+				outList.append(['','LRI','0X01',mcpReg,'LOAD MCP REGISTER NUMBER TO CPU REG1'])
+				outList.append(['','IOW','0X01','0X04','WRITE MCP REGISTER TO MCP'])
 				# WAIT TILL BUSY CLEARED
-				outLine = []
-				loopLabel = label + '_2'
-				outLine.append(loopLabel)
-				outLine.append('IOR')
-				outLine.append('0X07')
-				outLine.append('0X05')
-				outLine.append('POLL I2C STATUS BUSY')
-				outList.append(outLine)
-				outLine = []
-				outLine.append('')
-				outLine.append('ARI')
-				outLine.append('0X07')
-				outLine.append('0X01')
-				outLine.append('MASK BUSY BUT')
-				outList.append(outLine)
-				outLine = []
-				outLine.append('')
-				outLine.append('BNZ')
-				outLine.append(loopLabel)
-				outLine.append('')
-				outLine.append('LOOP BACK IF STILL BUSY')
-				outList.append(outLine)
+				outList.append([label + '_2','IOR','0X07','0X05','POLL I2C STATUS BUSY'])
+				outList.append(['','ARI','0X07','0X01','MASK BUSY BIT'])
+				outList.append(['','BNZ',label + '_2','','LOOP BACK IF STILL BUSY'])
 				# WRITE I2C_Ctrl = STOP
-				outLine = []
-				outLine.append('')
-				outLine.append('LRI')
-				outLine.append('0X01')
-				outLine.append('0X03')
-				outLine.append('STOP COMMAND VALUE')
-				outList.append(outLine)
-				outLine = []
-				outLine.append('')
-				outLine.append('IOW')		
-				outLine.append('0X01')
-				outLine.append('0X05')
-				outLine.append('ISSUE STOP COMMAND')
-				outList.append(outLine)
+				outList.append(['','LRI','0X01','0X03','STOP COMMAND VALUE'])
+				outList.append(['','IOW','0X01','0X05','ISSUE STOP COMMAND'])
 				# WRITE DATA VALUE TO MCP
-				outLine = []
-				outLine.append('')
-				outLine.append('LRI')
-				outLine.append('0X01')
-				outLine.append(mcpValue)
-				outLine.append('WRITE DATA TO REG')
-				outList.append(outLine)
-				outLine = []
-				outLine.append('')
-				outLine.append('IOW')
-				outLine.append('0X01')
-				outLine.append('0X04')
-				outLine.append('WRITE MCP REGISTER TO MCP')
-				outList.append(outLine)
+				outList.append(['','LRI','0X01',mcpValue,'WRITE DATA TO REG'])
+				outList.append(['','IOW','0X01','0X04','WRITE MCP REGISTER TO MCP'])
 				# WAIT TILL BUSY CLEARED
-				outLine = []
-				loopLabel = label + '_3'
-				outLine.append(loopLabel)
-				outLine.append('IOR')
-				outLine.append('0X07')
-				outLine.append('0X05')
-				outLine.append('POLL I2C STATUS BUSY')
-				outList.append(outLine)
-				outLine = []
-				outLine.append('')
-				outLine.append('ARI')
-				outLine.append('0X07')
-				outLine.append('0X01')
-				outLine.append('MASK BUSY BUT')
-				outList.append(outLine)
-				outLine = []
-				outLine.append('')
-				outLine.append('BNZ')
-				outLine.append(loopLabel)
-				outLine.append('')
-				outLine.append('LOOP BACK IF STILL BUSY')
-				outList.append(outLine)
+				outList.append([label + '_3','IOR','0X07','0X05','POLL I2C STATUS BUSY'])
+				outList.append(['','ARI','0X07','0X01','MASK BUSY BIT'])
+				outList.append(['','BNZ',label + '_3','','LOOP BACK IF STILL BUSY'])
+			elif command == 'RI2C3_REG':
+				# FIX SLAVE ADDRESS FOR READS
+				# print('i2cAddr',i2cAddr)
+				lastChar = i2cAddr[len(i2cAddr)-1]
+				# print('last char',lastChar)
+				shortReg = i2cAddr[0:3]
+				# print('shortReg',shortReg)
+				if lastChar == '0':
+					readI2CAddr = shortReg + '1'
+				elif i2cAddr[len(i2cAddr)-1] == '2':
+					readI2CAddr = shortReg + '3'
+				elif i2cAddr[len(i2cAddr)-1] == '4':
+					readI2CAddr = shortReg + '5'
+				elif i2cAddr[len(i2cAddr)-1] == '6':
+					readI2CAddr = shortReg + '7'
+				elif i2cAddr[len(i2cAddr)-1] == '8':
+					readI2CAddr = shortReg + '9'
+				elif i2cAddr[len(i2cAddr)-1] == 'A':
+					readI2CAddr = shortReg + 'B'
+				elif i2cAddr[len(i2cAddr)-1] == 'C':
+					readI2CAddr = shortReg + 'D'
+				elif i2cAddr[len(i2cAddr)-1] == 'E':
+					readI2CAddr = shortReg + 'F'
+				# I2C_Ctrl = START
+				outList.append([label,'IOW','0X09','0X05','ISSUE I2C START COMMAND'])
+				# WRITE I2C SLAVE ADDRESS
+				outList.append(['','LRI','0X00',i2cAddr,'LOAD I2C SLAVE ADDRESS TO CPU REG0'])
+				outList.append(['','IOW','0X00','0X04','WRITE I2C SLAVE ADDRESS TO DATA REG'])
+				# WAIT TILL BUSY CLEARED
+				outList.append([label + '_1','IOR','0X07','0X05','POLL I2C STATUS BUSY'])
+				outList.append(['','ARI','0X07','0X01','MASK BUSY BIT'])
+				outList.append(['','BNZ',label + '_1','','LOOP BACK IF STILL BUSY'])
+				# I2C_Ctrl = STOP
+				outList.append(['','LRI','0X00','0X03','LOAD STOP COMMAND'])
+				outList.append(['','IOW','0X00','0X05','ISSUE STOP COMMAND'])
+				# WRITE MCP REGISTER NUMBER TO I2C DATA REG
+				outList.append(['','LRI','0X00',mcpReg,'LOAD MCP REGISTER NUMBER TO CPU REG1'])
+				outList.append(['','IOW','0X00','0X04','WRITE MCP REGISTER TO MCP'])
+				# WAIT TILL BUSY CLEARED
+				outList.append([label + '_2','IOR','0X07','0X05','POLL I2C STATUS BUSY'])
+				outList.append(['','ARI','0X07','0X01','MASK BUSY BIT'])
+				outList.append(['','BNZ',label + '_2','','LOOP BACK IF STILL BUSY'])
+				# ISSUE START
+				outList.append(['','IOW','0X09','0X05','ISSUE START COMMAND'])
+				# I2C read command at slave address
+				outList.append(['','LRI','0X00',readI2CAddr,'LOAD I2C READ SLAVE ADDRESS TO CPU REG0'])
+				outList.append(['','IOW','0X00','0X04','WRITE SLAVE ADDRESS TO CMD REG'])
+				# WAIT TILL BUSY CLEARED
+				outList.append([label + '_3','IOR','0X07','0X05','POLL I2C STATUS BUSY'])
+				outList.append(['','ARI','0X07','0X01','MASK BUSY BIT'])
+				outList.append(['','BNZ',label + '_3','','LOOP BACK IF STILL BUSY'])
+				# READ THE MCP REGISTER TO REGISTER
+				outList.append(['','IOR','0X0' + mcpValue[-1],'0X04','READ MCP REGISTER TO REG'])
+				# WAIT TILL BUSY CLEARED
+				outList.append([label + '_4','IOR','0X07','0X05','POLL I2C STATUS BUSY'])
+				outList.append(['','ARI','0X07','0X01','MASK BUSY BIT'])
+				outList.append(['','BNZ',label + '_4','','LOOP BACK IF STILL BUSY'])
+				# I2C_Ctrl = STOP
+				outList.append(['','NOP','','',''])
+				outList.append(['','LRI','0X00','0X03','STOP COMMAND'])
+				outList.append(['','IOW','0X00','0X05','ISSUE STOP COMMAND'])
+				outList.append(['','NOP','','',''])
+				# WAIT TILL BUSY CLEARED
+				outList.append([label + '_5','IOR','0X07','0X05','POLL I2C STATUS BUSY'])
+				outList.append(['','ARI','0X07','0X01','MASK BUSY BIT'])
+				outList.append(['','BNZ',label + '_5','','LOOP BACK IF STILL BUSY'])
+			elif command == 'WI2C3_REG':
+				if mcpValue[0].upper() != 'R':
+					assert False,'need register nymber in mcpValue'
+				# WRITE I2C_Ctrl = START (0X01)
+				outList.append([label,'IOW','0X09','0X05','WRITE START'])
+				# WRITE SLAVE ADDRESS TO DATA REG
+				outList.append(['','LRI','0X00',i2cAddr,'LOAD I2C SLAVE ADDRESS TO CPU REG0'])
+				outList.append(['','IOW','0X00','0X04','WRITE SLAVE ADDRESS TO CMD REG'])
+				# WAIT TILL BUSY CLEARED
+				outList.append([label + '_1','IOR','0X07','0X05','POLL I2C STATUS BUSY'])
+				outList.append(['','ARI','0X07','0X01','MASK BUSY BIT'])
+				outList.append(['','BNZ',label + '_1','','LOOP BACK IF STILL BUSY'])
+				# WRITE I2C_Ctrl = IDLE = 0X00
+				outList.append(['','IOW','0X08','0X05','ISSUE IDLE COMMAND'])
+				# WRITE MCP REGISTER NUMBER TO I2C DATA REG
+				outList.append(['','LRI','0X01',mcpReg,'LOAD MCP REGISTER NUMBER TO CPU REG1'])
+				outList.append(['','IOW','0X01','0X04','WRITE REG1 TO MCP REGISTER'])
+				# WAIT TILL BUSY CLEARED
+				outList.append([label + '_2','IOR','0X07','0X05','POLL I2C STATUS BUSY'])
+				outList.append(['','ARI','0X07','0X01','MASK BUSY BIT'])
+				outList.append(['','BNZ',label + '_2','','LOOP BACK IF STILL BUSY'])
+				# WRITE I2C_Ctrl = STOP
+				outList.append(['','LRI','0X01','0X03','STOP COMMAND VALUE'])
+				outList.append(['','IOW','0X01','0X05','ISSUE STOP COMMAND'])
+				# WRITE REGISTER VALUE TO MCP
+				outList.append(['','IOW','0X0' + mcpValue[1],'0X04','WRITE REG VALUE TO MCP'])
+				# WAIT TILL BUSY CLEARED
+				outList.append([label + '_3','IOR','0X07','0X05','POLL I2C STATUS BUSY'])
+				outList.append(['','ARI','0X07','0X01','MASK BUSY BIT'])
+				outList.append(['','BNZ',label + '_3','','LOOP BACK IF STILL BUSY'])
+			elif command == 'JMP':
+				outList.append([label,'JMP',i2cAddr,'',''])
+			elif command == 'LDREG_IMM':
+				outList.append([label,'LRI',i2cAddr,mcpReg,comment])
 			elif command == 'HALT':
 				outLine = []
 				outLine.append('HALT')
@@ -225,7 +207,6 @@ class ControlClass:
 				outLine.append('')
 				outLine.append('LOOP FOREVER')
 				outList.append(outLine)
-				
 			else:
 				assert False,'bad command'
 		# for row in outList:
@@ -234,7 +215,7 @@ class ControlClass:
 		outHeader = ['LABEL', 'OPCODE', 'REG_LABEL', 'OFFSET_ADDR', 'COMMENT']
 		outFileClass = WriteListtoCSV()
 		outFileClass.writeOutList(outFileName, outHeader, outList)		
-		errorDialog('Done')
+		errorDialog('Complete')
 			
 class Dashboard:
 	def __init__(self):

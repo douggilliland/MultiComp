@@ -54,10 +54,11 @@ class ControlClass:
 			if row[0] != '':
 				labelsList[row[0]] = progCounter
 			progCounter += 1
-		print('labelsList',labelsList)
+		# print('labelsList',labelsList)
 		program = []
 		progCounter = 0
 		for row in inList[1:]:
+			print(row)
 			row[1] = row[1].upper()
 			if row[1] != '':
 				if row[1] == 'NOP':
@@ -111,10 +112,11 @@ class ControlClass:
 					print('bad instr', row)
 					assert False,'bad instr'
 				progCounter += 1
-		# print('program',program)
+		print('program',program)
 		annotatedSource = []
 		progOffset = 0
 		for rowOffset in range(len(inList)-1):
+			print(inList[rowOffset])
 			annRow = []
 			annRow.append(inList[rowOffset+1][0])
 			if inList[rowOffset+1][1] != '':
@@ -151,7 +153,7 @@ class ControlClass:
 				return '0' + distStr[2:]
 			elif len(distStr) == 3:
 				return '00' + distStr[2:]
-		print('distance =',distStr)
+		# print('distance =',distStr)
 		return distStr
 	
 	def outStuff(self,inFileName,sourceFile):

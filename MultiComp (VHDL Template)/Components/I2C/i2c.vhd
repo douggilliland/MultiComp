@@ -30,17 +30,23 @@
 --
 -- Example (R32V2020)
 --	; Write 0x22 to IOCON register (not sequential operations)
---	lix		r8,0x01		; START
+--	; START
+--	lix		r8,0x01
 --	bsr		write_I2C_Ctrl_Reg
---	lix		r8,0x40		; I2C Slave address
+--	; I2C Slave address
+--	lix		r8,0x40
 --	bsr		write_I2C_Data_Address_Reg
---	lix		r8,0x00		; IDLE
+--	 IDLE
+--	lix		r8,0x00
 --	bsr		write_I2C_Ctrl_Reg
---	lix		r8,0x05		; IO control register
+--	; IO control register
+--	lix		r8,0x05
 --	bsr		write_I2C_Data_Address_Reg
---	lix		r8,0x03		; STOP
+--	; STOP
+--	lix		r8,0x03
 --	bsr		write_I2C_Ctrl_Reg	
---	lix		r8,0x22		; Disable sequential operation
+--	; Disable sequential operation
+--	lix		r8,0x22
 --	bsr		write_I2C_Data_Address_Reg
 
 
