@@ -47,20 +47,30 @@ architecture struct of FrontPanel01_test is
 	signal w_resdebounced		:	std_logic;		-- Debounced reset button
 	signal w_scanStrobe			:	std_logic;
 	signal w_PUSHBUTTONS		 	:	std_logic_vector(31 downto 0);		-- Pushbuttons
+	signal w_latechdPBs		 	:	std_logic_vector(31 downto 0);		-- Pushbuttons
 	signal w_DATA_LOOPBACK	 	:	std_logic_vector(31 downto 0);		-- wrap back Pushbuttons lines to LEDs
 
 begin
 
-w_DATA_LOOPBACK <= w_PUSHBUTTONS when w_scanStrobe = '1';		-- Latch the pushbuttons when scanStrobe goes active
+w_latechdPBs <= w_PUSHBUTTONS when w_scanStrobe = '1';		-- Latch the pushbuttons when scanStrobe goes active
 
-debouncePB : entity work.Debouncer
+debouncePB : entity work.Debouncer32
 	port map
 	(
-		i_clk				=> i_CLOCK_50,
+		i_slowClk		=> w_scanStrobe,
+		i_fastClk		=> i_CLOCK_50,
+		i_PinsIn			=> w_latechdPBs,
+		o_PinsOut		=> w_DATA_LOOPBACK
+	);
+
+debounceReset : entity work.Debouncer
+	port map
+	(
+		i_clk				=> i_n_reset,
 		i_PinIn			=> i_n_reset,
 		o_PinOut			=> w_resdebounced
 	);
-
+	
 -- Front Panel test
 fp_test : work.FrontPanel01
 	port map

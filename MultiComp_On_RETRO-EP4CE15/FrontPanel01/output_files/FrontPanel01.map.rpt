@@ -1,5 +1,5 @@
 Analysis & Synthesis report for FrontPanel01
-Tue Jun 15 17:13:24 2021
+Tue Jun 15 18:09:26 2021
 Quartus Prime Version 20.1.0 Build 711 06/05/2020 SJ Lite Edition
 
 
@@ -29,10 +29,11 @@ Quartus Prime Version 20.1.0 Build 711 06/05/2020 SJ Lite Edition
  21. Port Connectivity Checks: "FrontPanel01:fp_test|IOP16:iop16|GrayCounter:greyLow"
  22. Port Connectivity Checks: "FrontPanel01:fp_test|IOP16:iop16"
  23. Port Connectivity Checks: "FrontPanel01:fp_test"
- 24. In-System Memory Content Editor Settings
- 25. Post-Synthesis Netlist Statistics for Top Partition
- 26. Elapsed Time Per Partition
- 27. Analysis & Synthesis Messages
+ 24. Port Connectivity Checks: "Debouncer32:debouncePB"
+ 25. In-System Memory Content Editor Settings
+ 26. Post-Synthesis Netlist Statistics for Top Partition
+ 27. Elapsed Time Per Partition
+ 28. Analysis & Synthesis Messages
 
 
 
@@ -59,15 +60,15 @@ https://fpgasoftware.intel.com/eula.
 +----------------------------------------------------------------------------------+
 ; Analysis & Synthesis Summary                                                     ;
 +------------------------------------+---------------------------------------------+
-; Analysis & Synthesis Status        ; Successful - Tue Jun 15 17:13:24 2021       ;
+; Analysis & Synthesis Status        ; Successful - Tue Jun 15 18:09:26 2021       ;
 ; Quartus Prime Version              ; 20.1.0 Build 711 06/05/2020 SJ Lite Edition ;
 ; Revision Name                      ; FrontPanel01                                ;
 ; Top-level Entity Name              ; FrontPanel01_test                           ;
 ; Family                             ; Cyclone IV E                                ;
-; Total logic elements               ; 566                                         ;
-;     Total combinational functions  ; 473                                         ;
-;     Dedicated logic registers      ; 280                                         ;
-; Total registers                    ; 280                                         ;
+; Total logic elements               ; 568                                         ;
+;     Total combinational functions  ; 475                                         ;
+;     Dedicated logic registers      ; 281                                         ;
+; Total registers                    ; 281                                         ;
 ; Total pins                         ; 7                                           ;
 ; Total virtual pins                 ; 0                                           ;
 ; Total memory bits                  ; 32,768                                      ;
@@ -192,6 +193,7 @@ https://fpgasoftware.intel.com/eula.
 ; IOP16.vhd                                                                 ; yes             ; User VHDL File                               ; C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15/FrontPanel01/IOP16.vhd                                                          ;             ;
 ; IOP_ROM.vhd                                                               ; yes             ; User Wizard-Generated File                   ; C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15/FrontPanel01/IOP_ROM.vhd                                                        ;             ;
 ; RegFile8x8.vhd                                                            ; yes             ; User VHDL File                               ; C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15/FrontPanel01/RegFile8x8.vhd                                                     ;             ;
+; Debounce32.vhd                                                            ; yes             ; User VHDL File                               ; C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15/FrontPanel01/Debounce32.vhd                                                     ;             ;
 ; altsyncram.tdf                                                            ; yes             ; Megafunction                                 ; c:/intelfpga_lite/20.1/quartus/libraries/megafunctions/altsyncram.tdf                                                                                                ;             ;
 ; stratix_ram_block.inc                                                     ; yes             ; Megafunction                                 ; c:/intelfpga_lite/20.1/quartus/libraries/megafunctions/stratix_ram_block.inc                                                                                         ;             ;
 ; lpm_mux.inc                                                               ; yes             ; Megafunction                                 ; c:/intelfpga_lite/20.1/quartus/libraries/megafunctions/lpm_mux.inc                                                                                                   ;             ;
@@ -224,20 +226,20 @@ https://fpgasoftware.intel.com/eula.
 +---------------------------------------------+--------------------------+
 ; Resource                                    ; Usage                    ;
 +---------------------------------------------+--------------------------+
-; Estimated Total logic elements              ; 566                      ;
+; Estimated Total logic elements              ; 568                      ;
 ;                                             ;                          ;
-; Total combinational functions               ; 473                      ;
+; Total combinational functions               ; 475                      ;
 ; Logic element usage by number of LUT inputs ;                          ;
 ;     -- 4 input functions                    ; 238                      ;
-;     -- 3 input functions                    ; 127                      ;
-;     -- <=2 input functions                  ; 108                      ;
+;     -- 3 input functions                    ; 128                      ;
+;     -- <=2 input functions                  ; 109                      ;
 ;                                             ;                          ;
 ; Logic elements by mode                      ;                          ;
-;     -- normal mode                          ; 415                      ;
+;     -- normal mode                          ; 417                      ;
 ;     -- arithmetic mode                      ; 58                       ;
 ;                                             ;                          ;
-; Total registers                             ; 280                      ;
-;     -- Dedicated logic registers            ; 280                      ;
+; Total registers                             ; 281                      ;
+;     -- Dedicated logic registers            ; 281                      ;
 ;     -- I/O registers                        ; 0                        ;
 ;                                             ;                          ;
 ; I/O pins                                    ; 7                        ;
@@ -247,8 +249,8 @@ https://fpgasoftware.intel.com/eula.
 ;                                             ;                          ;
 ; Maximum fan-out node                        ; altera_internal_jtag~TDO ;
 ; Maximum fan-out                             ; 176                      ;
-; Total fan-out                               ; 2865                     ;
-; Average fan-out                             ; 3.61                     ;
+; Total fan-out                               ; 2871                     ;
+; Average fan-out                             ; 3.60                     ;
 +---------------------------------------------+--------------------------+
 
 
@@ -257,9 +259,9 @@ https://fpgasoftware.intel.com/eula.
 +-----------------------------------------------------------------------------------------------------------------------------------------+---------------------+---------------------------+-------------+--------------+---------+-----------+------+--------------+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+-----------------------------------+--------------+
 ; Compilation Hierarchy Node                                                                                                              ; Combinational ALUTs ; Dedicated Logic Registers ; Memory Bits ; DSP Elements ; DSP 9x9 ; DSP 18x18 ; Pins ; Virtual Pins ; Full Hierarchy Name                                                                                                                                                                                                                                                                                                                                           ; Entity Name                       ; Library Name ;
 +-----------------------------------------------------------------------------------------------------------------------------------------+---------------------+---------------------------+-------------+--------------+---------+-----------+------+--------------+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+-----------------------------------+--------------+
-; |FrontPanel01_test                                                                                                                      ; 473 (1)             ; 280 (0)                   ; 32768       ; 0            ; 0       ; 0         ; 7    ; 0            ; |FrontPanel01_test                                                                                                                                                                                                                                                                                                                                            ; FrontPanel01_test                 ; work         ;
-;    |Debouncer:debouncePB|                                                                                                               ; 25 (25)             ; 23 (23)                   ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |FrontPanel01_test|Debouncer:debouncePB                                                                                                                                                                                                                                                                                                                       ; Debouncer                         ; work         ;
-;    |FrontPanel01:fp_test|                                                                                                               ; 324 (15)            ; 171 (9)                   ; 32768       ; 0            ; 0       ; 0         ; 0    ; 0            ; |FrontPanel01_test|FrontPanel01:fp_test                                                                                                                                                                                                                                                                                                                       ; FrontPanel01                      ; work         ;
+; |FrontPanel01_test                                                                                                                      ; 475 (1)             ; 281 (0)                   ; 32768       ; 0            ; 0       ; 0         ; 7    ; 0            ; |FrontPanel01_test                                                                                                                                                                                                                                                                                                                                            ; FrontPanel01_test                 ; work         ;
+;    |Debouncer:debounceReset|                                                                                                            ; 26 (26)             ; 24 (24)                   ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |FrontPanel01_test|Debouncer:debounceReset                                                                                                                                                                                                                                                                                                                    ; Debouncer                         ; work         ;
+;    |FrontPanel01:fp_test|                                                                                                               ; 325 (15)            ; 171 (9)                   ; 32768       ; 0            ; 0       ; 0         ; 0    ; 0            ; |FrontPanel01_test|FrontPanel01:fp_test                                                                                                                                                                                                                                                                                                                       ; FrontPanel01                      ; work         ;
 ;       |IOP16:iop16|                                                                                                                     ; 261 (71)            ; 128 (11)                  ; 32768       ; 0            ; 0       ; 0         ; 0    ; 0            ; |FrontPanel01_test|FrontPanel01:fp_test|IOP16:iop16                                                                                                                                                                                                                                                                                                           ; IOP16                             ; work         ;
 ;          |GrayCounter:greyLow|                                                                                                          ; 3 (3)               ; 3 (3)                     ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |FrontPanel01_test|FrontPanel01:fp_test|IOP16:iop16|GrayCounter:greyLow                                                                                                                                                                                                                                                                                       ; GrayCounter                       ; work         ;
 ;          |IOP_ROM:IopRom|                                                                                                               ; 78 (0)              ; 50 (0)                    ; 32768       ; 0            ; 0       ; 0         ; 0    ; 0            ; |FrontPanel01_test|FrontPanel01:fp_test|IOP16:iop16|IOP_ROM:IopRom                                                                                                                                                                                                                                                                                            ; IOP_ROM                           ; work         ;
@@ -269,7 +271,7 @@ https://fpgasoftware.intel.com/eula.
 ;                   |sld_mod_ram_rom:mgl_prim2|                                                                                           ; 78 (56)             ; 50 (41)                   ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |FrontPanel01_test|FrontPanel01:fp_test|IOP16:iop16|IOP_ROM:IopRom|altsyncram:altsyncram_component|altsyncram_n814:auto_generated|sld_mod_ram_rom:mgl_prim2                                                                                                                                                                                                   ; sld_mod_ram_rom                   ; work         ;
 ;                      |sld_rom_sr:\ram_rom_logic_gen:name_gen:info_rom_sr|                                                               ; 22 (22)             ; 9 (9)                     ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |FrontPanel01_test|FrontPanel01:fp_test|IOP16:iop16|IOP_ROM:IopRom|altsyncram:altsyncram_component|altsyncram_n814:auto_generated|sld_mod_ram_rom:mgl_prim2|sld_rom_sr:\ram_rom_logic_gen:name_gen:info_rom_sr                                                                                                                                                ; sld_rom_sr                        ; work         ;
 ;          |RegFile8x8:RegFile|                                                                                                           ; 109 (109)           ; 64 (64)                   ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |FrontPanel01_test|FrontPanel01:fp_test|IOP16:iop16|RegFile8x8:RegFile                                                                                                                                                                                                                                                                                        ; RegFile8x8                        ; work         ;
-;       |i2c:i2cIF|                                                                                                                       ; 48 (48)             ; 34 (34)                   ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |FrontPanel01_test|FrontPanel01:fp_test|i2c:i2cIF                                                                                                                                                                                                                                                                                                             ; i2c                               ; work         ;
+;       |i2c:i2cIF|                                                                                                                       ; 49 (49)             ; 34 (34)                   ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |FrontPanel01_test|FrontPanel01:fp_test|i2c:i2cIF                                                                                                                                                                                                                                                                                                             ; i2c                               ; work         ;
 ;    |sld_hub:auto_hub|                                                                                                                   ; 123 (1)             ; 86 (0)                    ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |FrontPanel01_test|sld_hub:auto_hub                                                                                                                                                                                                                                                                                                                           ; sld_hub                           ; altera_sld   ;
 ;       |alt_sld_fab_with_jtag_input:\instrumentation_fabric_with_node_gen:fabric_gen_new_way:with_jtag_input_gen:instrumentation_fabric| ; 122 (0)             ; 86 (0)                    ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |FrontPanel01_test|sld_hub:auto_hub|alt_sld_fab_with_jtag_input:\instrumentation_fabric_with_node_gen:fabric_gen_new_way:with_jtag_input_gen:instrumentation_fabric                                                                                                                                                                                           ; alt_sld_fab_with_jtag_input       ; altera_sld   ;
 ;          |alt_sld_fab:instrumentation_fabric|                                                                                           ; 122 (0)             ; 86 (0)                    ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |FrontPanel01_test|sld_hub:auto_hub|alt_sld_fab_with_jtag_input:\instrumentation_fabric_with_node_gen:fabric_gen_new_way:with_jtag_input_gen:instrumentation_fabric|alt_sld_fab:instrumentation_fabric                                                                                                                                                        ; alt_sld_fab                       ; alt_sld_fab  ;
@@ -339,17 +341,16 @@ Encoding Type:  One-Hot
 Note: All latches listed above may not be present at the end of synthesis due to various synthesis optimizations.
 
 
-+------------------------------------------------------------------------------------------------+
-; Registers Removed During Synthesis                                                             ;
-+-----------------------------------------------+------------------------------------------------+
-; Register name                                 ; Reason for Removal                             ;
-+-----------------------------------------------+------------------------------------------------+
-; FrontPanel01:fp_test|i2c:i2cIF|state.s_done   ; Lost fanout                                    ;
-; Debouncer:debouncePB|dig_counter[0]           ; Merged with FrontPanel01:fp_test|w_i2cCount[0] ;
-; FrontPanel01:fp_test|IOP16:iop16|w_PC_out[11] ; Lost fanout                                    ;
-; Debouncer:debouncePB|dig_counter[18,19]       ; Lost fanout                                    ;
-; Total Number of Removed Registers = 5         ;                                                ;
-+-----------------------------------------------+------------------------------------------------+
++--------------------------------------------------------------------+
+; Registers Removed During Synthesis                                 ;
++-----------------------------------------------+--------------------+
+; Register name                                 ; Reason for Removal ;
++-----------------------------------------------+--------------------+
+; FrontPanel01:fp_test|i2c:i2cIF|state.s_done   ; Lost fanout        ;
+; FrontPanel01:fp_test|IOP16:iop16|w_PC_out[11] ; Lost fanout        ;
+; Debouncer:debounceReset|dig_counter[18,19]    ; Lost fanout        ;
+; Total Number of Removed Registers = 4         ;                    ;
++-----------------------------------------------+--------------------+
 
 
 +------------------------------------------------------+
@@ -357,7 +358,7 @@ Note: All latches listed above may not be present at the end of synthesis due to
 +----------------------------------------------+-------+
 ; Statistic                                    ; Value ;
 +----------------------------------------------+-------+
-; Total registers                              ; 280   ;
+; Total registers                              ; 281   ;
 ; Number of registers using Synchronous Clear  ; 34    ;
 ; Number of registers using Synchronous Load   ; 23    ;
 ; Number of registers using Asynchronous Clear ; 69    ;
@@ -375,7 +376,7 @@ Note: All latches listed above may not be present at the end of synthesis due to
 ; FrontPanel01:fp_test|o_UsrLed                                                                                                                                                                                                                                                                                                   ; 2       ;
 ; FrontPanel01:fp_test|i2c:i2cIF|w_scl                                                                                                                                                                                                                                                                                            ; 2       ;
 ; FrontPanel01:fp_test|i2c:i2cIF|w_sda                                                                                                                                                                                                                                                                                            ; 3       ;
-; Debouncer:debouncePB|o_PinOut                                                                                                                                                                                                                                                                                                   ; 44      ;
+; Debouncer:debounceReset|o_PinOut                                                                                                                                                                                                                                                                                                ; 45      ;
 ; sld_hub:auto_hub|alt_sld_fab_with_jtag_input:\instrumentation_fabric_with_node_gen:fabric_gen_new_way:with_jtag_input_gen:instrumentation_fabric|alt_sld_fab:instrumentation_fabric|alt_sld_fab_alt_sld_fab:alt_sld_fab|alt_sld_fab_alt_sld_fab_sldfabric:sldfabric|sld_jtag_hub:\jtag_hub_gen:real_sld_jtag_hub|jtag_ir_reg[2] ; 2       ;
 ; sld_hub:auto_hub|alt_sld_fab_with_jtag_input:\instrumentation_fabric_with_node_gen:fabric_gen_new_way:with_jtag_input_gen:instrumentation_fabric|alt_sld_fab:instrumentation_fabric|alt_sld_fab_alt_sld_fab:alt_sld_fab|alt_sld_fab_alt_sld_fab_sldfabric:sldfabric|sld_jtag_hub:\jtag_hub_gen:real_sld_jtag_hub|jtag_ir_reg[1] ; 3       ;
 ; Total number of inverted registers = 6                                                                                                                                                                                                                                                                                          ;         ;
@@ -541,14 +542,23 @@ Note: In order to hide this table in the UI and the text report file, please set
 +----------+--------+----------+-------------------------------------------------------------------------------------+
 
 
-+------------------------------------------------------------------------------------------------------------------------+
-; Port Connectivity Checks: "FrontPanel01:fp_test"                                                                       ;
-+--------------+--------+----------+-------------------------------------------------------------------------------------+
-; Port         ; Type   ; Severity ; Details                                                                             ;
-+--------------+--------+----------+-------------------------------------------------------------------------------------+
-; o_fpleds     ; Output ; Info     ; Connected to dangling logic. Logic that only feeds a dangling port will be removed. ;
-; o_scanstrobe ; Output ; Info     ; Connected to dangling logic. Logic that only feeds a dangling port will be removed. ;
-+--------------+--------+----------+-------------------------------------------------------------------------------------+
++--------------------------------------------------------------------------------------------------------------------+
+; Port Connectivity Checks: "FrontPanel01:fp_test"                                                                   ;
++----------+--------+----------+-------------------------------------------------------------------------------------+
+; Port     ; Type   ; Severity ; Details                                                                             ;
++----------+--------+----------+-------------------------------------------------------------------------------------+
+; o_fpleds ; Output ; Info     ; Connected to dangling logic. Logic that only feeds a dangling port will be removed. ;
++----------+--------+----------+-------------------------------------------------------------------------------------+
+
+
++---------------------------------------------------------------------------------------------------------------------+
+; Port Connectivity Checks: "Debouncer32:debouncePB"                                                                  ;
++-----------+--------+----------+-------------------------------------------------------------------------------------+
+; Port      ; Type   ; Severity ; Details                                                                             ;
++-----------+--------+----------+-------------------------------------------------------------------------------------+
+; i_pinsin  ; Input  ; Info     ; Stuck at GND                                                                        ;
+; o_pinsout ; Output ; Info     ; Connected to dangling logic. Logic that only feeds a dangling port will be removed. ;
++-----------+--------+----------+-------------------------------------------------------------------------------------+
 
 
 +----------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
@@ -566,7 +576,7 @@ Note: In order to hide this table in the UI and the text report file, please set
 ; Type                  ; Count                       ;
 +-----------------------+-----------------------------+
 ; boundary_port         ; 34                          ;
-; cycloneiii_ff         ; 194                         ;
+; cycloneiii_ff         ; 195                         ;
 ;     CLR               ; 9                           ;
 ;     ENA               ; 104                         ;
 ;     ENA CLR           ; 13                          ;
@@ -574,21 +584,21 @@ Note: In order to hide this table in the UI and the text report file, please set
 ;     ENA CLR SLD       ; 13                          ;
 ;     ENA SCLR          ; 18                          ;
 ;     SCLR              ; 3                           ;
-;     plain             ; 33                          ;
+;     plain             ; 34                          ;
 ; cycloneiii_io_obuf    ; 2                           ;
-; cycloneiii_lcell_comb ; 350                         ;
+; cycloneiii_lcell_comb ; 352                         ;
 ;     arith             ; 50                          ;
 ;         2 data inputs ; 39                          ;
 ;         3 data inputs ; 11                          ;
-;     normal            ; 300                         ;
-;         1 data inputs ; 10                          ;
+;     normal            ; 302                         ;
+;         1 data inputs ; 11                          ;
 ;         2 data inputs ; 21                          ;
-;         3 data inputs ; 84                          ;
+;         3 data inputs ; 85                          ;
 ;         4 data inputs ; 185                         ;
 ; cycloneiii_ram_block  ; 16                          ;
 ;                       ;                             ;
 ; Max LUT depth         ; 7.00                        ;
-; Average LUT depth     ; 3.36                        ;
+; Average LUT depth     ; 3.35                        ;
 +-----------------------+-----------------------------+
 
 
@@ -597,7 +607,7 @@ Note: In order to hide this table in the UI and the text report file, please set
 +----------------+--------------+
 ; Partition Name ; Elapsed Time ;
 +----------------+--------------+
-; Top            ; 00:00:01     ;
+; Top            ; 00:00:02     ;
 +----------------+--------------+
 
 
@@ -607,7 +617,7 @@ Note: In order to hide this table in the UI and the text report file, please set
 Info: *******************************************************************
 Info: Running Quartus Prime Analysis & Synthesis
     Info: Version 20.1.0 Build 711 06/05/2020 SJ Lite Edition
-    Info: Processing started: Tue Jun 15 17:12:54 2021
+    Info: Processing started: Tue Jun 15 18:08:54 2021
 Info: Command: quartus_map --read_settings_files=on --write_settings_files=off FrontPanel01 -c FrontPanel01
 Warning (18236): Number of processors has not been specified which may cause overloading on shared machines.  Set the global assignment NUM_PARALLEL_PROCESSORS in your QSF to an appropriate value for best performance.
 Info (20030): Parallel compilation is enabled and will use 4 of the 4 processors detected
@@ -635,11 +645,48 @@ Info (12021): Found 2 design units, including 1 entities, in source file iop_rom
 Info (12021): Found 2 design units, including 1 entities, in source file regfile8x8.vhd
     Info (12022): Found design unit 1: RegFile8x8-RegFile8x8_beh File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15/FrontPanel01/RegFile8x8.vhd Line: 23
     Info (12023): Found entity 1: RegFile8x8 File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15/FrontPanel01/RegFile8x8.vhd Line: 11
+Info (12021): Found 2 design units, including 1 entities, in source file debounce32.vhd
+    Info (12022): Found design unit 1: Debouncer32-struct File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15/FrontPanel01/Debounce32.vhd Line: 19
+    Info (12023): Found entity 1: Debouncer32 File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15/FrontPanel01/Debounce32.vhd Line: 9
 Info (12127): Elaborating entity "FrontPanel01_test" for the top level hierarchy
 Warning (10541): VHDL Signal Declaration warning at FrontPanel01_test.vhd(49): used implicit default value for signal "w_PUSHBUTTONS" because signal was never assigned a value or an explicit default value. Use of implicit default value may introduce unintended design optimizations. File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15/FrontPanel01/FrontPanel01_test.vhd Line: 49
-Warning (10036): Verilog HDL or VHDL warning at FrontPanel01_test.vhd(50): object "w_DATA_LOOPBACK" assigned a value but never read File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15/FrontPanel01/FrontPanel01_test.vhd Line: 50
-Info (12128): Elaborating entity "Debouncer" for hierarchy "Debouncer:debouncePB" File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15/FrontPanel01/FrontPanel01_test.vhd Line: 56
-Info (12128): Elaborating entity "FrontPanel01" for hierarchy "FrontPanel01:fp_test" File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15/FrontPanel01/FrontPanel01_test.vhd Line: 65
+Warning (10036): Verilog HDL or VHDL warning at FrontPanel01_test.vhd(51): object "w_DATA_LOOPBACK" assigned a value but never read File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15/FrontPanel01/FrontPanel01_test.vhd Line: 51
+Warning (10873): Using initial value X (don't care) for net "w_latechdPBs" at FrontPanel01_test.vhd(50) File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15/FrontPanel01/FrontPanel01_test.vhd Line: 50
+Info (12128): Elaborating entity "Debouncer32" for hierarchy "Debouncer32:debouncePB" File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15/FrontPanel01/FrontPanel01_test.vhd Line: 57
+Info (10041): Inferred latch for "o_PinsOut[0]" at Debounce32.vhd(66) File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15/FrontPanel01/Debounce32.vhd Line: 66
+Info (10041): Inferred latch for "o_PinsOut[1]" at Debounce32.vhd(66) File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15/FrontPanel01/Debounce32.vhd Line: 66
+Info (10041): Inferred latch for "o_PinsOut[2]" at Debounce32.vhd(66) File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15/FrontPanel01/Debounce32.vhd Line: 66
+Info (10041): Inferred latch for "o_PinsOut[3]" at Debounce32.vhd(66) File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15/FrontPanel01/Debounce32.vhd Line: 66
+Info (10041): Inferred latch for "o_PinsOut[4]" at Debounce32.vhd(66) File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15/FrontPanel01/Debounce32.vhd Line: 66
+Info (10041): Inferred latch for "o_PinsOut[5]" at Debounce32.vhd(66) File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15/FrontPanel01/Debounce32.vhd Line: 66
+Info (10041): Inferred latch for "o_PinsOut[6]" at Debounce32.vhd(66) File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15/FrontPanel01/Debounce32.vhd Line: 66
+Info (10041): Inferred latch for "o_PinsOut[7]" at Debounce32.vhd(66) File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15/FrontPanel01/Debounce32.vhd Line: 66
+Info (10041): Inferred latch for "o_PinsOut[8]" at Debounce32.vhd(66) File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15/FrontPanel01/Debounce32.vhd Line: 66
+Info (10041): Inferred latch for "o_PinsOut[9]" at Debounce32.vhd(66) File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15/FrontPanel01/Debounce32.vhd Line: 66
+Info (10041): Inferred latch for "o_PinsOut[10]" at Debounce32.vhd(66) File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15/FrontPanel01/Debounce32.vhd Line: 66
+Info (10041): Inferred latch for "o_PinsOut[11]" at Debounce32.vhd(66) File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15/FrontPanel01/Debounce32.vhd Line: 66
+Info (10041): Inferred latch for "o_PinsOut[12]" at Debounce32.vhd(66) File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15/FrontPanel01/Debounce32.vhd Line: 66
+Info (10041): Inferred latch for "o_PinsOut[13]" at Debounce32.vhd(66) File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15/FrontPanel01/Debounce32.vhd Line: 66
+Info (10041): Inferred latch for "o_PinsOut[14]" at Debounce32.vhd(66) File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15/FrontPanel01/Debounce32.vhd Line: 66
+Info (10041): Inferred latch for "o_PinsOut[15]" at Debounce32.vhd(66) File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15/FrontPanel01/Debounce32.vhd Line: 66
+Info (10041): Inferred latch for "o_PinsOut[16]" at Debounce32.vhd(66) File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15/FrontPanel01/Debounce32.vhd Line: 66
+Info (10041): Inferred latch for "o_PinsOut[17]" at Debounce32.vhd(66) File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15/FrontPanel01/Debounce32.vhd Line: 66
+Info (10041): Inferred latch for "o_PinsOut[18]" at Debounce32.vhd(66) File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15/FrontPanel01/Debounce32.vhd Line: 66
+Info (10041): Inferred latch for "o_PinsOut[19]" at Debounce32.vhd(66) File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15/FrontPanel01/Debounce32.vhd Line: 66
+Info (10041): Inferred latch for "o_PinsOut[20]" at Debounce32.vhd(66) File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15/FrontPanel01/Debounce32.vhd Line: 66
+Info (10041): Inferred latch for "o_PinsOut[21]" at Debounce32.vhd(66) File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15/FrontPanel01/Debounce32.vhd Line: 66
+Info (10041): Inferred latch for "o_PinsOut[22]" at Debounce32.vhd(66) File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15/FrontPanel01/Debounce32.vhd Line: 66
+Info (10041): Inferred latch for "o_PinsOut[23]" at Debounce32.vhd(66) File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15/FrontPanel01/Debounce32.vhd Line: 66
+Info (10041): Inferred latch for "o_PinsOut[24]" at Debounce32.vhd(66) File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15/FrontPanel01/Debounce32.vhd Line: 66
+Info (10041): Inferred latch for "o_PinsOut[25]" at Debounce32.vhd(66) File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15/FrontPanel01/Debounce32.vhd Line: 66
+Info (10041): Inferred latch for "o_PinsOut[26]" at Debounce32.vhd(66) File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15/FrontPanel01/Debounce32.vhd Line: 66
+Info (10041): Inferred latch for "o_PinsOut[27]" at Debounce32.vhd(66) File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15/FrontPanel01/Debounce32.vhd Line: 66
+Info (10041): Inferred latch for "o_PinsOut[28]" at Debounce32.vhd(66) File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15/FrontPanel01/Debounce32.vhd Line: 66
+Info (10041): Inferred latch for "o_PinsOut[29]" at Debounce32.vhd(66) File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15/FrontPanel01/Debounce32.vhd Line: 66
+Info (10041): Inferred latch for "o_PinsOut[30]" at Debounce32.vhd(66) File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15/FrontPanel01/Debounce32.vhd Line: 66
+Info (10041): Inferred latch for "o_PinsOut[31]" at Debounce32.vhd(66) File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15/FrontPanel01/Debounce32.vhd Line: 66
+Info (12128): Elaborating entity "Debouncer" for hierarchy "Debouncer:debounceReset" File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15/FrontPanel01/FrontPanel01_test.vhd Line: 66
+Info (12128): Elaborating entity "FrontPanel01" for hierarchy "FrontPanel01:fp_test" File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15/FrontPanel01/FrontPanel01_test.vhd Line: 75
 Warning (10036): Verilog HDL or VHDL warning at FrontPanel01.vhd(55): object "w_periphRd" assigned a value but never read File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15/FrontPanel01/FrontPanel01.vhd Line: 55
 Info (12128): Elaborating entity "IOP16" for hierarchy "FrontPanel01:fp_test|IOP16:iop16" File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15/FrontPanel01/FrontPanel01.vhd Line: 90
 Warning (10036): Verilog HDL or VHDL warning at IOP16.vhd(72): object "w_OP_NOP" assigned a value but never read File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15/FrontPanel01/IOP16.vhd Line: 72
@@ -731,7 +778,7 @@ Info (10041): Inferred latch for "o_DataOut[6]" at RegFile8x8.vhd(48) File: C:/U
 Info (10041): Inferred latch for "o_DataOut[7]" at RegFile8x8.vhd(48) File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15/FrontPanel01/RegFile8x8.vhd Line: 48
 Info (12128): Elaborating entity "i2c" for hierarchy "FrontPanel01:fp_test|i2c:i2cIF" File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15/FrontPanel01/FrontPanel01.vhd Line: 102
 Info (11170): Starting IP generation for the debug fabric: alt_sld_fab.
-Info (11172): 2021.06.15.17:13:12 Progress: Loading sldd3ad11c3/alt_sld_fab_wrapper_hw.tcl
+Info (11172): 2021.06.15.18:09:13 Progress: Loading sldd3ad11c3/alt_sld_fab_wrapper_hw.tcl
 Info (11172): Alt_sld_fab.alt_sld_fab: SLD fabric agents which did not specify prefer_host were connected to JTAG
 Info (11172): Alt_sld_fab: Generating alt_sld_fab "alt_sld_fab" for QUARTUS_SYNTH
 Info (11172): Alt_sld_fab: "alt_sld_fab" instantiated alt_sld_fab "alt_sld_fab"
@@ -780,16 +827,16 @@ Info (17016): Found the following redundant logic cells in design
     Info (17048): Logic cell "FrontPanel01:fp_test|IOP16:iop16|w_lowCount[1]" File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15/FrontPanel01/IOP16.vhd Line: 54
 Info (16010): Generating hard_block partition "hard_block:auto_generated_inst"
     Info (16011): Adding 0 node(s), including 0 DDIO, 0 PLL, 0 transceiver and 0 LCELL
-Info (21057): Implemented 615 device resources after synthesis - the final resource count might be different
+Info (21057): Implemented 617 device resources after synthesis - the final resource count might be different
     Info (21058): Implemented 7 input pins
     Info (21059): Implemented 2 output pins
     Info (21060): Implemented 2 bidirectional pins
-    Info (21061): Implemented 587 logic cells
+    Info (21061): Implemented 589 logic cells
     Info (21064): Implemented 16 RAM segments
-Info: Quartus Prime Analysis & Synthesis was successful. 0 errors, 22 warnings
-    Info: Peak virtual memory: 4817 megabytes
-    Info: Processing ended: Tue Jun 15 17:13:24 2021
-    Info: Elapsed time: 00:00:30
-    Info: Total CPU time (on all processors): 00:01:06
+Info: Quartus Prime Analysis & Synthesis was successful. 0 errors, 23 warnings
+    Info: Peak virtual memory: 4819 megabytes
+    Info: Processing ended: Tue Jun 15 18:09:26 2021
+    Info: Elapsed time: 00:00:32
+    Info: Total CPU time (on all processors): 00:01:09
 
 
