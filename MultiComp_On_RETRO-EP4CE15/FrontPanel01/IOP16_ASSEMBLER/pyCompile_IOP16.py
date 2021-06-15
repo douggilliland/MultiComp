@@ -204,6 +204,8 @@ class ControlClass:
 				outList.append([label,'JMP',i2cAddr,'',''])
 			elif command == 'LDREG_IMM':
 				outList.append([label,'LRI',i2cAddr,mcpReg,comment])
+			elif command == 'WR_MEM':
+				outList.append([label,'IOW',i2cAddr,mcpReg,comment])
 			elif command == 'HALT':
 				outLine = []
 				outLine.append('HALT')

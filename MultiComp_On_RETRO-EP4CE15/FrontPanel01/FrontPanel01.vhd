@@ -33,7 +33,8 @@ entity FrontPanel01 is
 		-- 32 LEDs(outs), 32 Pushbuttons (ins)
 		i_FPPushbuttons			: in std_logic_vector(31 downto 0) := x"deadbaba";
 		o_FPLEDs						: out std_logic_vector(31 downto 0);
-		--
+		o_scanStrobe				: out std_logic := '1';
+		-- The key and LED on the FPGA card
 		i_key1						: in std_logic := '1';
 		o_UsrLed						: out std_logic := '1';
 		-- External I2C connections
@@ -63,7 +64,7 @@ architecture struct of FrontPanel01 is
 	signal w_LED					: std_logic;
 	signal w_LatLED				: std_logic;
 	
-	attribute syn_keep	: boolean;
+--	attribute syn_keep	: boolean;
 --	attribute syn_keep of w_lowCount			: signal is true;
 
 begin
@@ -136,6 +137,7 @@ begin
 	w_strLEDDataLM <= '1' when ((w_periphWr = '1') and (w_periphAdr = x"02")) else '0';
 	w_strLEDDataLL <= '1' when ((w_periphWr = '1') and (w_periphAdr = x"03")) else '0';
 	w_I2CWR 			<= '1' when  (w_periphWr = '1') and (w_periphAdr(7 downto 1) = x"0"&"010") else '0';
+	o_scanStrobe	<= '1' when ((w_periphWr = '1') and (w_periphAdr = x"06")) else '0';
 
 	w_LED <= '1' when ((w_periphWr = '1') and (w_periphAdr = x"07")) else '0';
 	process (i_CLOCK_50, w_LED)

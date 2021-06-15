@@ -30,10 +30,10 @@ entity FrontPanel01_test is
 	(
 		-- Clock and reset
 		i_CLOCK_50					: in std_logic := '1';		-- Clock (50 MHz)
-		i_n_reset					: in std_logic := '1';		-- Reset
-		--
-		i_key1						: in std_logic := '1';
-		o_UsrLed						: out std_logic := '1';
+		i_n_reset					: in std_logic := '1';		-- Reset from Pushbutton on FPGA card
+		-- The key and LED on the FPGA card
+		i_key1						: in std_logic := '1';		-- KEY1 on the FPGA card
+		o_UsrLed						: out std_logic := '1';		-- USR LED on the FPGA card
 		-- External I2C connections
 		io_I2C_SCL					: inout std_logic := '0';	-- I2C clock to Front Panel card
 		io_I2C_SDA					: inout std_logic := '1';	-- I2C data to/from Front Panel card
@@ -44,10 +44,14 @@ entity FrontPanel01_test is
 architecture struct of FrontPanel01_test is
 
 	-- 
-	signal i_DATA_LOOPBACK	 	:	std_logic_vector(31 downto 0);		-- wrap back Pushbuttons lines to LEDs
-	signal w_resdebounced		:	std_logic;
+	signal w_resdebounced		:	std_logic;		-- Debounced reset button
+	signal w_scanStrobe			:	std_logic;
+	signal w_PUSHBUTTONS		 	:	std_logic_vector(31 downto 0);		-- Pushbuttons
+	signal w_DATA_LOOPBACK	 	:	std_logic_vector(31 downto 0);		-- wrap back Pushbuttons lines to LEDs
 
 begin
+
+w_DATA_LOOPBACK <= w_PUSHBUTTONS when w_scanStrobe = '1';		-- Latch the pushbuttons when scanStrobe goes active
 
 debouncePB : entity work.Debouncer
 	port map
@@ -65,8 +69,9 @@ fp_test : work.FrontPanel01
 		i_CLOCK_50			=> i_CLOCK_50,				-- Clock (50 MHz)
 		i_n_reset			=> w_resdebounced,			-- Reset
 		-- 32 outs, 32 ins
-		i_FPPushbuttons	=> i_DATA_LOOPBACK,		-- Pushbuttons (32)
-		o_FPLEDs				=> i_DATA_LOOPBACK,		-- LEDs (32)
+		i_FPPushbuttons	=> w_PUSHBUTTONS,			-- Pushbuttons (32)
+		o_FPLEDs				=> w_DATA_LOOPBACK,		-- LEDs (32)
+		o_scanStrobe		=> w_scanStrobe,
 		--
 		i_key1				=> i_key1,
 		o_UsrLed				=> o_UsrLed,
