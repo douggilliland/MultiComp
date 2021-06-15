@@ -157,12 +157,12 @@ begin
 								"0000000"&i_key1					when (w_periphAdr = x"07") else
 								x"00";
 	
-	-- 400 KHz I2C clock
-	-- 50.0 MHz / 400 KHz = 125 clocks
+	-- 4x400 KHz I2C clock
+	-- 50.0 MHz / 1.6 MHz = 31 clocks
 	process (i_CLOCK_50)
 	begin
 		if rising_edge(i_CLOCK_50) then
-			if w_i2cCount = "1111101" then
+			if w_i2cCount = "011111" then
 				w_i2cCount <= "0000000";
 				w_i2c_400KHz <= '1';
 			else
