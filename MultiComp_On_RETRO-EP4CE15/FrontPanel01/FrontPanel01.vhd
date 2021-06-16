@@ -32,7 +32,9 @@ entity FrontPanel01 is
 		i_n_reset					: in std_logic := '1';
 		-- 32 LEDs(outs), 32 Pushbuttons (ins)
 		i_FPLEDs						: in std_logic_vector(31 downto 0);
-		O_FPPushbuttons			: out std_logic_vector(31 downto 0);
+		o_PBRaw						: out std_logic_vector(31 downto 0);
+		o_PBLatched					: out std_logic_vector(31 downto 0);
+		o_PBToggled					: out std_logic_vector(31 downto 0);
 		o_scanStrobe				: out std_logic := '1';
 		-- The key and LED on the FPGA card
 		i_key1						: in std_logic := '1';
@@ -117,16 +119,16 @@ begin
 	begin
 		if rising_edge(i_CLOCK_50) then
 			if w_strPBDataUU = '1' then
-				O_FPPushbuttons(31 downto 24)<= w_PERIP_DATA_OUT;
+				o_PBRaw(31 downto 24)<= w_PERIP_DATA_OUT;
 			end if;
 			if w_strPBDataUM = '1' then
-				O_FPPushbuttons(23 downto 16) <= w_PERIP_DATA_OUT;
+				o_PBRaw(23 downto 16) <= w_PERIP_DATA_OUT;
 			end if;
 			if w_strPBDataLM = '1' then
-				O_FPPushbuttons(15 downto 8) <= w_PERIP_DATA_OUT;
+				o_PBRaw(15 downto 8) <= w_PERIP_DATA_OUT;
 			end if;
 			if w_strPBDataLL = '1' then
-				O_FPPushbuttons(7 downto 00) <= w_PERIP_DATA_OUT;
+				o_PBRaw(7 downto 00) <= w_PERIP_DATA_OUT;
 			end if;
 		end if;
 	end process;

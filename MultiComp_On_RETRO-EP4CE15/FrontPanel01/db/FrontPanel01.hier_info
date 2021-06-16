@@ -1,37 +1,37 @@
 |FrontPanel01_test
 i_CLOCK_50 => debouncer32:debouncePB.i_fastClk
-i_CLOCK_50 => w_DATA_LOOPBACK[0].CLK
-i_CLOCK_50 => w_DATA_LOOPBACK[1].CLK
-i_CLOCK_50 => w_DATA_LOOPBACK[2].CLK
-i_CLOCK_50 => w_DATA_LOOPBACK[3].CLK
-i_CLOCK_50 => w_DATA_LOOPBACK[4].CLK
-i_CLOCK_50 => w_DATA_LOOPBACK[5].CLK
-i_CLOCK_50 => w_DATA_LOOPBACK[6].CLK
-i_CLOCK_50 => w_DATA_LOOPBACK[7].CLK
-i_CLOCK_50 => w_DATA_LOOPBACK[8].CLK
-i_CLOCK_50 => w_DATA_LOOPBACK[9].CLK
-i_CLOCK_50 => w_DATA_LOOPBACK[10].CLK
-i_CLOCK_50 => w_DATA_LOOPBACK[11].CLK
-i_CLOCK_50 => w_DATA_LOOPBACK[12].CLK
-i_CLOCK_50 => w_DATA_LOOPBACK[13].CLK
-i_CLOCK_50 => w_DATA_LOOPBACK[14].CLK
-i_CLOCK_50 => w_DATA_LOOPBACK[15].CLK
-i_CLOCK_50 => w_DATA_LOOPBACK[16].CLK
-i_CLOCK_50 => w_DATA_LOOPBACK[17].CLK
-i_CLOCK_50 => w_DATA_LOOPBACK[18].CLK
-i_CLOCK_50 => w_DATA_LOOPBACK[19].CLK
-i_CLOCK_50 => w_DATA_LOOPBACK[20].CLK
-i_CLOCK_50 => w_DATA_LOOPBACK[21].CLK
-i_CLOCK_50 => w_DATA_LOOPBACK[22].CLK
-i_CLOCK_50 => w_DATA_LOOPBACK[23].CLK
-i_CLOCK_50 => w_DATA_LOOPBACK[24].CLK
-i_CLOCK_50 => w_DATA_LOOPBACK[25].CLK
-i_CLOCK_50 => w_DATA_LOOPBACK[26].CLK
-i_CLOCK_50 => w_DATA_LOOPBACK[27].CLK
-i_CLOCK_50 => w_DATA_LOOPBACK[28].CLK
-i_CLOCK_50 => w_DATA_LOOPBACK[29].CLK
-i_CLOCK_50 => w_DATA_LOOPBACK[30].CLK
-i_CLOCK_50 => w_DATA_LOOPBACK[31].CLK
+i_CLOCK_50 => w_togglePinValues[0].CLK
+i_CLOCK_50 => w_togglePinValues[1].CLK
+i_CLOCK_50 => w_togglePinValues[2].CLK
+i_CLOCK_50 => w_togglePinValues[3].CLK
+i_CLOCK_50 => w_togglePinValues[4].CLK
+i_CLOCK_50 => w_togglePinValues[5].CLK
+i_CLOCK_50 => w_togglePinValues[6].CLK
+i_CLOCK_50 => w_togglePinValues[7].CLK
+i_CLOCK_50 => w_togglePinValues[8].CLK
+i_CLOCK_50 => w_togglePinValues[9].CLK
+i_CLOCK_50 => w_togglePinValues[10].CLK
+i_CLOCK_50 => w_togglePinValues[11].CLK
+i_CLOCK_50 => w_togglePinValues[12].CLK
+i_CLOCK_50 => w_togglePinValues[13].CLK
+i_CLOCK_50 => w_togglePinValues[14].CLK
+i_CLOCK_50 => w_togglePinValues[15].CLK
+i_CLOCK_50 => w_togglePinValues[16].CLK
+i_CLOCK_50 => w_togglePinValues[17].CLK
+i_CLOCK_50 => w_togglePinValues[18].CLK
+i_CLOCK_50 => w_togglePinValues[19].CLK
+i_CLOCK_50 => w_togglePinValues[20].CLK
+i_CLOCK_50 => w_togglePinValues[21].CLK
+i_CLOCK_50 => w_togglePinValues[22].CLK
+i_CLOCK_50 => w_togglePinValues[23].CLK
+i_CLOCK_50 => w_togglePinValues[24].CLK
+i_CLOCK_50 => w_togglePinValues[25].CLK
+i_CLOCK_50 => w_togglePinValues[26].CLK
+i_CLOCK_50 => w_togglePinValues[27].CLK
+i_CLOCK_50 => w_togglePinValues[28].CLK
+i_CLOCK_50 => w_togglePinValues[29].CLK
+i_CLOCK_50 => w_togglePinValues[30].CLK
+i_CLOCK_50 => w_togglePinValues[31].CLK
 i_CLOCK_50 => w_ldStrobe2.CLK
 i_CLOCK_50 => w_PBDelay[0].CLK
 i_CLOCK_50 => w_PBDelay[1].CLK
@@ -65,14 +65,45 @@ i_CLOCK_50 => w_PBDelay[28].CLK
 i_CLOCK_50 => w_PBDelay[29].CLK
 i_CLOCK_50 => w_PBDelay[30].CLK
 i_CLOCK_50 => w_PBDelay[31].CLK
-i_CLOCK_50 => frontpanel01:fp_test.i_CLOCK_50
+i_CLOCK_50 => frontpanel01:fp01.i_CLOCK_50
 i_n_reset => debouncer:debounceReset.i_clk
 i_n_reset => debouncer:debounceReset.i_PinIn
-i_key1 => frontpanel01:fp_test.i_key1
-o_UsrLed <= frontpanel01:fp_test.o_UsrLed
-io_I2C_SCL <> frontpanel01:fp_test.io_I2C_SCL
-io_I2C_SDA <> frontpanel01:fp_test.io_I2C_SDA
-i_I2C_INTn => frontpanel01:fp_test.i_I2C_INTn
+i_key1 => frontpanel01:fp01.i_key1
+o_UsrLed <= frontpanel01:fp01.o_UsrLed
+io_I2C_SCL <> frontpanel01:fp01.io_I2C_SCL
+io_I2C_SDA <> frontpanel01:fp01.io_I2C_SDA
+i_I2C_INTn => frontpanel01:fp01.i_I2C_INTn
+
+
+|FrontPanel01_test|Debouncer:debounceReset
+i_clk => o_PinOut~reg0.CLK
+i_clk => dly4.CLK
+i_clk => dly3.CLK
+i_clk => dly2.CLK
+i_clk => dly1.CLK
+i_clk => pulse200ms.CLK
+i_clk => dig_counter[0].CLK
+i_clk => dig_counter[1].CLK
+i_clk => dig_counter[2].CLK
+i_clk => dig_counter[3].CLK
+i_clk => dig_counter[4].CLK
+i_clk => dig_counter[5].CLK
+i_clk => dig_counter[6].CLK
+i_clk => dig_counter[7].CLK
+i_clk => dig_counter[8].CLK
+i_clk => dig_counter[9].CLK
+i_clk => dig_counter[10].CLK
+i_clk => dig_counter[11].CLK
+i_clk => dig_counter[12].CLK
+i_clk => dig_counter[13].CLK
+i_clk => dig_counter[14].CLK
+i_clk => dig_counter[15].CLK
+i_clk => dig_counter[16].CLK
+i_clk => dig_counter[17].CLK
+i_clk => dig_counter[18].CLK
+i_clk => dig_counter[19].CLK
+i_PinIn => dly1.DATAIN
+o_PinOut <= o_PinOut~reg0.DB_MAX_OUTPUT_PORT_TYPE
 
 
 |FrontPanel01_test|Debouncer32:debouncePB
@@ -179,38 +210,7 @@ o_PinsOut[30] <= o_PinsOut[30]~buf0.DB_MAX_OUTPUT_PORT_TYPE
 o_PinsOut[31] <= o_PinsOut[31]~buf0.DB_MAX_OUTPUT_PORT_TYPE
 
 
-|FrontPanel01_test|Debouncer:debounceReset
-i_clk => o_PinOut~reg0.CLK
-i_clk => dly4.CLK
-i_clk => dly3.CLK
-i_clk => dly2.CLK
-i_clk => dly1.CLK
-i_clk => pulse200ms.CLK
-i_clk => dig_counter[0].CLK
-i_clk => dig_counter[1].CLK
-i_clk => dig_counter[2].CLK
-i_clk => dig_counter[3].CLK
-i_clk => dig_counter[4].CLK
-i_clk => dig_counter[5].CLK
-i_clk => dig_counter[6].CLK
-i_clk => dig_counter[7].CLK
-i_clk => dig_counter[8].CLK
-i_clk => dig_counter[9].CLK
-i_clk => dig_counter[10].CLK
-i_clk => dig_counter[11].CLK
-i_clk => dig_counter[12].CLK
-i_clk => dig_counter[13].CLK
-i_clk => dig_counter[14].CLK
-i_clk => dig_counter[15].CLK
-i_clk => dig_counter[16].CLK
-i_clk => dig_counter[17].CLK
-i_clk => dig_counter[18].CLK
-i_clk => dig_counter[19].CLK
-i_PinIn => dly1.DATAIN
-o_PinOut <= o_PinOut~reg0.DB_MAX_OUTPUT_PORT_TYPE
-
-
-|FrontPanel01_test|FrontPanel01:fp_test
+|FrontPanel01_test|FrontPanel01:fp01
 i_CLOCK_50 => iop16:iop16.clk
 i_CLOCK_50 => w_i2c_400KHz.CLK
 i_CLOCK_50 => w_i2cCount[0].CLK
@@ -221,38 +221,38 @@ i_CLOCK_50 => w_i2cCount[4].CLK
 i_CLOCK_50 => w_i2cCount[5].CLK
 i_CLOCK_50 => w_i2cCount[6].CLK
 i_CLOCK_50 => o_UsrLed~reg0.CLK
-i_CLOCK_50 => O_FPPushbuttons[0]~reg0.CLK
-i_CLOCK_50 => O_FPPushbuttons[1]~reg0.CLK
-i_CLOCK_50 => O_FPPushbuttons[2]~reg0.CLK
-i_CLOCK_50 => O_FPPushbuttons[3]~reg0.CLK
-i_CLOCK_50 => O_FPPushbuttons[4]~reg0.CLK
-i_CLOCK_50 => O_FPPushbuttons[5]~reg0.CLK
-i_CLOCK_50 => O_FPPushbuttons[6]~reg0.CLK
-i_CLOCK_50 => O_FPPushbuttons[7]~reg0.CLK
-i_CLOCK_50 => O_FPPushbuttons[8]~reg0.CLK
-i_CLOCK_50 => O_FPPushbuttons[9]~reg0.CLK
-i_CLOCK_50 => O_FPPushbuttons[10]~reg0.CLK
-i_CLOCK_50 => O_FPPushbuttons[11]~reg0.CLK
-i_CLOCK_50 => O_FPPushbuttons[12]~reg0.CLK
-i_CLOCK_50 => O_FPPushbuttons[13]~reg0.CLK
-i_CLOCK_50 => O_FPPushbuttons[14]~reg0.CLK
-i_CLOCK_50 => O_FPPushbuttons[15]~reg0.CLK
-i_CLOCK_50 => O_FPPushbuttons[16]~reg0.CLK
-i_CLOCK_50 => O_FPPushbuttons[17]~reg0.CLK
-i_CLOCK_50 => O_FPPushbuttons[18]~reg0.CLK
-i_CLOCK_50 => O_FPPushbuttons[19]~reg0.CLK
-i_CLOCK_50 => O_FPPushbuttons[20]~reg0.CLK
-i_CLOCK_50 => O_FPPushbuttons[21]~reg0.CLK
-i_CLOCK_50 => O_FPPushbuttons[22]~reg0.CLK
-i_CLOCK_50 => O_FPPushbuttons[23]~reg0.CLK
-i_CLOCK_50 => O_FPPushbuttons[24]~reg0.CLK
-i_CLOCK_50 => O_FPPushbuttons[25]~reg0.CLK
-i_CLOCK_50 => O_FPPushbuttons[26]~reg0.CLK
-i_CLOCK_50 => O_FPPushbuttons[27]~reg0.CLK
-i_CLOCK_50 => O_FPPushbuttons[28]~reg0.CLK
-i_CLOCK_50 => O_FPPushbuttons[29]~reg0.CLK
-i_CLOCK_50 => O_FPPushbuttons[30]~reg0.CLK
-i_CLOCK_50 => O_FPPushbuttons[31]~reg0.CLK
+i_CLOCK_50 => o_PBRaw[0]~reg0.CLK
+i_CLOCK_50 => o_PBRaw[1]~reg0.CLK
+i_CLOCK_50 => o_PBRaw[2]~reg0.CLK
+i_CLOCK_50 => o_PBRaw[3]~reg0.CLK
+i_CLOCK_50 => o_PBRaw[4]~reg0.CLK
+i_CLOCK_50 => o_PBRaw[5]~reg0.CLK
+i_CLOCK_50 => o_PBRaw[6]~reg0.CLK
+i_CLOCK_50 => o_PBRaw[7]~reg0.CLK
+i_CLOCK_50 => o_PBRaw[8]~reg0.CLK
+i_CLOCK_50 => o_PBRaw[9]~reg0.CLK
+i_CLOCK_50 => o_PBRaw[10]~reg0.CLK
+i_CLOCK_50 => o_PBRaw[11]~reg0.CLK
+i_CLOCK_50 => o_PBRaw[12]~reg0.CLK
+i_CLOCK_50 => o_PBRaw[13]~reg0.CLK
+i_CLOCK_50 => o_PBRaw[14]~reg0.CLK
+i_CLOCK_50 => o_PBRaw[15]~reg0.CLK
+i_CLOCK_50 => o_PBRaw[16]~reg0.CLK
+i_CLOCK_50 => o_PBRaw[17]~reg0.CLK
+i_CLOCK_50 => o_PBRaw[18]~reg0.CLK
+i_CLOCK_50 => o_PBRaw[19]~reg0.CLK
+i_CLOCK_50 => o_PBRaw[20]~reg0.CLK
+i_CLOCK_50 => o_PBRaw[21]~reg0.CLK
+i_CLOCK_50 => o_PBRaw[22]~reg0.CLK
+i_CLOCK_50 => o_PBRaw[23]~reg0.CLK
+i_CLOCK_50 => o_PBRaw[24]~reg0.CLK
+i_CLOCK_50 => o_PBRaw[25]~reg0.CLK
+i_CLOCK_50 => o_PBRaw[26]~reg0.CLK
+i_CLOCK_50 => o_PBRaw[27]~reg0.CLK
+i_CLOCK_50 => o_PBRaw[28]~reg0.CLK
+i_CLOCK_50 => o_PBRaw[29]~reg0.CLK
+i_CLOCK_50 => o_PBRaw[30]~reg0.CLK
+i_CLOCK_50 => o_PBRaw[31]~reg0.CLK
 i_CLOCK_50 => i2c:i2cIF.i_CLK
 i_n_reset => iop16:iop16.resetN
 i_n_reset => i2c:i2cIF.i_RESET
@@ -288,38 +288,38 @@ i_FPLEDs[28] => w_PERIP_DATA_IN[4].DATAB
 i_FPLEDs[29] => w_PERIP_DATA_IN[5].DATAB
 i_FPLEDs[30] => w_PERIP_DATA_IN[6].DATAB
 i_FPLEDs[31] => w_PERIP_DATA_IN[7].DATAB
-O_FPPushbuttons[0] <= O_FPPushbuttons[0]~reg0.DB_MAX_OUTPUT_PORT_TYPE
-O_FPPushbuttons[1] <= O_FPPushbuttons[1]~reg0.DB_MAX_OUTPUT_PORT_TYPE
-O_FPPushbuttons[2] <= O_FPPushbuttons[2]~reg0.DB_MAX_OUTPUT_PORT_TYPE
-O_FPPushbuttons[3] <= O_FPPushbuttons[3]~reg0.DB_MAX_OUTPUT_PORT_TYPE
-O_FPPushbuttons[4] <= O_FPPushbuttons[4]~reg0.DB_MAX_OUTPUT_PORT_TYPE
-O_FPPushbuttons[5] <= O_FPPushbuttons[5]~reg0.DB_MAX_OUTPUT_PORT_TYPE
-O_FPPushbuttons[6] <= O_FPPushbuttons[6]~reg0.DB_MAX_OUTPUT_PORT_TYPE
-O_FPPushbuttons[7] <= O_FPPushbuttons[7]~reg0.DB_MAX_OUTPUT_PORT_TYPE
-O_FPPushbuttons[8] <= O_FPPushbuttons[8]~reg0.DB_MAX_OUTPUT_PORT_TYPE
-O_FPPushbuttons[9] <= O_FPPushbuttons[9]~reg0.DB_MAX_OUTPUT_PORT_TYPE
-O_FPPushbuttons[10] <= O_FPPushbuttons[10]~reg0.DB_MAX_OUTPUT_PORT_TYPE
-O_FPPushbuttons[11] <= O_FPPushbuttons[11]~reg0.DB_MAX_OUTPUT_PORT_TYPE
-O_FPPushbuttons[12] <= O_FPPushbuttons[12]~reg0.DB_MAX_OUTPUT_PORT_TYPE
-O_FPPushbuttons[13] <= O_FPPushbuttons[13]~reg0.DB_MAX_OUTPUT_PORT_TYPE
-O_FPPushbuttons[14] <= O_FPPushbuttons[14]~reg0.DB_MAX_OUTPUT_PORT_TYPE
-O_FPPushbuttons[15] <= O_FPPushbuttons[15]~reg0.DB_MAX_OUTPUT_PORT_TYPE
-O_FPPushbuttons[16] <= O_FPPushbuttons[16]~reg0.DB_MAX_OUTPUT_PORT_TYPE
-O_FPPushbuttons[17] <= O_FPPushbuttons[17]~reg0.DB_MAX_OUTPUT_PORT_TYPE
-O_FPPushbuttons[18] <= O_FPPushbuttons[18]~reg0.DB_MAX_OUTPUT_PORT_TYPE
-O_FPPushbuttons[19] <= O_FPPushbuttons[19]~reg0.DB_MAX_OUTPUT_PORT_TYPE
-O_FPPushbuttons[20] <= O_FPPushbuttons[20]~reg0.DB_MAX_OUTPUT_PORT_TYPE
-O_FPPushbuttons[21] <= O_FPPushbuttons[21]~reg0.DB_MAX_OUTPUT_PORT_TYPE
-O_FPPushbuttons[22] <= O_FPPushbuttons[22]~reg0.DB_MAX_OUTPUT_PORT_TYPE
-O_FPPushbuttons[23] <= O_FPPushbuttons[23]~reg0.DB_MAX_OUTPUT_PORT_TYPE
-O_FPPushbuttons[24] <= O_FPPushbuttons[24]~reg0.DB_MAX_OUTPUT_PORT_TYPE
-O_FPPushbuttons[25] <= O_FPPushbuttons[25]~reg0.DB_MAX_OUTPUT_PORT_TYPE
-O_FPPushbuttons[26] <= O_FPPushbuttons[26]~reg0.DB_MAX_OUTPUT_PORT_TYPE
-O_FPPushbuttons[27] <= O_FPPushbuttons[27]~reg0.DB_MAX_OUTPUT_PORT_TYPE
-O_FPPushbuttons[28] <= O_FPPushbuttons[28]~reg0.DB_MAX_OUTPUT_PORT_TYPE
-O_FPPushbuttons[29] <= O_FPPushbuttons[29]~reg0.DB_MAX_OUTPUT_PORT_TYPE
-O_FPPushbuttons[30] <= O_FPPushbuttons[30]~reg0.DB_MAX_OUTPUT_PORT_TYPE
-O_FPPushbuttons[31] <= O_FPPushbuttons[31]~reg0.DB_MAX_OUTPUT_PORT_TYPE
+o_PBRaw[0] <= o_PBRaw[0]~reg0.DB_MAX_OUTPUT_PORT_TYPE
+o_PBRaw[1] <= o_PBRaw[1]~reg0.DB_MAX_OUTPUT_PORT_TYPE
+o_PBRaw[2] <= o_PBRaw[2]~reg0.DB_MAX_OUTPUT_PORT_TYPE
+o_PBRaw[3] <= o_PBRaw[3]~reg0.DB_MAX_OUTPUT_PORT_TYPE
+o_PBRaw[4] <= o_PBRaw[4]~reg0.DB_MAX_OUTPUT_PORT_TYPE
+o_PBRaw[5] <= o_PBRaw[5]~reg0.DB_MAX_OUTPUT_PORT_TYPE
+o_PBRaw[6] <= o_PBRaw[6]~reg0.DB_MAX_OUTPUT_PORT_TYPE
+o_PBRaw[7] <= o_PBRaw[7]~reg0.DB_MAX_OUTPUT_PORT_TYPE
+o_PBRaw[8] <= o_PBRaw[8]~reg0.DB_MAX_OUTPUT_PORT_TYPE
+o_PBRaw[9] <= o_PBRaw[9]~reg0.DB_MAX_OUTPUT_PORT_TYPE
+o_PBRaw[10] <= o_PBRaw[10]~reg0.DB_MAX_OUTPUT_PORT_TYPE
+o_PBRaw[11] <= o_PBRaw[11]~reg0.DB_MAX_OUTPUT_PORT_TYPE
+o_PBRaw[12] <= o_PBRaw[12]~reg0.DB_MAX_OUTPUT_PORT_TYPE
+o_PBRaw[13] <= o_PBRaw[13]~reg0.DB_MAX_OUTPUT_PORT_TYPE
+o_PBRaw[14] <= o_PBRaw[14]~reg0.DB_MAX_OUTPUT_PORT_TYPE
+o_PBRaw[15] <= o_PBRaw[15]~reg0.DB_MAX_OUTPUT_PORT_TYPE
+o_PBRaw[16] <= o_PBRaw[16]~reg0.DB_MAX_OUTPUT_PORT_TYPE
+o_PBRaw[17] <= o_PBRaw[17]~reg0.DB_MAX_OUTPUT_PORT_TYPE
+o_PBRaw[18] <= o_PBRaw[18]~reg0.DB_MAX_OUTPUT_PORT_TYPE
+o_PBRaw[19] <= o_PBRaw[19]~reg0.DB_MAX_OUTPUT_PORT_TYPE
+o_PBRaw[20] <= o_PBRaw[20]~reg0.DB_MAX_OUTPUT_PORT_TYPE
+o_PBRaw[21] <= o_PBRaw[21]~reg0.DB_MAX_OUTPUT_PORT_TYPE
+o_PBRaw[22] <= o_PBRaw[22]~reg0.DB_MAX_OUTPUT_PORT_TYPE
+o_PBRaw[23] <= o_PBRaw[23]~reg0.DB_MAX_OUTPUT_PORT_TYPE
+o_PBRaw[24] <= o_PBRaw[24]~reg0.DB_MAX_OUTPUT_PORT_TYPE
+o_PBRaw[25] <= o_PBRaw[25]~reg0.DB_MAX_OUTPUT_PORT_TYPE
+o_PBRaw[26] <= o_PBRaw[26]~reg0.DB_MAX_OUTPUT_PORT_TYPE
+o_PBRaw[27] <= o_PBRaw[27]~reg0.DB_MAX_OUTPUT_PORT_TYPE
+o_PBRaw[28] <= o_PBRaw[28]~reg0.DB_MAX_OUTPUT_PORT_TYPE
+o_PBRaw[29] <= o_PBRaw[29]~reg0.DB_MAX_OUTPUT_PORT_TYPE
+o_PBRaw[30] <= o_PBRaw[30]~reg0.DB_MAX_OUTPUT_PORT_TYPE
+o_PBRaw[31] <= o_PBRaw[31]~reg0.DB_MAX_OUTPUT_PORT_TYPE
 o_scanStrobe <= o_scanStrobe.DB_MAX_OUTPUT_PORT_TYPE
 i_key1 => w_PERIP_DATA_IN.DATAB
 o_UsrLed <= o_UsrLed~reg0.DB_MAX_OUTPUT_PORT_TYPE
@@ -328,7 +328,7 @@ io_I2C_SDA <> i2c:i2cIF.io_I2C_SDA
 i_I2C_INTn => w_PERIP_DATA_IN.DATAB
 
 
-|FrontPanel01_test|FrontPanel01:fp_test|IOP16:iop16
+|FrontPanel01_test|FrontPanel01:fp01|IOP16:iop16
 clk => graycounter:greyLow.Clk
 clk => w_PC_out[0].CLK
 clk => w_PC_out[1].CLK
@@ -386,7 +386,7 @@ periphAdr[6] <= periphAdr.DB_MAX_OUTPUT_PORT_TYPE
 periphAdr[7] <= periphAdr.DB_MAX_OUTPUT_PORT_TYPE
 
 
-|FrontPanel01_test|FrontPanel01:fp_test|IOP16:iop16|GrayCounter:greyLow
+|FrontPanel01_test|FrontPanel01:fp01|IOP16:iop16|GrayCounter:greyLow
 Clk => Currstate[0].CLK
 Clk => Currstate[1].CLK
 Clk => Currstate[2].CLK
@@ -401,7 +401,7 @@ output[1] <= Currstate[1].DB_MAX_OUTPUT_PORT_TYPE
 output[2] <= Currstate[2].DB_MAX_OUTPUT_PORT_TYPE
 
 
-|FrontPanel01_test|FrontPanel01:fp_test|IOP16:iop16|IOP_ROM:IopRom
+|FrontPanel01_test|FrontPanel01:fp01|IOP16:iop16|IOP_ROM:IopRom
 address[0] => altsyncram:altsyncram_component.address_a[0]
 address[1] => altsyncram:altsyncram_component.address_a[1]
 address[2] => altsyncram:altsyncram_component.address_a[2]
@@ -432,7 +432,7 @@ q[14] <= altsyncram:altsyncram_component.q_a[14]
 q[15] <= altsyncram:altsyncram_component.q_a[15]
 
 
-|FrontPanel01_test|FrontPanel01:fp_test|IOP16:iop16|IOP_ROM:IopRom|altsyncram:altsyncram_component
+|FrontPanel01_test|FrontPanel01:fp01|IOP16:iop16|IOP_ROM:IopRom|altsyncram:altsyncram_component
 wren_a => ~NO_FANOUT~
 rden_a => ~NO_FANOUT~
 wren_b => ~NO_FANOUT~
@@ -500,7 +500,7 @@ eccstatus[1] <= <GND>
 eccstatus[2] <= <GND>
 
 
-|FrontPanel01_test|FrontPanel01:fp_test|IOP16:iop16|IOP_ROM:IopRom|altsyncram:altsyncram_component|altsyncram_n814:auto_generated
+|FrontPanel01_test|FrontPanel01:fp01|IOP16:iop16|IOP_ROM:IopRom|altsyncram:altsyncram_component|altsyncram_n814:auto_generated
 address_a[0] => altsyncram_dq13:altsyncram1.address_a[0]
 address_a[1] => altsyncram_dq13:altsyncram1.address_a[1]
 address_a[2] => altsyncram_dq13:altsyncram1.address_a[2]
@@ -531,7 +531,7 @@ q_a[14] <= altsyncram_dq13:altsyncram1.q_a[14]
 q_a[15] <= altsyncram_dq13:altsyncram1.q_a[15]
 
 
-|FrontPanel01_test|FrontPanel01:fp_test|IOP16:iop16|IOP_ROM:IopRom|altsyncram:altsyncram_component|altsyncram_n814:auto_generated|altsyncram_dq13:altsyncram1
+|FrontPanel01_test|FrontPanel01:fp01|IOP16:iop16|IOP_ROM:IopRom|altsyncram:altsyncram_component|altsyncram_n814:auto_generated|altsyncram_dq13:altsyncram1
 address_a[0] => ram_block3a0.PORTAADDR
 address_a[0] => ram_block3a1.PORTAADDR
 address_a[0] => ram_block3a2.PORTAADDR
@@ -982,7 +982,7 @@ wren_b => ram_block3a14.PORTBWE
 wren_b => ram_block3a15.PORTBWE
 
 
-|FrontPanel01_test|FrontPanel01:fp_test|IOP16:iop16|IOP_ROM:IopRom|altsyncram:altsyncram_component|altsyncram_n814:auto_generated|sld_mod_ram_rom:mgl_prim2
+|FrontPanel01_test|FrontPanel01:fp01|IOP16:iop16|IOP_ROM:IopRom|altsyncram:altsyncram_component|altsyncram_n814:auto_generated|sld_mod_ram_rom:mgl_prim2
 tck_usr <= sld_jtag_endpoint_adapter:jtag_signal_adapter.adapted_tck
 address[0] <= ram_rom_addr_reg[0].DB_MAX_OUTPUT_PORT_TYPE
 address[1] <= ram_rom_addr_reg[1].DB_MAX_OUTPUT_PORT_TYPE
@@ -1069,7 +1069,7 @@ ir_out[7] <= sld_jtag_endpoint_adapter:jtag_signal_adapter.ir_out[7]
 tdo <= sld_jtag_endpoint_adapter:jtag_signal_adapter.tdo
 
 
-|FrontPanel01_test|FrontPanel01:fp_test|IOP16:iop16|IOP_ROM:IopRom|altsyncram:altsyncram_component|altsyncram_n814:auto_generated|sld_mod_ram_rom:mgl_prim2|sld_jtag_endpoint_adapter:jtag_signal_adapter
+|FrontPanel01_test|FrontPanel01:fp01|IOP16:iop16|IOP_ROM:IopRom|altsyncram:altsyncram_component|altsyncram_n814:auto_generated|sld_mod_ram_rom:mgl_prim2|sld_jtag_endpoint_adapter:jtag_signal_adapter
 raw_tck => sld_jtag_endpoint_adapter_impl:sld_jtag_endpoint_adapter_impl_inst.raw_tck
 raw_tms => sld_jtag_endpoint_adapter_impl:sld_jtag_endpoint_adapter_impl_inst.raw_tms
 tdi => sld_jtag_endpoint_adapter_impl:sld_jtag_endpoint_adapter_impl_inst.tdi
@@ -1152,7 +1152,7 @@ adapted_ir_out[6] => sld_jtag_endpoint_adapter_impl:sld_jtag_endpoint_adapter_im
 adapted_ir_out[7] => sld_jtag_endpoint_adapter_impl:sld_jtag_endpoint_adapter_impl_inst.adapted_ir_out[7]
 
 
-|FrontPanel01_test|FrontPanel01:fp_test|IOP16:iop16|IOP_ROM:IopRom|altsyncram:altsyncram_component|altsyncram_n814:auto_generated|sld_mod_ram_rom:mgl_prim2|sld_jtag_endpoint_adapter:jtag_signal_adapter|sld_jtag_endpoint_adapter_impl:sld_jtag_endpoint_adapter_impl_inst
+|FrontPanel01_test|FrontPanel01:fp01|IOP16:iop16|IOP_ROM:IopRom|altsyncram:altsyncram_component|altsyncram_n814:auto_generated|sld_mod_ram_rom:mgl_prim2|sld_jtag_endpoint_adapter:jtag_signal_adapter|sld_jtag_endpoint_adapter_impl:sld_jtag_endpoint_adapter_impl_inst
 raw_tck => adapted_tck.DATAIN
 raw_tms => adapted_tms.DATAIN
 tdi => adapted_tdi.DATAIN
@@ -1235,7 +1235,7 @@ adapted_ir_out[6] => ir_out[6].DATAIN
 adapted_ir_out[7] => ir_out[7].DATAIN
 
 
-|FrontPanel01_test|FrontPanel01:fp_test|IOP16:iop16|IOP_ROM:IopRom|altsyncram:altsyncram_component|altsyncram_n814:auto_generated|sld_mod_ram_rom:mgl_prim2|sld_rom_sr:\ram_rom_logic_gen:name_gen:info_rom_sr
+|FrontPanel01_test|FrontPanel01:fp01|IOP16:iop16|IOP_ROM:IopRom|altsyncram:altsyncram_component|altsyncram_n814:auto_generated|sld_mod_ram_rom:mgl_prim2|sld_rom_sr:\ram_rom_logic_gen:name_gen:info_rom_sr
 ROM_DATA[0] => Mux3.IN131
 ROM_DATA[1] => Mux2.IN131
 ROM_DATA[2] => Mux1.IN131
@@ -1357,7 +1357,7 @@ TDI => WORD_SR.DATAA
 TDO <= WORD_SR[0].DB_MAX_OUTPUT_PORT_TYPE
 
 
-|FrontPanel01_test|FrontPanel01:fp_test|IOP16:iop16|RegFile8x8:RegFile
+|FrontPanel01_test|FrontPanel01:fp01|IOP16:iop16|RegFile8x8:RegFile
 i_clk => w_regFR7[0].CLK
 i_clk => w_regFR7[1].CLK
 i_clk => w_regFR7[2].CLK
@@ -1612,7 +1612,7 @@ o_DataOut[6] <= o_DataOut[6]$latch.DB_MAX_OUTPUT_PORT_TYPE
 o_DataOut[7] <= o_DataOut[7]$latch.DB_MAX_OUTPUT_PORT_TYPE
 
 
-|FrontPanel01_test|FrontPanel01:fp_test|i2c:i2cIF
+|FrontPanel01_test|FrontPanel01:fp01|i2c:i2cIF
 i_RESET => process_1.IN0
 i_RESET => w_phase[0].ACLR
 i_RESET => w_phase[1].ACLR

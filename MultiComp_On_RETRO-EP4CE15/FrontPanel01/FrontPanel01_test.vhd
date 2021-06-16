@@ -10,7 +10,7 @@
 --		8  - Data LEDS/pushbuttons
 --		8  - Status LEDs
 --		8  - Control pusbuttons
-
+--
 -- R32V2020 assembly code example works with this same I2C controller
 --		https://github.com/douggilliland/R32V2020/blob/master/Programs/Common/mcp23008.asm
 --		https://github.com/douggilliland/R32V2020/blob/master/Programs/Common/i2c.asm
@@ -44,39 +44,47 @@ entity FrontPanel01_test is
 	end FrontPanel01_test;
 
 architecture struct of FrontPanel01_test is
-
 	-- 
 	signal w_resdebounced		:	std_logic;		-- Debounced reset button
-	signal w_scanStrobe			:	std_logic;
-	signal w_loadStrobe			:	std_logic;
-	signal w_ldStrobe2			:	std_logic;
-	--
+	
+	-- Front Panel Control lines
+	signal w_scanStrobe			:	std_logic;		-- Signals that a pushbutton was pressed
+	signal w_loadStrobe			:	std_logic;		-- Latch up pushbuttons
+	signal w_ldStrobe2			:	std_logic;		-- Signals that a  new toggle data value is present
+	-- Front Panel pushbutton latches
 	signal w_rawPBs			 	:	std_logic_vector(31 downto 0);		-- Pushbuttons raw input
 	signal w_latchedPBs		 	:	std_logic_vector(31 downto 0);		-- Pushbuttons latched every frame
 	signal w_PBDelay			 	:	std_logic_vector(31 downto 0);		-- Pushbuttons
-	signal w_debouncedPBs		 :	std_logic_vector(31 downto 0);		-- Pushbuttons
-	signal w_DATA_LOOPBACK	 	:	std_logic_vector(31 downto 0);		-- wrap back Pushbuttons lines to LEDs
+	signal w_debouncedPBs		:	std_logic_vector(31 downto 0);		-- Pushbuttons
+	signal w_togglePinValues	:	std_logic_vector(31 downto 0);		-- Toggled pin values
 
-	attribute syn_keep: boolean;
-	attribute syn_keep of w_rawPBs		:	signal is true;
-	attribute syn_keep of w_latchedPBs	:	signal is true;
-	attribute syn_keep of w_ldStrobe2	:	signal is true;
+--	attribute syn_keep: boolean;
 --	attribute syn_keep of w_rawPBs		:	signal is true;
-
---attribute syn_keep: boolean;
---attribute syn_keep of chain: signal is true;
+--	attribute syn_keep of w_latchedPBs	:	signal is true;
+--	attribute syn_keep of w_ldStrobe2	:	signal is true;
+--	attribute syn_keep of w_rawPBs		:	signal is true;
 
 begin
 
 --	o_testPts(5) <= w_PBDelay(0);
 --	o_testPts(4) <= w_debouncedPBs(0);
---	o_testPts(3) <= w_DATA_LOOPBACK(0);
+--	o_testPts(3) <= w_togglePinValues(0);
 --	o_testPts(2) <= w_ldStrobe2;
 --	o_testPts(1) <= w_loadStrobe;
 --	o_testPts(0) <= '0';
 	
-	w_latchedPBs <= w_rawPBs when w_scanStrobe = '1';		-- Latch the pushbuttons when scanStrobe goes active
+	debounceReset : entity work.Debouncer
+		port map
+		(
+			i_clk				=> i_n_reset,
+			i_PinIn			=> i_n_reset,
+			o_PinOut			=> w_resdebounced
+		);
+	
+	-- Latch the pushbuttons when scanStrobe goes active
+	w_latchedPBs <= w_rawPBs when w_scanStrobe = '1';
 
+	-- Delay the debounced pushbuttons - needed for edge detect
 	process (i_CLOCK_50, w_loadStrobe)
 	begin
 		if rising_edge(i_CLOCK_50) then
@@ -89,51 +97,44 @@ begin
 		end if;
 	end process;
 
+	-- Latch the toggle value
 	process (i_CLOCK_50, w_loadStrobe)
 	begin
 		if rising_edge(i_CLOCK_50) then
 			if  w_loadStrobe = '1' then
-				w_DATA_LOOPBACK <= w_DATA_LOOPBACK xor w_debouncedPBs xor w_PBDelay;
+				w_togglePinValues <= w_togglePinValues xor w_debouncedPBs xor w_PBDelay;
 			end if;
 		end if;
 	end process;
 	
-debouncePB : entity work.Debouncer32
-	port map
-	(
-		i_slowClk		=> w_scanStrobe,
-		i_fastClk		=> i_CLOCK_50,
-		i_PinsIn			=> w_latchedPBs,
-		o_LdStrobe		=> w_loadStrobe,
-		o_PinsOut		=> w_debouncedPBs
-	);
+	debouncePB : entity work.Debouncer32
+		port map
+		(
+			i_slowClk		=> w_scanStrobe,
+			i_fastClk		=> i_CLOCK_50,
+			i_PinsIn			=> w_latchedPBs,
+			o_LdStrobe		=> w_loadStrobe,
+			o_PinsOut		=> w_debouncedPBs
+		);
 
-debounceReset : entity work.Debouncer
-	port map
-	(
-		i_clk				=> i_n_reset,
-		i_PinIn			=> i_n_reset,
-		o_PinOut			=> w_resdebounced
-	);
-	
--- Front Panel test
-fp_test : work.FrontPanel01
-	port map
-	(
-		-- Clock and reset
-		i_CLOCK_50			=> i_CLOCK_50,				-- Clock (50 MHz)
-		i_n_reset			=> w_resdebounced,		-- Reset
-		-- 32 outs, 32 ins
-		i_FPLEDs				=> w_DATA_LOOPBACK,			-- Out to LEDs (32)
-		O_FPPushbuttons	=> w_rawPBs,				-- In from Pushbuttons (32)
-		o_scanStrobe		=> w_scanStrobe,
-		--
-		i_key1				=> i_key1,
-		o_UsrLed				=> o_UsrLed,
-		-- I2C interface
-		io_I2C_SCL			=> io_I2C_SCL,				-- I2C clock to Front Panel card
-		io_I2C_SDA			=> io_I2C_SDA,				-- I2C data to/from Front Panel card
-		i_I2C_INTn			=> i_I2C_INTn				-- Interrupt input - active low
-	);
+	-- Front Panel
+	fp01 : work.FrontPanel01
+		port map
+		(
+			-- Clock and reset
+			i_CLOCK_50			=> i_CLOCK_50,				-- Clock (50 MHz)
+			i_n_reset			=> w_resdebounced,		-- Reset
+			-- 32 outs, 32 ins
+			i_FPLEDs				=> w_togglePinValues,	-- Out to LEDs (32)
+			o_PBRaw				=> w_rawPBs,				-- In from Pushbuttons (32)
+			o_scanStrobe		=> w_scanStrobe,
+			-- Key (pushbutton) and LED on FPGA card
+			i_key1				=> i_key1,
+			o_UsrLed				=> o_UsrLed,
+			-- I2C interface
+			io_I2C_SCL			=> io_I2C_SCL,				-- I2C clock to Front Panel card
+			io_I2C_SDA			=> io_I2C_SDA,				-- I2C data to/from Front Panel card
+			i_I2C_INTn			=> i_I2C_INTn				-- Interrupt input - active low
+		);
 
 end;
