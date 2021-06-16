@@ -259,6 +259,14 @@ class ControlClass:
 								outStr += 'I2C_STA' + '\t'
 							elif (cell == '0X05') and ioWr:
 								outStr += 'I2C_CTL' + '\t'
+							elif (cell == '0X00') and ioWr:
+								outStr += 'LEDS0' + '\t'
+							elif (cell == '0X01') and ioWr:
+								outStr += 'LEDS1' + '\t'
+							elif (cell == '0X02') and ioWr:
+								outStr += 'LEDS2' + '\t'
+							elif (cell == '0X02') and ioWr:
+								outStr += 'LEDS3' + '\t'
 							else:
 								outStr += 'TBDIO' + '\t'
 					else:

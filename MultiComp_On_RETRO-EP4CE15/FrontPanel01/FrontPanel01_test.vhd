@@ -46,21 +46,57 @@ architecture struct of FrontPanel01_test is
 	-- 
 	signal w_resdebounced		:	std_logic;		-- Debounced reset button
 	signal w_scanStrobe			:	std_logic;
-	signal w_PUSHBUTTONS		 	:	std_logic_vector(31 downto 0);		-- Pushbuttons
-	signal w_latechdPBs		 	:	std_logic_vector(31 downto 0);		-- Pushbuttons
+	signal w_loadStrobe			:	std_logic;
+	signal w_ldStrobe2			:	std_logic;
+	--
+	signal w_rawPBs			 	:	std_logic_vector(31 downto 0);		-- Pushbuttons raw input
+	signal w_latchedPBs		 	:	std_logic_vector(31 downto 0);		-- Pushbuttons latched every frame
+	signal w_PBDelay			 	:	std_logic_vector(31 downto 0);		-- Pushbuttons
+	signal w_debouncedPBs		 :	std_logic_vector(31 downto 0);		-- Pushbuttons
 	signal w_DATA_LOOPBACK	 	:	std_logic_vector(31 downto 0);		-- wrap back Pushbuttons lines to LEDs
+
+	attribute syn_keep: boolean;
+	attribute syn_keep of w_rawPBs:	signal is true;
+	attribute syn_keep of w_latchedPBs:		signal is true;
+	attribute syn_keep of w_ldStrobe2:		signal is true;
+--	attribute syn_keep of w_rawPBs			: signal is true;
+
+--attribute syn_keep: boolean;
+--attribute syn_keep of chain: signal is true;
 
 begin
 
-w_latechdPBs <= w_PUSHBUTTONS when w_scanStrobe = '1';		-- Latch the pushbuttons when scanStrobe goes active
+w_latchedPBs <= w_rawPBs when w_scanStrobe = '1';		-- Latch the pushbuttons when scanStrobe goes active
+
+	process (i_CLOCK_50, w_loadStrobe)
+	begin
+		if rising_edge(i_CLOCK_50) then
+			if  w_loadStrobe = '1' then
+				w_PBDelay <= w_debouncedPBs;
+			end if;
+			w_ldStrobe2 <= w_loadStrobe;
+		end if;
+	end process;
+
+	process (i_CLOCK_50, w_loadStrobe)
+	begin
+		if rising_edge(i_CLOCK_50) then
+			if  w_loadStrobe = '1' then
+--				w_DATA_LOOPBACK <= w_debouncedPBs xor w_PBDelay;
+			end if;
+		end if;
+	end process;
+
+w_DATA_LOOPBACK <= w_debouncedPBs;
 
 debouncePB : entity work.Debouncer32
 	port map
 	(
 		i_slowClk		=> w_scanStrobe,
 		i_fastClk		=> i_CLOCK_50,
-		i_PinsIn			=> w_latechdPBs,
-		o_PinsOut		=> w_DATA_LOOPBACK
+		i_PinsIn			=> w_latchedPBs,
+		o_LdStrobe		=> w_loadStrobe,
+		o_PinsOut		=> w_debouncedPBs
 	);
 
 debounceReset : entity work.Debouncer
@@ -77,10 +113,10 @@ fp_test : work.FrontPanel01
 	(
 		-- Clock and reset
 		i_CLOCK_50			=> i_CLOCK_50,				-- Clock (50 MHz)
-		i_n_reset			=> w_resdebounced,			-- Reset
+		i_n_reset			=> w_resdebounced,		-- Reset
 		-- 32 outs, 32 ins
-		i_FPPushbuttons	=> w_PUSHBUTTONS,			-- Pushbuttons (32)
-		o_FPLEDs				=> w_DATA_LOOPBACK,		-- LEDs (32)
+		i_FPLEDs				=> w_latchedPBs,			-- Out to LEDs (32)
+		O_FPPushbuttons	=> w_rawPBs,				-- In from Pushbuttons (32)
 		o_scanStrobe		=> w_scanStrobe,
 		--
 		i_key1				=> i_key1,

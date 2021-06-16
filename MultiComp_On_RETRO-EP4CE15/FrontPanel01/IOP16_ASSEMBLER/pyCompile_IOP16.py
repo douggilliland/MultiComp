@@ -202,10 +202,12 @@ class ControlClass:
 				outList.append(['','BNZ',label + '_3','','LOOP BACK IF STILL BUSY'])
 			elif command == 'JMP':
 				outList.append([label,'JMP',i2cAddr,'',''])
-			elif command == 'LDREG_IMM':
+			elif command == 'LRI':
 				outList.append([label,'LRI',i2cAddr,mcpReg,comment])
-			elif command == 'WR_MEM':
+			elif command == 'IOW':
 				outList.append([label,'IOW',i2cAddr,mcpReg,comment])
+			elif command == 'IOR':
+				outList.append([label,'IOR',i2cAddr,mcpReg,comment])
 			elif command == 'HALT':
 				outLine = []
 				outLine.append('HALT')

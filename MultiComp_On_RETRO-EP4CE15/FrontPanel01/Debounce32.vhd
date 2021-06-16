@@ -11,6 +11,7 @@ entity Debouncer32 is
 		i_slowClk		: in std_logic := '1';
 		i_fastClk		: in std_logic := '1';
 		i_PinsIn			: in std_logic_vector(31 downto 0);
+		o_LdStrobe		: out std_logic := '1';
 		o_PinsOut		: out std_logic_vector(31 downto 0)
 	);
 
@@ -18,14 +19,15 @@ end Debouncer32;
 
 architecture struct of Debouncer32 is
 	
-	signal dig_counter	: std_logic_vector (5 downto 0) := (others => '0');
-	signal termCount		: std_logic;
+	signal w_dig_counter	: std_logic_vector (5 downto 0) := (others => '0');
+	signal w_termCount	: std_logic;
 	
 	signal w_pbPressed	: std_logic;
 
-	signal dly1		: std_logic;
-	signal dly2		: std_logic;
-	signal dly3		: std_logic;
+	signal w_dly1		: std_logic;
+	signal w_dly2		: std_logic;
+	signal w_dly3		: std_logic;
+	signal w_dly4		: std_logic;
 
 begin
 
@@ -43,11 +45,11 @@ begin
 	process (i_slowClk, w_pbPressed) begin
 		if rising_edge(i_slowClk) then
 			if w_pbPressed = '0' then
-				dig_counter <= (others => '0');
-			elsif dig_counter = "111111" then
-				termCount <= '1';
+				w_dig_counter <= (others => '0');
+			elsif w_dig_counter = "111111" then
+				w_termCount <= '1';
 			else
-				dig_counter <= dig_counter+1;
+				w_dig_counter <= w_dig_counter+1;
 			end if;
 		end if;
 	end process;
@@ -56,14 +58,15 @@ begin
 	process(i_fastClk)
 	begin
 		if(rising_edge(i_fastClk)) then
-			dly1 <= termCount;
-			dly2 <= dly1;
+			w_dly1		<= w_termCount;
+			w_dly2		<= w_dly1;
+			o_LdStrobe	<= w_dly3;
 		end if;
 	end process;
 	
-	dly3 <= dly1 and not dly2;
+	w_dly3 <= w_dly1 and not w_dly2;
 	
-	o_PinsOut <= i_PinsIn	when dly3 = '1' else		-- set
+	o_PinsOut <= i_PinsIn	when w_dly3 = '1' else		-- set
 					x"00000000"	when w_pbPressed = '0';
 
 end;

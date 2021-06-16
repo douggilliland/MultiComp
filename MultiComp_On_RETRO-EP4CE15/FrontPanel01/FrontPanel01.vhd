@@ -31,8 +31,8 @@ entity FrontPanel01 is
 		i_CLOCK_50					: in std_logic := '1';
 		i_n_reset					: in std_logic := '1';
 		-- 32 LEDs(outs), 32 Pushbuttons (ins)
-		i_FPPushbuttons			: in std_logic_vector(31 downto 0) := x"deadbaba";
-		o_FPLEDs						: out std_logic_vector(31 downto 0);
+		i_FPLEDs						: in std_logic_vector(31 downto 0);
+		O_FPPushbuttons			: out std_logic_vector(31 downto 0);
 		o_scanStrobe				: out std_logic := '1';
 		-- The key and LED on the FPGA card
 		i_key1						: in std_logic := '1';
@@ -56,11 +56,11 @@ architecture struct of FrontPanel01 is
 	-- I2C Counter = 400 KHz
 	signal w_i2cCount				: std_logic_vector(6 downto 0);
 	signal w_i2c_400KHz			: std_logic;
-	-- Strobe LEDs
-	signal w_strLEDDataUU		: std_logic;
-	signal w_strLEDDataUM		: std_logic;
-	signal w_strLEDDataLM		: std_logic;
-	signal w_strLEDDataLL		: std_logic;
+	-- Strobe Pushbuttons
+	signal w_strPBDataUU			: std_logic;
+	signal w_strPBDataUM			: std_logic;
+	signal w_strPBDataLM			: std_logic;
+	signal w_strPBDataLL			: std_logic;
 	signal w_LED					: std_logic;
 	signal w_LatLED				: std_logic;
 	
@@ -105,7 +105,7 @@ begin
 		i_CLK				=> i_CLOCK_50,			-- 50 MHz
 		i_ENA				=> w_i2c_400KHz,		-- One CPU clock wide every 400 Khz
 		i_ADRSEL			=> w_periphAdr(0),	-- Command/Data address select line
-		i_DATA_IN		=> w_PERIP_DATA_OUT,			-- Data to I2C interface
+		i_DATA_IN		=> w_PERIP_DATA_OUT,	-- Data to I2C interface
 		o_DATA_OUT		=> w_I2C_RD_DATA,		-- Data from I2C interface
 		i_WR				=> w_I2CWR,				-- Write str
 		io_I2C_SCL		=> io_I2C_SCL,			-- Clock to external I2C interface
@@ -116,26 +116,26 @@ begin
 	process (i_CLOCK_50)
 	begin
 		if rising_edge(i_CLOCK_50) then
-			if w_strLEDDataUU = '1' then
-				o_FPLEDs(31 downto 24) <= w_PERIP_DATA_OUT;
+			if w_strPBDataUU = '1' then
+				O_FPPushbuttons(31 downto 24)<= w_PERIP_DATA_OUT;
 			end if;
-			if w_strLEDDataUM = '1' then
-				o_FPLEDs(23 downto 16) <= w_PERIP_DATA_OUT;
+			if w_strPBDataUM = '1' then
+				O_FPPushbuttons(23 downto 16) <= w_PERIP_DATA_OUT;
 			end if;
-			if w_strLEDDataLM = '1' then
-				o_FPLEDs(15 downto 8) <= w_PERIP_DATA_OUT;
+			if w_strPBDataLM = '1' then
+				O_FPPushbuttons(15 downto 8) <= w_PERIP_DATA_OUT;
 			end if;
-			if w_strLEDDataLL = '1' then
-				o_FPLEDs(7 downto 00) <= w_PERIP_DATA_OUT;
+			if w_strPBDataLL = '1' then
+				O_FPPushbuttons(7 downto 00) <= w_PERIP_DATA_OUT;
 			end if;
 		end if;
 	end process;
 	
 	-- Write data strobes
-	w_strLEDDataUU <= '1' when ((w_periphWr = '1') and (w_periphAdr = x"00")) else '0';
-	w_strLEDDataUM <= '1' when ((w_periphWr = '1') and (w_periphAdr = x"01")) else '0';
-	w_strLEDDataLM <= '1' when ((w_periphWr = '1') and (w_periphAdr = x"02")) else '0';
-	w_strLEDDataLL <= '1' when ((w_periphWr = '1') and (w_periphAdr = x"03")) else '0';
+	w_strPBDataUU <= '1' when ((w_periphWr = '1') and (w_periphAdr = x"00")) else '0';
+	w_strPBDataUM <= '1' when ((w_periphWr = '1') and (w_periphAdr = x"01")) else '0';
+	w_strPBDataLM <= '1' when ((w_periphWr = '1') and (w_periphAdr = x"02")) else '0';
+	w_strPBDataLL <= '1' when ((w_periphWr = '1') and (w_periphAdr = x"03")) else '0';
 	w_I2CWR 			<= '1' when  (w_periphWr = '1') and (w_periphAdr(7 downto 1) = x"0"&"010") else '0';
 	o_scanStrobe	<= '1' when ((w_periphWr = '1') and (w_periphAdr = x"06")) else '0';
 
@@ -150,10 +150,10 @@ begin
 	end process;
 
 	-- Read data mux
-	w_PERIP_DATA_IN <=	i_FPPushbuttons(31 downto 24)	when (w_periphAdr = x"00") else
-								i_FPPushbuttons(23 downto 16) when (w_periphAdr = x"01") else
-								i_FPPushbuttons(15 downto 8)	when (w_periphAdr = x"02") else
-								i_FPPushbuttons(7 downto 0)	when (w_periphAdr = x"03") else
+	w_PERIP_DATA_IN <=	i_FPLEDs(31 downto 24)	when (w_periphAdr = x"00") else
+								i_FPLEDs(23 downto 16)	when (w_periphAdr = x"01") else
+								i_FPLEDs(15 downto 8)	when (w_periphAdr = x"02") else
+								i_FPLEDs(7 downto 0)		when (w_periphAdr = x"03") else
 								w_I2C_RD_DATA 						when (w_periphAdr(7 downto 1) = x"0"&"010") else
 								"0000000"&(not i_I2C_INTn)		when (w_periphAdr = x"06") else
 								"0000000"&i_key1					when (w_periphAdr = x"07") else
