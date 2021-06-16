@@ -29,6 +29,15 @@ architecture struct of Debouncer32 is
 	signal w_dly3		: std_logic;
 	signal w_dly4		: std_logic;
 
+	attribute syn_keep: boolean;
+	attribute syn_keep of w_pbPressed:		signal is true;
+	attribute syn_keep of w_dig_counter:	signal is true;
+	attribute syn_keep of i_slowClk:			signal is true;
+	attribute syn_keep of w_termCount:		signal is true;
+	attribute syn_keep of w_dly3:				signal is true;
+	attribute syn_keep of o_PinsOut:			signal is true;
+	attribute syn_keep of o_LdStrobe:		signal is true;
+
 begin
 
 	w_pbPressed <= i_PinsIn(31) or i_PinsIn(30) or i_PinsIn(29) or i_PinsIn(28) or i_PinsIn(27) or i_PinsIn(26) or i_PinsIn(25) or i_PinsIn(24) or 
@@ -46,6 +55,7 @@ begin
 		if rising_edge(i_slowClk) then
 			if w_pbPressed = '0' then
 				w_dig_counter <= (others => '0');
+				w_termCount <= '0';
 			elsif w_dig_counter = "111111" then
 				w_termCount <= '1';
 			else
@@ -66,7 +76,7 @@ begin
 	
 	w_dly3 <= w_dly1 and not w_dly2;
 	
-	o_PinsOut <= i_PinsIn	when w_dly3 = '1' else		-- set
+	o_PinsOut <= i_PinsIn	when w_termCount = '1' else		-- set
 					x"00000000"	when w_pbPressed = '0';
 
 end;

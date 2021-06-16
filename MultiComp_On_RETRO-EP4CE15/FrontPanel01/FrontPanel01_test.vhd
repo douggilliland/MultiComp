@@ -115,7 +115,7 @@ fp_test : work.FrontPanel01
 		i_CLOCK_50			=> i_CLOCK_50,				-- Clock (50 MHz)
 		i_n_reset			=> w_resdebounced,		-- Reset
 		-- 32 outs, 32 ins
-		i_FPLEDs				=> w_latchedPBs,			-- Out to LEDs (32)
+		i_FPLEDs				=> w_debouncedPBs,			-- Out to LEDs (32)
 		O_FPPushbuttons	=> w_rawPBs,				-- In from Pushbuttons (32)
 		o_scanStrobe		=> w_scanStrobe,
 		--
