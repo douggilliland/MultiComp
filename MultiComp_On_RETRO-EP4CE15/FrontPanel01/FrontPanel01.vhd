@@ -35,7 +35,7 @@ entity FrontPanel01 is
 		o_PBRaw						: out std_logic_vector(31 downto 0);
 		o_PBLatched					: out std_logic_vector(31 downto 0);
 		o_PBToggled					: out std_logic_vector(31 downto 0);
-		o_scanStrobe				: out std_logic := '1';
+--		o_scanStrobe				: out std_logic := '1';
 		-- The key and LED on the FPGA card
 		i_key1						: in std_logic := '1';
 		o_UsrLed						: out std_logic := '1';
@@ -66,6 +66,23 @@ architecture struct of FrontPanel01 is
 	signal w_LED					: std_logic;
 	signal w_LatLED				: std_logic;
 	
+	-- Front Panel Control lines
+	signal w_scanStrobe			:	std_logic;		-- Signals that a pushbutton was pressed
+	signal w_loadStrobe			:	std_logic;		-- Latch up pushbuttons
+	signal w_ldStrobe2			:	std_logic;		-- Signals that a  new toggle data value is present
+	-- Front Panel pushbutton latches
+	signal w_rawPBs			 	:	std_logic_vector(31 downto 0);		-- Pushbuttons raw input
+	signal w_latchedPBs		 	:	std_logic_vector(31 downto 0);		-- Pushbuttons latched every frame
+	signal w_PBDelay			 	:	std_logic_vector(31 downto 0);		-- Pushbuttons
+	signal w_debouncedPBs		:	std_logic_vector(31 downto 0);		-- Pushbuttons
+	signal w_togglePinValues	:	std_logic_vector(31 downto 0);		-- Toggled pin values
+
+--	attribute syn_keep: boolean;
+--	attribute syn_keep of w_rawPBs		:	signal is true;
+--	attribute syn_keep of w_latchedPBs	:	signal is true;
+--	attribute syn_keep of w_ldStrobe2	:	signal is true;
+--	attribute syn_keep of w_rawPBs		:	signal is true;
+
 --	attribute syn_keep	: boolean;
 --	attribute syn_keep of w_lowCount			: signal is true;
 
@@ -114,21 +131,62 @@ begin
 		io_I2C_SDA		=> io_I2C_SDA			-- Data to/from external I2C interface
 	);
 		
+		
+	o_PBRaw		<= w_rawPBs;
+	o_PBLatched	<= w_latchedPBs;
+	o_PBToggled	<= w_togglePinValues;
+	
+	-- Latch the pushbuttons when scanStrobe goes active
+	w_latchedPBs <= w_rawPBs when w_scanStrobe = '1';
+
+	-- Delay the debounced pushbuttons - needed for edge detect
+	process (i_CLOCK_50, w_loadStrobe)
+	begin
+		if rising_edge(i_CLOCK_50) then
+			if  w_loadStrobe = '1' then
+				w_PBDelay <= w_debouncedPBs;
+			elsif w_ldStrobe2 = '1' then
+				w_PBDelay <= (others => '0');
+			end if;
+			w_ldStrobe2 <= w_loadStrobe;
+		end if;
+	end process;
+
+	-- Latch the toggle value
+	process (i_CLOCK_50, w_loadStrobe)
+	begin
+		if rising_edge(i_CLOCK_50) then
+			if  w_loadStrobe = '1' then
+				w_togglePinValues <= w_togglePinValues xor w_debouncedPBs xor w_PBDelay;
+			end if;
+		end if;
+	end process;
+	
+	debouncePB : entity work.Debouncer32
+		port map
+		(
+			i_slowClk		=> w_scanStrobe,
+			i_fastClk		=> i_CLOCK_50,
+			i_PinsIn			=> w_latchedPBs,
+			o_LdStrobe		=> w_loadStrobe,
+			o_PinsOut		=> w_debouncedPBs
+		);
+
 	-- Write from the IOP16 to the LEDs
 	process (i_CLOCK_50)
 	begin
 		if rising_edge(i_CLOCK_50) then
 			if w_strPBDataUU = '1' then
-				o_PBRaw(31 downto 24)<= w_PERIP_DATA_OUT;
+				w_rawPBs(31 downto 24)<= w_PERIP_DATA_OUT;
 			end if;
 			if w_strPBDataUM = '1' then
-				o_PBRaw(23 downto 16) <= w_PERIP_DATA_OUT;
+				w_rawPBs(23 downto 16) <= w_PERIP_DATA_OUT;
 			end if;
 			if w_strPBDataLM = '1' then
-				o_PBRaw(15 downto 8) <= w_PERIP_DATA_OUT;
+				w_rawPBs(15 downto 8) <= w_PERIP_DATA_OUT;
 			end if;
 			if w_strPBDataLL = '1' then
-				o_PBRaw(7 downto 00) <= w_PERIP_DATA_OUT;
+				w_rawPBs(7 downto 00) <= w_PERIP_DATA_OUT;
 			end if;
 		end if;
 	end process;
@@ -139,7 +197,7 @@ begin
 	w_strPBDataLM <= '1' when ((w_periphWr = '1') and (w_periphAdr = x"02")) else '0';
 	w_strPBDataLL <= '1' when ((w_periphWr = '1') and (w_periphAdr = x"03")) else '0';
 	w_I2CWR 			<= '1' when  (w_periphWr = '1') and (w_periphAdr(7 downto 1) = x"0"&"010") else '0';
-	o_scanStrobe	<= '1' when ((w_periphWr = '1') and (w_periphAdr = x"06")) else '0';
+	w_scanStrobe	<= '1' when ((w_periphWr = '1') and (w_periphAdr = x"06")) else '0';
 
 	w_LED <= '1' when ((w_periphWr = '1') and (w_periphAdr = x"07")) else '0';
 	process (i_CLOCK_50, w_LED)

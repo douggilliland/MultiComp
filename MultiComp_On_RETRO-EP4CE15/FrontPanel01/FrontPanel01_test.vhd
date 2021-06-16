@@ -2,7 +2,8 @@
 -- Front Panel
 -- I2C to Front Panel
 --	Test code that loops back the pushbuttons to the LEDs
--- 
+-- 		o_PBLatched					: out std_logic_vector(31 downto 0);
+
 -- http://land-boards.com/blwiki/index.php?title=Front_Panel_For_8_Bit_Computers
 -- Small controller for a Front Panel
 -- 32 LEDs, 32 pushbuttons
@@ -45,25 +46,11 @@ entity FrontPanel01_test is
 
 architecture struct of FrontPanel01_test is
 	-- 
-	signal w_resdebounced		:	std_logic;		-- Debounced reset button
+	signal w_resdebounced	:	std_logic;		-- Debounced reset button
+	signal w_LOOPBACK			:	std_logic_vector(31 downto 0);		-- Pushbuttons raw input
+	signal w_rawPBs			:	std_logic_vector(31 downto 0);		-- Pushbuttons raw input
+	signal w_PBLatched		:	std_logic_vector(31 downto 0);		-- Pushbuttons raw input
 	
-	-- Front Panel Control lines
-	signal w_scanStrobe			:	std_logic;		-- Signals that a pushbutton was pressed
-	signal w_loadStrobe			:	std_logic;		-- Latch up pushbuttons
-	signal w_ldStrobe2			:	std_logic;		-- Signals that a  new toggle data value is present
-	-- Front Panel pushbutton latches
-	signal w_rawPBs			 	:	std_logic_vector(31 downto 0);		-- Pushbuttons raw input
-	signal w_latchedPBs		 	:	std_logic_vector(31 downto 0);		-- Pushbuttons latched every frame
-	signal w_PBDelay			 	:	std_logic_vector(31 downto 0);		-- Pushbuttons
-	signal w_debouncedPBs		:	std_logic_vector(31 downto 0);		-- Pushbuttons
-	signal w_togglePinValues	:	std_logic_vector(31 downto 0);		-- Toggled pin values
-
---	attribute syn_keep: boolean;
---	attribute syn_keep of w_rawPBs		:	signal is true;
---	attribute syn_keep of w_latchedPBs	:	signal is true;
---	attribute syn_keep of w_ldStrobe2	:	signal is true;
---	attribute syn_keep of w_rawPBs		:	signal is true;
-
 begin
 
 --	o_testPts(5) <= w_PBDelay(0);
@@ -81,42 +68,6 @@ begin
 			o_PinOut			=> w_resdebounced
 		);
 	
-	-- Latch the pushbuttons when scanStrobe goes active
-	w_latchedPBs <= w_rawPBs when w_scanStrobe = '1';
-
-	-- Delay the debounced pushbuttons - needed for edge detect
-	process (i_CLOCK_50, w_loadStrobe)
-	begin
-		if rising_edge(i_CLOCK_50) then
-			if  w_loadStrobe = '1' then
-				w_PBDelay <= w_debouncedPBs;
-			elsif w_ldStrobe2 = '1' then
-				w_PBDelay <= (others => '0');
-			end if;
-			w_ldStrobe2 <= w_loadStrobe;
-		end if;
-	end process;
-
-	-- Latch the toggle value
-	process (i_CLOCK_50, w_loadStrobe)
-	begin
-		if rising_edge(i_CLOCK_50) then
-			if  w_loadStrobe = '1' then
-				w_togglePinValues <= w_togglePinValues xor w_debouncedPBs xor w_PBDelay;
-			end if;
-		end if;
-	end process;
-	
-	debouncePB : entity work.Debouncer32
-		port map
-		(
-			i_slowClk		=> w_scanStrobe,
-			i_fastClk		=> i_CLOCK_50,
-			i_PinsIn			=> w_latchedPBs,
-			o_LdStrobe		=> w_loadStrobe,
-			o_PinsOut		=> w_debouncedPBs
-		);
-
 	-- Front Panel
 	fp01 : work.FrontPanel01
 		port map
@@ -125,9 +76,11 @@ begin
 			i_CLOCK_50			=> i_CLOCK_50,				-- Clock (50 MHz)
 			i_n_reset			=> w_resdebounced,		-- Reset
 			-- 32 outs, 32 ins
-			i_FPLEDs				=> w_togglePinValues,	-- Out to LEDs (32)
+			i_FPLEDs				=> w_LOOPBACK,				-- Out to LEDs (32)
 			o_PBRaw				=> w_rawPBs,				-- In from Pushbuttons (32)
-			o_scanStrobe		=> w_scanStrobe,
+			o_PBLatched			=> w_PBLatched,
+			o_PBToggled			=> w_LOOPBACK,
+--			o_scanStrobe		=> w_scanStrobe,
 			-- Key (pushbutton) and LED on FPGA card
 			i_key1				=> i_key1,
 			o_UsrLed				=> o_UsrLed,
