@@ -35,7 +35,7 @@ entity FrontPanel01_test is
 		i_key1						: in std_logic := '1';		-- KEY1 on the FPGA card
 		o_UsrLed						: out std_logic := '1';		-- USR LED on the FPGA card
 		--
-		o_testPts					: out std_logic_vector(5 downto 0);
+--		o_testPts					: out std_logic_vector(5 downto 0);
 		-- External I2C connections
 		io_I2C_SCL					: inout std_logic := '0';	-- I2C clock to Front Panel card
 		io_I2C_SDA					: inout std_logic := '1';	-- I2C data to/from Front Panel card
@@ -68,12 +68,12 @@ architecture struct of FrontPanel01_test is
 
 begin
 
-	o_testPts(5) <= w_PBDelay(0);
-	o_testPts(4) <= w_debouncedPBs(0);
-	o_testPts(3) <= w_DATA_LOOPBACK(0);
-	o_testPts(2) <= w_ldStrobe2;
-	o_testPts(1) <= w_loadStrobe;
-	o_testPts(0) <= '0';
+--	o_testPts(5) <= w_PBDelay(0);
+--	o_testPts(4) <= w_debouncedPBs(0);
+--	o_testPts(3) <= w_DATA_LOOPBACK(0);
+--	o_testPts(2) <= w_ldStrobe2;
+--	o_testPts(1) <= w_loadStrobe;
+--	o_testPts(0) <= '0';
 	
 	w_latchedPBs <= w_rawPBs when w_scanStrobe = '1';		-- Latch the pushbuttons when scanStrobe goes active
 
