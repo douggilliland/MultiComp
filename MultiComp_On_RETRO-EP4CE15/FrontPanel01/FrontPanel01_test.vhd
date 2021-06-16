@@ -34,6 +34,8 @@ entity FrontPanel01_test is
 		-- The key and LED on the FPGA card
 		i_key1						: in std_logic := '1';		-- KEY1 on the FPGA card
 		o_UsrLed						: out std_logic := '1';		-- USR LED on the FPGA card
+		--
+		o_testPts					: out std_logic_vector(5 downto 0);
 		-- External I2C connections
 		io_I2C_SCL					: inout std_logic := '0';	-- I2C clock to Front Panel card
 		io_I2C_SDA					: inout std_logic := '1';	-- I2C data to/from Front Panel card
@@ -56,23 +58,32 @@ architecture struct of FrontPanel01_test is
 	signal w_DATA_LOOPBACK	 	:	std_logic_vector(31 downto 0);		-- wrap back Pushbuttons lines to LEDs
 
 	attribute syn_keep: boolean;
-	attribute syn_keep of w_rawPBs:	signal is true;
-	attribute syn_keep of w_latchedPBs:		signal is true;
-	attribute syn_keep of w_ldStrobe2:		signal is true;
---	attribute syn_keep of w_rawPBs			: signal is true;
+	attribute syn_keep of w_rawPBs		:	signal is true;
+	attribute syn_keep of w_latchedPBs	:	signal is true;
+	attribute syn_keep of w_ldStrobe2	:	signal is true;
+--	attribute syn_keep of w_rawPBs		:	signal is true;
 
 --attribute syn_keep: boolean;
 --attribute syn_keep of chain: signal is true;
 
 begin
 
-w_latchedPBs <= w_rawPBs when w_scanStrobe = '1';		-- Latch the pushbuttons when scanStrobe goes active
+	o_testPts(5) <= w_PBDelay(0);
+	o_testPts(4) <= w_debouncedPBs(0);
+	o_testPts(3) <= w_DATA_LOOPBACK(0);
+	o_testPts(2) <= w_ldStrobe2;
+	o_testPts(1) <= w_loadStrobe;
+	o_testPts(0) <= '0';
+	
+	w_latchedPBs <= w_rawPBs when w_scanStrobe = '1';		-- Latch the pushbuttons when scanStrobe goes active
 
 	process (i_CLOCK_50, w_loadStrobe)
 	begin
 		if rising_edge(i_CLOCK_50) then
 			if  w_loadStrobe = '1' then
 				w_PBDelay <= w_debouncedPBs;
+			elsif w_ldStrobe2 = '1' then
+				w_PBDelay <= (others => '0');
 			end if;
 			w_ldStrobe2 <= w_loadStrobe;
 		end if;
@@ -82,13 +93,11 @@ w_latchedPBs <= w_rawPBs when w_scanStrobe = '1';		-- Latch the pushbuttons when
 	begin
 		if rising_edge(i_CLOCK_50) then
 			if  w_loadStrobe = '1' then
---				w_DATA_LOOPBACK <= w_debouncedPBs xor w_PBDelay;
+				w_DATA_LOOPBACK <= w_DATA_LOOPBACK xor w_debouncedPBs xor w_PBDelay;
 			end if;
 		end if;
 	end process;
-
-w_DATA_LOOPBACK <= w_debouncedPBs;
-
+	
 debouncePB : entity work.Debouncer32
 	port map
 	(
@@ -115,7 +124,7 @@ fp_test : work.FrontPanel01
 		i_CLOCK_50			=> i_CLOCK_50,				-- Clock (50 MHz)
 		i_n_reset			=> w_resdebounced,		-- Reset
 		-- 32 outs, 32 ins
-		i_FPLEDs				=> w_debouncedPBs,			-- Out to LEDs (32)
+		i_FPLEDs				=> w_DATA_LOOPBACK,			-- Out to LEDs (32)
 		O_FPPushbuttons	=> w_rawPBs,				-- In from Pushbuttons (32)
 		o_scanStrobe		=> w_scanStrobe,
 		--
