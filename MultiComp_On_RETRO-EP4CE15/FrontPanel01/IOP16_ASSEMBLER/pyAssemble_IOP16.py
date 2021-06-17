@@ -1,3 +1,20 @@
+# IOP16 Assembler
+#
+# Input File Header
+#	['LABEL', 'OPCODE', 'REG_LABEL', 'OFFSET_ADDR', 'COMMENT']
+#
+# Assembler opcodes
+#	NOP - No operation
+#	LRI - Load a register with an immediate value (byte)
+#	IOW - Write a register to an I/O address
+#	IOR - Read an I/O address to a register
+#	ORI - OR a register with an immediate value
+#	ARI - AND a register with an immediate value
+#	BEZ - Branch if equal to zero
+#	BNZ - Branch if not equal to zero
+#	JMP - Jump to an address
+#
+
 import csv
 import string
 import os
@@ -58,7 +75,7 @@ class ControlClass:
 		program = []
 		progCounter = 0
 		for row in inList[1:]:
-			print(row)
+			# print(row)
 			row[1] = row[1].upper()
 			if row[1] != '':
 				if row[1] == 'NOP':
@@ -112,11 +129,11 @@ class ControlClass:
 					print('bad instr', row)
 					assert False,'bad instr'
 				progCounter += 1
-		print('program',program)
+		# print('program',program)
 		annotatedSource = []
 		progOffset = 0
 		for rowOffset in range(len(inList)-1):
-			print(inList[rowOffset])
+			# print(inList[rowOffset])
 			annRow = []
 			annRow.append(inList[rowOffset+1][0])
 			if inList[rowOffset+1][1] != '':
@@ -162,8 +179,8 @@ class ControlClass:
 		"""
 		outFilePathName = inFileName[0:-4] + '.mif'
 		print('outFilePathName',outFilePathName)
-		for row in sourceFile:
-			print(row)
+		# for row in sourceFile:
+			# print(row)
 		outList = []
 		outStr = '-- File: ' + outFilePathName
 		outList.append(outStr)

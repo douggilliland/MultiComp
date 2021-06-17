@@ -1,3 +1,26 @@
+# IOP16 Compiler
+#
+# Input File Header
+#	['LABEL', 'COMMAND', 'I2C_ADDR', '23017_REG', 'VALUE', 'COMMENT']
+#
+# Macros
+#	WI2C3_CONST	- Wrie a constant value to an MCP23017
+#	RI2C3_REG	- Read a byte from an MCP23017 to a register
+#	WI2C3_REG	- Wrie a register value to an MCP23017
+#	HALT		- Jump to self
+#
+# Assembler pass-throughs
+#	NOP - No operation
+#	LRI - Load a register with an immediate value (byte)
+#	IOW - Write a register to an I/O address
+#	IOR - Read an I/O address to a register
+#	ORI - OR a register with an immediate value
+#	ARI - AND a register with an immediate value
+#	BEZ - Branch if equal to zero
+#	BNZ - Branch if not equal to zero
+#	JMP - Jump to an address
+#
+
 import csv
 import string
 import os
@@ -20,7 +43,7 @@ from tkinter import messagebox
 
 defaultPath = '.'
 
-class ControlClass:
+class CompileClass:
 	"""Methods to read tindie or Kickstarter files and write out USPS and PayPal lists.
 	"""
 	def doConvert(self):
@@ -200,14 +223,6 @@ class ControlClass:
 				outList.append([label + '_3','IOR','0X07','0X05','POLL I2C STATUS BUSY'])
 				outList.append(['','ARI','0X07','0X01','MASK BUSY BIT'])
 				outList.append(['','BNZ',label + '_3','','LOOP BACK IF STILL BUSY'])
-			elif command == 'JMP':
-				outList.append([label,'JMP',i2cAddr,'',''])
-			elif command == 'LRI':
-				outList.append([label,'LRI',i2cAddr,mcpReg,comment])
-			elif command == 'IOW':
-				outList.append([label,'IOW',i2cAddr,mcpReg,comment])
-			elif command == 'IOR':
-				outList.append([label,'IOR',i2cAddr,mcpReg,comment])
 			elif command == 'HALT':
 				outLine = []
 				outLine.append('HALT')
@@ -216,6 +231,24 @@ class ControlClass:
 				outLine.append('')
 				outLine.append('LOOP FOREVER')
 				outList.append(outLine)
+			elif command == 'NOP':
+				outList.append([label,'NOP',i2cAddr,mcpReg,comment])
+			elif command == 'LRI':
+				outList.append([label,'LRI',i2cAddr,mcpReg,comment])
+			elif command == 'IOW':
+				outList.append([label,'IOW',i2cAddr,mcpReg,comment])
+			elif command == 'IOR':
+				outList.append([label,'IOR',i2cAddr,mcpReg,comment])
+			elif command == 'ORI':
+				outList.append([label,'ORI',i2cAddr,mcpReg,comment])
+			elif command == 'ARI':
+				outList.append([label,'ARI',i2cAddr,mcpReg,comment])
+			elif command == 'BEZ':
+				outList.append([label,'BEZ',i2cAddr,mcpReg,comment])
+			elif command == 'BNZ':
+				outList.append([label,'BNZ',i2cAddr,mcpReg,comment])
+			elif command == 'JMP':
+				outList.append([label,'JMP',i2cAddr,'',''])
 			else:
 				assert False,'bad command'
 		# for row in outList:
@@ -248,6 +281,6 @@ class Dashboard:
 if __name__ == "__main__":
 	if version_info.major != 3:
 		errorDialog("Requires Python 3")
-	control = ControlClass()
+	control = CompileClass()
 	x = Dashboard()
 	x.add_menu()

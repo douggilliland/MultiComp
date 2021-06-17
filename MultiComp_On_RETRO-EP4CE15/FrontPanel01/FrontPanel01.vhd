@@ -14,7 +14,7 @@
 --		https://github.com/douggilliland/R32V2020/blob/master/Programs/Common/mcp23008.asm
 --		https://github.com/douggilliland/R32V2020/blob/master/Programs/Common/i2c.asm
 -- 
--- C code example I wrote for my 3 chip Z80 design (functionally similar, different i2c controller chips)
+-- C code example for my 3 chip Z80 design (functionally similar, different i2c controller chips)
 --		https://github.com/douggilliland/Retro-Computers/blob/master/Z80/PSOC/PSOC_Design_Files/Z80-PSoC-3-Chips_002/Z80_3Chip.cydsn/FrontPanel.c
 --		https://github.com/douggilliland/Retro-Computers/blob/master/Z80/PSOC/PSOC_Design_Files/Z80-PSoC-3-Chips_002/Z80_3Chip.cydsn/FrontPanel.h
 --	---------------------------------------------------------------------------------------------------------
@@ -25,26 +25,26 @@ use  IEEE.STD_LOGIC_ARITH.all;
 use  IEEE.STD_LOGIC_UNSIGNED.all;
 
 entity FrontPanel01 is
-	port
-	(
-		-- Clock and reset
-		i_CLOCK_50					: in std_logic := '1';
-		i_n_reset					: in std_logic := '1';
-		-- 32 LEDs(outs), 32 Pushbuttons (ins)
-		i_FPLEDs						: in std_logic_vector(31 downto 0);
-		o_PBRaw						: out std_logic_vector(31 downto 0);
-		o_PBLatched					: out std_logic_vector(31 downto 0);
-		o_PBToggled					: out std_logic_vector(31 downto 0);
+port
+(
+	-- Clock and reset
+	i_CLOCK_50					: in std_logic := '1';
+	i_n_reset					: in std_logic := '1';
+	-- 32 LEDs(outs), 32 Pushbuttons (ins)
+	i_FPLEDs						: in std_logic_vector(31 downto 0);
+	o_PBRaw						: out std_logic_vector(31 downto 0);
+	o_PBLatched					: out std_logic_vector(31 downto 0);
+	o_PBToggled					: out std_logic_vector(31 downto 0);
 --		o_scanStrobe				: out std_logic := '1';
-		-- The key and LED on the FPGA card
-		i_key1						: in std_logic := '1';
-		o_UsrLed						: out std_logic := '1';
-		-- External I2C connections
-		io_I2C_SCL					: inout std_logic;
-		io_I2C_SDA					: inout std_logic := '1';
-		i_I2C_INTn					: in std_logic := '1'
-	);
-	end FrontPanel01;
+	-- The key and LED on the FPGA card
+	i_key1						: in std_logic := '1';
+	o_UsrLed						: out std_logic := '1';
+	-- External I2C connections
+	io_I2C_SCL					: inout std_logic;
+	io_I2C_SDA					: inout std_logic := '1';
+	i_I2C_INTn					: in std_logic := '1'
+);
+end FrontPanel01;
 
 architecture struct of FrontPanel01 is
 	-- 
