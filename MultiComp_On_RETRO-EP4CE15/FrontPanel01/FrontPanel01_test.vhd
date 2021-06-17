@@ -63,7 +63,7 @@ begin
 	debounceReset : entity work.Debouncer
 		port map
 		(
-			i_clk				=> i_n_reset,
+			i_clk				=> i_CLOCK_50,
 			i_PinIn			=> i_n_reset,
 			o_PinOut			=> w_resdebounced
 		);
