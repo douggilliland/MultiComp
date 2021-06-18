@@ -80,7 +80,7 @@ clk => w_PC_out[8].CLK
 clk => w_PC_out[9].CLK
 clk => w_PC_out[10].CLK
 clk => w_PC_out[11].CLK
-clk => iop_rom:IopRom.clock
+clk => iop_rom:GEN_256W_INST_ROM:IopRom.clock
 clk => regfile8x8:RegFile.i_clk
 resetN => regfile8x8:RegFile.i_resetN
 resetN => graycounter:greyLow.Rst
@@ -139,7 +139,7 @@ output[1] <= Currstate[1].DB_MAX_OUTPUT_PORT_TYPE
 output[2] <= Currstate[2].DB_MAX_OUTPUT_PORT_TYPE
 
 
-|ANSITerm1|IOP16:IOP16|IOP_ROM:IopRom
+|ANSITerm1|IOP16:IOP16|IOP_ROM:\GEN_256W_INST_ROM:IopRom
 address[0] => altsyncram:altsyncram_component.address_a[0]
 address[1] => altsyncram:altsyncram_component.address_a[1]
 address[2] => altsyncram:altsyncram_component.address_a[2]
@@ -167,7 +167,7 @@ q[14] <= altsyncram:altsyncram_component.q_a[14]
 q[15] <= altsyncram:altsyncram_component.q_a[15]
 
 
-|ANSITerm1|IOP16:IOP16|IOP_ROM:IopRom|altsyncram:altsyncram_component
+|ANSITerm1|IOP16:IOP16|IOP_ROM:\GEN_256W_INST_ROM:IopRom|altsyncram:altsyncram_component
 wren_a => ~NO_FANOUT~
 rden_a => ~NO_FANOUT~
 wren_b => ~NO_FANOUT~
@@ -232,7 +232,7 @@ eccstatus[1] <= <GND>
 eccstatus[2] <= <GND>
 
 
-|ANSITerm1|IOP16:IOP16|IOP_ROM:IopRom|altsyncram:altsyncram_component|altsyncram_gd54:auto_generated
+|ANSITerm1|IOP16:IOP16|IOP_ROM:\GEN_256W_INST_ROM:IopRom|altsyncram:altsyncram_component|altsyncram_gd54:auto_generated
 address_a[0] => altsyncram_bs53:altsyncram1.address_a[0]
 address_a[1] => altsyncram_bs53:altsyncram1.address_a[1]
 address_a[2] => altsyncram_bs53:altsyncram1.address_a[2]
@@ -260,7 +260,7 @@ q_a[14] <= altsyncram_bs53:altsyncram1.q_a[14]
 q_a[15] <= altsyncram_bs53:altsyncram1.q_a[15]
 
 
-|ANSITerm1|IOP16:IOP16|IOP_ROM:IopRom|altsyncram:altsyncram_component|altsyncram_gd54:auto_generated|altsyncram_bs53:altsyncram1
+|ANSITerm1|IOP16:IOP16|IOP_ROM:\GEN_256W_INST_ROM:IopRom|altsyncram:altsyncram_component|altsyncram_gd54:auto_generated|altsyncram_bs53:altsyncram1
 address_a[0] => ram_block3a0.PORTAADDR
 address_a[0] => ram_block3a1.PORTAADDR
 address_a[0] => ram_block3a2.PORTAADDR
@@ -615,7 +615,7 @@ wren_b => ram_block3a14.PORTBWE
 wren_b => ram_block3a15.PORTBWE
 
 
-|ANSITerm1|IOP16:IOP16|IOP_ROM:IopRom|altsyncram:altsyncram_component|altsyncram_gd54:auto_generated|sld_mod_ram_rom:mgl_prim2
+|ANSITerm1|IOP16:IOP16|IOP_ROM:\GEN_256W_INST_ROM:IopRom|altsyncram:altsyncram_component|altsyncram_gd54:auto_generated|sld_mod_ram_rom:mgl_prim2
 tck_usr <= sld_jtag_endpoint_adapter:jtag_signal_adapter.adapted_tck
 address[0] <= ram_rom_addr_reg[0].DB_MAX_OUTPUT_PORT_TYPE
 address[1] <= ram_rom_addr_reg[1].DB_MAX_OUTPUT_PORT_TYPE
@@ -699,7 +699,7 @@ ir_out[7] <= sld_jtag_endpoint_adapter:jtag_signal_adapter.ir_out[7]
 tdo <= sld_jtag_endpoint_adapter:jtag_signal_adapter.tdo
 
 
-|ANSITerm1|IOP16:IOP16|IOP_ROM:IopRom|altsyncram:altsyncram_component|altsyncram_gd54:auto_generated|sld_mod_ram_rom:mgl_prim2|sld_jtag_endpoint_adapter:jtag_signal_adapter
+|ANSITerm1|IOP16:IOP16|IOP_ROM:\GEN_256W_INST_ROM:IopRom|altsyncram:altsyncram_component|altsyncram_gd54:auto_generated|sld_mod_ram_rom:mgl_prim2|sld_jtag_endpoint_adapter:jtag_signal_adapter
 raw_tck => sld_jtag_endpoint_adapter_impl:sld_jtag_endpoint_adapter_impl_inst.raw_tck
 raw_tms => sld_jtag_endpoint_adapter_impl:sld_jtag_endpoint_adapter_impl_inst.raw_tms
 tdi => sld_jtag_endpoint_adapter_impl:sld_jtag_endpoint_adapter_impl_inst.tdi
@@ -782,7 +782,7 @@ adapted_ir_out[6] => sld_jtag_endpoint_adapter_impl:sld_jtag_endpoint_adapter_im
 adapted_ir_out[7] => sld_jtag_endpoint_adapter_impl:sld_jtag_endpoint_adapter_impl_inst.adapted_ir_out[7]
 
 
-|ANSITerm1|IOP16:IOP16|IOP_ROM:IopRom|altsyncram:altsyncram_component|altsyncram_gd54:auto_generated|sld_mod_ram_rom:mgl_prim2|sld_jtag_endpoint_adapter:jtag_signal_adapter|sld_jtag_endpoint_adapter_impl:sld_jtag_endpoint_adapter_impl_inst
+|ANSITerm1|IOP16:IOP16|IOP_ROM:\GEN_256W_INST_ROM:IopRom|altsyncram:altsyncram_component|altsyncram_gd54:auto_generated|sld_mod_ram_rom:mgl_prim2|sld_jtag_endpoint_adapter:jtag_signal_adapter|sld_jtag_endpoint_adapter_impl:sld_jtag_endpoint_adapter_impl_inst
 raw_tck => adapted_tck.DATAIN
 raw_tms => adapted_tms.DATAIN
 tdi => adapted_tdi.DATAIN
@@ -865,7 +865,7 @@ adapted_ir_out[6] => ir_out[6].DATAIN
 adapted_ir_out[7] => ir_out[7].DATAIN
 
 
-|ANSITerm1|IOP16:IOP16|IOP_ROM:IopRom|altsyncram:altsyncram_component|altsyncram_gd54:auto_generated|sld_mod_ram_rom:mgl_prim2|sld_rom_sr:\ram_rom_logic_gen:name_gen:info_rom_sr
+|ANSITerm1|IOP16:IOP16|IOP_ROM:\GEN_256W_INST_ROM:IopRom|altsyncram:altsyncram_component|altsyncram_gd54:auto_generated|sld_mod_ram_rom:mgl_prim2|sld_rom_sr:\ram_rom_logic_gen:name_gen:info_rom_sr
 ROM_DATA[0] => Mux3.IN131
 ROM_DATA[1] => Mux2.IN131
 ROM_DATA[2] => Mux1.IN131
