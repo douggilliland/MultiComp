@@ -35,8 +35,11 @@ use IEEE.STD_LOGIC_ARITH.ALL;
 use IEEE.STD_LOGIC_UNSIGNED.ALL;
 
 ENTITY IOP16 IS
-	PORT
+	generic 
 	(
+		constant INST_SRAM_SIZE_PASS 	: integer := 4096
+	);
+	PORT (
 		clk			: IN std_logic;
 		resetN		: IN std_logic;
 		periphIn		: IN std_logic_vector(7 DOWNTO 0);				-- Data from peripheral
@@ -114,13 +117,60 @@ BEGIN
 	);
 	
 	-- IO Processor ROM
-	IopRom : ENTITY work.IOP_ROM
-	PORT map
-	(
-		address		=> w_PC_out(7 downto 0),
-		clock			=> clk,
-		q				=> w_RomData
-	);
+	GEN_4KW_INST_ROM: if (INST_SRAM_SIZE_PASS=4096) generate
+		begin
+		IopRom : ENTITY work.IOP_ROM
+		PORT map
+		(
+			address		=> w_PC_out,
+			clock			=> clk,
+			q				=> w_RomData
+		);
+	end generate GEN_4KW_INST_ROM;
+	
+	GEN_2KW_INST_ROM: if (INST_SRAM_SIZE_PASS=2048) generate
+		begin
+		IopRom : ENTITY work.IOP_ROM
+		PORT map
+		(
+			address		=> w_PC_out(10 downto 0),
+			clock			=> clk,
+			q				=> w_RomData
+		);
+	end generate GEN_2KW_INST_ROM;
+	
+	GEN_1KW_INST_ROM: if (INST_SRAM_SIZE_PASS=1024) generate
+		begin
+		IopRom : ENTITY work.IOP_ROM
+		PORT map
+		(
+			address		=> w_PC_out(8 downto 0),
+			clock			=> clk,
+			q				=> w_RomData
+		);
+	end generate GEN_1KW_INST_ROM;
+	
+	GEN_512W_INST_ROM: if (INST_SRAM_SIZE_PASS=512) generate
+		begin
+		IopRom : ENTITY work.IOP_ROM
+		PORT map
+		(
+			address		=> w_PC_out(8 downto 0),
+			clock			=> clk,
+			q				=> w_RomData
+		);
+	end generate GEN_512W_INST_ROM;
+	
+	GEN_256W_INST_ROM: if (INST_SRAM_SIZE_PASS=256) generate
+		begin
+		IopRom : ENTITY work.IOP_ROM
+		PORT map
+		(
+			address		=> w_PC_out(7 downto 0),
+			clock			=> clk,
+			q				=> w_RomData
+		);
+	end generate GEN_256W_INST_ROM;
 	
 	-- Program Counter (PC)
 	StateReg: PROCESS (clk, resetN, w_incPC, w_ldPC)

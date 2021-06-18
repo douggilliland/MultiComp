@@ -113,6 +113,9 @@ begin
 
 	-- I/O Processor
 	IOP16: ENTITY work.IOP16
+	generic map 	( 
+		INST_SRAM_SIZE_PASS	=> 256
+	)
 		PORT map
 		(
 			clk				=> i_CLOCK_50,
