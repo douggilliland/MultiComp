@@ -99,13 +99,13 @@ signal rxFilter : integer range 0 to 50;
 
 signal rxdFiltered : std_logic := '1';
 
--- control reg
+-- control reg (regsel=0)
 --     7               6                     5              4          3        2         1         0
 -- Rx int en | Tx control (INT/RTS) | Tx control (RTS) | ignored | ignored | ignored | reset A | reset B
 --             [        0                   1         ] = RTS LOW
 --                                                                             RESET = [  1         1  ]
 
--- status reg
+-- status reg (regsel=0)
 --     7              6                5         4          3        2         1            0
 --    irq   |   parity error      | overrun | frame err | n_cts  | n_dcd |  tx empty | rx not empty
 --            always 0 (no parity)    n/a        n/a
