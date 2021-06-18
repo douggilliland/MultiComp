@@ -173,12 +173,12 @@ begin
 		);
 
 	BAUDRATEGEN	:	ENTITY work.BaudRate6850
-	GENERIC map (
-		BAUD_RATE	=> 115200
-	)
-	PORT map (
-		i_CLOCK_50			=> i_CLOCK_50,
-		o_serialEn			=> serialEn
+		GENERIC map (
+			BAUD_RATE	=> 115200
+		)
+		PORT map (
+			i_CLOCK_50			=> i_CLOCK_50,
+			o_serialEn			=> serialEn
 	);
 
 	UART: entity work.bufferedUART
