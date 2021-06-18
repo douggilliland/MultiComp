@@ -11,6 +11,9 @@
 --		8  - Status LEDs
 --		8  - Control pusbuttons
 --
+--	IOP16 code
+--		https://github.com/douggilliland/MultiComp/tree/ANSI_Terminal_Working/MultiComp%20(VHDL%20Template)/Components/CPU/IOP16
+--
 -- R32V2020 assembly code example works with this same I2C controller
 --		https://github.com/douggilliland/R32V2020/blob/master/Programs/Common/mcp23008.asm
 --		https://github.com/douggilliland/R32V2020/blob/master/Programs/Common/i2c.asm

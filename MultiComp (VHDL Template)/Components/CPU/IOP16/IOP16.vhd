@@ -144,7 +144,7 @@ BEGIN
 		IopRom : ENTITY work.IOP_ROM
 		PORT map
 		(
-			address		=> w_PC_out(8 downto 0),
+			address		=> w_PC_out(9 downto 0),
 			clock			=> clk,
 			q				=> w_RomData
 		);
