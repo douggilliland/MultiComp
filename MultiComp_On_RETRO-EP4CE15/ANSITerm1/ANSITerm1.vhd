@@ -2,6 +2,8 @@
 -- ANSI Terminal
 --		Reads keyboard and writes to UART
 --		Reads UART and writes to the screen
+--		Supports Grant Searle's ANSI escape sequences
+--			http://searle.x10host.com/Multicomp/index.html#ANSICodes
 --
 --	VGA
 --		80x24
