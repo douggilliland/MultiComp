@@ -270,22 +270,23 @@ class ControlClass:
 						if not (ioRd or ioWr):
 							outStr += cell + '\t'
 						else:
-							if cell == '0X04':
-								outStr += 'I2C_DAT' + '\t'
-							elif (cell == '0X05') and ioRd:
-								outStr += 'I2C_STA' + '\t'
-							elif (cell == '0X05') and ioWr:
-								outStr += 'I2C_CTL' + '\t'
-							elif (cell == '0X00') and ioWr:
-								outStr += 'LEDS0' + '\t'
-							elif (cell == '0X01') and ioWr:
-								outStr += 'LEDS1' + '\t'
-							elif (cell == '0X02') and ioWr:
-								outStr += 'LEDS2' + '\t'
-							elif (cell == '0X02') and ioWr:
-								outStr += 'LEDS3' + '\t'
-							else:
-								outStr += 'TBDIO' + '\t'
+							# if cell == '0X04':
+								# outStr += 'I2C_DAT' + '\t'
+							# elif (cell == '0X05') and ioRd:
+								# outStr += 'I2C_STA' + '\t'
+							# elif (cell == '0X05') and ioWr:
+								# outStr += 'I2C_CTL' + '\t'
+							# elif (cell == '0X00') and ioWr:
+								# outStr += 'LEDS0' + '\t'
+							# elif (cell == '0X01') and ioWr:
+								# outStr += 'LEDS1' + '\t'
+							# elif (cell == '0X02') and ioWr:
+								# outStr += 'LEDS2' + '\t'
+							# elif (cell == '0X02') and ioWr:
+								# outStr += 'LEDS3' + '\t'
+							# else:
+								# outStr += 'TBDIO' + '\t'
+							outStr += 'IO_' + cell[2:] + '\t'
 					else:
 						outStr += cell + '\t'
 				cellOff += 1

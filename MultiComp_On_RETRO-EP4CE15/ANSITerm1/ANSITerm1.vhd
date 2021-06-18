@@ -61,8 +61,8 @@ architecture struct of ANSITerm1 is
 	signal w_wrUart				:	std_logic;
 	signal w_rdUart				:	std_logic;
 	signal w_UartDataOut			:	std_logic_vector(7 downto 0);
-   signal serialCount   		: std_logic_vector(15 downto 0) := x"0000";
-   signal serialCount_d			: std_logic_vector(15 downto 0);
+	
+	-- Serial clock enable
    signal serialEn      		: std_logic;
 	
 	signal w_wrTerm				:	std_logic;
@@ -128,28 +128,15 @@ begin
 		);
 	
 	-- ANSI Display
+	-- Resource usage can be reduced by changing the generics below
 	ANSIDisplay: entity work.ANSIDisplayVGA	
-	--	generic(
-	--		constant EXTENDED_CHARSET : integer := 1; -- 1 = 256 chars, 0 = 128 chars
-	--		constant COLOUR_ATTS_ENABLED : integer := 1; -- 1=Colour for each character, 0=Colour applied to whole display
-	--		-- VGA 640x480 Default values
-	--		constant VERT_CHARS : integer := 25;
-	--		constant HORIZ_CHARS : integer := 80;
-	--		constant CLOCKS_PER_SCANLINE : integer := 1600; -- NTSC/PAL = 3200
-	--		constant DISPLAY_TOP_SCANLINE : integer := 35+40;
-	--		constant DISPLAY_LEFT_CLOCK : integer := 288; -- NTSC/PAL = 600+
-	--		constant VERT_SCANLINES : integer := 525; -- NTSC=262, PAL=312
-	--		constant VSYNC_SCANLINES : integer := 2; -- NTSC/PAL = 4
-	--		constant HSYNC_CLOCKS : integer := 192;  -- NTSC/PAL = 235
-	--		constant VERT_PIXEL_SCANLINES : integer := 2;
-	--		constant CLOCKS_PER_PIXEL : integer := 2; -- min = 2
-	--		constant H_SYNC_ACTIVE : std_logic := '0';
-	--		constant V_SYNC_ACTIVE : std_logic := '0';
-	--
-	--		constant DEFAULT_ATT : std_logic_vector(7 downto 0) := "00001111"; -- background iBGR | foreground iBGR (i=intensity)
-	--		constant ANSI_DEFAULT_ATT : std_logic_vector(7 downto 0) := "00000111"; -- background iBGR | foreground iBGR (i=intensity)
-	--		constant SANS_SERIF_FONT : integer := 1 -- 0 => use conventional CGA font, 1 => use san serif font
-	--	);
+	generic map	(
+		EXTENDED_CHARSET 		=>	0,		 		-- 1 = 256 chars, 0 = 128 chars
+		COLOUR_ATTS_ENABLED	=> 1,				-- 1 = Color for each character, 0 = Color applied to whole display
+		DEFAULT_ATT				=> "00001111", -- background iBGR | foreground iBGR (i=intensity)
+		ANSI_DEFAULT_ATT		=> "00000111",	-- background iBGR | foreground iBGR (i=intensity)
+		SANS_SERIF_FONT		=> 0				-- 0 => use conventional CGA font, 1 => use san serif font
+		)
 		port map (
 			n_reset		=> w_resetClean_n,
 			clk			=> i_CLOCK_50,
@@ -185,6 +172,15 @@ begin
 			o_kbdDat			=> w_KbdData
 		);
 
+	BAUDRATEGEN	:	ENTITY work.BaudRate6850
+	GENERIC map (
+		BAUD_RATE	=> 115200
+	)
+	PORT map (
+		i_CLOCK_50			=> i_CLOCK_50,
+		o_serialEn			=> serialEn
+	);
+
 	UART: entity work.bufferedUART
 		port map (
 			clk     			=> i_CLOCK_50,
@@ -205,23 +201,5 @@ begin
    );
 
 		-- ____________________________________________________________________________________
-	-- Baud Rate CLOCK SIGNALS
-	baud_div: process (serialCount_d, serialCount)
-		 begin
-			  serialCount_d <= serialCount + 2416;
-		 end process;
-
-	process (i_CLOCK_50)
-		begin
-			if rising_edge(i_CLOCK_50) then
-			  -- Enable for baud rate generator
-			  serialCount <= serialCount_d;
-			  if serialCount(15) = '0' and serialCount_d(15) = '1' then
-					serialEn <= '1';
-			  else
-					serialEn <= '0';
-			  end if;
-			end if;
-		end process;
 
 end;
