@@ -1,12 +1,25 @@
 --	---------------------------------------------------------------------------------------------------------
 -- ANSI Terminal
+--		Reads keyboard and writes to UART
+--		Reads UART and writes to the screen
+--
+--	VGA
+--		80x24
+-- PS/2 keyboard
+--	6850 UART
+--
+-- IOP16 CPU
+--		Custom 16 bit I/O Processor
+--		Minimal Intruction set (enough for basic I/O)
+--		8 Clocks per instruction at 50 MHz = 6.25 MIPS
+--
 -- IOP16 mEMORY mAP
--- 0X00 - UART (c/S) (r/w)
--- 0X01 - UART (Data) (r/w)
--- 0X02 - DISPLAY (c/S) (w)
--- 0X03 - DISPLAY (Data) (w)
--- 0X04 - KBD (c/S) (r)
--- 0X05 - KBD (Data) (r) 
+--		0X00 - UART (c/S) (r/w)
+-- 	0X01 - UART (Data) (r/w)
+-- 	0X02 - DISPLAY (c/S) (w)
+-- 	0X03 - DISPLAY (Data) (w)
+-- 	0X04 - KBD (c/S) (r)
+-- 	0X05 - KBD (Data) (r) 
  
 --	---------------------------------------------------------------------------------------------------------
 
@@ -112,6 +125,7 @@ begin
 		);
 
 	-- I/O Processor
+	-- Set ROM size in generic INST_SRAM_SIZE_PASS
 	IOP16: ENTITY work.IOP16
 	generic map 	( 
 		INST_SRAM_SIZE_PASS	=> 256
@@ -131,22 +145,24 @@ begin
 	-- Resource usage can be reduced by changing the generics below
 	ANSIDisplay: entity work.ANSIDisplayVGA	
 	generic map	(
-		EXTENDED_CHARSET 		=>	0,		 		-- 1 = 256 chars, 0 = 128 chars
-		COLOUR_ATTS_ENABLED	=> 1,				-- 1 = Color for each character, 0 = Color applied to whole display
+		EXTENDED_CHARSET 		=>	0,		 		-- 1 = 256 chars
+														-- 0 = 128 chars
+		COLOUR_ATTS_ENABLED	=> 1,				-- 1 = Color for each character
+														-- 0 = Color applied to whole display
 		DEFAULT_ATT				=> "00001111", -- background iBGR | foreground iBGR (i=intensity)
 		ANSI_DEFAULT_ATT		=> "00000111",	-- background iBGR | foreground iBGR (i=intensity)
-		SANS_SERIF_FONT		=> 0				-- 0 => use conventional CGA font, 1 => use san serif font
+		SANS_SERIF_FONT		=> 1				-- 0 => use conventional CGA font
+														-- 1 => use san serif font
 		)
 		port map (
 			n_reset		=> w_resetClean_n,
 			clk			=> i_CLOCK_50,
 			n_wr			=> w_wrTerm,
+			-- CPU interface
 			n_rd			=> w_rdTerm,
 			regSel		=> w_periphAdr(0),
 			dataIn		=> w_periphOut,
 			dataOut		=> w_TermDataOut,
---			n_int			=> ,
-
 			-- RGB video signals
 			videoR0		=> o_videoR0,
 			videoR1		=> o_videoR1,
@@ -154,7 +170,7 @@ begin
 			videoG1		=> o_videoG1,
 			videoB0		=> o_videoB0,
 			videoB1		=> o_videoB1,
---			o_hActive	=> ,
+--			o_hActive	=> ,					- Use to force background color by replacing videoXx with o_hActive
 			hSync  		=> o_hSync,
 			vSync  		=> o_vSync
 	 );
@@ -172,6 +188,9 @@ begin
 			o_kbdDat			=> w_KbdData
 		);
 
+	-- Baud Rate Generator
+	-- These clock enables are asserted for one period of input clk, at 16x the baud rate.
+	-- Set baud rate in BAUD_RATE generic
 	BAUDRATEGEN	:	ENTITY work.BaudRate6850
 		GENERIC map (
 			BAUD_RATE	=> 115200
@@ -181,6 +200,7 @@ begin
 			o_serialEn			=> serialEn
 	);
 
+	-- 6850 style UART
 	UART: entity work.bufferedUART
 		port map (
 			clk     			=> i_CLOCK_50,
@@ -189,9 +209,6 @@ begin
 			regSel  			=> w_periphAdr(0),
 			dataIn  			=> w_periphOut,
 			dataOut 			=> w_UartDataOut,
-	--		n_int   			=> ,
-						 -- these clock enables are asserted for one period of input clk,
-						 -- at 16x the baud rate.
 			rxClkEn 			=> serialEn,
 			txClkEn 			=> serialEn,
 			rxd     			=> urxd1,
@@ -200,6 +217,6 @@ begin
 			n_cts   			=> ucts1
    );
 
-		-- ____________________________________________________________________________________
+	-- ____________________________________________________________________________________
 
 end;
