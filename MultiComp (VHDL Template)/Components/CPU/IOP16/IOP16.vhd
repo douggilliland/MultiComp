@@ -81,6 +81,8 @@ ARCHITECTURE IOP16_beh OF IOP16 IS
 	
 	attribute syn_keep	: boolean;
 	attribute syn_keep of w_lowCount			: signal is true;
+	attribute syn_keep of w_PC_out			: signal is true;
+	
 
 BEGIN
 
@@ -115,7 +117,7 @@ BEGIN
 	IopRom : ENTITY work.IOP_ROM
 	PORT map
 	(
-		address		=> w_PC_out(10 downto 0),
+		address		=> w_PC_out(7 downto 0),
 		clock			=> clk,
 		q				=> w_RomData
 	);
@@ -171,7 +173,9 @@ BEGIN
 
 	-- Controls
 	periphWr <= '1' when (w_OP_IOW = '1') and (w_lowCount="111") else '0';
-	periphRd <= '1' when (w_OP_IOR = '1') and (w_lowCount="111") else '0';
+	periphRd <= '1' when (w_OP_IOR = '1') and (w_lowCount(2 DOWNTO 1)="11") else 
+					'1' when (w_OP_IOR = '1') and (w_lowCount(2 DOWNTO 1)="11") else 
+					'0';
 
 	-- Peripheral output data bus
 	periphOut <= 	w_AluInA when (w_OP_IOW = '1') else
@@ -197,7 +201,7 @@ BEGIN
 	w_wrRegF <= '1' when (w_OP_ARI = '1') and (w_lowCount="110") else
 					'1' when (w_OP_ORI = '1') and (w_lowCount="110") else
 					'1' when (w_OP_LRI = '1') and (w_lowCount="110") else
-					'1' when (w_OP_IOR = '1') and (w_lowCount="110") else
+					'1' when (w_OP_IOR = '1') and (w_lowCount="101") else
 					'0';
 					
 END IOP16_beh;

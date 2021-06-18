@@ -55,6 +55,7 @@ set_global_assignment -name PARTITION_NETLIST_TYPE SOURCE -section_id Top
 set_global_assignment -name PARTITION_FITTER_PRESERVATION_LEVEL PLACEMENT_AND_ROUTING -section_id Top
 set_global_assignment -name PARTITION_COLOR 16764057 -section_id Top
 # CONNECT_TO_SLD_NODE_ENTITY_PORTLOCK, RESET
+# Clock, Reset
 set_location_assignment PIN_T2 -to i_CLOCK_50
 set_location_assignment PIN_W13 -to i_n_reset
 set_instance_assignment -name WEAK_PULL_UP_RESISTOR ON -to i_n_reset
@@ -62,20 +63,12 @@ set_instance_assignment -name WEAK_PULL_UP_RESISTOR ON -to i_n_reset
 set_location_assignment PIN_Y13 -to i_key1
 set_instance_assignment -name WEAK_PULL_UP_RESISTOR ON -to i_key1
 set_location_assignment PIN_E4 -to o_UsrLed
-# 
-set_location_assignment PIN_B21 -to o_testPts[1]
-set_location_assignment PIN_N20 -to o_testPts[2]
-set_location_assignment PIN_N19 -to o_testPts[3]
-set_location_assignment PIN_M20 -to o_testPts[4]
-set_location_assignment PIN_M19 -to o_testPts[5]
-# 
-set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to i_CLOCK_50
-set_global_assignment -name ENABLE_SIGNALTAP OFF
-set_global_assignment -name USE_SIGNALTAP_FILE stp1.stp
-set_global_assignment -name TIMING_ANALYZER_MULTICORNER_ANALYSIS ON
-set_global_assignment -name SMART_RECOMPILE ON
+# PS/2 keyboard
 set_location_assignment PIN_R1 -to io_PS2_CLK
+set_instance_assignment -name WEAK_PULL_UP_RESISTOR ON -to io_PS2_CLK
 set_location_assignment PIN_R2 -to io_PS2_DAT
+set_instance_assignment -name WEAK_PULL_UP_RESISTOR ON -to io_PS2_DAT
+# Video
 set_location_assignment PIN_B18 -to o_hSync
 set_location_assignment PIN_B17 -to o_videoB0
 set_location_assignment PIN_A17 -to o_videoB1
@@ -84,19 +77,32 @@ set_location_assignment PIN_A16 -to o_videoG1
 set_location_assignment PIN_B15 -to o_videoR0
 set_location_assignment PIN_A15 -to o_videoR1
 set_location_assignment PIN_A18 -to o_vSync
+# Serial
 set_location_assignment PIN_B22 -to serSelect
+set_instance_assignment -name WEAK_PULL_UP_RESISTOR ON -to serSelect
 set_location_assignment PIN_A13 -to ucts1
 set_location_assignment PIN_A10 -to urts1
 set_location_assignment PIN_B13 -to urxd1
 set_location_assignment PIN_B10 -to utxd1
+# Test Points
+set_location_assignment PIN_B21 -to o_testPts[1]
+set_location_assignment PIN_N20 -to o_testPts[2]
+set_location_assignment PIN_N19 -to o_testPts[3]
+set_location_assignment PIN_M20 -to o_testPts[4]
+set_location_assignment PIN_M19 -to o_testPts[5]
+#
+set_global_assignment -name ENABLE_SIGNALTAP OFF
+set_global_assignment -name USE_SIGNALTAP_FILE stp1.stp
+set_global_assignment -name TIMING_ANALYZER_MULTICORNER_ANALYSIS ON
+set_global_assignment -name SMART_RECOMPILE ON
+set_global_assignment -name QIP_FILE "../../MultiComp (VHDL Template)/Components/CPU/IOP16/IOP16_ROMs/IOP_ROM_ANSI1/IOP_ROM.qip"
+set_global_assignment -name VHDL_FILE "../../MultiComp (VHDL Template)/Components/CPU/IOP16/RegFile8x8.vhd"
+set_global_assignment -name VHDL_FILE "../../MultiComp (VHDL Template)/Components/CPU/IOP16/IOP16.vhd"
+set_global_assignment -name VHDL_FILE ANSITerm1.vhd
 set_global_assignment -name VHDL_FILE "../../MultiComp (VHDL Template)/Components/PS2KB/ps2_Wrapped/Wrap_Keyboard.vhd"
 set_global_assignment -name VHDL_FILE "../../MultiComp (VHDL Template)/Components/PS2KB/ps2_Wrapped/ps2_keyboard_to_ascii.vhd"
 set_global_assignment -name VHDL_FILE "../../MultiComp (VHDL Template)/Components/PS2KB/ps2_Wrapped/ps2_keyboard.vhd"
 set_global_assignment -name VHDL_FILE "../../MultiComp (VHDL Template)/Components/PS2KB/ps2_Wrapped/debounce.vhd"
-set_global_assignment -name HEX_FILE "../../MultiComp (VHDL Template)/Components/TERMINAL/ANSIDisplayVGA/SansFontBoldReduced.HEX"
-set_global_assignment -name HEX_FILE "../../MultiComp (VHDL Template)/Components/TERMINAL/ANSIDisplayVGA/SansFontBold.HEX"
-set_global_assignment -name HEX_FILE "../../MultiComp (VHDL Template)/Components/TERMINAL/ANSIDisplayVGA/CGAFontBoldReduced.HEX"
-set_global_assignment -name HEX_FILE "../../MultiComp (VHDL Template)/Components/TERMINAL/ANSIDisplayVGA/CGAFontBold.HEX"
 set_global_assignment -name VHDL_FILE "../../MultiComp (VHDL Template)/Components/TERMINAL/ANSIDisplayVGA/SansBoldRomReduced.vhd"
 set_global_assignment -name VHDL_FILE "../../MultiComp (VHDL Template)/Components/TERMINAL/ANSIDisplayVGA/SansBoldRom.vhd"
 set_global_assignment -name VHDL_FILE "../../MultiComp (VHDL Template)/Components/TERMINAL/ANSIDisplayVGA/DisplayRam2K.vhd"
@@ -106,11 +112,7 @@ set_global_assignment -name VHDL_FILE "../../MultiComp (VHDL Template)/Component
 set_global_assignment -name VHDL_FILE "../../MultiComp (VHDL Template)/Components/TERMINAL/ANSIDisplayVGA/ANSIDisplayVGA.vhd"
 set_global_assignment -name VHDL_FILE "../../MultiComp (VHDL Template)/Components/UART/bufferedUART.vhd"
 set_global_assignment -name VHDL_FILE "../../MultiComp (VHDL Template)/Components/Debounce/Debounce.vhd"
-set_global_assignment -name SIGNALTAP_FILE stp1.stp
 set_global_assignment -name VHDL_FILE "../../MultiComp (VHDL Template)/Components/COUNTER/n-bit-gray-counter.vhd"
 set_global_assignment -name VHDL_FILE "../../MultiComp (VHDL Template)/Components/I2C/i2c.vhd"
-set_global_assignment -name VHDL_FILE ANSITerm1.vhd
-set_global_assignment -name VHDL_FILE IOP16.vhd
-set_global_assignment -name QIP_FILE IOP_ROM.qip
-set_global_assignment -name VHDL_FILE RegFile8x8.vhd
+set_global_assignment -name SIGNALTAP_FILE stp1.stp
 set_instance_assignment -name PARTITION_HIERARCHY root_partition -to | -section_id Top
