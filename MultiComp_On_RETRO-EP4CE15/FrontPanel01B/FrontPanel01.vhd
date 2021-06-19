@@ -105,7 +105,7 @@ begin
 	-- 	x05 - I2C Command
 	iop16 : ENTITY work.IOP16
 	generic map 	( 
-		INST_SRAM_SIZE_PASS	=> 1024
+		INST_SRAM_SIZE_PASS	=> 512
 	)
 	PORT map (
 		clk			=> i_CLOCK_50,

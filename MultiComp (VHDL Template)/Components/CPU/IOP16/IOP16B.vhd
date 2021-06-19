@@ -39,7 +39,7 @@ use IEEE.STD_LOGIC_UNSIGNED.ALL;
 ENTITY IOP16 IS
 	generic 
 	(
-		constant INST_SRAM_SIZE_PASS 	: integer := 4096
+		constant INST_SRAM_SIZE_PASS 	: integer := 512
 	);
 	PORT (
 		clk			: IN std_logic;
