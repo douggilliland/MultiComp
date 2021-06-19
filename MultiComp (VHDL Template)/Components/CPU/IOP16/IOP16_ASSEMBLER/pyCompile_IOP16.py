@@ -16,6 +16,8 @@
 #	IOR - Read an I/O address to a register
 #	ORI - OR a register with an immediate value
 #	ARI - AND a register with an immediate value
+#	JSR - Jump to a subroutine (single level only)
+#	RTS - Return from subroutine
 #	BEZ - Branch if equal to zero
 #	BNZ - Branch if not equal to zero
 #	JMP - Jump to an address
@@ -232,23 +234,27 @@ class CompileClass:
 				outLine.append('LOOP FOREVER')
 				outList.append(outLine)
 			elif command == 'NOP':
-				outList.append([label,'NOP',i2cAddr,mcpReg,comment])
+				outList.append([label,command,i2cAddr,mcpReg,comment])
 			elif command == 'LRI':
-				outList.append([label,'LRI',i2cAddr,mcpReg,comment])
+				outList.append([label,command,i2cAddr,mcpReg,comment])
 			elif command == 'IOW':
-				outList.append([label,'IOW',i2cAddr,mcpReg,comment])
+				outList.append([label,command,i2cAddr,mcpReg,comment])
 			elif command == 'IOR':
-				outList.append([label,'IOR',i2cAddr,mcpReg,comment])
+				outList.append([label,command,i2cAddr,mcpReg,comment])
 			elif command == 'ORI':
-				outList.append([label,'ORI',i2cAddr,mcpReg,comment])
+				outList.append([label,command,i2cAddr,mcpReg,comment])
 			elif command == 'ARI':
-				outList.append([label,'ARI',i2cAddr,mcpReg,comment])
+				outList.append([label,command,i2cAddr,mcpReg,comment])
 			elif command == 'BEZ':
-				outList.append([label,'BEZ',i2cAddr,mcpReg,comment])
+				outList.append([label,command,i2cAddr,mcpReg,comment])
 			elif command == 'BNZ':
-				outList.append([label,'BNZ',i2cAddr,mcpReg,comment])
+				outList.append([label,command,i2cAddr,mcpReg,comment])
 			elif command == 'JMP':
-				outList.append([label,'JMP',i2cAddr,'',''])
+				outList.append([label,command,i2cAddr,'',''])
+			elif command == 'JSR':
+				outList.append([label,command,i2cAddr,'',''])
+			elif command == 'RTS':
+				outList.append([label,command,i2cAddr,'',''])
 			else:
 				assert False,'bad command'
 		# for row in outList:

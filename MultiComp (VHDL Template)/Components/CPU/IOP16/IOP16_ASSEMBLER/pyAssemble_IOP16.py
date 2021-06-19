@@ -10,6 +10,8 @@
 #	IOR - Read an I/O address to a register
 #	ORI - OR a register with an immediate value
 #	ARI - AND a register with an immediate value
+#	JSR - Jump to a subroutine (single level only)
+#	RTS - Return from subroutine
 #	BEZ - Branch if equal to zero
 #	BNZ - Branch if not equal to zero
 #	JMP - Jump to an address
@@ -125,6 +127,15 @@ class ControlClass:
 					distStr = self.calcOffsetString(distance)
 					vecStr += distStr
 					program.append(vecStr)
+				elif row[1] == 'JSR':
+					vecStr = '0xA'
+					distance = labelsList[row[2]]
+					distStr = self.calcOffsetString(distance)
+					vecStr += distStr
+					program.append(vecStr)
+				elif row[1] == 'RTS':
+					vecStr = '0xB000'
+					program.append(vecStr) 
 				else:
 					print('bad instr', row)
 					assert False,'bad instr'
