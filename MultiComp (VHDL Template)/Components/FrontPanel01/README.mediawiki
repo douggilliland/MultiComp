@@ -1,0 +1,48 @@
+== Front Panel ==
+
+<img src="http://land-boards.com/blwiki/images/1/1b/EightBitFrontPanel720px.JPG"></img>
+
+=== VHDL Code ===
+
+* VHDL code to "automatically" talk to [http://land-boards.com/blwiki/index.php?title=Front_Panel_For_8_Bit_Computers Front Panel]
+* Reads 32 pushbuttons
+* Witers 32 LEDs
+
+=== Programming tools ===
+
+* CSV fils(s) driven
+* Assembler - low level code
+* Compiler - Macro language
+
+=== IOP16  ===
+
+IOP16 - I/O Processor with minimal instruction set
+
+* 16-bit instruction code
+* 12-bits address (up to 4096 instructions stored in FPGA ROM)
+* Useful for for polled I/O
+* 8 registers (8-bits) (read/write) for parameters/data
+** Reserved space in instruction for 16 of 8-bit registers
+* 8-bit data and address peripheral interface
+** Controls up to 256 peripherals
+
+==== Opcodes ====
+
+* NOP - x0 - No Operation - Increments PC
+* LRI - x2 - Load register with immediate value
+* IOR - x6 - I/O Read into register
+* IOW - x7 - I/O Write from register
+* ARI - x8 - AND register with Immediate value and store back into register
+* ORI - x9 - OR register with Immediate value and store back into register
+* BEZ - xc - Branch by offset if equal to zero
+* BNZ - xd - Branch by offset if not equal to zero
+* JMP - xe - Jump to address (12-bits)
+
+==== Fields ====
+
+* d15..d12 = opcode
+* d11..d0  = 12-bit offset (BEZ, BNZ)
+* d11..d0  = 12-bit address (JMP)
+* d7..d0   = 8-bit address (IOR, IOW)
+* d11..d8  = register number (LRI, IOR, IOW, ARI, ORI)
+* d7..d0   = Immediate value (LRI, ARI, ORI)
