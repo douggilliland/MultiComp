@@ -77,13 +77,10 @@ architecture struct of FrontPanel01 is
 	signal w_debouncedPBs		:	std_logic_vector(31 downto 0);		-- Pushbuttons
 	signal w_togglePinValues	:	std_logic_vector(31 downto 0);		-- Toggled pin values
 
---	attribute syn_keep: boolean;
---	attribute syn_keep of w_rawPBs		:	signal is true;
---	attribute syn_keep of w_latchedPBs	:	signal is true;
+	attribute syn_keep: boolean;
+	attribute syn_keep of w_rawPBs		:	signal is true;
+	attribute syn_keep of w_loadStrobe	:	signal is true;
 --	attribute syn_keep of w_ldStrobe2	:	signal is true;
---	attribute syn_keep of w_rawPBs		:	signal is true;
-
---	attribute syn_keep	: boolean;
 --	attribute syn_keep of w_lowCount			: signal is true;
 
 begin
@@ -195,10 +192,10 @@ begin
 	end process;
 	
 	-- Write data strobes
-	w_strPBDataUU <= '1' when ((w_periphWr = '1') and (w_periphAdr = x"00")) else '0';
-	w_strPBDataUM <= '1' when ((w_periphWr = '1') and (w_periphAdr = x"01")) else '0';
-	w_strPBDataLM <= '1' when ((w_periphWr = '1') and (w_periphAdr = x"02")) else '0';
-	w_strPBDataLL <= '1' when ((w_periphWr = '1') and (w_periphAdr = x"03")) else '0';
+	w_strPBDataUU	<= '1' when ((w_periphWr = '1') and (w_periphAdr = x"00")) else '0';
+	w_strPBDataUM	<= '1' when ((w_periphWr = '1') and (w_periphAdr = x"01")) else '0';
+	w_strPBDataLM	<= '1' when ((w_periphWr = '1') and (w_periphAdr = x"02")) else '0';
+	w_strPBDataLL 	<= '1' when ((w_periphWr = '1') and (w_periphAdr = x"03")) else '0';
 	w_I2CWR 			<= '1' when  (w_periphWr = '1') and (w_periphAdr(7 downto 1) = x"0"&"010") else '0';
 	w_scanStrobe	<= '1' when ((w_periphWr = '1') and (w_periphAdr = x"06")) else '0';
 

@@ -90,6 +90,10 @@ ARCHITECTURE IOP16_beh OF IOP16 IS
 	attribute syn_keep	: boolean;
 	attribute syn_keep of w_lowCount			: signal is true;
 	attribute syn_keep of w_PC_out			: signal is true;
+	attribute syn_keep of w_RomData			: signal is true;
+	attribute syn_keep of w_rtnAddr			: signal is true;
+	attribute syn_keep of w_incPC				: signal is true;
+	attribute syn_keep of w_ldPC				: signal is true;
 	
 
 BEGIN
@@ -207,17 +211,20 @@ BEGIN
 	w_PC_in <=  (w_PC_out + w_RomData(11 downto 0)) when ((w_OP_BEZ = '1') and (w_zBit = '1')) else
 					(w_PC_out + w_RomData(11 downto 0)) when ((w_OP_BNZ = '1') and (w_zBit = '0')) else
 					(w_RomData(11 downto 0))				when w_OP_JMP = '1' else
+					(w_RomData(11 downto 0))				when w_OP_JSR = '1' else
 					w_rtnAddr 									when w_OP_RTS = '1' else
 					w_PC_out;
 
-	w_incPC	<= '1' when (w_lowCount = "100") and (w_OP_BEZ = '0') and (w_OP_BNZ = '0') and (w_OP_JMP = '0') else 
-					'1' when (w_lowCount = "100") and (w_OP_BEZ = '1') and (w_zBit = '0') else
-					'1' when (w_lowCount = "100") and (w_OP_BNZ = '1') and (w_zBit = '1') else
+	w_incPC	<= '1' when ((w_lowCount = "100") and (w_OP_BEZ = '0') and (w_OP_BNZ = '0') and (w_OP_JMP = '0') and (w_OP_RTS = '0') and (w_OP_JSR = '0')) else 
+					'1' when  (w_lowCount = "100") and (w_OP_BEZ = '1') and (w_zBit = '0') else
+					'1' when  (w_lowCount = "100") and (w_OP_BNZ = '1') and (w_zBit = '1') else
 					'0';
 					
 	w_ldPC	<= '1' when (w_lowCount = "100") and (w_OP_BEZ = '1') and (w_zBit = '1') else
 					'1' when (w_lowCount = "100") and (w_OP_BNZ = '1') and (w_zBit = '0') else
 					'1' when (w_lowCount = "100") and (w_OP_JMP = '1') else
+					'1' when (w_lowCount = "100") and (w_OP_RTS = '1') else
+					'1' when (w_lowCount = "100") and (w_OP_JSR = '1') else
 					'0';
 	
 	-- Register file input dats mux
