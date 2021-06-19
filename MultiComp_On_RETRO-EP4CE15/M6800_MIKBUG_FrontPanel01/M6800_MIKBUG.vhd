@@ -73,6 +73,7 @@ architecture struct of M6800_MIKBUG is
 	signal w_resetLow		: std_logic := '1';
 
 	signal w_cpuAddress	: std_logic_vector(15 downto 0);
+	signal w_cpuAddressB	: std_logic_vector(15 downto 0);
 	signal w_cpuDataOut	: std_logic_vector(7 downto 0);
 	signal w_cpuDataIn	: std_logic_vector(7 downto 0);
 	signal w_R1W0			: std_logic;
@@ -102,7 +103,12 @@ architecture struct of M6800_MIKBUG is
 	signal w_PBsToggled	:	std_logic_vector(31 downto 0);	-- Pushbuttons toggled input
 	signal run0Halt1		:	std_logic;
 	signal resetD1			:	std_logic;
---	signal resetD2			:	std_logic;
+	signal w_FPAddress	: std_logic_vector(15 downto 0);
+	signal w_setAdr		:	std_logic;
+	signal w_setDat		:	std_logic;
+	signal w_incAdr		:	std_logic;
+	signal w_incAdrD1		:	std_logic;
+	signal w_incAdrD2		:	std_logic;
 	
 begin
 	
@@ -113,7 +119,7 @@ begin
 		i_PinIn	=> i_n_reset,
 		o_PinOut	=> w_resetLow
 	);
-		
+	
 	-- -------------------------------------------------------------------------------------------------------
 	-- Front Panel starts here
 	
@@ -134,12 +140,53 @@ begin
 			i_I2C_INTn			=> i_I2C_INTn				-- Interrupt input - active low
 		);
 	
+	runHaltLine : PROCESS (w_cpuClock)
+	BEGIN
+		IF rising_edge(w_cpuClock) THEN
+			run0Halt1	<= w_PBsToggled(31);		-- Run/Halt line (toggled)
+			resetD1		<= w_PBLatched(30);		-- Reset (pulsed while btoon is pressed)
+		END IF;
+	END PROCESS;
+
+--	w_FPAddress Latch/Counter
+	w_FPAddressCounter : PROCESS (w_cpuClock)
+	BEGIN
+		IF rising_edge(w_cpuClock) THEN
+			if ((run0Halt1 = '1') and (w_incAdr = '1')) then
+				w_FPAddress <= w_FPAddress+1;
+			elsif ((run0Halt1 = '1') and (w_setAdr = '1')) then
+				w_FPAddress <= w_PBsToggled(23 downto 8);
+			END IF;
+		END IF;
+	END PROCESS;
+	
+	w_cpuAddress <= 	w_cpuAddressB	when (run0Halt1 = '0') else
+							w_FPAddress		when (run0Halt1 = '1');
+	
+	incAdrLine : PROCESS (w_cpuClock)
+	BEGIN
+		IF rising_edge(w_cpuClock) THEN
+			w_setAdr		<= w_PBsToggled(24);
+			w_setDat		<= w_PBsToggled(25);
+			w_incAdrD1	<= w_PBLatched(26);
+			w_incAdrD2	<= w_incAdrD1;
+			w_incAdr		<= w_incAdrD1 and (not w_incAdrD2);
+		END IF;
+	END PROCESS;
+
+	w_LEDsOut(24) <= w_setAdr;
+	w_LEDsOut(25) <= w_setDat;
+		
 	w_LEDsOut(31) 				<= not run0Halt1;								-- PB31 - Run/Halt toggle
 	w_LEDsOut(30) 				<= resetD1 or (not w_resetLow);			-- PB30 -Reset debounced PB
-	w_LEDsOut(29 downto 24)	<= "00"&x"0";
-	w_LEDsOut(23 downto 8)	<= w_cpuAddress;								-- Address lines
-	w_LEDsOut(7 downto 0)	<= w_cpuDataIn		when w_R1W0 = '1' else
-										w_cpuDataOut	when w_R1W0 = '0';	-- Data lines
+	w_LEDsOut(29 downto 27)	<= "000";
+	w_LEDsOut(23 downto 8)	<= w_cpuAddress	when (run0Halt1 = '0') else				-- Address lines
+										w_FPAddress 	when (run0Halt1 = '1') else
+										x"0000";
+	w_LEDsOut(7 downto 0)	<= w_cpuDataIn		when ((w_R1W0 = '1') and (run0Halt1 = '0')) else	-- Data lines
+										w_cpuDataOut	when ((w_R1W0 = '0') and (run0Halt1 = '0')) else
+										w_cpuDataIn		when 							  run0Halt1 = '1' else
+										x"00";
 
 	-- Front Panel ends here
 	-- -------------------------------------------------------------------------------------------------------
@@ -165,23 +212,13 @@ begin
 	-- ____________________________________________________________________________________
 	-- 6800 CPU
 	
-	runHaltLine : PROCESS (w_cpuClock)
-	BEGIN
-		IF rising_edge(w_cpuClock) THEN
-			run0Halt1	<= w_PBsToggled(31);		-- Run/Halt line (toggled)
-			resetD1		<= w_PBLatched(30);		-- Reset (pulsed while btoon is pressed)
---			resetD2 		<= resetD1;
-		END IF;
-	END PROCESS;
-
-	
 	cpu1 : entity work.cpu68
 		port map(
 			clk		=> w_cpuClock,
 			rst		=> resetD1 or (not w_resetLow),	-- resetD1 and not resetD2,
 			rw			=> w_R1W0,
 			vma		=> w_vma,
-			address	=> w_cpuAddress,
+			address	=> w_cpuAddressB,
 			data_in	=> w_cpuDataIn,
 			data_out	=> w_cpuDataOut,
 			hold		=> '0',
