@@ -1,3 +1,4 @@
+-- -------------------------------------------------------------------------------------------
 -- Original file is copyright by Grant Searle 2014
 -- Grant Searle's web site http://searle.hostei.com/grant/    
 -- Grant Searle's "multicomp" page at http://searle.hostei.com/grant/Multicomp/index.html
@@ -10,7 +11,9 @@
 -- VDU
 --		XGA 80x25 character display
 --		PS/2 keyboard
---
+--	Front Panel
+--		http://land-boards.com/blwiki/index.php?title=Front_Panel_For_8_Bit_Computers
+-- -------------------------------------------------------------------------------------------
 
 library ieee;
 use ieee.std_logic_1164.all;
@@ -75,8 +78,10 @@ architecture struct of M6800_MIKBUG is
 	signal w_cpuAddress	: std_logic_vector(15 downto 0);
 	signal w_cpuAddressB	: std_logic_vector(15 downto 0);
 	signal w_cpuDataOut	: std_logic_vector(7 downto 0);
+	signal w_cpuDataOutB	: std_logic_vector(7 downto 0);
 	signal w_cpuDataIn	: std_logic_vector(7 downto 0);
 	signal w_R1W0			: std_logic;
+	signal w_R1W0B			: std_logic;
 	signal w_vma			: std_logic;
 
 	signal w_romData		: std_logic_vector(7 downto 0);
@@ -109,6 +114,8 @@ architecture struct of M6800_MIKBUG is
 	signal w_incAdr		:	std_logic;
 	signal w_incAdrD1		:	std_logic;
 	signal w_incAdrD2		:	std_logic;
+	signal w_cntCpu : std_logic_vector(2 DOWNTO 0);		-- Grey code step counter
+	
 	
 begin
 	
@@ -140,6 +147,28 @@ begin
 			i_I2C_INTn			=> i_I2C_INTn				-- Interrupt input - active low
 		);
 	
+	-- Grey code counter 
+	-- 000 > 001 > 011 > 010 > 110 > 111 > 101 > 100
+	cpuCnt :	PROCESS (w_cpuClock)
+	BEGIN
+		IF rising_edge(w_cpuClock) THEN
+			w_cntCpu(0) <= ((not w_cntCpu(2)) and (not w_cntCpu(1)) and (not w_cntCpu(0)) and (w_incAdr)) or	-- 000 > 001
+								((not w_cntCpu(2)) and (not w_cntCpu(1)) and (    w_cntCpu(0))) or						-- 001 > 011
+								((    w_cntCpu(2)) and (    w_cntCpu(1)) and (not w_cntCpu(0))) or						-- 110 > 111
+								((    w_cntCpu(2)) and (    w_cntCpu(1)) and (    w_cntCpu(0)));							-- 111 > 101
+										
+			w_cntCpu(1) <= ((not w_cntCpu(2)) and (not w_cntCpu(1)) and (    w_cntCpu(0))) or						-- 001 > 011
+								((not w_cntCpu(2)) and (    w_cntCpu(1)) and (    w_cntCpu(0))) or						-- 011 > 010
+								((not w_cntCpu(2)) and (    w_cntCpu(1)) and (not w_cntCpu(0))) or						-- 010 > 110
+								((    w_cntCpu(2)) and (    w_cntCpu(1)) and (not w_cntCpu(0)));							-- 110 > 111
+										
+			w_cntCpu(2) <= ((not w_cntCpu(2)) and (    w_cntCpu(1)) and (not w_cntCpu(0))) or						-- 010 > 110
+								((    w_cntCpu(2)) and (    w_cntCpu(1)) and (not w_cntCpu(0))) or						-- 110 > 111
+								((    w_cntCpu(2)) and (    w_cntCpu(1)) and (    w_cntCpu(0))) or						-- 111 > 101
+								((    w_cntCpu(2)) and (not w_cntCpu(1)) and (    w_cntCpu(0)));							-- 101 > 100
+		END IF;
+	END PROCESS;
+	
 	runHaltLine : PROCESS (w_cpuClock)
 	BEGIN
 		IF rising_edge(w_cpuClock) THEN
@@ -152,7 +181,7 @@ begin
 	w_FPAddressCounter : PROCESS (w_cpuClock)
 	BEGIN
 		IF rising_edge(w_cpuClock) THEN
-			if ((run0Halt1 = '1') and (w_incAdr = '1')) then
+			if ((run0Halt1 = '1') and (w_cntCpu = "100")) then
 				w_FPAddress <= w_FPAddress+1;
 			elsif ((run0Halt1 = '1') and (w_setAdr = '1')) then
 				w_FPAddress <= w_PBsToggled(23 downto 8);
@@ -162,6 +191,13 @@ begin
 	
 	w_cpuAddress <= 	w_cpuAddressB	when (run0Halt1 = '0') else
 							w_FPAddress		when (run0Halt1 = '1');
+							
+	w_cpuDataOut	<= w_cpuDataOutB					when (run0Halt1 = '0') else
+							w_PBsToggled(7 downto 0)	when (run0Halt1 = '1');
+
+		
+	w_R1W0 <= 	w_R1W0B	when (run0Halt1 = '0') else
+					'1'		when (run0Halt1 = '1');
 	
 	incAdrLine : PROCESS (w_cpuClock)
 	BEGIN
@@ -183,9 +219,10 @@ begin
 	w_LEDsOut(23 downto 8)	<= w_cpuAddress	when (run0Halt1 = '0') else				-- Address lines
 										w_FPAddress 	when (run0Halt1 = '1') else
 										x"0000";
-	w_LEDsOut(7 downto 0)	<= w_cpuDataIn		when ((w_R1W0 = '1') and (run0Halt1 = '0')) else	-- Data lines
-										w_cpuDataOut	when ((w_R1W0 = '0') and (run0Halt1 = '0')) else
-										w_cpuDataIn		when 							  run0Halt1 = '1' else
+	w_LEDsOut(7 downto 0)	<= w_cpuDataIn						when ((w_R1W0 = '1') and (run0Halt1 = '0')) else	-- Data lines (read)
+										w_cpuDataOut					when ((w_R1W0 = '0') and (run0Halt1 = '0')) else	-- Data lines (write)
+										w_cpuDataIn						when 	(w_setDat='0') and  run0Halt1 = '1'   else	-- Memory data
+										w_PBsToggled(7 downto 0)	when  (w_setDat='1') and  run0Halt1 = '1'   else	-- Front panel buttons
 										x"00";
 
 	-- Front Panel ends here
@@ -216,11 +253,11 @@ begin
 		port map(
 			clk		=> w_cpuClock,
 			rst		=> resetD1 or (not w_resetLow),	-- resetD1 and not resetD2,
-			rw			=> w_R1W0,
+			rw			=> w_R1W0B,
 			vma		=> w_vma,
 			address	=> w_cpuAddressB,
 			data_in	=> w_cpuDataIn,
-			data_out	=> w_cpuDataOut,
+			data_out	=> w_cpuDataOutB,
 			hold		=> '0',
 			halt		=> run0Halt1,
 			irq		=> '0',
@@ -244,7 +281,8 @@ begin
 			address	=> w_cpuAddress(14 downto 0),
 			clock 	=> i_CLOCK_50,
 			data 		=> w_cpuDataOut,
-			wren		=> (not w_R1W0) and (not w_cpuAddress(15)) and w_vma and (not w_cpuClock),
+			wren		=> (((not w_R1W0) and (not w_cpuAddress(15)) and w_vma and (not w_cpuClock) and (not run0Halt1)) 
+							or ((w_cntCpu(1) and run0Halt1) and w_setDat)),
 			q			=> w_ramData
 		);
 	

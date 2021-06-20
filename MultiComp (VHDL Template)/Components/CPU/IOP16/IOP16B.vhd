@@ -113,7 +113,7 @@ BEGIN
 
 	-- Lower bits are grey code for glitch-free decoding
 	-- 3-bits that control the low level interface (strobes) to the I2C interface
-	-- 000 > 001 > 011 > 010 > 110 > 11 > 101 > 100
+	-- 000 > 001 > 011 > 010 > 110 > 111 > 101 > 100
 	greyLow : ENTITY work.GrayCounter
 	generic map
 	(
