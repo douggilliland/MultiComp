@@ -47,7 +47,7 @@ entity M6800_MIKBUG is
 		usbcts1				: out std_logic;
 		serSelect			: in	std_logic := '1';
 		
-		-- I2C
+		-- I2C to Front Panel
 		io_I2C_SCL			: inout	std_logic := '1';
 		io_I2C_SDA			: inout	std_logic := '1';
 		i_I2C_INTn			: in	std_logic := '1';
@@ -108,13 +108,13 @@ architecture struct of M6800_MIKBUG is
 	signal w_PBsToggled	:	std_logic_vector(31 downto 0);	-- Pushbuttons toggled input
 	signal run0Halt1		:	std_logic;
 	signal resetD1			:	std_logic;
-	signal w_FPAddress	: std_logic_vector(15 downto 0);
-	signal w_setAdr		:	std_logic;
-	signal w_setDat		:	std_logic;
-	signal w_incAdr		:	std_logic;
-	signal w_incAdrD1		:	std_logic;
-	signal w_incAdrD2		:	std_logic;
-	signal w_cntCpu : std_logic_vector(2 DOWNTO 0);		-- Grey code step counter
+	signal w_FPAddress	:	std_logic_vector(15 downto 0);
+	signal w_setAdrPB		:	std_logic;
+	signal w_setDatPB		:	std_logic;
+	signal w_incAdrPB		:	std_logic;
+	signal w_incAdrPBD1	:	std_logic;
+	signal w_incAdrPBD2	:	std_logic;
+	signal w_cntCpu 		:	std_logic_vector(2 DOWNTO 0);		-- Grey code step counter
 	
 	
 begin
@@ -135,7 +135,7 @@ begin
 		(
 			-- Clock and reset
 			i_CLOCK_50			=> i_CLOCK_50,				-- Clock (50 MHz)
-			i_n_reset			=> w_resetLow,			-- Reset
+			i_n_reset			=> w_resetLow,				-- Reset (from FGPGA KEY)
 			-- 32 outs, 32 ins
 			i_FPLEDs				=> w_LEDsOut,				-- Out to LEDs (32)
 			o_PBRaw				=> w_PBsRaw,				-- Raw version of the  Pushbuttons (32)
@@ -152,7 +152,7 @@ begin
 	cpuCnt :	PROCESS (w_cpuClock)
 	BEGIN
 		IF rising_edge(w_cpuClock) THEN
-			w_cntCpu(0) <= ((not w_cntCpu(2)) and (not w_cntCpu(1)) and (not w_cntCpu(0)) and (w_incAdr)) or	-- 000 > 001
+			w_cntCpu(0) <= ((not w_cntCpu(2)) and (not w_cntCpu(1)) and (not w_cntCpu(0)) and (w_incAdrPB)) or	-- 000 > 001
 								((not w_cntCpu(2)) and (not w_cntCpu(1)) and (    w_cntCpu(0))) or						-- 001 > 011
 								((    w_cntCpu(2)) and (    w_cntCpu(1)) and (not w_cntCpu(0))) or						-- 110 > 111
 								((    w_cntCpu(2)) and (    w_cntCpu(1)) and (    w_cntCpu(0)));							-- 111 > 101
@@ -183,7 +183,7 @@ begin
 		IF rising_edge(w_cpuClock) THEN
 			if ((run0Halt1 = '1') and (w_cntCpu = "100")) then
 				w_FPAddress <= w_FPAddress+1;
-			elsif ((run0Halt1 = '1') and (w_setAdr = '1')) then
+			elsif ((run0Halt1 = '1') and (w_setAdrPB = '1')) then
 				w_FPAddress <= w_PBsToggled(23 downto 8);
 			END IF;
 		END IF;
@@ -202,16 +202,16 @@ begin
 	incAdrLine : PROCESS (w_cpuClock)
 	BEGIN
 		IF rising_edge(w_cpuClock) THEN
-			w_setAdr		<= w_PBsToggled(24);
-			w_setDat		<= w_PBsToggled(25);
-			w_incAdrD1	<= w_PBLatched(26);
-			w_incAdrD2	<= w_incAdrD1;
-			w_incAdr		<= w_incAdrD1 and (not w_incAdrD2);
+			w_setAdrPB		<= w_PBsToggled(24);
+			w_setDatPB		<= w_PBsToggled(25);
+			w_incAdrPBD1	<= w_PBLatched(26);
+			w_incAdrPBD2	<= w_incAdrPBD1;
+			w_incAdrPB		<= w_incAdrPBD1 and (not w_incAdrPBD2);
 		END IF;
 	END PROCESS;
 
-	w_LEDsOut(24) <= w_setAdr;
-	w_LEDsOut(25) <= w_setDat;
+	w_LEDsOut(24) <= w_setAdrPB;
+	w_LEDsOut(25) <= w_setDatPB;
 		
 	w_LEDsOut(31) 				<= not run0Halt1;								-- PB31 - Run/Halt toggle
 	w_LEDsOut(30) 				<= resetD1 or (not w_resetLow);			-- PB30 -Reset debounced PB
@@ -221,8 +221,8 @@ begin
 										x"0000";
 	w_LEDsOut(7 downto 0)	<= w_cpuDataIn						when ((w_R1W0 = '1') and (run0Halt1 = '0')) else	-- Data lines (read)
 										w_cpuDataOut					when ((w_R1W0 = '0') and (run0Halt1 = '0')) else	-- Data lines (write)
-										w_cpuDataIn						when 	(w_setDat='0') and  run0Halt1 = '1'   else	-- Memory data
-										w_PBsToggled(7 downto 0)	when  (w_setDat='1') and  run0Halt1 = '1'   else	-- Front panel buttons
+										w_cpuDataIn						when 	(w_setDatPB='0') and  run0Halt1 = '1'   else	-- Memory data
+										w_PBsToggled(7 downto 0)	when  (w_setDatPB='1') and  run0Halt1 = '1'   else	-- Front panel buttons
 										x"00";
 
 	-- Front Panel ends here
@@ -282,7 +282,7 @@ begin
 			clock 	=> i_CLOCK_50,
 			data 		=> w_cpuDataOut,
 			wren		=> (((not w_R1W0) and (not w_cpuAddress(15)) and w_vma and (not w_cpuClock) and (not run0Halt1)) 
-							or ((w_cntCpu(1) and run0Halt1) and w_setDat)),
+							or ((w_cntCpu(1) and run0Halt1) and w_setDatPB)),
 			q			=> w_ramData
 		);
 	

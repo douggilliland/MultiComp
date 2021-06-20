@@ -1,0 +1,102 @@
+# -------------------------------------------------------------------------- #
+#
+# Copyright (C) 2020  Intel Corporation. All rights reserved.
+# Your use of Intel Corporation's design tools, logic functions 
+# and other software and tools, and any partner logic 
+# functions, and any output files from any of the foregoing 
+# (including device programming or simulation files), and any 
+# associated documentation or information are expressly subject 
+# to the terms and conditions of the Intel Program License 
+# Subscription Agreement, the Intel Quartus Prime License Agreement,
+# the Intel FPGA IP License Agreement, or other applicable license
+# agreement, including, without limitation, that your use is for
+# the sole purpose of programming logic devices manufactured by
+# Intel and sold by Intel or its authorized distributors.  Please
+# refer to the applicable agreement for further details, at
+# https://fpgasoftware.intel.com/eula.
+#
+# -------------------------------------------------------------------------- #
+#
+# Quartus Prime
+# Version 20.1.0 Build 711 06/05/2020 SJ Lite Edition
+# Date created = 10:02:03  June 06, 2021
+#
+# -------------------------------------------------------------------------- #
+#
+# Notes:
+#
+# 1) The default values for assignments are stored in the file:
+#		FrontPanel01_assignment_defaults.qdf
+#    If this file doesn't exist, see file:
+#		assignment_defaults.qdf
+#
+# 2) Altera recommends that you do not modify this file. This
+#    file is updated automatically by the Quartus Prime software
+#    and any changes you make may be lost or overwritten.
+#
+# -------------------------------------------------------------------------- #
+
+
+set_global_assignment -name FAMILY "Cyclone IV E"
+set_global_assignment -name DEVICE EP4CE15F23C8
+set_global_assignment -name TOP_LEVEL_ENTITY FrontPanel01_test
+set_global_assignment -name ORIGINAL_QUARTUS_VERSION 20.1.0
+set_global_assignment -name PROJECT_CREATION_TIME_DATE "10:02:02  JUNE 06, 2021"
+set_global_assignment -name LAST_QUARTUS_VERSION "20.1.0 Lite Edition"
+set_global_assignment -name PROJECT_OUTPUT_DIRECTORY output_files
+set_global_assignment -name MIN_CORE_JUNCTION_TEMP 0
+set_global_assignment -name MAX_CORE_JUNCTION_TEMP 85
+set_global_assignment -name DEVICE_FILTER_PACKAGE FBGA
+set_global_assignment -name ERROR_CHECK_FREQUENCY_DIVISOR 1
+set_global_assignment -name POWER_PRESET_COOLING_SOLUTION "23 MM HEAT SINK WITH 200 LFPM AIRFLOW"
+set_global_assignment -name POWER_BOARD_THERMAL_MODEL "NONE (CONSERVATIVE)"
+set_global_assignment -name STRATIX_DEVICE_IO_STANDARD "3.3-V LVTTL"
+set_global_assignment -name PARTITION_NETLIST_TYPE SOURCE -section_id Top
+set_global_assignment -name PARTITION_FITTER_PRESERVATION_LEVEL PLACEMENT_AND_ROUTING -section_id Top
+set_global_assignment -name PARTITION_COLOR 16764057 -section_id Top
+# CONNECT_TO_SLD_NODE_ENTITY_PORTLOCK, RESET
+set_location_assignment PIN_T2 -to i_CLOCK_50
+set_location_assignment PIN_W13 -to i_n_reset
+set_instance_assignment -name WEAK_PULL_UP_RESISTOR ON -to i_n_reset
+# I2C
+set_location_assignment PIN_C22 -to io_I2C_SCL
+set_instance_assignment -name WEAK_PULL_UP_RESISTOR ON -to io_I2C_SCL
+set_location_assignment PIN_C21 -to io_I2C_SDA
+set_instance_assignment -name WEAK_PULL_UP_RESISTOR ON -to io_I2C_SDA
+set_location_assignment PIN_D22 -to i_I2C_INTn
+set_instance_assignment -name WEAK_PULL_UP_RESISTOR ON -to i_I2C_INTn
+# KEY, LED
+set_location_assignment PIN_Y13 -to i_key1
+set_instance_assignment -name WEAK_PULL_UP_RESISTOR ON -to i_key1
+set_location_assignment PIN_E4 -to o_UsrLed
+# 
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to i_CLOCK_50
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to io_I2C_SCL
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to io_I2C_SDA
+set_global_assignment -name ENABLE_SIGNALTAP OFF
+set_global_assignment -name USE_SIGNALTAP_FILE output_files/debouncePBs.stp
+set_global_assignment -name TIMING_ANALYZER_MULTICORNER_ANALYSIS ON
+set_global_assignment -name SMART_RECOMPILE ON
+set_instance_assignment -name SLEW_RATE 2 -to io_I2C_SCL
+set_instance_assignment -name SLEW_RATE 2 -to io_I2C_SDA
+set_instance_assignment -name CURRENT_STRENGTH_NEW "MAXIMUM CURRENT" -to io_I2C_SCL
+set_instance_assignment -name CURRENT_STRENGTH_NEW "MAXIMUM CURRENT" -to io_I2C_SDA
+set_location_assignment PIN_B22 -to o_testPts[0]
+set_location_assignment PIN_B21 -to o_testPts[1]
+set_location_assignment PIN_N20 -to o_testPts[2]
+set_location_assignment PIN_N19 -to o_testPts[3]
+set_location_assignment PIN_M20 -to o_testPts[4]
+set_location_assignment PIN_M19 -to o_testPts[5]
+set_global_assignment -name VHDL_FILE "../../MultiComp (VHDL Template)/Components/CPU/IOP16/RegFile8x8.vhd"
+set_global_assignment -name VHDL_FILE "../../MultiComp (VHDL Template)/Components/CPU/IOP16/IOP16.vhd"
+set_global_assignment -name VHDL_FILE "../../MultiComp (VHDL Template)/Components/Debounce/Debounce.vhd"
+set_global_assignment -name SIGNALTAP_FILE stp1.stp
+set_global_assignment -name VHDL_FILE "../../MultiComp (VHDL Template)/Components/COUNTER/n-bit-gray-counter.vhd"
+set_global_assignment -name VHDL_FILE "../../MultiComp (VHDL Template)/Components/I2C/i2c.vhd"
+set_global_assignment -name VHDL_FILE FrontPanel01_test.vhd
+set_global_assignment -name VHDL_FILE FrontPanel01.vhd
+set_global_assignment -name QIP_FILE IOP_ROM.qip
+set_global_assignment -name VHDL_FILE Debounce32.vhd
+set_global_assignment -name SIGNALTAP_FILE output_files/debouncePBs.stp
+set_global_assignment -name QIP_FILE RAM_8KB_DP.qip
+set_instance_assignment -name PARTITION_HIERARCHY root_partition -to | -section_id Top
