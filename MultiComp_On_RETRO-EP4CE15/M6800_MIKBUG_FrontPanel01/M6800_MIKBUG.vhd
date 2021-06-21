@@ -114,8 +114,13 @@ architecture struct of M6800_MIKBUG is
 	signal w_incAdrPB		:	std_logic;
 	signal w_incAdrPBD1	:	std_logic;
 	signal w_incAdrPBD2	:	std_logic;
+	signal w_clrPB			:	std_logic;
+	signal w_clrPBD1		:	std_logic;
+	signal w_clrPBD2		:	std_logic;
+	signal w_stepPB		:	std_logic;
+	signal w_stepPBD1		:	std_logic;
+	signal w_stepPBD2		:	std_logic;
 	signal w_cntCpu 		:	std_logic_vector(2 DOWNTO 0);		-- Grey code step counter
-	
 	
 begin
 	
@@ -169,11 +174,17 @@ begin
 		END IF;
 	END PROCESS;
 	
-	runHaltLine : PROCESS (w_cpuClock)
+	syncPBsToCpuClk : PROCESS (w_cpuClock)
 	BEGIN
 		IF rising_edge(w_cpuClock) THEN
-			run0Halt1	<= w_PBsToggled(31);		-- Run/Halt line (toggled)
-			resetD1		<= w_PBLatched(30);		-- Reset (pulsed while btoon is pressed)
+			run0Halt1	<= w_PBsToggled(31);							-- Run/Halt line (toggled)
+			resetD1		<= w_PBLatched(30);							-- Reset (pulsed while btoon is pressed)
+			w_clrPBD1	<= w_PBLatched(27);							-- Clear pusgbutton
+			w_clrPBD2	<= w_clrPBD1;									-- Delayed Clear pushbutton
+			w_clrPB		<= w_clrPBD1 and not w_clrPBD2;			-- Pulse clear pushbutton
+			w_stepPBD1	<= w_PBLatched(29);							-- Step pushbutton
+			w_stepPBD2	<= w_stepPBD1;									-- Delayed Step pushbutton
+			w_stepPB		<=	w_stepPBD1 and not w_stepPBD2;	-- Pulse Step pushbutton
 		END IF;
 	END PROCESS;
 
@@ -185,6 +196,8 @@ begin
 				w_FPAddress <= w_FPAddress+1;
 			elsif ((run0Halt1 = '1') and (w_setAdrPB = '1')) then
 				w_FPAddress <= w_PBsToggled(23 downto 8);
+			elsif w_clrPB = '1' then
+				w_FPAddress <= (others => '0');
 			END IF;
 		END IF;
 	END PROCESS;

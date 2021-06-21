@@ -60,6 +60,7 @@ ARCHITECTURE IOP16_beh OF IOP16 IS
 	-- Program Counter
 	signal w_PC_out	: std_logic_vector(11 DOWNTO 0);		-- Program Couner output
 	signal w_PC_in		: std_logic_vector(11 DOWNTO 0);		-- Program Couner input
+	signal pcPlus1		: std_logic_vector(11 DOWNTO 0);		-- Program Couner + 1
 	signal w_rtnAddr	: std_logic_vector(11 DOWNTO 0);		-- Return address
 	-- Program Counter controls
 	signal w_incPC		: std_logic;		-- Increment PC
@@ -127,6 +128,52 @@ BEGIN
 		output	=> w_lowCount
 	);
 	
+	-- Store the return address for JSR opcodes
+--	returnAddress : PROCESS (clk)
+--	BEGIN
+--		IF rising_edge(clk) THEN
+--			if ((w_OP_JSR = '1') and (w_lowCount="101")) then
+--				w_rtnAddr <= w_PC_out + 1;
+--			END IF;
+--		END IF;
+--	END PROCESS;
+	
+	-- LIFO
+--	lifo : entity work.LIFO
+--		generic map (
+--			lifo_WIDTH 	=> 12,
+--			lifo_DEPTH	=> 8
+--		)
+--		port map (
+--			clk		=> clk,
+--			rst		=> not resetN,
+--			I_DATA	=> w_PC_out + 1,		-- Input Data Line
+--			O_DATA	=> w_rtnAddr,			-- Output Data Line
+--			I_WR		=> (w_OP_JSR and w_lowCount(2) and (not w_lowCount(1)) and w_lowCount(0)), -- Input RD/~WR signal. 1 for READ, 0 for Write
+--			I_RD		=> (w_OP_RTS and w_lowCount(2) and (not w_lowCount(1)) and w_lowCount(0))
+----			O_FULL	=> ,						-- Output Full signal. 1 when memory is full.
+----			O_EMPTY	=>  						-- Output Empty signal. 1 when memory is empty.
+--		);
+
+	pcPlus1 <= (w_PC_out + 1);
+	-- LIFO
+	lifo : entity work.lifo
+		generic map (
+			g_INDEX_WIDTH => 4, -- internal index bit width affecting the LIFO capacity
+			g_DATA_WIDTH  => 12 -- bit width of stored data
+		)
+		port map (
+			i_clk		=> clk, 					-- clock signal
+			i_rst		=> not resetN,			-- reset signal
+			--
+			i_we   	=> (w_OP_JSR and w_lowCount(2) and (not w_lowCount(1)) and w_lowCount(0)), -- write enable (push)
+			i_data 	=> pcPlus1,			-- written data
+--			o_full	=> ,
+			i_re		=> (w_OP_RTS and w_lowCount(2) and (not w_lowCount(1)) and w_lowCount(0)), -- read enable (pop)
+			o_data  	=> w_rtnAddr			-- read data
+	--		o_empty :=>							-- empty LIFO indicator
+		);	
+	
 	-- IO Processor ROM
 	GEN_4KW_INST_ROM: if (INST_SRAM_SIZE_PASS=4096) generate
 		begin
@@ -193,16 +240,6 @@ BEGIN
 				w_PC_out <= w_PC_out + 1;
 			ELSIF w_ldPC = '1' THEN
 				w_PC_out <= w_PC_in;
-			END IF;
-		END IF;
-	END PROCESS;
-	
-	-- Store the return address for JSR opcodes
-	returnAddress : PROCESS (clk)
-	BEGIN
-		IF rising_edge(clk) THEN
-			if ((w_OP_JSR = '1') and (w_lowCount="101")) then
-				w_rtnAddr <= w_PC_out + 1;
 			END IF;
 		END IF;
 	END PROCESS;

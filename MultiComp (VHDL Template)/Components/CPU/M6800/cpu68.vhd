@@ -67,11 +67,11 @@ use IEEE.STD_LOGIC_UNSIGNED.ALL;
 
 entity cpu68 is
 	port (
-		clk:	    in  std_logic;
-		rst:	    in  std_logic;
-		rw:	    out std_logic;
-		vma:	    out std_logic;
-		address:	 out std_logic_vector(15 downto 0);
+		clk:	    in  std_logic;							-- CPU Clock
+		rst:	    in  std_logic;							-- Active reset
+		rw:	    out std_logic;							-- Read(1)/write(0)
+		vma:	    out std_logic;							-- Valid Memory Address
+		address:	 out std_logic_vector(15 downto 0);	-- 
 	   data_in:	 in  std_logic_vector(7 downto 0);
 	   data_out: out std_logic_vector(7 downto 0);
 		hold:     in  std_logic := '0';
