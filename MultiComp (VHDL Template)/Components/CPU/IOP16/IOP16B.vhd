@@ -129,7 +129,6 @@ BEGIN
 		output	=> w_lowCount
 	);
 	
-	pcPlus1 <= (w_PC_out + 1);
 	-- LIFO
 	
 	GEN_STACK_SINGLE : if (STACK_DEPTH = 1) generate
@@ -149,6 +148,7 @@ BEGIN
 	
 	GEN_STACK_DEEPER : if (STACK_DEPTH = 4) generate
 	begin
+		pcPlus1 <= (w_PC_out + 1);
 		lifo : entity work.lifo
 			generic map (
 				g_INDEX_WIDTH => STACK_DEPTH, -- internal index bit width affecting the LIFO capacity

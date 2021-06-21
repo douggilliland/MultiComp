@@ -130,7 +130,8 @@ begin
 	-- Set ROM size in generic INST_SRAM_SIZE_PASS (512W  - 1 1K Block)
 	IOP16: ENTITY work.IOP16
 	generic map 	( 
-		INST_SRAM_SIZE_PASS	=> 512
+		INST_SRAM_SIZE_PASS	=> 256,
+		STACK_DEPTH				=> 1		-- Single level subroutine (not nested)
 	)
 		PORT map
 		(

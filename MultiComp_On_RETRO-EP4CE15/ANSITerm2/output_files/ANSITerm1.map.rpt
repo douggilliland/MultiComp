@@ -1,5 +1,5 @@
-Analysis & Elaboration report for ANSITerm1
-Sun Jun 20 06:47:12 2021
+Analysis & Synthesis report for ANSITerm1
+Mon Jun 21 07:45:47 2021
 Quartus Prime Version 20.1.0 Build 711 06/05/2020 SJ Lite Edition
 
 
@@ -7,36 +7,58 @@ Quartus Prime Version 20.1.0 Build 711 06/05/2020 SJ Lite Edition
 ; Table of Contents ;
 ---------------------
   1. Legal Notice
-  2. Analysis & Elaboration Summary
-  3. Parallel Compilation
-  4. Analysis & Elaboration IP Cores Summary
-  5. Source assignments for Top-level Entity: |ANSITerm1
-  6. Source assignments for IOP16:IOP16
-  7. Source assignments for IOP16:IOP16|IOP_ROM:\GEN_256W_INST_ROM:IopRom|altsyncram:altsyncram_component|altsyncram_id54:auto_generated|altsyncram_ds53:altsyncram1
-  8. Source assignments for ANSIDisplayVGA:ANSIDisplay|SansBoldRomReduced:\GEN_REDUCED_SCHARS:fontRom|altsyncram:altsyncram_component|altsyncram_q504:auto_generated
-  9. Source assignments for ANSIDisplayVGA:ANSIDisplay|DisplayRam2K:\GEN_2KRAM:dispCharRam|altsyncram:altsyncram_component|altsyncram_ldr3:auto_generated
- 10. Source assignments for ANSIDisplayVGA:ANSIDisplay|DisplayRam2K:\GEN_2KATTRAM:dispAttRam|altsyncram:altsyncram_component|altsyncram_ldr3:auto_generated
- 11. Parameter Settings for User Entity Instance: IOP16:IOP16
- 12. Parameter Settings for User Entity Instance: IOP16:IOP16|GrayCounter:greyLow
- 13. Parameter Settings for User Entity Instance: IOP16:IOP16|IOP_ROM:\GEN_256W_INST_ROM:IopRom|altsyncram:altsyncram_component
- 14. Parameter Settings for User Entity Instance: ANSIDisplayVGA:ANSIDisplay
- 15. Parameter Settings for User Entity Instance: ANSIDisplayVGA:ANSIDisplay|SansBoldRomReduced:\GEN_REDUCED_SCHARS:fontRom|altsyncram:altsyncram_component
- 16. Parameter Settings for User Entity Instance: ANSIDisplayVGA:ANSIDisplay|DisplayRam2K:\GEN_2KRAM:dispCharRam|altsyncram:altsyncram_component
- 17. Parameter Settings for User Entity Instance: ANSIDisplayVGA:ANSIDisplay|DisplayRam2K:\GEN_2KATTRAM:dispAttRam|altsyncram:altsyncram_component
- 18. Parameter Settings for User Entity Instance: Wrap_Keyboard:KEYBOARD|ps2_keyboard_to_ascii:ps2Keyboard
- 19. Parameter Settings for User Entity Instance: Wrap_Keyboard:KEYBOARD|ps2_keyboard_to_ascii:ps2Keyboard|ps2_keyboard:ps2_keyboard_0
- 20. Parameter Settings for User Entity Instance: Wrap_Keyboard:KEYBOARD|ps2_keyboard_to_ascii:ps2Keyboard|ps2_keyboard:ps2_keyboard_0|debounce:debounce_ps2_clk
- 21. Parameter Settings for User Entity Instance: Wrap_Keyboard:KEYBOARD|ps2_keyboard_to_ascii:ps2Keyboard|ps2_keyboard:ps2_keyboard_0|debounce:debounce_ps2_data
- 22. Parameter Settings for User Entity Instance: BaudRate6850:BAUDRATEGEN
- 23. altsyncram Parameter Settings by Entity Instance
- 24. Analysis & Elaboration Settings
- 25. Port Connectivity Checks: "bufferedUART:UART"
- 26. Port Connectivity Checks: "ANSIDisplayVGA:ANSIDisplay|DisplayRam2K:\GEN_2KATTRAM:dispAttRam"
- 27. Port Connectivity Checks: "ANSIDisplayVGA:ANSIDisplay|DisplayRam2K:\GEN_2KRAM:dispCharRam"
- 28. Port Connectivity Checks: "ANSIDisplayVGA:ANSIDisplay"
- 29. Port Connectivity Checks: "IOP16:IOP16|GrayCounter:greyLow"
- 30. In-System Memory Content Editor Settings
- 31. Analysis & Elaboration Messages
+  2. Analysis & Synthesis Summary
+  3. Analysis & Synthesis Settings
+  4. Parallel Compilation
+  5. Analysis & Synthesis Source Files Read
+  6. Analysis & Synthesis Resource Usage Summary
+  7. Analysis & Synthesis Resource Utilization by Entity
+  8. Analysis & Synthesis RAM Summary
+  9. Analysis & Synthesis IP Cores Summary
+ 10. State Machine - |ANSITerm1|bufferedUART:UART|txState
+ 11. State Machine - |ANSITerm1|bufferedUART:UART|rxState
+ 12. State Machine - |ANSITerm1|Wrap_Keyboard:KEYBOARD|ps2_keyboard_to_ascii:ps2Keyboard|state
+ 13. State Machine - |ANSITerm1|ANSIDisplayVGA:ANSIDisplay|dispState
+ 14. State Machine - |ANSITerm1|ANSIDisplayVGA:ANSIDisplay|escState
+ 15. Registers Protected by Synthesis
+ 16. User-Specified and Inferred Latches
+ 17. Registers Removed During Synthesis
+ 18. Removed Registers Triggering Further Register Optimizations
+ 19. General Register Statistics
+ 20. Inverted Register Statistics
+ 21. Multiplexer Restructuring Statistics (Restructuring Performed)
+ 22. Source assignments for Top-level Entity: |ANSITerm1
+ 23. Source assignments for IOP16:IOP16
+ 24. Source assignments for IOP16:IOP16|IOP_ROM:\GEN_256W_INST_ROM:IopRom|altsyncram:altsyncram_component|altsyncram_id54:auto_generated|altsyncram_ds53:altsyncram1
+ 25. Source assignments for ANSIDisplayVGA:ANSIDisplay|SansBoldRomReduced:\GEN_REDUCED_SCHARS:fontRom|altsyncram:altsyncram_component|altsyncram_q504:auto_generated
+ 26. Source assignments for ANSIDisplayVGA:ANSIDisplay|DisplayRam2K:\GEN_2KRAM:dispCharRam|altsyncram:altsyncram_component|altsyncram_ldr3:auto_generated
+ 27. Source assignments for ANSIDisplayVGA:ANSIDisplay|DisplayRam2K:\GEN_2KATTRAM:dispAttRam|altsyncram:altsyncram_component|altsyncram_ldr3:auto_generated
+ 28. Source assignments for bufferedUART:UART|altsyncram:rxBuffer_rtl_0|altsyncram_3ce1:auto_generated
+ 29. Parameter Settings for User Entity Instance: IOP16:IOP16
+ 30. Parameter Settings for User Entity Instance: IOP16:IOP16|GrayCounter:greyLow
+ 31. Parameter Settings for User Entity Instance: IOP16:IOP16|IOP_ROM:\GEN_256W_INST_ROM:IopRom|altsyncram:altsyncram_component
+ 32. Parameter Settings for User Entity Instance: ANSIDisplayVGA:ANSIDisplay
+ 33. Parameter Settings for User Entity Instance: ANSIDisplayVGA:ANSIDisplay|SansBoldRomReduced:\GEN_REDUCED_SCHARS:fontRom|altsyncram:altsyncram_component
+ 34. Parameter Settings for User Entity Instance: ANSIDisplayVGA:ANSIDisplay|DisplayRam2K:\GEN_2KRAM:dispCharRam|altsyncram:altsyncram_component
+ 35. Parameter Settings for User Entity Instance: ANSIDisplayVGA:ANSIDisplay|DisplayRam2K:\GEN_2KATTRAM:dispAttRam|altsyncram:altsyncram_component
+ 36. Parameter Settings for User Entity Instance: Wrap_Keyboard:KEYBOARD|ps2_keyboard_to_ascii:ps2Keyboard
+ 37. Parameter Settings for User Entity Instance: Wrap_Keyboard:KEYBOARD|ps2_keyboard_to_ascii:ps2Keyboard|ps2_keyboard:ps2_keyboard_0
+ 38. Parameter Settings for User Entity Instance: Wrap_Keyboard:KEYBOARD|ps2_keyboard_to_ascii:ps2Keyboard|ps2_keyboard:ps2_keyboard_0|debounce:debounce_ps2_clk
+ 39. Parameter Settings for User Entity Instance: Wrap_Keyboard:KEYBOARD|ps2_keyboard_to_ascii:ps2Keyboard|ps2_keyboard:ps2_keyboard_0|debounce:debounce_ps2_data
+ 40. Parameter Settings for User Entity Instance: BaudRate6850:BAUDRATEGEN
+ 41. Parameter Settings for Inferred Entity Instance: bufferedUART:UART|altsyncram:rxBuffer_rtl_0
+ 42. Parameter Settings for Inferred Entity Instance: ANSIDisplayVGA:ANSIDisplay|lpm_divide:Mod0
+ 43. Parameter Settings for Inferred Entity Instance: ANSIDisplayVGA:ANSIDisplay|lpm_divide:Mod1
+ 44. altsyncram Parameter Settings by Entity Instance
+ 45. Port Connectivity Checks: "bufferedUART:UART"
+ 46. Port Connectivity Checks: "ANSIDisplayVGA:ANSIDisplay|DisplayRam2K:\GEN_2KATTRAM:dispAttRam"
+ 47. Port Connectivity Checks: "ANSIDisplayVGA:ANSIDisplay|DisplayRam2K:\GEN_2KRAM:dispCharRam"
+ 48. Port Connectivity Checks: "ANSIDisplayVGA:ANSIDisplay"
+ 49. Port Connectivity Checks: "IOP16:IOP16|GrayCounter:greyLow"
+ 50. In-System Memory Content Editor Settings
+ 51. Post-Synthesis Netlist Statistics for Top Partition
+ 52. Elapsed Time Per Partition
+ 53. Analysis & Synthesis Messages
 
 
 
@@ -61,23 +83,109 @@ https://fpgasoftware.intel.com/eula.
 
 
 +----------------------------------------------------------------------------------+
-; Analysis & Elaboration Summary                                                   ;
+; Analysis & Synthesis Summary                                                     ;
 +------------------------------------+---------------------------------------------+
-; Analysis & Elaboration Status      ; Successful - Sun Jun 20 06:47:12 2021       ;
+; Analysis & Synthesis Status        ; Successful - Mon Jun 21 07:45:47 2021       ;
 ; Quartus Prime Version              ; 20.1.0 Build 711 06/05/2020 SJ Lite Edition ;
 ; Revision Name                      ; ANSITerm1                                   ;
 ; Top-level Entity Name              ; ANSITerm1                                   ;
 ; Family                             ; Cyclone IV E                                ;
-; Total logic elements               ; N/A until Partition Merge                   ;
-;     Total combinational functions  ; N/A until Partition Merge                   ;
-;     Dedicated logic registers      ; N/A until Partition Merge                   ;
-; Total registers                    ; N/A until Partition Merge                   ;
-; Total pins                         ; N/A until Partition Merge                   ;
-; Total virtual pins                 ; N/A until Partition Merge                   ;
-; Total memory bits                  ; N/A until Partition Merge                   ;
-; Embedded Multiplier 9-bit elements ; N/A until Partition Merge                   ;
-; Total PLLs                         ; N/A until Partition Merge                   ;
+; Total logic elements               ; 2,435                                       ;
+;     Total combinational functions  ; 2,263                                       ;
+;     Dedicated logic registers      ; 644                                         ;
+; Total registers                    ; 644                                         ;
+; Total pins                         ; 19                                          ;
+; Total virtual pins                 ; 0                                           ;
+; Total memory bits                  ; 45,184                                      ;
+; Embedded Multiplier 9-bit elements ; 0                                           ;
+; Total PLLs                         ; 0                                           ;
 +------------------------------------+---------------------------------------------+
+
+
++------------------------------------------------------------------------------------------------------------+
+; Analysis & Synthesis Settings                                                                              ;
++------------------------------------------------------------------+--------------------+--------------------+
+; Option                                                           ; Setting            ; Default Value      ;
++------------------------------------------------------------------+--------------------+--------------------+
+; Device                                                           ; EP4CE15F23C8       ;                    ;
+; Top-level entity name                                            ; ANSITerm1          ; ANSITerm1          ;
+; Family name                                                      ; Cyclone IV E       ; Cyclone V          ;
+; Use smart compilation                                            ; On                 ; Off                ;
+; Enable parallel Assembler and Timing Analyzer during compilation ; On                 ; On                 ;
+; Enable compact report table                                      ; Off                ; Off                ;
+; Restructure Multiplexers                                         ; Auto               ; Auto               ;
+; Create Debugging Nodes for IP Cores                              ; Off                ; Off                ;
+; Preserve fewer node names                                        ; On                 ; On                 ;
+; Intel FPGA IP Evaluation Mode                                    ; Enable             ; Enable             ;
+; Verilog Version                                                  ; Verilog_2001       ; Verilog_2001       ;
+; VHDL Version                                                     ; VHDL_1993          ; VHDL_1993          ;
+; State Machine Processing                                         ; Auto               ; Auto               ;
+; Safe State Machine                                               ; Off                ; Off                ;
+; Extract Verilog State Machines                                   ; On                 ; On                 ;
+; Extract VHDL State Machines                                      ; On                 ; On                 ;
+; Ignore Verilog initial constructs                                ; Off                ; Off                ;
+; Iteration limit for constant Verilog loops                       ; 5000               ; 5000               ;
+; Iteration limit for non-constant Verilog loops                   ; 250                ; 250                ;
+; Add Pass-Through Logic to Inferred RAMs                          ; On                 ; On                 ;
+; Infer RAMs from Raw Logic                                        ; On                 ; On                 ;
+; Parallel Synthesis                                               ; On                 ; On                 ;
+; DSP Block Balancing                                              ; Auto               ; Auto               ;
+; NOT Gate Push-Back                                               ; On                 ; On                 ;
+; Power-Up Don't Care                                              ; On                 ; On                 ;
+; Remove Redundant Logic Cells                                     ; Off                ; Off                ;
+; Remove Duplicate Registers                                       ; On                 ; On                 ;
+; Ignore CARRY Buffers                                             ; Off                ; Off                ;
+; Ignore CASCADE Buffers                                           ; Off                ; Off                ;
+; Ignore GLOBAL Buffers                                            ; Off                ; Off                ;
+; Ignore ROW GLOBAL Buffers                                        ; Off                ; Off                ;
+; Ignore LCELL Buffers                                             ; Off                ; Off                ;
+; Ignore SOFT Buffers                                              ; On                 ; On                 ;
+; Limit AHDL Integers to 32 Bits                                   ; Off                ; Off                ;
+; Optimization Technique                                           ; Balanced           ; Balanced           ;
+; Carry Chain Length                                               ; 70                 ; 70                 ;
+; Auto Carry Chains                                                ; On                 ; On                 ;
+; Auto Open-Drain Pins                                             ; On                 ; On                 ;
+; Perform WYSIWYG Primitive Resynthesis                            ; Off                ; Off                ;
+; Auto ROM Replacement                                             ; On                 ; On                 ;
+; Auto RAM Replacement                                             ; On                 ; On                 ;
+; Auto DSP Block Replacement                                       ; On                 ; On                 ;
+; Auto Shift Register Replacement                                  ; Auto               ; Auto               ;
+; Allow Shift Register Merging across Hierarchies                  ; Auto               ; Auto               ;
+; Auto Clock Enable Replacement                                    ; On                 ; On                 ;
+; Strict RAM Replacement                                           ; Off                ; Off                ;
+; Allow Synchronous Control Signals                                ; On                 ; On                 ;
+; Force Use of Synchronous Clear Signals                           ; Off                ; Off                ;
+; Auto RAM Block Balancing                                         ; On                 ; On                 ;
+; Auto RAM to Logic Cell Conversion                                ; Off                ; Off                ;
+; Auto Resource Sharing                                            ; Off                ; Off                ;
+; Allow Any RAM Size For Recognition                               ; Off                ; Off                ;
+; Allow Any ROM Size For Recognition                               ; Off                ; Off                ;
+; Allow Any Shift Register Size For Recognition                    ; Off                ; Off                ;
+; Use LogicLock Constraints during Resource Balancing              ; On                 ; On                 ;
+; Ignore translate_off and synthesis_off directives                ; Off                ; Off                ;
+; Timing-Driven Synthesis                                          ; On                 ; On                 ;
+; Report Parameter Settings                                        ; On                 ; On                 ;
+; Report Source Assignments                                        ; On                 ; On                 ;
+; Report Connectivity Checks                                       ; On                 ; On                 ;
+; Ignore Maximum Fan-Out Assignments                               ; Off                ; Off                ;
+; Synchronization Register Chain Length                            ; 2                  ; 2                  ;
+; Power Optimization During Synthesis                              ; Normal compilation ; Normal compilation ;
+; HDL message level                                                ; Level2             ; Level2             ;
+; Suppress Register Optimization Related Messages                  ; Off                ; Off                ;
+; Number of Removed Registers Reported in Synthesis Report         ; 5000               ; 5000               ;
+; Number of Swept Nodes Reported in Synthesis Report               ; 5000               ; 5000               ;
+; Number of Inverted Registers Reported in Synthesis Report        ; 100                ; 100                ;
+; Clock MUX Protection                                             ; On                 ; On                 ;
+; Auto Gated Clock Conversion                                      ; Off                ; Off                ;
+; Block Design Naming                                              ; Auto               ; Auto               ;
+; SDC constraint protection                                        ; Off                ; Off                ;
+; Synthesis Effort                                                 ; Auto               ; Auto               ;
+; Shift Register Replacement - Allow Asynchronous Clear Signal     ; On                 ; On                 ;
+; Pre-Mapping Resynthesis Optimization                             ; Off                ; Off                ;
+; Analysis & Synthesis Message Level                               ; Medium             ; Medium             ;
+; Disable Register Merging Across Hierarchies                      ; Auto               ; Auto               ;
+; Resource Aware Inference For Block RAM                           ; On                 ; On                 ;
++------------------------------------------------------------------+--------------------+--------------------+
 
 
 +------------------------------------------+
@@ -89,15 +197,183 @@ https://fpgasoftware.intel.com/eula.
 ; Maximum allowed            ; 4           ;
 ;                            ;             ;
 ; Average used               ; 1.00        ;
-; Maximum used               ; 1           ;
+; Maximum used               ; 4           ;
 ;                            ;             ;
 ; Usage by Processor         ; % Time Used ;
 ;     Processor 1            ; 100.0%      ;
+;     Processor 2            ;   0.0%      ;
+;     Processor 3            ;   0.0%      ;
+;     Processor 4            ;   0.0%      ;
 +----------------------------+-------------+
 
 
++---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+; Analysis & Synthesis Source Files Read                                                                                                                                                                                                                                                                                                            ;
++------------------------------------------------------------------------------------------------+-----------------+----------------------------------------------+-------------------------------------------------------------------------------------------------------------------------------------------------------------------+-------------+
+; File Name with User-Entered Path                                                               ; Used in Netlist ; File Type                                    ; File Name with Absolute Path                                                                                                                                      ; Library     ;
++------------------------------------------------------------------------------------------------+-----------------+----------------------------------------------+-------------------------------------------------------------------------------------------------------------------------------------------------------------------+-------------+
+; ../../MultiComp (VHDL Template)/Components/CPU/IOP16/lifo.vhd                                  ; yes             ; User VHDL File                               ; C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/CPU/IOP16/lifo.vhd                                                 ;             ;
+; ../../MultiComp (VHDL Template)/Components/CPU/IOP16/IOP16_ROMs/IOP_ROM_ANSI1/IOP_ROM.vhd      ; yes             ; User Wizard-Generated File                   ; C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/CPU/IOP16/IOP16_ROMs/IOP_ROM_ANSI1/IOP_ROM.vhd                     ;             ;
+; ../../MultiComp (VHDL Template)/Components/CPU/IOP16/RegFile8x8.vhd                            ; yes             ; User VHDL File                               ; C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/CPU/IOP16/RegFile8x8.vhd                                           ;             ;
+; ../../MultiComp (VHDL Template)/Components/CPU/IOP16/IOP16B.vhd                                ; yes             ; User VHDL File                               ; C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/CPU/IOP16/IOP16B.vhd                                               ;             ;
+; ANSITerm1.vhd                                                                                  ; yes             ; User VHDL File                               ; C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15/ANSITerm2/ANSITerm1.vhd                                                      ;             ;
+; ../../MultiComp (VHDL Template)/Components/PS2KB/ps2_Wrapped/Wrap_Keyboard.vhd                 ; yes             ; User VHDL File                               ; C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/PS2KB/ps2_Wrapped/Wrap_Keyboard.vhd                                ;             ;
+; ../../MultiComp (VHDL Template)/Components/PS2KB/ps2_Wrapped/ps2_keyboard_to_ascii.vhd         ; yes             ; User VHDL File                               ; C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/PS2KB/ps2_Wrapped/ps2_keyboard_to_ascii.vhd                        ;             ;
+; ../../MultiComp (VHDL Template)/Components/PS2KB/ps2_Wrapped/ps2_keyboard.vhd                  ; yes             ; User VHDL File                               ; C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/PS2KB/ps2_Wrapped/ps2_keyboard.vhd                                 ;             ;
+; ../../MultiComp (VHDL Template)/Components/PS2KB/ps2_Wrapped/debounce.vhd                      ; yes             ; User VHDL File                               ; C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/PS2KB/ps2_Wrapped/debounce.vhd                                     ;             ;
+; ../../MultiComp (VHDL Template)/Components/TERMINAL/ANSIDisplayVGA/SansBoldRomReduced.vhd      ; yes             ; User Wizard-Generated File                   ; C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/TERMINAL/ANSIDisplayVGA/SansBoldRomReduced.vhd                     ;             ;
+; ../../MultiComp (VHDL Template)/Components/TERMINAL/ANSIDisplayVGA/SansBoldRom.vhd             ; yes             ; User Wizard-Generated File                   ; C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/TERMINAL/ANSIDisplayVGA/SansBoldRom.vhd                            ;             ;
+; ../../MultiComp (VHDL Template)/Components/TERMINAL/ANSIDisplayVGA/DisplayRam2K.vhd            ; yes             ; User Wizard-Generated File                   ; C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/TERMINAL/ANSIDisplayVGA/DisplayRam2K.vhd                           ;             ;
+; ../../MultiComp (VHDL Template)/Components/TERMINAL/ANSIDisplayVGA/DisplayRam1K.vhd            ; yes             ; User Wizard-Generated File                   ; C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/TERMINAL/ANSIDisplayVGA/DisplayRam1K.vhd                           ;             ;
+; ../../MultiComp (VHDL Template)/Components/TERMINAL/ANSIDisplayVGA/CGABoldRomReduced.vhd       ; yes             ; User Wizard-Generated File                   ; C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/TERMINAL/ANSIDisplayVGA/CGABoldRomReduced.vhd                      ;             ;
+; ../../MultiComp (VHDL Template)/Components/TERMINAL/ANSIDisplayVGA/CGABoldRom.vhd              ; yes             ; User Wizard-Generated File                   ; C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/TERMINAL/ANSIDisplayVGA/CGABoldRom.vhd                             ;             ;
+; ../../MultiComp (VHDL Template)/Components/TERMINAL/ANSIDisplayVGA/ANSIDisplayVGA.vhd          ; yes             ; User VHDL File                               ; C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/TERMINAL/ANSIDisplayVGA/ANSIDisplayVGA.vhd                         ;             ;
+; ../../MultiComp (VHDL Template)/Components/UART/bufferedUART.vhd                               ; yes             ; User VHDL File                               ; C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/UART/bufferedUART.vhd                                              ;             ;
+; ../../MultiComp (VHDL Template)/Components/Debounce/Debounce.vhd                               ; yes             ; User VHDL File                               ; C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/Debounce/Debounce.vhd                                              ;             ;
+; ../../MultiComp (VHDL Template)/Components/COUNTER/n-bit-gray-counter.vhd                      ; yes             ; User VHDL File                               ; C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/COUNTER/n-bit-gray-counter.vhd                                     ;             ;
+; ../../MultiComp (VHDL Template)/Components/UART/BaudRate6850.vhd                               ; yes             ; User VHDL File                               ; C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/UART/BaudRate6850.vhd                                              ;             ;
+; altsyncram.tdf                                                                                 ; yes             ; Megafunction                                 ; c:/intelfpga_lite/20.1/quartus/libraries/megafunctions/altsyncram.tdf                                                                                             ;             ;
+; stratix_ram_block.inc                                                                          ; yes             ; Megafunction                                 ; c:/intelfpga_lite/20.1/quartus/libraries/megafunctions/stratix_ram_block.inc                                                                                      ;             ;
+; lpm_mux.inc                                                                                    ; yes             ; Megafunction                                 ; c:/intelfpga_lite/20.1/quartus/libraries/megafunctions/lpm_mux.inc                                                                                                ;             ;
+; lpm_decode.inc                                                                                 ; yes             ; Megafunction                                 ; c:/intelfpga_lite/20.1/quartus/libraries/megafunctions/lpm_decode.inc                                                                                             ;             ;
+; aglobal201.inc                                                                                 ; yes             ; Megafunction                                 ; c:/intelfpga_lite/20.1/quartus/libraries/megafunctions/aglobal201.inc                                                                                             ;             ;
+; a_rdenreg.inc                                                                                  ; yes             ; Megafunction                                 ; c:/intelfpga_lite/20.1/quartus/libraries/megafunctions/a_rdenreg.inc                                                                                              ;             ;
+; altrom.inc                                                                                     ; yes             ; Megafunction                                 ; c:/intelfpga_lite/20.1/quartus/libraries/megafunctions/altrom.inc                                                                                                 ;             ;
+; altram.inc                                                                                     ; yes             ; Megafunction                                 ; c:/intelfpga_lite/20.1/quartus/libraries/megafunctions/altram.inc                                                                                                 ;             ;
+; altdpram.inc                                                                                   ; yes             ; Megafunction                                 ; c:/intelfpga_lite/20.1/quartus/libraries/megafunctions/altdpram.inc                                                                                               ;             ;
+; db/altsyncram_id54.tdf                                                                         ; yes             ; Auto-Generated Megafunction                  ; C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15/ANSITerm2/db/altsyncram_id54.tdf                                             ;             ;
+; db/altsyncram_ds53.tdf                                                                         ; yes             ; Auto-Generated Megafunction                  ; C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15/ANSITerm2/db/altsyncram_ds53.tdf                                             ;             ;
+; ../../MultiComp (VHDL Template)/Components/CPU/IOP16/IOP16_ASSEMBLER/ANSITerm02/ANSITerm02.mif ; yes             ; Auto-Found Memory Initialization File        ; C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/CPU/IOP16/IOP16_ASSEMBLER/ANSITerm02/ANSITerm02.mif                ;             ;
+; sld_mod_ram_rom.vhd                                                                            ; yes             ; Encrypted Megafunction                       ; c:/intelfpga_lite/20.1/quartus/libraries/megafunctions/sld_mod_ram_rom.vhd                                                                                        ;             ;
+; sld_jtag_endpoint_adapter.vhd                                                                  ; yes             ; Encrypted Megafunction                       ; c:/intelfpga_lite/20.1/quartus/libraries/megafunctions/sld_jtag_endpoint_adapter.vhd                                                                              ;             ;
+; sld_jtag_endpoint_adapter_impl.sv                                                              ; yes             ; Encrypted Megafunction                       ; c:/intelfpga_lite/20.1/quartus/libraries/megafunctions/sld_jtag_endpoint_adapter_impl.sv                                                                          ;             ;
+; sld_rom_sr.vhd                                                                                 ; yes             ; Encrypted Megafunction                       ; c:/intelfpga_lite/20.1/quartus/libraries/megafunctions/sld_rom_sr.vhd                                                                                             ;             ;
+; db/altsyncram_q504.tdf                                                                         ; yes             ; Auto-Generated Megafunction                  ; C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15/ANSITerm2/db/altsyncram_q504.tdf                                             ;             ;
+; ../../../MultiComp (VHDL Template)/Components/TERMINAL/SansFontBoldReduced.HEX                 ; yes             ; Auto-Found Memory Initialization File        ; C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/TERMINAL/SansFontBoldReduced.HEX                                   ;             ;
+; db/altsyncram_ldr3.tdf                                                                         ; yes             ; Auto-Generated Megafunction                  ; C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15/ANSITerm2/db/altsyncram_ldr3.tdf                                             ;             ;
+; sld_hub.vhd                                                                                    ; yes             ; Encrypted Megafunction                       ; c:/intelfpga_lite/20.1/quartus/libraries/megafunctions/sld_hub.vhd                                                                                                ; altera_sld  ;
+; db/ip/sld1444e96f/alt_sld_fab.v                                                                ; yes             ; Encrypted Auto-Found Verilog HDL File        ; C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15/ANSITerm2/db/ip/sld1444e96f/alt_sld_fab.v                                    ; alt_sld_fab ;
+; db/ip/sld1444e96f/submodules/alt_sld_fab_alt_sld_fab.v                                         ; yes             ; Encrypted Auto-Found Verilog HDL File        ; C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15/ANSITerm2/db/ip/sld1444e96f/submodules/alt_sld_fab_alt_sld_fab.v             ; alt_sld_fab ;
+; db/ip/sld1444e96f/submodules/alt_sld_fab_alt_sld_fab_ident.sv                                  ; yes             ; Auto-Found SystemVerilog HDL File            ; C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15/ANSITerm2/db/ip/sld1444e96f/submodules/alt_sld_fab_alt_sld_fab_ident.sv      ; alt_sld_fab ;
+; db/ip/sld1444e96f/submodules/alt_sld_fab_alt_sld_fab_presplit.sv                               ; yes             ; Encrypted Auto-Found SystemVerilog HDL File  ; C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15/ANSITerm2/db/ip/sld1444e96f/submodules/alt_sld_fab_alt_sld_fab_presplit.sv   ; alt_sld_fab ;
+; db/ip/sld1444e96f/submodules/alt_sld_fab_alt_sld_fab_sldfabric.vhd                             ; yes             ; Encrypted Auto-Found VHDL File               ; C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15/ANSITerm2/db/ip/sld1444e96f/submodules/alt_sld_fab_alt_sld_fab_sldfabric.vhd ; alt_sld_fab ;
+; db/ip/sld1444e96f/submodules/alt_sld_fab_alt_sld_fab_splitter.sv                               ; yes             ; Encrypted Auto-Found SystemVerilog HDL File  ; C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15/ANSITerm2/db/ip/sld1444e96f/submodules/alt_sld_fab_alt_sld_fab_splitter.sv   ; alt_sld_fab ;
+; sld_jtag_hub.vhd                                                                               ; yes             ; Encrypted Megafunction                       ; c:/intelfpga_lite/20.1/quartus/libraries/megafunctions/sld_jtag_hub.vhd                                                                                           ;             ;
+; db/altsyncram_3ce1.tdf                                                                         ; yes             ; Auto-Generated Megafunction                  ; C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15/ANSITerm2/db/altsyncram_3ce1.tdf                                             ;             ;
+; lpm_divide.tdf                                                                                 ; yes             ; Megafunction                                 ; c:/intelfpga_lite/20.1/quartus/libraries/megafunctions/lpm_divide.tdf                                                                                             ;             ;
+; abs_divider.inc                                                                                ; yes             ; Megafunction                                 ; c:/intelfpga_lite/20.1/quartus/libraries/megafunctions/abs_divider.inc                                                                                            ;             ;
+; sign_div_unsign.inc                                                                            ; yes             ; Megafunction                                 ; c:/intelfpga_lite/20.1/quartus/libraries/megafunctions/sign_div_unsign.inc                                                                                        ;             ;
+; db/lpm_divide_icm.tdf                                                                          ; yes             ; Auto-Generated Megafunction                  ; C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15/ANSITerm2/db/lpm_divide_icm.tdf                                              ;             ;
+; db/sign_div_unsign_7nh.tdf                                                                     ; yes             ; Auto-Generated Megafunction                  ; C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15/ANSITerm2/db/sign_div_unsign_7nh.tdf                                         ;             ;
+; db/alt_u_div_2af.tdf                                                                           ; yes             ; Auto-Generated Megafunction                  ; C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15/ANSITerm2/db/alt_u_div_2af.tdf                                               ;             ;
+; db/add_sub_7pc.tdf                                                                             ; yes             ; Auto-Generated Megafunction                  ; C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15/ANSITerm2/db/add_sub_7pc.tdf                                                 ;             ;
+; db/add_sub_8pc.tdf                                                                             ; yes             ; Auto-Generated Megafunction                  ; C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15/ANSITerm2/db/add_sub_8pc.tdf                                                 ;             ;
++------------------------------------------------------------------------------------------------+-----------------+----------------------------------------------+-------------------------------------------------------------------------------------------------------------------------------------------------------------------+-------------+
+
+
++----------------------------------------------------------------+
+; Analysis & Synthesis Resource Usage Summary                    ;
++---------------------------------------------+------------------+
+; Resource                                    ; Usage            ;
++---------------------------------------------+------------------+
+; Estimated Total logic elements              ; 2,435            ;
+;                                             ;                  ;
+; Total combinational functions               ; 2263             ;
+; Logic element usage by number of LUT inputs ;                  ;
+;     -- 4 input functions                    ; 1208             ;
+;     -- 3 input functions                    ; 488              ;
+;     -- <=2 input functions                  ; 567              ;
+;                                             ;                  ;
+; Logic elements by mode                      ;                  ;
+;     -- normal mode                          ; 1895             ;
+;     -- arithmetic mode                      ; 368              ;
+;                                             ;                  ;
+; Total registers                             ; 644              ;
+;     -- Dedicated logic registers            ; 644              ;
+;     -- I/O registers                        ; 0                ;
+;                                             ;                  ;
+; I/O pins                                    ; 19               ;
+; Total memory bits                           ; 45184            ;
+;                                             ;                  ;
+; Embedded Multiplier 9-bit elements          ; 0                ;
+;                                             ;                  ;
+; Maximum fan-out node                        ; i_CLOCK_50~input ;
+; Maximum fan-out                             ; 508              ;
+; Total fan-out                               ; 10365            ;
+; Average fan-out                             ; 3.45             ;
++---------------------------------------------+------------------+
+
+
++-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+; Analysis & Synthesis Resource Utilization by Entity                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           ;
++-----------------------------------------------------------------------------------------------------------------------------------------+---------------------+---------------------------+-------------+--------------+---------+-----------+------+--------------+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+-----------------------------------+--------------+
+; Compilation Hierarchy Node                                                                                                              ; Combinational ALUTs ; Dedicated Logic Registers ; Memory Bits ; DSP Elements ; DSP 9x9 ; DSP 18x18 ; Pins ; Virtual Pins ; Full Hierarchy Name                                                                                                                                                                                                                                                                                                                                   ; Entity Name                       ; Library Name ;
++-----------------------------------------------------------------------------------------------------------------------------------------+---------------------+---------------------------+-------------+--------------+---------+-----------+------+--------------+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+-----------------------------------+--------------+
+; |ANSITerm1                                                                                                                              ; 2263 (23)           ; 644 (0)                   ; 45184       ; 0            ; 0       ; 0         ; 19   ; 0            ; |ANSITerm1                                                                                                                                                                                                                                                                                                                                            ; ANSITerm1                         ; work         ;
+;    |ANSIDisplayVGA:ANSIDisplay|                                                                                                         ; 966 (788)           ; 203 (203)                 ; 40960       ; 0            ; 0       ; 0         ; 0    ; 0            ; |ANSITerm1|ANSIDisplayVGA:ANSIDisplay                                                                                                                                                                                                                                                                                                                 ; ANSIDisplayVGA                    ; work         ;
+;       |DisplayRam2K:\GEN_2KATTRAM:dispAttRam|                                                                                           ; 0 (0)               ; 0 (0)                     ; 16384       ; 0            ; 0       ; 0         ; 0    ; 0            ; |ANSITerm1|ANSIDisplayVGA:ANSIDisplay|DisplayRam2K:\GEN_2KATTRAM:dispAttRam                                                                                                                                                                                                                                                                           ; DisplayRam2K                      ; work         ;
+;          |altsyncram:altsyncram_component|                                                                                              ; 0 (0)               ; 0 (0)                     ; 16384       ; 0            ; 0       ; 0         ; 0    ; 0            ; |ANSITerm1|ANSIDisplayVGA:ANSIDisplay|DisplayRam2K:\GEN_2KATTRAM:dispAttRam|altsyncram:altsyncram_component                                                                                                                                                                                                                                           ; altsyncram                        ; work         ;
+;             |altsyncram_ldr3:auto_generated|                                                                                            ; 0 (0)               ; 0 (0)                     ; 16384       ; 0            ; 0       ; 0         ; 0    ; 0            ; |ANSITerm1|ANSIDisplayVGA:ANSIDisplay|DisplayRam2K:\GEN_2KATTRAM:dispAttRam|altsyncram:altsyncram_component|altsyncram_ldr3:auto_generated                                                                                                                                                                                                            ; altsyncram_ldr3                   ; work         ;
+;       |DisplayRam2K:\GEN_2KRAM:dispCharRam|                                                                                             ; 0 (0)               ; 0 (0)                     ; 16384       ; 0            ; 0       ; 0         ; 0    ; 0            ; |ANSITerm1|ANSIDisplayVGA:ANSIDisplay|DisplayRam2K:\GEN_2KRAM:dispCharRam                                                                                                                                                                                                                                                                             ; DisplayRam2K                      ; work         ;
+;          |altsyncram:altsyncram_component|                                                                                              ; 0 (0)               ; 0 (0)                     ; 16384       ; 0            ; 0       ; 0         ; 0    ; 0            ; |ANSITerm1|ANSIDisplayVGA:ANSIDisplay|DisplayRam2K:\GEN_2KRAM:dispCharRam|altsyncram:altsyncram_component                                                                                                                                                                                                                                             ; altsyncram                        ; work         ;
+;             |altsyncram_ldr3:auto_generated|                                                                                            ; 0 (0)               ; 0 (0)                     ; 16384       ; 0            ; 0       ; 0         ; 0    ; 0            ; |ANSITerm1|ANSIDisplayVGA:ANSIDisplay|DisplayRam2K:\GEN_2KRAM:dispCharRam|altsyncram:altsyncram_component|altsyncram_ldr3:auto_generated                                                                                                                                                                                                              ; altsyncram_ldr3                   ; work         ;
+;       |SansBoldRomReduced:\GEN_REDUCED_SCHARS:fontRom|                                                                                  ; 0 (0)               ; 0 (0)                     ; 8192        ; 0            ; 0       ; 0         ; 0    ; 0            ; |ANSITerm1|ANSIDisplayVGA:ANSIDisplay|SansBoldRomReduced:\GEN_REDUCED_SCHARS:fontRom                                                                                                                                                                                                                                                                  ; SansBoldRomReduced                ; work         ;
+;          |altsyncram:altsyncram_component|                                                                                              ; 0 (0)               ; 0 (0)                     ; 8192        ; 0            ; 0       ; 0         ; 0    ; 0            ; |ANSITerm1|ANSIDisplayVGA:ANSIDisplay|SansBoldRomReduced:\GEN_REDUCED_SCHARS:fontRom|altsyncram:altsyncram_component                                                                                                                                                                                                                                  ; altsyncram                        ; work         ;
+;             |altsyncram_q504:auto_generated|                                                                                            ; 0 (0)               ; 0 (0)                     ; 8192        ; 0            ; 0       ; 0         ; 0    ; 0            ; |ANSITerm1|ANSIDisplayVGA:ANSIDisplay|SansBoldRomReduced:\GEN_REDUCED_SCHARS:fontRom|altsyncram:altsyncram_component|altsyncram_q504:auto_generated                                                                                                                                                                                                   ; altsyncram_q504                   ; work         ;
+;       |lpm_divide:Mod0|                                                                                                                 ; 89 (0)              ; 0 (0)                     ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |ANSITerm1|ANSIDisplayVGA:ANSIDisplay|lpm_divide:Mod0                                                                                                                                                                                                                                                                                                 ; lpm_divide                        ; work         ;
+;          |lpm_divide_icm:auto_generated|                                                                                                ; 89 (0)              ; 0 (0)                     ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |ANSITerm1|ANSIDisplayVGA:ANSIDisplay|lpm_divide:Mod0|lpm_divide_icm:auto_generated                                                                                                                                                                                                                                                                   ; lpm_divide_icm                    ; work         ;
+;             |sign_div_unsign_7nh:divider|                                                                                               ; 89 (0)              ; 0 (0)                     ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |ANSITerm1|ANSIDisplayVGA:ANSIDisplay|lpm_divide:Mod0|lpm_divide_icm:auto_generated|sign_div_unsign_7nh:divider                                                                                                                                                                                                                                       ; sign_div_unsign_7nh               ; work         ;
+;                |alt_u_div_2af:divider|                                                                                                  ; 89 (89)             ; 0 (0)                     ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |ANSITerm1|ANSIDisplayVGA:ANSIDisplay|lpm_divide:Mod0|lpm_divide_icm:auto_generated|sign_div_unsign_7nh:divider|alt_u_div_2af:divider                                                                                                                                                                                                                 ; alt_u_div_2af                     ; work         ;
+;       |lpm_divide:Mod1|                                                                                                                 ; 89 (0)              ; 0 (0)                     ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |ANSITerm1|ANSIDisplayVGA:ANSIDisplay|lpm_divide:Mod1                                                                                                                                                                                                                                                                                                 ; lpm_divide                        ; work         ;
+;          |lpm_divide_icm:auto_generated|                                                                                                ; 89 (0)              ; 0 (0)                     ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |ANSITerm1|ANSIDisplayVGA:ANSIDisplay|lpm_divide:Mod1|lpm_divide_icm:auto_generated                                                                                                                                                                                                                                                                   ; lpm_divide_icm                    ; work         ;
+;             |sign_div_unsign_7nh:divider|                                                                                               ; 89 (0)              ; 0 (0)                     ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |ANSITerm1|ANSIDisplayVGA:ANSIDisplay|lpm_divide:Mod1|lpm_divide_icm:auto_generated|sign_div_unsign_7nh:divider                                                                                                                                                                                                                                       ; sign_div_unsign_7nh               ; work         ;
+;                |alt_u_div_2af:divider|                                                                                                  ; 89 (89)             ; 0 (0)                     ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |ANSITerm1|ANSIDisplayVGA:ANSIDisplay|lpm_divide:Mod1|lpm_divide_icm:auto_generated|sign_div_unsign_7nh:divider|alt_u_div_2af:divider                                                                                                                                                                                                                 ; alt_u_div_2af                     ; work         ;
+;    |BaudRate6850:BAUDRATEGEN|                                                                                                           ; 14 (14)             ; 13 (13)                   ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |ANSITerm1|BaudRate6850:BAUDRATEGEN                                                                                                                                                                                                                                                                                                                   ; BaudRate6850                      ; work         ;
+;    |Debouncer:debounceReset|                                                                                                            ; 25 (25)             ; 23 (23)                   ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |ANSITerm1|Debouncer:debounceReset                                                                                                                                                                                                                                                                                                                    ; Debouncer                         ; work         ;
+;    |IOP16:IOP16|                                                                                                                        ; 292 (120)           ; 130 (16)                  ; 4096        ; 0            ; 0       ; 0         ; 0    ; 0            ; |ANSITerm1|IOP16:IOP16                                                                                                                                                                                                                                                                                                                                ; IOP16                             ; work         ;
+;       |GrayCounter:greyLow|                                                                                                             ; 3 (3)               ; 3 (3)                     ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |ANSITerm1|IOP16:IOP16|GrayCounter:greyLow                                                                                                                                                                                                                                                                                                            ; GrayCounter                       ; work         ;
+;       |IOP_ROM:\GEN_256W_INST_ROM:IopRom|                                                                                               ; 76 (0)              ; 47 (0)                    ; 4096        ; 0            ; 0       ; 0         ; 0    ; 0            ; |ANSITerm1|IOP16:IOP16|IOP_ROM:\GEN_256W_INST_ROM:IopRom                                                                                                                                                                                                                                                                                              ; IOP_ROM                           ; work         ;
+;          |altsyncram:altsyncram_component|                                                                                              ; 76 (0)              ; 47 (0)                    ; 4096        ; 0            ; 0       ; 0         ; 0    ; 0            ; |ANSITerm1|IOP16:IOP16|IOP_ROM:\GEN_256W_INST_ROM:IopRom|altsyncram:altsyncram_component                                                                                                                                                                                                                                                              ; altsyncram                        ; work         ;
+;             |altsyncram_id54:auto_generated|                                                                                            ; 76 (0)              ; 47 (0)                    ; 4096        ; 0            ; 0       ; 0         ; 0    ; 0            ; |ANSITerm1|IOP16:IOP16|IOP_ROM:\GEN_256W_INST_ROM:IopRom|altsyncram:altsyncram_component|altsyncram_id54:auto_generated                                                                                                                                                                                                                               ; altsyncram_id54                   ; work         ;
+;                |altsyncram_ds53:altsyncram1|                                                                                            ; 0 (0)               ; 0 (0)                     ; 4096        ; 0            ; 0       ; 0         ; 0    ; 0            ; |ANSITerm1|IOP16:IOP16|IOP_ROM:\GEN_256W_INST_ROM:IopRom|altsyncram:altsyncram_component|altsyncram_id54:auto_generated|altsyncram_ds53:altsyncram1                                                                                                                                                                                                   ; altsyncram_ds53                   ; work         ;
+;                |sld_mod_ram_rom:mgl_prim2|                                                                                              ; 76 (53)             ; 47 (38)                   ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |ANSITerm1|IOP16:IOP16|IOP_ROM:\GEN_256W_INST_ROM:IopRom|altsyncram:altsyncram_component|altsyncram_id54:auto_generated|sld_mod_ram_rom:mgl_prim2                                                                                                                                                                                                     ; sld_mod_ram_rom                   ; work         ;
+;                   |sld_rom_sr:\ram_rom_logic_gen:name_gen:info_rom_sr|                                                                  ; 23 (23)             ; 9 (9)                     ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |ANSITerm1|IOP16:IOP16|IOP_ROM:\GEN_256W_INST_ROM:IopRom|altsyncram:altsyncram_component|altsyncram_id54:auto_generated|sld_mod_ram_rom:mgl_prim2|sld_rom_sr:\ram_rom_logic_gen:name_gen:info_rom_sr                                                                                                                                                  ; sld_rom_sr                        ; work         ;
+;       |RegFile8x8:RegFile|                                                                                                              ; 93 (93)             ; 64 (64)                   ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |ANSITerm1|IOP16:IOP16|RegFile8x8:RegFile                                                                                                                                                                                                                                                                                                             ; RegFile8x8                        ; work         ;
+;    |Wrap_Keyboard:KEYBOARD|                                                                                                             ; 670 (4)             ; 95 (9)                    ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |ANSITerm1|Wrap_Keyboard:KEYBOARD                                                                                                                                                                                                                                                                                                                     ; Wrap_Keyboard                     ; work         ;
+;       |ps2_keyboard_to_ascii:ps2Keyboard|                                                                                               ; 666 (603)           ; 86 (28)                   ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |ANSITerm1|Wrap_Keyboard:KEYBOARD|ps2_keyboard_to_ascii:ps2Keyboard                                                                                                                                                                                                                                                                                   ; ps2_keyboard_to_ascii             ; work         ;
+;          |ps2_keyboard:ps2_keyboard_0|                                                                                                  ; 63 (21)             ; 58 (34)                   ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |ANSITerm1|Wrap_Keyboard:KEYBOARD|ps2_keyboard_to_ascii:ps2Keyboard|ps2_keyboard:ps2_keyboard_0                                                                                                                                                                                                                                                       ; ps2_keyboard                      ; work         ;
+;             |debounce:debounce_ps2_clk|                                                                                                 ; 21 (21)             ; 12 (12)                   ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |ANSITerm1|Wrap_Keyboard:KEYBOARD|ps2_keyboard_to_ascii:ps2Keyboard|ps2_keyboard:ps2_keyboard_0|debounce:debounce_ps2_clk                                                                                                                                                                                                                             ; debounce                          ; work         ;
+;             |debounce:debounce_ps2_data|                                                                                                ; 21 (21)             ; 12 (12)                   ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |ANSITerm1|Wrap_Keyboard:KEYBOARD|ps2_keyboard_to_ascii:ps2Keyboard|ps2_keyboard:ps2_keyboard_0|debounce:debounce_ps2_data                                                                                                                                                                                                                            ; debounce                          ; work         ;
+;    |bufferedUART:UART|                                                                                                                  ; 154 (154)           ; 94 (94)                   ; 128         ; 0            ; 0       ; 0         ; 0    ; 0            ; |ANSITerm1|bufferedUART:UART                                                                                                                                                                                                                                                                                                                          ; bufferedUART                      ; work         ;
+;       |altsyncram:rxBuffer_rtl_0|                                                                                                       ; 0 (0)               ; 0 (0)                     ; 128         ; 0            ; 0       ; 0         ; 0    ; 0            ; |ANSITerm1|bufferedUART:UART|altsyncram:rxBuffer_rtl_0                                                                                                                                                                                                                                                                                                ; altsyncram                        ; work         ;
+;          |altsyncram_3ce1:auto_generated|                                                                                               ; 0 (0)               ; 0 (0)                     ; 128         ; 0            ; 0       ; 0         ; 0    ; 0            ; |ANSITerm1|bufferedUART:UART|altsyncram:rxBuffer_rtl_0|altsyncram_3ce1:auto_generated                                                                                                                                                                                                                                                                 ; altsyncram_3ce1                   ; work         ;
+;    |sld_hub:auto_hub|                                                                                                                   ; 119 (1)             ; 86 (0)                    ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |ANSITerm1|sld_hub:auto_hub                                                                                                                                                                                                                                                                                                                           ; sld_hub                           ; altera_sld   ;
+;       |alt_sld_fab_with_jtag_input:\instrumentation_fabric_with_node_gen:fabric_gen_new_way:with_jtag_input_gen:instrumentation_fabric| ; 118 (0)             ; 86 (0)                    ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |ANSITerm1|sld_hub:auto_hub|alt_sld_fab_with_jtag_input:\instrumentation_fabric_with_node_gen:fabric_gen_new_way:with_jtag_input_gen:instrumentation_fabric                                                                                                                                                                                           ; alt_sld_fab_with_jtag_input       ; altera_sld   ;
+;          |alt_sld_fab:instrumentation_fabric|                                                                                           ; 118 (0)             ; 86 (0)                    ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |ANSITerm1|sld_hub:auto_hub|alt_sld_fab_with_jtag_input:\instrumentation_fabric_with_node_gen:fabric_gen_new_way:with_jtag_input_gen:instrumentation_fabric|alt_sld_fab:instrumentation_fabric                                                                                                                                                        ; alt_sld_fab                       ; alt_sld_fab  ;
+;             |alt_sld_fab_alt_sld_fab:alt_sld_fab|                                                                                       ; 118 (1)             ; 86 (5)                    ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |ANSITerm1|sld_hub:auto_hub|alt_sld_fab_with_jtag_input:\instrumentation_fabric_with_node_gen:fabric_gen_new_way:with_jtag_input_gen:instrumentation_fabric|alt_sld_fab:instrumentation_fabric|alt_sld_fab_alt_sld_fab:alt_sld_fab                                                                                                                    ; alt_sld_fab_alt_sld_fab           ; alt_sld_fab  ;
+;                |alt_sld_fab_alt_sld_fab_sldfabric:sldfabric|                                                                            ; 117 (0)             ; 81 (0)                    ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |ANSITerm1|sld_hub:auto_hub|alt_sld_fab_with_jtag_input:\instrumentation_fabric_with_node_gen:fabric_gen_new_way:with_jtag_input_gen:instrumentation_fabric|alt_sld_fab:instrumentation_fabric|alt_sld_fab_alt_sld_fab:alt_sld_fab|alt_sld_fab_alt_sld_fab_sldfabric:sldfabric                                                                        ; alt_sld_fab_alt_sld_fab_sldfabric ; alt_sld_fab  ;
+;                   |sld_jtag_hub:\jtag_hub_gen:real_sld_jtag_hub|                                                                        ; 117 (81)            ; 81 (53)                   ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |ANSITerm1|sld_hub:auto_hub|alt_sld_fab_with_jtag_input:\instrumentation_fabric_with_node_gen:fabric_gen_new_way:with_jtag_input_gen:instrumentation_fabric|alt_sld_fab:instrumentation_fabric|alt_sld_fab_alt_sld_fab:alt_sld_fab|alt_sld_fab_alt_sld_fab_sldfabric:sldfabric|sld_jtag_hub:\jtag_hub_gen:real_sld_jtag_hub                           ; sld_jtag_hub                      ; work         ;
+;                      |sld_rom_sr:hub_info_reg|                                                                                          ; 18 (18)             ; 9 (9)                     ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |ANSITerm1|sld_hub:auto_hub|alt_sld_fab_with_jtag_input:\instrumentation_fabric_with_node_gen:fabric_gen_new_way:with_jtag_input_gen:instrumentation_fabric|alt_sld_fab:instrumentation_fabric|alt_sld_fab_alt_sld_fab:alt_sld_fab|alt_sld_fab_alt_sld_fab_sldfabric:sldfabric|sld_jtag_hub:\jtag_hub_gen:real_sld_jtag_hub|sld_rom_sr:hub_info_reg   ; sld_rom_sr                        ; work         ;
+;                      |sld_shadow_jsm:shadow_jsm|                                                                                        ; 18 (18)             ; 19 (19)                   ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |ANSITerm1|sld_hub:auto_hub|alt_sld_fab_with_jtag_input:\instrumentation_fabric_with_node_gen:fabric_gen_new_way:with_jtag_input_gen:instrumentation_fabric|alt_sld_fab:instrumentation_fabric|alt_sld_fab_alt_sld_fab:alt_sld_fab|alt_sld_fab_alt_sld_fab_sldfabric:sldfabric|sld_jtag_hub:\jtag_hub_gen:real_sld_jtag_hub|sld_shadow_jsm:shadow_jsm ; sld_shadow_jsm                    ; altera_sld   ;
++-----------------------------------------------------------------------------------------------------------------------------------------+---------------------+---------------------------+-------------+--------------+---------+-----------+------+--------------+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+-----------------------------------+--------------+
+Note: For table entries with two numbers listed, the numbers in parentheses indicate the number of resources of the given type used by the specific entity alone. The numbers listed outside of parentheses indicate the total resources of the given type used by the specific entity and all of its sub-entities in the hierarchy.
+
+
++----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+; Analysis & Synthesis RAM Summary                                                                                                                                                                                                                                                                                                                   ;
++-----------------------------------------------------------------------------------------------------------------------------------------------------+------+------------------+--------------+--------------+--------------+--------------+-------+------------------------------------------------------------------------------------------------+
+; Name                                                                                                                                                ; Type ; Mode             ; Port A Depth ; Port A Width ; Port B Depth ; Port B Width ; Size  ; MIF                                                                                            ;
++-----------------------------------------------------------------------------------------------------------------------------------------------------+------+------------------+--------------+--------------+--------------+--------------+-------+------------------------------------------------------------------------------------------------+
+; ANSIDisplayVGA:ANSIDisplay|DisplayRam2K:\GEN_2KATTRAM:dispAttRam|altsyncram:altsyncram_component|altsyncram_ldr3:auto_generated|ALTSYNCRAM          ; AUTO ; True Dual Port   ; 2048         ; 8            ; 2048         ; 8            ; 16384 ; None                                                                                           ;
+; ANSIDisplayVGA:ANSIDisplay|DisplayRam2K:\GEN_2KRAM:dispCharRam|altsyncram:altsyncram_component|altsyncram_ldr3:auto_generated|ALTSYNCRAM            ; AUTO ; True Dual Port   ; 2048         ; 8            ; 2048         ; 8            ; 16384 ; None                                                                                           ;
+; ANSIDisplayVGA:ANSIDisplay|SansBoldRomReduced:\GEN_REDUCED_SCHARS:fontRom|altsyncram:altsyncram_component|altsyncram_q504:auto_generated|ALTSYNCRAM ; AUTO ; ROM              ; 1024         ; 8            ; --           ; --           ; 8192  ; ../../../MultiComp (VHDL Template)/Components/TERMINAL/SansFontBoldReduced.HEX                 ;
+; IOP16:IOP16|IOP_ROM:\GEN_256W_INST_ROM:IopRom|altsyncram:altsyncram_component|altsyncram_id54:auto_generated|altsyncram_ds53:altsyncram1|ALTSYNCRAM ; AUTO ; True Dual Port   ; 256          ; 16           ; 256          ; 16           ; 4096  ; ../../MultiComp (VHDL Template)/Components/CPU/IOP16/IOP16_ASSEMBLER/ANSITerm02/ANSITerm02.mif ;
+; bufferedUART:UART|altsyncram:rxBuffer_rtl_0|altsyncram_3ce1:auto_generated|ALTSYNCRAM                                                               ; AUTO ; Simple Dual Port ; 16           ; 8            ; 16           ; 8            ; 128   ; None                                                                                           ;
++-----------------------------------------------------------------------------------------------------------------------------------------------------+------+------------------+--------------+--------------+--------------+--------------+-------+------------------------------------------------------------------------------------------------+
+
+
 +--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
-; Analysis & Elaboration IP Cores Summary                                                                                                                                                                                                                                                                                                                                                                                                    ;
+; Analysis & Synthesis IP Cores Summary                                                                                                                                                                                                                                                                                                                                                                                                      ;
 +--------+--------------+---------+--------------+--------------+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+-------------------------------------------------------------------------------------------+
 ; Vendor ; IP Core Name ; Version ; Release Date ; License Type ; Entity Instance                                                                                                                                                                                                                                                                ; IP Include File                                                                           ;
 +--------+--------------+---------+--------------+--------------+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+-------------------------------------------------------------------------------------------+
@@ -108,6 +384,261 @@ https://fpgasoftware.intel.com/eula.
 ; Altera ; Signal Tap   ; N/A     ; N/A          ; Licensed     ; |ANSITerm1|sld_hub:auto_hub|alt_sld_fab_with_jtag_input:\instrumentation_fabric_with_node_gen:fabric_gen_new_way:with_jtag_input_gen:instrumentation_fabric|alt_sld_fab:instrumentation_fabric|alt_sld_fab_alt_sld_fab:alt_sld_fab|alt_sld_fab_alt_sld_fab_splitter:splitter   ;                                                                                           ;
 ; Altera ; ROM: 1-PORT  ; 20.1    ; N/A          ; N/A          ; |ANSITerm1|IOP16:IOP16|IOP_ROM:\GEN_256W_INST_ROM:IopRom                                                                                                                                                                                                                       ; ../../MultiComp (VHDL Template)/Components/CPU/IOP16/IOP16_ROMs/IOP_ROM_ANSI1/IOP_ROM.vhd ;
 +--------+--------------+---------+--------------+--------------+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+-------------------------------------------------------------------------------------------+
+
+
+Encoding Type:  One-Hot
++--------------------------------------------------------------------+
+; State Machine - |ANSITerm1|bufferedUART:UART|txState               ;
++-----------------+-----------------+-----------------+--------------+
+; Name            ; txState.stopBit ; txState.dataBit ; txState.idle ;
++-----------------+-----------------+-----------------+--------------+
+; txState.idle    ; 0               ; 0               ; 0            ;
+; txState.dataBit ; 0               ; 1               ; 1            ;
+; txState.stopBit ; 1               ; 0               ; 1            ;
++-----------------+-----------------+-----------------+--------------+
+
+
+Encoding Type:  One-Hot
++--------------------------------------------------------------------+
+; State Machine - |ANSITerm1|bufferedUART:UART|rxState               ;
++-----------------+-----------------+-----------------+--------------+
+; Name            ; rxState.stopBit ; rxState.dataBit ; rxState.idle ;
++-----------------+-----------------+-----------------+--------------+
+; rxState.idle    ; 0               ; 0               ; 0            ;
+; rxState.dataBit ; 0               ; 1               ; 1            ;
+; rxState.stopBit ; 1               ; 0               ; 1            ;
++-----------------+-----------------+-----------------+--------------+
+
+
+Encoding Type:  One-Hot
++-------------------------------------------------------------------------------------------+
+; State Machine - |ANSITerm1|Wrap_Keyboard:KEYBOARD|ps2_keyboard_to_ascii:ps2Keyboard|state ;
++-----------------+--------------+-----------------+----------------+-----------------------+
+; Name            ; state.output ; state.translate ; state.new_code ; state.ready           ;
++-----------------+--------------+-----------------+----------------+-----------------------+
+; state.ready     ; 0            ; 0               ; 0              ; 0                     ;
+; state.new_code  ; 0            ; 0               ; 1              ; 1                     ;
+; state.translate ; 0            ; 1               ; 0              ; 1                     ;
+; state.output    ; 1            ; 0               ; 0              ; 1                     ;
++-----------------+--------------+-----------------+----------------+-----------------------+
+
+
+Encoding Type:  One-Hot
++----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+; State Machine - |ANSITerm1|ANSIDisplayVGA:ANSIDisplay|dispState                                                                                                                                                                                                                                                                        ;
++-----------------------+----------------+----------------+----------------------+----------------+----------------+----------------------+-------------------+---------------------+-------------------+-----------------------+-------------------+---------------------+-----------------------+---------------------+----------------+
+; Name                  ; dispState.del3 ; dispState.del2 ; dispState.deleteLine ; dispState.ins3 ; dispState.ins2 ; dispState.insertLine ; dispState.clearC2 ; dispState.clearChar ; dispState.clearS2 ; dispState.clearScreen ; dispState.clearL2 ; dispState.clearLine ; dispState.dispNextLoc ; dispState.dispWrite ; dispState.idle ;
++-----------------------+----------------+----------------+----------------------+----------------+----------------+----------------------+-------------------+---------------------+-------------------+-----------------------+-------------------+---------------------+-----------------------+---------------------+----------------+
+; dispState.idle        ; 0              ; 0              ; 0                    ; 0              ; 0              ; 0                    ; 0                 ; 0                   ; 0                 ; 0                     ; 0                 ; 0                   ; 0                     ; 0                   ; 0              ;
+; dispState.dispWrite   ; 0              ; 0              ; 0                    ; 0              ; 0              ; 0                    ; 0                 ; 0                   ; 0                 ; 0                     ; 0                 ; 0                   ; 0                     ; 1                   ; 1              ;
+; dispState.dispNextLoc ; 0              ; 0              ; 0                    ; 0              ; 0              ; 0                    ; 0                 ; 0                   ; 0                 ; 0                     ; 0                 ; 0                   ; 1                     ; 0                   ; 1              ;
+; dispState.clearLine   ; 0              ; 0              ; 0                    ; 0              ; 0              ; 0                    ; 0                 ; 0                   ; 0                 ; 0                     ; 0                 ; 1                   ; 0                     ; 0                   ; 1              ;
+; dispState.clearL2     ; 0              ; 0              ; 0                    ; 0              ; 0              ; 0                    ; 0                 ; 0                   ; 0                 ; 0                     ; 1                 ; 0                   ; 0                     ; 0                   ; 1              ;
+; dispState.clearScreen ; 0              ; 0              ; 0                    ; 0              ; 0              ; 0                    ; 0                 ; 0                   ; 0                 ; 1                     ; 0                 ; 0                   ; 0                     ; 0                   ; 1              ;
+; dispState.clearS2     ; 0              ; 0              ; 0                    ; 0              ; 0              ; 0                    ; 0                 ; 0                   ; 1                 ; 0                     ; 0                 ; 0                   ; 0                     ; 0                   ; 1              ;
+; dispState.clearChar   ; 0              ; 0              ; 0                    ; 0              ; 0              ; 0                    ; 0                 ; 1                   ; 0                 ; 0                     ; 0                 ; 0                   ; 0                     ; 0                   ; 1              ;
+; dispState.clearC2     ; 0              ; 0              ; 0                    ; 0              ; 0              ; 0                    ; 1                 ; 0                   ; 0                 ; 0                     ; 0                 ; 0                   ; 0                     ; 0                   ; 1              ;
+; dispState.insertLine  ; 0              ; 0              ; 0                    ; 0              ; 0              ; 1                    ; 0                 ; 0                   ; 0                 ; 0                     ; 0                 ; 0                   ; 0                     ; 0                   ; 1              ;
+; dispState.ins2        ; 0              ; 0              ; 0                    ; 0              ; 1              ; 0                    ; 0                 ; 0                   ; 0                 ; 0                     ; 0                 ; 0                   ; 0                     ; 0                   ; 1              ;
+; dispState.ins3        ; 0              ; 0              ; 0                    ; 1              ; 0              ; 0                    ; 0                 ; 0                   ; 0                 ; 0                     ; 0                 ; 0                   ; 0                     ; 0                   ; 1              ;
+; dispState.deleteLine  ; 0              ; 0              ; 1                    ; 0              ; 0              ; 0                    ; 0                 ; 0                   ; 0                 ; 0                     ; 0                 ; 0                   ; 0                     ; 0                   ; 1              ;
+; dispState.del2        ; 0              ; 1              ; 0                    ; 0              ; 0              ; 0                    ; 0                 ; 0                   ; 0                 ; 0                     ; 0                 ; 0                   ; 0                     ; 0                   ; 1              ;
+; dispState.del3        ; 1              ; 0              ; 0                    ; 0              ; 0              ; 0                    ; 0                 ; 0                   ; 0                 ; 0                     ; 0                 ; 0                   ; 0                     ; 0                   ; 1              ;
++-----------------------+----------------+----------------+----------------------+----------------+----------------+----------------------+-------------------+---------------------+-------------------+-----------------------+-------------------+---------------------+-----------------------+---------------------+----------------+
+
+
+Encoding Type:  One-Hot
++-----------------------------------------------------------------------------------------------------------------------------------------------------+
+; State Machine - |ANSITerm1|ANSIDisplayVGA:ANSIDisplay|escState                                                                                      ;
++-------------------------------------+-------------------------------------+---------------------------+-----------------------------+---------------+
+; Name                                ; escState.processingAdditionalParams ; escState.processingParams ; escState.waitForLeftBracket ; escState.none ;
++-------------------------------------+-------------------------------------+---------------------------+-----------------------------+---------------+
+; escState.none                       ; 0                                   ; 0                         ; 0                           ; 0             ;
+; escState.waitForLeftBracket         ; 0                                   ; 0                         ; 1                           ; 1             ;
+; escState.processingParams           ; 0                                   ; 1                         ; 0                           ; 1             ;
+; escState.processingAdditionalParams ; 1                                   ; 0                         ; 0                           ; 1             ;
++-------------------------------------+-------------------------------------+---------------------------+-----------------------------+---------------+
+
+
++-----------------------------------------------------------------------------------------------------------------------------------------------------------+
+; Registers Protected by Synthesis                                                                                                                          ;
++-------------------------------------------+------------------------------------------------------------------+--------------------------------------------+
+; Register Name                             ; Protected by Synthesis Attribute or Preserve Register Assignment ; Not to be Touched by Netlist Optimizations ;
++-------------------------------------------+------------------------------------------------------------------+--------------------------------------------+
+; IOP16:IOP16|w_PC_out[0]                   ; yes                                                              ; yes                                        ;
+; IOP16:IOP16|w_PC_out[1]                   ; yes                                                              ; yes                                        ;
+; IOP16:IOP16|w_PC_out[2]                   ; yes                                                              ; yes                                        ;
+; IOP16:IOP16|w_PC_out[3]                   ; yes                                                              ; yes                                        ;
+; IOP16:IOP16|w_PC_out[4]                   ; yes                                                              ; yes                                        ;
+; IOP16:IOP16|w_PC_out[5]                   ; yes                                                              ; yes                                        ;
+; IOP16:IOP16|w_PC_out[6]                   ; yes                                                              ; yes                                        ;
+; IOP16:IOP16|w_PC_out[7]                   ; yes                                                              ; yes                                        ;
+; IOP16:IOP16|w_rtnAddr[0]                  ; yes                                                              ; yes                                        ;
+; IOP16:IOP16|w_rtnAddr[1]                  ; yes                                                              ; yes                                        ;
+; IOP16:IOP16|w_rtnAddr[2]                  ; yes                                                              ; yes                                        ;
+; IOP16:IOP16|w_rtnAddr[3]                  ; yes                                                              ; yes                                        ;
+; IOP16:IOP16|w_rtnAddr[4]                  ; yes                                                              ; yes                                        ;
+; IOP16:IOP16|w_rtnAddr[5]                  ; yes                                                              ; yes                                        ;
+; IOP16:IOP16|w_rtnAddr[6]                  ; yes                                                              ; yes                                        ;
+; IOP16:IOP16|w_rtnAddr[7]                  ; yes                                                              ; yes                                        ;
+; Total number of protected registers is 16 ;                                                                  ;                                            ;
++-------------------------------------------+------------------------------------------------------------------+--------------------------------------------+
+
+
++---------------------------------------------------------------------------------------------------------------------------+
+; User-Specified and Inferred Latches                                                                                       ;
++----------------------------------------------------+---------------------------------------------+------------------------+
+; Latch Name                                         ; Latch Enable Signal                         ; Free of Timing Hazards ;
++----------------------------------------------------+---------------------------------------------+------------------------+
+; IOP16:IOP16|RegFile8x8:RegFile|o_DataOut[1]        ; IOP16:IOP16|RegFile8x8:RegFile|o_DataOut[7] ; yes                    ;
+; IOP16:IOP16|RegFile8x8:RegFile|o_DataOut[0]        ; IOP16:IOP16|RegFile8x8:RegFile|o_DataOut[7] ; yes                    ;
+; IOP16:IOP16|RegFile8x8:RegFile|o_DataOut[2]        ; IOP16:IOP16|RegFile8x8:RegFile|o_DataOut[7] ; yes                    ;
+; IOP16:IOP16|RegFile8x8:RegFile|o_DataOut[3]        ; IOP16:IOP16|RegFile8x8:RegFile|o_DataOut[7] ; yes                    ;
+; IOP16:IOP16|RegFile8x8:RegFile|o_DataOut[4]        ; IOP16:IOP16|RegFile8x8:RegFile|o_DataOut[7] ; yes                    ;
+; IOP16:IOP16|RegFile8x8:RegFile|o_DataOut[5]        ; IOP16:IOP16|RegFile8x8:RegFile|o_DataOut[7] ; yes                    ;
+; IOP16:IOP16|RegFile8x8:RegFile|o_DataOut[6]        ; IOP16:IOP16|RegFile8x8:RegFile|o_DataOut[7] ; yes                    ;
+; IOP16:IOP16|RegFile8x8:RegFile|o_DataOut[7]        ; IOP16:IOP16|RegFile8x8:RegFile|o_DataOut[7] ; yes                    ;
+; IOP16:IOP16|w_zBit                                 ; GND                                         ; yes                    ;
+; Number of user-specified and inferred latches = 9  ;                                             ;                        ;
++----------------------------------------------------+---------------------------------------------+------------------------+
+Note: All latches listed above may not be present at the end of synthesis due to various synthesis optimizations.
+
+
++------------------------------------------------------------------------------------------------------------+
+; Registers Removed During Synthesis                                                                         ;
++------------------------------------------------------+-----------------------------------------------------+
+; Register name                                        ; Reason for Removal                                  ;
++------------------------------------------------------+-----------------------------------------------------+
+; ANSIDisplayVGA:ANSIDisplay|dataOut[0,2..6]           ; Stuck at GND due to stuck port data_in              ;
+; Wrap_Keyboard:KEYBOARD|q_kbReadData[7]               ; Stuck at GND due to stuck port data_in              ;
+; ANSIDisplayVGA:ANSIDisplay|startAddr[1..3]           ; Merged with ANSIDisplayVGA:ANSIDisplay|startAddr[0] ;
+; Wrap_Keyboard:KEYBOARD|w_kbdStatus[2..7]             ; Merged with Wrap_Keyboard:KEYBOARD|w_kbdStatus[1]   ;
+; Wrap_Keyboard:KEYBOARD|w_kbdStatus[1]                ; Stuck at GND due to stuck port data_in              ;
+; Debouncer:debounceReset|dig_counter[0]               ; Merged with BaudRate6850:BAUDRATEGEN|serialCount[4] ;
+; ANSIDisplayVGA:ANSIDisplay|pixelClockCount[1..3]     ; Stuck at GND due to stuck port data_in              ;
+; ANSIDisplayVGA:ANSIDisplay|escState.none             ; Lost fanout                                         ;
+; ANSIDisplayVGA:ANSIDisplay|escState.processingParams ; Lost fanout                                         ;
+; ANSIDisplayVGA:ANSIDisplay|startAddr[0]              ; Stuck at GND due to stuck port data_in              ;
+; IOP16:IOP16|w_PC_out[8..11]                          ; Lost fanout                                         ;
+; IOP16:IOP16|w_rtnAddr[8..11]                         ; Lost fanout                                         ;
+; Debouncer:debounceReset|dig_counter[18,19]           ; Lost fanout                                         ;
+; Total Number of Removed Registers = 34               ;                                                     ;
++------------------------------------------------------+-----------------------------------------------------+
+
+
++---------------------------------------------------------------------------------------------------------------------------------+
+; Removed Registers Triggering Further Register Optimizations                                                                     ;
++--------------------------+--------------------+---------------------------------------------------------------------------------+
+; Register name            ; Reason for Removal ; Registers Removed due to This Register                                          ;
++--------------------------+--------------------+---------------------------------------------------------------------------------+
+; IOP16:IOP16|w_PC_out[11] ; Lost Fanouts       ; IOP16:IOP16|w_PC_out[10], IOP16:IOP16|w_PC_out[9], IOP16:IOP16|w_PC_out[8],     ;
+;                          ;                    ; IOP16:IOP16|w_rtnAddr[11], IOP16:IOP16|w_rtnAddr[10], IOP16:IOP16|w_rtnAddr[9], ;
+;                          ;                    ; IOP16:IOP16|w_rtnAddr[8]                                                        ;
++--------------------------+--------------------+---------------------------------------------------------------------------------+
+
+
++------------------------------------------------------+
+; General Register Statistics                          ;
++----------------------------------------------+-------+
+; Statistic                                    ; Value ;
++----------------------------------------------+-------+
+; Total registers                              ; 644   ;
+; Number of registers using Synchronous Clear  ; 155   ;
+; Number of registers using Synchronous Load   ; 50    ;
+; Number of registers using Asynchronous Clear ; 105   ;
+; Number of registers using Asynchronous Load  ; 0     ;
+; Number of registers using Clock Enable       ; 441   ;
+; Number of registers using Preset             ; 0     ;
++----------------------------------------------+-------+
+
+
++-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+; Inverted Register Statistics                                                                                                                                                                                                                                                                                                              ;
++---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+---------+
+; Inverted Register                                                                                                                                                                                                                                                                                                               ; Fan out ;
++---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+---------+
+; ANSIDisplayVGA:ANSIDisplay|dispAttWRData[0]                                                                                                                                                                                                                                                                                     ; 4       ;
+; ANSIDisplayVGA:ANSIDisplay|cursorOn                                                                                                                                                                                                                                                                                             ; 1       ;
+; ANSIDisplayVGA:ANSIDisplay|dispAttWRData[1]                                                                                                                                                                                                                                                                                     ; 4       ;
+; ANSIDisplayVGA:ANSIDisplay|dispAttWRData[2]                                                                                                                                                                                                                                                                                     ; 4       ;
+; ANSIDisplayVGA:ANSIDisplay|dispAttWRData[3]                                                                                                                                                                                                                                                                                     ; 12      ;
+; Debouncer:debounceReset|o_PinOut                                                                                                                                                                                                                                                                                                ; 68      ;
+; bufferedUART:UART|rxdFiltered                                                                                                                                                                                                                                                                                                   ; 5       ;
+; ANSIDisplayVGA:ANSIDisplay|attBold                                                                                                                                                                                                                                                                                              ; 5       ;
+; Wrap_Keyboard:KEYBOARD|ps2_keyboard_to_ascii:ps2Keyboard|ascii[1]                                                                                                                                                                                                                                                               ; 14      ;
+; Wrap_Keyboard:KEYBOARD|ps2_keyboard_to_ascii:ps2Keyboard|ascii[7]                                                                                                                                                                                                                                                               ; 6       ;
+; Wrap_Keyboard:KEYBOARD|ps2_keyboard_to_ascii:ps2Keyboard|prev_ps2_code_new                                                                                                                                                                                                                                                      ; 1       ;
+; Wrap_Keyboard:KEYBOARD|ps2_keyboard_to_ascii:ps2Keyboard|ascii[0]                                                                                                                                                                                                                                                               ; 10      ;
+; Wrap_Keyboard:KEYBOARD|ps2_keyboard_to_ascii:ps2Keyboard|ascii[4]                                                                                                                                                                                                                                                               ; 17      ;
+; Wrap_Keyboard:KEYBOARD|ps2_keyboard_to_ascii:ps2Keyboard|ascii[2]                                                                                                                                                                                                                                                               ; 14      ;
+; Wrap_Keyboard:KEYBOARD|ps2_keyboard_to_ascii:ps2Keyboard|ascii[3]                                                                                                                                                                                                                                                               ; 14      ;
+; Wrap_Keyboard:KEYBOARD|ps2_keyboard_to_ascii:ps2Keyboard|ascii[5]                                                                                                                                                                                                                                                               ; 13      ;
+; Wrap_Keyboard:KEYBOARD|ps2_keyboard_to_ascii:ps2Keyboard|ascii[6]                                                                                                                                                                                                                                                               ; 4       ;
+; sld_hub:auto_hub|alt_sld_fab_with_jtag_input:\instrumentation_fabric_with_node_gen:fabric_gen_new_way:with_jtag_input_gen:instrumentation_fabric|alt_sld_fab:instrumentation_fabric|alt_sld_fab_alt_sld_fab:alt_sld_fab|alt_sld_fab_alt_sld_fab_sldfabric:sldfabric|sld_jtag_hub:\jtag_hub_gen:real_sld_jtag_hub|jtag_ir_reg[2] ; 2       ;
+; sld_hub:auto_hub|alt_sld_fab_with_jtag_input:\instrumentation_fabric_with_node_gen:fabric_gen_new_way:with_jtag_input_gen:instrumentation_fabric|alt_sld_fab:instrumentation_fabric|alt_sld_fab_alt_sld_fab:alt_sld_fab|alt_sld_fab_alt_sld_fab_sldfabric:sldfabric|sld_jtag_hub:\jtag_hub_gen:real_sld_jtag_hub|jtag_ir_reg[1] ; 3       ;
+; Total number of inverted registers = 19                                                                                                                                                                                                                                                                                         ;         ;
++---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+---------+
+
+
++------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+; Multiplexer Restructuring Statistics (Restructuring Performed)                                                                                                                                                                                                                                                                     ;
++--------------------+-----------+---------------+----------------------+------------------------+------------+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+; Multiplexer Inputs ; Bus Width ; Baseline Area ; Area if Restructured ; Saving if Restructured ; Registered ; Example Multiplexer Output                                                                                                                                                                                           ;
++--------------------+-----------+---------------+----------------------+------------------------+------------+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+; 3:1                ; 5 bits    ; 10 LEs        ; 5 LEs                ; 5 LEs                  ; Yes        ; |ANSITerm1|ANSIDisplayVGA:ANSIDisplay|charVert[3]                                                                                                                                                                    ;
+; 3:1                ; 5 bits    ; 10 LEs        ; 5 LEs                ; 5 LEs                  ; Yes        ; |ANSITerm1|IOP16:IOP16|IOP_ROM:\GEN_256W_INST_ROM:IopRom|altsyncram:altsyncram_component|altsyncram_id54:auto_generated|sld_mod_ram_rom:mgl_prim2|ram_rom_data_shift_cntr_reg[0]                                     ;
+; 3:1                ; 16 bits   ; 32 LEs        ; 16 LEs               ; 16 LEs                 ; Yes        ; |ANSITerm1|IOP16:IOP16|IOP_ROM:\GEN_256W_INST_ROM:IopRom|altsyncram:altsyncram_component|altsyncram_id54:auto_generated|sld_mod_ram_rom:mgl_prim2|ram_rom_data_reg[12]                                               ;
+; 3:1                ; 8 bits    ; 16 LEs        ; 8 LEs                ; 8 LEs                  ; Yes        ; |ANSITerm1|IOP16:IOP16|IOP_ROM:\GEN_256W_INST_ROM:IopRom|altsyncram:altsyncram_component|altsyncram_id54:auto_generated|sld_mod_ram_rom:mgl_prim2|ram_rom_addr_reg[1]                                                ;
+; 3:1                ; 8 bits    ; 16 LEs        ; 8 LEs                ; 8 LEs                  ; Yes        ; |ANSITerm1|IOP16:IOP16|RegFile8x8:RegFile|w_regFR0[0]                                                                                                                                                                ;
+; 3:1                ; 8 bits    ; 16 LEs        ; 8 LEs                ; 8 LEs                  ; Yes        ; |ANSITerm1|IOP16:IOP16|RegFile8x8:RegFile|w_regFR4[3]                                                                                                                                                                ;
+; 3:1                ; 8 bits    ; 16 LEs        ; 8 LEs                ; 8 LEs                  ; Yes        ; |ANSITerm1|IOP16:IOP16|RegFile8x8:RegFile|w_regFR2[0]                                                                                                                                                                ;
+; 3:1                ; 8 bits    ; 16 LEs        ; 8 LEs                ; 8 LEs                  ; Yes        ; |ANSITerm1|IOP16:IOP16|RegFile8x8:RegFile|w_regFR6[7]                                                                                                                                                                ;
+; 3:1                ; 8 bits    ; 16 LEs        ; 8 LEs                ; 8 LEs                  ; Yes        ; |ANSITerm1|IOP16:IOP16|RegFile8x8:RegFile|w_regFR1[2]                                                                                                                                                                ;
+; 3:1                ; 8 bits    ; 16 LEs        ; 8 LEs                ; 8 LEs                  ; Yes        ; |ANSITerm1|IOP16:IOP16|RegFile8x8:RegFile|w_regFR5[1]                                                                                                                                                                ;
+; 3:1                ; 8 bits    ; 16 LEs        ; 8 LEs                ; 8 LEs                  ; Yes        ; |ANSITerm1|IOP16:IOP16|RegFile8x8:RegFile|w_regFR3[5]                                                                                                                                                                ;
+; 3:1                ; 8 bits    ; 16 LEs        ; 8 LEs                ; 8 LEs                  ; Yes        ; |ANSITerm1|IOP16:IOP16|RegFile8x8:RegFile|w_regFR7[0]                                                                                                                                                                ;
+; 3:1                ; 7 bits    ; 14 LEs        ; 7 LEs                ; 7 LEs                  ; Yes        ; |ANSITerm1|ANSIDisplayVGA:ANSIDisplay|param4[3]                                                                                                                                                                      ;
+; 3:1                ; 7 bits    ; 14 LEs        ; 7 LEs                ; 7 LEs                  ; Yes        ; |ANSITerm1|ANSIDisplayVGA:ANSIDisplay|charHoriz[1]                                                                                                                                                                   ;
+; 3:1                ; 3 bits    ; 6 LEs         ; 3 LEs                ; 3 LEs                  ; Yes        ; |ANSITerm1|ANSIDisplayVGA:ANSIDisplay|pixelCount[0]                                                                                                                                                                  ;
+; 3:1                ; 4 bits    ; 8 LEs         ; 8 LEs                ; 0 LEs                  ; Yes        ; |ANSITerm1|bufferedUART:UART|dataOut[6]                                                                                                                                                                              ;
+; 3:1                ; 3 bits    ; 6 LEs         ; 6 LEs                ; 0 LEs                  ; Yes        ; |ANSITerm1|bufferedUART:UART|dataOut[0]                                                                                                                                                                              ;
+; 3:1                ; 12 bits   ; 24 LEs        ; 12 LEs               ; 12 LEs                 ; Yes        ; |ANSITerm1|Wrap_Keyboard:KEYBOARD|ps2_keyboard_to_ascii:ps2Keyboard|ps2_keyboard:ps2_keyboard_0|count_idle[9]                                                                                                        ;
+; 3:1                ; 8 bits    ; 16 LEs        ; 8 LEs                ; 8 LEs                  ; Yes        ; |ANSITerm1|Wrap_Keyboard:KEYBOARD|ps2_keyboard_to_ascii:ps2Keyboard|ps2_keyboard:ps2_keyboard_0|debounce:debounce_ps2_clk|counter_out[7]                                                                             ;
+; 3:1                ; 8 bits    ; 16 LEs        ; 8 LEs                ; 8 LEs                  ; Yes        ; |ANSITerm1|Wrap_Keyboard:KEYBOARD|ps2_keyboard_to_ascii:ps2Keyboard|ps2_keyboard:ps2_keyboard_0|debounce:debounce_ps2_data|counter_out[6]                                                                            ;
+; 3:1                ; 4 bits    ; 8 LEs         ; 4 LEs                ; 4 LEs                  ; Yes        ; |ANSITerm1|ANSIDisplayVGA:ANSIDisplay|pixelClockCount[0]                                                                                                                                                             ;
+; 4:1                ; 7 bits    ; 14 LEs        ; 14 LEs               ; 0 LEs                  ; Yes        ; |ANSITerm1|ANSIDisplayVGA:ANSIDisplay|param1[6]                                                                                                                                                                      ;
+; 4:1                ; 7 bits    ; 14 LEs        ; 14 LEs               ; 0 LEs                  ; Yes        ; |ANSITerm1|ANSIDisplayVGA:ANSIDisplay|param2[1]                                                                                                                                                                      ;
+; 4:1                ; 7 bits    ; 14 LEs        ; 14 LEs               ; 0 LEs                  ; Yes        ; |ANSITerm1|ANSIDisplayVGA:ANSIDisplay|param3[0]                                                                                                                                                                      ;
+; 4:1                ; 5 bits    ; 10 LEs        ; 5 LEs                ; 5 LEs                  ; Yes        ; |ANSITerm1|IOP16:IOP16|IOP_ROM:\GEN_256W_INST_ROM:IopRom|altsyncram:altsyncram_component|altsyncram_id54:auto_generated|sld_mod_ram_rom:mgl_prim2|sld_rom_sr:\ram_rom_logic_gen:name_gen:info_rom_sr|word_counter[1] ;
+; 4:1                ; 4 bits    ; 8 LEs         ; 4 LEs                ; 4 LEs                  ; Yes        ; |ANSITerm1|ANSIDisplayVGA:ANSIDisplay|charScanLine[1]                                                                                                                                                                ;
+; 5:1                ; 6 bits    ; 18 LEs        ; 6 LEs                ; 12 LEs                 ; Yes        ; |ANSITerm1|bufferedUART:UART|rxClockCount[0]                                                                                                                                                                         ;
+; 5:1                ; 4 bits    ; 12 LEs        ; 4 LEs                ; 8 LEs                  ; Yes        ; |ANSITerm1|bufferedUART:UART|rxBitCount[0]                                                                                                                                                                           ;
+; 5:1                ; 4 bits    ; 12 LEs        ; 4 LEs                ; 8 LEs                  ; Yes        ; |ANSITerm1|bufferedUART:UART|txBitCount[3]                                                                                                                                                                           ;
+; 5:1                ; 7 bits    ; 21 LEs        ; 7 LEs                ; 14 LEs                 ; Yes        ; |ANSITerm1|bufferedUART:UART|txBuffer[6]                                                                                                                                                                             ;
+; 5:1                ; 8 bits    ; 24 LEs        ; 16 LEs               ; 8 LEs                  ; Yes        ; |ANSITerm1|ANSIDisplayVGA:ANSIDisplay|dispCharWRData[6]                                                                                                                                                              ;
+; 6:1                ; 6 bits    ; 24 LEs        ; 6 LEs                ; 18 LEs                 ; Yes        ; |ANSITerm1|bufferedUART:UART|txClockCount[3]                                                                                                                                                                         ;
+; 7:1                ; 3 bits    ; 12 LEs        ; 12 LEs               ; 0 LEs                  ; Yes        ; |ANSITerm1|ANSIDisplayVGA:ANSIDisplay|videoR1                                                                                                                                                                        ;
+; 7:1                ; 12 bits   ; 48 LEs        ; 36 LEs               ; 12 LEs                 ; Yes        ; |ANSITerm1|IOP16:IOP16|w_PC_out[9]                                                                                                                                                                                   ;
+; 6:1                ; 7 bits    ; 28 LEs        ; 7 LEs                ; 21 LEs                 ; Yes        ; |ANSITerm1|ANSIDisplayVGA:ANSIDisplay|startAddr[6]                                                                                                                                                                   ;
+; 26:1               ; 4 bits    ; 68 LEs        ; 52 LEs               ; 16 LEs                 ; Yes        ; |ANSITerm1|IOP16:IOP16|IOP_ROM:\GEN_256W_INST_ROM:IopRom|altsyncram:altsyncram_component|altsyncram_id54:auto_generated|sld_mod_ram_rom:mgl_prim2|sld_rom_sr:\ram_rom_logic_gen:name_gen:info_rom_sr|WORD_SR[0]      ;
+; 10:1               ; 3 bits    ; 18 LEs        ; 18 LEs               ; 0 LEs                  ; Yes        ; |ANSITerm1|ANSIDisplayVGA:ANSIDisplay|videoB0                                                                                                                                                                        ;
+; 10:1               ; 3 bits    ; 18 LEs        ; 12 LEs               ; 6 LEs                  ; Yes        ; |ANSITerm1|ANSIDisplayVGA:ANSIDisplay|paramCount[2]                                                                                                                                                                  ;
+; 12:1               ; 7 bits    ; 56 LEs        ; 7 LEs                ; 49 LEs                 ; Yes        ; |ANSITerm1|ANSIDisplayVGA:ANSIDisplay|cursorHorizRestore[1]                                                                                                                                                          ;
+; 13:1               ; 5 bits    ; 40 LEs        ; 5 LEs                ; 35 LEs                 ; Yes        ; |ANSITerm1|ANSIDisplayVGA:ANSIDisplay|cursorVertRestore[4]                                                                                                                                                           ;
+; 35:1               ; 7 bits    ; 161 LEs       ; 77 LEs               ; 84 LEs                 ; Yes        ; |ANSITerm1|ANSIDisplayVGA:ANSIDisplay|cursorHoriz[1]                                                                                                                                                                 ;
+; 41:1               ; 2 bits    ; 54 LEs        ; 24 LEs               ; 30 LEs                 ; Yes        ; |ANSITerm1|ANSIDisplayVGA:ANSIDisplay|cursorVert[3]                                                                                                                                                                  ;
+; 3:1                ; 8 bits    ; 16 LEs        ; 16 LEs               ; 0 LEs                  ; No         ; |ANSITerm1|IOP16:IOP16|w_AluOut[7]                                                                                                                                                                                   ;
+; 3:1                ; 3 bits    ; 6 LEs         ; 3 LEs                ; 3 LEs                  ; No         ; |ANSITerm1|ANSIDisplayVGA:ANSIDisplay|paramCount                                                                                                                                                                     ;
+; 4:1                ; 2 bits    ; 4 LEs         ; 2 LEs                ; 2 LEs                  ; No         ; |ANSITerm1|ANSIDisplayVGA:ANSIDisplay|dispState                                                                                                                                                                      ;
+; 5:1                ; 5 bits    ; 15 LEs        ; 10 LEs               ; 5 LEs                  ; No         ; |ANSITerm1|w_periphIn                                                                                                                                                                                                ;
+; 9:1                ; 8 bits    ; 48 LEs        ; 48 LEs               ; 0 LEs                  ; No         ; |ANSITerm1|IOP16:IOP16|RegFile8x8:RegFile|o_DataOut[5]                                                                                                                                                               ;
+; 5:1                ; 8 bits    ; 24 LEs        ; 16 LEs               ; 8 LEs                  ; No         ; |ANSITerm1|IOP16:IOP16|w_regFileIn[1]                                                                                                                                                                                ;
+; 7:1                ; 2 bits    ; 8 LEs         ; 4 LEs                ; 4 LEs                  ; No         ; |ANSITerm1|ANSIDisplayVGA:ANSIDisplay|escState.processingParams                                                                                                                                                      ;
+; 7:1                ; 2 bits    ; 8 LEs         ; 6 LEs                ; 2 LEs                  ; No         ; |ANSITerm1|ANSIDisplayVGA:ANSIDisplay|escState.none                                                                                                                                                                  ;
+; 7:1                ; 3 bits    ; 12 LEs        ; 6 LEs                ; 6 LEs                  ; No         ; |ANSITerm1|bufferedUART:UART|txState.stopBit                                                                                                                                                                         ;
+; 7:1                ; 3 bits    ; 12 LEs        ; 6 LEs                ; 6 LEs                  ; No         ; |ANSITerm1|bufferedUART:UART|rxState.stopBit                                                                                                                                                                         ;
+; 9:1                ; 9 bits    ; 54 LEs        ; 9 LEs                ; 45 LEs                 ; No         ; |ANSITerm1|ANSIDisplayVGA:ANSIDisplay|dispState                                                                                                                                                                      ;
++--------------------+-----------+---------------+----------------------+------------------------+------------+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
 
 
 +-------------------------------------------------------------+
@@ -250,12 +781,22 @@ https://fpgasoftware.intel.com/eula.
 +---------------------------------+--------------------+------+------------------------------------------------------------------------------------------+
 
 
++---------------------------------------------------------------------------------------------------+
+; Source assignments for bufferedUART:UART|altsyncram:rxBuffer_rtl_0|altsyncram_3ce1:auto_generated ;
++---------------------------------+--------------------+------+-------------------------------------+
+; Assignment                      ; Value              ; From ; To                                  ;
++---------------------------------+--------------------+------+-------------------------------------+
+; OPTIMIZE_POWER_DURING_SYNTHESIS ; NORMAL_COMPILATION ; -    ; -                                   ;
++---------------------------------+--------------------+------+-------------------------------------+
+
+
 +----------------------------------------------------------+
 ; Parameter Settings for User Entity Instance: IOP16:IOP16 ;
 +---------------------+-------+----------------------------+
 ; Parameter Name      ; Value ; Type                       ;
 +---------------------+-------+----------------------------+
 ; inst_sram_size_pass ; 256   ; Signed Integer             ;
+; stack_depth         ; 1     ; Signed Integer             ;
 +---------------------+-------+----------------------------+
 Note: In order to hide this table in the UI and the text report file, please set the "Show Parameter Settings in Synthesis Report" option in "Analysis and Synthesis Settings -> More Settings" to "Off".
 
@@ -592,12 +1133,119 @@ Note: In order to hide this table in the UI and the text report file, please set
 Note: In order to hide this table in the UI and the text report file, please set the "Show Parameter Settings in Synthesis Report" option in "Analysis and Synthesis Settings -> More Settings" to "Off".
 
 
++----------------------------------------------------------------------------------------------+
+; Parameter Settings for Inferred Entity Instance: bufferedUART:UART|altsyncram:rxBuffer_rtl_0 ;
++------------------------------------+----------------------+----------------------------------+
+; Parameter Name                     ; Value                ; Type                             ;
++------------------------------------+----------------------+----------------------------------+
+; BYTE_SIZE_BLOCK                    ; 8                    ; Untyped                          ;
+; AUTO_CARRY_CHAINS                  ; ON                   ; AUTO_CARRY                       ;
+; IGNORE_CARRY_BUFFERS               ; OFF                  ; IGNORE_CARRY                     ;
+; AUTO_CASCADE_CHAINS                ; ON                   ; AUTO_CASCADE                     ;
+; IGNORE_CASCADE_BUFFERS             ; OFF                  ; IGNORE_CASCADE                   ;
+; WIDTH_BYTEENA                      ; 1                    ; Untyped                          ;
+; OPERATION_MODE                     ; DUAL_PORT            ; Untyped                          ;
+; WIDTH_A                            ; 8                    ; Untyped                          ;
+; WIDTHAD_A                          ; 4                    ; Untyped                          ;
+; NUMWORDS_A                         ; 16                   ; Untyped                          ;
+; OUTDATA_REG_A                      ; UNREGISTERED         ; Untyped                          ;
+; ADDRESS_ACLR_A                     ; NONE                 ; Untyped                          ;
+; OUTDATA_ACLR_A                     ; NONE                 ; Untyped                          ;
+; WRCONTROL_ACLR_A                   ; NONE                 ; Untyped                          ;
+; INDATA_ACLR_A                      ; NONE                 ; Untyped                          ;
+; BYTEENA_ACLR_A                     ; NONE                 ; Untyped                          ;
+; WIDTH_B                            ; 8                    ; Untyped                          ;
+; WIDTHAD_B                          ; 4                    ; Untyped                          ;
+; NUMWORDS_B                         ; 16                   ; Untyped                          ;
+; INDATA_REG_B                       ; CLOCK1               ; Untyped                          ;
+; WRCONTROL_WRADDRESS_REG_B          ; CLOCK1               ; Untyped                          ;
+; RDCONTROL_REG_B                    ; CLOCK1               ; Untyped                          ;
+; ADDRESS_REG_B                      ; CLOCK1               ; Untyped                          ;
+; OUTDATA_REG_B                      ; UNREGISTERED         ; Untyped                          ;
+; BYTEENA_REG_B                      ; CLOCK1               ; Untyped                          ;
+; INDATA_ACLR_B                      ; NONE                 ; Untyped                          ;
+; WRCONTROL_ACLR_B                   ; NONE                 ; Untyped                          ;
+; ADDRESS_ACLR_B                     ; NONE                 ; Untyped                          ;
+; OUTDATA_ACLR_B                     ; NONE                 ; Untyped                          ;
+; RDCONTROL_ACLR_B                   ; NONE                 ; Untyped                          ;
+; BYTEENA_ACLR_B                     ; NONE                 ; Untyped                          ;
+; WIDTH_BYTEENA_A                    ; 1                    ; Untyped                          ;
+; WIDTH_BYTEENA_B                    ; 1                    ; Untyped                          ;
+; RAM_BLOCK_TYPE                     ; AUTO                 ; Untyped                          ;
+; BYTE_SIZE                          ; 8                    ; Untyped                          ;
+; READ_DURING_WRITE_MODE_MIXED_PORTS ; DONT_CARE            ; Untyped                          ;
+; READ_DURING_WRITE_MODE_PORT_A      ; NEW_DATA_NO_NBE_READ ; Untyped                          ;
+; READ_DURING_WRITE_MODE_PORT_B      ; NEW_DATA_NO_NBE_READ ; Untyped                          ;
+; INIT_FILE                          ; UNUSED               ; Untyped                          ;
+; INIT_FILE_LAYOUT                   ; PORT_A               ; Untyped                          ;
+; MAXIMUM_DEPTH                      ; 0                    ; Untyped                          ;
+; CLOCK_ENABLE_INPUT_A               ; NORMAL               ; Untyped                          ;
+; CLOCK_ENABLE_INPUT_B               ; NORMAL               ; Untyped                          ;
+; CLOCK_ENABLE_OUTPUT_A              ; NORMAL               ; Untyped                          ;
+; CLOCK_ENABLE_OUTPUT_B              ; NORMAL               ; Untyped                          ;
+; CLOCK_ENABLE_CORE_A                ; USE_INPUT_CLKEN      ; Untyped                          ;
+; CLOCK_ENABLE_CORE_B                ; USE_INPUT_CLKEN      ; Untyped                          ;
+; ENABLE_ECC                         ; FALSE                ; Untyped                          ;
+; ECC_PIPELINE_STAGE_ENABLED         ; FALSE                ; Untyped                          ;
+; WIDTH_ECCSTATUS                    ; 3                    ; Untyped                          ;
+; DEVICE_FAMILY                      ; Cyclone IV E         ; Untyped                          ;
+; CBXI_PARAMETER                     ; altsyncram_3ce1      ; Untyped                          ;
++------------------------------------+----------------------+----------------------------------+
+Note: In order to hide this table in the UI and the text report file, please set the "Show Parameter Settings in Synthesis Report" option in "Analysis and Synthesis Settings -> More Settings" to "Off".
+
+
++---------------------------------------------------------------------------------------------+
+; Parameter Settings for Inferred Entity Instance: ANSIDisplayVGA:ANSIDisplay|lpm_divide:Mod0 ;
++------------------------+----------------+---------------------------------------------------+
+; Parameter Name         ; Value          ; Type                                              ;
++------------------------+----------------+---------------------------------------------------+
+; LPM_WIDTHN             ; 13             ; Untyped                                           ;
+; LPM_WIDTHD             ; 13             ; Untyped                                           ;
+; LPM_NREPRESENTATION    ; UNSIGNED       ; Untyped                                           ;
+; LPM_DREPRESENTATION    ; UNSIGNED       ; Untyped                                           ;
+; LPM_PIPELINE           ; 0              ; Untyped                                           ;
+; LPM_REMAINDERPOSITIVE  ; TRUE           ; Untyped                                           ;
+; MAXIMIZE_SPEED         ; 5              ; Untyped                                           ;
+; CBXI_PARAMETER         ; lpm_divide_icm ; Untyped                                           ;
+; CARRY_CHAIN            ; MANUAL         ; Untyped                                           ;
+; OPTIMIZE_FOR_SPEED     ; 5              ; Untyped                                           ;
+; AUTO_CARRY_CHAINS      ; ON             ; AUTO_CARRY                                        ;
+; IGNORE_CARRY_BUFFERS   ; OFF            ; IGNORE_CARRY                                      ;
+; AUTO_CASCADE_CHAINS    ; ON             ; AUTO_CASCADE                                      ;
+; IGNORE_CASCADE_BUFFERS ; OFF            ; IGNORE_CASCADE                                    ;
++------------------------+----------------+---------------------------------------------------+
+Note: In order to hide this table in the UI and the text report file, please set the "Show Parameter Settings in Synthesis Report" option in "Analysis and Synthesis Settings -> More Settings" to "Off".
+
+
++---------------------------------------------------------------------------------------------+
+; Parameter Settings for Inferred Entity Instance: ANSIDisplayVGA:ANSIDisplay|lpm_divide:Mod1 ;
++------------------------+----------------+---------------------------------------------------+
+; Parameter Name         ; Value          ; Type                                              ;
++------------------------+----------------+---------------------------------------------------+
+; LPM_WIDTHN             ; 13             ; Untyped                                           ;
+; LPM_WIDTHD             ; 13             ; Untyped                                           ;
+; LPM_NREPRESENTATION    ; UNSIGNED       ; Untyped                                           ;
+; LPM_DREPRESENTATION    ; UNSIGNED       ; Untyped                                           ;
+; LPM_PIPELINE           ; 0              ; Untyped                                           ;
+; LPM_REMAINDERPOSITIVE  ; TRUE           ; Untyped                                           ;
+; MAXIMIZE_SPEED         ; 5              ; Untyped                                           ;
+; CBXI_PARAMETER         ; lpm_divide_icm ; Untyped                                           ;
+; CARRY_CHAIN            ; MANUAL         ; Untyped                                           ;
+; OPTIMIZE_FOR_SPEED     ; 5              ; Untyped                                           ;
+; AUTO_CARRY_CHAINS      ; ON             ; AUTO_CARRY                                        ;
+; IGNORE_CARRY_BUFFERS   ; OFF            ; IGNORE_CARRY                                      ;
+; AUTO_CASCADE_CHAINS    ; ON             ; AUTO_CASCADE                                      ;
+; IGNORE_CASCADE_BUFFERS ; OFF            ; IGNORE_CASCADE                                    ;
++------------------------+----------------+---------------------------------------------------+
+Note: In order to hide this table in the UI and the text report file, please set the "Show Parameter Settings in Synthesis Report" option in "Analysis and Synthesis Settings -> More Settings" to "Off".
+
+
 +-------------------------------------------------------------------------------------------------------------------------------------------------------+
 ; altsyncram Parameter Settings by Entity Instance                                                                                                      ;
 +-------------------------------------------+-----------------------------------------------------------------------------------------------------------+
 ; Name                                      ; Value                                                                                                     ;
 +-------------------------------------------+-----------------------------------------------------------------------------------------------------------+
-; Number of entity instances                ; 4                                                                                                         ;
+; Number of entity instances                ; 5                                                                                                         ;
 ; Entity Instance                           ; IOP16:IOP16|IOP_ROM:\GEN_256W_INST_ROM:IopRom|altsyncram:altsyncram_component                             ;
 ;     -- OPERATION_MODE                     ; ROM                                                                                                       ;
 ;     -- WIDTH_A                            ; 16                                                                                                        ;
@@ -642,93 +1290,18 @@ Note: In order to hide this table in the UI and the text report file, please set
 ;     -- OUTDATA_REG_B                      ; UNREGISTERED                                                                                              ;
 ;     -- RAM_BLOCK_TYPE                     ; AUTO                                                                                                      ;
 ;     -- READ_DURING_WRITE_MODE_MIXED_PORTS ; DONT_CARE                                                                                                 ;
+; Entity Instance                           ; bufferedUART:UART|altsyncram:rxBuffer_rtl_0                                                               ;
+;     -- OPERATION_MODE                     ; DUAL_PORT                                                                                                 ;
+;     -- WIDTH_A                            ; 8                                                                                                         ;
+;     -- NUMWORDS_A                         ; 16                                                                                                        ;
+;     -- OUTDATA_REG_A                      ; UNREGISTERED                                                                                              ;
+;     -- WIDTH_B                            ; 8                                                                                                         ;
+;     -- NUMWORDS_B                         ; 16                                                                                                        ;
+;     -- ADDRESS_REG_B                      ; CLOCK1                                                                                                    ;
+;     -- OUTDATA_REG_B                      ; UNREGISTERED                                                                                              ;
+;     -- RAM_BLOCK_TYPE                     ; AUTO                                                                                                      ;
+;     -- READ_DURING_WRITE_MODE_MIXED_PORTS ; DONT_CARE                                                                                                 ;
 +-------------------------------------------+-----------------------------------------------------------------------------------------------------------+
-
-
-+------------------------------------------------------------------------------------------------------------+
-; Analysis & Elaboration Settings                                                                            ;
-+------------------------------------------------------------------+--------------------+--------------------+
-; Option                                                           ; Setting            ; Default Value      ;
-+------------------------------------------------------------------+--------------------+--------------------+
-; Device                                                           ; EP4CE15F23C8       ;                    ;
-; Top-level entity name                                            ; ANSITerm1          ; ANSITerm1          ;
-; Family name                                                      ; Cyclone IV E       ; Cyclone V          ;
-; Use smart compilation                                            ; On                 ; Off                ;
-; Enable parallel Assembler and Timing Analyzer during compilation ; On                 ; On                 ;
-; Enable compact report table                                      ; Off                ; Off                ;
-; Restructure Multiplexers                                         ; Auto               ; Auto               ;
-; Create Debugging Nodes for IP Cores                              ; Off                ; Off                ;
-; Preserve fewer node names                                        ; On                 ; On                 ;
-; Intel FPGA IP Evaluation Mode                                    ; Enable             ; Enable             ;
-; Verilog Version                                                  ; Verilog_2001       ; Verilog_2001       ;
-; VHDL Version                                                     ; VHDL_1993          ; VHDL_1993          ;
-; State Machine Processing                                         ; Auto               ; Auto               ;
-; Safe State Machine                                               ; Off                ; Off                ;
-; Extract Verilog State Machines                                   ; On                 ; On                 ;
-; Extract VHDL State Machines                                      ; On                 ; On                 ;
-; Ignore Verilog initial constructs                                ; Off                ; Off                ;
-; Iteration limit for constant Verilog loops                       ; 5000               ; 5000               ;
-; Iteration limit for non-constant Verilog loops                   ; 250                ; 250                ;
-; Add Pass-Through Logic to Inferred RAMs                          ; On                 ; On                 ;
-; Infer RAMs from Raw Logic                                        ; On                 ; On                 ;
-; Parallel Synthesis                                               ; On                 ; On                 ;
-; DSP Block Balancing                                              ; Auto               ; Auto               ;
-; NOT Gate Push-Back                                               ; On                 ; On                 ;
-; Power-Up Don't Care                                              ; On                 ; On                 ;
-; Remove Redundant Logic Cells                                     ; Off                ; Off                ;
-; Remove Duplicate Registers                                       ; On                 ; On                 ;
-; Ignore CARRY Buffers                                             ; Off                ; Off                ;
-; Ignore CASCADE Buffers                                           ; Off                ; Off                ;
-; Ignore GLOBAL Buffers                                            ; Off                ; Off                ;
-; Ignore ROW GLOBAL Buffers                                        ; Off                ; Off                ;
-; Ignore LCELL Buffers                                             ; Off                ; Off                ;
-; Ignore SOFT Buffers                                              ; On                 ; On                 ;
-; Limit AHDL Integers to 32 Bits                                   ; Off                ; Off                ;
-; Optimization Technique                                           ; Balanced           ; Balanced           ;
-; Carry Chain Length                                               ; 70                 ; 70                 ;
-; Auto Carry Chains                                                ; On                 ; On                 ;
-; Auto Open-Drain Pins                                             ; On                 ; On                 ;
-; Perform WYSIWYG Primitive Resynthesis                            ; Off                ; Off                ;
-; Auto ROM Replacement                                             ; On                 ; On                 ;
-; Auto RAM Replacement                                             ; On                 ; On                 ;
-; Auto DSP Block Replacement                                       ; On                 ; On                 ;
-; Auto Shift Register Replacement                                  ; Auto               ; Auto               ;
-; Allow Shift Register Merging across Hierarchies                  ; Auto               ; Auto               ;
-; Auto Clock Enable Replacement                                    ; On                 ; On                 ;
-; Strict RAM Replacement                                           ; Off                ; Off                ;
-; Allow Synchronous Control Signals                                ; On                 ; On                 ;
-; Force Use of Synchronous Clear Signals                           ; Off                ; Off                ;
-; Auto RAM Block Balancing                                         ; On                 ; On                 ;
-; Auto RAM to Logic Cell Conversion                                ; Off                ; Off                ;
-; Auto Resource Sharing                                            ; Off                ; Off                ;
-; Allow Any RAM Size For Recognition                               ; Off                ; Off                ;
-; Allow Any ROM Size For Recognition                               ; Off                ; Off                ;
-; Allow Any Shift Register Size For Recognition                    ; Off                ; Off                ;
-; Use LogicLock Constraints during Resource Balancing              ; On                 ; On                 ;
-; Ignore translate_off and synthesis_off directives                ; Off                ; Off                ;
-; Timing-Driven Synthesis                                          ; On                 ; On                 ;
-; Report Parameter Settings                                        ; On                 ; On                 ;
-; Report Source Assignments                                        ; On                 ; On                 ;
-; Report Connectivity Checks                                       ; On                 ; On                 ;
-; Ignore Maximum Fan-Out Assignments                               ; Off                ; Off                ;
-; Synchronization Register Chain Length                            ; 2                  ; 2                  ;
-; Power Optimization During Synthesis                              ; Normal compilation ; Normal compilation ;
-; HDL message level                                                ; Level2             ; Level2             ;
-; Suppress Register Optimization Related Messages                  ; Off                ; Off                ;
-; Number of Removed Registers Reported in Synthesis Report         ; 5000               ; 5000               ;
-; Number of Swept Nodes Reported in Synthesis Report               ; 5000               ; 5000               ;
-; Number of Inverted Registers Reported in Synthesis Report        ; 100                ; 100                ;
-; Clock MUX Protection                                             ; On                 ; On                 ;
-; Auto Gated Clock Conversion                                      ; Off                ; Off                ;
-; Block Design Naming                                              ; Auto               ; Auto               ;
-; SDC constraint protection                                        ; Off                ; Off                ;
-; Synthesis Effort                                                 ; Auto               ; Auto               ;
-; Shift Register Replacement - Allow Asynchronous Clear Signal     ; On                 ; On                 ;
-; Pre-Mapping Resynthesis Optimization                             ; Off                ; Off                ;
-; Analysis & Synthesis Message Level                               ; Medium             ; Medium             ;
-; Disable Register Merging Across Hierarchies                      ; Auto               ; Auto               ;
-; Resource Aware Inference For Block RAM                           ; On                 ; On                 ;
-+------------------------------------------------------------------+--------------------+--------------------+
 
 
 +-----------------------------------------------------------------------------------------------------------------+
@@ -790,16 +1363,63 @@ Note: In order to hide this table in the UI and the text report file, please set
 +----------------+-------------+-------+-------+------------+--------------------------------------------------------------------------------------------------------------+
 
 
-+---------------------------------+
-; Analysis & Elaboration Messages ;
-+---------------------------------+
++-----------------------------------------------------+
+; Post-Synthesis Netlist Statistics for Top Partition ;
++-----------------------+-----------------------------+
+; Type                  ; Count                       ;
++-----------------------+-----------------------------+
+; boundary_port         ; 46                          ;
+; cycloneiii_ff         ; 558                         ;
+;     CLR               ; 21                          ;
+;     ENA               ; 244                         ;
+;     ENA CLR           ; 21                          ;
+;     ENA CLR SCLR      ; 18                          ;
+;     ENA CLR SLD       ; 12                          ;
+;     ENA SCLR          ; 60                          ;
+;     ENA SCLR SLD      ; 24                          ;
+;     ENA SLD           ; 4                           ;
+;     SCLR              ; 41                          ;
+;     plain             ; 113                         ;
+; cycloneiii_io_obuf    ; 2                           ;
+; cycloneiii_lcell_comb ; 2145                        ;
+;     arith             ; 360                         ;
+;         2 data inputs ; 210                         ;
+;         3 data inputs ; 150                         ;
+;     normal            ; 1785                        ;
+;         0 data inputs ; 17                          ;
+;         1 data inputs ; 65                          ;
+;         2 data inputs ; 240                         ;
+;         3 data inputs ; 306                         ;
+;         4 data inputs ; 1157                        ;
+; cycloneiii_ram_block  ; 48                          ;
+;                       ;                             ;
+; Max LUT depth         ; 18.00                       ;
+; Average LUT depth     ; 6.34                        ;
++-----------------------+-----------------------------+
+
+
++-------------------------------+
+; Elapsed Time Per Partition    ;
++----------------+--------------+
+; Partition Name ; Elapsed Time ;
++----------------+--------------+
+; Top            ; 00:00:12     ;
++----------------+--------------+
+
+
++-------------------------------+
+; Analysis & Synthesis Messages ;
++-------------------------------+
 Info: *******************************************************************
-Info: Running Quartus Prime Analysis & Elaboration
+Info: Running Quartus Prime Analysis & Synthesis
     Info: Version 20.1.0 Build 711 06/05/2020 SJ Lite Edition
-    Info: Processing started: Sun Jun 20 06:46:42 2021
-Info: Command: quartus_map --read_settings_files=on --write_settings_files=off ANSITerm1 -c ANSITerm1 --analysis_and_elaboration
+    Info: Processing started: Mon Jun 21 07:45:06 2021
+Info: Command: quartus_map --read_settings_files=on --write_settings_files=off ANSITerm1 -c ANSITerm1
 Warning (18236): Number of processors has not been specified which may cause overloading on shared machines.  Set the global assignment NUM_PARALLEL_PROCESSORS in your QSF to an appropriate value for best performance.
 Info (20030): Parallel compilation is enabled and will use 4 of the 4 processors detected
+Info (12021): Found 2 design units, including 1 entities, in source file /users/hpz420/documents/github/doug gilliland/multicomp/multicomp (vhdl template)/components/cpu/iop16/lifo.vhd
+    Info (12022): Found design unit 1: lifo-rtl File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/CPU/IOP16/lifo.vhd Line: 49
+    Info (12023): Found entity 1: lifo File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/CPU/IOP16/lifo.vhd Line: 29
 Info (12021): Found 2 design units, including 1 entities, in source file /users/hpz420/documents/github/doug gilliland/multicomp/multicomp (vhdl template)/components/cpu/iop16/iop16_roms/iop_rom_ansi1/iop_rom.vhd
     Info (12022): Found design unit 1: iop_rom-SYN File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/CPU/IOP16/IOP16_ROMs/IOP_ROM_ANSI1/IOP_ROM.vhd Line: 53
     Info (12023): Found entity 1: IOP_ROM File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/CPU/IOP16/IOP16_ROMs/IOP_ROM_ANSI1/IOP_ROM.vhd Line: 43
@@ -807,7 +1427,7 @@ Info (12021): Found 2 design units, including 1 entities, in source file /users/
     Info (12022): Found design unit 1: RegFile8x8-RegFile8x8_beh File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/CPU/IOP16/RegFile8x8.vhd Line: 23
     Info (12023): Found entity 1: RegFile8x8 File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/CPU/IOP16/RegFile8x8.vhd Line: 11
 Info (12021): Found 2 design units, including 1 entities, in source file /users/hpz420/documents/github/doug gilliland/multicomp/multicomp (vhdl template)/components/cpu/iop16/iop16b.vhd
-    Info (12022): Found design unit 1: IOP16-IOP16_beh File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/CPU/IOP16/IOP16B.vhd Line: 56
+    Info (12022): Found design unit 1: IOP16-IOP16_beh File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/CPU/IOP16/IOP16B.vhd Line: 57
     Info (12023): Found entity 1: IOP16 File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/CPU/IOP16/IOP16B.vhd Line: 39
 Info (12021): Found 2 design units, including 1 entities, in source file ansiterm1.vhd
     Info (12022): Found design unit 1: ANSITerm1-struct File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15/ANSITerm2/ANSITerm1.vhd Line: 64
@@ -864,10 +1484,10 @@ Info (12127): Elaborating entity "ANSITerm1" for the top level hierarchy
 Warning (10540): VHDL Signal Declaration warning at ANSITerm1.vhd(60): used explicit default value for signal "o_UsrLed" because signal was never assigned a value File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15/ANSITerm2/ANSITerm1.vhd Line: 60
 Info (12128): Elaborating entity "Debouncer" for hierarchy "Debouncer:debounceReset" File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15/ANSITerm2/ANSITerm1.vhd Line: 121
 Info (12128): Elaborating entity "IOP16" for hierarchy "IOP16:IOP16" File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15/ANSITerm2/ANSITerm1.vhd Line: 131
-Warning (10036): Verilog HDL or VHDL warning at IOP16B.vhd(78): object "w_OP_NOP" assigned a value but never read File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/CPU/IOP16/IOP16B.vhd Line: 78
-Info (10041): Inferred latch for "w_zBit" at IOP16B.vhd(244) File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/CPU/IOP16/IOP16B.vhd Line: 244
-Info (12128): Elaborating entity "GrayCounter" for hierarchy "IOP16:IOP16|GrayCounter:greyLow" File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/CPU/IOP16/IOP16B.vhd Line: 117
-Info (12128): Elaborating entity "IOP_ROM" for hierarchy "IOP16:IOP16|IOP_ROM:\GEN_256W_INST_ROM:IopRom" File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/CPU/IOP16/IOP16B.vhd Line: 177
+Warning (10036): Verilog HDL or VHDL warning at IOP16B.vhd(80): object "w_OP_NOP" assigned a value but never read File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/CPU/IOP16/IOP16B.vhd Line: 80
+Info (10041): Inferred latch for "w_zBit" at IOP16B.vhd(274) File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/CPU/IOP16/IOP16B.vhd Line: 274
+Info (12128): Elaborating entity "GrayCounter" for hierarchy "IOP16:IOP16|GrayCounter:greyLow" File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/CPU/IOP16/IOP16B.vhd Line: 119
+Info (12128): Elaborating entity "IOP_ROM" for hierarchy "IOP16:IOP16|IOP_ROM:\GEN_256W_INST_ROM:IopRom" File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/CPU/IOP16/IOP16B.vhd Line: 217
 Info (12128): Elaborating entity "altsyncram" for hierarchy "IOP16:IOP16|IOP_ROM:\GEN_256W_INST_ROM:IopRom|altsyncram:altsyncram_component" File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/CPU/IOP16/IOP16_ROMs/IOP_ROM_ANSI1/IOP_ROM.vhd Line: 60
 Info (12130): Elaborated megafunction instantiation "IOP16:IOP16|IOP_ROM:\GEN_256W_INST_ROM:IopRom|altsyncram:altsyncram_component" File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/CPU/IOP16/IOP16_ROMs/IOP_ROM_ANSI1/IOP_ROM.vhd Line: 60
 Info (12133): Instantiated megafunction "IOP16:IOP16|IOP_ROM:\GEN_256W_INST_ROM:IopRom|altsyncram:altsyncram_component" with the following parameter: File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/CPU/IOP16/IOP16_ROMs/IOP_ROM_ANSI1/IOP_ROM.vhd Line: 60
@@ -958,7 +1578,7 @@ Info (12133): Instantiated megafunction "IOP16:IOP16|IOP_ROM:\GEN_256W_INST_ROM:
 Info (12128): Elaborating entity "sld_jtag_endpoint_adapter" for hierarchy "IOP16:IOP16|IOP_ROM:\GEN_256W_INST_ROM:IopRom|altsyncram:altsyncram_component|altsyncram_id54:auto_generated|sld_mod_ram_rom:mgl_prim2|sld_jtag_endpoint_adapter:jtag_signal_adapter" File: c:/intelfpga_lite/20.1/quartus/libraries/megafunctions/sld_mod_ram_rom.vhd Line: 302
 Info (12128): Elaborating entity "sld_jtag_endpoint_adapter_impl" for hierarchy "IOP16:IOP16|IOP_ROM:\GEN_256W_INST_ROM:IopRom|altsyncram:altsyncram_component|altsyncram_id54:auto_generated|sld_mod_ram_rom:mgl_prim2|sld_jtag_endpoint_adapter:jtag_signal_adapter|sld_jtag_endpoint_adapter_impl:sld_jtag_endpoint_adapter_impl_inst" File: c:/intelfpga_lite/20.1/quartus/libraries/megafunctions/sld_jtag_endpoint_adapter.vhd Line: 232
 Info (12128): Elaborating entity "sld_rom_sr" for hierarchy "IOP16:IOP16|IOP_ROM:\GEN_256W_INST_ROM:IopRom|altsyncram:altsyncram_component|altsyncram_id54:auto_generated|sld_mod_ram_rom:mgl_prim2|sld_rom_sr:\ram_rom_logic_gen:name_gen:info_rom_sr" File: c:/intelfpga_lite/20.1/quartus/libraries/megafunctions/sld_mod_ram_rom.vhd Line: 828
-Info (12128): Elaborating entity "RegFile8x8" for hierarchy "IOP16:IOP16|RegFile8x8:RegFile" File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/CPU/IOP16/IOP16B.vhd Line: 265
+Info (12128): Elaborating entity "RegFile8x8" for hierarchy "IOP16:IOP16|RegFile8x8:RegFile" File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/CPU/IOP16/IOP16B.vhd Line: 295
 Info (10041): Inferred latch for "o_DataOut[0]" at RegFile8x8.vhd(48) File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/CPU/IOP16/RegFile8x8.vhd Line: 48
 Info (10041): Inferred latch for "o_DataOut[1]" at RegFile8x8.vhd(48) File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/CPU/IOP16/RegFile8x8.vhd Line: 48
 Info (10041): Inferred latch for "o_DataOut[2]" at RegFile8x8.vhd(48) File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/CPU/IOP16/RegFile8x8.vhd Line: 48
@@ -967,7 +1587,7 @@ Info (10041): Inferred latch for "o_DataOut[4]" at RegFile8x8.vhd(48) File: C:/U
 Info (10041): Inferred latch for "o_DataOut[5]" at RegFile8x8.vhd(48) File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/CPU/IOP16/RegFile8x8.vhd Line: 48
 Info (10041): Inferred latch for "o_DataOut[6]" at RegFile8x8.vhd(48) File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/CPU/IOP16/RegFile8x8.vhd Line: 48
 Info (10041): Inferred latch for "o_DataOut[7]" at RegFile8x8.vhd(48) File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/CPU/IOP16/RegFile8x8.vhd Line: 48
-Info (12128): Elaborating entity "ANSIDisplayVGA" for hierarchy "ANSIDisplayVGA:ANSIDisplay" File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15/ANSITerm2/ANSITerm1.vhd Line: 148
+Info (12128): Elaborating entity "ANSIDisplayVGA" for hierarchy "ANSIDisplayVGA:ANSIDisplay" File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15/ANSITerm2/ANSITerm1.vhd Line: 149
 Warning (10036): Verilog HDL or VHDL warning at ANSIDisplayVGA.vhd(112): object "func_reset" assigned a value but never read File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/TERMINAL/ANSIDisplayVGA/ANSIDisplayVGA.vhd Line: 112
 Info (12128): Elaborating entity "SansBoldRomReduced" for hierarchy "ANSIDisplayVGA:ANSIDisplay|SansBoldRomReduced:\GEN_REDUCED_SCHARS:fontRom" File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/TERMINAL/ANSIDisplayVGA/ANSIDisplayVGA.vhd Line: 239
 Info (12128): Elaborating entity "altsyncram" for hierarchy "ANSIDisplayVGA:ANSIDisplay|SansBoldRomReduced:\GEN_REDUCED_SCHARS:fontRom|altsyncram:altsyncram_component" File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/TERMINAL/ANSIDisplayVGA/SansBoldRomReduced.vhd Line: 60
@@ -1102,14 +1722,14 @@ Info (12133): Instantiated megafunction "ANSIDisplayVGA:ANSIDisplay|DisplayRam2K
 Info (12021): Found 1 design units, including 1 entities, in source file db/altsyncram_ldr3.tdf
     Info (12023): Found entity 1: altsyncram_ldr3 File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15/ANSITerm2/db/altsyncram_ldr3.tdf Line: 28
 Info (12128): Elaborating entity "altsyncram_ldr3" for hierarchy "ANSIDisplayVGA:ANSIDisplay|DisplayRam2K:\GEN_2KRAM:dispCharRam|altsyncram:altsyncram_component|altsyncram_ldr3:auto_generated" File: c:/intelfpga_lite/20.1/quartus/libraries/megafunctions/altsyncram.tdf Line: 792
-Info (12128): Elaborating entity "Wrap_Keyboard" for hierarchy "Wrap_Keyboard:KEYBOARD" File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15/ANSITerm2/ANSITerm1.vhd Line: 181
+Info (12128): Elaborating entity "Wrap_Keyboard" for hierarchy "Wrap_Keyboard:KEYBOARD" File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15/ANSITerm2/ANSITerm1.vhd Line: 182
 Info (12128): Elaborating entity "ps2_keyboard_to_ascii" for hierarchy "Wrap_Keyboard:KEYBOARD|ps2_keyboard_to_ascii:ps2Keyboard" File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/PS2KB/ps2_Wrapped/Wrap_Keyboard.vhd Line: 36
 Info (12128): Elaborating entity "ps2_keyboard" for hierarchy "Wrap_Keyboard:KEYBOARD|ps2_keyboard_to_ascii:ps2Keyboard|ps2_keyboard:ps2_keyboard_0" File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/PS2KB/ps2_Wrapped/ps2_keyboard_to_ascii.vhd Line: 70
 Info (12128): Elaborating entity "debounce" for hierarchy "Wrap_Keyboard:KEYBOARD|ps2_keyboard_to_ascii:ps2Keyboard|ps2_keyboard:ps2_keyboard_0|debounce:debounce_ps2_clk" File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/PS2KB/ps2_Wrapped/ps2_keyboard.vhd Line: 67
-Info (12128): Elaborating entity "BaudRate6850" for hierarchy "BaudRate6850:BAUDRATEGEN" File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15/ANSITerm2/ANSITerm1.vhd Line: 196
-Info (12128): Elaborating entity "bufferedUART" for hierarchy "bufferedUART:UART" File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15/ANSITerm2/ANSITerm1.vhd Line: 206
+Info (12128): Elaborating entity "BaudRate6850" for hierarchy "BaudRate6850:BAUDRATEGEN" File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15/ANSITerm2/ANSITerm1.vhd Line: 197
+Info (12128): Elaborating entity "bufferedUART" for hierarchy "bufferedUART:UART" File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15/ANSITerm2/ANSITerm1.vhd Line: 207
 Info (11170): Starting IP generation for the debug fabric: alt_sld_fab.
-Info (11172): 2021.06.20.06:47:03 Progress: Loading sld1444e96f/alt_sld_fab_wrapper_hw.tcl
+Info (11172): 2021.06.21.07:45:25 Progress: Loading sld1444e96f/alt_sld_fab_wrapper_hw.tcl
 Info (11172): Alt_sld_fab.alt_sld_fab: SLD fabric agents which did not specify prefer_host were connected to JTAG
 Info (11172): Alt_sld_fab: Generating alt_sld_fab "alt_sld_fab" for QUARTUS_SYNTH
 Info (11172): Alt_sld_fab: "alt_sld_fab" instantiated alt_sld_fab "alt_sld_fab"
@@ -1132,10 +1752,128 @@ Info (12021): Found 2 design units, including 1 entities, in source file db/ip/s
     Info (12023): Found entity 1: alt_sld_fab_alt_sld_fab_sldfabric File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15/ANSITerm2/db/ip/sld1444e96f/submodules/alt_sld_fab_alt_sld_fab_sldfabric.vhd Line: 11
 Info (12021): Found 1 design units, including 1 entities, in source file db/ip/sld1444e96f/submodules/alt_sld_fab_alt_sld_fab_splitter.sv
     Info (12023): Found entity 1: alt_sld_fab_alt_sld_fab_splitter File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15/ANSITerm2/db/ip/sld1444e96f/submodules/alt_sld_fab_alt_sld_fab_splitter.sv Line: 3
-Info: Quartus Prime Analysis & Elaboration was successful. 0 errors, 40 warnings
-    Info: Peak virtual memory: 4819 megabytes
-    Info: Processing ended: Sun Jun 20 06:47:12 2021
-    Info: Elapsed time: 00:00:30
-    Info: Total CPU time (on all processors): 00:01:06
+Warning (19016): Clock multiplexers are found and protected
+    Warning (19017): Found clock multiplexer IOP16:IOP16|periphAdr[1] File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/CPU/IOP16/IOP16B.vhd Line: 52
+    Warning (19017): Found clock multiplexer IOP16:IOP16|periphAdr[2] File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/CPU/IOP16/IOP16B.vhd Line: 52
+    Warning (19017): Found clock multiplexer IOP16:IOP16|periphAdr[3] File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/CPU/IOP16/IOP16B.vhd Line: 52
+    Warning (19017): Found clock multiplexer IOP16:IOP16|periphAdr[4] File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/CPU/IOP16/IOP16B.vhd Line: 52
+    Warning (19017): Found clock multiplexer IOP16:IOP16|periphAdr[5] File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/CPU/IOP16/IOP16B.vhd Line: 52
+    Warning (19017): Found clock multiplexer IOP16:IOP16|periphAdr[6] File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/CPU/IOP16/IOP16B.vhd Line: 52
+    Warning (19017): Found clock multiplexer IOP16:IOP16|periphAdr[7] File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/CPU/IOP16/IOP16B.vhd Line: 52
+Warning (276027): Inferred dual-clock RAM node "bufferedUART:UART|rxBuffer_rtl_0" from synchronous design logic.  The read-during-write behavior of a dual-clock RAM is undefined and may not match the behavior of the original design.
+Info (19000): Inferred 1 megafunctions from design logic
+    Info (276029): Inferred altsyncram megafunction from the following design logic: "bufferedUART:UART|rxBuffer_rtl_0" 
+        Info (286033): Parameter OPERATION_MODE set to DUAL_PORT
+        Info (286033): Parameter WIDTH_A set to 8
+        Info (286033): Parameter WIDTHAD_A set to 4
+        Info (286033): Parameter NUMWORDS_A set to 16
+        Info (286033): Parameter WIDTH_B set to 8
+        Info (286033): Parameter WIDTHAD_B set to 4
+        Info (286033): Parameter NUMWORDS_B set to 16
+        Info (286033): Parameter ADDRESS_ACLR_A set to NONE
+        Info (286033): Parameter OUTDATA_REG_B set to UNREGISTERED
+        Info (286033): Parameter ADDRESS_ACLR_B set to NONE
+        Info (286033): Parameter OUTDATA_ACLR_B set to NONE
+        Info (286033): Parameter ADDRESS_REG_B set to CLOCK1
+        Info (286033): Parameter INDATA_ACLR_A set to NONE
+        Info (286033): Parameter WRCONTROL_ACLR_A set to NONE
+Info (278001): Inferred 2 megafunctions from design logic
+    Info (278004): Inferred divider/modulo megafunction ("lpm_divide") from the following logic: "ANSIDisplayVGA:ANSIDisplay|Mod0" File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/TERMINAL/ANSIDisplayVGA/ANSIDisplayVGA.vhd Line: 329
+    Info (278004): Inferred divider/modulo megafunction ("lpm_divide") from the following logic: "ANSIDisplayVGA:ANSIDisplay|Mod1" File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/TERMINAL/ANSIDisplayVGA/ANSIDisplayVGA.vhd Line: 330
+Info (12130): Elaborated megafunction instantiation "bufferedUART:UART|altsyncram:rxBuffer_rtl_0"
+Info (12133): Instantiated megafunction "bufferedUART:UART|altsyncram:rxBuffer_rtl_0" with the following parameter:
+    Info (12134): Parameter "OPERATION_MODE" = "DUAL_PORT"
+    Info (12134): Parameter "WIDTH_A" = "8"
+    Info (12134): Parameter "WIDTHAD_A" = "4"
+    Info (12134): Parameter "NUMWORDS_A" = "16"
+    Info (12134): Parameter "WIDTH_B" = "8"
+    Info (12134): Parameter "WIDTHAD_B" = "4"
+    Info (12134): Parameter "NUMWORDS_B" = "16"
+    Info (12134): Parameter "ADDRESS_ACLR_A" = "NONE"
+    Info (12134): Parameter "OUTDATA_REG_B" = "UNREGISTERED"
+    Info (12134): Parameter "ADDRESS_ACLR_B" = "NONE"
+    Info (12134): Parameter "OUTDATA_ACLR_B" = "NONE"
+    Info (12134): Parameter "ADDRESS_REG_B" = "CLOCK1"
+    Info (12134): Parameter "INDATA_ACLR_A" = "NONE"
+    Info (12134): Parameter "WRCONTROL_ACLR_A" = "NONE"
+Info (12021): Found 1 design units, including 1 entities, in source file db/altsyncram_3ce1.tdf
+    Info (12023): Found entity 1: altsyncram_3ce1 File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15/ANSITerm2/db/altsyncram_3ce1.tdf Line: 28
+Info (12130): Elaborated megafunction instantiation "ANSIDisplayVGA:ANSIDisplay|lpm_divide:Mod0" File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/TERMINAL/ANSIDisplayVGA/ANSIDisplayVGA.vhd Line: 329
+Info (12133): Instantiated megafunction "ANSIDisplayVGA:ANSIDisplay|lpm_divide:Mod0" with the following parameter: File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/TERMINAL/ANSIDisplayVGA/ANSIDisplayVGA.vhd Line: 329
+    Info (12134): Parameter "LPM_WIDTHN" = "13"
+    Info (12134): Parameter "LPM_WIDTHD" = "13"
+    Info (12134): Parameter "LPM_NREPRESENTATION" = "UNSIGNED"
+    Info (12134): Parameter "LPM_DREPRESENTATION" = "UNSIGNED"
+Info (12021): Found 1 design units, including 1 entities, in source file db/lpm_divide_icm.tdf
+    Info (12023): Found entity 1: lpm_divide_icm File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15/ANSITerm2/db/lpm_divide_icm.tdf Line: 25
+Info (12021): Found 1 design units, including 1 entities, in source file db/sign_div_unsign_7nh.tdf
+    Info (12023): Found entity 1: sign_div_unsign_7nh File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15/ANSITerm2/db/sign_div_unsign_7nh.tdf Line: 25
+Info (12021): Found 1 design units, including 1 entities, in source file db/alt_u_div_2af.tdf
+    Info (12023): Found entity 1: alt_u_div_2af File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15/ANSITerm2/db/alt_u_div_2af.tdf Line: 27
+Info (12021): Found 1 design units, including 1 entities, in source file db/add_sub_7pc.tdf
+    Info (12023): Found entity 1: add_sub_7pc File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15/ANSITerm2/db/add_sub_7pc.tdf Line: 23
+Info (12021): Found 1 design units, including 1 entities, in source file db/add_sub_8pc.tdf
+    Info (12023): Found entity 1: add_sub_8pc File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15/ANSITerm2/db/add_sub_8pc.tdf Line: 23
+Warning (13039): The following bidirectional pins have no drivers
+    Warning (13040): bidirectional pin "io_PS2_CLK" has no driver File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15/ANSITerm2/ANSITerm1.vhd Line: 56
+    Warning (13040): bidirectional pin "io_PS2_DAT" has no driver File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15/ANSITerm2/ANSITerm1.vhd Line: 57
+Warning (13012): Latch IOP16:IOP16|RegFile8x8:RegFile|o_DataOut[1] has unsafe behavior File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/CPU/IOP16/RegFile8x8.vhd Line: 48
+    Warning (13013): Ports D and ENA on the latch are fed by the same signal IOP16:IOP16|w_RomData[11] File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/CPU/IOP16/IOP16B.vhd Line: 70
+Warning (13012): Latch IOP16:IOP16|RegFile8x8:RegFile|o_DataOut[0] has unsafe behavior File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/CPU/IOP16/RegFile8x8.vhd Line: 48
+    Warning (13013): Ports D and ENA on the latch are fed by the same signal IOP16:IOP16|w_RomData[11] File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/CPU/IOP16/IOP16B.vhd Line: 70
+Warning (13012): Latch IOP16:IOP16|RegFile8x8:RegFile|o_DataOut[2] has unsafe behavior File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/CPU/IOP16/RegFile8x8.vhd Line: 48
+    Warning (13013): Ports D and ENA on the latch are fed by the same signal IOP16:IOP16|w_RomData[11] File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/CPU/IOP16/IOP16B.vhd Line: 70
+Warning (13012): Latch IOP16:IOP16|RegFile8x8:RegFile|o_DataOut[3] has unsafe behavior File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/CPU/IOP16/RegFile8x8.vhd Line: 48
+    Warning (13013): Ports D and ENA on the latch are fed by the same signal IOP16:IOP16|w_RomData[11] File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/CPU/IOP16/IOP16B.vhd Line: 70
+Warning (13012): Latch IOP16:IOP16|RegFile8x8:RegFile|o_DataOut[4] has unsafe behavior File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/CPU/IOP16/RegFile8x8.vhd Line: 48
+    Warning (13013): Ports D and ENA on the latch are fed by the same signal IOP16:IOP16|w_RomData[11] File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/CPU/IOP16/IOP16B.vhd Line: 70
+Warning (13012): Latch IOP16:IOP16|RegFile8x8:RegFile|o_DataOut[5] has unsafe behavior File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/CPU/IOP16/RegFile8x8.vhd Line: 48
+    Warning (13013): Ports D and ENA on the latch are fed by the same signal IOP16:IOP16|w_RomData[11] File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/CPU/IOP16/IOP16B.vhd Line: 70
+Warning (13012): Latch IOP16:IOP16|RegFile8x8:RegFile|o_DataOut[6] has unsafe behavior File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/CPU/IOP16/RegFile8x8.vhd Line: 48
+    Warning (13013): Ports D and ENA on the latch are fed by the same signal IOP16:IOP16|w_RomData[11] File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/CPU/IOP16/IOP16B.vhd Line: 70
+Warning (13012): Latch IOP16:IOP16|RegFile8x8:RegFile|o_DataOut[7] has unsafe behavior File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/CPU/IOP16/RegFile8x8.vhd Line: 48
+    Warning (13013): Ports D and ENA on the latch are fed by the same signal IOP16:IOP16|w_RomData[11] File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/CPU/IOP16/IOP16B.vhd Line: 70
+Info (13000): Registers with preset signals will power-up high File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/TERMINAL/ANSIDisplayVGA/ANSIDisplayVGA.vhd Line: 540
+Info (13003): DEV_CLRn pin will set, and not reset, register with preset signal due to NOT Gate Push-Back
+Warning (13024): Output pins are stuck at VCC or GND
+    Warning (13410): Pin "o_UsrLed" is stuck at VCC File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15/ANSITerm2/ANSITerm1.vhd Line: 60
+Info (286031): Timing-Driven Synthesis is running on partition "Top"
+Info (17049): 12 registers lost all their fanouts during netlist optimizations.
+Info (17016): Found the following redundant logic cells in design
+    Info (17048): Logic cell "IOP16:IOP16|w_RomData[12]" File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/CPU/IOP16/IOP16B.vhd Line: 70
+    Info (17048): Logic cell "IOP16:IOP16|w_RomData[14]" File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/CPU/IOP16/IOP16B.vhd Line: 70
+    Info (17048): Logic cell "IOP16:IOP16|w_RomData[13]" File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/CPU/IOP16/IOP16B.vhd Line: 70
+    Info (17048): Logic cell "IOP16:IOP16|w_RomData[15]" File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/CPU/IOP16/IOP16B.vhd Line: 70
+    Info (17048): Logic cell "IOP16:IOP16|w_RomData[0]" File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/CPU/IOP16/IOP16B.vhd Line: 70
+    Info (17048): Logic cell "IOP16:IOP16|w_RomData[3]" File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/CPU/IOP16/IOP16B.vhd Line: 70
+    Info (17048): Logic cell "IOP16:IOP16|w_RomData[4]" File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/CPU/IOP16/IOP16B.vhd Line: 70
+    Info (17048): Logic cell "IOP16:IOP16|w_RomData[5]" File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/CPU/IOP16/IOP16B.vhd Line: 70
+    Info (17048): Logic cell "IOP16:IOP16|w_RomData[6]" File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/CPU/IOP16/IOP16B.vhd Line: 70
+    Info (17048): Logic cell "IOP16:IOP16|w_RomData[1]" File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/CPU/IOP16/IOP16B.vhd Line: 70
+    Info (17048): Logic cell "IOP16:IOP16|w_RomData[2]" File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/CPU/IOP16/IOP16B.vhd Line: 70
+    Info (17048): Logic cell "IOP16:IOP16|w_RomData[7]" File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/CPU/IOP16/IOP16B.vhd Line: 70
+    Info (17048): Logic cell "IOP16:IOP16|w_RomData[10]" File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/CPU/IOP16/IOP16B.vhd Line: 70
+    Info (17048): Logic cell "IOP16:IOP16|w_RomData[9]" File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/CPU/IOP16/IOP16B.vhd Line: 70
+    Info (17048): Logic cell "IOP16:IOP16|w_RomData[8]" File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/CPU/IOP16/IOP16B.vhd Line: 70
+    Info (17048): Logic cell "IOP16:IOP16|w_RomData[11]" File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/CPU/IOP16/IOP16B.vhd Line: 70
+    Info (17048): Logic cell "IOP16:IOP16|w_lowCount[0]" File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/CPU/IOP16/IOP16B.vhd Line: 60
+    Info (17048): Logic cell "IOP16:IOP16|w_lowCount[2]" File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/CPU/IOP16/IOP16B.vhd Line: 60
+    Info (17048): Logic cell "IOP16:IOP16|w_lowCount[1]" File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/CPU/IOP16/IOP16B.vhd Line: 60
+Info (16010): Generating hard_block partition "hard_block:auto_generated_inst"
+    Info (16011): Adding 0 node(s), including 0 DDIO, 0 PLL, 0 transceiver and 0 LCELL
+Warning (21074): Design contains 2 input pin(s) that do not drive logic
+    Warning (15610): No output dependent on input pin "serSelect" File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15/ANSITerm2/ANSITerm1.vhd Line: 45
+    Warning (15610): No output dependent on input pin "i_key1" File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15/ANSITerm2/ANSITerm1.vhd Line: 59
+Info (21057): Implemented 2544 device resources after synthesis - the final resource count might be different
+    Info (21058): Implemented 9 input pins
+    Info (21059): Implemented 12 output pins
+    Info (21060): Implemented 2 bidirectional pins
+    Info (21061): Implemented 2472 logic cells
+    Info (21064): Implemented 48 RAM segments
+Info: Quartus Prime Analysis & Synthesis was successful. 0 errors, 73 warnings
+    Info: Peak virtual memory: 4857 megabytes
+    Info: Processing ended: Mon Jun 21 07:45:47 2021
+    Info: Elapsed time: 00:00:41
+    Info: Total CPU time (on all processors): 00:01:16
 
 
