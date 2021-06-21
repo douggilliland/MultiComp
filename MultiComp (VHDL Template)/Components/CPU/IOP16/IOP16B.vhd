@@ -1,21 +1,36 @@
 -- ---------------------------------------------------------------------------------------
--- IOP16 - I/O Processor with minimal instruction set
---	16-bit instruction code
---	12-bits address (up to 4096 instructions stored in FPGA ROM)
---	Useful for for polled I/O
---	8 registers (8-bits) (read/write) for parameters/data
---		Reserved space in instruction for 16 of 8-bit registers
---	8-bit data and address peripheral interface
---		Controls up to 256 peripherals
+-- IOP16B - I/O Processor with minimal instruction set
+--	
+--	Useful for offloading polled I/O or replacing CPUs in small applications
+--	Runs at 50 MHz / 8 clocks = 6.25 MIPs
+--		Could easily be sped up (not necessary in my applications)
+--	Small size in FPGA
+--		Uses < 350 logic cell
+--		Minimum 1 of 1K SRAM blocks (depends on program size)
+--		Trade-off - SRAM could be replaced with logic cells (in theory)
+--	16-bit instruction size
+--	12-bits of address / program memory
+--		Allows for up to 4096 instructions in the program
+--		Program is stored in FPGA ROM
+--		Set size of program memory in INST_SRAM_SIZE_PASS generic
+--	8 registers in Register File
+--		8-bit registers (read/write)
+--		Used for parameters/data (allocations below)
+--		Reserved space in instruction for up to 16 of 8-bit registers
+--	Peripheral bus
+--		8-bit address (controls up to 256 peripherals)
+--		8-bit data
+--		Read strobe (a couple of clocks wide)
+--		Write strobe (single clock wide)
 --
--- Opcodes
---	NOP - x0 - No Operation - Increments PC
+-- Opcodes (Capacity for 5 or 6 more instructions)
+--	NOP - x0 - No Operation - Increments PC (could be replaces)
 --	LRI - x2 - Load register with immediate value
 --	IOR - x6 - I/O Read into register
 --	IOW - x7 - I/O Write from register
 --	ARI - x8 - AND register with Immediate value and store back into register
 --	ORI - x9 - OR register with Immediate value and store back into register
---	JSR - xA - Jump to subroutine (single level only)
+--	JSR - xA - Jump to subroutine (stack depth can be 1 or 16, set in STACK_DEPTH generic)
 --	RTS - xB = Return from subroutine
 --	BEZ - xc - Branch by offset if equal to zero
 --	BNZ - xd - Branch by offset if not equal to zero
@@ -28,6 +43,18 @@
 --		d7..d0   = 8-bit address (IOR, IOW)
 --		d11..d8  = register number (LRI, IOR, IOW, ARI, ORI)
 --		d7..d0   = Immediate value (LRI, ARI, ORI)
+--
+--	Stack sizes are:
+--		1 - Single subroutine (not nested)
+--		4 - 16 deep (supports 16 deep nesting but consumes 1 memory block)
+--
+-- Registers are
+--		Reg0-Reg7 - Read/Write values
+--		Reg8 - Hard coded to x00
+--		Reg9 - Hard coded to x01
+--		Reg8 - Hard coded to x00
+--		Reg9-RegE - Not used (return x00)
+--		RegF - Hard coded to xFF
 -- ---------------------------------------------------------------------------------------
 
 LIBRARY ieee;

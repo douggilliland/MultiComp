@@ -127,10 +127,10 @@ begin
 		);
 
 	-- I/O Processor
-	-- Set ROM size in generic INST_SRAM_SIZE_PASS (512W  - 1 1K Block)
+	-- Set ROM size in generic INST_SRAM_SIZE_PASS (512W uses 1 of 1K Blocks in EP4CE15 FPGA)
 	IOP16: ENTITY work.IOP16
 	generic map 	( 
-		INST_SRAM_SIZE_PASS	=> 256,
+		INST_SRAM_SIZE_PASS	=> 256,	-- Small code size since program is "simple"
 		STACK_DEPTH				=> 1		-- Single level subroutine (not nested)
 	)
 		PORT map

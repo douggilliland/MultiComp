@@ -53,10 +53,9 @@ BEGIN
 						w_regFR5 when i_regNum = x"5" else
 						w_regFR6 when i_regNum = x"6" else
 						w_regFR7 when i_regNum = x"7" else
-						x"00" 	when i_regNum = x"8" else		-- hard coded reg8 = x00
-						x"01" 	when i_regNum = x"9" else		-- hard coded reg8 = x01
-						x"FF" 	when i_regNum = x"F" else		-- hard coded regF = xFF
-						x"00";											-- rest hard coded = x00
+						x"00" 	when i_regNum = x"8" else		-- hard codes reg8 = x00
+						x"01" 	when i_regNum = x"9" else		-- hard codes reg8 = x01
+						x"FF" 	when i_regNum = x"F";			-- hard codes regF = xFF
 	
 	-- Register file loads
 	w_ldReg0	<= '1' when ((i_wrReg = '1') and (i_regNum = x"0")) else	'0';
