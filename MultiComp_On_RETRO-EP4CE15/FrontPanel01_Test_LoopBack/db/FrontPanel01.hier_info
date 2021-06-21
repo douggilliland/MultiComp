@@ -301,12 +301,12 @@ clk => w_PC_out[8].CLK
 clk => w_PC_out[9].CLK
 clk => w_PC_out[10].CLK
 clk => w_PC_out[11].CLK
-clk => lifo:lifo.i_clk
+clk => lifo:GEN_STACK_DEEPER:lifo.i_clk
 clk => iop_rom:GEN_1KW_INST_ROM:IopRom.clock
 clk => regfile8x8:RegFile.i_clk
 resetN => regfile8x8:RegFile.i_resetN
 resetN => graycounter:greyLow.Rst
-resetN => lifo:lifo.i_rst
+resetN => lifo:GEN_STACK_DEEPER:lifo.i_rst
 resetN => w_PC_out.OUTPUTSELECT
 resetN => w_PC_out.OUTPUTSELECT
 resetN => w_PC_out.OUTPUTSELECT
@@ -362,7 +362,7 @@ output[1] <= Currstate[1].DB_MAX_OUTPUT_PORT_TYPE
 output[2] <= Currstate[2].DB_MAX_OUTPUT_PORT_TYPE
 
 
-|FrontPanel01_test|FrontPanel01:fp01|IOP16:iop16|lifo:lifo
+|FrontPanel01_test|FrontPanel01:fp01|IOP16:iop16|lifo:\GEN_STACK_DEEPER:lifo
 i_clk => r_mem~16.CLK
 i_clk => r_mem~0.CLK
 i_clk => r_mem~1.CLK
