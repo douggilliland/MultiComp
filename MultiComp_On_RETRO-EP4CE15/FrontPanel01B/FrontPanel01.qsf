@@ -84,18 +84,6 @@ set_location_assignment PIN_N20 -to o_testPts[2]
 set_location_assignment PIN_N19 -to o_testPts[3]
 set_location_assignment PIN_M20 -to o_testPts[4]
 set_location_assignment PIN_M19 -to o_testPts[5]
-set_global_assignment -name VHDL_FILE "../../MultiComp (VHDL Template)/Components/CPU/IOP16/RegFile8x8.vhd"
-set_global_assignment -name VHDL_FILE "../../MultiComp (VHDL Template)/Components/CPU/IOP16/IOP16B.vhd"
-set_global_assignment -name VHDL_FILE "../../MultiComp (VHDL Template)/Components/Debounce/Debounce.vhd"
-set_global_assignment -name SIGNALTAP_FILE stp1.stp
-set_global_assignment -name VHDL_FILE "../../MultiComp (VHDL Template)/Components/COUNTER/n-bit-gray-counter.vhd"
-set_global_assignment -name VHDL_FILE "../../MultiComp (VHDL Template)/Components/I2C/i2c.vhd"
-set_global_assignment -name VHDL_FILE FrontPanel01_test.vhd
-set_global_assignment -name VHDL_FILE FrontPanel01.vhd
-set_global_assignment -name QIP_FILE IOP_ROM.qip
-set_global_assignment -name VHDL_FILE Debounce32.vhd
-set_global_assignment -name SIGNALTAP_FILE output_files/debouncePBs.stp
-set_global_assignment -name QIP_FILE RAM_8KB_DP.qip
 set_global_assignment -name SLD_NODE_CREATOR_ID 110 -section_id auto_signaltap_0
 set_global_assignment -name SLD_NODE_ENTITY_NAME sld_signaltap -section_id auto_signaltap_0
 set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_clk -to i_CLOCK_50 -section_id auto_signaltap_0
@@ -237,5 +225,18 @@ set_global_assignment -name SLD_NODE_PARAMETER_ASSIGNMENT "SLD_DATA_BITS=81" -se
 set_global_assignment -name SLD_NODE_PARAMETER_ASSIGNMENT "SLD_STORAGE_QUALIFIER_BITS=81" -section_id auto_signaltap_0
 set_instance_assignment -name POST_FIT_CONNECT_TO_SLD_NODE_ENTITY_PORT crc[0] -to auto_signaltap_0|vcc -section_id auto_signaltap_0
 set_instance_assignment -name POST_FIT_CONNECT_TO_SLD_NODE_ENTITY_PORT crc[28] -to auto_signaltap_0|vcc -section_id auto_signaltap_0
+set_global_assignment -name VHDL_FILE "../../MultiComp (VHDL Template)/Components/CPU/IOP16/lifo.vhd"
+set_global_assignment -name VHDL_FILE "../../MultiComp (VHDL Template)/Components/CPU/IOP16/RegFile8x8.vhd"
+set_global_assignment -name VHDL_FILE "../../MultiComp (VHDL Template)/Components/CPU/IOP16/IOP16B.vhd"
+set_global_assignment -name VHDL_FILE "../../MultiComp (VHDL Template)/Components/Debounce/Debounce.vhd"
+set_global_assignment -name SIGNALTAP_FILE stp1.stp
+set_global_assignment -name VHDL_FILE "../../MultiComp (VHDL Template)/Components/COUNTER/n-bit-gray-counter.vhd"
+set_global_assignment -name VHDL_FILE "../../MultiComp (VHDL Template)/Components/I2C/i2c.vhd"
+set_global_assignment -name VHDL_FILE FrontPanel01_test.vhd
+set_global_assignment -name VHDL_FILE FrontPanel01.vhd
+set_global_assignment -name QIP_FILE IOP_ROM.qip
+set_global_assignment -name VHDL_FILE Debounce32.vhd
+set_global_assignment -name SIGNALTAP_FILE output_files/debouncePBs.stp
+set_global_assignment -name QIP_FILE RAM_8KB_DP.qip
 set_instance_assignment -name PARTITION_HIERARCHY root_partition -to | -section_id Top
 set_global_assignment -name SLD_FILE db/debouncePBs_auto_stripped.stp

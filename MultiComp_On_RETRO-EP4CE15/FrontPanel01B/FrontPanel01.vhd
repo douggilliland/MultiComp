@@ -105,16 +105,18 @@ begin
 	-- 	x05 - I2C Command
 	iop16 : ENTITY work.IOP16
 	generic map 	( 
-		INST_SRAM_SIZE_PASS	=> 512
+		INST_SRAM_SIZE_PASS	=> 512,
+		STACK_DEPTH				=> 4
 	)
 	PORT map (
-		clk			=> i_CLOCK_50,
-		resetN		=> i_n_reset,			-- 50 MHz
-		periphAdr	=> w_periphAdr,
-		periphIn		=> w_PERIP_DATA_IN,
-		periphWr		=> w_periphWr,
-		periphRd		=> w_periphRd,
-		periphOut	=> w_PERIP_DATA_OUT
+		i_clk					=> i_CLOCK_50,
+		i_resetN				=> i_n_reset,			-- 50 MHz
+		--
+		o_periphAdr			=> w_periphAdr,
+		i_periphDataIn		=> w_PERIP_DATA_IN,
+		o_periphWr			=> w_periphWr,
+		o_periphRd			=> w_periphRd,
+		o_periphDataOut	=> w_PERIP_DATA_OUT
 	);
 
 	-- External I2c Interface

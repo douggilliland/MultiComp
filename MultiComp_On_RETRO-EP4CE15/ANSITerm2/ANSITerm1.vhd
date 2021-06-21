@@ -34,16 +34,15 @@ entity ANSITerm1 is
 	port
 	(
 		-- Clock and reset
-		i_CLOCK_50					: in std_logic := '1';		-- Clock (50 MHz)
+		w_clk					: in std_logic := '1';		-- Clock (50 MHz)
 		i_n_reset					: in std_logic := '1';		-- Reset from Pushbutton on FPGA card
-		-- Test points for debug?
---		o_testPts					: out std_logic_vector(5 downto 0);
+		-- Serial port (as referenced from USB side)
 		urxd1							: in	std_logic := '1';
 		utxd1							: out std_logic;
 		ucts1							: in	std_logic := '1';
 		urts1							: out std_logic;
 		serSelect					: in	std_logic := '1';
-		--
+		-- Video
 		o_videoR0					: out std_logic;
 		o_videoR1					: out std_logic;
 		o_videoG0					: out std_logic;
@@ -52,10 +51,10 @@ entity ANSITerm1 is
 		o_videoB1					: out std_logic;
 		o_hSync						: out std_logic;
 		o_vSync						: out std_logic;
-		--
+		-- PS/2 Keyboard
 		io_PS2_CLK					: inout std_logic;
 		io_PS2_DAT					: inout std_logic;
-		-- The key and LED on the FPGA card
+		-- The key and LED on the FPGA card - helpful for debugging
 		i_key1						: in std_logic := '1';		-- KEY1 on the FPGA card
 		o_UsrLed						: out std_logic := '1'		-- USR LED on the FPGA card
 	);
@@ -65,83 +64,79 @@ architecture struct of ANSITerm1 is
 	-- 
 	signal w_resetClean_n		:	std_logic;								-- De-bounced reset button
 	
-	--  IOP16
+	--  IOP16 Peripheral bus
 	signal w_periphAdr			:	std_logic_vector(7 downto 0);
 	signal w_periphIn				:	std_logic_vector(7 downto 0);
 	signal w_periphOut			:	std_logic_vector(7 downto 0);
 	signal w_periphWr				:	std_logic;
 	signal w_periphRd				:	std_logic;
 	
-	-- Decodes
+	-- Decodes/Strobes
 	signal w_wrUart				:	std_logic;
 	signal w_rdUart				:	std_logic;
-	signal w_UartDataOut			:	std_logic_vector(7 downto 0);
-	
-	-- Serial clock enable
-   signal serialEn      		: std_logic;
-	
+	signal W_kbcs					:	std_logic;
 	signal w_wrTerm				:	std_logic;
 	signal w_rdTerm				:	std_logic;
-	signal w_TermDataOut			:	std_logic_vector(7 downto 0);
 	
+	-- Serial clock enable
+   signal serialEn      		: std_logic;		-- 16x baud rate clock
+	
+
 	-- Keyboard
-	signal W_kbcs					:	std_logic;
 	signal w_latKBDData			:	std_logic_vector(7 downto 0);
 	signal w_KbdData				:	std_logic_vector(7 downto 0);
+	signal w_UartDataOut			:	std_logic_vector(7 downto 0);
+	signal w_TermDataOut			:	std_logic_vector(7 downto 0);
 
-	attribute syn_keep	: boolean;
-	attribute syn_keep of W_kbcs			: signal is true;
-	attribute syn_keep of w_periphIn			: signal is true;
-	attribute syn_keep of w_periphWr			: signal is true;
-	attribute syn_keep of w_periphRd			: signal is true;
+	-- Signal Tap Logic Analyzer signals
+--	attribute syn_keep	: boolean;
+--	attribute syn_keep of W_kbcs			: signal is true;
+--	attribute syn_keep of w_periphIn			: signal is true;
+--	attribute syn_keep of w_periphWr			: signal is true;
+--	attribute syn_keep of w_periphRd			: signal is true;
 	
 begin
 
---	o_testPts(5) <= w_PBDelay(0);
---	o_testPts(4) <= w_debouncedPBs(0);
---	o_testPts(3) <= w_togglePinValues(0);
---	o_testPts(2) <= w_ldStrobe2;
---	o_testPts(1) <= w_loadStrobe;
---	o_testPts(0) <= '0';
-
+	-- Peripheral bus read mux
 	w_periphIn <=	w_UartDataOut		when (w_periphAdr(7 downto 1)="000"&x"0")	else
 						w_TermDataOut		when (w_periphAdr(7 downto 1)="000"&x"1")	else
 						w_KbdData			when (w_periphAdr(7 downto 1)="000"&x"2")	else
 						x"00";
-						
+
+	-- Strobes/Selects
 	w_wrUart		<= '1' when ((w_periphAdr(7 downto 1)="000"&x"0") and (w_periphWr = '1')) else '0';
 	w_rdUart		<= '1' when ((w_periphAdr(7 downto 1)="000"&x"0") and (w_periphRd = '1')) else '0';
-	
 	w_wrTerm		<= '1' when ((w_periphAdr(7 downto 1)="000"&x"1") and (w_periphWr = '1')) else '0';
 	w_rdTerm		<= '1' when ((w_periphAdr(7 downto 1)="000"&x"1") and (w_periphRd = '1')) else '0';
-
 	W_kbcs		<= '1' when  (w_periphAdr(7 downto 1)="000"&x"2") else '0';
 	
-	-- Loopback values
+	-- Debounce/sync reset to 50 MHz FPGA clock
 	debounceReset : entity work.Debouncer
 		port map
 		(
-			i_clk				=> i_CLOCK_50,
+			i_clk				=> w_clk,
 			i_PinIn			=> i_n_reset,
 			o_PinOut			=> w_resetClean_n
 		);
 
 	-- I/O Processor
 	-- Set ROM size in generic INST_SRAM_SIZE_PASS (512W uses 1 of 1K Blocks in EP4CE15 FPGA)
+	-- Set stack size in STACK_DEPTH generic
 	IOP16: ENTITY work.IOP16
 	generic map 	( 
 		INST_SRAM_SIZE_PASS	=> 256,	-- Small code size since program is "simple"
-		STACK_DEPTH				=> 1		-- Single level subroutine (not nested)
+		STACK_DEPTH				=> 2		-- Single level subroutine (not nested)
 	)
 		PORT map
 		(
-			clk				=> i_CLOCK_50,
-			resetN			=> w_resetClean_n,
-			periphIn			=> w_periphIn,
-			periphWr			=> w_periphWr,
-			periphRd			=> w_periphRd,
-			periphOut		=> w_periphOut,
-			periphAdr		=> w_periphAdr
+			i_clk					=> w_clk,
+			i_resetN				=> w_resetClean_n,
+			-- Peripheral bus signals
+			i_periphDataIn		=> w_periphIn,
+			o_periphWr			=> w_periphWr,
+			o_periphRd			=> w_periphRd,
+			o_periphDataOut	=> w_periphOut,
+			o_periphAdr			=> w_periphAdr
 		);
 	
 	-- ANSI Display
@@ -159,7 +154,7 @@ begin
 		)
 		port map (
 			n_reset		=> w_resetClean_n,
-			clk			=> i_CLOCK_50,
+			clk			=> w_clk,
 			n_wr			=> w_wrTerm,
 			-- CPU interface
 			n_rd			=> w_rdTerm,
@@ -178,10 +173,10 @@ begin
 			vSync  		=> o_vSync
 	 );
 
-
+	-- PS/2 keyboard/mapper to ANSI
 	KEYBOARD : ENTITY  WORK.Wrap_Keyboard
 		port MAP (
-			i_CLOCK_50		=> i_CLOCK_50,
+			i_CLOCK_50		=> w_clk,
 			i_n_reset		=> w_resetClean_n,
 			i_kbCS			=> W_kbcs,
 			i_RegSel			=> w_periphAdr(0),
@@ -199,21 +194,25 @@ begin
 			BAUD_RATE	=> 115200
 		)
 		PORT map (
-			i_CLOCK_50			=> i_CLOCK_50,
-			o_serialEn			=> serialEn
+			i_CLOCK_50	=> w_clk,
+			o_serialEn	=> serialEn
 	);
 
 	-- 6850 style UART
 	UART: entity work.bufferedUART
 		port map (
-			clk     			=> i_CLOCK_50,
+			clk     			=> w_clk,
+			-- Strobes
 			n_wr				=> not w_wrUart,
 			n_rd    			=> not w_rdUart,
+			-- CPU 
 			regSel  			=> w_periphAdr(0),
 			dataIn  			=> w_periphOut,
 			dataOut 			=> w_UartDataOut,
+			-- Clock strobes
 			rxClkEn 			=> serialEn,
 			txClkEn 			=> serialEn,
+			-- Serial I/F
 			rxd     			=> urxd1,
 			txd     			=> utxd1,
 			n_rts   			=> urts1,

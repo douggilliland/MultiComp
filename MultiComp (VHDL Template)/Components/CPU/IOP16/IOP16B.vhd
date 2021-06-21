@@ -45,8 +45,8 @@
 --		d7..d0   = Immediate value (LRI, ARI, ORI)
 --
 --	Stack sizes are:
---		1 - Single subroutine (not nested)
---		4 - 16 deep (supports 16 deep nesting but consumes 1 memory block)
+--		1	- Single subroutine (not nested)
+--		>1	- 2^N deep (supports 16 deep nesting but consumes 1 memory block)
 --
 -- Registers are
 --		Reg0-Reg7 - Read/Write values
@@ -66,17 +66,18 @@ use IEEE.STD_LOGIC_UNSIGNED.ALL;
 ENTITY IOP16 IS
 	generic 
 	(
-		constant INST_SRAM_SIZE_PASS 	: integer := 512;
-		constant STACK_DEPTH				: integer := 1			-- legal Values are 1 (single), 4 (16 deep)
+		constant INST_SRAM_SIZE_PASS 	: integer := 512;		-- Legal Values are 256, 512, 1024, 2048, 4096
+		constant STACK_DEPTH				: integer := 1			-- Legal Values are 1 (single), > 1
 	);
 	PORT (
-		clk			: IN std_logic;
-		resetN		: IN std_logic;
-		periphIn		: IN std_logic_vector(7 DOWNTO 0);				-- Data from peripheral
-		periphWr		: OUT std_logic := '0';								-- I/O write strobe
-		periphRd		: OUT std_logic := '0';								-- I/O read strobe
-		periphOut	: OUT std_logic_vector(7 DOWNTO 0) := x"00";	-- Data to peripheral
-		periphAdr	: OUT std_logic_vector(7 DOWNTO 0) := x"00"	-- Address to peripheral|FrontPanel01_test|FrontPanel01:fp_test	
+		i_clk					: IN std_logic;
+		i_resetN				: IN std_logic;
+		-- Peripheral Bus
+		i_periphDataIn		: IN std_logic_vector(7 DOWNTO 0);				-- Data from peripheral
+		o_periphWr			: OUT std_logic := '0';								-- I/O write strobe
+		o_periphRd			: OUT std_logic := '0';								-- I/O read strobe
+		o_periphDataOut	: OUT std_logic_vector(7 DOWNTO 0) := x"00";	-- Data to peripheral
+		o_periphAdr			: OUT std_logic_vector(7 DOWNTO 0) := x"00"	-- Address to peripheral|FrontPanel01_test|FrontPanel01:fp_test	
 
 	);
 END IOP16;
@@ -85,24 +86,28 @@ ARCHITECTURE IOP16_beh OF IOP16 IS
 
 	-- Grey code state counter
 	signal w_lowCount : std_logic_vector(2 DOWNTO 0);		-- Grey code step counter
+	
 	-- Program Counter
 	signal w_PC_out	: std_logic_vector(11 DOWNTO 0);		-- Program Couner output
 	signal w_PC_in		: std_logic_vector(11 DOWNTO 0);		-- Program Couner input
 	signal pcPlus1		: std_logic_vector(11 DOWNTO 0);		-- Program Couner + 1
-	signal w_rtnAddr	: std_logic_vector(11 DOWNTO 0);		-- Return address
-	-- Program Counter controls
 	signal w_incPC		: std_logic;		-- Increment PC
 	signal w_ldPC		: std_logic;		-- Load PC
+	signal w_rtnAddr	: std_logic_vector(11 DOWNTO 0);		-- Return address
+	
 	-- ROM
 	signal w_RomData	: std_logic_vector(15 DOWNTO 0);		-- Program data
+	
 	-- ALU
-	signal w_AluInA	: std_logic_vector(7 DOWNTO 0);
+	signal w_RegFileFileOut	: std_logic_vector(7 DOWNTO 0);
 	signal w_AluOut	: std_logic_vector(7 DOWNTO 0);
 	signal w_zBit		: std_logic;		-- ALU Zero bit (latched)
 	signal w_aluZero	: std_logic;		-- ALU zero value
+	
 	-- Register file controls/data
 	signal w_wrRegF	: std_logic;
 	signal w_regFileIn: std_logic_vector(7 DOWNTO 0);
+	
 	-- Opcode decodes
 	signal w_OP_NOP	: std_logic;
 	signal w_OP_LRI	: std_logic;
@@ -116,13 +121,14 @@ ARCHITECTURE IOP16_beh OF IOP16 IS
 	signal w_OP_JSR	: std_logic;
 	signal w_OP_RTS	: std_logic;
 	
-	attribute syn_keep	: boolean;
-	attribute syn_keep of w_lowCount			: signal is true;
-	attribute syn_keep of w_PC_out			: signal is true;
-	attribute syn_keep of w_RomData			: signal is true;
-	attribute syn_keep of w_rtnAddr			: signal is true;
-	attribute syn_keep of w_incPC				: signal is true;
-	attribute syn_keep of w_ldPC				: signal is true;
+	-- Signal Tap Logic Analyzer signals
+--	attribute syn_keep	: boolean;
+--	attribute syn_keep of w_lowCount			: signal is true;
+--	attribute syn_keep of w_PC_out			: signal is true;
+--	attribute syn_keep of w_RomData			: signal is true;
+--	attribute syn_keep of w_rtnAddr			: signal is true;
+--	attribute syn_keep of w_incPC				: signal is true;
+--	attribute syn_keep of w_ldPC				: signal is true;
 	
 
 BEGIN
@@ -140,8 +146,8 @@ BEGIN
 	w_OP_BNZ <= '1' when w_RomData(15 downto 12) = x"d" else '0';
 	w_OP_JMP <= '1' when w_RomData(15 downto 12) = x"e" else '0';
 
-	-- Lower bits are grey code for glitch-free decoding
-	-- 3-bits that control the low level interface (strobes) to the I2C interface
+	-- Grey code statew machine used for glitch-free decoding
+	-- 3-bits that control the low level interface (strobes) to the peripheral interface
 	-- 000 > 001 > 011 > 010 > 110 > 111 > 101 > 100
 	greyLow : ENTITY work.GrayCounter
 	generic map
@@ -150,21 +156,22 @@ BEGIN
 	)
 	PORT map
 	(
-		Clk		=> clk,
-		Rst		=> not resetN,
+		clk		=> i_clk,
+		Rst		=> not i_resetN,
 		En			=> '1',
 		output	=> w_lowCount
 	);
 	
-	-- LIFO
-	
+	-- LIFO - Return address stack (JSR writes, RTS reads)
+	-- Single depth uses no memory
+	-- Deeper depth uses memory
 	GEN_STACK_SINGLE : if (STACK_DEPTH = 1) generate
 	begin
 	-- Store the return address for JSR opcodes
 	-- Single level stack
-		returnAddress : PROCESS (clk)
+		returnAddress : PROCESS (i_clk)
 		BEGIN
-			IF rising_edge(clk) THEN
+			IF rising_edge(i_clk) THEN
 				if ((w_OP_JSR = '1') and (w_lowCount="101")) then
 					w_rtnAddr <= w_PC_out + 1;
 				END IF;
@@ -172,18 +179,17 @@ BEGIN
 		END PROCESS;
 	end generate GEN_STACK_SINGLE;
 
-	
-	GEN_STACK_DEEPER : if (STACK_DEPTH = 4) generate
+	GEN_STACK_DEEPER : if (STACK_DEPTH /= 1) generate
 	begin
-		pcPlus1 <= (w_PC_out + 1);
+		pcPlus1 <= (w_PC_out + 1);				-- Next address past PC is the return address
 		lifo : entity work.lifo
 			generic map (
 				g_INDEX_WIDTH => STACK_DEPTH, -- internal index bit width affecting the LIFO capacity
 				g_DATA_WIDTH  => 12 				-- bit width of stored data
 			)
 			port map (
-				i_clk		=> clk, 					-- clock signal
-				i_rst		=> not resetN,			-- reset signal
+				i_clk		=> i_clk, 					-- clock signal
+				i_rst		=> not i_resetN,			-- reset signal
 				--
 				i_we   	=> (w_OP_JSR and w_lowCount(2) and (not w_lowCount(1)) and w_lowCount(0)), -- write enable (push)
 				i_data 	=> pcPlus1,			-- written data
@@ -195,38 +201,16 @@ BEGIN
 	end generate GEN_STACK_DEEPER;
 	
 	-- IO Processor ROM
-	GEN_4KW_INST_ROM: if (INST_SRAM_SIZE_PASS=4096) generate
+	GEN_256W_INST_ROM: if (INST_SRAM_SIZE_PASS=256) generate
 		begin
 		IopRom : ENTITY work.IOP_ROM
 		PORT map
 		(
-			address		=> w_PC_out,
-			clock			=> clk,
+			address		=> w_PC_out(7 downto 0),
+			clock			=> i_clk,
 			q				=> w_RomData
 		);
-	end generate GEN_4KW_INST_ROM;
-	
-	GEN_2KW_INST_ROM: if (INST_SRAM_SIZE_PASS=2048) generate
-		begin
-		IopRom : ENTITY work.IOP_ROM
-		PORT map
-		(
-			address		=> w_PC_out(10 downto 0),
-			clock			=> clk,
-			q				=> w_RomData
-		);
-	end generate GEN_2KW_INST_ROM;
-	
-	GEN_1KW_INST_ROM: if (INST_SRAM_SIZE_PASS=1024) generate
-		begin
-		IopRom : ENTITY work.IOP_ROM
-		PORT map
-		(
-			address		=> w_PC_out(9 downto 0),
-			clock			=> clk,
-			q				=> w_RomData
-		);
-	end generate GEN_1KW_INST_ROM;
+	end generate GEN_256W_INST_ROM;
 	
 	GEN_512W_INST_ROM: if (INST_SRAM_SIZE_PASS=512) generate
 		begin
@@ -234,37 +218,59 @@ BEGIN
 		PORT map
 		(
 			address		=> w_PC_out(8 downto 0),
-			clock			=> clk,
+			clock			=> i_clk,
 			q				=> w_RomData
 		);
 	end generate GEN_512W_INST_ROM;
 	
-	GEN_256W_INST_ROM: if (INST_SRAM_SIZE_PASS=256) generate
+	GEN_1KW_INST_ROM: if (INST_SRAM_SIZE_PASS=1024) generate
 		begin
 		IopRom : ENTITY work.IOP_ROM
 		PORT map
 		(
-			address		=> w_PC_out(7 downto 0),
-			clock			=> clk,
+			address		=> w_PC_out(9 downto 0),
+			clock			=> i_clk,
 			q				=> w_RomData
 		);
-	end generate GEN_256W_INST_ROM;
+	end generate GEN_1KW_INST_ROM;
+	
+	GEN_2KW_INST_ROM: if (INST_SRAM_SIZE_PASS=2048) generate
+		begin
+		IopRom : ENTITY work.IOP_ROM
+		PORT map
+		(
+			address		=> w_PC_out(10 downto 0),
+			clock			=> i_clk,
+			q				=> w_RomData
+		);
+	end generate GEN_2KW_INST_ROM;
+	
+	GEN_4KW_INST_ROM: if (INST_SRAM_SIZE_PASS=4096) generate
+		begin
+		IopRom : ENTITY work.IOP_ROM
+		PORT map
+		(
+			address		=> w_PC_out,
+			clock			=> i_clk,
+			q				=> w_RomData
+		);
+	end generate GEN_4KW_INST_ROM;
 	
 	-- Program Counter (PC)
-	StateReg: PROCESS (clk, resetN, w_incPC, w_ldPC)
+	ProgramCounter	: PROCESS (i_clk, i_resetN, w_incPC, w_ldPC)
 	BEGIN
-		IF rising_edge(clk) THEN
-			IF resetN = '0' THEN
+		IF rising_edge(i_clk) THEN
+			IF i_resetN = '0' THEN				-- Program always starts at address x000
 				w_PC_out <= x"000";
-			ELSIF w_incPC = '1' THEN
+			ELSIF w_incPC = '1' THEN		-- Increment PC
 				w_PC_out <= w_PC_out + 1;
-			ELSIF w_ldPC = '1' THEN
+			ELSIF w_ldPC = '1' THEN			-- Load for [Conditional] Branches, JMP, JSR, RTS
 				w_PC_out <= w_PC_in;
 			END IF;
 		END IF;
 	END PROCESS;
 	
-	-- Mux PC input
+	-- Mux PC input - used for Branches, JMP, JSR, RTS
 	w_PC_in <=  (w_PC_out + w_RomData(11 downto 0)) when ((w_OP_BEZ = '1') and (w_zBit = '1')) else
 					(w_PC_out + w_RomData(11 downto 0)) when ((w_OP_BNZ = '1') and (w_zBit = '0')) else
 					(w_RomData(11 downto 0))				when w_OP_JMP = '1' else
@@ -272,64 +278,69 @@ BEGIN
 					w_rtnAddr 									when w_OP_RTS = '1' else
 					w_PC_out;
 
+	-- Incremennt the PC
 	w_incPC	<= '1' when ((w_lowCount = "100") and (w_OP_BEZ = '0') and (w_OP_BNZ = '0') and (w_OP_JMP = '0') and (w_OP_RTS = '0') and (w_OP_JSR = '0')) else 
 					'1' when  (w_lowCount = "100") and (w_OP_BEZ = '1') and (w_zBit = '0') else
 					'1' when  (w_lowCount = "100") and (w_OP_BNZ = '1') and (w_zBit = '1') else
 					'0';
 					
-	w_ldPC	<= '1' when (w_lowCount = "100") and (w_OP_BEZ = '1') and (w_zBit = '1') else
-					'1' when (w_lowCount = "100") and (w_OP_BNZ = '1') and (w_zBit = '0') else
-					'1' when (w_lowCount = "100") and (w_OP_JMP = '1') else
-					'1' when (w_lowCount = "100") and (w_OP_RTS = '1') else
-					'1' when (w_lowCount = "100") and (w_OP_JSR = '1') else
+	-- Load the PC
+	w_ldPC	<= '1' when (w_lowCount = "100") and (w_OP_BEZ = '1') and (w_zBit = '1') else		-- Conditional branche
+					'1' when (w_lowCount = "100") and (w_OP_BNZ = '1') and (w_zBit = '0') else		-- Conditional branche
+					'1' when (w_lowCount = "100") and (w_OP_JMP = '1') else								-- JMP
+					'1' when (w_lowCount = "100") and (w_OP_RTS = '1') else								-- RTS
+					'1' when (w_lowCount = "100") and (w_OP_JSR = '1') else								-- JSR
 					'0';
 	
-	-- Register file input dats mux
-	w_regFileIn <=	periphIn						when w_OP_IOR = '1' else
+	-- Load register file input dats mux
+	w_regFileIn <=	i_periphDataIn						when w_OP_IOR = '1' else
 						w_AluOut 					when w_OP_ARI = '1' else
 						w_AluOut 					when w_OP_ORI = '1' else
 						w_RomData(7 downto 0)	when w_OP_LRI = '1' else
 						x"00";
 	
 	-- ALU result
-	w_AluOut <= (w_AluInA and w_RomData(7 downto 0)) when w_OP_ARI = '1' else
-					(w_AluInA or  w_RomData(7 downto 0)) when w_OP_ORI = '1' else
+	w_AluOut <= (w_RegFileFileOut and w_RomData(7 downto 0)) when w_OP_ARI = '1' else
+					(w_RegFileFileOut or  w_RomData(7 downto 0)) when w_OP_ORI = '1' else
 					x"00";
 					
-	-- ALU zero
+	-- ALU zero (for convenience)
 	w_aluZero <= not (w_AluOut(7) or w_AluOut(6) or w_AluOut(5) or w_AluOut(4) or w_AluOut(3) or w_AluOut(2) or w_AluOut(1) or w_AluOut(0));
+	
+	-- Zero bit
 	w_zBit <=	'1' when (w_OP_ARI = '1') and (w_lowCount="101") and (w_aluZero = '1') else
 					'1' when (w_OP_ORI = '1') and (w_lowCount="101") and (w_aluZero = '1') else
 					'0' when (w_OP_ARI = '1') and (w_lowCount="101") and (w_aluZero = '0') else
 					'0' when (w_OP_ORI = '1') and (w_lowCount="101") and (w_aluZero = '0');
 
-	-- Controls
-	periphWr <= '1' when (w_OP_IOW = '1') and (w_lowCount="111") else '0';
-	periphRd <= '1' when (w_OP_IOR = '1') and (w_lowCount(2 DOWNTO 1)="11") else 
-					'1' when (w_OP_IOR = '1') and (w_lowCount(2 DOWNTO 1)="11") else 
-					'0';
-
-	-- Peripheral output data bus
-	periphOut <= 	w_AluInA when (w_OP_IOW = '1') else
-						x"AA";
-	
-	periphAdr <= 	w_RomData(7 downto 0) when w_OP_IOW = '1' else
-						w_RomData(7 downto 0) when w_OP_IOR = '1' else
+	-- Peripheral Address
+	o_periphAdr <= 	w_RomData(7 downto 0) when w_OP_IOW = '1' else		-- Write
+						w_RomData(7 downto 0) when w_OP_IOR = '1' else		-- Read
 						x"ff";
 	
+	-- Peripheral output data bus
+	o_periphDataOut <= 	w_RegFileFileOut when (w_OP_IOW = '1') else			-- Peripheral data out
+						x"AA";
 	
-	-- Register file (8x8)
+	-- Peripheral read/write Controls
+	o_periphWr <= '1' when (w_OP_IOW = '1') and (w_lowCount="111") else '0';
+	o_periphRd <= '1' when (w_OP_IOR = '1') and (w_lowCount(2 DOWNTO 1)="11") else 
+					'1' when (w_OP_IOR = '1') and (w_lowCount(2 DOWNTO 1)="11") else 
+					'0';
+	
+	-- Register file (8x8 plus constants)
 	RegFile : ENTITY work.RegFile8x8
 	PORT map
 	(
-		i_clk			=> clk,
-		i_resetN		=> resetN,
+		i_clk			=> i_clk,
+		i_resetN		=> i_resetN,
 		i_wrReg		=> w_wrRegF,
 		i_regNum		=> w_RomData(11 downto 8),
 		i_DataIn		=> w_regFileIn,
-		o_DataOut	=> w_AluInA
+		o_DataOut	=> w_RegFileFileOut
 	);
 	
+	-- Write register file
 	w_wrRegF <= '1' when (w_OP_ARI = '1') and (w_lowCount="110") else
 					'1' when (w_OP_ORI = '1') and (w_lowCount="110") else
 					'1' when (w_OP_LRI = '1') and (w_lowCount="110") else

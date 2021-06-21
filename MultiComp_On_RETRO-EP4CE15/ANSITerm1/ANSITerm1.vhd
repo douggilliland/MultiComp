@@ -134,13 +134,13 @@ begin
 	)
 		PORT map
 		(
-			clk				=> i_CLOCK_50,
-			resetN			=> w_resetClean_n,
-			periphIn			=> w_periphIn,
-			periphWr			=> w_periphWr,
-			periphRd			=> w_periphRd,
-			periphOut		=> w_periphOut,
-			periphAdr		=> w_periphAdr
+			i_clk					=> i_CLOCK_50,
+			i_resetN				=> w_resetClean_n,
+			i_periphDataIn		=> w_periphIn,
+			o_periphWr			=> w_periphWr,
+			o_periphRd			=> w_periphRd,
+			o_periphDataOut	=> w_periphOut,
+			o_periphAdr			=> w_periphAdr
 		);
 	
 	-- ANSI Display
