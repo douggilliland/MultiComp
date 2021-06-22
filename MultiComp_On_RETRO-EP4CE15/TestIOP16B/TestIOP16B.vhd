@@ -1,5 +1,5 @@
 --	---------------------------------------------------------------------------------------------------------
--- Simple IOP16B CPU Test
+-- Simple IOP16B CPU Example Code
 --		Reads pushbutton and writes to LED
 --	
 -- IOP16 CPU
@@ -56,22 +56,21 @@ architecture struct of TestIOP16B is
 	
 begin
 
-	-- Peripheral bus read mux
-	w_periphIn <=	"0000000"&i_key1	when (w_periphAdr=x"00")	else
-						x"00";
+-- Peripheral bus read mux
+w_periphIn <=	"0000000"&i_key1	when (w_periphAdr=x"00")	else
+					x"00";
 
-	-- Strobes/Selects
-	w_wrLED		<= '1' when ((w_periphAdr=x"00") and (w_periphWr = '1')) else '0';
+-- Strobes/Selects
+w_wrLED		<= '1' when ((w_periphAdr=x"00") and (w_periphWr = '1')) else '0';
 
-		returnAddress : PROCESS (i_clk)
-		BEGIN
-			IF rising_edge(i_clk) THEN
-				if w_wrLED = '1' then
-					o_UsrLed <= w_periphOut(0);
-				END IF;
+	latchLEDOut : PROCESS (i_clk)
+	BEGIN
+		IF rising_edge(i_clk) THEN
+			if w_wrLED = '1' then
+				o_UsrLed <= w_periphOut(0);
 			END IF;
-		END PROCESS;
-	
+		END IF;
+	END PROCESS;
 	
 	-- Debounce/sync reset to 50 MHz FPGA clock
 	debounceReset : entity work.Debouncer
@@ -88,8 +87,8 @@ begin
 	IOP16: ENTITY work.IOP16
 	-- Need to pass down instruction RAM and stack sizes
 		generic map 	( 
-			INST_SRAM_SIZE_PASS	=> 512,	-- Small code size since program is "simple"
-			STACK_DEPTH_PASS		=> 4		-- Single level subroutine (not nested)
+			INST_SRAM_SIZE_PASS	=> 256,	-- Small code size since program is "simple"
+			STACK_DEPTH_PASS		=> 1		-- Single level subroutine (not nested)
 		)
 		PORT map
 		(

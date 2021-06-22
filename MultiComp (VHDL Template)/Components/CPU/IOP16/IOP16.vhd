@@ -34,6 +34,7 @@ USE ieee.numeric_std.ALL;
 use IEEE.STD_LOGIC_ARITH.ALL;
 use IEEE.STD_LOGIC_UNSIGNED.ALL;
 
+ENTITY IOP16 is
 	generic 
 	(
 		constant INST_SRAM_SIZE_PASS 	: integer := 4096
@@ -50,7 +51,7 @@ use IEEE.STD_LOGIC_UNSIGNED.ALL;
 	);
 END IOP16;
 
-ARCHITECTURE IOP16_beh OF IOP16 IS
+ARCHITECTURE IOP16_beh OF  IS
 
 	-- Grey code state counter
 	signal w_lowCount : std_logic_vector(2 DOWNTO 0);		-- Grey code step counter

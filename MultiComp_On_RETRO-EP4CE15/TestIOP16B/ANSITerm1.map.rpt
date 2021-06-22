@@ -1,5 +1,5 @@
 Analysis & Synthesis report for ANSITerm1
-Tue Jun 22 17:31:43 2021
+Tue Jun 22 18:16:30 2021
 Quartus Prime Version 20.1.0 Build 711 06/05/2020 SJ Lite Edition
 
 
@@ -14,27 +14,22 @@ Quartus Prime Version 20.1.0 Build 711 06/05/2020 SJ Lite Edition
   6. Analysis & Synthesis Resource Usage Summary
   7. Analysis & Synthesis Resource Utilization by Entity
   8. Analysis & Synthesis RAM Summary
-  9. Analysis & Synthesis IP Cores Summary
- 10. User-Specified and Inferred Latches
- 11. Registers Removed During Synthesis
+  9. User-Specified and Inferred Latches
+ 10. Registers Removed During Synthesis
+ 11. Removed Registers Triggering Further Register Optimizations
  12. General Register Statistics
  13. Inverted Register Statistics
- 14. Registers Packed Into Inferred Megafunctions
- 15. Multiplexer Restructuring Statistics (Restructuring Performed)
- 16. Source assignments for IOP16:IOP16|IOP_ROM:\GEN_512W_INST_ROM:IopRom|altsyncram:altsyncram_component|altsyncram_7634:auto_generated
- 17. Source assignments for IOP16:IOP16|lifo:\GEN_STACK_DEEPER:lifo|altsyncram:r_mem_rtl_0|altsyncram_2pd1:auto_generated
- 18. Parameter Settings for User Entity Instance: IOP16:IOP16
- 19. Parameter Settings for User Entity Instance: IOP16:IOP16|GrayCounter:greyLow
- 20. Parameter Settings for User Entity Instance: IOP16:IOP16|lifo:\GEN_STACK_DEEPER:lifo
- 21. Parameter Settings for User Entity Instance: IOP16:IOP16|IOP_ROM:\GEN_512W_INST_ROM:IopRom|altsyncram:altsyncram_component
- 22. Parameter Settings for Inferred Entity Instance: IOP16:IOP16|lifo:\GEN_STACK_DEEPER:lifo|altsyncram:r_mem_rtl_0
- 23. altsyncram Parameter Settings by Entity Instance
- 24. Port Connectivity Checks: "IOP16:IOP16|lifo:\GEN_STACK_DEEPER:lifo"
- 25. Port Connectivity Checks: "IOP16:IOP16|GrayCounter:greyLow"
- 26. Port Connectivity Checks: "IOP16:IOP16"
- 27. Post-Synthesis Netlist Statistics for Top Partition
- 28. Elapsed Time Per Partition
- 29. Analysis & Synthesis Messages
+ 14. Multiplexer Restructuring Statistics (Restructuring Performed)
+ 15. Source assignments for IOP16:IOP16|IOP_ROM:\GEN_512W_INST_ROM:IopRom|altsyncram:altsyncram_component|altsyncram_7634:auto_generated
+ 16. Parameter Settings for User Entity Instance: IOP16:IOP16
+ 17. Parameter Settings for User Entity Instance: IOP16:IOP16|GrayCounter:greyLow
+ 18. Parameter Settings for User Entity Instance: IOP16:IOP16|IOP_ROM:\GEN_512W_INST_ROM:IopRom|altsyncram:altsyncram_component
+ 19. altsyncram Parameter Settings by Entity Instance
+ 20. Port Connectivity Checks: "IOP16:IOP16|GrayCounter:greyLow"
+ 21. Port Connectivity Checks: "IOP16:IOP16"
+ 22. Post-Synthesis Netlist Statistics for Top Partition
+ 23. Elapsed Time Per Partition
+ 24. Analysis & Synthesis Messages
 
 
 
@@ -61,18 +56,18 @@ https://fpgasoftware.intel.com/eula.
 +----------------------------------------------------------------------------------+
 ; Analysis & Synthesis Summary                                                     ;
 +------------------------------------+---------------------------------------------+
-; Analysis & Synthesis Status        ; Successful - Tue Jun 22 17:31:43 2021       ;
+; Analysis & Synthesis Status        ; Successful - Tue Jun 22 18:16:30 2021       ;
 ; Quartus Prime Version              ; 20.1.0 Build 711 06/05/2020 SJ Lite Edition ;
 ; Revision Name                      ; ANSITerm1                                   ;
 ; Top-level Entity Name              ; TestIOP16B                                  ;
 ; Family                             ; Cyclone IV E                                ;
-; Total logic elements               ; 270                                         ;
-;     Total combinational functions  ; 211                                         ;
-;     Dedicated logic registers      ; 105                                         ;
-; Total registers                    ; 105                                         ;
+; Total logic elements               ; 252                                         ;
+;     Total combinational functions  ; 193                                         ;
+;     Dedicated logic registers      ; 110                                         ;
+; Total registers                    ; 110                                         ;
 ; Total pins                         ; 4                                           ;
 ; Total virtual pins                 ; 0                                           ;
-; Total memory bits                  ; 8,336                                       ;
+; Total memory bits                  ; 8,192                                       ;
 ; Embedded Multiplier 9-bit elements ; 0                                           ;
 ; Total PLLs                         ; 0                                           ;
 +------------------------------------+---------------------------------------------+
@@ -86,7 +81,8 @@ https://fpgasoftware.intel.com/eula.
 ; Device                                                           ; EP4CE15F23C8       ;                    ;
 ; Top-level entity name                                            ; TestIOP16B         ; ANSITerm1          ;
 ; Family name                                                      ; Cyclone IV E       ; Cyclone V          ;
-; Use smart compilation                                            ; Off                ; Off                ;
+; Use smart compilation                                            ; On                 ; Off                ;
+; Maximum processors allowed for parallel compilation              ; All                ;                    ;
 ; Enable parallel Assembler and Timing Analyzer during compilation ; On                 ; On                 ;
 ; Enable compact report table                                      ; Off                ; Off                ;
 ; Restructure Multiplexers                                         ; Auto               ; Auto               ;
@@ -177,8 +173,7 @@ https://fpgasoftware.intel.com/eula.
 ;                            ;             ;
 ; Usage by Processor         ; % Time Used ;
 ;     Processor 1            ; 100.0%      ;
-;     Processor 2            ;   0.0%      ;
-;     Processors 3-4         ;   0.0%      ;
+;     Processors 2-4         ;   0.0%      ;
 +----------------------------+-------------+
 
 
@@ -187,8 +182,8 @@ https://fpgasoftware.intel.com/eula.
 +-----------------------------------------------------------------------------------------------------------------------------------------------+-----------------+----------------------------------------+-----------------------------------------------------------------------------------------------------------------------------------------------+---------+
 ; File Name with User-Entered Path                                                                                                              ; Used in Netlist ; File Type                              ; File Name with Absolute Path                                                                                                                  ; Library ;
 +-----------------------------------------------------------------------------------------------------------------------------------------------+-----------------+----------------------------------------+-----------------------------------------------------------------------------------------------------------------------------------------------+---------+
-; ../../MultiComp (VHDL Template)/Components/Debounce/Debounce.vhd                                                                              ; yes             ; User VHDL File                         ; C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/Debounce/Debounce.vhd                          ;         ;
 ; ../../MultiComp (VHDL Template)/Components/COUNTER/n-bit-gray-counter.vhd                                                                     ; yes             ; User VHDL File                         ; C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/COUNTER/n-bit-gray-counter.vhd                 ;         ;
+; ../../MultiComp (VHDL Template)/Components/Debounce/Debounce.vhd                                                                              ; yes             ; User VHDL File                         ; C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/Debounce/Debounce.vhd                          ;         ;
 ; ../../MultiComp (VHDL Template)/Components/CPU/IOP16/RegFile8x8.vhd                                                                           ; yes             ; User VHDL File                         ; C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/CPU/IOP16/RegFile8x8.vhd                       ;         ;
 ; ../../MultiComp (VHDL Template)/Components/CPU/IOP16/lifo.vhd                                                                                 ; yes             ; User VHDL File                         ; C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/CPU/IOP16/lifo.vhd                             ;         ;
 ; ../../MultiComp (VHDL Template)/Components/CPU/IOP16/IOP16B.vhd                                                                               ; yes             ; User VHDL File                         ; C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/CPU/IOP16/IOP16B.vhd                           ;         ;
@@ -205,7 +200,6 @@ https://fpgasoftware.intel.com/eula.
 ; altdpram.inc                                                                                                                                  ; yes             ; Megafunction                           ; c:/intelfpga_lite/20.1/quartus/libraries/megafunctions/altdpram.inc                                                                           ;         ;
 ; db/altsyncram_7634.tdf                                                                                                                        ; yes             ; Auto-Generated Megafunction            ; C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15/TestIOP16B/db/altsyncram_7634.tdf                        ;         ;
 ; /users/hpz420/documents/github/doug gilliland/multicomp/multicomp (vhdl template)/components/cpu/iop16/iop16_assembler/testiop16b/testled.mif ; yes             ; Auto-Found Memory Initialization File  ; /users/hpz420/documents/github/doug gilliland/multicomp/multicomp (vhdl template)/components/cpu/iop16/iop16_assembler/testiop16b/testled.mif ;         ;
-; db/altsyncram_2pd1.tdf                                                                                                                        ; yes             ; Auto-Generated Megafunction            ; C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15/TestIOP16B/db/altsyncram_2pd1.tdf                        ;         ;
 +-----------------------------------------------------------------------------------------------------------------------------------------------+-----------------+----------------------------------------+-----------------------------------------------------------------------------------------------------------------------------------------------+---------+
 
 
@@ -214,31 +208,31 @@ https://fpgasoftware.intel.com/eula.
 +---------------------------------------------+-------------+
 ; Resource                                    ; Usage       ;
 +---------------------------------------------+-------------+
-; Estimated Total logic elements              ; 270         ;
+; Estimated Total logic elements              ; 252         ;
 ;                                             ;             ;
-; Total combinational functions               ; 211         ;
+; Total combinational functions               ; 193         ;
 ; Logic element usage by number of LUT inputs ;             ;
-;     -- 4 input functions                    ; 108         ;
-;     -- 3 input functions                    ; 69          ;
-;     -- <=2 input functions                  ; 34          ;
+;     -- 4 input functions                    ; 126         ;
+;     -- 3 input functions                    ; 29          ;
+;     -- <=2 input functions                  ; 38          ;
 ;                                             ;             ;
 ; Logic elements by mode                      ;             ;
-;     -- normal mode                          ; 180         ;
-;     -- arithmetic mode                      ; 31          ;
+;     -- normal mode                          ; 161         ;
+;     -- arithmetic mode                      ; 32          ;
 ;                                             ;             ;
-; Total registers                             ; 105         ;
-;     -- Dedicated logic registers            ; 105         ;
+; Total registers                             ; 110         ;
+;     -- Dedicated logic registers            ; 110         ;
 ;     -- I/O registers                        ; 0           ;
 ;                                             ;             ;
 ; I/O pins                                    ; 4           ;
-; Total memory bits                           ; 8336        ;
+; Total memory bits                           ; 8192        ;
 ;                                             ;             ;
 ; Embedded Multiplier 9-bit elements          ; 0           ;
 ;                                             ;             ;
 ; Maximum fan-out node                        ; i_clk~input ;
-; Maximum fan-out                             ; 130         ;
-; Total fan-out                               ; 1278        ;
-; Average fan-out                             ; 3.66        ;
+; Maximum fan-out                             ; 126         ;
+; Total fan-out                               ; 1144        ;
+; Average fan-out                             ; 3.50        ;
 +---------------------------------------------+-------------+
 
 
@@ -247,38 +241,25 @@ https://fpgasoftware.intel.com/eula.
 +----------------------------------------------+---------------------+---------------------------+-------------+--------------+---------+-----------+------+--------------+--------------------------------------------------------------------------------------------------------------------------+-----------------+--------------+
 ; Compilation Hierarchy Node                   ; Combinational ALUTs ; Dedicated Logic Registers ; Memory Bits ; DSP Elements ; DSP 9x9 ; DSP 18x18 ; Pins ; Virtual Pins ; Full Hierarchy Name                                                                                                      ; Entity Name     ; Library Name ;
 +----------------------------------------------+---------------------+---------------------------+-------------+--------------+---------+-----------+------+--------------+--------------------------------------------------------------------------------------------------------------------------+-----------------+--------------+
-; |TestIOP16B                                  ; 211 (6)             ; 105 (1)                   ; 8336        ; 0            ; 0       ; 0         ; 4    ; 0            ; |TestIOP16B                                                                                                              ; TestIOP16B      ; work         ;
+; |TestIOP16B                                  ; 193 (2)             ; 110 (1)                   ; 8192        ; 0            ; 0       ; 0         ; 4    ; 0            ; |TestIOP16B                                                                                                              ; TestIOP16B      ; work         ;
 ;    |Debouncer:debounceReset|                 ; 26 (26)             ; 24 (24)                   ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |TestIOP16B|Debouncer:debounceReset                                                                                      ; Debouncer       ; work         ;
-;    |IOP16:IOP16|                             ; 179 (77)            ; 80 (9)                    ; 8336        ; 0            ; 0       ; 0         ; 0    ; 0            ; |TestIOP16B|IOP16:IOP16                                                                                                  ; IOP16           ; work         ;
+;    |IOP16:IOP16|                             ; 165 (65)            ; 85 (18)                   ; 8192        ; 0            ; 0       ; 0         ; 0    ; 0            ; |TestIOP16B|IOP16:IOP16                                                                                                  ; IOP16           ; work         ;
 ;       |GrayCounter:greyLow|                  ; 3 (3)               ; 3 (3)                     ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |TestIOP16B|IOP16:IOP16|GrayCounter:greyLow                                                                              ; GrayCounter     ; work         ;
 ;       |IOP_ROM:\GEN_512W_INST_ROM:IopRom|    ; 0 (0)               ; 0 (0)                     ; 8192        ; 0            ; 0       ; 0         ; 0    ; 0            ; |TestIOP16B|IOP16:IOP16|IOP_ROM:\GEN_512W_INST_ROM:IopRom                                                                ; IOP_ROM         ; work         ;
 ;          |altsyncram:altsyncram_component|   ; 0 (0)               ; 0 (0)                     ; 8192        ; 0            ; 0       ; 0         ; 0    ; 0            ; |TestIOP16B|IOP16:IOP16|IOP_ROM:\GEN_512W_INST_ROM:IopRom|altsyncram:altsyncram_component                                ; altsyncram      ; work         ;
 ;             |altsyncram_7634:auto_generated| ; 0 (0)               ; 0 (0)                     ; 8192        ; 0            ; 0       ; 0         ; 0    ; 0            ; |TestIOP16B|IOP16:IOP16|IOP_ROM:\GEN_512W_INST_ROM:IopRom|altsyncram:altsyncram_component|altsyncram_7634:auto_generated ; altsyncram_7634 ; work         ;
-;       |RegFile8x8:RegFile|                   ; 85 (85)             ; 64 (64)                   ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |TestIOP16B|IOP16:IOP16|RegFile8x8:RegFile                                                                               ; RegFile8x8      ; work         ;
-;       |lifo:\GEN_STACK_DEEPER:lifo|          ; 14 (14)             ; 4 (4)                     ; 144         ; 0            ; 0       ; 0         ; 0    ; 0            ; |TestIOP16B|IOP16:IOP16|lifo:\GEN_STACK_DEEPER:lifo                                                                      ; lifo            ; work         ;
-;          |altsyncram:r_mem_rtl_0|            ; 0 (0)               ; 0 (0)                     ; 144         ; 0            ; 0       ; 0         ; 0    ; 0            ; |TestIOP16B|IOP16:IOP16|lifo:\GEN_STACK_DEEPER:lifo|altsyncram:r_mem_rtl_0                                               ; altsyncram      ; work         ;
-;             |altsyncram_2pd1:auto_generated| ; 0 (0)               ; 0 (0)                     ; 144         ; 0            ; 0       ; 0         ; 0    ; 0            ; |TestIOP16B|IOP16:IOP16|lifo:\GEN_STACK_DEEPER:lifo|altsyncram:r_mem_rtl_0|altsyncram_2pd1:auto_generated                ; altsyncram_2pd1 ; work         ;
+;       |RegFile8x8:RegFile|                   ; 97 (97)             ; 64 (64)                   ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |TestIOP16B|IOP16:IOP16|RegFile8x8:RegFile                                                                               ; RegFile8x8      ; work         ;
 +----------------------------------------------+---------------------+---------------------------+-------------+--------------+---------+-----------+------+--------------+--------------------------------------------------------------------------------------------------------------------------+-----------------+--------------+
 Note: For table entries with two numbers listed, the numbers in parentheses indicate the number of resources of the given type used by the specific entity alone. The numbers listed outside of parentheses indicate the total resources of the given type used by the specific entity and all of its sub-entities in the hierarchy.
 
 
-+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
-; Analysis & Synthesis RAM Summary                                                                                                                                                                                                                                                                                   ;
-+-------------------------------------------------------------------------------------------------------------------------+------+------------------+--------------+--------------+--------------+--------------+------+---------------------------------------------------------------------------------------------+
-; Name                                                                                                                    ; Type ; Mode             ; Port A Depth ; Port A Width ; Port B Depth ; Port B Width ; Size ; MIF                                                                                         ;
-+-------------------------------------------------------------------------------------------------------------------------+------+------------------+--------------+--------------+--------------+--------------+------+---------------------------------------------------------------------------------------------+
-; IOP16:IOP16|IOP_ROM:\GEN_512W_INST_ROM:IopRom|altsyncram:altsyncram_component|altsyncram_7634:auto_generated|ALTSYNCRAM ; AUTO ; ROM              ; 512          ; 16           ; --           ; --           ; 8192 ; ../../MultiComp (VHDL Template)/Components/CPU/IOP16/IOP16_ASSEMBLER/TestIOP16B/testLED.mif ;
-; IOP16:IOP16|lifo:\GEN_STACK_DEEPER:lifo|altsyncram:r_mem_rtl_0|altsyncram_2pd1:auto_generated|ALTSYNCRAM                ; AUTO ; Simple Dual Port ; 16           ; 12           ; 16           ; 12           ; 192  ; None                                                                                        ;
-+-------------------------------------------------------------------------------------------------------------------------+------+------------------+--------------+--------------+--------------+--------------+------+---------------------------------------------------------------------------------------------+
-
-
-+---------------------------------------------------------------------------------------------------------------------------------------------+
-; Analysis & Synthesis IP Cores Summary                                                                                                       ;
-+--------+--------------+---------+--------------+--------------+-----------------------------------------------------------+-----------------+
-; Vendor ; IP Core Name ; Version ; Release Date ; License Type ; Entity Instance                                           ; IP Include File ;
-+--------+--------------+---------+--------------+--------------+-----------------------------------------------------------+-----------------+
-; Altera ; ROM: 1-PORT  ; 20.1    ; N/A          ; N/A          ; |TestIOP16B|IOP16:IOP16|IOP_ROM:\GEN_512W_INST_ROM:IopRom ; IOP_ROM.vhd     ;
-+--------+--------------+---------+--------------+--------------+-----------------------------------------------------------+-----------------+
++--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+; Analysis & Synthesis RAM Summary                                                                                                                                                                                                                                                                       ;
++-------------------------------------------------------------------------------------------------------------------------+------+------+--------------+--------------+--------------+--------------+------+---------------------------------------------------------------------------------------------+
+; Name                                                                                                                    ; Type ; Mode ; Port A Depth ; Port A Width ; Port B Depth ; Port B Width ; Size ; MIF                                                                                         ;
++-------------------------------------------------------------------------------------------------------------------------+------+------+--------------+--------------+--------------+--------------+------+---------------------------------------------------------------------------------------------+
+; IOP16:IOP16|IOP_ROM:\GEN_512W_INST_ROM:IopRom|altsyncram:altsyncram_component|altsyncram_7634:auto_generated|ALTSYNCRAM ; AUTO ; ROM  ; 512          ; 16           ; --           ; --           ; 8192 ; ../../MultiComp (VHDL Template)/Components/CPU/IOP16/IOP16_ASSEMBLER/TestIOP16B/testLED.mif ;
++-------------------------------------------------------------------------------------------------------------------------+------+------+--------------+--------------+--------------+--------------+------+---------------------------------------------------------------------------------------------+
 
 
 +---------------------------------------------------------------------------------------------------+
@@ -297,10 +278,21 @@ Note: All latches listed above may not be present at the end of synthesis due to
 +--------------------------------------------+--------------------+
 ; Register name                              ; Reason for Removal ;
 +--------------------------------------------+--------------------+
-; Debouncer:debounceReset|dig_counter[18,19] ; Lost fanout        ;
 ; IOP16:IOP16|w_PC_out[9..11]                ; Lost fanout        ;
-; Total Number of Removed Registers = 5      ;                    ;
+; IOP16:IOP16|w_rtnAddr[9..11]               ; Lost fanout        ;
+; Debouncer:debounceReset|dig_counter[18,19] ; Lost fanout        ;
+; Total Number of Removed Registers = 8      ;                    ;
 +--------------------------------------------+--------------------+
+
+
++-------------------------------------------------------------------------------------------------------------------------------+
+; Removed Registers Triggering Further Register Optimizations                                                                   ;
++--------------------------+--------------------+-------------------------------------------------------------------------------+
+; Register name            ; Reason for Removal ; Registers Removed due to This Register                                        ;
++--------------------------+--------------------+-------------------------------------------------------------------------------+
+; IOP16:IOP16|w_PC_out[11] ; Lost Fanouts       ; IOP16:IOP16|w_PC_out[10], IOP16:IOP16|w_PC_out[9], IOP16:IOP16|w_rtnAddr[11], ;
+;                          ;                    ; IOP16:IOP16|w_rtnAddr[10], IOP16:IOP16|w_rtnAddr[9]                           ;
++--------------------------+--------------------+-------------------------------------------------------------------------------+
 
 
 +------------------------------------------------------+
@@ -308,12 +300,12 @@ Note: All latches listed above may not be present at the end of synthesis due to
 +----------------------------------------------+-------+
 ; Statistic                                    ; Value ;
 +----------------------------------------------+-------+
-; Total registers                              ; 105   ;
-; Number of registers using Synchronous Clear  ; 16    ;
+; Total registers                              ; 110   ;
+; Number of registers using Synchronous Clear  ; 12    ;
 ; Number of registers using Synchronous Load   ; 0     ;
 ; Number of registers using Asynchronous Clear ; 0     ;
 ; Number of registers using Asynchronous Load  ; 0     ;
-; Number of registers using Clock Enable       ; 78    ;
+; Number of registers using Clock Enable       ; 84    ;
 ; Number of registers using Preset             ; 0     ;
 +----------------------------------------------+-------+
 
@@ -324,39 +316,29 @@ Note: All latches listed above may not be present at the end of synthesis due to
 ; Inverted Register                      ; Fan out ;
 +----------------------------------------+---------+
 ; o_UsrLed~reg0                          ; 2       ;
-; Debouncer:debounceReset|o_PinOut       ; 37      ;
+; Debouncer:debounceReset|o_PinOut       ; 30      ;
 ; Total number of inverted registers = 2 ;         ;
 +----------------------------------------+---------+
 
 
-+--------------------------------------------------------------------------------------------------------------------+
-; Registers Packed Into Inferred Megafunctions                                                                       ;
-+-------------------------------------------------------+-----------------------------------------------------+------+
-; Register Name                                         ; Megafunction                                        ; Type ;
-+-------------------------------------------------------+-----------------------------------------------------+------+
-; IOP16:IOP16|lifo:\GEN_STACK_DEEPER:lifo|o_data[0..11] ; IOP16:IOP16|lifo:\GEN_STACK_DEEPER:lifo|r_mem_rtl_0 ; RAM  ;
-+-------------------------------------------------------+-----------------------------------------------------+------+
-
-
-+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
-; Multiplexer Restructuring Statistics (Restructuring Performed)                                                                                                                  ;
-+--------------------+-----------+---------------+----------------------+------------------------+------------+-------------------------------------------------------------------+
-; Multiplexer Inputs ; Bus Width ; Baseline Area ; Area if Restructured ; Saving if Restructured ; Registered ; Example Multiplexer Output                                        ;
-+--------------------+-----------+---------------+----------------------+------------------------+------------+-------------------------------------------------------------------+
-; 3:1                ; 8 bits    ; 16 LEs        ; 8 LEs                ; 8 LEs                  ; Yes        ; |TestIOP16B|IOP16:IOP16|RegFile8x8:RegFile|w_regFR0[7]            ;
-; 3:1                ; 8 bits    ; 16 LEs        ; 8 LEs                ; 8 LEs                  ; Yes        ; |TestIOP16B|IOP16:IOP16|RegFile8x8:RegFile|w_regFR4[5]            ;
-; 3:1                ; 8 bits    ; 16 LEs        ; 8 LEs                ; 8 LEs                  ; Yes        ; |TestIOP16B|IOP16:IOP16|RegFile8x8:RegFile|w_regFR2[2]            ;
-; 3:1                ; 8 bits    ; 16 LEs        ; 8 LEs                ; 8 LEs                  ; Yes        ; |TestIOP16B|IOP16:IOP16|RegFile8x8:RegFile|w_regFR6[6]            ;
-; 3:1                ; 8 bits    ; 16 LEs        ; 8 LEs                ; 8 LEs                  ; Yes        ; |TestIOP16B|IOP16:IOP16|RegFile8x8:RegFile|w_regFR1[7]            ;
-; 3:1                ; 8 bits    ; 16 LEs        ; 8 LEs                ; 8 LEs                  ; Yes        ; |TestIOP16B|IOP16:IOP16|RegFile8x8:RegFile|w_regFR5[0]            ;
-; 3:1                ; 8 bits    ; 16 LEs        ; 8 LEs                ; 8 LEs                  ; Yes        ; |TestIOP16B|IOP16:IOP16|RegFile8x8:RegFile|w_regFR3[2]            ;
-; 3:1                ; 8 bits    ; 16 LEs        ; 8 LEs                ; 8 LEs                  ; Yes        ; |TestIOP16B|IOP16:IOP16|RegFile8x8:RegFile|w_regFR7[3]            ;
-; 4:1                ; 3 bits    ; 6 LEs         ; 6 LEs                ; 0 LEs                  ; Yes        ; |TestIOP16B|IOP16:IOP16|lifo:\GEN_STACK_DEEPER:lifo|r_wr_index[3] ;
-; 7:1                ; 12 bits   ; 48 LEs        ; 24 LEs               ; 24 LEs                 ; Yes        ; |TestIOP16B|IOP16:IOP16|w_PC_out[9]                               ;
-; 3:1                ; 8 bits    ; 16 LEs        ; 16 LEs               ; 0 LEs                  ; No         ; |TestIOP16B|IOP16:IOP16|w_AluOut[3]                               ;
-; 9:1                ; 7 bits    ; 42 LEs        ; 42 LEs               ; 0 LEs                  ; No         ; |TestIOP16B|IOP16:IOP16|RegFile8x8:RegFile|o_DataOut[1]           ;
-; 5:1                ; 7 bits    ; 21 LEs        ; 21 LEs               ; 0 LEs                  ; No         ; |TestIOP16B|IOP16:IOP16|w_regFileIn[7]                            ;
-+--------------------+-----------+---------------+----------------------+------------------------+------------+-------------------------------------------------------------------+
++-----------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+; Multiplexer Restructuring Statistics (Restructuring Performed)                                                                                                        ;
++--------------------+-----------+---------------+----------------------+------------------------+------------+---------------------------------------------------------+
+; Multiplexer Inputs ; Bus Width ; Baseline Area ; Area if Restructured ; Saving if Restructured ; Registered ; Example Multiplexer Output                              ;
++--------------------+-----------+---------------+----------------------+------------------------+------------+---------------------------------------------------------+
+; 3:1                ; 8 bits    ; 16 LEs        ; 8 LEs                ; 8 LEs                  ; Yes        ; |TestIOP16B|IOP16:IOP16|RegFile8x8:RegFile|w_regFR0[6]  ;
+; 3:1                ; 8 bits    ; 16 LEs        ; 8 LEs                ; 8 LEs                  ; Yes        ; |TestIOP16B|IOP16:IOP16|RegFile8x8:RegFile|w_regFR4[4]  ;
+; 3:1                ; 8 bits    ; 16 LEs        ; 8 LEs                ; 8 LEs                  ; Yes        ; |TestIOP16B|IOP16:IOP16|RegFile8x8:RegFile|w_regFR2[3]  ;
+; 3:1                ; 8 bits    ; 16 LEs        ; 8 LEs                ; 8 LEs                  ; Yes        ; |TestIOP16B|IOP16:IOP16|RegFile8x8:RegFile|w_regFR6[3]  ;
+; 3:1                ; 8 bits    ; 16 LEs        ; 8 LEs                ; 8 LEs                  ; Yes        ; |TestIOP16B|IOP16:IOP16|RegFile8x8:RegFile|w_regFR1[7]  ;
+; 3:1                ; 8 bits    ; 16 LEs        ; 8 LEs                ; 8 LEs                  ; Yes        ; |TestIOP16B|IOP16:IOP16|RegFile8x8:RegFile|w_regFR5[6]  ;
+; 3:1                ; 8 bits    ; 16 LEs        ; 8 LEs                ; 8 LEs                  ; Yes        ; |TestIOP16B|IOP16:IOP16|RegFile8x8:RegFile|w_regFR3[0]  ;
+; 3:1                ; 8 bits    ; 16 LEs        ; 8 LEs                ; 8 LEs                  ; Yes        ; |TestIOP16B|IOP16:IOP16|RegFile8x8:RegFile|w_regFR7[0]  ;
+; 7:1                ; 12 bits   ; 48 LEs        ; 36 LEs               ; 12 LEs                 ; Yes        ; |TestIOP16B|IOP16:IOP16|w_PC_out[11]                    ;
+; 3:1                ; 8 bits    ; 16 LEs        ; 16 LEs               ; 0 LEs                  ; No         ; |TestIOP16B|IOP16:IOP16|w_AluOut[1]                     ;
+; 9:1                ; 7 bits    ; 42 LEs        ; 42 LEs               ; 0 LEs                  ; No         ; |TestIOP16B|IOP16:IOP16|RegFile8x8:RegFile|o_DataOut[2] ;
+; 5:1                ; 7 bits    ; 21 LEs        ; 21 LEs               ; 0 LEs                  ; No         ; |TestIOP16B|IOP16:IOP16|w_regFileIn[7]                  ;
++--------------------+-----------+---------------+----------------------+------------------------+------------+---------------------------------------------------------+
 
 
 +-------------------------------------------------------------------------------------------------------------------------------------+
@@ -368,22 +350,13 @@ Note: All latches listed above may not be present at the end of synthesis due to
 +---------------------------------+--------------------+------+-----------------------------------------------------------------------+
 
 
-+----------------------------------------------------------------------------------------------------------------------+
-; Source assignments for IOP16:IOP16|lifo:\GEN_STACK_DEEPER:lifo|altsyncram:r_mem_rtl_0|altsyncram_2pd1:auto_generated ;
-+---------------------------------+--------------------+------+--------------------------------------------------------+
-; Assignment                      ; Value              ; From ; To                                                     ;
-+---------------------------------+--------------------+------+--------------------------------------------------------+
-; OPTIMIZE_POWER_DURING_SYNTHESIS ; NORMAL_COMPILATION ; -    ; -                                                      ;
-+---------------------------------+--------------------+------+--------------------------------------------------------+
-
-
 +----------------------------------------------------------+
 ; Parameter Settings for User Entity Instance: IOP16:IOP16 ;
 +---------------------+-------+----------------------------+
 ; Parameter Name      ; Value ; Type                       ;
 +---------------------+-------+----------------------------+
 ; inst_sram_size_pass ; 512   ; Signed Integer             ;
-; stack_depth_pass    ; 4     ; Signed Integer             ;
+; stack_depth_pass    ; 1     ; Signed Integer             ;
 +---------------------+-------+----------------------------+
 Note: In order to hide this table in the UI and the text report file, please set the "Show Parameter Settings in Synthesis Report" option in "Analysis and Synthesis Settings -> More Settings" to "Off".
 
@@ -395,17 +368,6 @@ Note: In order to hide this table in the UI and the text report file, please set
 +----------------+-------+-----------------------------------------------------+
 ; n              ; 3     ; Signed Integer                                      ;
 +----------------+-------+-----------------------------------------------------+
-Note: In order to hide this table in the UI and the text report file, please set the "Show Parameter Settings in Synthesis Report" option in "Analysis and Synthesis Settings -> More Settings" to "Off".
-
-
-+--------------------------------------------------------------------------------------+
-; Parameter Settings for User Entity Instance: IOP16:IOP16|lifo:\GEN_STACK_DEEPER:lifo ;
-+----------------+-------+-------------------------------------------------------------+
-; Parameter Name ; Value ; Type                                                        ;
-+----------------+-------+-------------------------------------------------------------+
-; g_index_width  ; 4     ; Signed Integer                                              ;
-; g_data_width   ; 12    ; Signed Integer                                              ;
-+----------------+-------+-------------------------------------------------------------+
 Note: In order to hide this table in the UI and the text report file, please set the "Show Parameter Settings in Synthesis Report" option in "Analysis and Synthesis Settings -> More Settings" to "Off".
 
 
@@ -470,73 +432,12 @@ Note: In order to hide this table in the UI and the text report file, please set
 Note: In order to hide this table in the UI and the text report file, please set the "Show Parameter Settings in Synthesis Report" option in "Analysis and Synthesis Settings -> More Settings" to "Off".
 
 
-+-----------------------------------------------------------------------------------------------------------------+
-; Parameter Settings for Inferred Entity Instance: IOP16:IOP16|lifo:\GEN_STACK_DEEPER:lifo|altsyncram:r_mem_rtl_0 ;
-+------------------------------------+----------------------+-----------------------------------------------------+
-; Parameter Name                     ; Value                ; Type                                                ;
-+------------------------------------+----------------------+-----------------------------------------------------+
-; BYTE_SIZE_BLOCK                    ; 8                    ; Untyped                                             ;
-; AUTO_CARRY_CHAINS                  ; ON                   ; AUTO_CARRY                                          ;
-; IGNORE_CARRY_BUFFERS               ; OFF                  ; IGNORE_CARRY                                        ;
-; AUTO_CASCADE_CHAINS                ; ON                   ; AUTO_CASCADE                                        ;
-; IGNORE_CASCADE_BUFFERS             ; OFF                  ; IGNORE_CASCADE                                      ;
-; WIDTH_BYTEENA                      ; 1                    ; Untyped                                             ;
-; OPERATION_MODE                     ; DUAL_PORT            ; Untyped                                             ;
-; WIDTH_A                            ; 12                   ; Untyped                                             ;
-; WIDTHAD_A                          ; 4                    ; Untyped                                             ;
-; NUMWORDS_A                         ; 16                   ; Untyped                                             ;
-; OUTDATA_REG_A                      ; UNREGISTERED         ; Untyped                                             ;
-; ADDRESS_ACLR_A                     ; NONE                 ; Untyped                                             ;
-; OUTDATA_ACLR_A                     ; NONE                 ; Untyped                                             ;
-; WRCONTROL_ACLR_A                   ; NONE                 ; Untyped                                             ;
-; INDATA_ACLR_A                      ; NONE                 ; Untyped                                             ;
-; BYTEENA_ACLR_A                     ; NONE                 ; Untyped                                             ;
-; WIDTH_B                            ; 12                   ; Untyped                                             ;
-; WIDTHAD_B                          ; 4                    ; Untyped                                             ;
-; NUMWORDS_B                         ; 16                   ; Untyped                                             ;
-; INDATA_REG_B                       ; CLOCK1               ; Untyped                                             ;
-; WRCONTROL_WRADDRESS_REG_B          ; CLOCK1               ; Untyped                                             ;
-; RDCONTROL_REG_B                    ; CLOCK1               ; Untyped                                             ;
-; ADDRESS_REG_B                      ; CLOCK1               ; Untyped                                             ;
-; OUTDATA_REG_B                      ; UNREGISTERED         ; Untyped                                             ;
-; BYTEENA_REG_B                      ; CLOCK1               ; Untyped                                             ;
-; INDATA_ACLR_B                      ; NONE                 ; Untyped                                             ;
-; WRCONTROL_ACLR_B                   ; NONE                 ; Untyped                                             ;
-; ADDRESS_ACLR_B                     ; NONE                 ; Untyped                                             ;
-; OUTDATA_ACLR_B                     ; NONE                 ; Untyped                                             ;
-; RDCONTROL_ACLR_B                   ; NONE                 ; Untyped                                             ;
-; BYTEENA_ACLR_B                     ; NONE                 ; Untyped                                             ;
-; WIDTH_BYTEENA_A                    ; 1                    ; Untyped                                             ;
-; WIDTH_BYTEENA_B                    ; 1                    ; Untyped                                             ;
-; RAM_BLOCK_TYPE                     ; AUTO                 ; Untyped                                             ;
-; BYTE_SIZE                          ; 8                    ; Untyped                                             ;
-; READ_DURING_WRITE_MODE_MIXED_PORTS ; DONT_CARE            ; Untyped                                             ;
-; READ_DURING_WRITE_MODE_PORT_A      ; NEW_DATA_NO_NBE_READ ; Untyped                                             ;
-; READ_DURING_WRITE_MODE_PORT_B      ; NEW_DATA_NO_NBE_READ ; Untyped                                             ;
-; INIT_FILE                          ; UNUSED               ; Untyped                                             ;
-; INIT_FILE_LAYOUT                   ; PORT_A               ; Untyped                                             ;
-; MAXIMUM_DEPTH                      ; 0                    ; Untyped                                             ;
-; CLOCK_ENABLE_INPUT_A               ; NORMAL               ; Untyped                                             ;
-; CLOCK_ENABLE_INPUT_B               ; NORMAL               ; Untyped                                             ;
-; CLOCK_ENABLE_OUTPUT_A              ; NORMAL               ; Untyped                                             ;
-; CLOCK_ENABLE_OUTPUT_B              ; NORMAL               ; Untyped                                             ;
-; CLOCK_ENABLE_CORE_A                ; USE_INPUT_CLKEN      ; Untyped                                             ;
-; CLOCK_ENABLE_CORE_B                ; USE_INPUT_CLKEN      ; Untyped                                             ;
-; ENABLE_ECC                         ; FALSE                ; Untyped                                             ;
-; ECC_PIPELINE_STAGE_ENABLED         ; FALSE                ; Untyped                                             ;
-; WIDTH_ECCSTATUS                    ; 3                    ; Untyped                                             ;
-; DEVICE_FAMILY                      ; Cyclone IV E         ; Untyped                                             ;
-; CBXI_PARAMETER                     ; altsyncram_2pd1      ; Untyped                                             ;
-+------------------------------------+----------------------+-----------------------------------------------------+
-Note: In order to hide this table in the UI and the text report file, please set the "Show Parameter Settings in Synthesis Report" option in "Analysis and Synthesis Settings -> More Settings" to "Off".
-
-
 +---------------------------------------------------------------------------------------------------------------------------+
 ; altsyncram Parameter Settings by Entity Instance                                                                          ;
 +-------------------------------------------+-------------------------------------------------------------------------------+
 ; Name                                      ; Value                                                                         ;
 +-------------------------------------------+-------------------------------------------------------------------------------+
-; Number of entity instances                ; 2                                                                             ;
+; Number of entity instances                ; 1                                                                             ;
 ; Entity Instance                           ; IOP16:IOP16|IOP_ROM:\GEN_512W_INST_ROM:IopRom|altsyncram:altsyncram_component ;
 ;     -- OPERATION_MODE                     ; ROM                                                                           ;
 ;     -- WIDTH_A                            ; 16                                                                            ;
@@ -548,28 +449,7 @@ Note: In order to hide this table in the UI and the text report file, please set
 ;     -- OUTDATA_REG_B                      ; UNREGISTERED                                                                  ;
 ;     -- RAM_BLOCK_TYPE                     ; AUTO                                                                          ;
 ;     -- READ_DURING_WRITE_MODE_MIXED_PORTS ; DONT_CARE                                                                     ;
-; Entity Instance                           ; IOP16:IOP16|lifo:\GEN_STACK_DEEPER:lifo|altsyncram:r_mem_rtl_0                ;
-;     -- OPERATION_MODE                     ; DUAL_PORT                                                                     ;
-;     -- WIDTH_A                            ; 12                                                                            ;
-;     -- NUMWORDS_A                         ; 16                                                                            ;
-;     -- OUTDATA_REG_A                      ; UNREGISTERED                                                                  ;
-;     -- WIDTH_B                            ; 12                                                                            ;
-;     -- NUMWORDS_B                         ; 16                                                                            ;
-;     -- ADDRESS_REG_B                      ; CLOCK1                                                                        ;
-;     -- OUTDATA_REG_B                      ; UNREGISTERED                                                                  ;
-;     -- RAM_BLOCK_TYPE                     ; AUTO                                                                          ;
-;     -- READ_DURING_WRITE_MODE_MIXED_PORTS ; DONT_CARE                                                                     ;
 +-------------------------------------------+-------------------------------------------------------------------------------+
-
-
-+-------------------------------------------------------------------------------------------------------------------+
-; Port Connectivity Checks: "IOP16:IOP16|lifo:\GEN_STACK_DEEPER:lifo"                                               ;
-+---------+--------+----------+-------------------------------------------------------------------------------------+
-; Port    ; Type   ; Severity ; Details                                                                             ;
-+---------+--------+----------+-------------------------------------------------------------------------------------+
-; o_full  ; Output ; Info     ; Connected to dangling logic. Logic that only feeds a dangling port will be removed. ;
-; o_empty ; Output ; Info     ; Connected to dangling logic. Logic that only feeds a dangling port will be removed. ;
-+---------+--------+----------+-------------------------------------------------------------------------------------+
 
 
 +-------------------------------------------------------------+
@@ -598,24 +478,24 @@ Note: In order to hide this table in the UI and the text report file, please set
 ; Type                  ; Count                       ;
 +-----------------------+-----------------------------+
 ; boundary_port         ; 4                           ;
-; cycloneiii_ff         ; 105                         ;
-;     ENA               ; 66                          ;
-;     ENA SCLR          ; 12                          ;
-;     SCLR              ; 4                           ;
+; cycloneiii_ff         ; 110                         ;
+;     ENA               ; 75                          ;
+;     ENA SCLR          ; 9                           ;
+;     SCLR              ; 3                           ;
 ;     plain             ; 23                          ;
-; cycloneiii_lcell_comb ; 212                         ;
-;     arith             ; 31                          ;
-;         2 data inputs ; 21                          ;
-;         3 data inputs ; 10                          ;
-;     normal            ; 181                         ;
-;         1 data inputs ; 7                           ;
-;         2 data inputs ; 7                           ;
-;         3 data inputs ; 59                          ;
-;         4 data inputs ; 108                         ;
-; cycloneiii_ram_block  ; 25                          ;
+; cycloneiii_lcell_comb ; 194                         ;
+;     arith             ; 32                          ;
+;         2 data inputs ; 23                          ;
+;         3 data inputs ; 9                           ;
+;     normal            ; 162                         ;
+;         1 data inputs ; 5                           ;
+;         2 data inputs ; 11                          ;
+;         3 data inputs ; 20                          ;
+;         4 data inputs ; 126                         ;
+; cycloneiii_ram_block  ; 16                          ;
 ;                       ;                             ;
 ; Max LUT depth         ; 9.00                        ;
-; Average LUT depth     ; 5.19                        ;
+; Average LUT depth     ; 5.06                        ;
 +-----------------------+-----------------------------+
 
 
@@ -634,16 +514,15 @@ Note: In order to hide this table in the UI and the text report file, please set
 Info: *******************************************************************
 Info: Running Quartus Prime Analysis & Synthesis
     Info: Version 20.1.0 Build 711 06/05/2020 SJ Lite Edition
-    Info: Processing started: Tue Jun 22 17:31:29 2021
+    Info: Processing started: Tue Jun 22 18:16:14 2021
 Info: Command: quartus_map --read_settings_files=on --write_settings_files=off TestIOP16B -c ANSITerm1
-Warning (18236): Number of processors has not been specified which may cause overloading on shared machines.  Set the global assignment NUM_PARALLEL_PROCESSORS in your QSF to an appropriate value for best performance.
 Info (20030): Parallel compilation is enabled and will use 4 of the 4 processors detected
-Info (12021): Found 2 design units, including 1 entities, in source file /users/hpz420/documents/github/doug gilliland/multicomp/multicomp (vhdl template)/components/debounce/debounce.vhd
-    Info (12022): Found design unit 1: Debouncer-struct File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/Debounce/Debounce.vhd Line: 18
-    Info (12023): Found entity 1: Debouncer File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/Debounce/Debounce.vhd Line: 9
 Info (12021): Found 2 design units, including 1 entities, in source file /users/hpz420/documents/github/doug gilliland/multicomp/multicomp (vhdl template)/components/counter/n-bit-gray-counter.vhd
     Info (12022): Found design unit 1: GrayCounter-GrayCounter_beh File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/COUNTER/n-bit-gray-counter.vhd Line: 13
     Info (12023): Found entity 1: GrayCounter File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/COUNTER/n-bit-gray-counter.vhd Line: 7
+Info (12021): Found 2 design units, including 1 entities, in source file /users/hpz420/documents/github/doug gilliland/multicomp/multicomp (vhdl template)/components/debounce/debounce.vhd
+    Info (12022): Found design unit 1: Debouncer-struct File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/Debounce/Debounce.vhd Line: 18
+    Info (12023): Found entity 1: Debouncer File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/Debounce/Debounce.vhd Line: 9
 Info (12021): Found 2 design units, including 1 entities, in source file /users/hpz420/documents/github/doug gilliland/multicomp/multicomp (vhdl template)/components/cpu/iop16/regfile8x8.vhd
     Info (12022): Found design unit 1: RegFile8x8-RegFile8x8_beh File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/CPU/IOP16/RegFile8x8.vhd Line: 23
     Info (12023): Found entity 1: RegFile8x8 File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/CPU/IOP16/RegFile8x8.vhd Line: 11
@@ -661,12 +540,11 @@ Info (12021): Found 2 design units, including 1 entities, in source file iop_rom
     Info (12023): Found entity 1: IOP_ROM File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15/TestIOP16B/IOP_ROM.vhd Line: 43
 Info (12127): Elaborating entity "TestIOP16B" for the top level hierarchy
 Warning (10036): Verilog HDL or VHDL warning at TestIOP16B.vhd(40): object "w_periphRd" assigned a value but never read File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15/TestIOP16B/TestIOP16B.vhd Line: 40
-Info (12128): Elaborating entity "Debouncer" for hierarchy "Debouncer:debounceReset" File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15/TestIOP16B/TestIOP16B.vhd Line: 77
-Info (12128): Elaborating entity "IOP16" for hierarchy "IOP16:IOP16" File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15/TestIOP16B/TestIOP16B.vhd Line: 88
+Info (12128): Elaborating entity "Debouncer" for hierarchy "Debouncer:debounceReset" File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15/TestIOP16B/TestIOP16B.vhd Line: 76
+Info (12128): Elaborating entity "IOP16" for hierarchy "IOP16:IOP16" File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15/TestIOP16B/TestIOP16B.vhd Line: 87
 Warning (10036): Verilog HDL or VHDL warning at IOP16B.vhd(116): object "w_OP_NOP" assigned a value but never read File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/CPU/IOP16/IOP16B.vhd Line: 116
 Info (10041): Inferred latch for "w_zBit" at IOP16B.vhd(315) File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/CPU/IOP16/IOP16B.vhd Line: 315
 Info (12128): Elaborating entity "GrayCounter" for hierarchy "IOP16:IOP16|GrayCounter:greyLow" File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/CPU/IOP16/IOP16B.vhd Line: 156
-Info (12128): Elaborating entity "lifo" for hierarchy "IOP16:IOP16|lifo:\GEN_STACK_DEEPER:lifo" File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/CPU/IOP16/IOP16B.vhd Line: 189
 Info (12128): Elaborating entity "IOP_ROM" for hierarchy "IOP16:IOP16|IOP_ROM:\GEN_512W_INST_ROM:IopRom" File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/CPU/IOP16/IOP16B.vhd Line: 221
 Info (12128): Elaborating entity "altsyncram" for hierarchy "IOP16:IOP16|IOP_ROM:\GEN_512W_INST_ROM:IopRom|altsyncram:altsyncram_component" File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15/TestIOP16B/IOP_ROM.vhd Line: 60
 Info (12130): Elaborated megafunction instantiation "IOP16:IOP16|IOP_ROM:\GEN_512W_INST_ROM:IopRom|altsyncram:altsyncram_component" File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15/TestIOP16B/IOP_ROM.vhd Line: 60
@@ -741,59 +619,19 @@ Info (12021): Found 1 design units, including 1 entities, in source file db/alts
     Info (12023): Found entity 1: altsyncram_7634 File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15/TestIOP16B/db/altsyncram_7634.tdf Line: 28
 Info (12128): Elaborating entity "altsyncram_7634" for hierarchy "IOP16:IOP16|IOP_ROM:\GEN_512W_INST_ROM:IopRom|altsyncram:altsyncram_component|altsyncram_7634:auto_generated" File: c:/intelfpga_lite/20.1/quartus/libraries/megafunctions/altsyncram.tdf Line: 792
 Info (12128): Elaborating entity "RegFile8x8" for hierarchy "IOP16:IOP16|RegFile8x8:RegFile" File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/CPU/IOP16/IOP16B.vhd Line: 336
-Warning (276027): Inferred dual-clock RAM node "IOP16:IOP16|lifo:\GEN_STACK_DEEPER:lifo|r_mem_rtl_0" from synchronous design logic.  The read-during-write behavior of a dual-clock RAM is undefined and may not match the behavior of the original design.
-Info (19000): Inferred 1 megafunctions from design logic
-    Info (276029): Inferred altsyncram megafunction from the following design logic: "IOP16:IOP16|lifo:\GEN_STACK_DEEPER:lifo|r_mem_rtl_0" 
-        Info (286033): Parameter OPERATION_MODE set to DUAL_PORT
-        Info (286033): Parameter WIDTH_A set to 12
-        Info (286033): Parameter WIDTHAD_A set to 4
-        Info (286033): Parameter NUMWORDS_A set to 16
-        Info (286033): Parameter WIDTH_B set to 12
-        Info (286033): Parameter WIDTHAD_B set to 4
-        Info (286033): Parameter NUMWORDS_B set to 16
-        Info (286033): Parameter ADDRESS_ACLR_A set to NONE
-        Info (286033): Parameter OUTDATA_REG_B set to UNREGISTERED
-        Info (286033): Parameter ADDRESS_ACLR_B set to NONE
-        Info (286033): Parameter OUTDATA_ACLR_B set to NONE
-        Info (286033): Parameter ADDRESS_REG_B set to CLOCK1
-        Info (286033): Parameter INDATA_ACLR_A set to NONE
-        Info (286033): Parameter WRCONTROL_ACLR_A set to NONE
-Info (12130): Elaborated megafunction instantiation "IOP16:IOP16|lifo:\GEN_STACK_DEEPER:lifo|altsyncram:r_mem_rtl_0"
-Info (12133): Instantiated megafunction "IOP16:IOP16|lifo:\GEN_STACK_DEEPER:lifo|altsyncram:r_mem_rtl_0" with the following parameter:
-    Info (12134): Parameter "OPERATION_MODE" = "DUAL_PORT"
-    Info (12134): Parameter "WIDTH_A" = "12"
-    Info (12134): Parameter "WIDTHAD_A" = "4"
-    Info (12134): Parameter "NUMWORDS_A" = "16"
-    Info (12134): Parameter "WIDTH_B" = "12"
-    Info (12134): Parameter "WIDTHAD_B" = "4"
-    Info (12134): Parameter "NUMWORDS_B" = "16"
-    Info (12134): Parameter "ADDRESS_ACLR_A" = "NONE"
-    Info (12134): Parameter "OUTDATA_REG_B" = "UNREGISTERED"
-    Info (12134): Parameter "ADDRESS_ACLR_B" = "NONE"
-    Info (12134): Parameter "OUTDATA_ACLR_B" = "NONE"
-    Info (12134): Parameter "ADDRESS_REG_B" = "CLOCK1"
-    Info (12134): Parameter "INDATA_ACLR_A" = "NONE"
-    Info (12134): Parameter "WRCONTROL_ACLR_A" = "NONE"
-Info (12021): Found 1 design units, including 1 entities, in source file db/altsyncram_2pd1.tdf
-    Info (12023): Found entity 1: altsyncram_2pd1 File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15/TestIOP16B/db/altsyncram_2pd1.tdf Line: 28
-Warning (14284): Synthesized away the following node(s):
-    Warning (14285): Synthesized away the following RAM node(s):
-        Warning (14320): Synthesized away node "IOP16:IOP16|lifo:\GEN_STACK_DEEPER:lifo|altsyncram:r_mem_rtl_0|altsyncram_2pd1:auto_generated|ram_block1a9" File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15/TestIOP16B/db/altsyncram_2pd1.tdf Line: 310
-        Warning (14320): Synthesized away node "IOP16:IOP16|lifo:\GEN_STACK_DEEPER:lifo|altsyncram:r_mem_rtl_0|altsyncram_2pd1:auto_generated|ram_block1a10" File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15/TestIOP16B/db/altsyncram_2pd1.tdf Line: 340
-        Warning (14320): Synthesized away node "IOP16:IOP16|lifo:\GEN_STACK_DEEPER:lifo|altsyncram:r_mem_rtl_0|altsyncram_2pd1:auto_generated|ram_block1a11" File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15/TestIOP16B/db/altsyncram_2pd1.tdf Line: 370
 Info (286030): Timing-Driven Synthesis is running
-Info (17049): 5 registers lost all their fanouts during netlist optimizations.
+Info (17049): 8 registers lost all their fanouts during netlist optimizations.
 Info (16010): Generating hard_block partition "hard_block:auto_generated_inst"
     Info (16011): Adding 0 node(s), including 0 DDIO, 0 PLL, 0 transceiver and 0 LCELL
-Info (21057): Implemented 307 device resources after synthesis - the final resource count might be different
+Info (21057): Implemented 289 device resources after synthesis - the final resource count might be different
     Info (21058): Implemented 3 input pins
     Info (21059): Implemented 1 output pins
-    Info (21061): Implemented 278 logic cells
-    Info (21064): Implemented 25 RAM segments
-Info: Quartus Prime Analysis & Synthesis was successful. 0 errors, 25 warnings
-    Info: Peak virtual memory: 4819 megabytes
-    Info: Processing ended: Tue Jun 22 17:31:43 2021
-    Info: Elapsed time: 00:00:14
-    Info: Total CPU time (on all processors): 00:00:34
+    Info (21061): Implemented 269 logic cells
+    Info (21064): Implemented 16 RAM segments
+Info: Quartus Prime Analysis & Synthesis was successful. 0 errors, 18 warnings
+    Info: Peak virtual memory: 4800 megabytes
+    Info: Processing ended: Tue Jun 22 18:16:30 2021
+    Info: Elapsed time: 00:00:16
+    Info: Total CPU time (on all processors): 00:00:36
 
 
