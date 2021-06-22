@@ -185,6 +185,10 @@ begin
 	-- Front Panel starts here
 	
 	fp01 : work.FrontPanel01
+		generic	map ( 
+			INST_SRAM_SIZE_IN	=> 512,
+			STACK_DEPTH_IN		=> 4
+		)
 		port map
 		(
 			-- Clock and reset

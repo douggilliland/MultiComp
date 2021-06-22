@@ -25,8 +25,13 @@ use  IEEE.STD_LOGIC_ARITH.all;
 use  IEEE.STD_LOGIC_UNSIGNED.all;
 
 entity FrontPanel01 is
-port
-(
+	generic 
+	(
+		constant INST_SRAM_SIZE_IN 	: integer;	-- Legal Values are 256, 512, 1024, 2048, 4096
+		constant STACK_DEPTH_IN			: integer	-- Legal Values are 0 (none), 1 (single), > 1
+	);
+	port
+	(
 	-- Clock and reset
 	i_CLOCK_50					: in std_logic := '1';
 	i_n_reset					: in std_logic := '1';
@@ -104,9 +109,9 @@ begin
 	-- 	x04 - I2C Write Data
 	-- 	x05 - I2C Command
 	iop16 : ENTITY work.IOP16
-	generic map 	( 
-		INST_SRAM_SIZE_PASS	=> 512,
-		STACK_DEPTH				=> 4
+	generic map (
+		INST_SRAM_SIZE_PASS	=> INST_SRAM_SIZE_IN,
+		STACK_DEPTH_PASS		=> STACK_DEPTH_IN
 	)
 	PORT map (
 		i_clk					=> i_CLOCK_50,			-- 50 MHz

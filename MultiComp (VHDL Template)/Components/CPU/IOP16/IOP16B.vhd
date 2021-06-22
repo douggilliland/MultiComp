@@ -64,10 +64,9 @@ use IEEE.STD_LOGIC_ARITH.ALL;
 use IEEE.STD_LOGIC_UNSIGNED.ALL;
 
 ENTITY IOP16 IS
-	generic 
-	(
-		constant INST_SRAM_SIZE_PASS 	: integer := 512;		-- Legal Values are 256, 512, 1024, 2048, 4096
-		constant STACK_DEPTH				: integer := 1			-- Legal Values are 1 (single), > 1
+	generic (
+		constant INST_SRAM_SIZE_PASS	: integer;	-- Legal Values are 256, 512, 1024, 2048, 4096
+		constant STACK_DEPTH_PASS		: integer	-- Legal Values are 1 (single), > 1
 	);
 	PORT (
 		i_clk					: IN std_logic;
@@ -165,7 +164,7 @@ BEGIN
 	-- LIFO - Return address stack (JSR writes, RTS reads)
 	-- Single depth uses no memory
 	-- Deeper depth uses memory
-	GEN_STACK_SINGLE : if (STACK_DEPTH = 1) generate
+	GEN_STACK_SINGLE : if (STACK_DEPTH_PASS = 1) generate
 	begin
 	-- Store the return address for JSR opcodes
 	-- Single level stack
@@ -179,12 +178,12 @@ BEGIN
 		END PROCESS;
 	end generate GEN_STACK_SINGLE;
 
-	GEN_STACK_DEEPER : if (STACK_DEPTH /= 1) generate
+	GEN_STACK_DEEPER : if (STACK_DEPTH_PASS /= 1) generate
 	begin
 		pcPlus1 <= (w_PC_out + 1);				-- Next address past PC is the return address
 		lifo : entity work.lifo
 			generic map (
-				g_INDEX_WIDTH => STACK_DEPTH, -- internal index bit width affecting the LIFO capacity
+				g_INDEX_WIDTH => STACK_DEPTH_PASS, -- internal index bit width affecting the LIFO capacity
 				g_DATA_WIDTH  => 12 				-- bit width of stored data
 			)
 			port map (
