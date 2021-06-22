@@ -1,5 +1,5 @@
 Analysis & Synthesis report for FrontPanel01
-Mon Jun 21 18:26:43 2021
+Tue Jun 22 19:43:35 2021
 Quartus Prime Version 20.1.0 Build 711 06/05/2020 SJ Lite Edition
 
 
@@ -19,26 +19,32 @@ Quartus Prime Version 20.1.0 Build 711 06/05/2020 SJ Lite Edition
  11. Registers Protected by Synthesis
  12. User-Specified and Inferred Latches
  13. Registers Removed During Synthesis
- 14. Removed Registers Triggering Further Register Optimizations
- 15. General Register Statistics
- 16. Inverted Register Statistics
+ 14. General Register Statistics
+ 15. Inverted Register Statistics
+ 16. Registers Packed Into Inferred Megafunctions
  17. Multiplexer Restructuring Statistics (Restructuring Performed)
  18. Source assignments for RAM_8KB_DP:RAM_Test|altsyncram:altsyncram_component|altsyncram_70r3:auto_generated
- 19. Source assignments for FrontPanel01:fp01|IOP16:iop16|IOP_ROM:\GEN_1KW_INST_ROM:IopRom|altsyncram:altsyncram_component|altsyncram_1u54:auto_generated|altsyncram_ff63:altsyncram1
- 20. Source assignments for FrontPanel01:fp01|Debouncer32:debouncePB
- 21. Parameter Settings for User Entity Instance: RAM_8KB_DP:RAM_Test|altsyncram:altsyncram_component
- 22. Parameter Settings for User Entity Instance: FrontPanel01:fp01|IOP16:iop16
- 23. Parameter Settings for User Entity Instance: FrontPanel01:fp01|IOP16:iop16|GrayCounter:greyLow
- 24. Parameter Settings for User Entity Instance: FrontPanel01:fp01|IOP16:iop16|IOP_ROM:\GEN_1KW_INST_ROM:IopRom|altsyncram:altsyncram_component
- 25. altsyncram Parameter Settings by Entity Instance
- 26. Port Connectivity Checks: "FrontPanel01:fp01|IOP16:iop16|GrayCounter:greyLow"
- 27. Port Connectivity Checks: "FrontPanel01:fp01|IOP16:iop16"
- 28. Port Connectivity Checks: "FrontPanel01:fp01"
- 29. Port Connectivity Checks: "RAM_8KB_DP:RAM_Test"
- 30. In-System Memory Content Editor Settings
- 31. Post-Synthesis Netlist Statistics for Top Partition
- 32. Elapsed Time Per Partition
- 33. Analysis & Synthesis Messages
+ 19. Source assignments for FrontPanel01:fp01
+ 20. Source assignments for FrontPanel01:fp01|IOP16:iop16|IOP_ROM:\GEN_1KW_INST_ROM:IopRom|altsyncram:altsyncram_component|altsyncram_1u54:auto_generated|altsyncram_ff63:altsyncram1
+ 21. Source assignments for FrontPanel01:fp01|Debouncer32:debouncePB
+ 22. Source assignments for FrontPanel01:fp01|IOP16:iop16|lifo:\GEN_STACK_DEEPER:lifo|altsyncram:r_mem_rtl_0|altsyncram_2pd1:auto_generated
+ 23. Parameter Settings for User Entity Instance: RAM_8KB_DP:RAM_Test|altsyncram:altsyncram_component
+ 24. Parameter Settings for User Entity Instance: FrontPanel01:fp01
+ 25. Parameter Settings for User Entity Instance: FrontPanel01:fp01|IOP16:iop16
+ 26. Parameter Settings for User Entity Instance: FrontPanel01:fp01|IOP16:iop16|GrayCounter:greyLow
+ 27. Parameter Settings for User Entity Instance: FrontPanel01:fp01|IOP16:iop16|lifo:\GEN_STACK_DEEPER:lifo
+ 28. Parameter Settings for User Entity Instance: FrontPanel01:fp01|IOP16:iop16|IOP_ROM:\GEN_1KW_INST_ROM:IopRom|altsyncram:altsyncram_component
+ 29. Parameter Settings for Inferred Entity Instance: FrontPanel01:fp01|IOP16:iop16|lifo:\GEN_STACK_DEEPER:lifo|altsyncram:r_mem_rtl_0
+ 30. altsyncram Parameter Settings by Entity Instance
+ 31. Port Connectivity Checks: "FrontPanel01:fp01|IOP16:iop16|lifo:\GEN_STACK_DEEPER:lifo"
+ 32. Port Connectivity Checks: "FrontPanel01:fp01|IOP16:iop16|GrayCounter:greyLow"
+ 33. Port Connectivity Checks: "FrontPanel01:fp01|IOP16:iop16"
+ 34. Port Connectivity Checks: "FrontPanel01:fp01"
+ 35. Port Connectivity Checks: "RAM_8KB_DP:RAM_Test"
+ 36. In-System Memory Content Editor Settings
+ 37. Post-Synthesis Netlist Statistics for Top Partition
+ 38. Elapsed Time Per Partition
+ 39. Analysis & Synthesis Messages
 
 
 
@@ -65,18 +71,18 @@ https://fpgasoftware.intel.com/eula.
 +----------------------------------------------------------------------------------+
 ; Analysis & Synthesis Summary                                                     ;
 +------------------------------------+---------------------------------------------+
-; Analysis & Synthesis Status        ; Successful - Mon Jun 21 18:26:43 2021       ;
+; Analysis & Synthesis Status        ; Successful - Tue Jun 22 19:43:35 2021       ;
 ; Quartus Prime Version              ; 20.1.0 Build 711 06/05/2020 SJ Lite Edition ;
 ; Revision Name                      ; FrontPanel01                                ;
 ; Top-level Entity Name              ; FrontPanel01_test                           ;
 ; Family                             ; Cyclone IV E                                ;
-; Total logic elements               ; 886                                         ;
-;     Total combinational functions  ; 758                                         ;
-;     Dedicated logic registers      ; 404                                         ;
-; Total registers                    ; 404                                         ;
+; Total logic elements               ; 913                                         ;
+;     Total combinational functions  ; 785                                         ;
+;     Dedicated logic registers      ; 398                                         ;
+; Total registers                    ; 398                                         ;
 ; Total pins                         ; 7                                           ;
 ; Total virtual pins                 ; 0                                           ;
-; Total memory bits                  ; 81,920                                      ;
+; Total memory bits                  ; 82,080                                      ;
 ; Embedded Multiplier 9-bit elements ; 0                                           ;
 ; Total PLLs                         ; 0                                           ;
 +------------------------------------+---------------------------------------------+
@@ -191,6 +197,8 @@ https://fpgasoftware.intel.com/eula.
 +-------------------------------------------------------------------------------------------------------+-----------------+----------------------------------------------+----------------------------------------------------------------------------------------------------------------------------------------------------------------------+-------------+
 ; File Name with User-Entered Path                                                                      ; Used in Netlist ; File Type                                    ; File Name with Absolute Path                                                                                                                                         ; Library     ;
 +-------------------------------------------------------------------------------------------------------+-----------------+----------------------------------------------+----------------------------------------------------------------------------------------------------------------------------------------------------------------------+-------------+
+; ../../MultiComp (VHDL Template)/Components/FrontPanel01/Debounce32.vhd                                ; yes             ; User VHDL File                               ; C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/FrontPanel01/Debounce32.vhd                                           ;             ;
+; ../../MultiComp (VHDL Template)/Components/FrontPanel01/FrontPanel01.vhd                              ; yes             ; User VHDL File                               ; C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/FrontPanel01/FrontPanel01.vhd                                         ;             ;
 ; ../../MultiComp (VHDL Template)/Components/CPU/IOP16/lifo.vhd                                         ; yes             ; User VHDL File                               ; C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/CPU/IOP16/lifo.vhd                                                    ;             ;
 ; ../../MultiComp (VHDL Template)/Components/CPU/IOP16/IOP16B.vhd                                       ; yes             ; User VHDL File                               ; C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/CPU/IOP16/IOP16B.vhd                                                  ;             ;
 ; ../../MultiComp (VHDL Template)/Components/CPU/IOP16/RegFile8x8.vhd                                   ; yes             ; User VHDL File                               ; C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/CPU/IOP16/RegFile8x8.vhd                                              ;             ;
@@ -198,9 +206,7 @@ https://fpgasoftware.intel.com/eula.
 ; ../../MultiComp (VHDL Template)/Components/COUNTER/n-bit-gray-counter.vhd                             ; yes             ; User VHDL File                               ; C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/COUNTER/n-bit-gray-counter.vhd                                        ;             ;
 ; ../../MultiComp (VHDL Template)/Components/I2C/i2c.vhd                                                ; yes             ; User VHDL File                               ; C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/I2C/i2c.vhd                                                           ;             ;
 ; FrontPanel01_test.vhd                                                                                 ; yes             ; User VHDL File                               ; C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15/FrontPanel01/FrontPanel01_test.vhd                                              ;             ;
-; FrontPanel01.vhd                                                                                      ; yes             ; User VHDL File                               ; C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15/FrontPanel01/FrontPanel01.vhd                                                   ;             ;
 ; IOP_ROM.vhd                                                                                           ; yes             ; User Wizard-Generated File                   ; C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15/FrontPanel01/IOP_ROM.vhd                                                        ;             ;
-; Debounce32.vhd                                                                                        ; yes             ; User VHDL File                               ; C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15/FrontPanel01/Debounce32.vhd                                                     ;             ;
 ; RAM_8KB_DP.vhd                                                                                        ; yes             ; User Wizard-Generated File                   ; C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15/FrontPanel01/RAM_8KB_DP.vhd                                                     ;             ;
 ; altsyncram.tdf                                                                                        ; yes             ; Megafunction                                 ; c:/intelfpga_lite/20.1/quartus/libraries/megafunctions/altsyncram.tdf                                                                                                ;             ;
 ; stratix_ram_block.inc                                                                                 ; yes             ; Megafunction                                 ; c:/intelfpga_lite/20.1/quartus/libraries/megafunctions/stratix_ram_block.inc                                                                                         ;             ;
@@ -227,7 +233,10 @@ https://fpgasoftware.intel.com/eula.
 ; db/ip/sldd3ad11c3/submodules/alt_sld_fab_alt_sld_fab_sldfabric.vhd                                    ; yes             ; Encrypted Auto-Found VHDL File               ; C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15/FrontPanel01/db/ip/sldd3ad11c3/submodules/alt_sld_fab_alt_sld_fab_sldfabric.vhd ; alt_sld_fab ;
 ; db/ip/sldd3ad11c3/submodules/alt_sld_fab_alt_sld_fab_splitter.sv                                      ; yes             ; Encrypted Auto-Found SystemVerilog HDL File  ; C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15/FrontPanel01/db/ip/sldd3ad11c3/submodules/alt_sld_fab_alt_sld_fab_splitter.sv   ; alt_sld_fab ;
 ; sld_jtag_hub.vhd                                                                                      ; yes             ; Encrypted Megafunction                       ; c:/intelfpga_lite/20.1/quartus/libraries/megafunctions/sld_jtag_hub.vhd                                                                                              ;             ;
+; db/altsyncram_2pd1.tdf                                                                                ; yes             ; Auto-Generated Megafunction                  ; C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15/FrontPanel01/db/altsyncram_2pd1.tdf                                             ;             ;
 ; ../../MultiComp (VHDL Template)/Components/CPU/IOP16/IOP16.vhd                                        ; yes             ; User VHDL File                               ; C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/CPU/IOP16/IOP16.vhd                                                   ;             ;
+; FrontPanel01.vhd                                                                                      ; yes             ; User VHDL File                               ; FrontPanel01.vhd                                                                                                                                                     ;             ;
+; Debounce32.vhd                                                                                        ; yes             ; User VHDL File                               ; Debounce32.vhd                                                                                                                                                       ;             ;
 +-------------------------------------------------------------------------------------------------------+-----------------+----------------------------------------------+----------------------------------------------------------------------------------------------------------------------------------------------------------------------+-------------+
 
 
@@ -236,31 +245,31 @@ https://fpgasoftware.intel.com/eula.
 +---------------------------------------------+------------------+
 ; Resource                                    ; Usage            ;
 +---------------------------------------------+------------------+
-; Estimated Total logic elements              ; 886              ;
+; Estimated Total logic elements              ; 913              ;
 ;                                             ;                  ;
-; Total combinational functions               ; 758              ;
+; Total combinational functions               ; 785              ;
 ; Logic element usage by number of LUT inputs ;                  ;
-;     -- 4 input functions                    ; 297              ;
-;     -- 3 input functions                    ; 224              ;
-;     -- <=2 input functions                  ; 237              ;
+;     -- 4 input functions                    ; 287              ;
+;     -- 3 input functions                    ; 257              ;
+;     -- <=2 input functions                  ; 241              ;
 ;                                             ;                  ;
 ; Logic elements by mode                      ;                  ;
-;     -- normal mode                          ; 673              ;
-;     -- arithmetic mode                      ; 85               ;
+;     -- normal mode                          ; 701              ;
+;     -- arithmetic mode                      ; 84               ;
 ;                                             ;                  ;
-; Total registers                             ; 404              ;
-;     -- Dedicated logic registers            ; 404              ;
+; Total registers                             ; 398              ;
+;     -- Dedicated logic registers            ; 398              ;
 ;     -- I/O registers                        ; 0                ;
 ;                                             ;                  ;
 ; I/O pins                                    ; 7                ;
-; Total memory bits                           ; 81920            ;
+; Total memory bits                           ; 82080            ;
 ;                                             ;                  ;
 ; Embedded Multiplier 9-bit elements          ; 0                ;
 ;                                             ;                  ;
 ; Maximum fan-out node                        ; i_CLOCK_50~input ;
-; Maximum fan-out                             ; 286              ;
-; Total fan-out                               ; 4124             ;
-; Average fan-out                             ; 3.41             ;
+; Maximum fan-out                             ; 290              ;
+; Total fan-out                               ; 4294             ;
+; Average fan-out                             ; 3.46             ;
 +---------------------------------------------+------------------+
 
 
@@ -269,11 +278,11 @@ https://fpgasoftware.intel.com/eula.
 +-----------------------------------------------------------------------------------------------------------------------------------------+---------------------+---------------------------+-------------+--------------+---------+-----------+------+--------------+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+-----------------------------------+--------------+
 ; Compilation Hierarchy Node                                                                                                              ; Combinational ALUTs ; Dedicated Logic Registers ; Memory Bits ; DSP Elements ; DSP 9x9 ; DSP 18x18 ; Pins ; Virtual Pins ; Full Hierarchy Name                                                                                                                                                                                                                                                                                                                                           ; Entity Name                       ; Library Name ;
 +-----------------------------------------------------------------------------------------------------------------------------------------+---------------------+---------------------------+-------------+--------------+---------+-----------+------+--------------+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+-----------------------------------+--------------+
-; |FrontPanel01_test                                                                                                                      ; 758 (19)            ; 404 (19)                  ; 81920       ; 0            ; 0       ; 0         ; 7    ; 0            ; |FrontPanel01_test                                                                                                                                                                                                                                                                                                                                            ; FrontPanel01_test                 ; work         ;
+; |FrontPanel01_test                                                                                                                      ; 785 (19)            ; 398 (19)                  ; 82080       ; 0            ; 0       ; 0         ; 7    ; 0            ; |FrontPanel01_test                                                                                                                                                                                                                                                                                                                                            ; FrontPanel01_test                 ; work         ;
 ;    |Debouncer:debounceReset|                                                                                                            ; 25 (25)             ; 23 (23)                   ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |FrontPanel01_test|Debouncer:debounceReset                                                                                                                                                                                                                                                                                                                    ; Debouncer                         ; work         ;
-;    |FrontPanel01:fp01|                                                                                                                  ; 595 (132)           ; 276 (96)                  ; 16384       ; 0            ; 0       ; 0         ; 0    ; 0            ; |FrontPanel01_test|FrontPanel01:fp01                                                                                                                                                                                                                                                                                                                          ; FrontPanel01                      ; work         ;
+;    |FrontPanel01:fp01|                                                                                                                  ; 622 (131)           ; 270 (96)                  ; 16544       ; 0            ; 0       ; 0         ; 0    ; 0            ; |FrontPanel01_test|FrontPanel01:fp01                                                                                                                                                                                                                                                                                                                          ; FrontPanel01                      ; work         ;
 ;       |Debouncer32:debouncePB|                                                                                                          ; 105 (105)           ; 10 (10)                   ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |FrontPanel01_test|FrontPanel01:fp01|Debouncer32:debouncePB                                                                                                                                                                                                                                                                                                   ; Debouncer32                       ; work         ;
-;       |IOP16:iop16|                                                                                                                     ; 310 (147)           ; 136 (20)                  ; 16384       ; 0            ; 0       ; 0         ; 0    ; 0            ; |FrontPanel01_test|FrontPanel01:fp01|IOP16:iop16                                                                                                                                                                                                                                                                                                              ; IOP16                             ; work         ;
+;       |IOP16:iop16|                                                                                                                     ; 338 (161)           ; 130 (10)                  ; 16544       ; 0            ; 0       ; 0         ; 0    ; 0            ; |FrontPanel01_test|FrontPanel01:fp01|IOP16:iop16                                                                                                                                                                                                                                                                                                              ; IOP16                             ; work         ;
 ;          |GrayCounter:greyLow|                                                                                                          ; 3 (3)               ; 3 (3)                     ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |FrontPanel01_test|FrontPanel01:fp01|IOP16:iop16|GrayCounter:greyLow                                                                                                                                                                                                                                                                                          ; GrayCounter                       ; work         ;
 ;          |IOP_ROM:\GEN_1KW_INST_ROM:IopRom|                                                                                             ; 76 (0)              ; 49 (0)                    ; 16384       ; 0            ; 0       ; 0         ; 0    ; 0            ; |FrontPanel01_test|FrontPanel01:fp01|IOP16:iop16|IOP_ROM:\GEN_1KW_INST_ROM:IopRom                                                                                                                                                                                                                                                                             ; IOP_ROM                           ; work         ;
 ;             |altsyncram:altsyncram_component|                                                                                           ; 76 (0)              ; 49 (0)                    ; 16384       ; 0            ; 0       ; 0         ; 0    ; 0            ; |FrontPanel01_test|FrontPanel01:fp01|IOP16:iop16|IOP_ROM:\GEN_1KW_INST_ROM:IopRom|altsyncram:altsyncram_component                                                                                                                                                                                                                                             ; altsyncram                        ; work         ;
@@ -282,6 +291,9 @@ https://fpgasoftware.intel.com/eula.
 ;                   |sld_mod_ram_rom:mgl_prim2|                                                                                           ; 76 (54)             ; 49 (40)                   ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |FrontPanel01_test|FrontPanel01:fp01|IOP16:iop16|IOP_ROM:\GEN_1KW_INST_ROM:IopRom|altsyncram:altsyncram_component|altsyncram_1u54:auto_generated|sld_mod_ram_rom:mgl_prim2                                                                                                                                                                                    ; sld_mod_ram_rom                   ; work         ;
 ;                      |sld_rom_sr:\ram_rom_logic_gen:name_gen:info_rom_sr|                                                               ; 22 (22)             ; 9 (9)                     ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |FrontPanel01_test|FrontPanel01:fp01|IOP16:iop16|IOP_ROM:\GEN_1KW_INST_ROM:IopRom|altsyncram:altsyncram_component|altsyncram_1u54:auto_generated|sld_mod_ram_rom:mgl_prim2|sld_rom_sr:\ram_rom_logic_gen:name_gen:info_rom_sr                                                                                                                                 ; sld_rom_sr                        ; work         ;
 ;          |RegFile8x8:RegFile|                                                                                                           ; 84 (84)             ; 64 (64)                   ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |FrontPanel01_test|FrontPanel01:fp01|IOP16:iop16|RegFile8x8:RegFile                                                                                                                                                                                                                                                                                           ; RegFile8x8                        ; work         ;
+;          |lifo:\GEN_STACK_DEEPER:lifo|                                                                                                  ; 14 (14)             ; 4 (4)                     ; 160         ; 0            ; 0       ; 0         ; 0    ; 0            ; |FrontPanel01_test|FrontPanel01:fp01|IOP16:iop16|lifo:\GEN_STACK_DEEPER:lifo                                                                                                                                                                                                                                                                                  ; lifo                              ; work         ;
+;             |altsyncram:r_mem_rtl_0|                                                                                                    ; 0 (0)               ; 0 (0)                     ; 160         ; 0            ; 0       ; 0         ; 0    ; 0            ; |FrontPanel01_test|FrontPanel01:fp01|IOP16:iop16|lifo:\GEN_STACK_DEEPER:lifo|altsyncram:r_mem_rtl_0                                                                                                                                                                                                                                                           ; altsyncram                        ; work         ;
+;                |altsyncram_2pd1:auto_generated|                                                                                         ; 0 (0)               ; 0 (0)                     ; 160         ; 0            ; 0       ; 0         ; 0    ; 0            ; |FrontPanel01_test|FrontPanel01:fp01|IOP16:iop16|lifo:\GEN_STACK_DEEPER:lifo|altsyncram:r_mem_rtl_0|altsyncram_2pd1:auto_generated                                                                                                                                                                                                                            ; altsyncram_2pd1                   ; work         ;
 ;       |i2c:i2cIF|                                                                                                                       ; 48 (48)             ; 34 (34)                   ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |FrontPanel01_test|FrontPanel01:fp01|i2c:i2cIF                                                                                                                                                                                                                                                                                                                ; i2c                               ; work         ;
 ;    |RAM_8KB_DP:RAM_Test|                                                                                                                ; 0 (0)               ; 0 (0)                     ; 65536       ; 0            ; 0       ; 0         ; 0    ; 0            ; |FrontPanel01_test|RAM_8KB_DP:RAM_Test                                                                                                                                                                                                                                                                                                                        ; RAM_8KB_DP                        ; work         ;
 ;       |altsyncram:altsyncram_component|                                                                                                 ; 0 (0)               ; 0 (0)                     ; 65536       ; 0            ; 0       ; 0         ; 0    ; 0            ; |FrontPanel01_test|RAM_8KB_DP:RAM_Test|altsyncram:altsyncram_component                                                                                                                                                                                                                                                                                        ; altsyncram                        ; work         ;
@@ -298,14 +310,15 @@ https://fpgasoftware.intel.com/eula.
 Note: For table entries with two numbers listed, the numbers in parentheses indicate the number of resources of the given type used by the specific entity alone. The numbers listed outside of parentheses indicate the total resources of the given type used by the specific entity and all of its sub-entities in the hierarchy.
 
 
-+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
-; Analysis & Synthesis RAM Summary                                                                                                                                                                                                                                                                                                                                         ;
-+----------------------------------------------------------------------------------------------------------------------------------------------------------------------+------+----------------+--------------+--------------+--------------+--------------+-------+-------------------------------------------------------------------------------------------------------+
-; Name                                                                                                                                                                 ; Type ; Mode           ; Port A Depth ; Port A Width ; Port B Depth ; Port B Width ; Size  ; MIF                                                                                                   ;
-+----------------------------------------------------------------------------------------------------------------------------------------------------------------------+------+----------------+--------------+--------------+--------------+--------------+-------+-------------------------------------------------------------------------------------------------------+
-; FrontPanel01:fp01|IOP16:iop16|IOP_ROM:\GEN_1KW_INST_ROM:IopRom|altsyncram:altsyncram_component|altsyncram_1u54:auto_generated|altsyncram_ff63:altsyncram1|ALTSYNCRAM ; AUTO ; True Dual Port ; 1024         ; 16           ; 1024         ; 16           ; 16384 ; ../../../MultiComp (VHDL Template)/Components/CPU/IOP16/IOP16_ASSEMBLER/FP01_LOOP2/FP01_LOOP2_out.mif ;
-; RAM_8KB_DP:RAM_Test|altsyncram:altsyncram_component|altsyncram_70r3:auto_generated|ALTSYNCRAM                                                                        ; AUTO ; True Dual Port ; 8192         ; 8            ; 8192         ; 8            ; 65536 ; None                                                                                                  ;
-+----------------------------------------------------------------------------------------------------------------------------------------------------------------------+------+----------------+--------------+--------------+--------------+--------------+-------+-------------------------------------------------------------------------------------------------------+
++----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+; Analysis & Synthesis RAM Summary                                                                                                                                                                                                                                                                                                                                           ;
++----------------------------------------------------------------------------------------------------------------------------------------------------------------------+------+------------------+--------------+--------------+--------------+--------------+-------+-------------------------------------------------------------------------------------------------------+
+; Name                                                                                                                                                                 ; Type ; Mode             ; Port A Depth ; Port A Width ; Port B Depth ; Port B Width ; Size  ; MIF                                                                                                   ;
++----------------------------------------------------------------------------------------------------------------------------------------------------------------------+------+------------------+--------------+--------------+--------------+--------------+-------+-------------------------------------------------------------------------------------------------------+
+; FrontPanel01:fp01|IOP16:iop16|IOP_ROM:\GEN_1KW_INST_ROM:IopRom|altsyncram:altsyncram_component|altsyncram_1u54:auto_generated|altsyncram_ff63:altsyncram1|ALTSYNCRAM ; AUTO ; True Dual Port   ; 1024         ; 16           ; 1024         ; 16           ; 16384 ; ../../../MultiComp (VHDL Template)/Components/CPU/IOP16/IOP16_ASSEMBLER/FP01_LOOP2/FP01_LOOP2_out.mif ;
+; FrontPanel01:fp01|IOP16:iop16|lifo:\GEN_STACK_DEEPER:lifo|altsyncram:r_mem_rtl_0|altsyncram_2pd1:auto_generated|ALTSYNCRAM                                           ; AUTO ; Simple Dual Port ; 16           ; 12           ; 16           ; 12           ; 192   ; None                                                                                                  ;
+; RAM_8KB_DP:RAM_Test|altsyncram:altsyncram_component|altsyncram_70r3:auto_generated|ALTSYNCRAM                                                                        ; AUTO ; True Dual Port   ; 8192         ; 8            ; 8192         ; 8            ; 65536 ; None                                                                                                  ;
++----------------------------------------------------------------------------------------------------------------------------------------------------------------------+------+------------------+--------------+--------------+--------------+--------------+-------+-------------------------------------------------------------------------------------------------------+
 
 
 +--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
@@ -345,13 +358,45 @@ Encoding Type:  One-Hot
 +-----------------------------------------------------------+------------------------------------------------------------------+--------------------------------------------+
 ; FrontPanel01:fp01|Debouncer32:debouncePB|o_LdStrobe       ; yes                                                              ; yes                                        ;
 ; FrontPanel01:fp01|Debouncer32:debouncePB|w_termCount      ; yes                                                              ; yes                                        ;
+; FrontPanel01:fp01|w_rawPBs[26]                            ; yes                                                              ; yes                                        ;
+; FrontPanel01:fp01|w_rawPBs[0]                             ; yes                                                              ; yes                                        ;
 ; FrontPanel01:fp01|Debouncer32:debouncePB|w_dig_counter[0] ; yes                                                              ; yes                                        ;
 ; FrontPanel01:fp01|Debouncer32:debouncePB|w_dig_counter[1] ; yes                                                              ; yes                                        ;
 ; FrontPanel01:fp01|Debouncer32:debouncePB|w_dig_counter[2] ; yes                                                              ; yes                                        ;
 ; FrontPanel01:fp01|Debouncer32:debouncePB|w_dig_counter[3] ; yes                                                              ; yes                                        ;
 ; FrontPanel01:fp01|Debouncer32:debouncePB|w_dig_counter[4] ; yes                                                              ; yes                                        ;
 ; FrontPanel01:fp01|Debouncer32:debouncePB|w_dig_counter[5] ; yes                                                              ; yes                                        ;
-; Total number of protected registers is 8                  ;                                                                  ;                                            ;
+; FrontPanel01:fp01|w_rawPBs[25]                            ; yes                                                              ; yes                                        ;
+; FrontPanel01:fp01|w_rawPBs[8]                             ; yes                                                              ; yes                                        ;
+; FrontPanel01:fp01|w_rawPBs[24]                            ; yes                                                              ; yes                                        ;
+; FrontPanel01:fp01|w_rawPBs[16]                            ; yes                                                              ; yes                                        ;
+; FrontPanel01:fp01|w_rawPBs[1]                             ; yes                                                              ; yes                                        ;
+; FrontPanel01:fp01|w_rawPBs[2]                             ; yes                                                              ; yes                                        ;
+; FrontPanel01:fp01|w_rawPBs[3]                             ; yes                                                              ; yes                                        ;
+; FrontPanel01:fp01|w_rawPBs[4]                             ; yes                                                              ; yes                                        ;
+; FrontPanel01:fp01|w_rawPBs[5]                             ; yes                                                              ; yes                                        ;
+; FrontPanel01:fp01|w_rawPBs[6]                             ; yes                                                              ; yes                                        ;
+; FrontPanel01:fp01|w_rawPBs[7]                             ; yes                                                              ; yes                                        ;
+; FrontPanel01:fp01|w_rawPBs[9]                             ; yes                                                              ; yes                                        ;
+; FrontPanel01:fp01|w_rawPBs[10]                            ; yes                                                              ; yes                                        ;
+; FrontPanel01:fp01|w_rawPBs[11]                            ; yes                                                              ; yes                                        ;
+; FrontPanel01:fp01|w_rawPBs[12]                            ; yes                                                              ; yes                                        ;
+; FrontPanel01:fp01|w_rawPBs[13]                            ; yes                                                              ; yes                                        ;
+; FrontPanel01:fp01|w_rawPBs[14]                            ; yes                                                              ; yes                                        ;
+; FrontPanel01:fp01|w_rawPBs[15]                            ; yes                                                              ; yes                                        ;
+; FrontPanel01:fp01|w_rawPBs[17]                            ; yes                                                              ; yes                                        ;
+; FrontPanel01:fp01|w_rawPBs[18]                            ; yes                                                              ; yes                                        ;
+; FrontPanel01:fp01|w_rawPBs[19]                            ; yes                                                              ; yes                                        ;
+; FrontPanel01:fp01|w_rawPBs[20]                            ; yes                                                              ; yes                                        ;
+; FrontPanel01:fp01|w_rawPBs[21]                            ; yes                                                              ; yes                                        ;
+; FrontPanel01:fp01|w_rawPBs[22]                            ; yes                                                              ; yes                                        ;
+; FrontPanel01:fp01|w_rawPBs[23]                            ; yes                                                              ; yes                                        ;
+; FrontPanel01:fp01|w_rawPBs[27]                            ; yes                                                              ; yes                                        ;
+; FrontPanel01:fp01|w_rawPBs[28]                            ; yes                                                              ; yes                                        ;
+; FrontPanel01:fp01|w_rawPBs[29]                            ; yes                                                              ; yes                                        ;
+; FrontPanel01:fp01|w_rawPBs[30]                            ; yes                                                              ; yes                                        ;
+; FrontPanel01:fp01|w_rawPBs[31]                            ; yes                                                              ; yes                                        ;
+; Total number of protected registers is 40                 ;                                                                  ;                                            ;
 +-----------------------------------------------------------+------------------------------------------------------------------+--------------------------------------------+
 
 
@@ -410,6 +455,8 @@ Encoding Type:  One-Hot
 ; FrontPanel01:fp01|w_latchedPBs[30]                         ; FrontPanel01:fp01|w_scanStrobe                        ; yes                    ;
 ; FrontPanel01:fp01|w_latchedPBs[31]                         ; FrontPanel01:fp01|w_scanStrobe                        ; yes                    ;
 ; FrontPanel01:fp01|Debouncer32:debouncePB|o_PinsOut[1]_269  ; FrontPanel01:fp01|Debouncer32:debouncePB|o_PinsOut[1] ; yes                    ;
+; FrontPanel01:fp01|Debouncer32:debouncePB|o_PinsOut[4]_293  ; FrontPanel01:fp01|Debouncer32:debouncePB|o_PinsOut[1] ; yes                    ;
+; FrontPanel01:fp01|Debouncer32:debouncePB|o_PinsOut[3]_285  ; FrontPanel01:fp01|Debouncer32:debouncePB|o_PinsOut[1] ; yes                    ;
 ; FrontPanel01:fp01|Debouncer32:debouncePB|o_PinsOut[2]_277  ; FrontPanel01:fp01|Debouncer32:debouncePB|o_PinsOut[1] ; yes                    ;
 ; FrontPanel01:fp01|Debouncer32:debouncePB|o_PinsOut[7]_317  ; FrontPanel01:fp01|Debouncer32:debouncePB|o_PinsOut[1] ; yes                    ;
 ; FrontPanel01:fp01|Debouncer32:debouncePB|o_PinsOut[23]_445 ; FrontPanel01:fp01|Debouncer32:debouncePB|o_PinsOut[1] ; yes                    ;
@@ -418,36 +465,22 @@ Encoding Type:  One-Hot
 ; FrontPanel01:fp01|Debouncer32:debouncePB|o_PinsOut[22]_437 ; FrontPanel01:fp01|Debouncer32:debouncePB|o_PinsOut[1] ; yes                    ;
 ; FrontPanel01:fp01|Debouncer32:debouncePB|o_PinsOut[5]_301  ; FrontPanel01:fp01|Debouncer32:debouncePB|o_PinsOut[1] ; yes                    ;
 ; FrontPanel01:fp01|Debouncer32:debouncePB|o_PinsOut[21]_429 ; FrontPanel01:fp01|Debouncer32:debouncePB|o_PinsOut[1] ; yes                    ;
-; FrontPanel01:fp01|Debouncer32:debouncePB|o_PinsOut[4]_293  ; FrontPanel01:fp01|Debouncer32:debouncePB|o_PinsOut[1] ; yes                    ;
-; FrontPanel01:fp01|Debouncer32:debouncePB|o_PinsOut[3]_285  ; FrontPanel01:fp01|Debouncer32:debouncePB|o_PinsOut[1] ; yes                    ;
 ; Number of user-specified and inferred latches = 60         ;                                                       ;                        ;
 +------------------------------------------------------------+-------------------------------------------------------+------------------------+
 Note: All latches listed above may not be present at the end of synthesis due to various synthesis optimizations.
 
 
-+----------------------------------------------------------------------------------------------+
-; Registers Removed During Synthesis                                                           ;
-+------------------------------------------------+---------------------------------------------+
-; Register name                                  ; Reason for Removal                          ;
-+------------------------------------------------+---------------------------------------------+
-; FrontPanel01:fp01|i2c:i2cIF|state.s_done       ; Lost fanout                                 ;
-; Debouncer:debounceReset|dig_counter[0]         ; Merged with FrontPanel01:fp01|w_i2cCount[0] ;
-; FrontPanel01:fp01|IOP16:iop16|w_PC_out[10,11]  ; Lost fanout                                 ;
-; FrontPanel01:fp01|IOP16:iop16|w_rtnAddr[10,11] ; Lost fanout                                 ;
-; Debouncer:debounceReset|dig_counter[18,19]     ; Lost fanout                                 ;
-; Total Number of Removed Registers = 8          ;                                             ;
-+------------------------------------------------+---------------------------------------------+
-
-
-+----------------------------------------------------------------------------------------------------------------+
-; Removed Registers Triggering Further Register Optimizations                                                    ;
-+--------------------------------------------+--------------------+----------------------------------------------+
-; Register name                              ; Reason for Removal ; Registers Removed due to This Register       ;
-+--------------------------------------------+--------------------+----------------------------------------------+
-; FrontPanel01:fp01|IOP16:iop16|w_PC_out[11] ; Lost Fanouts       ; FrontPanel01:fp01|IOP16:iop16|w_PC_out[10],  ;
-;                                            ;                    ; FrontPanel01:fp01|IOP16:iop16|w_rtnAddr[11], ;
-;                                            ;                    ; FrontPanel01:fp01|IOP16:iop16|w_rtnAddr[10]  ;
-+--------------------------------------------+--------------------+----------------------------------------------+
++---------------------------------------------------------------------------------------------+
+; Registers Removed During Synthesis                                                          ;
++-----------------------------------------------+---------------------------------------------+
+; Register name                                 ; Reason for Removal                          ;
++-----------------------------------------------+---------------------------------------------+
+; FrontPanel01:fp01|i2c:i2cIF|state.s_done      ; Lost fanout                                 ;
+; Debouncer:debounceReset|dig_counter[0]        ; Merged with FrontPanel01:fp01|w_i2cCount[0] ;
+; Debouncer:debounceReset|dig_counter[18,19]    ; Lost fanout                                 ;
+; FrontPanel01:fp01|IOP16:iop16|w_PC_out[10,11] ; Lost fanout                                 ;
+; Total Number of Removed Registers = 6         ;                                             ;
++-----------------------------------------------+---------------------------------------------+
 
 
 +------------------------------------------------------+
@@ -455,12 +488,12 @@ Note: All latches listed above may not be present at the end of synthesis due to
 +----------------------------------------------+-------+
 ; Statistic                                    ; Value ;
 +----------------------------------------------+-------+
-; Total registers                              ; 404   ;
-; Number of registers using Synchronous Clear  ; 55    ;
+; Total registers                              ; 398   ;
+; Number of registers using Synchronous Clear  ; 59    ;
 ; Number of registers using Synchronous Load   ; 38    ;
 ; Number of registers using Asynchronous Clear ; 68    ;
 ; Number of registers using Asynchronous Load  ; 0     ;
-; Number of registers using Clock Enable       ; 307   ;
+; Number of registers using Clock Enable       ; 300   ;
 ; Number of registers using Preset             ; 0     ;
 +----------------------------------------------+-------+
 
@@ -471,14 +504,23 @@ Note: All latches listed above may not be present at the end of synthesis due to
 ; Inverted Register                                                                                                                                                                                                                                                                                                               ; Fan out ;
 +---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+---------+
 ; FrontPanel01:fp01|o_UsrLed                                                                                                                                                                                                                                                                                                      ; 2       ;
-; Debouncer:debounceReset|o_PinOut                                                                                                                                                                                                                                                                                                ; 59      ;
+; Debouncer:debounceReset|o_PinOut                                                                                                                                                                                                                                                                                                ; 66      ;
 ; FrontPanel01:fp01|i2c:i2cIF|w_scl                                                                                                                                                                                                                                                                                               ; 2       ;
 ; FrontPanel01:fp01|i2c:i2cIF|w_sda                                                                                                                                                                                                                                                                                               ; 3       ;
-; FrontPanel01:fp01|Debouncer32:debouncePB|o_LdStrobe                                                                                                                                                                                                                                                                             ; 56      ;
+; FrontPanel01:fp01|Debouncer32:debouncePB|o_LdStrobe                                                                                                                                                                                                                                                                             ; 1       ;
 ; sld_hub:auto_hub|alt_sld_fab_with_jtag_input:\instrumentation_fabric_with_node_gen:fabric_gen_new_way:with_jtag_input_gen:instrumentation_fabric|alt_sld_fab:instrumentation_fabric|alt_sld_fab_alt_sld_fab:alt_sld_fab|alt_sld_fab_alt_sld_fab_sldfabric:sldfabric|sld_jtag_hub:\jtag_hub_gen:real_sld_jtag_hub|jtag_ir_reg[2] ; 2       ;
 ; sld_hub:auto_hub|alt_sld_fab_with_jtag_input:\instrumentation_fabric_with_node_gen:fabric_gen_new_way:with_jtag_input_gen:instrumentation_fabric|alt_sld_fab:instrumentation_fabric|alt_sld_fab_alt_sld_fab:alt_sld_fab|alt_sld_fab_alt_sld_fab_sldfabric:sldfabric|sld_jtag_hub:\jtag_hub_gen:real_sld_jtag_hub|jtag_ir_reg[1] ; 3       ;
 ; Total number of inverted registers = 7                                                                                                                                                                                                                                                                                          ;         ;
 +---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+---------+
+
+
++--------------------------------------------------------------------------------------------------------------------------------------------------------+
+; Registers Packed Into Inferred Megafunctions                                                                                                           ;
++-------------------------------------------------------------------------+-----------------------------------------------------------------------+------+
+; Register Name                                                           ; Megafunction                                                          ; Type ;
++-------------------------------------------------------------------------+-----------------------------------------------------------------------+------+
+; FrontPanel01:fp01|IOP16:iop16|lifo:\GEN_STACK_DEEPER:lifo|o_data[0..11] ; FrontPanel01:fp01|IOP16:iop16|lifo:\GEN_STACK_DEEPER:lifo|r_mem_rtl_0 ; RAM  ;
++-------------------------------------------------------------------------+-----------------------------------------------------------------------+------+
 
 
 +-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
@@ -486,26 +528,27 @@ Note: All latches listed above may not be present at the end of synthesis due to
 +--------------------+-----------+---------------+----------------------+------------------------+------------+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
 ; Multiplexer Inputs ; Bus Width ; Baseline Area ; Area if Restructured ; Saving if Restructured ; Registered ; Example Multiplexer Output                                                                                                                                                                                                                    ;
 +--------------------+-----------+---------------+----------------------+------------------------+------------+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
-; 3:1                ; 5 bits    ; 10 LEs        ; 5 LEs                ; 5 LEs                  ; Yes        ; |FrontPanel01_test|FrontPanel01:fp01|IOP16:iop16|IOP_ROM:\GEN_1KW_INST_ROM:IopRom|altsyncram:altsyncram_component|altsyncram_1u54:auto_generated|sld_mod_ram_rom:mgl_prim2|ram_rom_data_shift_cntr_reg[1]                                     ;
-; 3:1                ; 16 bits   ; 32 LEs        ; 16 LEs               ; 16 LEs                 ; Yes        ; |FrontPanel01_test|FrontPanel01:fp01|IOP16:iop16|IOP_ROM:\GEN_1KW_INST_ROM:IopRom|altsyncram:altsyncram_component|altsyncram_1u54:auto_generated|sld_mod_ram_rom:mgl_prim2|ram_rom_data_reg[7]                                                ;
-; 3:1                ; 16 bits   ; 32 LEs        ; 32 LEs               ; 0 LEs                  ; Yes        ; |FrontPanel01_test|w_AddrCounter[8]                                                                                                                                                                                                           ;
+; 3:1                ; 5 bits    ; 10 LEs        ; 5 LEs                ; 5 LEs                  ; Yes        ; |FrontPanel01_test|FrontPanel01:fp01|IOP16:iop16|IOP_ROM:\GEN_1KW_INST_ROM:IopRom|altsyncram:altsyncram_component|altsyncram_1u54:auto_generated|sld_mod_ram_rom:mgl_prim2|ram_rom_data_shift_cntr_reg[2]                                     ;
+; 3:1                ; 16 bits   ; 32 LEs        ; 16 LEs               ; 16 LEs                 ; Yes        ; |FrontPanel01_test|FrontPanel01:fp01|IOP16:iop16|IOP_ROM:\GEN_1KW_INST_ROM:IopRom|altsyncram:altsyncram_component|altsyncram_1u54:auto_generated|sld_mod_ram_rom:mgl_prim2|ram_rom_data_reg[12]                                               ;
+; 3:1                ; 16 bits   ; 32 LEs        ; 32 LEs               ; 0 LEs                  ; Yes        ; |FrontPanel01_test|w_AddrCounter[3]                                                                                                                                                                                                           ;
 ; 3:1                ; 8 bits    ; 16 LEs        ; 8 LEs                ; 8 LEs                  ; Yes        ; |FrontPanel01_test|FrontPanel01:fp01|IOP16:iop16|RegFile8x8:RegFile|w_regFR0[4]                                                                                                                                                               ;
-; 3:1                ; 8 bits    ; 16 LEs        ; 8 LEs                ; 8 LEs                  ; Yes        ; |FrontPanel01_test|FrontPanel01:fp01|IOP16:iop16|RegFile8x8:RegFile|w_regFR4[7]                                                                                                                                                               ;
-; 3:1                ; 8 bits    ; 16 LEs        ; 8 LEs                ; 8 LEs                  ; Yes        ; |FrontPanel01_test|FrontPanel01:fp01|IOP16:iop16|RegFile8x8:RegFile|w_regFR2[1]                                                                                                                                                               ;
-; 3:1                ; 8 bits    ; 16 LEs        ; 8 LEs                ; 8 LEs                  ; Yes        ; |FrontPanel01_test|FrontPanel01:fp01|IOP16:iop16|RegFile8x8:RegFile|w_regFR6[1]                                                                                                                                                               ;
-; 3:1                ; 8 bits    ; 16 LEs        ; 8 LEs                ; 8 LEs                  ; Yes        ; |FrontPanel01_test|FrontPanel01:fp01|IOP16:iop16|RegFile8x8:RegFile|w_regFR1[7]                                                                                                                                                               ;
-; 3:1                ; 8 bits    ; 16 LEs        ; 8 LEs                ; 8 LEs                  ; Yes        ; |FrontPanel01_test|FrontPanel01:fp01|IOP16:iop16|RegFile8x8:RegFile|w_regFR5[1]                                                                                                                                                               ;
-; 3:1                ; 8 bits    ; 16 LEs        ; 8 LEs                ; 8 LEs                  ; Yes        ; |FrontPanel01_test|FrontPanel01:fp01|IOP16:iop16|RegFile8x8:RegFile|w_regFR3[6]                                                                                                                                                               ;
-; 3:1                ; 8 bits    ; 16 LEs        ; 8 LEs                ; 8 LEs                  ; Yes        ; |FrontPanel01_test|FrontPanel01:fp01|IOP16:iop16|RegFile8x8:RegFile|w_regFR7[2]                                                                                                                                                               ;
-; 3:1                ; 10 bits   ; 20 LEs        ; 10 LEs               ; 10 LEs                 ; Yes        ; |FrontPanel01_test|FrontPanel01:fp01|IOP16:iop16|IOP_ROM:\GEN_1KW_INST_ROM:IopRom|altsyncram:altsyncram_component|altsyncram_1u54:auto_generated|sld_mod_ram_rom:mgl_prim2|ram_rom_addr_reg[9]                                                ;
-; 3:1                ; 27 bits   ; 54 LEs        ; 27 LEs               ; 27 LEs                 ; Yes        ; |FrontPanel01_test|FrontPanel01:fp01|w_PBDelay[11]                                                                                                                                                                                            ;
-; 3:1                ; 6 bits    ; 12 LEs        ; 6 LEs                ; 6 LEs                  ; Yes        ; |FrontPanel01_test|FrontPanel01:fp01|Debouncer32:debouncePB|w_dig_counter[2]                                                                                                                                                                  ;
-; 4:1                ; 5 bits    ; 10 LEs        ; 5 LEs                ; 5 LEs                  ; Yes        ; |FrontPanel01_test|FrontPanel01:fp01|IOP16:iop16|IOP_ROM:\GEN_1KW_INST_ROM:IopRom|altsyncram:altsyncram_component|altsyncram_1u54:auto_generated|sld_mod_ram_rom:mgl_prim2|sld_rom_sr:\ram_rom_logic_gen:name_gen:info_rom_sr|word_counter[0] ;
-; 4:1                ; 8 bits    ; 16 LEs        ; 8 LEs                ; 8 LEs                  ; Yes        ; |FrontPanel01_test|FrontPanel01:fp01|i2c:i2cIF|w_shift_reg[2]                                                                                                                                                                                 ;
+; 3:1                ; 8 bits    ; 16 LEs        ; 8 LEs                ; 8 LEs                  ; Yes        ; |FrontPanel01_test|FrontPanel01:fp01|IOP16:iop16|RegFile8x8:RegFile|w_regFR4[4]                                                                                                                                                               ;
+; 3:1                ; 8 bits    ; 16 LEs        ; 8 LEs                ; 8 LEs                  ; Yes        ; |FrontPanel01_test|FrontPanel01:fp01|IOP16:iop16|RegFile8x8:RegFile|w_regFR2[4]                                                                                                                                                               ;
+; 3:1                ; 8 bits    ; 16 LEs        ; 8 LEs                ; 8 LEs                  ; Yes        ; |FrontPanel01_test|FrontPanel01:fp01|IOP16:iop16|RegFile8x8:RegFile|w_regFR6[4]                                                                                                                                                               ;
+; 3:1                ; 8 bits    ; 16 LEs        ; 8 LEs                ; 8 LEs                  ; Yes        ; |FrontPanel01_test|FrontPanel01:fp01|IOP16:iop16|RegFile8x8:RegFile|w_regFR1[6]                                                                                                                                                               ;
+; 3:1                ; 8 bits    ; 16 LEs        ; 8 LEs                ; 8 LEs                  ; Yes        ; |FrontPanel01_test|FrontPanel01:fp01|IOP16:iop16|RegFile8x8:RegFile|w_regFR5[0]                                                                                                                                                               ;
+; 3:1                ; 8 bits    ; 16 LEs        ; 8 LEs                ; 8 LEs                  ; Yes        ; |FrontPanel01_test|FrontPanel01:fp01|IOP16:iop16|RegFile8x8:RegFile|w_regFR3[7]                                                                                                                                                               ;
+; 3:1                ; 8 bits    ; 16 LEs        ; 8 LEs                ; 8 LEs                  ; Yes        ; |FrontPanel01_test|FrontPanel01:fp01|IOP16:iop16|RegFile8x8:RegFile|w_regFR7[3]                                                                                                                                                               ;
+; 3:1                ; 10 bits   ; 20 LEs        ; 10 LEs               ; 10 LEs                 ; Yes        ; |FrontPanel01_test|FrontPanel01:fp01|IOP16:iop16|IOP_ROM:\GEN_1KW_INST_ROM:IopRom|altsyncram:altsyncram_component|altsyncram_1u54:auto_generated|sld_mod_ram_rom:mgl_prim2|ram_rom_addr_reg[3]                                                ;
+; 3:1                ; 27 bits   ; 54 LEs        ; 27 LEs               ; 27 LEs                 ; Yes        ; |FrontPanel01_test|FrontPanel01:fp01|w_PBDelay[8]                                                                                                                                                                                             ;
+; 3:1                ; 6 bits    ; 12 LEs        ; 6 LEs                ; 6 LEs                  ; Yes        ; |FrontPanel01_test|FrontPanel01:fp01|Debouncer32:debouncePB|w_dig_counter[5]                                                                                                                                                                  ;
+; 4:1                ; 5 bits    ; 10 LEs        ; 5 LEs                ; 5 LEs                  ; Yes        ; |FrontPanel01_test|FrontPanel01:fp01|IOP16:iop16|IOP_ROM:\GEN_1KW_INST_ROM:IopRom|altsyncram:altsyncram_component|altsyncram_1u54:auto_generated|sld_mod_ram_rom:mgl_prim2|sld_rom_sr:\ram_rom_logic_gen:name_gen:info_rom_sr|word_counter[3] ;
+; 4:1                ; 3 bits    ; 6 LEs         ; 6 LEs                ; 0 LEs                  ; Yes        ; |FrontPanel01_test|FrontPanel01:fp01|IOP16:iop16|lifo:\GEN_STACK_DEEPER:lifo|r_wr_index[3]                                                                                                                                                    ;
+; 4:1                ; 8 bits    ; 16 LEs        ; 8 LEs                ; 8 LEs                  ; Yes        ; |FrontPanel01_test|FrontPanel01:fp01|i2c:i2cIF|w_shift_reg[5]                                                                                                                                                                                 ;
 ; 5:1                ; 3 bits    ; 9 LEs         ; 3 LEs                ; 6 LEs                  ; Yes        ; |FrontPanel01_test|FrontPanel01:fp01|i2c:i2cIF|w_nbit[0]                                                                                                                                                                                      ;
-; 7:1                ; 12 bits   ; 48 LEs        ; 36 LEs               ; 12 LEs                 ; Yes        ; |FrontPanel01_test|FrontPanel01:fp01|IOP16:iop16|w_PC_out[4]                                                                                                                                                                                  ;
+; 7:1                ; 12 bits   ; 48 LEs        ; 24 LEs               ; 24 LEs                 ; Yes        ; |FrontPanel01_test|FrontPanel01:fp01|IOP16:iop16|w_PC_out[1]                                                                                                                                                                                  ;
 ; 26:1               ; 4 bits    ; 68 LEs        ; 52 LEs               ; 16 LEs                 ; Yes        ; |FrontPanel01_test|FrontPanel01:fp01|IOP16:iop16|IOP_ROM:\GEN_1KW_INST_ROM:IopRom|altsyncram:altsyncram_component|altsyncram_1u54:auto_generated|sld_mod_ram_rom:mgl_prim2|sld_rom_sr:\ram_rom_logic_gen:name_gen:info_rom_sr|WORD_SR[1]      ;
-; 3:1                ; 8 bits    ; 16 LEs        ; 16 LEs               ; 0 LEs                  ; No         ; |FrontPanel01_test|FrontPanel01:fp01|IOP16:iop16|w_AluOut[2]                                                                                                                                                                                  ;
+; 3:1                ; 8 bits    ; 16 LEs        ; 16 LEs               ; 0 LEs                  ; No         ; |FrontPanel01_test|FrontPanel01:fp01|IOP16:iop16|w_AluOut[4]                                                                                                                                                                                  ;
 ; 9:1                ; 7 bits    ; 42 LEs        ; 42 LEs               ; 0 LEs                  ; No         ; |FrontPanel01_test|FrontPanel01:fp01|IOP16:iop16|RegFile8x8:RegFile|o_DataOut[7]                                                                                                                                                              ;
 ; 14:1               ; 5 bits    ; 45 LEs        ; 40 LEs               ; 5 LEs                  ; No         ; |FrontPanel01_test|FrontPanel01:fp01|IOP16:iop16|w_regFileIn[6]                                                                                                                                                                               ;
 +--------------------+-----------+---------------+----------------------+------------------------+------------+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
@@ -518,6 +561,48 @@ Note: All latches listed above may not be present at the end of synthesis due to
 +---------------------------------+--------------------+------+---------------------------------------------+
 ; OPTIMIZE_POWER_DURING_SYNTHESIS ; NORMAL_COMPILATION ; -    ; -                                           ;
 +---------------------------------+--------------------+------+---------------------------------------------+
+
+
++------------------------------------------------------------+
+; Source assignments for FrontPanel01:fp01                   ;
++------------------------------+-------+------+--------------+
+; Assignment                   ; Value ; From ; To           ;
++------------------------------+-------+------+--------------+
+; PRESERVE_REGISTER            ; on    ; -    ; w_rawPBs[31] ;
+; PRESERVE_REGISTER            ; on    ; -    ; w_rawPBs[30] ;
+; PRESERVE_REGISTER            ; on    ; -    ; w_rawPBs[29] ;
+; PRESERVE_REGISTER            ; on    ; -    ; w_rawPBs[28] ;
+; PRESERVE_REGISTER            ; on    ; -    ; w_rawPBs[27] ;
+; PRESERVE_REGISTER            ; on    ; -    ; w_rawPBs[26] ;
+; PRESERVE_REGISTER            ; on    ; -    ; w_rawPBs[25] ;
+; PRESERVE_REGISTER            ; on    ; -    ; w_rawPBs[24] ;
+; PRESERVE_REGISTER            ; on    ; -    ; w_rawPBs[23] ;
+; PRESERVE_REGISTER            ; on    ; -    ; w_rawPBs[22] ;
+; PRESERVE_REGISTER            ; on    ; -    ; w_rawPBs[21] ;
+; PRESERVE_REGISTER            ; on    ; -    ; w_rawPBs[20] ;
+; PRESERVE_REGISTER            ; on    ; -    ; w_rawPBs[19] ;
+; PRESERVE_REGISTER            ; on    ; -    ; w_rawPBs[18] ;
+; PRESERVE_REGISTER            ; on    ; -    ; w_rawPBs[17] ;
+; PRESERVE_REGISTER            ; on    ; -    ; w_rawPBs[16] ;
+; PRESERVE_REGISTER            ; on    ; -    ; w_rawPBs[15] ;
+; PRESERVE_REGISTER            ; on    ; -    ; w_rawPBs[14] ;
+; PRESERVE_REGISTER            ; on    ; -    ; w_rawPBs[13] ;
+; PRESERVE_REGISTER            ; on    ; -    ; w_rawPBs[12] ;
+; PRESERVE_REGISTER            ; on    ; -    ; w_rawPBs[11] ;
+; PRESERVE_REGISTER            ; on    ; -    ; w_rawPBs[10] ;
+; PRESERVE_REGISTER            ; on    ; -    ; w_rawPBs[9]  ;
+; PRESERVE_REGISTER            ; on    ; -    ; w_rawPBs[8]  ;
+; PRESERVE_REGISTER            ; on    ; -    ; w_rawPBs[7]  ;
+; PRESERVE_REGISTER            ; on    ; -    ; w_rawPBs[6]  ;
+; PRESERVE_REGISTER            ; on    ; -    ; w_rawPBs[5]  ;
+; PRESERVE_REGISTER            ; on    ; -    ; w_rawPBs[4]  ;
+; PRESERVE_REGISTER            ; on    ; -    ; w_rawPBs[3]  ;
+; PRESERVE_REGISTER            ; on    ; -    ; w_rawPBs[2]  ;
+; PRESERVE_REGISTER            ; on    ; -    ; w_rawPBs[1]  ;
+; PRESERVE_REGISTER            ; on    ; -    ; w_rawPBs[0]  ;
+; IGNORE_LCELL_BUFFERS         ; off   ; -    ; w_loadStrobe ;
+; REMOVE_REDUNDANT_LOGIC_CELLS ; off   ; -    ; w_loadStrobe ;
++------------------------------+-------+------+--------------+
 
 
 +----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
@@ -615,6 +700,15 @@ Note: All latches listed above may not be present at the end of synthesis due to
 +------------------------------+-------+------+--------------------+
 
 
++----------------------------------------------------------------------------------------------------------------------------------------+
+; Source assignments for FrontPanel01:fp01|IOP16:iop16|lifo:\GEN_STACK_DEEPER:lifo|altsyncram:r_mem_rtl_0|altsyncram_2pd1:auto_generated ;
++---------------------------------+--------------------+------+--------------------------------------------------------------------------+
+; Assignment                      ; Value              ; From ; To                                                                       ;
++---------------------------------+--------------------+------+--------------------------------------------------------------------------+
+; OPTIMIZE_POWER_DURING_SYNTHESIS ; NORMAL_COMPILATION ; -    ; -                                                                        ;
++---------------------------------+--------------------+------+--------------------------------------------------------------------------+
+
+
 +--------------------------------------------------------------------------------------------------+
 ; Parameter Settings for User Entity Instance: RAM_8KB_DP:RAM_Test|altsyncram:altsyncram_component ;
 +------------------------------------+----------------------+--------------------------------------+
@@ -676,13 +770,24 @@ Note: All latches listed above may not be present at the end of synthesis due to
 Note: In order to hide this table in the UI and the text report file, please set the "Show Parameter Settings in Synthesis Report" option in "Analysis and Synthesis Settings -> More Settings" to "Off".
 
 
++----------------------------------------------------------------+
+; Parameter Settings for User Entity Instance: FrontPanel01:fp01 ;
++-------------------+-------+------------------------------------+
+; Parameter Name    ; Value ; Type                               ;
++-------------------+-------+------------------------------------+
+; inst_sram_size_in ; 1024  ; Signed Integer                     ;
+; stack_depth_in    ; 4     ; Signed Integer                     ;
++-------------------+-------+------------------------------------+
+Note: In order to hide this table in the UI and the text report file, please set the "Show Parameter Settings in Synthesis Report" option in "Analysis and Synthesis Settings -> More Settings" to "Off".
+
+
 +----------------------------------------------------------------------------+
 ; Parameter Settings for User Entity Instance: FrontPanel01:fp01|IOP16:iop16 ;
 +---------------------+-------+----------------------------------------------+
 ; Parameter Name      ; Value ; Type                                         ;
 +---------------------+-------+----------------------------------------------+
 ; inst_sram_size_pass ; 1024  ; Signed Integer                               ;
-; stack_depth         ; 1     ; Signed Integer                               ;
+; stack_depth_pass    ; 4     ; Signed Integer                               ;
 +---------------------+-------+----------------------------------------------+
 Note: In order to hide this table in the UI and the text report file, please set the "Show Parameter Settings in Synthesis Report" option in "Analysis and Synthesis Settings -> More Settings" to "Off".
 
@@ -694,6 +799,17 @@ Note: In order to hide this table in the UI and the text report file, please set
 +----------------+-------+-----------------------------------------------------------------------+
 ; n              ; 3     ; Signed Integer                                                        ;
 +----------------+-------+-----------------------------------------------------------------------+
+Note: In order to hide this table in the UI and the text report file, please set the "Show Parameter Settings in Synthesis Report" option in "Analysis and Synthesis Settings -> More Settings" to "Off".
+
+
++--------------------------------------------------------------------------------------------------------+
+; Parameter Settings for User Entity Instance: FrontPanel01:fp01|IOP16:iop16|lifo:\GEN_STACK_DEEPER:lifo ;
++----------------+-------+-------------------------------------------------------------------------------+
+; Parameter Name ; Value ; Type                                                                          ;
++----------------+-------+-------------------------------------------------------------------------------+
+; g_index_width  ; 4     ; Signed Integer                                                                ;
+; g_data_width   ; 12    ; Signed Integer                                                                ;
++----------------+-------+-------------------------------------------------------------------------------+
 Note: In order to hide this table in the UI and the text report file, please set the "Show Parameter Settings in Synthesis Report" option in "Analysis and Synthesis Settings -> More Settings" to "Off".
 
 
@@ -758,12 +874,73 @@ Note: In order to hide this table in the UI and the text report file, please set
 Note: In order to hide this table in the UI and the text report file, please set the "Show Parameter Settings in Synthesis Report" option in "Analysis and Synthesis Settings -> More Settings" to "Off".
 
 
++-----------------------------------------------------------------------------------------------------------------------------------+
+; Parameter Settings for Inferred Entity Instance: FrontPanel01:fp01|IOP16:iop16|lifo:\GEN_STACK_DEEPER:lifo|altsyncram:r_mem_rtl_0 ;
++------------------------------------+----------------------+-----------------------------------------------------------------------+
+; Parameter Name                     ; Value                ; Type                                                                  ;
++------------------------------------+----------------------+-----------------------------------------------------------------------+
+; BYTE_SIZE_BLOCK                    ; 8                    ; Untyped                                                               ;
+; AUTO_CARRY_CHAINS                  ; ON                   ; AUTO_CARRY                                                            ;
+; IGNORE_CARRY_BUFFERS               ; OFF                  ; IGNORE_CARRY                                                          ;
+; AUTO_CASCADE_CHAINS                ; ON                   ; AUTO_CASCADE                                                          ;
+; IGNORE_CASCADE_BUFFERS             ; OFF                  ; IGNORE_CASCADE                                                        ;
+; WIDTH_BYTEENA                      ; 1                    ; Untyped                                                               ;
+; OPERATION_MODE                     ; DUAL_PORT            ; Untyped                                                               ;
+; WIDTH_A                            ; 12                   ; Untyped                                                               ;
+; WIDTHAD_A                          ; 4                    ; Untyped                                                               ;
+; NUMWORDS_A                         ; 16                   ; Untyped                                                               ;
+; OUTDATA_REG_A                      ; UNREGISTERED         ; Untyped                                                               ;
+; ADDRESS_ACLR_A                     ; NONE                 ; Untyped                                                               ;
+; OUTDATA_ACLR_A                     ; NONE                 ; Untyped                                                               ;
+; WRCONTROL_ACLR_A                   ; NONE                 ; Untyped                                                               ;
+; INDATA_ACLR_A                      ; NONE                 ; Untyped                                                               ;
+; BYTEENA_ACLR_A                     ; NONE                 ; Untyped                                                               ;
+; WIDTH_B                            ; 12                   ; Untyped                                                               ;
+; WIDTHAD_B                          ; 4                    ; Untyped                                                               ;
+; NUMWORDS_B                         ; 16                   ; Untyped                                                               ;
+; INDATA_REG_B                       ; CLOCK1               ; Untyped                                                               ;
+; WRCONTROL_WRADDRESS_REG_B          ; CLOCK1               ; Untyped                                                               ;
+; RDCONTROL_REG_B                    ; CLOCK1               ; Untyped                                                               ;
+; ADDRESS_REG_B                      ; CLOCK1               ; Untyped                                                               ;
+; OUTDATA_REG_B                      ; UNREGISTERED         ; Untyped                                                               ;
+; BYTEENA_REG_B                      ; CLOCK1               ; Untyped                                                               ;
+; INDATA_ACLR_B                      ; NONE                 ; Untyped                                                               ;
+; WRCONTROL_ACLR_B                   ; NONE                 ; Untyped                                                               ;
+; ADDRESS_ACLR_B                     ; NONE                 ; Untyped                                                               ;
+; OUTDATA_ACLR_B                     ; NONE                 ; Untyped                                                               ;
+; RDCONTROL_ACLR_B                   ; NONE                 ; Untyped                                                               ;
+; BYTEENA_ACLR_B                     ; NONE                 ; Untyped                                                               ;
+; WIDTH_BYTEENA_A                    ; 1                    ; Untyped                                                               ;
+; WIDTH_BYTEENA_B                    ; 1                    ; Untyped                                                               ;
+; RAM_BLOCK_TYPE                     ; AUTO                 ; Untyped                                                               ;
+; BYTE_SIZE                          ; 8                    ; Untyped                                                               ;
+; READ_DURING_WRITE_MODE_MIXED_PORTS ; DONT_CARE            ; Untyped                                                               ;
+; READ_DURING_WRITE_MODE_PORT_A      ; NEW_DATA_NO_NBE_READ ; Untyped                                                               ;
+; READ_DURING_WRITE_MODE_PORT_B      ; NEW_DATA_NO_NBE_READ ; Untyped                                                               ;
+; INIT_FILE                          ; UNUSED               ; Untyped                                                               ;
+; INIT_FILE_LAYOUT                   ; PORT_A               ; Untyped                                                               ;
+; MAXIMUM_DEPTH                      ; 0                    ; Untyped                                                               ;
+; CLOCK_ENABLE_INPUT_A               ; NORMAL               ; Untyped                                                               ;
+; CLOCK_ENABLE_INPUT_B               ; NORMAL               ; Untyped                                                               ;
+; CLOCK_ENABLE_OUTPUT_A              ; NORMAL               ; Untyped                                                               ;
+; CLOCK_ENABLE_OUTPUT_B              ; NORMAL               ; Untyped                                                               ;
+; CLOCK_ENABLE_CORE_A                ; USE_INPUT_CLKEN      ; Untyped                                                               ;
+; CLOCK_ENABLE_CORE_B                ; USE_INPUT_CLKEN      ; Untyped                                                               ;
+; ENABLE_ECC                         ; FALSE                ; Untyped                                                               ;
+; ECC_PIPELINE_STAGE_ENABLED         ; FALSE                ; Untyped                                                               ;
+; WIDTH_ECCSTATUS                    ; 3                    ; Untyped                                                               ;
+; DEVICE_FAMILY                      ; Cyclone IV E         ; Untyped                                                               ;
+; CBXI_PARAMETER                     ; altsyncram_2pd1      ; Untyped                                                               ;
++------------------------------------+----------------------+-----------------------------------------------------------------------+
+Note: In order to hide this table in the UI and the text report file, please set the "Show Parameter Settings in Synthesis Report" option in "Analysis and Synthesis Settings -> More Settings" to "Off".
+
+
 +--------------------------------------------------------------------------------------------------------------------------------------------+
 ; altsyncram Parameter Settings by Entity Instance                                                                                           ;
 +-------------------------------------------+------------------------------------------------------------------------------------------------+
 ; Name                                      ; Value                                                                                          ;
 +-------------------------------------------+------------------------------------------------------------------------------------------------+
-; Number of entity instances                ; 2                                                                                              ;
+; Number of entity instances                ; 3                                                                                              ;
 ; Entity Instance                           ; RAM_8KB_DP:RAM_Test|altsyncram:altsyncram_component                                            ;
 ;     -- OPERATION_MODE                     ; BIDIR_DUAL_PORT                                                                                ;
 ;     -- WIDTH_A                            ; 8                                                                                              ;
@@ -786,7 +963,28 @@ Note: In order to hide this table in the UI and the text report file, please set
 ;     -- OUTDATA_REG_B                      ; UNREGISTERED                                                                                   ;
 ;     -- RAM_BLOCK_TYPE                     ; AUTO                                                                                           ;
 ;     -- READ_DURING_WRITE_MODE_MIXED_PORTS ; DONT_CARE                                                                                      ;
+; Entity Instance                           ; FrontPanel01:fp01|IOP16:iop16|lifo:\GEN_STACK_DEEPER:lifo|altsyncram:r_mem_rtl_0               ;
+;     -- OPERATION_MODE                     ; DUAL_PORT                                                                                      ;
+;     -- WIDTH_A                            ; 12                                                                                             ;
+;     -- NUMWORDS_A                         ; 16                                                                                             ;
+;     -- OUTDATA_REG_A                      ; UNREGISTERED                                                                                   ;
+;     -- WIDTH_B                            ; 12                                                                                             ;
+;     -- NUMWORDS_B                         ; 16                                                                                             ;
+;     -- ADDRESS_REG_B                      ; CLOCK1                                                                                         ;
+;     -- OUTDATA_REG_B                      ; UNREGISTERED                                                                                   ;
+;     -- RAM_BLOCK_TYPE                     ; AUTO                                                                                           ;
+;     -- READ_DURING_WRITE_MODE_MIXED_PORTS ; DONT_CARE                                                                                      ;
 +-------------------------------------------+------------------------------------------------------------------------------------------------+
+
+
++-------------------------------------------------------------------------------------------------------------------+
+; Port Connectivity Checks: "FrontPanel01:fp01|IOP16:iop16|lifo:\GEN_STACK_DEEPER:lifo"                             ;
++---------+--------+----------+-------------------------------------------------------------------------------------+
+; Port    ; Type   ; Severity ; Details                                                                             ;
++---------+--------+----------+-------------------------------------------------------------------------------------+
+; o_full  ; Output ; Info     ; Connected to dangling logic. Logic that only feeds a dangling port will be removed. ;
+; o_empty ; Output ; Info     ; Connected to dangling logic. Logic that only feeds a dangling port will be removed. ;
++---------+--------+----------+-------------------------------------------------------------------------------------+
 
 
 +-------------------------------------------------------------------------------+
@@ -847,31 +1045,31 @@ Note: In order to hide this table in the UI and the text report file, please set
 ; Type                  ; Count                       ;
 +-----------------------+-----------------------------+
 ; boundary_port         ; 34                          ;
-; cycloneiii_ff         ; 318                         ;
+; cycloneiii_ff         ; 312                         ;
 ;     CLR               ; 9                           ;
-;     ENA               ; 200                         ;
+;     ENA               ; 190                         ;
 ;     ENA CLR           ; 13                          ;
 ;     ENA CLR SCLR      ; 1                           ;
 ;     ENA CLR SLD       ; 12                          ;
-;     ENA SCLR          ; 23                          ;
-;     SCLR              ; 3                           ;
+;     ENA SCLR          ; 26                          ;
+;     SCLR              ; 4                           ;
 ;     SCLR SLD          ; 16                          ;
 ;     plain             ; 41                          ;
 ; cycloneiii_io_obuf    ; 2                           ;
-; cycloneiii_lcell_comb ; 640                         ;
-;     arith             ; 77                          ;
-;         2 data inputs ; 66                          ;
-;         3 data inputs ; 11                          ;
-;     normal            ; 563                         ;
+; cycloneiii_lcell_comb ; 667                         ;
+;     arith             ; 76                          ;
+;         2 data inputs ; 64                          ;
+;         3 data inputs ; 12                          ;
+;     normal            ; 591                         ;
 ;         0 data inputs ; 1                           ;
-;         1 data inputs ; 38                          ;
-;         2 data inputs ; 96                          ;
-;         3 data inputs ; 181                         ;
-;         4 data inputs ; 247                         ;
-; cycloneiii_ram_block  ; 24                          ;
+;         1 data inputs ; 40                          ;
+;         2 data inputs ; 100                         ;
+;         3 data inputs ; 213                         ;
+;         4 data inputs ; 237                         ;
+; cycloneiii_ram_block  ; 34                          ;
 ;                       ;                             ;
 ; Max LUT depth         ; 14.00                       ;
-; Average LUT depth     ; 4.40                        ;
+; Average LUT depth     ; 4.43                        ;
 +-----------------------+-----------------------------+
 
 
@@ -890,16 +1088,22 @@ Note: In order to hide this table in the UI and the text report file, please set
 Info: *******************************************************************
 Info: Running Quartus Prime Analysis & Synthesis
     Info: Version 20.1.0 Build 711 06/05/2020 SJ Lite Edition
-    Info: Processing started: Mon Jun 21 18:26:10 2021
+    Info: Processing started: Tue Jun 22 19:43:03 2021
 Info: Command: quartus_map --read_settings_files=on --write_settings_files=off FrontPanel01 -c FrontPanel01
 Warning (18236): Number of processors has not been specified which may cause overloading on shared machines.  Set the global assignment NUM_PARALLEL_PROCESSORS in your QSF to an appropriate value for best performance.
 Info (20030): Parallel compilation is enabled and will use 4 of the 4 processors detected
+Info (12021): Found 2 design units, including 1 entities, in source file /users/hpz420/documents/github/doug gilliland/multicomp/multicomp (vhdl template)/components/frontpanel01/debounce32.vhd
+    Info (12022): Found design unit 1: Debouncer32-struct File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/FrontPanel01/Debounce32.vhd Line: 20
+    Info (12023): Found entity 1: Debouncer32 File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/FrontPanel01/Debounce32.vhd Line: 9
+Info (12021): Found 2 design units, including 1 entities, in source file /users/hpz420/documents/github/doug gilliland/multicomp/multicomp (vhdl template)/components/frontpanel01/frontpanel01.vhd
+    Info (12022): Found design unit 1: FrontPanel01-struct File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/FrontPanel01/FrontPanel01.vhd Line: 54
+    Info (12023): Found entity 1: FrontPanel01 File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/FrontPanel01/FrontPanel01.vhd Line: 27
 Info (12021): Found 2 design units, including 1 entities, in source file /users/hpz420/documents/github/doug gilliland/multicomp/multicomp (vhdl template)/components/cpu/iop16/lifo.vhd
     Info (12022): Found design unit 1: lifo-rtl File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/CPU/IOP16/lifo.vhd Line: 49
     Info (12023): Found entity 1: lifo File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/CPU/IOP16/lifo.vhd Line: 29
 Info (12021): Found 2 design units, including 1 entities, in source file /users/hpz420/documents/github/doug gilliland/multicomp/multicomp (vhdl template)/components/cpu/iop16/iop16b.vhd
-    Info (12022): Found design unit 1: IOP16-IOP16_beh File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/CPU/IOP16/IOP16B.vhd Line: 85
-    Info (12023): Found entity 1: IOP16 File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/CPU/IOP16/IOP16B.vhd Line: 66
+    Info (12022): Found design unit 1: IOP16-IOP16_beh File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/CPU/IOP16/IOP16B.vhd Line: 89
+    Info (12023): Found entity 1: IOP16 File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/CPU/IOP16/IOP16B.vhd Line: 71
 Info (12021): Found 2 design units, including 1 entities, in source file /users/hpz420/documents/github/doug gilliland/multicomp/multicomp (vhdl template)/components/cpu/iop16/regfile8x8.vhd
     Info (12022): Found design unit 1: RegFile8x8-RegFile8x8_beh File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/CPU/IOP16/RegFile8x8.vhd Line: 23
     Info (12023): Found entity 1: RegFile8x8 File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/CPU/IOP16/RegFile8x8.vhd Line: 11
@@ -915,15 +1119,9 @@ Info (12021): Found 2 design units, including 1 entities, in source file /users/
 Info (12021): Found 2 design units, including 1 entities, in source file frontpanel01_test.vhd
     Info (12022): Found design unit 1: FrontPanel01_test-struct File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15/FrontPanel01/FrontPanel01_test.vhd Line: 49
     Info (12023): Found entity 1: FrontPanel01_test File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15/FrontPanel01/FrontPanel01_test.vhd Line: 31
-Info (12021): Found 2 design units, including 1 entities, in source file frontpanel01.vhd
-    Info (12022): Found design unit 1: FrontPanel01-struct File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15/FrontPanel01/FrontPanel01.vhd Line: 49
-    Info (12023): Found entity 1: FrontPanel01 File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15/FrontPanel01/FrontPanel01.vhd Line: 27
 Info (12021): Found 2 design units, including 1 entities, in source file iop_rom.vhd
     Info (12022): Found design unit 1: iop_rom-SYN File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15/FrontPanel01/IOP_ROM.vhd Line: 53
     Info (12023): Found entity 1: IOP_ROM File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15/FrontPanel01/IOP_ROM.vhd Line: 43
-Info (12021): Found 2 design units, including 1 entities, in source file debounce32.vhd
-    Info (12022): Found design unit 1: Debouncer32-struct File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15/FrontPanel01/Debounce32.vhd Line: 20
-    Info (12023): Found entity 1: Debouncer32 File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15/FrontPanel01/Debounce32.vhd Line: 9
 Info (12021): Found 2 design units, including 1 entities, in source file ram_8kb_dp.vhd
     Info (12022): Found design unit 1: ram_8kb_dp-SYN File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15/FrontPanel01/RAM_8KB_DP.vhd Line: 59
     Info (12023): Found entity 1: RAM_8KB_DP File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15/FrontPanel01/RAM_8KB_DP.vhd Line: 43
@@ -990,44 +1188,45 @@ Info (12021): Found 1 design units, including 1 entities, in source file db/alts
     Info (12023): Found entity 1: altsyncram_70r3 File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15/FrontPanel01/db/altsyncram_70r3.tdf Line: 28
 Info (12128): Elaborating entity "altsyncram_70r3" for hierarchy "RAM_8KB_DP:RAM_Test|altsyncram:altsyncram_component|altsyncram_70r3:auto_generated" File: c:/intelfpga_lite/20.1/quartus/libraries/megafunctions/altsyncram.tdf Line: 792
 Info (12128): Elaborating entity "FrontPanel01" for hierarchy "FrontPanel01:fp01" File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15/FrontPanel01/FrontPanel01_test.vhd Line: 187
-Warning (10036): Verilog HDL or VHDL warning at FrontPanel01.vhd(57): object "w_periphRd" assigned a value but never read File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15/FrontPanel01/FrontPanel01.vhd Line: 57
-Info (10041): Inferred latch for "w_latchedPBs[0]" at FrontPanel01.vhd(143) File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15/FrontPanel01/FrontPanel01.vhd Line: 143
-Info (10041): Inferred latch for "w_latchedPBs[1]" at FrontPanel01.vhd(143) File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15/FrontPanel01/FrontPanel01.vhd Line: 143
-Info (10041): Inferred latch for "w_latchedPBs[2]" at FrontPanel01.vhd(143) File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15/FrontPanel01/FrontPanel01.vhd Line: 143
-Info (10041): Inferred latch for "w_latchedPBs[3]" at FrontPanel01.vhd(143) File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15/FrontPanel01/FrontPanel01.vhd Line: 143
-Info (10041): Inferred latch for "w_latchedPBs[4]" at FrontPanel01.vhd(143) File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15/FrontPanel01/FrontPanel01.vhd Line: 143
-Info (10041): Inferred latch for "w_latchedPBs[5]" at FrontPanel01.vhd(143) File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15/FrontPanel01/FrontPanel01.vhd Line: 143
-Info (10041): Inferred latch for "w_latchedPBs[6]" at FrontPanel01.vhd(143) File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15/FrontPanel01/FrontPanel01.vhd Line: 143
-Info (10041): Inferred latch for "w_latchedPBs[7]" at FrontPanel01.vhd(143) File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15/FrontPanel01/FrontPanel01.vhd Line: 143
-Info (10041): Inferred latch for "w_latchedPBs[8]" at FrontPanel01.vhd(143) File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15/FrontPanel01/FrontPanel01.vhd Line: 143
-Info (10041): Inferred latch for "w_latchedPBs[9]" at FrontPanel01.vhd(143) File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15/FrontPanel01/FrontPanel01.vhd Line: 143
-Info (10041): Inferred latch for "w_latchedPBs[10]" at FrontPanel01.vhd(143) File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15/FrontPanel01/FrontPanel01.vhd Line: 143
-Info (10041): Inferred latch for "w_latchedPBs[11]" at FrontPanel01.vhd(143) File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15/FrontPanel01/FrontPanel01.vhd Line: 143
-Info (10041): Inferred latch for "w_latchedPBs[12]" at FrontPanel01.vhd(143) File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15/FrontPanel01/FrontPanel01.vhd Line: 143
-Info (10041): Inferred latch for "w_latchedPBs[13]" at FrontPanel01.vhd(143) File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15/FrontPanel01/FrontPanel01.vhd Line: 143
-Info (10041): Inferred latch for "w_latchedPBs[14]" at FrontPanel01.vhd(143) File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15/FrontPanel01/FrontPanel01.vhd Line: 143
-Info (10041): Inferred latch for "w_latchedPBs[15]" at FrontPanel01.vhd(143) File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15/FrontPanel01/FrontPanel01.vhd Line: 143
-Info (10041): Inferred latch for "w_latchedPBs[16]" at FrontPanel01.vhd(143) File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15/FrontPanel01/FrontPanel01.vhd Line: 143
-Info (10041): Inferred latch for "w_latchedPBs[17]" at FrontPanel01.vhd(143) File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15/FrontPanel01/FrontPanel01.vhd Line: 143
-Info (10041): Inferred latch for "w_latchedPBs[18]" at FrontPanel01.vhd(143) File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15/FrontPanel01/FrontPanel01.vhd Line: 143
-Info (10041): Inferred latch for "w_latchedPBs[19]" at FrontPanel01.vhd(143) File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15/FrontPanel01/FrontPanel01.vhd Line: 143
-Info (10041): Inferred latch for "w_latchedPBs[20]" at FrontPanel01.vhd(143) File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15/FrontPanel01/FrontPanel01.vhd Line: 143
-Info (10041): Inferred latch for "w_latchedPBs[21]" at FrontPanel01.vhd(143) File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15/FrontPanel01/FrontPanel01.vhd Line: 143
-Info (10041): Inferred latch for "w_latchedPBs[22]" at FrontPanel01.vhd(143) File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15/FrontPanel01/FrontPanel01.vhd Line: 143
-Info (10041): Inferred latch for "w_latchedPBs[23]" at FrontPanel01.vhd(143) File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15/FrontPanel01/FrontPanel01.vhd Line: 143
-Info (10041): Inferred latch for "w_latchedPBs[24]" at FrontPanel01.vhd(143) File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15/FrontPanel01/FrontPanel01.vhd Line: 143
-Info (10041): Inferred latch for "w_latchedPBs[25]" at FrontPanel01.vhd(143) File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15/FrontPanel01/FrontPanel01.vhd Line: 143
-Info (10041): Inferred latch for "w_latchedPBs[26]" at FrontPanel01.vhd(143) File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15/FrontPanel01/FrontPanel01.vhd Line: 143
-Info (10041): Inferred latch for "w_latchedPBs[27]" at FrontPanel01.vhd(143) File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15/FrontPanel01/FrontPanel01.vhd Line: 143
-Info (10041): Inferred latch for "w_latchedPBs[28]" at FrontPanel01.vhd(143) File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15/FrontPanel01/FrontPanel01.vhd Line: 143
-Info (10041): Inferred latch for "w_latchedPBs[29]" at FrontPanel01.vhd(143) File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15/FrontPanel01/FrontPanel01.vhd Line: 143
-Info (10041): Inferred latch for "w_latchedPBs[30]" at FrontPanel01.vhd(143) File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15/FrontPanel01/FrontPanel01.vhd Line: 143
-Info (10041): Inferred latch for "w_latchedPBs[31]" at FrontPanel01.vhd(143) File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15/FrontPanel01/FrontPanel01.vhd Line: 143
-Info (12128): Elaborating entity "IOP16" for hierarchy "FrontPanel01:fp01|IOP16:iop16" File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15/FrontPanel01/FrontPanel01.vhd Line: 109
-Warning (10036): Verilog HDL or VHDL warning at IOP16B.vhd(112): object "w_OP_NOP" assigned a value but never read File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/CPU/IOP16/IOP16B.vhd Line: 112
-Info (10041): Inferred latch for "w_zBit" at IOP16B.vhd(311) File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/CPU/IOP16/IOP16B.vhd Line: 311
-Info (12128): Elaborating entity "GrayCounter" for hierarchy "FrontPanel01:fp01|IOP16:iop16|GrayCounter:greyLow" File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/CPU/IOP16/IOP16B.vhd Line: 152
-Info (12128): Elaborating entity "IOP_ROM" for hierarchy "FrontPanel01:fp01|IOP16:iop16|IOP_ROM:\GEN_1KW_INST_ROM:IopRom" File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/CPU/IOP16/IOP16B.vhd Line: 228
+Warning (10036): Verilog HDL or VHDL warning at FrontPanel01.vhd(62): object "w_periphRd" assigned a value but never read File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/FrontPanel01/FrontPanel01.vhd Line: 62
+Info (10041): Inferred latch for "w_latchedPBs[0]" at FrontPanel01.vhd(147) File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/FrontPanel01/FrontPanel01.vhd Line: 147
+Info (10041): Inferred latch for "w_latchedPBs[1]" at FrontPanel01.vhd(147) File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/FrontPanel01/FrontPanel01.vhd Line: 147
+Info (10041): Inferred latch for "w_latchedPBs[2]" at FrontPanel01.vhd(147) File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/FrontPanel01/FrontPanel01.vhd Line: 147
+Info (10041): Inferred latch for "w_latchedPBs[3]" at FrontPanel01.vhd(147) File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/FrontPanel01/FrontPanel01.vhd Line: 147
+Info (10041): Inferred latch for "w_latchedPBs[4]" at FrontPanel01.vhd(147) File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/FrontPanel01/FrontPanel01.vhd Line: 147
+Info (10041): Inferred latch for "w_latchedPBs[5]" at FrontPanel01.vhd(147) File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/FrontPanel01/FrontPanel01.vhd Line: 147
+Info (10041): Inferred latch for "w_latchedPBs[6]" at FrontPanel01.vhd(147) File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/FrontPanel01/FrontPanel01.vhd Line: 147
+Info (10041): Inferred latch for "w_latchedPBs[7]" at FrontPanel01.vhd(147) File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/FrontPanel01/FrontPanel01.vhd Line: 147
+Info (10041): Inferred latch for "w_latchedPBs[8]" at FrontPanel01.vhd(147) File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/FrontPanel01/FrontPanel01.vhd Line: 147
+Info (10041): Inferred latch for "w_latchedPBs[9]" at FrontPanel01.vhd(147) File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/FrontPanel01/FrontPanel01.vhd Line: 147
+Info (10041): Inferred latch for "w_latchedPBs[10]" at FrontPanel01.vhd(147) File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/FrontPanel01/FrontPanel01.vhd Line: 147
+Info (10041): Inferred latch for "w_latchedPBs[11]" at FrontPanel01.vhd(147) File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/FrontPanel01/FrontPanel01.vhd Line: 147
+Info (10041): Inferred latch for "w_latchedPBs[12]" at FrontPanel01.vhd(147) File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/FrontPanel01/FrontPanel01.vhd Line: 147
+Info (10041): Inferred latch for "w_latchedPBs[13]" at FrontPanel01.vhd(147) File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/FrontPanel01/FrontPanel01.vhd Line: 147
+Info (10041): Inferred latch for "w_latchedPBs[14]" at FrontPanel01.vhd(147) File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/FrontPanel01/FrontPanel01.vhd Line: 147
+Info (10041): Inferred latch for "w_latchedPBs[15]" at FrontPanel01.vhd(147) File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/FrontPanel01/FrontPanel01.vhd Line: 147
+Info (10041): Inferred latch for "w_latchedPBs[16]" at FrontPanel01.vhd(147) File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/FrontPanel01/FrontPanel01.vhd Line: 147
+Info (10041): Inferred latch for "w_latchedPBs[17]" at FrontPanel01.vhd(147) File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/FrontPanel01/FrontPanel01.vhd Line: 147
+Info (10041): Inferred latch for "w_latchedPBs[18]" at FrontPanel01.vhd(147) File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/FrontPanel01/FrontPanel01.vhd Line: 147
+Info (10041): Inferred latch for "w_latchedPBs[19]" at FrontPanel01.vhd(147) File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/FrontPanel01/FrontPanel01.vhd Line: 147
+Info (10041): Inferred latch for "w_latchedPBs[20]" at FrontPanel01.vhd(147) File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/FrontPanel01/FrontPanel01.vhd Line: 147
+Info (10041): Inferred latch for "w_latchedPBs[21]" at FrontPanel01.vhd(147) File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/FrontPanel01/FrontPanel01.vhd Line: 147
+Info (10041): Inferred latch for "w_latchedPBs[22]" at FrontPanel01.vhd(147) File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/FrontPanel01/FrontPanel01.vhd Line: 147
+Info (10041): Inferred latch for "w_latchedPBs[23]" at FrontPanel01.vhd(147) File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/FrontPanel01/FrontPanel01.vhd Line: 147
+Info (10041): Inferred latch for "w_latchedPBs[24]" at FrontPanel01.vhd(147) File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/FrontPanel01/FrontPanel01.vhd Line: 147
+Info (10041): Inferred latch for "w_latchedPBs[25]" at FrontPanel01.vhd(147) File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/FrontPanel01/FrontPanel01.vhd Line: 147
+Info (10041): Inferred latch for "w_latchedPBs[26]" at FrontPanel01.vhd(147) File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/FrontPanel01/FrontPanel01.vhd Line: 147
+Info (10041): Inferred latch for "w_latchedPBs[27]" at FrontPanel01.vhd(147) File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/FrontPanel01/FrontPanel01.vhd Line: 147
+Info (10041): Inferred latch for "w_latchedPBs[28]" at FrontPanel01.vhd(147) File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/FrontPanel01/FrontPanel01.vhd Line: 147
+Info (10041): Inferred latch for "w_latchedPBs[29]" at FrontPanel01.vhd(147) File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/FrontPanel01/FrontPanel01.vhd Line: 147
+Info (10041): Inferred latch for "w_latchedPBs[30]" at FrontPanel01.vhd(147) File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/FrontPanel01/FrontPanel01.vhd Line: 147
+Info (10041): Inferred latch for "w_latchedPBs[31]" at FrontPanel01.vhd(147) File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/FrontPanel01/FrontPanel01.vhd Line: 147
+Info (12128): Elaborating entity "IOP16" for hierarchy "FrontPanel01:fp01|IOP16:iop16" File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/FrontPanel01/FrontPanel01.vhd Line: 111
+Warning (10036): Verilog HDL or VHDL warning at IOP16B.vhd(116): object "w_OP_NOP" assigned a value but never read File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/CPU/IOP16/IOP16B.vhd Line: 116
+Info (10041): Inferred latch for "w_zBit" at IOP16B.vhd(315) File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/CPU/IOP16/IOP16B.vhd Line: 315
+Info (12128): Elaborating entity "GrayCounter" for hierarchy "FrontPanel01:fp01|IOP16:iop16|GrayCounter:greyLow" File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/CPU/IOP16/IOP16B.vhd Line: 156
+Info (12128): Elaborating entity "lifo" for hierarchy "FrontPanel01:fp01|IOP16:iop16|lifo:\GEN_STACK_DEEPER:lifo" File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/CPU/IOP16/IOP16B.vhd Line: 189
+Info (12128): Elaborating entity "IOP_ROM" for hierarchy "FrontPanel01:fp01|IOP16:iop16|IOP_ROM:\GEN_1KW_INST_ROM:IopRom" File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/CPU/IOP16/IOP16B.vhd Line: 232
 Info (12128): Elaborating entity "altsyncram" for hierarchy "FrontPanel01:fp01|IOP16:iop16|IOP_ROM:\GEN_1KW_INST_ROM:IopRom|altsyncram:altsyncram_component" File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15/FrontPanel01/IOP_ROM.vhd Line: 60
 Info (12130): Elaborated megafunction instantiation "FrontPanel01:fp01|IOP16:iop16|IOP_ROM:\GEN_1KW_INST_ROM:IopRom|altsyncram:altsyncram_component" File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15/FrontPanel01/IOP_ROM.vhd Line: 60
 Info (12133): Instantiated megafunction "FrontPanel01:fp01|IOP16:iop16|IOP_ROM:\GEN_1KW_INST_ROM:IopRom|altsyncram:altsyncram_component" with the following parameter: File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15/FrontPanel01/IOP_ROM.vhd Line: 60
@@ -1118,43 +1317,43 @@ Info (12133): Instantiated megafunction "FrontPanel01:fp01|IOP16:iop16|IOP_ROM:\
 Info (12128): Elaborating entity "sld_jtag_endpoint_adapter" for hierarchy "FrontPanel01:fp01|IOP16:iop16|IOP_ROM:\GEN_1KW_INST_ROM:IopRom|altsyncram:altsyncram_component|altsyncram_1u54:auto_generated|sld_mod_ram_rom:mgl_prim2|sld_jtag_endpoint_adapter:jtag_signal_adapter" File: c:/intelfpga_lite/20.1/quartus/libraries/megafunctions/sld_mod_ram_rom.vhd Line: 302
 Info (12128): Elaborating entity "sld_jtag_endpoint_adapter_impl" for hierarchy "FrontPanel01:fp01|IOP16:iop16|IOP_ROM:\GEN_1KW_INST_ROM:IopRom|altsyncram:altsyncram_component|altsyncram_1u54:auto_generated|sld_mod_ram_rom:mgl_prim2|sld_jtag_endpoint_adapter:jtag_signal_adapter|sld_jtag_endpoint_adapter_impl:sld_jtag_endpoint_adapter_impl_inst" File: c:/intelfpga_lite/20.1/quartus/libraries/megafunctions/sld_jtag_endpoint_adapter.vhd Line: 232
 Info (12128): Elaborating entity "sld_rom_sr" for hierarchy "FrontPanel01:fp01|IOP16:iop16|IOP_ROM:\GEN_1KW_INST_ROM:IopRom|altsyncram:altsyncram_component|altsyncram_1u54:auto_generated|sld_mod_ram_rom:mgl_prim2|sld_rom_sr:\ram_rom_logic_gen:name_gen:info_rom_sr" File: c:/intelfpga_lite/20.1/quartus/libraries/megafunctions/sld_mod_ram_rom.vhd Line: 828
-Info (12128): Elaborating entity "RegFile8x8" for hierarchy "FrontPanel01:fp01|IOP16:iop16|RegFile8x8:RegFile" File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/CPU/IOP16/IOP16B.vhd Line: 332
-Info (12128): Elaborating entity "i2c" for hierarchy "FrontPanel01:fp01|i2c:i2cIF" File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15/FrontPanel01/FrontPanel01.vhd Line: 124
-Info (12128): Elaborating entity "Debouncer32" for hierarchy "FrontPanel01:fp01|Debouncer32:debouncePB" File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15/FrontPanel01/FrontPanel01.vhd Line: 168
-Info (10041): Inferred latch for "o_PinsOut[0]" at Debounce32.vhd(79) File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15/FrontPanel01/Debounce32.vhd Line: 79
-Info (10041): Inferred latch for "o_PinsOut[1]" at Debounce32.vhd(79) File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15/FrontPanel01/Debounce32.vhd Line: 79
-Info (10041): Inferred latch for "o_PinsOut[2]" at Debounce32.vhd(79) File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15/FrontPanel01/Debounce32.vhd Line: 79
-Info (10041): Inferred latch for "o_PinsOut[3]" at Debounce32.vhd(79) File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15/FrontPanel01/Debounce32.vhd Line: 79
-Info (10041): Inferred latch for "o_PinsOut[4]" at Debounce32.vhd(79) File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15/FrontPanel01/Debounce32.vhd Line: 79
-Info (10041): Inferred latch for "o_PinsOut[5]" at Debounce32.vhd(79) File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15/FrontPanel01/Debounce32.vhd Line: 79
-Info (10041): Inferred latch for "o_PinsOut[6]" at Debounce32.vhd(79) File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15/FrontPanel01/Debounce32.vhd Line: 79
-Info (10041): Inferred latch for "o_PinsOut[7]" at Debounce32.vhd(79) File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15/FrontPanel01/Debounce32.vhd Line: 79
-Info (10041): Inferred latch for "o_PinsOut[8]" at Debounce32.vhd(79) File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15/FrontPanel01/Debounce32.vhd Line: 79
-Info (10041): Inferred latch for "o_PinsOut[9]" at Debounce32.vhd(79) File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15/FrontPanel01/Debounce32.vhd Line: 79
-Info (10041): Inferred latch for "o_PinsOut[10]" at Debounce32.vhd(79) File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15/FrontPanel01/Debounce32.vhd Line: 79
-Info (10041): Inferred latch for "o_PinsOut[11]" at Debounce32.vhd(79) File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15/FrontPanel01/Debounce32.vhd Line: 79
-Info (10041): Inferred latch for "o_PinsOut[12]" at Debounce32.vhd(79) File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15/FrontPanel01/Debounce32.vhd Line: 79
-Info (10041): Inferred latch for "o_PinsOut[13]" at Debounce32.vhd(79) File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15/FrontPanel01/Debounce32.vhd Line: 79
-Info (10041): Inferred latch for "o_PinsOut[14]" at Debounce32.vhd(79) File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15/FrontPanel01/Debounce32.vhd Line: 79
-Info (10041): Inferred latch for "o_PinsOut[15]" at Debounce32.vhd(79) File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15/FrontPanel01/Debounce32.vhd Line: 79
-Info (10041): Inferred latch for "o_PinsOut[16]" at Debounce32.vhd(79) File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15/FrontPanel01/Debounce32.vhd Line: 79
-Info (10041): Inferred latch for "o_PinsOut[17]" at Debounce32.vhd(79) File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15/FrontPanel01/Debounce32.vhd Line: 79
-Info (10041): Inferred latch for "o_PinsOut[18]" at Debounce32.vhd(79) File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15/FrontPanel01/Debounce32.vhd Line: 79
-Info (10041): Inferred latch for "o_PinsOut[19]" at Debounce32.vhd(79) File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15/FrontPanel01/Debounce32.vhd Line: 79
-Info (10041): Inferred latch for "o_PinsOut[20]" at Debounce32.vhd(79) File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15/FrontPanel01/Debounce32.vhd Line: 79
-Info (10041): Inferred latch for "o_PinsOut[21]" at Debounce32.vhd(79) File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15/FrontPanel01/Debounce32.vhd Line: 79
-Info (10041): Inferred latch for "o_PinsOut[22]" at Debounce32.vhd(79) File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15/FrontPanel01/Debounce32.vhd Line: 79
-Info (10041): Inferred latch for "o_PinsOut[23]" at Debounce32.vhd(79) File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15/FrontPanel01/Debounce32.vhd Line: 79
-Info (10041): Inferred latch for "o_PinsOut[24]" at Debounce32.vhd(79) File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15/FrontPanel01/Debounce32.vhd Line: 79
-Info (10041): Inferred latch for "o_PinsOut[25]" at Debounce32.vhd(79) File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15/FrontPanel01/Debounce32.vhd Line: 79
-Info (10041): Inferred latch for "o_PinsOut[26]" at Debounce32.vhd(79) File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15/FrontPanel01/Debounce32.vhd Line: 79
-Info (10041): Inferred latch for "o_PinsOut[27]" at Debounce32.vhd(79) File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15/FrontPanel01/Debounce32.vhd Line: 79
-Info (10041): Inferred latch for "o_PinsOut[28]" at Debounce32.vhd(79) File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15/FrontPanel01/Debounce32.vhd Line: 79
-Info (10041): Inferred latch for "o_PinsOut[29]" at Debounce32.vhd(79) File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15/FrontPanel01/Debounce32.vhd Line: 79
-Info (10041): Inferred latch for "o_PinsOut[30]" at Debounce32.vhd(79) File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15/FrontPanel01/Debounce32.vhd Line: 79
-Info (10041): Inferred latch for "o_PinsOut[31]" at Debounce32.vhd(79) File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15/FrontPanel01/Debounce32.vhd Line: 79
+Info (12128): Elaborating entity "RegFile8x8" for hierarchy "FrontPanel01:fp01|IOP16:iop16|RegFile8x8:RegFile" File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/CPU/IOP16/IOP16B.vhd Line: 336
+Info (12128): Elaborating entity "i2c" for hierarchy "FrontPanel01:fp01|i2c:i2cIF" File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/FrontPanel01/FrontPanel01.vhd Line: 128
+Info (12128): Elaborating entity "Debouncer32" for hierarchy "FrontPanel01:fp01|Debouncer32:debouncePB" File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/FrontPanel01/FrontPanel01.vhd Line: 172
+Info (10041): Inferred latch for "o_PinsOut[0]" at Debounce32.vhd(79) File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/FrontPanel01/Debounce32.vhd Line: 79
+Info (10041): Inferred latch for "o_PinsOut[1]" at Debounce32.vhd(79) File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/FrontPanel01/Debounce32.vhd Line: 79
+Info (10041): Inferred latch for "o_PinsOut[2]" at Debounce32.vhd(79) File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/FrontPanel01/Debounce32.vhd Line: 79
+Info (10041): Inferred latch for "o_PinsOut[3]" at Debounce32.vhd(79) File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/FrontPanel01/Debounce32.vhd Line: 79
+Info (10041): Inferred latch for "o_PinsOut[4]" at Debounce32.vhd(79) File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/FrontPanel01/Debounce32.vhd Line: 79
+Info (10041): Inferred latch for "o_PinsOut[5]" at Debounce32.vhd(79) File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/FrontPanel01/Debounce32.vhd Line: 79
+Info (10041): Inferred latch for "o_PinsOut[6]" at Debounce32.vhd(79) File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/FrontPanel01/Debounce32.vhd Line: 79
+Info (10041): Inferred latch for "o_PinsOut[7]" at Debounce32.vhd(79) File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/FrontPanel01/Debounce32.vhd Line: 79
+Info (10041): Inferred latch for "o_PinsOut[8]" at Debounce32.vhd(79) File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/FrontPanel01/Debounce32.vhd Line: 79
+Info (10041): Inferred latch for "o_PinsOut[9]" at Debounce32.vhd(79) File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/FrontPanel01/Debounce32.vhd Line: 79
+Info (10041): Inferred latch for "o_PinsOut[10]" at Debounce32.vhd(79) File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/FrontPanel01/Debounce32.vhd Line: 79
+Info (10041): Inferred latch for "o_PinsOut[11]" at Debounce32.vhd(79) File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/FrontPanel01/Debounce32.vhd Line: 79
+Info (10041): Inferred latch for "o_PinsOut[12]" at Debounce32.vhd(79) File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/FrontPanel01/Debounce32.vhd Line: 79
+Info (10041): Inferred latch for "o_PinsOut[13]" at Debounce32.vhd(79) File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/FrontPanel01/Debounce32.vhd Line: 79
+Info (10041): Inferred latch for "o_PinsOut[14]" at Debounce32.vhd(79) File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/FrontPanel01/Debounce32.vhd Line: 79
+Info (10041): Inferred latch for "o_PinsOut[15]" at Debounce32.vhd(79) File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/FrontPanel01/Debounce32.vhd Line: 79
+Info (10041): Inferred latch for "o_PinsOut[16]" at Debounce32.vhd(79) File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/FrontPanel01/Debounce32.vhd Line: 79
+Info (10041): Inferred latch for "o_PinsOut[17]" at Debounce32.vhd(79) File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/FrontPanel01/Debounce32.vhd Line: 79
+Info (10041): Inferred latch for "o_PinsOut[18]" at Debounce32.vhd(79) File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/FrontPanel01/Debounce32.vhd Line: 79
+Info (10041): Inferred latch for "o_PinsOut[19]" at Debounce32.vhd(79) File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/FrontPanel01/Debounce32.vhd Line: 79
+Info (10041): Inferred latch for "o_PinsOut[20]" at Debounce32.vhd(79) File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/FrontPanel01/Debounce32.vhd Line: 79
+Info (10041): Inferred latch for "o_PinsOut[21]" at Debounce32.vhd(79) File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/FrontPanel01/Debounce32.vhd Line: 79
+Info (10041): Inferred latch for "o_PinsOut[22]" at Debounce32.vhd(79) File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/FrontPanel01/Debounce32.vhd Line: 79
+Info (10041): Inferred latch for "o_PinsOut[23]" at Debounce32.vhd(79) File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/FrontPanel01/Debounce32.vhd Line: 79
+Info (10041): Inferred latch for "o_PinsOut[24]" at Debounce32.vhd(79) File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/FrontPanel01/Debounce32.vhd Line: 79
+Info (10041): Inferred latch for "o_PinsOut[25]" at Debounce32.vhd(79) File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/FrontPanel01/Debounce32.vhd Line: 79
+Info (10041): Inferred latch for "o_PinsOut[26]" at Debounce32.vhd(79) File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/FrontPanel01/Debounce32.vhd Line: 79
+Info (10041): Inferred latch for "o_PinsOut[27]" at Debounce32.vhd(79) File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/FrontPanel01/Debounce32.vhd Line: 79
+Info (10041): Inferred latch for "o_PinsOut[28]" at Debounce32.vhd(79) File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/FrontPanel01/Debounce32.vhd Line: 79
+Info (10041): Inferred latch for "o_PinsOut[29]" at Debounce32.vhd(79) File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/FrontPanel01/Debounce32.vhd Line: 79
+Info (10041): Inferred latch for "o_PinsOut[30]" at Debounce32.vhd(79) File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/FrontPanel01/Debounce32.vhd Line: 79
+Info (10041): Inferred latch for "o_PinsOut[31]" at Debounce32.vhd(79) File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/FrontPanel01/Debounce32.vhd Line: 79
 Info (11170): Starting IP generation for the debug fabric: alt_sld_fab.
-Info (11172): 2021.06.21.18:26:30 Progress: Loading sldd3ad11c3/alt_sld_fab_wrapper_hw.tcl
+Info (11172): 2021.06.22.19:43:22 Progress: Loading sldd3ad11c3/alt_sld_fab_wrapper_hw.tcl
 Info (11172): Alt_sld_fab.alt_sld_fab: SLD fabric agents which did not specify prefer_host were connected to JTAG
 Info (11172): Alt_sld_fab: Generating alt_sld_fab "alt_sld_fab" for QUARTUS_SYNTH
 Info (11172): Alt_sld_fab: "alt_sld_fab" instantiated alt_sld_fab "alt_sld_fab"
@@ -1178,112 +1377,151 @@ Info (12021): Found 2 design units, including 1 entities, in source file db/ip/s
 Info (12021): Found 1 design units, including 1 entities, in source file db/ip/sldd3ad11c3/submodules/alt_sld_fab_alt_sld_fab_splitter.sv
     Info (12023): Found entity 1: alt_sld_fab_alt_sld_fab_splitter File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15/FrontPanel01/db/ip/sldd3ad11c3/submodules/alt_sld_fab_alt_sld_fab_splitter.sv Line: 3
 Warning (19016): Clock multiplexers are found and protected
-    Warning (19017): Found clock multiplexer FrontPanel01:fp01|IOP16:iop16|o_periphAdr[0] File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/CPU/IOP16/IOP16B.vhd Line: 80
-    Warning (19017): Found clock multiplexer FrontPanel01:fp01|IOP16:iop16|o_periphAdr[1] File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/CPU/IOP16/IOP16B.vhd Line: 80
-    Warning (19017): Found clock multiplexer FrontPanel01:fp01|IOP16:iop16|o_periphAdr[2] File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/CPU/IOP16/IOP16B.vhd Line: 80
-    Warning (19017): Found clock multiplexer FrontPanel01:fp01|IOP16:iop16|o_periphAdr[3] File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/CPU/IOP16/IOP16B.vhd Line: 80
-    Warning (19017): Found clock multiplexer FrontPanel01:fp01|IOP16:iop16|o_periphAdr[4] File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/CPU/IOP16/IOP16B.vhd Line: 80
-    Warning (19017): Found clock multiplexer FrontPanel01:fp01|IOP16:iop16|o_periphAdr[5] File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/CPU/IOP16/IOP16B.vhd Line: 80
-    Warning (19017): Found clock multiplexer FrontPanel01:fp01|IOP16:iop16|o_periphAdr[6] File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/CPU/IOP16/IOP16B.vhd Line: 80
-    Warning (19017): Found clock multiplexer FrontPanel01:fp01|IOP16:iop16|o_periphAdr[7] File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/CPU/IOP16/IOP16B.vhd Line: 80
-Warning (13012): Latch FrontPanel01:fp01|Debouncer32:debouncePB|o_PinsOut[0]_261 has unsafe behavior File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15/FrontPanel01/Debounce32.vhd Line: 79
-    Warning (13013): Ports D and ENA on the latch are fed by the same signal FrontPanel01:fp01|Debouncer32:debouncePB|w_termCount File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15/FrontPanel01/Debounce32.vhd Line: 23
-Warning (13012): Latch FrontPanel01:fp01|Debouncer32:debouncePB|o_PinsOut[25]_461 has unsafe behavior File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15/FrontPanel01/Debounce32.vhd Line: 79
-    Warning (13013): Ports D and ENA on the latch are fed by the same signal FrontPanel01:fp01|Debouncer32:debouncePB|w_termCount File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15/FrontPanel01/Debounce32.vhd Line: 23
-Warning (13012): Latch FrontPanel01:fp01|Debouncer32:debouncePB|o_PinsOut[8]_325 has unsafe behavior File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15/FrontPanel01/Debounce32.vhd Line: 79
-    Warning (13013): Ports D and ENA on the latch are fed by the same signal FrontPanel01:fp01|Debouncer32:debouncePB|w_termCount File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15/FrontPanel01/Debounce32.vhd Line: 23
-Warning (13012): Latch FrontPanel01:fp01|Debouncer32:debouncePB|o_PinsOut[24]_453 has unsafe behavior File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15/FrontPanel01/Debounce32.vhd Line: 79
-    Warning (13013): Ports D and ENA on the latch are fed by the same signal FrontPanel01:fp01|Debouncer32:debouncePB|w_termCount File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15/FrontPanel01/Debounce32.vhd Line: 23
-Warning (13012): Latch FrontPanel01:fp01|Debouncer32:debouncePB|o_PinsOut[16]_389 has unsafe behavior File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15/FrontPanel01/Debounce32.vhd Line: 79
-    Warning (13013): Ports D and ENA on the latch are fed by the same signal FrontPanel01:fp01|Debouncer32:debouncePB|w_termCount File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15/FrontPanel01/Debounce32.vhd Line: 23
-Warning (13012): Latch FrontPanel01:fp01|Debouncer32:debouncePB|o_PinsOut[9]_333 has unsafe behavior File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15/FrontPanel01/Debounce32.vhd Line: 79
-    Warning (13013): Ports D and ENA on the latch are fed by the same signal FrontPanel01:fp01|Debouncer32:debouncePB|w_termCount File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15/FrontPanel01/Debounce32.vhd Line: 23
-Warning (13012): Latch FrontPanel01:fp01|Debouncer32:debouncePB|o_PinsOut[10]_341 has unsafe behavior File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15/FrontPanel01/Debounce32.vhd Line: 79
-    Warning (13013): Ports D and ENA on the latch are fed by the same signal FrontPanel01:fp01|Debouncer32:debouncePB|w_termCount File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15/FrontPanel01/Debounce32.vhd Line: 23
-Warning (13012): Latch FrontPanel01:fp01|Debouncer32:debouncePB|o_PinsOut[11]_349 has unsafe behavior File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15/FrontPanel01/Debounce32.vhd Line: 79
-    Warning (13013): Ports D and ENA on the latch are fed by the same signal FrontPanel01:fp01|Debouncer32:debouncePB|w_termCount File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15/FrontPanel01/Debounce32.vhd Line: 23
-Warning (13012): Latch FrontPanel01:fp01|Debouncer32:debouncePB|o_PinsOut[12]_357 has unsafe behavior File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15/FrontPanel01/Debounce32.vhd Line: 79
-    Warning (13013): Ports D and ENA on the latch are fed by the same signal FrontPanel01:fp01|Debouncer32:debouncePB|w_termCount File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15/FrontPanel01/Debounce32.vhd Line: 23
-Warning (13012): Latch FrontPanel01:fp01|Debouncer32:debouncePB|o_PinsOut[13]_365 has unsafe behavior File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15/FrontPanel01/Debounce32.vhd Line: 79
-    Warning (13013): Ports D and ENA on the latch are fed by the same signal FrontPanel01:fp01|Debouncer32:debouncePB|w_termCount File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15/FrontPanel01/Debounce32.vhd Line: 23
-Warning (13012): Latch FrontPanel01:fp01|Debouncer32:debouncePB|o_PinsOut[14]_373 has unsafe behavior File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15/FrontPanel01/Debounce32.vhd Line: 79
-    Warning (13013): Ports D and ENA on the latch are fed by the same signal FrontPanel01:fp01|Debouncer32:debouncePB|w_termCount File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15/FrontPanel01/Debounce32.vhd Line: 23
-Warning (13012): Latch FrontPanel01:fp01|Debouncer32:debouncePB|o_PinsOut[15]_381 has unsafe behavior File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15/FrontPanel01/Debounce32.vhd Line: 79
-    Warning (13013): Ports D and ENA on the latch are fed by the same signal FrontPanel01:fp01|Debouncer32:debouncePB|w_termCount File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15/FrontPanel01/Debounce32.vhd Line: 23
-Warning (13012): Latch FrontPanel01:fp01|Debouncer32:debouncePB|o_PinsOut[17]_397 has unsafe behavior File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15/FrontPanel01/Debounce32.vhd Line: 79
-    Warning (13013): Ports D and ENA on the latch are fed by the same signal FrontPanel01:fp01|Debouncer32:debouncePB|w_termCount File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15/FrontPanel01/Debounce32.vhd Line: 23
-Warning (13012): Latch FrontPanel01:fp01|Debouncer32:debouncePB|o_PinsOut[18]_405 has unsafe behavior File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15/FrontPanel01/Debounce32.vhd Line: 79
-    Warning (13013): Ports D and ENA on the latch are fed by the same signal FrontPanel01:fp01|Debouncer32:debouncePB|w_termCount File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15/FrontPanel01/Debounce32.vhd Line: 23
-Warning (13012): Latch FrontPanel01:fp01|Debouncer32:debouncePB|o_PinsOut[19]_413 has unsafe behavior File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15/FrontPanel01/Debounce32.vhd Line: 79
-    Warning (13013): Ports D and ENA on the latch are fed by the same signal FrontPanel01:fp01|Debouncer32:debouncePB|w_termCount File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15/FrontPanel01/Debounce32.vhd Line: 23
-Warning (13012): Latch FrontPanel01:fp01|Debouncer32:debouncePB|o_PinsOut[20]_421 has unsafe behavior File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15/FrontPanel01/Debounce32.vhd Line: 79
-    Warning (13013): Ports D and ENA on the latch are fed by the same signal FrontPanel01:fp01|Debouncer32:debouncePB|w_termCount File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15/FrontPanel01/Debounce32.vhd Line: 23
-Warning (13012): Latch FrontPanel01:fp01|Debouncer32:debouncePB|o_PinsOut[1]_269 has unsafe behavior File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15/FrontPanel01/Debounce32.vhd Line: 79
-    Warning (13013): Ports D and ENA on the latch are fed by the same signal FrontPanel01:fp01|Debouncer32:debouncePB|w_termCount File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15/FrontPanel01/Debounce32.vhd Line: 23
-Warning (13012): Latch FrontPanel01:fp01|Debouncer32:debouncePB|o_PinsOut[2]_277 has unsafe behavior File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15/FrontPanel01/Debounce32.vhd Line: 79
-    Warning (13013): Ports D and ENA on the latch are fed by the same signal FrontPanel01:fp01|Debouncer32:debouncePB|w_termCount File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15/FrontPanel01/Debounce32.vhd Line: 23
-Warning (13012): Latch FrontPanel01:fp01|Debouncer32:debouncePB|o_PinsOut[7]_317 has unsafe behavior File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15/FrontPanel01/Debounce32.vhd Line: 79
-    Warning (13013): Ports D and ENA on the latch are fed by the same signal FrontPanel01:fp01|Debouncer32:debouncePB|w_termCount File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15/FrontPanel01/Debounce32.vhd Line: 23
-Warning (13012): Latch FrontPanel01:fp01|Debouncer32:debouncePB|o_PinsOut[23]_445 has unsafe behavior File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15/FrontPanel01/Debounce32.vhd Line: 79
-    Warning (13013): Ports D and ENA on the latch are fed by the same signal FrontPanel01:fp01|Debouncer32:debouncePB|w_termCount File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15/FrontPanel01/Debounce32.vhd Line: 23
-Warning (13012): Latch FrontPanel01:fp01|Debouncer32:debouncePB|o_PinsOut[31]_509 has unsafe behavior File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15/FrontPanel01/Debounce32.vhd Line: 79
-    Warning (13013): Ports D and ENA on the latch are fed by the same signal FrontPanel01:fp01|Debouncer32:debouncePB|w_termCount File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15/FrontPanel01/Debounce32.vhd Line: 23
-Warning (13012): Latch FrontPanel01:fp01|Debouncer32:debouncePB|o_PinsOut[6]_309 has unsafe behavior File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15/FrontPanel01/Debounce32.vhd Line: 79
-    Warning (13013): Ports D and ENA on the latch are fed by the same signal FrontPanel01:fp01|Debouncer32:debouncePB|w_termCount File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15/FrontPanel01/Debounce32.vhd Line: 23
-Warning (13012): Latch FrontPanel01:fp01|Debouncer32:debouncePB|o_PinsOut[22]_437 has unsafe behavior File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15/FrontPanel01/Debounce32.vhd Line: 79
-    Warning (13013): Ports D and ENA on the latch are fed by the same signal FrontPanel01:fp01|Debouncer32:debouncePB|w_termCount File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15/FrontPanel01/Debounce32.vhd Line: 23
-Warning (13012): Latch FrontPanel01:fp01|Debouncer32:debouncePB|o_PinsOut[5]_301 has unsafe behavior File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15/FrontPanel01/Debounce32.vhd Line: 79
-    Warning (13013): Ports D and ENA on the latch are fed by the same signal FrontPanel01:fp01|Debouncer32:debouncePB|w_termCount File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15/FrontPanel01/Debounce32.vhd Line: 23
-Warning (13012): Latch FrontPanel01:fp01|Debouncer32:debouncePB|o_PinsOut[21]_429 has unsafe behavior File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15/FrontPanel01/Debounce32.vhd Line: 79
-    Warning (13013): Ports D and ENA on the latch are fed by the same signal FrontPanel01:fp01|Debouncer32:debouncePB|w_termCount File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15/FrontPanel01/Debounce32.vhd Line: 23
-Warning (13012): Latch FrontPanel01:fp01|Debouncer32:debouncePB|o_PinsOut[4]_293 has unsafe behavior File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15/FrontPanel01/Debounce32.vhd Line: 79
-    Warning (13013): Ports D and ENA on the latch are fed by the same signal FrontPanel01:fp01|Debouncer32:debouncePB|w_termCount File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15/FrontPanel01/Debounce32.vhd Line: 23
-Warning (13012): Latch FrontPanel01:fp01|Debouncer32:debouncePB|o_PinsOut[3]_285 has unsafe behavior File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15/FrontPanel01/Debounce32.vhd Line: 79
-    Warning (13013): Ports D and ENA on the latch are fed by the same signal FrontPanel01:fp01|Debouncer32:debouncePB|w_termCount File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15/FrontPanel01/Debounce32.vhd Line: 23
+    Warning (19017): Found clock multiplexer FrontPanel01:fp01|IOP16:iop16|o_periphAdr[0] File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/CPU/IOP16/IOP16B.vhd Line: 84
+    Warning (19017): Found clock multiplexer FrontPanel01:fp01|IOP16:iop16|o_periphAdr[1] File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/CPU/IOP16/IOP16B.vhd Line: 84
+    Warning (19017): Found clock multiplexer FrontPanel01:fp01|IOP16:iop16|o_periphAdr[2] File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/CPU/IOP16/IOP16B.vhd Line: 84
+    Warning (19017): Found clock multiplexer FrontPanel01:fp01|IOP16:iop16|o_periphAdr[3] File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/CPU/IOP16/IOP16B.vhd Line: 84
+    Warning (19017): Found clock multiplexer FrontPanel01:fp01|IOP16:iop16|o_periphAdr[4] File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/CPU/IOP16/IOP16B.vhd Line: 84
+    Warning (19017): Found clock multiplexer FrontPanel01:fp01|IOP16:iop16|o_periphAdr[5] File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/CPU/IOP16/IOP16B.vhd Line: 84
+    Warning (19017): Found clock multiplexer FrontPanel01:fp01|IOP16:iop16|o_periphAdr[6] File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/CPU/IOP16/IOP16B.vhd Line: 84
+    Warning (19017): Found clock multiplexer FrontPanel01:fp01|IOP16:iop16|o_periphAdr[7] File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/CPU/IOP16/IOP16B.vhd Line: 84
+Warning (276027): Inferred dual-clock RAM node "FrontPanel01:fp01|IOP16:iop16|lifo:\GEN_STACK_DEEPER:lifo|r_mem_rtl_0" from synchronous design logic.  The read-during-write behavior of a dual-clock RAM is undefined and may not match the behavior of the original design.
+Info (19000): Inferred 1 megafunctions from design logic
+    Info (276029): Inferred altsyncram megafunction from the following design logic: "FrontPanel01:fp01|IOP16:iop16|lifo:\GEN_STACK_DEEPER:lifo|r_mem_rtl_0" 
+        Info (286033): Parameter OPERATION_MODE set to DUAL_PORT
+        Info (286033): Parameter WIDTH_A set to 12
+        Info (286033): Parameter WIDTHAD_A set to 4
+        Info (286033): Parameter NUMWORDS_A set to 16
+        Info (286033): Parameter WIDTH_B set to 12
+        Info (286033): Parameter WIDTHAD_B set to 4
+        Info (286033): Parameter NUMWORDS_B set to 16
+        Info (286033): Parameter ADDRESS_ACLR_A set to NONE
+        Info (286033): Parameter OUTDATA_REG_B set to UNREGISTERED
+        Info (286033): Parameter ADDRESS_ACLR_B set to NONE
+        Info (286033): Parameter OUTDATA_ACLR_B set to NONE
+        Info (286033): Parameter ADDRESS_REG_B set to CLOCK1
+        Info (286033): Parameter INDATA_ACLR_A set to NONE
+        Info (286033): Parameter WRCONTROL_ACLR_A set to NONE
+Info (12130): Elaborated megafunction instantiation "FrontPanel01:fp01|IOP16:iop16|lifo:\GEN_STACK_DEEPER:lifo|altsyncram:r_mem_rtl_0"
+Info (12133): Instantiated megafunction "FrontPanel01:fp01|IOP16:iop16|lifo:\GEN_STACK_DEEPER:lifo|altsyncram:r_mem_rtl_0" with the following parameter:
+    Info (12134): Parameter "OPERATION_MODE" = "DUAL_PORT"
+    Info (12134): Parameter "WIDTH_A" = "12"
+    Info (12134): Parameter "WIDTHAD_A" = "4"
+    Info (12134): Parameter "NUMWORDS_A" = "16"
+    Info (12134): Parameter "WIDTH_B" = "12"
+    Info (12134): Parameter "WIDTHAD_B" = "4"
+    Info (12134): Parameter "NUMWORDS_B" = "16"
+    Info (12134): Parameter "ADDRESS_ACLR_A" = "NONE"
+    Info (12134): Parameter "OUTDATA_REG_B" = "UNREGISTERED"
+    Info (12134): Parameter "ADDRESS_ACLR_B" = "NONE"
+    Info (12134): Parameter "OUTDATA_ACLR_B" = "NONE"
+    Info (12134): Parameter "ADDRESS_REG_B" = "CLOCK1"
+    Info (12134): Parameter "INDATA_ACLR_A" = "NONE"
+    Info (12134): Parameter "WRCONTROL_ACLR_A" = "NONE"
+Info (12021): Found 1 design units, including 1 entities, in source file db/altsyncram_2pd1.tdf
+    Info (12023): Found entity 1: altsyncram_2pd1 File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15/FrontPanel01/db/altsyncram_2pd1.tdf Line: 28
+Warning (14284): Synthesized away the following node(s):
+    Warning (14285): Synthesized away the following RAM node(s):
+        Warning (14320): Synthesized away node "FrontPanel01:fp01|IOP16:iop16|lifo:\GEN_STACK_DEEPER:lifo|altsyncram:r_mem_rtl_0|altsyncram_2pd1:auto_generated|ram_block1a10" File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15/FrontPanel01/db/altsyncram_2pd1.tdf Line: 340
+        Warning (14320): Synthesized away node "FrontPanel01:fp01|IOP16:iop16|lifo:\GEN_STACK_DEEPER:lifo|altsyncram:r_mem_rtl_0|altsyncram_2pd1:auto_generated|ram_block1a11" File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15/FrontPanel01/db/altsyncram_2pd1.tdf Line: 370
+Warning (13012): Latch FrontPanel01:fp01|Debouncer32:debouncePB|o_PinsOut[0]_261 has unsafe behavior File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/FrontPanel01/Debounce32.vhd Line: 79
+    Warning (13013): Ports D and ENA on the latch are fed by the same signal FrontPanel01:fp01|Debouncer32:debouncePB|w_termCount File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/FrontPanel01/Debounce32.vhd Line: 23
+Warning (13012): Latch FrontPanel01:fp01|Debouncer32:debouncePB|o_PinsOut[25]_461 has unsafe behavior File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/FrontPanel01/Debounce32.vhd Line: 79
+    Warning (13013): Ports D and ENA on the latch are fed by the same signal FrontPanel01:fp01|Debouncer32:debouncePB|w_termCount File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/FrontPanel01/Debounce32.vhd Line: 23
+Warning (13012): Latch FrontPanel01:fp01|Debouncer32:debouncePB|o_PinsOut[8]_325 has unsafe behavior File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/FrontPanel01/Debounce32.vhd Line: 79
+    Warning (13013): Ports D and ENA on the latch are fed by the same signal FrontPanel01:fp01|Debouncer32:debouncePB|w_termCount File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/FrontPanel01/Debounce32.vhd Line: 23
+Warning (13012): Latch FrontPanel01:fp01|Debouncer32:debouncePB|o_PinsOut[24]_453 has unsafe behavior File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/FrontPanel01/Debounce32.vhd Line: 79
+    Warning (13013): Ports D and ENA on the latch are fed by the same signal FrontPanel01:fp01|Debouncer32:debouncePB|w_termCount File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/FrontPanel01/Debounce32.vhd Line: 23
+Warning (13012): Latch FrontPanel01:fp01|Debouncer32:debouncePB|o_PinsOut[16]_389 has unsafe behavior File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/FrontPanel01/Debounce32.vhd Line: 79
+    Warning (13013): Ports D and ENA on the latch are fed by the same signal FrontPanel01:fp01|Debouncer32:debouncePB|w_termCount File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/FrontPanel01/Debounce32.vhd Line: 23
+Warning (13012): Latch FrontPanel01:fp01|Debouncer32:debouncePB|o_PinsOut[9]_333 has unsafe behavior File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/FrontPanel01/Debounce32.vhd Line: 79
+    Warning (13013): Ports D and ENA on the latch are fed by the same signal FrontPanel01:fp01|Debouncer32:debouncePB|w_termCount File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/FrontPanel01/Debounce32.vhd Line: 23
+Warning (13012): Latch FrontPanel01:fp01|Debouncer32:debouncePB|o_PinsOut[10]_341 has unsafe behavior File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/FrontPanel01/Debounce32.vhd Line: 79
+    Warning (13013): Ports D and ENA on the latch are fed by the same signal FrontPanel01:fp01|Debouncer32:debouncePB|w_termCount File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/FrontPanel01/Debounce32.vhd Line: 23
+Warning (13012): Latch FrontPanel01:fp01|Debouncer32:debouncePB|o_PinsOut[11]_349 has unsafe behavior File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/FrontPanel01/Debounce32.vhd Line: 79
+    Warning (13013): Ports D and ENA on the latch are fed by the same signal FrontPanel01:fp01|Debouncer32:debouncePB|w_termCount File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/FrontPanel01/Debounce32.vhd Line: 23
+Warning (13012): Latch FrontPanel01:fp01|Debouncer32:debouncePB|o_PinsOut[12]_357 has unsafe behavior File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/FrontPanel01/Debounce32.vhd Line: 79
+    Warning (13013): Ports D and ENA on the latch are fed by the same signal FrontPanel01:fp01|Debouncer32:debouncePB|w_termCount File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/FrontPanel01/Debounce32.vhd Line: 23
+Warning (13012): Latch FrontPanel01:fp01|Debouncer32:debouncePB|o_PinsOut[13]_365 has unsafe behavior File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/FrontPanel01/Debounce32.vhd Line: 79
+    Warning (13013): Ports D and ENA on the latch are fed by the same signal FrontPanel01:fp01|Debouncer32:debouncePB|w_termCount File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/FrontPanel01/Debounce32.vhd Line: 23
+Warning (13012): Latch FrontPanel01:fp01|Debouncer32:debouncePB|o_PinsOut[14]_373 has unsafe behavior File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/FrontPanel01/Debounce32.vhd Line: 79
+    Warning (13013): Ports D and ENA on the latch are fed by the same signal FrontPanel01:fp01|Debouncer32:debouncePB|w_termCount File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/FrontPanel01/Debounce32.vhd Line: 23
+Warning (13012): Latch FrontPanel01:fp01|Debouncer32:debouncePB|o_PinsOut[15]_381 has unsafe behavior File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/FrontPanel01/Debounce32.vhd Line: 79
+    Warning (13013): Ports D and ENA on the latch are fed by the same signal FrontPanel01:fp01|Debouncer32:debouncePB|w_termCount File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/FrontPanel01/Debounce32.vhd Line: 23
+Warning (13012): Latch FrontPanel01:fp01|Debouncer32:debouncePB|o_PinsOut[17]_397 has unsafe behavior File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/FrontPanel01/Debounce32.vhd Line: 79
+    Warning (13013): Ports D and ENA on the latch are fed by the same signal FrontPanel01:fp01|Debouncer32:debouncePB|w_termCount File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/FrontPanel01/Debounce32.vhd Line: 23
+Warning (13012): Latch FrontPanel01:fp01|Debouncer32:debouncePB|o_PinsOut[18]_405 has unsafe behavior File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/FrontPanel01/Debounce32.vhd Line: 79
+    Warning (13013): Ports D and ENA on the latch are fed by the same signal FrontPanel01:fp01|Debouncer32:debouncePB|w_termCount File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/FrontPanel01/Debounce32.vhd Line: 23
+Warning (13012): Latch FrontPanel01:fp01|Debouncer32:debouncePB|o_PinsOut[19]_413 has unsafe behavior File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/FrontPanel01/Debounce32.vhd Line: 79
+    Warning (13013): Ports D and ENA on the latch are fed by the same signal FrontPanel01:fp01|Debouncer32:debouncePB|w_termCount File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/FrontPanel01/Debounce32.vhd Line: 23
+Warning (13012): Latch FrontPanel01:fp01|Debouncer32:debouncePB|o_PinsOut[20]_421 has unsafe behavior File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/FrontPanel01/Debounce32.vhd Line: 79
+    Warning (13013): Ports D and ENA on the latch are fed by the same signal FrontPanel01:fp01|Debouncer32:debouncePB|w_termCount File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/FrontPanel01/Debounce32.vhd Line: 23
+Warning (13012): Latch FrontPanel01:fp01|Debouncer32:debouncePB|o_PinsOut[1]_269 has unsafe behavior File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/FrontPanel01/Debounce32.vhd Line: 79
+    Warning (13013): Ports D and ENA on the latch are fed by the same signal FrontPanel01:fp01|Debouncer32:debouncePB|w_termCount File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/FrontPanel01/Debounce32.vhd Line: 23
+Warning (13012): Latch FrontPanel01:fp01|Debouncer32:debouncePB|o_PinsOut[4]_293 has unsafe behavior File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/FrontPanel01/Debounce32.vhd Line: 79
+    Warning (13013): Ports D and ENA on the latch are fed by the same signal FrontPanel01:fp01|Debouncer32:debouncePB|w_termCount File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/FrontPanel01/Debounce32.vhd Line: 23
+Warning (13012): Latch FrontPanel01:fp01|Debouncer32:debouncePB|o_PinsOut[3]_285 has unsafe behavior File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/FrontPanel01/Debounce32.vhd Line: 79
+    Warning (13013): Ports D and ENA on the latch are fed by the same signal FrontPanel01:fp01|Debouncer32:debouncePB|w_termCount File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/FrontPanel01/Debounce32.vhd Line: 23
+Warning (13012): Latch FrontPanel01:fp01|Debouncer32:debouncePB|o_PinsOut[2]_277 has unsafe behavior File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/FrontPanel01/Debounce32.vhd Line: 79
+    Warning (13013): Ports D and ENA on the latch are fed by the same signal FrontPanel01:fp01|Debouncer32:debouncePB|w_termCount File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/FrontPanel01/Debounce32.vhd Line: 23
+Warning (13012): Latch FrontPanel01:fp01|Debouncer32:debouncePB|o_PinsOut[7]_317 has unsafe behavior File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/FrontPanel01/Debounce32.vhd Line: 79
+    Warning (13013): Ports D and ENA on the latch are fed by the same signal FrontPanel01:fp01|Debouncer32:debouncePB|w_termCount File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/FrontPanel01/Debounce32.vhd Line: 23
+Warning (13012): Latch FrontPanel01:fp01|Debouncer32:debouncePB|o_PinsOut[23]_445 has unsafe behavior File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/FrontPanel01/Debounce32.vhd Line: 79
+    Warning (13013): Ports D and ENA on the latch are fed by the same signal FrontPanel01:fp01|Debouncer32:debouncePB|w_termCount File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/FrontPanel01/Debounce32.vhd Line: 23
+Warning (13012): Latch FrontPanel01:fp01|Debouncer32:debouncePB|o_PinsOut[31]_509 has unsafe behavior File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/FrontPanel01/Debounce32.vhd Line: 79
+    Warning (13013): Ports D and ENA on the latch are fed by the same signal FrontPanel01:fp01|Debouncer32:debouncePB|w_termCount File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/FrontPanel01/Debounce32.vhd Line: 23
+Warning (13012): Latch FrontPanel01:fp01|Debouncer32:debouncePB|o_PinsOut[6]_309 has unsafe behavior File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/FrontPanel01/Debounce32.vhd Line: 79
+    Warning (13013): Ports D and ENA on the latch are fed by the same signal FrontPanel01:fp01|Debouncer32:debouncePB|w_termCount File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/FrontPanel01/Debounce32.vhd Line: 23
+Warning (13012): Latch FrontPanel01:fp01|Debouncer32:debouncePB|o_PinsOut[22]_437 has unsafe behavior File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/FrontPanel01/Debounce32.vhd Line: 79
+    Warning (13013): Ports D and ENA on the latch are fed by the same signal FrontPanel01:fp01|Debouncer32:debouncePB|w_termCount File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/FrontPanel01/Debounce32.vhd Line: 23
+Warning (13012): Latch FrontPanel01:fp01|Debouncer32:debouncePB|o_PinsOut[5]_301 has unsafe behavior File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/FrontPanel01/Debounce32.vhd Line: 79
+    Warning (13013): Ports D and ENA on the latch are fed by the same signal FrontPanel01:fp01|Debouncer32:debouncePB|w_termCount File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/FrontPanel01/Debounce32.vhd Line: 23
+Warning (13012): Latch FrontPanel01:fp01|Debouncer32:debouncePB|o_PinsOut[21]_429 has unsafe behavior File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/FrontPanel01/Debounce32.vhd Line: 79
+    Warning (13013): Ports D and ENA on the latch are fed by the same signal FrontPanel01:fp01|Debouncer32:debouncePB|w_termCount File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/FrontPanel01/Debounce32.vhd Line: 23
 Info (13000): Registers with preset signals will power-up high File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/I2C/i2c.vhd Line: 83
 Info (13003): DEV_CLRn pin will set, and not reset, register with preset signal due to NOT Gate Push-Back
 Info (286031): Timing-Driven Synthesis is running on partition "Top"
-Info (17049): 7 registers lost all their fanouts during netlist optimizations.
+Info (17049): 5 registers lost all their fanouts during netlist optimizations.
 Info (17016): Found the following redundant logic cells in design
-    Info (17048): Logic cell "FrontPanel01:fp01|Debouncer32:debouncePB|o_PinsOut[24]" File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15/FrontPanel01/Debounce32.vhd Line: 79
-    Info (17048): Logic cell "FrontPanel01:fp01|Debouncer32:debouncePB|o_PinsOut[16]" File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15/FrontPanel01/Debounce32.vhd Line: 79
-    Info (17048): Logic cell "FrontPanel01:fp01|Debouncer32:debouncePB|o_PinsOut[8]" File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15/FrontPanel01/Debounce32.vhd Line: 79
-    Info (17048): Logic cell "FrontPanel01:fp01|Debouncer32:debouncePB|o_PinsOut[0]" File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15/FrontPanel01/Debounce32.vhd Line: 79
-    Info (17048): Logic cell "FrontPanel01:fp01|Debouncer32:debouncePB|o_PinsOut[25]" File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15/FrontPanel01/Debounce32.vhd Line: 79
-    Info (17048): Logic cell "FrontPanel01:fp01|Debouncer32:debouncePB|o_PinsOut[9]" File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15/FrontPanel01/Debounce32.vhd Line: 79
-    Info (17048): Logic cell "FrontPanel01:fp01|Debouncer32:debouncePB|o_PinsOut[10]" File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15/FrontPanel01/Debounce32.vhd Line: 79
-    Info (17048): Logic cell "FrontPanel01:fp01|Debouncer32:debouncePB|o_PinsOut[11]" File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15/FrontPanel01/Debounce32.vhd Line: 79
-    Info (17048): Logic cell "FrontPanel01:fp01|Debouncer32:debouncePB|o_PinsOut[12]" File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15/FrontPanel01/Debounce32.vhd Line: 79
-    Info (17048): Logic cell "FrontPanel01:fp01|Debouncer32:debouncePB|o_PinsOut[13]" File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15/FrontPanel01/Debounce32.vhd Line: 79
-    Info (17048): Logic cell "FrontPanel01:fp01|Debouncer32:debouncePB|o_PinsOut[14]" File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15/FrontPanel01/Debounce32.vhd Line: 79
-    Info (17048): Logic cell "FrontPanel01:fp01|Debouncer32:debouncePB|o_PinsOut[15]" File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15/FrontPanel01/Debounce32.vhd Line: 79
-    Info (17048): Logic cell "FrontPanel01:fp01|Debouncer32:debouncePB|o_PinsOut[17]" File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15/FrontPanel01/Debounce32.vhd Line: 79
-    Info (17048): Logic cell "FrontPanel01:fp01|Debouncer32:debouncePB|o_PinsOut[18]" File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15/FrontPanel01/Debounce32.vhd Line: 79
-    Info (17048): Logic cell "FrontPanel01:fp01|Debouncer32:debouncePB|o_PinsOut[19]" File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15/FrontPanel01/Debounce32.vhd Line: 79
-    Info (17048): Logic cell "FrontPanel01:fp01|Debouncer32:debouncePB|o_PinsOut[20]" File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15/FrontPanel01/Debounce32.vhd Line: 79
-    Info (17048): Logic cell "FrontPanel01:fp01|Debouncer32:debouncePB|o_PinsOut[3]" File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15/FrontPanel01/Debounce32.vhd Line: 79
-    Info (17048): Logic cell "FrontPanel01:fp01|Debouncer32:debouncePB|o_PinsOut[1]" File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15/FrontPanel01/Debounce32.vhd Line: 79
-    Info (17048): Logic cell "FrontPanel01:fp01|Debouncer32:debouncePB|o_PinsOut[2]" File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15/FrontPanel01/Debounce32.vhd Line: 79
-    Info (17048): Logic cell "FrontPanel01:fp01|Debouncer32:debouncePB|o_PinsOut[31]" File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15/FrontPanel01/Debounce32.vhd Line: 79
-    Info (17048): Logic cell "FrontPanel01:fp01|Debouncer32:debouncePB|o_PinsOut[23]" File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15/FrontPanel01/Debounce32.vhd Line: 79
-    Info (17048): Logic cell "FrontPanel01:fp01|Debouncer32:debouncePB|o_PinsOut[7]" File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15/FrontPanel01/Debounce32.vhd Line: 79
-    Info (17048): Logic cell "FrontPanel01:fp01|Debouncer32:debouncePB|o_PinsOut[6]" File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15/FrontPanel01/Debounce32.vhd Line: 79
-    Info (17048): Logic cell "FrontPanel01:fp01|Debouncer32:debouncePB|o_PinsOut[22]" File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15/FrontPanel01/Debounce32.vhd Line: 79
-    Info (17048): Logic cell "FrontPanel01:fp01|Debouncer32:debouncePB|o_PinsOut[5]" File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15/FrontPanel01/Debounce32.vhd Line: 79
-    Info (17048): Logic cell "FrontPanel01:fp01|Debouncer32:debouncePB|o_PinsOut[21]" File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15/FrontPanel01/Debounce32.vhd Line: 79
-    Info (17048): Logic cell "FrontPanel01:fp01|Debouncer32:debouncePB|o_PinsOut[4]" File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15/FrontPanel01/Debounce32.vhd Line: 79
+    Info (17048): Logic cell "FrontPanel01:fp01|Debouncer32:debouncePB|o_PinsOut[24]" File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/FrontPanel01/Debounce32.vhd Line: 79
+    Info (17048): Logic cell "FrontPanel01:fp01|Debouncer32:debouncePB|o_PinsOut[16]" File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/FrontPanel01/Debounce32.vhd Line: 79
+    Info (17048): Logic cell "FrontPanel01:fp01|Debouncer32:debouncePB|o_PinsOut[8]" File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/FrontPanel01/Debounce32.vhd Line: 79
+    Info (17048): Logic cell "FrontPanel01:fp01|Debouncer32:debouncePB|o_PinsOut[0]" File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/FrontPanel01/Debounce32.vhd Line: 79
+    Info (17048): Logic cell "FrontPanel01:fp01|Debouncer32:debouncePB|o_PinsOut[25]" File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/FrontPanel01/Debounce32.vhd Line: 79
+    Info (17048): Logic cell "FrontPanel01:fp01|Debouncer32:debouncePB|o_PinsOut[9]" File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/FrontPanel01/Debounce32.vhd Line: 79
+    Info (17048): Logic cell "FrontPanel01:fp01|Debouncer32:debouncePB|o_PinsOut[10]" File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/FrontPanel01/Debounce32.vhd Line: 79
+    Info (17048): Logic cell "FrontPanel01:fp01|Debouncer32:debouncePB|o_PinsOut[11]" File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/FrontPanel01/Debounce32.vhd Line: 79
+    Info (17048): Logic cell "FrontPanel01:fp01|Debouncer32:debouncePB|o_PinsOut[12]" File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/FrontPanel01/Debounce32.vhd Line: 79
+    Info (17048): Logic cell "FrontPanel01:fp01|Debouncer32:debouncePB|o_PinsOut[13]" File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/FrontPanel01/Debounce32.vhd Line: 79
+    Info (17048): Logic cell "FrontPanel01:fp01|Debouncer32:debouncePB|o_PinsOut[14]" File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/FrontPanel01/Debounce32.vhd Line: 79
+    Info (17048): Logic cell "FrontPanel01:fp01|Debouncer32:debouncePB|o_PinsOut[15]" File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/FrontPanel01/Debounce32.vhd Line: 79
+    Info (17048): Logic cell "FrontPanel01:fp01|Debouncer32:debouncePB|o_PinsOut[17]" File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/FrontPanel01/Debounce32.vhd Line: 79
+    Info (17048): Logic cell "FrontPanel01:fp01|Debouncer32:debouncePB|o_PinsOut[18]" File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/FrontPanel01/Debounce32.vhd Line: 79
+    Info (17048): Logic cell "FrontPanel01:fp01|Debouncer32:debouncePB|o_PinsOut[19]" File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/FrontPanel01/Debounce32.vhd Line: 79
+    Info (17048): Logic cell "FrontPanel01:fp01|Debouncer32:debouncePB|o_PinsOut[20]" File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/FrontPanel01/Debounce32.vhd Line: 79
+    Info (17048): Logic cell "FrontPanel01:fp01|Debouncer32:debouncePB|o_PinsOut[5]" File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/FrontPanel01/Debounce32.vhd Line: 79
+    Info (17048): Logic cell "FrontPanel01:fp01|Debouncer32:debouncePB|o_PinsOut[21]" File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/FrontPanel01/Debounce32.vhd Line: 79
+    Info (17048): Logic cell "FrontPanel01:fp01|Debouncer32:debouncePB|o_PinsOut[1]" File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/FrontPanel01/Debounce32.vhd Line: 79
+    Info (17048): Logic cell "FrontPanel01:fp01|Debouncer32:debouncePB|o_PinsOut[4]" File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/FrontPanel01/Debounce32.vhd Line: 79
+    Info (17048): Logic cell "FrontPanel01:fp01|Debouncer32:debouncePB|o_PinsOut[3]" File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/FrontPanel01/Debounce32.vhd Line: 79
+    Info (17048): Logic cell "FrontPanel01:fp01|Debouncer32:debouncePB|o_PinsOut[2]" File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/FrontPanel01/Debounce32.vhd Line: 79
+    Info (17048): Logic cell "FrontPanel01:fp01|Debouncer32:debouncePB|o_PinsOut[31]" File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/FrontPanel01/Debounce32.vhd Line: 79
+    Info (17048): Logic cell "FrontPanel01:fp01|Debouncer32:debouncePB|o_PinsOut[23]" File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/FrontPanel01/Debounce32.vhd Line: 79
+    Info (17048): Logic cell "FrontPanel01:fp01|Debouncer32:debouncePB|o_PinsOut[7]" File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/FrontPanel01/Debounce32.vhd Line: 79
+    Info (17048): Logic cell "FrontPanel01:fp01|Debouncer32:debouncePB|o_PinsOut[6]" File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/FrontPanel01/Debounce32.vhd Line: 79
+    Info (17048): Logic cell "FrontPanel01:fp01|Debouncer32:debouncePB|o_PinsOut[22]" File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/FrontPanel01/Debounce32.vhd Line: 79
 Info (16010): Generating hard_block partition "hard_block:auto_generated_inst"
     Info (16011): Adding 0 node(s), including 0 DDIO, 0 PLL, 0 transceiver and 0 LCELL
-Info (21057): Implemented 954 device resources after synthesis - the final resource count might be different
+Info (21057): Implemented 982 device resources after synthesis - the final resource count might be different
     Info (21058): Implemented 7 input pins
     Info (21059): Implemented 2 output pins
     Info (21060): Implemented 2 bidirectional pins
-    Info (21061): Implemented 918 logic cells
-    Info (21064): Implemented 24 RAM segments
-Info: Quartus Prime Analysis & Synthesis was successful. 0 errors, 86 warnings
-    Info: Peak virtual memory: 4843 megabytes
-    Info: Processing ended: Mon Jun 21 18:26:43 2021
-    Info: Elapsed time: 00:00:33
-    Info: Total CPU time (on all processors): 00:01:10
+    Info (21061): Implemented 936 logic cells
+    Info (21064): Implemented 34 RAM segments
+Info: Quartus Prime Analysis & Synthesis was successful. 0 errors, 91 warnings
+    Info: Peak virtual memory: 4842 megabytes
+    Info: Processing ended: Tue Jun 22 19:43:35 2021
+    Info: Elapsed time: 00:00:32
+    Info: Total CPU time (on all processors): 00:01:09
 
 
