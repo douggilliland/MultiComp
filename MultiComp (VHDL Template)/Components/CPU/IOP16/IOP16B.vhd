@@ -22,6 +22,11 @@
 --		8-bit data
 --		Read strobe (a couple of clocks wide)
 --		Write strobe (single clock wide)
+--	Stack options
+--		Passed in STACK_DEPTH_PASS
+--		0 - No stack needed (no subroutines)
+--		1 - Single (1 level of subroutines)
+--		> 1 - Deeper stack, 2^N deep (if n = 4, result is 16 deep stack)
 --
 -- Opcodes (Capacity for 5 or 6 more instructions)
 --	NOP - x0 - No Operation - Increments PC (could be replaces)
