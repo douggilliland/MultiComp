@@ -71,7 +71,7 @@ use IEEE.STD_LOGIC_UNSIGNED.ALL;
 ENTITY IOP16 IS
 	generic (
 		constant INST_SRAM_SIZE_PASS	: integer;	-- Legal Values are 256, 512, 1024, 2048, 4096
-		constant STACK_DEPTH_PASS		: integer	-- Legal Values are 1 (single), > 1
+		constant STACK_DEPTH_PASS		: integer	-- Legal Values are 0, 1 (single), > 1 (2^N) (nested subroutines)
 	);
 	PORT (
 		i_clk					: IN std_logic;
