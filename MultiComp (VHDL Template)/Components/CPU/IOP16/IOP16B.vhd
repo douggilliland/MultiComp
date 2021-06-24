@@ -5,8 +5,9 @@
 --	Runs at 50 MHz / 8 clocks = 6.25 MIPs
 --		Could easily be sped up (not necessary in my applications)
 --	Small size in FPGA
---		Uses < 350 logic cell
+--		Uses < 220 logic cells in EP4CE15
 --		Minimum 1 of 1K SRAM blocks (depends on program size)
+--			1 Block is 512 KW - a pretty good size program
 --		Trade-off - SRAM could be replaced with logic cells (in theory)
 --	16-bit instruction size
 --	12-bits of address / program memory
@@ -29,17 +30,17 @@
 --		> 1 - Deeper stack, 2^N deep (if n = 4, result is 16 deep stack)
 --
 -- Opcodes (Capacity for 5 or 6 more instructions)
---	NOP - x0 - No Operation - Increments PC (could be replaces)
---	LRI - x2 - Load register with immediate value
---	IOR - x6 - I/O Read into register
---	IOW - x7 - I/O Write from register
---	ARI - x8 - AND register with Immediate value and store back into register
---	ORI - x9 - OR register with Immediate value and store back into register
---	JSR - xA - Jump to subroutine (stack depth can be 1 or 16, set in STACK_DEPTH generic)
---	RTS - xB = Return from subroutine
---	BEZ - xc - Branch by offset if equal to zero
---	BNZ - xd - Branch by offset if not equal to zero
---	JMP - xe - Jump to address (12-bits)
+--		NOP - x0 - No Operation - Increments PC (could be replaces)
+--		LRI - x2 - Load register with immediate value
+--		IOR - x6 - I/O Read into register
+--		IOW - x7 - I/O Write from register
+--		ARI - x8 - AND register with Immediate value and store back into register
+--		ORI - x9 - OR register with Immediate value and store back into register
+--		JSR - xA - Jump to subroutine (stack depth can be 1 or 16, set in STACK_DEPTH generic)
+--		RTS - xB = Return from subroutine
+--		BEZ - xc - Branch by offset if equal to zero
+--		BNZ - xd - Branch by offset if not equal to zero
+--		JMP - xe - Jump to address (12-bits)
 --
 -- Fields
 --		d15..d12 = opcode
@@ -50,6 +51,7 @@
 --		d7..d0   = Immediate value (LRI, ARI, ORI)
 --
 --	Stack sizes are:
+--		0  - No stack register
 --		1	- Single subroutine (not nested)
 --		>1	- 2^N deep (supports 16 deep nesting but consumes 1 memory block)
 --

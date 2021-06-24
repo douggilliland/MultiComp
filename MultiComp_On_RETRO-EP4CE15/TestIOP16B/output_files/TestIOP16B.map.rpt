@@ -1,5 +1,5 @@
-Analysis & Synthesis report for TestIOP16B
-Tue Jun 22 20:01:14 2021
+Analysis & Elaboration report for TestIOP16B
+Thu Jun 24 14:24:58 2021
 Quartus Prime Version 20.1.0 Build 711 06/05/2020 SJ Lite Edition
 
 
@@ -7,29 +7,17 @@ Quartus Prime Version 20.1.0 Build 711 06/05/2020 SJ Lite Edition
 ; Table of Contents ;
 ---------------------
   1. Legal Notice
-  2. Analysis & Synthesis Summary
-  3. Analysis & Synthesis Settings
-  4. Parallel Compilation
-  5. Analysis & Synthesis Source Files Read
-  6. Analysis & Synthesis Resource Usage Summary
-  7. Analysis & Synthesis Resource Utilization by Entity
-  8. Analysis & Synthesis RAM Summary
-  9. User-Specified and Inferred Latches
- 10. Registers Removed During Synthesis
- 11. Removed Registers Triggering Further Register Optimizations
- 12. General Register Statistics
- 13. Inverted Register Statistics
- 14. Multiplexer Restructuring Statistics (Restructuring Performed)
- 15. Source assignments for IOP16:IOP16|IOP_ROM:\GEN_512W_INST_ROM:IopRom|altsyncram:altsyncram_component|altsyncram_7634:auto_generated
- 16. Parameter Settings for User Entity Instance: IOP16:IOP16
- 17. Parameter Settings for User Entity Instance: IOP16:IOP16|GrayCounter:greyLow
- 18. Parameter Settings for User Entity Instance: IOP16:IOP16|IOP_ROM:\GEN_512W_INST_ROM:IopRom|altsyncram:altsyncram_component
- 19. altsyncram Parameter Settings by Entity Instance
- 20. Port Connectivity Checks: "IOP16:IOP16|GrayCounter:greyLow"
- 21. Port Connectivity Checks: "IOP16:IOP16"
- 22. Post-Synthesis Netlist Statistics for Top Partition
- 23. Elapsed Time Per Partition
- 24. Analysis & Synthesis Messages
+  2. Analysis & Elaboration Summary
+  3. Parallel Compilation
+  4. Source assignments for IOP16:IOP16|IOP_ROM:\GEN_512W_INST_ROM:IopRom|altsyncram:altsyncram_component|altsyncram_7634:auto_generated
+  5. Parameter Settings for User Entity Instance: IOP16:IOP16
+  6. Parameter Settings for User Entity Instance: IOP16:IOP16|GrayCounter:greyLow
+  7. Parameter Settings for User Entity Instance: IOP16:IOP16|IOP_ROM:\GEN_512W_INST_ROM:IopRom|altsyncram:altsyncram_component
+  8. altsyncram Parameter Settings by Entity Instance
+  9. Analysis & Elaboration Settings
+ 10. Port Connectivity Checks: "IOP16:IOP16|GrayCounter:greyLow"
+ 11. Port Connectivity Checks: "IOP16:IOP16"
+ 12. Analysis & Elaboration Messages
 
 
 
@@ -54,109 +42,23 @@ https://fpgasoftware.intel.com/eula.
 
 
 +----------------------------------------------------------------------------------+
-; Analysis & Synthesis Summary                                                     ;
+; Analysis & Elaboration Summary                                                   ;
 +------------------------------------+---------------------------------------------+
-; Analysis & Synthesis Status        ; Successful - Tue Jun 22 20:01:14 2021       ;
+; Analysis & Elaboration Status      ; Successful - Thu Jun 24 14:24:58 2021       ;
 ; Quartus Prime Version              ; 20.1.0 Build 711 06/05/2020 SJ Lite Edition ;
 ; Revision Name                      ; TestIOP16B                                  ;
 ; Top-level Entity Name              ; TestIOP16B                                  ;
 ; Family                             ; Cyclone IV E                                ;
-; Total logic elements               ; 252                                         ;
-;     Total combinational functions  ; 193                                         ;
-;     Dedicated logic registers      ; 110                                         ;
-; Total registers                    ; 110                                         ;
-; Total pins                         ; 4                                           ;
-; Total virtual pins                 ; 0                                           ;
-; Total memory bits                  ; 8,192                                       ;
-; Embedded Multiplier 9-bit elements ; 0                                           ;
-; Total PLLs                         ; 0                                           ;
+; Total logic elements               ; N/A until Partition Merge                   ;
+;     Total combinational functions  ; N/A until Partition Merge                   ;
+;     Dedicated logic registers      ; N/A until Partition Merge                   ;
+; Total registers                    ; N/A until Partition Merge                   ;
+; Total pins                         ; N/A until Partition Merge                   ;
+; Total virtual pins                 ; N/A until Partition Merge                   ;
+; Total memory bits                  ; N/A until Partition Merge                   ;
+; Embedded Multiplier 9-bit elements ; N/A until Partition Merge                   ;
+; Total PLLs                         ; N/A until Partition Merge                   ;
 +------------------------------------+---------------------------------------------+
-
-
-+------------------------------------------------------------------------------------------------------------+
-; Analysis & Synthesis Settings                                                                              ;
-+------------------------------------------------------------------+--------------------+--------------------+
-; Option                                                           ; Setting            ; Default Value      ;
-+------------------------------------------------------------------+--------------------+--------------------+
-; Device                                                           ; EP4CE15F23C8       ;                    ;
-; Top-level entity name                                            ; TestIOP16B         ; TestIOP16B         ;
-; Family name                                                      ; Cyclone IV E       ; Cyclone V          ;
-; Use smart compilation                                            ; On                 ; Off                ;
-; Enable parallel Assembler and Timing Analyzer during compilation ; On                 ; On                 ;
-; Enable compact report table                                      ; Off                ; Off                ;
-; Restructure Multiplexers                                         ; Auto               ; Auto               ;
-; Create Debugging Nodes for IP Cores                              ; Off                ; Off                ;
-; Preserve fewer node names                                        ; On                 ; On                 ;
-; Intel FPGA IP Evaluation Mode                                    ; Enable             ; Enable             ;
-; Verilog Version                                                  ; Verilog_2001       ; Verilog_2001       ;
-; VHDL Version                                                     ; VHDL_1993          ; VHDL_1993          ;
-; State Machine Processing                                         ; Auto               ; Auto               ;
-; Safe State Machine                                               ; Off                ; Off                ;
-; Extract Verilog State Machines                                   ; On                 ; On                 ;
-; Extract VHDL State Machines                                      ; On                 ; On                 ;
-; Ignore Verilog initial constructs                                ; Off                ; Off                ;
-; Iteration limit for constant Verilog loops                       ; 5000               ; 5000               ;
-; Iteration limit for non-constant Verilog loops                   ; 250                ; 250                ;
-; Add Pass-Through Logic to Inferred RAMs                          ; On                 ; On                 ;
-; Infer RAMs from Raw Logic                                        ; On                 ; On                 ;
-; Parallel Synthesis                                               ; On                 ; On                 ;
-; DSP Block Balancing                                              ; Auto               ; Auto               ;
-; NOT Gate Push-Back                                               ; On                 ; On                 ;
-; Power-Up Don't Care                                              ; On                 ; On                 ;
-; Remove Redundant Logic Cells                                     ; Off                ; Off                ;
-; Remove Duplicate Registers                                       ; On                 ; On                 ;
-; Ignore CARRY Buffers                                             ; Off                ; Off                ;
-; Ignore CASCADE Buffers                                           ; Off                ; Off                ;
-; Ignore GLOBAL Buffers                                            ; Off                ; Off                ;
-; Ignore ROW GLOBAL Buffers                                        ; Off                ; Off                ;
-; Ignore LCELL Buffers                                             ; Off                ; Off                ;
-; Ignore SOFT Buffers                                              ; On                 ; On                 ;
-; Limit AHDL Integers to 32 Bits                                   ; Off                ; Off                ;
-; Optimization Technique                                           ; Balanced           ; Balanced           ;
-; Carry Chain Length                                               ; 70                 ; 70                 ;
-; Auto Carry Chains                                                ; On                 ; On                 ;
-; Auto Open-Drain Pins                                             ; On                 ; On                 ;
-; Perform WYSIWYG Primitive Resynthesis                            ; Off                ; Off                ;
-; Auto ROM Replacement                                             ; On                 ; On                 ;
-; Auto RAM Replacement                                             ; On                 ; On                 ;
-; Auto DSP Block Replacement                                       ; On                 ; On                 ;
-; Auto Shift Register Replacement                                  ; Auto               ; Auto               ;
-; Allow Shift Register Merging across Hierarchies                  ; Auto               ; Auto               ;
-; Auto Clock Enable Replacement                                    ; On                 ; On                 ;
-; Strict RAM Replacement                                           ; Off                ; Off                ;
-; Allow Synchronous Control Signals                                ; On                 ; On                 ;
-; Force Use of Synchronous Clear Signals                           ; Off                ; Off                ;
-; Auto RAM Block Balancing                                         ; On                 ; On                 ;
-; Auto RAM to Logic Cell Conversion                                ; Off                ; Off                ;
-; Auto Resource Sharing                                            ; Off                ; Off                ;
-; Allow Any RAM Size For Recognition                               ; Off                ; Off                ;
-; Allow Any ROM Size For Recognition                               ; Off                ; Off                ;
-; Allow Any Shift Register Size For Recognition                    ; Off                ; Off                ;
-; Use LogicLock Constraints during Resource Balancing              ; On                 ; On                 ;
-; Ignore translate_off and synthesis_off directives                ; Off                ; Off                ;
-; Timing-Driven Synthesis                                          ; On                 ; On                 ;
-; Report Parameter Settings                                        ; On                 ; On                 ;
-; Report Source Assignments                                        ; On                 ; On                 ;
-; Report Connectivity Checks                                       ; On                 ; On                 ;
-; Ignore Maximum Fan-Out Assignments                               ; Off                ; Off                ;
-; Synchronization Register Chain Length                            ; 2                  ; 2                  ;
-; Power Optimization During Synthesis                              ; Normal compilation ; Normal compilation ;
-; HDL message level                                                ; Level2             ; Level2             ;
-; Suppress Register Optimization Related Messages                  ; Off                ; Off                ;
-; Number of Removed Registers Reported in Synthesis Report         ; 5000               ; 5000               ;
-; Number of Swept Nodes Reported in Synthesis Report               ; 5000               ; 5000               ;
-; Number of Inverted Registers Reported in Synthesis Report        ; 100                ; 100                ;
-; Clock MUX Protection                                             ; On                 ; On                 ;
-; Auto Gated Clock Conversion                                      ; Off                ; Off                ;
-; Block Design Naming                                              ; Auto               ; Auto               ;
-; SDC constraint protection                                        ; Off                ; Off                ;
-; Synthesis Effort                                                 ; Auto               ; Auto               ;
-; Shift Register Replacement - Allow Asynchronous Clear Signal     ; On                 ; On                 ;
-; Pre-Mapping Resynthesis Optimization                             ; Off                ; Off                ;
-; Analysis & Synthesis Message Level                               ; Medium             ; Medium             ;
-; Disable Register Merging Across Hierarchies                      ; Auto               ; Auto               ;
-; Resource Aware Inference For Block RAM                           ; On                 ; On                 ;
-+------------------------------------------------------------------+--------------------+--------------------+
 
 
 +------------------------------------------+
@@ -168,177 +70,11 @@ https://fpgasoftware.intel.com/eula.
 ; Maximum allowed            ; 4           ;
 ;                            ;             ;
 ; Average used               ; 1.00        ;
-; Maximum used               ; 4           ;
+; Maximum used               ; 1           ;
 ;                            ;             ;
 ; Usage by Processor         ; % Time Used ;
 ;     Processor 1            ; 100.0%      ;
-;     Processor 2            ;   0.0%      ;
-;     Processors 3-4         ;   0.0%      ;
 +----------------------------+-------------+
-
-
-+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
-; Analysis & Synthesis Source Files Read                                                                                                                                                                                                                                                                                                                             ;
-+-----------------------------------------------------------------------------------------------------------------------------------------------+-----------------+----------------------------------------+-----------------------------------------------------------------------------------------------------------------------------------------------+---------+
-; File Name with User-Entered Path                                                                                                              ; Used in Netlist ; File Type                              ; File Name with Absolute Path                                                                                                                  ; Library ;
-+-----------------------------------------------------------------------------------------------------------------------------------------------+-----------------+----------------------------------------+-----------------------------------------------------------------------------------------------------------------------------------------------+---------+
-; IOP_ROM.vhd                                                                                                                                   ; yes             ; User Wizard-Generated File             ; C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15/TestIOP16B/IOP_ROM.vhd                                   ;         ;
-; TestIOP16B.vhd                                                                                                                                ; yes             ; User VHDL File                         ; C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15/TestIOP16B/TestIOP16B.vhd                                ;         ;
-; ../../MultiComp (VHDL Template)/Components/CPU/IOP16/lifo.vhd                                                                                 ; yes             ; User VHDL File                         ; C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/CPU/IOP16/lifo.vhd                             ;         ;
-; ../../MultiComp (VHDL Template)/Components/CPU/IOP16/RegFile8x8.vhd                                                                           ; yes             ; User VHDL File                         ; C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/CPU/IOP16/RegFile8x8.vhd                       ;         ;
-; ../../MultiComp (VHDL Template)/Components/CPU/IOP16/IOP16B.vhd                                                                               ; yes             ; User VHDL File                         ; C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/CPU/IOP16/IOP16B.vhd                           ;         ;
-; ../../MultiComp (VHDL Template)/Components/Debounce/Debounce.vhd                                                                              ; yes             ; User VHDL File                         ; C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/Debounce/Debounce.vhd                          ;         ;
-; ../../MultiComp (VHDL Template)/Components/COUNTER/n-bit-gray-counter.vhd                                                                     ; yes             ; User VHDL File                         ; C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/COUNTER/n-bit-gray-counter.vhd                 ;         ;
-; altsyncram.tdf                                                                                                                                ; yes             ; Megafunction                           ; c:/intelfpga_lite/20.1/quartus/libraries/megafunctions/altsyncram.tdf                                                                         ;         ;
-; stratix_ram_block.inc                                                                                                                         ; yes             ; Megafunction                           ; c:/intelfpga_lite/20.1/quartus/libraries/megafunctions/stratix_ram_block.inc                                                                  ;         ;
-; lpm_mux.inc                                                                                                                                   ; yes             ; Megafunction                           ; c:/intelfpga_lite/20.1/quartus/libraries/megafunctions/lpm_mux.inc                                                                            ;         ;
-; lpm_decode.inc                                                                                                                                ; yes             ; Megafunction                           ; c:/intelfpga_lite/20.1/quartus/libraries/megafunctions/lpm_decode.inc                                                                         ;         ;
-; aglobal201.inc                                                                                                                                ; yes             ; Megafunction                           ; c:/intelfpga_lite/20.1/quartus/libraries/megafunctions/aglobal201.inc                                                                         ;         ;
-; a_rdenreg.inc                                                                                                                                 ; yes             ; Megafunction                           ; c:/intelfpga_lite/20.1/quartus/libraries/megafunctions/a_rdenreg.inc                                                                          ;         ;
-; altrom.inc                                                                                                                                    ; yes             ; Megafunction                           ; c:/intelfpga_lite/20.1/quartus/libraries/megafunctions/altrom.inc                                                                             ;         ;
-; altram.inc                                                                                                                                    ; yes             ; Megafunction                           ; c:/intelfpga_lite/20.1/quartus/libraries/megafunctions/altram.inc                                                                             ;         ;
-; altdpram.inc                                                                                                                                  ; yes             ; Megafunction                           ; c:/intelfpga_lite/20.1/quartus/libraries/megafunctions/altdpram.inc                                                                           ;         ;
-; db/altsyncram_7634.tdf                                                                                                                        ; yes             ; Auto-Generated Megafunction            ; C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15/TestIOP16B/db/altsyncram_7634.tdf                        ;         ;
-; /users/hpz420/documents/github/doug gilliland/multicomp/multicomp (vhdl template)/components/cpu/iop16/iop16_assembler/testiop16b/testled.mif ; yes             ; Auto-Found Memory Initialization File  ; /users/hpz420/documents/github/doug gilliland/multicomp/multicomp (vhdl template)/components/cpu/iop16/iop16_assembler/testiop16b/testled.mif ;         ;
-+-----------------------------------------------------------------------------------------------------------------------------------------------+-----------------+----------------------------------------+-----------------------------------------------------------------------------------------------------------------------------------------------+---------+
-
-
-+-----------------------------------------------------------+
-; Analysis & Synthesis Resource Usage Summary               ;
-+---------------------------------------------+-------------+
-; Resource                                    ; Usage       ;
-+---------------------------------------------+-------------+
-; Estimated Total logic elements              ; 252         ;
-;                                             ;             ;
-; Total combinational functions               ; 193         ;
-; Logic element usage by number of LUT inputs ;             ;
-;     -- 4 input functions                    ; 126         ;
-;     -- 3 input functions                    ; 29          ;
-;     -- <=2 input functions                  ; 38          ;
-;                                             ;             ;
-; Logic elements by mode                      ;             ;
-;     -- normal mode                          ; 161         ;
-;     -- arithmetic mode                      ; 32          ;
-;                                             ;             ;
-; Total registers                             ; 110         ;
-;     -- Dedicated logic registers            ; 110         ;
-;     -- I/O registers                        ; 0           ;
-;                                             ;             ;
-; I/O pins                                    ; 4           ;
-; Total memory bits                           ; 8192        ;
-;                                             ;             ;
-; Embedded Multiplier 9-bit elements          ; 0           ;
-;                                             ;             ;
-; Maximum fan-out node                        ; i_clk~input ;
-; Maximum fan-out                             ; 126         ;
-; Total fan-out                               ; 1144        ;
-; Average fan-out                             ; 3.50        ;
-+---------------------------------------------+-------------+
-
-
-+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
-; Analysis & Synthesis Resource Utilization by Entity                                                                                                                                                                                                                                                                                 ;
-+----------------------------------------------+---------------------+---------------------------+-------------+--------------+---------+-----------+------+--------------+--------------------------------------------------------------------------------------------------------------------------+-----------------+--------------+
-; Compilation Hierarchy Node                   ; Combinational ALUTs ; Dedicated Logic Registers ; Memory Bits ; DSP Elements ; DSP 9x9 ; DSP 18x18 ; Pins ; Virtual Pins ; Full Hierarchy Name                                                                                                      ; Entity Name     ; Library Name ;
-+----------------------------------------------+---------------------+---------------------------+-------------+--------------+---------+-----------+------+--------------+--------------------------------------------------------------------------------------------------------------------------+-----------------+--------------+
-; |TestIOP16B                                  ; 193 (2)             ; 110 (1)                   ; 8192        ; 0            ; 0       ; 0         ; 4    ; 0            ; |TestIOP16B                                                                                                              ; TestIOP16B      ; work         ;
-;    |Debouncer:debounceReset|                 ; 26 (26)             ; 24 (24)                   ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |TestIOP16B|Debouncer:debounceReset                                                                                      ; Debouncer       ; work         ;
-;    |IOP16:IOP16|                             ; 165 (65)            ; 85 (18)                   ; 8192        ; 0            ; 0       ; 0         ; 0    ; 0            ; |TestIOP16B|IOP16:IOP16                                                                                                  ; IOP16           ; work         ;
-;       |GrayCounter:greyLow|                  ; 3 (3)               ; 3 (3)                     ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |TestIOP16B|IOP16:IOP16|GrayCounter:greyLow                                                                              ; GrayCounter     ; work         ;
-;       |IOP_ROM:\GEN_512W_INST_ROM:IopRom|    ; 0 (0)               ; 0 (0)                     ; 8192        ; 0            ; 0       ; 0         ; 0    ; 0            ; |TestIOP16B|IOP16:IOP16|IOP_ROM:\GEN_512W_INST_ROM:IopRom                                                                ; IOP_ROM         ; work         ;
-;          |altsyncram:altsyncram_component|   ; 0 (0)               ; 0 (0)                     ; 8192        ; 0            ; 0       ; 0         ; 0    ; 0            ; |TestIOP16B|IOP16:IOP16|IOP_ROM:\GEN_512W_INST_ROM:IopRom|altsyncram:altsyncram_component                                ; altsyncram      ; work         ;
-;             |altsyncram_7634:auto_generated| ; 0 (0)               ; 0 (0)                     ; 8192        ; 0            ; 0       ; 0         ; 0    ; 0            ; |TestIOP16B|IOP16:IOP16|IOP_ROM:\GEN_512W_INST_ROM:IopRom|altsyncram:altsyncram_component|altsyncram_7634:auto_generated ; altsyncram_7634 ; work         ;
-;       |RegFile8x8:RegFile|                   ; 97 (97)             ; 64 (64)                   ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |TestIOP16B|IOP16:IOP16|RegFile8x8:RegFile                                                                               ; RegFile8x8      ; work         ;
-+----------------------------------------------+---------------------+---------------------------+-------------+--------------+---------+-----------+------+--------------+--------------------------------------------------------------------------------------------------------------------------+-----------------+--------------+
-Note: For table entries with two numbers listed, the numbers in parentheses indicate the number of resources of the given type used by the specific entity alone. The numbers listed outside of parentheses indicate the total resources of the given type used by the specific entity and all of its sub-entities in the hierarchy.
-
-
-+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
-; Analysis & Synthesis RAM Summary                                                                                                                                                                                                                                                                       ;
-+-------------------------------------------------------------------------------------------------------------------------+------+------+--------------+--------------+--------------+--------------+------+---------------------------------------------------------------------------------------------+
-; Name                                                                                                                    ; Type ; Mode ; Port A Depth ; Port A Width ; Port B Depth ; Port B Width ; Size ; MIF                                                                                         ;
-+-------------------------------------------------------------------------------------------------------------------------+------+------+--------------+--------------+--------------+--------------+------+---------------------------------------------------------------------------------------------+
-; IOP16:IOP16|IOP_ROM:\GEN_512W_INST_ROM:IopRom|altsyncram:altsyncram_component|altsyncram_7634:auto_generated|ALTSYNCRAM ; AUTO ; ROM  ; 512          ; 16           ; --           ; --           ; 8192 ; ../../MultiComp (VHDL Template)/Components/CPU/IOP16/IOP16_ASSEMBLER/TestIOP16B/testLED.mif ;
-+-------------------------------------------------------------------------------------------------------------------------+------+------+--------------+--------------+--------------+--------------+------+---------------------------------------------------------------------------------------------+
-
-
-+---------------------------------------------------------------------------------------------------+
-; User-Specified and Inferred Latches                                                               ;
-+----------------------------------------------------+---------------------+------------------------+
-; Latch Name                                         ; Latch Enable Signal ; Free of Timing Hazards ;
-+----------------------------------------------------+---------------------+------------------------+
-; IOP16:IOP16|w_zBit                                 ; GND                 ; yes                    ;
-; Number of user-specified and inferred latches = 1  ;                     ;                        ;
-+----------------------------------------------------+---------------------+------------------------+
-Note: All latches listed above may not be present at the end of synthesis due to various synthesis optimizations.
-
-
-+-----------------------------------------------------------------+
-; Registers Removed During Synthesis                              ;
-+--------------------------------------------+--------------------+
-; Register name                              ; Reason for Removal ;
-+--------------------------------------------+--------------------+
-; IOP16:IOP16|w_PC_out[9..11]                ; Lost fanout        ;
-; IOP16:IOP16|w_rtnAddr[9..11]               ; Lost fanout        ;
-; Debouncer:debounceReset|dig_counter[18,19] ; Lost fanout        ;
-; Total Number of Removed Registers = 8      ;                    ;
-+--------------------------------------------+--------------------+
-
-
-+-------------------------------------------------------------------------------------------------------------------------------+
-; Removed Registers Triggering Further Register Optimizations                                                                   ;
-+--------------------------+--------------------+-------------------------------------------------------------------------------+
-; Register name            ; Reason for Removal ; Registers Removed due to This Register                                        ;
-+--------------------------+--------------------+-------------------------------------------------------------------------------+
-; IOP16:IOP16|w_PC_out[11] ; Lost Fanouts       ; IOP16:IOP16|w_PC_out[10], IOP16:IOP16|w_PC_out[9], IOP16:IOP16|w_rtnAddr[11], ;
-;                          ;                    ; IOP16:IOP16|w_rtnAddr[10], IOP16:IOP16|w_rtnAddr[9]                           ;
-+--------------------------+--------------------+-------------------------------------------------------------------------------+
-
-
-+------------------------------------------------------+
-; General Register Statistics                          ;
-+----------------------------------------------+-------+
-; Statistic                                    ; Value ;
-+----------------------------------------------+-------+
-; Total registers                              ; 110   ;
-; Number of registers using Synchronous Clear  ; 12    ;
-; Number of registers using Synchronous Load   ; 0     ;
-; Number of registers using Asynchronous Clear ; 0     ;
-; Number of registers using Asynchronous Load  ; 0     ;
-; Number of registers using Clock Enable       ; 84    ;
-; Number of registers using Preset             ; 0     ;
-+----------------------------------------------+-------+
-
-
-+--------------------------------------------------+
-; Inverted Register Statistics                     ;
-+----------------------------------------+---------+
-; Inverted Register                      ; Fan out ;
-+----------------------------------------+---------+
-; o_UsrLed~reg0                          ; 2       ;
-; Debouncer:debounceReset|o_PinOut       ; 30      ;
-; Total number of inverted registers = 2 ;         ;
-+----------------------------------------+---------+
-
-
-+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------+
-; Multiplexer Restructuring Statistics (Restructuring Performed)                                                                                                        ;
-+--------------------+-----------+---------------+----------------------+------------------------+------------+---------------------------------------------------------+
-; Multiplexer Inputs ; Bus Width ; Baseline Area ; Area if Restructured ; Saving if Restructured ; Registered ; Example Multiplexer Output                              ;
-+--------------------+-----------+---------------+----------------------+------------------------+------------+---------------------------------------------------------+
-; 3:1                ; 8 bits    ; 16 LEs        ; 8 LEs                ; 8 LEs                  ; Yes        ; |TestIOP16B|IOP16:IOP16|RegFile8x8:RegFile|w_regFR0[6]  ;
-; 3:1                ; 8 bits    ; 16 LEs        ; 8 LEs                ; 8 LEs                  ; Yes        ; |TestIOP16B|IOP16:IOP16|RegFile8x8:RegFile|w_regFR4[4]  ;
-; 3:1                ; 8 bits    ; 16 LEs        ; 8 LEs                ; 8 LEs                  ; Yes        ; |TestIOP16B|IOP16:IOP16|RegFile8x8:RegFile|w_regFR2[3]  ;
-; 3:1                ; 8 bits    ; 16 LEs        ; 8 LEs                ; 8 LEs                  ; Yes        ; |TestIOP16B|IOP16:IOP16|RegFile8x8:RegFile|w_regFR6[3]  ;
-; 3:1                ; 8 bits    ; 16 LEs        ; 8 LEs                ; 8 LEs                  ; Yes        ; |TestIOP16B|IOP16:IOP16|RegFile8x8:RegFile|w_regFR1[7]  ;
-; 3:1                ; 8 bits    ; 16 LEs        ; 8 LEs                ; 8 LEs                  ; Yes        ; |TestIOP16B|IOP16:IOP16|RegFile8x8:RegFile|w_regFR5[6]  ;
-; 3:1                ; 8 bits    ; 16 LEs        ; 8 LEs                ; 8 LEs                  ; Yes        ; |TestIOP16B|IOP16:IOP16|RegFile8x8:RegFile|w_regFR3[0]  ;
-; 3:1                ; 8 bits    ; 16 LEs        ; 8 LEs                ; 8 LEs                  ; Yes        ; |TestIOP16B|IOP16:IOP16|RegFile8x8:RegFile|w_regFR7[0]  ;
-; 7:1                ; 12 bits   ; 48 LEs        ; 36 LEs               ; 12 LEs                 ; Yes        ; |TestIOP16B|IOP16:IOP16|w_PC_out[11]                    ;
-; 3:1                ; 8 bits    ; 16 LEs        ; 16 LEs               ; 0 LEs                  ; No         ; |TestIOP16B|IOP16:IOP16|w_AluOut[1]                     ;
-; 9:1                ; 7 bits    ; 42 LEs        ; 42 LEs               ; 0 LEs                  ; No         ; |TestIOP16B|IOP16:IOP16|RegFile8x8:RegFile|o_DataOut[2] ;
-; 5:1                ; 7 bits    ; 21 LEs        ; 21 LEs               ; 0 LEs                  ; No         ; |TestIOP16B|IOP16:IOP16|w_regFileIn[7]                  ;
-+--------------------+-----------+---------------+----------------------+------------------------+------------+---------------------------------------------------------+
 
 
 +-------------------------------------------------------------------------------------------------------------------------------------+
@@ -452,6 +188,92 @@ Note: In order to hide this table in the UI and the text report file, please set
 +-------------------------------------------+-------------------------------------------------------------------------------+
 
 
++------------------------------------------------------------------------------------------------------------+
+; Analysis & Elaboration Settings                                                                            ;
++------------------------------------------------------------------+--------------------+--------------------+
+; Option                                                           ; Setting            ; Default Value      ;
++------------------------------------------------------------------+--------------------+--------------------+
+; Device                                                           ; EP4CE15F23C8       ;                    ;
+; Top-level entity name                                            ; TestIOP16B         ; TestIOP16B         ;
+; Family name                                                      ; Cyclone IV E       ; Cyclone V          ;
+; Use smart compilation                                            ; On                 ; Off                ;
+; Enable parallel Assembler and Timing Analyzer during compilation ; On                 ; On                 ;
+; Enable compact report table                                      ; Off                ; Off                ;
+; Restructure Multiplexers                                         ; Auto               ; Auto               ;
+; Create Debugging Nodes for IP Cores                              ; Off                ; Off                ;
+; Preserve fewer node names                                        ; On                 ; On                 ;
+; Intel FPGA IP Evaluation Mode                                    ; Enable             ; Enable             ;
+; Verilog Version                                                  ; Verilog_2001       ; Verilog_2001       ;
+; VHDL Version                                                     ; VHDL_1993          ; VHDL_1993          ;
+; State Machine Processing                                         ; Auto               ; Auto               ;
+; Safe State Machine                                               ; Off                ; Off                ;
+; Extract Verilog State Machines                                   ; On                 ; On                 ;
+; Extract VHDL State Machines                                      ; On                 ; On                 ;
+; Ignore Verilog initial constructs                                ; Off                ; Off                ;
+; Iteration limit for constant Verilog loops                       ; 5000               ; 5000               ;
+; Iteration limit for non-constant Verilog loops                   ; 250                ; 250                ;
+; Add Pass-Through Logic to Inferred RAMs                          ; On                 ; On                 ;
+; Infer RAMs from Raw Logic                                        ; On                 ; On                 ;
+; Parallel Synthesis                                               ; On                 ; On                 ;
+; DSP Block Balancing                                              ; Auto               ; Auto               ;
+; NOT Gate Push-Back                                               ; On                 ; On                 ;
+; Power-Up Don't Care                                              ; On                 ; On                 ;
+; Remove Redundant Logic Cells                                     ; Off                ; Off                ;
+; Remove Duplicate Registers                                       ; On                 ; On                 ;
+; Ignore CARRY Buffers                                             ; Off                ; Off                ;
+; Ignore CASCADE Buffers                                           ; Off                ; Off                ;
+; Ignore GLOBAL Buffers                                            ; Off                ; Off                ;
+; Ignore ROW GLOBAL Buffers                                        ; Off                ; Off                ;
+; Ignore LCELL Buffers                                             ; Off                ; Off                ;
+; Ignore SOFT Buffers                                              ; On                 ; On                 ;
+; Limit AHDL Integers to 32 Bits                                   ; Off                ; Off                ;
+; Optimization Technique                                           ; Balanced           ; Balanced           ;
+; Carry Chain Length                                               ; 70                 ; 70                 ;
+; Auto Carry Chains                                                ; On                 ; On                 ;
+; Auto Open-Drain Pins                                             ; On                 ; On                 ;
+; Perform WYSIWYG Primitive Resynthesis                            ; Off                ; Off                ;
+; Auto ROM Replacement                                             ; On                 ; On                 ;
+; Auto RAM Replacement                                             ; On                 ; On                 ;
+; Auto DSP Block Replacement                                       ; On                 ; On                 ;
+; Auto Shift Register Replacement                                  ; Auto               ; Auto               ;
+; Allow Shift Register Merging across Hierarchies                  ; Auto               ; Auto               ;
+; Auto Clock Enable Replacement                                    ; On                 ; On                 ;
+; Strict RAM Replacement                                           ; Off                ; Off                ;
+; Allow Synchronous Control Signals                                ; On                 ; On                 ;
+; Force Use of Synchronous Clear Signals                           ; Off                ; Off                ;
+; Auto RAM Block Balancing                                         ; On                 ; On                 ;
+; Auto RAM to Logic Cell Conversion                                ; Off                ; Off                ;
+; Auto Resource Sharing                                            ; Off                ; Off                ;
+; Allow Any RAM Size For Recognition                               ; Off                ; Off                ;
+; Allow Any ROM Size For Recognition                               ; Off                ; Off                ;
+; Allow Any Shift Register Size For Recognition                    ; Off                ; Off                ;
+; Use LogicLock Constraints during Resource Balancing              ; On                 ; On                 ;
+; Ignore translate_off and synthesis_off directives                ; Off                ; Off                ;
+; Timing-Driven Synthesis                                          ; On                 ; On                 ;
+; Report Parameter Settings                                        ; On                 ; On                 ;
+; Report Source Assignments                                        ; On                 ; On                 ;
+; Report Connectivity Checks                                       ; On                 ; On                 ;
+; Ignore Maximum Fan-Out Assignments                               ; Off                ; Off                ;
+; Synchronization Register Chain Length                            ; 2                  ; 2                  ;
+; Power Optimization During Synthesis                              ; Normal compilation ; Normal compilation ;
+; HDL message level                                                ; Level2             ; Level2             ;
+; Suppress Register Optimization Related Messages                  ; Off                ; Off                ;
+; Number of Removed Registers Reported in Synthesis Report         ; 5000               ; 5000               ;
+; Number of Swept Nodes Reported in Synthesis Report               ; 5000               ; 5000               ;
+; Number of Inverted Registers Reported in Synthesis Report        ; 100                ; 100                ;
+; Clock MUX Protection                                             ; On                 ; On                 ;
+; Auto Gated Clock Conversion                                      ; Off                ; Off                ;
+; Block Design Naming                                              ; Auto               ; Auto               ;
+; SDC constraint protection                                        ; Off                ; Off                ;
+; Synthesis Effort                                                 ; Auto               ; Auto               ;
+; Shift Register Replacement - Allow Asynchronous Clear Signal     ; On                 ; On                 ;
+; Pre-Mapping Resynthesis Optimization                             ; Off                ; Off                ;
+; Analysis & Synthesis Message Level                               ; Medium             ; Medium             ;
+; Disable Register Merging Across Hierarchies                      ; Auto               ; Auto               ;
+; Resource Aware Inference For Block RAM                           ; On                 ; On                 ;
++------------------------------------------------------------------+--------------------+--------------------+
+
+
 +-------------------------------------------------------------+
 ; Port Connectivity Checks: "IOP16:IOP16|GrayCounter:greyLow" ;
 +------+-------+----------+-----------------------------------+
@@ -472,50 +294,14 @@ Note: In order to hide this table in the UI and the text report file, please set
 +-----------------------+--------+----------+-------------------------------------------------------------------------------------+
 
 
-+-----------------------------------------------------+
-; Post-Synthesis Netlist Statistics for Top Partition ;
-+-----------------------+-----------------------------+
-; Type                  ; Count                       ;
-+-----------------------+-----------------------------+
-; boundary_port         ; 4                           ;
-; cycloneiii_ff         ; 110                         ;
-;     ENA               ; 75                          ;
-;     ENA SCLR          ; 9                           ;
-;     SCLR              ; 3                           ;
-;     plain             ; 23                          ;
-; cycloneiii_lcell_comb ; 194                         ;
-;     arith             ; 32                          ;
-;         2 data inputs ; 23                          ;
-;         3 data inputs ; 9                           ;
-;     normal            ; 162                         ;
-;         1 data inputs ; 5                           ;
-;         2 data inputs ; 11                          ;
-;         3 data inputs ; 20                          ;
-;         4 data inputs ; 126                         ;
-; cycloneiii_ram_block  ; 16                          ;
-;                       ;                             ;
-; Max LUT depth         ; 9.00                        ;
-; Average LUT depth     ; 5.06                        ;
-+-----------------------+-----------------------------+
-
-
-+-------------------------------+
-; Elapsed Time Per Partition    ;
-+----------------+--------------+
-; Partition Name ; Elapsed Time ;
-+----------------+--------------+
-; Top            ; 00:00:01     ;
-+----------------+--------------+
-
-
-+-------------------------------+
-; Analysis & Synthesis Messages ;
-+-------------------------------+
++---------------------------------+
+; Analysis & Elaboration Messages ;
++---------------------------------+
 Info: *******************************************************************
-Info: Running Quartus Prime Analysis & Synthesis
+Info: Running Quartus Prime Analysis & Elaboration
     Info: Version 20.1.0 Build 711 06/05/2020 SJ Lite Edition
-    Info: Processing started: Tue Jun 22 20:00:58 2021
-Info: Command: quartus_map --read_settings_files=on --write_settings_files=off TestIOP16B -c TestIOP16B
+    Info: Processing started: Thu Jun 24 14:24:44 2021
+Info: Command: quartus_map --read_settings_files=on --write_settings_files=off TestIOP16B -c TestIOP16B --analysis_and_elaboration
 Warning (125092): Tcl Script File ../../MultiComp (VHDL Template)/Components/CPU/IOP16/IOP16_ROMs/IOP_ROM_ANSI1/IOP_ROM.qip not found
     Info (125063): set_global_assignment -name QIP_FILE "../../MultiComp (VHDL Template)/Components/CPU/IOP16/IOP16_ROMs/IOP_ROM_ANSI1/IOP_ROM.qip"
 Warning (18236): Number of processors has not been specified which may cause overloading on shared machines.  Set the global assignment NUM_PARALLEL_PROCESSORS in your QSF to an appropriate value for best performance.
@@ -524,8 +310,8 @@ Info (12021): Found 2 design units, including 1 entities, in source file iop_rom
     Info (12022): Found design unit 1: iop_rom-SYN File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15/TestIOP16B/IOP_ROM.vhd Line: 53
     Info (12023): Found entity 1: IOP_ROM File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15/TestIOP16B/IOP_ROM.vhd Line: 43
 Info (12021): Found 2 design units, including 1 entities, in source file testiop16b.vhd
-    Info (12022): Found design unit 1: TestIOP16B-struct File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15/TestIOP16B/TestIOP16B.vhd Line: 31
-    Info (12023): Found entity 1: TestIOP16B File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15/TestIOP16B/TestIOP16B.vhd Line: 19
+    Info (12022): Found design unit 1: TestIOP16B-struct File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15/TestIOP16B/TestIOP16B.vhd Line: 32
+    Info (12023): Found entity 1: TestIOP16B File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15/TestIOP16B/TestIOP16B.vhd Line: 20
 Info (12021): Found 2 design units, including 1 entities, in source file /users/hpz420/documents/github/doug gilliland/multicomp/multicomp (vhdl template)/components/cpu/iop16/lifo.vhd
     Info (12022): Found design unit 1: lifo-rtl File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/CPU/IOP16/lifo.vhd Line: 49
     Info (12023): Found entity 1: lifo File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/CPU/IOP16/lifo.vhd Line: 29
@@ -533,8 +319,8 @@ Info (12021): Found 2 design units, including 1 entities, in source file /users/
     Info (12022): Found design unit 1: RegFile8x8-RegFile8x8_beh File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/CPU/IOP16/RegFile8x8.vhd Line: 23
     Info (12023): Found entity 1: RegFile8x8 File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/CPU/IOP16/RegFile8x8.vhd Line: 11
 Info (12021): Found 2 design units, including 1 entities, in source file /users/hpz420/documents/github/doug gilliland/multicomp/multicomp (vhdl template)/components/cpu/iop16/iop16b.vhd
-    Info (12022): Found design unit 1: IOP16-IOP16_beh File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/CPU/IOP16/IOP16B.vhd Line: 89
-    Info (12023): Found entity 1: IOP16 File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/CPU/IOP16/IOP16B.vhd Line: 71
+    Info (12022): Found design unit 1: IOP16-IOP16_beh File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/CPU/IOP16/IOP16B.vhd Line: 91
+    Info (12023): Found entity 1: IOP16 File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/CPU/IOP16/IOP16B.vhd Line: 73
 Info (12021): Found 2 design units, including 1 entities, in source file /users/hpz420/documents/github/doug gilliland/multicomp/multicomp (vhdl template)/components/debounce/debounce.vhd
     Info (12022): Found design unit 1: Debouncer-struct File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/Debounce/Debounce.vhd Line: 18
     Info (12023): Found entity 1: Debouncer File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/Debounce/Debounce.vhd Line: 9
@@ -545,13 +331,13 @@ Info (12021): Found 2 design units, including 1 entities, in source file /users/
     Info (12022): Found design unit 1: BaudRate6850-BaudRate6850_beh File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/UART/BaudRate6850.vhd Line: 20
     Info (12023): Found entity 1: BaudRate6850 File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/UART/BaudRate6850.vhd Line: 10
 Info (12127): Elaborating entity "TestIOP16B" for the top level hierarchy
-Warning (10036): Verilog HDL or VHDL warning at TestIOP16B.vhd(40): object "w_periphRd" assigned a value but never read File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15/TestIOP16B/TestIOP16B.vhd Line: 40
-Info (12128): Elaborating entity "Debouncer" for hierarchy "Debouncer:debounceReset" File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15/TestIOP16B/TestIOP16B.vhd Line: 76
+Warning (10036): Verilog HDL or VHDL warning at TestIOP16B.vhd(41): object "w_periphRd" assigned a value but never read File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15/TestIOP16B/TestIOP16B.vhd Line: 41
+Info (12128): Elaborating entity "Debouncer" for hierarchy "Debouncer:debounceReset" File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15/TestIOP16B/TestIOP16B.vhd Line: 59
 Info (12128): Elaborating entity "IOP16" for hierarchy "IOP16:IOP16" File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15/TestIOP16B/TestIOP16B.vhd Line: 87
-Warning (10036): Verilog HDL or VHDL warning at IOP16B.vhd(116): object "w_OP_NOP" assigned a value but never read File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/CPU/IOP16/IOP16B.vhd Line: 116
-Info (10041): Inferred latch for "w_zBit" at IOP16B.vhd(315) File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/CPU/IOP16/IOP16B.vhd Line: 315
-Info (12128): Elaborating entity "GrayCounter" for hierarchy "IOP16:IOP16|GrayCounter:greyLow" File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/CPU/IOP16/IOP16B.vhd Line: 156
-Info (12128): Elaborating entity "IOP_ROM" for hierarchy "IOP16:IOP16|IOP_ROM:\GEN_512W_INST_ROM:IopRom" File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/CPU/IOP16/IOP16B.vhd Line: 221
+Warning (10036): Verilog HDL or VHDL warning at IOP16B.vhd(118): object "w_OP_NOP" assigned a value but never read File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/CPU/IOP16/IOP16B.vhd Line: 118
+Info (10041): Inferred latch for "w_zBit" at IOP16B.vhd(317) File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/CPU/IOP16/IOP16B.vhd Line: 317
+Info (12128): Elaborating entity "GrayCounter" for hierarchy "IOP16:IOP16|GrayCounter:greyLow" File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/CPU/IOP16/IOP16B.vhd Line: 158
+Info (12128): Elaborating entity "IOP_ROM" for hierarchy "IOP16:IOP16|IOP_ROM:\GEN_512W_INST_ROM:IopRom" File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/CPU/IOP16/IOP16B.vhd Line: 223
 Info (12128): Elaborating entity "altsyncram" for hierarchy "IOP16:IOP16|IOP_ROM:\GEN_512W_INST_ROM:IopRom|altsyncram:altsyncram_component" File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15/TestIOP16B/IOP_ROM.vhd Line: 60
 Info (12130): Elaborated megafunction instantiation "IOP16:IOP16|IOP_ROM:\GEN_512W_INST_ROM:IopRom|altsyncram:altsyncram_component" File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15/TestIOP16B/IOP_ROM.vhd Line: 60
 Info (12133): Instantiated megafunction "IOP16:IOP16|IOP_ROM:\GEN_512W_INST_ROM:IopRom|altsyncram:altsyncram_component" with the following parameter: File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15/TestIOP16B/IOP_ROM.vhd Line: 60
@@ -624,20 +410,11 @@ Warning (287001): Assertion warning: MGL_INTERNAL_WARNING: ( The parameter value
 Info (12021): Found 1 design units, including 1 entities, in source file db/altsyncram_7634.tdf
     Info (12023): Found entity 1: altsyncram_7634 File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15/TestIOP16B/db/altsyncram_7634.tdf Line: 28
 Info (12128): Elaborating entity "altsyncram_7634" for hierarchy "IOP16:IOP16|IOP_ROM:\GEN_512W_INST_ROM:IopRom|altsyncram:altsyncram_component|altsyncram_7634:auto_generated" File: c:/intelfpga_lite/20.1/quartus/libraries/megafunctions/altsyncram.tdf Line: 792
-Info (12128): Elaborating entity "RegFile8x8" for hierarchy "IOP16:IOP16|RegFile8x8:RegFile" File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/CPU/IOP16/IOP16B.vhd Line: 336
-Info (286030): Timing-Driven Synthesis is running
-Info (17049): 8 registers lost all their fanouts during netlist optimizations.
-Info (16010): Generating hard_block partition "hard_block:auto_generated_inst"
-    Info (16011): Adding 0 node(s), including 0 DDIO, 0 PLL, 0 transceiver and 0 LCELL
-Info (21057): Implemented 289 device resources after synthesis - the final resource count might be different
-    Info (21058): Implemented 3 input pins
-    Info (21059): Implemented 1 output pins
-    Info (21061): Implemented 269 logic cells
-    Info (21064): Implemented 16 RAM segments
-Info: Quartus Prime Analysis & Synthesis was successful. 0 errors, 20 warnings
-    Info: Peak virtual memory: 4817 megabytes
-    Info: Processing ended: Tue Jun 22 20:01:14 2021
-    Info: Elapsed time: 00:00:16
-    Info: Total CPU time (on all processors): 00:00:37
+Info (12128): Elaborating entity "RegFile8x8" for hierarchy "IOP16:IOP16|RegFile8x8:RegFile" File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/CPU/IOP16/IOP16B.vhd Line: 338
+Info: Quartus Prime Analysis & Elaboration was successful. 0 errors, 20 warnings
+    Info: Peak virtual memory: 4801 megabytes
+    Info: Processing ended: Thu Jun 24 14:24:58 2021
+    Info: Elapsed time: 00:00:14
+    Info: Total CPU time (on all processors): 00:00:34
 
 

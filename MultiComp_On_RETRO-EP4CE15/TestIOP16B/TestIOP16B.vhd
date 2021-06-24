@@ -1,6 +1,6 @@
 --	---------------------------------------------------------------------------------------------------------
 -- Simple IOP16B CPU Example Code
---		Reads pushbutton and writes to LED
+--		Run software that reads the pushbutton and writes to LED on the FPGA card.
 --	
 -- IOP16 CPU
 --		Custom 16 bit I/O Processor
@@ -8,7 +8,8 @@
 --		8 Clocks per instruction at 50 MHz = 6.25 MIPS
 --
 -- IOP16 MEMORY mAP
---	0X00 - UART (c/S) (r/w)
+--		0X00 - KEY1 Pushbutton (R)
+--		0X00 - User LED (W)
 --	---------------------------------------------------------------------------------------------------------
 
 library ieee;
@@ -40,12 +41,10 @@ architecture struct of TestIOP16B is
 	signal w_periphRd				:	std_logic;
 	
 	-- Decodes/Strobes
-	signal w_wrLED					:	std_logic;
-	signal w_rdPB					:	std_logic;
+	signal w_wrLED					:	std_logic;		-- Write strobe - LED
 	
 	-- Serial clock enable
    signal serialEn      		: std_logic;		-- 16x baud rate clock
-	
 
 	-- Signal Tap Logic Analyzer signals
 --	attribute syn_keep	: boolean;
@@ -56,13 +55,23 @@ architecture struct of TestIOP16B is
 	
 begin
 
--- Peripheral bus read mux
-w_periphIn <=	"0000000"&i_key1	when (w_periphAdr=x"00")	else
-					x"00";
+	-- Debounce/sync reset FPGA KEY0 pushbutton to 50 MHz FPGA clock
+	debounceReset : entity work.Debouncer
+		port map
+		(
+			i_clk				=> i_clk,
+			i_PinIn			=> i_n_reset,
+			o_PinOut			=> w_resetClean_n
+		);
 
--- Strobes/Selects
-w_wrLED		<= '1' when ((w_periphAdr=x"00") and (w_periphWr = '1')) else '0';
+	-- Peripheral bus read mux
+	w_periphIn <=	"0000000"&i_key1	when (w_periphAdr=x"00")	else
+						x"00";
 
+	-- Strobes/Selects
+	w_wrLED	<= '1' when ((w_periphAdr=x"00") and (w_periphWr = '1')) else '0';
+
+	-- Latch up the LED bit
 	latchLEDOut : PROCESS (i_clk)
 	BEGIN
 		IF rising_edge(i_clk) THEN
@@ -72,15 +81,6 @@ w_wrLED		<= '1' when ((w_periphAdr=x"00") and (w_periphWr = '1')) else '0';
 		END IF;
 	END PROCESS;
 	
-	-- Debounce/sync reset to 50 MHz FPGA clock
-	debounceReset : entity work.Debouncer
-		port map
-		(
-			i_clk				=> i_clk,
-			i_PinIn			=> i_n_reset,
-			o_PinOut			=> w_resetClean_n
-		);
-
 	-- I/O Processor
 	-- Set ROM size in generic INST_SRAM_SIZE_PASS (512W uses 1 of 1K Blocks in EP4CE15 FPGA)
 	-- Set stack size in STACK_DEPTH generic
@@ -101,7 +101,5 @@ w_wrLED		<= '1' when ((w_periphAdr=x"00") and (w_periphWr = '1')) else '0';
 			o_periphDataOut	=> w_periphOut,
 			o_periphAdr			=> w_periphAdr
 		);
-	
-	-- ____________________________________________________________________________________
 
 end;
