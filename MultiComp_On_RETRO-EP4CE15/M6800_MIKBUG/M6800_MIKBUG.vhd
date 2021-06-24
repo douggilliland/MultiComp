@@ -135,7 +135,7 @@ begin
 	-- ____________________________________________________________________________________
 	-- MIKBUG ROM
 	-- 4KB MIKBUG ROM - repeats in memory 4 times
-	rom1 : entity work.MIKBUG
+	rom1 : entity work.M6800_MIKBUG_32KB
 		port map (
 			address	=> w_cpuAddress(11 downto 0),
 			clock 	=> i_CLOCK_50,
