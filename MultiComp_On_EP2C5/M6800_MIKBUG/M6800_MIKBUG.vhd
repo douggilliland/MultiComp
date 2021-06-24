@@ -101,7 +101,7 @@ architecture struct of M6800_MIKBUG is
 	signal n_int2			: std_logic :='1';	
 	signal w_n_if2CS		: std_logic :='1';
 
-	signal w_cpuClkCt	: std_logic_vector(5 downto 0); 
+	signal w_cpuClkCt		: std_logic_vector(5 downto 0); 
 	signal w_cpuClk		: std_logic;
 
    signal serialCount   : std_logic_vector(15 downto 0) := x"0000";
@@ -119,18 +119,18 @@ begin
 	-- Debounce the reset line
 	DebounceResetSwitch	: entity work.Debouncer
 	port map (
-		i_CLOCK_50	=> i_CLOCK_50,
+		i_clk			=> i_CLOCK_50,
 		i_PinIn		=> i_n_reset,
 		o_PinOut		=> w_resetLow
 	);
 	
-	w_memWR <= (not w_R1W0) and w_vma and w_cpuClk;
-	w_memRD <=      w_R1W0  and w_vma and w_cpuClk;
+	w_memWR <= (not w_R1W0) and w_vma and not w_cpuClk;
+	w_memRD <=      w_R1W0  and w_vma and not w_cpuClk;
 	
-	w_RAM_CS_1	<= (not w_cpuAddress(15)) and (not w_cpuAddress(14)) and (not w_cpuAddress(13)) and (not w_cpuAddress(12)) and (not w_cpuAddress(11));
-	w_RAM_CS_2	<= (not w_cpuAddress(15)) and (not w_cpuAddress(14)) and (not w_cpuAddress(13)) and (not w_cpuAddress(12)) and      w_cpuAddress(11)  and (not w_cpuAddress(10));
-	w_RAM_CS_3	<= (not w_cpuAddress(15)) and (not w_cpuAddress(14)) and (not w_cpuAddress(13)) and (not w_cpuAddress(12)) and (not w_cpuAddress(11)) and w_cpuAddress(10) and (not w_cpuAddress(9));
-	w_SP_RAM_CS <= (not w_cpuAddress(15)) and      w_cpuAddress(14)  and      w_cpuAddress(13)  and      w_cpuAddress(12)  and      w_cpuAddress(11)  and w_cpuAddress(10) and w_cpuAddress(9);
+	w_RAM_CS_1	<= '1' when ((w_cpuAddress(15 downto 11)	="00000"))		else '0';
+	w_RAM_CS_2	<= '1' when ((w_cpuAddress(15 downto 10)	="000010"))		else '0';
+	w_RAM_CS_3	<= '1' when ((w_cpuAddress(15 downto 9)	="0000010"))	else '0';
+	w_SP_RAM_CS	<= '1' when ((w_cpuAddress(15 downto 9)	="0111111"))	else '0';
 	
 	-- ____________________________________________________________________________________
 	-- I/O CHIP SELECTS
@@ -173,7 +173,7 @@ begin
 	-- ____________________________________________________________________________________
 	-- MIKBUG ROM
 	-- 4KB MIKBUG ROM - repeats in memory 4 times
-	rom1 : entity work.MIKBUG 		
+	rom1 : entity work.M6800_MIKBUG_32KB 		
 		port map (
 			address	=> w_cpuAddress(11 downto 0),
 			clock 	=> i_CLOCK_50,
@@ -294,35 +294,16 @@ process (i_CLOCK_50)
 		end if;
 	end process;
 	
-	-- ____________________________________________________________________________________
-	-- Baud Rate Clock Signals
-	-- Serial clock DDS
-	-- 50MHz master input clock:
-	-- f = (increment x 50,000,000) / 65,536 = 16X baud rate
-	-- Baud Increment
-	-- 115200 2416
-	-- 38400 805
-	-- 19200 403
-	-- 9600 201
-	-- 4800 101
-	-- 2400 50
 
-baud_div: process (serialCount_d, serialCount)
-    begin
-        serialCount_d <= serialCount + 2416;
-    end process;
-
-process (i_CLOCK_50)
-	begin
-		if rising_edge(i_CLOCK_50) then
-        -- Enable for baud rate generator
-        serialCount <= serialCount_d;
-        if serialCount(15) = '0' and serialCount_d(15) = '1' then
-            serialEn <= '1';
-        else
-            serialEn <= '0';
-        end if;
-		end if;
-	end process;
+-- Pass Baud Rate in BAUD_RATE generic as integer value (300, 9600, 115,200)
+-- Legal values are 115200, 38400, 19200, 9600, 4800, 2400, 1200, 600, 300	BaudRateGen : entity work.BaudRate6850
+	BaudRateGen : entity work.BaudRate6850
+	GENERIC map (
+		BAUD_RATE	=>  115200
+	)
+	PORT map (
+		i_CLOCK_50	=> i_CLOCK_50,
+		o_serialEn	=> serialEn
+	);
 
 end;
