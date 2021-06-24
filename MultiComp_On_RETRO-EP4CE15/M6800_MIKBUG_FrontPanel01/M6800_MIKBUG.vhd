@@ -3,7 +3,7 @@
 -- Grant Searle's web site http://searle.hostei.com/grant/    
 -- Grant Searle's "multicomp" page at http://searle.hostei.com/grant/Multicomp/index.html
 --
--- Changes to this code by Doug Gilliland 2020
+-- Changes to this code by Doug Gilliland 2020-2021
 --
 -- MC6800 CPU running MIKBUG from back in the day
 --	32K (internal) RAM version
@@ -40,7 +40,7 @@ entity M6800_MIKBUG is
 		io_ps2Clk			: inout std_logic := '1';
 		io_ps2Data			: inout std_logic := '1';
 		
-		-- USB Serial
+		-- USB Serial (Referenced to the USB side)
 		usbtxd1				: in	std_logic := '1';
 		usbrxd1				: out std_logic;
 		usbrts1				: in	std_logic := '1';
@@ -73,8 +73,9 @@ end M6800_MIKBUG;
 
 architecture struct of M6800_MIKBUG is
 
-	signal w_resetLow		: std_logic := '1';
+	signal w_resetLow		: std_logic;
 
+	-- CPU signals
 	signal w_cpuAddress	: std_logic_vector(15 downto 0);
 	signal w_cpuAddressB	: std_logic_vector(15 downto 0);
 	signal w_cpuDataOut	: std_logic_vector(7 downto 0);
@@ -84,21 +85,24 @@ architecture struct of M6800_MIKBUG is
 	signal w_R1W0B			: std_logic;
 	signal w_vma			: std_logic;
 
+	-- Data busses
 	signal w_romData		: std_logic_vector(7 downto 0);
 	signal w_ramData		: std_logic_vector(7 downto 0);
 	signal w_if1DataOut	: std_logic_vector(7 downto 0);
 	signal w_if2DataOut	: std_logic_vector(7 downto 0);
 
+	-- Chip Selects
 	signal n_int1			: std_logic :='1';	
 	signal n_if1CS			: std_logic :='1';
 	signal n_int2			: std_logic :='1';	
 	signal n_if2CS			: std_logic :='1';
 
+	-- CPU Clock block
 	signal q_cpuClkCount	: std_logic_vector(5 downto 0); 
 	signal w_cpuClock		: std_logic;
 
-   signal serialCount   : std_logic_vector(15 downto 0) := x"0000";
-   signal serialCount_d	: std_logic_vector(15 downto 0);
+--   signal serialCount   : std_logic_vector(15 downto 0) := x"0000";
+--   signal serialCount_d	: std_logic_vector(15 downto 0);
    signal serialEn      : std_logic;
 
 	-- Pushbutton signals
@@ -349,43 +353,35 @@ begin
 			n_cts		=> usbrts1,
 			n_rts		=> usbcts1
 		);
-	
+		
 	-- ____________________________________________________________________________________
 	-- CPU Clock
-process (i_CLOCK_50)
-	begin
-		if rising_edge(i_CLOCK_50) then
-			if q_cpuClkCount < 4 then
-				q_cpuClkCount <= q_cpuClkCount + 1;
-			else
-				q_cpuClkCount <= (others=>'0');
+	process (i_CLOCK_50)
+		begin
+			if rising_edge(i_CLOCK_50) then
+				if q_cpuClkCount < 4 then
+					q_cpuClkCount <= q_cpuClkCount + 1;
+				else
+					q_cpuClkCount <= (others=>'0');
+				end if;
+				if q_cpuClkCount < 2 then
+					w_cpuClock <= '0';
+				else
+					w_cpuClock <= '1';
+				end if;
 			end if;
-			if q_cpuClkCount < 2 then
-				w_cpuClock <= '0';
-			else
-				w_cpuClock <= '1';
-			end if;
-		end if;
-	end process;
-	
-	-- ____________________________________________________________________________________
-	-- Baud Rate CLOCK SIGNALS
-baud_div: process (serialCount_d, serialCount)
-    begin
-        serialCount_d <= serialCount + 2416;
-    end process;
+		end process;
 
-process (i_CLOCK_50)
-	begin
-		if rising_edge(i_CLOCK_50) then
-        -- Enable for baud rate generator
-        serialCount <= serialCount_d;
-        if serialCount(15) = '0' and serialCount_d(15) = '1' then
-            serialEn <= '1';
-        else
-            serialEn <= '0';
-        end if;
-		end if;
-	end process;
+	-- ____________________________________________________________________________________
+	-- Baud Rate Generator
+	-- Legal BAUD_RATE values are 115200, 38400, 19200, 9600, 4800, 2400, 1200, 600, 300
+	BaudRateGen : entity work.BaudRate6850
+	GENERIC map (
+		BAUD_RATE	=>  115200
+	)
+	PORT map (
+		i_CLOCK_50	=> i_CLOCK_50,
+		o_serialEn	=> serialEn
+	);
 
 end;
