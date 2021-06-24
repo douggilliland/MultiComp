@@ -315,24 +315,14 @@ begin
 			end if;
 		end process;
 	
-	-- ____________________________________________________________________________________
-	-- Baud Rate CLOCK SIGNALS
-	baud_div: process (serialCount_d, serialCount)
-		 begin
-			  serialCount_d <= serialCount + 2416;
-		 end process;
-
-	process (i_CLOCK_50)
-		begin
-			if rising_edge(i_CLOCK_50) then
-			  -- Enable for baud rate generator
-			  serialCount <= serialCount_d;
-			  if serialCount(15) = '0' and serialCount_d(15) = '1' then
-					serialEn <= '1';
-			  else
-					serialEn <= '0';
-			  end if;
-			end if;
-		end process;
+	-- Baud Rate Generator
+	BaudRateGen : entity work.BaudRate6850
+	GENERIC map (
+		BAUD_RATE	=>  115200
+	)
+	PORT map (
+		i_CLOCK_50	=> i_CLOCK_50,
+		o_serialEn	=> serialEn
+	);
 
 end;

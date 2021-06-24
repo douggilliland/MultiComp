@@ -1,19 +1,6 @@
 |M6800_MIKBUG
 i_n_reset => debouncer:DebounceResetSwitch.i_PinIn
 i_CLOCK_50 => outlatch:addrLatch.clock
-i_CLOCK_50 => serialEn.CLK
-i_CLOCK_50 => serialCount[4].CLK
-i_CLOCK_50 => serialCount[5].CLK
-i_CLOCK_50 => serialCount[6].CLK
-i_CLOCK_50 => serialCount[7].CLK
-i_CLOCK_50 => serialCount[8].CLK
-i_CLOCK_50 => serialCount[9].CLK
-i_CLOCK_50 => serialCount[10].CLK
-i_CLOCK_50 => serialCount[11].CLK
-i_CLOCK_50 => serialCount[12].CLK
-i_CLOCK_50 => serialCount[13].CLK
-i_CLOCK_50 => serialCount[14].CLK
-i_CLOCK_50 => serialCount[15].CLK
 i_CLOCK_50 => w_cpuClock.CLK
 i_CLOCK_50 => q_cpuClkCount[0].CLK
 i_CLOCK_50 => q_cpuClkCount[1].CLK
@@ -27,6 +14,7 @@ i_CLOCK_50 => internalram8k:sram8K.clock
 i_CLOCK_50 => internalram4k:sram4K.clock
 i_CLOCK_50 => sbctextdisplayrgb:vdu.clk
 i_CLOCK_50 => buffereduart:acia.clk
+i_CLOCK_50 => baudrate6850:BaudRateGen.i_CLOCK_50
 o_videoR0 <= sbctextdisplayrgb:vdu.videoR0
 o_videoR1 <= sbctextdisplayrgb:vdu.videoR1
 o_videoG0 <= sbctextdisplayrgb:vdu.videoG0
@@ -5377,5 +5365,22 @@ n_cts => dataOut.DATAA
 n_cts => tx_fsm.IN1
 n_dcd => dataOut.DATAA
 n_dcd => tx_fsm.IN1
+
+
+|M6800_MIKBUG|BaudRate6850:BaudRateGen
+i_CLOCK_50 => o_serialEn~reg0.CLK
+i_CLOCK_50 => w_serialCount[4].CLK
+i_CLOCK_50 => w_serialCount[5].CLK
+i_CLOCK_50 => w_serialCount[6].CLK
+i_CLOCK_50 => w_serialCount[7].CLK
+i_CLOCK_50 => w_serialCount[8].CLK
+i_CLOCK_50 => w_serialCount[9].CLK
+i_CLOCK_50 => w_serialCount[10].CLK
+i_CLOCK_50 => w_serialCount[11].CLK
+i_CLOCK_50 => w_serialCount[12].CLK
+i_CLOCK_50 => w_serialCount[13].CLK
+i_CLOCK_50 => w_serialCount[14].CLK
+i_CLOCK_50 => w_serialCount[15].CLK
+o_serialEn <= o_serialEn~reg0.DB_MAX_OUTPUT_PORT_TYPE
 
 

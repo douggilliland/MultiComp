@@ -3,7 +3,8 @@
 -- Pass Baud Rate in BAUD_RATE generic as integer value (300, 9600, 115,200)
 -- Legal values are 115200, 38400, 19200, 9600, 4800, 2400, 1200, 600, 300
 --
---	Call with -
+--	Call with
+--
 --	BaudRateGen : entity work.BaudRate6850
 --	GENERIC map (
 --		BAUD_RATE	=>  115200
@@ -12,6 +13,7 @@
 --		i_CLOCK_50	=> i_CLOCK_50,
 --		o_serialEn	=> serialEn
 --	);
+--
 
 LIBRARY ieee;
 USE ieee.std_logic_1164.ALL;

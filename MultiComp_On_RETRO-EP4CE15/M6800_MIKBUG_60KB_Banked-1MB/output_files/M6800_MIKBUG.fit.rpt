@@ -1,5 +1,5 @@
 Fitter report for M6800_MIKBUG
-Thu Jun 24 15:27:18 2021
+Thu Jun 24 15:37:32 2021
 Quartus Prime Version 20.1.0 Build 711 06/05/2020 SJ Lite Edition
 
 
@@ -70,7 +70,7 @@ https://fpgasoftware.intel.com/eula.
 +----------------------------------------------------------------------------------+
 ; Fitter Summary                                                                   ;
 +------------------------------------+---------------------------------------------+
-; Fitter Status                      ; Successful - Thu Jun 24 15:27:18 2021       ;
+; Fitter Status                      ; Successful - Thu Jun 24 15:37:32 2021       ;
 ; Quartus Prime Version              ; 20.1.0 Build 711 06/05/2020 SJ Lite Edition ;
 ; Revision Name                      ; M6800_MIKBUG                                ;
 ; Top-level Entity Name              ; M6800_MIKBUG                                ;
@@ -158,14 +158,14 @@ https://fpgasoftware.intel.com/eula.
 ; Number detected on machine ; 8           ;
 ; Maximum allowed            ; 4           ;
 ;                            ;             ;
-; Average used               ; 1.10        ;
+; Average used               ; 1.11        ;
 ; Maximum used               ; 4           ;
 ;                            ;             ;
 ; Usage by Processor         ; % Time Used ;
 ;     Processor 1            ; 100.0%      ;
-;     Processor 2            ;   3.4%      ;
-;     Processor 3            ;   3.4%      ;
-;     Processor 4            ;   3.4%      ;
+;     Processor 2            ;   3.6%      ;
+;     Processor 3            ;   3.6%      ;
+;     Processor 4            ;   3.6%      ;
 +----------------------------+-------------+
 
 
@@ -1081,7 +1081,8 @@ Note: Pin directions (input, output or bidir) are based on device operating in u
 +-----------------------------------------------------------------------------------------------------------------------------------------+-------------+---------------------------+---------------+-------------+------+--------------+---------+-----------+------+--------------+--------------+-------------------+------------------+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+-----------------------------------+--------------+
 ; Compilation Hierarchy Node                                                                                                              ; Logic Cells ; Dedicated Logic Registers ; I/O Registers ; Memory Bits ; M9Ks ; DSP Elements ; DSP 9x9 ; DSP 18x18 ; Pins ; Virtual Pins ; LUT-Only LCs ; Register-Only LCs ; LUT/Register LCs ; Full Hierarchy Name                                                                                                                                                                                                                                                                                                                                      ; Entity Name                       ; Library Name ;
 +-----------------------------------------------------------------------------------------------------------------------------------------+-------------+---------------------------+---------------+-------------+------+--------------+---------+-----------+------+--------------+--------------+-------------------+------------------+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+-----------------------------------+--------------+
-; |M6800_MIKBUG                                                                                                                           ; 3148 (86)   ; 900 (20)                  ; 0 (0)         ; 442496      ; 55   ; 0            ; 0       ; 0         ; 87   ; 0            ; 2248 (66)    ; 105 (0)           ; 795 (29)         ; |M6800_MIKBUG                                                                                                                                                                                                                                                                                                                                            ; M6800_MIKBUG                      ; work         ;
+; |M6800_MIKBUG                                                                                                                           ; 3148 (72)   ; 900 (7)                   ; 0 (0)         ; 442496      ; 55   ; 0            ; 0       ; 0         ; 87   ; 0            ; 2248 (65)    ; 105 (0)           ; 795 (16)         ; |M6800_MIKBUG                                                                                                                                                                                                                                                                                                                                            ; M6800_MIKBUG                      ; work         ;
+;    |BaudRate6850:BaudRateGen|                                                                                                           ; 14 (14)     ; 13 (13)                   ; 0 (0)         ; 0           ; 0    ; 0            ; 0       ; 0         ; 0    ; 0            ; 1 (1)        ; 0 (0)             ; 13 (13)          ; |M6800_MIKBUG|BaudRate6850:BaudRateGen                                                                                                                                                                                                                                                                                                                   ; BaudRate6850                      ; work         ;
 ;    |Debouncer:DebounceResetSwitch|                                                                                                      ; 29 (29)     ; 24 (24)                   ; 0 (0)         ; 0           ; 0    ; 0            ; 0       ; 0         ; 0    ; 0            ; 5 (5)        ; 3 (3)             ; 21 (21)          ; |M6800_MIKBUG|Debouncer:DebounceResetSwitch                                                                                                                                                                                                                                                                                                              ; Debouncer                         ; work         ;
 ;    |InternalRam32K:sram32K|                                                                                                             ; 119 (0)     ; 48 (0)                    ; 0 (0)         ; 262144      ; 32   ; 0            ; 0       ; 0         ; 0    ; 0            ; 71 (0)       ; 7 (0)             ; 41 (0)           ; |M6800_MIKBUG|InternalRam32K:sram32K                                                                                                                                                                                                                                                                                                                     ; InternalRam32K                    ; work         ;
 ;       |altsyncram:altsyncram_component|                                                                                                 ; 119 (0)     ; 48 (0)                    ; 0 (0)         ; 262144      ; 32   ; 0            ; 0       ; 0         ; 0    ; 0            ; 71 (0)       ; 7 (0)             ; 41 (0)           ; |M6800_MIKBUG|InternalRam32K:sram32K|altsyncram:altsyncram_component                                                                                                                                                                                                                                                                                     ; altsyncram                        ; work         ;
@@ -1302,8 +1303,9 @@ Note: For table entries with two numbers listed, the numbers in parentheses indi
 +-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+--------------------+---------+----------------------------+--------+----------------------+------------------+---------------------------+
 ; Name                                                                                                                                                                                                                                                                                                                                                        ; Location           ; Fan-Out ; Usage                      ; Global ; Global Resource Used ; Global Line Name ; Enable Signal Source Name ;
 +-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+--------------------+---------+----------------------------+--------+----------------------+------------------+---------------------------+
-; Debouncer:DebounceResetSwitch|o_PinOut                                                                                                                                                                                                                                                                                                                      ; FF_X27_Y3_N17      ; 16      ; Async. clear               ; yes    ; Global Clock         ; GCLK7            ; --                        ;
+; BaudRate6850:BaudRateGen|o_serialEn                                                                                                                                                                                                                                                                                                                         ; FF_X12_Y21_N1      ; 15      ; Clock enable               ; no     ; --                   ; --               ; --                        ;
 ; Debouncer:DebounceResetSwitch|o_PinOut                                                                                                                                                                                                                                                                                                                      ; FF_X27_Y3_N17      ; 86      ; Clock enable, Sync. clear  ; no     ; --                   ; --               ; --                        ;
+; Debouncer:DebounceResetSwitch|o_PinOut                                                                                                                                                                                                                                                                                                                      ; FF_X27_Y3_N17      ; 16      ; Async. clear               ; yes    ; Global Clock         ; GCLK7            ; --                        ;
 ; Debouncer:DebounceResetSwitch|pulse200ms                                                                                                                                                                                                                                                                                                                    ; FF_X28_Y3_N1       ; 2       ; Clock enable               ; no     ; --                   ; --               ; --                        ;
 ; InternalRam32K:sram32K|altsyncram:altsyncram_component|altsyncram_o4s3:auto_generated|altsyncram_hkp2:altsyncram1|decode_f8a:rden_decode_a|w_anode261w[2]~0                                                                                                                                                                                                 ; LCCOMB_X17_Y17_N4  ; 8       ; Clock enable               ; no     ; --                   ; --               ; --                        ;
 ; InternalRam32K:sram32K|altsyncram:altsyncram_component|altsyncram_o4s3:auto_generated|altsyncram_hkp2:altsyncram1|decode_f8a:rden_decode_a|w_anode275w[2]~0                                                                                                                                                                                                 ; LCCOMB_X17_Y17_N18 ; 8       ; Clock enable               ; no     ; --                   ; --               ; --                        ;
@@ -1425,7 +1427,6 @@ Note: For table entries with two numbers listed, the numbers in parentheses indi
 ; i_CLOCK_50                                                                                                                                                                                                                                                                                                                                                  ; PIN_T2             ; 512     ; Clock                      ; yes    ; Global Clock         ; GCLK4            ; --                        ;
 ; io_extSRamData~16                                                                                                                                                                                                                                                                                                                                           ; LCCOMB_X15_Y19_N14 ; 8       ; Output enable              ; no     ; --                   ; --               ; --                        ;
 ; q_cpuClkCount~8                                                                                                                                                                                                                                                                                                                                             ; LCCOMB_X15_Y18_N28 ; 6       ; Sync. clear                ; no     ; --                   ; --               ; --                        ;
-; serialEn                                                                                                                                                                                                                                                                                                                                                    ; FF_X12_Y21_N1      ; 15      ; Clock enable               ; no     ; --                   ; --               ; --                        ;
 ; sld_hub:auto_hub|alt_sld_fab_with_jtag_input:\instrumentation_fabric_with_node_gen:fabric_gen_new_way:with_jtag_input_gen:instrumentation_fabric|alt_sld_fab:instrumentation_fabric|alt_sld_fab_alt_sld_fab:alt_sld_fab|alt_sld_fab_alt_sld_fab_sldfabric:sldfabric|sld_jtag_hub:\jtag_hub_gen:real_sld_jtag_hub|clr_reg                                    ; FF_X10_Y15_N15     ; 51      ; Async. clear               ; no     ; --                   ; --               ; --                        ;
 ; sld_hub:auto_hub|alt_sld_fab_with_jtag_input:\instrumentation_fabric_with_node_gen:fabric_gen_new_way:with_jtag_input_gen:instrumentation_fabric|alt_sld_fab:instrumentation_fabric|alt_sld_fab_alt_sld_fab:alt_sld_fab|alt_sld_fab_alt_sld_fab_sldfabric:sldfabric|sld_jtag_hub:\jtag_hub_gen:real_sld_jtag_hub|design_hash_proc~0                         ; LCCOMB_X11_Y13_N18 ; 4       ; Sync. load                 ; no     ; --                   ; --               ; --                        ;
 ; sld_hub:auto_hub|alt_sld_fab_with_jtag_input:\instrumentation_fabric_with_node_gen:fabric_gen_new_way:with_jtag_input_gen:instrumentation_fabric|alt_sld_fab:instrumentation_fabric|alt_sld_fab_alt_sld_fab:alt_sld_fab|alt_sld_fab_alt_sld_fab_sldfabric:sldfabric|sld_jtag_hub:\jtag_hub_gen:real_sld_jtag_hub|hub_info_reg_ena                           ; LCCOMB_X11_Y13_N10 ; 4       ; Clock enable               ; no     ; --                   ; --               ; --                        ;
@@ -2748,7 +2749,7 @@ Info (176353): Automatically promoted node SBCTextDisplayRGB:vdu|func_reset  Fil
 Info (176233): Starting register packing
 Info (176235): Finished register packing
     Extra Info (176219): No registers were packed into other blocks
-Info (171121): Fitter preparation operations ending: elapsed time is 00:00:03
+Info (171121): Fitter preparation operations ending: elapsed time is 00:00:04
 Info (14896): Fitter has disabled Advanced Physical Optimization because it is not supported for the current family.
 Info (170189): Fitter placement preparation operations beginning
 Info (170190): Fitter placement preparation operations ending: elapsed time is 00:00:01
@@ -2761,8 +2762,8 @@ Info (170195): Router estimated average interconnect usage is 7% of the availabl
 Info (170199): The Fitter performed an Auto Fit compilation.  Optimizations were skipped to reduce compilation time.
     Info (170201): Optimizations that may affect the design's routability were skipped
     Info (170200): Optimizations that may affect the design's timing were skipped
-Info (170194): Fitter routing operations ending: elapsed time is 00:00:02
-Info (11888): Total time spent on timing analysis during the Fitter is 0.56 seconds.
+Info (170194): Fitter routing operations ending: elapsed time is 00:00:01
+Info (11888): Total time spent on timing analysis during the Fitter is 0.55 seconds.
 Info (334003): Started post-fitting delay annotation
 Info (334004): Delay annotation completed successfully
 Info (334003): Started post-fitting delay annotation
@@ -2802,10 +2803,10 @@ Warning (169177): 31 pins must meet Intel FPGA requirements for 3.3-, 3.0-, and 
     Info (169178): Pin i_n_reset uses I/O standard 3.3-V LVTTL at W13 File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15/M6800_MIKBUG_60KB_Banked-1MB/M6800_MIKBUG.vhd Line: 40
 Info (144001): Generated suppressed messages file C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15/M6800_MIKBUG_60KB_Banked-1MB/output_files/M6800_MIKBUG.fit.smsg
 Info: Quartus Prime Fitter was successful. 0 errors, 7 warnings
-    Info: Peak virtual memory: 5558 megabytes
-    Info: Processing ended: Thu Jun 24 15:27:19 2021
-    Info: Elapsed time: 00:00:16
-    Info: Total CPU time (on all processors): 00:00:21
+    Info: Peak virtual memory: 5567 megabytes
+    Info: Processing ended: Thu Jun 24 15:37:33 2021
+    Info: Elapsed time: 00:00:15
+    Info: Total CPU time (on all processors): 00:00:19
 
 
 +----------------------------+
