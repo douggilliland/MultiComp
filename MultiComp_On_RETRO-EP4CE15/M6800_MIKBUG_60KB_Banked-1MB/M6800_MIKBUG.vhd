@@ -291,48 +291,48 @@ begin
 	-- CPU Clock
 	-- Need 2 clocks high for externl SRAM can get by with 1 clock low
 	-- Produces a 40 nS wide wriye strobe - 45 nS SRAMs need a 35 nS write pulse, so this works
-process (i_CLOCK_50, w_n_SRAMCE)
-	begin
-		if rising_edge(i_CLOCK_50) then
-			if w_n_SRAMCE = '0' then
-				if q_cpuClkCount < 2 then						-- 50 MHz / 3 = 16.7 MHz 
-					q_cpuClkCount <= q_cpuClkCount + 1;
+	process (i_CLOCK_50, w_n_SRAMCE)
+		begin
+			if rising_edge(i_CLOCK_50) then
+				if w_n_SRAMCE = '0' then
+					if q_cpuClkCount < 2 then						-- 50 MHz / 3 = 16.7 MHz 
+						q_cpuClkCount <= q_cpuClkCount + 1;
+					else
+						q_cpuClkCount <= (others=>'0');
+					end if;
 				else
-					q_cpuClkCount <= (others=>'0');
+					if q_cpuClkCount < 1 then						-- 50 MHz / 2 = 25 MHz
+						q_cpuClkCount <= q_cpuClkCount + 1;
+					else
+						q_cpuClkCount <= (others=>'0');
+					end if;
 				end if;
-			else
-				if q_cpuClkCount < 1 then						-- 50 MHz / 2 = 25 MHz
-					q_cpuClkCount <= q_cpuClkCount + 1;
+				if q_cpuClkCount < 1 then						-- 2 clocks high, one low
+					w_cpuClock <= '0';
 				else
-					q_cpuClkCount <= (others=>'0');
+					w_cpuClock <= '1';
 				end if;
 			end if;
-			if q_cpuClkCount < 1 then						-- 2 clocks high, one low
-				w_cpuClock <= '0';
-			else
-				w_cpuClock <= '1';
-			end if;
-		end if;
-	end process;
+		end process;
 	
 	-- ____________________________________________________________________________________
 	-- Baud Rate CLOCK SIGNALS
-baud_div: process (serialCount_d, serialCount)
-    begin
-        serialCount_d <= serialCount + 2416;
-    end process;
+	baud_div: process (serialCount_d, serialCount)
+		 begin
+			  serialCount_d <= serialCount + 2416;
+		 end process;
 
-process (i_CLOCK_50)
-	begin
-		if rising_edge(i_CLOCK_50) then
-        -- Enable for baud rate generator
-        serialCount <= serialCount_d;
-        if serialCount(15) = '0' and serialCount_d(15) = '1' then
-            serialEn <= '1';
-        else
-            serialEn <= '0';
-        end if;
-		end if;
-	end process;
+	process (i_CLOCK_50)
+		begin
+			if rising_edge(i_CLOCK_50) then
+			  -- Enable for baud rate generator
+			  serialCount <= serialCount_d;
+			  if serialCount(15) = '0' and serialCount_d(15) = '1' then
+					serialEn <= '1';
+			  else
+					serialEn <= '0';
+			  end if;
+			end if;
+		end process;
 
 end;
