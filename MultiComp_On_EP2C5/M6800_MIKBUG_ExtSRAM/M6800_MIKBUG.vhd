@@ -2,10 +2,12 @@
 -- Grant Searle's web site http://searle.hostei.com/grant/    
 -- Grant Searle's "multicomp" page was at http://searle.hostei.com/grant/Multicomp/index.html
 --
--- Changes to this code by Doug Gilliland 2020
+-- Changes to this code by Doug Gilliland 2020-2021
 --
 -- MC6800 CPU running MIKBUG from back in the day
 --		https://hackaday.io/project/170126-mikbug-on-multicomp
+--		25 MHz (everthing other than External SRAM)
+--		16.7 MHz External SRAM accesses
 -- Smithbug version
 --		http://www.retrotechnology.com/restore/smithbug.html
 --	32K (external) SRAM version
@@ -16,7 +18,8 @@
 --	Jumper selectable for UART/VDU
 --
 -- The Memory Map is:
---	$0000-$7FFF - SRAM (internal RAM in the EPCE15)
+--	$0000-$7FFF - SRAM (External RAM in the EPCE15)
+--		$7f00-$7F7F - Used as MIKBUG scratchpad (I.E., RESERVED)
 --	$8018-$8019 - ACIA J8-10 to J8-12 installed (or VDU J8-10 to J8-12 not installed)
 -- $8028-$8029 - VDU J8-10 to J8-12 installed (or ACIA J8-10 to J8-12 not installed)
 --	$8030 - J8 I/O
@@ -53,9 +56,7 @@ entity M6800_MIKBUG is
 		
 		i_rxd1				: in	std_logic := '1';
 		o_txd1				: out std_logic;
---		i_cts1				: in	std_logic := '1';
 		o_rts1				: out std_logic;
---		w_serSelect			: in	std_logic := '1';
 		
 		-- 128KB SRAM (32KB used)
 		io_extSRamData		: inout std_logic_vector(7 downto 0) := (others=>'Z');
@@ -89,25 +90,27 @@ architecture struct of M6800_MIKBUG is
 	signal w_if2DataOut	: std_logic_vector(7 downto 0);
 	
 	signal n_int1			: std_logic :='1';	
-	signal n_vduCSN		: std_logic :='1';
 	signal n_int2			: std_logic :='1';	
+	
+	-- Chip Selects
+	signal n_vduCSN		: std_logic :='1';
 	signal n_aciaCSN		: std_logic :='1';
 	signal n_J6IOCS		: std_logic :='1';
 	signal n_J8IOCS		: std_logic :='1';
 	signal n_LEDCS			: std_logic :='1';
 	signal ledDS18 		: std_logic_vector(7 downto 0);
-	
+
+		-- CPU clock generation
 	signal q_cpuClkCount	: std_logic_vector(5 downto 0); 
 	signal w_cpuClock		: std_logic;
 	
---   signal serialCount   : std_logic_vector(15 downto 0) := x"0000";
---   signal serialCount_d	: std_logic_vector(15 downto 0);
    signal serialEn      : std_logic;
 	signal w_serSelect   : std_logic;
 	signal w_J8IO8			: std_logic_vector(7 downto 0);
 	
 begin
---	J8IO8 <= w_J8IO8(6 downto 0);
+	
+--	J8IO8(6 DOWNTO 0) <= w_J8IO8(6 downto 0);
 	J8IO8(0)	<= w_cpuClock;								-- Pin 48
 	J8IO8(1)	<= w_memWR;									-- Pin 47
 	J8IO8(2)	<= w_memRD;									-- Pin 52
@@ -115,6 +118,7 @@ begin
 	J8IO8(4)	<= w_cpuAddress(15) or (not w_vma);	-- Pin 58
 	J8IO8(5)	<= w_resetLow;								-- Pin 55
 	J8IO8(6)	<= '0';
+	
 	w_serSelect <= J8IO8(7);
 	
 	DebounceResetSwitch	: entity work.Debouncer
@@ -155,7 +159,7 @@ begin
 		io_extSRamData	when w_cpuAddress(15) = '0'					else
 		w_if1DataOut	when n_vduCSN = '0'								else
 		w_if2DataOut	when n_aciaCSN = '0'								else
-		w_romData		when w_cpuAddress(15 downto 14) = "11"		else
+		w_romData		when w_cpuAddress(15 downto 12) = x"F"		else
 		ledDS18			when n_LEDCS = '0'								else
 		J6IO8				when n_J6IOCS = '0'								else
 		w_J8IO8			when n_J8IOCS = '0'								else
@@ -243,14 +247,14 @@ begin
 		latchOut	=> J6IO8
 	);
 
---	latchIO1 : entity work.OutLatch	--Output LatchIO
---	port map(
---		clear		=> w_resetLow,
---		clock		=> i_CLOCK_50,
---		load		=> not ((not n_J8IOCS) and (not w_R1W0) and (w_cpuClock)),
---		dataIn	=> w_cpuDataOut,
---		latchOut	=> w_J8IO8
---	);
+	latchIO1 : entity work.OutLatch	--Output LatchIO
+	port map(
+		clear		=> w_resetLow,
+		clock		=> i_CLOCK_50,
+		load		=> not ((not n_J8IOCS) and (not w_R1W0) and (w_cpuClock)),
+		dataIn	=> w_cpuDataOut,
+		latchOut	=> w_J8IO8
+	);
 
 
 ledDS1	<= ledDS18(0);
@@ -267,23 +271,31 @@ port map(
 	latchOut => ledDS18
 );
 
-	-- ____________________________________________________________________________________
 	-- CPU Clock
-process (i_CLOCK_50)
-	begin
-		if rising_edge(i_CLOCK_50) then
-			if q_cpuClkCount < 4 then		-- 4 = 10MHz, 3 = 12.5MHz, 2=16.6MHz, 1=25MHz
-				q_cpuClkCount <= q_cpuClkCount + 1;
-			else
-				q_cpuClkCount <= (others=>'0');
+	process (i_CLOCK_50, w_cpuAddress(15))
+		begin
+			if rising_edge(i_CLOCK_50) then
+				if (w_cpuAddress(15) = '0') then
+					if q_cpuClkCount < 2 then						-- 50 MHz / 3 = 16.7 MHz 
+						q_cpuClkCount <= q_cpuClkCount + 1;
+					else
+						q_cpuClkCount <= (others=>'0');
+					end if;
+				else
+					if q_cpuClkCount < 1 then						-- 50 MHz / 2 = 25 MHz
+						q_cpuClkCount <= q_cpuClkCount + 1;
+					else
+						q_cpuClkCount <= (others=>'0');
+					end if;
+				end if;
+				if q_cpuClkCount < 1 then						-- 2 clocks high, one low
+					w_cpuClock <= '0';
+				else
+					w_cpuClock <= '1';
+				end if;
 			end if;
-			if q_cpuClkCount < 2 then		-- 2 when 10MHz, 2 when 12.5MHz, 2 when 16.6MHz, 1 when 25MHz
-				w_cpuClock <= '0';
-			else
-				w_cpuClock <= '1';
-			end if;
-		end if;
-	end process;
+		end process;
+
 	
 -- Pass Baud Rate in BAUD_RATE generic as integer value (300, 9600, 115,200)
 -- Legal values are 115200, 38400, 19200, 9600, 4800, 2400, 1200, 600, 300	BaudRateGen : entity work.BaudRate6850

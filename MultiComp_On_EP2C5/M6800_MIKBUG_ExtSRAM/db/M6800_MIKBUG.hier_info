@@ -11,6 +11,7 @@ i_CLOCK_50 => q_cpuClkCount[5].CLK
 i_CLOCK_50 => sbctextdisplayrgb:vdu.clk
 i_CLOCK_50 => buffereduart:acia.clk
 i_CLOCK_50 => outlatch:latchIO0.clock
+i_CLOCK_50 => outlatch:latchIO1.clock
 i_CLOCK_50 => outlatch:latchLED.clock
 i_CLOCK_50 => baudrate6850:BaudRateGen.i_CLOCK_50
 o_videoR0 <= sbctextdisplayrgb:vdu.videoR0
@@ -2501,6 +2502,49 @@ n_dcd => tx_fsm.IN1
 
 
 |M6800_MIKBUG|OutLatch:latchIO0
+dataIn[0] => Q_tmp[0].DATAIN
+dataIn[1] => Q_tmp[1].DATAIN
+dataIn[2] => Q_tmp[2].DATAIN
+dataIn[3] => Q_tmp[3].DATAIN
+dataIn[4] => Q_tmp[4].DATAIN
+dataIn[5] => Q_tmp[5].DATAIN
+dataIn[6] => Q_tmp[6].DATAIN
+dataIn[7] => Q_tmp[7].DATAIN
+clock => Q_tmp[0].CLK
+clock => Q_tmp[1].CLK
+clock => Q_tmp[2].CLK
+clock => Q_tmp[3].CLK
+clock => Q_tmp[4].CLK
+clock => Q_tmp[5].CLK
+clock => Q_tmp[6].CLK
+clock => Q_tmp[7].CLK
+load => Q_tmp[7].ENA
+load => Q_tmp[6].ENA
+load => Q_tmp[5].ENA
+load => Q_tmp[4].ENA
+load => Q_tmp[3].ENA
+load => Q_tmp[2].ENA
+load => Q_tmp[1].ENA
+load => Q_tmp[0].ENA
+clear => Q_tmp[0].ACLR
+clear => Q_tmp[1].ACLR
+clear => Q_tmp[2].ACLR
+clear => Q_tmp[3].ACLR
+clear => Q_tmp[4].ACLR
+clear => Q_tmp[5].ACLR
+clear => Q_tmp[6].ACLR
+clear => Q_tmp[7].ACLR
+latchOut[0] <= Q_tmp[0].DB_MAX_OUTPUT_PORT_TYPE
+latchOut[1] <= Q_tmp[1].DB_MAX_OUTPUT_PORT_TYPE
+latchOut[2] <= Q_tmp[2].DB_MAX_OUTPUT_PORT_TYPE
+latchOut[3] <= Q_tmp[3].DB_MAX_OUTPUT_PORT_TYPE
+latchOut[4] <= Q_tmp[4].DB_MAX_OUTPUT_PORT_TYPE
+latchOut[5] <= Q_tmp[5].DB_MAX_OUTPUT_PORT_TYPE
+latchOut[6] <= Q_tmp[6].DB_MAX_OUTPUT_PORT_TYPE
+latchOut[7] <= Q_tmp[7].DB_MAX_OUTPUT_PORT_TYPE
+
+
+|M6800_MIKBUG|OutLatch:latchIO1
 dataIn[0] => Q_tmp[0].DATAIN
 dataIn[1] => Q_tmp[1].DATAIN
 dataIn[2] => Q_tmp[2].DATAIN

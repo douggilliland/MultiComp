@@ -1,5 +1,5 @@
 Analysis & Synthesis report for M6800_MIKBUG
-Fri Jun 25 07:42:54 2021
+Fri Jun 25 16:53:21 2021
 Quartus II 64-Bit Version 13.0.1 Build 232 06/12/2013 Service Pack 1 SJ Web Edition
 
 
@@ -35,18 +35,19 @@ Quartus II 64-Bit Version 13.0.1 Build 232 06/12/2013 Service Pack 1 SJ Web Edit
  27. Parameter Settings for User Entity Instance: SBCTextDisplayRGB:vdu|DisplayRam2K:\GEN_2KRAM:dispCharRam|altsyncram:altsyncram_component
  28. Parameter Settings for User Entity Instance: SBCTextDisplayRGB:vdu|DisplayRam2K:\GEN_2KATTRAM:dispAttRam|altsyncram:altsyncram_component
  29. Parameter Settings for User Entity Instance: OutLatch:latchIO0
- 30. Parameter Settings for User Entity Instance: OutLatch:latchLED
- 31. Parameter Settings for User Entity Instance: BaudRate6850:BaudRateGen
- 32. Parameter Settings for Inferred Entity Instance: SBCTextDisplayRGB:vdu|lpm_divide:Mod0
- 33. Parameter Settings for Inferred Entity Instance: SBCTextDisplayRGB:vdu|lpm_divide:Mod1
- 34. altsyncram Parameter Settings by Entity Instance
- 35. Port Connectivity Checks: "bufferedUART:acia"
- 36. Port Connectivity Checks: "SBCTextDisplayRGB:vdu|DisplayRam2K:\GEN_2KATTRAM:dispAttRam"
- 37. Port Connectivity Checks: "SBCTextDisplayRGB:vdu|DisplayRam2K:\GEN_2KRAM:dispCharRam"
- 38. Port Connectivity Checks: "SBCTextDisplayRGB:vdu"
- 39. Port Connectivity Checks: "cpu68:cpu1"
- 40. Elapsed Time Per Partition
- 41. Analysis & Synthesis Messages
+ 30. Parameter Settings for User Entity Instance: OutLatch:latchIO1
+ 31. Parameter Settings for User Entity Instance: OutLatch:latchLED
+ 32. Parameter Settings for User Entity Instance: BaudRate6850:BaudRateGen
+ 33. Parameter Settings for Inferred Entity Instance: SBCTextDisplayRGB:vdu|lpm_divide:Mod0
+ 34. Parameter Settings for Inferred Entity Instance: SBCTextDisplayRGB:vdu|lpm_divide:Mod1
+ 35. altsyncram Parameter Settings by Entity Instance
+ 36. Port Connectivity Checks: "bufferedUART:acia"
+ 37. Port Connectivity Checks: "SBCTextDisplayRGB:vdu|DisplayRam2K:\GEN_2KATTRAM:dispAttRam"
+ 38. Port Connectivity Checks: "SBCTextDisplayRGB:vdu|DisplayRam2K:\GEN_2KRAM:dispCharRam"
+ 39. Port Connectivity Checks: "SBCTextDisplayRGB:vdu"
+ 40. Port Connectivity Checks: "cpu68:cpu1"
+ 41. Elapsed Time Per Partition
+ 42. Analysis & Synthesis Messages
 
 
 
@@ -72,15 +73,15 @@ applicable agreement for further details.
 +--------------------------------------------------------------------------------------+
 ; Analysis & Synthesis Summary                                                         ;
 +------------------------------------+-------------------------------------------------+
-; Analysis & Synthesis Status        ; Successful - Fri Jun 25 07:42:53 2021           ;
+; Analysis & Synthesis Status        ; Successful - Fri Jun 25 16:53:21 2021           ;
 ; Quartus II 64-Bit Version          ; 13.0.1 Build 232 06/12/2013 SP 1 SJ Web Edition ;
 ; Revision Name                      ; M6800_MIKBUG                                    ;
 ; Top-level Entity Name              ; M6800_MIKBUG                                    ;
 ; Family                             ; Cyclone II                                      ;
-; Total logic elements               ; 3,057                                           ;
-;     Total combinational functions  ; 2,810                                           ;
-;     Dedicated logic registers      ; 826                                             ;
-; Total registers                    ; 826                                             ;
+; Total logic elements               ; 3,077                                           ;
+;     Total combinational functions  ; 2,822                                           ;
+;     Dedicated logic registers      ; 834                                             ;
+; Total registers                    ; 834                                             ;
 ; Total pins                         ; 63                                              ;
 ; Total virtual pins                 ; 0                                               ;
 ; Total memory bits                  ; 81,920                                          ;
@@ -234,28 +235,28 @@ Parallel compilation was disabled, but you have multiple processors available. E
 +---------------------------------------------+------------+
 ; Resource                                    ; Usage      ;
 +---------------------------------------------+------------+
-; Estimated Total logic elements              ; 3,057      ;
+; Estimated Total logic elements              ; 3,077      ;
 ;                                             ;            ;
-; Total combinational functions               ; 2810       ;
+; Total combinational functions               ; 2822       ;
 ; Logic element usage by number of LUT inputs ;            ;
-;     -- 4 input functions                    ; 1621       ;
-;     -- 3 input functions                    ; 592        ;
-;     -- <=2 input functions                  ; 597        ;
+;     -- 4 input functions                    ; 1638       ;
+;     -- 3 input functions                    ; 584        ;
+;     -- <=2 input functions                  ; 600        ;
 ;                                             ;            ;
 ; Logic elements by mode                      ;            ;
-;     -- normal mode                          ; 2351       ;
+;     -- normal mode                          ; 2363       ;
 ;     -- arithmetic mode                      ; 459        ;
 ;                                             ;            ;
-; Total registers                             ; 826        ;
-;     -- Dedicated logic registers            ; 826        ;
+; Total registers                             ; 834        ;
+;     -- Dedicated logic registers            ; 834        ;
 ;     -- I/O registers                        ; 0          ;
 ;                                             ;            ;
 ; I/O pins                                    ; 63         ;
 ; Total memory bits                           ; 81920      ;
 ; Embedded Multiplier 9-bit elements          ; 0          ;
 ; Maximum fan-out node                        ; i_CLOCK_50 ;
-; Maximum fan-out                             ; 615        ;
-; Total fan-out                               ; 12569      ;
+; Maximum fan-out                             ; 623        ;
+; Total fan-out                               ; 12651      ;
 ; Average fan-out                             ; 3.37       ;
 +---------------------------------------------+------------+
 
@@ -265,15 +266,16 @@ Parallel compilation was disabled, but you have multiple processors available. E
 +-----------------------------------------------+-------------------+--------------+-------------+--------------+---------+-----------+------+--------------+------------------------------------------------------------------------------------------------------------------------------------------+--------------+
 ; Compilation Hierarchy Node                    ; LC Combinationals ; LC Registers ; Memory Bits ; DSP Elements ; DSP 9x9 ; DSP 18x18 ; Pins ; Virtual Pins ; Full Hierarchy Name                                                                                                                      ; Library Name ;
 +-----------------------------------------------+-------------------+--------------+-------------+--------------+---------+-----------+------+--------------+------------------------------------------------------------------------------------------------------------------------------------------+--------------+
-; |M6800_MIKBUG                                 ; 2810 (74)         ; 826 (7)      ; 81920       ; 0            ; 0       ; 0         ; 63   ; 0            ; |M6800_MIKBUG                                                                                                                            ; work         ;
+; |M6800_MIKBUG                                 ; 2822 (72)         ; 834 (7)      ; 81920       ; 0            ; 0       ; 0         ; 63   ; 0            ; |M6800_MIKBUG                                                                                                                            ; work         ;
 ;    |BaudRate6850:BaudRateGen|                 ; 14 (14)           ; 13 (13)      ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |M6800_MIKBUG|BaudRate6850:BaudRateGen                                                                                                   ; work         ;
 ;    |Debouncer:DebounceResetSwitch|            ; 26 (26)           ; 24 (24)      ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |M6800_MIKBUG|Debouncer:DebounceResetSwitch                                                                                              ; work         ;
 ;    |M6800_MIKBUG_32KB:rom1|                   ; 0 (0)             ; 0 (0)        ; 32768       ; 0            ; 0       ; 0         ; 0    ; 0            ; |M6800_MIKBUG|M6800_MIKBUG_32KB:rom1                                                                                                     ; work         ;
 ;       |altsyncram:altsyncram_component|       ; 0 (0)             ; 0 (0)        ; 32768       ; 0            ; 0       ; 0         ; 0    ; 0            ; |M6800_MIKBUG|M6800_MIKBUG_32KB:rom1|altsyncram:altsyncram_component                                                                     ; work         ;
 ;          |altsyncram_gud1:auto_generated|     ; 0 (0)             ; 0 (0)        ; 32768       ; 0            ; 0       ; 0         ; 0    ; 0            ; |M6800_MIKBUG|M6800_MIKBUG_32KB:rom1|altsyncram:altsyncram_component|altsyncram_gud1:auto_generated                                      ; work         ;
 ;    |OutLatch:latchIO0|                        ; 0 (0)             ; 8 (8)        ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |M6800_MIKBUG|OutLatch:latchIO0                                                                                                          ; work         ;
+;    |OutLatch:latchIO1|                        ; 0 (0)             ; 8 (8)        ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |M6800_MIKBUG|OutLatch:latchIO1                                                                                                          ; work         ;
 ;    |OutLatch:latchLED|                        ; 0 (0)             ; 8 (8)        ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |M6800_MIKBUG|OutLatch:latchLED                                                                                                          ; work         ;
-;    |SBCTextDisplayRGB:vdu|                    ; 1414 (1236)       ; 384 (384)    ; 49152       ; 0            ; 0       ; 0         ; 0    ; 0            ; |M6800_MIKBUG|SBCTextDisplayRGB:vdu                                                                                                      ; work         ;
+;    |SBCTextDisplayRGB:vdu|                    ; 1412 (1234)       ; 384 (384)    ; 49152       ; 0            ; 0       ; 0         ; 0    ; 0            ; |M6800_MIKBUG|SBCTextDisplayRGB:vdu                                                                                                      ; work         ;
 ;       |DisplayRam2K:\GEN_2KATTRAM:dispAttRam| ; 0 (0)             ; 0 (0)        ; 16384       ; 0            ; 0       ; 0         ; 0    ; 0            ; |M6800_MIKBUG|SBCTextDisplayRGB:vdu|DisplayRam2K:\GEN_2KATTRAM:dispAttRam                                                                ; work         ;
 ;          |altsyncram:altsyncram_component|    ; 0 (0)             ; 0 (0)        ; 16384       ; 0            ; 0       ; 0         ; 0    ; 0            ; |M6800_MIKBUG|SBCTextDisplayRGB:vdu|DisplayRam2K:\GEN_2KATTRAM:dispAttRam|altsyncram:altsyncram_component                                ; work         ;
 ;             |altsyncram_adh2:auto_generated|  ; 0 (0)             ; 0 (0)        ; 16384       ; 0            ; 0       ; 0         ; 0    ; 0            ; |M6800_MIKBUG|SBCTextDisplayRGB:vdu|DisplayRam2K:\GEN_2KATTRAM:dispAttRam|altsyncram:altsyncram_component|altsyncram_adh2:auto_generated ; work         ;
@@ -292,7 +294,7 @@ Parallel compilation was disabled, but you have multiple processors available. E
 ;             |sign_div_unsign_7nh:divider|     ; 89 (0)            ; 0 (0)        ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |M6800_MIKBUG|SBCTextDisplayRGB:vdu|lpm_divide:Mod1|lpm_divide_08m:auto_generated|sign_div_unsign_7nh:divider                            ; work         ;
 ;                |alt_u_div_g5f:divider|        ; 89 (89)           ; 0 (0)        ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |M6800_MIKBUG|SBCTextDisplayRGB:vdu|lpm_divide:Mod1|lpm_divide_08m:auto_generated|sign_div_unsign_7nh:divider|alt_u_div_g5f:divider      ; work         ;
 ;    |bufferedUART:acia|                        ; 251 (251)         ; 213 (213)    ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |M6800_MIKBUG|bufferedUART:acia                                                                                                          ; work         ;
-;    |cpu68:cpu1|                               ; 1031 (1031)       ; 169 (169)    ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |M6800_MIKBUG|cpu68:cpu1                                                                                                                 ; work         ;
+;    |cpu68:cpu1|                               ; 1047 (1047)       ; 169 (169)    ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |M6800_MIKBUG|cpu68:cpu1                                                                                                                 ; work         ;
 +-----------------------------------------------+-------------------+--------------+-------------+--------------+---------+-----------+------+--------------+------------------------------------------------------------------------------------------------------------------------------------------+--------------+
 Note: For table entries with two numbers listed, the numbers in parentheses indicate the number of resources of the given type used by the specific entity alone. The numbers listed outside of parentheses indicate the total resources of the given type used by the specific entity and all of its sub-entities in the hierarchy.
 
@@ -489,12 +491,12 @@ Encoding Type:  One-Hot
 +----------------------------------------------+-------+
 ; Statistic                                    ; Value ;
 +----------------------------------------------+-------+
-; Total registers                              ; 826   ;
+; Total registers                              ; 834   ;
 ; Number of registers using Synchronous Clear  ; 168   ;
 ; Number of registers using Synchronous Load   ; 30    ;
-; Number of registers using Asynchronous Clear ; 67    ;
+; Number of registers using Asynchronous Clear ; 75    ;
 ; Number of registers using Asynchronous Load  ; 0     ;
-; Number of registers using Clock Enable       ; 558   ;
+; Number of registers using Clock Enable       ; 566   ;
 ; Number of registers using Preset             ; 0     ;
 +----------------------------------------------+-------+
 
@@ -508,14 +510,14 @@ Encoding Type:  One-Hot
 ; SBCTextDisplayRGB:vdu|cursorOn          ; 1       ;
 ; SBCTextDisplayRGB:vdu|dispAttWRData[1]  ; 5       ;
 ; SBCTextDisplayRGB:vdu|dispAttWRData[2]  ; 5       ;
-; Debouncer:DebounceResetSwitch|o_PinOut  ; 109     ;
+; Debouncer:DebounceResetSwitch|o_PinOut  ; 117     ;
 ; SBCTextDisplayRGB:vdu|dispAttWRData[3]  ; 5       ;
 ; SBCTextDisplayRGB:vdu|ps2ClkOut         ; 2       ;
 ; SBCTextDisplayRGB:vdu|ps2DataOut        ; 4       ;
 ; SBCTextDisplayRGB:vdu|attBold           ; 5       ;
 ; bufferedUART:acia|rxdFiltered           ; 5       ;
 ; SBCTextDisplayRGB:vdu|ps2ClkFiltered    ; 14      ;
-; SBCTextDisplayRGB:vdu|n_kbWR            ; 29      ;
+; SBCTextDisplayRGB:vdu|n_kbWR            ; 27      ;
 ; SBCTextDisplayRGB:vdu|ps2PrevClk        ; 12      ;
 ; SBCTextDisplayRGB:vdu|ps2Caps           ; 5       ;
 ; SBCTextDisplayRGB:vdu|ps2WriteByte[4]   ; 2       ;
@@ -537,17 +539,18 @@ Encoding Type:  One-Hot
 ; Multiplexer Inputs ; Bus Width ; Baseline Area ; Area if Restructured ; Saving if Restructured ; Registered ; Example Multiplexer Output                                      ;
 +--------------------+-----------+---------------+----------------------+------------------------+------------+-----------------------------------------------------------------+
 ; 3:1                ; 5 bits    ; 10 LEs        ; 5 LEs                ; 5 LEs                  ; Yes        ; |M6800_MIKBUG|SBCTextDisplayRGB:vdu|charVert[2]                 ;
-; 3:1                ; 6 bits    ; 12 LEs        ; 0 LEs                ; 12 LEs                 ; Yes        ; |M6800_MIKBUG|bufferedUART:acia|rxFilter[0]                     ;
-; 3:1                ; 6 bits    ; 12 LEs        ; 0 LEs                ; 12 LEs                 ; Yes        ; |M6800_MIKBUG|SBCTextDisplayRGB:vdu|ps2ClkFilter[4]             ;
-; 3:1                ; 8 bits    ; 16 LEs        ; 8 LEs                ; 8 LEs                  ; Yes        ; |M6800_MIKBUG|SBCTextDisplayRGB:vdu|ps2Byte[4]                  ;
-; 3:1                ; 3 bits    ; 6 LEs         ; 6 LEs                ; 0 LEs                  ; Yes        ; |M6800_MIKBUG|SBCTextDisplayRGB:vdu|ps2ConvertedByte[6]         ;
-; 3:1                ; 4 bits    ; 8 LEs         ; 4 LEs                ; 4 LEs                  ; Yes        ; |M6800_MIKBUG|SBCTextDisplayRGB:vdu|pixelClockCount[1]          ;
-; 3:1                ; 3 bits    ; 6 LEs         ; 3 LEs                ; 3 LEs                  ; Yes        ; |M6800_MIKBUG|SBCTextDisplayRGB:vdu|pixelCount[2]               ;
+; 3:1                ; 6 bits    ; 12 LEs        ; 0 LEs                ; 12 LEs                 ; Yes        ; |M6800_MIKBUG|bufferedUART:acia|rxFilter[1]                     ;
+; 3:1                ; 6 bits    ; 12 LEs        ; 0 LEs                ; 12 LEs                 ; Yes        ; |M6800_MIKBUG|SBCTextDisplayRGB:vdu|ps2ClkFilter[1]             ;
+; 3:1                ; 8 bits    ; 16 LEs        ; 8 LEs                ; 8 LEs                  ; Yes        ; |M6800_MIKBUG|SBCTextDisplayRGB:vdu|ps2Byte[1]                  ;
+; 3:1                ; 3 bits    ; 6 LEs         ; 6 LEs                ; 0 LEs                  ; Yes        ; |M6800_MIKBUG|SBCTextDisplayRGB:vdu|ps2ConvertedByte[5]         ;
+; 3:1                ; 4 bits    ; 8 LEs         ; 4 LEs                ; 4 LEs                  ; Yes        ; |M6800_MIKBUG|SBCTextDisplayRGB:vdu|pixelClockCount[2]          ;
+; 3:1                ; 3 bits    ; 6 LEs         ; 3 LEs                ; 3 LEs                  ; Yes        ; |M6800_MIKBUG|SBCTextDisplayRGB:vdu|pixelCount[0]               ;
 ; 4:1                ; 26 bits   ; 52 LEs        ; 26 LEs               ; 26 LEs                 ; Yes        ; |M6800_MIKBUG|SBCTextDisplayRGB:vdu|kbWatchdogTimer[25]         ;
 ; 4:1                ; 4 bits    ; 8 LEs         ; 4 LEs                ; 4 LEs                  ; Yes        ; |M6800_MIKBUG|SBCTextDisplayRGB:vdu|charScanLine[3]             ;
-; 5:1                ; 6 bits    ; 18 LEs        ; 6 LEs                ; 12 LEs                 ; Yes        ; |M6800_MIKBUG|bufferedUART:acia|rxClockCount[5]                 ;
+; 4:1                ; 6 bits    ; 12 LEs        ; 6 LEs                ; 6 LEs                  ; Yes        ; |M6800_MIKBUG|q_cpuClkCount[1]                                  ;
+; 5:1                ; 6 bits    ; 18 LEs        ; 6 LEs                ; 12 LEs                 ; Yes        ; |M6800_MIKBUG|bufferedUART:acia|rxClockCount[0]                 ;
 ; 4:1                ; 8 bits    ; 16 LEs        ; 16 LEs               ; 0 LEs                  ; Yes        ; |M6800_MIKBUG|cpu68:cpu1|accb[4]                                ;
-; 4:1                ; 8 bits    ; 16 LEs        ; 16 LEs               ; 0 LEs                  ; Yes        ; |M6800_MIKBUG|cpu68:cpu1|xreg[0]                                ;
+; 4:1                ; 8 bits    ; 16 LEs        ; 16 LEs               ; 0 LEs                  ; Yes        ; |M6800_MIKBUG|cpu68:cpu1|xreg[7]                                ;
 ; 4:1                ; 8 bits    ; 16 LEs        ; 16 LEs               ; 0 LEs                  ; Yes        ; |M6800_MIKBUG|cpu68:cpu1|xreg[11]                               ;
 ; 3:1                ; 7 bits    ; 14 LEs        ; 7 LEs                ; 7 LEs                  ; Yes        ; |M6800_MIKBUG|SBCTextDisplayRGB:vdu|charHoriz[1]                ;
 ; 5:1                ; 4 bits    ; 12 LEs        ; 4 LEs                ; 8 LEs                  ; Yes        ; |M6800_MIKBUG|bufferedUART:acia|rxBitCount[1]                   ;
@@ -588,10 +591,10 @@ Encoding Type:  One-Hot
 ; 5:1                ; 8 bits    ; 24 LEs        ; 16 LEs               ; 8 LEs                  ; No         ; |M6800_MIKBUG|cpu68:cpu1|Selector144                            ;
 ; 5:1                ; 8 bits    ; 24 LEs        ; 24 LEs               ; 0 LEs                  ; No         ; |M6800_MIKBUG|cpu68:cpu1|Selector148                            ;
 ; 5:1                ; 8 bits    ; 24 LEs        ; 16 LEs               ; 8 LEs                  ; No         ; |M6800_MIKBUG|cpu68:cpu1|Selector56                             ;
-; 7:1                ; 8 bits    ; 32 LEs        ; 32 LEs               ; 0 LEs                  ; No         ; |M6800_MIKBUG|w_cpuDataIn[0]                                    ;
+; 8:1                ; 8 bits    ; 40 LEs        ; 32 LEs               ; 8 LEs                  ; No         ; |M6800_MIKBUG|w_cpuDataIn[2]                                    ;
 ; 8:1                ; 3 bits    ; 15 LEs        ; 6 LEs                ; 9 LEs                  ; No         ; |M6800_MIKBUG|bufferedUART:acia|txState.idle                    ;
 ; 9:1                ; 3 bits    ; 18 LEs        ; 6 LEs                ; 12 LEs                 ; No         ; |M6800_MIKBUG|bufferedUART:acia|rxState.dataBit                 ;
-; 9:1                ; 8 bits    ; 48 LEs        ; 48 LEs               ; 0 LEs                  ; No         ; |M6800_MIKBUG|cpu68:cpu1|Selector22                             ;
+; 9:1                ; 8 bits    ; 48 LEs        ; 48 LEs               ; 0 LEs                  ; No         ; |M6800_MIKBUG|cpu68:cpu1|Selector23                             ;
 ; 13:1               ; 8 bits    ; 64 LEs        ; 64 LEs               ; 0 LEs                  ; No         ; |M6800_MIKBUG|cpu68:cpu1|Selector171                            ;
 ; 13:1               ; 6 bits    ; 48 LEs        ; 48 LEs               ; 0 LEs                  ; No         ; |M6800_MIKBUG|cpu68:cpu1|Selector176                            ;
 ; 21:1               ; 9 bits    ; 126 LEs       ; 9 LEs                ; 117 LEs                ; No         ; |M6800_MIKBUG|SBCTextDisplayRGB:vdu|dispState                   ;
@@ -917,6 +920,16 @@ Note: In order to hide this table in the UI and the text report file, please set
 
 
 +----------------------------------------------------------------+
+; Parameter Settings for User Entity Instance: OutLatch:latchIO1 ;
++----------------+-------+---------------------------------------+
+; Parameter Name ; Value ; Type                                  ;
++----------------+-------+---------------------------------------+
+; n              ; 8     ; Signed Integer                        ;
++----------------+-------+---------------------------------------+
+Note: In order to hide this table in the UI and the text report file, please set the "Show Parameter Settings in Synthesis Report" option in "Analysis and Synthesis Settings -> More Settings" to "Off".
+
+
++----------------------------------------------------------------+
 ; Parameter Settings for User Entity Instance: OutLatch:latchLED ;
 +----------------+-------+---------------------------------------+
 ; Parameter Name ; Value ; Type                                  ;
@@ -1099,7 +1112,7 @@ Note: In order to hide this table in the UI and the text report file, please set
 +----------------+--------------+
 ; Partition Name ; Elapsed Time ;
 +----------------+--------------+
-; Top            ; 00:00:26     ;
+; Top            ; 00:00:19     ;
 +----------------+--------------+
 
 
@@ -1109,7 +1122,7 @@ Note: In order to hide this table in the UI and the text report file, please set
 Info: *******************************************************************
 Info: Running Quartus II 64-Bit Analysis & Synthesis
     Info: Version 13.0.1 Build 232 06/12/2013 Service Pack 1 SJ Web Edition
-    Info: Processing started: Fri Jun 25 07:42:22 2021
+    Info: Processing started: Fri Jun 25 16:52:57 2021
 Info: Command: quartus_map --read_settings_files=on --write_settings_files=off M6800_MIKBUG -c M6800_MIKBUG
 Warning (20028): Parallel compilation is not licensed and has been disabled
 Info (12021): Found 2 design units, including 1 entities, in source file /users/hpz420/documents/github/doug gilliland/multicomp/multicomp (vhdl template)/components/uart/baudrate6850.vhd
@@ -1158,9 +1171,8 @@ Warning (12125): Using design file m6800_mikbug.vhd, which is not specified as a
     Info (12022): Found design unit 1: M6800_MIKBUG-struct
     Info (12023): Found entity 1: M6800_MIKBUG
 Info (12127): Elaborating entity "M6800_MIKBUG" for the top level hierarchy
-Warning (10036): Verilog HDL or VHDL warning at m6800_mikbug.vhd(91): object "n_int1" assigned a value but never read
+Warning (10036): Verilog HDL or VHDL warning at m6800_mikbug.vhd(92): object "n_int1" assigned a value but never read
 Warning (10036): Verilog HDL or VHDL warning at m6800_mikbug.vhd(93): object "n_int2" assigned a value but never read
-Warning (10541): VHDL Signal Declaration warning at m6800_mikbug.vhd(107): used implicit default value for signal "w_J8IO8" because signal was never assigned a value or an explicit default value. Use of implicit default value may introduce unintended design optimizations.
 Info (12128): Elaborating entity "Debouncer" for hierarchy "Debouncer:DebounceResetSwitch"
 Info (12128): Elaborating entity "cpu68" for hierarchy "cpu68:cpu1"
 Info (12128): Elaborating entity "M6800_MIKBUG_32KB" for hierarchy "M6800_MIKBUG_32KB:rom1"
@@ -1401,16 +1413,16 @@ Warning (13024): Output pins are stuck at VCC or GND
 Info (17049): 6 registers lost all their fanouts during netlist optimizations.
 Info (16010): Generating hard_block partition "hard_block:auto_generated_inst"
     Info (16011): Adding 0 node(s), including 0 DDIO, 0 PLL, 0 transceiver and 0 LCELL
-Info (21057): Implemented 3172 device resources after synthesis - the final resource count might be different
+Info (21057): Implemented 3192 device resources after synthesis - the final resource count might be different
     Info (21058): Implemented 3 input pins
     Info (21059): Implemented 30 output pins
     Info (21060): Implemented 30 bidirectional pins
-    Info (21061): Implemented 3077 logic cells
+    Info (21061): Implemented 3097 logic cells
     Info (21064): Implemented 32 RAM segments
-Info: Quartus II 64-Bit Analysis & Synthesis was successful. 0 errors, 93 warnings
-    Info: Peak virtual memory: 4671 megabytes
-    Info: Processing ended: Fri Jun 25 07:42:54 2021
-    Info: Elapsed time: 00:00:32
-    Info: Total CPU time (on all processors): 00:00:31
+Info: Quartus II 64-Bit Analysis & Synthesis was successful. 0 errors, 92 warnings
+    Info: Peak virtual memory: 4675 megabytes
+    Info: Processing ended: Fri Jun 25 16:53:21 2021
+    Info: Elapsed time: 00:00:24
+    Info: Total CPU time (on all processors): 00:00:23
 
 
