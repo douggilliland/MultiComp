@@ -1,5 +1,5 @@
 Fitter report for M6800_MIKBUG
-Fri Jun 25 10:01:21 2021
+Fri Jun 25 10:05:55 2021
 Quartus II 64-Bit Version 13.0.1 Build 232 06/12/2013 Service Pack 1 SJ Web Edition
 
 
@@ -66,7 +66,7 @@ applicable agreement for further details.
 +--------------------------------------------------------------------------------------+
 ; Fitter Summary                                                                       ;
 +------------------------------------+-------------------------------------------------+
-; Fitter Status                      ; Successful - Fri Jun 25 10:01:21 2021           ;
+; Fitter Status                      ; Successful - Fri Jun 25 10:05:54 2021           ;
 ; Quartus II 64-Bit Version          ; 13.0.1 Build 232 06/12/2013 SP 1 SJ Web Edition ;
 ; Revision Name                      ; M6800_MIKBUG                                    ;
 ; Top-level Entity Name              ; M6800_MIKBUG                                    ;
@@ -602,7 +602,8 @@ Note: User assignments will override these defaults. The user specified values a
 +-----------------------------------------------+-------------+---------------------------+---------------+-------------+------+--------------+---------+-----------+------+--------------+--------------+-------------------+------------------+------------------------------------------------------------------------------------------------------------------------------------------+--------------+
 ; Compilation Hierarchy Node                    ; Logic Cells ; Dedicated Logic Registers ; I/O Registers ; Memory Bits ; M4Ks ; DSP Elements ; DSP 9x9 ; DSP 18x18 ; Pins ; Virtual Pins ; LUT-Only LCs ; Register-Only LCs ; LUT/Register LCs ; Full Hierarchy Name                                                                                                                      ; Library Name ;
 +-----------------------------------------------+-------------+---------------------------+---------------+-------------+------+--------------+---------+-----------+------+--------------+--------------+-------------------+------------------+------------------------------------------------------------------------------------------------------------------------------------------+--------------+
-; |M6800_MIKBUG                                 ; 2951 (73)   ; 833 (20)                  ; 0 (0)         ; 81920       ; 20   ; 0            ; 0       ; 0         ; 63   ; 0            ; 2118 (52)    ; 124 (0)           ; 709 (34)         ; |M6800_MIKBUG                                                                                                                            ; work         ;
+; |M6800_MIKBUG                                 ; 2951 (59)   ; 833 (7)                   ; 0 (0)         ; 81920       ; 20   ; 0            ; 0       ; 0         ; 63   ; 0            ; 2118 (51)    ; 124 (0)           ; 709 (21)         ; |M6800_MIKBUG                                                                                                                            ; work         ;
+;    |BaudRate6850:BaudRateGen|                 ; 14 (14)     ; 13 (13)                   ; 0 (0)         ; 0           ; 0    ; 0            ; 0       ; 0         ; 0    ; 0            ; 1 (1)        ; 0 (0)             ; 13 (13)          ; |M6800_MIKBUG|BaudRate6850:BaudRateGen                                                                                                   ; work         ;
 ;    |M6800_MIKBUG_60KB:rom1|                   ; 0 (0)       ; 0 (0)                     ; 0 (0)         ; 32768       ; 8    ; 0            ; 0       ; 0         ; 0    ; 0            ; 0 (0)        ; 0 (0)             ; 0 (0)            ; |M6800_MIKBUG|M6800_MIKBUG_60KB:rom1                                                                                                     ; work         ;
 ;       |altsyncram:altsyncram_component|       ; 0 (0)       ; 0 (0)                     ; 0 (0)         ; 32768       ; 8    ; 0            ; 0       ; 0         ; 0    ; 0            ; 0 (0)        ; 0 (0)             ; 0 (0)            ; |M6800_MIKBUG|M6800_MIKBUG_60KB:rom1|altsyncram:altsyncram_component                                                                     ; work         ;
 ;          |altsyncram_s2e1:auto_generated|     ; 0 (0)       ; 0 (0)                     ; 0 (0)         ; 32768       ; 8    ; 0            ; 0       ; 0         ; 0    ; 0            ; 0 (0)        ; 0 (0)             ; 0 (0)            ; |M6800_MIKBUG|M6800_MIKBUG_60KB:rom1|altsyncram:altsyncram_component|altsyncram_s2e1:auto_generated                                      ; work         ;
@@ -771,6 +772,7 @@ Note: For table entries with two numbers listed, the numbers in parentheses indi
 +-----------------------------------------------+--------------------+---------+-----------------------------------------+--------+----------------------+------------------+---------------------------+
 ; Name                                          ; Location           ; Fan-Out ; Usage                                   ; Global ; Global Resource Used ; Global Line Name ; Enable Signal Source Name ;
 +-----------------------------------------------+--------------------+---------+-----------------------------------------+--------+----------------------+------------------+---------------------------+
+; BaudRate6850:BaudRateGen|o_serialEn           ; LCFF_X6_Y13_N29    ; 14      ; Clock enable                            ; no     ; --                   ; --               ; --                        ;
 ; LessThan1~0                                   ; LCCOMB_X10_Y7_N22  ; 7       ; Sync. clear                             ; no     ; --                   ; --               ; --                        ;
 ; SBCTextDisplayRGB:vdu|Equal31~0               ; LCCOMB_X20_Y5_N22  ; 33      ; Sync. clear                             ; no     ; --                   ; --               ; --                        ;
 ; SBCTextDisplayRGB:vdu|LessThan0~1             ; LCCOMB_X24_Y10_N28 ; 28      ; Clock enable, Sync. clear               ; no     ; --                   ; --               ; --                        ;
@@ -872,7 +874,6 @@ Note: For table entries with two numbers listed, the numbers in parentheses indi
 ; io_extSRamData~18                             ; LCCOMB_X14_Y11_N18 ; 8       ; Output enable                           ; no     ; --                   ; --               ; --                        ;
 ; w_cpuClock                                    ; LCFF_X13_Y7_N1     ; 113     ; Clock                                   ; no     ; --                   ; --               ; --                        ;
 ; w_cpuClock                                    ; LCFF_X13_Y7_N1     ; 90      ; Clock                                   ; yes    ; Global Clock         ; GCLK3            ; --                        ;
-; w_serialEn                                    ; LCFF_X6_Y13_N29    ; 14      ; Clock enable                            ; no     ; --                   ; --               ; --                        ;
 +-----------------------------------------------+--------------------+---------+-----------------------------------------+--------+----------------------+------------------+---------------------------+
 
 
@@ -1017,7 +1018,7 @@ Note: For table entries with two numbers listed, the numbers in parentheses indi
 ; cpu68:cpu1|Mux89~5                                                                                                                                 ; 14      ;
 ; cpu68:cpu1|Mux124~0                                                                                                                                ; 14      ;
 ; cpu68:cpu1|Mux89~1                                                                                                                                 ; 14      ;
-; w_serialEn                                                                                                                                         ; 14      ;
+; BaudRate6850:BaudRateGen|o_serialEn                                                                                                                ; 14      ;
 ; bufferedUART:acia|txState.dataBit                                                                                                                  ; 14      ;
 ; SBCTextDisplayRGB:vdu|Equal14~0                                                                                                                    ; 13      ;
 ; SBCTextDisplayRGB:vdu|func_reset                                                                                                                   ; 13      ;
@@ -2277,19 +2278,19 @@ Info (176353): Automatically promoted node comb~22
 Info (176233): Starting register packing
 Info (176235): Finished register packing
     Extra Info (176219): No registers were packed into other blocks
-Info (171121): Fitter preparation operations ending: elapsed time is 00:00:02
+Info (171121): Fitter preparation operations ending: elapsed time is 00:00:01
 Info (170189): Fitter placement preparation operations beginning
 Info (170190): Fitter placement preparation operations ending: elapsed time is 00:00:02
 Info (170191): Fitter placement operations beginning
 Info (170137): Fitter placement was successful
-Info (170192): Fitter placement operations ending: elapsed time is 00:00:09
+Info (170192): Fitter placement operations ending: elapsed time is 00:00:08
 Info (170193): Fitter routing operations beginning
 Info (170195): Router estimated average interconnect usage is 17% of the available device resources
     Info (170196): Router estimated peak interconnect usage is 21% of the available device resources in the region that extends from location X14_Y0 to location X28_Y14
-Info (170194): Fitter routing operations ending: elapsed time is 00:00:09
+Info (170194): Fitter routing operations ending: elapsed time is 00:00:08
 Info (170199): The Fitter performed an Auto Fit compilation.  Optimizations were skipped to reduce compilation time.
     Info (170201): Optimizations that may affect the design's routability were skipped
-Info (11888): Total time spent on timing analysis during the Fitter is 4.83 seconds.
+Info (11888): Total time spent on timing analysis during the Fitter is 4.44 seconds.
 Info (306004): Started post-fitting delay annotation
 Warning (306006): Found 60 output pins without output pin load capacitance assignment
     Info (306007): Pin "io_ps2Clk" has no specified output pin load capacitance -- assuming default load capacitance of 0 pF for timing analysis
@@ -2381,10 +2382,10 @@ Warning (169064): Following 20 pins have no output enable or a GND or VCC output
 Warning (169174): The Reserve All Unused Pins setting has not been specified, and will default to 'As output driving ground'.
 Info (144001): Generated suppressed messages file C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_EP2C5/M6800_MIKBUG_ExtSRAM_MIKBUG_at_F000/output_files/M6800_MIKBUG.fit.smsg
 Info: Quartus II 64-Bit Fitter was successful. 0 errors, 6 warnings
-    Info: Peak virtual memory: 4831 megabytes
-    Info: Processing ended: Fri Jun 25 10:01:22 2021
-    Info: Elapsed time: 00:00:29
-    Info: Total CPU time (on all processors): 00:00:29
+    Info: Peak virtual memory: 4825 megabytes
+    Info: Processing ended: Fri Jun 25 10:05:55 2021
+    Info: Elapsed time: 00:00:27
+    Info: Total CPU time (on all processors): 00:00:27
 
 
 +----------------------------+

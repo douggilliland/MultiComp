@@ -111,8 +111,8 @@ architecture struct of M6800_MIKBUG is
 	signal w_cpuClkCt		: std_logic_vector(5 downto 0); 
 	signal w_cpuClock		: std_logic;
 	
-   signal w_serialCt   	: std_logic_vector(15 downto 0) := x"0000";
-   signal w_serialCt_d	: std_logic_vector(15 downto 0);
+--   signal w_serialCt   	: std_logic_vector(15 downto 0) := x"0000";
+--   signal w_serialCt_d	: std_logic_vector(15 downto 0);
    signal w_serialEn    : std_logic;
 	signal w_serSelect   : std_logic;
 	
@@ -312,34 +312,15 @@ process (i_CLOCK_50)
 		end if;
 	end process;
 	
-	-- ____________________________________________________________________________________
-	-- Baud Rate CLOCK SIGNALS
-	-- Serial clock DDS
-	-- 50MHz master input clock:
-	-- Baud Increment
-	-- 115200 2416
-	-- 38400 805
-	-- 19200 403
-	-- 9600 201
-	-- 4800 101
-	-- 2400 50
-
-baud_div: process (w_serialCt)
-    begin
-        w_serialCt_d <= w_serialCt + 2416;
-    end process;
-
-process (i_CLOCK_50)
-	begin
-		if rising_edge(i_CLOCK_50) then
-        -- Enable for baud rate generator
-        w_serialCt <= w_serialCt_d;
-        if w_serialCt(15) = '0' and w_serialCt_d(15) = '1' then
-            w_serialEn <= '1';
-        else
-            w_serialEn <= '0';
-        end if;
-		end if;
-	end process;
+	-- Baud Rate Generator
+-- Legal values are 115200, 38400, 19200, 9600, 4800, 2400, 1200, 600, 300
+	BaudRateGen : entity work.BaudRate6850
+	GENERIC map (
+		BAUD_RATE	=>  115200
+	)
+	PORT map (
+		i_CLOCK_50	=> i_CLOCK_50,
+		o_serialEn	=> w_serialEn
+	);
 
 end;
