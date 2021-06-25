@@ -139,7 +139,7 @@ begin
 	-- Debounce the reset line
 	DebounceResetSwitch	: entity work.Debounce
 	port map (
-		clk		=> i_CLOCK_50,
+		clk		=> w_cpuClock,
 		button	=> i_n_reset,
 		result	=> w_resetLow
 	);
@@ -191,7 +191,7 @@ begin
 	-- ____________________________________________________________________________________
 	-- MIKBUG ROM
 	-- 4KB MIKBUG ROM - repeats in memory 4 times
-	rom1 : entity work.MIKBUG 		
+	rom1 : entity work.M6800_MIKBUG_60KB 		
 		port map (
 			address	=> w_cpuAddress(11 downto 0),
 			clock 	=> i_CLOCK_50,
@@ -249,7 +249,7 @@ begin
 		clear		=> w_resetLow,
 		clock		=> i_CLOCK_50,
 		load		=> not ((not w_n_J6IOCS) and (not w_R1W0) and w_cpuClock),
-		dataIn8	=> w_cpuDataOut,
+		dataIn	=> w_cpuDataOut,
 		latchOut	=> o_J6IO8
 	);
 
@@ -258,7 +258,7 @@ begin
 		clear		=> w_resetLow,
 		clock		=> i_CLOCK_50,
 		load		=> not ((not w_n_J8IOCS) and (not w_R1W0) and w_cpuClock),
-		dataIn8	=> w_cpuDataOut,
+		dataIn	=> w_cpuDataOut,
 		latchOut	=> w_J8IO8
 	);
 
@@ -273,7 +273,7 @@ port map(
 	clear		=> w_resetLow,
 	clock		=> i_CLOCK_50,
 	load		=> not ((not w_n_LEDCS) and (not w_R1W0) and w_cpuClock),
-	dataIn8	=> w_cpuDataOut,
+	dataIn	=> w_cpuDataOut,
 	latchOut => w_ledDS18
 );
 
