@@ -268,7 +268,7 @@ begin
 		clear => i_n_reset,
 		clock => clk,
 		load => n_J6IOCS or w_n_WR,
-		dataIn8 => w_cpuDataOut,
+		dataIn => w_cpuDataOut,
 		latchOut => o_J6IO8
 	);
 
@@ -277,7 +277,7 @@ begin
 		clear => i_n_reset,
 		clock => clk,
 		load => n_J8IOCS or w_n_WR,
-		dataIn8 => w_cpuDataOut,
+		dataIn => w_cpuDataOut,
 		latchOut => o_J8IO8
 	);
 
@@ -288,7 +288,7 @@ begin
 		clear => i_n_reset,
 		clock => clk,
 		load => n_LEDCS or w_n_WR,
-		dataIn8 => w_cpuDataOut,
+		dataIn => w_cpuDataOut,
 		latchOut => w_ledOut8
 	);
 
