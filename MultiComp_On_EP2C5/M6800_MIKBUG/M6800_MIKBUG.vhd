@@ -125,7 +125,7 @@ begin
 	);
 	
 	w_memWR <= (not w_R1W0) and w_vma and not w_cpuClk;
-	w_memRD <=      w_R1W0  and w_vma and not w_cpuClk;
+	w_memRD <=      w_R1W0  and w_vma;
 	
 	w_RAM_CS_1	<= '1' when ((w_cpuAddress(15 downto 11)	="00000"))		else '0';
 	w_RAM_CS_2	<= '1' when ((w_cpuAddress(15 downto 10)	="000010"))		else '0';

@@ -290,7 +290,7 @@ begin
 	-- ____________________________________________________________________________________
 	-- CPU Clock
 	-- Need 2 clocks high for externl SRAM can get by with 1 clock low
-	-- Produces a 40 nS wide wriye strobe - 45 nS SRAMs need a 35 nS write pulse, so this works
+	-- Produces a 40 nS wide write strobe - 45 nS SRAMs need a 35 nS write pulse, so this works
 	process (i_CLOCK_50, w_n_SRAMCE)
 		begin
 			if rising_edge(i_CLOCK_50) then

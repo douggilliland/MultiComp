@@ -53,22 +53,22 @@ entity M6800_MIKBUG is
 		
 		i_rxd1				: in	std_logic := '1';
 		o_txd1				: out std_logic;
+--		i_cts1				: in	std_logic := '1';
 		o_rts1				: out std_logic;
---		urts1					: in	std_logic := '1';
-		i_serSelect			: in	std_logic := '1';
+--		w_serSelect			: in	std_logic := '1';
 		
 		-- 128KB SRAM (32KB used)
 		io_extSRamData		: inout std_logic_vector(7 downto 0) := (others=>'Z');
 		o_extSRamAddress	: out std_logic_vector(16 downto 0);
-		io_n_extSRamWE		: out std_logic := '1';
-		io_n_extSRamCS		: out std_logic := '1';
-		io_n_extSRamOE		: out std_logic := '1';
+		o_n_extSRamWE		: out std_logic := '1';
+		o_n_extSRamCS		: out std_logic := '1';
+		o_n_extSRamOE		: out std_logic := '1';
 		ledDS1				: inout std_logic;
 		ledD2					: inout std_logic;
 		ledD4					: inout std_logic;
 		ledD5					: inout std_logic;
 		J6IO8					: inout std_logic_vector(7 downto 0);
-		J8IO8					: inout std_logic_vector(5 downto 0)
+		J8IO8					: inout std_logic_vector(7 downto 0)
 	);
 end M6800_MIKBUG;
 
@@ -81,6 +81,8 @@ architecture struct of M6800_MIKBUG is
 	signal w_cpuDataIn	: std_logic_vector(7 downto 0);
 	signal w_R1W0			: std_logic;
 	signal w_vma			: std_logic;
+	signal w_memWR			: std_logic;
+	signal w_memRD			: std_logic;
 	
 	signal w_romData		: std_logic_vector(7 downto 0);
 	signal w_if1DataOut	: std_logic_vector(7 downto 0);
@@ -98,36 +100,47 @@ architecture struct of M6800_MIKBUG is
 	signal q_cpuClkCount	: std_logic_vector(5 downto 0); 
 	signal w_cpuClock		: std_logic;
 	
-   signal serialCount   : std_logic_vector(15 downto 0) := x"0000";
-   signal serialCount_d	: std_logic_vector(15 downto 0);
+--   signal serialCount   : std_logic_vector(15 downto 0) := x"0000";
+--   signal serialCount_d	: std_logic_vector(15 downto 0);
    signal serialEn      : std_logic;
+	signal w_serSelect   : std_logic;
 	signal w_J8IO8			: std_logic_vector(7 downto 0);
 	
 begin
-	J8IO8 <= w_J8IO8(5 downto 0);
-	-- ____________________________________________________________________________________
-	-- RAM GOES HERE
-	o_extSRamAddress	<= "00"&w_cpuAddress(14 downto 0);
-	io_extSRamData		<= w_cpuDataOut when (w_R1W0='0' and (w_cpuAddress(15) = '0')) else (others => 'Z');
-	io_n_extSRamWE		<= w_R1W0;
-	io_n_extSRamOE		<= not w_R1W0;
-	io_n_extSRamCS		<= not ((not w_cpuAddress(15)) and (not w_cpuClock));
+--	J8IO8 <= w_J8IO8(6 downto 0);
+	J8IO8(0)	<= w_cpuClock;								-- Pin 48
+	J8IO8(1)	<= w_memWR;									-- Pin 47
+	J8IO8(2)	<= w_memRD;									-- Pin 52
+	J8IO8(3)	<= w_vma;									-- Pin 51
+	J8IO8(4)	<= w_cpuAddress(15) or (not w_vma);	-- Pin 58
+	J8IO8(5)	<= w_resetLow;								-- Pin 55
+	J8IO8(6)	<= '0';
+	w_serSelect <= J8IO8(7);
 	
-	-- Debounce the reset line
 	DebounceResetSwitch	: entity work.Debouncer
 	port map (
-		i_CLOCK_50	=> i_CLOCK_50,
+		i_clk			=> w_cpuClock,
 		i_PinIn		=> i_n_reset,
 		o_PinOut		=> w_resetLow
 	);
 		
+	w_memWR <= (not w_R1W0) and w_vma and (w_cpuClock);
+	w_memRD <=      w_R1W0  and w_vma and (w_cpuClock);
 	-- ____________________________________________________________________________________
+	-- RAM GOES HERE
+	o_extSRamAddress	<= "00"&w_cpuAddress(14 downto 0);
+	io_extSRamData		<= w_cpuDataOut when (w_R1W0='0' and (w_cpuAddress(15)='0')) else (others => 'Z');
+	o_n_extSRamWE		<= not ((not w_cpuAddress(15)) and (w_memWR));
+	o_n_extSRamOE		<= not ((not w_cpuAddress(15)) and (w_memRD));
+	o_n_extSRamCS		<= w_cpuAddress(15) or (not w_vma);
+	
+	-- Debounce the reset line
 	-- I/O CHIP SELECTS
-	n_vduCSN	<= '0' 	when (i_serSelect = '1' and (w_cpuAddress(15 downto 1) = x"801"&"100")) else	-- VDU  $8018-$8019
-					'0'	when (i_serSelect = '0' and (w_cpuAddress(15 downto 1) = x"802"&"100")) else	-- ACIA $8028-$8029
+	n_vduCSN	<= '0' 	when (w_serSelect = '1' and (w_cpuAddress(15 downto 1) = x"801"&"100")) else	-- VDU  $8018-$8019
+					'0'	when (w_serSelect = '0' and (w_cpuAddress(15 downto 1) = x"802"&"100")) else	-- ACIA $8028-$8029
 					'1';
-	n_aciaCSN <= '0' 	when (i_serSelect = '1' and (w_cpuAddress(15 downto 1) = x"802"&"100")) else	-- ACIA $8028-$8029
-					'0'	when (i_serSelect = '0' and (w_cpuAddress(15 downto 1) = x"801"&"100")) else	-- VDU  $8018-$8019
+	n_aciaCSN <= '0' 	when (w_serSelect = '1' and (w_cpuAddress(15 downto 1) = x"802"&"100")) else	-- ACIA $8028-$8029
+					'0'	when (w_serSelect = '0' and (w_cpuAddress(15 downto 1) = x"801"&"100")) else	-- VDU  $8018-$8019
 					'1';
 	n_J8IOCS	<= '0' 	when (w_vma = '1') and (w_cpuAddress(15 downto 0) = x"8030")				else	-- J8 I/O $8030
 					'1';
@@ -168,7 +181,7 @@ begin
 	-- ____________________________________________________________________________________
 	-- MIKBUG ROM
 	-- 4KB MIKBUG ROM - repeats in memory 4 times
-	rom1 : entity work.MIKBUG 		
+	rom1 : entity work.M6800_MIKBUG_32KB 		
 		port map (
 			address	=> w_cpuAddress(11 downto 0),
 			clock 	=> i_CLOCK_50,
@@ -191,8 +204,8 @@ begin
 			videoG1	=> o_videoG1,
 			videoB0	=> o_videoB0,
 			videoB1	=> o_videoB1,
-			n_WR		=> n_vduCSN or      w_R1W0  or (not w_vma) or (not w_cpuClock),
-			n_rd		=> n_vduCSN or (not w_R1W0) or (not w_vma),
+			n_wr		=> n_vduCSN or (not w_memWR),
+			n_rd		=> n_vduCSN or (not w_memRD),
 			n_int		=> n_int1,
 			regSel	=> w_cpuAddress(0),
 			dataIn	=> w_cpuDataOut,
@@ -205,8 +218,8 @@ begin
 	acia: entity work.bufferedUART
 		port map (
 			clk		=> i_CLOCK_50,     
-			n_WR		=> n_aciaCSN or      w_R1W0  or (not w_vma) or (not w_cpuClock),
-			n_rd		=> n_aciaCSN or (not w_R1W0) or (not w_vma),
+			n_wr		=> n_aciaCSN or (not w_memWR),
+			n_rd		=> n_aciaCSN or (not w_memRD),
 			regSel	=> w_cpuAddress(0),
 			dataIn	=> w_cpuDataOut,
 			dataOut	=> w_if2DataOut,
@@ -217,7 +230,7 @@ begin
 			txClkEn	=> serialEn,
 			rxd		=> i_rxd1,
 			txd		=> o_txd1,
---			n_cts		=> urts1,
+--			n_cts		=> i_cts1,
 			n_rts		=> o_rts1
 		);
 	
@@ -225,19 +238,19 @@ begin
 	port map(
 		clear		=> w_resetLow,
 		clock		=> i_CLOCK_50,
-		load		=> not ((not n_J6IOCS) and (not w_R1W0) and w_cpuClock),
-		dataIn8	=> w_cpuDataOut,
+		load		=> not ((not n_J6IOCS) and (not w_R1W0) and (w_cpuClock)),
+		dataIn	=> w_cpuDataOut,
 		latchOut	=> J6IO8
 	);
 
-	latchIO1 : entity work.OutLatch	--Output LatchIO
-	port map(
-		clear		=> w_resetLow,
-		clock		=> i_CLOCK_50,
-		load		=> not ((not n_J8IOCS) and (not w_R1W0) and w_cpuClock),
-		dataIn8	=> w_cpuDataOut,
-		latchOut	=> w_J8IO8
-	);
+--	latchIO1 : entity work.OutLatch	--Output LatchIO
+--	port map(
+--		clear		=> w_resetLow,
+--		clock		=> i_CLOCK_50,
+--		load		=> not ((not n_J8IOCS) and (not w_R1W0) and (w_cpuClock)),
+--		dataIn	=> w_cpuDataOut,
+--		latchOut	=> w_J8IO8
+--	);
 
 
 ledDS1	<= ledDS18(0);
@@ -249,8 +262,8 @@ latchLED : entity work.OutLatch	--Output LatchIO
 port map(
 	clear		=> w_resetLow,
 	clock		=> i_CLOCK_50,
-	load		=> not ((not n_LEDCS) and (not w_R1W0) and w_cpuClock),
-	dataIn8	=> w_cpuDataOut,
+	load		=> not ((not n_LEDCS) and (not w_R1W0) and (w_cpuClock)),
+	dataIn	=> w_cpuDataOut,
 	latchOut => ledDS18
 );
 
@@ -259,7 +272,7 @@ port map(
 process (i_CLOCK_50)
 	begin
 		if rising_edge(i_CLOCK_50) then
-			if q_cpuClkCount < 2 then		-- 4 = 10MHz, 3 = 12.5MHz, 2=16.6MHz, 1=25MHz
+			if q_cpuClkCount < 4 then		-- 4 = 10MHz, 3 = 12.5MHz, 2=16.6MHz, 1=25MHz
 				q_cpuClkCount <= q_cpuClkCount + 1;
 			else
 				q_cpuClkCount <= (others=>'0');
@@ -272,34 +285,15 @@ process (i_CLOCK_50)
 		end if;
 	end process;
 	
-	-- ____________________________________________________________________________________
-	-- Baud Rate CLOCK SIGNALS
-	-- Serial clock DDS
-	-- 50MHz master input clock:
-	-- Baud Increment
-	-- 115200 2416
-	-- 38400 805
-	-- 19200 403
-	-- 9600 201
-	-- 4800 101
-	-- 2400 50
-
-baud_div: process (serialCount_d, serialCount)
-    begin
-        serialCount_d <= serialCount + 2416;
-    end process;
-
-process (i_CLOCK_50)
-	begin
-		if rising_edge(i_CLOCK_50) then
-        -- Enable for baud rate generator
-        serialCount <= serialCount_d;
-        if serialCount(15) = '0' and serialCount_d(15) = '1' then
-            serialEn <= '1';
-        else
-            serialEn <= '0';
-        end if;
-		end if;
-	end process;
+-- Pass Baud Rate in BAUD_RATE generic as integer value (300, 9600, 115,200)
+-- Legal values are 115200, 38400, 19200, 9600, 4800, 2400, 1200, 600, 300	BaudRateGen : entity work.BaudRate6850
+	BaudRateGen : entity work.BaudRate6850
+	GENERIC map (
+		BAUD_RATE	=>  115200
+	)
+	PORT map (
+		i_CLOCK_50	=> i_CLOCK_50,
+		o_serialEn	=> serialEn
+	);
 
 end;
