@@ -67,6 +67,7 @@ ARCHITECTURE SYN OF m6800_mikbug_60kb IS
 		operation_mode		: STRING;
 		outdata_aclr_a		: STRING;
 		outdata_reg_a		: STRING;
+		ram_block_type		: STRING;
 		widthad_a		: NATURAL;
 		width_a		: NATURAL;
 		width_byteena_a		: NATURAL
@@ -93,6 +94,7 @@ BEGIN
 		operation_mode => "ROM",
 		outdata_aclr_a => "NONE",
 		outdata_reg_a => "UNREGISTERED",
+		ram_block_type => "M4K",
 		widthad_a => 12,
 		width_a => 8,
 		width_byteena_a => 1
@@ -129,7 +131,7 @@ END SYN;
 -- Retrieval info: PRIVATE: MAXIMUM_DEPTH NUMERIC "0"
 -- Retrieval info: PRIVATE: MIFfilename STRING "../../../MultiComp (VHDL Template)/Components/ROMs/MIKBUG_6800/DGG_MIKBUG_60KB.hex"
 -- Retrieval info: PRIVATE: NUMWORDS_A NUMERIC "4096"
--- Retrieval info: PRIVATE: RAM_BLOCK_TYPE NUMERIC "0"
+-- Retrieval info: PRIVATE: RAM_BLOCK_TYPE NUMERIC "2"
 -- Retrieval info: PRIVATE: RegAddr NUMERIC "1"
 -- Retrieval info: PRIVATE: RegOutput NUMERIC "0"
 -- Retrieval info: PRIVATE: SYNTH_WRAPPER_GEN_POSTFIX STRING "0"
@@ -149,6 +151,7 @@ END SYN;
 -- Retrieval info: CONSTANT: OPERATION_MODE STRING "ROM"
 -- Retrieval info: CONSTANT: OUTDATA_ACLR_A STRING "NONE"
 -- Retrieval info: CONSTANT: OUTDATA_REG_A STRING "UNREGISTERED"
+-- Retrieval info: CONSTANT: RAM_BLOCK_TYPE STRING "M4K"
 -- Retrieval info: CONSTANT: WIDTHAD_A NUMERIC "12"
 -- Retrieval info: CONSTANT: WIDTH_A NUMERIC "8"
 -- Retrieval info: CONSTANT: WIDTH_BYTEENA_A NUMERIC "1"

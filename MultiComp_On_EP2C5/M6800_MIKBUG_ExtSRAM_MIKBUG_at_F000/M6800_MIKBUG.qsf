@@ -35,84 +35,6 @@
 #
 # -------------------------------------------------------------------------- #
 
-# Clock and reset
-set_location_assignment PIN_17 -to i_CLOCK_50
-set_location_assignment PIN_144 -to i_n_reset
-set_instance_assignment -name WEAK_PULL_UP_RESISTOR ON -to i_n_reset
-# PS/2
-set_location_assignment PIN_86 -to io_ps2Clk
-set_instance_assignment -name WEAK_PULL_UP_RESISTOR ON -to io_ps2Clk
-set_location_assignment PIN_87 -to io_ps2Data
-set_instance_assignment -name WEAK_PULL_UP_RESISTOR ON -to io_ps2Data
-# Serial
-set_location_assignment PIN_104 -to o_rts1
-set_location_assignment PIN_101 -to i_rxd1
-set_instance_assignment -name WEAK_PULL_UP_RESISTOR ON -to i_rxd1
-set_location_assignment PIN_103 -to o_txd1
-# Video
-set_location_assignment PIN_64 -to o_videoB0
-set_location_assignment PIN_63 -to o_videoB1
-set_location_assignment PIN_67 -to o_videoG0
-set_location_assignment PIN_65 -to o_videoG1
-set_location_assignment PIN_70 -to o_videoR0
-set_location_assignment PIN_69 -to o_videoR1
-set_location_assignment PIN_71 -to o_hSync
-set_location_assignment PIN_72 -to o_vSync
-# SD Card
-# SRAM
-set_location_assignment PIN_126 -to o_n_extSRamCS
-set_location_assignment PIN_4 -to o_n_extSRamWE
-set_location_assignment PIN_134 -to o_n_extSRamOE
-set_location_assignment PIN_119 -to io_extSRamData[0]
-set_location_assignment PIN_115 -to io_extSRamData[1]
-set_location_assignment PIN_113 -to io_extSRamData[2]
-set_location_assignment PIN_112 -to io_extSRamData[3]
-set_location_assignment PIN_114 -to io_extSRamData[4]
-set_location_assignment PIN_118 -to io_extSRamData[5]
-set_location_assignment PIN_120 -to io_extSRamData[6]
-set_location_assignment PIN_122 -to io_extSRamData[7]
-set_location_assignment PIN_121 -to o_extSRamAddress[0]
-set_location_assignment PIN_125 -to o_extSRamAddress[1]
-set_location_assignment PIN_129 -to o_extSRamAddress[2]
-set_location_assignment PIN_133 -to o_extSRamAddress[3]
-set_location_assignment PIN_135 -to o_extSRamAddress[4]
-set_location_assignment PIN_137 -to o_extSRamAddress[5]
-set_location_assignment PIN_141 -to o_extSRamAddress[6]
-set_location_assignment PIN_143 -to o_extSRamAddress[7]
-set_location_assignment PIN_142 -to o_extSRamAddress[8]
-set_location_assignment PIN_139 -to o_extSRamAddress[9]
-set_location_assignment PIN_132 -to o_extSRamAddress[10]
-set_location_assignment PIN_136 -to o_extSRamAddress[11]
-set_location_assignment PIN_28 -to o_extSRamAddress[12]
-set_location_assignment PIN_24 -to o_extSRamAddress[13]
-set_location_assignment PIN_30 -to o_extSRamAddress[14]
-set_location_assignment PIN_8 -to o_extSRamAddress[15]
-set_location_assignment PIN_32 -to o_extSRamAddress[16]
-# 
-set_location_assignment PIN_25 -to o_J6IO8[0]
-set_location_assignment PIN_31 -to o_J6IO8[1]
-set_location_assignment PIN_41 -to o_J6IO8[2]
-set_location_assignment PIN_40 -to o_J6IO8[3]
-set_location_assignment PIN_43 -to o_J6IO8[4]
-set_location_assignment PIN_42 -to o_J6IO8[5]
-set_location_assignment PIN_45 -to o_J6IO8[6]
-set_location_assignment PIN_44 -to o_J6IO8[7]
-# 
-set_location_assignment PIN_48 -to J8IO8[0]
-set_location_assignment PIN_47 -to J8IO8[1]
-set_location_assignment PIN_52 -to J8IO8[2]
-set_location_assignment PIN_51 -to J8IO8[3]
-set_location_assignment PIN_58 -to J8IO8[4]
-set_location_assignment PIN_55 -to J8IO8[5]
-set_location_assignment PIN_76 -to J8IO8[6]
-set_location_assignment PIN_60 -to J8IO8[7]
-set_instance_assignment -name WEAK_PULL_UP_RESISTOR ON -to J8IO8[7]
-# 
-set_location_assignment PIN_53 -to o_ledDS1
-set_location_assignment PIN_3 -to o_ledD2
-set_location_assignment PIN_7 -to o_ledD4
-set_location_assignment PIN_9 -to o_ledD5
-#
 set_global_assignment -name FAMILY "Cyclone II"
 set_global_assignment -name DEVICE EP2C5T144C8
 set_global_assignment -name TOP_LEVEL_ENTITY M6800_MIKBUG
@@ -133,11 +55,89 @@ set_global_assignment -name STRATIX_DEVICE_IO_STANDARD "3.3-V LVTTL"
 set_global_assignment -name TIMEQUEST_MULTICORNER_ANALYSIS ON
 set_global_assignment -name SMART_RECOMPILE ON
 set_global_assignment -name USE_CONFIGURATION_DEVICE ON
+# Clock and reset
+set_location_assignment PIN_17 -to i_CLOCK_50
+set_location_assignment PIN_144 -to i_n_reset
+set_instance_assignment -name WEAK_PULL_UP_RESISTOR ON -to i_n_reset
+# PS/2
+set_location_assignment PIN_86 -to io_ps2Clk
+set_instance_assignment -name WEAK_PULL_UP_RESISTOR ON -to io_ps2Clk
+set_location_assignment PIN_87 -to io_ps2Data
+set_instance_assignment -name WEAK_PULL_UP_RESISTOR ON -to io_ps2Data
+# Serial
+set_location_assignment PIN_101 -to i_rxd1
+set_instance_assignment -name WEAK_PULL_UP_RESISTOR ON -to i_rxd1
+set_location_assignment PIN_103 -to o_txd1
+set_location_assignment PIN_104 -to o_rts1
+# Video
+set_location_assignment PIN_64 -to o_videoB0
+set_location_assignment PIN_63 -to o_videoB1
+set_location_assignment PIN_67 -to o_videoG0
+set_location_assignment PIN_65 -to o_videoG1
+set_location_assignment PIN_70 -to o_videoR0
+set_location_assignment PIN_69 -to o_videoR1
+set_location_assignment PIN_71 -to o_hSync
+set_location_assignment PIN_72 -to o_vSync
+# SD Card
+# SRAM
+set_location_assignment PIN_126 -to o_n_extSRamCS
+set_location_assignment PIN_4 -to o_n_extSRamWE
+set_location_assignment PIN_134 -to o_n_extSRamOE
+set_location_assignment PIN_121 -to o_extSRamAddress[0]
+set_location_assignment PIN_125 -to o_extSRamAddress[1]
+set_location_assignment PIN_129 -to o_extSRamAddress[2]
+set_location_assignment PIN_133 -to o_extSRamAddress[3]
+set_location_assignment PIN_135 -to o_extSRamAddress[4]
+set_location_assignment PIN_137 -to o_extSRamAddress[5]
+set_location_assignment PIN_141 -to o_extSRamAddress[6]
+set_location_assignment PIN_143 -to o_extSRamAddress[7]
+set_location_assignment PIN_142 -to o_extSRamAddress[8]
+set_location_assignment PIN_139 -to o_extSRamAddress[9]
+set_location_assignment PIN_132 -to o_extSRamAddress[10]
+set_location_assignment PIN_136 -to o_extSRamAddress[11]
+set_location_assignment PIN_28 -to o_extSRamAddress[12]
+set_location_assignment PIN_24 -to o_extSRamAddress[13]
+set_location_assignment PIN_30 -to o_extSRamAddress[14]
+set_location_assignment PIN_8 -to o_extSRamAddress[15]
+set_location_assignment PIN_32 -to o_extSRamAddress[16]
+set_location_assignment PIN_119 -to io_extSRamData[0]
+set_location_assignment PIN_115 -to io_extSRamData[1]
+set_location_assignment PIN_113 -to io_extSRamData[2]
+set_location_assignment PIN_112 -to io_extSRamData[3]
+set_location_assignment PIN_114 -to io_extSRamData[4]
+set_location_assignment PIN_118 -to io_extSRamData[5]
+set_location_assignment PIN_120 -to io_extSRamData[6]
+set_location_assignment PIN_122 -to io_extSRamData[7]
+# 
+set_location_assignment PIN_25 -to o_J6IO8[0]
+set_location_assignment PIN_31 -to o_J6IO8[1]
+set_location_assignment PIN_41 -to o_J6IO8[2]
+set_location_assignment PIN_40 -to o_J6IO8[3]
+set_location_assignment PIN_43 -to o_J6IO8[4]
+set_location_assignment PIN_42 -to o_J6IO8[5]
+set_location_assignment PIN_45 -to o_J6IO8[6]
+set_location_assignment PIN_44 -to o_J6IO8[7]
+# 
+set_location_assignment PIN_48 -to J8IO8[0]
+set_location_assignment PIN_47 -to J8IO8[1]
+set_location_assignment PIN_52 -to J8IO8[2]
+set_location_assignment PIN_51 -to J8IO8[3]
+set_location_assignment PIN_58 -to J8IO8[4]
+set_location_assignment PIN_55 -to J8IO8[5]
+set_location_assignment PIN_76 -to J8IO8[6]
+set_location_assignment PIN_60 -to J8IO8[7]
+set_instance_assignment -name WEAK_PULL_UP_RESISTOR ON -to J8IO8[7]
+# LEDs
+set_location_assignment PIN_53 -to o_ledDS1
+set_location_assignment PIN_3 -to o_ledD2
+set_location_assignment PIN_7 -to o_ledD4
+set_location_assignment PIN_9 -to o_ledD5
+#
 set_global_assignment -name CYCLONEII_RESERVE_NCEO_AFTER_CONFIGURATION "USE AS REGULAR IO"
 set_global_assignment -name RESERVE_ASDO_AFTER_CONFIGURATION "USE AS REGULAR IO"
-set_global_assignment -name VHDL_FILE "../../MultiComp (VHDL Template)/Components/UART/BaudRate6850.vhd"
-set_global_assignment -name VHDL_FILE M6800_MIKBUG_60KB.vhd
 set_global_assignment -name VHDL_FILE M6800_MIKBUG.vhd
+set_global_assignment -name VHDL_FILE M6800_MIKBUG_60KB.vhd
+set_global_assignment -name VHDL_FILE "../../MultiComp (VHDL Template)/Components/CPU/M6800/cpu68.vhd"
 set_global_assignment -name VHDL_FILE "../../MultiComp (VHDL Template)/Components/Debounce/LongDebounce/debounce.vhd"
 set_global_assignment -name VHDL_FILE "../../MultiComp (VHDL Template)/Components/IO/OutLatch.vhd"
 set_global_assignment -name VHDL_FILE "../../MultiComp (VHDL Template)/Components/TERMINAL/SansBoldRomReduced.vhd"
@@ -148,5 +148,6 @@ set_global_assignment -name VHDL_FILE "../../MultiComp (VHDL Template)/Component
 set_global_assignment -name VHDL_FILE "../../MultiComp (VHDL Template)/Components/TERMINAL/CGABoldRom.vhd"
 set_global_assignment -name VHDL_FILE "../../MultiComp (VHDL Template)/Components/UART/bufferedUART.vhd"
 set_global_assignment -name VHDL_FILE "../../MultiComp (VHDL Template)/Components/TERMINAL/SBCTextDisplayRGB.vhd"
-set_global_assignment -name VHDL_FILE "../../MultiComp (VHDL Template)/Components/CPU/M6800/cpu68.vhd"
+set_global_assignment -name VHDL_FILE "../../MultiComp (VHDL Template)/Components/UART/BaudRate6850.vhd"
+
 set_instance_assignment -name PARTITION_HIERARCHY root_partition -to | -section_id Top

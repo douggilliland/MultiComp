@@ -2,7 +2,7 @@
 -- Grant Searle's web site http://searle.hostei.com/grant/    
 -- Grant Searle's "multicomp" page was at http://searle.hostei.com/grant/Multicomp/index.html
 --
--- Changes to this code by Doug Gilliland 2020
+-- Changes to this code by Doug Gilliland 2020-2021
 --
 -- MC6800 CPU
 --	MIKBUG rom (from back in the day)
@@ -90,8 +90,6 @@ architecture struct of M6800_MIKBUG is
 	signal w_vma			: std_logic;
 	signal w_memWR			: std_logic;
 	signal w_memRD			: std_logic;
-	
-	signal w_n_rts			: std_logic;
 
 	signal w_romData		: std_logic_vector(7 downto 0);
 	signal w_VDUDataOut	: std_logic_vector(7 downto 0);
@@ -102,13 +100,13 @@ architecture struct of M6800_MIKBUG is
 	signal w_n_VDUint		: std_logic :='1';
 	signal n_vduCSN		: std_logic :='1';
 	signal w_n_ACIAint	: std_logic :='1';	
-	signal w_n_aciaCSN	: std_logic :='1';
+	signal w_aciaCSN	: std_logic :='1';
 	signal w_n_J6IOCS		: std_logic :='1';
 	signal w_n_J8IOCS		: std_logic :='1';
 	signal w_n_LEDCS		: std_logic :='1';
 	signal w_ledDS18 		: std_logic_vector(7 downto 0);
 	
-	signal w_cpuClkCt		: std_logic_vector(5 downto 0); 
+	signal w_cpuClkCt		: std_logic_vector(3 downto 0); 
 	signal w_cpuClock		: std_logic;
 	
    signal w_serialEn    : std_logic;
@@ -117,22 +115,15 @@ architecture struct of M6800_MIKBUG is
 	signal w_J8IO8			: std_logic_vector(7 downto 0);
 	
 begin
---	o_rts1	<= w_n_rts;
---	o_ledDS1	<= w_n_rts;
---	J8IO8 <= w_J8IO8(6 downto 0);
+
 	J8IO8(0)	<= w_cpuClock;				-- Pin 48
-	J8IO8(1)	<=w_ExtRamAddr ;			-- Pin 47
+	J8IO8(1)	<= w_ExtRamAddr;			-- Pin 47
 	J8IO8(2)	<= w_memWR;					-- Pin 52
 	J8IO8(3)	<= w_memRD;					-- Pin 51
 	J8IO8(4)	<= w_vma;					-- Pin 58
-	J8IO8(5)	<= w_cpuAddress(15);		-- Pin 55
-	J8IO8(6)	<= w_resetLow;
+	J8IO8(5)	<= w_resetLow;				-- Pin 55
+	J8IO8(6)	<= '0';
 	w_serSelect <= J8IO8(7);
-	
---	o_J8IO8 <= w_J8IO8(5 downto 0);
-	
---	w_IOSel <= (w_cpuAddress(15) and w_cpuAddress(14) and      w_cpuAddress(13) and      w_cpuAddress(12) and 
---					w_cpuAddress(11) and w_cpuAddress(10) and (not w_cpuAddress(9)) and (not w_cpuAddress(8)));
 	
 	-- Debounce the reset line
 	DebounceResetSwitch	: entity work.Debounce
@@ -144,29 +135,31 @@ begin
 	
 	-- ____________________________________________________________________________________
 	-- External SRAM GOES HERE
-	w_memWR <= (not w_R1W0) and w_vma and w_cpuClock;
-	w_memRD <=      w_R1W0  and w_vma and w_cpuClock;
 	
-	w_ExtRamAddr <=  (not w_cpuAddress(15))										-- 0x0000 - 0x7FFF
-							or (w_cpuAddress(15) and (not w_cpuAddress(14)))	-- 0x8000 - 0XBFFF
-							or (w_cpuAddress(15) and (not w_cpuAddress(13)))	-- 0xC000 - 0xDFFF
-							or (w_cpuAddress(15) and (not w_cpuAddress(12)));	-- 0xE000 - 0xEFFF
+	w_memWR <= '1' when ((w_R1W0='0') and (w_cpuClock='1') and (w_vma='1')) else '0';
+	w_memRD <= '1' when ((w_R1W0='1') and (w_cpuClock='1') and (w_vma='1')) else '0';
+	
+	w_ExtRamAddr <= 	'1' when w_cpuAddress(15) = '0' else										-- 0x0000 - 0x7FFF
+							'1' when (w_cpuAddress(15 downto 14)="10") else 						-- 0x8000 - 0XBFFF
+							'1' when ((w_cpuAddress(15)='1') and (w_cpuAddress(13)='0')) else	-- 0xC000 - 0xDFFF
+							'1' when ((w_cpuAddress(15)='1') and (w_cpuAddress(12)='0')) else	-- 0xE000 - 0xEFFF
+							'0';
 	
 	o_extSRamAddress	<= '0'&w_cpuAddress(15 downto 0);
 	io_extSRamData		<= w_cpuDataOut when ((w_R1W0='0') and (w_ExtRamAddr = '1')) else
 							  (others => 'Z');
-	o_n_extSRamWE		<= not(w_ExtRamAddr and w_memWR);
-	o_n_extSRamOE		<= not(w_ExtRamAddr and w_memRD);
-	o_n_extSRamCS		<= not(w_ExtRamAddr and w_vma);
+	o_n_extSRamWE	<= not(w_ExtRamAddr and w_memWR);
+	o_n_extSRamOE	<= not(w_ExtRamAddr and w_memRD);
+	o_n_extSRamCS	<= not w_ExtRamAddr;
 	
 	-- ____________________________________________________________________________________
 	-- I/O CHIP SELECTS
-	n_vduCSN	<= '0' 		when (w_serSelect = '1' and (w_cpuAddress(15 downto 1) = x"FC1"&"100")) else	-- VDU  $E018-$E019
-					'0'		when (w_serSelect = '0' and (w_cpuAddress(15 downto 1) = x"FC2"&"100")) else	-- ACIA $E028-$E029
+	n_vduCSN	<= '0' 	when (w_serSelect = '1' and (w_cpuAddress(15 downto 1) = x"FC1"&"100")) else	-- VDU  $FC18-$FC19
+					'0'	when (w_serSelect = '0' and (w_cpuAddress(15 downto 1) = x"FC2"&"100")) else	-- ACIA $FC28-$FC29
 					'1';
-	w_n_aciaCSN <= '0'	when (w_serSelect = '1' and (w_cpuAddress(15 downto 1) = x"FC2"&"100")) else	-- ACIA $E028-$E029
-					'0'		when (w_serSelect = '0' and (w_cpuAddress(15 downto 1) = x"FC1"&"100")) else	-- VDU  $E018-$E019
-					'1';
+	w_aciaCSN <= '0'	when (w_serSelect = '1' and (w_cpuAddress(15 downto 1) = x"FC2"&"100")) else	-- ACIA $FC28-$FC29
+					 '0'	when (w_serSelect = '0' and (w_cpuAddress(15 downto 1) = x"FC1"&"100")) else	-- VDU  $FC18-$FC19
+					 '1';
 	w_n_J8IOCS	<= '0' 	when (w_vma = '1') and (w_cpuAddress = x"FC30")	else	-- J8 I/O $8030
 					'1';
 	w_n_J6IOCS	<= '0' 	when (w_vma = '1') and (w_cpuAddress = x"FC31")	else	-- J6 I/O $8031
@@ -174,17 +167,17 @@ begin
 	w_n_LEDCS	<= '0' 	when (w_vma = '1') and (w_cpuAddress = x"FC32")	else	-- LEDS $8032
 					'1';
 	
+--	w_ioSel <= '1' when w_cpuAddress(15 downto 8)="FC" else '0';
 	-- ____________________________________________________________________________________
 	-- CPU Read Data multiplexer
 	w_cpuDataIn <=
 		io_extSRamData	when w_ExtRamAddr = '1'						else
 		w_VDUDataOut	when n_vduCSN = '0'							else
-		w_ACIADataOut	when w_n_aciaCSN = '0'						else
+		w_ACIADataOut	when w_aciaCSN = '0'							else
 		w_ledDS18		when w_n_LEDCS = '0'							else
 		o_J6IO8			when w_n_J6IOCS = '0'						else
 		w_J8IO8			when w_n_J8IOCS = '0'						else
-		w_romData		when w_cpuAddress(15 downto 12) = x"F"	else	-- Always last to open hole fir I/O
-		x"FF";
+		w_romData;																		-- Always last to open hole for I/O
 	
 	-- ____________________________________________________________________________________
 	-- 6800 CPU
@@ -205,11 +198,11 @@ begin
 	
 	-- ____________________________________________________________________________________
 	-- MIKBUG ROM
-	-- 4KB MIKBUG ROM - repeats in memory 4 times
-	rom1 : entity work.M6800_MIKBUG_60KB 		
+	-- 4KB MIKBUG ROM
+	rom1 : entity work.M6800_MIKBUG_60KB
 		port map (
-			address	=> w_cpuAddress(11 downto 0),
 			clock 	=> i_CLOCK_50,
+			address	=> w_cpuAddress(11 downto 0),
 			q			=> w_romData
 		);
 	
@@ -229,8 +222,8 @@ begin
 			videoG1	=> o_videoG1,
 			videoB0	=> o_videoB0,
 			videoB1	=> o_videoB1,
-			n_wr		=> n_vduCSN or (not w_memWR),
-			n_rd		=> n_vduCSN or (not w_memRD),
+			n_wr		=> n_vduCSN or      w_R1W0  or (not w_vma) or (not w_cpuClock),
+			n_rd		=> n_vduCSN or (not w_R1W0) or (not w_vma) or (not w_cpuClock),
 			n_int		=> w_n_VDUint,
 			regSel	=> w_cpuAddress(0),
 			dataIn	=> w_cpuDataOut,
@@ -243,8 +236,8 @@ begin
 	acia: entity work.bufferedUART
 		port map (
 			clk		=> i_CLOCK_50,     
-			n_wr		=> w_n_aciaCSN or (not w_memWR),
-			n_rd		=> w_n_aciaCSN or (not w_memRD),
+			n_wr		=> w_aciaCSN or      w_R1W0  or (not w_vma) or (not w_cpuClock),
+			n_rd		=> w_aciaCSN or (not w_R1W0) or (not w_vma) or (not w_cpuClock),
 			regSel	=> w_cpuAddress(0),
 			dataIn	=> w_cpuDataOut,
 			dataOut	=> w_ACIADataOut,
