@@ -15,7 +15,7 @@
 --		XGA 80x25 character display
 --		PS/2 keyboard
 --	Jumper selectable for UART/VDU
---		Install jumper from PIN_60 to adjacent ground pin to select ACIA
+--		Install jumper from J8-14 TO -15 (FPGA PIN_60) to adjacent ground pin to select ACIA
 --
 -- The Memory Map is:
 --	$0000-$EFFF - 60KB SRAM (external RAM on the EPCE-DB card)
@@ -111,8 +111,6 @@ architecture struct of M6800_MIKBUG is
 	signal w_cpuClkCt		: std_logic_vector(5 downto 0); 
 	signal w_cpuClock		: std_logic;
 	
---   signal w_serialCt   	: std_logic_vector(15 downto 0) := x"0000";
---   signal w_serialCt_d	: std_logic_vector(15 downto 0);
    signal w_serialEn    : std_logic;
 	signal w_serSelect   : std_logic;
 	
@@ -123,12 +121,12 @@ begin
 --	o_ledDS1	<= w_n_rts;
 --	J8IO8 <= w_J8IO8(6 downto 0);
 	J8IO8(0)	<= w_cpuClock;				-- Pin 48
-	J8IO8(1)	<= w_memWR;					-- Pin 47
-	J8IO8(2)	<= w_memRD;					-- Pin 52
-	J8IO8(3)	<= w_vma;					-- Pin 51
-	J8IO8(4)	<= w_ExtRamAddr;			-- Pin 58
-	J8IO8(5)	<= w_resetLow;				-- Pin 55
-	J8IO8(6)	<= '0';
+	J8IO8(1)	<=w_ExtRamAddr ;			-- Pin 47
+	J8IO8(2)	<= w_memWR;					-- Pin 52
+	J8IO8(3)	<= w_memRD;					-- Pin 51
+	J8IO8(4)	<= w_vma;					-- Pin 58
+	J8IO8(5)	<= w_cpuAddress(15);		-- Pin 55
+	J8IO8(6)	<= w_resetLow;
 	w_serSelect <= J8IO8(7);
 	
 --	o_J8IO8 <= w_J8IO8(5 downto 0);
@@ -299,17 +297,25 @@ begin
 process (i_CLOCK_50)
 	begin
 		if rising_edge(i_CLOCK_50) then
-			if w_cpuClkCt < 4 then		-- 4 = 10MHz, 3 = 12.5MHz, 2=16.6MHz, 1=25MHz
-				w_cpuClkCt <= w_cpuClkCt + 1;
-			else
-				w_cpuClkCt <= (others=>'0');
+				if w_ExtRamAddr = '1' then
+					if w_cpuClkCt < 2 then						-- 50 MHz / 3 = 16.7 MHz 
+						w_cpuClkCt <= w_cpuClkCt + 1;
+					else
+						w_cpuClkCt <= (others=>'0');
+					end if;
+				else
+					if w_cpuClkCt < 1 then						-- 50 MHz / 2 = 25 MHz
+						w_cpuClkCt <= w_cpuClkCt + 1;
+					else
+						w_cpuClkCt <= (others=>'0');
+					end if;
+				end if;
+				if w_cpuClkCt < 1 then						-- 2 clocks high, one low
+					w_cpuClock <= '0';
+				else
+					w_cpuClock <= '1';
+				end if;
 			end if;
-			if w_cpuClkCt < 2 then		-- 2 when 10MHz, 2 when 12.5MHz, 2 when 16.6MHz, 1 when 25MHz
-				w_cpuClock <= '0';
-			else
-				w_cpuClock <= '1';
-			end if;
-		end if;
 	end process;
 	
 	-- Baud Rate Generator
