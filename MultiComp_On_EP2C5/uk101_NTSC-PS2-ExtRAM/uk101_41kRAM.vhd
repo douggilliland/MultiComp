@@ -272,11 +272,11 @@ begin
 --	);
 
 	-- CEGHMON + Extended ROM
-	MONITOR_ROM: entity work.CEGMON_ROM
+	MONITOR_ROM: entity work.CegmonRom
 	port map
 	(
-		address => cpuAddress(11 downto 0),
-		clock => clk,
+		address => cpuAddress(10 downto 0),
+--		clock => clk,
 		q => monitorRomData
 	);
 
@@ -340,7 +340,7 @@ begin
 		clock => clk,
 		load => n_J6IOCS or n_wr,
 		latchOut => J6Data,
-		dataIn8 => cpuDataOut
+		dataIn => cpuDataOut
 	);
 
 	-- Output LatchIO
@@ -350,7 +350,7 @@ begin
 		clear => n_reset,
 		clock => clk,
 		load => n_J8IOCS or n_wr,
-		dataIn8 => cpuDataOut,
+		dataIn => cpuDataOut,
 		latchOut => J8Data
 	);
 
@@ -364,7 +364,7 @@ begin
 		clear 	=> n_reset,
 		clock 	=> clk,
 		load		=> n_LEDCS or n_wr,
-		dataIn8	=> cpuDataOut,
+		dataIn	=> cpuDataOut,
 		latchOut => ledOut8
 	);
 
@@ -374,7 +374,7 @@ begin
 		clear 	=> n_reset,
 		clock 	=> clk,
 		load		=> n_RAMBANKCS or n_wr,
-		dataIn8	=> cpuDataOut,
+		dataIn	=> cpuDataOut,
 		latchOut => bankReg
 	);
 
