@@ -2,16 +2,19 @@
 -- Grant Searle's web site http://searle.hostei.com/grant/    
 -- Grant Searle's "multicomp" page at http://searle.hostei.com/grant/Multicomp/index.html
 --
--- Changes to this code by Doug Gilliland 2020
+-- Changes to this code by Doug Gilliland 2020-2021
 --
 -- MC6800 CPU
 --	Running MIKBUG from back in the day (SmithBug ACIA version)
---	12.5 MHz
+--	25 MHz
 --	4K (internal) RAM version
 -- MC6850 ACIA UART
 -- VDU
 --		XGA 80x25 ANSI character display
 --		PS/2 keyboard
+--	SD Card
+--		Not used
+--		Included in pin list with inactive levels (in case a card is installed)
 --
 -- The Memory Map is:
 --	$0000-$0BFF - 3.5KB SRAM (internal RAM in the EPCE15)
@@ -19,7 +22,7 @@
 --		0x7F00-0x7FF are used as scratchpad RAM by MIKBUG
 --	$8018-$8019 - VDU
 --	$8028-$8029 - ACIA
---		Pin_60 of the FPGA swaps addresses of VDU and ACIA port
+--		i_SerSelect (Pin_60 of the FPGA) swaps addresses of VDU and ACIA port (requires pullup in FPGA)
 --		Installed (Pin_60 to Ground) uses Serial port
 --	$C000-$CFFF - MIKBUG ROM (repeats 4 times from 0xC000-0xFFFF)
 --
@@ -35,6 +38,7 @@ entity M6800_MIKBUG is
 		i_n_reset			: in std_logic := '1';
 		i_CLOCK_50			: in std_logic;
 
+		-- Video
 		o_videoR0			: out std_logic := '1';
 		o_videoR1			: out std_logic := '1';
 		o_videoG0			: out std_logic := '1';
@@ -44,15 +48,17 @@ entity M6800_MIKBUG is
 		o_hSync				: out std_logic := '1';
 		o_vSync				: out std_logic := '1';
 
+		-- PS/2 keyboard
 		io_ps2Clk			: inout std_logic := '1';
 		io_ps2Data			: inout std_logic := '1';
 		
+		-- Serial (USB referenced)
 		i_USB_txd			: in	std_logic := '1';
 		o_USB_rxd			: out std_logic;
---		urts1					: in	std_logic := '1';
 		i_USB_cts			: out std_logic;
 		i_SerSelect			: in	std_logic := '1';
-		
+
+		-- J6 I/O connector
 		Pin25					: out std_logic;
 		Pin31					: out std_logic;
 		Pin41					: out std_logic;
@@ -61,6 +67,13 @@ entity M6800_MIKBUG is
 		Pin42					: out std_logic;
 		Pin45					: out std_logic;
 		Pin44					: out std_logic;
+		
+		-- SD card not used but making sure that it's not active
+		o_sdCS				: out std_logic := '1';
+		o_sdMOSI				: out std_logic := '1';
+		i_sdMISO				: in std_logic;
+		o_sdSCLK				: out std_logic := '1';
+		o_driveLED			: out std_logic :='1';
 		
 		-- SRAM not used but making sure that it's not active
 		io_extSRamData		: inout std_logic_vector(7 downto 0) := (others=>'Z');
@@ -81,7 +94,7 @@ architecture struct of M6800_MIKBUG is
 	signal w_R1W0			: std_logic;
 	signal w_vma			: std_logic;
 	signal w_memWR			: std_logic;
-	signal w_memRD			: std_logic;
+--	signal w_memRD			: std_logic;
 
 	signal w_romData		: std_logic_vector(7 downto 0);
 	signal w_ramData1		: std_logic_vector(7 downto 0);
@@ -119,13 +132,13 @@ begin
 	-- Debounce the reset line
 	DebounceResetSwitch	: entity work.Debouncer
 	port map (
-		i_clk			=> i_CLOCK_50,
+		i_clk			=> w_cpuClk,
 		i_PinIn		=> i_n_reset,
 		o_PinOut		=> w_resetLow
 	);
 	
 	w_memWR <= (not w_R1W0) and w_vma and not w_cpuClk;
-	w_memRD <=      w_R1W0  and w_vma;
+--	w_memRD <=      w_R1W0  and w_vma;
 	
 	w_RAM_CS_1	<= '1' when ((w_cpuAddress(15 downto 11)	="00000"))		else '0';
 	w_RAM_CS_2	<= '1' when ((w_cpuAddress(15 downto 10)	="000010"))		else '0';
@@ -144,13 +157,13 @@ begin
 	-- ____________________________________________________________________________________
 	-- CPU Read Data multiplexer
 	w_cpuDataIn <=
-		w_romData		when (w_cpuAddress(15) = '1') and (w_cpuAddress(14) = '1')	else
-		w_ramData1		when w_RAM_CS_1	= '1'	else
-		w_ramData2		when w_RAM_CS_2	= '1'	else
-		w_ramData3		when w_RAM_CS_3	= '1'	else
-		w_SPRamData		when w_SP_RAM_CS	= '1'	else
-		w_if1DataOut	when w_n_if1CS 	= '0'	else
-		w_if2DataOut	when w_n_if2CS		= '0'	else
+		w_romData		when w_cpuAddress(15 downto 14) = "11"		else
+		w_ramData1		when w_RAM_CS_1	= '1'							else
+		w_ramData2		when w_RAM_CS_2	= '1'							else
+		w_ramData3		when w_RAM_CS_3	= '1'							else
+		w_SPRamData		when w_SP_RAM_CS	= '1'							else
+		w_if1DataOut	when w_n_if1CS 	= '0'							else
+		w_if2DataOut	when w_n_if2CS		= '0'							else
 		x"FF";
 	
 	-- ____________________________________________________________________________________
@@ -173,7 +186,7 @@ begin
 	-- ____________________________________________________________________________________
 	-- MIKBUG ROM
 	-- 4KB MIKBUG ROM - repeats in memory 4 times
-	rom1 : entity work.M6800_MIKBUG_32KB 		
+	rom1 : entity work.M6800_MIKBUG_32KB
 		port map (
 			address	=> w_cpuAddress(11 downto 0),
 			clock 	=> i_CLOCK_50,
@@ -236,22 +249,22 @@ begin
 		)
 		port map (
 			clk		=> i_CLOCK_50,
+			n_reset	=> w_resetLow,
 			n_WR		=> w_n_if1CS or      w_R1W0  or (not w_vma) or (not w_cpuClk),
 			n_rd		=> w_n_if1CS or (not w_R1W0) or (not w_vma),
-			n_reset	=> w_resetLow,
-			-- RGB Compo_video signals
-			hSync		=> o_hSync,
-			vSync		=> o_vSync,
+			regSel	=> w_cpuAddress(0),
+			dataIn	=> w_cpuDataOut,
+			dataOut	=> w_if1DataOut,
+			-- VGA
 			videoR0	=> o_videoR0,
 			videoR1	=> o_videoR1,
 			videoG0	=> o_videoG0,
 			videoG1	=> o_videoG1,
 			videoB0	=> o_videoB0,
 			videoB1	=> o_videoB1,
-			n_int		=> n_int1,
-			regSel	=> w_cpuAddress(0),
-			dataIn	=> w_cpuDataOut,
-			dataOut	=> w_if1DataOut,
+			hSync		=> o_hSync,
+			vSync		=> o_vSync,
+--			n_int		=> n_int1,
 			ps2Clk	=> io_ps2Clk,
 			ps2Data	=> io_ps2Data
 	);
@@ -265,34 +278,31 @@ begin
 			regSel	=> w_cpuAddress(0),
 			dataIn	=> w_cpuDataOut,
 			dataOut	=> w_if2DataOut,
-			n_int		=> n_int2,
-						 -- these clock enables are asserted for one period of input clk,
-						 -- at 16x the baud rate.
+--			n_int		=> n_int2,
 			rxClkEn	=> serialEn,
 			txClkEn	=> serialEn,
 			rxd		=> i_USB_txd,
 			txd		=> o_USB_rxd,
---			n_cts		=> urts1,
 			n_rts		=> i_USB_cts
 		);
 	
 	-- ____________________________________________________________________________________
 	-- CPU Clock
-process (i_CLOCK_50)
-	begin
-		if rising_edge(i_CLOCK_50) then
-			if w_cpuClkCt < 3 then -- 4 = 10MHz, 3 = 12.5MHz, 2=16.6MHz, 1=25MHz
-				w_cpuClkCt <= w_cpuClkCt + 1;
-			else
-				w_cpuClkCt <= (others=>'0');
+	process (i_CLOCK_50)
+		begin
+			if rising_edge(i_CLOCK_50) then
+				if w_cpuClkCt < 1 then -- 4 = 10MHz, 3 = 12.5MHz, 2=16.6MHz, 1=25MHz
+					w_cpuClkCt <= w_cpuClkCt + 1;
+				else
+					w_cpuClkCt <= (others=>'0');
+				end if;
+				if w_cpuClkCt < 1 then -- 2 when 10MHz, 2 when 12.5MHz, 2 when 16.6MHz, 1 when 25MHz
+					w_cpuClk <= '0';
+				else
+					w_cpuClk <= '1';
+				end if;
 			end if;
-			if w_cpuClkCt < 2 then -- 2 when 10MHz, 2 when 12.5MHz, 2 when 16.6MHz, 1 when 25MHz
-				w_cpuClk <= '0';
-			else
-				w_cpuClk <= '1';
-			end if;
-		end if;
-	end process;
+		end process;
 	
 
 -- Pass Baud Rate in BAUD_RATE generic as integer value (300, 9600, 115,200)
