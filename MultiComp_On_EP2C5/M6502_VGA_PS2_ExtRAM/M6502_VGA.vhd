@@ -4,7 +4,8 @@
 -- http://land-boards.com/blwiki/index.php?title=EP2C5-DB
 --
 -- 6502 CPU
---	16.6 MHz
+--		25 MHz for ROM and peripherals
+--		16.7 Mhz for Exterbal SRAM
 --	56 KB SRAM
 --	Microsoft BASIC in ROM
 --		56,831 bytes free
@@ -23,6 +24,11 @@
 --	I/O
 --		XFFD0-FFD1 VDU
 --		XFFD2-FFD3 ACIA
+--
+--	T65 (6502) CPU drives address and write data on CPU Clock high 
+-- T65 CPU data reads when clock rises from low to high
+--	Clock can be optimized for one clock low and 2 clocks high for slower interfaces like external SRAM
+--
 
 library ieee;
 use ieee.std_logic_1164.all;
@@ -59,6 +65,8 @@ entity M6502_VGA is
 		Pin45					: out std_logic;
 		Pin44					: out std_logic;
 		
+		o_J8IO8				: out std_logic_vector(7 downto 0);
+		
 		-- 128KB SRAM (56KB used)
 		io_extSRamData		: inout std_logic_vector(7 downto 0) := (others=>'Z');
 		o_extSRamAddress	: out std_logic_vector(16 downto 0);
@@ -81,7 +89,7 @@ architecture struct of M6502_VGA is
 	signal w_aciaDataOut		: std_logic_vector(7 downto 0);
 	signal w_ramDataOut		: std_logic_vector(7 downto 0);
 	
-	signal w_n_memWR			: std_logic;
+--	signal w_n_memWR			: std_logic;
 	
 	signal w_n_basRomCS		: std_logic :='1';
 	signal w_n_VDUCS			: std_logic :='1';
@@ -112,30 +120,41 @@ begin
 		i_PinIn	=> i_n_reset,
 		o_PinOut	=> w_resetLow
 	);
+	
+	-- Test Points
+	o_J8IO8(0) <= w_cpuClk;
+	o_J8IO8(1) <= w_cpuAddress(0);
+	o_J8IO8(2) <= w_R1W0;
+	o_J8IO8(3) <= w_n_VDUCS;
+	o_J8IO8(4) <= not ((not w_n_ramCS) and w_R1W0);										-- io_n_extSRamOE
+	o_J8IO8(5) <= not ((not w_n_ramCS) and (not w_cpuClk) and (not w_R1W0));	-- io_n_extSRamWE
+	o_J8IO8(6) <= '0';
+	o_J8IO8(7) <= '0';
 
 	o_extSRamAddress	<= '0'&w_cpuAddress(15 downto 0);
 	io_extSRamData		<= w_cpuDataOut when ((w_R1W0='0') and (w_n_ramCS = '0')) else
 							  (others => 'Z');
 	io_n_extSRamWE		<= not((not w_n_ramCS) and (not w_cpuClk) and (not w_R1W0));
-	io_n_extSRamOE		<= not((not w_n_ramCS) and (not w_cpuClk) and      w_R1W0);
+--	io_n_extSRamOE		<= not((not w_n_ramCS) and (not w_cpuClk) and      w_R1W0);
+	io_n_extSRamOE		<= not((not w_n_ramCS) and                         w_R1W0);
 	io_n_extSRamCS		<= not((not w_n_ramCS) and (not w_cpuClk));
 	
 	-- Chip Selects
-	w_n_ramCS 		<= '0' when w_cpuAddress(15) = '0' 							else							-- x0000-x7FFF (32KB)
-							'0' when w_cpuAddress(15 downto 14) = "10"			else							-- x8000-xBFFF (16KB)
-							'0' when w_cpuAddress(15 downto 13) = "110"			else							-- xC000-xDFFF (8KB)
+	w_n_ramCS 		<= '0' when   w_cpuAddress(15) = '0' 								else					-- x0000-x7FFF (32KB)
+							'0' when   w_cpuAddress(15 downto 14) = "10"			   	else					-- x8000-xBFFF (16KB)
+							'0' when   w_cpuAddress(15 downto 13) = "110"				else					-- xC000-xDFFF (8KB)
 							'1';
-	w_n_basRomCS 	<= '0' when   w_cpuAddress(15 downto 13) = "111" else '1'; 						-- xE000-xFFFF (8KB)
-	w_n_VDUCS 		<= '0' when ((w_cpuAddress(15 downto 1) = x"FFD"&"000" and w_fKey1 = '0') 	-- XFFD0-FFD1 VDU
+	w_n_basRomCS 	<= '0' when   w_cpuAddress(15 downto 13) = "111" else '1'; 							-- xE000-xFFFF (8KB)
+	w_n_VDUCS 		<= '0' when	((w_cpuAddress(15 downto 1) = x"FFD"&"000" and w_fKey1 = '0') 		-- XFFD0-FFD1 VDU
 							or		    (w_cpuAddress(15 downto 1) = x"FFD"&"001" and w_fKey1 = '1')) 
 							else '1';
-	w_n_aciaCS 	<= '0' when ((w_cpuAddress(15 downto 1) = X"FFD"&"001" and w_fKey1 = '0') 		-- XFFD2-FFD3 ACIA
-							or     (w_cpuAddress(15 downto 1) = X"FFD"&"000" and w_fKey1 = '1'))
+	w_n_aciaCS 	<= '0' when    ((w_cpuAddress(15 downto 1) = X"FFD"&"001" and w_fKey1 = '0') 		-- XFFD2-FFD3 ACIA
+							or        (w_cpuAddress(15 downto 1) = X"FFD"&"000" and w_fKey1 = '1'))
 							else '1';
 --	w_n_LatCS 		<= '0' when   w_cpuAddress = X"FFD4"  								-- XFFD4 (65492 dec)
 --							else '1';
 --	w_n_LatCS_Read 	<= w_n_memWR or w_n_LatCS;
-	w_n_memWR 			<= not(w_cpuClk) nand (not w_R1W0);
+--	w_n_memWR 			<= not(w_cpuClk) nand (not w_R1W0);
 	
 	w_cpuDataIn <=
 		w_VDUDataOut	when w_n_VDUCS 	= '0'	else
@@ -170,8 +189,9 @@ begin
 	UART : entity work.bufferedUART
 		port map(
 			clk		=> i_clk_50,
-			n_WR		=> w_n_aciaCS or w_cpuClk or w_R1W0,
 			n_RD		=> w_n_aciaCS or w_cpuClk or (not w_R1W0),
+--			n_RD		=> w_n_aciaCS or (not w_R1W0),
+			n_WR		=> w_n_aciaCS or w_cpuClk or w_R1W0,
 			regSel	=> w_cpuAddress(0),
 			dataIn	=> w_cpuDataOut,
 			dataOut	=> w_aciaDataOut,
@@ -193,7 +213,8 @@ begin
 
 		-- CPU
 		n_WR => w_n_VDUCS or w_cpuClk or w_R1W0,
-		n_RD => w_n_VDUCS or w_cpuClk or (not w_R1W0),
+--		n_RD => w_n_VDUCS or w_cpuClk or (not w_R1W0),
+		n_RD => w_n_VDUCS or (not w_R1W0),
 --		n_int => n_int1,
 		regSel => w_cpuAddress(0),
 		dataIn => w_cpuDataOut,
@@ -235,63 +256,40 @@ begin
 --		port map (
 --			dataIn8 => w_cpuDataOut,
 --			clock => i_clk_50,
---			load => w_n_memWR or w_n_LatCS,
+--			load => w_cpuClk or w_R1W0 or w_n_LatCS,
 --			clear => w_resetLow,
 --			latchOut => w_latBits
 --			);
 
--- SUB-CIRCUIT CLOCK SIGNALS 
+-- CPU Clock
 	process (i_clk_50)
 	begin
 		if rising_edge(i_clk_50) then
-
-			if w_cpuClkCt < 4 then -- 4 = 10MHz, 3 = 12.5MHz, 2=16.6MHz, 1=25MHz
-				w_cpuClkCt <= w_cpuClkCt + 1;
-			else
-				w_cpuClkCt <= (others=>'0');
-			end if;
-			if w_cpuClkCt < 2 then -- 2 when 10MHz, 2 when 12.5MHz, 2 when 16.6MHz, 1 when 25MHz
-				w_cpuClk <= '0';
-			else
-				w_cpuClk <= '1';
+			if w_n_basRomCS = '0' then -- 1 clock high, 1 clock low
+				if w_cpuClkCt < 1 then
+					w_cpuClkCt <= w_cpuClkCt + 1;
+				else
+					w_cpuClkCt <= (others=>'0');
+				end if;
+				if w_cpuClkCt < 1 then
+					w_cpuClk <= '0';
+				else
+					w_cpuClk <= '1';
+				end if; 
+			else		-- 1 clock high, 2 clocks low
+				if w_cpuClkCt < 2 then
+					w_cpuClkCt <= w_cpuClkCt + 1;
+				else
+					w_cpuClkCt <= (others=>'0');
+				end if;
+				if w_cpuClkCt < 2 then
+					w_cpuClk <= '0';
+				else
+					w_cpuClk <= '1';
+				end if; 
 			end if; 
 		end if; 
     end process;
-
-	-- ____________________________________________________________________________________
-	-- Baud Rate Clock Signals
-	-- Serial clock DDS
-	-- 50MHz master input clock:
-	-- f = (increment x 50,000,000) / 65,536 = 16X baud rate
-	-- Baud Increment
-	-- 115200 2416
-	-- 38400 805
-	-- 19200 403
-	-- 9600 201
-	-- 4800 101
-	-- 2400 50
-
---	baud_div: process (w_serClkCt_d, w_serialClkCount, w_fKey2)
---		begin
---			if w_fKey2 = '0' then
---				w_serClkCt_d <= w_serialClkCount + 2416;	-- 115,200 baud
---			else
---				w_serClkCt_d <= w_serialClkCount + 6;		-- 300 baud
---				end if;
---		end process;
---
---	--Single clock wide baud rate enable
---	baud_clk: process(i_clk_50)
---		begin
---			if rising_edge(i_clk_50) then
---					w_serialClkCount <= w_serClkCt_d;
---				if w_serialClkCount(15) = '0' and w_serClkCt_d(15) = '1' then
---					w_serClkEn <= '1';
---				else
---					w_serClkEn <= '0';
---				end if;
---       end if;
---    end process;
 
 	BaudRateGen : entity work.BaudRate6850
 	GENERIC map (
