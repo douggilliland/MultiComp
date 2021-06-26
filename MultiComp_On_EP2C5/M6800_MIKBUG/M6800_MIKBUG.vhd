@@ -17,14 +17,15 @@
 --		Included in pin list with inactive levels (in case a card is installed)
 --
 -- The Memory Map is:
---	$0000-$0BFF - 3.5KB SRAM (internal RAM in the EPCE15)
+--	$0000-$0DFF - 3.5KB SRAM (internal RAM in the EPCE15)
 --	$7E00-$7FFF - 512B SRAM (internal RAM in the EPCE15)
---		0x7F00-0x7FF are used as scratchpad RAM by MIKBUG
+--		$7F00-$7FFF are used as scratchpad RAM by MIKBUG
+--		$7E00-$7EFF can be used by application program
 --	$8018-$8019 - VDU
 --	$8028-$8029 - ACIA
 --		i_SerSelect (Pin_60 of the FPGA) swaps addresses of VDU and ACIA port (requires pullup in FPGA)
 --		Installed (Pin_60 to Ground) uses Serial port
---	$C000-$CFFF - MIKBUG ROM (repeats 4 times from 0xC000-0xFFFF)
+--	$C000-$FFFF - MIKBUG ROM (repeats 4 times from $C000-$FFFF)
 --
 
 library ieee;
@@ -59,14 +60,14 @@ entity M6800_MIKBUG is
 		i_SerSelect			: in	std_logic := '1';
 
 		-- J6 I/O connector
-		Pin25					: out std_logic;
-		Pin31					: out std_logic;
-		Pin41					: out std_logic;
-		Pin40					: out std_logic;
-		Pin43					: out std_logic;
-		Pin42					: out std_logic;
-		Pin45					: out std_logic;
-		Pin44					: out std_logic;
+		Pin25					: out std_logic := '0';
+		Pin31					: out std_logic := '0';
+		Pin41					: out std_logic := '0';
+		Pin40					: out std_logic := '0';
+		Pin43					: out std_logic := '0';
+		Pin42					: out std_logic := '0';
+		Pin45					: out std_logic := '0';
+		Pin44					: out std_logic := '0';
 		
 		-- SD card not used but making sure that it's not active
 		o_sdCS				: out std_logic := '1';
@@ -94,7 +95,6 @@ architecture struct of M6800_MIKBUG is
 	signal w_R1W0			: std_logic;
 	signal w_vma			: std_logic;
 	signal w_memWR			: std_logic;
---	signal w_memRD			: std_logic;
 
 	signal w_romData		: std_logic_vector(7 downto 0);
 	signal w_ramData1		: std_logic_vector(7 downto 0);
@@ -109,9 +109,9 @@ architecture struct of M6800_MIKBUG is
 	signal w_RAM_CS_3		: std_logic;
 	signal w_SP_RAM_CS	: std_logic;
 
-	signal n_int1			: std_logic :='1';	
+--	signal n_int1			: std_logic :='1';	
 	signal w_n_if1CS		: std_logic :='1';
-	signal n_int2			: std_logic :='1';	
+--	signal n_int2			: std_logic :='1';	
 	signal w_n_if2CS		: std_logic :='1';
 
 	signal w_cpuClkCt		: std_logic_vector(5 downto 0); 
@@ -124,10 +124,10 @@ architecture struct of M6800_MIKBUG is
 begin
 	
 	-- Debug
-	Pin25 <= w_cpuClk;
-	Pin31 <= w_RAM_CS_1;
-	Pin41 <= w_memWR;
-	Pin40 <= i_SerSelect;
+--	Pin25 <= w_cpuClk;
+--	Pin31 <= w_RAM_CS_1;
+--	Pin41 <= w_memWR;
+--	Pin40 <= i_SerSelect;
 	
 	-- Debounce the reset line
 	DebounceResetSwitch	: entity work.Debouncer
@@ -140,13 +140,14 @@ begin
 	w_memWR <= (not w_R1W0) and w_vma and not w_cpuClk;
 --	w_memRD <=      w_R1W0  and w_vma;
 	
-	w_RAM_CS_1	<= '1' when ((w_cpuAddress(15 downto 11)	="00000"))		else '0';
-	w_RAM_CS_2	<= '1' when ((w_cpuAddress(15 downto 10)	="000010"))		else '0';
-	w_RAM_CS_3	<= '1' when ((w_cpuAddress(15 downto 9)	="0000010"))	else '0';
-	w_SP_RAM_CS	<= '1' when ((w_cpuAddress(15 downto 9)	="0111111"))	else '0';
+	-- SRAM Chip Selects
+	w_RAM_CS_1	<= '1' when ((w_cpuAddress(15 downto 11)	=x"0"&"0"))		else '0';	-- 0x0000-0x07FF = 2KB
+	w_RAM_CS_2	<= '1' when ((w_cpuAddress(15 downto 10)	=x"0"&"10"))	else '0';	-- 0x0800-0x0BFF = 1KB
+	w_RAM_CS_3	<= '1' when ((w_cpuAddress(15 downto 9)	=x"0"&"110"))	else '0';	-- 0x0C00-0x0DFF = 512B
+	w_SP_RAM_CS	<= '1' when ((w_cpuAddress(15 downto 9)	=x"7"&"111"))	else '0';	-- 0x7E00-0x7FFF = 512B (Scratchpad)
 	
 	-- ____________________________________________________________________________________
-	-- I/O CHIP SELECTS
+	-- I/O Chip Selects
 	w_n_if1CS	<= '0' 	when (i_SerSelect = '1' and (w_cpuAddress(15 downto 1) = x"801"&"100")) else	-- VDU  $8018-$8019
 						'0'	when (i_SerSelect = '0' and (w_cpuAddress(15 downto 1) = x"802"&"100")) else	-- ACIA $8028-$8029
 						'1';
@@ -194,7 +195,7 @@ begin
 		);
 		
 	-- ____________________________________________________________________________________
-	-- 2KB RAM	
+	-- 2KB RAM
 	sram1 : entity work.InternalRam2K
 		PORT map  (
 			address	=> w_cpuAddress(10 downto 0),
@@ -205,7 +206,7 @@ begin
 		);
 	
 	-- ____________________________________________________________________________________
-	-- 1KB RAM	
+	-- 1KB RAM
 	sram2 : entity work.InternalRam1K
 		PORT map  (
 			address	=> w_cpuAddress(9 downto 0),
@@ -216,7 +217,7 @@ begin
 		);
 	
 	-- ____________________________________________________________________________________
-	-- 512B RAM	
+	-- 512B RAM
 	sram3 : entity work.InternalRam512B
 		PORT map  (
 			address	=> w_cpuAddress(8 downto 0),
@@ -227,7 +228,7 @@ begin
 		);
 	
 	-- ____________________________________________________________________________________
-	-- 512B RAM	
+	-- 512B Scratchpad RAM
 	scatchPadRam : entity work.InternalRam512b
 		PORT map  (
 			address	=> w_cpuAddress(8 downto 0),
@@ -239,7 +240,7 @@ begin
 	
 	-- ____________________________________________________________________________________
 	-- INPUT/OUTPUT DEVICES
-	-- Grant's VGA driver
+	-- Grant's VGA and PS/2 driver
 	vdu : entity work.SBCTextDisplayRGB
 		generic map ( 
 --			COLOUR_ATTS_ENABLED => 0,
@@ -250,7 +251,8 @@ begin
 		port map (
 			clk		=> i_CLOCK_50,
 			n_reset	=> w_resetLow,
-			n_WR		=> w_n_if1CS or      w_R1W0  or (not w_vma) or (not w_cpuClk),
+			-- CPU
+			n_wr		=> w_n_if1CS or      w_R1W0  or (not w_vma) or (not w_cpuClk),
 			n_rd		=> w_n_if1CS or (not w_R1W0) or (not w_vma),
 			regSel	=> w_cpuAddress(0),
 			dataIn	=> w_cpuDataOut,
@@ -264,7 +266,7 @@ begin
 			videoB1	=> o_videoB1,
 			hSync		=> o_hSync,
 			vSync		=> o_vSync,
---			n_int		=> n_int1,
+			-- PS/2
 			ps2Clk	=> io_ps2Clk,
 			ps2Data	=> io_ps2Data
 	);
@@ -273,12 +275,13 @@ begin
 	acia: entity work.bufferedUART
 		port map (
 			clk		=> i_CLOCK_50,     
-			n_WR		=> w_n_if2CS or      w_R1W0  or (not w_vma) or (not w_cpuClk),
+			-- CPU
+			n_wr		=> w_n_if2CS or      w_R1W0  or (not w_vma) or (not w_cpuClk),
 			n_rd		=> w_n_if2CS or (not w_R1W0) or (not w_vma),
 			regSel	=> w_cpuAddress(0),
 			dataIn	=> w_cpuDataOut,
 			dataOut	=> w_if2DataOut,
---			n_int		=> n_int2,
+--			CPU
 			rxClkEn	=> serialEn,
 			txClkEn	=> serialEn,
 			rxd		=> i_USB_txd,
@@ -304,7 +307,6 @@ begin
 			end if;
 		end process;
 	
-
 -- Pass Baud Rate in BAUD_RATE generic as integer value (300, 9600, 115,200)
 -- Legal values are 115200, 38400, 19200, 9600, 4800, 2400, 1200, 600, 300	BaudRateGen : entity work.BaudRate6850
 	BaudRateGen : entity work.BaudRate6850

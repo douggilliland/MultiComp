@@ -26,9 +26,8 @@
 --		XFFD2-FFD3 ACIA
 --
 --	T65 (6502) CPU drives address and write data on CPU Clock high 
--- T65 CPU data reads when clock rises from low to high
---	Clock can be optimized for one clock low and 2 clocks high for slower interfaces like external SRAM
---
+--	T65 CPU data reads when clock rises from low to high
+--	Clock can be optimized for one clock high and two clock low for slower interfaces like external SRAM--
 
 library ieee;
 use ieee.std_logic_1164.all;
