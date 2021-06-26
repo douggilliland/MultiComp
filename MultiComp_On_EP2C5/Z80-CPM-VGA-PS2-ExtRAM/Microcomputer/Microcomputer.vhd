@@ -213,7 +213,7 @@ port map(
 	clear => n_reset,
 	clock => clk,
 	load => n_sdChipCS,
-	dataIn8 => cpuDataOut,
+	dataIn => cpuDataOut,
 	latchOut => ioOut8
 );
 
