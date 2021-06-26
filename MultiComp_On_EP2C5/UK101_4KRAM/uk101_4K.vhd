@@ -17,10 +17,13 @@ entity uk101_4K is
 		n_reset		: in std_logic;
 		clk			: in std_logic;
 		rxd			: in std_logic;
+		-- Serial port
 		txd			: out std_logic;
 		rts			: out std_logic;
+		-- Composite Video
 		videoSync	: out std_logic;
 		video			: out std_logic;
+		-- PS/2 Keyboard
 		ps2Clk		: in std_logic;
 		ps2Data		: in std_logic
 	);
@@ -74,7 +77,7 @@ begin
  
 	cpuDataIn <=
 		basRomData 			when n_basRomCS = '0' 		else
-		monitorRomData 	when n_monRomCS = '0' 	else
+		monitorRomData 	when n_monRomCS = '0' 		else
 		aciaData 			when n_aciaCS = '0' 			else
 		ramDataOut 			when n_ramCS = '0' 			else
 		dispRamDataOutA 	when n_dispRamCS = '0' 		else
