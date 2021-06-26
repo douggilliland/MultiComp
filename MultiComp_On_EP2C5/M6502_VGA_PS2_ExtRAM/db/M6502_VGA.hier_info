@@ -1,36 +1,16 @@
 |M6502_VGA
-i_n_reset => t65:CPU.Res_n
-i_n_reset => sbctextdisplayrgb:VDU.n_reset
-i_n_reset => toggle_on_fn_key:FNKey1Toggle.n_res
-i_n_reset => toggle_on_fn_key:FNKey2Toggle.n_res
+i_n_reset => debouncer:DebounceResetSwitch.i_PinIn
 i_clk_50 => m6502_basic_rom:ROM.clock
-i_clk_50 => w_w_serClkEn.CLK
-i_clk_50 => w_serialClkCount[1].CLK
-i_clk_50 => w_serialClkCount[2].CLK
-i_clk_50 => w_serialClkCount[3].CLK
-i_clk_50 => w_serialClkCount[4].CLK
-i_clk_50 => w_serialClkCount[5].CLK
-i_clk_50 => w_serialClkCount[6].CLK
-i_clk_50 => w_serialClkCount[7].CLK
-i_clk_50 => w_serialClkCount[8].CLK
-i_clk_50 => w_serialClkCount[9].CLK
-i_clk_50 => w_serialClkCount[10].CLK
-i_clk_50 => w_serialClkCount[11].CLK
-i_clk_50 => w_serialClkCount[12].CLK
-i_clk_50 => w_serialClkCount[13].CLK
-i_clk_50 => w_serialClkCount[14].CLK
-i_clk_50 => w_serialClkCount[15].CLK
 i_clk_50 => w_cpuClk.CLK
 i_clk_50 => w_cpuClkCt[0].CLK
 i_clk_50 => w_cpuClkCt[1].CLK
 i_clk_50 => w_cpuClkCt[2].CLK
 i_clk_50 => w_cpuClkCt[3].CLK
-i_clk_50 => w_cpuClkCt[4].CLK
-i_clk_50 => w_cpuClkCt[5].CLK
 i_clk_50 => buffereduart:UART.clk
 i_clk_50 => sbctextdisplayrgb:VDU.clk
 i_clk_50 => toggle_on_fn_key:FNKey1Toggle.clock
 i_clk_50 => toggle_on_fn_key:FNKey2Toggle.clock
+i_clk_50 => baudrate6850:BaudRateGen.i_CLOCK_50
 i_rxd => buffereduart:UART.rxd
 o_txd <= buffereduart:UART.txd
 o_n_rts <= buffereduart:UART.n_rts
@@ -80,6 +60,37 @@ o_extSRamAddress[16] <= <GND>
 io_n_extSRamWE <= io_n_extSRamWE.DB_MAX_OUTPUT_PORT_TYPE
 io_n_extSRamCS <= io_n_extSRamWE.DB_MAX_OUTPUT_PORT_TYPE
 io_n_extSRamOE <= io_n_extSRamOE.DB_MAX_OUTPUT_PORT_TYPE
+
+
+|M6502_VGA|Debouncer:DebounceResetSwitch
+i_clk => o_PinOut~reg0.CLK
+i_clk => dly4.CLK
+i_clk => dly3.CLK
+i_clk => dly2.CLK
+i_clk => dly1.CLK
+i_clk => pulse200ms.CLK
+i_clk => dig_counter[0].CLK
+i_clk => dig_counter[1].CLK
+i_clk => dig_counter[2].CLK
+i_clk => dig_counter[3].CLK
+i_clk => dig_counter[4].CLK
+i_clk => dig_counter[5].CLK
+i_clk => dig_counter[6].CLK
+i_clk => dig_counter[7].CLK
+i_clk => dig_counter[8].CLK
+i_clk => dig_counter[9].CLK
+i_clk => dig_counter[10].CLK
+i_clk => dig_counter[11].CLK
+i_clk => dig_counter[12].CLK
+i_clk => dig_counter[13].CLK
+i_clk => dig_counter[14].CLK
+i_clk => dig_counter[15].CLK
+i_clk => dig_counter[16].CLK
+i_clk => dig_counter[17].CLK
+i_clk => dig_counter[18].CLK
+i_clk => dig_counter[19].CLK
+i_PinIn => dly1.DATAIN
+o_PinOut <= o_PinOut~reg0.DB_MAX_OUTPUT_PORT_TYPE
 
 
 |M6502_VGA|T65:CPU
@@ -1790,24 +1801,23 @@ data_a[5] => ~NO_FANOUT~
 data_a[6] => ~NO_FANOUT~
 data_a[7] => ~NO_FANOUT~
 data_b[0] => ~NO_FANOUT~
-address_a[0] => altsyncram_rp81:auto_generated.address_a[0]
-address_a[1] => altsyncram_rp81:auto_generated.address_a[1]
-address_a[2] => altsyncram_rp81:auto_generated.address_a[2]
-address_a[3] => altsyncram_rp81:auto_generated.address_a[3]
-address_a[4] => altsyncram_rp81:auto_generated.address_a[4]
-address_a[5] => altsyncram_rp81:auto_generated.address_a[5]
-address_a[6] => altsyncram_rp81:auto_generated.address_a[6]
-address_a[7] => altsyncram_rp81:auto_generated.address_a[7]
-address_a[8] => altsyncram_rp81:auto_generated.address_a[8]
-address_a[9] => altsyncram_rp81:auto_generated.address_a[9]
-address_a[10] => altsyncram_rp81:auto_generated.address_a[10]
-address_a[11] => altsyncram_rp81:auto_generated.address_a[11]
-address_a[12] => altsyncram_rp81:auto_generated.address_a[12]
+address_a[0] => altsyncram_vec1:auto_generated.address_a[0]
+address_a[1] => altsyncram_vec1:auto_generated.address_a[1]
+address_a[2] => altsyncram_vec1:auto_generated.address_a[2]
+address_a[3] => altsyncram_vec1:auto_generated.address_a[3]
+address_a[4] => altsyncram_vec1:auto_generated.address_a[4]
+address_a[5] => altsyncram_vec1:auto_generated.address_a[5]
+address_a[6] => altsyncram_vec1:auto_generated.address_a[6]
+address_a[7] => altsyncram_vec1:auto_generated.address_a[7]
+address_a[8] => altsyncram_vec1:auto_generated.address_a[8]
+address_a[9] => altsyncram_vec1:auto_generated.address_a[9]
+address_a[10] => altsyncram_vec1:auto_generated.address_a[10]
+address_a[11] => altsyncram_vec1:auto_generated.address_a[11]
+address_a[12] => altsyncram_vec1:auto_generated.address_a[12]
 address_b[0] => ~NO_FANOUT~
 addressstall_a => ~NO_FANOUT~
 addressstall_b => ~NO_FANOUT~
-clock0 => altsyncram_rp81:auto_generated.clock0
-clock1 => ~NO_FANOUT~
+clock0 => altsyncram_vec1:auto_generated.clock0
 clocken0 => ~NO_FANOUT~
 clocken1 => ~NO_FANOUT~
 clocken2 => ~NO_FANOUT~
@@ -1816,21 +1826,21 @@ aclr0 => ~NO_FANOUT~
 aclr1 => ~NO_FANOUT~
 byteena_a[0] => ~NO_FANOUT~
 byteena_b[0] => ~NO_FANOUT~
-q_a[0] <= altsyncram_rp81:auto_generated.q_a[0]
-q_a[1] <= altsyncram_rp81:auto_generated.q_a[1]
-q_a[2] <= altsyncram_rp81:auto_generated.q_a[2]
-q_a[3] <= altsyncram_rp81:auto_generated.q_a[3]
-q_a[4] <= altsyncram_rp81:auto_generated.q_a[4]
-q_a[5] <= altsyncram_rp81:auto_generated.q_a[5]
-q_a[6] <= altsyncram_rp81:auto_generated.q_a[6]
-q_a[7] <= altsyncram_rp81:auto_generated.q_a[7]
+q_a[0] <= altsyncram_vec1:auto_generated.q_a[0]
+q_a[1] <= altsyncram_vec1:auto_generated.q_a[1]
+q_a[2] <= altsyncram_vec1:auto_generated.q_a[2]
+q_a[3] <= altsyncram_vec1:auto_generated.q_a[3]
+q_a[4] <= altsyncram_vec1:auto_generated.q_a[4]
+q_a[5] <= altsyncram_vec1:auto_generated.q_a[5]
+q_a[6] <= altsyncram_vec1:auto_generated.q_a[6]
+q_a[7] <= altsyncram_vec1:auto_generated.q_a[7]
 q_b[0] <= <GND>
 eccstatus[0] <= <GND>
 eccstatus[1] <= <GND>
 eccstatus[2] <= <GND>
 
 
-|M6502_VGA|M6502_BASIC_ROM:ROM|altsyncram:altsyncram_component|altsyncram_rp81:auto_generated
+|M6502_VGA|M6502_BASIC_ROM:ROM|altsyncram:altsyncram_component|altsyncram_vec1:auto_generated
 address_a[0] => ram_block1a0.PORTAADDR
 address_a[0] => ram_block1a1.PORTAADDR
 address_a[0] => ram_block1a2.PORTAADDR
@@ -2052,7 +2062,7 @@ q_a[6] <= mux_hib:mux2.result[6]
 q_a[7] <= mux_hib:mux2.result[7]
 
 
-|M6502_VGA|M6502_BASIC_ROM:ROM|altsyncram:altsyncram_component|altsyncram_rp81:auto_generated|decode_1oa:deep_decode
+|M6502_VGA|M6502_BASIC_ROM:ROM|altsyncram:altsyncram_component|altsyncram_vec1:auto_generated|decode_1oa:deep_decode
 data[0] => eq_node[1].IN0
 data[0] => eq_node[0].IN0
 enable => eq_node[1].IN1
@@ -2061,7 +2071,7 @@ eq[0] <= eq_node[0].DB_MAX_OUTPUT_PORT_TYPE
 eq[1] <= eq_node[1].DB_MAX_OUTPUT_PORT_TYPE
 
 
-|M6502_VGA|M6502_BASIC_ROM:ROM|altsyncram:altsyncram_component|altsyncram_rp81:auto_generated|mux_hib:mux2
+|M6502_VGA|M6502_BASIC_ROM:ROM|altsyncram:altsyncram_component|altsyncram_vec1:auto_generated|mux_hib:mux2
 data[0] => result_node[0].IN1
 data[1] => result_node[1].IN1
 data[2] => result_node[2].IN1
@@ -2940,7 +2950,6 @@ address_b[0] => ~NO_FANOUT~
 addressstall_a => ~NO_FANOUT~
 addressstall_b => ~NO_FANOUT~
 clock0 => altsyncram_g891:auto_generated.clock0
-clock1 => ~NO_FANOUT~
 clocken0 => ~NO_FANOUT~
 clocken1 => ~NO_FANOUT~
 clocken2 => ~NO_FANOUT~
@@ -3168,7 +3177,6 @@ address_b[10] => altsyncram_adh2:auto_generated.address_b[10]
 addressstall_a => ~NO_FANOUT~
 addressstall_b => ~NO_FANOUT~
 clock0 => altsyncram_adh2:auto_generated.clock0
-clock1 => ~NO_FANOUT~
 clocken0 => ~NO_FANOUT~
 clocken1 => ~NO_FANOUT~
 clocken2 => ~NO_FANOUT~
@@ -3539,7 +3547,6 @@ address_b[10] => altsyncram_adh2:auto_generated.address_b[10]
 addressstall_a => ~NO_FANOUT~
 addressstall_b => ~NO_FANOUT~
 clock0 => altsyncram_adh2:auto_generated.clock0
-clock1 => ~NO_FANOUT~
 clocken0 => ~NO_FANOUT~
 clocken1 => ~NO_FANOUT~
 clocken2 => ~NO_FANOUT~
@@ -3828,5 +3835,22 @@ n_res => FNDelta3.ACLR
 n_res => FNDelta2.ACLR
 n_res => FNDelta1.ACLR
 latchFNKey <= loopback.DB_MAX_OUTPUT_PORT_TYPE
+
+
+|M6502_VGA|BaudRate6850:BaudRateGen
+i_CLOCK_50 => o_serialEn~reg0.CLK
+i_CLOCK_50 => w_serialCount[4].CLK
+i_CLOCK_50 => w_serialCount[5].CLK
+i_CLOCK_50 => w_serialCount[6].CLK
+i_CLOCK_50 => w_serialCount[7].CLK
+i_CLOCK_50 => w_serialCount[8].CLK
+i_CLOCK_50 => w_serialCount[9].CLK
+i_CLOCK_50 => w_serialCount[10].CLK
+i_CLOCK_50 => w_serialCount[11].CLK
+i_CLOCK_50 => w_serialCount[12].CLK
+i_CLOCK_50 => w_serialCount[13].CLK
+i_CLOCK_50 => w_serialCount[14].CLK
+i_CLOCK_50 => w_serialCount[15].CLK
+o_serialEn <= o_serialEn~reg0.DB_MAX_OUTPUT_PORT_TYPE
 
 

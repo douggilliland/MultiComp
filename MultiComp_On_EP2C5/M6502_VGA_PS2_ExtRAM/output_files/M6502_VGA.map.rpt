@@ -1,5 +1,5 @@
 Analysis & Synthesis report for M6502_VGA
-Fri Jul 03 17:33:43 2020
+Fri Jun 25 20:11:22 2021
 Quartus II 64-Bit Version 13.0.1 Build 232 06/12/2013 Service Pack 1 SJ Web Edition
 
 
@@ -24,7 +24,7 @@ Quartus II 64-Bit Version 13.0.1 Build 232 06/12/2013 Service Pack 1 SJ Web Edit
  16. General Register Statistics
  17. Inverted Register Statistics
  18. Multiplexer Restructuring Statistics (Restructuring Performed)
- 19. Source assignments for M6502_BASIC_ROM:ROM|altsyncram:altsyncram_component|altsyncram_rp81:auto_generated
+ 19. Source assignments for M6502_BASIC_ROM:ROM|altsyncram:altsyncram_component|altsyncram_vec1:auto_generated
  20. Source assignments for SBCTextDisplayRGB:VDU|SansBoldRomReduced:\GEN_REDUCED_SCHARS:fontRom|altsyncram:altsyncram_component|altsyncram_g891:auto_generated
  21. Source assignments for SBCTextDisplayRGB:VDU|DisplayRam2K:\GEN_2KRAM:dispCharRam|altsyncram:altsyncram_component|altsyncram_adh2:auto_generated
  22. Source assignments for SBCTextDisplayRGB:VDU|DisplayRam2K:\GEN_2KATTRAM:dispAttRam|altsyncram:altsyncram_component|altsyncram_adh2:auto_generated
@@ -33,17 +33,19 @@ Quartus II 64-Bit Version 13.0.1 Build 232 06/12/2013 Service Pack 1 SJ Web Edit
  25. Parameter Settings for User Entity Instance: SBCTextDisplayRGB:VDU|SansBoldRomReduced:\GEN_REDUCED_SCHARS:fontRom|altsyncram:altsyncram_component
  26. Parameter Settings for User Entity Instance: SBCTextDisplayRGB:VDU|DisplayRam2K:\GEN_2KRAM:dispCharRam|altsyncram:altsyncram_component
  27. Parameter Settings for User Entity Instance: SBCTextDisplayRGB:VDU|DisplayRam2K:\GEN_2KATTRAM:dispAttRam|altsyncram:altsyncram_component
- 28. Parameter Settings for Inferred Entity Instance: SBCTextDisplayRGB:VDU|lpm_divide:Mod0
- 29. Parameter Settings for Inferred Entity Instance: SBCTextDisplayRGB:VDU|lpm_divide:Mod1
- 30. altsyncram Parameter Settings by Entity Instance
- 31. Port Connectivity Checks: "SBCTextDisplayRGB:VDU|DisplayRam2K:\GEN_2KATTRAM:dispAttRam"
- 32. Port Connectivity Checks: "SBCTextDisplayRGB:VDU|DisplayRam2K:\GEN_2KRAM:dispCharRam"
- 33. Port Connectivity Checks: "SBCTextDisplayRGB:VDU"
- 34. Port Connectivity Checks: "bufferedUART:UART"
- 35. Port Connectivity Checks: "T65:CPU|T65_ALU:alu"
- 36. Port Connectivity Checks: "T65:CPU"
- 37. Elapsed Time Per Partition
- 38. Analysis & Synthesis Messages
+ 28. Parameter Settings for User Entity Instance: BaudRate6850:BaudRateGen
+ 29. Parameter Settings for Inferred Entity Instance: SBCTextDisplayRGB:VDU|lpm_divide:Mod0
+ 30. Parameter Settings for Inferred Entity Instance: SBCTextDisplayRGB:VDU|lpm_divide:Mod1
+ 31. altsyncram Parameter Settings by Entity Instance
+ 32. Port Connectivity Checks: "Toggle_On_FN_Key:FNKey2Toggle"
+ 33. Port Connectivity Checks: "SBCTextDisplayRGB:VDU|DisplayRam2K:\GEN_2KATTRAM:dispAttRam"
+ 34. Port Connectivity Checks: "SBCTextDisplayRGB:VDU|DisplayRam2K:\GEN_2KRAM:dispCharRam"
+ 35. Port Connectivity Checks: "SBCTextDisplayRGB:VDU"
+ 36. Port Connectivity Checks: "bufferedUART:UART"
+ 37. Port Connectivity Checks: "T65:CPU|T65_ALU:alu"
+ 38. Port Connectivity Checks: "T65:CPU"
+ 39. Elapsed Time Per Partition
+ 40. Analysis & Synthesis Messages
 
 
 
@@ -69,15 +71,15 @@ applicable agreement for further details.
 +--------------------------------------------------------------------------------------+
 ; Analysis & Synthesis Summary                                                         ;
 +------------------------------------+-------------------------------------------------+
-; Analysis & Synthesis Status        ; Successful - Fri Jul 03 17:33:43 2020           ;
+; Analysis & Synthesis Status        ; Successful - Fri Jun 25 20:11:22 2021           ;
 ; Quartus II 64-Bit Version          ; 13.0.1 Build 232 06/12/2013 SP 1 SJ Web Edition ;
 ; Revision Name                      ; M6502_VGA                                       ;
 ; Top-level Entity Name              ; M6502_VGA                                       ;
 ; Family                             ; Cyclone II                                      ;
-; Total logic elements               ; 2,828                                           ;
-;     Total combinational functions  ; 2,555                                           ;
-;     Dedicated logic registers      ; 756                                             ;
-; Total registers                    ; 756                                             ;
+; Total logic elements               ; 2,820                                           ;
+;     Total combinational functions  ; 2,547                                           ;
+;     Dedicated logic registers      ; 769                                             ;
+; Total registers                    ; 769                                             ;
 ; Total pins                         ; 51                                              ;
 ; Total virtual pins                 ; 0                                               ;
 ; Total memory bits                  ; 106,496                                         ;
@@ -94,7 +96,7 @@ applicable agreement for further details.
 ; Device                                                                     ; EP2C5T144C8        ;                    ;
 ; Top-level entity name                                                      ; M6502_VGA          ; M6502_VGA          ;
 ; Family name                                                                ; Cyclone II         ; Cyclone IV GX      ;
-; Use smart compilation                                                      ; Off                ; Off                ;
+; Use smart compilation                                                      ; On                 ; Off                ;
 ; Enable parallel Assembler and TimeQuest Timing Analyzer during compilation ; On                 ; On                 ;
 ; Enable compact report table                                                ; Off                ; Off                ;
 ; Restructure Multiplexers                                                   ; Auto               ; Auto               ;
@@ -182,49 +184,52 @@ Parallel compilation was disabled, but you have multiple processors available. E
 +----------------------------+--------+
 
 
-+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
-; Analysis & Synthesis Source Files Read                                                                                                                                                                                                                                 ;
-+----------------------------------------------------------------------------+-----------------+------------------------------+--------------------------------------------------------------------------------------------------------------------------------+---------+
-; File Name with User-Entered Path                                           ; Used in Netlist ; File Type                    ; File Name with Absolute Path                                                                                                   ; Library ;
-+----------------------------------------------------------------------------+-----------------+------------------------------+--------------------------------------------------------------------------------------------------------------------------------+---------+
-; ../../MultiComp (VHDL Template)/Components/UART/Toggle_On_FN_Key.vhd       ; yes             ; User VHDL File               ; C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/UART/Toggle_On_FN_Key.vhd       ;         ;
-; ../../MultiComp (VHDL Template)/Components/TERMINAL/SBCTextDisplayRGB.vhd  ; yes             ; User VHDL File               ; C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/TERMINAL/SBCTextDisplayRGB.vhd  ;         ;
-; ../../MultiComp (VHDL Template)/Components/TERMINAL/SansBoldRomReduced.vhd ; yes             ; User Wizard-Generated File   ; C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/TERMINAL/SansBoldRomReduced.vhd ;         ;
-; ../../MultiComp (VHDL Template)/Components/TERMINAL/SansBoldRom.vhd        ; yes             ; User Wizard-Generated File   ; C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/TERMINAL/SansBoldRom.vhd        ;         ;
-; ../../MultiComp (VHDL Template)/Components/TERMINAL/DisplayRam2K.vhd       ; yes             ; User Wizard-Generated File   ; C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/TERMINAL/DisplayRam2K.vhd       ;         ;
-; ../../MultiComp (VHDL Template)/Components/TERMINAL/DisplayRam1K.vhd       ; yes             ; User Wizard-Generated File   ; C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/TERMINAL/DisplayRam1K.vhd       ;         ;
-; ../../MultiComp (VHDL Template)/Components/TERMINAL/CGABoldRomReduced.vhd  ; yes             ; User Wizard-Generated File   ; C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/TERMINAL/CGABoldRomReduced.vhd  ;         ;
-; ../../MultiComp (VHDL Template)/Components/TERMINAL/CGABoldRom.vhd         ; yes             ; User Wizard-Generated File   ; C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/TERMINAL/CGABoldRom.vhd         ;         ;
-; ../../MultiComp (VHDL Template)/Components/UART/bufferedUART.vhd           ; yes             ; User VHDL File               ; C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/UART/bufferedUART.vhd           ;         ;
-; ../../MultiComp (VHDL Template)/Components/ROMs/6502/M6502_BASIC_ROM.vhd   ; yes             ; User Wizard-Generated File   ; C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/ROMs/6502/M6502_BASIC_ROM.vhd   ;         ;
-; ../../MultiComp (VHDL Template)/Components/CPU/M6502/T65_Pack.vhd          ; yes             ; User VHDL File               ; C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/CPU/M6502/T65_Pack.vhd          ;         ;
-; ../../MultiComp (VHDL Template)/Components/CPU/M6502/T65_MCode.vhd         ; yes             ; User VHDL File               ; C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/CPU/M6502/T65_MCode.vhd         ;         ;
-; ../../MultiComp (VHDL Template)/Components/CPU/M6502/T65_ALU.vhd           ; yes             ; User VHDL File               ; C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/CPU/M6502/T65_ALU.vhd           ;         ;
-; ../../MultiComp (VHDL Template)/Components/CPU/M6502/T65.vhd               ; yes             ; User VHDL File               ; C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/CPU/M6502/T65.vhd               ;         ;
-; M6502_VGA.vhd                                                              ; yes             ; User VHDL File               ; C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_EP2C5/M6502_VGA_PS2_ExtRAM/M6502_VGA.vhd                ;         ;
-; altsyncram.tdf                                                             ; yes             ; Megafunction                 ; c:/altera/13.0sp1/quartus/libraries/megafunctions/altsyncram.tdf                                                               ;         ;
-; stratix_ram_block.inc                                                      ; yes             ; Megafunction                 ; c:/altera/13.0sp1/quartus/libraries/megafunctions/stratix_ram_block.inc                                                        ;         ;
-; lpm_mux.inc                                                                ; yes             ; Megafunction                 ; c:/altera/13.0sp1/quartus/libraries/megafunctions/lpm_mux.inc                                                                  ;         ;
-; lpm_decode.inc                                                             ; yes             ; Megafunction                 ; c:/altera/13.0sp1/quartus/libraries/megafunctions/lpm_decode.inc                                                               ;         ;
-; aglobal130.inc                                                             ; yes             ; Megafunction                 ; c:/altera/13.0sp1/quartus/libraries/megafunctions/aglobal130.inc                                                               ;         ;
-; a_rdenreg.inc                                                              ; yes             ; Megafunction                 ; c:/altera/13.0sp1/quartus/libraries/megafunctions/a_rdenreg.inc                                                                ;         ;
-; altrom.inc                                                                 ; yes             ; Megafunction                 ; c:/altera/13.0sp1/quartus/libraries/megafunctions/altrom.inc                                                                   ;         ;
-; altram.inc                                                                 ; yes             ; Megafunction                 ; c:/altera/13.0sp1/quartus/libraries/megafunctions/altram.inc                                                                   ;         ;
-; altdpram.inc                                                               ; yes             ; Megafunction                 ; c:/altera/13.0sp1/quartus/libraries/megafunctions/altdpram.inc                                                                 ;         ;
-; db/altsyncram_rp81.tdf                                                     ; yes             ; Auto-Generated Megafunction  ; C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_EP2C5/M6502_VGA_PS2_ExtRAM/db/altsyncram_rp81.tdf       ;         ;
-; db/decode_1oa.tdf                                                          ; yes             ; Auto-Generated Megafunction  ; C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_EP2C5/M6502_VGA_PS2_ExtRAM/db/decode_1oa.tdf            ;         ;
-; db/mux_hib.tdf                                                             ; yes             ; Auto-Generated Megafunction  ; C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_EP2C5/M6502_VGA_PS2_ExtRAM/db/mux_hib.tdf               ;         ;
-; db/altsyncram_g891.tdf                                                     ; yes             ; Auto-Generated Megafunction  ; C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_EP2C5/M6502_VGA_PS2_ExtRAM/db/altsyncram_g891.tdf       ;         ;
-; db/altsyncram_adh2.tdf                                                     ; yes             ; Auto-Generated Megafunction  ; C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_EP2C5/M6502_VGA_PS2_ExtRAM/db/altsyncram_adh2.tdf       ;         ;
-; lpm_divide.tdf                                                             ; yes             ; Megafunction                 ; c:/altera/13.0sp1/quartus/libraries/megafunctions/lpm_divide.tdf                                                               ;         ;
-; abs_divider.inc                                                            ; yes             ; Megafunction                 ; c:/altera/13.0sp1/quartus/libraries/megafunctions/abs_divider.inc                                                              ;         ;
-; sign_div_unsign.inc                                                        ; yes             ; Megafunction                 ; c:/altera/13.0sp1/quartus/libraries/megafunctions/sign_div_unsign.inc                                                          ;         ;
-; db/lpm_divide_08m.tdf                                                      ; yes             ; Auto-Generated Megafunction  ; C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_EP2C5/M6502_VGA_PS2_ExtRAM/db/lpm_divide_08m.tdf        ;         ;
-; db/sign_div_unsign_7nh.tdf                                                 ; yes             ; Auto-Generated Megafunction  ; C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_EP2C5/M6502_VGA_PS2_ExtRAM/db/sign_div_unsign_7nh.tdf   ;         ;
-; db/alt_u_div_g5f.tdf                                                       ; yes             ; Auto-Generated Megafunction  ; C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_EP2C5/M6502_VGA_PS2_ExtRAM/db/alt_u_div_g5f.tdf         ;         ;
-; db/add_sub_lkc.tdf                                                         ; yes             ; Auto-Generated Megafunction  ; C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_EP2C5/M6502_VGA_PS2_ExtRAM/db/add_sub_lkc.tdf           ;         ;
-; db/add_sub_mkc.tdf                                                         ; yes             ; Auto-Generated Megafunction  ; C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_EP2C5/M6502_VGA_PS2_ExtRAM/db/add_sub_mkc.tdf           ;         ;
-+----------------------------------------------------------------------------+-----------------+------------------------------+--------------------------------------------------------------------------------------------------------------------------------+---------+
++------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+; Analysis & Synthesis Source Files Read                                                                                                                                                                                                                                                                                 ;
++------------------------------------------------------------------------------------------------------------------+-----------------+----------------------------------------+--------------------------------------------------------------------------------------------------------------------------------+---------+
+; File Name with User-Entered Path                                                                                 ; Used in Netlist ; File Type                              ; File Name with Absolute Path                                                                                                   ; Library ;
++------------------------------------------------------------------------------------------------------------------+-----------------+----------------------------------------+--------------------------------------------------------------------------------------------------------------------------------+---------+
+; ../../MultiComp (VHDL Template)/Components/UART/BaudRate6850.vhd                                                 ; yes             ; User VHDL File                         ; C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/UART/BaudRate6850.vhd           ;         ;
+; ../../MultiComp (VHDL Template)/Components/Debounce/Debounce.vhd                                                 ; yes             ; User VHDL File                         ; C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/Debounce/Debounce.vhd           ;         ;
+; ../../MultiComp (VHDL Template)/Components/UART/Toggle_On_FN_Key.vhd                                             ; yes             ; User VHDL File                         ; C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/UART/Toggle_On_FN_Key.vhd       ;         ;
+; ../../MultiComp (VHDL Template)/Components/TERMINAL/SBCTextDisplayRGB.vhd                                        ; yes             ; User VHDL File                         ; C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/TERMINAL/SBCTextDisplayRGB.vhd  ;         ;
+; ../../MultiComp (VHDL Template)/Components/TERMINAL/SansBoldRomReduced.vhd                                       ; yes             ; User Wizard-Generated File             ; C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/TERMINAL/SansBoldRomReduced.vhd ;         ;
+; ../../MultiComp (VHDL Template)/Components/TERMINAL/SansBoldRom.vhd                                              ; yes             ; User Wizard-Generated File             ; C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/TERMINAL/SansBoldRom.vhd        ;         ;
+; ../../MultiComp (VHDL Template)/Components/TERMINAL/DisplayRam2K.vhd                                             ; yes             ; User Wizard-Generated File             ; C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/TERMINAL/DisplayRam2K.vhd       ;         ;
+; ../../MultiComp (VHDL Template)/Components/TERMINAL/DisplayRam1K.vhd                                             ; yes             ; User Wizard-Generated File             ; C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/TERMINAL/DisplayRam1K.vhd       ;         ;
+; ../../MultiComp (VHDL Template)/Components/TERMINAL/CGABoldRomReduced.vhd                                        ; yes             ; User Wizard-Generated File             ; C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/TERMINAL/CGABoldRomReduced.vhd  ;         ;
+; ../../MultiComp (VHDL Template)/Components/TERMINAL/CGABoldRom.vhd                                               ; yes             ; User Wizard-Generated File             ; C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/TERMINAL/CGABoldRom.vhd         ;         ;
+; ../../MultiComp (VHDL Template)/Components/UART/bufferedUART.vhd                                                 ; yes             ; User VHDL File                         ; C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/UART/bufferedUART.vhd           ;         ;
+; ../../MultiComp (VHDL Template)/Components/ROMs/6502/M6502_BASIC_ROM.vhd                                         ; yes             ; User Wizard-Generated File             ; C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/ROMs/6502/M6502_BASIC_ROM.vhd   ;         ;
+; ../../MultiComp (VHDL Template)/Components/CPU/M6502/T65_Pack.vhd                                                ; yes             ; User VHDL File                         ; C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/CPU/M6502/T65_Pack.vhd          ;         ;
+; ../../MultiComp (VHDL Template)/Components/CPU/M6502/T65_MCode.vhd                                               ; yes             ; User VHDL File                         ; C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/CPU/M6502/T65_MCode.vhd         ;         ;
+; ../../MultiComp (VHDL Template)/Components/CPU/M6502/T65_ALU.vhd                                                 ; yes             ; User VHDL File                         ; C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/CPU/M6502/T65_ALU.vhd           ;         ;
+; ../../MultiComp (VHDL Template)/Components/CPU/M6502/T65.vhd                                                     ; yes             ; User VHDL File                         ; C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/CPU/M6502/T65.vhd               ;         ;
+; M6502_VGA.vhd                                                                                                    ; yes             ; User VHDL File                         ; C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_EP2C5/M6502_VGA_PS2_ExtRAM/M6502_VGA.vhd                ;         ;
+; altsyncram.tdf                                                                                                   ; yes             ; Megafunction                           ; c:/altera/13.0sp1/quartus/libraries/megafunctions/altsyncram.tdf                                                               ;         ;
+; stratix_ram_block.inc                                                                                            ; yes             ; Megafunction                           ; c:/altera/13.0sp1/quartus/libraries/megafunctions/stratix_ram_block.inc                                                        ;         ;
+; lpm_mux.inc                                                                                                      ; yes             ; Megafunction                           ; c:/altera/13.0sp1/quartus/libraries/megafunctions/lpm_mux.inc                                                                  ;         ;
+; lpm_decode.inc                                                                                                   ; yes             ; Megafunction                           ; c:/altera/13.0sp1/quartus/libraries/megafunctions/lpm_decode.inc                                                               ;         ;
+; aglobal130.inc                                                                                                   ; yes             ; Megafunction                           ; c:/altera/13.0sp1/quartus/libraries/megafunctions/aglobal130.inc                                                               ;         ;
+; a_rdenreg.inc                                                                                                    ; yes             ; Megafunction                           ; c:/altera/13.0sp1/quartus/libraries/megafunctions/a_rdenreg.inc                                                                ;         ;
+; altrom.inc                                                                                                       ; yes             ; Megafunction                           ; c:/altera/13.0sp1/quartus/libraries/megafunctions/altrom.inc                                                                   ;         ;
+; altram.inc                                                                                                       ; yes             ; Megafunction                           ; c:/altera/13.0sp1/quartus/libraries/megafunctions/altram.inc                                                                   ;         ;
+; altdpram.inc                                                                                                     ; yes             ; Megafunction                           ; c:/altera/13.0sp1/quartus/libraries/megafunctions/altdpram.inc                                                                 ;         ;
+; db/altsyncram_vec1.tdf                                                                                           ; yes             ; Auto-Generated Megafunction            ; C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_EP2C5/M6502_VGA_PS2_ExtRAM/db/altsyncram_vec1.tdf       ;         ;
+; /users/hpz420/documents/github/doug gilliland/multicomp/multicomp (vhdl template)/components/roms/6502/basic.hex ; yes             ; Auto-Found Memory Initialization File  ; /users/hpz420/documents/github/doug gilliland/multicomp/multicomp (vhdl template)/components/roms/6502/basic.hex               ;         ;
+; db/decode_1oa.tdf                                                                                                ; yes             ; Auto-Generated Megafunction            ; C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_EP2C5/M6502_VGA_PS2_ExtRAM/db/decode_1oa.tdf            ;         ;
+; db/mux_hib.tdf                                                                                                   ; yes             ; Auto-Generated Megafunction            ; C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_EP2C5/M6502_VGA_PS2_ExtRAM/db/mux_hib.tdf               ;         ;
+; db/altsyncram_g891.tdf                                                                                           ; yes             ; Auto-Generated Megafunction            ; C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_EP2C5/M6502_VGA_PS2_ExtRAM/db/altsyncram_g891.tdf       ;         ;
+; db/altsyncram_adh2.tdf                                                                                           ; yes             ; Auto-Generated Megafunction            ; C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_EP2C5/M6502_VGA_PS2_ExtRAM/db/altsyncram_adh2.tdf       ;         ;
+; lpm_divide.tdf                                                                                                   ; yes             ; Megafunction                           ; c:/altera/13.0sp1/quartus/libraries/megafunctions/lpm_divide.tdf                                                               ;         ;
+; abs_divider.inc                                                                                                  ; yes             ; Megafunction                           ; c:/altera/13.0sp1/quartus/libraries/megafunctions/abs_divider.inc                                                              ;         ;
+; sign_div_unsign.inc                                                                                              ; yes             ; Megafunction                           ; c:/altera/13.0sp1/quartus/libraries/megafunctions/sign_div_unsign.inc                                                          ;         ;
+; db/lpm_divide_08m.tdf                                                                                            ; yes             ; Auto-Generated Megafunction            ; C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_EP2C5/M6502_VGA_PS2_ExtRAM/db/lpm_divide_08m.tdf        ;         ;
+; db/sign_div_unsign_7nh.tdf                                                                                       ; yes             ; Auto-Generated Megafunction            ; C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_EP2C5/M6502_VGA_PS2_ExtRAM/db/sign_div_unsign_7nh.tdf   ;         ;
+; db/alt_u_div_g5f.tdf                                                                                             ; yes             ; Auto-Generated Megafunction            ; C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_EP2C5/M6502_VGA_PS2_ExtRAM/db/alt_u_div_g5f.tdf         ;         ;
+; db/add_sub_lkc.tdf                                                                                               ; yes             ; Auto-Generated Megafunction            ; C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_EP2C5/M6502_VGA_PS2_ExtRAM/db/add_sub_lkc.tdf           ;         ;
+; db/add_sub_mkc.tdf                                                                                               ; yes             ; Auto-Generated Megafunction            ; C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_EP2C5/M6502_VGA_PS2_ExtRAM/db/add_sub_mkc.tdf           ;         ;
++------------------------------------------------------------------------------------------------------------------+-----------------+----------------------------------------+--------------------------------------------------------------------------------------------------------------------------------+---------+
 
 
 +--------------------------------------------------------+
@@ -232,29 +237,29 @@ Parallel compilation was disabled, but you have multiple processors available. E
 +---------------------------------------------+----------+
 ; Resource                                    ; Usage    ;
 +---------------------------------------------+----------+
-; Estimated Total logic elements              ; 2,828    ;
+; Estimated Total logic elements              ; 2,820    ;
 ;                                             ;          ;
-; Total combinational functions               ; 2555     ;
+; Total combinational functions               ; 2547     ;
 ; Logic element usage by number of LUT inputs ;          ;
-;     -- 4 input functions                    ; 1353     ;
+;     -- 4 input functions                    ; 1345     ;
 ;     -- 3 input functions                    ; 588      ;
 ;     -- <=2 input functions                  ; 614      ;
 ;                                             ;          ;
 ; Logic elements by mode                      ;          ;
-;     -- normal mode                          ; 2063     ;
-;     -- arithmetic mode                      ; 492      ;
+;     -- normal mode                          ; 2058     ;
+;     -- arithmetic mode                      ; 489      ;
 ;                                             ;          ;
-; Total registers                             ; 756      ;
-;     -- Dedicated logic registers            ; 756      ;
+; Total registers                             ; 769      ;
+;     -- Dedicated logic registers            ; 769      ;
 ;     -- I/O registers                        ; 0        ;
 ;                                             ;          ;
 ; I/O pins                                    ; 51       ;
 ; Total memory bits                           ; 106496   ;
 ; Embedded Multiplier 9-bit elements          ; 0        ;
 ; Maximum fan-out node                        ; i_clk_50 ;
-; Maximum fan-out                             ; 621      ;
-; Total fan-out                               ; 11612    ;
-; Average fan-out                             ; 3.41     ;
+; Maximum fan-out                             ; 610      ;
+; Total fan-out                               ; 11594    ;
+; Average fan-out                             ; 3.40     ;
 +---------------------------------------------+----------+
 
 
@@ -263,11 +268,13 @@ Parallel compilation was disabled, but you have multiple processors available. E
 +--------------------------------------------------------+-------------------+--------------+-------------+--------------+---------+-----------+------+--------------+------------------------------------------------------------------------------------------------------------------------------------------------+--------------+
 ; Compilation Hierarchy Node                             ; LC Combinationals ; LC Registers ; Memory Bits ; DSP Elements ; DSP 9x9 ; DSP 18x18 ; Pins ; Virtual Pins ; Full Hierarchy Name                                                                                                                            ; Library Name ;
 +--------------------------------------------------------+-------------------+--------------+-------------+--------------+---------+-----------+------+--------------+------------------------------------------------------------------------------------------------------------------------------------------------+--------------+
-; |M6502_VGA                                             ; 2555 (93)         ; 756 (23)     ; 106496      ; 0            ; 0       ; 0         ; 51   ; 0            ; |M6502_VGA                                                                                                                                     ; work         ;
+; |M6502_VGA                                             ; 2547 (48)         ; 769 (4)      ; 106496      ; 0            ; 0       ; 0         ; 51   ; 0            ; |M6502_VGA                                                                                                                                     ; work         ;
+;    |BaudRate6850:BaudRateGen|                          ; 14 (14)           ; 13 (13)      ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |M6502_VGA|BaudRate6850:BaudRateGen                                                                                                            ; work         ;
+;    |Debouncer:DebounceResetSwitch|                     ; 26 (26)           ; 24 (24)      ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |M6502_VGA|Debouncer:DebounceResetSwitch                                                                                                       ; work         ;
 ;    |M6502_BASIC_ROM:ROM|                               ; 0 (0)             ; 1 (0)        ; 65536       ; 0            ; 0       ; 0         ; 0    ; 0            ; |M6502_VGA|M6502_BASIC_ROM:ROM                                                                                                                 ; work         ;
 ;       |altsyncram:altsyncram_component|                ; 0 (0)             ; 1 (0)        ; 65536       ; 0            ; 0       ; 0         ; 0    ; 0            ; |M6502_VGA|M6502_BASIC_ROM:ROM|altsyncram:altsyncram_component                                                                                 ; work         ;
-;          |altsyncram_rp81:auto_generated|              ; 0 (0)             ; 1 (1)        ; 65536       ; 0            ; 0       ; 0         ; 0    ; 0            ; |M6502_VGA|M6502_BASIC_ROM:ROM|altsyncram:altsyncram_component|altsyncram_rp81:auto_generated                                                  ; work         ;
-;    |SBCTextDisplayRGB:VDU|                             ; 1411 (1233)       ; 385 (385)    ; 40960       ; 0            ; 0       ; 0         ; 0    ; 0            ; |M6502_VGA|SBCTextDisplayRGB:VDU                                                                                                               ; work         ;
+;          |altsyncram_vec1:auto_generated|              ; 0 (0)             ; 1 (1)        ; 65536       ; 0            ; 0       ; 0         ; 0    ; 0            ; |M6502_VGA|M6502_BASIC_ROM:ROM|altsyncram:altsyncram_component|altsyncram_vec1:auto_generated                                                  ; work         ;
+;    |SBCTextDisplayRGB:VDU|                             ; 1409 (1231)       ; 384 (384)    ; 40960       ; 0            ; 0       ; 0         ; 0    ; 0            ; |M6502_VGA|SBCTextDisplayRGB:VDU                                                                                                               ; work         ;
 ;       |DisplayRam2K:\GEN_2KATTRAM:dispAttRam|          ; 0 (0)             ; 0 (0)        ; 16384       ; 0            ; 0       ; 0         ; 0    ; 0            ; |M6502_VGA|SBCTextDisplayRGB:VDU|DisplayRam2K:\GEN_2KATTRAM:dispAttRam                                                                         ; work         ;
 ;          |altsyncram:altsyncram_component|             ; 0 (0)             ; 0 (0)        ; 16384       ; 0            ; 0       ; 0         ; 0    ; 0            ; |M6502_VGA|SBCTextDisplayRGB:VDU|DisplayRam2K:\GEN_2KATTRAM:dispAttRam|altsyncram:altsyncram_component                                         ; work         ;
 ;             |altsyncram_adh2:auto_generated|           ; 0 (0)             ; 0 (0)        ; 16384       ; 0            ; 0       ; 0         ; 0    ; 0            ; |M6502_VGA|SBCTextDisplayRGB:VDU|DisplayRam2K:\GEN_2KATTRAM:dispAttRam|altsyncram:altsyncram_component|altsyncram_adh2:auto_generated          ; work         ;
@@ -286,25 +293,24 @@ Parallel compilation was disabled, but you have multiple processors available. E
 ;             |sign_div_unsign_7nh:divider|              ; 89 (0)            ; 0 (0)        ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |M6502_VGA|SBCTextDisplayRGB:VDU|lpm_divide:Mod1|lpm_divide_08m:auto_generated|sign_div_unsign_7nh:divider                                     ; work         ;
 ;                |alt_u_div_g5f:divider|                 ; 89 (89)           ; 0 (0)        ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |M6502_VGA|SBCTextDisplayRGB:VDU|lpm_divide:Mod1|lpm_divide_08m:auto_generated|sign_div_unsign_7nh:divider|alt_u_div_g5f:divider               ; work         ;
 ;    |T65:CPU|                                           ; 799 (397)         ; 126 (126)    ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |M6502_VGA|T65:CPU                                                                                                                             ; work         ;
-;       |T65_ALU:alu|                                    ; 162 (162)         ; 0 (0)        ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |M6502_VGA|T65:CPU|T65_ALU:alu                                                                                                                 ; work         ;
-;       |T65_MCode:mcode|                                ; 240 (240)         ; 0 (0)        ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |M6502_VGA|T65:CPU|T65_MCode:mcode                                                                                                             ; work         ;
+;       |T65_ALU:alu|                                    ; 165 (165)         ; 0 (0)        ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |M6502_VGA|T65:CPU|T65_ALU:alu                                                                                                                 ; work         ;
+;       |T65_MCode:mcode|                                ; 237 (237)         ; 0 (0)        ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |M6502_VGA|T65:CPU|T65_MCode:mcode                                                                                                             ; work         ;
 ;    |Toggle_On_FN_Key:FNKey1Toggle|                     ; 1 (1)             ; 4 (4)        ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |M6502_VGA|Toggle_On_FN_Key:FNKey1Toggle                                                                                                       ; work         ;
-;    |Toggle_On_FN_Key:FNKey2Toggle|                     ; 1 (1)             ; 4 (4)        ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |M6502_VGA|Toggle_On_FN_Key:FNKey2Toggle                                                                                                       ; work         ;
 ;    |bufferedUART:UART|                                 ; 250 (250)         ; 213 (213)    ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |M6502_VGA|bufferedUART:UART                                                                                                                   ; work         ;
 +--------------------------------------------------------+-------------------+--------------+-------------+--------------+---------+-----------+------+--------------+------------------------------------------------------------------------------------------------------------------------------------------------+--------------+
 Note: For table entries with two numbers listed, the numbers in parentheses indicate the number of resources of the given type used by the specific entity alone. The numbers listed outside of parentheses indicate the total resources of the given type used by the specific entity and all of its sub-entities in the hierarchy.
 
 
-+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
-; Analysis & Synthesis RAM Summary                                                                                                                                                                                                                                       ;
-+------------------------------------------------------------------------------------------------------------------------------------------------+------+----------------+--------------+--------------+--------------+--------------+-------+---------------------------+
-; Name                                                                                                                                           ; Type ; Mode           ; Port A Depth ; Port A Width ; Port B Depth ; Port B Width ; Size  ; MIF                       ;
-+------------------------------------------------------------------------------------------------------------------------------------------------+------+----------------+--------------+--------------+--------------+--------------+-------+---------------------------+
-; M6502_BASIC_ROM:ROM|altsyncram:altsyncram_component|altsyncram_rp81:auto_generated|ALTSYNCRAM                                                  ; AUTO ; ROM            ; 8192         ; 8            ; --           ; --           ; 65536 ; ../../ROMS/6502/BASIC.HEX ;
-; SBCTextDisplayRGB:VDU|DisplayRam2K:\GEN_2KATTRAM:dispAttRam|altsyncram:altsyncram_component|altsyncram_adh2:auto_generated|ALTSYNCRAM          ; AUTO ; True Dual Port ; 2048         ; 8            ; 2048         ; 8            ; 16384 ; None                      ;
-; SBCTextDisplayRGB:VDU|DisplayRam2K:\GEN_2KRAM:dispCharRam|altsyncram:altsyncram_component|altsyncram_adh2:auto_generated|ALTSYNCRAM            ; AUTO ; True Dual Port ; 2048         ; 8            ; 2048         ; 8            ; 16384 ; None                      ;
-; SBCTextDisplayRGB:VDU|SansBoldRomReduced:\GEN_REDUCED_SCHARS:fontRom|altsyncram:altsyncram_component|altsyncram_g891:auto_generated|ALTSYNCRAM ; AUTO ; ROM            ; 1024         ; 8            ; --           ; --           ; 8192  ; SansFontBoldReduced.HEX   ;
-+------------------------------------------------------------------------------------------------------------------------------------------------+------+----------------+--------------+--------------+--------------+--------------+-------+---------------------------+
++----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+; Analysis & Synthesis RAM Summary                                                                                                                                                                                                                                                                               ;
++------------------------------------------------------------------------------------------------------------------------------------------------+------+----------------+--------------+--------------+--------------+--------------+-------+-------------------------------------------------------------------+
+; Name                                                                                                                                           ; Type ; Mode           ; Port A Depth ; Port A Width ; Port B Depth ; Port B Width ; Size  ; MIF                                                               ;
++------------------------------------------------------------------------------------------------------------------------------------------------+------+----------------+--------------+--------------+--------------+--------------+-------+-------------------------------------------------------------------+
+; M6502_BASIC_ROM:ROM|altsyncram:altsyncram_component|altsyncram_vec1:auto_generated|ALTSYNCRAM                                                  ; AUTO ; ROM            ; 8192         ; 8            ; --           ; --           ; 65536 ; ../../../MultiComp (VHDL Template)/Components/ROMs/6502/BASIC.HEX ;
+; SBCTextDisplayRGB:VDU|DisplayRam2K:\GEN_2KATTRAM:dispAttRam|altsyncram:altsyncram_component|altsyncram_adh2:auto_generated|ALTSYNCRAM          ; AUTO ; True Dual Port ; 2048         ; 8            ; 2048         ; 8            ; 16384 ; None                                                              ;
+; SBCTextDisplayRGB:VDU|DisplayRam2K:\GEN_2KRAM:dispCharRam|altsyncram:altsyncram_component|altsyncram_adh2:auto_generated|ALTSYNCRAM            ; AUTO ; True Dual Port ; 2048         ; 8            ; 2048         ; 8            ; 16384 ; None                                                              ;
+; SBCTextDisplayRGB:VDU|SansBoldRomReduced:\GEN_REDUCED_SCHARS:fontRom|altsyncram:altsyncram_component|altsyncram_g891:auto_generated|ALTSYNCRAM ; AUTO ; ROM            ; 1024         ; 8            ; --           ; --           ; 8192  ; SansFontBoldReduced.HEX                                           ;
++------------------------------------------------------------------------------------------------------------------------------------------------+------+----------------+--------------+--------------+--------------+--------------+-------+-------------------------------------------------------------------+
 
 
 +----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
@@ -380,31 +386,33 @@ Encoding Type:  One-Hot
 +-----------------+-----------------+-----------------+--------------+
 
 
-+------------------------------------------------------------------------------------------------------+
-; Registers Removed During Synthesis                                                                   ;
-+-------------------------------------------------+----------------------------------------------------+
-; Register name                                   ; Reason for Removal                                 ;
-+-------------------------------------------------+----------------------------------------------------+
-; T65:CPU|SO_n_o                                  ; Lost fanout                                        ;
-; T65:CPU|NMI_n_o                                 ; Stuck at VCC due to stuck port data_in             ;
-; T65:CPU|IRQ_n_o                                 ; Stuck at VCC due to stuck port data_in             ;
-; T65:CPU|Mode_r[0,1]                             ; Stuck at GND due to stuck port data_in             ;
-; T65:CPU|NMIAct                                  ; Stuck at GND due to stuck port data_in             ;
-; T65:CPU|IRQCycle                                ; Stuck at GND due to stuck port data_in             ;
-; T65:CPU|NMICycle                                ; Stuck at GND due to stuck port data_in             ;
-; T65:CPU|P[5]                                    ; Merged with T65:CPU|P[4]                           ;
-; SBCTextDisplayRGB:VDU|startAddr[1..3]           ; Merged with SBCTextDisplayRGB:VDU|startAddr[0]     ;
-; SBCTextDisplayRGB:VDU|ps2WriteByte2[4..7]       ; Merged with SBCTextDisplayRGB:VDU|ps2WriteByte2[3] ;
-; SBCTextDisplayRGB:VDU|ps2WriteByte[5..7]        ; Merged with SBCTextDisplayRGB:VDU|ps2WriteByte[3]  ;
-; SBCTextDisplayRGB:VDU|pixelClockCount[1..3]     ; Stuck at GND due to stuck port data_in             ;
-; SBCTextDisplayRGB:VDU|escState.none             ; Lost fanout                                        ;
-; SBCTextDisplayRGB:VDU|escState.processingParams ; Lost fanout                                        ;
-; SBCTextDisplayRGB:VDU|startAddr[0]              ; Stuck at GND due to stuck port data_in             ;
-; T65:CPU|S[8..15]                                ; Lost fanout                                        ;
-; SBCTextDisplayRGB:VDU|kbReadPointer[3]          ; Stuck at GND due to stuck port data_in             ;
-; SBCTextDisplayRGB:VDU|kbInPointer[3]            ; Stuck at GND due to stuck port data_in             ;
-; Total Number of Removed Registers = 35          ;                                                    ;
-+-------------------------------------------------+----------------------------------------------------+
++-------------------------------------------------------------------------------------------------------+
+; Registers Removed During Synthesis                                                                    ;
++--------------------------------------------------+----------------------------------------------------+
+; Register name                                    ; Reason for Removal                                 ;
++--------------------------------------------------+----------------------------------------------------+
+; T65:CPU|SO_n_o                                   ; Lost fanout                                        ;
+; T65:CPU|NMI_n_o                                  ; Stuck at VCC due to stuck port data_in             ;
+; T65:CPU|IRQ_n_o                                  ; Stuck at VCC due to stuck port data_in             ;
+; T65:CPU|Mode_r[0,1]                              ; Stuck at GND due to stuck port data_in             ;
+; T65:CPU|NMIAct                                   ; Stuck at GND due to stuck port data_in             ;
+; T65:CPU|IRQCycle                                 ; Stuck at GND due to stuck port data_in             ;
+; T65:CPU|NMICycle                                 ; Stuck at GND due to stuck port data_in             ;
+; T65:CPU|P[5]                                     ; Merged with T65:CPU|P[4]                           ;
+; SBCTextDisplayRGB:VDU|startAddr[1..3]            ; Merged with SBCTextDisplayRGB:VDU|startAddr[0]     ;
+; SBCTextDisplayRGB:VDU|ps2WriteByte2[4..7]        ; Merged with SBCTextDisplayRGB:VDU|ps2WriteByte2[3] ;
+; SBCTextDisplayRGB:VDU|ps2WriteByte[5..7]         ; Merged with SBCTextDisplayRGB:VDU|ps2WriteByte[3]  ;
+; SBCTextDisplayRGB:VDU|pixelClockCount[1..3]      ; Stuck at GND due to stuck port data_in             ;
+; SBCTextDisplayRGB:VDU|escState.none              ; Lost fanout                                        ;
+; SBCTextDisplayRGB:VDU|escState.processingParams  ; Lost fanout                                        ;
+; SBCTextDisplayRGB:VDU|startAddr[0]               ; Stuck at GND due to stuck port data_in             ;
+; T65:CPU|S[8..15]                                 ; Lost fanout                                        ;
+; Debouncer:DebounceResetSwitch|dig_counter[18,19] ; Lost fanout                                        ;
+; w_cpuClkCt[3]                                    ; Stuck at GND due to stuck port data_in             ;
+; SBCTextDisplayRGB:VDU|kbReadPointer[3]           ; Stuck at GND due to stuck port data_in             ;
+; SBCTextDisplayRGB:VDU|kbInPointer[3]             ; Stuck at GND due to stuck port data_in             ;
+; Total Number of Removed Registers = 38           ;                                                    ;
++--------------------------------------------------+----------------------------------------------------+
 
 
 +--------------------------------------------------------------------------------------+
@@ -424,12 +432,12 @@ Encoding Type:  One-Hot
 +----------------------------------------------+-------+
 ; Statistic                                    ; Value ;
 +----------------------------------------------+-------+
-; Total registers                              ; 756   ;
-; Number of registers using Synchronous Clear  ; 158   ;
+; Total registers                              ; 769   ;
+; Number of registers using Synchronous Clear  ; 152   ;
 ; Number of registers using Synchronous Load   ; 59    ;
-; Number of registers using Asynchronous Clear ; 153   ;
+; Number of registers using Asynchronous Clear ; 149   ;
 ; Number of registers using Asynchronous Load  ; 0     ;
-; Number of registers using Clock Enable       ; 577   ;
+; Number of registers using Clock Enable       ; 576   ;
 ; Number of registers using Preset             ; 0     ;
 +----------------------------------------------+-------+
 
@@ -445,17 +453,18 @@ Encoding Type:  One-Hot
 ; SBCTextDisplayRGB:VDU|cursorOn          ; 1       ;
 ; SBCTextDisplayRGB:VDU|dispAttWRData[1]  ; 5       ;
 ; SBCTextDisplayRGB:VDU|dispAttWRData[2]  ; 5       ;
-; T65:CPU|ALU_Op_r[3]                     ; 31      ;
+; Debouncer:DebounceResetSwitch|o_PinOut  ; 135     ;
+; T65:CPU|ALU_Op_r[3]                     ; 30      ;
 ; T65:CPU|ALU_Op_r[2]                     ; 17      ;
 ; T65:CPU|RstCycle                        ; 4       ;
 ; SBCTextDisplayRGB:VDU|dispAttWRData[3]  ; 5       ;
 ; SBCTextDisplayRGB:VDU|ps2ClkOut         ; 2       ;
-; SBCTextDisplayRGB:VDU|ps2DataOut        ; 3       ;
+; SBCTextDisplayRGB:VDU|ps2DataOut        ; 4       ;
 ; bufferedUART:UART|rxdFiltered           ; 5       ;
 ; SBCTextDisplayRGB:VDU|attBold           ; 5       ;
-; SBCTextDisplayRGB:VDU|ps2ClkFiltered    ; 15      ;
-; SBCTextDisplayRGB:VDU|n_kbWR            ; 29      ;
-; SBCTextDisplayRGB:VDU|ps2PrevClk        ; 13      ;
+; SBCTextDisplayRGB:VDU|ps2ClkFiltered    ; 13      ;
+; SBCTextDisplayRGB:VDU|n_kbWR            ; 27      ;
+; SBCTextDisplayRGB:VDU|ps2PrevClk        ; 11      ;
 ; SBCTextDisplayRGB:VDU|ps2Caps           ; 4       ;
 ; SBCTextDisplayRGB:VDU|ps2WriteByte[4]   ; 2       ;
 ; SBCTextDisplayRGB:VDU|ps2WriteByte[3]   ; 3       ;
@@ -464,9 +473,9 @@ Encoding Type:  One-Hot
 ; SBCTextDisplayRGB:VDU|ps2WriteByte[0]   ; 2       ;
 ; SBCTextDisplayRGB:VDU|ps2WriteByte2[3]  ; 4       ;
 ; SBCTextDisplayRGB:VDU|ps2WriteByte2[1]  ; 3       ;
-; SBCTextDisplayRGB:VDU|ps2WriteByte2[2]  ; 3       ;
+; SBCTextDisplayRGB:VDU|ps2WriteByte2[2]  ; 2       ;
 ; SBCTextDisplayRGB:VDU|ps2WriteByte2[0]  ; 3       ;
-; Total number of inverted registers = 27 ;         ;
+; Total number of inverted registers = 28 ;         ;
 +-----------------------------------------+---------+
 
 
@@ -475,68 +484,68 @@ Encoding Type:  One-Hot
 +--------------------+-----------+---------------+----------------------+------------------------+------------+----------------------------------------------------------------------+
 ; Multiplexer Inputs ; Bus Width ; Baseline Area ; Area if Restructured ; Saving if Restructured ; Registered ; Example Multiplexer Output                                           ;
 +--------------------+-----------+---------------+----------------------+------------------------+------------+----------------------------------------------------------------------+
-; 3:1                ; 5 bits    ; 10 LEs        ; 5 LEs                ; 5 LEs                  ; Yes        ; |M6502_VGA|SBCTextDisplayRGB:VDU|charVert[3]                         ;
+; 3:1                ; 5 bits    ; 10 LEs        ; 5 LEs                ; 5 LEs                  ; Yes        ; |M6502_VGA|SBCTextDisplayRGB:VDU|charVert[0]                         ;
 ; 3:1                ; 8 bits    ; 16 LEs        ; 8 LEs                ; 8 LEs                  ; Yes        ; |M6502_VGA|T65:CPU|S[13]                                             ;
-; 3:1                ; 6 bits    ; 12 LEs        ; 0 LEs                ; 12 LEs                 ; Yes        ; |M6502_VGA|bufferedUART:UART|rxFilter[0]                             ;
-; 3:1                ; 6 bits    ; 12 LEs        ; 0 LEs                ; 12 LEs                 ; Yes        ; |M6502_VGA|SBCTextDisplayRGB:VDU|ps2ClkFilter[4]                     ;
-; 3:1                ; 8 bits    ; 16 LEs        ; 8 LEs                ; 8 LEs                  ; Yes        ; |M6502_VGA|SBCTextDisplayRGB:VDU|ps2Byte[7]                          ;
-; 3:1                ; 8 bits    ; 16 LEs        ; 8 LEs                ; 8 LEs                  ; Yes        ; |M6502_VGA|T65:CPU|DL[6]                                             ;
-; 3:1                ; 3 bits    ; 6 LEs         ; 6 LEs                ; 0 LEs                  ; Yes        ; |M6502_VGA|SBCTextDisplayRGB:VDU|ps2ConvertedByte[5]                 ;
-; 3:1                ; 4 bits    ; 8 LEs         ; 4 LEs                ; 4 LEs                  ; Yes        ; |M6502_VGA|SBCTextDisplayRGB:VDU|pixelClockCount[0]                  ;
+; 3:1                ; 6 bits    ; 12 LEs        ; 0 LEs                ; 12 LEs                 ; Yes        ; |M6502_VGA|bufferedUART:UART|rxFilter[3]                             ;
+; 3:1                ; 6 bits    ; 12 LEs        ; 0 LEs                ; 12 LEs                 ; Yes        ; |M6502_VGA|SBCTextDisplayRGB:VDU|ps2ClkFilter[1]                     ;
+; 3:1                ; 8 bits    ; 16 LEs        ; 8 LEs                ; 8 LEs                  ; Yes        ; |M6502_VGA|SBCTextDisplayRGB:VDU|ps2Byte[1]                          ;
+; 3:1                ; 8 bits    ; 16 LEs        ; 8 LEs                ; 8 LEs                  ; Yes        ; |M6502_VGA|T65:CPU|DL[5]                                             ;
+; 3:1                ; 3 bits    ; 6 LEs         ; 6 LEs                ; 0 LEs                  ; Yes        ; |M6502_VGA|SBCTextDisplayRGB:VDU|ps2ConvertedByte[2]                 ;
+; 3:1                ; 4 bits    ; 8 LEs         ; 4 LEs                ; 4 LEs                  ; Yes        ; |M6502_VGA|SBCTextDisplayRGB:VDU|pixelClockCount[3]                  ;
 ; 4:1                ; 8 bits    ; 16 LEs        ; 16 LEs               ; 0 LEs                  ; Yes        ; |M6502_VGA|T65:CPU|S[0]                                              ;
-; 4:1                ; 8 bits    ; 16 LEs        ; 16 LEs               ; 0 LEs                  ; Yes        ; |M6502_VGA|T65:CPU|BAH[0]                                            ;
+; 4:1                ; 8 bits    ; 16 LEs        ; 16 LEs               ; 0 LEs                  ; Yes        ; |M6502_VGA|T65:CPU|BAH[7]                                            ;
 ; 3:1                ; 3 bits    ; 6 LEs         ; 3 LEs                ; 3 LEs                  ; Yes        ; |M6502_VGA|SBCTextDisplayRGB:VDU|pixelCount[2]                       ;
-; 4:1                ; 26 bits   ; 52 LEs        ; 26 LEs               ; 26 LEs                 ; Yes        ; |M6502_VGA|SBCTextDisplayRGB:VDU|kbWatchdogTimer[23]                 ;
-; 4:1                ; 4 bits    ; 8 LEs         ; 4 LEs                ; 4 LEs                  ; Yes        ; |M6502_VGA|SBCTextDisplayRGB:VDU|charScanLine[0]                     ;
+; 4:1                ; 26 bits   ; 52 LEs        ; 26 LEs               ; 26 LEs                 ; Yes        ; |M6502_VGA|SBCTextDisplayRGB:VDU|kbWatchdogTimer[0]                  ;
+; 4:1                ; 4 bits    ; 8 LEs         ; 4 LEs                ; 4 LEs                  ; Yes        ; |M6502_VGA|SBCTextDisplayRGB:VDU|charScanLine[2]                     ;
 ; 5:1                ; 6 bits    ; 18 LEs        ; 6 LEs                ; 12 LEs                 ; Yes        ; |M6502_VGA|bufferedUART:UART|rxClockCount[0]                         ;
-; 5:1                ; 8 bits    ; 24 LEs        ; 16 LEs               ; 8 LEs                  ; Yes        ; |M6502_VGA|T65:CPU|AD[7]                                             ;
-; 6:1                ; 8 bits    ; 32 LEs        ; 16 LEs               ; 16 LEs                 ; Yes        ; |M6502_VGA|T65:CPU|PC[6]                                             ;
-; 3:1                ; 7 bits    ; 14 LEs        ; 7 LEs                ; 7 LEs                  ; Yes        ; |M6502_VGA|SBCTextDisplayRGB:VDU|charHoriz[6]                        ;
+; 5:1                ; 8 bits    ; 24 LEs        ; 16 LEs               ; 8 LEs                  ; Yes        ; |M6502_VGA|T65:CPU|AD[0]                                             ;
+; 6:1                ; 8 bits    ; 32 LEs        ; 16 LEs               ; 16 LEs                 ; Yes        ; |M6502_VGA|T65:CPU|PC[7]                                             ;
+; 3:1                ; 7 bits    ; 14 LEs        ; 7 LEs                ; 7 LEs                  ; Yes        ; |M6502_VGA|SBCTextDisplayRGB:VDU|charHoriz[4]                        ;
 ; 6:1                ; 6 bits    ; 24 LEs        ; 12 LEs               ; 12 LEs                 ; Yes        ; |M6502_VGA|T65:CPU|BAL[7]                                            ;
 ; 6:1                ; 2 bits    ; 8 LEs         ; 4 LEs                ; 4 LEs                  ; Yes        ; |M6502_VGA|T65:CPU|BAL[1]                                            ;
 ; 5:1                ; 4 bits    ; 12 LEs        ; 4 LEs                ; 8 LEs                  ; Yes        ; |M6502_VGA|bufferedUART:UART|rxBitCount[3]                           ;
 ; 5:1                ; 8 bits    ; 24 LEs        ; 16 LEs               ; 8 LEs                  ; Yes        ; |M6502_VGA|SBCTextDisplayRGB:VDU|dispCharWRData[0]                   ;
-; 6:1                ; 4 bits    ; 16 LEs        ; 4 LEs                ; 12 LEs                 ; Yes        ; |M6502_VGA|bufferedUART:UART|txBitCount[0]                           ;
-; 6:1                ; 7 bits    ; 28 LEs        ; 7 LEs                ; 21 LEs                 ; Yes        ; |M6502_VGA|bufferedUART:UART|txBuffer[4]                             ;
-; 6:1                ; 6 bits    ; 24 LEs        ; 6 LEs                ; 18 LEs                 ; Yes        ; |M6502_VGA|bufferedUART:UART|txClockCount[3]                         ;
+; 6:1                ; 4 bits    ; 16 LEs        ; 4 LEs                ; 12 LEs                 ; Yes        ; |M6502_VGA|bufferedUART:UART|txBitCount[2]                           ;
+; 6:1                ; 7 bits    ; 28 LEs        ; 7 LEs                ; 21 LEs                 ; Yes        ; |M6502_VGA|bufferedUART:UART|txBuffer[1]                             ;
+; 6:1                ; 6 bits    ; 24 LEs        ; 6 LEs                ; 18 LEs                 ; Yes        ; |M6502_VGA|bufferedUART:UART|txClockCount[4]                         ;
 ; 7:1                ; 3 bits    ; 12 LEs        ; 12 LEs               ; 0 LEs                  ; Yes        ; |M6502_VGA|SBCTextDisplayRGB:VDU|videoR1                             ;
-; 7:1                ; 8 bits    ; 32 LEs        ; 16 LEs               ; 16 LEs                 ; Yes        ; |M6502_VGA|T65:CPU|PC[10]                                            ;
-; 7:1                ; 4 bits    ; 16 LEs        ; 4 LEs                ; 12 LEs                 ; Yes        ; |M6502_VGA|SBCTextDisplayRGB:VDU|ps2ClkCount[0]                      ;
-; 7:1                ; 7 bits    ; 28 LEs        ; 7 LEs                ; 21 LEs                 ; Yes        ; |M6502_VGA|SBCTextDisplayRGB:VDU|startAddr[10]                       ;
+; 7:1                ; 8 bits    ; 32 LEs        ; 16 LEs               ; 16 LEs                 ; Yes        ; |M6502_VGA|T65:CPU|PC[11]                                            ;
+; 7:1                ; 4 bits    ; 16 LEs        ; 4 LEs                ; 12 LEs                 ; Yes        ; |M6502_VGA|SBCTextDisplayRGB:VDU|ps2ClkCount[3]                      ;
+; 7:1                ; 7 bits    ; 28 LEs        ; 7 LEs                ; 21 LEs                 ; Yes        ; |M6502_VGA|SBCTextDisplayRGB:VDU|startAddr[5]                        ;
 ; 10:1               ; 3 bits    ; 18 LEs        ; 18 LEs               ; 0 LEs                  ; Yes        ; |M6502_VGA|SBCTextDisplayRGB:VDU|videoR0                             ;
-; 10:1               ; 7 bits    ; 42 LEs        ; 7 LEs                ; 35 LEs                 ; Yes        ; |M6502_VGA|SBCTextDisplayRGB:VDU|param4[6]                           ;
-; 10:1               ; 3 bits    ; 18 LEs        ; 12 LEs               ; 6 LEs                  ; Yes        ; |M6502_VGA|SBCTextDisplayRGB:VDU|paramCount[0]                       ;
-; 12:1               ; 5 bits    ; 40 LEs        ; 5 LEs                ; 35 LEs                 ; Yes        ; |M6502_VGA|SBCTextDisplayRGB:VDU|ps2WriteClkCount[2]                 ;
-; 14:1               ; 7 bits    ; 63 LEs        ; 14 LEs               ; 49 LEs                 ; Yes        ; |M6502_VGA|SBCTextDisplayRGB:VDU|param1[2]                           ;
-; 15:1               ; 7 bits    ; 70 LEs        ; 14 LEs               ; 56 LEs                 ; Yes        ; |M6502_VGA|SBCTextDisplayRGB:VDU|param2[2]                           ;
-; 16:1               ; 7 bits    ; 70 LEs        ; 14 LEs               ; 56 LEs                 ; Yes        ; |M6502_VGA|SBCTextDisplayRGB:VDU|param3[0]                           ;
-; 4:1                ; 4 bits    ; 8 LEs         ; 4 LEs                ; 4 LEs                  ; Yes        ; |M6502_VGA|SBCTextDisplayRGB:VDU|kbInPointer[2]                      ;
-; 20:1               ; 5 bits    ; 65 LEs        ; 5 LEs                ; 60 LEs                 ; Yes        ; |M6502_VGA|SBCTextDisplayRGB:VDU|cursorVertRestore[2]                ;
-; 22:1               ; 7 bits    ; 98 LEs        ; 7 LEs                ; 91 LEs                 ; Yes        ; |M6502_VGA|SBCTextDisplayRGB:VDU|cursorHorizRestore[6]               ;
+; 10:1               ; 7 bits    ; 42 LEs        ; 7 LEs                ; 35 LEs                 ; Yes        ; |M6502_VGA|SBCTextDisplayRGB:VDU|param4[5]                           ;
+; 10:1               ; 3 bits    ; 18 LEs        ; 12 LEs               ; 6 LEs                  ; Yes        ; |M6502_VGA|SBCTextDisplayRGB:VDU|paramCount[1]                       ;
+; 12:1               ; 5 bits    ; 40 LEs        ; 5 LEs                ; 35 LEs                 ; Yes        ; |M6502_VGA|SBCTextDisplayRGB:VDU|ps2WriteClkCount[1]                 ;
+; 14:1               ; 7 bits    ; 63 LEs        ; 14 LEs               ; 49 LEs                 ; Yes        ; |M6502_VGA|SBCTextDisplayRGB:VDU|param1[4]                           ;
+; 15:1               ; 7 bits    ; 70 LEs        ; 14 LEs               ; 56 LEs                 ; Yes        ; |M6502_VGA|SBCTextDisplayRGB:VDU|param2[1]                           ;
+; 16:1               ; 7 bits    ; 70 LEs        ; 14 LEs               ; 56 LEs                 ; Yes        ; |M6502_VGA|SBCTextDisplayRGB:VDU|param3[4]                           ;
+; 4:1                ; 4 bits    ; 8 LEs         ; 4 LEs                ; 4 LEs                  ; Yes        ; |M6502_VGA|SBCTextDisplayRGB:VDU|kbInPointer[3]                      ;
+; 20:1               ; 5 bits    ; 65 LEs        ; 5 LEs                ; 60 LEs                 ; Yes        ; |M6502_VGA|SBCTextDisplayRGB:VDU|cursorVertRestore[1]                ;
+; 22:1               ; 7 bits    ; 98 LEs        ; 7 LEs                ; 91 LEs                 ; Yes        ; |M6502_VGA|SBCTextDisplayRGB:VDU|cursorHorizRestore[1]               ;
 ; 21:1               ; 26 bits   ; 364 LEs       ; 26 LEs               ; 338 LEs                ; Yes        ; |M6502_VGA|SBCTextDisplayRGB:VDU|kbWriteTimer[0]                     ;
-; 42:1               ; 7 bits    ; 196 LEs       ; 77 LEs               ; 119 LEs                ; Yes        ; |M6502_VGA|SBCTextDisplayRGB:VDU|cursorHoriz[0]                      ;
+; 42:1               ; 7 bits    ; 196 LEs       ; 77 LEs               ; 119 LEs                ; Yes        ; |M6502_VGA|SBCTextDisplayRGB:VDU|cursorHoriz[4]                      ;
 ; 50:1               ; 3 bits    ; 99 LEs        ; 36 LEs               ; 63 LEs                 ; Yes        ; |M6502_VGA|SBCTextDisplayRGB:VDU|cursorVert[2]                       ;
-; 18:1               ; 5 bits    ; 60 LEs        ; 5 LEs                ; 55 LEs                 ; Yes        ; |M6502_VGA|SBCTextDisplayRGB:VDU|ps2WriteByte[4]                     ;
+; 18:1               ; 5 bits    ; 60 LEs        ; 5 LEs                ; 55 LEs                 ; Yes        ; |M6502_VGA|SBCTextDisplayRGB:VDU|ps2WriteByte[0]                     ;
 ; 3:1                ; 2 bits    ; 4 LEs         ; 2 LEs                ; 2 LEs                  ; No         ; |M6502_VGA|T65:CPU|T65_MCode:mcode|Mux118                            ;
 ; 3:1                ; 5 bits    ; 10 LEs        ; 5 LEs                ; 5 LEs                  ; No         ; |M6502_VGA|T65:CPU|T65_MCode:mcode|Mux124                            ;
 ; 3:1                ; 3 bits    ; 6 LEs         ; 3 LEs                ; 3 LEs                  ; No         ; |M6502_VGA|SBCTextDisplayRGB:VDU|paramCount                          ;
 ; 4:1                ; 2 bits    ; 4 LEs         ; 2 LEs                ; 2 LEs                  ; No         ; |M6502_VGA|SBCTextDisplayRGB:VDU|dispState                           ;
-; 8:1                ; 8 bits    ; 40 LEs        ; 40 LEs               ; 0 LEs                  ; No         ; |M6502_VGA|T65:CPU|Mux82                                             ;
-; 6:1                ; 8 bits    ; 32 LEs        ; 32 LEs               ; 0 LEs                  ; No         ; |M6502_VGA|T65:CPU|Mux47                                             ;
+; 8:1                ; 8 bits    ; 40 LEs        ; 40 LEs               ; 0 LEs                  ; No         ; |M6502_VGA|T65:CPU|Mux80                                             ;
+; 6:1                ; 8 bits    ; 32 LEs        ; 32 LEs               ; 0 LEs                  ; No         ; |M6502_VGA|T65:CPU|Mux48                                             ;
 ; 6:1                ; 8 bits    ; 32 LEs        ; 32 LEs               ; 0 LEs                  ; No         ; |M6502_VGA|w_cpuDataIn[7]                                            ;
 ; 12:1               ; 2 bits    ; 16 LEs        ; 12 LEs               ; 4 LEs                  ; No         ; |M6502_VGA|T65:CPU|T65_ALU:alu|Mux7                                  ;
-; 8:1                ; 3 bits    ; 15 LEs        ; 6 LEs                ; 9 LEs                  ; No         ; |M6502_VGA|bufferedUART:UART|txState.stopBit                         ;
+; 8:1                ; 3 bits    ; 15 LEs        ; 6 LEs                ; 9 LEs                  ; No         ; |M6502_VGA|bufferedUART:UART|txState.idle                            ;
 ; 9:1                ; 3 bits    ; 18 LEs        ; 6 LEs                ; 12 LEs                 ; No         ; |M6502_VGA|bufferedUART:UART|rxState.idle                            ;
 ; 15:1               ; 3 bits    ; 30 LEs        ; 24 LEs               ; 6 LEs                  ; No         ; |M6502_VGA|T65:CPU|T65_ALU:alu|Mux6                                  ;
-; 15:1               ; 3 bits    ; 30 LEs        ; 24 LEs               ; 6 LEs                  ; No         ; |M6502_VGA|T65:CPU|T65_ALU:alu|Mux1                                  ;
+; 15:1               ; 3 bits    ; 30 LEs        ; 24 LEs               ; 6 LEs                  ; No         ; |M6502_VGA|T65:CPU|T65_ALU:alu|Mux0                                  ;
 ; 21:1               ; 9 bits    ; 126 LEs       ; 9 LEs                ; 117 LEs                ; No         ; |M6502_VGA|SBCTextDisplayRGB:VDU|dispState                           ;
-; 23:1               ; 2 bits    ; 30 LEs        ; 4 LEs                ; 26 LEs                 ; No         ; |M6502_VGA|SBCTextDisplayRGB:VDU|escState.processingParams           ;
+; 23:1               ; 2 bits    ; 30 LEs        ; 4 LEs                ; 26 LEs                 ; No         ; |M6502_VGA|SBCTextDisplayRGB:VDU|escState.waitForLeftBracket         ;
 ; 23:1               ; 2 bits    ; 30 LEs        ; 6 LEs                ; 24 LEs                 ; No         ; |M6502_VGA|SBCTextDisplayRGB:VDU|escState.processingAdditionalParams ;
 +--------------------+-----------+---------------+----------------------+------------------------+------------+----------------------------------------------------------------------+
 
 
 +-----------------------------------------------------------------------------------------------------------+
-; Source assignments for M6502_BASIC_ROM:ROM|altsyncram:altsyncram_component|altsyncram_rp81:auto_generated ;
+; Source assignments for M6502_BASIC_ROM:ROM|altsyncram:altsyncram_component|altsyncram_vec1:auto_generated ;
 +---------------------------------+--------------------+------+---------------------------------------------+
 ; Assignment                      ; Value              ; From ; To                                          ;
 +---------------------------------+--------------------+------+---------------------------------------------+
@@ -571,64 +580,64 @@ Encoding Type:  One-Hot
 +---------------------------------+--------------------+------+-------------------------------------------------------------------------------------+
 
 
-+--------------------------------------------------------------------------------------------------+
-; Parameter Settings for User Entity Instance: M6502_BASIC_ROM:ROM|altsyncram:altsyncram_component ;
-+------------------------------------+---------------------------+---------------------------------+
-; Parameter Name                     ; Value                     ; Type                            ;
-+------------------------------------+---------------------------+---------------------------------+
-; BYTE_SIZE_BLOCK                    ; 8                         ; Untyped                         ;
-; AUTO_CARRY_CHAINS                  ; ON                        ; AUTO_CARRY                      ;
-; IGNORE_CARRY_BUFFERS               ; OFF                       ; IGNORE_CARRY                    ;
-; AUTO_CASCADE_CHAINS                ; ON                        ; AUTO_CASCADE                    ;
-; IGNORE_CASCADE_BUFFERS             ; OFF                       ; IGNORE_CASCADE                  ;
-; WIDTH_BYTEENA                      ; 1                         ; Untyped                         ;
-; OPERATION_MODE                     ; ROM                       ; Untyped                         ;
-; WIDTH_A                            ; 8                         ; Signed Integer                  ;
-; WIDTHAD_A                          ; 13                        ; Signed Integer                  ;
-; NUMWORDS_A                         ; 8192                      ; Signed Integer                  ;
-; OUTDATA_REG_A                      ; UNREGISTERED              ; Untyped                         ;
-; ADDRESS_ACLR_A                     ; NONE                      ; Untyped                         ;
-; OUTDATA_ACLR_A                     ; NONE                      ; Untyped                         ;
-; WRCONTROL_ACLR_A                   ; NONE                      ; Untyped                         ;
-; INDATA_ACLR_A                      ; NONE                      ; Untyped                         ;
-; BYTEENA_ACLR_A                     ; NONE                      ; Untyped                         ;
-; WIDTH_B                            ; 1                         ; Untyped                         ;
-; WIDTHAD_B                          ; 1                         ; Untyped                         ;
-; NUMWORDS_B                         ; 1                         ; Untyped                         ;
-; INDATA_REG_B                       ; CLOCK1                    ; Untyped                         ;
-; WRCONTROL_WRADDRESS_REG_B          ; CLOCK1                    ; Untyped                         ;
-; RDCONTROL_REG_B                    ; CLOCK1                    ; Untyped                         ;
-; ADDRESS_REG_B                      ; CLOCK1                    ; Untyped                         ;
-; OUTDATA_REG_B                      ; UNREGISTERED              ; Untyped                         ;
-; BYTEENA_REG_B                      ; CLOCK1                    ; Untyped                         ;
-; INDATA_ACLR_B                      ; NONE                      ; Untyped                         ;
-; WRCONTROL_ACLR_B                   ; NONE                      ; Untyped                         ;
-; ADDRESS_ACLR_B                     ; NONE                      ; Untyped                         ;
-; OUTDATA_ACLR_B                     ; NONE                      ; Untyped                         ;
-; RDCONTROL_ACLR_B                   ; NONE                      ; Untyped                         ;
-; BYTEENA_ACLR_B                     ; NONE                      ; Untyped                         ;
-; WIDTH_BYTEENA_A                    ; 1                         ; Signed Integer                  ;
-; WIDTH_BYTEENA_B                    ; 1                         ; Untyped                         ;
-; RAM_BLOCK_TYPE                     ; AUTO                      ; Untyped                         ;
-; BYTE_SIZE                          ; 8                         ; Untyped                         ;
-; READ_DURING_WRITE_MODE_MIXED_PORTS ; DONT_CARE                 ; Untyped                         ;
-; READ_DURING_WRITE_MODE_PORT_A      ; NEW_DATA_NO_NBE_READ      ; Untyped                         ;
-; READ_DURING_WRITE_MODE_PORT_B      ; NEW_DATA_NO_NBE_READ      ; Untyped                         ;
-; INIT_FILE                          ; ../../ROMS/6502/BASIC.HEX ; Untyped                         ;
-; INIT_FILE_LAYOUT                   ; PORT_A                    ; Untyped                         ;
-; MAXIMUM_DEPTH                      ; 0                         ; Untyped                         ;
-; CLOCK_ENABLE_INPUT_A               ; BYPASS                    ; Untyped                         ;
-; CLOCK_ENABLE_INPUT_B               ; NORMAL                    ; Untyped                         ;
-; CLOCK_ENABLE_OUTPUT_A              ; BYPASS                    ; Untyped                         ;
-; CLOCK_ENABLE_OUTPUT_B              ; NORMAL                    ; Untyped                         ;
-; CLOCK_ENABLE_CORE_A                ; USE_INPUT_CLKEN           ; Untyped                         ;
-; CLOCK_ENABLE_CORE_B                ; USE_INPUT_CLKEN           ; Untyped                         ;
-; ENABLE_ECC                         ; FALSE                     ; Untyped                         ;
-; ECC_PIPELINE_STAGE_ENABLED         ; FALSE                     ; Untyped                         ;
-; WIDTH_ECCSTATUS                    ; 3                         ; Untyped                         ;
-; DEVICE_FAMILY                      ; Cyclone II                ; Untyped                         ;
-; CBXI_PARAMETER                     ; altsyncram_rp81           ; Untyped                         ;
-+------------------------------------+---------------------------+---------------------------------+
++-------------------------------------------------------------------------------------------------------------------------+
+; Parameter Settings for User Entity Instance: M6502_BASIC_ROM:ROM|altsyncram:altsyncram_component                        ;
++------------------------------------+-------------------------------------------------------------------+----------------+
+; Parameter Name                     ; Value                                                             ; Type           ;
++------------------------------------+-------------------------------------------------------------------+----------------+
+; BYTE_SIZE_BLOCK                    ; 8                                                                 ; Untyped        ;
+; AUTO_CARRY_CHAINS                  ; ON                                                                ; AUTO_CARRY     ;
+; IGNORE_CARRY_BUFFERS               ; OFF                                                               ; IGNORE_CARRY   ;
+; AUTO_CASCADE_CHAINS                ; ON                                                                ; AUTO_CASCADE   ;
+; IGNORE_CASCADE_BUFFERS             ; OFF                                                               ; IGNORE_CASCADE ;
+; WIDTH_BYTEENA                      ; 1                                                                 ; Untyped        ;
+; OPERATION_MODE                     ; ROM                                                               ; Untyped        ;
+; WIDTH_A                            ; 8                                                                 ; Signed Integer ;
+; WIDTHAD_A                          ; 13                                                                ; Signed Integer ;
+; NUMWORDS_A                         ; 8192                                                              ; Signed Integer ;
+; OUTDATA_REG_A                      ; UNREGISTERED                                                      ; Untyped        ;
+; ADDRESS_ACLR_A                     ; NONE                                                              ; Untyped        ;
+; OUTDATA_ACLR_A                     ; NONE                                                              ; Untyped        ;
+; WRCONTROL_ACLR_A                   ; NONE                                                              ; Untyped        ;
+; INDATA_ACLR_A                      ; NONE                                                              ; Untyped        ;
+; BYTEENA_ACLR_A                     ; NONE                                                              ; Untyped        ;
+; WIDTH_B                            ; 1                                                                 ; Untyped        ;
+; WIDTHAD_B                          ; 1                                                                 ; Untyped        ;
+; NUMWORDS_B                         ; 1                                                                 ; Untyped        ;
+; INDATA_REG_B                       ; CLOCK1                                                            ; Untyped        ;
+; WRCONTROL_WRADDRESS_REG_B          ; CLOCK1                                                            ; Untyped        ;
+; RDCONTROL_REG_B                    ; CLOCK1                                                            ; Untyped        ;
+; ADDRESS_REG_B                      ; CLOCK1                                                            ; Untyped        ;
+; OUTDATA_REG_B                      ; UNREGISTERED                                                      ; Untyped        ;
+; BYTEENA_REG_B                      ; CLOCK1                                                            ; Untyped        ;
+; INDATA_ACLR_B                      ; NONE                                                              ; Untyped        ;
+; WRCONTROL_ACLR_B                   ; NONE                                                              ; Untyped        ;
+; ADDRESS_ACLR_B                     ; NONE                                                              ; Untyped        ;
+; OUTDATA_ACLR_B                     ; NONE                                                              ; Untyped        ;
+; RDCONTROL_ACLR_B                   ; NONE                                                              ; Untyped        ;
+; BYTEENA_ACLR_B                     ; NONE                                                              ; Untyped        ;
+; WIDTH_BYTEENA_A                    ; 1                                                                 ; Signed Integer ;
+; WIDTH_BYTEENA_B                    ; 1                                                                 ; Untyped        ;
+; RAM_BLOCK_TYPE                     ; AUTO                                                              ; Untyped        ;
+; BYTE_SIZE                          ; 8                                                                 ; Untyped        ;
+; READ_DURING_WRITE_MODE_MIXED_PORTS ; DONT_CARE                                                         ; Untyped        ;
+; READ_DURING_WRITE_MODE_PORT_A      ; NEW_DATA_NO_NBE_READ                                              ; Untyped        ;
+; READ_DURING_WRITE_MODE_PORT_B      ; NEW_DATA_NO_NBE_READ                                              ; Untyped        ;
+; INIT_FILE                          ; ../../../MultiComp (VHDL Template)/Components/ROMs/6502/BASIC.HEX ; Untyped        ;
+; INIT_FILE_LAYOUT                   ; PORT_A                                                            ; Untyped        ;
+; MAXIMUM_DEPTH                      ; 0                                                                 ; Untyped        ;
+; CLOCK_ENABLE_INPUT_A               ; BYPASS                                                            ; Untyped        ;
+; CLOCK_ENABLE_INPUT_B               ; NORMAL                                                            ; Untyped        ;
+; CLOCK_ENABLE_OUTPUT_A              ; BYPASS                                                            ; Untyped        ;
+; CLOCK_ENABLE_OUTPUT_B              ; NORMAL                                                            ; Untyped        ;
+; CLOCK_ENABLE_CORE_A                ; USE_INPUT_CLKEN                                                   ; Untyped        ;
+; CLOCK_ENABLE_CORE_B                ; USE_INPUT_CLKEN                                                   ; Untyped        ;
+; ENABLE_ECC                         ; FALSE                                                             ; Untyped        ;
+; ECC_PIPELINE_STAGE_ENABLED         ; FALSE                                                             ; Untyped        ;
+; WIDTH_ECCSTATUS                    ; 3                                                                 ; Untyped        ;
+; DEVICE_FAMILY                      ; Cyclone II                                                        ; Untyped        ;
+; CBXI_PARAMETER                     ; altsyncram_vec1                                                   ; Untyped        ;
++------------------------------------+-------------------------------------------------------------------+----------------+
 Note: In order to hide this table in the UI and the text report file, please set the "Show Parameter Settings in Synthesis Report" option in "Analysis and Synthesis Settings -> More Settings" to "Off".
 
 
@@ -841,6 +850,16 @@ Note: In order to hide this table in the UI and the text report file, please set
 Note: In order to hide this table in the UI and the text report file, please set the "Show Parameter Settings in Synthesis Report" option in "Analysis and Synthesis Settings -> More Settings" to "Off".
 
 
++-----------------------------------------------------------------------+
+; Parameter Settings for User Entity Instance: BaudRate6850:BaudRateGen ;
++----------------+--------+---------------------------------------------+
+; Parameter Name ; Value  ; Type                                        ;
++----------------+--------+---------------------------------------------+
+; baud_rate      ; 115200 ; Signed Integer                              ;
++----------------+--------+---------------------------------------------+
+Note: In order to hide this table in the UI and the text report file, please set the "Show Parameter Settings in Synthesis Report" option in "Analysis and Synthesis Settings -> More Settings" to "Off".
+
+
 +----------------------------------------------------------------------------------------+
 ; Parameter Settings for Inferred Entity Instance: SBCTextDisplayRGB:VDU|lpm_divide:Mod0 ;
 +------------------------+----------------+----------------------------------------------+
@@ -940,6 +959,15 @@ Note: In order to hide this table in the UI and the text report file, please set
 +-------------------------------------------+------------------------------------------------------------------------------------------------------+
 
 
++----------------------------------------------------------------------------------------------------------------------+
+; Port Connectivity Checks: "Toggle_On_FN_Key:FNKey2Toggle"                                                            ;
++------------+--------+----------+-------------------------------------------------------------------------------------+
+; Port       ; Type   ; Severity ; Details                                                                             ;
++------------+--------+----------+-------------------------------------------------------------------------------------+
+; latchfnkey ; Output ; Info     ; Connected to dangling logic. Logic that only feeds a dangling port will be removed. ;
++------------+--------+----------+-------------------------------------------------------------------------------------+
+
+
 +-----------------------------------------------------------------------------------------+
 ; Port Connectivity Checks: "SBCTextDisplayRGB:VDU|DisplayRam2K:\GEN_2KATTRAM:dispAttRam" ;
 +--------+-------+----------+-------------------------------------------------------------+
@@ -1025,7 +1053,7 @@ Note: In order to hide this table in the UI and the text report file, please set
 +----------------+--------------+
 ; Partition Name ; Elapsed Time ;
 +----------------+--------------+
-; Top            ; 00:00:13     ;
+; Top            ; 00:00:18     ;
 +----------------+--------------+
 
 
@@ -1035,9 +1063,15 @@ Note: In order to hide this table in the UI and the text report file, please set
 Info: *******************************************************************
 Info: Running Quartus II 64-Bit Analysis & Synthesis
     Info: Version 13.0.1 Build 232 06/12/2013 Service Pack 1 SJ Web Edition
-    Info: Processing started: Fri Jul 03 17:33:26 2020
+    Info: Processing started: Fri Jun 25 20:10:59 2021
 Info: Command: quartus_map --read_settings_files=on --write_settings_files=off M6502_VGA -c M6502_VGA
 Warning (20028): Parallel compilation is not licensed and has been disabled
+Info (12021): Found 2 design units, including 1 entities, in source file /users/hpz420/documents/github/doug gilliland/multicomp/multicomp (vhdl template)/components/uart/baudrate6850.vhd
+    Info (12022): Found design unit 1: BaudRate6850-BaudRate6850_beh
+    Info (12023): Found entity 1: BaudRate6850
+Info (12021): Found 2 design units, including 1 entities, in source file /users/hpz420/documents/github/doug gilliland/multicomp/multicomp (vhdl template)/components/debounce/debounce.vhd
+    Info (12022): Found design unit 1: Debouncer-struct
+    Info (12023): Found entity 1: Debouncer
 Info (12021): Found 2 design units, including 1 entities, in source file /users/hpz420/documents/github/doug gilliland/multicomp/multicomp (vhdl template)/components/ram_internal/internalram1k.vhd
     Info (12022): Found design unit 1: internalram1k-SYN
     Info (12023): Found entity 1: InternalRam1K
@@ -1105,8 +1139,10 @@ Warning (10541): VHDL Signal Declaration warning at M6502_VGA.vhd(57): used impl
 Warning (10541): VHDL Signal Declaration warning at M6502_VGA.vhd(58): used implicit default value for signal "Pin42" because signal was never assigned a value or an explicit default value. Use of implicit default value may introduce unintended design optimizations.
 Warning (10541): VHDL Signal Declaration warning at M6502_VGA.vhd(59): used implicit default value for signal "Pin45" because signal was never assigned a value or an explicit default value. Use of implicit default value may introduce unintended design optimizations.
 Warning (10541): VHDL Signal Declaration warning at M6502_VGA.vhd(60): used implicit default value for signal "Pin44" because signal was never assigned a value or an explicit default value. Use of implicit default value may introduce unintended design optimizations.
-Warning (10036): Verilog HDL or VHDL warning at M6502_VGA.vhd(83): object "w_n_memWR" assigned a value but never read
-Critical Warning (10920): VHDL Incomplete Partial Association warning at M6502_VGA.vhd(138): port or argument "A" has 8/24 unassociated elements
+Warning (10036): Verilog HDL or VHDL warning at M6502_VGA.vhd(84): object "w_n_memWR" assigned a value but never read
+Warning (10036): Verilog HDL or VHDL warning at M6502_VGA.vhd(102): object "w_fKey2" assigned a value but never read
+Critical Warning (10920): VHDL Incomplete Partial Association warning at M6502_VGA.vhd(147): port or argument "A" has 8/24 unassociated elements
+Info (12128): Elaborating entity "Debouncer" for hierarchy "Debouncer:DebounceResetSwitch"
 Info (12128): Elaborating entity "T65" for hierarchy "T65:CPU"
 Warning (10036): Verilog HDL or VHDL warning at T65.vhd(100): object "D" assigned a value but never read
 Warning (10036): Verilog HDL or VHDL warning at T65.vhd(125): object "B_o" assigned a value but never read
@@ -1118,7 +1154,7 @@ Info (12130): Elaborated megafunction instantiation "M6502_BASIC_ROM:ROM|altsync
 Info (12133): Instantiated megafunction "M6502_BASIC_ROM:ROM|altsyncram:altsyncram_component" with the following parameter:
     Info (12134): Parameter "clock_enable_input_a" = "BYPASS"
     Info (12134): Parameter "clock_enable_output_a" = "BYPASS"
-    Info (12134): Parameter "init_file" = "../../ROMS/6502/BASIC.HEX"
+    Info (12134): Parameter "init_file" = "../../../MultiComp (VHDL Template)/Components/ROMs/6502/BASIC.HEX"
     Info (12134): Parameter "intended_device_family" = "Cyclone II"
     Info (12134): Parameter "lpm_hint" = "ENABLE_RUNTIME_MOD=NO"
     Info (12134): Parameter "lpm_type" = "altsyncram"
@@ -1129,15 +1165,31 @@ Info (12133): Instantiated megafunction "M6502_BASIC_ROM:ROM|altsyncram:altsyncr
     Info (12134): Parameter "widthad_a" = "13"
     Info (12134): Parameter "width_a" = "8"
     Info (12134): Parameter "width_byteena_a" = "1"
-Info (12021): Found 1 design units, including 1 entities, in source file db/altsyncram_rp81.tdf
-    Info (12023): Found entity 1: altsyncram_rp81
-Info (12128): Elaborating entity "altsyncram_rp81" for hierarchy "M6502_BASIC_ROM:ROM|altsyncram:altsyncram_component|altsyncram_rp81:auto_generated"
+Warning (287001): Assertion warning: MGL_INTERNAL_WARNING: ( The parameter value is not one of the pre-specified values in the value list.) altsyncram|stratix_ram_block inst ram_block1a[0]|INIT_FILE The value assigned is ../../../MultiComp (VHDL Template)/Components/ROMs/6502/BASIC.HEX and the valid value list is UNUSED|../../../MultiComp (VHDL Template)/Components/ROMs/6502/BASIC.HEX
+Warning (287001): Assertion warning: MGL_INTERNAL_WARNING: ( The parameter value is not one of the pre-specified values in the value list.) altsyncram|stratix_ram_block inst ram_block1a[1]|INIT_FILE The value assigned is ../../../MultiComp (VHDL Template)/Components/ROMs/6502/BASIC.HEX and the valid value list is UNUSED|../../../MultiComp (VHDL Template)/Components/ROMs/6502/BASIC.HEX
+Warning (287001): Assertion warning: MGL_INTERNAL_WARNING: ( The parameter value is not one of the pre-specified values in the value list.) altsyncram|stratix_ram_block inst ram_block1a[2]|INIT_FILE The value assigned is ../../../MultiComp (VHDL Template)/Components/ROMs/6502/BASIC.HEX and the valid value list is UNUSED|../../../MultiComp (VHDL Template)/Components/ROMs/6502/BASIC.HEX
+Warning (287001): Assertion warning: MGL_INTERNAL_WARNING: ( The parameter value is not one of the pre-specified values in the value list.) altsyncram|stratix_ram_block inst ram_block1a[3]|INIT_FILE The value assigned is ../../../MultiComp (VHDL Template)/Components/ROMs/6502/BASIC.HEX and the valid value list is UNUSED|../../../MultiComp (VHDL Template)/Components/ROMs/6502/BASIC.HEX
+Warning (287001): Assertion warning: MGL_INTERNAL_WARNING: ( The parameter value is not one of the pre-specified values in the value list.) altsyncram|stratix_ram_block inst ram_block1a[4]|INIT_FILE The value assigned is ../../../MultiComp (VHDL Template)/Components/ROMs/6502/BASIC.HEX and the valid value list is UNUSED|../../../MultiComp (VHDL Template)/Components/ROMs/6502/BASIC.HEX
+Warning (287001): Assertion warning: MGL_INTERNAL_WARNING: ( The parameter value is not one of the pre-specified values in the value list.) altsyncram|stratix_ram_block inst ram_block1a[5]|INIT_FILE The value assigned is ../../../MultiComp (VHDL Template)/Components/ROMs/6502/BASIC.HEX and the valid value list is UNUSED|../../../MultiComp (VHDL Template)/Components/ROMs/6502/BASIC.HEX
+Warning (287001): Assertion warning: MGL_INTERNAL_WARNING: ( The parameter value is not one of the pre-specified values in the value list.) altsyncram|stratix_ram_block inst ram_block1a[6]|INIT_FILE The value assigned is ../../../MultiComp (VHDL Template)/Components/ROMs/6502/BASIC.HEX and the valid value list is UNUSED|../../../MultiComp (VHDL Template)/Components/ROMs/6502/BASIC.HEX
+Warning (287001): Assertion warning: MGL_INTERNAL_WARNING: ( The parameter value is not one of the pre-specified values in the value list.) altsyncram|stratix_ram_block inst ram_block1a[7]|INIT_FILE The value assigned is ../../../MultiComp (VHDL Template)/Components/ROMs/6502/BASIC.HEX and the valid value list is UNUSED|../../../MultiComp (VHDL Template)/Components/ROMs/6502/BASIC.HEX
+Warning (287001): Assertion warning: MGL_INTERNAL_WARNING: ( The parameter value is not one of the pre-specified values in the value list.) altsyncram|stratix_ram_block inst ram_block1a[8]|INIT_FILE The value assigned is ../../../MultiComp (VHDL Template)/Components/ROMs/6502/BASIC.HEX and the valid value list is UNUSED|../../../MultiComp (VHDL Template)/Components/ROMs/6502/BASIC.HEX
+Warning (287001): Assertion warning: MGL_INTERNAL_WARNING: ( The parameter value is not one of the pre-specified values in the value list.) altsyncram|stratix_ram_block inst ram_block1a[9]|INIT_FILE The value assigned is ../../../MultiComp (VHDL Template)/Components/ROMs/6502/BASIC.HEX and the valid value list is UNUSED|../../../MultiComp (VHDL Template)/Components/ROMs/6502/BASIC.HEX
+Warning (287001): Assertion warning: MGL_INTERNAL_WARNING: ( The parameter value is not one of the pre-specified values in the value list.) altsyncram|stratix_ram_block inst ram_block1a[10]|INIT_FILE The value assigned is ../../../MultiComp (VHDL Template)/Components/ROMs/6502/BASIC.HEX and the valid value list is UNUSED|../../../MultiComp (VHDL Template)/Components/ROMs/6502/BASIC.HEX
+Warning (287001): Assertion warning: MGL_INTERNAL_WARNING: ( The parameter value is not one of the pre-specified values in the value list.) altsyncram|stratix_ram_block inst ram_block1a[11]|INIT_FILE The value assigned is ../../../MultiComp (VHDL Template)/Components/ROMs/6502/BASIC.HEX and the valid value list is UNUSED|../../../MultiComp (VHDL Template)/Components/ROMs/6502/BASIC.HEX
+Warning (287001): Assertion warning: MGL_INTERNAL_WARNING: ( The parameter value is not one of the pre-specified values in the value list.) altsyncram|stratix_ram_block inst ram_block1a[12]|INIT_FILE The value assigned is ../../../MultiComp (VHDL Template)/Components/ROMs/6502/BASIC.HEX and the valid value list is UNUSED|../../../MultiComp (VHDL Template)/Components/ROMs/6502/BASIC.HEX
+Warning (287001): Assertion warning: MGL_INTERNAL_WARNING: ( The parameter value is not one of the pre-specified values in the value list.) altsyncram|stratix_ram_block inst ram_block1a[13]|INIT_FILE The value assigned is ../../../MultiComp (VHDL Template)/Components/ROMs/6502/BASIC.HEX and the valid value list is UNUSED|../../../MultiComp (VHDL Template)/Components/ROMs/6502/BASIC.HEX
+Warning (287001): Assertion warning: MGL_INTERNAL_WARNING: ( The parameter value is not one of the pre-specified values in the value list.) altsyncram|stratix_ram_block inst ram_block1a[14]|INIT_FILE The value assigned is ../../../MultiComp (VHDL Template)/Components/ROMs/6502/BASIC.HEX and the valid value list is UNUSED|../../../MultiComp (VHDL Template)/Components/ROMs/6502/BASIC.HEX
+Warning (287001): Assertion warning: MGL_INTERNAL_WARNING: ( The parameter value is not one of the pre-specified values in the value list.) altsyncram|stratix_ram_block inst ram_block1a[15]|INIT_FILE The value assigned is ../../../MultiComp (VHDL Template)/Components/ROMs/6502/BASIC.HEX and the valid value list is UNUSED|../../../MultiComp (VHDL Template)/Components/ROMs/6502/BASIC.HEX
+Info (12021): Found 1 design units, including 1 entities, in source file db/altsyncram_vec1.tdf
+    Info (12023): Found entity 1: altsyncram_vec1
+Info (12128): Elaborating entity "altsyncram_vec1" for hierarchy "M6502_BASIC_ROM:ROM|altsyncram:altsyncram_component|altsyncram_vec1:auto_generated"
 Info (12021): Found 1 design units, including 1 entities, in source file db/decode_1oa.tdf
     Info (12023): Found entity 1: decode_1oa
-Info (12128): Elaborating entity "decode_1oa" for hierarchy "M6502_BASIC_ROM:ROM|altsyncram:altsyncram_component|altsyncram_rp81:auto_generated|decode_1oa:deep_decode"
+Info (12128): Elaborating entity "decode_1oa" for hierarchy "M6502_BASIC_ROM:ROM|altsyncram:altsyncram_component|altsyncram_vec1:auto_generated|decode_1oa:deep_decode"
 Info (12021): Found 1 design units, including 1 entities, in source file db/mux_hib.tdf
     Info (12023): Found entity 1: mux_hib
-Info (12128): Elaborating entity "mux_hib" for hierarchy "M6502_BASIC_ROM:ROM|altsyncram:altsyncram_component|altsyncram_rp81:auto_generated|mux_hib:mux2"
+Info (12128): Elaborating entity "mux_hib" for hierarchy "M6502_BASIC_ROM:ROM|altsyncram:altsyncram_component|altsyncram_vec1:auto_generated|mux_hib:mux2"
 Info (12128): Elaborating entity "bufferedUART" for hierarchy "bufferedUART:UART"
 Info (12128): Elaborating entity "SBCTextDisplayRGB" for hierarchy "SBCTextDisplayRGB:VDU"
 Info (12128): Elaborating entity "SansBoldRomReduced" for hierarchy "SBCTextDisplayRGB:VDU|SansBoldRomReduced:\GEN_REDUCED_SCHARS:fontRom"
@@ -1194,6 +1246,7 @@ Info (12021): Found 1 design units, including 1 entities, in source file db/alts
     Info (12023): Found entity 1: altsyncram_adh2
 Info (12128): Elaborating entity "altsyncram_adh2" for hierarchy "SBCTextDisplayRGB:VDU|DisplayRam2K:\GEN_2KRAM:dispCharRam|altsyncram:altsyncram_component|altsyncram_adh2:auto_generated"
 Info (12128): Elaborating entity "Toggle_On_FN_Key" for hierarchy "Toggle_On_FN_Key:FNKey1Toggle"
+Info (12128): Elaborating entity "BaudRate6850" for hierarchy "BaudRate6850:BaudRateGen"
 Warning (19016): Clock multiplexers are found and protected
     Warning (19017): Found clock multiplexer T65:CPU|Mux75
     Warning (19017): Found clock multiplexer T65:CPU|PCAdder[1]
@@ -1256,19 +1309,19 @@ Warning (13024): Output pins are stuck at VCC or GND
     Warning (13410): Pin "Pin45" is stuck at GND
     Warning (13410): Pin "Pin44" is stuck at GND
     Warning (13410): Pin "o_extSRamAddress[16]" is stuck at GND
-Info (17049): 11 registers lost all their fanouts during netlist optimizations.
+Info (17049): 13 registers lost all their fanouts during netlist optimizations.
 Info (16010): Generating hard_block partition "hard_block:auto_generated_inst"
     Info (16011): Adding 0 node(s), including 0 DDIO, 0 PLL, 0 transceiver and 0 LCELL
-Info (21057): Implemented 2965 device resources after synthesis - the final resource count might be different
+Info (21057): Implemented 2957 device resources after synthesis - the final resource count might be different
     Info (21058): Implemented 3 input pins
     Info (21059): Implemented 38 output pins
     Info (21060): Implemented 10 bidirectional pins
-    Info (21061): Implemented 2874 logic cells
+    Info (21061): Implemented 2866 logic cells
     Info (21064): Implemented 40 RAM segments
-Info: Quartus II 64-Bit Analysis & Synthesis was successful. 0 errors, 51 warnings
-    Info: Peak virtual memory: 4672 megabytes
-    Info: Processing ended: Fri Jul 03 17:33:43 2020
-    Info: Elapsed time: 00:00:17
-    Info: Total CPU time (on all processors): 00:00:17
+Info: Quartus II 64-Bit Analysis & Synthesis was successful. 0 errors, 68 warnings
+    Info: Peak virtual memory: 4671 megabytes
+    Info: Processing ended: Fri Jun 25 20:11:22 2021
+    Info: Elapsed time: 00:00:23
+    Info: Total CPU time (on all processors): 00:00:22
 
 

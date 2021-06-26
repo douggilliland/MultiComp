@@ -71,6 +71,7 @@ end M6502_VGA;
 architecture struct of M6502_VGA is
 
 	signal w_R1W0				: std_logic;
+	signal w_resetLow			: std_logic;
 	signal w_cpuAddress		: std_logic_vector(15 downto 0);
 	signal w_cpuDataOut		: std_logic_vector(7 downto 0);
 	signal w_cpuDataIn		: std_logic_vector(7 downto 0);
@@ -91,9 +92,9 @@ architecture struct of M6502_VGA is
 	
 	signal w_serialClkCount	: std_logic_vector(15 downto 0);
 	signal w_serClkCt_d 		: std_logic_vector(15 downto 0);
-	signal w_w_serClkEn		: std_logic;
+	signal w_serClkEn		: std_logic;
 
-	signal w_cpuClkCt			: std_logic_vector(5 downto 0); 
+	signal w_cpuClkCt			: std_logic_vector(3 downto 0); 
 	signal w_cpuClk			: std_logic;
 
 	signal w_latBits			: std_logic_vector(7 downto 0);
@@ -104,6 +105,14 @@ architecture struct of M6502_VGA is
 begin
 	-- ____________________________________________________________________________________
 	
+	-- Debounce the reset line
+	DebounceResetSwitch	: entity work.Debouncer
+	port map (
+		i_clk		=> w_cpuClk,
+		i_PinIn	=> i_n_reset,
+		o_PinOut	=> w_resetLow
+	);
+
 	o_extSRamAddress	<= '0'&w_cpuAddress(15 downto 0);
 	io_extSRamData		<= w_cpuDataOut when ((w_R1W0='0') and (w_n_ramCS = '0')) else
 							  (others => 'Z');
@@ -139,7 +148,7 @@ begin
 	port map(
 		Enable			=> '1',
 		Mode				=> "00",
-		Res_n				=> i_n_reset,
+		Res_n				=> w_resetLow,
 		clk				=> w_cpuClk,
 		Rdy				=> '1',
 		Abort_n			=> '1',
@@ -166,11 +175,10 @@ begin
 			regSel	=> w_cpuAddress(0),
 			dataIn	=> w_cpuDataOut,
 			dataOut	=> w_aciaDataOut,
-			rxClkEn	=> w_w_serClkEn,
-			txClkEn	=> w_w_serClkEn,
+			rxClkEn	=> w_serClkEn,
+			txClkEn	=> w_serClkEn,
 			rxd		=> i_rxd,
 			txd		=> o_txd,
---			n_cts		=> i_n_cts,
 			n_rts		=> o_n_rts,
 			n_dcd		=> '0'
 		);
@@ -180,9 +188,17 @@ begin
 		EXTENDED_CHARSET => 0
 	)
 		port map (
-		n_reset	=> i_n_reset,
+		n_reset	=> w_resetLow,
 		clk 		=> i_clk_50,
 
+		-- CPU
+		n_WR => w_n_VDUCS or w_cpuClk or w_R1W0,
+		n_RD => w_n_VDUCS or w_cpuClk or (not w_R1W0),
+--		n_int => n_int1,
+		regSel => w_cpuAddress(0),
+		dataIn => w_cpuDataOut,
+		dataOut => w_VDUDataOut,
+		
 		-- RGB video signals
 		hSync => o_vid_hSync,
 		vSync => o_vid_vSync,
@@ -193,12 +209,7 @@ begin
 		videoB1 => videoB1,
 		videoB0 => videoB0,
 
-		n_WR => w_n_VDUCS or w_cpuClk or w_R1W0,
-		n_RD => w_n_VDUCS or w_cpuClk or (not w_R1W0),
---		n_int => n_int1,
-		regSel => w_cpuAddress(0),
-		dataIn => w_cpuDataOut,
-		dataOut => w_VDUDataOut,
+		-- PS/2 Kyboard
 		ps2Clk => io_ps2Clk,
 		ps2Data => io_ps2Data,
 		FNkeys => w_funKeys
@@ -208,7 +219,7 @@ begin
 		port map (		
 			FNKey => w_funKeys(1),
 			clock => i_clk_50,
-			n_res => i_n_reset,
+			n_res => w_resetLow,
 			latchFNKey => w_fKey1
 		);	
 
@@ -216,7 +227,7 @@ begin
 		port map (		
 			FNKey => w_funKeys(2),
 			clock => i_clk_50,
-			n_res => i_n_reset,
+			n_res => w_resetLow,
 			latchFNKey => w_fKey2
 		);
 		
@@ -225,7 +236,7 @@ begin
 --			dataIn8 => w_cpuDataOut,
 --			clock => i_clk_50,
 --			load => w_n_memWR or w_n_LatCS,
---			clear => i_n_reset,
+--			clear => w_resetLow,
 --			latchOut => w_latBits
 --			);
 
@@ -234,7 +245,7 @@ begin
 	begin
 		if rising_edge(i_clk_50) then
 
-			if w_cpuClkCt < 2 then -- 4 = 10MHz, 3 = 12.5MHz, 2=16.6MHz, 1=25MHz
+			if w_cpuClkCt < 4 then -- 4 = 10MHz, 3 = 12.5MHz, 2=16.6MHz, 1=25MHz
 				w_cpuClkCt <= w_cpuClkCt + 1;
 			else
 				w_cpuClkCt <= (others=>'0');
@@ -260,26 +271,36 @@ begin
 	-- 4800 101
 	-- 2400 50
 
-	baud_div: process (w_serClkCt_d, w_serialClkCount, w_fKey2)
-		begin
-			if w_fKey2 = '0' then
-				w_serClkCt_d <= w_serialClkCount + 2416;	-- 115,200 baud
-			else
-				w_serClkCt_d <= w_serialClkCount + 6;		-- 300 baud
-				end if;
-		end process;
+--	baud_div: process (w_serClkCt_d, w_serialClkCount, w_fKey2)
+--		begin
+--			if w_fKey2 = '0' then
+--				w_serClkCt_d <= w_serialClkCount + 2416;	-- 115,200 baud
+--			else
+--				w_serClkCt_d <= w_serialClkCount + 6;		-- 300 baud
+--				end if;
+--		end process;
+--
+--	--Single clock wide baud rate enable
+--	baud_clk: process(i_clk_50)
+--		begin
+--			if rising_edge(i_clk_50) then
+--					w_serialClkCount <= w_serClkCt_d;
+--				if w_serialClkCount(15) = '0' and w_serClkCt_d(15) = '1' then
+--					w_serClkEn <= '1';
+--				else
+--					w_serClkEn <= '0';
+--				end if;
+--       end if;
+--    end process;
 
-	--Single clock wide baud rate enable
-	baud_clk: process(i_clk_50)
-		begin
-			if rising_edge(i_clk_50) then
-					w_serialClkCount <= w_serClkCt_d;
-				if w_serialClkCount(15) = '0' and w_serClkCt_d(15) = '1' then
-					w_w_serClkEn <= '1';
-				else
-					w_w_serClkEn <= '0';
-				end if;
-       end if;
-    end process;
+	BaudRateGen : entity work.BaudRate6850
+	GENERIC map (
+		BAUD_RATE	=>  115200
+	)
+	PORT map (
+		i_CLOCK_50	=> i_clk_50,
+		o_serialEn	=> w_serClkEn
+	);
+
 	 
 end;
