@@ -228,7 +228,7 @@ port map(
 	clear => n_reset,
 	clock => clk,
 	load => n_J6IOCS,
-	dataIn8 => cpuDataOut,
+	dataIn => cpuDataOut,
 	latchOut => J6IO8
 );
 
@@ -237,7 +237,7 @@ port map(
 	clear => n_reset,
 	clock => clk,
 	load => n_J8IOCS,
-	dataIn8 => cpuDataOut,
+	dataIn => cpuDataOut,
 	latchOut => J8IO8
 );
 
@@ -246,7 +246,7 @@ port map(
 	clear => n_reset,
 	clock => clk,
 	load => n_LEDCS,
-	dataIn8 => cpuDataOut,
+	dataIn => cpuDataOut,
 	latchOut => ledOut8
 );
 
