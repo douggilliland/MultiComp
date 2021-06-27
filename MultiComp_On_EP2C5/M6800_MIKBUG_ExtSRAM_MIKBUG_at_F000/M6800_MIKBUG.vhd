@@ -5,11 +5,13 @@
 -- Changes to this code by Doug Gilliland 2020-2021
 --
 -- MC6800 CPU
---	MIKBUG rom (from back in the day)
+--		25 MHz ROM and Peripherals
+--		16.7 MHz External SRAM
+--	MIKBUG ROM (from back in the day)
 --		https://hackaday.io/project/170126-mikbug-on-multicomp
 -- Smithbug version
 --		http://www.retrotechnology.com/restore/smithbug.html
---	60K (external) SRAM version
+--	60KB (external) SRAM version
 -- MC6850 ACIA UART
 -- VDU
 --		XGA 80x25 character display
@@ -18,17 +20,17 @@
 --		Install jumper from J8-14 TO -15 (FPGA PIN_60) to adjacent ground pin to select ACIA
 --
 -- The Memory Map is:
---	$0000-$EFFF - 60KB SRAM (external RAM on the EPCE-DB card)
---	$FC18-$FC19 - ACIA J8-18 to J8-20 installed (or VDU J8-18 to J8-20 not installed)
--- $FC28-$FC29 - VDU J8-18 to J8-20 installed (or ACIA J8-18 to J8-20 not installed)
---	$FC30 - J8 I/O
---		D0-D7
---	$FC31 - J6 I/O
---		D0-D5
---	$FC32 - LEDS
---		D0 = DS1 LED on EP2C5-DB card (1 = ON)
---	$F000-$FFFF - MIKBUG ROM (repeats 4 times from 0xC000-0xFFFF)
---		Hole for I/O at $FC00-$FCFF
+--		$0000-$EFFF - 60KB SRAM (external RAM on the EPCE-DB card)
+--		$FC18-$FC19 - ACIA J8-18 to J8-20 installed (or VDU J8-18 to J8-20 not installed)
+-- 	$FC28-$FC29 - VDU J8-18 to J8-20 installed (or ACIA J8-18 to J8-20 not installed)
+--		$FC30 - J8 I/O
+--			D0-D6
+--		$FC31 - J6 I/O
+--			D0-D5
+--		$FC32 - LEDS
+--			D0 = DS1 LED on EP2C5-DB card (1 = ON)
+--		$F000-$FFFF - MIKBUG ROM (repeats 4 times from 0xC000-0xFFFF)
+--			Hole for I/O at $FC00-$FCFF
 --
 
 library ieee;
@@ -69,19 +71,27 @@ entity M6800_MIKBUG is
 		o_n_extSRamCS		: out std_logic := '1';
 		o_n_extSRamOE		: out std_logic := '1';
 		
+		-- SD card not used but making sure that it's not active
+		o_sdCS				: out std_logic := '1';
+		o_sdMOSI				: out std_logic := '1';
+		i_sdMISO				: in std_logic;
+		o_sdSCLK				: out std_logic := '1';
+--		o_driveLED			: out std_logic :='1';
+		
 		-- I/O
 		o_ledDS1				: inout std_logic;
 		o_ledD2				: inout std_logic;
 		o_ledD4				: inout std_logic;
 		o_ledD5				: inout std_logic;
 		o_J6IO8				: inout std_logic_vector(7 downto 0) := (others=>'0');
-		J8IO8				: inout std_logic_vector(7 downto 0)
+		J8IO8					: inout std_logic_vector(7 downto 0)
 	);
 end M6800_MIKBUG;
 
 architecture struct of M6800_MIKBUG is
 
 	signal w_resetLow		: std_logic := '1';
+	signal w_resetD1		: std_logic := '1';
 
 	signal w_cpuAddress	: std_logic_vector(15 downto 0);
 	signal w_cpuDataOut	: std_logic_vector(7 downto 0);
@@ -116,29 +126,36 @@ architecture struct of M6800_MIKBUG is
 	
 begin
 
-	J8IO8(0)	<= w_cpuClock;				-- Pin 48
-	J8IO8(1)	<= w_ExtRamAddr;			-- Pin 47
-	J8IO8(2)	<= w_memWR;					-- Pin 52
-	J8IO8(3)	<= w_memRD;					-- Pin 51
-	J8IO8(4)	<= w_vma;					-- Pin 58
-	J8IO8(5)	<= w_resetLow;				-- Pin 55
-	J8IO8(6)	<= '0';
+-- Debug
+--	J8IO8(0)	<= w_cpuClock;				-- Pin 48
+--	J8IO8(1)	<= not (w_ExtRamAddr and w_cpuClock);			-- Pin 47
+--	J8IO8(2)	<= w_memWR;					-- Pin 52
+--	J8IO8(3)	<= w_memRD;					-- Pin 51
+--	J8IO8(4)	<= w_vma;					-- Pin 58
+--	J8IO8(5)	<= w_resetLow;				-- Pin 55
+--	J8IO8(6)	<= '0';
+	J8IO8(6 downto 0) <= "0000000";
 	w_serSelect <= J8IO8(7);
 	
 	-- Debounce the reset line
-	DebounceResetSwitch	: entity work.Debounce
+	DebounceResetSwitch	: entity work.Debouncer
 	port map (
-		clk		=> w_cpuClock,
-		button	=> i_n_reset,
-		result	=> w_resetLow
+		i_clk		=> w_cpuClock,
+		i_PinIn	=> i_n_reset,
+		o_PinOut	=> w_resetLow
 	);
 	
+	-- Need CPU reset to be later
+	process (w_cpuClock)
+		begin
+			if rising_edge(w_cpuClock) then
+				w_resetD1 <= not w_resetLow;
+			end if;
+		end process;
+	
+
 	-- ____________________________________________________________________________________
-	-- External SRAM GOES HERE
-	
-	w_memWR <= '1' when ((w_R1W0='0') and (w_cpuClock='1') and (w_vma='1')) else '0';
-	w_memRD <= '1' when ((w_R1W0='1') and (w_cpuClock='1') and (w_vma='1')) else '0';
-	
+	-- External SRAM GOES HERE	
 	w_ExtRamAddr <= 	'1' when w_cpuAddress(15) = '0' else										-- 0x0000 - 0x7FFF
 							'1' when (w_cpuAddress(15 downto 14)="10") else 						-- 0x8000 - 0XBFFF
 							'1' when ((w_cpuAddress(15)='1') and (w_cpuAddress(13)='0')) else	-- 0xC000 - 0xDFFF
@@ -148,9 +165,12 @@ begin
 	o_extSRamAddress	<= '0'&w_cpuAddress(15 downto 0);
 	io_extSRamData		<= w_cpuDataOut when ((w_R1W0='0') and (w_ExtRamAddr = '1')) else
 							  (others => 'Z');
-	o_n_extSRamWE	<= not(w_ExtRamAddr and w_memWR);
-	o_n_extSRamOE	<= not(w_ExtRamAddr and w_memRD);
-	o_n_extSRamCS	<= not w_ExtRamAddr;
+	o_n_extSRamWE	<= not (w_ExtRamAddr and (not w_R1W0) and w_cpuClock and w_vma);
+	o_n_extSRamOE	<= not (w_ExtRamAddr and      w_R1W0  and w_cpuClock and w_vma);
+	o_n_extSRamCS	<= not (w_ExtRamAddr and                                 w_vma);
+	
+	w_memWR <= (not w_R1W0) and w_cpuClock and w_vma;
+	w_memRD <=      w_R1W0  and w_cpuClock and w_vma;
 	
 	-- ____________________________________________________________________________________
 	-- I/O CHIP SELECTS
@@ -184,7 +204,7 @@ begin
 	cpu1 : entity work.cpu68
 		port map(
 			clk		=> w_cpuClock,
-			rst		=> not w_resetLow,
+			rst		=> w_resetD1,
 			rw			=> w_R1W0,
 			vma		=> w_vma,
 			address	=> w_cpuAddress,
@@ -224,7 +244,7 @@ begin
 			videoB1	=> o_videoB1,
 			n_wr		=> n_vduCSN or      w_R1W0  or (not w_vma) or (not w_cpuClock),
 			n_rd		=> n_vduCSN or (not w_R1W0) or (not w_vma) or (not w_cpuClock),
-			n_int		=> w_n_VDUint,
+--			n_int		=> w_n_VDUint,
 			regSel	=> w_cpuAddress(0),
 			dataIn	=> w_cpuDataOut,
 			dataOut	=> w_VDUDataOut,
@@ -241,9 +261,7 @@ begin
 			regSel	=> w_cpuAddress(0),
 			dataIn	=> w_cpuDataOut,
 			dataOut	=> w_ACIADataOut,
-			n_int		=> w_n_ACIAint,
-						 -- these clock enables are asserted for one period of input clk,
-						 -- at 16x the baud rate.
+--			n_int		=> w_n_ACIAint,
 			rxClkEn	=> w_serialEn,
 			txClkEn	=> w_serialEn,
 			rxd		=> i_rxd1,
@@ -256,7 +274,7 @@ begin
 	port map(
 		clear		=> w_resetLow,
 		clock		=> i_CLOCK_50,
-		load		=> not ((not w_n_J6IOCS) and (w_memWR)),
+		load		=> not ((not w_n_J6IOCS) and w_memWR),
 		dataIn	=> w_cpuDataOut,
 		latchOut	=> o_J6IO8
 	);
@@ -269,7 +287,6 @@ begin
 		dataIn	=> w_cpuDataOut,
 		latchOut	=> w_J8IO8
 	);
-
 
 	o_ledDS1		<= w_ledDS18(0);
 	o_ledD2		<= not w_ledDS18(1);
@@ -287,29 +304,29 @@ begin
 
 	-- ____________________________________________________________________________________
 	-- CPU Clock
-process (i_CLOCK_50)
-	begin
-		if rising_edge(i_CLOCK_50) then
-				if w_ExtRamAddr = '1' then
-					if w_cpuClkCt < 2 then						-- 50 MHz / 3 = 16.7 MHz 
-						w_cpuClkCt <= w_cpuClkCt + 1;
+	process (i_CLOCK_50)
+		begin
+			if rising_edge(i_CLOCK_50) then
+					if w_ExtRamAddr = '1' then
+						if w_cpuClkCt < 2 then						-- 50 MHz / 3 = 16.7 MHz 
+							w_cpuClkCt <= w_cpuClkCt + 1;
+						else
+							w_cpuClkCt <= (others=>'0');
+						end if;
 					else
-						w_cpuClkCt <= (others=>'0');
+						if w_cpuClkCt < 1 then						-- 50 MHz / 2 = 25 MHz
+							w_cpuClkCt <= w_cpuClkCt + 1;
+						else
+							w_cpuClkCt <= (others=>'0');
+						end if;
 					end if;
-				else
-					if w_cpuClkCt < 1 then						-- 50 MHz / 2 = 25 MHz
-						w_cpuClkCt <= w_cpuClkCt + 1;
+					if w_cpuClkCt < 1 then						-- 2 clocks high, one low
+						w_cpuClock <= '0';
 					else
-						w_cpuClkCt <= (others=>'0');
+						w_cpuClock <= '1';
 					end if;
 				end if;
-				if w_cpuClkCt < 1 then						-- 2 clocks high, one low
-					w_cpuClock <= '0';
-				else
-					w_cpuClock <= '1';
-				end if;
-			end if;
-	end process;
+		end process;
 	
 	-- Baud Rate Generator
 -- Legal values are 115200, 38400, 19200, 9600, 4800, 2400, 1200, 600, 300
