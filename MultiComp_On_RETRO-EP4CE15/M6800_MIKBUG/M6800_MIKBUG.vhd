@@ -4,7 +4,8 @@
 --
 -- Changes to this code by Doug Gilliland 2020
 --
--- MC6800 CPU running MIKBUG from back in the day
+-- MC6800 CPU
+-- Running MIKBUG from back in the day
 --	32K (internal) RAM version
 -- MC6850 ACIA UART
 -- VDU
@@ -20,9 +21,11 @@ use  IEEE.STD_LOGIC_UNSIGNED.all;
 
 entity M6800_MIKBUG is
 	port(
+		-- CLK, RESET
 		i_n_reset			: in std_logic := '1';
 		i_CLOCK_50			: in std_logic;
 
+		-- VGA VIDEO
 		o_videoR0			: out std_logic := '1';
 		o_videoR1			: out std_logic := '1';
 		o_videoG0			: out std_logic := '1';
@@ -32,9 +35,11 @@ entity M6800_MIKBUG is
 		o_hSync				: out std_logic := '1';
 		o_vSync				: out std_logic := '1';
 
+		-- PS/2
 		io_ps2Clk			: inout std_logic := '1';
 		io_ps2Data			: inout std_logic := '1';
 		
+		-- SERIAL (REFERNCED FROM UART)
 		utxd1					: in	std_logic := '1';
 		urxd1					: out std_logic;
 		urts1					: in	std_logic := '1';
@@ -84,8 +89,6 @@ architecture struct of M6800_MIKBUG is
 	signal q_cpuClkCount	: std_logic_vector(5 downto 0); 
 	signal w_cpuClock		: std_logic;
 
-   signal serialCount   : std_logic_vector(15 downto 0) := x"0000";
-   signal serialCount_d	: std_logic_vector(15 downto 0);
    signal serialEn      : std_logic;
 	
 begin
