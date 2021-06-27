@@ -15,9 +15,10 @@ entity MIKBUG_FRPNL is
 	-- CPU intercepts
 	i_CPUAddress				: in std_logic_vector(15 downto 0);
 	o_CPUAddress				: out std_logic_vector(15 downto 0);
-	i_cpuDataOut				: in std_logic_vector(7 downto 0);
-	o_cpuDataOut				: out std_logic_vector(7 downto 0);
-	o_run0Halt1					: inout std_logic;
+	i_CPUData					: in std_logic_vector(7 downto 0);
+	o_CPUData					: out std_logic_vector(7 downto 0);
+	i_RAMData					: in std_logic_vector(7 downto 0);
+	io_run0Halt1				: inout std_logic;
 	o_wrRamStr					: out std_logic;
 	i_R1W0						: in std_logic;
 	o_R1W0						: out std_logic;
@@ -39,7 +40,6 @@ architecture struct of MIKBUG_FRPNL is
 	signal w_PBLatched	:	std_logic_vector(31 downto 0);	-- Pushbuttons latched input (de-bounced)
 	signal w_PBsToggled	:	std_logic_vector(31 downto 0);	-- Pushbuttons toggled input
 	signal w_FPAddress	:	std_logic_vector(15 downto 0);
---	signal run0Halt1		:	std_logic;
 	signal resetD1			:	std_logic;
 	signal w_setAdrPB		:	std_logic;
 	signal w_setDatPB		:	std_logic;
@@ -70,7 +70,7 @@ begin
 			i_n_reset			=> i_n_reset,				-- Reset (from FGPGA KEY)
 			-- 32 outs, 32 ins
 			i_FPLEDs				=> w_LEDsOut,				-- Out to LEDs (32)
-			o_PBRaw				=> w_PBsRaw,					-- Raw version of the  Pushbuttons (32)
+			o_PBRaw				=> w_PBsRaw,				-- Raw version of the  Pushbuttons (32)
 			o_PBLatched			=> w_PBLatched,			-- Latched version of the  Pushbuttons (32)
 			o_PBToggled			=> w_PBsToggled,			-- Toggle version of the  Pushbuttons (32)
 			-- I2C interface
@@ -104,14 +104,14 @@ begin
 	syncPBsToCpuClk : PROCESS (i_cpuClock)
 	BEGIN
 		IF rising_edge(i_cpuClock) THEN
-			o_run0Halt1	<= w_PBsToggled(31);							-- Run/Halt line (toggled)
+			io_run0Halt1	<= w_PBsToggled(31);						-- Run/Halt line (toggled)
 			resetD1		<= w_PBLatched(30);							-- Reset (pulsed while btoon is pressed)
 			w_clrPBD1	<= w_PBLatched(27);							-- Clear pusgbutton
 			w_clrPBD2	<= w_clrPBD1;									-- Delayed Clear pushbutton
 			w_clrPB		<= w_clrPBD1 and not w_clrPBD2;			-- Pulse clear pushbutton
 			w_stepPBD1	<= w_PBLatched(29);							-- Step pushbutton
 			w_stepPBD2	<= w_stepPBD1;									-- Delayed Step pushbutton
-			w_stepPB		<=	w_stepPBD1 and not w_stepPBD2;	-- Pulse Step pushbutton
+			w_stepPB		<=	w_stepPBD1 and not w_stepPBD2;		-- Pulse Step pushbutton
 		END IF;
 	END PROCESS;
 
@@ -119,9 +119,9 @@ begin
 	w_FPAddressCounter : PROCESS (i_cpuClock)
 	BEGIN
 		IF rising_edge(i_cpuClock) THEN
-			if ((o_run0Halt1 = '1') and (w_cntCpu = "100")) then
+			if ((io_run0Halt1 = '1') and (w_cntCpu = "100")) then
 				w_FPAddress <= w_FPAddress+1;
-			elsif ((o_run0Halt1 = '1') and (w_setAdrPB = '1')) then
+			elsif ((io_run0Halt1 = '1') and (w_setAdrPB = '1')) then
 				w_FPAddress <= w_PBsToggled(23 downto 8);
 			elsif w_clrPB = '1' then
 				w_FPAddress <= (others => '0');
@@ -129,17 +129,18 @@ begin
 		END IF;
 	END PROCESS;
 	
-	o_CPUAddress <= 	i_CPUAddress	when (o_run0Halt1 = '0') else
-							w_FPAddress		when (o_run0Halt1 = '1');
+	o_CPUAddress <= 	i_CPUAddress	when (io_run0Halt1 = '0') else
+							w_FPAddress		when (io_run0Halt1 = '1');
 							
-	o_cpuDataOut	<= i_cpuDataOut					when (o_run0Halt1 = '0') else
-							w_PBsToggled(7 downto 0)	when (o_run0Halt1 = '1');
+	o_CPUData	<= i_CPUData						when (io_run0Halt1 = '0') else
+						w_PBsToggled(7 downto 0)	when ((io_run0Halt1 = '1') and (w_setDatPB='1')) else
+						i_CPUData						when ((io_run0Halt1 = '1') and (w_setDatPB='0'));
 
 		
-	o_R1W0 <= 	i_R1W0	when (o_run0Halt1 = '0') else
-					'1'		when (o_run0Halt1 = '1');
+	o_R1W0 <= 	i_R1W0	when (io_run0Halt1 = '0') else
+					'1'		when (io_run0Halt1 = '1');
 	
-	o_wrRamStr <= w_cntCpu(1) and o_run0Halt1 and w_setDatPB;
+	o_wrRamStr <= w_cntCpu(1) and io_run0Halt1 and w_setDatPB;
 	
 	incAdrLine : PROCESS (i_cpuClock)
 	BEGIN
@@ -155,16 +156,16 @@ begin
 	w_LEDsOut(24) <= w_setAdrPB;
 	w_LEDsOut(25) <= w_setDatPB;
 		
-	w_LEDsOut(31) 				<= not o_run0Halt1;								-- PB31 - Run/Halt toggle
+	w_LEDsOut(31) 				<= not io_run0Halt1;								-- PB31 - Run/Halt toggle
 	w_LEDsOut(30) 				<= resetD1 or (not i_n_reset);			-- PB30 -Reset debounced PB
 	w_LEDsOut(29 downto 27)	<= "000";
-	w_LEDsOut(23 downto 8)	<= i_cpuAddress	when (o_run0Halt1 = '0') else				-- Address lines
-										w_FPAddress 	when (o_run0Halt1 = '1') else
+	w_LEDsOut(23 downto 8)	<= i_cpuAddress	when (io_run0Halt1 = '0') else				-- Address lines
+										w_FPAddress 	when (io_run0Halt1 = '1') else
 										x"0000";
-	w_LEDsOut(7 downto 0)	<= i_cpuDataOut					when ((i_R1W0 = '1') and   (o_run0Halt1='0'))	else	-- Data lines (read)
-										i_cpuDataOut					when ((i_R1W0 = '0') and   (o_run0Halt1='0'))	else	-- Data lines (write)
-										i_cpuDataOut					when 	(w_setDatPB='0') and (o_run0Halt1='1')		else	-- Memory data
-										w_PBsToggled(7 downto 0)	when  (w_setDatPB='1') and (o_run0Halt1='1')		else	-- Front panel buttons
+	w_LEDsOut(7 downto 0)	<= i_CPUData						when	((io_run0Halt1='0') and (i_R1W0='0'))		else	-- Data lines
+										i_RAMData						when	((io_run0Halt1='0') and (i_R1W0='1'))		else	-- Data lines
+										i_RAMData						when 	(w_setDatPB='0') and (io_run0Halt1='1')	else	-- Memory data
+										w_PBsToggled(7 downto 0)	when  (w_setDatPB='1') and (io_run0Halt1='1')	else	-- Front panel buttons
 										x"00";
 
 	-- Front Panel ends here

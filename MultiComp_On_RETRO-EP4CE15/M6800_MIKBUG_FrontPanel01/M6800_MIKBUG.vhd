@@ -145,12 +145,14 @@ begin
 		i_CLOCK_50			=> i_CLOCK_50,
 		i_cpuClock			=> w_cpuClock,
 		i_n_reset			=> w_resetLow,
-	-- CPU intercepts
+		-- CPU intercepts
+		-- Front Panel loops back signals when in Front Panel switch is in Run Mode
 		i_CPUAddress		=> w_cpuAddressB,
 		o_CPUAddress		=> w_cpuAddress,
-		i_cpuDataOut		=> w_cpuDataIn,
-		o_cpuDataOut		=> w_cpuDataOut,
-		o_run0Halt1			=> w_run0Halt1,
+		i_cpuData			=> w_cpuDataOutB,
+		o_cpuData			=> w_cpuDataOut,
+		i_RAMData			=> w_cpuDataIn,
+		io_run0Halt1		=> w_run0Halt1,
 		o_wrRamStr			=> w_wrRamStr,
 		i_R1W0				=> w_R1W0B,
 		o_R1W0				=> w_R1W0,
@@ -173,15 +175,6 @@ begin
 					'1';
 	
 	-- ____________________________________________________________________________________
-	-- CPU Read Data multiplexer
-	w_cpuDataIn <=
-		w_ramData		when w_cpuAddress(15) = '0'				else
-		w_if1DataOut	when n_if1CS = '0'							else
-		w_if2DataOut	when n_if2CS = '0'							else
-		w_romData		when w_cpuAddress(15 downto 14) = "11"	else
-		x"FF";
-	
-	-- ____________________________________________________________________________________
 	-- 6800 CPU
 	
 	cpu1 : entity work.cpu68
@@ -198,6 +191,15 @@ begin
 			irq		=> '0',
 			nmi		=> '0'
 		); 
+	
+	-- ____________________________________________________________________________________
+	-- CPU Read Data multiplexer
+	w_cpuDataIn <=
+		w_ramData		when w_cpuAddress(15) = '0'				else
+		w_if1DataOut	when n_if1CS = '0'							else
+		w_if2DataOut	when n_if2CS = '0'							else
+		w_romData		when w_cpuAddress(15 downto 14) = "11"	else
+		x"FF";
 	
 	-- ____________________________________________________________________________________
 	-- MIKBUG ROM
@@ -217,7 +219,7 @@ begin
 			clock 	=> i_CLOCK_50,
 			data 		=> w_cpuDataOut,
 			wren		=> (((not w_R1W0) and (not w_cpuAddress(15)) and w_vma and (not w_cpuClock) and (not w_run0Halt1)) 
-							or w_wrRamStr),
+							or (w_wrRamStr and w_run0Halt1)),
 			q			=> w_ramData
 		);
 	
