@@ -75,7 +75,7 @@ begin
 	-- Pass IOP16 code size and stack size down to the Front Panel
 	fp01 : work.FrontPanel01
 		generic	map ( 
-			INST_SRAM_SIZE_IN	=> 1024,						-- 1KaW code size
+			INST_SRAM_SIZE_IN	=> 512,						-- 512W code size
 			STACK_DEPTH_IN		=> 4							-- 16 deep stack size
 		)
 		port map
