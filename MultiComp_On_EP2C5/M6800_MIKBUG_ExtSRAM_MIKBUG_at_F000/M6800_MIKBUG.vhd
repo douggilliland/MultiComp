@@ -91,7 +91,7 @@ end M6800_MIKBUG;
 architecture struct of M6800_MIKBUG is
 
 	signal w_resetLow		: std_logic := '1';
-	signal w_resetD1		: std_logic := '1';
+	signal wCPUResetHi		: std_logic := '1';
 
 	signal w_cpuAddress	: std_logic_vector(15 downto 0);
 	signal w_cpuDataOut	: std_logic_vector(7 downto 0);
@@ -149,10 +149,9 @@ begin
 	process (w_cpuClock)
 		begin
 			if rising_edge(w_cpuClock) then
-				w_resetD1 <= not w_resetLow;
+				wCPUResetHi <= not w_resetLow;
 			end if;
 		end process;
-	
 
 	-- ____________________________________________________________________________________
 	-- External SRAM GOES HERE	
@@ -204,7 +203,7 @@ begin
 	cpu1 : entity work.cpu68
 		port map(
 			clk		=> w_cpuClock,
-			rst		=> w_resetD1,
+			rst		=> wCPUResetHi,
 			rw			=> w_R1W0,
 			vma		=> w_vma,
 			address	=> w_cpuAddress,

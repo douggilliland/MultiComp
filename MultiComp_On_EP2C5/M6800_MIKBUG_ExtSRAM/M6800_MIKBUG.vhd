@@ -76,6 +76,7 @@ end M6800_MIKBUG;
 architecture struct of M6800_MIKBUG is
 
 	signal w_resetLow		: std_logic := '1';
+	signal wCPUResetHi	: std_logic := '1';
 
 	signal w_cpuAddress	: std_logic_vector(15 downto 0);
 	signal w_cpuDataOut	: std_logic_vector(7 downto 0);
@@ -110,14 +111,14 @@ architecture struct of M6800_MIKBUG is
 	
 begin
 	
---	J8IO8(6 DOWNTO 0) <= w_J8IO8(6 downto 0);
-	J8IO8(0)	<= w_cpuClock;								-- Pin 48
-	J8IO8(1)	<= w_memWR;									-- Pin 47
-	J8IO8(2)	<= w_memRD;									-- Pin 52
-	J8IO8(3)	<= w_vma;									-- Pin 51
-	J8IO8(4)	<= w_cpuAddress(15) or (not w_vma);	-- Pin 58
-	J8IO8(5)	<= w_resetLow;								-- Pin 55
-	J8IO8(6)	<= '0';
+	J8IO8(6 DOWNTO 0) <= w_J8IO8(6 downto 0);
+--	J8IO8(0)	<= w_cpuClock;								-- Pin 48
+--	J8IO8(1)	<= w_memWR;									-- Pin 47
+--	J8IO8(2)	<= w_memRD;									-- Pin 52
+--	J8IO8(3)	<= w_vma;									-- Pin 51
+--	J8IO8(4)	<= w_cpuAddress(15) or (not w_vma);	-- Pin 58
+--	J8IO8(5)	<= w_resetLow;								-- Pin 55
+--	J8IO8(6)	<= '0';
 	
 	w_serSelect <= J8IO8(7);
 	
@@ -128,6 +129,14 @@ begin
 		o_PinOut		=> w_resetLow
 	);
 		
+	-- Need CPU reset to be later and later than peripherals
+	process (w_cpuClock)
+		begin
+			if rising_edge(w_cpuClock) then
+				wCPUResetHi <= not w_resetLow;
+			end if;
+		end process;
+	
 	w_memWR <= (not w_R1W0) and w_vma and (w_cpuClock);
 	w_memRD <=      w_R1W0  and w_vma and (w_cpuClock);
 	-- ____________________________________________________________________________________
@@ -170,7 +179,7 @@ begin
 	cpu1 : entity work.cpu68
 		port map(
 			clk		=> w_cpuClock,
-			rst		=> not w_resetLow,
+			rst		=> wCPUResetHi,
 			rw			=> w_R1W0,
 			vma		=> w_vma,
 			address	=> w_cpuAddress,
