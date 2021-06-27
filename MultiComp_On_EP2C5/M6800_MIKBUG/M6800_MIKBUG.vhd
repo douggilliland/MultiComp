@@ -88,6 +88,7 @@ end M6800_MIKBUG;
 architecture struct of M6800_MIKBUG is
 
 	signal w_resetLow		: std_logic := '1';
+	signal w_resetCPUHi	: std_logic := '1';
 
 	signal w_cpuAddress	: std_logic_vector(15 downto 0);
 	signal w_cpuDataOut	: std_logic_vector(7 downto 0);
@@ -137,6 +138,14 @@ begin
 		o_PinOut		=> w_resetLow
 	);
 	
+	-- Need CPU reset to be later and later than peripherals
+	process (w_cpuClk)
+		begin
+			if rising_edge(w_cpuClk) then
+				w_resetCPUHi <= not w_resetLow;
+			end if;
+		end process;
+	
 	w_memWR <= (not w_R1W0) and w_vma and not w_cpuClk;
 --	w_memRD <=      w_R1W0  and w_vma;
 	
@@ -172,7 +181,7 @@ begin
 	cpu1 : entity work.cpu68
 		port map(
 			clk		=> w_cpuClk,
-			rst		=> not w_resetLow,
+			rst		=> w_resetCPUHi,
 			rw			=> w_R1W0,
 			vma		=> w_vma,
 			address	=> w_cpuAddress,
