@@ -19,7 +19,7 @@ end Debouncer32;
 
 architecture struct of Debouncer32 is
 	
-	signal w_dig_counter	: std_logic_vector (5 downto 0) := (others => '0');
+	signal w_dig_counter	: std_logic_vector (6 downto 0) := (others => '0');
 	signal w_termCount	: std_logic;
 	
 	signal w_pbPressed	: std_logic;
@@ -46,17 +46,16 @@ begin
 						i_PinsIn(7)  or i_PinsIn(6)  or i_PinsIn(5)  or i_PinsIn(4)  or i_PinsIn(3)  or i_PinsIn(2)  or i_PinsIn(1)  or i_PinsIn(0);
 	
 	----------------------------------------------------------------------------
-	-- 64 mS counter
-	-- 2^6 = 64 counts
+	-- ~100 mS counter
+	-- 2^7 = 128 counts
 	-- Used for prescaling pushbuttons
-	-- pulse200ms = single 20 nS clock pulse every 200 mSecs
 	----------------------------------------------------------------------------
 	process (i_slowClk, w_pbPressed) begin
 		if rising_edge(i_slowClk) then
 			if w_pbPressed = '0' then
 				w_dig_counter <= (others => '0');
 				w_termCount <= '0';
-			elsif w_dig_counter = "111111" then
+			elsif w_dig_counter = "1111111" then
 				w_termCount <= '1';
 			else
 				w_dig_counter <= w_dig_counter+1;
@@ -70,11 +69,10 @@ begin
 		if(rising_edge(i_fastClk)) then
 			w_dly1		<= w_termCount;
 			w_dly2		<= w_dly1;
+			w_dly3 		<= w_dly1 and not w_dly2;
 			o_LdStrobe	<= w_dly3;
 		end if;
 	end process;
-	
-	w_dly3 <= w_dly1 and not w_dly2;
 	
 	o_PinsOut <= i_PinsIn	when w_termCount = '1' else		-- set
 					x"00000000"	when w_pbPressed = '0';

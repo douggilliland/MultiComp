@@ -70,7 +70,6 @@ architecture struct of FrontPanel01 is
 	signal w_strPBDataLL			: std_logic;
 	signal w_LED					: std_logic;
 	signal w_LatLED				: std_logic;
-	
 	-- Front Panel Control lines
 	signal w_scanStrobe			:	std_logic;		-- Signals that a pushbutton was pressed
 	signal w_loadStrobe			:	std_logic;		-- Latch up pushbuttons
@@ -85,8 +84,6 @@ architecture struct of FrontPanel01 is
 	attribute syn_keep: boolean;
 	attribute syn_keep of w_rawPBs		:	signal is true;
 	attribute syn_keep of w_loadStrobe	:	signal is true;
---	attribute syn_keep of w_ldStrobe2	:	signal is true;
---	attribute syn_keep of w_lowCount			: signal is true;
 
 begin
 
