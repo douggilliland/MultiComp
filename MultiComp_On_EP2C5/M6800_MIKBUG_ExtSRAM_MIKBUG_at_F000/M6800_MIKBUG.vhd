@@ -145,7 +145,7 @@ begin
 		o_PinOut	=> w_resetLow
 	);
 	
-	-- Need CPU reset to be later
+	-- Need CPU reset to be later and later than peripherals
 	process (w_cpuClock)
 		begin
 			if rising_edge(w_cpuClock) then

@@ -1,5 +1,5 @@
 -- Debouncer
--- Active low input produces a single clock wide low pulse
+-- Active low input produces a single i_clk wide low pulse
 
 library ieee;
 use ieee.std_logic_1164.all;
@@ -28,8 +28,8 @@ architecture struct of Debouncer is
 begin
 
 	----------------------------------------------------------------------------
-	-- 200 mS counter
-	-- 2^18 = 256,000, 50M/250K = 200 mS ticks
+	-- 50 mS counter
+	-- 2^18 = 256,000, 50M/250K = 200 Hz = 50 mS ticks
 	-- Used for prescaling pushbuttons
 	-- pulse200ms = single 20 nS clock pulse every 200 mSecs
 	----------------------------------------------------------------------------
@@ -41,6 +41,9 @@ begin
 			else
 				pulse200ms <= '0';
 			end if;
+			dly3 <= dly2;
+			dly4 <= dly3;
+			o_PinOut <= not(dly4 and (not dly3));
 		end if;
 	end process;
 
@@ -49,37 +52,8 @@ begin
 		if(rising_edge(i_clk)) then
 			if pulse200ms = '1' then
 				dly1 <= not i_PinIn;
-			end if;
-		end if;
-	end process;
-	
-	process(i_clk, pulse200ms)
-	begin
-		if(rising_edge(i_clk)) then
-			if pulse200ms = '1' then
 				dly2 <= dly1;
 			end if;
-		end if;
-	end process;
-
-	process(i_clk)
-	begin
-		if(rising_edge(i_clk)) then
-		dly3 <= dly2;
-		end if;
-	end process;
-
-	process(i_clk)
-	begin
-		if(rising_edge(i_clk)) then
-			dly4 <= dly3;
-		end if;
-	end process;
-
-	process(i_clk)
-	begin
-		if(rising_edge(i_clk)) then
-			o_PinOut <= not(dly4 and (not dly3));
 		end if;
 	end process;
 
