@@ -82,6 +82,7 @@ architecture struct of M6800_MIKBUG is
 
 	signal w_resetLow		: std_logic;
 	signal w_CPUResetHi	: std_logic;
+	signal w_FPReset		: std_logic;
 	
 	signal w_ExtRamAddr	: std_logic := '0';
 
@@ -133,7 +134,7 @@ begin
 	process (w_cpuClock)
 		begin
 			if rising_edge(w_cpuClock) then
-				w_CPUResetHi <= not w_resetLow;
+				w_CPUResetHi <= ((not w_resetLow) or w_FPReset);
 			end if;
 		end process;
 		
@@ -156,6 +157,7 @@ begin
 		o_wrRamStr			=> w_wrRamStr,
 		i_R1W0				=> w_R1W0B,
 		o_R1W0				=> w_R1W0,
+		o_FPReset			=> w_FPReset,
 		-- The key and LED on the FPGA card
 --		i_key1				=> i_key1,
 --		o_UsrLed				=> o_UsrLed,

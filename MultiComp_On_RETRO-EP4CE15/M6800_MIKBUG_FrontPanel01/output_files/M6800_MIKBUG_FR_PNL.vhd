@@ -22,6 +22,7 @@ entity MIKBUG_FRPNL is
 	o_wrRamStr					: out std_logic;
 	i_R1W0						: in std_logic;
 	o_R1W0						: out std_logic;
+	o_FPReset					: out std_logic;
 	-- The key and LED on the FPGA card
 --	i_key1						: in std_logic := '1';
 --	o_UsrLed						: out std_logic := '1';
@@ -104,14 +105,15 @@ begin
 	syncPBsToCpuClk : PROCESS (i_cpuClock)
 	BEGIN
 		IF rising_edge(i_cpuClock) THEN
-			io_run0Halt1	<= w_PBsToggled(31);						-- Run/Halt line (toggled)
-			resetD1		<= w_PBLatched(30);							-- Reset (pulsed while btoon is pressed)
-			w_clrPBD1	<= w_PBLatched(27);							-- Clear pusgbutton
-			w_clrPBD2	<= w_clrPBD1;									-- Delayed Clear pushbutton
-			w_clrPB		<= w_clrPBD1 and not w_clrPBD2;			-- Pulse clear pushbutton
-			w_stepPBD1	<= w_PBLatched(29);							-- Step pushbutton
-			w_stepPBD2	<= w_stepPBD1;									-- Delayed Step pushbutton
-			w_stepPB		<=	w_stepPBD1 and not w_stepPBD2;		-- Pulse Step pushbutton
+			io_run0Halt1	<= w_PBsToggled(31);								-- Run/Halt line (toggled)
+			resetD1			<= w_PBLatched(30);								-- Reset pushbutton
+			o_FPReset		<= ((not resetD1) and  w_PBLatched(30));	-- Reset (pulsed while butoon is pressed)
+			w_clrPBD1		<= w_PBLatched(27);								-- Clear pusgbutton
+			w_clrPBD2		<= w_clrPBD1;										-- Delayed Clear pushbutton
+			w_clrPB			<= w_clrPBD1 and not w_clrPBD2;				-- Pulse clear pushbutton
+			w_stepPBD1		<= w_PBLatched(29);								-- Step pushbutton
+			w_stepPBD2		<= w_stepPBD1;										-- Delayed Step pushbutton
+			w_stepPB			<=	w_stepPBD1 and not w_stepPBD2;			-- Pulse Step pushbutton
 		END IF;
 	END PROCESS;
 
