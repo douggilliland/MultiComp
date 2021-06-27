@@ -1,5 +1,5 @@
 |M6800_MIKBUG
-i_n_reset => debouncer:DebounceResetSwitch.i_PinIn
+i_n_reset => debouncer:DebounceFPGAResetPB.i_PinIn
 i_CLOCK_50 => mikbug_frpnl:MIKBUG_FRPNL.i_CLOCK_50
 i_CLOCK_50 => w_cpuClock.CLK
 i_CLOCK_50 => q_cpuClkCount[0].CLK
@@ -104,39 +104,40 @@ w_sdRamData[14] => ~NO_FANOUT~
 w_sdRamData[15] => ~NO_FANOUT~
 
 
-|M6800_MIKBUG|Debouncer:DebounceResetSwitch
-i_clk => dly2.CLK
-i_clk => dly1.CLK
+|M6800_MIKBUG|Debouncer:DebounceFPGAResetPB
+i_clk => w_dly2.CLK
+i_clk => w_dly1.CLK
 i_clk => o_PinOut~reg0.CLK
-i_clk => dly4.CLK
-i_clk => dly3.CLK
-i_clk => pulse200ms.CLK
-i_clk => dig_counter[0].CLK
-i_clk => dig_counter[1].CLK
-i_clk => dig_counter[2].CLK
-i_clk => dig_counter[3].CLK
-i_clk => dig_counter[4].CLK
-i_clk => dig_counter[5].CLK
-i_clk => dig_counter[6].CLK
-i_clk => dig_counter[7].CLK
-i_clk => dig_counter[8].CLK
-i_clk => dig_counter[9].CLK
-i_clk => dig_counter[10].CLK
-i_clk => dig_counter[11].CLK
-i_clk => dig_counter[12].CLK
-i_clk => dig_counter[13].CLK
-i_clk => dig_counter[14].CLK
-i_clk => dig_counter[15].CLK
-i_clk => dig_counter[16].CLK
-i_clk => dig_counter[17].CLK
-i_clk => dig_counter[18].CLK
-i_clk => dig_counter[19].CLK
-i_PinIn => dly1.DATAIN
+i_clk => w_dly4.CLK
+i_clk => w_dly3.CLK
+i_clk => w_pulse50ms.CLK
+i_clk => w_dig_counter[0].CLK
+i_clk => w_dig_counter[1].CLK
+i_clk => w_dig_counter[2].CLK
+i_clk => w_dig_counter[3].CLK
+i_clk => w_dig_counter[4].CLK
+i_clk => w_dig_counter[5].CLK
+i_clk => w_dig_counter[6].CLK
+i_clk => w_dig_counter[7].CLK
+i_clk => w_dig_counter[8].CLK
+i_clk => w_dig_counter[9].CLK
+i_clk => w_dig_counter[10].CLK
+i_clk => w_dig_counter[11].CLK
+i_clk => w_dig_counter[12].CLK
+i_clk => w_dig_counter[13].CLK
+i_clk => w_dig_counter[14].CLK
+i_clk => w_dig_counter[15].CLK
+i_clk => w_dig_counter[16].CLK
+i_clk => w_dig_counter[17].CLK
+i_clk => w_dig_counter[18].CLK
+i_clk => w_dig_counter[19].CLK
+i_PinIn => w_dly1.DATAIN
 o_PinOut <= o_PinOut~reg0.DB_MAX_OUTPUT_PORT_TYPE
 
 
 |M6800_MIKBUG|MIKBUG_FRPNL:MIKBUG_FRPNL
 i_CLOCK_50 => frontpanel01:fp01.i_CLOCK_50
+i_cpuClock => debouncer:DebounceFPResetPB.i_clk
 i_cpuClock => w_incAdrPB.CLK
 i_cpuClock => w_incAdrPBD2.CLK
 i_cpuClock => w_incAdrPBD1.CLK
@@ -162,13 +163,11 @@ i_cpuClock => w_clrPB.CLK
 i_cpuClock => w_clrPBD2.CLK
 i_cpuClock => w_clrPBD1.CLK
 i_cpuClock => o_FPReset~reg0.CLK
-i_cpuClock => resetD1.CLK
 i_cpuClock => io_run0Halt1~reg0.CLK
 i_cpuClock => w_cntCpu[0].CLK
 i_cpuClock => w_cntCpu[1].CLK
 i_cpuClock => w_cntCpu[2].CLK
 i_n_reset => frontpanel01:fp01.i_n_reset
-i_n_reset => w_LEDsOut[30].IN1
 o_FPReset <= o_FPReset~reg0.DB_MAX_OUTPUT_PORT_TYPE
 i_CPUAddress[0] => w_LEDsOut[8].DATAB
 i_CPUAddress[0] => o_CPUAddress[0].DATAB
@@ -1508,6 +1507,37 @@ o_PinsOut[28] <= o_PinsOut[28]~buf0.DB_MAX_OUTPUT_PORT_TYPE
 o_PinsOut[29] <= o_PinsOut[29]~buf0.DB_MAX_OUTPUT_PORT_TYPE
 o_PinsOut[30] <= o_PinsOut[30]~buf0.DB_MAX_OUTPUT_PORT_TYPE
 o_PinsOut[31] <= o_PinsOut[31]~buf0.DB_MAX_OUTPUT_PORT_TYPE
+
+
+|M6800_MIKBUG|MIKBUG_FRPNL:MIKBUG_FRPNL|Debouncer:DebounceFPResetPB
+i_clk => w_dly2.CLK
+i_clk => w_dly1.CLK
+i_clk => o_PinOut~reg0.CLK
+i_clk => w_dly4.CLK
+i_clk => w_dly3.CLK
+i_clk => w_pulse50ms.CLK
+i_clk => w_dig_counter[0].CLK
+i_clk => w_dig_counter[1].CLK
+i_clk => w_dig_counter[2].CLK
+i_clk => w_dig_counter[3].CLK
+i_clk => w_dig_counter[4].CLK
+i_clk => w_dig_counter[5].CLK
+i_clk => w_dig_counter[6].CLK
+i_clk => w_dig_counter[7].CLK
+i_clk => w_dig_counter[8].CLK
+i_clk => w_dig_counter[9].CLK
+i_clk => w_dig_counter[10].CLK
+i_clk => w_dig_counter[11].CLK
+i_clk => w_dig_counter[12].CLK
+i_clk => w_dig_counter[13].CLK
+i_clk => w_dig_counter[14].CLK
+i_clk => w_dig_counter[15].CLK
+i_clk => w_dig_counter[16].CLK
+i_clk => w_dig_counter[17].CLK
+i_clk => w_dig_counter[18].CLK
+i_clk => w_dig_counter[19].CLK
+i_PinIn => w_dly1.DATAIN
+o_PinOut <= o_PinOut~reg0.DB_MAX_OUTPUT_PORT_TYPE
 
 
 |M6800_MIKBUG|cpu68:cpu1

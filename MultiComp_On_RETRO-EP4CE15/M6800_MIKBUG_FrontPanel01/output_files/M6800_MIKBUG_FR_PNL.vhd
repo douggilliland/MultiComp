@@ -54,17 +54,17 @@ architecture struct of MIKBUG_FRPNL is
 	signal w_PBsRaw		:	std_logic_vector(31 downto 0);	-- Pushbuttons raw input
 	signal w_PBLatched	:	std_logic_vector(31 downto 0);	-- Pushbuttons latched input (de-bounced)
 	signal w_PBsToggled	:	std_logic_vector(31 downto 0);	-- Pushbuttons toggled input
-	signal w_FPAddress	:	std_logic_vector(15 downto 0);
-	signal resetD1			:	std_logic;
-	signal w_setAdrPB		:	std_logic;
-	signal w_setDatPB		:	std_logic;
-	signal w_incAdrPB		:	std_logic;
+	signal w_FPAddress	:	std_logic_vector(15 downto 0);	-- Front Panel Address counter
+	signal w_PBReset		:	std_logic;								-- Front Panel Reset pushbuttondebounced
+	signal w_setAdrPB		:	std_logic;								-- Set Address pushbutton
+	signal w_setDatPB		:	std_logic;								-- Set Data pushbutton
+	signal w_incAdrPB		:	std_logic;								-- Increment address
 	signal w_incAdrPBD1	:	std_logic;
 	signal w_incAdrPBD2	:	std_logic;
-	signal w_clrPB			:	std_logic;
+	signal w_clrPB			:	std_logic;								-- Clear Front Panel Address counter
 	signal w_clrPBD1		:	std_logic;
 	signal w_clrPBD2		:	std_logic;
-	signal w_stepPB		:	std_logic;
+	signal w_stepPB		:	std_logic;								-- Stap pushbutton (not implememted)
 	signal w_stepPBD1		:	std_logic;
 	signal w_stepPBD2		:	std_logic;
 	signal w_cntCpu 		:	std_logic_vector(2 DOWNTO 0);		-- Grey code step counter
@@ -72,11 +72,11 @@ architecture struct of MIKBUG_FRPNL is
 begin
 -- -------------------------------------------------------------------------------------------------------
 	-- Front Panel starts here
-	-- Pass down the sizes
+	-- Pass IOP16 code size and stack size down to the Front Panel
 	fp01 : work.FrontPanel01
 		generic	map ( 
-			INST_SRAM_SIZE_IN	=> 1024,
-			STACK_DEPTH_IN		=> 4
+			INST_SRAM_SIZE_IN	=> 1024,						-- 1KaW code size
+			STACK_DEPTH_IN		=> 4							-- 16 deep stack size
 		)
 		port map
 		(
@@ -116,12 +116,20 @@ begin
 		END IF;
 	END PROCESS;
 	
+	-- Debounce the reset line
+	DebounceFPResetPB	: entity work.Debouncer
+	port map (
+		i_clk		=> i_cpuClock,
+		i_PinIn	=> w_PBLatched(30),
+		o_PinOut	=> w_PBReset
+	);
+
+	-- Sync up the Pushbuttons to the CPU Clock
 	syncPBsToCpuClk : PROCESS (i_cpuClock)
 	BEGIN
 		IF rising_edge(i_cpuClock) THEN
 			io_run0Halt1	<= w_PBsToggled(31);								-- Run/Halt line (toggled)
-			resetD1			<= w_PBLatched(30);								-- Reset pushbutton
-			o_FPReset		<= ((not resetD1) and  w_PBLatched(30));	-- Reset (pulsed while butoon is pressed)
+			o_FPReset		<= w_PBReset;										-- Reset (debounced and pulsed high while butoon is pressed)
 			w_clrPBD1		<= w_PBLatched(27);								-- Clear pusgbutton
 			w_clrPBD2		<= w_clrPBD1;										-- Delayed Clear pushbutton
 			w_clrPB			<= w_clrPBD1 and not w_clrPBD2;				-- Pulse clear pushbutton
@@ -131,7 +139,7 @@ begin
 		END IF;
 	END PROCESS;
 
---	w_FPAddress Latch/Counter
+--	Front Panel FPAddress Latch/Counter
 	w_FPAddressCounter : PROCESS (i_cpuClock)
 	BEGIN
 		IF rising_edge(i_cpuClock) THEN
@@ -145,20 +153,24 @@ begin
 		END IF;
 	END PROCESS;
 	
-	o_CPUAddress <= 	i_CPUAddress	when (io_run0Halt1 = '0') else
-							w_FPAddress		when (io_run0Halt1 = '1');
+	-- Mux address
+	o_CPUAddress <= 	i_CPUAddress	when (io_run0Halt1 = '0') else		-- Loopback address when in Run
+							w_FPAddress		when (io_run0Halt1 = '1');				-- Front Panel address when in Halt
 							
-	o_CPUData	<= i_CPUData						when (io_run0Halt1 = '0') else
-						w_PBsToggled(7 downto 0)	when ((io_run0Halt1 = '1') and (w_setDatPB='1')) else
-						i_CPUData						when ((io_run0Halt1 = '1') and (w_setDatPB='0'));
+	-- Mux data
+	o_CPUData	<= i_CPUData						when (io_run0Halt1 = '0') else									-- Loopback data when in Run
+						w_PBsToggled(7 downto 0)	when ((io_run0Halt1 = '1') and (w_setDatPB='1')) else		-- Pushbuttons when in Set Data mode
+						i_CPUData						when ((io_run0Halt1 = '1') and (w_setDatPB='0'));			-- Memory when not in Set Data mode
 
 		
-	o_R1W0 <= 	i_R1W0	when (io_run0Halt1 = '0') else
-					'1'		when (io_run0Halt1 = '1');
+	-- Mux R/W
+	o_R1W0 <= 	i_R1W0	when (io_run0Halt1 = '0') else		-- Loopback R/W  when in Run
+					'1'		when (io_run0Halt1 = '1');				-- Read when not in Run
 	
-	o_wrRamStr <= w_cntCpu(1) and io_run0Halt1 and w_setDatPB;
+	o_wrRamStr <= w_cntCpu(1) and io_run0Halt1 and w_setDatPB;	-- Write memory strobe
 	
-	incAdrLine : PROCESS (i_cpuClock)
+	-- Sync pushbutton switches to the CPU Clock
+	syncButtons : PROCESS (i_cpuClock)
 	BEGIN
 		IF rising_edge(i_cpuClock) THEN
 			w_setAdrPB		<= w_PBsToggled(24);
@@ -169,11 +181,11 @@ begin
 		END IF;
 	END PROCESS;
 
-	w_LEDsOut(24) <= w_setAdrPB;
-	w_LEDsOut(25) <= w_setDatPB;
+	w_LEDsOut(24) <= w_setAdrPB;		-- Set LED is in Set Address mode
+	w_LEDsOut(25) <= w_setDatPB;		-- Set LED is in Set Data mode
 		
-	w_LEDsOut(31) 				<= not io_run0Halt1;								-- PB31 - Run/Halt toggle
-	w_LEDsOut(30) 				<= resetD1 or (not i_n_reset);			-- PB30 -Reset debounced PB
+	w_LEDsOut(31) 				<= not io_run0Halt1;				-- PB31 - Run/Halt toggle
+	w_LEDsOut(30) 				<= '0';								-- PB30 -Reset debounced PB
 	w_LEDsOut(29 downto 27)	<= "000";
 	w_LEDsOut(23 downto 8)	<= i_cpuAddress	when (io_run0Halt1 = '0') else				-- Address lines
 										w_FPAddress 	when (io_run0Halt1 = '1') else

@@ -8,12 +8,13 @@
 -- MC6800 CPU
 --		25 NHz for interbal SRAM and Peripherals
 --	Running MIKBUG from back in the day
---	32K (internal) RAM version
+--		32K (internal) RAM version
 -- Default I/O is jumper selectable
--- 	MC6850 ACIA UART
--- 	VDU - ANSI terminal
+-- 	VDU - ANSI terminal (default)
 --			XGA 80x25 character display
 --			PS/2 keyboard
+-- 	MC6850 ACIA UART
+--	
 --	Front Panel
 --		http://land-boards.com/blwiki/index.php?title=Front_Panel_For_8_Bit_Computers
 --		Monitors Address/Data when in Run mode
@@ -27,6 +28,7 @@
 --			If Enable Write Data is not selectedrwise increment read address and read next location
 --		PB25 - Enable Write Data control - Bottom row of pushbuttons controls write of data to memory
 --		PB24 - Set Address Mode control - Middle two rows of pushbuttons control LEDs
+--	
 --	Memory Map
 --		0x0000-0x7FFF - INTERBAL SRAM
 --		0x8018-0x8019 - VDU (serSelect J3 JUMPER REMOCED)
@@ -96,60 +98,57 @@ architecture struct of M6800_MIKBUG is
 	signal w_CPUResetHi	: std_logic;
 	signal w_FPReset		: std_logic;
 	
-	signal w_ExtRamAddr	: std_logic := '0';
+	signal w_ExtRamAddr	: std_logic := '0';						-- There's not external SRAM in this build
 
 	-- CPU signals
-	signal w_cpuDataIn	: std_logic_vector(7 downto 0);
-	signal w_R1W0			: std_logic;
-	signal w_R1W0B			: std_logic;
+	signal w_cpuDataIn	: std_logic_vector(7 downto 0);		-- Data into the CPU
+	signal w_R1W0B			: std_logic;								-- Read / Write from the CPU
+	signal w_R1W0			: std_logic;								-- ead / Write to the Memory
 	signal w_vma			: std_logic;
 
 	-- Front Panel intercepts
-	signal w_cpuAddress	: std_logic_vector(15 downto 0);
-	signal w_cpuAddressB	: std_logic_vector(15 downto 0);
-	signal w_cpuDataOut	: std_logic_vector(7 downto 0);
-	signal w_cpuDataOutB	: std_logic_vector(7 downto 0);
-	signal w_run0Halt1	:	std_logic;
-	signal w_wrRamStr		:	std_logic;
+	signal w_cpuAddress	: std_logic_vector(15 downto 0);		-- Address from the Front Panel
+	signal w_cpuAddressB	: std_logic_vector(15 downto 0);		-- Address out of the CPU
+	signal w_cpuDataOut	: std_logic_vector(7 downto 0);		-- DAta to Memory / Peripherals
+	signal w_cpuDataOutB	: std_logic_vector(7 downto 0);		-- Data out of the CPU
+	signal w_run0Halt1	:	std_logic;								-- Run / Halt from the Front Panel (PB31)
+	signal w_wrRamStr		:	std_logic;								-- Write Strobe to SRAM 
 		
 	-- Data busses
-	signal w_romData		: std_logic_vector(7 downto 0);
-	signal w_ramData		: std_logic_vector(7 downto 0);
-	signal w_if1DataOut	: std_logic_vector(7 downto 0);
-	signal w_if2DataOut	: std_logic_vector(7 downto 0);
+	signal w_romData		: std_logic_vector(7 downto 0);		-- Data from the ROM
+	signal w_ramData		: std_logic_vector(7 downto 0);		-- Data from the SRAM
+	signal w_if1DataOut	: std_logic_vector(7 downto 0);		-- Data from the VDU
+	signal w_if2DataOut	: std_logic_vector(7 downto 0);		-- Data from the ACIA
 
 	-- Chip Selects
-	signal n_int1			: std_logic :='1';	
-	signal n_if1CS			: std_logic :='1';
-	signal n_int2			: std_logic :='1';	
-	signal n_if2CS			: std_logic :='1';
+	signal n_if1CS			: std_logic :='1';						-- VDU Chip Select
+	signal n_if2CS			: std_logic :='1';						-- ACIA Chip Select
 
 	-- CPU Clock block
-	signal q_cpuClkCount	: std_logic_vector(5 downto 0); 
-	signal w_cpuClock		: std_logic;
+	signal q_cpuClkCount	: std_logic_vector(5 downto 0); 		-- CPU speed counter
+	signal w_cpuClock		: std_logic;								-- CPU Clock
 
---   signal serialCount   : std_logic_vector(15 downto 0) := x"0000";
---   signal serialCount_d	: std_logic_vector(15 downto 0);
-   signal serialEn      : std_logic;
+   signal serialEn      : std_logic;								-- 16x Serial Clock
 
 begin
 	
 	-- Debounce the reset line
-	DebounceResetSwitch	: entity work.Debouncer
+	DebounceFPGAResetPB	: entity work.Debouncer
 	port map (
 		i_clk		=> w_cpuClock,
 		i_PinIn	=> i_n_reset,
 		o_PinOut	=> w_resetLow
 	);
 	
-	-- Need CPU reset to be later and later than peripherals
+	-- Need CPU reset to be later than peripherals
 	process (w_cpuClock)
 		begin
 			if rising_edge(w_cpuClock) then
-				w_CPUResetHi <= ((not w_resetLow) or w_FPReset);
+				w_CPUResetHi <= ((not w_resetLow) or (not w_FPReset));
 			end if;
 		end process;
 		
+	-- ____________________________________________________________________________________
 	-- Front Panel
 	MIKBUG_FRPNL : entity work.MIKBUG_FRPNL
 		port map
@@ -170,9 +169,6 @@ begin
 		o_wrRamStr			=> w_wrRamStr,
 		i_R1W0				=> w_R1W0B,
 		o_R1W0				=> w_R1W0,
-		-- The key and LED on the FPGA card
---		i_key1				=> i_key1,
---		o_UsrLed				=> o_UsrLed,
 		-- External I2C connections
 		io_I2C_SCL			=> io_I2C_SCL,
 		io_I2C_SDA			=> io_I2C_SDA,
@@ -190,7 +186,6 @@ begin
 	
 	-- ____________________________________________________________________________________
 	-- 6800 CPU
-	
 	cpu1 : entity work.cpu68
 		port map(
 			clk		=> w_cpuClock,
@@ -242,11 +237,11 @@ begin
 	-- Grant's VGA driver
 	vdu : entity work.SBCTextDisplayRGB
 		port map (
-			n_reset	=> w_resetLow,
 			clk		=> i_CLOCK_50,
+			n_reset	=> w_resetLow,
+			-- CPU interface
 			n_WR		=> n_if1CS or      w_R1W0  or (not w_vma) or (not w_cpuClock),
 			n_rd		=> n_if1CS or (not w_R1W0) or (not w_vma),
---			n_int		=> n_int1,
 			regSel	=> w_cpuAddress(0),
 			dataIn	=> w_cpuDataOut,
 			dataOut	=> w_if1DataOut,
@@ -282,7 +277,7 @@ begin
 		);
 		
 	-- ____________________________________________________________________________________
-	-- CPU Clock
+	-- CPU Clock - 25 MHz for internal accesses
 	process (i_CLOCK_50)
 		begin
 			if rising_edge(i_CLOCK_50) then
@@ -307,24 +302,6 @@ begin
 				end if;
 		end process;
 	
-	-- ____________________________________________________________________________________
-	-- CPU Clock
---	process (i_CLOCK_50)
---		begin
---			if rising_edge(i_CLOCK_50) then
---				if q_cpuClkCount < 4 then
---					q_cpuClkCount <= q_cpuClkCount + 1;
---				else
---					q_cpuClkCount <= (others=>'0');
---				end if;
---				if q_cpuClkCount < 2 then
---					w_cpuClock <= '0';
---				else
---					w_cpuClock <= '1';
---				end if;
---			end if;
---		end process;
-
 	-- ____________________________________________________________________________________
 	-- Baud Rate Generator
 	-- Legal BAUD_RATE values are 115200, 38400, 19200, 9600, 4800, 2400, 1200, 600, 300
