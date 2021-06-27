@@ -66,8 +66,8 @@ entity M6800_MIKBUG is
 		o_n_extSRamCS		: out std_logic := '1';
 		o_n_extSRamOE		: out std_logic := '1';
 		
-		testPt1				: out std_logic := '1';
-		testPt2				: out std_logic := '1';
+--		testPt1				: out std_logic := '1';
+--		testPt2				: out std_logic := '1';
 
 		-- Not using the SD RAM but making sure that it's not active
 		n_sdRamCas			: out std_logic := '1';		-- CAS
@@ -124,8 +124,8 @@ architecture struct of M6800_MIKBUG is
 	
 begin
 
-	testPt1 <= w_cpuClock;
-	testPt2 <= w_n_SRAMCE or (not w_R1W0) or (not w_vma);
+--	testPt1 <= w_cpuClock;
+--	testPt2 <= w_n_SRAMCE or (not w_R1W0) or (not w_vma);
 	
 	-- Debounce the reset line
 	DebounceResetSwitch	: entity work.Debouncer
@@ -135,7 +135,6 @@ begin
 		o_PinOut	=> w_resetLow
 	);
 		
-	-- External SRAM
 	-- Need CPU reset to be later and later than peripherals
 	process (w_cpuClock)
 		begin
@@ -144,6 +143,7 @@ begin
 			end if;
 		end process;
 
+	-- External SRAM
 	w_n_SRAMCE	<= '0'   when w_cpuAddress(15 downto 14) = "10" else		-- 16KB SRAM $8000-$BFFF
 						'1';
 	w_bankAdr	<= '1' when w_cpuAddress(15 downto 14) = "10" else '0';
@@ -312,7 +312,7 @@ begin
 						q_cpuClkCount <= (others=>'0');
 					end if;
 				end if;
-				if q_cpuClkCount < 1 then						-- one clock low
+				if q_cpuClkCount < 1 then							-- one clock low
 					w_cpuClock <= '0';
 				else
 					w_cpuClock <= '1';
