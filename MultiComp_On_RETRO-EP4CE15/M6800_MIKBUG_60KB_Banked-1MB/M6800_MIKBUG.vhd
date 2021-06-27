@@ -5,7 +5,8 @@
 -- Changes to this code by Doug Gilliland 2020
 --
 -- MC6800 CPU running MIKBUG from back in the day
---	16.67 MHz
+--		16.67 MHz external SRAM
+--		25 MHz internal
 --	32K+8+4 = 44KB (internal) SRAM
 --	64 banks of 16KB of external SRAM (1MB total)
 -- Bank Select register (7 bits)
@@ -83,6 +84,7 @@ end M6800_MIKBUG;
 architecture struct of M6800_MIKBUG is
 
 	signal w_resetLow		: std_logic := '1';
+	signal wCPUResetHi		: std_logic := '1';
 
 	-- CPU Signals
 	signal w_cpuAddress	: std_logic_vector(15 downto 0);
@@ -106,9 +108,9 @@ architecture struct of M6800_MIKBUG is
 	signal adrLatVal		: std_logic_vector(7 downto 0);
 
 	-- Interface control lines
-	signal n_int1			: std_logic :='1';	
+--	signal n_int1			: std_logic :='1';	
 	signal n_if1CS			: std_logic :='1';
-	signal n_int2			: std_logic :='1';	
+--	signal n_int2			: std_logic :='1';	
 	signal n_if2CS			: std_logic :='1';
 
 	-- CPU Clock
@@ -122,8 +124,6 @@ architecture struct of M6800_MIKBUG is
 	
 begin
 
-
-
 	testPt1 <= w_cpuClock;
 	testPt2 <= w_n_SRAMCE or (not w_R1W0) or (not w_vma);
 	
@@ -136,6 +136,14 @@ begin
 	);
 		
 	-- External SRAM
+	-- Need CPU reset to be later and later than peripherals
+	process (w_cpuClock)
+		begin
+			if rising_edge(w_cpuClock) then
+				wCPUResetHi <= not w_resetLow;
+			end if;
+		end process;
+
 	w_n_SRAMCE	<= '0'   when w_cpuAddress(15 downto 14) = "10" else		-- 16KB SRAM $8000-$BFFF
 						'1';
 	w_bankAdr	<= '1' when w_cpuAddress(15 downto 14) = "10" else '0';
@@ -155,7 +163,6 @@ begin
 			clear		=> w_resetLow,
 			latchOut	=> adrLatVal
 		);
-		
 		
 	-- ____________________________________________________________________________________
 	-- I/O CHIP SELECTS
@@ -185,7 +192,7 @@ begin
 	cpu1 : entity work.cpu68
 		port map(
 			clk		=> w_cpuClock,
-			rst		=> not w_resetLow,
+			rst		=> wCPUResetHi,
 			rw			=> w_R1W0,
 			vma		=> w_vma,
 			address	=> w_cpuAddress,
@@ -249,7 +256,7 @@ begin
 			clk		=> i_CLOCK_50,
 			n_WR		=> n_if1CS or      w_R1W0  or (not w_vma) or (not w_cpuClock),
 			n_rd		=> n_if1CS or (not w_R1W0) or (not w_vma),
-			n_int		=> n_int1,
+--			n_int		=> n_int1,
 			regSel	=> w_cpuAddress(0),
 			dataIn	=> w_cpuDataOut,
 			dataOut	=> w_if1DataOut,
@@ -276,9 +283,7 @@ begin
 			regSel	=> w_cpuAddress(0),
 			dataIn	=> w_cpuDataOut,
 			dataOut	=> w_if2DataOut,
-			n_int		=> n_int2,
-						 -- these clock enables are asserted for one period of input clk,
-						 -- at 16x the baud rate.
+--			n_int		=> n_int2,
 			rxClkEn	=> serialEn,
 			txClkEn	=> serialEn,
 			rxd		=> utxd1,
@@ -307,7 +312,7 @@ begin
 						q_cpuClkCount <= (others=>'0');
 					end if;
 				end if;
-				if q_cpuClkCount < 1 then						-- 2 clocks high, one low
+				if q_cpuClkCount < 1 then						-- one clock low
 					w_cpuClock <= '0';
 				else
 					w_cpuClock <= '1';
