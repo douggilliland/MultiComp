@@ -9,12 +9,24 @@
 --		25 NHz for interbal SRAM and Peripherals
 --	Running MIKBUG from back in the day
 --	32K (internal) RAM version
--- MC6850 ACIA UART
--- VDU
---		XGA 80x25 character display
---		PS/2 keyboard
+-- Default I/O is jumper selectable
+-- 	MC6850 ACIA UART
+-- 	VDU - ANSI terminal
+--			XGA 80x25 character display
+--			PS/2 keyboard
 --	Front Panel
 --		http://land-boards.com/blwiki/index.php?title=Front_Panel_For_8_Bit_Computers
+--		Monitors Address/Data when in Run mode
+--		Upper left pushbutton (PB31) - Run.Halt (Upper leftLED on for Run)
+--		PB30 - Reset
+--		PB29 - Step - Not yet implemented
+--		PB27 - Clear - Clears address if in Set Address Mode control mode
+--		PB26 - Increment address - Function depend on Enable Write Data and Set Address Mode controls
+--			Ignored if Set Address is selected
+--			If Enable Write Data is selected, Write data then Increment address
+--			If Enable Write Data is not selectedrwise increment read address and read next location
+--		PB25 - Enable Write Data control - Bottom row of pushbuttons controls write of data to memory
+--		PB24 - Set Address Mode control - Middle two rows of pushbuttons control LEDs
 --	Memory Map
 --		0x0000-0x7FFF - INTERBAL SRAM
 --		0x8018-0x8019 - VDU (serSelect J3 JUMPER REMOCED)
@@ -146,18 +158,18 @@ begin
 		i_CLOCK_50			=> i_CLOCK_50,
 		i_cpuClock			=> w_cpuClock,
 		i_n_reset			=> w_resetLow,
+		o_FPReset			=> w_FPReset,
 		-- CPU intercepts
 		-- Front Panel loops back signals when in Front Panel switch is in Run Mode
 		i_CPUAddress		=> w_cpuAddressB,
 		o_CPUAddress		=> w_cpuAddress,
 		i_cpuData			=> w_cpuDataOutB,
 		o_cpuData			=> w_cpuDataOut,
-		i_RAMData			=> w_cpuDataIn,
+		i_CPURdData			=> w_cpuDataIn,
 		io_run0Halt1		=> w_run0Halt1,
 		o_wrRamStr			=> w_wrRamStr,
 		i_R1W0				=> w_R1W0B,
 		o_R1W0				=> w_R1W0,
-		o_FPReset			=> w_FPReset,
 		-- The key and LED on the FPGA card
 --		i_key1				=> i_key1,
 --		o_UsrLed				=> o_UsrLed,

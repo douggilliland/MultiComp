@@ -1,4 +1,21 @@
 --	---------------------------------------------------------------------------------------------------------
+-- Front Panel interface
+-- Intercepts the CPU connections and connects to the Front Panel
+-- PB31 (upper left switch/LED on the Front Panel) is the main control - Run / Halt
+--	Front Panel
+--		http://land-boards.com/blwiki/index.php?title=Front_Panel_For_8_Bit_Computers
+--		Monitors Address/Data when in Run mode
+--		PB31 - Upper left pushbutton - Run.Halt (Upper leftLED on for Run)
+--		PB30 - Reset
+--		PB29 - Step - Not yet implemented
+--		PB27 - Clear - Clears address if in Set Address Mode control mode
+--		PB26 - Increment address - Function depend on Enable Write Data and Set Address Mode controls
+--			Ignored if Set Address is selected
+--			If Enable Write Data is selected, Write data then Increment address
+--			If Enable Write Data is not selectedrwise increment read address and read next location
+--		PB25 - Enable Write Data control - Bottom row of pushbuttons controls write of data to memory
+--		PB24 - Set Address Mode control - Middle two rows of pushbuttons control LEDs
+--
 
 library ieee;
 use ieee.std_logic_1164.all;
@@ -9,23 +26,20 @@ entity MIKBUG_FRPNL is
 	port
 	(
 	-- Clock and reset
-	i_CLOCK_50					: in std_logic;
-	i_cpuClock					: in std_logic;
-	i_n_reset					: in std_logic;
+	i_CLOCK_50					: in std_logic;								-- FPGA 50 MHz clock
+	i_cpuClock					: in std_logic;								-- COU Clock (25 MHz)
+	i_n_reset					: in std_logic;								-- Reset - debounced pushbutton (KEY1 on FPGA card)
+	o_FPReset					: out std_logic;								-- Reset from pushbutton PB30
 	-- CPU intercepts
-	i_CPUAddress				: in std_logic_vector(15 downto 0);
-	o_CPUAddress				: out std_logic_vector(15 downto 0);
-	i_CPUData					: in std_logic_vector(7 downto 0);
-	o_CPUData					: out std_logic_vector(7 downto 0);
-	i_RAMData					: in std_logic_vector(7 downto 0);
-	io_run0Halt1				: inout std_logic;
-	o_wrRamStr					: out std_logic;
-	i_R1W0						: in std_logic;
-	o_R1W0						: out std_logic;
-	o_FPReset					: out std_logic;
-	-- The key and LED on the FPGA card
---	i_key1						: in std_logic := '1';
---	o_UsrLed						: out std_logic := '1';
+	i_CPUAddress				: in std_logic_vector(15 downto 0);		-- Address lines from the CPU
+	o_CPUAddress				: out std_logic_vector(15 downto 0);	-- Address lines from the Front panel
+	i_CPUData					: in std_logic_vector(7 downto 0);		-- Data out from the CPU
+	o_CPUData					: out std_logic_vector(7 downto 0);		-- Data to memory / peripherals
+	i_CPURdData					: in std_logic_vector(7 downto 0);		-- Data from memory / peripherals
+	io_run0Halt1				: inout std_logic;							-- Run / Halt from Front Panel 
+	o_wrRamStr					: out std_logic;								-- Write strobe to SRAM
+	i_R1W0						: in std_logic;								-- Read / Write from CPU
+	o_R1W0						: out std_logic;								-- Read / Write to memory / peripherals
 	-- External I2C connections
 	io_I2C_SCL					: inout std_logic;
 	io_I2C_SDA					: inout std_logic;
@@ -165,8 +179,8 @@ begin
 										w_FPAddress 	when (io_run0Halt1 = '1') else
 										x"0000";
 	w_LEDsOut(7 downto 0)	<= i_CPUData						when	((io_run0Halt1='0') and (i_R1W0='0'))		else	-- Data lines
-										i_RAMData						when	((io_run0Halt1='0') and (i_R1W0='1'))		else	-- Data lines
-										i_RAMData						when 	(w_setDatPB='0') and (io_run0Halt1='1')	else	-- Memory data
+										i_CPURdData						when	((io_run0Halt1='0') and (i_R1W0='1'))		else	-- Data lines
+										i_CPURdData						when 	(w_setDatPB='0') and (io_run0Halt1='1')	else	-- Memory data
 										w_PBsToggled(7 downto 0)	when  (w_setDatPB='1') and (io_run0Halt1='1')	else	-- Front panel buttons
 										x"00";
 
