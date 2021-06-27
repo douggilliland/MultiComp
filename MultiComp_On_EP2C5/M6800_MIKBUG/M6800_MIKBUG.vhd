@@ -118,8 +118,8 @@ architecture struct of M6800_MIKBUG is
 	signal w_cpuClkCt		: std_logic_vector(5 downto 0); 
 	signal w_cpuClk		: std_logic;
 
-   signal serialCount   : std_logic_vector(15 downto 0) := x"0000";
-   signal serialCount_d	: std_logic_vector(15 downto 0);
+   -- signal serialCount   : std_logic_vector(15 downto 0) := x"0000";
+   -- signal serialCount_d	: std_logic_vector(15 downto 0);
    signal serialEn      : std_logic;
 	
 begin
