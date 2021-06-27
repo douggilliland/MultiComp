@@ -1,6 +1,6 @@
 |M6800_MIKBUG
 i_n_reset => debouncer:DebounceResetSwitch.i_PinIn
-i_CLOCK_50 => frontpanel01:fp01.i_CLOCK_50
+i_CLOCK_50 => mikbug_frpnl:MIKBUG_FRPNL.i_CLOCK_50
 i_CLOCK_50 => w_cpuClock.CLK
 i_CLOCK_50 => q_cpuClkCount[0].CLK
 i_CLOCK_50 => q_cpuClkCount[1].CLK
@@ -31,9 +31,9 @@ serSelect => n_if1CS.IN1
 serSelect => n_if2CS.IN1
 serSelect => n_if1CS.IN1
 serSelect => n_if2CS.IN1
-io_I2C_SCL <> frontpanel01:fp01.io_I2C_SCL
-io_I2C_SDA <> frontpanel01:fp01.io_I2C_SDA
-i_I2C_INTn => frontpanel01:fp01.i_I2C_INTn
+io_I2C_SCL <> mikbug_frpnl:MIKBUG_FRPNL.io_I2C_SCL
+io_I2C_SDA <> mikbug_frpnl:MIKBUG_FRPNL.io_I2C_SDA
+i_I2C_INTn => mikbug_frpnl:MIKBUG_FRPNL.i_I2C_INTn
 io_extSRamData[0] <> <UNC>
 io_extSRamData[1] <> <UNC>
 io_extSRamData[2] <> <UNC>
@@ -135,7 +135,139 @@ i_PinIn => dly1.DATAIN
 o_PinOut <= o_PinOut~reg0.DB_MAX_OUTPUT_PORT_TYPE
 
 
-|M6800_MIKBUG|FrontPanel01:fp01
+|M6800_MIKBUG|MIKBUG_FRPNL:MIKBUG_FRPNL
+i_CLOCK_50 => frontpanel01:fp01.i_CLOCK_50
+i_cpuClock => w_incAdrPB.CLK
+i_cpuClock => w_incAdrPBD2.CLK
+i_cpuClock => w_incAdrPBD1.CLK
+i_cpuClock => w_setDatPB.CLK
+i_cpuClock => w_setAdrPB.CLK
+i_cpuClock => w_FPAddress[0].CLK
+i_cpuClock => w_FPAddress[1].CLK
+i_cpuClock => w_FPAddress[2].CLK
+i_cpuClock => w_FPAddress[3].CLK
+i_cpuClock => w_FPAddress[4].CLK
+i_cpuClock => w_FPAddress[5].CLK
+i_cpuClock => w_FPAddress[6].CLK
+i_cpuClock => w_FPAddress[7].CLK
+i_cpuClock => w_FPAddress[8].CLK
+i_cpuClock => w_FPAddress[9].CLK
+i_cpuClock => w_FPAddress[10].CLK
+i_cpuClock => w_FPAddress[11].CLK
+i_cpuClock => w_FPAddress[12].CLK
+i_cpuClock => w_FPAddress[13].CLK
+i_cpuClock => w_FPAddress[14].CLK
+i_cpuClock => w_FPAddress[15].CLK
+i_cpuClock => w_clrPB.CLK
+i_cpuClock => w_clrPBD2.CLK
+i_cpuClock => w_clrPBD1.CLK
+i_cpuClock => resetD1.CLK
+i_cpuClock => o_run0Halt1~reg0.CLK
+i_cpuClock => w_cntCpu[0].CLK
+i_cpuClock => w_cntCpu[1].CLK
+i_cpuClock => w_cntCpu[2].CLK
+i_n_reset => frontpanel01:fp01.i_n_reset
+i_n_reset => w_LEDsOut[30].IN1
+i_CPUAddress[0] => w_LEDsOut[8].DATAB
+i_CPUAddress[0] => o_CPUAddress[0].DATAB
+i_CPUAddress[1] => w_LEDsOut[9].DATAB
+i_CPUAddress[1] => o_CPUAddress[1].DATAB
+i_CPUAddress[2] => w_LEDsOut[10].DATAB
+i_CPUAddress[2] => o_CPUAddress[2].DATAB
+i_CPUAddress[3] => w_LEDsOut[11].DATAB
+i_CPUAddress[3] => o_CPUAddress[3].DATAB
+i_CPUAddress[4] => w_LEDsOut[12].DATAB
+i_CPUAddress[4] => o_CPUAddress[4].DATAB
+i_CPUAddress[5] => w_LEDsOut[13].DATAB
+i_CPUAddress[5] => o_CPUAddress[5].DATAB
+i_CPUAddress[6] => w_LEDsOut[14].DATAB
+i_CPUAddress[6] => o_CPUAddress[6].DATAB
+i_CPUAddress[7] => w_LEDsOut[15].DATAB
+i_CPUAddress[7] => o_CPUAddress[7].DATAB
+i_CPUAddress[8] => w_LEDsOut[16].DATAB
+i_CPUAddress[8] => o_CPUAddress[8].DATAB
+i_CPUAddress[9] => w_LEDsOut[17].DATAB
+i_CPUAddress[9] => o_CPUAddress[9].DATAB
+i_CPUAddress[10] => w_LEDsOut[18].DATAB
+i_CPUAddress[10] => o_CPUAddress[10].DATAB
+i_CPUAddress[11] => w_LEDsOut[19].DATAB
+i_CPUAddress[11] => o_CPUAddress[11].DATAB
+i_CPUAddress[12] => w_LEDsOut[20].DATAB
+i_CPUAddress[12] => o_CPUAddress[12].DATAB
+i_CPUAddress[13] => w_LEDsOut[21].DATAB
+i_CPUAddress[13] => o_CPUAddress[13].DATAB
+i_CPUAddress[14] => w_LEDsOut[22].DATAB
+i_CPUAddress[14] => o_CPUAddress[14].DATAB
+i_CPUAddress[15] => w_LEDsOut[23].DATAB
+i_CPUAddress[15] => o_CPUAddress[15].DATAB
+o_CPUAddress[0] <= o_CPUAddress[0].DB_MAX_OUTPUT_PORT_TYPE
+o_CPUAddress[1] <= o_CPUAddress[1].DB_MAX_OUTPUT_PORT_TYPE
+o_CPUAddress[2] <= o_CPUAddress[2].DB_MAX_OUTPUT_PORT_TYPE
+o_CPUAddress[3] <= o_CPUAddress[3].DB_MAX_OUTPUT_PORT_TYPE
+o_CPUAddress[4] <= o_CPUAddress[4].DB_MAX_OUTPUT_PORT_TYPE
+o_CPUAddress[5] <= o_CPUAddress[5].DB_MAX_OUTPUT_PORT_TYPE
+o_CPUAddress[6] <= o_CPUAddress[6].DB_MAX_OUTPUT_PORT_TYPE
+o_CPUAddress[7] <= o_CPUAddress[7].DB_MAX_OUTPUT_PORT_TYPE
+o_CPUAddress[8] <= o_CPUAddress[8].DB_MAX_OUTPUT_PORT_TYPE
+o_CPUAddress[9] <= o_CPUAddress[9].DB_MAX_OUTPUT_PORT_TYPE
+o_CPUAddress[10] <= o_CPUAddress[10].DB_MAX_OUTPUT_PORT_TYPE
+o_CPUAddress[11] <= o_CPUAddress[11].DB_MAX_OUTPUT_PORT_TYPE
+o_CPUAddress[12] <= o_CPUAddress[12].DB_MAX_OUTPUT_PORT_TYPE
+o_CPUAddress[13] <= o_CPUAddress[13].DB_MAX_OUTPUT_PORT_TYPE
+o_CPUAddress[14] <= o_CPUAddress[14].DB_MAX_OUTPUT_PORT_TYPE
+o_CPUAddress[15] <= o_CPUAddress[15].DB_MAX_OUTPUT_PORT_TYPE
+i_cpuDataOut[0] => w_LEDsOut.DATAB
+i_cpuDataOut[0] => w_LEDsOut.DATAB
+i_cpuDataOut[0] => w_LEDsOut[0].DATAB
+i_cpuDataOut[0] => o_cpuDataOut[0].DATAB
+i_cpuDataOut[1] => w_LEDsOut.DATAB
+i_cpuDataOut[1] => w_LEDsOut.DATAB
+i_cpuDataOut[1] => w_LEDsOut[1].DATAB
+i_cpuDataOut[1] => o_cpuDataOut[1].DATAB
+i_cpuDataOut[2] => w_LEDsOut.DATAB
+i_cpuDataOut[2] => w_LEDsOut.DATAB
+i_cpuDataOut[2] => w_LEDsOut[2].DATAB
+i_cpuDataOut[2] => o_cpuDataOut[2].DATAB
+i_cpuDataOut[3] => w_LEDsOut.DATAB
+i_cpuDataOut[3] => w_LEDsOut.DATAB
+i_cpuDataOut[3] => w_LEDsOut[3].DATAB
+i_cpuDataOut[3] => o_cpuDataOut[3].DATAB
+i_cpuDataOut[4] => w_LEDsOut.DATAB
+i_cpuDataOut[4] => w_LEDsOut.DATAB
+i_cpuDataOut[4] => w_LEDsOut[4].DATAB
+i_cpuDataOut[4] => o_cpuDataOut[4].DATAB
+i_cpuDataOut[5] => w_LEDsOut.DATAB
+i_cpuDataOut[5] => w_LEDsOut.DATAB
+i_cpuDataOut[5] => w_LEDsOut[5].DATAB
+i_cpuDataOut[5] => o_cpuDataOut[5].DATAB
+i_cpuDataOut[6] => w_LEDsOut.DATAB
+i_cpuDataOut[6] => w_LEDsOut.DATAB
+i_cpuDataOut[6] => w_LEDsOut[6].DATAB
+i_cpuDataOut[6] => o_cpuDataOut[6].DATAB
+i_cpuDataOut[7] => w_LEDsOut.DATAB
+i_cpuDataOut[7] => w_LEDsOut.DATAB
+i_cpuDataOut[7] => w_LEDsOut[7].DATAB
+i_cpuDataOut[7] => o_cpuDataOut[7].DATAB
+o_cpuDataOut[0] <= o_cpuDataOut[0].DB_MAX_OUTPUT_PORT_TYPE
+o_cpuDataOut[1] <= o_cpuDataOut[1].DB_MAX_OUTPUT_PORT_TYPE
+o_cpuDataOut[2] <= o_cpuDataOut[2].DB_MAX_OUTPUT_PORT_TYPE
+o_cpuDataOut[3] <= o_cpuDataOut[3].DB_MAX_OUTPUT_PORT_TYPE
+o_cpuDataOut[4] <= o_cpuDataOut[4].DB_MAX_OUTPUT_PORT_TYPE
+o_cpuDataOut[5] <= o_cpuDataOut[5].DB_MAX_OUTPUT_PORT_TYPE
+o_cpuDataOut[6] <= o_cpuDataOut[6].DB_MAX_OUTPUT_PORT_TYPE
+o_cpuDataOut[7] <= o_cpuDataOut[7].DB_MAX_OUTPUT_PORT_TYPE
+o_run0Halt1 <> o_run0Halt1~reg0
+o_wrRamStr <= o_wrRamStr.DB_MAX_OUTPUT_PORT_TYPE
+i_R1W0 => w_LEDsOut.IN1
+i_R1W0 => o_R1W0.DATAB
+i_R1W0 => w_LEDsOut.IN1
+o_R1W0 <= o_R1W0.DB_MAX_OUTPUT_PORT_TYPE
+io_I2C_SCL <> frontpanel01:fp01.io_I2C_SCL
+io_I2C_SDA <> frontpanel01:fp01.io_I2C_SDA
+i_I2C_INTn => frontpanel01:fp01.i_I2C_INTn
+
+
+|M6800_MIKBUG|MIKBUG_FRPNL:MIKBUG_FRPNL|FrontPanel01:fp01
 i_CLOCK_50 => iop16:iop16.i_clk
 i_CLOCK_50 => w_i2c_400KHz.CLK
 i_CLOCK_50 => w_i2cCount[0].CLK
@@ -382,7 +514,7 @@ io_I2C_SDA <> i2c:i2cIF.io_I2C_SDA
 i_I2C_INTn => w_PERIP_DATA_IN.DATAB
 
 
-|M6800_MIKBUG|FrontPanel01:fp01|IOP16:iop16
+|M6800_MIKBUG|MIKBUG_FRPNL:MIKBUG_FRPNL|FrontPanel01:fp01|IOP16:iop16
 i_clk => graycounter:greyLow.Clk
 i_clk => w_PC_out[0].CLK
 i_clk => w_PC_out[1].CLK
@@ -442,7 +574,7 @@ o_periphAdr[6] <= o_periphAdr.DB_MAX_OUTPUT_PORT_TYPE
 o_periphAdr[7] <= o_periphAdr.DB_MAX_OUTPUT_PORT_TYPE
 
 
-|M6800_MIKBUG|FrontPanel01:fp01|IOP16:iop16|GrayCounter:greyLow
+|M6800_MIKBUG|MIKBUG_FRPNL:MIKBUG_FRPNL|FrontPanel01:fp01|IOP16:iop16|GrayCounter:greyLow
 Clk => Currstate[0].CLK
 Clk => Currstate[1].CLK
 Clk => Currstate[2].CLK
@@ -457,7 +589,7 @@ output[1] <= Currstate[1].DB_MAX_OUTPUT_PORT_TYPE
 output[2] <= Currstate[2].DB_MAX_OUTPUT_PORT_TYPE
 
 
-|M6800_MIKBUG|FrontPanel01:fp01|IOP16:iop16|lifo:\GEN_STACK_DEEPER:lifo
+|M6800_MIKBUG|MIKBUG_FRPNL:MIKBUG_FRPNL|FrontPanel01:fp01|IOP16:iop16|lifo:\GEN_STACK_DEEPER:lifo
 i_clk => r_mem~16.CLK
 i_clk => r_mem~0.CLK
 i_clk => r_mem~1.CLK
@@ -590,7 +722,7 @@ o_data[11] <= o_data[11]~reg0.DB_MAX_OUTPUT_PORT_TYPE
 o_empty <= b_empty.DB_MAX_OUTPUT_PORT_TYPE
 
 
-|M6800_MIKBUG|FrontPanel01:fp01|IOP16:iop16|IOP_ROM:\GEN_1KW_INST_ROM:IopRom
+|M6800_MIKBUG|MIKBUG_FRPNL:MIKBUG_FRPNL|FrontPanel01:fp01|IOP16:iop16|IOP_ROM:\GEN_1KW_INST_ROM:IopRom
 address[0] => altsyncram:altsyncram_component.address_a[0]
 address[1] => altsyncram:altsyncram_component.address_a[1]
 address[2] => altsyncram:altsyncram_component.address_a[2]
@@ -620,7 +752,7 @@ q[14] <= altsyncram:altsyncram_component.q_a[14]
 q[15] <= altsyncram:altsyncram_component.q_a[15]
 
 
-|M6800_MIKBUG|FrontPanel01:fp01|IOP16:iop16|IOP_ROM:\GEN_1KW_INST_ROM:IopRom|altsyncram:altsyncram_component
+|M6800_MIKBUG|MIKBUG_FRPNL:MIKBUG_FRPNL|FrontPanel01:fp01|IOP16:iop16|IOP_ROM:\GEN_1KW_INST_ROM:IopRom|altsyncram:altsyncram_component
 wren_a => ~NO_FANOUT~
 rden_a => ~NO_FANOUT~
 wren_b => ~NO_FANOUT~
@@ -687,7 +819,7 @@ eccstatus[1] <= <GND>
 eccstatus[2] <= <GND>
 
 
-|M6800_MIKBUG|FrontPanel01:fp01|IOP16:iop16|IOP_ROM:\GEN_1KW_INST_ROM:IopRom|altsyncram:altsyncram_component|altsyncram_bk24:auto_generated
+|M6800_MIKBUG|MIKBUG_FRPNL:MIKBUG_FRPNL|FrontPanel01:fp01|IOP16:iop16|IOP_ROM:\GEN_1KW_INST_ROM:IopRom|altsyncram:altsyncram_component|altsyncram_bk24:auto_generated
 address_a[0] => ram_block1a0.PORTAADDR
 address_a[0] => ram_block1a1.PORTAADDR
 address_a[0] => ram_block1a2.PORTAADDR
@@ -882,7 +1014,7 @@ q_a[14] <= ram_block1a14.PORTADATAOUT
 q_a[15] <= ram_block1a15.PORTADATAOUT
 
 
-|M6800_MIKBUG|FrontPanel01:fp01|IOP16:iop16|RegFile8x8:RegFile
+|M6800_MIKBUG|MIKBUG_FRPNL:MIKBUG_FRPNL|FrontPanel01:fp01|IOP16:iop16|RegFile8x8:RegFile
 i_clk => w_regFR7[0].CLK
 i_clk => w_regFR7[1].CLK
 i_clk => w_regFR7[2].CLK
@@ -1137,7 +1269,7 @@ o_DataOut[6] <= o_DataOut[6]$latch.DB_MAX_OUTPUT_PORT_TYPE
 o_DataOut[7] <= o_DataOut[7]$latch.DB_MAX_OUTPUT_PORT_TYPE
 
 
-|M6800_MIKBUG|FrontPanel01:fp01|i2c:i2cIF
+|M6800_MIKBUG|MIKBUG_FRPNL:MIKBUG_FRPNL|FrontPanel01:fp01|i2c:i2cIF
 i_RESET => process_1.IN0
 i_RESET => w_phase[0].ACLR
 i_RESET => w_phase[1].ACLR
@@ -1264,7 +1396,7 @@ io_I2C_SCL <> io_I2C_SCL
 io_I2C_SDA <> io_I2C_SDA
 
 
-|M6800_MIKBUG|FrontPanel01:fp01|Debouncer32:debouncePB
+|M6800_MIKBUG|MIKBUG_FRPNL:MIKBUG_FRPNL|FrontPanel01:fp01|Debouncer32:debouncePB
 i_slowClk => i_slowClk~buf0.DATAIN
 i_fastClk => o_LdStrobe~reg0.CLK
 i_fastClk => w_dly2.CLK
@@ -1902,22 +2034,22 @@ data_a[5] => ~NO_FANOUT~
 data_a[6] => ~NO_FANOUT~
 data_a[7] => ~NO_FANOUT~
 data_b[0] => ~NO_FANOUT~
-address_a[0] => altsyncram_oa14:auto_generated.address_a[0]
-address_a[1] => altsyncram_oa14:auto_generated.address_a[1]
-address_a[2] => altsyncram_oa14:auto_generated.address_a[2]
-address_a[3] => altsyncram_oa14:auto_generated.address_a[3]
-address_a[4] => altsyncram_oa14:auto_generated.address_a[4]
-address_a[5] => altsyncram_oa14:auto_generated.address_a[5]
-address_a[6] => altsyncram_oa14:auto_generated.address_a[6]
-address_a[7] => altsyncram_oa14:auto_generated.address_a[7]
-address_a[8] => altsyncram_oa14:auto_generated.address_a[8]
-address_a[9] => altsyncram_oa14:auto_generated.address_a[9]
-address_a[10] => altsyncram_oa14:auto_generated.address_a[10]
-address_a[11] => altsyncram_oa14:auto_generated.address_a[11]
+address_a[0] => altsyncram_o524:auto_generated.address_a[0]
+address_a[1] => altsyncram_o524:auto_generated.address_a[1]
+address_a[2] => altsyncram_o524:auto_generated.address_a[2]
+address_a[3] => altsyncram_o524:auto_generated.address_a[3]
+address_a[4] => altsyncram_o524:auto_generated.address_a[4]
+address_a[5] => altsyncram_o524:auto_generated.address_a[5]
+address_a[6] => altsyncram_o524:auto_generated.address_a[6]
+address_a[7] => altsyncram_o524:auto_generated.address_a[7]
+address_a[8] => altsyncram_o524:auto_generated.address_a[8]
+address_a[9] => altsyncram_o524:auto_generated.address_a[9]
+address_a[10] => altsyncram_o524:auto_generated.address_a[10]
+address_a[11] => altsyncram_o524:auto_generated.address_a[11]
 address_b[0] => ~NO_FANOUT~
 addressstall_a => ~NO_FANOUT~
 addressstall_b => ~NO_FANOUT~
-clock0 => altsyncram_oa14:auto_generated.clock0
+clock0 => altsyncram_o524:auto_generated.clock0
 clock1 => ~NO_FANOUT~
 clocken0 => ~NO_FANOUT~
 clocken1 => ~NO_FANOUT~
@@ -1927,21 +2059,21 @@ aclr0 => ~NO_FANOUT~
 aclr1 => ~NO_FANOUT~
 byteena_a[0] => ~NO_FANOUT~
 byteena_b[0] => ~NO_FANOUT~
-q_a[0] <= altsyncram_oa14:auto_generated.q_a[0]
-q_a[1] <= altsyncram_oa14:auto_generated.q_a[1]
-q_a[2] <= altsyncram_oa14:auto_generated.q_a[2]
-q_a[3] <= altsyncram_oa14:auto_generated.q_a[3]
-q_a[4] <= altsyncram_oa14:auto_generated.q_a[4]
-q_a[5] <= altsyncram_oa14:auto_generated.q_a[5]
-q_a[6] <= altsyncram_oa14:auto_generated.q_a[6]
-q_a[7] <= altsyncram_oa14:auto_generated.q_a[7]
+q_a[0] <= altsyncram_o524:auto_generated.q_a[0]
+q_a[1] <= altsyncram_o524:auto_generated.q_a[1]
+q_a[2] <= altsyncram_o524:auto_generated.q_a[2]
+q_a[3] <= altsyncram_o524:auto_generated.q_a[3]
+q_a[4] <= altsyncram_o524:auto_generated.q_a[4]
+q_a[5] <= altsyncram_o524:auto_generated.q_a[5]
+q_a[6] <= altsyncram_o524:auto_generated.q_a[6]
+q_a[7] <= altsyncram_o524:auto_generated.q_a[7]
 q_b[0] <= <GND>
 eccstatus[0] <= <GND>
 eccstatus[1] <= <GND>
 eccstatus[2] <= <GND>
 
 
-|M6800_MIKBUG|M6800_MIKBUG_32KB:rom1|altsyncram:altsyncram_component|altsyncram_oa14:auto_generated
+|M6800_MIKBUG|M6800_MIKBUG_32KB:rom1|altsyncram:altsyncram_component|altsyncram_o524:auto_generated
 address_a[0] => ram_block1a0.PORTAADDR
 address_a[0] => ram_block1a1.PORTAADDR
 address_a[0] => ram_block1a2.PORTAADDR
