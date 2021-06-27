@@ -63,6 +63,7 @@ end M6800_MIKBUG;
 architecture struct of M6800_MIKBUG is
 
 	signal w_resetLow		: std_logic := '1';
+	signal wCPUResetHi	: std_logic := '1';
 
 	signal w_cpuAddress	: std_logic_vector(15 downto 0);
 	signal w_cpuDataOut	: std_logic_vector(7 downto 0);
@@ -75,9 +76,9 @@ architecture struct of M6800_MIKBUG is
 	signal w_if1DataOut	: std_logic_vector(7 downto 0);
 	signal w_if2DataOut	: std_logic_vector(7 downto 0);
 
-	signal n_int1			: std_logic :='1';	
+--	signal n_int1			: std_logic :='1';	
 	signal n_if1CS			: std_logic :='1';
-	signal n_int2			: std_logic :='1';	
+--	signal n_int2			: std_logic :='1';	
 	signal n_if2CS			: std_logic :='1';
 
 	signal q_cpuClkCount	: std_logic_vector(5 downto 0); 
@@ -96,6 +97,14 @@ begin
 		i_PinIn	=> i_n_reset,
 		o_PinOut	=> w_resetLow
 	);
+		
+	-- Need CPU reset to be later and later than peripherals
+	process (w_cpuClock)
+		begin
+			if rising_edge(w_cpuClock) then
+				wCPUResetHi <= not w_resetLow;
+			end if;
+		end process;
 		
 	-- ____________________________________________________________________________________
 	-- I/O CHIP SELECTS
@@ -120,7 +129,7 @@ begin
 	cpu1 : entity work.cpu68
 		port map(
 			clk		=> w_cpuClock,
-			rst		=> not w_resetLow,
+			rst		=> wCPUResetHi,
 			rw			=> w_R1W0,
 			vma		=> w_vma,
 			address	=> w_cpuAddress,
@@ -149,7 +158,7 @@ begin
 			address	=> w_cpuAddress(14 downto 0),
 			clock 	=> i_CLOCK_50,
 			data 		=> w_cpuDataOut,
-			wren		=> (not w_R1W0) and (not w_cpuAddress(15)) and w_vma and (not w_cpuClock),
+			wren		=> (not w_cpuAddress(15)) and (not w_R1W0) and w_vma and (not w_cpuClock),
 			q			=> w_ramData
 		);
 	
@@ -160,9 +169,9 @@ begin
 		port map (
 			n_reset	=> w_resetLow,
 			clk		=> i_CLOCK_50,
-			n_WR		=> n_if1CS or      w_R1W0  or (not w_vma) or (not w_cpuClock),
+			n_wr		=> n_if1CS or      w_R1W0  or (not w_vma) or (not w_cpuClock),
 			n_rd		=> n_if1CS or (not w_R1W0) or (not w_vma),
-			n_int		=> n_int1,
+--			n_int		=> n_int1,
 			regSel	=> w_cpuAddress(0),
 			dataIn	=> w_cpuDataOut,
 			dataOut	=> w_if1DataOut,
@@ -184,14 +193,12 @@ begin
 	acia: entity work.bufferedUART
 		port map (
 			clk		=> i_CLOCK_50,     
-			n_WR		=> n_if2CS or      w_R1W0  or (not w_vma) or (not w_cpuClock),
+			n_wr		=> n_if2CS or      w_R1W0  or (not w_vma) or (not w_cpuClock),
 			n_rd		=> n_if2CS or (not w_R1W0) or (not w_vma),
 			regSel	=> w_cpuAddress(0),
 			dataIn	=> w_cpuDataOut,
 			dataOut	=> w_if2DataOut,
-			n_int		=> n_int2,
-						 -- these clock enables are asserted for one period of input clk,
-						 -- at 16x the baud rate.
+--			n_int		=> n_int2,
 			rxClkEn	=> serialEn,
 			txClkEn	=> serialEn,
 			rxd		=> utxd1,
@@ -205,37 +212,29 @@ begin
 process (i_CLOCK_50)
 	begin
 		if rising_edge(i_CLOCK_50) then
-			if q_cpuClkCount < 4 then
+			if q_cpuClkCount < 1 then
 				q_cpuClkCount <= q_cpuClkCount + 1;
 			else
 				q_cpuClkCount <= (others=>'0');
 			end if;
-			if q_cpuClkCount < 2 then
+			if q_cpuClkCount < 1 then
 				w_cpuClock <= '0';
 			else
 				w_cpuClock <= '1';
 			end if;
 		end if;
 	end process;
-	
-	-- ____________________________________________________________________________________
-	-- Baud Rate CLOCK SIGNALS
-baud_div: process (serialCount_d, serialCount)
-    begin
-        serialCount_d <= serialCount + 2416;
-    end process;
 
-process (i_CLOCK_50)
-	begin
-		if rising_edge(i_CLOCK_50) then
-        -- Enable for baud rate generator
-        serialCount <= serialCount_d;
-        if serialCount(15) = '0' and serialCount_d(15) = '1' then
-            serialEn <= '1';
-        else
-            serialEn <= '0';
-        end if;
-		end if;
-	end process;
+	
+	-- Baud Rate Generator
+	-- Legal values are 115200, 38400, 19200, 9600, 4800, 2400, 1200, 600, 300
+	BaudRateGen : entity work.BaudRate6850
+	GENERIC map (
+		BAUD_RATE	=>  115200
+	)
+	PORT map (
+		i_CLOCK_50	=> i_CLOCK_50,
+		o_serialEn	=> serialEn
+	);
 
 end;
