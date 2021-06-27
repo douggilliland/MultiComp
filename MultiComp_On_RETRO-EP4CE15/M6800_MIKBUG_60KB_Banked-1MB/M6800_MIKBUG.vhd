@@ -22,7 +22,8 @@
 --	Memory Map
 --		x0000-x7fff - 32KB Internal SRAM
 --		x8000-xbfff - 16Kb SRAM bank (64 banks)
---		xc000-xefff - 12KB Internal SRAM
+--		xc000-xdfff - 8KB Internal SRAM
+--		xe000-xefff - 4B Internal SRAM (TOP IS SCRATCHPAD)
 --		xf000-xffff - 4 KB ROM
 --		xfc00-xfcff - I/O space
 --			xfc18-xfc19 - VDU/UART (6850 Interface)
@@ -57,17 +58,14 @@ entity M6800_MIKBUG is
 		urxd1					: out std_logic;
 		urts1					: in	std_logic := '1';
 		ucts1					: out std_logic;
-		serSelect			: in	std_logic := '1';
+		serSelect			: in	std_logic := '1';		-- JUMPER SELECT BETWEEN VDU AND ACIA
 		
 		-- SRAM banked space
 		io_extSRamData		: inout std_logic_vector(7 downto 0) := (others=>'Z');
-		o_extSRamAddress	: out std_logic_vector(19 downto 0) := x"00000";
+		o_extSRamAddress	: out std_logic_vector(19 downto 0);
 		o_n_extSRamWE		: out std_logic := '1';
 		o_n_extSRamCS		: out std_logic := '1';
 		o_n_extSRamOE		: out std_logic := '1';
-		
---		testPt1				: out std_logic := '1';
---		testPt2				: out std_logic := '1';
 
 		-- Not using the SD RAM but making sure that it's not active
 		n_sdRamCas			: out std_logic := '1';		-- CAS
@@ -108,9 +106,7 @@ architecture struct of M6800_MIKBUG is
 	signal adrLatVal		: std_logic_vector(7 downto 0);
 
 	-- Interface control lines
---	signal n_int1			: std_logic :='1';	
 	signal n_if1CS			: std_logic :='1';
---	signal n_int2			: std_logic :='1';	
 	signal n_if2CS			: std_logic :='1';
 
 	-- CPU Clock
@@ -118,15 +114,10 @@ architecture struct of M6800_MIKBUG is
 	signal w_cpuClock		: std_logic;
 
    -- External Serial Port Cloc
-   signal serialCount   : std_logic_vector(15 downto 0) := x"0000";
-   signal serialCount_d	: std_logic_vector(15 downto 0);
    signal serialEn      : std_logic;
 	
 begin
 
---	testPt1 <= w_cpuClock;
---	testPt2 <= w_n_SRAMCE or (not w_R1W0) or (not w_vma);
-	
 	-- Debounce the reset line
 	DebounceResetSwitch	: entity work.Debouncer
 	port map (
@@ -144,15 +135,17 @@ begin
 		end process;
 
 	-- External SRAM
-	w_n_SRAMCE	<= '0'   when w_cpuAddress(15 downto 14) = "10" else		-- 16KB SRAM $8000-$BFFF
+	w_n_SRAMCE	<= '0' 	when w_cpuAddress(15 downto 14) = "10" else		-- $8000-$BFFF 16KB External SRAM
 						'1';
-	w_bankAdr	<= '1' when w_cpuAddress(15 downto 14) = "10" else '0';
-	o_n_extSRamCS <= w_n_SRAMCE                 or (not w_vma);
-	o_n_extSRamWE <= w_n_SRAMCE or      w_R1W0  or (not w_vma)  or (w_cpuClock);
-	o_n_extSRamOE <= w_n_SRAMCE or (not w_R1W0) or (not w_vma);
-	o_extSRamAddress(19 downto 14) 	<= adrLatVal(5 downto 0);
+	w_bankAdr	<= '1'	when w_cpuAddress(15 downto 14) = "10" else 
+						'0';
+	o_n_extSRamCS <= w_n_SRAMCE or (not w_vma);
+	o_n_extSRamWE <= w_n_SRAMCE or (not w_vma) or      w_R1W0  or (w_cpuClock);
+	o_n_extSRamOE <= w_n_SRAMCE or (not w_vma) or (not w_R1W0) ;
+	o_extSRamAddress(19 downto 14) 	<= adrLatVal(5 downto 0);				-- 64 banks OF 16KB is 1MB
 	o_extSRamAddress(13 downto 0) 	<= w_cpuAddress(13 downto 0);
-	io_extSRamData <= w_cpuDataOut when ((w_n_SRAMCE = '0') and (w_R1W0 = '0')) else (others => 'Z');
+	io_extSRamData <= w_cpuDataOut when ((w_n_SRAMCE = '0') and (w_R1W0 = '0')) else
+							(others => 'Z');
 
 	addrLatch : entity work.OutLatch
 		port map
@@ -166,25 +159,25 @@ begin
 		
 	-- ____________________________________________________________________________________
 	-- I/O CHIP SELECTS
-	n_if1CS	<= '0' 	when (serSelect = '1' and (w_cpuAddress(15 downto 1) = x"FC1"&"100")) else	-- VDU  $FC18-$8019
-					'0'	when (serSelect = '0' and (w_cpuAddress(15 downto 1) = x"FC2"&"100")) else	-- ACIA $FC28-$8029
+	n_if1CS	<= '0' 	when (serSelect = '1' and (w_cpuAddress(15 downto 1) = x"FC1"&"100")) else	-- VDU  $FC18-$FC19
+					'0'	when (serSelect = '0' and (w_cpuAddress(15 downto 1) = x"FC2"&"100")) else	-- ACIA $FC28-$FC29
 					'1';
-	n_if2CS	<= '0' 	when (serSelect = '1' and (w_cpuAddress(15 downto 1) = x"FC2"&"100")) else	-- ACIA $FC28-$8029
-					'0'	when (serSelect = '0' and (w_cpuAddress(15 downto 1) = x"FC1"&"100")) else	-- VDU  $FC18-$8019
+	n_if2CS	<= '0' 	when (serSelect = '1' and (w_cpuAddress(15 downto 1) = x"FC2"&"100")) else	-- ACIA $FC28-$FC29
+					'0'	when (serSelect = '0' and (w_cpuAddress(15 downto 1) = x"FC1"&"100")) else	-- VDU  $FC18-$FC19
 					'1';
 	w_ldAdrVal <= '0' when (w_cpuAddress = x"FC30") else '1';
 		
 	-- ____________________________________________________________________________________
 	-- CPU Read Data multiplexer
 	w_cpuDataIn <=
-		w_ramData32K	when w_cpuAddress(15) = '0'																												else	-- 32 KB
-		w_ramData8K		when (w_cpuAddress(15) = '1' and w_cpuAddress(14) = '1' and w_cpuAddress(13) = '0')										else	-- 8KB
-		w_ramData4K		when (w_cpuAddress(15) = '1' and w_cpuAddress(14) = '1' and w_cpuAddress(13) = '1' and w_cpuAddress(12) = '0')	else	-- 4 KB
-		io_extSRamData	when (w_n_SRAMCE = '0')																														else
-		w_if1DataOut	when n_if1CS = '0'																															else
-		w_if2DataOut	when n_if2CS = '0'																															else
-		adrLatVal		when (w_ldAdrVal = '0') 																													else
-		w_romData		when w_cpuAddress(15 downto 14) = "11"																									else -- Must be last
+		w_ramData32K	when w_cpuAddress(15) = '0'						else	-- $0000-$7FFF (32 KB)
+		w_ramData8K		when (w_cpuAddress(15 downto 13) = "110")		else	-- $C000-$DFFF (8KB)
+		w_ramData4K		when (w_cpuAddress(15 downto 12) = x"E")		else	-- $E000-$EFFF (4KB)
+		io_extSRamData	when (w_n_SRAMCE = '0')								else
+		w_if1DataOut	when n_if1CS = '0'									else
+		w_if2DataOut	when n_if2CS = '0'									else
+		adrLatVal		when (w_ldAdrVal = '0') 							else
+		w_romData		when w_cpuAddress(15 downto 12) = x"F"			else -- Must be last
 		x"FF";
 	
 	-- ____________________________________________________________________________________
@@ -226,7 +219,7 @@ begin
 		);
 	
 	-- ____________________________________________________________________________________
-	-- 8KB RAM xc000-dfff
+	-- 8KB RAM $c000-$dfff
 	sram8K : entity work.InternalRam8K
 		PORT map  (
 			address	=> w_cpuAddress(12 downto 0),
@@ -237,7 +230,7 @@ begin
 		);
 	
 	-- ____________________________________________________________________________________
-	-- 4KB RAM xe000-xefff
+	-- 4KB RAM $E000-$EFFF
 	sram4K : entity work.InternalRam4K
 		PORT map  (
 			address	=> w_cpuAddress(11 downto 0),
@@ -256,7 +249,6 @@ begin
 			clk		=> i_CLOCK_50,
 			n_WR		=> n_if1CS or      w_R1W0  or (not w_vma) or (not w_cpuClock),
 			n_rd		=> n_if1CS or (not w_R1W0) or (not w_vma),
---			n_int		=> n_int1,
 			regSel	=> w_cpuAddress(0),
 			dataIn	=> w_cpuDataOut,
 			dataOut	=> w_if1DataOut,
@@ -283,7 +275,6 @@ begin
 			regSel	=> w_cpuAddress(0),
 			dataIn	=> w_cpuDataOut,
 			dataOut	=> w_if2DataOut,
---			n_int		=> n_int2,
 			rxClkEn	=> serialEn,
 			txClkEn	=> serialEn,
 			rxd		=> utxd1,
