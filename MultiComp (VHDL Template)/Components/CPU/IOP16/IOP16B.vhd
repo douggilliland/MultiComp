@@ -5,7 +5,7 @@
 --	Runs at 50 MHz / 8 clocks = 6.25 MIPs
 --		Could easily be sped up (not necessary in my applications)
 --	Small size in FPGA
---		Uses < 220 logic cells in EP4CE15
+--		Uses < 190 logic cells in EP4CE15 (with Stack size of 1 - single subroutine level, no nested subroutines)
 --		Minimum 1 of 1K SRAM blocks (depends on program size)
 --			1 Block is 512 KW - a pretty good size program
 --		Trade-off - SRAM could be replaced with logic cells (in theory)
@@ -57,11 +57,11 @@
 --
 -- Registers are
 --		Reg0-Reg7 - Read/Write values
---		Reg8 - Hard coded to x00
---		Reg9 - Hard coded to x01
---		Reg8 - Hard coded to x00
---		Reg9-RegE - Not used (return x00)
---		RegF - Hard coded to xFF
+--		Reg8 - Hard coded to 0x00
+--		Reg9 - Hard coded to 0x01
+--		Reg8 - Hard coded to 0x00
+--		Reg9-RegE - Not used (returns 0x00)
+--		RegF - Hard coded to 0xFF
 -- ---------------------------------------------------------------------------------------
 
 LIBRARY ieee;
@@ -185,7 +185,7 @@ BEGIN
 		END PROCESS;
 	end generate GEN_STACK_SINGLE;
 
-	GEN_STACK_DEEPER : if (STACK_DEPTH_PASS /= 1) generate
+	GEN_STACK_DEEPER : if (STACK_DEPTH_PASS > 1) generate
 	begin
 		pcPlus1 <= (w_PC_out + 1);				-- Next address past PC is the return address
 		lifo : entity work.lifo
@@ -266,7 +266,7 @@ BEGIN
 	ProgramCounter	: PROCESS (i_clk, i_resetN, w_incPC, w_ldPC)
 	BEGIN
 		IF rising_edge(i_clk) THEN
-			IF i_resetN = '0' THEN				-- Program always starts at address x000
+			IF i_resetN = '0' THEN			-- Program always starts at address x000
 				w_PC_out <= x"000";
 			ELSIF w_incPC = '1' THEN		-- Increment PC
 				w_PC_out <= w_PC_out + 1;
@@ -320,19 +320,19 @@ BEGIN
 					'0' when (w_OP_ORI = '1') and (w_lowCount="101") and (w_aluZero = '0');
 
 	-- Peripheral Address
-	o_periphAdr <= 	w_RomData(7 downto 0) when w_OP_IOW = '1' else		-- Write
+	o_periphAdr <= w_RomData(7 downto 0) when w_OP_IOW = '1' else		-- Write
 						w_RomData(7 downto 0) when w_OP_IOR = '1' else		-- Read
 						x"ff";
 	
 	-- Peripheral output data bus
 	o_periphDataOut <= 	w_RegFileFileOut when (w_OP_IOW = '1') else			-- Peripheral data out
-						x"AA";
+								x"AA";
 	
 	-- Peripheral read/write Controls
-	o_periphWr <= '1' when (w_OP_IOW = '1') and (w_lowCount="111") else '0';
-	o_periphRd <= '1' when (w_OP_IOR = '1') and (w_lowCount(2 DOWNTO 1)="11") else 
-					'1' when (w_OP_IOR = '1') and (w_lowCount(2 DOWNTO 1)="11") else 
-					'0';
+	o_periphWr <=	'1' when (w_OP_IOW = '1') and (w_lowCount="111") else '0';
+	o_periphRd <=	'1' when (w_OP_IOR = '1') and (w_lowCount(2 DOWNTO 1)="11") else 
+						'1' when (w_OP_IOR = '1') and (w_lowCount(2 DOWNTO 1)="11") else 
+						'0';
 	
 	-- Register file (8x8 plus constants)
 	RegFile : ENTITY work.RegFile8x8
