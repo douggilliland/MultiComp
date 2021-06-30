@@ -22,7 +22,7 @@ use ieee.std_logic_unsigned.all;
 
 ENTITY BaudRate6850 IS
 	GENERIC (
-		BAUD_RATE	: integer := 115200
+		BAUD_RATE	: integer
 	);
 	PORT (
 		i_CLOCK_50	: IN std_logic;
@@ -35,6 +35,10 @@ ARCHITECTURE BaudRate6850_beh OF BaudRate6850 IS
    signal w_serialCount   	: std_logic_vector(15 downto 0);
    signal w_serialCount_d	: std_logic_vector(15 downto 0);
 
+	-- Signal Tap Logic Analyzer signals
+	attribute syn_keep	: boolean;
+	attribute syn_keep of o_serialEn			: signal is true;
+	
 BEGIN
 
 	-- ____________________________________________________________________________________

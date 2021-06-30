@@ -11,7 +11,7 @@ port (
 		i_CLOCK_50				: IN  STD_LOGIC;  -- input clock
 		i_n_reset				: IN  STD_LOGIC;  -- 
 		i_kbCS					: IN  STD_LOGIC;  -- 
-		i_RegSel					: IN  STD_LOGIC := '0'; -- address
+		i_RegSel					: IN  STD_LOGIC; -- address
 		i_rd_Kbd					: IN  STD_LOGIC;  --
 		i_ps2_clk				: IN  STD_LOGIC;  --
 		i_ps2_data				: IN  STD_LOGIC;  --
@@ -27,10 +27,15 @@ ARCHITECTURE logic OF Wrap_Keyboard IS
 	signal W_kbDataValid		:	std_logic;
 	signal w_latKbDV1			:	std_logic;
 
+	-- Signal Tap Logic Analyzer signals
+	attribute syn_keep	: boolean;
+	attribute syn_keep of W_kbDataValid			: signal is true;
+	attribute syn_keep of w_latKbDV1			: signal is true;
+	
 BEGIN
 
-	o_kbdDat <= q_kbReadData 	when i_RegSel = '1' else
-					w_kbdStatus  	when i_RegSel = '0';
+	o_kbdDat <= q_kbReadData 	when i_RegSel = '1' else	-- Data at address 1
+					w_kbdStatus  	when i_RegSel = '0';			-- Status ar address 0
 
 	-- PS/2 keyboard - ASCII output
 	ps2Keyboard : entity work.ps2_keyboard_to_ascii
@@ -54,7 +59,7 @@ BEGIN
 			if ((W_kbDataValid = '1') and (w_latKbDV1 = '0')) then
 				w_kbdStatus <= x"01";			-- set at edge of dataValid
 				q_kbReadData <= '0' & w_kbReadData;
-			elsif ((i_rd_Kbd = '1') and (i_kbCS = '1') and (i_RegSel = '1')) then
+			elsif ((i_rd_Kbd = '1') and (i_kbCS = '1') and (i_RegSel = '1')) then	-- Clear when reading data from keyboard
 				w_kbdStatus <= x"00";
 			end if;
 		end if;

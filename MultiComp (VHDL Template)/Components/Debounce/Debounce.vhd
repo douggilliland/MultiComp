@@ -1,6 +1,8 @@
--- -------------------------------------------------------------------------------------------
--- Debouncer
--- Active low input produces a single i_clk wide low pulse
+--------------------------------------------------------------------
+-- Switch Debouncer
+-- Turns Active low switch input into single "fast clock" pulse out
+-- Uses "slow clock" to debounce switch (50 mS ish)
+--------------------------------------------------------------------
 
 library ieee;
 use ieee.std_logic_1164.all;
@@ -30,14 +32,14 @@ begin
 
 	----------------------------------------------------------------------------
 	-- 50 mS counter
-	-- 2^18 = 256,000, 50MHz/250K = 200 Hz = 50 mS ticks
+	-- 2^18 = 256,000, 50MHz/250K = 200 Hz = 5 mS ticks
 	-- Used for prescaling pushbuttons
 	-- w_pulse50ms = single 20 nS clock pulse every 200 mSecs
 	----------------------------------------------------------------------------
 	process (i_clk) begin
 		if rising_edge(i_clk) then
 			w_dig_counter <= w_dig_counter+1;
-			if w_dig_counter(17 downto 0) = 0 then
+			if w_dig_counter = 0 then
 				w_pulse50ms <= '1';
 			else
 				w_pulse50ms <= '0';

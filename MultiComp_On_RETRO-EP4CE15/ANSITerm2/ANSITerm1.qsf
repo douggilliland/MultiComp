@@ -51,7 +51,7 @@ set_global_assignment -name ERROR_CHECK_FREQUENCY_DIVISOR 1
 set_global_assignment -name POWER_PRESET_COOLING_SOLUTION "23 MM HEAT SINK WITH 200 LFPM AIRFLOW"
 set_global_assignment -name POWER_BOARD_THERMAL_MODEL "NONE (CONSERVATIVE)"
 set_global_assignment -name STRATIX_DEVICE_IO_STANDARD "3.3-V LVTTL"
-set_global_assignment -name PARTITION_NETLIST_TYPE SOURCE -section_id Top
+set_global_assignment -name PARTITION_NETLIST_TYPE POST_FIT -section_id Top
 set_global_assignment -name PARTITION_FITTER_PRESERVATION_LEVEL PLACEMENT_AND_ROUTING -section_id Top
 set_global_assignment -name PARTITION_COLOR 16764057 -section_id Top
 # CONNECT_TO_SLD_NODE_ENTITY_PORTLOCK, RESET
@@ -60,9 +60,6 @@ set_location_assignment PIN_T2 -to i_CLOCK_50
 set_location_assignment PIN_W13 -to i_n_reset
 set_instance_assignment -name WEAK_PULL_UP_RESISTOR ON -to i_n_reset
 # KEY, LED
-set_location_assignment PIN_Y13 -to i_key1
-set_instance_assignment -name WEAK_PULL_UP_RESISTOR ON -to i_key1
-set_location_assignment PIN_E4 -to o_UsrLed
 # PS/2 keyboard
 set_location_assignment PIN_R1 -to io_PS2_CLK
 set_instance_assignment -name WEAK_PULL_UP_RESISTOR ON -to io_PS2_CLK
@@ -78,8 +75,6 @@ set_location_assignment PIN_B15 -to o_videoR0
 set_location_assignment PIN_A15 -to o_videoR1
 set_location_assignment PIN_A18 -to o_vSync
 # Serial
-set_location_assignment PIN_B22 -to serSelect
-set_instance_assignment -name WEAK_PULL_UP_RESISTOR ON -to serSelect
 set_location_assignment PIN_A13 -to ucts1
 set_location_assignment PIN_A10 -to urts1
 set_location_assignment PIN_B13 -to urxd1
@@ -90,9 +85,87 @@ set_location_assignment PIN_N20 -to o_testPts[2]
 set_location_assignment PIN_N19 -to o_testPts[3]
 set_location_assignment PIN_M20 -to o_testPts[4]
 set_location_assignment PIN_M19 -to o_testPts[5]
+# SD Card
+set_location_assignment PIN_B19 -to sdCS
+set_location_assignment PIN_B20 -to sdCLK
+set_location_assignment PIN_A19 -to sdDI
+set_instance_assignment -name WEAK_PULL_UP_RESISTOR ON -to sdDI
+set_location_assignment PIN_A20 -to sdDO
+set_location_assignment PIN_B14 -to sdCD
+set_instance_assignment -name WEAK_PULL_UP_RESISTOR ON -to sdCD
+# SRAM (not used)
+set_location_assignment PIN_F1 -to n_sRamCS
+set_location_assignment PIN_J2 -to n_sRamOE
+set_location_assignment PIN_B4 -to n_sRamWE
+set_location_assignment PIN_E1 -to sramData[0]
+set_location_assignment PIN_C1 -to sramData[1]
+set_location_assignment PIN_B1 -to sramData[2]
+set_location_assignment PIN_B3 -to sramData[3]
+set_location_assignment PIN_B2 -to sramData[4]
+set_location_assignment PIN_C2 -to sramData[5]
+set_location_assignment PIN_D2 -to sramData[6]
+set_location_assignment PIN_F2 -to sramData[7]
+set_location_assignment PIN_H1 -to sramAddress[0]
+set_location_assignment PIN_J1 -to sramAddress[1]
+set_location_assignment PIN_M1 -to sramAddress[2]
+set_location_assignment PIN_N1 -to sramAddress[3]
+set_location_assignment PIN_P1 -to sramAddress[4]
+set_location_assignment PIN_P2 -to sramAddress[5]
+set_location_assignment PIN_N2 -to sramAddress[6]
+set_location_assignment PIN_M2 -to sramAddress[7]
+set_location_assignment PIN_H2 -to sramAddress[8]
+set_location_assignment PIN_A3 -to sramAddress[9]
+set_location_assignment PIN_A4 -to sramAddress[10]
+set_location_assignment PIN_C3 -to sramAddress[11]
+set_location_assignment PIN_A5 -to sramAddress[12]
+set_location_assignment PIN_A6 -to sramAddress[13]
+set_location_assignment PIN_A7 -to sramAddress[14]
+set_location_assignment PIN_A8 -to sramAddress[15]
+set_location_assignment PIN_B7 -to sramAddress[16]
+set_location_assignment PIN_B6 -to sramAddress[17]
+set_location_assignment PIN_B5 -to sramAddress[18]
+set_location_assignment PIN_C4 -to sramAddress[19]
+# SDRAM (not used)
+set_location_assignment PIN_Y6 -to sdRamClk
+set_location_assignment PIN_W6 -to sdRamClkEn
+set_location_assignment PIN_AA4 -to n_sdRamCas
+set_location_assignment PIN_AA3 -to n_sdRamCe
+set_location_assignment PIN_AB3 -to n_sdRamRas
+set_location_assignment PIN_AB4 -to n_sdRamWe
+set_location_assignment PIN_V2 -to sdRamAddr[0]
+set_location_assignment PIN_V1 -to sdRamAddr[1]
+set_location_assignment PIN_U2 -to sdRamAddr[2]
+set_location_assignment PIN_U1 -to sdRamAddr[3]
+set_location_assignment PIN_V3 -to sdRamAddr[4]
+set_location_assignment PIN_V4 -to sdRamAddr[5]
+set_location_assignment PIN_Y2 -to sdRamAddr[6]
+set_location_assignment PIN_AA1 -to sdRamAddr[7]
+set_location_assignment PIN_Y3 -to sdRamAddr[8]
+set_location_assignment PIN_V5 -to sdRamAddr[9]
+set_location_assignment PIN_W1 -to sdRamAddr[10]
+set_location_assignment PIN_Y4 -to sdRamAddr[11]
+set_location_assignment PIN_V6 -to sdRamAddr[12]
+set_location_assignment PIN_Y1 -to sdRamAddr[13]
+set_location_assignment PIN_W2 -to sdRamAddr[14]
+set_location_assignment PIN_AA10 -to sdRamData[0]
+set_location_assignment PIN_AB9 -to sdRamData[1]
+set_location_assignment PIN_AA9 -to sdRamData[2]
+set_location_assignment PIN_AB8 -to sdRamData[3]
+set_location_assignment PIN_AA8 -to sdRamData[4]
+set_location_assignment PIN_AB7 -to sdRamData[5]
+set_location_assignment PIN_AA7 -to sdRamData[6]
+set_location_assignment PIN_AB5 -to sdRamData[7]
+set_location_assignment PIN_Y7 -to sdRamData[8]
+set_location_assignment PIN_W8 -to sdRamData[9]
+set_location_assignment PIN_Y8 -to sdRamData[10]
+set_location_assignment PIN_V9 -to sdRamData[11]
+set_location_assignment PIN_V10 -to sdRamData[12]
+set_location_assignment PIN_Y10 -to sdRamData[13]
+set_location_assignment PIN_W10 -to sdRamData[14]
+set_location_assignment PIN_V11 -to sdRamData[15]
 #
 set_global_assignment -name ENABLE_SIGNALTAP OFF
-set_global_assignment -name USE_SIGNALTAP_FILE stp1.stp
+set_global_assignment -name USE_SIGNALTAP_FILE output_files/stp1.stp
 set_global_assignment -name TIMING_ANALYZER_MULTICORNER_ANALYSIS ON
 set_global_assignment -name SMART_RECOMPILE ON
 set_global_assignment -name VHDL_FILE "../../MultiComp (VHDL Template)/Components/CPU/IOP16/lifo.vhd"
@@ -118,4 +191,5 @@ set_global_assignment -name VHDL_FILE "../../MultiComp (VHDL Template)/Component
 set_global_assignment -name SIGNALTAP_FILE stp1.stp
 set_global_assignment -name VHDL_FILE "../../MultiComp (VHDL Template)/Components/UART/BaudRate6850.vhd"
 set_global_assignment -name QIP_FILE IOP_ROM.qip
+set_global_assignment -name SIGNALTAP_FILE output_files/stp1.stp
 set_instance_assignment -name PARTITION_HIERARCHY root_partition -to | -section_id Top

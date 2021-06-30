@@ -67,8 +67,8 @@ entity ANSIDisplayVGA is
 		constant SANS_SERIF_FONT : integer := 1 -- 0 => use conventional CGA font, 1 => use san serif font
 	);
 	port (
-		n_reset		: in std_logic;
 		clk    		: in  std_logic;
+		n_reset		: in	std_logic;
 		n_wr			: in  std_logic;
 		n_rd			: in  std_logic;
 		regSel		: in  std_logic;

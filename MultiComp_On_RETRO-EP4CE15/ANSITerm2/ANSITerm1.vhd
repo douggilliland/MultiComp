@@ -34,14 +34,13 @@ entity ANSITerm1 is
 	port
 	(
 		-- Clock and reset
-		w_clk					: in std_logic := '1';		-- Clock (50 MHz)
+		i_CLOCK_50					: in std_logic := '1';		-- Clock (50 MHz)
 		i_n_reset					: in std_logic := '1';		-- Reset from Pushbutton on FPGA card
 		-- Serial port (as referenced from USB side)
 		urxd1							: in	std_logic := '1';
 		utxd1							: out std_logic;
 		ucts1							: in	std_logic := '1';
 		urts1							: out std_logic;
-		serSelect					: in	std_logic := '1';
 		-- Video
 		o_videoR0					: out std_logic;
 		o_videoR1					: out std_logic;
@@ -54,9 +53,30 @@ entity ANSITerm1 is
 		-- PS/2 Keyboard
 		io_PS2_CLK					: inout std_logic;
 		io_PS2_DAT					: inout std_logic;
-		-- The key and LED on the FPGA card - helpful for debugging
-		i_key1						: in std_logic := '1';		-- KEY1 on the FPGA card
-		o_UsrLed						: out std_logic := '1'		-- USR LED on the FPGA card
+		
+		-- SD card Not using but making sure that it's not active
+		sdCS		: OUT STD_LOGIC;	--! SD card chip select
+		sdCLK		: OUT STD_LOGIC;	--! SD card clock
+		sdDI		: OUT STD_LOGIC;	--! SD card master out slave in
+		sdDO		: IN STD_LOGIC;	--! SD card master in slave out
+		sdCD		: IN STD_LOGIC;	--! SD card detect
+	 
+		-- Not using the External SRAM on the QMTECH card but making sure that it's not active
+		sramData		: inout std_logic_vector(7 downto 0) := "ZZZZZZZZ";
+		sramAddress	: out std_logic_vector(19 downto 0) := x"00000";
+		n_sRamWE		: out std_logic :='1';
+		n_sRamCS		: out std_logic :='1';
+		n_sRamOE		: out std_logic :='1';
+
+		-- Not using the SD RAM on the RETRO-EP4CE15 card but making sure that it's not active
+		n_sdRamCas	: out std_logic := '1';		-- CAS on schematic
+		n_sdRamRas	: out std_logic := '1';		-- RAS
+		n_sdRamWe	: out std_logic := '1';		-- SDWE
+		n_sdRamCe	: out std_logic := '1';		-- SD_NCS0
+		sdRamClk		: out std_logic := '1';		-- SDCLK0
+		sdRamClkEn	: out std_logic := '1';		-- SDCKE0
+		sdRamAddr	: out std_logic_vector(14 downto 0) := "000"&x"000";
+		sdRamData	: in std_logic_vector(15 downto 0)
 	);
 	end ANSITerm1;
 
@@ -81,7 +101,6 @@ architecture struct of ANSITerm1 is
 	-- Serial clock enable
    signal serialEn      		: std_logic;		-- 16x baud rate clock
 	
-
 	-- Keyboard
 	signal w_latKBDData			:	std_logic_vector(7 downto 0);
 	signal w_KbdData				:	std_logic_vector(7 downto 0);
@@ -89,11 +108,13 @@ architecture struct of ANSITerm1 is
 	signal w_TermDataOut			:	std_logic_vector(7 downto 0);
 
 	-- Signal Tap Logic Analyzer signals
---	attribute syn_keep	: boolean;
---	attribute syn_keep of W_kbcs			: signal is true;
---	attribute syn_keep of w_periphIn			: signal is true;
---	attribute syn_keep of w_periphWr			: signal is true;
---	attribute syn_keep of w_periphRd			: signal is true;
+	attribute syn_keep	: boolean;
+	attribute syn_keep of W_kbcs			: signal is true;
+	attribute syn_keep of w_periphIn		: signal is true;
+	attribute syn_keep of w_periphOut	: signal is true;
+	attribute syn_keep of w_periphWr		: signal is true;
+	attribute syn_keep of w_periphRd		: signal is true;
+	attribute syn_keep of w_periphAdr	: signal is true;
 	
 begin
 
@@ -108,13 +129,13 @@ begin
 	w_rdUart		<= '1' when ((w_periphAdr(7 downto 1)="000"&x"0") and (w_periphRd = '1')) else '0';
 	w_wrTerm		<= '1' when ((w_periphAdr(7 downto 1)="000"&x"1") and (w_periphWr = '1')) else '0';
 	w_rdTerm		<= '1' when ((w_periphAdr(7 downto 1)="000"&x"1") and (w_periphRd = '1')) else '0';
-	W_kbcs		<= '1' when  (w_periphAdr(7 downto 1)="000"&x"2") else '0';
+	W_kbcs		<= '1' when ((w_periphAdr(7 downto 1)="000"&x"2") and (w_periphRd = '1')) else '0';
 	
 	-- Debounce/sync reset to 50 MHz FPGA clock
 	debounceReset : entity work.Debouncer
 		port map
 		(
-			i_clk				=> w_clk,
+			i_clk				=> i_CLOCK_50,
 			i_PinIn			=> i_n_reset,
 			o_PinOut			=> w_resetClean_n
 		);
@@ -126,11 +147,11 @@ begin
 	-- Need to pass down instruction RAM and stack sizes
 		generic map 	( 
 			INST_SRAM_SIZE_PASS	=> 512,	-- Small code size since program is "simple"
-			STACK_DEPTH_PASS		=> 4		-- Single level subroutine (not nested)
+			STACK_DEPTH_PASS		=> 1		-- Single level subroutine (not nested)
 		)
 		PORT map
 		(
-			i_clk					=> w_clk,
+			i_clk					=> i_CLOCK_50,
 			i_resetN				=> w_resetClean_n,
 			-- Peripheral bus signals
 			i_periphDataIn		=> w_periphIn,
@@ -154,11 +175,11 @@ begin
 														-- 1 => use san serif font
 		)
 		port map (
+			clk			=> i_CLOCK_50,
 			n_reset		=> w_resetClean_n,
-			clk			=> w_clk,
-			n_wr			=> w_wrTerm,
 			-- CPU interface
-			n_rd			=> w_rdTerm,
+			n_rd			=> not w_rdTerm,
+			n_wr			=> not w_wrTerm,
 			regSel		=> w_periphAdr(0),
 			dataIn		=> w_periphOut,
 			dataOut		=> w_TermDataOut,
@@ -177,11 +198,11 @@ begin
 	-- PS/2 keyboard/mapper to ANSI
 	KEYBOARD : ENTITY  WORK.Wrap_Keyboard
 		port MAP (
-			i_CLOCK_50		=> w_clk,
+			i_CLOCK_50		=> i_CLOCK_50,
 			i_n_reset		=> w_resetClean_n,
 			i_kbCS			=> W_kbcs,
 			i_RegSel			=> w_periphAdr(0),
-			i_rd_Kbd			=> W_kbcs and w_periphRd,
+			i_rd_Kbd			=> W_kbcs,
 			i_ps2_clk		=> io_PS2_CLK,
 			i_ps2_data		=> io_PS2_DAT,
 			o_kbdDat			=> w_KbdData
@@ -195,14 +216,14 @@ begin
 			BAUD_RATE	=> 115200
 		)
 		PORT map (
-			i_CLOCK_50	=> w_clk,
+			i_CLOCK_50	=> i_CLOCK_50,
 			o_serialEn	=> serialEn
 	);
 
 	-- 6850 style UART
 	UART: entity work.bufferedUART
 		port map (
-			clk     			=> w_clk,
+			clk     			=> i_CLOCK_50,
 			-- Strobes
 			n_wr				=> not w_wrUart,
 			n_rd    			=> not w_rdUart,
