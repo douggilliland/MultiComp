@@ -8,7 +8,7 @@
 --	VGA
 --		80x24
 -- PS/2 keyboard
---	6850 UART
+--	6850 UART 115200,n,8,1
 --
 -- IOP16 CPU
 --		Custom 16 bit I/O Processor
