@@ -61,7 +61,7 @@ architecture struct of FrontPanel01 is
 	signal w_periphWr				:	std_logic := '0';
 	signal w_periphRd				:	std_logic := '0';
 	-- I2C Counter = 400 KHz
-	signal w_i2cCount				: std_logic_vector(6 downto 0);
+	signal w_i2cCount				: std_logic_vector(4 downto 0);
 	signal w_i2c_400KHz			: std_logic;
 	-- Strobe Pushbuttons
 	signal w_strPBDataUU			: std_logic;
@@ -166,7 +166,7 @@ begin
 		end if;
 	end process;
 	
-	debouncePB : entity work.Debouncer32
+	debouncePBS : entity work.Debouncer32
 		port map
 		(
 			i_slowClk		=> w_scanStrobe,
@@ -224,12 +224,12 @@ begin
 								x"00";
 	
 	-- 4x400 KHz I2C clock
-	-- 50.0 MHz / 1.6 MHz = 31 clocks
+	-- 50.0 MHz / 1.6 MHz = 32 clocks
 	process (i_CLOCK_50)
 	begin
 		if rising_edge(i_CLOCK_50) then
-			if w_i2cCount = "011111" then
-				w_i2cCount <= "0000000";
+			if w_i2cCount = "11111" then
+				w_i2cCount <= "00000";
 				w_i2c_400KHz <= '1';
 			else
 				w_i2cCount <= w_i2cCount + 1;
