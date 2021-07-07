@@ -27,7 +27,7 @@ entity MIKBUG_FRPNL is
 	(
 	-- Clock and reset
 	i_CLOCK_50					: in std_logic;								-- FPGA 50 MHz clock
-	i_cpuClock					: in std_logic;								-- COU Clock (25 MHz)
+	i_cpuClock					: in std_logic;								-- CPU Clock (25 MHz)
 	i_n_reset					: in std_logic;								-- Reset - debounced pushbutton (KEY1 on FPGA card)
 	o_FPReset					: out std_logic;								-- Reset from pushbutton PB30
 	-- CPU intercepts
@@ -95,6 +95,7 @@ begin
 		);
 	
 	-- Grey code counter 
+	-- State macine to emulate CPU cyckes
 	-- 000 > 001 > 011 > 010 > 110 > 111 > 101 > 100
 	cpuCnt :	PROCESS (i_cpuClock)
 	BEGIN

@@ -6,7 +6,7 @@
 -- Changes to this code by Doug Gilliland 2020-2021
 --
 -- MC6800 CPU
---		25 NHz for interbal SRAM and Peripherals
+--		25 NHz for internal SRAM and Peripherals
 --	Running MIKBUG from back in the day
 --		32K (internal) RAM version
 -- Default I/O is jumper selectable
@@ -16,7 +16,7 @@
 -- 	MC6850 ACIA UART
 --	
 --	Front Panel
---		http://land-boards.com/blwiki/index.php?title=Front_Panel_For_8_Bit_Computers
+--		http://land-boards.com/blwiki/index.php?title=Front_Panel_for_8_Bit_Computers_V2
 --		Monitors Address/Data when in Run mode
 --		Upper left pushbutton (PB31) - Run.Halt (Upper leftLED on for Run)
 --		PB30 - Reset
@@ -33,6 +33,7 @@
 --		0x0000-0x7FFF - INTERBAL SRAM
 --		0x8018-0x8019 - VDU (serSelect J3 JUMPER REMOCED)
 --		0x8028-0x8019 - ACIA
+--		0x8030-0x803F - Front Panel
 --		0xC000-0xFFFF - MIKBUG ROM - Copied 4X
 -- -------------------------------------------------------------------------------------------
 
