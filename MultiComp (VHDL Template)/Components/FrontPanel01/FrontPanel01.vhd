@@ -27,7 +27,7 @@ use  IEEE.STD_LOGIC_UNSIGNED.all;
 entity FrontPanel01 is
 	generic 
 	(
-		constant INST_SRAM_SIZE_IN 	: integer;	-- Legal Values are 256, 512, 1024, 2048, 4096
+		constant INST_ROM_SIZE_IN 	: integer;	-- Legal Values are 256, 512, 1024, 2048, 4096
 		constant STACK_DEPTH_IN			: integer	-- Legal Values are 0 (none), 1 (single), > 1
 	);
 	port
@@ -105,20 +105,20 @@ begin
 	-- x04-x5, W, I2C I/F
 	-- 	x04 - I2C Write Data
 	-- 	x05 - I2C Command
-	iop16 : ENTITY work.IOP16
+	cpu : ENTITY work.cpu_001
 	generic map (
-		INST_SRAM_SIZE_PASS	=> INST_SRAM_SIZE_IN,
+		INST_ROM_SIZE_PASS	=> INST_ROM_SIZE_IN,
 		STACK_DEPTH_PASS		=> STACK_DEPTH_IN
 	)
 	PORT map (
-		i_clk					=> i_CLOCK_50,			-- 50 MHz
-		i_resetN				=> i_n_reset,			-- reset
+		i_clock					=> i_CLOCK_50,			-- 50 MHz
+		i_resetN					=> i_n_reset,			-- reset
 		--
-		o_periphAdr			=> w_periphAdr,
-		i_periphDataIn		=> w_PERIP_DATA_IN,
-		o_periphWr			=> w_periphWr,
-		o_periphRd			=> w_periphRd,
-		o_periphDataOut	=> w_PERIP_DATA_OUT
+		o_peripAddr				=> w_periphAdr,
+		i_peripDataToCPU		=> w_PERIP_DATA_IN,
+		o_peripWr				=> w_periphWr,
+		o_peripRd				=> w_periphRd,
+		o_peripDataFromCPU	=> w_PERIP_DATA_OUT
 	);
 
 	-- External I2c Interface
