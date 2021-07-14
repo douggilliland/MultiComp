@@ -69,6 +69,12 @@ architecture struct of MIKBUG_FRPNL is
 	signal w_stepPBD2		:	std_logic;
 	signal w_cntCpu 		:	std_logic_vector(2 DOWNTO 0);		-- Grey code step counter
 	
+	-- Signal Tap
+	attribute syn_keep	: boolean;
+	attribute syn_keep of i_n_reset			: signal is true;
+	attribute syn_keep of w_PBReset			: signal is true;
+	attribute syn_keep of w_PBsRaw			: signal is true;
+	
 begin
 -- -------------------------------------------------------------------------------------------------------
 	-- Front Panel starts here
@@ -130,7 +136,7 @@ begin
 	BEGIN
 		IF rising_edge(i_cpuClock) THEN
 			io_run0Halt1	<= w_PBsToggled(31);								-- Run/Halt line (toggled)
-			o_FPReset		<= w_PBReset;										-- Reset (debounced and pulsed high while butoon is pressed)
+			o_FPReset		<= w_PBReset;										-- Reset (debounced and pulsed high while button is pressed)
 			w_clrPBD1		<= w_PBLatched(27);								-- Clear pusgbutton
 			w_clrPBD2		<= w_clrPBD1;										-- Delayed Clear pushbutton
 			w_clrPB			<= w_clrPBD1 and not w_clrPBD2;				-- Pulse clear pushbutton

@@ -84,6 +84,7 @@ architecture struct of FrontPanel01 is
 	attribute syn_keep: boolean;
 	attribute syn_keep of w_rawPBs		:	signal is true;
 	attribute syn_keep of w_loadStrobe	:	signal is true;
+	attribute syn_keep of w_latchedPBs	:	signal is true;
 
 begin
 
