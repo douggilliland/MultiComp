@@ -1,0 +1,283 @@
+# -------------------------------------------------------------------------- #
+#
+# Copyright (C) 2020  Intel Corporation. All rights reserved.
+# Your use of Intel Corporation's design tools, logic functions 
+# and other software and tools, and any partner logic 
+# functions, and any output files from any of the foregoing 
+# (including device programming or simulation files), and any 
+# associated documentation or information are expressly subject 
+# to the terms and conditions of the Intel Program License 
+# Subscription Agreement, the Intel Quartus Prime License Agreement,
+# the Intel FPGA IP License Agreement, or other applicable license
+# agreement, including, without limitation, that your use is for
+# the sole purpose of programming logic devices manufactured by
+# Intel and sold by Intel or its authorized distributors.  Please
+# refer to the applicable agreement for further details, at
+# https://fpgasoftware.intel.com/eula.
+#
+# -------------------------------------------------------------------------- #
+#
+# Quartus Prime
+# Version 20.1.0 Build 711 06/05/2020 SJ Lite Edition
+# Date created = 19:30:49  July 07, 2021
+#
+# -------------------------------------------------------------------------- #
+#
+# Notes:
+#
+# 1) The default values for assignments are stored in the file:
+#		cpu_001_assignment_defaults.qdf
+#    If this file doesn't exist, see file:
+#		assignment_defaults.qdf
+#
+# 2) Altera recommends that you do not modify this file. This
+#    file is updated automatically by the Quartus Prime software
+#    and any changes you make may be lost or overwritten.
+#
+# -------------------------------------------------------------------------- #
+
+
+set_global_assignment -name FAMILY "Cyclone IV E"
+set_global_assignment -name DEVICE EP4CE15F23C8
+set_global_assignment -name TOP_LEVEL_ENTITY CPU_top
+set_global_assignment -name ORIGINAL_QUARTUS_VERSION 20.1.0
+set_global_assignment -name PROJECT_CREATION_TIME_DATE "19:30:49  JULY 07, 2021"
+set_global_assignment -name LAST_QUARTUS_VERSION "20.1.0 Lite Edition"
+set_global_assignment -name PROJECT_OUTPUT_DIRECTORY output_files
+set_global_assignment -name MIN_CORE_JUNCTION_TEMP 0
+set_global_assignment -name MAX_CORE_JUNCTION_TEMP 85
+set_global_assignment -name ERROR_CHECK_FREQUENCY_DIVISOR 1
+set_global_assignment -name NOMINAL_CORE_SUPPLY_VOLTAGE 1.2V
+set_global_assignment -name STRATIX_DEVICE_IO_STANDARD "3.3-V LVTTL"
+# Clock
+set_location_assignment PIN_T2 -to i_clock
+# Pushbutton
+set_location_assignment PIN_J4 -to i_resetN
+set_instance_assignment -name WEAK_PULL_UP_RESISTOR ON -to i_resetN
+# LED
+set_location_assignment PIN_E3 -to o_LED
+# UART
+set_location_assignment PIN_Y21 -to i_uart_rx
+set_instance_assignment -name WEAK_PULL_UP_RESISTOR ON -to i_uart_rx
+set_location_assignment PIN_Y22 -to o_uart_tx
+# Seven Segment Display
+set_location_assignment PIN_W19 -to o_SMG_Data[7]
+set_location_assignment PIN_U19 -to o_SMG_Data[6]
+set_location_assignment PIN_W17 -to o_SMG_Data[5]
+set_location_assignment PIN_W15 -to o_SMG_Data[4]
+set_location_assignment PIN_Y17 -to o_SMG_Data[3]
+set_location_assignment PIN_W20 -to o_SMG_Data[2]
+set_location_assignment PIN_U20 -to o_SMG_Data[1]
+set_location_assignment PIN_V15 -to o_SMG_Data[0]
+set_location_assignment PIN_Y13 -to o_Scan_Sig[2]
+set_location_assignment PIN_W13 -to o_Scan_Sig[1]
+set_location_assignment PIN_V13 -to o_Scan_Sig[0]
+# VGA
+set_location_assignment PIN_AA14 -to o_vga_b[4]
+set_location_assignment PIN_AB13 -to o_vga_b[3]
+set_location_assignment PIN_AA15 -to o_vga_b[2]
+set_location_assignment PIN_AB14 -to o_vga_b[1]
+set_location_assignment PIN_AB15 -to o_vga_b[0]
+set_location_assignment PIN_AB16 -to o_vga_g[5]
+set_location_assignment PIN_AA16 -to o_vga_g[4]
+set_location_assignment PIN_AB17 -to o_vga_g[3]
+set_location_assignment PIN_AA17 -to o_vga_g[2]
+set_location_assignment PIN_AA18 -to o_vga_g[1]
+set_location_assignment PIN_AB18 -to o_vga_g[0]
+set_location_assignment PIN_AB19 -to o_vga_r[4]
+set_location_assignment PIN_AA19 -to o_vga_r[3]
+set_location_assignment PIN_AB20 -to o_vga_r[2]
+set_location_assignment PIN_AA20 -to o_vga_r[1]
+set_location_assignment PIN_AA21 -to o_vga_r[0]
+set_location_assignment PIN_AB10 -to o_vga_vs
+set_location_assignment PIN_AA13 -to o_vga_hs
+# J12 I/O Connector
+set_location_assignment PIN_C22 -to io_J12[3]
+set_location_assignment PIN_C21 -to io_J12[4]
+set_location_assignment PIN_B22 -to io_J12[5]
+set_location_assignment PIN_B21 -to io_J12[6]
+set_location_assignment PIN_H20 -to io_J12[7]
+set_location_assignment PIN_H19 -to io_J12[8]
+set_location_assignment PIN_F20 -to io_J12[9]
+set_location_assignment PIN_F19 -to io_J12[10]
+set_location_assignment PIN_C20 -to io_J12[11]
+set_location_assignment PIN_D20 -to io_J12[12]
+set_location_assignment PIN_C19 -to io_J12[13]
+set_location_assignment PIN_D19 -to io_J12[14]
+set_location_assignment PIN_C17 -to io_J12[15]
+set_location_assignment PIN_D17 -to io_J12[16]
+set_location_assignment PIN_A20 -to io_J12[17]
+set_location_assignment PIN_B20 -to io_J12[18]
+set_location_assignment PIN_A19 -to io_J12[19]
+set_location_assignment PIN_B19 -to io_J12[20]
+set_location_assignment PIN_A18 -to io_J12[21]
+set_location_assignment PIN_B18 -to io_J12[22]
+set_location_assignment PIN_A17 -to io_J12[23]
+set_location_assignment PIN_B17 -to io_J12[24]
+set_location_assignment PIN_A16 -to io_J12[25]
+set_location_assignment PIN_B16 -to io_J12[26]
+set_location_assignment PIN_A15 -to io_J12[27]
+set_location_assignment PIN_B15 -to io_J12[28]
+set_location_assignment PIN_A14 -to io_J12[29]
+set_location_assignment PIN_B14 -to io_J12[30]
+set_location_assignment PIN_A13 -to io_J12[31]
+set_location_assignment PIN_B13 -to io_J12[32]
+set_location_assignment PIN_A10 -to io_J12[33]
+set_location_assignment PIN_B10 -to io_J12[34]
+set_location_assignment PIN_A9 -to io_J12[35]
+set_location_assignment PIN_B9 -to io_J12[36]
+# Ethernet
+set_location_assignment PIN_L21 -to e_gtxc
+set_location_assignment PIN_W22 -to e_mdc
+set_location_assignment PIN_W21 -to e_mdio
+set_location_assignment PIN_N22 -to e_reset
+set_location_assignment PIN_F21 -to e_rxc
+set_location_assignment PIN_J21 -to e_rxd[7]
+set_location_assignment PIN_J22 -to e_rxd[6]
+set_location_assignment PIN_H21 -to e_rxd[5]
+set_location_assignment PIN_H22 -to e_rxd[4]
+set_location_assignment PIN_F22 -to e_rxd[3]
+set_location_assignment PIN_E21 -to e_rxd[2]
+set_location_assignment PIN_E22 -to e_rxd[1]
+set_location_assignment PIN_D21 -to e_rxd[0]
+set_location_assignment PIN_D22 -to e_rxdv
+set_location_assignment PIN_K22 -to e_rxer
+set_location_assignment PIN_R22 -to e_txc
+set_location_assignment PIN_V22 -to e_txd[7]
+set_location_assignment PIN_U21 -to e_txd[6]
+set_location_assignment PIN_U22 -to e_txd[5]
+set_location_assignment PIN_R21 -to e_txd[4]
+set_location_assignment PIN_P21 -to e_txd[3]
+set_location_assignment PIN_P22 -to e_txd[2]
+set_location_assignment PIN_N21 -to e_txd[1]
+set_location_assignment PIN_M21 -to e_txd[0]
+set_location_assignment PIN_M22 -to e_txen
+set_location_assignment PIN_V21 -to e_txer
+# SDRAM
+set_location_assignment PIN_AB4 -to DRAM_WE_N
+set_location_assignment PIN_W7 -to DRAM_UDQM
+set_location_assignment PIN_AB3 -to DRAM_RAS_N
+set_location_assignment PIN_AA5 -to DRAM_LDQM
+set_location_assignment PIN_AA3 -to DRAM_CS_N
+set_location_assignment PIN_Y6 -to DRAM_CLK
+set_location_assignment PIN_W6 -to DRAM_CKE
+set_location_assignment PIN_AA4 -to DRAM_CAS_N
+set_location_assignment PIN_Y1 -to DRAM_BA[0]
+set_location_assignment PIN_W2 -to DRAM_BA[1]
+set_location_assignment PIN_V2 -to DRAM_ADDR[0]
+set_location_assignment PIN_V1 -to DRAM_ADDR[1]
+set_location_assignment PIN_U2 -to DRAM_ADDR[2]
+set_location_assignment PIN_U1 -to DRAM_ADDR[3]
+set_location_assignment PIN_V3 -to DRAM_ADDR[4]
+set_location_assignment PIN_V4 -to DRAM_ADDR[5]
+set_location_assignment PIN_Y2 -to DRAM_ADDR[6]
+set_location_assignment PIN_AA1 -to DRAM_ADDR[7]
+set_location_assignment PIN_Y3 -to DRAM_ADDR[8]
+set_location_assignment PIN_V5 -to DRAM_ADDR[9]
+set_location_assignment PIN_W1 -to DRAM_ADDR[10]
+set_location_assignment PIN_Y4 -to DRAM_ADDR[11]
+set_location_assignment PIN_V6 -to DRAM_ADDR[12]
+set_location_assignment PIN_AA10 -to DRAM_DQ[0]
+set_location_assignment PIN_AB9 -to DRAM_DQ[1]
+set_location_assignment PIN_AA9 -to DRAM_DQ[2]
+set_location_assignment PIN_AB8 -to DRAM_DQ[3]
+set_location_assignment PIN_AA8 -to DRAM_DQ[4]
+set_location_assignment PIN_AB7 -to DRAM_DQ[5]
+set_location_assignment PIN_AA7 -to DRAM_DQ[6]
+set_location_assignment PIN_AB5 -to DRAM_DQ[7]
+set_location_assignment PIN_Y7 -to DRAM_DQ[8]
+set_location_assignment PIN_W8 -to DRAM_DQ[9]
+set_location_assignment PIN_Y8 -to DRAM_DQ[10]
+set_location_assignment PIN_V9 -to DRAM_DQ[11]
+set_location_assignment PIN_V10 -to DRAM_DQ[12]
+set_location_assignment PIN_Y10 -to DRAM_DQ[13]
+set_location_assignment PIN_W10 -to DRAM_DQ[14]
+set_location_assignment PIN_V11 -to DRAM_DQ[15]
+#
+set_global_assignment -name POWER_PRESET_COOLING_SOLUTION "23 MM HEAT SINK WITH 200 LFPM AIRFLOW"
+set_global_assignment -name POWER_BOARD_THERMAL_MODEL "NONE (CONSERVATIVE)"
+set_global_assignment -name TIMING_ANALYZER_MULTICORNER_ANALYSIS ON
+set_global_assignment -name SMART_RECOMPILE ON
+set_global_assignment -name ENABLE_SIGNALTAP OFF
+set_global_assignment -name USE_SIGNALTAP_FILE output_files/cpu_002_Part9.stp
+set_global_assignment -name ENABLE_OCT_DONE OFF
+set_global_assignment -name ENABLE_CONFIGURATION_PINS OFF
+set_global_assignment -name ENABLE_BOOT_SEL_PIN OFF
+set_global_assignment -name USE_CONFIGURATION_DEVICE OFF
+set_global_assignment -name CRC_ERROR_OPEN_DRAIN OFF
+set_global_assignment -name CYCLONEII_RESERVE_NCEO_AFTER_CONFIGURATION "USE AS REGULAR IO"
+set_global_assignment -name OUTPUT_IO_TIMING_NEAR_END_VMEAS "HALF VCCIO" -rise
+set_global_assignment -name OUTPUT_IO_TIMING_NEAR_END_VMEAS "HALF VCCIO" -fall
+set_global_assignment -name OUTPUT_IO_TIMING_FAR_END_VMEAS "HALF SIGNAL SWING" -rise
+set_global_assignment -name OUTPUT_IO_TIMING_FAR_END_VMEAS "HALF SIGNAL SWING" -fall
+set_global_assignment -name PARTITION_NETLIST_TYPE SOURCE -section_id Top
+set_global_assignment -name PARTITION_FITTER_PRESERVATION_LEVEL PLACEMENT_AND_ROUTING -section_id Top
+set_global_assignment -name PARTITION_COLOR 16764057 -section_id Top
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to o_LED
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to i_clock
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to DRAM_ADDR[12]
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to DRAM_ADDR[11]
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to DRAM_ADDR[10]
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to DRAM_ADDR[9]
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to DRAM_WE_N
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to DRAM_UDQM
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to DRAM_LDQM
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to DRAM_DQ[0]
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to DRAM_DQ[1]
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to DRAM_DQ[2]
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to DRAM_DQ[3]
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to DRAM_DQ[4]
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to DRAM_DQ[5]
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to DRAM_DQ[6]
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to DRAM_DQ[7]
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to DRAM_DQ[8]
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to DRAM_DQ[9]
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to DRAM_DQ[10]
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to DRAM_DQ[11]
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to DRAM_DQ[12]
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to DRAM_DQ[13]
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to DRAM_DQ[14]
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to DRAM_DQ[15]
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to DRAM_CLK
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to DRAM_CS_N
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to DRAM_CKE
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to DRAM_CAS_N
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to DRAM_BA[0]
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to DRAM_BA[1]
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to DRAM_ADDR[0]
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to DRAM_ADDR[1]
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to DRAM_ADDR[2]
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to DRAM_ADDR[3]
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to DRAM_ADDR[4]
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to DRAM_ADDR[5]
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to DRAM_ADDR[6]
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to DRAM_ADDR[7]
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to DRAM_ADDR[8]
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to DRAM_RAS_N
+set_global_assignment -name VHDL_FILE Peripherals/SevenSegs/Seven_Seg_3_Digits/Loadable_7SD_3LED.vhd
+set_global_assignment -name VHDL_FILE Peripherals/UART/bufferedUART.vhd
+set_global_assignment -name VHDL_FILE Peripherals/UART/BaudRate6850.vhd
+set_global_assignment -name VHDL_FILE Peripherals/SlowClock.vhd
+set_global_assignment -name VHDL_FILE Peripherals/IOP16_Timer_Unit/TimerUnit.vhd
+set_global_assignment -name VHDL_FILE Peripherals/ANSIDisplay/SansBoldRomReduced.vhd
+set_global_assignment -name VHDL_FILE Peripherals/ANSIDisplay/SansBoldRom.vhd
+set_global_assignment -name VHDL_FILE Peripherals/ANSIDisplay/DisplayRam2K.vhd
+set_global_assignment -name VHDL_FILE Peripherals/ANSIDisplay/DisplayRam1K.vhd
+set_global_assignment -name VHDL_FILE Peripherals/ANSIDisplay/CGABoldRomReduced.vhd
+set_global_assignment -name VHDL_FILE Peripherals/ANSIDisplay/CGABoldRom.vhd
+set_global_assignment -name VHDL_FILE Peripherals/ANSIDisplay/ANSIDisplayVGA.vhd
+set_global_assignment -name VHDL_FILE Peripherals/GPIO/gpio.vhd
+set_global_assignment -name VHDL_FILE Debounce.vhd
+set_global_assignment -name VHDL_FILE lifo.vhd
+set_global_assignment -name VHDL_FILE cpu_001.vhd
+set_global_assignment -name VHDL_FILE ProgramCounter.vhd
+set_global_assignment -name VHDL_FILE RegisterFile.vhd
+set_global_assignment -name VHDL_FILE GreyCode.vhd
+set_global_assignment -name SIGNALTAP_FILE output_files/cpu_002_Part8.stp
+set_global_assignment -name VHDL_FILE ALU.vhd
+set_global_assignment -name SIGNALTAP_FILE output_files/cpu_002_Part9.stp
+set_global_assignment -name VHDL_FILE CPU_top.vhd
+set_global_assignment -name VHDL_FILE Shifter.vhd
+set_global_assignment -name QIP_FILE IOP_ROM.qip
+set_global_assignment -name VHDL_FILE cpu_001_Pkg.vhd
+set_instance_assignment -name PARTITION_HIERARCHY root_partition -to | -section_id Top
