@@ -15,29 +15,42 @@ use  IEEE.STD_LOGIC_UNSIGNED.all;
 
 entity uk101 is
 	port(
+		-- Reset, clock
 		i_n_reset	: in std_logic;
 		i_clk			: in std_logic;
 		
+		-- Serial port
 		i_rxd			: in std_logic;
 		o_txd			: out std_logic;
 --		o_rts			: out std_logic;
 --		i_cts			: in std_logic;
 
+		-- VGA
 		o_vga_r		: out	std_logic_vector(4 downto 0) := "00000";
 		o_vga_g		: out	std_logic_vector(5 downto 0) := "000000";
 		o_vga_b		: out	std_logic_vector(4 downto 0) := "00000";
 		o_vga_hs		: out	std_logic := '1';
 		o_vga_vs		: out	std_logic := '1';
 		
-		-- PS/2 is on J12
+		-- PS/2 keyboard/mouse is on J12
 		-- J12-1 = GND
 		-- J12-2 = +5V
+		-- J12-40 = +3.3V
 		-- http://land-boards.com/blwiki/index.php?title=PS2X49
-		-- With level shifter
-		i_ps2Clk		: in std_logic := '1';		-- J12-3 (PIN_C22)
-		i_ps2Data	: in std_logic := '1';		-- J12-4 (PIN_C21)
+		-- With 5V to 3.3V level shifter installed
+		-- PS/2 keyboards
+		i_ps2Clk		: in std_logic := '1';	-- J12-25 (PIN_A16)
+		i_ps2Data	: in std_logic := '1';	-- J12-27 (PIN_A15)
+		-- PS/2 mouse
+		i_ps2_clk_m	: in std_logic := '1';	-- J12-26 (PIN_B16)
+		i_ps2_dat_m	: in std_logic := '1';	-- J12-28 (PIN_B15)
 		
-		io_J12		: out	std_logic_vector(36 downto 5) := "00000000000000000000000000000000";
+		-- I/O connector
+--		io_J12		: out	std_logic_vector(24 downto 3) := x"00000"&"00";
+--		io_J12		: out	std_logic_vector(36 downto 29) := x"00";
+		i_slSws		: in std_logic_vector(7 downto 0);
+		i_pbSw		: in std_logic_vector(7 downto 0);
+		o_LEDs		: inout	std_logic_vector(7 downto 0);
 		
 		-- Not using the SD RAM but making sure that it's not active
 		n_sdRamCas	: out std_logic := '1';		-- CAS on schematic
@@ -48,7 +61,6 @@ entity uk101 is
 		sdRamClkEn	: out std_logic := '1';		-- SDCKE0
 		sdRamAddr	: out std_logic_vector(14 downto 0) := "000"&x"000";
 		sdRamData	: in std_logic_vector(15 downto 0)
-
 		);
 end uk101;
 
@@ -78,6 +90,9 @@ architecture struct of uk101 is
 	signal w_n_ramCS2				: std_logic;
 	signal n_monRomCS 			: std_logic;
 	signal n_kbCS					: std_logic;
+	signal LEDCS					: std_logic;
+	signal slSw					: std_logic;
+	signal pbSw					: std_logic;
 	
 	signal w_serialClkCount		: std_logic_vector(15 downto 0); 
 	signal w_serialClkCount_d  : std_logic_vector(15 downto 0);
@@ -99,48 +114,73 @@ architecture struct of uk101 is
 
 begin
 
-
+	-- 1:1:1 mapped to FPGA 5:6:5
 	o_vga_r <= w_VoutVect(2) & w_VoutVect(2) & w_VoutVect(2) & w_VoutVect(2) & w_VoutVect(2);
 	o_vga_g <= w_VoutVect(1) & w_VoutVect(1) & w_VoutVect(1) & w_VoutVect(1) & w_VoutVect(1) & w_VoutVect(1);
 	o_vga_b <= w_VoutVect(0) & w_VoutVect(0) & w_VoutVect(0) & w_VoutVect(0) & w_VoutVect(0);
 
 	-- Chip Selects
-	w_n_ramCS 	<= '0' when w_cpuAddress(15) 				= '0'			else '1';  				-- x0000-x7fff (32KB)
-	w_n_ramCS2	<= '0' when w_cpuAddress(15 downto 13) = "100" 		else '1';  				-- x8000-x90ff (8KB)
-	n_basRomCS 	<= '0' when w_cpuAddress(15 downto 13) = "101" 		else '1'; 				-- xA000-xBFFF (8KB)
-	n_dispRamCS <= '0' when w_cpuAddress(15 downto 11) = "11010" 	else '1';				-- xD000-xD7FF (2KB)
-	n_kbCS 		<= '0' when w_cpuAddress(15 downto 10) = "110111" 	else '1';				-- xDC00-xDFFF (1KB)
-	n_aciaCS 	<= '0' when w_cpuAddress(15 downto 1)  = "111100000000000"  else '1';	-- xF000-xF001 (2B) = 61440-61441 dec
-	n_monRomCS 	<= '0' when w_cpuAddress(15 downto 11) = "11111"	else '1'; 				-- xF800-xFFFF (2KB)
+	w_n_ramCS 	<= '0' when w_cpuAddress(15) 				= '0'				else '1';  	-- x0000-x7fff (32KB)
+	w_n_ramCS2	<= '0' when w_cpuAddress(15 downto 13) = "100" 			else '1';  	-- x8000-x90ff (8KB)
+	n_basRomCS 	<= '0' when w_cpuAddress(15 downto 13) = "101" 			else '1'; 	-- xA000-xBFFF (8KB)
+	n_dispRamCS <= '0' when w_cpuAddress(15 downto 11) = x"d"&"0" 		else '1';	-- xD000-xD7FF (2KB)
+	n_kbCS 		<= '0' when w_cpuAddress(15 downto 10) = x"d"&"11" 	else '1';	-- xDC00-xDFFF (1KB)
+	n_aciaCS 	<= '0' when w_cpuAddress(15 downto 1)  = x"f00"&"000" else '1';	-- xF000-xF001 (2B) = 61440-61441 dec
+	LEDCS 		<= '0' when w_cpuAddress					= x"f002"		else '1';	-- xF002 (1B) = 61442 dec
+	slSw	 		<= '1' when w_cpuAddress					= x"f003"		else '0';	-- xF003 (1B) = 61443 dec
+	pbSw	 		<= '1' when w_cpuAddress					= x"f004"		else '0';	-- xF004 (1B) = 61444 dec
+	n_monRomCS 	<= '0' when w_cpuAddress(15 downto 11) = x"f"&"1"		else '1';	-- xF800-xFFFF (2KB)
  
-	w_cpuDataIn <=
-		w_aciaData 									when n_aciaCS 		= '0'	else
-		w_ramDataOut 								when w_n_ramCS 		= '0' else
-		w_ramDataOut2 								when w_n_ramCS2 		= '0' else
-		w_displayRamData 							when n_dispRamCS	= '0' else
-		w_basRomData 									when n_basRomCS	= '0' else
-		w_kbReadData 								when n_kbCS			= '0' else
-		w_monitorRomData 							when n_monRomCS 	= '0' else		-- has to be after any I/O
-		x"FF";
-		
+	-- ____________________________________________________________________________________
+	-- 
 	CPU : entity work.T65
 	port map(
-		Enable => '1',
-		Mode => "00",
-		Res_n => i_n_reset,
-		Clk => w_cpuClock,
-		Rdy => '1',
-		Abort_n => '1',
-		IRQ_n => '1',
-		NMI_n => '1',
-		SO_n => '1',
-		R_W_n => n_WR,
-		A(15 downto 0) => w_cpuAddress,
-		DI => w_cpuDataIn,
-		DO => w_cpuDataOut);
+		Enable 				=> '1',
+		Mode					=> "00",
+		Res_n					=> i_n_reset,
+		Clk					=> w_cpuClock,
+		Rdy					=> '1',
+		Abort_n				=> '1',
+		IRQ_n					=> '1',
+		NMI_n					=> '1',
+		SO_n					=> '1',
+		R_W_n					=> n_WR,
+		A(15 downto 0) 	=> w_cpuAddress,
+		DI						=> w_cpuDataIn,
+		DO						=> w_cpuDataOut);
 			
 	n_memWR <= not(w_cpuClock) nand (not n_WR);
 
+	-- Read data multiplexer
+	w_cpuDataIn <=
+		w_aciaData 			when n_aciaCS 		= '0'	else
+		w_ramDataOut 		when w_n_ramCS 	= '0' else
+		w_ramDataOut2 		when w_n_ramCS2 	= '0' else
+		w_displayRamData 	when n_dispRamCS	= '0' else
+		w_basRomData 		when n_basRomCS	= '0' else
+		w_kbReadData 		when n_kbCS			= '0' else
+		w_monitorRomData 	when n_monRomCS 	= '0' else		-- has to be after any I/O
+		o_LEDs				when LEDCS			= '0' else
+		i_slSws				when slSw			= '1' else
+		i_pbSw				when pbSw			= '1' else
+		x"FF";
+		
+	ledLatch : entity work.OutLatch
+	generic map
+		(
+			n	=> 8
+		)
+		port map
+		(	
+			dataIn	=> w_cpuDataOut,
+			clock		=> w_CLOCK_50,
+			load		=> LEDCS or n_memWR,
+			clear		=> i_n_reset,
+			latchOut	=> o_LEDs
+		);
+	
+	-- ____________________________________________________________________________________
+	-- 
 	MemMappedXVGA : entity work.Mem_Mapped_XVGA
 		port map (
 			n_reset 			=> i_n_reset,
@@ -158,80 +198,16 @@ begin
 		);
 		
 	-- ____________________________________________________________________________________
-	-- Clocks
-	pll : work.VideoClk_XVGA_1024x768 PORT MAP 
-	(
-		inclk0	 => i_clk,
-		c0	 => w_Video_Clk,	-- 65 MHz Video Clock
-		c1	 => w_cpuClock,	-- 1 MHz CPU clock
-		c2	 => w_CLOCK_50		-- 50 Mhz Logic Clock
-	);
-	
-
-	BASIC_IN_ROM : entity work.BasicRom -- 8KB
-	port map
-	(
-		address => w_cpuAddress(12 downto 0),
-		clock => w_CLOCK_50,
-		q => w_basRomData
-	);
-
-	SRAM_32K : entity work.InternalRam32K
-	port map
-	(
-		address => w_cpuAddress(14 downto 0),
-		clock => w_CLOCK_50,
-		data => w_cpuDataOut,
-		wren => not(n_memWR or w_n_ramCS),
-		q => w_ramDataOut
-	);
-
-	
-	SRAM_8K : entity work.InternalRam8K
-	port map
-	(
-		address => w_cpuAddress(12 downto 0),
-		clock => w_CLOCK_50,
-		data => w_cpuDataOut,
-		wren => not(n_memWR or w_n_ramCS2),
-		q => w_ramDataOut2
-	);
-
-	
-	MONITOR : entity work.CegmonRom_Patched_64x32
-	port map
-	(
-		address => w_cpuAddress(10 downto 0),
-		q => w_monitorRomData
-	);
-
-	UART : entity work.bufferedUART
-		port map
-		(
-			clk => w_CLOCK_50,
-			n_wr => n_aciaCS or w_cpuClock or n_WR,
-			n_rd => n_aciaCS or w_cpuClock or (not n_WR),
-			regSel => w_cpuAddress(0),
-			dataIn => w_cpuDataOut,
-			dataOut => w_aciaData,
-			rxClkEn => w_serialClkEn,
-			txClkEn => w_serialClkEn,
-			rxd => i_rxd,
-			txd => w_txdBuff,
-			n_cts => '0',
---			n_rts => o_rts
-			n_dcd => '0'
-		);
-		
+	-- 
 	u9 : entity work.UK101keyboard
 	port map
 	(
-		clk => w_CLOCK_50,
-		nRESET => i_n_reset,
+		clk		=> w_CLOCK_50,
+		nRESET	=> i_n_reset,
 		PS2_CLK	=> i_ps2Clk,
 		PS2_DATA	=> i_ps2Data,
-		A	=> w_kbRowSel,
-		KEYB	=> w_kbReadData
+		A			=> w_kbRowSel,
+		KEYB		=> w_kbReadData
 	);
 	
 	process (n_kbCS,n_memWR)
@@ -242,37 +218,88 @@ begin
 	end process;
 	
 	-- ____________________________________________________________________________________
-	-- Baud Rate Clock Signals
-	-- Serial clock DDS
-	-- 50MHz master input clock:
-	-- f = (increment x 50,000,000) / 65,536 = 16X baud rate
-	-- Baud Increment
-	-- 115200 2416
-	-- 38400 805
-	-- 19200 403
-	-- 9600 201
-	-- 4800 101
-	-- 2400 50
-	-- 1200 25
-	-- 600 13
-	-- 300 6
+	-- Clocks
+	pll : work.VideoClk_XVGA_1024x768 PORT MAP 
+	(
+		inclk0	=> i_clk,
+		c0			=> w_Video_Clk,	-- 65 MHz Video Clock
+		c1			=> w_cpuClock,		-- 1 MHz CPU clock
+		c2			=> w_CLOCK_50		-- 50 Mhz Logic Clock
+	);
+	
 
-	baud_div: process (w_serialClkCount_d, w_serialClkCount)
-		begin
-			w_serialClkCount_d <= w_serialClkCount + 2416;		-- 115,200 baud
-		end process;
+	-- ____________________________________________________________________________________
+	-- 
+	BASIC_IN_ROM : entity work.BasicRom -- 8KB
+	port map
+	(
+		address	=> w_cpuAddress(12 downto 0),
+		clock		=> w_CLOCK_50,
+		q			=> w_basRomData
+	);
 
-	--Single clock wide baud rate enable
-	baud_clk: process(w_CLOCK_50)
-		begin
-			if rising_edge(w_CLOCK_50) then
-					w_serialClkCount <= w_serialClkCount_d;
-				if w_serialClkCount(15) = '0' and w_serialClkCount_d(15) = '1' then
-					w_serialClkEn <= '1';
-				else
-					w_serialClkEn <= '0';
-				end if;
-        end if;
-    end process;
+	-- ____________________________________________________________________________________
+	-- 
+	SRAM_32K : entity work.InternalRam32K
+	port map
+	(
+		address	=> w_cpuAddress(14 downto 0),
+		clock		=> w_CLOCK_50,
+		data		=> w_cpuDataOut,
+		wren		=> not(n_memWR or w_n_ramCS),
+		q			=> w_ramDataOut
+	);
 
+	
+	SRAM_8K : entity work.InternalRam8K
+	port map
+	(
+		address	=> w_cpuAddress(12 downto 0),
+		clock		=> w_CLOCK_50,
+		data		=> w_cpuDataOut,
+		wren		=> not(n_memWR or w_n_ramCS2),
+		q			=> w_ramDataOut2
+	);
+
+	
+	-- ____________________________________________________________________________________
+	-- 
+	MONITOR : entity work.CegmonRom_Patched_64x32
+	port map
+	(
+		address	=> w_cpuAddress(10 downto 0),
+		q			=> w_monitorRomData
+	);
+
+	-- ____________________________________________________________________________________
+	-- UART
+	UART : entity work.bufferedUART
+		port map
+		(
+			clk		=> w_CLOCK_50,
+			n_wr		=> n_aciaCS or w_cpuClock or n_WR,
+			n_rd		=> n_aciaCS or w_cpuClock or (not n_WR),
+			regSel	=> w_cpuAddress(0),
+			dataIn	=> w_cpuDataOut,
+			dataOut	=> w_aciaData,
+			rxClkEn	=> w_serialClkEn,
+			txClkEn	=> w_serialClkEn,
+			rxd		=> i_rxd,
+			txd		=> w_txdBuff,
+			n_cts		=> '0',
+--			n_rts		=> o_rts
+			n_dcd		=> '0'
+		);
+		
+	baudRateGen : ENTITY work.BaudRate6850
+		GENERIC MAP
+		(
+			BAUD_RATE	=> 300
+		)
+		PORT map 
+		(
+			i_CLOCK_50	=> w_CLOCK_50,
+			o_serialEn	=> w_serialClkEn
+		);
+		
 end;
