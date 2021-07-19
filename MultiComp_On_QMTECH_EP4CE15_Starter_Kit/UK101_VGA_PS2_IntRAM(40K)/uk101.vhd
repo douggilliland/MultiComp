@@ -79,6 +79,7 @@ architecture struct of uk101 is
 	signal w_ramDataOut			: std_logic_vector(7 downto 0);
 	signal w_ramDataOut2			: std_logic_vector(7 downto 0);
 	signal w_displayRamData		: std_logic_vector(7 downto 0);
+	signal w_invPBs				: std_logic_vector(7 downto 0);
 
 	signal n_memWR					: std_logic;
 	signal w_n_memRD 				: std_logic :='1';
@@ -91,8 +92,8 @@ architecture struct of uk101 is
 	signal n_monRomCS 			: std_logic;
 	signal n_kbCS					: std_logic;
 	signal LEDCS					: std_logic;
-	signal slSw					: std_logic;
-	signal pbSw					: std_logic;
+	signal slSw						: std_logic;
+	signal pbSw						: std_logic;
 	
 	signal w_serialClkCount		: std_logic_vector(15 downto 0); 
 	signal w_serialClkCount_d  : std_logic_vector(15 downto 0);
@@ -162,9 +163,11 @@ begin
 		w_monitorRomData 	when n_monRomCS 	= '0' else		-- has to be after any I/O
 		o_LEDs				when LEDCS			= '0' else
 		i_slSws				when slSw			= '1' else
-		i_pbSw				when pbSw			= '1' else
+		w_invPBs				when pbSw			= '1' else
 		x"FF";
 		
+	w_invPBs <= not i_pbSw;
+	
 	ledLatch : entity work.OutLatch
 	generic map
 		(
