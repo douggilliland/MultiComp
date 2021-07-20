@@ -69,8 +69,8 @@ end uk101;
 
 architecture struct of uk101 is
 
-	signal n_WR						: std_logic;
-	signal n_RD						: std_logic;
+	signal w_WRN					: std_logic;
+--	signal n_RD						: std_logic;
 	signal w_cpuAddress			: std_logic_vector(15 downto 0);
 	signal w_cpuDataOut			: std_logic_vector(7 downto 0);
 	signal w_cpuDataIn			: std_logic_vector(7 downto 0);
@@ -81,21 +81,24 @@ architecture struct of uk101 is
 	signal w_ramDataOut			: std_logic_vector(7 downto 0);
 	signal w_ramDataOut2			: std_logic_vector(7 downto 0);
 	signal w_displayRamData		: std_logic_vector(7 downto 0);
-	signal w_invPBs				: std_logic_vector(7 downto 0);
+--	signal w_invPBs				: std_logic_vector(7 downto 0);
 
-	signal n_memWR					: std_logic;
-	signal w_n_memRD 				: std_logic :='1';
+	signal w_memWRN				: std_logic;
+--	signal w_n_memRD 				: std_logic :='1';
 	
-	signal n_basRomCS				: std_logic;
-	signal n_dispRamCS			: std_logic;
-	signal n_aciaCS				: std_logic;
+	signal w_basRomCSN			: std_logic;
+	signal w_dispRamCSN			: std_logic;
+	signal w_aciaCSN				: std_logic;
 	signal w_n_ramCS				: std_logic;
 	signal w_n_ramCS2				: std_logic;
-	signal n_monRomCS 			: std_logic;
-	signal n_kbCS					: std_logic;
-	signal LEDCS					: std_logic;
-	signal slSw						: std_logic;
-	signal pbSw						: std_logic;
+	signal w_monRomCSN 			: std_logic;
+	signal w_kbCSN					: std_logic;
+	signal w_LEDCSN				: std_logic;
+	signal w_slSwCS				: std_logic;
+	signal w_pbSwCS				: std_logic;
+	
+	signal w_slSw_q				: std_logic_vector(7 downto 0);	-- Register external devices for metastability
+	signal w_pbSw_q				: std_logic_vector(7 downto 0);
 	
 	signal w_serialClkCount		: std_logic_vector(15 downto 0); 
 	signal w_serialClkCount_d  : std_logic_vector(15 downto 0);
@@ -115,25 +118,34 @@ architecture struct of uk101 is
 
 begin
 
-	-- 1:1:1 mapped to FPGA 5:6:5
+	-- Register up inputs for metastability
+	process (w_cpuClock)
+	begin
+		if rising_edge(w_cpuClock) then
+			w_slSw_q <= i_slSws;
+			w_pbSw_q <= not i_pbSw;		-- Pushbuttons need to be inverted
+		end if;
+	end process;
+	
+	-- 1:1:1 of UK101 maps to FPGA 5:6:5
 	o_vga_r <= w_VoutVect(2) & w_VoutVect(2) & w_VoutVect(2) & w_VoutVect(2) & w_VoutVect(2);
 	o_vga_g <= w_VoutVect(1) & w_VoutVect(1) & w_VoutVect(1) & w_VoutVect(1) & w_VoutVect(1) & w_VoutVect(1);
 	o_vga_b <= w_VoutVect(0) & w_VoutVect(0) & w_VoutVect(0) & w_VoutVect(0) & w_VoutVect(0);
 
 	-- Chip Selects
-	w_n_ramCS 	<= '0' when w_cpuAddress(15) 				= '0'				else '1';  	-- x0000-x7fff (32KB)
-	w_n_ramCS2	<= '0' when w_cpuAddress(15 downto 13) = "100" 			else '1';  	-- x8000-x90ff (8KB)
-	n_basRomCS 	<= '0' when w_cpuAddress(15 downto 13) = "101" 			else '1'; 	-- xA000-xBFFF (8KB)
-	n_dispRamCS <= '0' when w_cpuAddress(15 downto 11) = x"d"&"0" 		else '1';	-- xD000-xD7FF (2KB)
-	n_kbCS 		<= '0' when w_cpuAddress(15 downto 10) = x"d"&"11" 	else '1';	-- xDC00-xDFFF (1KB)
-	n_aciaCS 	<= '0' when w_cpuAddress(15 downto 1)  = x"f00"&"000" else '1';	-- xF000-xF001 (2B) = 61440-61441 dec
-	LEDCS 		<= '0' when w_cpuAddress					= x"f002"		else '1';	-- xF002 (1B) = 61442 dec
-	slSw	 		<= '1' when w_cpuAddress					= x"f003"		else '0';	-- xF003 (1B) = 61443 dec
-	pbSw	 		<= '1' when w_cpuAddress					= x"f004"		else '0';	-- xF004 (1B) = 61444 dec
-	n_monRomCS 	<= '0' when w_cpuAddress(15 downto 11) = x"f"&"1"		else '1';	-- xF800-xFFFF (2KB)
+	w_n_ramCS 		<= '0' when w_cpuAddress(15) 				= '0'				else '1';  	-- x0000-x7fff (32KB)
+	w_n_ramCS2		<= '0' when w_cpuAddress(15 downto 13) = "100" 			else '1';  	-- x8000-x90ff (8KB)
+	w_basRomCSN 	<= '0' when w_cpuAddress(15 downto 13) = "101" 			else '1'; 	-- xA000-xBFFF (8KB)
+	w_dispRamCSN	<= '0' when w_cpuAddress(15 downto 11) = x"d"&"0" 		else '1';	-- xD000-xD7FF (2KB)
+	w_kbCSN 			<= '0' when w_cpuAddress(15 downto 10) = x"d"&"11" 	else '1';	-- xDC00-xDFFF (1KB)
+	w_aciaCSN 		<= '0' when w_cpuAddress(15 downto 1)  = x"f00"&"000" else '1';	-- xF000-xF001 (2B) = 61440-61441 dec
+	w_LEDCSN 		<= '0' when w_cpuAddress					= x"f002"		else '1';	-- xF002 (1B) = 61442 dec
+	w_slSwCS	 		<= '1' when w_cpuAddress					= x"f003"		else '0';	-- xF003 (1B) = 61443 dec
+	w_pbSwCS	 		<= '1' when w_cpuAddress					= x"f004"		else '0';	-- xF004 (1B) = 61444 dec
+	w_monRomCSN 	<= '0' when w_cpuAddress(15 downto 11) = x"f"&"1"		else '1';	-- xF800-xFFFF (2KB)
  
 	-- ____________________________________________________________________________________
-	-- 
+	-- 6502 CPU
 	CPU : entity work.T65
 	port map(
 		Enable 				=> '1',
@@ -145,29 +157,27 @@ begin
 		IRQ_n					=> '1',
 		NMI_n					=> '1',
 		SO_n					=> '1',
-		R_W_n					=> n_WR,
+		R_W_n					=> w_WRN,
 		A(15 downto 0) 	=> w_cpuAddress,
 		DI						=> w_cpuDataIn,
 		DO						=> w_cpuDataOut);
 			
-	n_memWR <= not(w_cpuClock) nand (not n_WR);
+	w_memWRN <= not(w_cpuClock) nand (not w_WRN);
 
 	-- Read data multiplexer
 	w_cpuDataIn <=
-		w_aciaData 			when n_aciaCS 		= '0'	else
+		w_aciaData 			when w_aciaCSN 	= '0'	else
 		w_ramDataOut 		when w_n_ramCS 	= '0' else
 		w_ramDataOut2 		when w_n_ramCS2 	= '0' else
-		w_displayRamData 	when n_dispRamCS	= '0' else
-		w_basRomData 		when n_basRomCS	= '0' else
-		w_kbReadData 		when n_kbCS			= '0' else
-		w_monitorRomData 	when n_monRomCS 	= '0' else		-- has to be after any I/O
-		o_LEDs				when LEDCS			= '0' else
-		i_slSws				when slSw			= '1' else
-		w_invPBs				when pbSw			= '1' else
+		w_displayRamData 	when w_dispRamCSN	= '0' else
+		w_basRomData 		when w_basRomCSN	= '0' else
+		w_kbReadData 		when w_kbCSN		= '0' else
+		o_LEDs				when w_LEDCSN		= '0' else
+		w_slSw_q				when w_slSwCS		= '1' else
+		w_pbSw_q				when w_pbSwCS		= '1' else
+		w_monitorRomData	when w_monRomCSN	= '0' else
 		x"FF";
 		
-	w_invPBs <= not i_pbSw;
-	
 	ledLatch : entity work.OutLatch
 	generic map
 		(
@@ -177,7 +187,7 @@ begin
 		(	
 			dataIn	=> w_cpuDataOut,
 			clock		=> w_CLOCK_50,
-			load		=> LEDCS or n_memWR,
+			load		=> w_LEDCSN or w_memWRN,
 			clear		=> i_n_reset,
 			latchOut	=> o_LEDs
 		);
@@ -189,8 +199,8 @@ begin
 			n_reset 			=> i_n_reset,
 			Video_Clk 		=> w_Video_Clk,
 			CLK_50			=> w_CLOCK_50,
-			n_dispRamCS		=> n_dispRamCS,
-			n_memWR			=> n_memWR,
+			n_dispRamCS		=> w_dispRamCSN,
+			n_memWR			=> w_memWRN,
 			cpuAddress 		=> w_cpuAddress(10 downto 0),
 			cpuDataOut		=> w_cpuDataOut,
 			dataOut			=> w_displayRamData,
@@ -213,9 +223,9 @@ begin
 		KEYB		=> w_kbReadData
 	);
 	
-	process (n_kbCS,n_memWR)
+	process (w_kbCSN,w_memWRN)
 	begin
-		if	n_kbCS='0' and n_memWR = '0' then
+		if	w_kbCSN='0' and w_memWRN = '0' then
 			w_kbRowSel <= w_cpuDataOut;
 		end if;
 	end process;
@@ -249,7 +259,7 @@ begin
 		address	=> w_cpuAddress(14 downto 0),
 		clock		=> w_CLOCK_50,
 		data		=> w_cpuDataOut,
-		wren		=> not(n_memWR or w_n_ramCS),
+		wren		=> not(w_memWRN or w_n_ramCS),
 		q			=> w_ramDataOut
 	);
 
@@ -260,7 +270,7 @@ begin
 		address	=> w_cpuAddress(12 downto 0),
 		clock		=> w_CLOCK_50,
 		data		=> w_cpuDataOut,
-		wren		=> not(n_memWR or w_n_ramCS2),
+		wren		=> not(w_memWRN or w_n_ramCS2),
 		q			=> w_ramDataOut2
 	);
 
@@ -280,8 +290,8 @@ begin
 		port map
 		(
 			clk		=> w_CLOCK_50,
-			n_wr		=> n_aciaCS or w_cpuClock or n_WR,
-			n_rd		=> n_aciaCS or w_cpuClock or (not n_WR),
+			n_WR		=> w_aciaCSN or w_cpuClock or w_WRN,
+			n_rd		=> w_aciaCSN or w_cpuClock or (not w_WRN),
 			regSel	=> w_cpuAddress(0),
 			dataIn	=> w_cpuDataOut,
 			dataOut	=> w_aciaData,
