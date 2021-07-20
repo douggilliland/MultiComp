@@ -7,6 +7,8 @@
 --		Off-the-shelf FPGA card (Cyclone IV EP4CE15)
 -- Implements Grant Searle's modifications for 64x32 screens as described here:
 --		https://searle.x10host.com/uk101FPGA/index.html
+-- Interfaces to LEDS-SWITCHES Card
+--		http://land-boards.com/blwiki/index.php?title=LEDS-SWITCHES
 
 library ieee;
 use ieee.std_logic_1164.all;
@@ -50,7 +52,7 @@ entity uk101 is
 --		io_J12		: out	std_logic_vector(36 downto 29) := x"00";
 		i_slSws		: in std_logic_vector(7 downto 0);
 		i_pbSw		: in std_logic_vector(7 downto 0);
-		o_LEDs		: inout	std_logic_vector(7 downto 0);
+		o_LEDs		: inout std_logic_vector(7 downto 0);
 		
 		-- Not using the SD RAM but making sure that it's not active
 		n_sdRamCas	: out std_logic := '1';		-- CAS on schematic
@@ -110,8 +112,6 @@ architecture struct of uk101 is
 
 	signal w_kbReadData 			: std_logic_vector(7 downto 0);
 	signal w_kbRowSel 			: std_logic_vector(7 downto 0);
-
-	signal w_txdBuff				: std_logic;
 
 begin
 
@@ -288,9 +288,9 @@ begin
 			rxClkEn	=> w_serialClkEn,
 			txClkEn	=> w_serialClkEn,
 			rxd		=> i_rxd,
-			txd		=> w_txdBuff,
+			txd		=> o_txd,
 			n_cts		=> '0',
---			n_rts		=> o_rts
+--			n_rts		=> '0',
 			n_dcd		=> '0'
 		);
 		
