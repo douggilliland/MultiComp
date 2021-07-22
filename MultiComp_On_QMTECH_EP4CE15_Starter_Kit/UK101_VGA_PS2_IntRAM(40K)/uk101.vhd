@@ -1,14 +1,34 @@
+-- ____________________________________________________________________________________
 -- UK101 or Superboard II Implementation
+--
 --		6502 CPU
 --		40KB internal SRAM
 --		XVGA output - 64 chars/row, 32 rows
 --		PS/2 keyboard
+-- 		http://land-boards.com/blwiki/index.php?title=PS2X49
 --		Serial port (USB-Serial)
 --		Off-the-shelf FPGA card (Cyclone IV EP4CE15)
+--		Two 8-bit input ports on J12
+--		One 8-bit output port on J12
+--
 -- Implements Grant Searle's modifications for 64x32 screens as described here:
 --		https://searle.x10host.com/uk101FPGA/index.html
+--
 -- Interfaces to LEDS-SWITCHES Card
 --		http://land-boards.com/blwiki/index.php?title=LEDS-SWITCHES
+--
+-- Memory Map
+-- 	0x0000-0x7fff - INTERNAL SRAM (32KB)
+-- 	0x8000-0x90ff - INTERNAL SRAM (8KB)
+--		0xA000-0xBFFF - BASIC ROM (8KB)
+-- 	0xD000-0xD7FF - DISPLAY RAM (2KB)
+-- 	0xDC00-0xDFFF - KEYBOARD (1KB)
+-- 	0xF000-0xF001 - ACIA (2B) 61440-61441 dec
+-- 	0xF002 (1B) - LEDs 61442 dec
+-- 	0xF003 (1B) - SLIDE SWITCHES 61443 dec
+-- 	0xF004 (1B) - PUSHBUTTONS 61444 dec
+-- 	0xF800-xFFFF - CEGMON ROM (2KB)
+-- ____________________________________________________________________________________
 
 library ieee;
 use ieee.std_logic_1164.all;
@@ -24,8 +44,6 @@ entity uk101 is
 		-- Serial port
 		i_rxd			: in std_logic;
 		o_txd			: out std_logic;
---		o_rts			: out std_logic;
---		i_cts			: in std_logic;
 
 		-- VGA
 		o_vga_r		: out	std_logic_vector(4 downto 0) := "00000";
@@ -69,6 +87,8 @@ end uk101;
 
 architecture struct of uk101 is
 
+	-- ____________________________________________________________________________________
+	-- Signals
 	signal w_WRN					: std_logic;
 --	signal n_RD						: std_logic;
 	signal w_cpuAddress			: std_logic_vector(15 downto 0);
@@ -118,32 +138,6 @@ architecture struct of uk101 is
 
 begin
 
-	-- Register up inputs for metastability
-	process (w_cpuClock)
-	begin
-		if rising_edge(w_cpuClock) then
-			w_slSw_q <= i_slSws;
-			w_pbSw_q <= not i_pbSw;		-- Pushbuttons need to be inverted
-		end if;
-	end process;
-	
-	-- 1:1:1 of UK101 maps to FPGA 5:6:5
-	o_vga_r <= w_VoutVect(2) & w_VoutVect(2) & w_VoutVect(2) & w_VoutVect(2) & w_VoutVect(2);
-	o_vga_g <= w_VoutVect(1) & w_VoutVect(1) & w_VoutVect(1) & w_VoutVect(1) & w_VoutVect(1) & w_VoutVect(1);
-	o_vga_b <= w_VoutVect(0) & w_VoutVect(0) & w_VoutVect(0) & w_VoutVect(0) & w_VoutVect(0);
-
-	-- Chip Selects
-	w_n_ramCS 		<= '0' when w_cpuAddress(15) 				= '0'				else '1';  	-- x0000-x7fff (32KB)
-	w_n_ramCS2		<= '0' when w_cpuAddress(15 downto 13) = "100" 			else '1';  	-- x8000-x90ff (8KB)
-	w_basRomCSN 	<= '0' when w_cpuAddress(15 downto 13) = "101" 			else '1'; 	-- xA000-xBFFF (8KB)
-	w_dispRamCSN	<= '0' when w_cpuAddress(15 downto 11) = x"d"&"0" 		else '1';	-- xD000-xD7FF (2KB)
-	w_kbCSN 			<= '0' when w_cpuAddress(15 downto 10) = x"d"&"11" 	else '1';	-- xDC00-xDFFF (1KB)
-	w_aciaCSN 		<= '0' when w_cpuAddress(15 downto 1)  = x"f00"&"000" else '1';	-- xF000-xF001 (2B) = 61440-61441 dec
-	w_LEDCSN 		<= '0' when w_cpuAddress					= x"f002"		else '1';	-- xF002 (1B) = 61442 dec
-	w_slSwCS	 		<= '1' when w_cpuAddress					= x"f003"		else '0';	-- xF003 (1B) = 61443 dec
-	w_pbSwCS	 		<= '1' when w_cpuAddress					= x"f004"		else '0';	-- xF004 (1B) = 61444 dec
-	w_monRomCSN 	<= '0' when w_cpuAddress(15 downto 11) = x"f"&"1"		else '1';	-- xF800-xFFFF (2KB)
- 
 	-- ____________________________________________________________________________________
 	-- 6502 CPU
 	CPU : entity work.T65
@@ -178,6 +172,29 @@ begin
 		w_monitorRomData	when w_monRomCSN	= '0' else
 		x"FF";
 		
+	-- ____________________________________________________________________________________
+	-- Chip Selects
+	w_n_ramCS 		<= '0' when w_cpuAddress(15) 				= '0'				else '1';  	-- x0000-x7fff (32KB)
+	w_n_ramCS2		<= '0' when w_cpuAddress(15 downto 13) = "100" 			else '1';  	-- x8000-x90ff (8KB)
+	w_basRomCSN 	<= '0' when w_cpuAddress(15 downto 13) = "101" 			else '1'; 	-- xA000-xBFFF (8KB)
+	w_dispRamCSN	<= '0' when w_cpuAddress(15 downto 11) = x"d"&"0" 		else '1';	-- xD000-xD7FF (2KB)
+	w_kbCSN 			<= '0' when w_cpuAddress(15 downto 10) = x"d"&"11" 	else '1';	-- xDC00-xDFFF (1KB)
+	w_aciaCSN 		<= '0' when w_cpuAddress(15 downto 1)  = x"f00"&"000" else '1';	-- xF000-xF001 (2B) = 61440-61441 dec
+	w_LEDCSN 		<= '0' when w_cpuAddress					= x"f002"		else '1';	-- xF002 (1B) = 61442 dec
+	w_slSwCS	 		<= '1' when w_cpuAddress					= x"f003"		else '0';	-- xF003 (1B) = 61443 dec
+	w_pbSwCS	 		<= '1' when w_cpuAddress					= x"f004"		else '0';	-- xF004 (1B) = 61444 dec
+	w_monRomCSN 	<= '0' when w_cpuAddress(15 downto 11) = x"f"&"1"		else '1';	-- xF800-xFFFF (2KB)
+ 
+	-- ____________________________________________________________________________________
+	-- Register up external inputs for metastability
+	process (w_cpuClock)
+	begin
+		if rising_edge(w_cpuClock) then
+			w_slSw_q <= i_slSws;
+			w_pbSw_q <= not i_pbSw;		-- Pushbuttons need to be inverted
+		end if;
+	end process;
+	
 	ledLatch : entity work.OutLatch
 	generic map
 		(
@@ -193,7 +210,7 @@ begin
 		);
 	
 	-- ____________________________________________________________________________________
-	-- 
+	-- VGA
 	MemMappedXVGA : entity work.Mem_Mapped_XVGA
 		port map (
 			n_reset 			=> i_n_reset,
@@ -209,9 +226,14 @@ begin
 			vSync				=> o_vga_vs
 
 		);
-		
+
+	-- 1:1:1 of UK101 maps to FPGA 5:6:5
+	o_vga_r <= w_VoutVect(2) & w_VoutVect(2) & w_VoutVect(2) & w_VoutVect(2) & w_VoutVect(2);
+	o_vga_g <= w_VoutVect(1) & w_VoutVect(1) & w_VoutVect(1) & w_VoutVect(1) & w_VoutVect(1) & w_VoutVect(1);
+	o_vga_b <= w_VoutVect(0) & w_VoutVect(0) & w_VoutVect(0) & w_VoutVect(0) & w_VoutVect(0);
+	
 	-- ____________________________________________________________________________________
-	-- 
+	-- UK101 scanned keyboard
 	u9 : entity work.UK101keyboard
 	port map
 	(
@@ -223,7 +245,7 @@ begin
 		KEYB		=> w_kbReadData
 	);
 	
-	process (w_kbCSN,w_memWRN)
+	process (w_kbCSN, w_memWRN)
 	begin
 		if	w_kbCSN='0' and w_memWRN = '0' then
 			w_kbRowSel <= w_cpuDataOut;
@@ -242,8 +264,8 @@ begin
 	
 
 	-- ____________________________________________________________________________________
-	-- 
-	BASIC_IN_ROM : entity work.BasicRom -- 8KB
+	-- 8KB BASIC in ROM
+	BASIC_IN_ROM : entity work.BasicRom
 	port map
 	(
 		address	=> w_cpuAddress(12 downto 0),
@@ -252,7 +274,7 @@ begin
 	);
 
 	-- ____________________________________________________________________________________
-	-- 
+	-- 40KB SRAM
 	SRAM_32K : entity work.InternalRam32K
 	port map
 	(
@@ -274,9 +296,8 @@ begin
 		q			=> w_ramDataOut2
 	);
 
-	
 	-- ____________________________________________________________________________________
-	-- 
+	-- CEGMON ROM
 	MONITOR : entity work.CegmonRom_Patched_64x32
 	port map
 	(
