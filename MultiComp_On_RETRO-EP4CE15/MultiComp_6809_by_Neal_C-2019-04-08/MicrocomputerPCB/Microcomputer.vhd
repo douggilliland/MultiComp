@@ -83,51 +83,51 @@ entity Microcomputer is
 	--    generic( constant INTERNAL_RAM : integer := 0
 --             );
 	port(
-		n_reset     : in std_logic;
-		clk         : in std_logic;
+		n_reset			: in std_logic;
+		clk				: in std_logic;
 
 		-- LEDs on base FPGA board and duplicated on James Moxham's PCB.
 		-- Set LOW to illuminate. 3rd LED is "driveLED" output.
-		n_LED7        : out std_logic := '1';
-		n_LED9        : out std_logic := '1';
+		n_LED7			: out std_logic := '1';
+		n_LED9			: out std_logic := '1';
 
 		-- Internal pull-up so this defaults to 1. When pulled to gnd
 		-- this swaps the address decodes so that the Serial A port is
 		-- decoded at $FFD0 and the VDU at $FFD2.
-		vduffd0     : in std_logic;
+		vduffd0			: in std_logic;
 
-		sramData        : inout std_logic_vector(7 downto 0);
-		sramAddress     : out std_logic_vector(19 downto 0); -- 19:0 -> 1MByte
-		n_sRamWE        : out std_logic;
-		n_sRamCS        : out std_logic;                     -- lower blocks
-		n_sRamOE        : out std_logic;
+		sramData			: inout std_logic_vector(7 downto 0);
+		sramAddress		: out std_logic_vector(19 downto 0); -- 19:0 -> 1MByte
+		n_sRamWE			: out std_logic;
+		n_sRamCS			: out std_logic;                     -- lower blocks
+		n_sRamOE			: out std_logic;
 
 		-- Not using the SD RAM but making sure that it's not active
 		n_sdRamCas		: out std_logic := '1';		-- CAS on schematic
 		n_sdRamRas		: out std_logic := '1';		-- RAS
-		n_sdRamWe			: out std_logic := '1';		-- SDWE
-		n_sdRamCe			: out std_logic := '1';		-- SD_NCS0
+		n_sdRamWe		: out std_logic := '1';		-- SDWE
+		n_sdRamCe		: out std_logic := '1';		-- SD_NCS0
 		sdRamClk			: out std_logic := '1';		-- SDCLK0
 		sdRamClkEn		: out std_logic := '1';		-- SDCKE0
-		sdRamAddr			: out std_logic_vector(14 downto 0) := "000"&x"000";
-		sdRamData			: in std_logic_vector(15 downto 0);
+		sdRamAddr		: out std_logic_vector(14 downto 0) := "000"&x"000";
+		sdRamData		: in std_logic_vector(15 downto 0);
 
-		rxd1            : in std_logic;
-		txd1            : out std_logic;
-		rts1            : out std_logic;
+		rxd1				: in std_logic;
+		txd1				: out std_logic;
+		rts1				: out std_logic;
 		cts1				: in std_logic;
 
-		videoR0     : out std_logic;
-		videoG0     : out std_logic;
-		videoB0     : out std_logic;
-		videoR1     : out std_logic;
-		videoG1     : out std_logic;
-		videoB1     : out std_logic;
-		hSync       : out std_logic;
-		vSync       : out std_logic;
+		videoR0			: out std_logic;
+		videoG0			: out std_logic;
+		videoB0			: out std_logic;
+		videoR1			: out std_logic;
+		videoG1			: out std_logic;
+		videoB1			: out std_logic;
+		hSync				: out std_logic;
+		vSync				: out std_logic;
 
-		ps2Clk      : inout std_logic;
-		ps2Data     : inout std_logic;
+		ps2Clk			: inout std_logic;
+		ps2Data			: inout std_logic;
 
 		-- 3 GPIO mapped to "group A" connector. Pin 1..3 of that connector
 		-- assigned to bit 0..2 of gpio0.
@@ -135,17 +135,17 @@ entity Microcomputer is
 		-- bit 2: CE
 		-- bit 1: SCLK
 		-- bit 0: I/O (Data)
-		gpio0       : inout std_logic_vector(2 downto 0);
+		gpio0				: inout std_logic_vector(2 downto 0);
 		-- 8 GPIO mapped to "group B" connector. Pin 1..8 of that connector
 		-- assigned to bit 0..7 of gpio2.
-		gpio2       : inout std_logic_vector(7 downto 0);
+		gpio2				: inout std_logic_vector(7 downto 0);
 
-		sdCS        : out std_logic;
-		sdMOSI      : out std_logic;
-		sdMISO      : in std_logic;
-		sdSCLK      : out std_logic;
+		sdCS				: out std_logic;
+		sdMOSI			: out std_logic;
+		sdMISO			: in std_logic;
+		sdSCLK			: out std_logic;
 		-- despite its name this needs to be LOW to illuminate the LED.
-		driveLED    : out std_logic :='1'
+		driveLED			: out std_logic :='1'
 		);
 end Microcomputer;
 
