@@ -8,7 +8,7 @@
 -- MC6800 CPU
 --	16.7 MHz CPU cloxk
 -- MIKBUG ROM from back in the day
---	16K (internal) RAM version
+--	32K (internal) RAM version
 -- MC6850 ACIA UART
 --		Rework to remove two LEDs and use the FPGA pins as RTS/CTS
 -- VDU
