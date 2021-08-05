@@ -93,9 +93,12 @@ set_location_assignment PIN_AA20 -to o_vga_r[1]
 set_location_assignment PIN_AA21 -to o_vga_r[0]
 set_location_assignment PIN_AB10 -to o_vga_vs
 set_location_assignment PIN_AA13 -to o_vga_hs
-# J12 I/O Connector
-# SD Card
-# SDRAM
+# PS/2 on external card
+set_location_assignment PIN_B16 -to i_ps2_clk_m
+set_location_assignment PIN_B15 -to i_ps2_dat_m
+set_instance_assignment -name WEAK_PULL_UP_RESISTOR ON -to i_ps2_clk_m
+set_instance_assignment -name WEAK_PULL_UP_RESISTOR ON -to i_ps2_dat_m
+# SDRAM - Not used but pulled to inactive states
 set_location_assignment PIN_Y6 -to sdRamClk
 set_location_assignment PIN_W6 -to sdRamClkEn
 set_location_assignment PIN_AA4 -to n_sdRamCas
@@ -133,104 +136,7 @@ set_location_assignment PIN_V10 -to sdRamData[12]
 set_location_assignment PIN_Y10 -to sdRamData[13]
 set_location_assignment PIN_W10 -to sdRamData[14]
 set_location_assignment PIN_V11 -to sdRamData[15]
-#
-set_global_assignment -name INFER_RAMS_FROM_RAW_LOGIC OFF
-set_global_assignment -name AUTO_SHIFT_REGISTER_RECOGNITION ALWAYS
-set_global_assignment -name TIMING_ANALYZER_MULTICORNER_ANALYSIS ON
-set_global_assignment -name SMART_RECOMPILE ON
-# I/O voltages
-
-set_location_assignment PIN_B16 -to i_ps2_clk_m
-set_location_assignment PIN_B15 -to i_ps2_dat_m
-set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to i_clk
-set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to altera_reserved_tck
-set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to altera_reserved_tdo
-set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to altera_reserved_tdi
-set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to altera_reserved_tms
-set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to i_n_reset
-set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to i_ps2_clk_m
-set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to i_ps2_dat_m
-set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to i_ps2Clk
-set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to i_ps2Data
-set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to i_rxd
-set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to sdRamData[0]
-set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to sdRamData[1]
-set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to sdRamData[2]
-set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to sdRamData[3]
-set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to sdRamData[4]
-set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to sdRamData[5]
-set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to sdRamData[6]
-set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to sdRamData[7]
-set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to sdRamData[8]
-set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to sdRamData[9]
-set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to sdRamData[10]
-set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to sdRamData[11]
-set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to sdRamData[12]
-set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to sdRamData[13]
-set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to sdRamData[14]
-set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to sdRamData[15]
-set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to sdRamClkEn
-set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to sdRamClk
-set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to sdRamAddr[0]
-set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to sdRamAddr[1]
-set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to sdRamAddr[2]
-set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to sdRamAddr[3]
-set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to sdRamAddr[4]
-set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to sdRamAddr[5]
-set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to sdRamAddr[6]
-set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to sdRamAddr[7]
-set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to sdRamAddr[8]
-set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to sdRamAddr[9]
-set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to sdRamAddr[10]
-set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to sdRamAddr[11]
-set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to sdRamAddr[12]
-set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to sdRamAddr[13]
-set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to sdRamAddr[14]
-set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to o_vga_vs
-set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to o_vga_r[0]
-set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to o_vga_r[1]
-set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to o_vga_r[2]
-set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to o_vga_r[3]
-set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to o_vga_r[4]
-set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to o_vga_hs
-set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to o_vga_g[0]
-set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to o_vga_g[1]
-set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to o_vga_g[2]
-set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to o_vga_g[3]
-set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to o_vga_g[4]
-set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to o_vga_g[5]
-set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to o_vga_b[0]
-set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to o_vga_b[1]
-set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to o_vga_b[2]
-set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to o_vga_b[3]
-set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to o_vga_b[4]
-set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to o_txd
-set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to n_sdRamWe
-set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to n_sdRamRas
-set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to n_sdRamCas
-set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to n_sdRamCe
-set_global_assignment -name VHDL_FILE "../../MultiComp (VHDL Template)/Components/UART/BaudRate6850.vhd"
-set_global_assignment -name VHDL_FILE uk101.vhd
-set_global_assignment -name VHDL_FILE "../../MultiComp (VHDL Template)/Components/RAM_Internal/InternalRam8K.vhd"
-set_global_assignment -name VHDL_FILE "../../MultiComp (VHDL Template)/Components/RAM_Internal/InternalRam32K.vhd"
-set_global_assignment -name VHDL_FILE "../../MultiComp (VHDL Template)/Components/CPU/M6502/T65_Pack.vhd"
-set_global_assignment -name VHDL_FILE "../../MultiComp (VHDL Template)/Components/CPU/M6502/T65_MCode.vhd"
-set_global_assignment -name VHDL_FILE "../../MultiComp (VHDL Template)/Components/CPU/M6502/T65_ALU.vhd"
-set_global_assignment -name VHDL_FILE "../../MultiComp (VHDL Template)/Components/CPU/M6502/T65.vhd"
-set_global_assignment -name VHDL_FILE "../../MultiComp (VHDL Template)/Components/VGA/Mem_Mapped_XGA/DisplayRam2k.vhd"
-set_global_assignment -name VHDL_FILE "../../MultiComp (VHDL Template)/Components/VGA/Mem_Mapped_XGA/Video_XVGA_64x32.vhd"
-set_global_assignment -name VHDL_FILE "../../MultiComp (VHDL Template)/Components/VGA/Mem_Mapped_XGA/VideoClk_XVGA_1024x768.vhd"
-set_global_assignment -name VHDL_FILE "../../MultiComp (VHDL Template)/Components/VGA/Mem_Mapped_XGA/Mem_Mapped_XVGA.vhd"
-set_global_assignment -name VHDL_FILE "../../MultiComp (VHDL Template)/Components/IO/OutLatch.vhd"
-set_global_assignment -name VHDL_FILE "../../MultiComp (VHDL Template)/Components/Seven_Seg_8_Digit/Loadable_7S8D_LED.vhd"
-set_global_assignment -name VHDL_FILE "../../MultiComp (VHDL Template)/Components/VGA/Mem_Mapped_SVGA/CharRom.VHD"
-set_global_assignment -name VHDL_FILE "../../MultiComp (VHDL Template)/Components/PS2KB/ps2_intf.vhd"
-set_global_assignment -name VHDL_FILE "../../MultiComp (VHDL Template)/Components/UART/bufferedUART.vhd"
-set_global_assignment -name VHDL_FILE "../../MultiComp (VHDL Template)/Components/ROMs/OSI/MonUK02Rom.VHD"
-set_global_assignment -name VHDL_FILE "../../MultiComp (VHDL Template)/Components/PS2KB/UK101keyboard.vhd"
-set_global_assignment -name VHDL_FILE "../../MultiComp (VHDL Template)/Components/ROMs/OSI/BasicRom.vhd"
-set_global_assignment -name VHDL_FILE "../../MultiComp (VHDL Template)/Components/ROMs/OSI/CegmonRom_Patched_64x32.VHD"
-set_global_assignment -name CDF_FILE output_files/uk101_eprom.cdf
+# Switches and LEDS on external card
 set_location_assignment PIN_F19 -to o_LEDs[7]
 set_location_assignment PIN_F20 -to o_LEDs[6]
 set_location_assignment PIN_H19 -to o_LEDs[5]
@@ -265,8 +171,6 @@ set_instance_assignment -name WEAK_PULL_UP_RESISTOR ON -to i_pbSw[2]
 set_instance_assignment -name WEAK_PULL_UP_RESISTOR ON -to i_pbSw[1]
 set_instance_assignment -name WEAK_PULL_UP_RESISTOR ON -to i_pbSw[0]
 set_instance_assignment -name WEAK_PULL_UP_RESISTOR ON -to i_pbSw
-set_instance_assignment -name WEAK_PULL_UP_RESISTOR ON -to i_ps2_clk_m
-set_instance_assignment -name WEAK_PULL_UP_RESISTOR ON -to i_ps2_dat_m
 set_instance_assignment -name WEAK_PULL_UP_RESISTOR ON -to i_slSws[6]
 set_instance_assignment -name WEAK_PULL_UP_RESISTOR ON -to i_slSws[5]
 set_instance_assignment -name WEAK_PULL_UP_RESISTOR ON -to i_slSws[4]
@@ -275,4 +179,33 @@ set_instance_assignment -name WEAK_PULL_UP_RESISTOR ON -to i_slSws[2]
 set_instance_assignment -name WEAK_PULL_UP_RESISTOR ON -to i_slSws[1]
 set_instance_assignment -name WEAK_PULL_UP_RESISTOR ON -to i_slSws[0]
 set_instance_assignment -name WEAK_PULL_UP_RESISTOR ON -to i_slSws
+# J12 I/O Connector
+# SD Card
+# 
+set_global_assignment -name INFER_RAMS_FROM_RAW_LOGIC OFF
+set_global_assignment -name AUTO_SHIFT_REGISTER_RECOGNITION ALWAYS
+set_global_assignment -name TIMING_ANALYZER_MULTICORNER_ANALYSIS ON
+set_global_assignment -name SMART_RECOMPILE ON
+set_global_assignment -name VHDL_FILE "../../MultiComp (VHDL Template)/Components/UART/BaudRate6850.vhd"
+set_global_assignment -name VHDL_FILE uk101.vhd
+set_global_assignment -name VHDL_FILE "../../MultiComp (VHDL Template)/Components/RAM_Internal/InternalRam8K.vhd"
+set_global_assignment -name VHDL_FILE "../../MultiComp (VHDL Template)/Components/RAM_Internal/InternalRam32K.vhd"
+set_global_assignment -name VHDL_FILE "../../MultiComp (VHDL Template)/Components/CPU/M6502/T65_Pack.vhd"
+set_global_assignment -name VHDL_FILE "../../MultiComp (VHDL Template)/Components/CPU/M6502/T65_MCode.vhd"
+set_global_assignment -name VHDL_FILE "../../MultiComp (VHDL Template)/Components/CPU/M6502/T65_ALU.vhd"
+set_global_assignment -name VHDL_FILE "../../MultiComp (VHDL Template)/Components/CPU/M6502/T65.vhd"
+set_global_assignment -name VHDL_FILE "../../MultiComp (VHDL Template)/Components/VGA/Mem_Mapped_XGA/DisplayRam2k.vhd"
+set_global_assignment -name VHDL_FILE "../../MultiComp (VHDL Template)/Components/VGA/Mem_Mapped_XGA/Video_XVGA_64x32.vhd"
+set_global_assignment -name VHDL_FILE "../../MultiComp (VHDL Template)/Components/VGA/Mem_Mapped_XGA/VideoClk_XVGA_1024x768.vhd"
+set_global_assignment -name VHDL_FILE "../../MultiComp (VHDL Template)/Components/VGA/Mem_Mapped_XGA/Mem_Mapped_XVGA.vhd"
+set_global_assignment -name VHDL_FILE "../../MultiComp (VHDL Template)/Components/IO/OutLatch.vhd"
+set_global_assignment -name VHDL_FILE "../../MultiComp (VHDL Template)/Components/Seven_Seg_8_Digit/Loadable_7S8D_LED.vhd"
+set_global_assignment -name VHDL_FILE "../../MultiComp (VHDL Template)/Components/VGA/Mem_Mapped_SVGA/CharRom.VHD"
+set_global_assignment -name VHDL_FILE "../../MultiComp (VHDL Template)/Components/PS2KB/ps2_intf.vhd"
+set_global_assignment -name VHDL_FILE "../../MultiComp (VHDL Template)/Components/UART/bufferedUART.vhd"
+set_global_assignment -name VHDL_FILE "../../MultiComp (VHDL Template)/Components/ROMs/OSI/MonUK02Rom.VHD"
+set_global_assignment -name VHDL_FILE "../../MultiComp (VHDL Template)/Components/PS2KB/UK101keyboard.vhd"
+set_global_assignment -name VHDL_FILE "../../MultiComp (VHDL Template)/Components/ROMs/OSI/BasicRom.vhd"
+set_global_assignment -name VHDL_FILE "../../MultiComp (VHDL Template)/Components/ROMs/OSI/CegmonRom_Patched_64x32.VHD"
+set_global_assignment -name CDF_FILE output_files/uk101_eprom.cdf
 set_instance_assignment -name PARTITION_HIERARCHY root_partition -to | -section_id Top

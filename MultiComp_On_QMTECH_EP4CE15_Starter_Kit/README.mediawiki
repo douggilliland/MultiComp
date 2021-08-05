@@ -1,0 +1,133 @@
+== Land Boards EP4CE15 Starter Kit FPGA Retro-Computer Board ==
+
+<a href="https://www.tindie.com/products/land_boards/retrocomputer-fpga-card-pcb-only/" >
+<img src="http://land-boards.com/tindie/tindie-larges-v2.png" alt="Tindie Logo">
+</img></a> 
+
+<img src="http://land-boards.com/blwiki/images/8/8f/RETRO-EP4CE15-REV4-BLACK-P1464-720PX.jpg"></img>
+
+* These are the VHDL files for the  [ EP4CE15 Starter Kit].
+** This card presents a hardware implementation of [http://searle.x10host.com/Multicomp/index.html Grant Searle's Multicomp] Retro-Computer.
+** Grant's projects re-create late 1970's and early 1980's era vintage computers using inexpensive FPGA cards.
+* Our [http://land-boards.com/blwiki/index.php?title=RetroComputers RetroComputing Wiki page is here].
+* [https://www.facebook.com/groups/663409440836492 MultiComp Facebook page]
+
+<img src="http://land-boards.com/blwiki/images/1/18/EP4CE55_RESOURCES.PNG"></img>
+
+<img src="http://land-boards.com/blwiki/images/4/43/CycloneV_FPGA_Resources.PNG"></img>
+	
+* I/O Connectivity
+** VGA connector
+** FTDI USB to serial
+
+
+== Land Boards - Other FPGA Projects ==
+
+These different folders reflect the hardware that we have got Multicomp running on. Some of these designs are Land Boards and others are based on commercial products.
+
+* [http://land-boards.com/blwiki/index.php?title=EP2C5-DB Land Boards EP2C5-DB FPGA Retro-Computer card]
+** Duplicates Grant's design down to the pin maps
+* [http://land-boards.com/blwiki/index.php?title=BASE-EP4CE6 Land Boards BASE-EP4CE6 card] is a breakout board that cables up to the [http://land-boards.com/blwiki/index.php?title=EP2C5-DB Land Boards EP2C5-DB card]
+** Adds extra logic and RAM resources beyond the EP2C5 FPGA
+*** Can do up to 16K of Internal SRAM
+** [http://land-boards.com/blwiki/index.php?title=Retro-Computer_Map_EP2_to_EP4_card Wiring is here]
+* [http://land-boards.com/blwiki/index.php?title=Cyclone_IV_FPGA_EP4CE6E22C8N_Development_Board_USB_V2 Purchased EP4 FPGA card]
+** Includes VGA, PS/2 and USB-Serial converter
+** Other I/O is serious limitation but a 16K retro machine without SD Card storage can easily be built
+
+== Other Sites ==
+
+* [https://www.retrobrewcomputers.org/doku.php?id=boards:sbc:multicomp:start Retrobrewing Multicomp forum] - covers Neal Crooks's 6809 based extensions as well as various hardware builds
+* [https://github.com/nealcrook/multicomp6809 Neal Crook's page is here]
+* [https://www.retrobrewcomputers.org/doku.php?id=builderpages:rhkoolstar:mc-2g-1024 Multi-boot Multicomp]
+* [https://retrobrewcomputers.org/doku.php?id=builderpages:rhkoolstar:mc-2g-1024 mc-2g-1024] - Multiboot Multicomp Image
+* [https://retrobrewcomputers.org/doku.php?id=builderpages:muellerk:start Multicomp Z80 with b/w Graphics] - muellerk build
+
+== Pin List ==
+
+<pre>
+# Clock and reset
+set_location_assignment PIN_T2 -to i_clk
+set_location_assignment PIN_J4 -to i_n_reset
+set_instance_assignment -name WEAK_PULL_UP_RESISTOR ON -to i_n_reset
+# PS/2
+set_location_assignment PIN_A16 -to i_ps2Clk
+set_instance_assignment -name WEAK_PULL_UP_RESISTOR ON -to i_ps2Clk
+set_location_assignment PIN_A15 -to i_ps2Data
+set_instance_assignment -name WEAK_PULL_UP_RESISTOR ON -to i_ps2Data
+# Serial
+set_location_assignment PIN_Y21 -to i_rxd
+set_instance_assignment -name WEAK_PULL_UP_RESISTOR ON -to i_rxd
+set_location_assignment PIN_Y22 -to o_txd
+# VGA
+set_location_assignment PIN_AA14 -to o_vga_b[4]
+set_location_assignment PIN_AB13 -to o_vga_b[3]
+set_location_assignment PIN_AA15 -to o_vga_b[2]
+set_location_assignment PIN_AB14 -to o_vga_b[1]
+set_location_assignment PIN_AB15 -to o_vga_b[0]
+set_location_assignment PIN_AB16 -to o_vga_g[5]
+set_location_assignment PIN_AA16 -to o_vga_g[4]
+set_location_assignment PIN_AB17 -to o_vga_g[3]
+set_location_assignment PIN_AA17 -to o_vga_g[2]
+set_location_assignment PIN_AA18 -to o_vga_g[1]
+set_location_assignment PIN_AB18 -to o_vga_g[0]
+set_location_assignment PIN_AB19 -to o_vga_r[4]
+set_location_assignment PIN_AA19 -to o_vga_r[3]
+set_location_assignment PIN_AB20 -to o_vga_r[2]
+set_location_assignment PIN_AA20 -to o_vga_r[1]
+set_location_assignment PIN_AA21 -to o_vga_r[0]
+set_location_assignment PIN_AB10 -to o_vga_vs
+set_location_assignment PIN_AA13 -to o_vga_hs
+# J12 I/O Connector
+# SD Card
+# SDRAM
+set_location_assignment PIN_Y6 -to sdRamClk
+set_location_assignment PIN_W6 -to sdRamClkEn
+set_location_assignment PIN_AA4 -to n_sdRamCas
+set_location_assignment PIN_AA3 -to n_sdRamCe
+set_location_assignment PIN_AB3 -to n_sdRamRas
+set_location_assignment PIN_AB4 -to n_sdRamWe
+set_location_assignment PIN_V2 -to sdRamAddr[0]
+set_location_assignment PIN_V1 -to sdRamAddr[1]
+set_location_assignment PIN_U2 -to sdRamAddr[2]
+set_location_assignment PIN_U1 -to sdRamAddr[3]
+set_location_assignment PIN_V3 -to sdRamAddr[4]
+set_location_assignment PIN_V4 -to sdRamAddr[5]
+set_location_assignment PIN_Y2 -to sdRamAddr[6]
+set_location_assignment PIN_AA1 -to sdRamAddr[7]
+set_location_assignment PIN_Y3 -to sdRamAddr[8]
+set_location_assignment PIN_V5 -to sdRamAddr[9]
+set_location_assignment PIN_W1 -to sdRamAddr[10]
+set_location_assignment PIN_Y4 -to sdRamAddr[11]
+set_location_assignment PIN_V6 -to sdRamAddr[12]
+set_location_assignment PIN_Y1 -to sdRamAddr[13]
+set_location_assignment PIN_W2 -to sdRamAddr[14]
+set_location_assignment PIN_AA10 -to sdRamData[0]
+set_location_assignment PIN_AB9 -to sdRamData[1]
+set_location_assignment PIN_AA9 -to sdRamData[2]
+set_location_assignment PIN_AB8 -to sdRamData[3]
+set_location_assignment PIN_AA8 -to sdRamData[4]
+set_location_assignment PIN_AB7 -to sdRamData[5]
+set_location_assignment PIN_AA7 -to sdRamData[6]
+set_location_assignment PIN_AB5 -to sdRamData[7]
+set_location_assignment PIN_Y7 -to sdRamData[8]
+set_location_assignment PIN_W8 -to sdRamData[9]
+set_location_assignment PIN_Y8 -to sdRamData[10]
+set_location_assignment PIN_V9 -to sdRamData[11]
+set_location_assignment PIN_V10 -to sdRamData[12]
+set_location_assignment PIN_Y10 -to sdRamData[13]
+set_location_assignment PIN_W10 -to sdRamData[14]
+set_location_assignment PIN_V11 -to sdRamData[15]
+#</pre>
+
+== Ownership ==
+
+* Some of these files such as FPGA designs and software libraries were created by others.
+** There may be newer versions of these libraries "out there".
+** Some libraries even have the same names but don't work the same.
+* Many of these files were created by me based on the work of others.
+
+=== Warning ===
+
+* Use at your own risk.
+** If you brick your part or it melt to a puddle, it's on you not me.
