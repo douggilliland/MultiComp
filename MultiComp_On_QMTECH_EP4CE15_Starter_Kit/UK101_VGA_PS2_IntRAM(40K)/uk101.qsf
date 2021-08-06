@@ -66,14 +66,25 @@ set_location_assignment PIN_T2 -to i_clk
 set_location_assignment PIN_J4 -to i_n_reset
 set_instance_assignment -name WEAK_PULL_UP_RESISTOR ON -to i_n_reset
 # PS/2
-set_location_assignment PIN_A16 -to i_ps2Clk
-set_instance_assignment -name WEAK_PULL_UP_RESISTOR ON -to i_ps2Clk
-set_location_assignment PIN_A15 -to i_ps2Data
+set_location_assignment PIN_A9 -to i_ps2Data
 set_instance_assignment -name WEAK_PULL_UP_RESISTOR ON -to i_ps2Data
+set_location_assignment PIN_A10 -to i_ps2Clk
+set_instance_assignment -name WEAK_PULL_UP_RESISTOR ON -to i_ps2Clk
+set_location_assignment PIN_B9 -to i_ps2_dat_m
+set_instance_assignment -name WEAK_PULL_UP_RESISTOR ON -to i_ps2_dat_m
+set_location_assignment PIN_B10 -to i_ps2_clk_m
+set_instance_assignment -name WEAK_PULL_UP_RESISTOR ON -to i_ps2_clk_m
 # Serial
-set_location_assignment PIN_Y21 -to i_rxd
+set_location_assignment PIN_A13 -to i_rxd
 set_instance_assignment -name WEAK_PULL_UP_RESISTOR ON -to i_rxd
-set_location_assignment PIN_Y22 -to o_txd
+set_location_assignment PIN_B13 -to o_txd
+set_location_assignment PIN_B16 -to i_cts
+set_location_assignment PIN_A16 -to o_rts
+# SD card
+set_location_assignment PIN_A14 -to sd_cs
+set_location_assignment PIN_B14 -to sd_clk
+set_location_assignment PIN_B15 -to sd_mosi
+set_location_assignment PIN_A15 -to sd_miso
 # VGA
 set_location_assignment PIN_AA14 -to o_vga_b[4]
 set_location_assignment PIN_AB13 -to o_vga_b[3]
@@ -93,11 +104,6 @@ set_location_assignment PIN_AA20 -to o_vga_r[1]
 set_location_assignment PIN_AA21 -to o_vga_r[0]
 set_location_assignment PIN_AB10 -to o_vga_vs
 set_location_assignment PIN_AA13 -to o_vga_hs
-# PS/2 on external card
-set_location_assignment PIN_B16 -to i_ps2_clk_m
-set_location_assignment PIN_B15 -to i_ps2_dat_m
-set_instance_assignment -name WEAK_PULL_UP_RESISTOR ON -to i_ps2_clk_m
-set_instance_assignment -name WEAK_PULL_UP_RESISTOR ON -to i_ps2_dat_m
 # SDRAM - Not used but pulled to inactive states
 set_location_assignment PIN_Y6 -to sdRamClk
 set_location_assignment PIN_W6 -to sdRamClkEn
@@ -136,51 +142,7 @@ set_location_assignment PIN_V10 -to sdRamData[12]
 set_location_assignment PIN_Y10 -to sdRamData[13]
 set_location_assignment PIN_W10 -to sdRamData[14]
 set_location_assignment PIN_V11 -to sdRamData[15]
-# Switches and LEDS on external card
-set_location_assignment PIN_F19 -to o_LEDs[7]
-set_location_assignment PIN_F20 -to o_LEDs[6]
-set_location_assignment PIN_H19 -to o_LEDs[5]
-set_location_assignment PIN_H20 -to o_LEDs[4]
-set_location_assignment PIN_B21 -to o_LEDs[3]
-set_location_assignment PIN_B22 -to o_LEDs[2]
-set_location_assignment PIN_C21 -to o_LEDs[1]
-set_location_assignment PIN_C22 -to o_LEDs[0]
-set_location_assignment PIN_A14 -to i_slSws[0]
-set_location_assignment PIN_B14 -to i_slSws[1]
-set_location_assignment PIN_A13 -to i_slSws[2]
-set_location_assignment PIN_B13 -to i_slSws[3]
-set_location_assignment PIN_A10 -to i_slSws[4]
-set_location_assignment PIN_B10 -to i_slSws[5]
-set_location_assignment PIN_A9 -to i_slSws[6]
-set_location_assignment PIN_B9 -to i_slSws[7]
-set_location_assignment PIN_B20 -to i_pbSw[0]
-set_location_assignment PIN_A20 -to i_pbSw[1]
-set_location_assignment PIN_D17 -to i_pbSw[2]
-set_location_assignment PIN_C17 -to i_pbSw[3]
-set_location_assignment PIN_D19 -to i_pbSw[4]
-set_location_assignment PIN_C19 -to i_pbSw[5]
-set_location_assignment PIN_D20 -to i_pbSw[6]
-set_location_assignment PIN_C20 -to i_pbSw[7]
-set_instance_assignment -name WEAK_PULL_UP_RESISTOR ON -to i_slSws[7]
-set_instance_assignment -name WEAK_PULL_UP_RESISTOR ON -to i_pbSw[7]
-set_instance_assignment -name WEAK_PULL_UP_RESISTOR ON -to i_pbSw[6]
-set_instance_assignment -name WEAK_PULL_UP_RESISTOR ON -to i_pbSw[5]
-set_instance_assignment -name WEAK_PULL_UP_RESISTOR ON -to i_pbSw[4]
-set_instance_assignment -name WEAK_PULL_UP_RESISTOR ON -to i_pbSw[3]
-set_instance_assignment -name WEAK_PULL_UP_RESISTOR ON -to i_pbSw[2]
-set_instance_assignment -name WEAK_PULL_UP_RESISTOR ON -to i_pbSw[1]
-set_instance_assignment -name WEAK_PULL_UP_RESISTOR ON -to i_pbSw[0]
-set_instance_assignment -name WEAK_PULL_UP_RESISTOR ON -to i_pbSw
-set_instance_assignment -name WEAK_PULL_UP_RESISTOR ON -to i_slSws[6]
-set_instance_assignment -name WEAK_PULL_UP_RESISTOR ON -to i_slSws[5]
-set_instance_assignment -name WEAK_PULL_UP_RESISTOR ON -to i_slSws[4]
-set_instance_assignment -name WEAK_PULL_UP_RESISTOR ON -to i_slSws[3]
-set_instance_assignment -name WEAK_PULL_UP_RESISTOR ON -to i_slSws[2]
-set_instance_assignment -name WEAK_PULL_UP_RESISTOR ON -to i_slSws[1]
-set_instance_assignment -name WEAK_PULL_UP_RESISTOR ON -to i_slSws[0]
-set_instance_assignment -name WEAK_PULL_UP_RESISTOR ON -to i_slSws
 # J12 I/O Connector
-# SD Card
 # 
 set_global_assignment -name INFER_RAMS_FROM_RAW_LOGIC OFF
 set_global_assignment -name AUTO_SHIFT_REGISTER_RECOGNITION ALWAYS

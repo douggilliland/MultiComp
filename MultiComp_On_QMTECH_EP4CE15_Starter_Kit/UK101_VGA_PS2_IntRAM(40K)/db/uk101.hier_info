@@ -6,6 +6,8 @@ i_n_reset => uk101keyboard:u9.nRESET
 i_clk => videoclk_xvga_1024x768:pll.inclk0
 i_rxd => buffereduart:UART.rxd
 o_txd <= buffereduart:UART.txd
+i_cts => buffereduart:UART.n_cts
+o_rts <= buffereduart:UART.n_rts
 o_vga_r[0] <= mem_mapped_xvga:MemMappedXVGA.VoutVect[2]
 o_vga_r[1] <= mem_mapped_xvga:MemMappedXVGA.VoutVect[2]
 o_vga_r[2] <= mem_mapped_xvga:MemMappedXVGA.VoutVect[2]
@@ -28,30 +30,10 @@ i_ps2Clk => uk101keyboard:u9.PS2_CLK
 i_ps2Data => uk101keyboard:u9.PS2_DATA
 i_ps2_clk_m => ~NO_FANOUT~
 i_ps2_dat_m => ~NO_FANOUT~
-i_slSws[0] => w_slSw_q[0].DATAIN
-i_slSws[1] => w_slSw_q[1].DATAIN
-i_slSws[2] => w_slSw_q[2].DATAIN
-i_slSws[3] => w_slSw_q[3].DATAIN
-i_slSws[4] => w_slSw_q[4].DATAIN
-i_slSws[5] => w_slSw_q[5].DATAIN
-i_slSws[6] => w_slSw_q[6].DATAIN
-i_slSws[7] => w_slSw_q[7].DATAIN
-i_pbSw[0] => w_pbSw_q[0].DATAIN
-i_pbSw[1] => w_pbSw_q[1].DATAIN
-i_pbSw[2] => w_pbSw_q[2].DATAIN
-i_pbSw[3] => w_pbSw_q[3].DATAIN
-i_pbSw[4] => w_pbSw_q[4].DATAIN
-i_pbSw[5] => w_pbSw_q[5].DATAIN
-i_pbSw[6] => w_pbSw_q[6].DATAIN
-i_pbSw[7] => w_pbSw_q[7].DATAIN
-o_LEDs[0] <> o_LEDs[0]
-o_LEDs[1] <> o_LEDs[1]
-o_LEDs[2] <> o_LEDs[2]
-o_LEDs[3] <> o_LEDs[3]
-o_LEDs[4] <> o_LEDs[4]
-o_LEDs[5] <> o_LEDs[5]
-o_LEDs[6] <> o_LEDs[6]
-o_LEDs[7] <> o_LEDs[7]
+sd_cs <= <VCC>
+sd_miso => ~NO_FANOUT~
+sd_mosi <= <GND>
+sd_clk <= <GND>
 n_sdRamCas <= <VCC>
 n_sdRamRas <= <VCC>
 n_sdRamWe <= <VCC>
@@ -5326,9 +5308,6 @@ n_dcd => tx_fsm.IN1
 
 |uk101|BaudRate6850:baudRateGen
 i_CLOCK_50 => o_serialEn~reg0.CLK
-i_CLOCK_50 => w_serialCount[1].CLK
-i_CLOCK_50 => w_serialCount[2].CLK
-i_CLOCK_50 => w_serialCount[3].CLK
 i_CLOCK_50 => w_serialCount[4].CLK
 i_CLOCK_50 => w_serialCount[5].CLK
 i_CLOCK_50 => w_serialCount[6].CLK

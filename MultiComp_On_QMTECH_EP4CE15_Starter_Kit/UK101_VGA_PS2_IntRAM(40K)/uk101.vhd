@@ -44,6 +44,8 @@ entity uk101 is
 		-- Serial port
 		i_rxd			: in std_logic;
 		o_txd			: out std_logic;
+		i_cts			: in std_logic;
+		o_rts			: out std_logic;
 
 		-- VGA
 		o_vga_r		: out	std_logic_vector(4 downto 0) := "00000";
@@ -68,9 +70,16 @@ entity uk101 is
 		-- I/O connector
 --		io_J12		: out	std_logic_vector(24 downto 3) := x"00000"&"00";
 --		io_J12		: out	std_logic_vector(36 downto 29) := x"00";
-		i_slSws		: in std_logic_vector(7 downto 0);
-		i_pbSw		: in std_logic_vector(7 downto 0);
-		o_LEDs		: inout std_logic_vector(7 downto 0);
+--		i_slSws		: in std_logic_vector(7 downto 0);
+--		i_pbSw		: in std_logic_vector(7 downto 0);
+--		o_LEDs		: out std_logic_vector(7 downto 0);
+		
+		-- SD card interface on external card
+		-- Not used but pulled to levels to endure is card is installed it won't be accessed
+		sd_cs				: out std_logic := '1';
+		sd_miso			: in std_logic;
+		sd_mosi			: out std_logic := '0';
+		sd_clk			: out std_logic := '0';
 		
 		-- Not using the SD RAM but making sure that it's not active
 		n_sdRamCas	: out std_logic := '1';		-- CAS on schematic
@@ -117,8 +126,9 @@ architecture struct of uk101 is
 	signal w_slSwCS				: std_logic;
 	signal w_pbSwCS				: std_logic;
 	
-	signal w_slSw_q				: std_logic_vector(7 downto 0);	-- Register external devices for metastability
-	signal w_pbSw_q				: std_logic_vector(7 downto 0);
+	signal w_slSw_q				: std_logic_vector(7 downto 0) := x"00";	-- Register external devices for metastability
+	signal w_pbSw_q				: std_logic_vector(7 downto 0) := x"00";
+	signal w_LEDs					: std_logic_vector(7 downto 0) := x"00";
 	
 	signal w_serialClkCount		: std_logic_vector(15 downto 0); 
 	signal w_serialClkCount_d  : std_logic_vector(15 downto 0);
@@ -166,7 +176,7 @@ begin
 		w_displayRamData 	when w_dispRamCSN	= '0' else
 		w_basRomData 		when w_basRomCSN	= '0' else
 		w_kbReadData 		when w_kbCSN		= '0' else
-		o_LEDs				when w_LEDCSN		= '0' else
+		w_LEDs				when w_LEDCSN		= '0' else
 		w_slSw_q				when w_slSwCS		= '1' else
 		w_pbSw_q				when w_pbSwCS		= '1' else
 		w_monitorRomData	when w_monRomCSN	= '0' else
@@ -187,13 +197,13 @@ begin
  
 	-- ____________________________________________________________________________________
 	-- Register up external inputs for metastability
-	process (w_cpuClock)
-	begin
-		if rising_edge(w_cpuClock) then
-			w_slSw_q <= i_slSws;
-			w_pbSw_q <= not i_pbSw;		-- Pushbuttons need to be inverted
-		end if;
-	end process;
+--	process (w_cpuClock)
+--	begin
+--		if rising_edge(w_cpuClock) then
+--			w_slSw_q <= i_slSws;
+--			w_pbSw_q <= not i_pbSw;		-- Pushbuttons need to be inverted
+--		end if;
+--	end process;
 	
 	ledLatch : entity work.OutLatch
 	generic map
@@ -206,7 +216,7 @@ begin
 			clock		=> w_CLOCK_50,
 			load		=> w_LEDCSN or w_memWRN,
 			clear		=> i_n_reset,
-			latchOut	=> o_LEDs
+			latchOut	=> w_LEDs
 		);
 	
 	-- ____________________________________________________________________________________
@@ -320,15 +330,15 @@ begin
 			txClkEn	=> w_serialClkEn,
 			rxd		=> i_rxd,
 			txd		=> o_txd,
-			n_cts		=> '0',
---			n_rts		=> '0',
-			n_dcd		=> '0'
+			n_cts		=> i_cts,
+			n_rts		=> o_rts
+--			n_dcd		=> '0'
 		);
 		
 	baudRateGen : ENTITY work.BaudRate6850
 		GENERIC MAP
 		(
-			BAUD_RATE	=> 300
+			BAUD_RATE	=> 115200
 		)
 		PORT map 
 		(
