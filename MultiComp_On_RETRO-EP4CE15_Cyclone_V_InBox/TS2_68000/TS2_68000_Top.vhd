@@ -27,8 +27,9 @@
 --	ANSI Video Display Unit (VDU)
 --		VGA and PS/2
 --	6850 ACIA UART - USB to Serial
+--		115,200 baud
 --		ACIASTAT	= 0x010041
---		ACIADATA	= 0x010043
+--		ACIADATA	= 0x010043--
 --	DC power options
 --		USB
 ---	DC Jack on FPGA board
@@ -73,7 +74,7 @@ entity TS2_68000_Top is
 		n_sRamCS		: out std_logic := '1';
 		n_sRamOE		: out std_logic := '1';
 		
-		-- D RAM not used but making sure that it's not active
+		-- SD RAM not used but making sure that it's not active
 		n_sdRamCas	: out std_logic := '1';		-- CAS on schematic
 		n_sdRamRas	: out std_logic := '1';		-- RAS
 		n_sdRamWe	: out std_logic := '1';		-- SDWE

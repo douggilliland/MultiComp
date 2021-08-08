@@ -1,0 +1,33 @@
+#!/bin/bash
+#
+# usage:
+# buildit foo.asm
+#
+# creates:
+# foo.s19        -- executable in srecord format
+# foo.lst        -- assembly listing
+# foo.hex        -- executable in hex format
+# foo.fixed_hex  -- executable in hex format, rebased from $e000 to $0000
+#                   ready to program into an FPGA ROM
+#
+#
+# expects to find as9, hex_addr_remap and srec_cat on $PATH
+# as9 is the 6809 assembler eg from http://home.hccnet.nl/a.w.m.van.der.horst/m6809.html
+# srec_cat is a standard Linux tool
+# hex_addr_remap is from https://github.com/nealcrook/multicomp6809/bin
+
+NAME=$1
+BASE=`basename -s asm $NAME`
+
+# as stated in as.c
+# - first come *all* the file names
+# - then comes the first option, with a dash
+# - then come the, possibly multichar options without a dash
+#
+# -l => enable output listing
+# w turns on warnings about comments that are marked with a * but do not
+# start at the start-of-line (possible ill-formed comment)
+# added by Albert van der Horst. Turned off here by 'no' prefix; thus: now
+as9 $NAME -l s19 now
+srec_cat ${BASE}s19 -Output ${BASE}hex -Intel -Data-Only -address-length=2
+hex_addr_remap e000 ${BASE}hex > ${BASE}fixed_hex
