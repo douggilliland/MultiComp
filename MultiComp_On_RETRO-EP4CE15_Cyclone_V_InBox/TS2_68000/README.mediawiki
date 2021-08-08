@@ -1,0 +1,149 @@
+<img src="http://land-boards.com/blwiki/images/3/35/RETRO-EP4CE15-P958-720PX.jpg"></img>
+
+== M68000 VGA PS2 Internal RAM/ROM - Working ==
+
+* RETRO-EP4CE15 Card
+* M68000 CPU
+* Monitor ROM
+* Internal SRAM
+* Video Display Unit (VDU)
+* 6850 ACIA UART
+
+=== RETRO-EP4CE15 Card ===
+
+* [http://land-boards.com/blwiki/index.php?title=RETRO-EP4CE15 RETRO-EP4CE15 Card]
+** [http://land-boards.com/blwiki/index.php?title=QM_Tech_Cyclone_V_FPGA_Board QMTECH Cyclone V FPGA Card]
+
+=== M68000 CPU ===
+
+* [https://github.com/douggilliland/MultiComp/tree/master/MultiComp%20(VHDL%20Template)/Components/CPU/M68000/TG68K_2013 TG68K_2013 VHDL Core]
+* Tested to run at 16.7 MHz
+
+=== Monitor ROM ===
+
+* [https://github.com/douggilliland/Retro-Computers/blob/master/68000/TS2/monitor/TSBUG2/commands.txt TSBUG2 Monitor]
+** 2KB organized as 1Kx16
+** Zero Wait-states
+* [https://github.com/douggilliland/Retro-Computers/tree/master/68000/TS2/tutor TUTOR Monitor]
+** 16KB organized as 8Kx16
+** Zero Wait-states
+
+=== Internal SRAM ===
+
+* 32KB
+** Organized as 16Kx16
+** Zero Wait-States
+
+=== Video Display Unit (VDU) ===
+
+* Based on Grant Searle's ANSI terminal
+* Emulates 6850 UART interface
+* VGA video
+** 80x25 characters
+** 640x480 resolution
+** 2/2/2 bits RGB (64-colors)
+* PS/2 keyboard
+
+=== 6850 ACIA UART ===
+
+* [https://github.com/nealcrook/multicomp6809/wiki/VDU-Modifications Neal Crook's modifications] to Grant Searle's 6850 VHDL code
+
+== Reference Designs ==
+
+* [https://jefftranter.blogspot.com/2016/12/building-68000-single-board-computer.html Jeff Tranter's TS2 build]
+** Based on book [https://www.amazon.com/Microprocessor-Systems-Design-Hardware-Interfacing/dp/0534948227/ref=sr_1_2?crid=21I1LHECUP26L&dchild=1&keywords=alan+clements&qid=1593949123&sprefix=alan+clemens%2Caps%2C167&sr=8-2 Microprocessor Systems Design: 68000 Family Hardware, Software, and Interfacing]
+*** pp 880-897 has the TS2 design that Jeff used as his source material
+* [http://www.easy68k.com/paulrsm/mecb/mecb.htm Motorola MC68000 Educational Computer Board (MEX68KECB)]
+** TS2 compatible memory map
+* [https://www.bigmessowires.com/68-katy/ 68 Katy]
+
+== Software Tools ==
+
+* [https://darkdust.net/writings/megadrive/crosscompiler Installing binutils and GCC as cross-compiler for the Motorolla 68000]
+* [http://srecord.sourceforge.net/ S-Record 1.64 Tools]
+
+== TSBUG2 Monitor ROM ==
+
+* [https://github.com/douggilliland/Retro-Computers/blob/master/68000/TS2/monitor/TSBUG2/monitor.s TSBUG2 Source File]
+* [https://github.com/douggilliland/Retro-Computers/blob/master/68000/TS2/monitor/TSBUG2/monitor.lst TSBUG2 List File]
+* [https://github.com/douggilliland/Retro-Computers/blob/master/68000/TS2/monitor/TSBUG2/commands.txt TSBUG2 Command List]
+
+== TUTOR Monitor ROM ==
+
+* [https://github.com/douggilliland/Retro-Computers/tree/master/68000/TS2/tutor TUTOR Monitor]
+
+=== Shift ROM addresses for Quartus FPGA Tool  ===
+
+* Assembler output ([https://github.com/douggilliland/Retro-Computers/blob/master/68000/TS2/monitor/TSBUG2/monitor.hex monitor.hex])
+<pre>
+:2080000000000800000080084DF80C0042AE004A422E0048422E00496136610005D861009E
+:20802000044E49FA09D06164207C0000C00020100C80524F4D3266044EA800084E714E71EF
+</pre>
+* Addresses start at 0x8000 (AAAA below):
+<pre>
+:2080000000000800000080084DF80C0042AE004A422E0048422E00496136610005D861009E
+__AAAA_____________________________________________________________________
+</pre>
+==== Shift the records down ====
+* First convert to S-Records using [http://srecord.sourceforge.net srec_cat] - [https://github.com/douggilliland/Retro-Computers/tree/master/PC%20Tools/srecord My copy of s-record tools]
+<pre>
+[PATH_TO_SRECORD_UTILITIES]\srec_cat monitor.hex -Intel -o monitor.srec -Motorola
+</pre>
+* S-Record output ([https://github.com/douggilliland/Retro-Computers/blob/master/68000/TS2/monitor/TSBUG2/monitor.srec monitor.srec])
+<pre>
+S123800000000800000080084DF80C0042AE004A422E0048422E00496136610005D861009A
+S1238020044E49FA09D06164207C0000C00020100C80524F4D3266044EA800084E714E71EB
+</pre>
+* Then shift and save as an Altera MIF file
+<pre>
+[PATH_TO_SRECORD_UTILITIES]\srec_cat monitor.srec -offset - -minimum-addr monitor.srec -o monitor.mif -Memory_Initialization_File 16
+</pre>
+* Result is ([https://github.com/douggilliland/Retro-Computers/blob/master/68000/TS2/monitor/TSBUG2/monitor.mif monitor.mif])
+<pre>
+-- FFFF8000: http://srecord.sourceforge.net/
+--
+-- Generated automatically by srec_cat -o --mif
+--
+DEPTH = 8192;
+WIDTH = 16;
+ADDRESS_RADIX = HEX;
+DATA_RADIX = HEX;
+CONTENT BEGIN
+0000: 0000 0800 0000 8008 4DF8 0C00 42AE 004A 422E 0048 422E 0049 6136 6100;
+000E: 05D8 6100 044E 49FA 09D0 6164 207C 0000 C000 2010 0C80 524F 4D32 6604;
+001C: 4EA8 0008 4E71 4E71 4287 6128 614C 6100 0080 6100 00BE 60F0 41F9 0001;
+...
+</pre>
+* Load into Quartus in the Monitor_68K_ROM using Megawizard
+
+== Memory Map ==
+
+* 0x000000 - 0x000007 = ROM Vectors (16-bits)
+* 0x000008 - 0x007FFF = 32KB Internal SRAM (16-bits)
+* 0x008000 - 0x00BFFF = 16KB ROM (16-bits)
+* 0x00C000 - 0x00FFFF = 16KB Internal SRAM (16-bits)
+* 0x01004x = VDU base (A0 = 0) (8-bits)
+* 0x01004x = ACIA base (A0 = 1) (8-bits)
+* 0x200000-0x20FFFF = 64KB Internal SRAM (16-bits)
+* 0x210000-0x217FFF = 32KB Internal SRAM (16-bits)
+* 0x300000 - 0x3FFFFF - 1MB External SRAM (8-bits)
+
+== Running TS2 Monitor ==
+
+* Works!!!
+
+== Running TUTOR Monitor ==
+
+* Works!!!
+
+== Running Tiny BASIC ==
+
+* Works!!!
+
+== Running Enhanced BASIC ==
+
+* Works!!!
+
+== Running demo-c Compiled with GCC Toolchain ==
+
+* Works!!!
