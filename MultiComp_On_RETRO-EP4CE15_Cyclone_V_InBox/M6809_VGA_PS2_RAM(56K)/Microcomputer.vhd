@@ -8,7 +8,7 @@
 -- 	16.7 MHz
 --	56K (external) RAM version
 -- Serial interface or VGA VDU
---		Jumper in pin B22 to ground (adjacent pin) of the FPGA selects the VDU/Serial port
+--		Jumper in pin Pin_L17 to ground (adjacent pin) of the FPGA selects the VDU/Serial port
 --		Install to make serial port default
 --		Remove jumper to make the VDU default
 --		115,200 baud serial port
@@ -24,7 +24,7 @@ entity Microcomputer is
 	port(
 		n_reset		: in std_logic;
 		i_CLOCK_50	: in std_logic;
-
+LAND
 		-- 56KB external SRAM
 		sramData		: inout std_logic_vector(7 downto 0);
 		sramAddress	: out std_logic_vector(19 downto 0);
@@ -126,26 +126,26 @@ begin
 	-- Does not work with Version 1.28 FPGA core
 	cpu1 : entity work.cpu09
 		port map(
-			clk => not(w_cpuClock),
-			rst => not w_resetLow,
-			rw => w_n_WR,
-			addr => w_cpuAddress,
-			data_in => w_cpuDataIn,
-			data_out => w_cpuDataOut,
-			halt => '0',
-			hold => '0',
-			irq => '0',
-			firq => '0',
-			nmi => '0'
+			clk		=> not(w_cpuClock),
+			rst		=> not w_resetLow,
+			rw			=> w_n_WR,
+			addr		=> w_cpuAddress,
+			data_in	=> w_cpuDataIn,
+			data_out	=> w_cpuDataOut,
+			halt		=> '0',
+			hold		=> '0',
+			irq		=> '0',
+			firq		=> '0',
+			nmi		=> '0'
 		); 
 	
 	-- ____________________________________________________________________________________
 	-- BASIC ROM	
 	rom1 : entity work.M6809_EXT_BASIC_ROM -- 8KB BASIC
 		port map(
-			address => w_cpuAddress(12 downto 0),
-			clock => i_CLOCK_50,
-			q => w_basRomData
+			address	=> w_cpuAddress(12 downto 0),
+			clock		=> i_CLOCK_50,
+			q			=> w_basRomData
 		);
 	
 	-- ____________________________________________________________________________________
@@ -216,8 +216,8 @@ begin
 	w_cpuDataIn <=
 		w_if1DataOut	when w_n_IF1CS = '0' else
 		w_if2DataOut	when w_n_IF2CS = '0' else
-		w_basRomData			when w_n_basRomCS = '0' else
-		sramData					when w_n_extRamCS= '0' else
+		sramData			when w_n_extRamCS= '0' else
+		w_basRomData	when w_n_basRomCS = '0' else
 		x"FF";
 	
 	-- ____________________________________________________________________________________
@@ -264,26 +264,17 @@ process (i_CLOCK_50)
 			end if;
 		end if;
 	end process;
-	
-	
-	-- Baud Rate CLOCK SIGNALS
-	
-baud_div: process (w_serialCount_d, w_serialCount)
-    begin
-        w_serialCount_d <= w_serialCount + 2416;
-    end process;
 
-process (i_CLOCK_50)
-	begin
-		if rising_edge(i_CLOCK_50) then
-        -- Enable for baud rate generator
-        w_serialCount <= w_serialCount_d;
-        if w_serialCount(15) = '0' and w_serialCount_d(15) = '1' then
-            w_serialEn <= '1';
-        else
-            w_serialEn <= '0';
-        end if;
-		end if;
-	end process;
+	-- Pass Baud Rate in BAUD_RATE generic as integer value (300, 9600, 115,200)
+	-- Legal values are 115200, 38400, 19200, 9600, 4800, 2400, 1200, 600, 300
+
+	BaudRateGen : entity work.BaudRate6850
+	GENERIC map (
+		BAUD_RATE	=>  115200
+	)
+	PORT map (
+		i_CLOCK_50	=> i_CLOCK_50,
+		o_serialEn	=> w_serialEn
+	);
 
 end;
