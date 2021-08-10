@@ -171,8 +171,8 @@ begin
 		DI					=> cpuDataIn,
 		DO					=> cpuDataOut);
 
-	-- BASIC ROM
-	u2 : entity work.BasicRom -- 8KB
+	-- 8KB BASIC ROM
+	u2 : entity work.BasicRom
 	port map(
 		address	=> cpuAddress(12 downto 0),
 		clock		=> clk,
