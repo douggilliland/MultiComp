@@ -112,8 +112,13 @@ architecture struct of M6502_VGA is
 	signal w_n_ramCS2			: std_logic :='1';
 	signal w_n_aciaCS			: std_logic :='1';
 	signal n_sdCardCS			: std_logic :='1';
-	signal w_latch1CS			: std_logic :='1';
 	signal w_memMapCS			: std_logic :='1';
+	signal w_latch1CS			: std_logic :='1';
+	signal w_latch2CS			: std_logic :='1';
+	signal w_latch3CS			: std_logic :='1';
+	signal w_latch4CS			: std_logic :='1';
+	signal w_latch5CS			: std_logic :='1';
+	signal w_latch6CS			: std_logic :='1';
 	
 	signal w_serialClkCount	: std_logic_vector(15 downto 0);	-- DDS counter for baud rate
 	signal w_serClkCt_d 		: std_logic_vector(15 downto 0);
@@ -123,7 +128,7 @@ architecture struct of M6502_VGA is
 	signal w_cpuClk			: std_logic;							-- CPU clock rate selectable
 	
 	signal w_fKey1				: std_logic;	--	F1 key switches between VDU and Serial port
-														--		Default is VDU
+--														--		Default is VDU
 	signal w_fKey2				: std_logic;	--	F2 key switches serial port baud rate between 300 and 115,200
 														--		Default is 115,200 baud
 	signal w_funKeys			: std_logic_vector(12 downto 0);
@@ -157,12 +162,15 @@ begin
 							or     (w_cpuAddress(15 downto 1) = X"FFD"&"000" and w_fKey1 = '1'))
 							else '1';
 							
+							
 -- Add new I/O startimg at XFFD4 (65492 dec)
-
-	w_memMapCS	<= '0'  when w_cpuAddress = X"FFD4"										-- XFFD4 BANK SELECT 
-						else '1';
-	w_latch1CS	<= '0'  when w_cpuAddress = X"FFD5"										-- XFFD5 Data out latch
-						else '1';
+	w_memMapCS	<= '0'  when w_cpuAddress = X"FFD4" else '1';			-- XFFD4 BANK SELECT 65492
+	w_latch1CS	<= '0'  when w_cpuAddress = X"FFD5"	else '1';			-- XFFD5 Data out latch 65493
+	w_latch2CS	<= '0'  when w_cpuAddress = X"FFD6"	else '1';			-- XFFD6 Data out latch 65494
+	w_latch3CS	<= '0'  when w_cpuAddress = X"FFD7"	else '1';			-- XFFD7 Data out latch 65495
+	w_latch4CS	<= '0'  when w_cpuAddress = X"FFD8"	else '1';			-- XFFD8 Data out latch 65496
+	w_latch5CS	<= '0'  when w_cpuAddress = X"FFD9"	else '1';			-- XFFD9 Data out latch 65497
+	w_latch6CS	<= '0'  when w_cpuAddress = X"FFDA"	else '1';			-- XFFDA Data out latch 65498
 	
 	n_sdCardCS	<= '0' when w_cpuAddress(15 downto 3) = x"FFD" else '1'; 			-- 8 bytes XFFD8-FFDF
 	
@@ -278,13 +286,13 @@ begin
 			latchFNKey => w_fKey1
 		);	
 
-	FNKey2Toggle: entity work.Toggle_On_FN_Key	
-		port map (		
-			FNKey => w_funKeys(2),
-			clock => i_clk_50,
-			n_res => w_reset_n,
-			latchFNKey => w_fKey2
-		);
+--	FNKey2Toggle: entity work.Toggle_On_FN_Key	
+--		port map (		
+--			FNKey => w_funKeys(2),
+--			clock => i_clk_50,
+--			n_res => w_reset_n,
+--			latchFNKey => w_fKey2
+--		);
 	
 	sd1 : entity work.sd_controller
 	port map(
@@ -319,6 +327,55 @@ begin
 		latchOut	=> IO_PIN(10 downto 3)
 		);
 		
+	latch2 : entity work.OutLatch
+		port map (
+		dataIn	=> w_cpuDataOut,
+		clock		=> i_clk_50,
+		load		=> w_latch2CS or w_n_WR or w_cpuClk,
+		clear		=> w_reset_n,
+		latchOut	=> IO_PIN(18 downto 11)
+		);
+		
+	latch3 : entity work.OutLatch
+		port map (
+		dataIn	=> w_cpuDataOut,
+		clock		=> i_clk_50,
+		load		=> w_latch3CS or w_n_WR or w_cpuClk,
+		clear		=> w_reset_n,
+		latchOut	=> IO_PIN(26 downto 19)
+		);
+		
+	latch4 : entity work.OutLatch
+		port map (
+		dataIn	=> w_cpuDataOut,
+		clock		=> i_clk_50,
+		load		=> w_latch4CS or w_n_WR or w_cpuClk,
+		clear		=> w_reset_n,
+		latchOut	=> IO_PIN(34 downto 27)
+		);
+		
+	latch5 : entity work.OutLatch
+		port map (
+		dataIn	=> w_cpuDataOut,
+		clock		=> i_clk_50,
+		load		=> w_latch5CS or w_n_WR or w_cpuClk,
+		clear		=> w_reset_n,
+		latchOut	=> IO_PIN(42 downto 35)
+		);
+		
+	latch6 : entity work.OutLatch
+		generic map
+		(
+			n => 6
+		)
+		port map (
+		dataIn	=> w_cpuDataOut(5 downto 0),
+		clock		=> i_clk_50,
+		load		=> w_latch6CS or w_n_WR or w_cpuClk,
+		clear		=> w_reset_n,
+		latchOut	=> IO_PIN(48 downto 43)
+		);
+		
 -- SUB-CIRCUIT CLOCK SIGNALS 
 	process (i_clk_50)
 	begin
@@ -336,40 +393,16 @@ begin
 		end if;
     end process;
 	 
-	 
-	-- ____________________________________________________________________________________
-	-- Baud Rate Clock Signals
-	-- Serial clock DDS
-	-- 50MHz master input clock:
-	-- f = (increment x 50,000,000) / 65,536 = 16X baud rate
-	-- Baud Increment
-	-- 115200 2416
-	-- 38400 805
-	-- 19200 403
-	-- 9600 201
-	-- 4800 101
-	-- 2400 50
-
-	baud_div: process (w_serClkCt_d, w_serialClkCount, w_fKey2)
-		begin
-			if w_fKey2 = '0' then
-				w_serClkCt_d <= w_serialClkCount + 2416;	-- 115,200 baud
-			else
-				w_serClkCt_d <= w_serialClkCount + 6;		-- 300 baud
-				end if;
-		end process;
-
-	--Single clock wide baud rate enable
-	baud_clk: process(i_clk_50)
-		begin
-			if rising_edge(i_clk_50) then
-					w_serialClkCount <= w_serClkCt_d;
-				if w_serialClkCount(15) = '0' and w_serClkCt_d(15) = '1' then
-					w_w_serClkEn <= '1';
-				else
-					w_w_serClkEn <= '0';
-				end if;
-       end if;
-    end process;
+-- Pass Baud Rate in BAUD_RATE generic as integer value
+-- Legal values are 115200, 38400, 19200, 9600, 4800, 2400, 1200, 600, 300
+--
+	BaudRateGen : entity work.BaudRate6850
+	GENERIC map (
+		BAUD_RATE	=>  115200
+	)
+	PORT map (
+		i_CLOCK_50	=> i_clk_50,
+		o_serialEn	=> w_w_serClkEn
+	);
 	 
 end;
