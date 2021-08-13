@@ -101,8 +101,6 @@ architecture struct of uk101 is
 
 	signal w_kbReadData 			: std_logic_vector(7 downto 0);
 	signal w_kbRowSel 			: std_logic_vector(7 downto 0);
-
-	signal w_txdBuff				: std_logic;
 	
 begin
 
@@ -166,7 +164,7 @@ begin
 		
 	-- ____________________________________________________________________________________
 	-- Clocks
-pll : work.VideoClk_XVGA_1024x768 PORT MAP (
+	pll : work.VideoClk_XVGA_1024x768 PORT MAP (
 		inclk0	 => i_clk,
 		c0	 => w_Video_Clk,	-- 65 MHz Video Clock
 		c1	 => w_cpuClock,	-- 1 MHz CPU clock
@@ -221,7 +219,7 @@ pll : work.VideoClk_XVGA_1024x768 PORT MAP (
 			rxClkEn => w_serialClkEn,
 			txClkEn => w_serialClkEn,
 			rxd => i_rxd,
-			txd => w_txdBuff,
+			txd => o_txd,
 			n_cts => i_cts,
 			n_dcd => '0',
 			n_rts => o_rts
