@@ -89,7 +89,7 @@ entity Microcomputer is
 		-- LEDs on base FPGA board and duplicated on James Moxham's PCB.
 		-- Set LOW to illuminate. 3rd LED is "driveLED" output.
 		n_LED7			: out std_logic := '1';
-		n_LED9			: out std_logic := '1';
+--		n_LED9			: out std_logic := '1';
 
 		-- Internal pull-up so this defaults to 1. When pulled to gnd
 		-- this swaps the address decodes so that the Serial A port is
@@ -215,7 +215,7 @@ architecture struct of Microcomputer is
 
 begin
 -- test: echo jumper input to LED
-    n_LED9 <= vduffd0;
+--    n_LED9 <= vduffd0;
 
 -- ____________________________________________________________________________________
 -- CPU CHOICE GOES HERE
@@ -336,16 +336,16 @@ begin
         CLKEDGE_DIVIDER => 25 -- edges at 50MHz/25 = 2MHz ie 1MHz sdSCLK
     )
     port map(
-            sdCS => sdCS,
-            sdMOSI => sdMOSI,
-            sdMISO => sdMISO,
-            sdSCLK => sdSCLK,
             n_wr => n_WR_sd,
             n_rd => n_RD_sd,
             n_reset => n_reset,
             dataIn => cpuDataOut,
             dataOut => sdCardDataOut,
             regAddr => cpuAddress(2 downto 0),
+            sdCS => sdCS,
+            sdMOSI => sdMOSI,
+            sdMISO => sdMISO,
+            sdSCLK => sdSCLK,
             driveLED => driveLED,
             clk => clk
     );
