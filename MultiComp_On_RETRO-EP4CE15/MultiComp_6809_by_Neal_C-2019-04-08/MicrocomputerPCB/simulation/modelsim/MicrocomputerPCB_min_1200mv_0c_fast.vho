@@ -1,4 +1,4 @@
--- Copyright (C) 2020  Intel Corporation. All rights reserved.
+-- Copyright (C) 2021  Intel Corporation. All rights reserved.
 -- Your use of Intel Corporation's design tools, logic functions 
 -- and other software and tools, and any partner logic 
 -- functions, and any output files from any of the foregoing 
@@ -15,16 +15,16 @@
 
 -- VENDOR "Altera"
 -- PROGRAM "Quartus Prime"
--- VERSION "Version 20.1.0 Build 711 06/05/2020 SJ Lite Edition"
+-- VERSION "Version 21.1.0 Build 842 10/21/2021 SJ Lite Edition"
 
--- DATE "07/25/2021 18:54:09"
+-- DATE "02/09/2022 12:55:54"
 
 -- 
 -- Device: Altera EP4CE15F23C8 Package FBGA484
 -- 
 
 -- 
--- This VHDL file should be used for ModelSim-Altera (VHDL) only
+-- This VHDL file should be used for Questa Intel FPGA (VHDL) only
 -- 
 
 LIBRARY ALTERA;
@@ -5562,6 +5562,11 @@ SIGNAL \io2|rxBitCount\ : std_logic_vector(3 DOWNTO 0);
 SIGNAL \io2|rxCurrentByteBuffer\ : std_logic_vector(7 DOWNTO 0);
 SIGNAL \io1|ps2WriteByte2\ : std_logic_vector(7 DOWNTO 0);
 SIGNAL \sd1|address\ : std_logic_vector(31 DOWNTO 0);
+SIGNAL \sd1|ALT_INV_wr_cmd_reg~3clkctrl_outclk\ : std_logic;
+SIGNAL \io1|ALT_INV_func_reset~clkctrl_outclk\ : std_logic;
+SIGNAL \io2|ALT_INV_rxReadPointer[0]~0_wirecell_combout\ : std_logic;
+SIGNAL \io1|ALT_INV_ps2DataOut~q\ : std_logic;
+SIGNAL \io1|ALT_INV_ps2ClkOut~q\ : std_logic;
 SIGNAL \io1|ALT_INV_func_reset~q\ : std_logic;
 SIGNAL \ALT_INV_n_WR~q\ : std_logic;
 SIGNAL \sd1|ALT_INV_ctl_led~0_combout\ : std_logic;
@@ -5574,11 +5579,6 @@ SIGNAL \ALT_INV_hold~q\ : std_logic;
 SIGNAL \sd1|ALT_INV_sdCS~q\ : std_logic;
 SIGNAL \cpu1|ALT_INV_Selector330~2_combout\ : std_logic;
 SIGNAL \cpu1|ALT_INV_state.fetch_state~q\ : std_logic;
-SIGNAL \sd1|ALT_INV_wr_cmd_reg~3clkctrl_outclk\ : std_logic;
-SIGNAL \io1|ALT_INV_func_reset~clkctrl_outclk\ : std_logic;
-SIGNAL \io2|ALT_INV_rxReadPointer[0]~0_wirecell_combout\ : std_logic;
-SIGNAL \io1|ALT_INV_ps2DataOut~q\ : std_logic;
-SIGNAL \io1|ALT_INV_ps2ClkOut~q\ : std_logic;
 
 BEGIN
 
@@ -5798,6 +5798,11 @@ ww_devpor <= devpor;
 \n_WR_vdu~clkctrl_INCLK_bus\ <= (vcc & vcc & vcc & \n_WR_vdu~combout\);
 
 \sd1|wr_cmd_reg~3clkctrl_INCLK_bus\ <= (vcc & vcc & vcc & \sd1|wr_cmd_reg~3_combout\);
+\sd1|ALT_INV_wr_cmd_reg~3clkctrl_outclk\ <= NOT \sd1|wr_cmd_reg~3clkctrl_outclk\;
+\io1|ALT_INV_func_reset~clkctrl_outclk\ <= NOT \io1|func_reset~clkctrl_outclk\;
+\io2|ALT_INV_rxReadPointer[0]~0_wirecell_combout\ <= NOT \io2|rxReadPointer[0]~0_wirecell_combout\;
+\io1|ALT_INV_ps2DataOut~q\ <= NOT \io1|ps2DataOut~q\;
+\io1|ALT_INV_ps2ClkOut~q\ <= NOT \io1|ps2ClkOut~q\;
 \io1|ALT_INV_func_reset~q\ <= NOT \io1|func_reset~q\;
 \ALT_INV_n_WR~q\ <= NOT \n_WR~q\;
 \sd1|ALT_INV_ctl_led~0_combout\ <= NOT \sd1|ctl_led~0_combout\;
@@ -5819,11 +5824,6 @@ ww_devpor <= devpor;
 \sd1|ALT_INV_sdCS~q\ <= NOT \sd1|sdCS~q\;
 \cpu1|ALT_INV_Selector330~2_combout\ <= NOT \cpu1|Selector330~2_combout\;
 \cpu1|ALT_INV_state.fetch_state~q\ <= NOT \cpu1|state.fetch_state~q\;
-\sd1|ALT_INV_wr_cmd_reg~3clkctrl_outclk\ <= NOT \sd1|wr_cmd_reg~3clkctrl_outclk\;
-\io1|ALT_INV_func_reset~clkctrl_outclk\ <= NOT \io1|func_reset~clkctrl_outclk\;
-\io2|ALT_INV_rxReadPointer[0]~0_wirecell_combout\ <= NOT \io2|rxReadPointer[0]~0_wirecell_combout\;
-\io1|ALT_INV_ps2DataOut~q\ <= NOT \io1|ps2DataOut~q\;
-\io1|ALT_INV_ps2ClkOut~q\ <= NOT \io1|ps2ClkOut~q\;
 
 -- Location: IOOBUF_X0_Y24_N16
 \sramData[0]~output\ : cycloneive_io_obuf

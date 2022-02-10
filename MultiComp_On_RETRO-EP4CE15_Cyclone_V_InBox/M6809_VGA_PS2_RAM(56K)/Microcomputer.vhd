@@ -24,7 +24,7 @@ entity Microcomputer is
 	port(
 		n_reset		: in std_logic;
 		i_CLOCK_50	: in std_logic;
-LAND
+		
 		-- 56KB external SRAM
 		sramData		: inout std_logic_vector(7 downto 0);
 		sramAddress	: out std_logic_vector(19 downto 0);
