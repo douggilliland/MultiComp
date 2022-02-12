@@ -20,7 +20,7 @@
 -- PS/2 Keyboard
 --		F1 key switches between VDU and Serial port
 --			Default is VDU
---		F2 key switches serial port baud rate between 300 and 115,200
+--		F2 key switches serial port baud rate between 300 and 115,200 (not current)
 --			Default is 115,200 baud
 --	SD Card
 -- Memory Map
@@ -32,7 +32,7 @@
 --		xFFD2-xFFD3 ACIA
 --		xFFD4 Bank Select register (7 bits used = 128 banks of 8KB each)
 --		xFFD5 8-bit output latch
---		xFFD7-xFFDD SD card
+--		xFFD8-xFFDD SD card
 
 
 library ieee;
@@ -68,7 +68,7 @@ entity M6502_VGA is
 		sdClock		: out std_logic;
 		driveLED		: out std_logic;
 		
-		IO_PIN		: inout std_logic_vector(48 downto 3) := x"0000000000"&"00";
+		IO_PIN		: inout std_logic_vector(44 downto 3) := x"000000000"&"00";
 	
 		-- Not using the SD RAM but making sure that it's not active
 		n_sdRamCas	: out std_logic := '1';		-- CAS on schematic
@@ -145,21 +145,21 @@ begin
 	
 	-- ____________________________________________________________________________________
 	-- Chip Selects
-	w_n_ramCS1 		<= '0' when  w_cpuAddress(15) = '0' else 	'1';										-- x0000-x7FFF (32KB)
-	w_n_ramCS2 		<= '0' when  w_cpuAddress(15 downto 13) = "100" else '1';						-- x8000-x9FFF (8KB)
+	w_n_ramCS1		<= '0' when  w_cpuAddress(15) = '0' else 	'1';										-- x0000-x7FFF (32KB)
+	w_n_ramCS2		<= '0' when  w_cpuAddress(15 downto 13) = "100" else '1';						-- x8000-x9FFF (8KB)
 	
-	o_n_sRamCS			<= '0' when w_cpuAddress(15 downto 13) = "110" else '1';							-- xC000-xDFFF (8KB)
-	o_n_sRamWE <= not ((not w_cpuClk) and (not w_n_WR) and w_cpuAddress(15) and w_cpuAddress(14) and (not w_cpuAddress(13)));
-	o_n_sRamOE <= not (                        w_n_WR  and w_cpuAddress(15) and w_cpuAddress(14) and (not w_cpuAddress(13)));
-	o_sramAddress <= memMapReg(6 downto 0) & w_cpuAddress(12 downto 0);
+	o_n_sRamCS		<= '0' when w_cpuAddress(15 downto 13) = "110" else '1';							-- xC000-xDFFF (8KB)
+	o_n_sRamWE		<= not ((not w_cpuClk) and (not w_n_WR) and w_cpuAddress(15) and w_cpuAddress(14) and (not w_cpuAddress(13)));
+	o_n_sRamOE		<= not (                        w_n_WR  and w_cpuAddress(15) and w_cpuAddress(14) and (not w_cpuAddress(13)));
+	o_sramAddress	<= memMapReg(6 downto 0) & w_cpuAddress(12 downto 0);
 	
 	w_n_basRomCS 	<= '0' when  w_cpuAddress(15 downto 13) = "111" else '1'; 						-- xE000-xFFFF (8KB)
 	
 	w_n_VDUCS 		<= '0' when ((w_cpuAddress(15 downto 1) = x"FFD"&"000" and w_fKey1 = '0') 	-- XFFD0-FFD1 VDU
-							or		 (w_cpuAddress(15 downto 1) = x"FFD"&"001" and w_fKey1 = '1')) 
+							or		    (w_cpuAddress(15 downto 1) = x"FFD"&"001" and w_fKey1 = '1')) 
 							else '1';
-	w_n_aciaCS 	<= '0' when ((w_cpuAddress(15 downto 1) = X"FFD"&"001" and w_fKey1 = '0') 		-- XFFD2-FFD3 ACIA
-							or     (w_cpuAddress(15 downto 1) = X"FFD"&"000" and w_fKey1 = '1'))
+	w_n_aciaCS 		<= '0' when ((w_cpuAddress(15 downto 1) = X"FFD"&"001" and w_fKey1 = '0') 		-- XFFD2-FFD3 ACIA
+							or        (w_cpuAddress(15 downto 1) = X"FFD"&"000" and w_fKey1 = '1'))
 							else '1';
 							
 							
@@ -168,11 +168,11 @@ begin
 	w_latch1CS	<= '0'  when w_cpuAddress = X"FFD5"	else '1';			-- XFFD5 Data out latch 65493
 	w_latch2CS	<= '0'  when w_cpuAddress = X"FFD6"	else '1';			-- XFFD6 Data out latch 65494
 	w_latch3CS	<= '0'  when w_cpuAddress = X"FFD7"	else '1';			-- XFFD7 Data out latch 65495
-	w_latch4CS	<= '0'  when w_cpuAddress = X"FFD8"	else '1';			-- XFFD8 Data out latch 65496
-	w_latch5CS	<= '0'  when w_cpuAddress = X"FFD9"	else '1';			-- XFFD9 Data out latch 65497
-	w_latch6CS	<= '0'  when w_cpuAddress = X"FFDA"	else '1';			-- XFFDA Data out latch 65498
+--	w_latch4CS	<= '0'  when w_cpuAddress = X"FFD8"	else '1';			-- XFFD8 Data out latch 65496
+--	w_latch5CS	<= '0'  when w_cpuAddress = X"FFD9"	else '1';			-- XFFD9 Data out latch 65497
+--	w_latch6CS	<= '0'  when w_cpuAddress = X"FFDA"	else '1';			-- XFFDA Data out latch 65498
 	
-	n_sdCardCS	<= '0' when w_cpuAddress(15 downto 3) = x"FFD" else '1'; 			-- 8 bytes XFFD8-FFDF
+	n_sdCardCS	<= '0' when w_cpuAddress(15 downto 3) = x"FFD"&'1' else '1'; 			-- 8 bytes XFFD8-FFDF
 	
 --	w_n_memWR 			<= (not w_cpuClk) nand (not w_n_WR);
 	
@@ -345,36 +345,36 @@ begin
 		latchOut	=> IO_PIN(26 downto 19)
 		);
 		
-	latch4 : entity work.OutLatch
-		port map (
-		dataIn	=> w_cpuDataOut,
-		clock		=> i_clk_50,
-		load		=> w_latch4CS or w_n_WR or w_cpuClk,
-		clear		=> w_reset_n,
-		latchOut	=> IO_PIN(34 downto 27)
-		);
-		
-	latch5 : entity work.OutLatch
-		port map (
-		dataIn	=> w_cpuDataOut,
-		clock		=> i_clk_50,
-		load		=> w_latch5CS or w_n_WR or w_cpuClk,
-		clear		=> w_reset_n,
-		latchOut	=> IO_PIN(42 downto 35)
-		);
-		
-	latch6 : entity work.OutLatch
-		generic map
-		(
-			n => 6
-		)
-		port map (
-		dataIn	=> w_cpuDataOut(5 downto 0),
-		clock		=> i_clk_50,
-		load		=> w_latch6CS or w_n_WR or w_cpuClk,
-		clear		=> w_reset_n,
-		latchOut	=> IO_PIN(48 downto 43)
-		);
+--	latch4 : entity work.OutLatch
+--		port map (
+--		dataIn	=> w_cpuDataOut,
+--		clock		=> i_clk_50,
+--		load		=> w_latch4CS or w_n_WR or w_cpuClk,
+--		clear		=> w_reset_n,
+--		latchOut	=> IO_PIN(34 downto 27)
+--		);
+--		
+--	latch5 : entity work.OutLatch
+--		port map (
+--		dataIn	=> w_cpuDataOut,
+--		clock		=> i_clk_50,
+--		load		=> w_latch5CS or w_n_WR or w_cpuClk,
+--		clear		=> w_reset_n,
+--		latchOut	=> IO_PIN(42 downto 35)
+--		);
+--		
+--	latch6 : entity work.OutLatch
+--		generic map
+--		(
+--			n => 2
+--		)
+--		port map (
+--		dataIn	=> w_cpuDataOut(1 downto 0),
+--		clock		=> i_clk_50,
+--		load		=> w_latch6CS or w_n_WR or w_cpuClk,
+--		clear		=> w_reset_n,
+--		latchOut	=> IO_PIN(44 downto 43)
+--		);
 		
 -- SUB-CIRCUIT CLOCK SIGNALS 
 	process (i_clk_50)

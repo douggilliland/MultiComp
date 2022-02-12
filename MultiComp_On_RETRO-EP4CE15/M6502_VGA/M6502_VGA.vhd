@@ -164,7 +164,7 @@ begin
 	w_latch1CS	<= '0'  when w_cpuAddress = X"FFD5"										-- XFFD5 Data out latch
 						else '1';
 	
-	n_sdCardCS	<= '0' when w_cpuAddress(15 downto 3) = x"FFD" else '1'; 			-- 8 bytes XFFD8-FFDF
+	n_sdCardCS	<= '0' when w_cpuAddress(15 downto 3) = x"FFD"&'1' else '1'; 			-- 8 bytes XFFD8-FFDF
 	
 --	w_n_memWR 			<= (not w_cpuClk) nand (not w_n_WR);
 	

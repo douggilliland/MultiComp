@@ -115,11 +115,14 @@ set_location_assignment PIN_B6 -to o_sramAddress[17]
 set_location_assignment PIN_B5 -to o_sramAddress[18]
 set_location_assignment PIN_E9 -to o_sramAddress[19]
 # SD Card
-set_location_assignment PIN_C16 -to sdClock
-set_location_assignment PIN_B15 -to sdCS
-set_location_assignment PIN_C15 -to sdMOSI
-set_location_assignment PIN_B16 -to sdMISO
-set_instance_assignment -name WEAK_PULL_UP_RESISTOR ON -to sdMISO
+set_location_assignment PIN_M22 -to sdCS
+set_location_assignment PIN_L18 -to sdMISO
+set_location_assignment PIN_L22 -to sdMOSI
+set_location_assignment PIN_L19 -to sdSCLK
+# set_location_assignment PIN_B15 -to sdCS
+# set_location_assignment PIN_B16 -to sdMISO
+# set_location_assignment PIN_C15 -to sdMOSI
+# set_location_assignment PIN_C16 -to sdSCLK
 set_location_assignment PIN_D17 -to driveLED
 # SDRAM
 set_location_assignment PIN_AB11 -to sdRamClk
@@ -214,8 +217,8 @@ set_global_assignment -name TIMING_ANALYZER_MULTICORNER_ANALYSIS ON
 set_global_assignment -name SMART_RECOMPILE ON
 set_global_assignment -name NUM_PARALLEL_PROCESSORS ALL
 set_location_assignment PIN_D6 -to o_n_sRamWE
+set_global_assignment -name VHDL_FILE "../../MultiComp (VHDL Template)/Components/SDCARD/Older_SD_Controllers/sd_controller_NealC.vhd"
 set_global_assignment -name VHDL_FILE "../../MultiComp (VHDL Template)/Components/UART/BaudRate6850.vhd"
-set_global_assignment -name VHDL_FILE "../../MultiComp (VHDL Template)/Components/SDCARD/sd_controller_High_Speed.vhd"
 set_global_assignment -name VHDL_FILE "../../MultiComp (VHDL Template)/Components/Debounce/Debounce.vhd"
 set_global_assignment -name VHDL_FILE M6502_VGA.vhd
 set_global_assignment -name VHDL_FILE "../../MultiComp (VHDL Template)/Components/RAM_Internal/InternalRam4K.vhd"
