@@ -1,5 +1,5 @@
 Flow report for Microcomputer
-Wed Feb  9 12:22:02 2022
+Sat Feb 12 09:47:30 2022
 Quartus Prime Version 21.1.0 Build 842 10/21/2021 SJ Lite Edition
 
 
@@ -41,15 +41,15 @@ https://fpgasoftware.intel.com/eula.
 +-------------------------------------------------------------------------------+
 ; Flow Summary                                                                  ;
 +---------------------------------+---------------------------------------------+
-; Flow Status                     ; Successful - Wed Feb  9 12:22:02 2022       ;
+; Flow Status                     ; Successful - Sat Feb 12 09:47:30 2022       ;
 ; Quartus Prime Version           ; 21.1.0 Build 842 10/21/2021 SJ Lite Edition ;
 ; Revision Name                   ; Microcomputer                               ;
 ; Top-level Entity Name           ; Microcomputer                               ;
 ; Family                          ; Cyclone V                                   ;
 ; Device                          ; 5CEFA2F23I7                                 ;
 ; Timing Models                   ; Final                                       ;
-; Logic utilization (in ALMs)     ; 1,898 / 9,430 ( 20 % )                      ;
-; Total registers                 ; 1332                                        ;
+; Logic utilization (in ALMs)     ; 1,886 / 9,430 ( 20 % )                      ;
+; Total registers                 ; 1302                                        ;
 ; Total pins                      ; 93 / 224 ( 42 % )                           ;
 ; Total virtual pins              ; 0                                           ;
 ; Total block memory bits         ; 70,080 / 1,802,240 ( 4 % )                  ;
@@ -68,7 +68,7 @@ https://fpgasoftware.intel.com/eula.
 +-------------------+---------------------+
 ; Option            ; Setting             ;
 +-------------------+---------------------+
-; Start date & time ; 02/09/2022 12:19:07 ;
+; Start date & time ; 02/12/2022 09:28:11 ;
 ; Main task         ; Compilation         ;
 ; Revision Name     ; Microcomputer       ;
 +-------------------+---------------------+
@@ -79,7 +79,7 @@ https://fpgasoftware.intel.com/eula.
 +-------------------------------------+----------------------------------------+---------------+-------------+----------------+
 ; Assignment Name                     ; Value                                  ; Default Value ; Entity Name ; Section Id     ;
 +-------------------------------------+----------------------------------------+---------------+-------------+----------------+
-; COMPILER_SIGNATURE_ID               ; 10995770589187.164442714612412         ; --            ; --          ; --             ;
+; COMPILER_SIGNATURE_ID               ; 10995770589187.164467609111748         ; --            ; --          ; --             ;
 ; EDA_OUTPUT_DATA_FORMAT              ; Vhdl                                   ; --            ; --          ; eda_simulation ;
 ; EDA_SIMULATION_TOOL                 ; Questa Intel FPGA (VHDL)               ; <None>        ; --          ; --             ;
 ; EDA_TIME_SCALE                      ; 1 ps                                   ; --            ; --          ; eda_simulation ;
@@ -103,12 +103,16 @@ https://fpgasoftware.intel.com/eula.
 +----------------------+--------------+-------------------------+---------------------+------------------------------------+
 ; Module Name          ; Elapsed Time ; Average Processors Used ; Peak Virtual Memory ; Total CPU Time (on all processors) ;
 +----------------------+--------------+-------------------------+---------------------+------------------------------------+
-; Analysis & Synthesis ; 00:00:41     ; 1.0                     ; 4931 MB             ; 00:01:04                           ;
-; Fitter               ; 00:01:41     ; 1.2                     ; 6320 MB             ; 00:03:16                           ;
-; Assembler            ; 00:00:07     ; 1.0                     ; 4885 MB             ; 00:00:07                           ;
-; Timing Analyzer      ; 00:00:17     ; 1.9                     ; 5224 MB             ; 00:00:28                           ;
-; EDA Netlist Writer   ; 00:00:02     ; 1.0                     ; 4775 MB             ; 00:00:03                           ;
-; Total                ; 00:02:48     ; --                      ; --                  ; 00:04:58                           ;
+; Analysis & Synthesis ; 00:00:40     ; 1.0                     ; 4946 MB             ; 00:01:02                           ;
+; Fitter               ; 00:01:40     ; 1.2                     ; 6343 MB             ; 00:03:31                           ;
+; Assembler            ; 00:00:07     ; 1.0                     ; 4884 MB             ; 00:00:07                           ;
+; Timing Analyzer      ; 00:00:16     ; 1.8                     ; 5224 MB             ; 00:00:26                           ;
+; EDA Netlist Writer   ; 00:00:03     ; 1.0                     ; 4774 MB             ; 00:00:03                           ;
+; Fitter               ; 00:01:38     ; 1.2                     ; 6337 MB             ; 00:03:26                           ;
+; Assembler            ; 00:00:07     ; 1.0                     ; 4880 MB             ; 00:00:07                           ;
+; Timing Analyzer      ; 00:00:16     ; 1.9                     ; 5216 MB             ; 00:00:26                           ;
+; EDA Netlist Writer   ; 00:00:03     ; 1.0                     ; 4782 MB             ; 00:00:03                           ;
+; Total                ; 00:04:50     ; --                      ; --                  ; 00:09:11                           ;
 +----------------------+--------------+-------------------------+---------------------+------------------------------------+
 
 
@@ -122,6 +126,10 @@ https://fpgasoftware.intel.com/eula.
 ; Assembler            ; DESKTOP-2UF8LNB  ; Windows 10 ; 10.0       ; x86_64         ;
 ; Timing Analyzer      ; DESKTOP-2UF8LNB  ; Windows 10 ; 10.0       ; x86_64         ;
 ; EDA Netlist Writer   ; DESKTOP-2UF8LNB  ; Windows 10 ; 10.0       ; x86_64         ;
+; Fitter               ; DESKTOP-2UF8LNB  ; Windows 10 ; 10.0       ; x86_64         ;
+; Assembler            ; DESKTOP-2UF8LNB  ; Windows 10 ; 10.0       ; x86_64         ;
+; Timing Analyzer      ; DESKTOP-2UF8LNB  ; Windows 10 ; 10.0       ; x86_64         ;
+; EDA Netlist Writer   ; DESKTOP-2UF8LNB  ; Windows 10 ; 10.0       ; x86_64         ;
 +----------------------+------------------+------------+------------+----------------+
 
 
@@ -130,6 +138,10 @@ https://fpgasoftware.intel.com/eula.
 ------------
 quartus_map --read_settings_files=on --write_settings_files=off Microcomputer -c Microcomputer
 quartus_fit --read_settings_files=off --write_settings_files=off Microcomputer -c Microcomputer
+quartus_asm --read_settings_files=off --write_settings_files=off Microcomputer -c Microcomputer
+quartus_sta Microcomputer -c Microcomputer
+quartus_eda --read_settings_files=off --write_settings_files=off Microcomputer -c Microcomputer
+quartus_fit --read_settings_files=on --write_settings_files=off Microcomputer -c Microcomputer
 quartus_asm --read_settings_files=off --write_settings_files=off Microcomputer -c Microcomputer
 quartus_sta Microcomputer -c Microcomputer
 quartus_eda --read_settings_files=off --write_settings_files=off Microcomputer -c Microcomputer
