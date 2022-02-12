@@ -2,14 +2,13 @@
 -- Grant Searle's web site http://searle.hostei.com/grant/    
 -- Grant Searle's "multicomp" page at http://searle.hostei.com/grant/Multicomp/index.html
 --
--- Changes to this code by Doug Gilliland 2020
+-- Changes to this code by Doug Gilliland 2020-2022
 --
 -- MC6800 CPU running MIKBUG from back in the day
---		16.67 MHz external SRAM
 --		25 MHz internal
 --	32K+8+4 = 44KB (internal) SRAM
 --	64 banks of 16KB of external SRAM (1MB total)
--- Bank Select register (7 bits)
+-- Bank Select register (6 bits)
 -- MIKBUG ROM - 60 KB version
 --		http://www.retrotechnology.com/restore/smithbug.html
 -- MC6850 ACIA UART
@@ -21,9 +20,9 @@
 --		External Serial Port (jumper in)
 --	Memory Map
 --		x0000-x7fff - 32KB Internal SRAM
---		x8000-xbfff - 16Kb SRAM bank (64 banks)
+--		x8000-xbfff - 16 KB external SRAM, banks (64 banks)
 --		xc000-xdfff - 8KB Internal SRAM
---		xe000-xefff - 4B Internal SRAM (TOP IS SCRATCHPAD)
+--		xe000-xefff - 4KB Internal SRAM (TOP IS SCRATCHPAD)
 --		xf000-xffff - 4 KB ROM
 --		xfc00-xfcff - I/O space
 --			xfc18-xfc19 - VDU/UART (6850 Interface)
