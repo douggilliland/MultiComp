@@ -7,12 +7,19 @@
 -- 6809 CPU
 -- 	16.7 MHz
 --	56K (external) RAM version
+-- 8K Extended BASIC (c) 1982 MICROSOFT
 -- Serial interface or VGA VDU
 --		Jumper in pin Pin_L17 to ground (adjacent pin) of the FPGA selects the VDU/Serial port
+--		J3 SW1 at the bottom on the box connects to FPGA pin Pin_L17
 --		Install to make serial port default
 --		Remove jumper to make the VDU default
 --		115,200 baud serial port
 --		Hardware handshake RTS/CTS
+--	MEMORY MAP
+--		x0000-xdfff - 56KB External SRAM
+--		xe000-xffff - 8KB ROM
+--		xffd0-xffd1 - VDU
+--		xffd2-xffd3 - Serial port
 -- ----------------------------------------------------------------------------------------------
 
 library ieee;
@@ -202,13 +209,13 @@ begin
 	
 	-- ____________________________________________________________________________________
 	-- CHIP SELECTS
-	-- Jumper Pin_85 selects whether UART or VDU are default
-	w_n_basRomCS	<= '0' when w_cpuAddress(15 downto 13) = "111" else '1'; --8K at top of memory
-	w_n_IF1CS		<= '0' when ((w_cpuAddress(15 downto 1) = "111111111101000" and serSelect = '1') or 
-								 (w_cpuAddress(15 downto 1) = "111111111101001" and serSelect = '0')) else '1'; -- 2 bytes FFD0-FFD1
-	w_n_IF2CS		<= '0' when ((w_cpuAddress(15 downto 1) = "111111111101001" and serSelect = '1') or 
-								 (w_cpuAddress(15 downto 1) = "111111111101000" and serSelect = '0')) else '1'; -- 2 bytes FFD2-FFD3
-	w_n_extRamCS	<=  w_cpuAddress(15) and w_cpuAddress(14) and w_cpuAddress(13);	-- active low
+	-- Jumper in pin Pin_L17 to ground (adjacent pin) of the FPGA selects the VDU/Serial port
+	w_n_basRomCS	<= '0' when w_cpuAddress(15 downto 13) = "111" else '1'; 										--8K at top of memory
+	w_n_IF1CS		<= '0' when ((w_cpuAddress(15 downto 1) = x"ffd"&"000" and serSelect = '1') or 
+								       (w_cpuAddress(15 downto 1) = x"ffd"&"001" and serSelect = '0')) else '1'; -- 2 bytes FFD0-FFD1
+	w_n_IF2CS		<= '0' when ((w_cpuAddress(15 downto 1) = x"ffd"&"001" and serSelect = '1') or 
+								       (w_cpuAddress(15 downto 1) = x"ffd"&"000" and serSelect = '0')) else '1'; -- 2 bytes FFD2-FFD3
+	w_n_extRamCS	<=  w_cpuAddress(15) and w_cpuAddress(14) and w_cpuAddress(13);								-- active low
 	
 	-- ____________________________________________________________________________________
 	-- BUS ISOLATION
@@ -220,33 +227,6 @@ begin
 		w_basRomData	when w_n_basRomCS = '0' else
 		x"FF";
 	
-	-- ____________________________________________________________________________________
-	-- CPU Clock
-	-- Need 2 clocks high for externl SRAM can get by with 1 clock low
-	-- Produces a 40 nS wide wriye strobe - 45 nS SRAMs need a 35 nS write pulse, so this works
---process (i_CLOCK_50, w_n_extRamCS)
---	begin
---		if rising_edge(i_CLOCK_50) then
---			if w_n_extRamCS = '0' then
---				if q_cpuClkCount < 2 then						-- 50 MHz / 3 = 16.7 MHz
---					q_cpuClkCount <= q_cpuClkCount + 1;
---				else
---					q_cpuClkCount <= (others=>'0');
---				end if;
---			else
---				if q_cpuClkCount < 1 then						-- 50 MHz / 2 = 25 MHz
---					q_cpuClkCount <= q_cpuClkCount + 1;
---				else
---					q_cpuClkCount <= (others=>'0');
---				end if;
---			end if;
---			if q_cpuClkCount < 1 then						-- 2 clocks high, one low
---				w_cpuClock <= '0';
---			else
---				w_cpuClock <= '1';
---			end if;
---		end if;
---	end process;
 	-- ____________________________________________________________________________________
 	-- SYSTEM CLOCKS
 process (i_CLOCK_50)
