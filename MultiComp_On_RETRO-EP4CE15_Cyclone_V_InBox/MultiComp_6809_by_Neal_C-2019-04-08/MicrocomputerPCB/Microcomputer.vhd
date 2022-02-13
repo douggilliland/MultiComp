@@ -6,6 +6,11 @@
 -- a link back to my main web site http://searle.hostei.com/grant/
 -- and to the "multicomp" page at http://searle.hostei.com/grant/Multicomp/index.html
 --
+-- 6809 CPU
+-- 50 MHz - slower for external SRAM accesses
+-- 1 MB SRAM with MMU
+-- Forth (CamelForth), FLEX, CUBIX, NITROS9, FUZIX on SD Card
+--
 -- Please check on the above web pages to see if there are any updates before using this file.
 -- If for some reason the page is no longer available, please search for "Grant Searle"
 -- on the internet to see if I have moved to another web hosting service.

@@ -229,21 +229,21 @@ begin
 	
 	-- ____________________________________________________________________________________
 	-- SYSTEM CLOCKS
-process (i_CLOCK_50)
-	begin
-		if rising_edge(i_CLOCK_50) then
-			if q_cpuClkCount < 2 then		-- 4 = 10MHz, 3 = 12.5MHz, 2=16.6MHz, 1=25MHz
-				q_cpuClkCount <= q_cpuClkCount + 1;
-			else
-				q_cpuClkCount <= (others=>'0');
+	process (i_CLOCK_50)
+		begin
+			if rising_edge(i_CLOCK_50) then
+				if q_cpuClkCount < 2 then		-- 4 = 10MHz, 3 = 12.5MHz, 2=16.6MHz, 1=25MHz
+					q_cpuClkCount <= q_cpuClkCount + 1;
+				else
+					q_cpuClkCount <= (others=>'0');
+				end if;
+				if q_cpuClkCount < 2 then		-- 2 when 10MHz, 2 when 12.5MHz, 2 when 16.6MHz, 1 when 25MHz
+					w_cpuClock <= '0';
+				else
+					w_cpuClock <= '1';
+				end if;
 			end if;
-			if q_cpuClkCount < 2 then		-- 2 when 10MHz, 2 when 12.5MHz, 2 when 16.6MHz, 1 when 25MHz
-				w_cpuClock <= '0';
-			else
-				w_cpuClock <= '1';
-			end if;
-		end if;
-	end process;
+		end process;
 
 	-- Pass Baud Rate in BAUD_RATE generic as integer value (300, 9600, 115,200)
 	-- Legal values are 115200, 38400, 19200, 9600, 4800, 2400, 1200, 600, 300
