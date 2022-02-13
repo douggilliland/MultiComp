@@ -9,11 +9,38 @@
 
 * These are the VHDL files for our implementation of [http://searle.x10host.com/Multicomp/index.html Grant Searle's Multicomp] Retro-Computer.
 ** Grant's projects re-create late 1970's and early 1980's era vintage computers using inexpensive FPGA cards.
+** We've extended Grant's original design fpr other vintage CPU designs
+* This puts the Multicomp design into an enclosure
 * Our [http://land-boards.com/blwiki/index.php?title=RetroComputers RetroComputing Wiki page is here].
 * [https://www.facebook.com/groups/663409440836492 MultiComp Facebook group]
-== FPGA Boards ==
 
-The different folders here reflect the hardware that we have got Multicomp running on. Some of these designs are Land Boards and others are based on commercial products.
+== Card Set ==
+
+* [[RETRO-EP4CE15]] FPGA Baseboard
+* [[QM Tech Cyclone V FPGA Board]]
+* [[SD CARD X49]]
+* [[SWLEDX8|Slide switches card]] - Using 4 slide switches
+* [[PD01|Power Distribution card]]
+* [https://www.ebay.com/sch/i.html?_odkw=usb+blaster&_sop=15&LH_BIN=1&LH_FS=1&_osacat=0&_from=R40&_trksid=p2045573.m570.l1311.R2.TR6.TRC1.A0.H1.TRS1&_nkw=usb+blaster+altera&_sacat=0 USB Blaster] - Remove from case - Opening in enclosure to access USB connector
+
+=== QM Tech Cyclone V FPGA Board Features ===
+
+* [[QM Tech Cyclone V FPGA Board]]
+* [https://www.aliexpress.com/item/1000006622149.html?spm=a2g0s.9042311.0.0.3e1f4c4dZLO3HX QMTECH Altera Intel FPGA Core Board Cyclone V CycloneV 5CEFA2F23 SDRAM]
+** [https://github.com/ChinaQMTECH/CYCLONE_IV_EP4CE15 QMTECH GitHub page]
+** On-Board FPGA: [https://www.mouser.com/ProductDetail/Intel-Altera/5CEFA2F23I7N?qs=w%252BhYR4jzwbaH%2F206ysv4kw%3D%3D 5CEFA2F23I7N]
+** On-Board FPGA external crystal frequency: 50MHz
+** 5CEFA2F23 has rich RAM resource up to 1,760Kb
+** 5CEFA2F23 has 25K logic cells
+** On-Board Micron [https://www.mouser.com/ProductDetail/Micron/MT25QL128ABB8ESF-0AUT?qs=wUXugUrL1qwVHvCLqhzg7w%3D%3D MT25QL128A] SPI Flash, 16M bytes for user configuration code
+** On-Board Winbond 32MB SDRAM, [https://www.mouser.com/ProductDetail/Winbond/W9825G6KH-6?qs=qSfuJ%252Bfl%2Fd4uj%2FIr3zKOng%3D%3D W9825G6KH-6]
+** On-Board 3.3V power supply for FPGA by using MP2315 wide input range DC/DC
+** 5CEFA2F23 core board has two 64p, 2.54mm pitch headers for extending 108 user IOs. All 108 user IOs are precisely designed with length matching
+** 5CEFA2F23 core board has 3 user switches
+** 5CEFA2F23 core board has 2 user LEDs
+** 5CEFA2F23 core board has JTAG interface, by using 10p, 2.54mm pitch header
+** 5CEFA2F23 core board PCB size is: 6.7cm x 8.4cm
+** Default power source for board is: 1A@5V DC, the DC header type: DC-050, 5.5mmx2.1mm
 
 === MultiComp On RETRO-EP4CE15 ===
 
@@ -26,42 +53,6 @@ The different folders here reflect the hardware that we have got Multicomp runni
 ** Lot of I/O connections
 
 <img src="http://land-boards.com/blwiki/images/0/08/RETROEP4CE15_REV4_EDGEVIEW-720PX.jpg"></img>
-
-=== MultiComp On RETRO-EP4 ===
-
-* [http://land-boards.com/blwiki/index.php?title=RETRO-EP4 Land Boards RETRO-EP4 design]
-** 512K Fast SRAM
-** FTDI USB-to-Serial Interface with Hardware Handshake
-** 6-bit (2:2:2) VGA
-** PS/2 connector
-** 5V Power Module
-** Lot of I/O connections
-
-<img src="http://land-boards.com/blwiki/images/d/dc/RETRO-EP4_TOP_BOTTOM-720px.jpg" alt="RETRO-EP4"></img>
-
-=== MultiComp On EP2C5 ===
-
-* [http://land-boards.com/blwiki/index.php?title=EP2C5-DB Land Boards EP2C5-DB FPGA Retro-Computer card]
-** Attaches to [http://land-boards.com/blwiki/index.php?title=Cyclone_II_EP2C5_Mini_Dev_Board EP4CE6E22C8N FPGA Board]
-** Duplicates Grant's design down to the same pin maps
-
-<img src="http://land-boards.com/blwiki/images/d/d9/EP2C5-DB_RevX6_720px-rot.png" alt="EP2CS-DB card"></img>
-
-=== MultiComp On EP4CE6 ===
-
-* [http://land-boards.com/blwiki/index.php?title=BASE-EP4CE6 Land Boards BASE-EP4CE6 card] is a breakout board that cables up to the [http://land-boards.com/blwiki/index.php?title=EP2C5-DB Land Boards EP2C5-DB card]
-** Adds extra logic and RAM resources beyond the EP2C5 FPGA
-*** Can do up to 16K of Internal SRAM
-
-<img src="http://land-boards.com/blwiki/images/0/0a/BASE-EP4CE6-800pxV-197.jpg" alt="BASE-EP4 card"></img>
-
-=== MultiComp On Cyclone IV VGA Card ===
-
-* [http://land-boards.com/blwiki/index.php?title=Cyclone_IV_FPGA_EP4CE6E22C8N_Development_Board_USB_V2 Purchased EP4 FPGA card]
-** Includes VGA, PS/2 and USB-Serial converter
-** Other I/O is serious limitation but a 16K retro machine without SD Card storage can easily be built
-
-<img src="http://land-boards.com/blwiki/images/e/e6/C4_Dev_687-720px.jpg" alt="EP4 With VGA card"></img>
 
 == Other Sites ==
 
