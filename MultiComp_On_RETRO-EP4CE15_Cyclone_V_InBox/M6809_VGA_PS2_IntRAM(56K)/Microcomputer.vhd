@@ -11,9 +11,7 @@
 --		(c) 1982 MICROSOFT
 -- Serial interface or VGA VDU
 --		Jumper in pin Pin_L17 to ground (adjacent pin) of the FPGA selects the VDU/Serial port
---		J3 SW1 at the bottom on the box connects to FPGA pin Pin_L17
---		Install to make serial port default
---		Remove jumper to make the VDU default
+--			J3 SW1 at the bottom on the box connects to FPGA pin Pin_L17
 --		115,200 baud serial port
 --		Hardware handshake RTS/CTS
 --	MEMORY MAP
@@ -79,7 +77,7 @@ end Microcomputer;
 architecture struct of Microcomputer is
 
 	signal w_n_WR				: std_logic;
-	signal w_n_RD				: std_logic;
+--	signal w_n_RD				: std_logic;
 	signal w_cpuAddress		: std_logic_vector(15 downto 0);
 	signal w_cpuDataOut		: std_logic_vector(7 downto 0);
 	signal w_cpuDataIn		: std_logic_vector(7 downto 0);
@@ -125,13 +123,41 @@ begin
 		o_PinOut		=> w_resetLow
 	);
 	
+	-- MEMORY READ/WRITE LOGIC
+	w_n_memRD <= not(w_cpuClock) nand w_n_WR;
+	w_n_memWR <= not(w_cpuClock) nand (not w_n_WR);
+	
+	-- ____________________________________________________________________________________
+	-- CHIP SELECTS
+	-- Jumper in pin Pin_L17 to ground (adjacent pin) of the FPGA selects the VDU/Serial port
+	w_n_basRomCS	<= '0' when   w_cpuAddress(15 downto 13) = "111" else '1'; 										--8K at top of memory
+	w_n_IF1CS		<= '0' when ((w_cpuAddress(15 downto 1) = x"ffd"&"000" and serSelect = '1') or 
+								       (w_cpuAddress(15 downto 1) = x"ffd"&"001" and serSelect = '0')) else '1'; -- 2 bytes FFD0-FFD1
+	w_n_IF2CS		<= '0' when ((w_cpuAddress(15 downto 1) = x"ffd"&"001" and serSelect = '1') or 
+								       (w_cpuAddress(15 downto 1) = x"ffd"&"000" and serSelect = '0')) else '1'; -- 2 bytes FFD2-FFD3
+	w_n_intRamCS1	<= '0' when   w_cpuAddress(15) = '0' else '1';					-- active low
+	w_n_intRamCS2	<= '0' when   w_cpuAddress(15 downto 14) = "10" else '1';	-- active low
+	w_n_intRamCS3	<= '0' when   w_cpuAddress(15 downto 13) = "110" else '1';	-- active low
+	
+	-- ____________________________________________________________________________________
+	-- BUS ISOLATION
+	-- Order matters since SRAM overlaps I/O chip selects
+	w_cpuDataIn <=
+		w_if1DataOut	when w_n_IF1CS			= '0' else
+		w_if2DataOut	when w_n_IF2CS			= '0' else
+		sramData1		when w_n_intRamCS1	= '0' else
+		sramData2		when w_n_intRamCS2	= '0' else
+		sramData3		when w_n_intRamCS3	= '0' else
+		w_basRomData	when w_n_basRomCS		= '0' else
+		x"FF";
+	
 	-- SRAM
---	sramAddress(19 downto 16) <= "0000";
---	sramAddress(15 downto 0) <= w_cpuAddress(15 downto 0);
---	sramData <= w_cpuDataOut when w_n_WR='0' else (others => 'Z');
---	n_sRamWE <= w_n_memWR;
---	n_sRamOE <= w_n_memRD;
---	n_sRamCS <= w_n_intRamCS1;
+	--	sramAddress(19 downto 16) <= "0000";
+	--	sramAddress(15 downto 0) <= w_cpuAddress(15 downto 0);
+	--	sramData <= w_cpuDataOut when w_n_WR='0' else (others => 'Z');
+	--	n_sRamWE <= w_n_memWR;
+	--	n_sRamOE <= w_n_memRD;
+	--	n_sRamCS <= w_n_intRamCS1;
 
 	-- 48KB Internal SRAM total
 	-- 32KB Internal SRAM
@@ -197,6 +223,10 @@ begin
 	-- Grant's VGA driver
 	-- Removed the Composite video output
 	io1 : entity work.SBCTextDisplayRGB
+		GENERIC map (
+			EXTENDED_CHARSET	=>  1,
+			COLOUR_ATTS_ENABLED => 1
+		)
 		port map (
 			n_reset	=> w_resetLow,
 			clk		=> i_CLOCK_50,
@@ -240,34 +270,6 @@ begin
 		);
 	
 	-- ____________________________________________________________________________________
-	-- MEMORY READ/WRITE LOGIC
-	w_n_memRD <= not(w_cpuClock) nand w_n_WR;
-	w_n_memWR <= not(w_cpuClock) nand (not w_n_WR);
-	
-	-- ____________________________________________________________________________________
-	-- CHIP SELECTS
-	-- Jumper in pin Pin_L17 to ground (adjacent pin) of the FPGA selects the VDU/Serial port
-	w_n_basRomCS	<= '0' when w_cpuAddress(15 downto 13) = "111" else '1'; 										--8K at top of memory
-	w_n_IF1CS		<= '0' when ((w_cpuAddress(15 downto 1) = x"ffd"&"000" and serSelect = '1') or 
-								       (w_cpuAddress(15 downto 1) = x"ffd"&"001" and serSelect = '0')) else '1'; -- 2 bytes FFD0-FFD1
-	w_n_IF2CS		<= '0' when ((w_cpuAddress(15 downto 1) = x"ffd"&"001" and serSelect = '1') or 
-								       (w_cpuAddress(15 downto 1) = x"ffd"&"000" and serSelect = '0')) else '1'; -- 2 bytes FFD2-FFD3
-	w_n_intRamCS1	<= '0' when   w_cpuAddress(15) = '0' else '1';					-- active low
-	w_n_intRamCS2	<= '0' when   w_cpuAddress(15 downto 14) = "10" else '1';	-- active low
-	w_n_intRamCS3	<= '0' when   w_cpuAddress(15 downto 13) = "110" else '1';	-- active low
-	
-	-- ____________________________________________________________________________________
-	-- BUS ISOLATION
-	-- Order matters since SRAM overlaps I/O chip selects
-	w_cpuDataIn <=
-		w_if1DataOut	when w_n_IF1CS			= '0' else
-		w_if2DataOut	when w_n_IF2CS			= '0' else
-		sramData1		when w_n_intRamCS1	= '0' else
-		sramData2		when w_n_intRamCS2	= '0' else
-		sramData3		when w_n_intRamCS3	= '0' else
-		w_basRomData	when w_n_basRomCS		= '0' else
-		x"FF";
-	
 	-- ____________________________________________________________________________________
 	-- SYSTEM CLOCKS
 	process (i_CLOCK_50)

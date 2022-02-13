@@ -60,7 +60,7 @@ set_global_assignment -name USE_SIGNALTAP_FILE stp1.stp
 set_global_assignment -name NUM_PARALLEL_PROCESSORS ALL
 # Clock and reset
 set_location_assignment PIN_M9 -to i_CLOCK_50
-set_location_assignment PIN_V18 -to i_n_reset
+set_location_assignment PIN_N16 -to i_n_reset
 set_instance_assignment -name WEAK_PULL_UP_RESISTOR ON -to i_n_reset
 # PS/2
 set_location_assignment PIN_AA2 -to io_ps2Clk
@@ -116,46 +116,7 @@ set_location_assignment PIN_A7 -to o_extSRamAddress[16]
 set_location_assignment PIN_B6 -to o_extSRamAddress[17]
 set_location_assignment PIN_B5 -to o_extSRamAddress[18]
 set_location_assignment PIN_E9 -to o_extSRamAddress[19]
-set_location_assignment PIN_K17 -to testPt1
-set_location_assignment PIN_K22 -to testPt2
 # SDRAM
-set_location_assignment PIN_AB11 -to sdRamClk
-set_location_assignment PIN_V9 -to sdRamClkEn
-set_location_assignment PIN_AA7 -to n_sdRamCas
-set_location_assignment PIN_AB5 -to n_sdRamCe
-set_location_assignment PIN_AB6 -to n_sdRamRas
-set_location_assignment PIN_W9 -to n_sdRamWe
-set_location_assignment PIN_P8 -to sdRamAddr[0]
-set_location_assignment PIN_P7 -to sdRamAddr[1]
-set_location_assignment PIN_N8 -to sdRamAddr[2]
-set_location_assignment PIN_N6 -to sdRamAddr[3]
-set_location_assignment PIN_U6 -to sdRamAddr[4]
-set_location_assignment PIN_U7 -to sdRamAddr[5]
-set_location_assignment PIN_V6 -to sdRamAddr[6]
-set_location_assignment PIN_U8 -to sdRamAddr[7]
-set_location_assignment PIN_T8 -to sdRamAddr[8]
-set_location_assignment PIN_W8 -to sdRamAddr[9]
-set_location_assignment PIN_R6 -to sdRamAddr[10]
-set_location_assignment PIN_T9 -to sdRamAddr[11]
-set_location_assignment PIN_Y9 -to sdRamAddr[12]
-set_location_assignment PIN_T7 -to sdRamAddr[13]
-set_location_assignment PIN_P9 -to sdRamAddr[14]
-set_location_assignment PIN_AA12 -to sdRamData[0]
-set_location_assignment PIN_Y11 -to sdRamData[1]
-set_location_assignment PIN_AA10 -to sdRamData[2]
-set_location_assignment PIN_AB10 -to sdRamData[3]
-set_location_assignment PIN_Y10 -to sdRamData[4]
-set_location_assignment PIN_AA9 -to sdRamData[5]
-set_location_assignment PIN_AB8 -to sdRamData[6]
-set_location_assignment PIN_AA8 -to sdRamData[7]
-set_location_assignment PIN_U10 -to sdRamData[8]
-set_location_assignment PIN_T10 -to sdRamData[9]
-set_location_assignment PIN_U11 -to sdRamData[10]
-set_location_assignment PIN_R10 -to sdRamData[11]
-set_location_assignment PIN_R11 -to sdRamData[12]
-set_location_assignment PIN_U12 -to sdRamData[13]
-set_location_assignment PIN_R12 -to sdRamData[14]
-set_location_assignment PIN_P12 -to sdRamData[15]
 set_global_assignment -name VHDL_FILE "../../MultiComp (VHDL Template)/Components/UART/BaudRate6850.vhd"
 set_global_assignment -name VHDL_FILE "../../MultiComp (VHDL Template)/Components/RAM_Internal/InternalRam8K.vhd"
 set_global_assignment -name VHDL_FILE "../../MultiComp (VHDL Template)/Components/RAM_Internal/InternalRam4K.vhd"
@@ -175,4 +136,41 @@ set_global_assignment -name VHDL_FILE "../../MultiComp (VHDL Template)/Component
 set_global_assignment -name VHDL_FILE M6800_MIKBUG.vhd
 set_global_assignment -name SDC_FILE SDC1.sdc
 set_global_assignment -name QIP_FILE M6800_MIKBUG_6OKB.qip
+set_location_assignment PIN_AB11 -to o_sdRamClk
+set_location_assignment PIN_V9 -to o_sdRamClkEn
+set_location_assignment PIN_AA7 -to o_n_sdRamCas
+set_location_assignment PIN_AB5 -to o_n_sdRamCe
+set_location_assignment PIN_AB6 -to o_n_sdRamRas
+set_location_assignment PIN_W9 -to o_n_sdRamWe
+set_location_assignment PIN_P9 -to o_sdRamAddr[14]
+set_location_assignment PIN_T7 -to o_sdRamAddr[13]
+set_location_assignment PIN_Y9 -to o_sdRamAddr[12]
+set_location_assignment PIN_T9 -to o_sdRamAddr[11]
+set_location_assignment PIN_R6 -to o_sdRamAddr[10]
+set_location_assignment PIN_W8 -to o_sdRamAddr[9]
+set_location_assignment PIN_T8 -to o_sdRamAddr[8]
+set_location_assignment PIN_U8 -to o_sdRamAddr[7]
+set_location_assignment PIN_V6 -to o_sdRamAddr[6]
+set_location_assignment PIN_U7 -to o_sdRamAddr[5]
+set_location_assignment PIN_U6 -to o_sdRamAddr[4]
+set_location_assignment PIN_N6 -to o_sdRamAddr[3]
+set_location_assignment PIN_N8 -to o_sdRamAddr[2]
+set_location_assignment PIN_P7 -to o_sdRamAddr[1]
+set_location_assignment PIN_P8 -to o_sdRamAddr[0]
+set_location_assignment PIN_AA12 -to io_sdRamData[0]
+set_location_assignment PIN_Y11 -to io_sdRamData[1]
+set_location_assignment PIN_AA10 -to io_sdRamData[2]
+set_location_assignment PIN_AB10 -to io_sdRamData[3]
+set_location_assignment PIN_Y10 -to io_sdRamData[4]
+set_location_assignment PIN_AA9 -to io_sdRamData[5]
+set_location_assignment PIN_AB8 -to io_sdRamData[6]
+set_location_assignment PIN_AA8 -to io_sdRamData[7]
+set_location_assignment PIN_U10 -to io_sdRamData[8]
+set_location_assignment PIN_T10 -to io_sdRamData[9]
+set_location_assignment PIN_U11 -to io_sdRamData[10]
+set_location_assignment PIN_R10 -to io_sdRamData[11]
+set_location_assignment PIN_R11 -to io_sdRamData[12]
+set_location_assignment PIN_U12 -to io_sdRamData[13]
+set_location_assignment PIN_R12 -to io_sdRamData[14]
+set_location_assignment PIN_P12 -to io_sdRamData[15]
 set_instance_assignment -name PARTITION_HIERARCHY root_partition -to | -section_id Top

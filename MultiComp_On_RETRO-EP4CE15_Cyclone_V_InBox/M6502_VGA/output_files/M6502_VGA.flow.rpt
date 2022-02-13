@@ -1,5 +1,5 @@
 Flow report for M6502_VGA
-Sat Feb 12 08:12:09 2022
+Sun Feb 13 13:19:13 2022
 Quartus Prime Version 21.1.0 Build 842 10/21/2021 SJ Lite Edition
 
 
@@ -41,15 +41,15 @@ https://fpgasoftware.intel.com/eula.
 +-------------------------------------------------------------------------------+
 ; Flow Summary                                                                  ;
 +---------------------------------+---------------------------------------------+
-; Flow Status                     ; Successful - Sat Feb 12 08:11:51 2022       ;
+; Flow Status                     ; Successful - Sun Feb 13 13:18:54 2022       ;
 ; Quartus Prime Version           ; 21.1.0 Build 842 10/21/2021 SJ Lite Edition ;
 ; Revision Name                   ; M6502_VGA                                   ;
 ; Top-level Entity Name           ; M6502_VGA                                   ;
 ; Family                          ; Cyclone V                                   ;
 ; Device                          ; 5CEFA2F23I7                                 ;
 ; Timing Models                   ; Final                                       ;
-; Logic utilization (in ALMs)     ; 1,541 / 9,430 ( 16 % )                      ;
-; Total registers                 ; 1183                                        ;
+; Logic utilization (in ALMs)     ; 1,538 / 9,430 ( 16 % )                      ;
+; Total registers                 ; 1173                                        ;
 ; Total pins                      ; 131 / 224 ( 58 % )                          ;
 ; Total virtual pins              ; 0                                           ;
 ; Total block memory bits         ; 442,496 / 1,802,240 ( 25 % )                ;
@@ -106,7 +106,10 @@ https://fpgasoftware.intel.com/eula.
 ; Fitter               ; 00:01:12     ; 1.2                     ; 6364 MB             ; 00:02:24                           ;
 ; Assembler            ; 00:00:07     ; 1.0                     ; 4884 MB             ; 00:00:08                           ;
 ; Timing Analyzer      ; 00:00:17     ; 1.6                     ; 5229 MB             ; 00:00:25                           ;
-; Total                ; 00:02:27     ; --                      ; --                  ; 00:04:33                           ;
+; Fitter               ; 00:01:12     ; 1.2                     ; 6371 MB             ; 00:02:16                           ;
+; Assembler            ; 00:00:07     ; 1.0                     ; 4880 MB             ; 00:00:07                           ;
+; Timing Analyzer      ; 00:00:18     ; 1.6                     ; 5229 MB             ; 00:00:26                           ;
+; Total                ; 00:04:04     ; --                      ; --                  ; 00:07:22                           ;
 +----------------------+--------------+-------------------------+---------------------+------------------------------------+
 
 
@@ -119,6 +122,9 @@ https://fpgasoftware.intel.com/eula.
 ; Fitter               ; DESKTOP-2UF8LNB  ; Windows 10 ; 10.0       ; x86_64         ;
 ; Assembler            ; DESKTOP-2UF8LNB  ; Windows 10 ; 10.0       ; x86_64         ;
 ; Timing Analyzer      ; DESKTOP-2UF8LNB  ; Windows 10 ; 10.0       ; x86_64         ;
+; Fitter               ; DESKTOP-2UF8LNB  ; Windows 10 ; 10.0       ; x86_64         ;
+; Assembler            ; DESKTOP-2UF8LNB  ; Windows 10 ; 10.0       ; x86_64         ;
+; Timing Analyzer      ; DESKTOP-2UF8LNB  ; Windows 10 ; 10.0       ; x86_64         ;
 +----------------------+------------------+------------+------------+----------------+
 
 
@@ -127,6 +133,9 @@ https://fpgasoftware.intel.com/eula.
 ------------
 quartus_map --read_settings_files=on --write_settings_files=off M6502_VGA -c M6502_VGA
 quartus_fit --read_settings_files=off --write_settings_files=off M6502_VGA -c M6502_VGA
+quartus_asm --read_settings_files=off --write_settings_files=off M6502_VGA -c M6502_VGA
+quartus_sta M6502_VGA -c M6502_VGA
+quartus_fit --read_settings_files=on --write_settings_files=off M6502_VGA -c M6502_VGA
 quartus_asm --read_settings_files=off --write_settings_files=off M6502_VGA -c M6502_VGA
 quartus_sta M6502_VGA -c M6502_VGA
 

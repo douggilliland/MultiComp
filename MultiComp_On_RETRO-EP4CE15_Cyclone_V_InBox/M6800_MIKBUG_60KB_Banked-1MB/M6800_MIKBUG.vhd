@@ -5,7 +5,7 @@
 -- Changes to this code by Doug Gilliland 2020-2022
 --
 -- MC6800 CPU running MIKBUG from back in the day
---		25 MHz internal
+--		16/25 MHz internal
 --	32K+8+4 = 44KB (internal) SRAM
 --	64 banks of 16KB of external SRAM (1MB total)
 -- Bank Select register (6 bits)
@@ -16,11 +16,11 @@
 --		XGA 80x25 character display
 --		PS/2 keyboard
 -- Select Jumper (J3-1) switches between
---		VDU (Video Display Unit) VGA + PS/2 keyboard (jumper out)
---		External Serial Port (jumper in)
+--		VDU (Video Display Unit) VGA + PS/2 keyboard (J3-1 off)
+--		External Serial Port (J3-1 on)
 --	Memory Map
 --		x0000-x7fff - 32KB Internal SRAM
---		x8000-xbfff - 16 KB external SRAM, banks (64 banks)
+--		x8000-xbfff - 16 KB external SRAM, banks (64 banks, 1MB SRAM total)
 --		xc000-xdfff - 8KB Internal SRAM
 --		xe000-xefff - 4KB Internal SRAM (TOP IS SCRATCHPAD)
 --		xf000-xffff - 4 KB ROM
@@ -41,6 +41,7 @@ entity M6800_MIKBUG is
 		i_n_reset			: in std_logic := '1';
 		i_CLOCK_50			: in std_logic;
 
+		-- VGA
 		o_videoR0			: out std_logic := '1';
 		o_videoR1			: out std_logic := '1';
 		o_videoG0			: out std_logic := '1';
@@ -50,14 +51,16 @@ entity M6800_MIKBUG is
 		o_hSync				: out std_logic := '1';
 		o_vSync				: out std_logic := '1';
 
+		-- PS/2 keyboard
 		io_ps2Clk			: inout std_logic := '1';
 		io_ps2Data			: inout std_logic := '1';
 		
+		-- USB Serial with Handshake
 		utxd1					: in	std_logic := '1';
 		urxd1					: out std_logic;
 		urts1					: in	std_logic := '1';
 		ucts1					: out std_logic;
-		serSelect			: in	std_logic := '1';		-- JUMPER SELECT BETWEEN VDU AND ACIA
+		serSelect			: in	std_logic := '1';		-- Switch J3-1 selects between VDU and ACIA
 		
 		-- SRAM banked space
 		io_extSRamData		: inout std_logic_vector(7 downto 0) := (others=>'Z');
@@ -67,21 +70,21 @@ entity M6800_MIKBUG is
 		o_n_extSRamOE		: out std_logic := '1';
 
 		-- Not using the SD RAM but making sure that it's not active
-		n_sdRamCas			: out std_logic := '1';		-- CAS
-		n_sdRamRas			: out std_logic := '1';		-- RAS
-		n_sdRamWe			: out std_logic := '1';		-- SDWE
-		n_sdRamCe			: out std_logic := '1';		-- SD_NCS0
-		sdRamClk				: out std_logic := '1';		-- SDCLK0
-		sdRamClkEn			: out std_logic := '1';		-- SDCKE0
-		sdRamAddr			: out std_logic_vector(14 downto 0) := "000"&x"000";
-		w_sdRamData			: in std_logic_vector(15 downto 0) := (others=>'Z')
+		o_n_sdRamCas		: out std_logic := '1';		-- CAS
+		o_n_sdRamRas		: out std_logic := '1';		-- RAS
+		o_n_sdRamWe			: out std_logic := '1';		-- SDWE
+		o_n_sdRamCe			: out std_logic := '1';		-- SD_NCS0
+		o_sdRamClk			: out std_logic := '1';		-- SDCLK0
+		o_sdRamClkEn		: out std_logic := '1';		-- SDCKE0
+		o_sdRamAddr			: out std_logic_vector(14 downto 0) := "000"&x"000";
+		io_sdRamData		: in std_logic_vector(15 downto 0) := (others=>'Z')
 	);
 end M6800_MIKBUG;
 
 architecture struct of M6800_MIKBUG is
 
 	signal w_resetLow		: std_logic := '1';
-	signal wCPUResetHi		: std_logic := '1';
+	signal wCPUResetHi	: std_logic := '1';
 
 	-- CPU Signals
 	signal w_cpuAddress	: std_logic_vector(15 downto 0);
@@ -101,18 +104,18 @@ architecture struct of M6800_MIKBUG is
 	-- Memory controls
 	signal w_n_SRAMCE		: std_logic;
 	signal w_bankAdr		: std_logic;
-	signal w_ldAdrVal		: std_logic;
-	signal adrLatVal		: std_logic_vector(7 downto 0);
+	signal w_n_ldAdrVal	: std_logic;
+	signal adrLatVal		: std_logic_vector(5 downto 0);
 
 	-- Interface control lines
-	signal n_if1CS			: std_logic :='1';
-	signal n_if2CS			: std_logic :='1';
+	signal w_n_if1CS		: std_logic :='1';
+	signal w_n_if2CS		: std_logic :='1';
 
 	-- CPU Clock
 	signal q_cpuClkCount	: std_logic_vector(5 downto 0); 
 	signal w_cpuClock		: std_logic;
 
-   -- External Serial Port Cloc
+   -- External Serial Port Clock enable
    signal serialEn      : std_logic;
 	
 begin
@@ -141,42 +144,46 @@ begin
 	o_n_extSRamCS <= w_n_SRAMCE or (not w_vma);
 	o_n_extSRamWE <= w_n_SRAMCE or (not w_vma) or      w_R1W0  or (w_cpuClock);
 	o_n_extSRamOE <= w_n_SRAMCE or (not w_vma) or (not w_R1W0) ;
-	o_extSRamAddress(19 downto 14) 	<= adrLatVal(5 downto 0);				-- 64 banks OF 16KB is 1MB
+	o_extSRamAddress(19 downto 14)	<= adrLatVal(5 downto 0);				-- 64 banks OF 16KB is 1MB
 	o_extSRamAddress(13 downto 0) 	<= w_cpuAddress(13 downto 0);
 	io_extSRamData <= w_cpuDataOut when ((w_n_SRAMCE = '0') and (w_R1W0 = '0')) else
 							(others => 'Z');
 
+	-- Address Latch - 6-bits, 64 banks, 16KB bank size, 1MB total
 	addrLatch : entity work.OutLatch
+		GENERIC map (
+			n	=>  6
+		)
 		port map
 		(
-			dataIn	=> w_cpuDataOut,
+			dataIn	=> w_cpuDataOut(5 downto 0),
 			clock		=> i_CLOCK_50,
-			load		=> w_ldAdrVal or w_R1W0 or (not w_vma) or (not w_cpuClock),
+			load		=> w_n_ldAdrVal or w_R1W0 or (not w_vma) or (not w_cpuClock),
 			clear		=> w_resetLow,
 			latchOut	=> adrLatVal
 		);
-		
+	
 	-- ____________________________________________________________________________________
 	-- I/O CHIP SELECTS
-	n_if1CS	<= '0' 	when (serSelect = '1' and (w_cpuAddress(15 downto 1) = x"FC1"&"100")) else	-- VDU  $FC18-$FC19
-					'0'	when (serSelect = '0' and (w_cpuAddress(15 downto 1) = x"FC2"&"100")) else	-- ACIA $FC28-$FC29
-					'1';
-	n_if2CS	<= '0' 	when (serSelect = '1' and (w_cpuAddress(15 downto 1) = x"FC2"&"100")) else	-- ACIA $FC28-$FC29
-					'0'	when (serSelect = '0' and (w_cpuAddress(15 downto 1) = x"FC1"&"100")) else	-- VDU  $FC18-$FC19
-					'1';
-	w_ldAdrVal <= '0' when (w_cpuAddress = x"FC30") else '1';
+	w_n_if1CS		<=	'0' 	when (serSelect = '1' and (w_cpuAddress(15 downto 1) = x"FC1"&"100")) else	-- VDU  xFC18-xFC19
+							'0'	when (serSelect = '0' and (w_cpuAddress(15 downto 1) = x"FC2"&"100")) else	-- ACIA xFC28-xFC29
+							'1';
+	w_n_if2CS		<= '0' 	when (serSelect = '1' and (w_cpuAddress(15 downto 1) = x"FC2"&"100")) else	-- ACIA xFC28-xFC29
+							'0'	when (serSelect = '0' and (w_cpuAddress(15 downto 1) = x"FC1"&"100")) else	-- VDU  xFC18-xFC19
+							'1';
+	w_n_ldAdrVal	<= '0'	when (w_cpuAddress = x"FC30") else '1';
 		
 	-- ____________________________________________________________________________________
 	-- CPU Read Data multiplexer
 	w_cpuDataIn <=
-		w_ramData32K	when w_cpuAddress(15) = '0'						else	-- $0000-$7FFF (32 KB)
-		w_ramData8K		when (w_cpuAddress(15 downto 13) = "110")		else	-- $C000-$DFFF (8KB)
-		w_ramData4K		when (w_cpuAddress(15 downto 12) = x"E")		else	-- $E000-$EFFF (4KB)
-		io_extSRamData	when (w_n_SRAMCE = '0')								else
-		w_if1DataOut	when n_if1CS = '0'									else
-		w_if2DataOut	when n_if2CS = '0'									else
-		adrLatVal		when (w_ldAdrVal = '0') 							else
-		w_romData		when w_cpuAddress(15 downto 12) = x"F"			else -- Must be last
+		w_ramData32K	when w_cpuAddress(15) = '0'						else	-- x0000-x7FFF (32 KB)
+		w_ramData8K		when (w_cpuAddress(15 downto 13) = "110")		else	-- xC000-xDFFF (8KB)
+		w_ramData4K		when (w_cpuAddress(15 downto 12) = x"E")		else	-- xE000-xEFFF (4KB)
+		io_extSRamData	when (w_n_SRAMCE = '0')								else	-- x8000-xbfff (16KB)
+		w_if1DataOut	when w_n_if1CS = '0'									else	-- xFC18-xFC19 or $FC28-$FC29
+		w_if2DataOut	when w_n_if2CS = '0'									else	-- xFC28-xFC29 or $FC18-$FC19
+		"00"&adrLatVal	when (w_n_ldAdrVal = '0') 							else	-- xFC30
+		w_romData		when w_cpuAddress(15 downto 12) = x"F"			else	-- xF0000-xFFFF - Must be last
 		x"FF";
 	
 	-- ____________________________________________________________________________________
@@ -218,7 +225,7 @@ begin
 		);
 	
 	-- ____________________________________________________________________________________
-	-- 8KB RAM $c000-$dfff
+	-- 8KB RAM xc000-xdfff
 	sram8K : entity work.InternalRam8K
 		PORT map  (
 			address	=> w_cpuAddress(12 downto 0),
@@ -229,7 +236,7 @@ begin
 		);
 	
 	-- ____________________________________________________________________________________
-	-- 4KB RAM $E000-$EFFF
+	-- 4KB RAM xE000-xEFFF
 	sram4K : entity work.InternalRam4K
 		PORT map  (
 			address	=> w_cpuAddress(11 downto 0),
@@ -243,11 +250,15 @@ begin
 	-- INPUT/OUTPUT DEVICES
 	-- Grant's VGA driver
 	vdu : entity work.SBCTextDisplayRGB
+		GENERIC map (
+			EXTENDED_CHARSET	=>  1,
+			COLOUR_ATTS_ENABLED => 1
+		)
 		port map (
 			n_reset	=> w_resetLow,
 			clk		=> i_CLOCK_50,
-			n_WR		=> n_if1CS or      w_R1W0  or (not w_vma) or (not w_cpuClock),
-			n_rd		=> n_if1CS or (not w_R1W0) or (not w_vma),
+			n_WR		=> w_n_if1CS or      w_R1W0  or (not w_vma) or (not w_cpuClock),
+			n_rd		=> w_n_if1CS or (not w_R1W0) or (not w_vma),
 			regSel	=> w_cpuAddress(0),
 			dataIn	=> w_cpuDataOut,
 			dataOut	=> w_if1DataOut,
@@ -269,8 +280,8 @@ begin
 	acia: entity work.bufferedUART
 		port map (
 			clk		=> i_CLOCK_50,     
-			n_WR		=> n_if2CS or      w_R1W0  or (not w_vma) or (not w_cpuClock),
-			n_rd		=> n_if2CS or (not w_R1W0) or (not w_vma),
+			n_WR		=> w_n_if2CS or      w_R1W0  or (not w_vma) or (not w_cpuClock),
+			n_rd		=> w_n_if2CS or (not w_R1W0) or (not w_vma),
 			regSel	=> w_cpuAddress(0),
 			dataIn	=> w_cpuDataOut,
 			dataOut	=> w_if2DataOut,
