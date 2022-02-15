@@ -17,7 +17,7 @@
 -- PROGRAM "Quartus Prime"
 -- VERSION "Version 21.1.0 Build 842 10/21/2021 SJ Lite Edition"
 
--- DATE "02/13/2022 13:29:36"
+-- DATE "02/13/2022 19:07:33"
 
 -- 
 -- Device: Altera 5CEFA2F23I7 Package FBGA484
@@ -40,42 +40,42 @@ ENTITY 	Microcomputer IS
     PORT (
 	n_reset : IN std_logic;
 	clk : IN std_logic;
-	sramData : BUFFER std_logic_vector(7 DOWNTO 0);
-	sramAddress : BUFFER std_logic_vector(19 DOWNTO 0);
-	n_sRamWE : BUFFER std_logic;
-	n_sRamOE : BUFFER std_logic;
-	n_sRamCS : BUFFER std_logic;
+	sramData : INOUT std_logic_vector(7 DOWNTO 0);
+	sramAddress : OUT std_logic_vector(19 DOWNTO 0);
+	n_sRamWE : OUT std_logic;
+	n_sRamOE : OUT std_logic;
+	n_sRamCS : OUT std_logic;
 	rxd1 : IN std_logic;
-	txd1 : BUFFER std_logic;
-	rts1 : BUFFER std_logic;
+	txd1 : OUT std_logic;
+	rts1 : OUT std_logic;
 	cts1 : IN std_logic;
 	rxd4 : IN std_logic;
-	txd4 : BUFFER std_logic;
-	rts4 : BUFFER std_logic;
+	txd4 : OUT std_logic;
+	rts4 : OUT std_logic;
 	cts4 : IN std_logic;
-	videoR0 : BUFFER std_logic;
-	videoG0 : BUFFER std_logic;
-	videoB0 : BUFFER std_logic;
-	videoR1 : BUFFER std_logic;
-	videoG1 : BUFFER std_logic;
-	videoB1 : BUFFER std_logic;
-	hSync : BUFFER std_logic;
-	vSync : BUFFER std_logic;
-	ps2Clk : BUFFER std_logic;
-	ps2Data : BUFFER std_logic;
-	n_sdRamCas : BUFFER std_logic;
-	n_sdRamRas : BUFFER std_logic;
-	n_sdRamWe : BUFFER std_logic;
-	n_sdRamCe : BUFFER std_logic;
-	sdRamClk : BUFFER std_logic;
-	sdRamClkEn : BUFFER std_logic;
-	sdRamAddr : BUFFER std_logic_vector(14 DOWNTO 0);
+	videoR0 : OUT std_logic;
+	videoG0 : OUT std_logic;
+	videoB0 : OUT std_logic;
+	videoR1 : OUT std_logic;
+	videoG1 : OUT std_logic;
+	videoB1 : OUT std_logic;
+	hSync : OUT std_logic;
+	vSync : OUT std_logic;
+	ps2Clk : INOUT std_logic;
+	ps2Data : INOUT std_logic;
+	n_sdRamCas : OUT std_logic;
+	n_sdRamRas : OUT std_logic;
+	n_sdRamWe : OUT std_logic;
+	n_sdRamCe : OUT std_logic;
+	sdRamClk : OUT std_logic;
+	sdRamClkEn : OUT std_logic;
+	sdRamAddr : OUT std_logic_vector(14 DOWNTO 0);
 	sdRamData : IN std_logic_vector(15 DOWNTO 0);
-	sdCardSCLK : BUFFER std_logic;
-	sdCardCS : BUFFER std_logic;
-	sdCardMOSI : BUFFER std_logic;
+	sdCardSCLK : OUT std_logic;
+	sdCardCS : OUT std_logic;
+	sdCardMOSI : OUT std_logic;
 	sdCardMISO : IN std_logic;
-	driveLED : BUFFER std_logic
+	driveLED : OUT std_logic
 	);
 END Microcomputer;
 
@@ -187,7 +187,6 @@ SIGNAL ww_devclrn : std_logic;
 SIGNAL ww_devpor : std_logic;
 SIGNAL ww_n_reset : std_logic;
 SIGNAL ww_clk : std_logic;
-SIGNAL ww_sramData : std_logic_vector(7 DOWNTO 0);
 SIGNAL ww_sramAddress : std_logic_vector(19 DOWNTO 0);
 SIGNAL ww_n_sRamWE : std_logic;
 SIGNAL ww_n_sRamOE : std_logic;
@@ -208,8 +207,6 @@ SIGNAL ww_videoG1 : std_logic;
 SIGNAL ww_videoB1 : std_logic;
 SIGNAL ww_hSync : std_logic;
 SIGNAL ww_vSync : std_logic;
-SIGNAL ww_ps2Clk : std_logic;
-SIGNAL ww_ps2Data : std_logic;
 SIGNAL ww_n_sdRamCas : std_logic;
 SIGNAL ww_n_sdRamRas : std_logic;
 SIGNAL ww_n_sdRamWe : std_logic;
@@ -7271,7 +7268,6 @@ BEGIN
 
 ww_n_reset <= n_reset;
 ww_clk <= clk;
-sramData <= ww_sramData;
 sramAddress <= ww_sramAddress;
 n_sRamWE <= ww_n_sRamWE;
 n_sRamOE <= ww_n_sRamOE;
@@ -7292,8 +7288,6 @@ videoG1 <= ww_videoG1;
 videoB1 <= ww_videoB1;
 hSync <= ww_hSync;
 vSync <= ww_vSync;
-ps2Clk <= ww_ps2Clk;
-ps2Data <= ww_ps2Data;
 n_sdRamCas <= ww_n_sdRamCas;
 n_sdRamRas <= ww_n_sdRamRas;
 n_sdRamWe <= ww_n_sdRamWe;
@@ -11782,7 +11776,7 @@ PORT MAP (
 	i => \cpu1|u0|DO\(0),
 	oe => \ALT_INV_n_memWR~0_combout\,
 	devoe => ww_devoe,
-	o => ww_sramData(0));
+	o => sramData(0));
 
 -- Location: IOOBUF_X8_Y45_N42
 \sramData[1]~output\ : cyclonev_io_obuf
@@ -11796,7 +11790,7 @@ PORT MAP (
 	i => \cpu1|u0|DO[1]~DUPLICATE_q\,
 	oe => \ALT_INV_n_memWR~0_combout\,
 	devoe => ww_devoe,
-	o => ww_sramData(1));
+	o => sramData(1));
 
 -- Location: IOOBUF_X20_Y45_N53
 \sramData[2]~output\ : cyclonev_io_obuf
@@ -11810,7 +11804,7 @@ PORT MAP (
 	i => \cpu1|u0|DO[2]~DUPLICATE_q\,
 	oe => \ALT_INV_n_memWR~0_combout\,
 	devoe => ww_devoe,
-	o => ww_sramData(2));
+	o => sramData(2));
 
 -- Location: IOOBUF_X8_Y45_N76
 \sramData[3]~output\ : cyclonev_io_obuf
@@ -11824,7 +11818,7 @@ PORT MAP (
 	i => \cpu1|u0|DO\(3),
 	oe => \ALT_INV_n_memWR~0_combout\,
 	devoe => ww_devoe,
-	o => ww_sramData(3));
+	o => sramData(3));
 
 -- Location: IOOBUF_X20_Y45_N36
 \sramData[4]~output\ : cyclonev_io_obuf
@@ -11838,7 +11832,7 @@ PORT MAP (
 	i => \cpu1|u0|DO\(4),
 	oe => \ALT_INV_n_memWR~0_combout\,
 	devoe => ww_devoe,
-	o => ww_sramData(4));
+	o => sramData(4));
 
 -- Location: IOOBUF_X8_Y45_N59
 \sramData[5]~output\ : cyclonev_io_obuf
@@ -11852,7 +11846,7 @@ PORT MAP (
 	i => \cpu1|u0|DO[5]~DUPLICATE_q\,
 	oe => \ALT_INV_n_memWR~0_combout\,
 	devoe => ww_devoe,
-	o => ww_sramData(5));
+	o => sramData(5));
 
 -- Location: IOOBUF_X0_Y21_N39
 \sramData[6]~output\ : cyclonev_io_obuf
@@ -11866,7 +11860,7 @@ PORT MAP (
 	i => \cpu1|u0|DO\(6),
 	oe => \ALT_INV_n_memWR~0_combout\,
 	devoe => ww_devoe,
-	o => ww_sramData(6));
+	o => sramData(6));
 
 -- Location: IOOBUF_X0_Y20_N5
 \sramData[7]~output\ : cyclonev_io_obuf
@@ -11880,7 +11874,7 @@ PORT MAP (
 	i => \cpu1|u0|DO[7]~DUPLICATE_q\,
 	oe => \ALT_INV_n_memWR~0_combout\,
 	devoe => ww_devoe,
-	o => ww_sramData(7));
+	o => sramData(7));
 
 -- Location: IOOBUF_X0_Y18_N79
 \ps2Clk~output\ : cyclonev_io_obuf
@@ -11894,7 +11888,7 @@ PORT MAP (
 	i => \io2|ALT_INV_ps2ClkOut~q\,
 	oe => VCC,
 	devoe => ww_devoe,
-	o => ww_ps2Clk);
+	o => ps2Clk);
 
 -- Location: IOOBUF_X0_Y18_N96
 \ps2Data~output\ : cyclonev_io_obuf
@@ -11908,7 +11902,7 @@ PORT MAP (
 	i => \io2|ALT_INV_ps2DataOut~q\,
 	oe => VCC,
 	devoe => ww_devoe,
-	o => ww_ps2Data);
+	o => ps2Data);
 
 -- Location: IOIBUF_X22_Y0_N1
 \clk~input\ : cyclonev_io_ibuf
@@ -12254,7 +12248,7 @@ GENERIC MAP (
 	simulate_z_as => "z")
 -- pragma translate_on
 PORT MAP (
-	i => ww_sramData(6),
+	i => sramData(6),
 	o => \sramData[6]~input_o\);
 
 -- Location: FF_X18_Y34_N13
@@ -15663,7 +15657,7 @@ GENERIC MAP (
 	simulate_z_as => "z")
 -- pragma translate_on
 PORT MAP (
-	i => ww_ps2Data,
+	i => ps2Data,
 	o => \ps2Data~input_o\);
 
 -- Location: IOIBUF_X0_Y18_N78
@@ -15674,7 +15668,7 @@ GENERIC MAP (
 	simulate_z_as => "z")
 -- pragma translate_on
 PORT MAP (
-	i => ww_ps2Clk,
+	i => ps2Clk,
 	o => \ps2Clk~input_o\);
 
 -- Location: LABCELL_X20_Y24_N0
@@ -21155,7 +21149,7 @@ GENERIC MAP (
 	data_interleave_width_in_bits => 1,
 	init_file => "../Components/TERMINAL/keymap.hex",
 	init_file_layout => "port_a",
-	logical_ram_name => "SBCTextDisplayRGB:io2|keyMapRom:keyRom|altsyncram:altsyncram_component|altsyncram_fjf1:auto_generated|ALTSYNCRAM",
+	logical_ram_name => "SBCTextDisplayRGB:io2|keyMapRom:keyRom|altsyncram:altsyncram_component|altsyncram_2i14:auto_generated|ALTSYNCRAM",
 	operation_mode => "rom",
 	port_a_address_clear => "none",
 	port_a_address_width => 9,
@@ -22562,7 +22556,7 @@ GENERIC MAP (
 	simulate_z_as => "z")
 -- pragma translate_on
 PORT MAP (
-	i => ww_sramData(7),
+	i => sramData(7),
 	o => \sramData[7]~input_o\);
 
 -- Location: LABCELL_X24_Y33_N6
@@ -31676,7 +31670,7 @@ GENERIC MAP (
 	simulate_z_as => "z")
 -- pragma translate_on
 PORT MAP (
-	i => ww_sramData(5),
+	i => sramData(5),
 	o => \sramData[5]~input_o\);
 
 -- Location: IOIBUF_X32_Y45_N75
@@ -35138,7 +35132,7 @@ GENERIC MAP (
 	simulate_z_as => "z")
 -- pragma translate_on
 PORT MAP (
-	i => ww_sramData(4),
+	i => sramData(4),
 	o => \sramData[4]~input_o\);
 
 -- Location: FF_X23_Y26_N37
@@ -46153,7 +46147,7 @@ GENERIC MAP (
 	simulate_z_as => "z")
 -- pragma translate_on
 PORT MAP (
-	i => ww_sramData(0),
+	i => sramData(0),
 	o => \sramData[0]~input_o\);
 
 -- Location: LABCELL_X25_Y30_N6
@@ -72383,7 +72377,7 @@ GENERIC MAP (
 	simulate_z_as => "z")
 -- pragma translate_on
 PORT MAP (
-	i => ww_sramData(1),
+	i => sramData(1),
 	o => \sramData[1]~input_o\);
 
 -- Location: LABCELL_X25_Y30_N48
@@ -77405,7 +77399,7 @@ GENERIC MAP (
 	simulate_z_as => "z")
 -- pragma translate_on
 PORT MAP (
-	i => ww_sramData(2),
+	i => sramData(2),
 	o => \sramData[2]~input_o\);
 
 -- Location: LABCELL_X25_Y30_N0
@@ -77829,7 +77823,7 @@ GENERIC MAP (
 	simulate_z_as => "z")
 -- pragma translate_on
 PORT MAP (
-	i => ww_sramData(3),
+	i => sramData(3),
 	o => \sramData[3]~input_o\);
 
 -- Location: LABCELL_X24_Y30_N6

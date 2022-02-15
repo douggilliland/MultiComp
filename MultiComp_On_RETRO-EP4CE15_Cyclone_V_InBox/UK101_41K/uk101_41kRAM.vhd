@@ -33,10 +33,10 @@ entity uk101_41kRAM is
 		n_reset		: in std_logic := '1';
 		
 		sramData 	: inout	std_logic_vector(7 downto 0);
-		sramAddress : out		std_logic_vector(19 downto 0);
-		n_sRamWE 	: out		std_logic := '0';
-		n_sRamCS 	: out		std_logic := '0';
-		n_sRamOE 	: out		std_logic := '0';
+		sramAddress : out		std_logic_vector(19 downto 0) := x"00000";
+		n_sRamWE 	: out		std_logic := '1';
+		n_sRamCS 	: out		std_logic := '1';
+		n_sRamOE 	: out		std_logic := '1';
 		
 		fpgaRx		: in		std_logic := '1';
 		fpgaTx		: out		std_logic;
@@ -142,16 +142,18 @@ begin
 	n_kbCS 		<= '0' when cpuAddress(15 downto 10) 	= x"d"&"11"		else '1';	-- xdc00-xdfff (1KB)		- Keyboard
 	n_aciaCS 	<= '0' when cpuAddress(15 downto 1) 	= x"f00"&"000"	else '1';	-- xf000-f001 (2B)		- Serial Port
 	n_monRomCS	<= '0' when cpuAddress(15 downto 11) 	= x"f"&'1' 		else '1'; 	-- xf800-xffff (2K)		- Monitor in ROM
-	n_mmap1CS	<= '0' when cpuAddress					 	= x"f002"		else '1';	-- xf002 (1B)				- Memory Mapper 1
-	n_mmap2CS	<= '0' when cpuAddress					 	= x"f003"		else '1';	-- xf003 (1B)				- Memory Mapper 2
+	n_mmap1CS	<= '0' when cpuAddress					 	= x"f002"		else '1';	-- xf002 (1B) 61442 dec	- Memory Mapper 1
+	n_mmap2CS	<= '0' when cpuAddress					 	= x"f003"		else '1';	-- xf003 (1B) 61443 dec	- Memory Mapper 2
 	
 	cpuDataIn <=
-		basRomData 			when n_basRomCS 		= '0' else
-		monitorRomData 	when n_monRomCS 		= '0' else
-		aciaData				when n_aciaCS			= '0' else
-		dispRamDataOutA	when n_dispRamCS		= '0' else
-		kbReadData			when n_kbCS				= '0' else
-		sramData				when n_ramCS			= '0' else 
+		basRomData 			when n_basRomCS 	= '0' else
+		monitorRomData 	when n_monRomCS 	= '0' else
+		aciaData				when n_aciaCS		= '0' else
+		dispRamDataOutA	when n_dispRamCS	= '0' else
+		kbReadData			when n_kbCS			= '0' else
+		sramData				when n_ramCS		= '0' else
+		mmapAddrLatch1		when n_mmap1CS		= '0' else
+		mmapAddrLatch2		when n_mmap2CS		= '0' else
 		x"FF";
 
 	-- 6502 CPU
