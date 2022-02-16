@@ -62,11 +62,10 @@ entity M6502_VGA is
 		o_vid_hSync	: out std_logic;
 		o_vid_vSync	: out std_logic;
 		
-		sdCS			: out std_logic;
-		sdMOSI		: out std_logic;
+		sdCS			: out std_logic := '1';
+		sdMOSI		: out std_logic := '1';
 		sdMISO		: in std_logic;
-		sdClock		: out std_logic;
-		driveLED		: out std_logic;
+		sdClock		: out std_logic := '1';
 		
 		IO_PIN		: inout std_logic_vector(44 downto 3) := x"000000000"&"00";
 	
@@ -218,7 +217,7 @@ begin
 		address	=> w_cpuAddress(14 downto 0),
 		clock		=> i_clk_50,
 		data		=> w_cpuDataOut,
-		wren		=> not(w_n_WR or w_n_ramCS1 or w_cpuClk),
+		wren		=> not w_n_ramCS1 and not w_n_WR and w_cpuClk,
 		q			=> w_ramDataOut1
 	);
 
@@ -228,7 +227,7 @@ begin
 		address	=> w_cpuAddress(12 downto 0),
 		clock		=> i_clk_50,
 		data		=> w_cpuDataOut,
-		wren		=> not(w_n_WR or w_n_ramCS2 or w_cpuClk),
+		wren		=> not w_n_ramCS2 and not w_n_WR and w_cpuClk,
 		q			=> w_ramDataOut2
 	);
 
@@ -305,7 +304,7 @@ begin
 		dataIn => w_cpuDataOut,
 		dataOut => sdCardDataOut,
 		regAddr => w_cpuAddress(2 downto 0),
-		driveLED => driveLED,
+--		driveLED => driveLED,
 		clk => i_clk_50
 	);
 

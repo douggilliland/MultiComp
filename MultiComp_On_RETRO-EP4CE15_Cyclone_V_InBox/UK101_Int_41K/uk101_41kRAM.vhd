@@ -70,6 +70,8 @@ entity uk101_41kRAM is
 		sdRamAddr	: out		std_logic_vector(14 downto 0) := "000"&x"000";
 		sdRamData	: in		std_logic_vector(15 downto 0);
 		
+		IO_PIN		: inout std_logic_vector(44 downto 3) := x"000000000"&"00";
+	
 		-- SD card
 		-- Not using the SD Card but reserving pins and making inactive
 		sdCS			: out		std_logic :='1';

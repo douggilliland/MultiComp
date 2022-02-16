@@ -107,19 +107,11 @@ set_location_assignment PIN_H6 -to sramData[5]
 set_location_assignment PIN_C2 -to sramData[6]
 set_location_assignment PIN_D3 -to sramData[7]
 # SD Card
-# set_location_assignment PIN_B15 -to sdCS
-# set_location_assignment PIN_B16 -to sdMISO
-# set_location_assignment PIN_C15 -to sdMOSI
-# set_location_assignment PIN_C16 -to sdSCLK
-set_location_assignment PIN_D17 -to driveLED
-set_instance_assignment -name WEAK_PULL_UP_RESISTOR ON -to sdCardMISO
-set_instance_assignment -name CURRENT_STRENGTH_NEW 8MA -to sdCardCS
-set_instance_assignment -name CURRENT_STRENGTH_NEW 8MA -to sdCardMISO
-set_instance_assignment -name CURRENT_STRENGTH_NEW 8MA -to sdCardMOSI
-set_instance_assignment -name CURRENT_STRENGTH_NEW 8MA -to sdCardSCLK
-set_instance_assignment -name SLEW_RATE 1 -to sdCardCS
-set_instance_assignment -name SLEW_RATE 1 -to sdCardMOSI
-set_instance_assignment -name SLEW_RATE 1 -to sdCardSCLK
+set_location_assignment PIN_M22 -to sdCardCS
+set_location_assignment PIN_L18 -to sdCardMISO
+set_location_assignment PIN_L22 -to sdCardMOSI
+set_location_assignment PIN_L19 -to sdCardSCLK
+set_instance_assignment -name WEAK_PULL_UP_RESISTOR ON -to sdMISO
 # Video
 set_location_assignment PIN_B13 -to videoB0
 set_location_assignment PIN_A13 -to videoB1
@@ -172,7 +164,7 @@ set_location_assignment PIN_R11 -to sdRamData[12]
 set_location_assignment PIN_U12 -to sdRamData[13]
 set_location_assignment PIN_R12 -to sdRamData[14]
 set_location_assignment PIN_P12 -to sdRamData[15]
-#50-pin I/O Connector
+# 50-pin I/O Connector
 set_location_assignment PIN_AB15 -to IO_PIN[3]
 set_location_assignment PIN_AA15 -to IO_PIN[4]
 set_location_assignment PIN_Y14 -to IO_PIN[5]
@@ -217,10 +209,6 @@ set_location_assignment PIN_N19 -to IO_PIN[43]
 set_location_assignment PIN_M18 -to IO_PIN[44]
 #
 set_global_assignment -name NUM_PARALLEL_PROCESSORS 4
-set_location_assignment PIN_M22 -to sdCardCS
-set_location_assignment PIN_L18 -to sdCardMISO
-set_location_assignment PIN_L22 -to sdCardMOSI
-set_location_assignment PIN_L19 -to sdCardSCLK
 set_global_assignment -name VHDL_FILE "../../../MultiComp (VHDL Template)/Components/SDCARD/Older_SD_Controllers/sd_controller_NealC.vhd"
 set_global_assignment -name VHDL_FILE Microcomputer.vhd
 set_global_assignment -name VHDL_FILE "../../../MultiComp (VHDL Template)/Components/CPU/Z80/T80s.vhd"

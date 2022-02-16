@@ -52,6 +52,8 @@ entity uk101_41kRAM is
 		vgaHsync		: out		std_logic := '0';
 		vgaVsync		: out		std_logic := '0';
 		
+		IO_PIN		: inout std_logic_vector(44 downto 3) := x"000000000"&"00";
+	
 		-- Not using the SD RAM but reserving pins and making inactive
 		n_sdRamCas	: out		std_logic := '1';		-- CAS on schematic
 		n_sdRamRas	: out		std_logic := '1';		-- RAS

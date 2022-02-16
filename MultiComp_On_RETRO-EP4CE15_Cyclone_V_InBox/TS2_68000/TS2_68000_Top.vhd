@@ -65,7 +65,7 @@ entity TS2_68000_Top is
 		ps2Clk		: inout std_logic;
 		ps2Data		: inout std_logic;
 		
-		IO_PIN		: out std_logic_vector(48 downto 3);
+		IO_PIN		: out std_logic_vector(44 downto 3);
 		
 		-- External SRAM
 		sramData		: inout std_logic_vector(7 downto 0);

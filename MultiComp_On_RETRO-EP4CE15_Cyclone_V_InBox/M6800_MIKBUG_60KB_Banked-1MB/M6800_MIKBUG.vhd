@@ -62,6 +62,8 @@ entity M6800_MIKBUG is
 		ucts1					: out std_logic;
 		serSelect			: in	std_logic := '1';		-- Switch J3-1 selects between VDU and ACIA
 		
+		IO_PIN		: inout std_logic_vector(44 downto 3) := x"000000000"&"00";
+	
 		-- SRAM banked space
 		io_extSRamData		: inout std_logic_vector(7 downto 0) := (others=>'Z');
 		o_extSRamAddress	: out std_logic_vector(19 downto 0);

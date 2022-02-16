@@ -59,9 +59,14 @@ entity Microcomputer is
 		ps2Clk		: inout std_logic;
 		ps2Data		: inout std_logic;
 		
-		testPt1		: out std_logic := '1';
-		testPt2		: out std_logic := '1';
-		
+		IO_PIN		: inout std_logic_vector(44 downto 3) := x"000000000"&"00";
+	
+		-- SD Card
+		sdCardCS		: out std_logic := '1';
+		sdCardMOSI	: out std_logic := '1';
+		sdCardMISO	: in std_logic;
+		sdCardSCLK	: out std_logic := '1';
+
 		-- Not using the SD RAM on the QMTECH FPGA card but making sure that it's not active
 		n_sdRamCas	: out std_logic := '1';		-- CAS on schematic
 		n_sdRamRas	: out std_logic := '1';		-- RAS
@@ -111,9 +116,6 @@ architecture struct of Microcomputer is
    signal w_serialEn       : std_logic;
 	
 begin
-
-	testPt2 <= w_cpuClock;
-	testPt1 <= w_n_memWR;
 	
 	-- Debounce the reset line
 	DebounceResetSwitch	: entity work.Debouncer

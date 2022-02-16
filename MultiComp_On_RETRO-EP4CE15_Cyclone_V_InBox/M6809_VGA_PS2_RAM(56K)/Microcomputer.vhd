@@ -60,6 +60,8 @@ entity Microcomputer is
 		ps2Clk		: inout std_logic;
 		ps2Data		: inout std_logic;
 		
+		IO_PIN		: inout std_logic_vector(44 downto 3) := x"000000000"&"00";
+	
 		testPt1		: out std_logic := '1';
 		testPt2		: out std_logic := '1';
 		
