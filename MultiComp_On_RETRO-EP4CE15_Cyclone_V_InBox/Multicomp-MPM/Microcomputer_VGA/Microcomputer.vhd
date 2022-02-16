@@ -68,6 +68,8 @@ entity Microcomputer is
 		ps2Clk		: inout std_logic;
 		ps2Data		: inout std_logic;
 		
+		IO_PIN 		: out std_logic_vector(44 downto 3) := "00"&x"0000000000";
+		
 		-- Not using the SD RAM but making sure that it's not active
 		n_sdRamCas	: out std_logic := '1';		-- CAS on schematic
 		n_sdRamRas	: out std_logic := '1';		-- RAS
