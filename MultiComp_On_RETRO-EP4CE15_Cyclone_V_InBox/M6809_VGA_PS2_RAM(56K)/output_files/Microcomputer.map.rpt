@@ -1,5 +1,5 @@
 Analysis & Synthesis report for Microcomputer
-Sun Feb 13 07:39:38 2022
+Wed Feb 16 08:09:42 2022
 Quartus Prime Version 21.1.0 Build 842 10/21/2021 SJ Lite Edition
 
 
@@ -76,14 +76,14 @@ https://fpgasoftware.intel.com/eula.
 +-------------------------------------------------------------------------------+
 ; Analysis & Synthesis Summary                                                  ;
 +---------------------------------+---------------------------------------------+
-; Analysis & Synthesis Status     ; Successful - Sun Feb 13 07:39:38 2022       ;
+; Analysis & Synthesis Status     ; Successful - Wed Feb 16 08:09:42 2022       ;
 ; Quartus Prime Version           ; 21.1.0 Build 842 10/21/2021 SJ Lite Edition ;
 ; Revision Name                   ; Microcomputer                               ;
 ; Top-level Entity Name           ; Microcomputer                               ;
 ; Family                          ; Cyclone V                                   ;
 ; Logic utilization (in ALMs)     ; N/A                                         ;
 ; Total registers                 ; 836                                         ;
-; Total pins                      ; 87                                          ;
+; Total pins                      ; 131                                         ;
 ; Total virtual pins              ; 0                                           ;
 ; Total block memory bits         ; 114,816                                     ;
 ; Total DSP Blocks                ; 0                                           ;
@@ -260,7 +260,7 @@ https://fpgasoftware.intel.com/eula.
 ;                                             ;                  ;
 ; Dedicated logic registers                   ; 836              ;
 ;                                             ;                  ;
-; I/O pins                                    ; 87               ;
+; I/O pins                                    ; 131              ;
 ; Total MLAB memory bits                      ; 0                ;
 ; Total block memory bits                     ; 114816           ;
 ;                                             ;                  ;
@@ -268,8 +268,8 @@ https://fpgasoftware.intel.com/eula.
 ;                                             ;                  ;
 ; Maximum fan-out node                        ; i_CLOCK_50~input ;
 ; Maximum fan-out                             ; 482              ;
-; Total fan-out                               ; 14414            ;
-; Average fan-out                             ; 3.90             ;
+; Total fan-out                               ; 14498            ;
+; Average fan-out                             ; 3.79             ;
 +---------------------------------------------+------------------+
 
 
@@ -278,7 +278,7 @@ https://fpgasoftware.intel.com/eula.
 +-----------------------------------------------+---------------------+---------------------------+-------------------+------------+------+--------------+-------------------------------------------------------------------------------------------------------------------------------------------+---------------------+--------------+
 ; Compilation Hierarchy Node                    ; Combinational ALUTs ; Dedicated Logic Registers ; Block Memory Bits ; DSP Blocks ; Pins ; Virtual Pins ; Full Hierarchy Name                                                                                                                       ; Entity Name         ; Library Name ;
 +-----------------------------------------------+---------------------+---------------------------+-------------------+------------+------+--------------+-------------------------------------------------------------------------------------------------------------------------------------------+---------------------+--------------+
-; |Microcomputer                                ; 2635 (26)           ; 836 (3)                   ; 114816            ; 0          ; 87   ; 0            ; |Microcomputer                                                                                                                            ; Microcomputer       ; work         ;
+; |Microcomputer                                ; 2635 (26)           ; 836 (3)                   ; 114816            ; 0          ; 131  ; 0            ; |Microcomputer                                                                                                                            ; Microcomputer       ; work         ;
 ;    |BaudRate6850:BaudRateGen|                 ; 14 (14)             ; 13 (13)                   ; 0                 ; 0          ; 0    ; 0            ; |Microcomputer|BaudRate6850:BaudRateGen                                                                                                   ; BaudRate6850        ; work         ;
 ;    |Debouncer:DebounceResetSwitch|            ; 27 (27)             ; 26 (26)                   ; 0                 ; 0          ; 0    ; 0            ; |Microcomputer|Debouncer:DebounceResetSwitch                                                                                              ; Debouncer           ; work         ;
 ;    |M6809_EXT_BASIC_ROM:rom1|                 ; 0 (0)               ; 0 (0)                     ; 65536             ; 0          ; 0    ; 0            ; |Microcomputer|M6809_EXT_BASIC_ROM:rom1                                                                                                   ; M6809_EXT_BASIC_ROM ; work         ;
@@ -1626,7 +1626,7 @@ Note: In order to hide this table in the UI and the text report file, please set
 ;     ENA SCLR SLD      ; 88                          ;
 ;     SCLR              ; 153                         ;
 ;     plain             ; 139                         ;
-; arriav_io_obuf        ; 10                          ;
+; arriav_io_obuf        ; 52                          ;
 ; arriav_lcell_comb     ; 2638                        ;
 ;     arith             ; 365                         ;
 ;         0 data inputs ; 13                          ;
@@ -1651,11 +1651,11 @@ Note: In order to hide this table in the UI and the text report file, please set
 ;         2 data inputs ; 30                          ;
 ;         3 data inputs ; 21                          ;
 ;         4 data inputs ; 2                           ;
-; boundary_port         ; 87                          ;
+; boundary_port         ; 131                         ;
 ; stratixv_ram_block    ; 40                          ;
 ;                       ;                             ;
 ; Max LUT depth         ; 13.20                       ;
-; Average LUT depth     ; 6.61                        ;
+; Average LUT depth     ; 6.54                        ;
 +-----------------------+-----------------------------+
 
 
@@ -1664,7 +1664,7 @@ Note: In order to hide this table in the UI and the text report file, please set
 +----------------+--------------+
 ; Partition Name ; Elapsed Time ;
 +----------------+--------------+
-; Top            ; 00:00:21     ;
+; Top            ; 00:00:24     ;
 +----------------+--------------+
 
 
@@ -1674,7 +1674,7 @@ Note: In order to hide this table in the UI and the text report file, please set
 Info: *******************************************************************
 Info: Running Quartus Prime Analysis & Synthesis
     Info: Version 21.1.0 Build 842 10/21/2021 SJ Lite Edition
-    Info: Processing started: Sun Feb 13 07:39:01 2022
+    Info: Processing started: Wed Feb 16 08:08:58 2022
 Info: Command: quartus_map --read_settings_files=on --write_settings_files=off m6809_vga_56K -c Microcomputer
 Warning (18236): Number of processors has not been specified which may cause overloading on shared machines.  Set the global assignment NUM_PARALLEL_PROCESSORS in your QSF to an appropriate value for best performance.
 Info (20030): Parallel compilation is enabled and will use 4 of the 4 processors detected
@@ -1716,21 +1716,24 @@ Info (12021): Found 2 design units, including 1 entities, in source file /users/
     Info (12022): Found design unit 1: SBCTextDisplayRGB-rtl File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/TERMINAL/SBCTextDisplayRGB.vhd Line: 79
     Info (12023): Found entity 1: SBCTextDisplayRGB File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/TERMINAL/SBCTextDisplayRGB.vhd Line: 21
 Info (12021): Found 2 design units, including 1 entities, in source file microcomputer.vhd
-    Info (12022): Found design unit 1: Microcomputer-struct File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15_Cyclone_V_InBox/M6809_VGA_PS2_RAM(56K)/Microcomputer.vhd Line: 78
+    Info (12022): Found design unit 1: Microcomputer-struct File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15_Cyclone_V_InBox/M6809_VGA_PS2_RAM(56K)/Microcomputer.vhd Line: 86
     Info (12023): Found entity 1: Microcomputer File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15_Cyclone_V_InBox/M6809_VGA_PS2_RAM(56K)/Microcomputer.vhd Line: 30
 Info (12127): Elaborating entity "Microcomputer" for the top level hierarchy
-Warning (10540): VHDL Signal Declaration warning at Microcomputer.vhd(67): used explicit default value for signal "n_sdRamCas" because signal was never assigned a value File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15_Cyclone_V_InBox/M6809_VGA_PS2_RAM(56K)/Microcomputer.vhd Line: 67
-Warning (10540): VHDL Signal Declaration warning at Microcomputer.vhd(68): used explicit default value for signal "n_sdRamRas" because signal was never assigned a value File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15_Cyclone_V_InBox/M6809_VGA_PS2_RAM(56K)/Microcomputer.vhd Line: 68
-Warning (10540): VHDL Signal Declaration warning at Microcomputer.vhd(69): used explicit default value for signal "n_sdRamWe" because signal was never assigned a value File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15_Cyclone_V_InBox/M6809_VGA_PS2_RAM(56K)/Microcomputer.vhd Line: 69
-Warning (10540): VHDL Signal Declaration warning at Microcomputer.vhd(70): used explicit default value for signal "n_sdRamCe" because signal was never assigned a value File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15_Cyclone_V_InBox/M6809_VGA_PS2_RAM(56K)/Microcomputer.vhd Line: 70
-Warning (10540): VHDL Signal Declaration warning at Microcomputer.vhd(71): used explicit default value for signal "sdRamClk" because signal was never assigned a value File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15_Cyclone_V_InBox/M6809_VGA_PS2_RAM(56K)/Microcomputer.vhd Line: 71
-Warning (10540): VHDL Signal Declaration warning at Microcomputer.vhd(72): used explicit default value for signal "sdRamClkEn" because signal was never assigned a value File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15_Cyclone_V_InBox/M6809_VGA_PS2_RAM(56K)/Microcomputer.vhd Line: 72
-Warning (10540): VHDL Signal Declaration warning at Microcomputer.vhd(73): used explicit default value for signal "sdRamAddr" because signal was never assigned a value File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15_Cyclone_V_InBox/M6809_VGA_PS2_RAM(56K)/Microcomputer.vhd Line: 73
-Warning (10036): Verilog HDL or VHDL warning at Microcomputer.vhd(93): object "w_n_int1" assigned a value but never read File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15_Cyclone_V_InBox/M6809_VGA_PS2_RAM(56K)/Microcomputer.vhd Line: 93
-Warning (10036): Verilog HDL or VHDL warning at Microcomputer.vhd(94): object "w_n_int2" assigned a value but never read File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15_Cyclone_V_InBox/M6809_VGA_PS2_RAM(56K)/Microcomputer.vhd Line: 94
-Info (12128): Elaborating entity "Debouncer" for hierarchy "Debouncer:DebounceResetSwitch" File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15_Cyclone_V_InBox/M6809_VGA_PS2_RAM(56K)/Microcomputer.vhd Line: 115
-Info (12128): Elaborating entity "cpu09" for hierarchy "cpu09:cpu1" File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15_Cyclone_V_InBox/M6809_VGA_PS2_RAM(56K)/Microcomputer.vhd Line: 134
-Info (12128): Elaborating entity "M6809_EXT_BASIC_ROM" for hierarchy "M6809_EXT_BASIC_ROM:rom1" File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15_Cyclone_V_InBox/M6809_VGA_PS2_RAM(56K)/Microcomputer.vhd Line: 151
+Warning (10540): VHDL Signal Declaration warning at Microcomputer.vhd(69): used explicit default value for signal "sdCardCS" because signal was never assigned a value File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15_Cyclone_V_InBox/M6809_VGA_PS2_RAM(56K)/Microcomputer.vhd Line: 69
+Warning (10540): VHDL Signal Declaration warning at Microcomputer.vhd(70): used explicit default value for signal "sdCardMOSI" because signal was never assigned a value File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15_Cyclone_V_InBox/M6809_VGA_PS2_RAM(56K)/Microcomputer.vhd Line: 70
+Warning (10540): VHDL Signal Declaration warning at Microcomputer.vhd(72): used explicit default value for signal "sdCardSCLK" because signal was never assigned a value File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15_Cyclone_V_InBox/M6809_VGA_PS2_RAM(56K)/Microcomputer.vhd Line: 72
+Warning (10540): VHDL Signal Declaration warning at Microcomputer.vhd(75): used explicit default value for signal "n_sdRamCas" because signal was never assigned a value File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15_Cyclone_V_InBox/M6809_VGA_PS2_RAM(56K)/Microcomputer.vhd Line: 75
+Warning (10540): VHDL Signal Declaration warning at Microcomputer.vhd(76): used explicit default value for signal "n_sdRamRas" because signal was never assigned a value File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15_Cyclone_V_InBox/M6809_VGA_PS2_RAM(56K)/Microcomputer.vhd Line: 76
+Warning (10540): VHDL Signal Declaration warning at Microcomputer.vhd(77): used explicit default value for signal "n_sdRamWe" because signal was never assigned a value File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15_Cyclone_V_InBox/M6809_VGA_PS2_RAM(56K)/Microcomputer.vhd Line: 77
+Warning (10540): VHDL Signal Declaration warning at Microcomputer.vhd(78): used explicit default value for signal "n_sdRamCe" because signal was never assigned a value File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15_Cyclone_V_InBox/M6809_VGA_PS2_RAM(56K)/Microcomputer.vhd Line: 78
+Warning (10540): VHDL Signal Declaration warning at Microcomputer.vhd(79): used explicit default value for signal "sdRamClk" because signal was never assigned a value File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15_Cyclone_V_InBox/M6809_VGA_PS2_RAM(56K)/Microcomputer.vhd Line: 79
+Warning (10540): VHDL Signal Declaration warning at Microcomputer.vhd(80): used explicit default value for signal "sdRamClkEn" because signal was never assigned a value File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15_Cyclone_V_InBox/M6809_VGA_PS2_RAM(56K)/Microcomputer.vhd Line: 80
+Warning (10540): VHDL Signal Declaration warning at Microcomputer.vhd(81): used explicit default value for signal "sdRamAddr" because signal was never assigned a value File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15_Cyclone_V_InBox/M6809_VGA_PS2_RAM(56K)/Microcomputer.vhd Line: 81
+Warning (10036): Verilog HDL or VHDL warning at Microcomputer.vhd(101): object "w_n_int1" assigned a value but never read File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15_Cyclone_V_InBox/M6809_VGA_PS2_RAM(56K)/Microcomputer.vhd Line: 101
+Warning (10036): Verilog HDL or VHDL warning at Microcomputer.vhd(102): object "w_n_int2" assigned a value but never read File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15_Cyclone_V_InBox/M6809_VGA_PS2_RAM(56K)/Microcomputer.vhd Line: 102
+Info (12128): Elaborating entity "Debouncer" for hierarchy "Debouncer:DebounceResetSwitch" File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15_Cyclone_V_InBox/M6809_VGA_PS2_RAM(56K)/Microcomputer.vhd Line: 123
+Info (12128): Elaborating entity "cpu09" for hierarchy "cpu09:cpu1" File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15_Cyclone_V_InBox/M6809_VGA_PS2_RAM(56K)/Microcomputer.vhd Line: 142
+Info (12128): Elaborating entity "M6809_EXT_BASIC_ROM" for hierarchy "M6809_EXT_BASIC_ROM:rom1" File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15_Cyclone_V_InBox/M6809_VGA_PS2_RAM(56K)/Microcomputer.vhd Line: 159
 Info (12128): Elaborating entity "altsyncram" for hierarchy "M6809_EXT_BASIC_ROM:rom1|altsyncram:altsyncram_component" File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/ROMs/6809/M6809_EXT_BASIC_ROM.vhd Line: 60
 Info (12130): Elaborated megafunction instantiation "M6809_EXT_BASIC_ROM:rom1|altsyncram:altsyncram_component" File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/ROMs/6809/M6809_EXT_BASIC_ROM.vhd Line: 60
 Info (12133): Instantiated megafunction "M6809_EXT_BASIC_ROM:rom1|altsyncram:altsyncram_component" with the following parameter: File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/ROMs/6809/M6809_EXT_BASIC_ROM.vhd Line: 60
@@ -1795,7 +1798,7 @@ Warning (287001): Assertion warning: MGL_INTERNAL_WARNING: ( The parameter value
 Info (12021): Found 1 design units, including 1 entities, in source file db/altsyncram_4064.tdf
     Info (12023): Found entity 1: altsyncram_4064 File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15_Cyclone_V_InBox/M6809_VGA_PS2_RAM(56K)/db/altsyncram_4064.tdf Line: 28
 Info (12128): Elaborating entity "altsyncram_4064" for hierarchy "M6809_EXT_BASIC_ROM:rom1|altsyncram:altsyncram_component|altsyncram_4064:auto_generated" File: c:/intelfpga_lite/21.1/quartus/libraries/megafunctions/altsyncram.tdf Line: 792
-Info (12128): Elaborating entity "SBCTextDisplayRGB" for hierarchy "SBCTextDisplayRGB:io1" File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15_Cyclone_V_InBox/M6809_VGA_PS2_RAM(56K)/Microcomputer.vhd Line: 162
+Info (12128): Elaborating entity "SBCTextDisplayRGB" for hierarchy "SBCTextDisplayRGB:io1" File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15_Cyclone_V_InBox/M6809_VGA_PS2_RAM(56K)/Microcomputer.vhd Line: 170
 Info (12128): Elaborating entity "SansBoldRom" for hierarchy "SBCTextDisplayRGB:io1|SansBoldRom:\GEN_EXT_SCHARS:fontRom" File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/TERMINAL/SBCTextDisplayRGB.vhd Line: 296
 Info (12128): Elaborating entity "altsyncram" for hierarchy "SBCTextDisplayRGB:io1|SansBoldRom:\GEN_EXT_SCHARS:fontRom|altsyncram:altsyncram_component" File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/TERMINAL/SansBoldRom.vhd Line: 59
 Info (12130): Elaborated megafunction instantiation "SBCTextDisplayRGB:io1|SansBoldRom:\GEN_EXT_SCHARS:fontRom|altsyncram:altsyncram_component" File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/TERMINAL/SansBoldRom.vhd Line: 59
@@ -1894,8 +1897,8 @@ Info (12133): Instantiated megafunction "SBCTextDisplayRGB:io1|DisplayRam2K:\GEN
 Info (12021): Found 1 design units, including 1 entities, in source file db/altsyncram_con2.tdf
     Info (12023): Found entity 1: altsyncram_con2 File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15_Cyclone_V_InBox/M6809_VGA_PS2_RAM(56K)/db/altsyncram_con2.tdf Line: 28
 Info (12128): Elaborating entity "altsyncram_con2" for hierarchy "SBCTextDisplayRGB:io1|DisplayRam2K:\GEN_2KRAM:dispCharRam|altsyncram:altsyncram_component|altsyncram_con2:auto_generated" File: c:/intelfpga_lite/21.1/quartus/libraries/megafunctions/altsyncram.tdf Line: 792
-Info (12128): Elaborating entity "bufferedUART" for hierarchy "bufferedUART:io2" File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15_Cyclone_V_InBox/M6809_VGA_PS2_RAM(56K)/Microcomputer.vhd Line: 188
-Info (12128): Elaborating entity "BaudRate6850" for hierarchy "BaudRate6850:BaudRateGen" File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15_Cyclone_V_InBox/M6809_VGA_PS2_RAM(56K)/Microcomputer.vhd Line: 251
+Info (12128): Elaborating entity "bufferedUART" for hierarchy "bufferedUART:io2" File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15_Cyclone_V_InBox/M6809_VGA_PS2_RAM(56K)/Microcomputer.vhd Line: 196
+Info (12128): Elaborating entity "BaudRate6850" for hierarchy "BaudRate6850:BaudRateGen" File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15_Cyclone_V_InBox/M6809_VGA_PS2_RAM(56K)/Microcomputer.vhd Line: 259
 Warning (19016): Clock multiplexers are found and protected
     Warning (19017): Found clock multiplexer cpu09:cpu1|Mux330 File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15_Cyclone_V_InBox/M6809_VGA_PS2_RAM(56K)/Components/M6809/cpu09-l.vhd Line: 3093
     Warning (19017): Found clock multiplexer cpu09:cpu1|Mux329 File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15_Cyclone_V_InBox/M6809_VGA_PS2_RAM(56K)/Components/M6809/cpu09-l.vhd Line: 3093
@@ -1903,8 +1906,8 @@ Warning (276027): Inferred dual-clock RAM node "bufferedUART:io2|rxBuffer_rtl_0"
 Info (276014): Found 1 instances of uninferred RAM logic
     Info (276004): RAM logic "SBCTextDisplayRGB:io1|kbBuffer" is uninferred due to inappropriate RAM size File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/TERMINAL/SBCTextDisplayRGB.vhd Line: 162
 Warning (19016): Clock multiplexers are found and protected
-    Warning (19017): Found clock multiplexer w_n_IF2CS~0 File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15_Cyclone_V_InBox/M6809_VGA_PS2_RAM(56K)/Microcomputer.vhd Line: 99
-    Warning (19017): Found clock multiplexer w_n_IF1CS~0 File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15_Cyclone_V_InBox/M6809_VGA_PS2_RAM(56K)/Microcomputer.vhd Line: 98
+    Warning (19017): Found clock multiplexer w_n_IF2CS~0 File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15_Cyclone_V_InBox/M6809_VGA_PS2_RAM(56K)/Microcomputer.vhd Line: 107
+    Warning (19017): Found clock multiplexer w_n_IF1CS~0 File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15_Cyclone_V_InBox/M6809_VGA_PS2_RAM(56K)/Microcomputer.vhd Line: 106
 Warning (19016): Clock multiplexers are found and protected
     Warning (19017): Found clock multiplexer cpu09:cpu1|Selector318~0 File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15_Cyclone_V_InBox/M6809_VGA_PS2_RAM(56K)/Components/M6809/cpu09-l.vhd Line: 970
     Warning (19017): Found clock multiplexer cpu09:cpu1|Selector318~1 File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15_Cyclone_V_InBox/M6809_VGA_PS2_RAM(56K)/Components/M6809/cpu09-l.vhd Line: 970
@@ -1979,63 +1982,110 @@ Info (12021): Found 1 design units, including 1 entities, in source file db/sign
     Info (12023): Found entity 1: sign_div_unsign_7nh File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15_Cyclone_V_InBox/M6809_VGA_PS2_RAM(56K)/db/sign_div_unsign_7nh.tdf Line: 25
 Info (12021): Found 1 design units, including 1 entities, in source file db/alt_u_div_k2f.tdf
     Info (12023): Found entity 1: alt_u_div_k2f File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15_Cyclone_V_InBox/M6809_VGA_PS2_RAM(56K)/db/alt_u_div_k2f.tdf Line: 23
+Warning (13039): The following bidirectional pins have no drivers
+    Warning (13040): bidirectional pin "IO_PIN[3]" has no driver File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15_Cyclone_V_InBox/M6809_VGA_PS2_RAM(56K)/Microcomputer.vhd Line: 63
+    Warning (13040): bidirectional pin "IO_PIN[4]" has no driver File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15_Cyclone_V_InBox/M6809_VGA_PS2_RAM(56K)/Microcomputer.vhd Line: 63
+    Warning (13040): bidirectional pin "IO_PIN[5]" has no driver File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15_Cyclone_V_InBox/M6809_VGA_PS2_RAM(56K)/Microcomputer.vhd Line: 63
+    Warning (13040): bidirectional pin "IO_PIN[6]" has no driver File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15_Cyclone_V_InBox/M6809_VGA_PS2_RAM(56K)/Microcomputer.vhd Line: 63
+    Warning (13040): bidirectional pin "IO_PIN[7]" has no driver File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15_Cyclone_V_InBox/M6809_VGA_PS2_RAM(56K)/Microcomputer.vhd Line: 63
+    Warning (13040): bidirectional pin "IO_PIN[8]" has no driver File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15_Cyclone_V_InBox/M6809_VGA_PS2_RAM(56K)/Microcomputer.vhd Line: 63
+    Warning (13040): bidirectional pin "IO_PIN[9]" has no driver File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15_Cyclone_V_InBox/M6809_VGA_PS2_RAM(56K)/Microcomputer.vhd Line: 63
+    Warning (13040): bidirectional pin "IO_PIN[10]" has no driver File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15_Cyclone_V_InBox/M6809_VGA_PS2_RAM(56K)/Microcomputer.vhd Line: 63
+    Warning (13040): bidirectional pin "IO_PIN[11]" has no driver File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15_Cyclone_V_InBox/M6809_VGA_PS2_RAM(56K)/Microcomputer.vhd Line: 63
+    Warning (13040): bidirectional pin "IO_PIN[12]" has no driver File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15_Cyclone_V_InBox/M6809_VGA_PS2_RAM(56K)/Microcomputer.vhd Line: 63
+    Warning (13040): bidirectional pin "IO_PIN[13]" has no driver File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15_Cyclone_V_InBox/M6809_VGA_PS2_RAM(56K)/Microcomputer.vhd Line: 63
+    Warning (13040): bidirectional pin "IO_PIN[14]" has no driver File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15_Cyclone_V_InBox/M6809_VGA_PS2_RAM(56K)/Microcomputer.vhd Line: 63
+    Warning (13040): bidirectional pin "IO_PIN[15]" has no driver File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15_Cyclone_V_InBox/M6809_VGA_PS2_RAM(56K)/Microcomputer.vhd Line: 63
+    Warning (13040): bidirectional pin "IO_PIN[16]" has no driver File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15_Cyclone_V_InBox/M6809_VGA_PS2_RAM(56K)/Microcomputer.vhd Line: 63
+    Warning (13040): bidirectional pin "IO_PIN[17]" has no driver File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15_Cyclone_V_InBox/M6809_VGA_PS2_RAM(56K)/Microcomputer.vhd Line: 63
+    Warning (13040): bidirectional pin "IO_PIN[18]" has no driver File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15_Cyclone_V_InBox/M6809_VGA_PS2_RAM(56K)/Microcomputer.vhd Line: 63
+    Warning (13040): bidirectional pin "IO_PIN[19]" has no driver File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15_Cyclone_V_InBox/M6809_VGA_PS2_RAM(56K)/Microcomputer.vhd Line: 63
+    Warning (13040): bidirectional pin "IO_PIN[20]" has no driver File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15_Cyclone_V_InBox/M6809_VGA_PS2_RAM(56K)/Microcomputer.vhd Line: 63
+    Warning (13040): bidirectional pin "IO_PIN[21]" has no driver File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15_Cyclone_V_InBox/M6809_VGA_PS2_RAM(56K)/Microcomputer.vhd Line: 63
+    Warning (13040): bidirectional pin "IO_PIN[22]" has no driver File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15_Cyclone_V_InBox/M6809_VGA_PS2_RAM(56K)/Microcomputer.vhd Line: 63
+    Warning (13040): bidirectional pin "IO_PIN[23]" has no driver File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15_Cyclone_V_InBox/M6809_VGA_PS2_RAM(56K)/Microcomputer.vhd Line: 63
+    Warning (13040): bidirectional pin "IO_PIN[24]" has no driver File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15_Cyclone_V_InBox/M6809_VGA_PS2_RAM(56K)/Microcomputer.vhd Line: 63
+    Warning (13040): bidirectional pin "IO_PIN[25]" has no driver File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15_Cyclone_V_InBox/M6809_VGA_PS2_RAM(56K)/Microcomputer.vhd Line: 63
+    Warning (13040): bidirectional pin "IO_PIN[26]" has no driver File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15_Cyclone_V_InBox/M6809_VGA_PS2_RAM(56K)/Microcomputer.vhd Line: 63
+    Warning (13040): bidirectional pin "IO_PIN[27]" has no driver File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15_Cyclone_V_InBox/M6809_VGA_PS2_RAM(56K)/Microcomputer.vhd Line: 63
+    Warning (13040): bidirectional pin "IO_PIN[28]" has no driver File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15_Cyclone_V_InBox/M6809_VGA_PS2_RAM(56K)/Microcomputer.vhd Line: 63
+    Warning (13040): bidirectional pin "IO_PIN[29]" has no driver File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15_Cyclone_V_InBox/M6809_VGA_PS2_RAM(56K)/Microcomputer.vhd Line: 63
+    Warning (13040): bidirectional pin "IO_PIN[30]" has no driver File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15_Cyclone_V_InBox/M6809_VGA_PS2_RAM(56K)/Microcomputer.vhd Line: 63
+    Warning (13040): bidirectional pin "IO_PIN[31]" has no driver File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15_Cyclone_V_InBox/M6809_VGA_PS2_RAM(56K)/Microcomputer.vhd Line: 63
+    Warning (13040): bidirectional pin "IO_PIN[32]" has no driver File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15_Cyclone_V_InBox/M6809_VGA_PS2_RAM(56K)/Microcomputer.vhd Line: 63
+    Warning (13040): bidirectional pin "IO_PIN[33]" has no driver File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15_Cyclone_V_InBox/M6809_VGA_PS2_RAM(56K)/Microcomputer.vhd Line: 63
+    Warning (13040): bidirectional pin "IO_PIN[34]" has no driver File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15_Cyclone_V_InBox/M6809_VGA_PS2_RAM(56K)/Microcomputer.vhd Line: 63
+    Warning (13040): bidirectional pin "IO_PIN[35]" has no driver File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15_Cyclone_V_InBox/M6809_VGA_PS2_RAM(56K)/Microcomputer.vhd Line: 63
+    Warning (13040): bidirectional pin "IO_PIN[36]" has no driver File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15_Cyclone_V_InBox/M6809_VGA_PS2_RAM(56K)/Microcomputer.vhd Line: 63
+    Warning (13040): bidirectional pin "IO_PIN[37]" has no driver File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15_Cyclone_V_InBox/M6809_VGA_PS2_RAM(56K)/Microcomputer.vhd Line: 63
+    Warning (13040): bidirectional pin "IO_PIN[38]" has no driver File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15_Cyclone_V_InBox/M6809_VGA_PS2_RAM(56K)/Microcomputer.vhd Line: 63
+    Warning (13040): bidirectional pin "IO_PIN[39]" has no driver File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15_Cyclone_V_InBox/M6809_VGA_PS2_RAM(56K)/Microcomputer.vhd Line: 63
+    Warning (13040): bidirectional pin "IO_PIN[40]" has no driver File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15_Cyclone_V_InBox/M6809_VGA_PS2_RAM(56K)/Microcomputer.vhd Line: 63
+    Warning (13040): bidirectional pin "IO_PIN[41]" has no driver File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15_Cyclone_V_InBox/M6809_VGA_PS2_RAM(56K)/Microcomputer.vhd Line: 63
+    Warning (13040): bidirectional pin "IO_PIN[42]" has no driver File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15_Cyclone_V_InBox/M6809_VGA_PS2_RAM(56K)/Microcomputer.vhd Line: 63
+    Warning (13040): bidirectional pin "IO_PIN[43]" has no driver File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15_Cyclone_V_InBox/M6809_VGA_PS2_RAM(56K)/Microcomputer.vhd Line: 63
+    Warning (13040): bidirectional pin "IO_PIN[44]" has no driver File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15_Cyclone_V_InBox/M6809_VGA_PS2_RAM(56K)/Microcomputer.vhd Line: 63
 Warning (13024): Output pins are stuck at VCC or GND
     Warning (13410): Pin "sramAddress[16]" is stuck at GND File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15_Cyclone_V_InBox/M6809_VGA_PS2_RAM(56K)/Microcomputer.vhd Line: 37
     Warning (13410): Pin "sramAddress[17]" is stuck at GND File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15_Cyclone_V_InBox/M6809_VGA_PS2_RAM(56K)/Microcomputer.vhd Line: 37
     Warning (13410): Pin "sramAddress[18]" is stuck at GND File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15_Cyclone_V_InBox/M6809_VGA_PS2_RAM(56K)/Microcomputer.vhd Line: 37
     Warning (13410): Pin "sramAddress[19]" is stuck at GND File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15_Cyclone_V_InBox/M6809_VGA_PS2_RAM(56K)/Microcomputer.vhd Line: 37
-    Warning (13410): Pin "n_sdRamCas" is stuck at VCC File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15_Cyclone_V_InBox/M6809_VGA_PS2_RAM(56K)/Microcomputer.vhd Line: 67
-    Warning (13410): Pin "n_sdRamRas" is stuck at VCC File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15_Cyclone_V_InBox/M6809_VGA_PS2_RAM(56K)/Microcomputer.vhd Line: 68
-    Warning (13410): Pin "n_sdRamWe" is stuck at VCC File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15_Cyclone_V_InBox/M6809_VGA_PS2_RAM(56K)/Microcomputer.vhd Line: 69
-    Warning (13410): Pin "n_sdRamCe" is stuck at VCC File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15_Cyclone_V_InBox/M6809_VGA_PS2_RAM(56K)/Microcomputer.vhd Line: 70
-    Warning (13410): Pin "sdRamClk" is stuck at VCC File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15_Cyclone_V_InBox/M6809_VGA_PS2_RAM(56K)/Microcomputer.vhd Line: 71
-    Warning (13410): Pin "sdRamClkEn" is stuck at VCC File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15_Cyclone_V_InBox/M6809_VGA_PS2_RAM(56K)/Microcomputer.vhd Line: 72
-    Warning (13410): Pin "sdRamAddr[0]" is stuck at GND File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15_Cyclone_V_InBox/M6809_VGA_PS2_RAM(56K)/Microcomputer.vhd Line: 73
-    Warning (13410): Pin "sdRamAddr[1]" is stuck at GND File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15_Cyclone_V_InBox/M6809_VGA_PS2_RAM(56K)/Microcomputer.vhd Line: 73
-    Warning (13410): Pin "sdRamAddr[2]" is stuck at GND File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15_Cyclone_V_InBox/M6809_VGA_PS2_RAM(56K)/Microcomputer.vhd Line: 73
-    Warning (13410): Pin "sdRamAddr[3]" is stuck at GND File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15_Cyclone_V_InBox/M6809_VGA_PS2_RAM(56K)/Microcomputer.vhd Line: 73
-    Warning (13410): Pin "sdRamAddr[4]" is stuck at GND File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15_Cyclone_V_InBox/M6809_VGA_PS2_RAM(56K)/Microcomputer.vhd Line: 73
-    Warning (13410): Pin "sdRamAddr[5]" is stuck at GND File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15_Cyclone_V_InBox/M6809_VGA_PS2_RAM(56K)/Microcomputer.vhd Line: 73
-    Warning (13410): Pin "sdRamAddr[6]" is stuck at GND File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15_Cyclone_V_InBox/M6809_VGA_PS2_RAM(56K)/Microcomputer.vhd Line: 73
-    Warning (13410): Pin "sdRamAddr[7]" is stuck at GND File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15_Cyclone_V_InBox/M6809_VGA_PS2_RAM(56K)/Microcomputer.vhd Line: 73
-    Warning (13410): Pin "sdRamAddr[8]" is stuck at GND File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15_Cyclone_V_InBox/M6809_VGA_PS2_RAM(56K)/Microcomputer.vhd Line: 73
-    Warning (13410): Pin "sdRamAddr[9]" is stuck at GND File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15_Cyclone_V_InBox/M6809_VGA_PS2_RAM(56K)/Microcomputer.vhd Line: 73
-    Warning (13410): Pin "sdRamAddr[10]" is stuck at GND File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15_Cyclone_V_InBox/M6809_VGA_PS2_RAM(56K)/Microcomputer.vhd Line: 73
-    Warning (13410): Pin "sdRamAddr[11]" is stuck at GND File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15_Cyclone_V_InBox/M6809_VGA_PS2_RAM(56K)/Microcomputer.vhd Line: 73
-    Warning (13410): Pin "sdRamAddr[12]" is stuck at GND File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15_Cyclone_V_InBox/M6809_VGA_PS2_RAM(56K)/Microcomputer.vhd Line: 73
-    Warning (13410): Pin "sdRamAddr[13]" is stuck at GND File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15_Cyclone_V_InBox/M6809_VGA_PS2_RAM(56K)/Microcomputer.vhd Line: 73
-    Warning (13410): Pin "sdRamAddr[14]" is stuck at GND File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15_Cyclone_V_InBox/M6809_VGA_PS2_RAM(56K)/Microcomputer.vhd Line: 73
+    Warning (13410): Pin "sdCardCS" is stuck at VCC File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15_Cyclone_V_InBox/M6809_VGA_PS2_RAM(56K)/Microcomputer.vhd Line: 69
+    Warning (13410): Pin "sdCardMOSI" is stuck at GND File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15_Cyclone_V_InBox/M6809_VGA_PS2_RAM(56K)/Microcomputer.vhd Line: 70
+    Warning (13410): Pin "sdCardSCLK" is stuck at GND File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15_Cyclone_V_InBox/M6809_VGA_PS2_RAM(56K)/Microcomputer.vhd Line: 72
+    Warning (13410): Pin "n_sdRamCas" is stuck at VCC File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15_Cyclone_V_InBox/M6809_VGA_PS2_RAM(56K)/Microcomputer.vhd Line: 75
+    Warning (13410): Pin "n_sdRamRas" is stuck at VCC File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15_Cyclone_V_InBox/M6809_VGA_PS2_RAM(56K)/Microcomputer.vhd Line: 76
+    Warning (13410): Pin "n_sdRamWe" is stuck at VCC File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15_Cyclone_V_InBox/M6809_VGA_PS2_RAM(56K)/Microcomputer.vhd Line: 77
+    Warning (13410): Pin "n_sdRamCe" is stuck at VCC File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15_Cyclone_V_InBox/M6809_VGA_PS2_RAM(56K)/Microcomputer.vhd Line: 78
+    Warning (13410): Pin "sdRamClk" is stuck at VCC File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15_Cyclone_V_InBox/M6809_VGA_PS2_RAM(56K)/Microcomputer.vhd Line: 79
+    Warning (13410): Pin "sdRamClkEn" is stuck at VCC File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15_Cyclone_V_InBox/M6809_VGA_PS2_RAM(56K)/Microcomputer.vhd Line: 80
+    Warning (13410): Pin "sdRamAddr[0]" is stuck at GND File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15_Cyclone_V_InBox/M6809_VGA_PS2_RAM(56K)/Microcomputer.vhd Line: 81
+    Warning (13410): Pin "sdRamAddr[1]" is stuck at GND File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15_Cyclone_V_InBox/M6809_VGA_PS2_RAM(56K)/Microcomputer.vhd Line: 81
+    Warning (13410): Pin "sdRamAddr[2]" is stuck at GND File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15_Cyclone_V_InBox/M6809_VGA_PS2_RAM(56K)/Microcomputer.vhd Line: 81
+    Warning (13410): Pin "sdRamAddr[3]" is stuck at GND File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15_Cyclone_V_InBox/M6809_VGA_PS2_RAM(56K)/Microcomputer.vhd Line: 81
+    Warning (13410): Pin "sdRamAddr[4]" is stuck at GND File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15_Cyclone_V_InBox/M6809_VGA_PS2_RAM(56K)/Microcomputer.vhd Line: 81
+    Warning (13410): Pin "sdRamAddr[5]" is stuck at GND File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15_Cyclone_V_InBox/M6809_VGA_PS2_RAM(56K)/Microcomputer.vhd Line: 81
+    Warning (13410): Pin "sdRamAddr[6]" is stuck at GND File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15_Cyclone_V_InBox/M6809_VGA_PS2_RAM(56K)/Microcomputer.vhd Line: 81
+    Warning (13410): Pin "sdRamAddr[7]" is stuck at GND File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15_Cyclone_V_InBox/M6809_VGA_PS2_RAM(56K)/Microcomputer.vhd Line: 81
+    Warning (13410): Pin "sdRamAddr[8]" is stuck at GND File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15_Cyclone_V_InBox/M6809_VGA_PS2_RAM(56K)/Microcomputer.vhd Line: 81
+    Warning (13410): Pin "sdRamAddr[9]" is stuck at GND File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15_Cyclone_V_InBox/M6809_VGA_PS2_RAM(56K)/Microcomputer.vhd Line: 81
+    Warning (13410): Pin "sdRamAddr[10]" is stuck at GND File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15_Cyclone_V_InBox/M6809_VGA_PS2_RAM(56K)/Microcomputer.vhd Line: 81
+    Warning (13410): Pin "sdRamAddr[11]" is stuck at GND File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15_Cyclone_V_InBox/M6809_VGA_PS2_RAM(56K)/Microcomputer.vhd Line: 81
+    Warning (13410): Pin "sdRamAddr[12]" is stuck at GND File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15_Cyclone_V_InBox/M6809_VGA_PS2_RAM(56K)/Microcomputer.vhd Line: 81
+    Warning (13410): Pin "sdRamAddr[13]" is stuck at GND File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15_Cyclone_V_InBox/M6809_VGA_PS2_RAM(56K)/Microcomputer.vhd Line: 81
+    Warning (13410): Pin "sdRamAddr[14]" is stuck at GND File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15_Cyclone_V_InBox/M6809_VGA_PS2_RAM(56K)/Microcomputer.vhd Line: 81
 Info (286030): Timing-Driven Synthesis is running
 Info (17049): 4 registers lost all their fanouts during netlist optimizations.
 Info (16010): Generating hard_block partition "hard_block:auto_generated_inst"
     Info (16011): Adding 0 node(s), including 0 DDIO, 0 PLL, 0 transceiver and 0 LCELL
-Warning (21074): Design contains 16 input pin(s) that do not drive logic
-    Warning (15610): No output dependent on input pin "sdRamData[0]" File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15_Cyclone_V_InBox/M6809_VGA_PS2_RAM(56K)/Microcomputer.vhd Line: 74
-    Warning (15610): No output dependent on input pin "sdRamData[1]" File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15_Cyclone_V_InBox/M6809_VGA_PS2_RAM(56K)/Microcomputer.vhd Line: 74
-    Warning (15610): No output dependent on input pin "sdRamData[2]" File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15_Cyclone_V_InBox/M6809_VGA_PS2_RAM(56K)/Microcomputer.vhd Line: 74
-    Warning (15610): No output dependent on input pin "sdRamData[3]" File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15_Cyclone_V_InBox/M6809_VGA_PS2_RAM(56K)/Microcomputer.vhd Line: 74
-    Warning (15610): No output dependent on input pin "sdRamData[4]" File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15_Cyclone_V_InBox/M6809_VGA_PS2_RAM(56K)/Microcomputer.vhd Line: 74
-    Warning (15610): No output dependent on input pin "sdRamData[5]" File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15_Cyclone_V_InBox/M6809_VGA_PS2_RAM(56K)/Microcomputer.vhd Line: 74
-    Warning (15610): No output dependent on input pin "sdRamData[6]" File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15_Cyclone_V_InBox/M6809_VGA_PS2_RAM(56K)/Microcomputer.vhd Line: 74
-    Warning (15610): No output dependent on input pin "sdRamData[7]" File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15_Cyclone_V_InBox/M6809_VGA_PS2_RAM(56K)/Microcomputer.vhd Line: 74
-    Warning (15610): No output dependent on input pin "sdRamData[8]" File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15_Cyclone_V_InBox/M6809_VGA_PS2_RAM(56K)/Microcomputer.vhd Line: 74
-    Warning (15610): No output dependent on input pin "sdRamData[9]" File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15_Cyclone_V_InBox/M6809_VGA_PS2_RAM(56K)/Microcomputer.vhd Line: 74
-    Warning (15610): No output dependent on input pin "sdRamData[10]" File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15_Cyclone_V_InBox/M6809_VGA_PS2_RAM(56K)/Microcomputer.vhd Line: 74
-    Warning (15610): No output dependent on input pin "sdRamData[11]" File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15_Cyclone_V_InBox/M6809_VGA_PS2_RAM(56K)/Microcomputer.vhd Line: 74
-    Warning (15610): No output dependent on input pin "sdRamData[12]" File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15_Cyclone_V_InBox/M6809_VGA_PS2_RAM(56K)/Microcomputer.vhd Line: 74
-    Warning (15610): No output dependent on input pin "sdRamData[13]" File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15_Cyclone_V_InBox/M6809_VGA_PS2_RAM(56K)/Microcomputer.vhd Line: 74
-    Warning (15610): No output dependent on input pin "sdRamData[14]" File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15_Cyclone_V_InBox/M6809_VGA_PS2_RAM(56K)/Microcomputer.vhd Line: 74
-    Warning (15610): No output dependent on input pin "sdRamData[15]" File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15_Cyclone_V_InBox/M6809_VGA_PS2_RAM(56K)/Microcomputer.vhd Line: 74
-Info (21057): Implemented 3047 device resources after synthesis - the final resource count might be different
-    Info (21058): Implemented 21 input pins
-    Info (21059): Implemented 56 output pins
-    Info (21060): Implemented 10 bidirectional pins
+Warning (21074): Design contains 17 input pin(s) that do not drive logic
+    Warning (15610): No output dependent on input pin "sdCardMISO" File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15_Cyclone_V_InBox/M6809_VGA_PS2_RAM(56K)/Microcomputer.vhd Line: 71
+    Warning (15610): No output dependent on input pin "sdRamData[0]" File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15_Cyclone_V_InBox/M6809_VGA_PS2_RAM(56K)/Microcomputer.vhd Line: 82
+    Warning (15610): No output dependent on input pin "sdRamData[1]" File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15_Cyclone_V_InBox/M6809_VGA_PS2_RAM(56K)/Microcomputer.vhd Line: 82
+    Warning (15610): No output dependent on input pin "sdRamData[2]" File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15_Cyclone_V_InBox/M6809_VGA_PS2_RAM(56K)/Microcomputer.vhd Line: 82
+    Warning (15610): No output dependent on input pin "sdRamData[3]" File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15_Cyclone_V_InBox/M6809_VGA_PS2_RAM(56K)/Microcomputer.vhd Line: 82
+    Warning (15610): No output dependent on input pin "sdRamData[4]" File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15_Cyclone_V_InBox/M6809_VGA_PS2_RAM(56K)/Microcomputer.vhd Line: 82
+    Warning (15610): No output dependent on input pin "sdRamData[5]" File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15_Cyclone_V_InBox/M6809_VGA_PS2_RAM(56K)/Microcomputer.vhd Line: 82
+    Warning (15610): No output dependent on input pin "sdRamData[6]" File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15_Cyclone_V_InBox/M6809_VGA_PS2_RAM(56K)/Microcomputer.vhd Line: 82
+    Warning (15610): No output dependent on input pin "sdRamData[7]" File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15_Cyclone_V_InBox/M6809_VGA_PS2_RAM(56K)/Microcomputer.vhd Line: 82
+    Warning (15610): No output dependent on input pin "sdRamData[8]" File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15_Cyclone_V_InBox/M6809_VGA_PS2_RAM(56K)/Microcomputer.vhd Line: 82
+    Warning (15610): No output dependent on input pin "sdRamData[9]" File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15_Cyclone_V_InBox/M6809_VGA_PS2_RAM(56K)/Microcomputer.vhd Line: 82
+    Warning (15610): No output dependent on input pin "sdRamData[10]" File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15_Cyclone_V_InBox/M6809_VGA_PS2_RAM(56K)/Microcomputer.vhd Line: 82
+    Warning (15610): No output dependent on input pin "sdRamData[11]" File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15_Cyclone_V_InBox/M6809_VGA_PS2_RAM(56K)/Microcomputer.vhd Line: 82
+    Warning (15610): No output dependent on input pin "sdRamData[12]" File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15_Cyclone_V_InBox/M6809_VGA_PS2_RAM(56K)/Microcomputer.vhd Line: 82
+    Warning (15610): No output dependent on input pin "sdRamData[13]" File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15_Cyclone_V_InBox/M6809_VGA_PS2_RAM(56K)/Microcomputer.vhd Line: 82
+    Warning (15610): No output dependent on input pin "sdRamData[14]" File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15_Cyclone_V_InBox/M6809_VGA_PS2_RAM(56K)/Microcomputer.vhd Line: 82
+    Warning (15610): No output dependent on input pin "sdRamData[15]" File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_RETRO-EP4CE15_Cyclone_V_InBox/M6809_VGA_PS2_RAM(56K)/Microcomputer.vhd Line: 82
+Info (21057): Implemented 3091 device resources after synthesis - the final resource count might be different
+    Info (21058): Implemented 22 input pins
+    Info (21059): Implemented 57 output pins
+    Info (21060): Implemented 52 bidirectional pins
     Info (21061): Implemented 2920 logic cells
     Info (21064): Implemented 40 RAM segments
-Info: Quartus Prime Analysis & Synthesis was successful. 0 errors, 102 warnings
-    Info: Peak virtual memory: 4950 megabytes
-    Info: Processing ended: Sun Feb 13 07:39:38 2022
-    Info: Elapsed time: 00:00:37
-    Info: Total CPU time (on all processors): 00:00:59
+Info: Quartus Prime Analysis & Synthesis was successful. 0 errors, 152 warnings
+    Info: Peak virtual memory: 4954 megabytes
+    Info: Processing ended: Wed Feb 16 08:09:42 2022
+    Info: Elapsed time: 00:00:44
+    Info: Total CPU time (on all processors): 00:01:10
 
 
