@@ -1,19 +1,23 @@
--- OSI C1P (UK101)
+-- ----------------------------------------------------------------------------------------
+-- OSI C1P (UK101) - Original work was by Grant Searle
 -- 6502 CPU
 --		1 MHz
+--	Microsoft BASIC
 --	XGA
 --		Memory Mapped
 --		64x32 characters
 --		Blue background, white characters
 -- Internal SRAM
 --		40KB
+-- External SRAM
+--		1MB maps into (2) 4KB windows
 --	Memory Mapper
 --		Maps 512KB of external SRAM into first 4KB window
 --		Maps 512KB of external SRAM into second 4KB window
 -- 	Two bank select registers
 --			Each register Selects a 4KB window from SRAM
---		4KB window at xc000-xcFFF (128 banks = 512KB)
---		4KB window at xE000-xEFFF (128 banks = 512KB)
+--			4KB window at xc000-xcFFF (128 banks = 512KB)
+--			4KB window at xE000-xEFFF (128 banks = 512KB)
 --	USB-Serial 
 --		FT230XS FTDI
 --		Hardware Handshake
