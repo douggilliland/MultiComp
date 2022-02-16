@@ -64,6 +64,13 @@ entity M6800_MIKBUG is
 		
 		IO_PIN		: inout std_logic_vector(44 downto 3) := x"000000000"&"00";
 	
+		-- Not using the SD Card but reserving pins and making inactive
+		sdCS			: out		std_logic :='1';
+		sdMOSI		: out		std_logic :='0';
+		sdMISO		: in		std_logic;
+		sdSCLK		: out		std_logic :='0';
+--		driveLED		: out		std_logic :='1';
+
 		-- SRAM banked space
 		io_extSRamData		: inout std_logic_vector(7 downto 0) := (others=>'Z');
 		o_extSRamAddress	: out std_logic_vector(19 downto 0);

@@ -1,5 +1,5 @@
 Flow report for MicrocomputerPCB
-Sun Feb 13 13:25:32 2022
+Wed Feb 16 12:08:20 2022
 Quartus Prime Version 21.1.0 Build 842 10/21/2021 SJ Lite Edition
 
 
@@ -41,7 +41,7 @@ https://fpgasoftware.intel.com/eula.
 +-------------------------------------------------------------------------------+
 ; Flow Summary                                                                  ;
 +---------------------------------+---------------------------------------------+
-; Flow Status                     ; Successful - Sun Feb 13 13:25:32 2022       ;
+; Flow Status                     ; Successful - Wed Feb 16 12:08:20 2022       ;
 ; Quartus Prime Version           ; 21.1.0 Build 842 10/21/2021 SJ Lite Edition ;
 ; Revision Name                   ; MicrocomputerPCB                            ;
 ; Top-level Entity Name           ; Microcomputer                               ;
@@ -113,7 +113,11 @@ https://fpgasoftware.intel.com/eula.
 ; Assembler            ; 00:00:09     ; 1.0                     ; 4884 MB             ; 00:00:10                           ;
 ; Timing Analyzer      ; 00:00:20     ; 1.7                     ; 5451 MB             ; 00:00:31                           ;
 ; EDA Netlist Writer   ; 00:00:04     ; 1.0                     ; 4790 MB             ; 00:00:04                           ;
-; Total                ; 00:03:06     ; --                      ; --                  ; 00:05:32                           ;
+; Fitter               ; 00:01:37     ; 1.2                     ; 6609 MB             ; 00:03:34                           ;
+; Assembler            ; 00:00:08     ; 1.0                     ; 4884 MB             ; 00:00:08                           ;
+; Timing Analyzer      ; 00:00:19     ; 1.8                     ; 5450 MB             ; 00:00:30                           ;
+; EDA Netlist Writer   ; 00:00:03     ; 1.0                     ; 4790 MB             ; 00:00:03                           ;
+; Total                ; 00:05:13     ; --                      ; --                  ; 00:09:47                           ;
 +----------------------+--------------+-------------------------+---------------------+------------------------------------+
 
 
@@ -127,6 +131,10 @@ https://fpgasoftware.intel.com/eula.
 ; Assembler            ; DESKTOP-2UF8LNB  ; Windows 10 ; 10.0       ; x86_64         ;
 ; Timing Analyzer      ; DESKTOP-2UF8LNB  ; Windows 10 ; 10.0       ; x86_64         ;
 ; EDA Netlist Writer   ; DESKTOP-2UF8LNB  ; Windows 10 ; 10.0       ; x86_64         ;
+; Fitter               ; DESKTOP-2UF8LNB  ; Windows 10 ; 10.0       ; x86_64         ;
+; Assembler            ; DESKTOP-2UF8LNB  ; Windows 10 ; 10.0       ; x86_64         ;
+; Timing Analyzer      ; DESKTOP-2UF8LNB  ; Windows 10 ; 10.0       ; x86_64         ;
+; EDA Netlist Writer   ; DESKTOP-2UF8LNB  ; Windows 10 ; 10.0       ; x86_64         ;
 +----------------------+------------------+------------+------------+----------------+
 
 
@@ -135,6 +143,10 @@ https://fpgasoftware.intel.com/eula.
 ------------
 quartus_map --read_settings_files=on --write_settings_files=off MicrocomputerPCB -c MicrocomputerPCB
 quartus_fit --read_settings_files=off --write_settings_files=off MicrocomputerPCB -c MicrocomputerPCB
+quartus_asm --read_settings_files=off --write_settings_files=off MicrocomputerPCB -c MicrocomputerPCB
+quartus_sta MicrocomputerPCB -c MicrocomputerPCB
+quartus_eda --read_settings_files=off --write_settings_files=off MicrocomputerPCB -c MicrocomputerPCB
+quartus_fit --read_settings_files=on --write_settings_files=off MicrocomputerPCB -c MicrocomputerPCB
 quartus_asm --read_settings_files=off --write_settings_files=off MicrocomputerPCB -c MicrocomputerPCB
 quartus_sta MicrocomputerPCB -c MicrocomputerPCB
 quartus_eda --read_settings_files=off --write_settings_files=off MicrocomputerPCB -c MicrocomputerPCB
