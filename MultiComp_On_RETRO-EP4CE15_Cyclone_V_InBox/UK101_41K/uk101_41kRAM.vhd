@@ -69,7 +69,7 @@ entity uk101_41kRAM is
 		sdMOSI		: out		std_logic :='0';
 		sdMISO		: in		std_logic;
 		sdSCLK		: out		std_logic :='0';
-		driveLED		: out		std_logic :='1';
+--		driveLED		: out		std_logic :='1';
 
 		-- Keyboard
 		ps2Clk		: in		std_logic := '1';
