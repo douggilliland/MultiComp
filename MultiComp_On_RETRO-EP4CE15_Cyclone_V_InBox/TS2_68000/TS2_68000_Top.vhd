@@ -34,7 +34,7 @@
 --		USB
 ---	DC Jack on FPGA board
 --
--- Doug Gilliland 2020
+-- Doug Gilliland 2020-2022
 --
 
 library ieee;
@@ -88,8 +88,7 @@ entity TS2_68000_Top is
 		sdCS			: out std_logic := '1';
 		sdMOSI		: out std_logic := '1';
 		sdMISO		: in std_logic := '1';
-		sdSCLK		: out std_logic := '1';
-		driveLED		: out std_logic :='1'		-- D5 LED
+		sdSCLK		: out std_logic := '1'
 	);
 end TS2_68000_Top;
 
@@ -163,10 +162,6 @@ begin
 		result	=> w_resetLow
 	);
 	
-	IO_PIN(48) <= w_cpuClock;
-	IO_PIN(47) <= n_WR;
-	IO_PIN(46) <= w_nLDS;
-	IO_PIN(45) <= w_nUDS;
 	IO_PIN(44) <= w_resetLow;
 	IO_PIN(43) <= w_n_RomCS;
 	IO_PIN(42) <= cpuAddress(14);
