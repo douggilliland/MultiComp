@@ -25,8 +25,8 @@
 -- In summary:
 -- * Deploy 6809 modified to use async active-low reset, posedge clock
 -- * Clock 6809 from master (50MHz) clock and control execution rate by
---   asserting HOLD
--- * Speed up clock cycle when no external access (VMA=0)
+--   asserting w_hold
+-- * Speed up clock cycle when no external access (w_vma=0)
 -- * Generate external SRAM control signals synchronously rather than with
 --   gated clock
 -- * Deploy VDU design modified to fix scroll bug and changed to run only on
@@ -156,18 +156,18 @@ end Microcomputer;
 
 architecture struct of Microcomputer is
 
-	 signal n_reset			: std_logic;
-    signal n_WR				: std_logic;
-    signal n_RD				: std_logic;
-    signal n_cpuWr			: std_logic;
-    signal hold				: std_logic;
-    signal vma					: std_logic;
-    signal state				: std_logic_vector(2 downto 0);
-    signal cpuAddress		: std_logic_vector(15 downto 0);
-    signal cpuDataOut		: std_logic_vector(7 downto 0);
-    signal cpuDataIn			: std_logic_vector(7 downto 0);
-    signal sramAddress_i	: std_logic_vector(19 downto 0);
-    signal n_sRamCSLo_i		: std_logic;
+	 signal w_n_reset			: std_logic;
+    signal w_n_WR				: std_logic;
+    signal w_n_RD				: std_logic;
+    signal w_n_cpuWr			: std_logic;
+    signal w_hold				: std_logic;
+    signal w_vma				: std_logic;
+    signal w_state			: std_logic_vector(2 downto 0);
+    signal w_cpuAddress		: std_logic_vector(15 downto 0);
+    signal w_cpuDataOut		: std_logic_vector(7 downto 0);
+    signal w_cpuDataIn		: std_logic_vector(7 downto 0);
+    signal w_sramAddress_i	: std_logic_vector(19 downto 0);
+    signal w_n_sRamCS_i		: std_logic;
 
     signal basRomData		: std_logic_vector(7 downto 0);
     signal w_if1DataOut		: std_logic_vector(7 downto 0);
@@ -215,38 +215,39 @@ architecture struct of Microcomputer is
 
 begin
 
+	-- Cleanup the reset switch
+	-- Also, makes clean reset at power on
 	debounceReset : entity work.Debouncer
 	port map (
 		i_clk		 	=> clk,
 		i_PinIn		=> i_n_reset,
-		o_PinOut		=> n_reset
+		o_PinOut		=> w_n_reset
 	);
 	
 -- ____________________________________________________________________________________
 -- CPU CHOICE GOES HERE
-
-    irq <= not(n_tint and n_int1 and n_int2);
-
     cpu1 : entity work.cpu09p
     port map(
             clk => clk,
-            rst_n => n_reset,
-            rw => n_cpuWr,
-            vma => vma,
-            addr => cpuAddress,
-            data_in => cpuDataIn,
-            data_out => cpuDataOut,
+            rst_n => w_n_reset,
+            rw => w_n_cpuWr,
+            vma => w_vma,
+            addr => w_cpuAddress,
+            data_in => w_cpuDataIn,
+            data_out => w_cpuDataOut,
             halt => '0',
-            hold => hold,
+            hold => w_hold,
             irq => irq,
             firq => '0',
             nmi => nmi);
+
+    irq <= not(n_tint and n_int1 and n_int2);
 
 -- ____________________________________________________________________________________
 -- ROM GOES HERE
     rom1 : entity work.M6809_CAMELFORTH_ROM -- 8KB FORTH ROM
     port map(
-            address => cpuAddress(12 downto 0),
+            address => w_cpuAddress(12 downto 0),
             clock => clk,
             q => basRomData);
 
@@ -254,18 +255,18 @@ begin
 -- External RAM GOES HERE
 
 --	External RAM address width
-    sramAddress(19 downto 0) <= sramAddress_i(19 downto 0);	-- Uses 1mB
-    n_sRamCS  <= n_sRamCSLo_i;
+    sramAddress(19 downto 0) <= w_sramAddress_i(19 downto 0);	-- Uses 1mB
+    n_sRamCS  <= w_n_sRamCS_i;
 
 -- External RAM - high-order address lines come from the mem_mapper
-    sramAddress_i(12 downto 0) <= cpuAddress(12 downto 0);
-    sramData <= cpuDataOut when n_WR='0' else (others => 'Z');
+    w_sramAddress_i(12 downto 0) <= w_cpuAddress(12 downto 0);
+    sramData <= w_cpuDataOut when w_n_WR='0' else (others => 'Z');
 	 
 -- ____________________________________________________________________________________
 -- INPUT/OUTPUT DEVICES GO HERE
 
-    n_WR_vdu <= n_if1CS or n_WR;
-    n_RD_vdu <= n_if1CS or n_RD;
+    n_WR_vdu <= n_if1CS or w_n_WR;
+    n_RD_vdu <= n_if1CS or w_n_RD;
 
     io1 : entity work.SBCTextDisplayRGB
     generic map(
@@ -275,7 +276,7 @@ begin
       V_SYNC_ACTIVE => '1'
     )
     port map (
-            n_reset => n_reset,
+            n_reset => w_n_reset,
             clk => clk,
 
             -- RGB video signals
@@ -288,28 +289,28 @@ begin
             videoB0 => videoB0,
             videoB1 => videoB1,
 
-            n_wr => n_WR_vdu,
-            n_rd => n_RD_vdu,
+            n_WR => n_WR_vdu,
+            n_RD => n_RD_vdu,
             n_int => n_int1,
-            regSel => cpuAddress(0),
-            dataIn => cpuDataOut,
+            regSel => w_cpuAddress(0),
+            dataIn => w_cpuDataOut,
             dataOut => w_if1DataOut,
             ps2Clk => ps2Clk,
             ps2Data => ps2Data
 				);
 
-    n_WR_uart <= n_if2CS or n_WR;
-    n_RD_uart <= n_if2CS or n_RD;
+    n_WR_uart <= n_if2CS or w_n_WR;
+    n_RD_uart <= n_if2CS or w_n_RD;
 
 	io2 : entity work.bufferedUART
 		port map
 		(
 			clk => clk,
-			n_wr => n_WR_uart,
-			n_rd => n_RD_uart,
+			n_WR => n_WR_uart,
+			n_RD => n_RD_uart,
 			n_int => n_int2,
-			regSel => cpuAddress(0),
-			dataIn => cpuDataOut,
+			regSel => w_cpuAddress(0),
+			dataIn => w_cpuDataOut,
 			dataOut => w_if2DataOut,
 			rxClkEn => serialClkEn,
 			txClkEn => serialClkEn,
@@ -320,20 +321,20 @@ begin
 			n_rts => rts1
 		);
 
-    n_WR_sd <= n_sdCard_MMU_CS or n_WR;
-    n_RD_sd <= n_sdCard_MMU_CS or n_RD;
+    n_WR_sd <= n_sdCard_MMU_CS or w_n_WR;
+    n_RD_sd <= n_sdCard_MMU_CS or w_n_RD;
 
     sd1 : entity work.sd_controller
     generic map(
         CLKEDGE_DIVIDER => 25 -- edges at 50MHz/25 = 2MHz ie 1MHz sdSCLK
     )
     port map(
-            n_wr => n_WR_sd,
-            n_rd => n_RD_sd,
-            n_reset => n_reset,
-            dataIn => cpuDataOut,
+            n_WR => n_WR_sd,
+            n_RD => n_RD_sd,
+            n_reset => w_n_reset,
+            dataIn => w_cpuDataOut,
             dataOut => sdCardDataOut,
-            regAddr => cpuAddress(2 downto 0),
+            regAddr => w_cpuAddress(2 downto 0),
             sdCS => sdCS,
             sdMOSI => sdMOSI,
             sdMISO => sdMISO,
@@ -344,40 +345,40 @@ begin
 
     mm1 : entity work.mem_mapper2
     port map(
-            n_reset => n_reset,
+            n_reset => w_n_reset,
             clk => clk,
-            hold => hold,
-            n_wr => n_WR_sd,
+            hold => w_hold,
+            n_WR => n_WR_sd,
 
-            dataIn => cpuDataOut,
+            dataIn => w_cpuDataOut,
             dataOut => mmDataOut,
-            regAddr => cpuAddress(2 downto 0),
+            regAddr => w_cpuAddress(2 downto 0),
 
-            cpuAddr => cpuAddress(15 downto 9),
-            ramAddr => sramAddress_i(19 downto 13),
+            cpuAddr => w_cpuAddress(15 downto 9),
+            ramAddr => w_sramAddress_i(19 downto 13),
             ramWrInhib => ramWrInhib,
             romInhib => romInhib,
 
 --            n_ramCSHi => n_sRamCSHi_i,
-            n_ramCSLo => n_sRamCSLo_i,
+            n_ramCSLo => w_n_sRamCS_i,
 
             n_tint => n_tint,
             nmi => nmi,
             frt => n_MMU_ACT_LED -- debug
     );
 
-    n_WR_gpio <= n_gpioCS or n_WR;
+    n_WR_gpio <= n_gpioCS or w_n_WR;
 
     gpio1 : entity work.gpio
     port map(
-            n_reset => n_reset,
+            n_reset => w_n_reset,
             clk => clk,
-            hold => hold,
-            n_wr => n_WR_gpio,
+            hold => w_hold,
+            n_WR => n_WR_gpio,
 
-            dataIn => cpuDataOut,
+            dataIn => w_cpuDataOut,
             dataOut => gpioDataOut,
-            regAddr => cpuAddress(0),
+            regAddr => w_cpuAddress(0),
 
             dat0_i => gpio_dat0_i,
             dat0_o => gpio_dat0_o,
@@ -415,26 +416,26 @@ begin
 
 -- ____________________________________________________________________________________
 -- CHIP SELECTS GO HERE
-    n_ROMCS		<= '0' when cpuAddress(15 downto 13) = "111" and romInhib = '0' else '1'; --8K at top of memory
+    n_ROMCS		<= '0' when w_cpuAddress(15 downto 13) = "111" and romInhib = '0' else '1'; --8K at top of memory
 
     -- i_SerSel swaps the address assignment. Internal pullup means it is 1 by default
-    n_if1CS		<= '0' when ((cpuAddress(15 downto 1) = x"FFD"&"000" and i_SerSel = '1')  -- 2 bytes FFD0-FFD1
-                         or (cpuAddress(15 downto 1) = x"FFD"&"001" and i_SerSel = '0')) -- 2 bytes FFD2-FFD3
+    n_if1CS		<= '0' when ((w_cpuAddress(15 downto 1) = x"FFD"&"000" and i_SerSel = '1')  -- 2 bytes FFD0-FFD1
+                         or (w_cpuAddress(15 downto 1) = x"FFD"&"001" and i_SerSel = '0')) -- 2 bytes FFD2-FFD3
                       else '1';
 
-    n_if2CS		<= '0' when ((cpuAddress(15 downto 1) = x"FFD"&"000" and i_SerSel = '0')  -- 2 bytes FFD0-FFD1
-                         or (cpuAddress(15 downto 1) = x"FFD"&"001" and i_SerSel = '1')) -- 2 bytes FFD2-FFD3
+    n_if2CS		<= '0' when ((w_cpuAddress(15 downto 1) = x"FFD"&"000" and i_SerSel = '0')  -- 2 bytes FFD0-FFD1
+                         or (w_cpuAddress(15 downto 1) = x"FFD"&"001" and i_SerSel = '1')) -- 2 bytes FFD2-FFD3
                       else '1';
 
-    n_gpioCS	<= '0' when cpuAddress(15 downto 1) = x"FFD"&"011" else '1'; -- 2 bytes FFD6-FFD7
+    n_gpioCS	<= '0' when w_cpuAddress(15 downto 1) = x"FFD"&"011" else '1'; -- 2 bytes FFD6-FFD7
 	 
 	 -- n_sdCard_MMU_CS is the select for both the SD Card and the MMU
 	 -- The MMU software interface is through 2 write-only registers that occupy unused addresses in the SDCARD address space.
-    n_sdCard_MMU_CS <= '0' when cpuAddress(15 downto 3) = x"FFD"&"1"   else '1'; -- 8 bytes FFD8-FFDF
+    n_sdCard_MMU_CS <= '0' when w_cpuAddress(15 downto 3) = x"FFD"&"1"   else '1'; -- 8 bytes FFD8-FFDF
 
 -- ____________________________________________________________________________________
 -- BUS ISOLATION GOES HERE
-	cpuDataIn <=
+	w_cpuDataIn <=
 		w_if1DataOut					when n_if1CS			= '0'	else
 		w_if2DataOut					when n_if2CS			= '0'	else
 		gpioDataOut						when n_gpioCS			= '0'	else
@@ -462,65 +463,65 @@ begin
     if rising_edge(clk) then
 	 
         -- CPU clock control. 
-		  -- The CPU input clock is 50MHz and the HOLD input acts as a clock enable. 
-		  -- When the CPU is executing internal cycles (indicated by VMA=0), 
-		  -- HOLD asserts on alternate cycles so that the effective clock rate is 25MHz. 
-		  -- When the CPU is performing memory accesses (VMA=1), HOLD asserts
+		  -- The CPU input clock is 50MHz and the w_hold input acts as a clock enable. 
+		  -- When the CPU is executing internal cycles (indicated by w_vma=0), 
+		  -- w_hold asserts on alternate cycles so that the effective clock rate is 25MHz. 
+		  -- When the CPU is performing memory accesses (w_vma=1), w_hold asserts
 		  -- for 4 cycles in 5 so that the effective clock rate is 10MHz. The slower
 		  -- cycle time is calculated to meet the access time for the external RAM.
-		  -- The n_WR, n_RD signals (and the SRAM WE/OE signals) are asserted for the
+		  -- The w_n_WR, w_n_RD signals (and the SRAM WE/OE signals) are asserted for the
 		  -- last 4 cycles of the 5-cycle access; these are not the critical path for
 		  -- the access: the critical path is the addresss and chip select, which are
 		  -- nominally valid for all 5 cycles.
-		  -- The clock control is implemented by a counter, which tracks VMA. The
-		  -- HOLD and n_WR, n_RD controls are a synchronous decode from the counter.
-		  -- When VMA=0, state transitions 0,4,0,4,0,4...
-		  -- When VMA=1, state transitions 0,1,2,3,4,0,1,2,3,4...
+		  -- The clock control is implemented by a counter, which tracks w_vma. The
+		  -- w_hold and w_n_WR, w_n_RD controls are a synchronous decode from the counter.
+		  -- When w_vma=0, w_state transitions 0,4,0,4,0,4...
+		  -- When w_vma=1, w_state transitions 0,1,2,3,4,0,1,2,3,4...
 		  --
-		  -- In both cases, HOLD is negated (clock runs) when state=4 and so the CPU
-		  -- address (and VMA) transitions when state goes 4->0.
+		  -- In both cases, w_hold is negated (clock runs) when w_state=4 and so the CPU
+		  -- address (and w_vma) transitions when w_state goes 4->0.
 		  --
 		  -- Speed-up options (if your RAM can take it)
 		  -- - You can easily take 1 or 2 cycles out of this timing (eg to remove 1 cycle
 		  --   change 3 to 2 and 4 to 3 in the logic below).
 		  -- - Theoretically, since the 6809 timing-closes at 50MHz, you can eliminate
-		  --   the wait state from the VMA=0 cycles. However, that would mean generating
-		  --   HOLD combinatorially from VMA which might introduce a timing loop.
+		  --   the wait w_state from the w_vma=0 cycles. However, that would mean generating
+		  --   w_hold combinatorially from w_vma which might introduce a timing loop.
 
-        -- state control - counter influenced by VMA
-        if state = 0 and vma = '0' then
-            state <= "100";
+        -- w_state control - counter influenced by w_vma
+        if w_state = 0 and w_vma = '0' then
+            w_state <= "100";
         else
-            if state < 4 then
-                state <= state + 1;
+            if w_state < 4 then
+                w_state <= w_state + 1;
             else
                 -- this gives the 4->0 transition and also provides
                 -- synchronous reset.
-                state <= (others=>'0');
+                w_state <= (others=>'0');
             end if;
         end if;
 
-        -- decode HOLD from state and VMA
-        if state = 3 or (state = 0 and vma = '0') then
-            hold <= '0'; -- run the clock
+        -- decode w_hold from w_state and w_vma
+        if w_state = 3 or (w_state = 0 and w_vma = '0') then
+            w_hold <= '0'; -- run the clock
         else
-            hold <= '1'; -- pause the clock
+            w_hold <= '1'; -- pause the clock
         end if;
 
-        -- decode memory and RW control from state etc.
-        if (state = 1 or state = 2 or state = 3) then
-            if n_cpuWr = '0' then
-                n_WR <= '0';
---                n_sRamWE <= (n_sRamCSHi_i and n_sRamCSLo_i) or ramWrInhib ; -- synchronous and glitch-free
-                n_sRamWE <= (n_sRamCSLo_i) or ramWrInhib ; -- synchronous and glitch-free
+        -- decode memory and RW control from w_state etc.
+        if (w_state = 1 or w_state = 2 or w_state = 3) then
+            if w_n_cpuWr = '0' then
+                w_n_WR <= '0';
+--                n_sRamWE <= (n_sRamCSHi_i and w_n_sRamCS_i) or ramWrInhib ; -- synchronous and glitch-free
+                n_sRamWE <= (w_n_sRamCS_i) or ramWrInhib ; -- synchronous and glitch-free
             else
-                n_RD <= '0';
---                n_sRamOE <= n_sRamCSHi_i and n_sRamCSLo_i; -- synchronous and glitch-free
-                n_sRamOE <= n_sRamCSLo_i; -- synchronous and glitch-free
+                w_n_RD <= '0';
+--                n_sRamOE <= n_sRamCSHi_i and w_n_sRamCS_i; -- synchronous and glitch-free
+                n_sRamOE <= w_n_sRamCS_i; -- synchronous and glitch-free
             end if;
         else
-            n_WR <= '1';
-            n_RD <= '1';
+            w_n_WR <= '1';
+            w_n_RD <= '1';
             n_sRamWE <= '1';
             n_sRamOE <= '1';
         end if;

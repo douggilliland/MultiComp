@@ -17,7 +17,7 @@
 -- PROGRAM "Quartus Prime"
 -- VERSION "Version 21.1.0 Build 842 10/21/2021 SJ Lite Edition"
 
--- DATE "02/18/2022 15:31:24"
+-- DATE "02/18/2022 16:01:15"
 
 -- 
 -- Device: Altera 5CEFA2F23I7 Package FBGA484
@@ -288,14 +288,14 @@ SIGNAL \sdRamData[14]~input_o\ : std_logic;
 SIGNAL \sdRamData[15]~input_o\ : std_logic;
 SIGNAL \clk~input_o\ : std_logic;
 SIGNAL \clk~inputCLKENA0_outclk\ : std_logic;
-SIGNAL \state~1_combout\ : std_logic;
-SIGNAL \state~0_combout\ : std_logic;
+SIGNAL \w_state~1_combout\ : std_logic;
+SIGNAL \w_state~0_combout\ : std_logic;
 SIGNAL \n_sRamWE~0_combout\ : std_logic;
 SIGNAL \io2|rxInPointer[0]~4_combout\ : std_logic;
 SIGNAL \i_SerSel~input_o\ : std_logic;
 SIGNAL \cpu1|Selector299~0_combout\ : std_logic;
 SIGNAL \n_sRamOE~0_combout\ : std_logic;
-SIGNAL \n_RD~q\ : std_logic;
+SIGNAL \w_n_RD~q\ : std_logic;
 SIGNAL \n_RD_vdu~combout\ : std_logic;
 SIGNAL \io2|txState.dataBit~0_combout\ : std_logic;
 SIGNAL \cts1~input_o\ : std_logic;
@@ -740,7 +740,7 @@ SIGNAL \io1|kbBuffer~133_combout\ : std_logic;
 SIGNAL \io1|kbBuffer~39_q\ : std_logic;
 SIGNAL \io1|kbBuffer~70_combout\ : std_logic;
 SIGNAL \io1|dataOut~0_combout\ : std_logic;
-SIGNAL \cpuDataIn[0]~10_combout\ : std_logic;
+SIGNAL \w_cpuDataIn[0]~10_combout\ : std_logic;
 SIGNAL \cpu1|Selector31~0_combout\ : std_logic;
 SIGNAL \cpu1|state~339_combout\ : std_logic;
 SIGNAL \sramData[7]~input_o\ : std_logic;
@@ -805,7 +805,7 @@ SIGNAL \debounceReset|w_dly4~q\ : std_logic;
 SIGNAL \debounceReset|o_PinOut~0_combout\ : std_logic;
 SIGNAL \debounceReset|o_PinOut~q\ : std_logic;
 SIGNAL \cpu1|nmi_req~q\ : std_logic;
-SIGNAL \cpuDataIn[0]~11_combout\ : std_logic;
+SIGNAL \w_cpuDataIn[0]~11_combout\ : std_logic;
 SIGNAL \io1|kbBuffer~136_combout\ : std_logic;
 SIGNAL \io1|kbBuffer~62feeder_combout\ : std_logic;
 SIGNAL \io1|kbBuffer~62_q\ : std_logic;
@@ -837,7 +837,7 @@ SIGNAL \io2|rxBuffer~13_q\ : std_logic;
 SIGNAL \io2|rxBuffer~16_q\ : std_logic;
 SIGNAL \io2|dataOut~4_combout\ : std_logic;
 SIGNAL \io2|dataOut~5_combout\ : std_logic;
-SIGNAL \cpuDataIn[2]~13_combout\ : std_logic;
+SIGNAL \w_cpuDataIn[2]~13_combout\ : std_logic;
 SIGNAL \cpu1|state~363_combout\ : std_logic;
 SIGNAL \cpu1|state.rti_acca_state~q\ : std_logic;
 SIGNAL \cpu1|state~364_combout\ : std_logic;
@@ -858,11 +858,11 @@ SIGNAL \cpu1|state~331_combout\ : std_logic;
 SIGNAL \cpu1|state.rti_upl_state~q\ : std_logic;
 SIGNAL \cpu1|Selector304~0_combout\ : std_logic;
 SIGNAL \sramData[3]~input_o\ : std_logic;
-SIGNAL \cpuDataIn[2]~21_combout\ : std_logic;
+SIGNAL \w_cpuDataIn[2]~21_combout\ : std_logic;
 SIGNAL \cpu1|sp[2]~feeder_combout\ : std_logic;
 SIGNAL \cpu1|Mux28~4_combout\ : std_logic;
 SIGNAL \sramData[4]~input_o\ : std_logic;
-SIGNAL \cpuDataIn[4]~24_combout\ : std_logic;
+SIGNAL \w_cpuDataIn[4]~24_combout\ : std_logic;
 SIGNAL \io1|kbBuffer~138_combout\ : std_logic;
 SIGNAL \io1|kbBuffer~64_q\ : std_logic;
 SIGNAL \io1|kbBuffer~57_q\ : std_logic;
@@ -905,7 +905,7 @@ SIGNAL \cpu1|Mux12~0_combout\ : std_logic;
 SIGNAL \cpu1|Mux37~0_combout\ : std_logic;
 SIGNAL \cpu1|state~394_combout\ : std_logic;
 SIGNAL \cpu1|state~395_combout\ : std_logic;
-SIGNAL \cpuDataIn[4]~30_combout\ : std_logic;
+SIGNAL \w_cpuDataIn[4]~30_combout\ : std_logic;
 SIGNAL \sd1|clkCount[1]~DUPLICATE_q\ : std_logic;
 SIGNAL \sd1|clkCount~2_combout\ : std_logic;
 SIGNAL \sd1|clkCount~4_combout\ : std_logic;
@@ -927,7 +927,7 @@ SIGNAL \io2|rxBuffer~21_q\ : std_logic;
 SIGNAL \io2|rxBuffer_rtl_0|auto_generated|ram_block1a7\ : std_logic;
 SIGNAL \io2|dataOut~7_combout\ : std_logic;
 SIGNAL \io2|dataOut~8_combout\ : std_logic;
-SIGNAL \cpuDataIn[7]~16_combout\ : std_logic;
+SIGNAL \w_cpuDataIn[7]~16_combout\ : std_logic;
 SIGNAL \gpio1|reg[7]~0_combout\ : std_logic;
 SIGNAL \gpio1|reg[7]~1_combout\ : std_logic;
 SIGNAL \cpu1|up[2]~feeder_combout\ : std_logic;
@@ -942,7 +942,7 @@ SIGNAL \cpu1|state~348_combout\ : std_logic;
 SIGNAL \cpu1|state.pull_return_hi_state~q\ : std_logic;
 SIGNAL \sramData[1]~input_o\ : std_logic;
 SIGNAL \cpu1|Selector161~1_combout\ : std_logic;
-SIGNAL \cpuDataIn[1]~6_combout\ : std_logic;
+SIGNAL \w_cpuDataIn[1]~6_combout\ : std_logic;
 SIGNAL \cpu1|Add0~1_sumout\ : std_logic;
 SIGNAL \cpu1|alu_ctrl.alu_eor~0_combout\ : std_logic;
 SIGNAL \cpu1|Mux2~0_combout\ : std_logic;
@@ -1019,19 +1019,19 @@ SIGNAL \io1|kbBuffer~44feeder_combout\ : std_logic;
 SIGNAL \io1|kbBuffer~44_q\ : std_logic;
 SIGNAL \io1|kbBuffer~90_combout\ : std_logic;
 SIGNAL \io1|dataOut~6_combout\ : std_logic;
-SIGNAL \cpuDataIn[4]~26_combout\ : std_logic;
+SIGNAL \w_cpuDataIn[4]~26_combout\ : std_logic;
 SIGNAL \gpio1|Equal0~1_combout\ : std_logic;
-SIGNAL \cpuDataIn[4]~27_combout\ : std_logic;
+SIGNAL \w_cpuDataIn[4]~27_combout\ : std_logic;
 SIGNAL \gpio1|reg_ddr2[1]~0_combout\ : std_logic;
 SIGNAL \gpio1|proc_dat2~0_combout\ : std_logic;
 SIGNAL \gpio2[5]~input_o\ : std_logic;
 SIGNAL \gpio1|reg_dat2_d[5]~6_combout\ : std_logic;
-SIGNAL \cpuDataIn[5]~36_combout\ : std_logic;
+SIGNAL \w_cpuDataIn[5]~36_combout\ : std_logic;
 SIGNAL \io2|rxBuffer~19_q\ : std_logic;
 SIGNAL \io2|rxBuffer_rtl_0|auto_generated|ram_block1a5\ : std_logic;
 SIGNAL \io2|dataOut~11_combout\ : std_logic;
 SIGNAL \io2|dataOut~12_combout\ : std_logic;
-SIGNAL \cpuDataIn[5]~37_combout\ : std_logic;
+SIGNAL \w_cpuDataIn[5]~37_combout\ : std_logic;
 SIGNAL \cpu1|Mux0~0_combout\ : std_logic;
 SIGNAL \cpu1|Selector487~1_combout\ : std_logic;
 SIGNAL \cpu1|Selector454~0_combout\ : std_logic;
@@ -1086,9 +1086,9 @@ SIGNAL \cpu1|Selector580~7_combout\ : std_logic;
 SIGNAL \cpu1|Selector424~0_combout\ : std_logic;
 SIGNAL \cpu1|md[5]~3_combout\ : std_logic;
 SIGNAL \sramData[5]~input_o\ : std_logic;
-SIGNAL \cpuDataIn[5]~49_combout\ : std_logic;
-SIGNAL \cpuDataIn[4]~25_combout\ : std_logic;
-SIGNAL \cpuDataIn[5]~39_combout\ : std_logic;
+SIGNAL \w_cpuDataIn[5]~49_combout\ : std_logic;
+SIGNAL \w_cpuDataIn[4]~25_combout\ : std_logic;
+SIGNAL \w_cpuDataIn[5]~39_combout\ : std_logic;
 SIGNAL \cpu1|accb[5]~feeder_combout\ : std_logic;
 SIGNAL \cpu1|alu_ctrl.alu_ld16~0_combout\ : std_logic;
 SIGNAL \cpu1|state~419_combout\ : std_logic;
@@ -1118,8 +1118,8 @@ SIGNAL \io2|dataOut~13_combout\ : std_logic;
 SIGNAL \io2|dataOut~14_combout\ : std_logic;
 SIGNAL \gpio2[6]~input_o\ : std_logic;
 SIGNAL \gpio1|reg_dat2_d[6]~7_combout\ : std_logic;
-SIGNAL \cpuDataIn[6]~41_combout\ : std_logic;
-SIGNAL \cpuDataIn[6]~42_combout\ : std_logic;
+SIGNAL \w_cpuDataIn[6]~41_combout\ : std_logic;
+SIGNAL \w_cpuDataIn[6]~42_combout\ : std_logic;
 SIGNAL \cpu1|Selector276~0_combout\ : std_logic;
 SIGNAL \cpu1|Selector276~1_combout\ : std_logic;
 SIGNAL \cpu1|Mux374~0_combout\ : std_logic;
@@ -1543,8 +1543,8 @@ SIGNAL \cpu1|Mux520~9_combout\ : std_logic;
 SIGNAL \cpu1|Selector346~1_combout\ : std_logic;
 SIGNAL \cpu1|Selector346~2_combout\ : std_logic;
 SIGNAL \cpu1|Selector346~3_combout\ : std_logic;
-SIGNAL \cpuDataIn[6]~50_combout\ : std_logic;
-SIGNAL \cpuDataIn[6]~44_combout\ : std_logic;
+SIGNAL \w_cpuDataIn[6]~50_combout\ : std_logic;
+SIGNAL \w_cpuDataIn[6]~44_combout\ : std_logic;
 SIGNAL \cpu1|sp[6]~feeder_combout\ : std_logic;
 SIGNAL \cpu1|Selector250~0_combout\ : std_logic;
 SIGNAL \cpu1|sp[1]~0_combout\ : std_logic;
@@ -1606,18 +1606,18 @@ SIGNAL \n_WR_sd~combout\ : std_logic;
 SIGNAL \mm1|proc_reg~1_combout\ : std_logic;
 SIGNAL \mm1|tenable~0_combout\ : std_logic;
 SIGNAL \mm1|tenable~DUPLICATE_q\ : std_logic;
-SIGNAL \cpuDataIn~8_combout\ : std_logic;
+SIGNAL \w_cpuDataIn~8_combout\ : std_logic;
 SIGNAL \gpio1|Equal2~0_combout\ : std_logic;
 SIGNAL \gpio1|reg_ddr0[1]~0_combout\ : std_logic;
 SIGNAL \gpio2[1]~input_o\ : std_logic;
 SIGNAL \gpio1|reg_dat2_d[1]~1_combout\ : std_logic;
-SIGNAL \cpuDataIn~7_combout\ : std_logic;
+SIGNAL \w_cpuDataIn~7_combout\ : std_logic;
 SIGNAL \gpio0[1]~input_o\ : std_logic;
 SIGNAL \gpio1|proc_dat0~0_combout\ : std_logic;
 SIGNAL \gpio1|reg_dat0_d[1]~1_combout\ : std_logic;
-SIGNAL \cpuDataIn~79_combout\ : std_logic;
-SIGNAL \cpuDataIn~67_combout\ : std_logic;
-SIGNAL \cpuDataIn[1]~20_combout\ : std_logic;
+SIGNAL \w_cpuDataIn~79_combout\ : std_logic;
+SIGNAL \w_cpuDataIn~67_combout\ : std_logic;
+SIGNAL \w_cpuDataIn[1]~20_combout\ : std_logic;
 SIGNAL \cpu1|sp[9]~feeder_combout\ : std_logic;
 SIGNAL \cpu1|Selector378~5_combout\ : std_logic;
 SIGNAL \cpu1|Selector378~1_combout\ : std_logic;
@@ -2216,12 +2216,12 @@ SIGNAL \cpu1|Selector167~0_combout\ : std_logic;
 SIGNAL \cpu1|Add0~10\ : std_logic;
 SIGNAL \cpu1|Add0~13_sumout\ : std_logic;
 SIGNAL \sd1|Selector141~0_combout\ : std_logic;
-SIGNAL \cpuDataIn[3]~64_combout\ : std_logic;
+SIGNAL \w_cpuDataIn[3]~64_combout\ : std_logic;
 SIGNAL \gpio2[3]~input_o\ : std_logic;
 SIGNAL \gpio1|reg_dat2_d[3]~3_combout\ : std_logic;
-SIGNAL \cpuDataIn[3]~75_combout\ : std_logic;
-SIGNAL \cpuDataIn[3]~66_combout\ : std_logic;
-SIGNAL \cpuDataIn[3]~15_combout\ : std_logic;
+SIGNAL \w_cpuDataIn[3]~75_combout\ : std_logic;
+SIGNAL \w_cpuDataIn[3]~66_combout\ : std_logic;
+SIGNAL \w_cpuDataIn[3]~15_combout\ : std_logic;
 SIGNAL \cpu1|Selector166~0_combout\ : std_logic;
 SIGNAL \cpu1|Add0~14\ : std_logic;
 SIGNAL \cpu1|Add0~18\ : std_logic;
@@ -2258,8 +2258,8 @@ SIGNAL \cpu1|Selector318~3_combout\ : std_logic;
 SIGNAL \cpu1|Selector318~1_combout\ : std_logic;
 SIGNAL \cpu1|Selector318~0_combout\ : std_logic;
 SIGNAL \cpu1|Selector318~4_combout\ : std_logic;
-SIGNAL \cpuDataIn[1]~63_combout\ : std_logic;
-SIGNAL \cpuDataIn[1]~9_combout\ : std_logic;
+SIGNAL \w_cpuDataIn[1]~63_combout\ : std_logic;
+SIGNAL \w_cpuDataIn[1]~9_combout\ : std_logic;
 SIGNAL \cpu1|Selector281~1_combout\ : std_logic;
 SIGNAL \cpu1|Selector281~2_combout\ : std_logic;
 SIGNAL \cpu1|Mux370~5_combout\ : std_logic;
@@ -2290,9 +2290,9 @@ SIGNAL \sd1|Selector139~0_combout\ : std_logic;
 SIGNAL \sd1|Selector136~0_combout\ : std_logic;
 SIGNAL \sd1|block_busy~q\ : std_logic;
 SIGNAL \sd1|Equal6~1_combout\ : std_logic;
-SIGNAL \cpuDataIn[4]~31_combout\ : std_logic;
-SIGNAL \cpuDataIn[5]~38_combout\ : std_logic;
-SIGNAL \cpuDataIn[5]~40_combout\ : std_logic;
+SIGNAL \w_cpuDataIn[4]~31_combout\ : std_logic;
+SIGNAL \w_cpuDataIn[5]~38_combout\ : std_logic;
+SIGNAL \w_cpuDataIn[5]~40_combout\ : std_logic;
 SIGNAL \cpu1|Selector309~0_combout\ : std_logic;
 SIGNAL \cpu1|Selector311~0_combout\ : std_logic;
 SIGNAL \cpu1|Selector307~0_combout\ : std_logic;
@@ -2340,7 +2340,7 @@ SIGNAL \gpio1|Equal0~0_combout\ : std_logic;
 SIGNAL \gpio1|reg_ddr2[7]~DUPLICATE_q\ : std_logic;
 SIGNAL \gpio2[7]~input_o\ : std_logic;
 SIGNAL \gpio1|reg_dat2_d[7]~4_combout\ : std_logic;
-SIGNAL \cpuDataIn~71_combout\ : std_logic;
+SIGNAL \w_cpuDataIn~71_combout\ : std_logic;
 SIGNAL \sd1|recv_data[7]~feeder_combout\ : std_logic;
 SIGNAL \sd1|Selector137~0_combout\ : std_logic;
 SIGNAL \mm1|Add0~69_sumout\ : std_logic;
@@ -2391,12 +2391,12 @@ SIGNAL \mm1|Equal2~0_combout\ : std_logic;
 SIGNAL \mm1|Equal2~4_combout\ : std_logic;
 SIGNAL \mm1|n_tint_i~0_combout\ : std_logic;
 SIGNAL \mm1|n_tint_i~q\ : std_logic;
-SIGNAL \cpuDataIn~17_combout\ : std_logic;
+SIGNAL \w_cpuDataIn~17_combout\ : std_logic;
 SIGNAL \sd1|host_write_flag~0_combout\ : std_logic;
 SIGNAL \sd1|host_write_flag~q\ : std_logic;
-SIGNAL \cpuDataIn~18_combout\ : std_logic;
-SIGNAL \cpuDataIn[7]~48_combout\ : std_logic;
-SIGNAL \cpuDataIn[7]~19_combout\ : std_logic;
+SIGNAL \w_cpuDataIn~18_combout\ : std_logic;
+SIGNAL \w_cpuDataIn[7]~48_combout\ : std_logic;
+SIGNAL \w_cpuDataIn[7]~19_combout\ : std_logic;
 SIGNAL \cpu1|Add0~29_sumout\ : std_logic;
 SIGNAL \cpu1|Selector162~0_combout\ : std_logic;
 SIGNAL \cpu1|Selector162~1_combout\ : std_logic;
@@ -2405,8 +2405,8 @@ SIGNAL \cpu1|Selector323~2_combout\ : std_logic;
 SIGNAL \cpu1|Selector323~1_combout\ : std_logic;
 SIGNAL \cpu1|Selector323~0_combout\ : std_logic;
 SIGNAL \cpu1|Selector323~4_combout\ : std_logic;
-SIGNAL \cpuDataIn[6]~43_combout\ : std_logic;
-SIGNAL \cpuDataIn[6]~45_combout\ : std_logic;
+SIGNAL \w_cpuDataIn[6]~43_combout\ : std_logic;
+SIGNAL \w_cpuDataIn[6]~45_combout\ : std_logic;
 SIGNAL \cpu1|Add0~25_sumout\ : std_logic;
 SIGNAL \cpu1|Selector163~0_combout\ : std_logic;
 SIGNAL \cpu1|Selector163~1_combout\ : std_logic;
@@ -2415,9 +2415,9 @@ SIGNAL \cpu1|Selector324~3_combout\ : std_logic;
 SIGNAL \cpu1|Selector324~1_combout\ : std_logic;
 SIGNAL \cpu1|Selector324~0_combout\ : std_logic;
 SIGNAL \cpu1|Selector324~4_combout\ : std_logic;
-SIGNAL \cpuDataIn[4]~32_combout\ : std_logic;
-SIGNAL \cpuDataIn[4]~33_combout\ : std_logic;
-SIGNAL \cpuDataIn[4]~35_combout\ : std_logic;
+SIGNAL \w_cpuDataIn[4]~32_combout\ : std_logic;
+SIGNAL \w_cpuDataIn[4]~33_combout\ : std_logic;
+SIGNAL \w_cpuDataIn[4]~35_combout\ : std_logic;
 SIGNAL \cpu1|Selector278~0_combout\ : std_logic;
 SIGNAL \cpu1|Selector278~1_combout\ : std_logic;
 SIGNAL \cpu1|state~396_combout\ : std_logic;
@@ -2438,9 +2438,9 @@ SIGNAL \cpu1|Selector325~3_combout\ : std_logic;
 SIGNAL \cpu1|Selector325~1_combout\ : std_logic;
 SIGNAL \cpu1|Selector325~0_combout\ : std_logic;
 SIGNAL \cpu1|Selector325~4_combout\ : std_logic;
-SIGNAL \cpuDataIn[3]~51_combout\ : std_logic;
-SIGNAL \cpuDataIn[3]~22_combout\ : std_logic;
-SIGNAL \cpuDataIn[3]~23_combout\ : std_logic;
+SIGNAL \w_cpuDataIn[3]~51_combout\ : std_logic;
+SIGNAL \w_cpuDataIn[3]~22_combout\ : std_logic;
+SIGNAL \w_cpuDataIn[3]~23_combout\ : std_logic;
 SIGNAL \cpu1|accb[3]~feeder_combout\ : std_logic;
 SIGNAL \cpu1|Selector335~5_combout\ : std_logic;
 SIGNAL \cpu1|Selector335~8_combout\ : std_logic;
@@ -3819,8 +3819,8 @@ SIGNAL \cpu1|Selector328~2_combout\ : std_logic;
 SIGNAL \cpu1|Selector328~3_combout\ : std_logic;
 SIGNAL \Equal5~0_combout\ : std_logic;
 SIGNAL \Equal5~1_combout\ : std_logic;
-SIGNAL \cpuDataIn[3]~65_combout\ : std_logic;
-SIGNAL \cpuDataIn[3]~47_combout\ : std_logic;
+SIGNAL \w_cpuDataIn[3]~65_combout\ : std_logic;
+SIGNAL \w_cpuDataIn[3]~47_combout\ : std_logic;
 SIGNAL \cpu1|Selector303~0_combout\ : std_logic;
 SIGNAL \cpu1|cc_ctrl.pull_cc~0_combout\ : std_logic;
 SIGNAL \cpu1|cc_ctrl.pull_cc~1_combout\ : std_logic;
@@ -3862,22 +3862,22 @@ SIGNAL \cpu1|Selector315~2_combout\ : std_logic;
 SIGNAL \cpu1|Selector315~1_combout\ : std_logic;
 SIGNAL \cpu1|Selector315~0_combout\ : std_logic;
 SIGNAL \n_ROMCS~0_combout\ : std_logic;
-SIGNAL \cpuDataIn[0]~3_combout\ : std_logic;
-SIGNAL \cpuDataIn[0]~2_combout\ : std_logic;
+SIGNAL \w_cpuDataIn[0]~3_combout\ : std_logic;
+SIGNAL \w_cpuDataIn[0]~2_combout\ : std_logic;
 SIGNAL \sramData[2]~input_o\ : std_logic;
 SIGNAL \sd1|Selector142~0_combout\ : std_logic;
-SIGNAL \cpuDataIn[2]~60_combout\ : std_logic;
+SIGNAL \w_cpuDataIn[2]~60_combout\ : std_logic;
 SIGNAL \gpio0[2]~input_o\ : std_logic;
 SIGNAL \gpio1|reg_dat0_d[2]~2_combout\ : std_logic;
-SIGNAL \cpuDataIn[0]~1_combout\ : std_logic;
-SIGNAL \cpuDataIn[2]~59_combout\ : std_logic;
-SIGNAL \cpuDataIn[0]~0_combout\ : std_logic;
+SIGNAL \w_cpuDataIn[0]~1_combout\ : std_logic;
+SIGNAL \w_cpuDataIn[2]~59_combout\ : std_logic;
+SIGNAL \w_cpuDataIn[0]~0_combout\ : std_logic;
 SIGNAL \gpio2[2]~input_o\ : std_logic;
 SIGNAL \gpio1|reg_ddr2[2]~DUPLICATE_q\ : std_logic;
 SIGNAL \gpio1|reg_dat2_d[2]~2_combout\ : std_logic;
-SIGNAL \cpuDataIn[2]~61_combout\ : std_logic;
-SIGNAL \cpuDataIn[2]~62_combout\ : std_logic;
-SIGNAL \cpuDataIn[2]~12_combout\ : std_logic;
+SIGNAL \w_cpuDataIn[2]~61_combout\ : std_logic;
+SIGNAL \w_cpuDataIn[2]~62_combout\ : std_logic;
+SIGNAL \w_cpuDataIn[2]~12_combout\ : std_logic;
 SIGNAL \cpu1|Selector280~0_combout\ : std_logic;
 SIGNAL \cpu1|Selector280~1_combout\ : std_logic;
 SIGNAL \cpu1|state~344_combout\ : std_logic;
@@ -3912,10 +3912,10 @@ SIGNAL \cpu1|state.vect_lo_state~q\ : std_logic;
 SIGNAL \cpu1|WideOr6~combout\ : std_logic;
 SIGNAL \mm1|amap~0_combout\ : std_logic;
 SIGNAL \Equal6~0_combout\ : std_logic;
-SIGNAL \cpuDataIn[7]~54_combout\ : std_logic;
-SIGNAL \cpuDataIn[7]~52_combout\ : std_logic;
-SIGNAL \cpuDataIn[7]~53_combout\ : std_logic;
-SIGNAL \cpuDataIn[7]~46_combout\ : std_logic;
+SIGNAL \w_cpuDataIn[7]~54_combout\ : std_logic;
+SIGNAL \w_cpuDataIn[7]~52_combout\ : std_logic;
+SIGNAL \w_cpuDataIn[7]~53_combout\ : std_logic;
+SIGNAL \w_cpuDataIn[7]~46_combout\ : std_logic;
 SIGNAL \cpu1|xreg[15]~feeder_combout\ : std_logic;
 SIGNAL \cpu1|Selector331~11_combout\ : std_logic;
 SIGNAL \cpu1|Selector331~1_combout\ : std_logic;
@@ -4008,15 +4008,15 @@ SIGNAL \mm1|romInhib_i~q\ : std_logic;
 SIGNAL \n_ROMCS~1_combout\ : std_logic;
 SIGNAL \sramData[0]~input_o\ : std_logic;
 SIGNAL \sd1|Selector144~0_combout\ : std_logic;
-SIGNAL \cpuDataIn[0]~57_combout\ : std_logic;
+SIGNAL \w_cpuDataIn[0]~57_combout\ : std_logic;
 SIGNAL \gpio0[0]~input_o\ : std_logic;
 SIGNAL \gpio1|reg_dat0_d[0]~0_combout\ : std_logic;
 SIGNAL \gpio1|reg_ddr2[0]~DUPLICATE_q\ : std_logic;
 SIGNAL \gpio2[0]~input_o\ : std_logic;
 SIGNAL \gpio1|reg_dat2_d[0]~0_combout\ : std_logic;
-SIGNAL \cpuDataIn[0]~56_combout\ : std_logic;
-SIGNAL \cpuDataIn[0]~58_combout\ : std_logic;
-SIGNAL \cpuDataIn[0]~4_combout\ : std_logic;
+SIGNAL \w_cpuDataIn[0]~56_combout\ : std_logic;
+SIGNAL \w_cpuDataIn[0]~58_combout\ : std_logic;
+SIGNAL \w_cpuDataIn[0]~4_combout\ : std_logic;
 SIGNAL \cpu1|Selector306~0_combout\ : std_logic;
 SIGNAL \cpu1|Mux143~0_combout\ : std_logic;
 SIGNAL \cpu1|state~492_combout\ : std_logic;
@@ -4052,7 +4052,7 @@ SIGNAL \io2|rxBuffer_rtl_0|auto_generated|ram_block1a0~portbdataout\ : std_logic
 SIGNAL \io2|rxBuffer~14_q\ : std_logic;
 SIGNAL \io2|dataOut~0_combout\ : std_logic;
 SIGNAL \io2|dataOut~1_combout\ : std_logic;
-SIGNAL \cpuDataIn[0]~5_combout\ : std_logic;
+SIGNAL \w_cpuDataIn[0]~5_combout\ : std_logic;
 SIGNAL \cpu1|sp[0]~feeder_combout\ : std_logic;
 SIGNAL \cpu1|Selector330~0_combout\ : std_logic;
 SIGNAL \io2|rxReadPointer[4]~0_combout\ : std_logic;
@@ -4140,7 +4140,7 @@ SIGNAL \io1|kbBuffer~42feeder_combout\ : std_logic;
 SIGNAL \io1|kbBuffer~42_q\ : std_logic;
 SIGNAL \io1|kbBuffer~82_combout\ : std_logic;
 SIGNAL \io1|dataOut~3_combout\ : std_logic;
-SIGNAL \cpuDataIn[3]~14_combout\ : std_logic;
+SIGNAL \w_cpuDataIn[3]~14_combout\ : std_logic;
 SIGNAL \cpu1|Selector279~0_combout\ : std_logic;
 SIGNAL \cpu1|Selector581~0_combout\ : std_logic;
 SIGNAL \cpu1|Selector330~1_combout\ : std_logic;
@@ -4188,10 +4188,10 @@ SIGNAL \io2|dataOut~9_combout\ : std_logic;
 SIGNAL \io2|dataOut~10_combout\ : std_logic;
 SIGNAL \gpio2[4]~input_o\ : std_logic;
 SIGNAL \gpio1|reg_dat2_d[4]~5_combout\ : std_logic;
-SIGNAL \cpuDataIn[4]~28_combout\ : std_logic;
-SIGNAL \cpuDataIn[4]~29_combout\ : std_logic;
-SIGNAL \cpuDataIn[4]~55_combout\ : std_logic;
-SIGNAL \cpuDataIn[4]~34_combout\ : std_logic;
+SIGNAL \w_cpuDataIn[4]~28_combout\ : std_logic;
+SIGNAL \w_cpuDataIn[4]~29_combout\ : std_logic;
+SIGNAL \w_cpuDataIn[4]~55_combout\ : std_logic;
+SIGNAL \w_cpuDataIn[4]~34_combout\ : std_logic;
 SIGNAL \cpu1|sp[12]~feeder_combout\ : std_logic;
 SIGNAL \cpu1|Selector334~11_combout\ : std_logic;
 SIGNAL \cpu1|Selector334~2_combout\ : std_logic;
@@ -4262,8 +4262,8 @@ SIGNAL \cpu1|Selector566~1_combout\ : std_logic;
 SIGNAL \cpu1|state~461_combout\ : std_logic;
 SIGNAL \cpu1|state.pshu_cc_state~q\ : std_logic;
 SIGNAL \cpu1|WideOr7~combout\ : std_logic;
-SIGNAL \n_WR~0_combout\ : std_logic;
-SIGNAL \n_WR~q\ : std_logic;
+SIGNAL \w_n_WR~0_combout\ : std_logic;
+SIGNAL \w_n_WR~q\ : std_logic;
 SIGNAL \n_WR_uart~combout\ : std_logic;
 SIGNAL \cpu1|process_22~0_combout\ : std_logic;
 SIGNAL \cpu1|Selector438~0_combout\ : std_logic;
@@ -4271,8 +4271,8 @@ SIGNAL \cpu1|state~372_combout\ : std_logic;
 SIGNAL \cpu1|state.indexed_state~q\ : std_logic;
 SIGNAL \cpu1|Selector580~5_combout\ : std_logic;
 SIGNAL \clk_gen~0_combout\ : std_logic;
-SIGNAL \hold~0_combout\ : std_logic;
-SIGNAL \hold~q\ : std_logic;
+SIGNAL \w_hold~0_combout\ : std_logic;
+SIGNAL \w_hold~q\ : std_logic;
 SIGNAL \cpu1|saved_state~153_combout\ : std_logic;
 SIGNAL \cpu1|saved_state.reset_state~q\ : std_logic;
 SIGNAL \cpu1|state~497_combout\ : std_logic;
@@ -4818,7 +4818,7 @@ SIGNAL \gpio1|reg_ddr0\ : std_logic_vector(2 DOWNTO 0);
 SIGNAL \gpio1|reg_ddr2\ : std_logic_vector(7 DOWNTO 0);
 SIGNAL \gpio1|reg_dat0\ : std_logic_vector(2 DOWNTO 0);
 SIGNAL \mm1|mapSel\ : std_logic_vector(3 DOWNTO 0);
-SIGNAL state : std_logic_vector(2 DOWNTO 0);
+SIGNAL w_state : std_logic_vector(2 DOWNTO 0);
 SIGNAL \io2|txClockCount\ : std_logic_vector(5 DOWNTO 0);
 SIGNAL \io2|txBuffer\ : std_logic_vector(7 DOWNTO 0);
 SIGNAL \io2|txBitCount\ : std_logic_vector(3 DOWNTO 0);
@@ -4845,116 +4845,6 @@ SIGNAL \io2|rxFilter\ : std_logic_vector(5 DOWNTO 0);
 SIGNAL \io1|ps2WriteByte2\ : std_logic_vector(7 DOWNTO 0);
 SIGNAL \debounceReset|w_dig_counter\ : std_logic_vector(19 DOWNTO 0);
 SIGNAL \sd1|address\ : std_logic_vector(31 DOWNTO 0);
-SIGNAL \io1|ALT_INV_cursorHoriz[4]~1_combout\ : std_logic;
-SIGNAL \io1|ALT_INV_Selector10~5_combout\ : std_logic;
-SIGNAL \io1|ALT_INV_Selector10~4_combout\ : std_logic;
-SIGNAL \io1|ALT_INV_cursorVert[3]~34_combout\ : std_logic;
-SIGNAL \io1|ALT_INV_cursorVert[3]~33_combout\ : std_logic;
-SIGNAL \io1|ALT_INV_cursorVert[3]~32_combout\ : std_logic;
-SIGNAL \io1|ALT_INV_cursorVert[3]~31_combout\ : std_logic;
-SIGNAL \io1|ALT_INV_dispState.deleteLine~q\ : std_logic;
-SIGNAL \io1|ALT_INV_cursorVert[3]~30_combout\ : std_logic;
-SIGNAL \io1|ALT_INV_Add39~0_combout\ : std_logic;
-SIGNAL \io1|ALT_INV_Selector10~3_combout\ : std_logic;
-SIGNAL \io1|ALT_INV_cursorVert[3]~29_combout\ : std_logic;
-SIGNAL \io1|ALT_INV_cursorVert[3]~28_combout\ : std_logic;
-SIGNAL \io1|ALT_INV_Equal62~1_combout\ : std_logic;
-SIGNAL \io1|ALT_INV_Equal62~0_combout\ : std_logic;
-SIGNAL \io1|ALT_INV_cursorVertRestore\ : std_logic_vector(4 DOWNTO 0);
-SIGNAL \io1|ALT_INV_Add50~0_combout\ : std_logic;
-SIGNAL \io1|ALT_INV_dispState.ins3~q\ : std_logic;
-SIGNAL \io1|ALT_INV_cursorVert[3]~27_combout\ : std_logic;
-SIGNAL \io1|ALT_INV_cursorVert[3]~26_combout\ : std_logic;
-SIGNAL \io1|ALT_INV_cursorVert[3]~25_combout\ : std_logic;
-SIGNAL \io1|ALT_INV_dispState.insertLine~q\ : std_logic;
-SIGNAL \io1|ALT_INV_dispState.del3~q\ : std_logic;
-SIGNAL \io1|ALT_INV_Add41~0_combout\ : std_logic;
-SIGNAL \io1|ALT_INV_cursorVert[3]~24_combout\ : std_logic;
-SIGNAL \io1|ALT_INV_cursorVert[3]~23_combout\ : std_logic;
-SIGNAL \io1|ALT_INV_cursorVert~22_combout\ : std_logic;
-SIGNAL \io1|ALT_INV_display_store~29_combout\ : std_logic;
-SIGNAL \io1|ALT_INV_display_store~28_combout\ : std_logic;
-SIGNAL \io1|ALT_INV_display_store~27_combout\ : std_logic;
-SIGNAL \io1|ALT_INV_Equal31~1_combout\ : std_logic;
-SIGNAL \io1|ALT_INV_cursorVert~21_combout\ : std_logic;
-SIGNAL \io1|ALT_INV_Equal35~0_combout\ : std_logic;
-SIGNAL \io1|ALT_INV_Equal34~1_combout\ : std_logic;
-SIGNAL \io1|ALT_INV_Equal31~0_combout\ : std_logic;
-SIGNAL \io1|ALT_INV_Equal34~0_combout\ : std_logic;
-SIGNAL \io1|ALT_INV_cursorVert[3]~20_combout\ : std_logic;
-SIGNAL \io1|ALT_INV_cursorVert[3]~19_combout\ : std_logic;
-SIGNAL \io1|ALT_INV_dispState.clearS2~q\ : std_logic;
-SIGNAL \io1|ALT_INV_dispState.clearL2~q\ : std_logic;
-SIGNAL \io1|ALT_INV_dispState.dispNextLoc~q\ : std_logic;
-SIGNAL \io1|ALT_INV_LessThan53~1_combout\ : std_logic;
-SIGNAL \io1|ALT_INV_LessThan53~0_combout\ : std_logic;
-SIGNAL \io1|ALT_INV_Equal57~0_combout\ : std_logic;
-SIGNAL \io1|ALT_INV_Equal58~0_combout\ : std_logic;
-SIGNAL \io1|ALT_INV_Equal56~0_combout\ : std_logic;
-SIGNAL \io1|ALT_INV_cursorVert~18_combout\ : std_logic;
-SIGNAL \io1|ALT_INV_cursorVert~17_combout\ : std_logic;
-SIGNAL \io1|ALT_INV_cursorVert~16_combout\ : std_logic;
-SIGNAL \io1|ALT_INV_display_store~26_combout\ : std_logic;
-SIGNAL \io1|ALT_INV_display_store~25_combout\ : std_logic;
-SIGNAL \io1|ALT_INV_dispCharWRData\ : std_logic_vector(7 DOWNTO 0);
-SIGNAL \io1|ALT_INV_dispState.dispWrite~q\ : std_logic;
-SIGNAL \io1|ALT_INV_cursorVert[3]~15_combout\ : std_logic;
-SIGNAL \io1|ALT_INV_escState~8_combout\ : std_logic;
-SIGNAL \io1|ALT_INV_display_store~24_combout\ : std_logic;
-SIGNAL \io1|ALT_INV_cursorVert[3]~14_combout\ : std_logic;
-SIGNAL \io1|ALT_INV_display_store~23_combout\ : std_logic;
-SIGNAL \io1|ALT_INV_cursorVert[3]~13_combout\ : std_logic;
-SIGNAL \io1|ALT_INV_cursorVert~12_combout\ : std_logic;
-SIGNAL \io1|ALT_INV_Equal30~0_combout\ : std_logic;
-SIGNAL \io1|ALT_INV_display_store~22_combout\ : std_logic;
-SIGNAL \io1|ALT_INV_escState.none~0_combout\ : std_logic;
-SIGNAL \io1|ALT_INV_display_store~21_combout\ : std_logic;
-SIGNAL \io1|ALT_INV_escState.waitForLeftBracket~q\ : std_logic;
-SIGNAL \io1|ALT_INV_dispCharWRData[2]~0_combout\ : std_logic;
-SIGNAL \io1|ALT_INV_dispState.clearChar~q\ : std_logic;
-SIGNAL \io1|ALT_INV_dispState.clearScreen~q\ : std_logic;
-SIGNAL \io1|ALT_INV_dispState.clearLine~q\ : std_logic;
-SIGNAL \io1|ALT_INV_dispState.clearC2~q\ : std_logic;
-SIGNAL \io1|ALT_INV_Selector10~2_combout\ : std_logic;
-SIGNAL \io1|ALT_INV_Selector10~1_combout\ : std_logic;
-SIGNAL \io1|ALT_INV_Add47~0_combout\ : std_logic;
-SIGNAL \io1|ALT_INV_savedCursorVert\ : std_logic_vector(4 DOWNTO 0);
-SIGNAL \io1|ALT_INV_cursorVert[3]~11_combout\ : std_logic;
-SIGNAL \io1|ALT_INV_cursorVert[3]~10_combout\ : std_logic;
-SIGNAL \io1|ALT_INV_cursorVert[3]~9_combout\ : std_logic;
-SIGNAL \io1|ALT_INV_cursorVert[3]~8_combout\ : std_logic;
-SIGNAL \io1|ALT_INV_dispState~32_combout\ : std_logic;
-SIGNAL \io1|ALT_INV_display_store~20_combout\ : std_logic;
-SIGNAL \io1|ALT_INV_Equal43~0_combout\ : std_logic;
-SIGNAL \io1|ALT_INV_Selector10~0_combout\ : std_logic;
-SIGNAL \io1|ALT_INV_cursorHoriz[6]~0_combout\ : std_logic;
-SIGNAL \io1|ALT_INV_cursorVert[3]~7_combout\ : std_logic;
-SIGNAL \io1|ALT_INV_cursorVert[3]~6_combout\ : std_logic;
-SIGNAL \io1|ALT_INV_cursorVert[3]~5_combout\ : std_logic;
-SIGNAL \io1|ALT_INV_cursorVert[3]~4_combout\ : std_logic;
-SIGNAL \io1|ALT_INV_LessThan44~1_combout\ : std_logic;
-SIGNAL \io1|ALT_INV_LessThan44~0_combout\ : std_logic;
-SIGNAL \io1|ALT_INV_LessThan42~2_combout\ : std_logic;
-SIGNAL \io1|ALT_INV_LessThan42~1_combout\ : std_logic;
-SIGNAL \io1|ALT_INV_LessThan42~0_combout\ : std_logic;
-SIGNAL \io1|ALT_INV_display_store~19_combout\ : std_logic;
-SIGNAL \io1|ALT_INV_display_store~18_combout\ : std_logic;
-SIGNAL \io1|ALT_INV_display_store~17_combout\ : std_logic;
-SIGNAL \io1|ALT_INV_display_store~16_combout\ : std_logic;
-SIGNAL \io1|ALT_INV_display_store~15_combout\ : std_logic;
-SIGNAL \io1|ALT_INV_display_store~14_combout\ : std_logic;
-SIGNAL \io1|ALT_INV_display_store~13_combout\ : std_logic;
-SIGNAL \io1|ALT_INV_cursorVert[3]~3_combout\ : std_logic;
-SIGNAL \io1|ALT_INV_cursorVert[3]~2_combout\ : std_logic;
-SIGNAL \io1|ALT_INV_display_store~12_combout\ : std_logic;
-SIGNAL \io1|ALT_INV_LessThan41~0_combout\ : std_logic;
-SIGNAL \io1|ALT_INV_Equal52~0_combout\ : std_logic;
-SIGNAL \io1|ALT_INV_display_store~11_combout\ : std_logic;
-SIGNAL \io1|ALT_INV_cursorVert[3]~1_combout\ : std_logic;
-SIGNAL \io1|ALT_INV_Equal42~0_combout\ : std_logic;
-SIGNAL \io1|ALT_INV_Equal33~1_combout\ : std_logic;
-SIGNAL \io1|ALT_INV_cursorVert[3]~0_combout\ : std_logic;
-SIGNAL \io1|ALT_INV_display_store~10_combout\ : std_logic;
 SIGNAL \io1|ALT_INV_display_store~9_combout\ : std_logic;
 SIGNAL \io1|ALT_INV_Equal44~1_combout\ : std_logic;
 SIGNAL \io1|ALT_INV_Equal44~0_combout\ : std_logic;
@@ -5193,7 +5083,7 @@ SIGNAL \cpu1|ALT_INV_Selector286~1_combout\ : std_logic;
 SIGNAL \cpu1|ALT_INV_Selector286~0_combout\ : std_logic;
 SIGNAL \ALT_INV_clk_gen~0_combout\ : std_logic;
 SIGNAL \ALT_INV_n_WR_sd~combout\ : std_logic;
-SIGNAL \ALT_INV_n_WR~q\ : std_logic;
+SIGNAL \ALT_INV_w_n_WR~q\ : std_logic;
 SIGNAL \debounceReset|ALT_INV_w_dly3~q\ : std_logic;
 SIGNAL \debounceReset|ALT_INV_w_dly4~q\ : std_logic;
 SIGNAL \cpu1|ALT_INV_Selector188~0_combout\ : std_logic;
@@ -5269,7 +5159,7 @@ SIGNAL \cpu1|ALT_INV_WideOr43~1_combout\ : std_logic;
 SIGNAL \cpu1|ALT_INV_WideOr43~0_combout\ : std_logic;
 SIGNAL \cpu1|ALT_INV_Mux93~1_combout\ : std_logic;
 SIGNAL \cpu1|ALT_INV_cc_ctrl.pull_cc~2_combout\ : std_logic;
-SIGNAL \ALT_INV_cpuDataIn[3]~47_combout\ : std_logic;
+SIGNAL \ALT_INV_w_cpuDataIn[3]~47_combout\ : std_logic;
 SIGNAL \cpu1|ALT_INV_Selector400~1_combout\ : std_logic;
 SIGNAL \cpu1|ALT_INV_Selector401~0_combout\ : std_logic;
 SIGNAL \sd1|ALT_INV_Selector2~1_combout\ : std_logic;
@@ -5392,7 +5282,7 @@ SIGNAL \BaudRateGen|ALT_INV_o_serialEn~q\ : std_logic;
 SIGNAL \io2|ALT_INV_func_reset~q\ : std_logic;
 SIGNAL \cpu1|ALT_INV_WideOr7~combout\ : std_logic;
 SIGNAL \ALT_INV_n_sRamWE~0_combout\ : std_logic;
-SIGNAL ALT_INV_state : std_logic_vector(2 DOWNTO 0);
+SIGNAL ALT_INV_w_state : std_logic_vector(2 DOWNTO 0);
 SIGNAL \mm1|ALT_INV_Mux0~4_combout\ : std_logic;
 SIGNAL \mm1|ALT_INV_Mux0~3_combout\ : std_logic;
 SIGNAL \mm1|ALT_INV_mapf\ : std_logic_vector(7 DOWNTO 0);
@@ -5584,39 +5474,39 @@ SIGNAL \cpu1|ALT_INV_Mux524~2_combout\ : std_logic;
 SIGNAL \cpu1|ALT_INV_Selector379~1_combout\ : std_logic;
 SIGNAL \cpu1|ALT_INV_Selector379~0_combout\ : std_logic;
 SIGNAL \cpu1|ALT_INV_Selector162~0_combout\ : std_logic;
-SIGNAL \ALT_INV_cpuDataIn[7]~46_combout\ : std_logic;
+SIGNAL \ALT_INV_w_cpuDataIn[7]~46_combout\ : std_logic;
 SIGNAL \cpu1|ALT_INV_Selector163~0_combout\ : std_logic;
-SIGNAL \ALT_INV_cpuDataIn[6]~45_combout\ : std_logic;
+SIGNAL \ALT_INV_w_cpuDataIn[6]~45_combout\ : std_logic;
 SIGNAL \cpu1|ALT_INV_Selector381~2_combout\ : std_logic;
 SIGNAL \cpu1|ALT_INV_Selector381~1_combout\ : std_logic;
 SIGNAL \cpu1|ALT_INV_Selector381~0_combout\ : std_logic;
 SIGNAL \cpu1|ALT_INV_Selector364~1_combout\ : std_logic;
 SIGNAL \cpu1|ALT_INV_Selector364~0_combout\ : std_logic;
-SIGNAL \ALT_INV_cpuDataIn[6]~44_combout\ : std_logic;
-SIGNAL \ALT_INV_cpuDataIn[6]~43_combout\ : std_logic;
+SIGNAL \ALT_INV_w_cpuDataIn[6]~44_combout\ : std_logic;
+SIGNAL \ALT_INV_w_cpuDataIn[6]~43_combout\ : std_logic;
 SIGNAL \sd1|ALT_INV_sd_read_flag~q\ : std_logic;
 SIGNAL \sd1|ALT_INV_host_read_flag~q\ : std_logic;
 SIGNAL \sd1|ALT_INV_dout\ : std_logic_vector(7 DOWNTO 0);
-SIGNAL \ALT_INV_cpuDataIn[6]~42_combout\ : std_logic;
-SIGNAL \ALT_INV_cpuDataIn[6]~41_combout\ : std_logic;
+SIGNAL \ALT_INV_w_cpuDataIn[6]~42_combout\ : std_logic;
+SIGNAL \ALT_INV_w_cpuDataIn[6]~41_combout\ : std_logic;
 SIGNAL \gpio1|ALT_INV_reg_ddr2\ : std_logic_vector(7 DOWNTO 0);
 SIGNAL \gpio1|ALT_INV_reg_dat2\ : std_logic_vector(7 DOWNTO 0);
 SIGNAL \io2|ALT_INV_dataOut\ : std_logic_vector(7 DOWNTO 0);
 SIGNAL \io1|ALT_INV_dataOut\ : std_logic_vector(7 DOWNTO 0);
 SIGNAL \cpu1|ALT_INV_Selector164~0_combout\ : std_logic;
-SIGNAL \ALT_INV_cpuDataIn[5]~40_combout\ : std_logic;
+SIGNAL \ALT_INV_w_cpuDataIn[5]~40_combout\ : std_logic;
 SIGNAL \cpu1|ALT_INV_Selector382~2_combout\ : std_logic;
 SIGNAL \cpu1|ALT_INV_Selector382~1_combout\ : std_logic;
 SIGNAL \cpu1|ALT_INV_Selector382~0_combout\ : std_logic;
 SIGNAL \cpu1|ALT_INV_Selector365~1_combout\ : std_logic;
 SIGNAL \cpu1|ALT_INV_Selector365~0_combout\ : std_logic;
-SIGNAL \ALT_INV_cpuDataIn[5]~39_combout\ : std_logic;
-SIGNAL \ALT_INV_cpuDataIn[5]~38_combout\ : std_logic;
+SIGNAL \ALT_INV_w_cpuDataIn[5]~39_combout\ : std_logic;
+SIGNAL \ALT_INV_w_cpuDataIn[5]~38_combout\ : std_logic;
 SIGNAL \sd1|ALT_INV_block_busy~q\ : std_logic;
-SIGNAL \ALT_INV_cpuDataIn[5]~37_combout\ : std_logic;
-SIGNAL \ALT_INV_cpuDataIn[5]~36_combout\ : std_logic;
+SIGNAL \ALT_INV_w_cpuDataIn[5]~37_combout\ : std_logic;
+SIGNAL \ALT_INV_w_cpuDataIn[5]~36_combout\ : std_logic;
 SIGNAL \cpu1|ALT_INV_Selector165~0_combout\ : std_logic;
-SIGNAL \ALT_INV_cpuDataIn[4]~35_combout\ : std_logic;
+SIGNAL \ALT_INV_w_cpuDataIn[4]~35_combout\ : std_logic;
 SIGNAL \cpu1|ALT_INV_Selector383~5_combout\ : std_logic;
 SIGNAL \cpu1|ALT_INV_Selector383~4_combout\ : std_logic;
 SIGNAL \cpu1|ALT_INV_Selector383~3_combout\ : std_logic;
@@ -5630,30 +5520,30 @@ SIGNAL \cpu1|ALT_INV_Selector349~2_combout\ : std_logic;
 SIGNAL \cpu1|ALT_INV_Selector349~1_combout\ : std_logic;
 SIGNAL \cpu1|ALT_INV_Selector349~0_combout\ : std_logic;
 SIGNAL \cpu1|ALT_INV_Selector383~0_combout\ : std_logic;
-SIGNAL \ALT_INV_cpuDataIn[4]~34_combout\ : std_logic;
-SIGNAL \ALT_INV_cpuDataIn[4]~33_combout\ : std_logic;
-SIGNAL \ALT_INV_cpuDataIn[4]~32_combout\ : std_logic;
+SIGNAL \ALT_INV_w_cpuDataIn[4]~34_combout\ : std_logic;
+SIGNAL \ALT_INV_w_cpuDataIn[4]~33_combout\ : std_logic;
+SIGNAL \ALT_INV_w_cpuDataIn[4]~32_combout\ : std_logic;
 SIGNAL \sd1|ALT_INV_init_busy~q\ : std_logic;
-SIGNAL \ALT_INV_cpuDataIn[4]~31_combout\ : std_logic;
-SIGNAL \ALT_INV_cpuDataIn[4]~30_combout\ : std_logic;
-SIGNAL \ALT_INV_cpuDataIn[4]~29_combout\ : std_logic;
-SIGNAL \ALT_INV_cpuDataIn[4]~28_combout\ : std_logic;
-SIGNAL \ALT_INV_cpuDataIn[4]~27_combout\ : std_logic;
+SIGNAL \ALT_INV_w_cpuDataIn[4]~31_combout\ : std_logic;
+SIGNAL \ALT_INV_w_cpuDataIn[4]~30_combout\ : std_logic;
+SIGNAL \ALT_INV_w_cpuDataIn[4]~29_combout\ : std_logic;
+SIGNAL \ALT_INV_w_cpuDataIn[4]~28_combout\ : std_logic;
+SIGNAL \ALT_INV_w_cpuDataIn[4]~27_combout\ : std_logic;
 SIGNAL \gpio1|ALT_INV_Equal0~1_combout\ : std_logic;
-SIGNAL \ALT_INV_cpuDataIn[4]~26_combout\ : std_logic;
-SIGNAL \ALT_INV_cpuDataIn[4]~25_combout\ : std_logic;
-SIGNAL \ALT_INV_cpuDataIn[4]~24_combout\ : std_logic;
+SIGNAL \ALT_INV_w_cpuDataIn[4]~26_combout\ : std_logic;
+SIGNAL \ALT_INV_w_cpuDataIn[4]~25_combout\ : std_logic;
+SIGNAL \ALT_INV_w_cpuDataIn[4]~24_combout\ : std_logic;
 SIGNAL \cpu1|ALT_INV_Selector151~0_combout\ : std_logic;
-SIGNAL \ALT_INV_cpuDataIn[3]~23_combout\ : std_logic;
-SIGNAL \ALT_INV_cpuDataIn[3]~22_combout\ : std_logic;
+SIGNAL \ALT_INV_w_cpuDataIn[3]~23_combout\ : std_logic;
+SIGNAL \ALT_INV_w_cpuDataIn[3]~22_combout\ : std_logic;
 SIGNAL \cpu1|ALT_INV_Selector152~0_combout\ : std_logic;
-SIGNAL \ALT_INV_cpuDataIn[2]~21_combout\ : std_logic;
+SIGNAL \ALT_INV_w_cpuDataIn[2]~21_combout\ : std_logic;
 SIGNAL \cpu1|ALT_INV_Selector431~0_combout\ : std_logic;
 SIGNAL \cpu1|ALT_INV_saved_state.vect_hi_state~q\ : std_logic;
 SIGNAL \cpu1|ALT_INV_Selector153~0_combout\ : std_logic;
 SIGNAL \cpu1|ALT_INV_Selector396~0_combout\ : std_logic;
 SIGNAL \cpu1|ALT_INV_Selector168~0_combout\ : std_logic;
-SIGNAL \ALT_INV_cpuDataIn[1]~20_combout\ : std_logic;
+SIGNAL \ALT_INV_w_cpuDataIn[1]~20_combout\ : std_logic;
 SIGNAL \cpu1|ALT_INV_Selector459~3_combout\ : std_logic;
 SIGNAL \cpu1|ALT_INV_saved_state.dual_op_write8_state~q\ : std_logic;
 SIGNAL \cpu1|ALT_INV_Selector459~2_combout\ : std_logic;
@@ -5831,14 +5721,14 @@ SIGNAL \cpu1|ALT_INV_Selector348~2_combout\ : std_logic;
 SIGNAL \cpu1|ALT_INV_Selector348~1_combout\ : std_logic;
 SIGNAL \cpu1|ALT_INV_Selector348~0_combout\ : std_logic;
 SIGNAL \cpu1|ALT_INV_cc\ : std_logic_vector(7 DOWNTO 0);
-SIGNAL \ALT_INV_cpuDataIn[7]~19_combout\ : std_logic;
-SIGNAL \ALT_INV_cpuDataIn~18_combout\ : std_logic;
-SIGNAL \ALT_INV_cpuDataIn~17_combout\ : std_logic;
+SIGNAL \ALT_INV_w_cpuDataIn[7]~19_combout\ : std_logic;
+SIGNAL \ALT_INV_w_cpuDataIn~18_combout\ : std_logic;
+SIGNAL \ALT_INV_w_cpuDataIn~17_combout\ : std_logic;
 SIGNAL \sd1|ALT_INV_Equal6~1_combout\ : std_logic;
 SIGNAL \cpu1|ALT_INV_Selector330~5_combout\ : std_logic;
 SIGNAL \sd1|ALT_INV_sd_write_flag~q\ : std_logic;
 SIGNAL \sd1|ALT_INV_host_write_flag~q\ : std_logic;
-SIGNAL \ALT_INV_cpuDataIn[7]~16_combout\ : std_logic;
+SIGNAL \ALT_INV_w_cpuDataIn[7]~16_combout\ : std_logic;
 SIGNAL \cpu1|ALT_INV_Selector384~6_combout\ : std_logic;
 SIGNAL \cpu1|ALT_INV_Selector384~5_combout\ : std_logic;
 SIGNAL \cpu1|ALT_INV_Selector384~4_combout\ : std_logic;
@@ -5852,8 +5742,8 @@ SIGNAL \cpu1|ALT_INV_Selector350~1_combout\ : std_logic;
 SIGNAL \cpu1|ALT_INV_Selector350~0_combout\ : std_logic;
 SIGNAL \cpu1|ALT_INV_Selector367~0_combout\ : std_logic;
 SIGNAL \cpu1|ALT_INV_Selector384~0_combout\ : std_logic;
-SIGNAL \ALT_INV_cpuDataIn[3]~15_combout\ : std_logic;
-SIGNAL \ALT_INV_cpuDataIn[3]~14_combout\ : std_logic;
+SIGNAL \ALT_INV_w_cpuDataIn[3]~15_combout\ : std_logic;
+SIGNAL \ALT_INV_w_cpuDataIn[3]~14_combout\ : std_logic;
 SIGNAL \cpu1|ALT_INV_Selector452~0_combout\ : std_logic;
 SIGNAL \cpu1|ALT_INV_Selector280~0_combout\ : std_logic;
 SIGNAL \cpu1|ALT_INV_Selector385~5_combout\ : std_logic;
@@ -5882,13 +5772,13 @@ SIGNAL \cpu1|ALT_INV_Selector351~2_combout\ : std_logic;
 SIGNAL \cpu1|ALT_INV_Selector351~1_combout\ : std_logic;
 SIGNAL \cpu1|ALT_INV_Selector351~0_combout\ : std_logic;
 SIGNAL \cpu1|ALT_INV_Selector385~0_combout\ : std_logic;
-SIGNAL \ALT_INV_cpuDataIn[2]~13_combout\ : std_logic;
-SIGNAL \ALT_INV_cpuDataIn[2]~12_combout\ : std_logic;
+SIGNAL \ALT_INV_w_cpuDataIn[2]~13_combout\ : std_logic;
+SIGNAL \ALT_INV_w_cpuDataIn[2]~12_combout\ : std_logic;
 SIGNAL \gpio1|ALT_INV_reg_dat0\ : std_logic_vector(2 DOWNTO 0);
 SIGNAL \gpio1|ALT_INV_reg_ddr0\ : std_logic_vector(2 DOWNTO 0);
 SIGNAL \cpu1|ALT_INV_Selector282~0_combout\ : std_logic;
-SIGNAL \ALT_INV_cpuDataIn[0]~11_combout\ : std_logic;
-SIGNAL \ALT_INV_cpuDataIn[0]~10_combout\ : std_logic;
+SIGNAL \ALT_INV_w_cpuDataIn[0]~11_combout\ : std_logic;
+SIGNAL \ALT_INV_w_cpuDataIn[0]~10_combout\ : std_logic;
 SIGNAL \cpu1|ALT_INV_Selector424~0_combout\ : std_logic;
 SIGNAL \cpu1|ALT_INV_WideOr87~7_combout\ : std_logic;
 SIGNAL \cpu1|ALT_INV_Selector580~7_combout\ : std_logic;
@@ -5916,12 +5806,12 @@ SIGNAL \cpu1|ALT_INV_md[10]~0_combout\ : std_logic;
 SIGNAL \cpu1|ALT_INV_WideOr87~6_combout\ : std_logic;
 SIGNAL \cpu1|ALT_INV_WideOr87~5_combout\ : std_logic;
 SIGNAL \cpu1|ALT_INV_Selector581~3_combout\ : std_logic;
-SIGNAL \ALT_INV_cpuDataIn[1]~9_combout\ : std_logic;
-SIGNAL \ALT_INV_cpuDataIn~8_combout\ : std_logic;
+SIGNAL \ALT_INV_w_cpuDataIn[1]~9_combout\ : std_logic;
+SIGNAL \ALT_INV_w_cpuDataIn~8_combout\ : std_logic;
 SIGNAL \mm1|ALT_INV_tenable~q\ : std_logic;
-SIGNAL \ALT_INV_cpuDataIn~7_combout\ : std_logic;
+SIGNAL \ALT_INV_w_cpuDataIn~7_combout\ : std_logic;
 SIGNAL \gpio1|ALT_INV_Equal2~0_combout\ : std_logic;
-SIGNAL \ALT_INV_cpuDataIn[1]~6_combout\ : std_logic;
+SIGNAL \ALT_INV_w_cpuDataIn[1]~6_combout\ : std_logic;
 SIGNAL \cpu1|ALT_INV_Mux28~9_combout\ : std_logic;
 SIGNAL \cpu1|ALT_INV_state~368_combout\ : std_logic;
 SIGNAL \cpu1|ALT_INV_sp[1]~0_combout\ : std_logic;
@@ -6158,14 +6048,14 @@ SIGNAL \cpu1|ALT_INV_cc_ctrl.pull_cc~1_combout\ : std_logic;
 SIGNAL \cpu1|ALT_INV_cc_ctrl.pull_cc~0_combout\ : std_logic;
 SIGNAL \cpu1|ALT_INV_Mux526~0_combout\ : std_logic;
 SIGNAL \cpu1|ALT_INV_fic~q\ : std_logic;
-SIGNAL \ALT_INV_cpuDataIn[0]~5_combout\ : std_logic;
-SIGNAL \ALT_INV_cpuDataIn[0]~4_combout\ : std_logic;
-SIGNAL \ALT_INV_cpuDataIn[0]~3_combout\ : std_logic;
-SIGNAL \ALT_INV_cpuDataIn[0]~2_combout\ : std_logic;
+SIGNAL \ALT_INV_w_cpuDataIn[0]~5_combout\ : std_logic;
+SIGNAL \ALT_INV_w_cpuDataIn[0]~4_combout\ : std_logic;
+SIGNAL \ALT_INV_w_cpuDataIn[0]~3_combout\ : std_logic;
+SIGNAL \ALT_INV_w_cpuDataIn[0]~2_combout\ : std_logic;
 SIGNAL \ALT_INV_Equal5~1_combout\ : std_logic;
 SIGNAL \ALT_INV_Equal5~0_combout\ : std_logic;
-SIGNAL \ALT_INV_cpuDataIn[0]~1_combout\ : std_logic;
-SIGNAL \ALT_INV_cpuDataIn[0]~0_combout\ : std_logic;
+SIGNAL \ALT_INV_w_cpuDataIn[0]~1_combout\ : std_logic;
+SIGNAL \ALT_INV_w_cpuDataIn[0]~0_combout\ : std_logic;
 SIGNAL \gpio1|ALT_INV_Equal0~0_combout\ : std_logic;
 SIGNAL \gpio1|ALT_INV_reg\ : std_logic_vector(7 DOWNTO 0);
 SIGNAL \ALT_INV_n_ROMCS~1_combout\ : std_logic;
@@ -6303,7 +6193,7 @@ SIGNAL \cpu1|ALT_INV_Selector334~2_combout\ : std_logic;
 SIGNAL \cpu1|ALT_INV_Selector334~1_combout\ : std_logic;
 SIGNAL \cpu1|ALT_INV_Selector334~0_combout\ : std_logic;
 SIGNAL \mm1|ALT_INV_proc_reg~0_combout\ : std_logic;
-SIGNAL \ALT_INV_hold~q\ : std_logic;
+SIGNAL \ALT_INV_w_hold~q\ : std_logic;
 SIGNAL \debounceReset|ALT_INV_o_PinOut~q\ : std_logic;
 SIGNAL \cpu1|ALT_INV_Selector333~12_combout\ : std_logic;
 SIGNAL \cpu1|ALT_INV_Selector333~11_combout\ : std_logic;
@@ -6610,13 +6500,13 @@ SIGNAL \cpu1|ALT_INV_state.pshs_pcl_state~q\ : std_logic;
 SIGNAL \cpu1|ALT_INV_state.push_return_lo_state~q\ : std_logic;
 SIGNAL \mm1|ALT_INV_frt_i~q\ : std_logic;
 SIGNAL \cpu1|ALT_INV_Selector387~7_combout\ : std_logic;
-SIGNAL \ALT_INV_cpuDataIn~79_combout\ : std_logic;
+SIGNAL \ALT_INV_w_cpuDataIn~79_combout\ : std_logic;
 SIGNAL \cpu1|ALT_INV_Selector368~1_combout\ : std_logic;
 SIGNAL \cpu1|ALT_INV_Selector438~0_combout\ : std_logic;
-SIGNAL \ALT_INV_cpuDataIn[3]~75_combout\ : std_logic;
+SIGNAL \ALT_INV_w_cpuDataIn[3]~75_combout\ : std_logic;
 SIGNAL \cpu1|ALT_INV_Selector367~1_combout\ : std_logic;
-SIGNAL \ALT_INV_cpuDataIn~71_combout\ : std_logic;
-SIGNAL \ALT_INV_cpuDataIn~67_combout\ : std_logic;
+SIGNAL \ALT_INV_w_cpuDataIn~71_combout\ : std_logic;
+SIGNAL \ALT_INV_w_cpuDataIn~67_combout\ : std_logic;
 SIGNAL \cpu1|ALT_INV_Selector382~3_combout\ : std_logic;
 SIGNAL \cpu1|ALT_INV_Selector381~3_combout\ : std_logic;
 SIGNAL \cpu1|ALT_INV_Selector378~5_combout\ : std_logic;
@@ -6642,18 +6532,6 @@ SIGNAL \sd1|ALT_INV_return_state.receive_byte_wait~2_combout\ : std_logic;
 SIGNAL \sd1|ALT_INV_recv_data\ : std_logic_vector(31 DOWNTO 0);
 SIGNAL \io1|ALT_INV_horizCount\ : std_logic_vector(11 DOWNTO 0);
 SIGNAL \io1|ALT_INV_Add1~29_sumout\ : std_logic;
-SIGNAL \io1|ALT_INV_Add3~33_sumout\ : std_logic;
-SIGNAL \io1|ALT_INV_Add0~33_sumout\ : std_logic;
-SIGNAL \io1|ALT_INV_param4\ : std_logic_vector(6 DOWNTO 0);
-SIGNAL \io1|ALT_INV_Add31~21_sumout\ : std_logic;
-SIGNAL \io1|ALT_INV_Add31~17_sumout\ : std_logic;
-SIGNAL \io1|ALT_INV_Add31~13_sumout\ : std_logic;
-SIGNAL \io1|ALT_INV_Add31~9_sumout\ : std_logic;
-SIGNAL \io1|ALT_INV_Add31~5_sumout\ : std_logic;
-SIGNAL \io1|ALT_INV_Add31~1_sumout\ : std_logic;
-SIGNAL \io1|Mod1|auto_generated|divider|divider|ALT_INV_add_sub_10_result_int[9]~45_sumout\ : std_logic;
-SIGNAL \io1|Mod1|auto_generated|divider|divider|ALT_INV_op_4~53_sumout\ : std_logic;
-SIGNAL \io1|ALT_INV_Add3~29_sumout\ : std_logic;
 SIGNAL \sd1|ALT_INV_address[8]~DUPLICATE_q\ : std_logic;
 SIGNAL \sd1|ALT_INV_cmd_out[42]~DUPLICATE_q\ : std_logic;
 SIGNAL \debounceReset|ALT_INV_w_dig_counter[9]~DUPLICATE_q\ : std_logic;
@@ -6774,27 +6652,27 @@ SIGNAL \io2|ALT_INV_rxReadPointer[0]~8_wirecell_combout\ : std_logic;
 SIGNAL \io1|ALT_INV_Mux2~4_combout\ : std_logic;
 SIGNAL \io1|ALT_INV_ps2WriteClkCount[4]~7_combout\ : std_logic;
 SIGNAL \cpu1|ALT_INV_Selector191~0_combout\ : std_logic;
-SIGNAL \ALT_INV_cpuDataIn[3]~66_combout\ : std_logic;
-SIGNAL \ALT_INV_cpuDataIn[3]~65_combout\ : std_logic;
-SIGNAL \ALT_INV_cpuDataIn[3]~64_combout\ : std_logic;
-SIGNAL \ALT_INV_cpuDataIn[1]~63_combout\ : std_logic;
-SIGNAL \ALT_INV_cpuDataIn[2]~62_combout\ : std_logic;
-SIGNAL \ALT_INV_cpuDataIn[2]~61_combout\ : std_logic;
-SIGNAL \ALT_INV_cpuDataIn[2]~60_combout\ : std_logic;
-SIGNAL \ALT_INV_cpuDataIn[2]~59_combout\ : std_logic;
-SIGNAL \ALT_INV_cpuDataIn[0]~58_combout\ : std_logic;
-SIGNAL \ALT_INV_cpuDataIn[0]~57_combout\ : std_logic;
-SIGNAL \ALT_INV_cpuDataIn[0]~56_combout\ : std_logic;
-SIGNAL \ALT_INV_cpuDataIn[4]~55_combout\ : std_logic;
-SIGNAL \ALT_INV_cpuDataIn[7]~54_combout\ : std_logic;
-SIGNAL \ALT_INV_cpuDataIn[7]~53_combout\ : std_logic;
-SIGNAL \ALT_INV_cpuDataIn[7]~52_combout\ : std_logic;
-SIGNAL \ALT_INV_cpuDataIn[3]~51_combout\ : std_logic;
+SIGNAL \ALT_INV_w_cpuDataIn[3]~66_combout\ : std_logic;
+SIGNAL \ALT_INV_w_cpuDataIn[3]~65_combout\ : std_logic;
+SIGNAL \ALT_INV_w_cpuDataIn[3]~64_combout\ : std_logic;
+SIGNAL \ALT_INV_w_cpuDataIn[1]~63_combout\ : std_logic;
+SIGNAL \ALT_INV_w_cpuDataIn[2]~62_combout\ : std_logic;
+SIGNAL \ALT_INV_w_cpuDataIn[2]~61_combout\ : std_logic;
+SIGNAL \ALT_INV_w_cpuDataIn[2]~60_combout\ : std_logic;
+SIGNAL \ALT_INV_w_cpuDataIn[2]~59_combout\ : std_logic;
+SIGNAL \ALT_INV_w_cpuDataIn[0]~58_combout\ : std_logic;
+SIGNAL \ALT_INV_w_cpuDataIn[0]~57_combout\ : std_logic;
+SIGNAL \ALT_INV_w_cpuDataIn[0]~56_combout\ : std_logic;
+SIGNAL \ALT_INV_w_cpuDataIn[4]~55_combout\ : std_logic;
+SIGNAL \ALT_INV_w_cpuDataIn[7]~54_combout\ : std_logic;
+SIGNAL \ALT_INV_w_cpuDataIn[7]~53_combout\ : std_logic;
+SIGNAL \ALT_INV_w_cpuDataIn[7]~52_combout\ : std_logic;
+SIGNAL \ALT_INV_w_cpuDataIn[3]~51_combout\ : std_logic;
 SIGNAL \cpu1|ALT_INV_Selector302~2_combout\ : std_logic;
 SIGNAL \cpu1|ALT_INV_Selector302~1_combout\ : std_logic;
-SIGNAL \ALT_INV_cpuDataIn[6]~50_combout\ : std_logic;
-SIGNAL \ALT_INV_cpuDataIn[5]~49_combout\ : std_logic;
-SIGNAL \ALT_INV_cpuDataIn[7]~48_combout\ : std_logic;
+SIGNAL \ALT_INV_w_cpuDataIn[6]~50_combout\ : std_logic;
+SIGNAL \ALT_INV_w_cpuDataIn[5]~49_combout\ : std_logic;
+SIGNAL \ALT_INV_w_cpuDataIn[7]~48_combout\ : std_logic;
 SIGNAL \sd1|ALT_INV_Selector56~0_combout\ : std_logic;
 SIGNAL \sd1|ALT_INV_Selector54~0_combout\ : std_logic;
 SIGNAL \sd1|ALT_INV_Selector51~0_combout\ : std_logic;
@@ -7117,7 +6995,7 @@ SIGNAL \io2|ALT_INV_rxState.dataBit~q\ : std_logic;
 SIGNAL \io2|ALT_INV_rxClockCount[5]~0_combout\ : std_logic;
 SIGNAL \io2|ALT_INV_rxdFiltered~q\ : std_logic;
 SIGNAL \io2|ALT_INV_rxState.idle~q\ : std_logic;
-SIGNAL \ALT_INV_n_RD~q\ : std_logic;
+SIGNAL \ALT_INV_w_n_RD~q\ : std_logic;
 SIGNAL \ALT_INV_n_WR_uart~combout\ : std_logic;
 SIGNAL \mm1|ALT_INV_Equal4~0_combout\ : std_logic;
 SIGNAL \mm1|ALT_INV_nmiDly\ : std_logic_vector(4 DOWNTO 0);
@@ -7225,6 +7103,7 @@ SIGNAL \io1|ALT_INV_Add41~2_combout\ : std_logic;
 SIGNAL \io1|ALT_INV_cursorVert~49_combout\ : std_logic;
 SIGNAL \io1|ALT_INV_cursorVert~48_combout\ : std_logic;
 SIGNAL \io1|ALT_INV_Selector8~3_combout\ : std_logic;
+SIGNAL \io1|ALT_INV_savedCursorVert\ : std_logic_vector(4 DOWNTO 0);
 SIGNAL \io1|ALT_INV_Selector9~7_combout\ : std_logic;
 SIGNAL \io1|ALT_INV_Selector9~6_combout\ : std_logic;
 SIGNAL \io1|ALT_INV_Add39~1_combout\ : std_logic;
@@ -7344,6 +7223,127 @@ SIGNAL \io1|ALT_INV_cursorHoriz[4]~3_combout\ : std_logic;
 SIGNAL \io1|ALT_INV_display_store~30_combout\ : std_logic;
 SIGNAL \io1|ALT_INV_cursorHoriz[4]~2_combout\ : std_logic;
 SIGNAL \io1|ALT_INV_WideOr3~0_combout\ : std_logic;
+SIGNAL \io1|ALT_INV_cursorHoriz[4]~1_combout\ : std_logic;
+SIGNAL \io1|ALT_INV_Selector10~5_combout\ : std_logic;
+SIGNAL \io1|ALT_INV_Selector10~4_combout\ : std_logic;
+SIGNAL \io1|ALT_INV_cursorVert[3]~34_combout\ : std_logic;
+SIGNAL \io1|ALT_INV_cursorVert[3]~33_combout\ : std_logic;
+SIGNAL \io1|ALT_INV_cursorVert[3]~32_combout\ : std_logic;
+SIGNAL \io1|ALT_INV_cursorVert[3]~31_combout\ : std_logic;
+SIGNAL \io1|ALT_INV_dispState.deleteLine~q\ : std_logic;
+SIGNAL \io1|ALT_INV_cursorVert[3]~30_combout\ : std_logic;
+SIGNAL \io1|ALT_INV_Add39~0_combout\ : std_logic;
+SIGNAL \io1|ALT_INV_Selector10~3_combout\ : std_logic;
+SIGNAL \io1|ALT_INV_cursorVert[3]~29_combout\ : std_logic;
+SIGNAL \io1|ALT_INV_cursorVert[3]~28_combout\ : std_logic;
+SIGNAL \io1|ALT_INV_Equal62~1_combout\ : std_logic;
+SIGNAL \io1|ALT_INV_Equal62~0_combout\ : std_logic;
+SIGNAL \io1|ALT_INV_cursorVertRestore\ : std_logic_vector(4 DOWNTO 0);
+SIGNAL \io1|ALT_INV_Add50~0_combout\ : std_logic;
+SIGNAL \io1|ALT_INV_dispState.ins3~q\ : std_logic;
+SIGNAL \io1|ALT_INV_cursorVert[3]~27_combout\ : std_logic;
+SIGNAL \io1|ALT_INV_cursorVert[3]~26_combout\ : std_logic;
+SIGNAL \io1|ALT_INV_cursorVert[3]~25_combout\ : std_logic;
+SIGNAL \io1|ALT_INV_dispState.insertLine~q\ : std_logic;
+SIGNAL \io1|ALT_INV_dispState.del3~q\ : std_logic;
+SIGNAL \io1|ALT_INV_Add41~0_combout\ : std_logic;
+SIGNAL \io1|ALT_INV_cursorVert[3]~24_combout\ : std_logic;
+SIGNAL \io1|ALT_INV_cursorVert[3]~23_combout\ : std_logic;
+SIGNAL \io1|ALT_INV_cursorVert~22_combout\ : std_logic;
+SIGNAL \io1|ALT_INV_display_store~29_combout\ : std_logic;
+SIGNAL \io1|ALT_INV_display_store~28_combout\ : std_logic;
+SIGNAL \io1|ALT_INV_display_store~27_combout\ : std_logic;
+SIGNAL \io1|ALT_INV_Equal31~1_combout\ : std_logic;
+SIGNAL \io1|ALT_INV_cursorVert~21_combout\ : std_logic;
+SIGNAL \io1|ALT_INV_Equal35~0_combout\ : std_logic;
+SIGNAL \io1|ALT_INV_Equal34~1_combout\ : std_logic;
+SIGNAL \io1|ALT_INV_Equal31~0_combout\ : std_logic;
+SIGNAL \io1|ALT_INV_Equal34~0_combout\ : std_logic;
+SIGNAL \io1|ALT_INV_cursorVert[3]~20_combout\ : std_logic;
+SIGNAL \io1|ALT_INV_cursorVert[3]~19_combout\ : std_logic;
+SIGNAL \io1|ALT_INV_dispState.clearS2~q\ : std_logic;
+SIGNAL \io1|ALT_INV_dispState.clearL2~q\ : std_logic;
+SIGNAL \io1|ALT_INV_dispState.dispNextLoc~q\ : std_logic;
+SIGNAL \io1|ALT_INV_LessThan53~1_combout\ : std_logic;
+SIGNAL \io1|ALT_INV_LessThan53~0_combout\ : std_logic;
+SIGNAL \io1|ALT_INV_Equal57~0_combout\ : std_logic;
+SIGNAL \io1|ALT_INV_Equal58~0_combout\ : std_logic;
+SIGNAL \io1|ALT_INV_Equal56~0_combout\ : std_logic;
+SIGNAL \io1|ALT_INV_cursorVert~18_combout\ : std_logic;
+SIGNAL \io1|ALT_INV_cursorVert~17_combout\ : std_logic;
+SIGNAL \io1|ALT_INV_cursorVert~16_combout\ : std_logic;
+SIGNAL \io1|ALT_INV_display_store~26_combout\ : std_logic;
+SIGNAL \io1|ALT_INV_display_store~25_combout\ : std_logic;
+SIGNAL \io1|ALT_INV_dispCharWRData\ : std_logic_vector(7 DOWNTO 0);
+SIGNAL \io1|ALT_INV_dispState.dispWrite~q\ : std_logic;
+SIGNAL \io1|ALT_INV_cursorVert[3]~15_combout\ : std_logic;
+SIGNAL \io1|ALT_INV_escState~8_combout\ : std_logic;
+SIGNAL \io1|ALT_INV_display_store~24_combout\ : std_logic;
+SIGNAL \io1|ALT_INV_cursorVert[3]~14_combout\ : std_logic;
+SIGNAL \io1|ALT_INV_display_store~23_combout\ : std_logic;
+SIGNAL \io1|ALT_INV_cursorVert[3]~13_combout\ : std_logic;
+SIGNAL \io1|ALT_INV_cursorVert~12_combout\ : std_logic;
+SIGNAL \io1|ALT_INV_Equal30~0_combout\ : std_logic;
+SIGNAL \io1|ALT_INV_display_store~22_combout\ : std_logic;
+SIGNAL \io1|ALT_INV_escState.none~0_combout\ : std_logic;
+SIGNAL \io1|ALT_INV_display_store~21_combout\ : std_logic;
+SIGNAL \io1|ALT_INV_escState.waitForLeftBracket~q\ : std_logic;
+SIGNAL \io1|ALT_INV_dispCharWRData[2]~0_combout\ : std_logic;
+SIGNAL \io1|ALT_INV_dispState.clearChar~q\ : std_logic;
+SIGNAL \io1|ALT_INV_dispState.clearScreen~q\ : std_logic;
+SIGNAL \io1|ALT_INV_dispState.clearLine~q\ : std_logic;
+SIGNAL \io1|ALT_INV_dispState.clearC2~q\ : std_logic;
+SIGNAL \io1|ALT_INV_Selector10~2_combout\ : std_logic;
+SIGNAL \io1|ALT_INV_Selector10~1_combout\ : std_logic;
+SIGNAL \io1|ALT_INV_Add47~0_combout\ : std_logic;
+SIGNAL \io1|ALT_INV_cursorVert[3]~11_combout\ : std_logic;
+SIGNAL \io1|ALT_INV_cursorVert[3]~10_combout\ : std_logic;
+SIGNAL \io1|ALT_INV_cursorVert[3]~9_combout\ : std_logic;
+SIGNAL \io1|ALT_INV_cursorVert[3]~8_combout\ : std_logic;
+SIGNAL \io1|ALT_INV_dispState~32_combout\ : std_logic;
+SIGNAL \io1|ALT_INV_display_store~20_combout\ : std_logic;
+SIGNAL \io1|ALT_INV_Equal43~0_combout\ : std_logic;
+SIGNAL \io1|ALT_INV_Selector10~0_combout\ : std_logic;
+SIGNAL \io1|ALT_INV_cursorHoriz[6]~0_combout\ : std_logic;
+SIGNAL \io1|ALT_INV_cursorVert[3]~7_combout\ : std_logic;
+SIGNAL \io1|ALT_INV_cursorVert[3]~6_combout\ : std_logic;
+SIGNAL \io1|ALT_INV_cursorVert[3]~5_combout\ : std_logic;
+SIGNAL \io1|ALT_INV_cursorVert[3]~4_combout\ : std_logic;
+SIGNAL \io1|ALT_INV_LessThan44~1_combout\ : std_logic;
+SIGNAL \io1|ALT_INV_LessThan44~0_combout\ : std_logic;
+SIGNAL \io1|ALT_INV_LessThan42~2_combout\ : std_logic;
+SIGNAL \io1|ALT_INV_LessThan42~1_combout\ : std_logic;
+SIGNAL \io1|ALT_INV_LessThan42~0_combout\ : std_logic;
+SIGNAL \io1|ALT_INV_display_store~19_combout\ : std_logic;
+SIGNAL \io1|ALT_INV_display_store~18_combout\ : std_logic;
+SIGNAL \io1|ALT_INV_display_store~17_combout\ : std_logic;
+SIGNAL \io1|ALT_INV_display_store~16_combout\ : std_logic;
+SIGNAL \io1|ALT_INV_display_store~15_combout\ : std_logic;
+SIGNAL \io1|ALT_INV_display_store~14_combout\ : std_logic;
+SIGNAL \io1|ALT_INV_display_store~13_combout\ : std_logic;
+SIGNAL \io1|ALT_INV_cursorVert[3]~3_combout\ : std_logic;
+SIGNAL \io1|ALT_INV_cursorVert[3]~2_combout\ : std_logic;
+SIGNAL \io1|ALT_INV_display_store~12_combout\ : std_logic;
+SIGNAL \io1|ALT_INV_LessThan41~0_combout\ : std_logic;
+SIGNAL \io1|ALT_INV_Equal52~0_combout\ : std_logic;
+SIGNAL \io1|ALT_INV_display_store~11_combout\ : std_logic;
+SIGNAL \io1|ALT_INV_cursorVert[3]~1_combout\ : std_logic;
+SIGNAL \io1|ALT_INV_Equal42~0_combout\ : std_logic;
+SIGNAL \io1|ALT_INV_Equal33~1_combout\ : std_logic;
+SIGNAL \io1|ALT_INV_cursorVert[3]~0_combout\ : std_logic;
+SIGNAL \io1|ALT_INV_display_store~10_combout\ : std_logic;
+SIGNAL \io1|ALT_INV_Add3~33_sumout\ : std_logic;
+SIGNAL \io1|ALT_INV_Add0~33_sumout\ : std_logic;
+SIGNAL \io1|ALT_INV_param4\ : std_logic_vector(6 DOWNTO 0);
+SIGNAL \io1|ALT_INV_Add31~21_sumout\ : std_logic;
+SIGNAL \io1|ALT_INV_Add31~17_sumout\ : std_logic;
+SIGNAL \io1|ALT_INV_Add31~13_sumout\ : std_logic;
+SIGNAL \io1|ALT_INV_Add31~9_sumout\ : std_logic;
+SIGNAL \io1|ALT_INV_Add31~5_sumout\ : std_logic;
+SIGNAL \io1|ALT_INV_Add31~1_sumout\ : std_logic;
+SIGNAL \io1|Mod1|auto_generated|divider|divider|ALT_INV_add_sub_10_result_int[9]~45_sumout\ : std_logic;
+SIGNAL \io1|Mod1|auto_generated|divider|divider|ALT_INV_op_4~53_sumout\ : std_logic;
+SIGNAL \io1|ALT_INV_Add3~29_sumout\ : std_logic;
 SIGNAL \io1|Mod0|auto_generated|divider|divider|ALT_INV_add_sub_10_result_int[9]~45_sumout\ : std_logic;
 SIGNAL \io1|Mod0|auto_generated|divider|divider|ALT_INV_op_4~53_sumout\ : std_logic;
 SIGNAL \io1|ALT_INV_Add0~29_sumout\ : std_logic;
@@ -7940,127 +7940,6 @@ gnd & \io2|rxCurrentByteBuffer\(7) & \io2|rxCurrentByteBuffer\(6) & \io2|rxCurre
 \io1|GEN_2KRAM:dispCharRam|altsyncram_component|auto_generated|q_a\(7) <= \io1|GEN_2KRAM:dispCharRam|altsyncram_component|auto_generated|ram_block1a7_PORTADATAOUT_bus\(0);
 
 \io1|GEN_2KRAM:dispCharRam|altsyncram_component|auto_generated|q_b\(7) <= \io1|GEN_2KRAM:dispCharRam|altsyncram_component|auto_generated|ram_block1a7_PORTBDATAOUT_bus\(0);
-\io1|ALT_INV_cursorHoriz[4]~1_combout\ <= NOT \io1|cursorHoriz[4]~1_combout\;
-\io1|ALT_INV_Selector10~5_combout\ <= NOT \io1|Selector10~5_combout\;
-\io1|ALT_INV_Selector10~4_combout\ <= NOT \io1|Selector10~4_combout\;
-\io1|ALT_INV_cursorVert[3]~34_combout\ <= NOT \io1|cursorVert[3]~34_combout\;
-\io1|ALT_INV_cursorVert[3]~33_combout\ <= NOT \io1|cursorVert[3]~33_combout\;
-\io1|ALT_INV_cursorVert[3]~32_combout\ <= NOT \io1|cursorVert[3]~32_combout\;
-\io1|ALT_INV_cursorVert[3]~31_combout\ <= NOT \io1|cursorVert[3]~31_combout\;
-\io1|ALT_INV_dispState.deleteLine~q\ <= NOT \io1|dispState.deleteLine~q\;
-\io1|ALT_INV_cursorVert[3]~30_combout\ <= NOT \io1|cursorVert[3]~30_combout\;
-\io1|ALT_INV_Add39~0_combout\ <= NOT \io1|Add39~0_combout\;
-\io1|ALT_INV_Selector10~3_combout\ <= NOT \io1|Selector10~3_combout\;
-\io1|ALT_INV_cursorVert[3]~29_combout\ <= NOT \io1|cursorVert[3]~29_combout\;
-\io1|ALT_INV_cursorVert[3]~28_combout\ <= NOT \io1|cursorVert[3]~28_combout\;
-\io1|ALT_INV_Equal62~1_combout\ <= NOT \io1|Equal62~1_combout\;
-\io1|ALT_INV_Equal62~0_combout\ <= NOT \io1|Equal62~0_combout\;
-\io1|ALT_INV_cursorVertRestore\(4) <= NOT \io1|cursorVertRestore\(4);
-\io1|ALT_INV_Add50~0_combout\ <= NOT \io1|Add50~0_combout\;
-\io1|ALT_INV_cursorVertRestore\(1) <= NOT \io1|cursorVertRestore\(1);
-\io1|ALT_INV_cursorVertRestore\(0) <= NOT \io1|cursorVertRestore\(0);
-\io1|ALT_INV_cursorVertRestore\(3) <= NOT \io1|cursorVertRestore\(3);
-\io1|ALT_INV_dispState.ins3~q\ <= NOT \io1|dispState.ins3~q\;
-\io1|ALT_INV_cursorVertRestore\(2) <= NOT \io1|cursorVertRestore\(2);
-\io1|ALT_INV_cursorVert[3]~27_combout\ <= NOT \io1|cursorVert[3]~27_combout\;
-\io1|ALT_INV_cursorVert[3]~26_combout\ <= NOT \io1|cursorVert[3]~26_combout\;
-\io1|ALT_INV_cursorVert[3]~25_combout\ <= NOT \io1|cursorVert[3]~25_combout\;
-\io1|ALT_INV_dispState.insertLine~q\ <= NOT \io1|dispState.insertLine~q\;
-\io1|ALT_INV_dispState.del3~q\ <= NOT \io1|dispState.del3~q\;
-\io1|ALT_INV_Add41~0_combout\ <= NOT \io1|Add41~0_combout\;
-\io1|ALT_INV_cursorVert[3]~24_combout\ <= NOT \io1|cursorVert[3]~24_combout\;
-\io1|ALT_INV_cursorVert[3]~23_combout\ <= NOT \io1|cursorVert[3]~23_combout\;
-\io1|ALT_INV_cursorVert~22_combout\ <= NOT \io1|cursorVert~22_combout\;
-\io1|ALT_INV_display_store~29_combout\ <= NOT \io1|display_store~29_combout\;
-\io1|ALT_INV_display_store~28_combout\ <= NOT \io1|display_store~28_combout\;
-\io1|ALT_INV_display_store~27_combout\ <= NOT \io1|display_store~27_combout\;
-\io1|ALT_INV_Equal31~1_combout\ <= NOT \io1|Equal31~1_combout\;
-\io1|ALT_INV_cursorVert~21_combout\ <= NOT \io1|cursorVert~21_combout\;
-\io1|ALT_INV_Equal35~0_combout\ <= NOT \io1|Equal35~0_combout\;
-\io1|ALT_INV_Equal34~1_combout\ <= NOT \io1|Equal34~1_combout\;
-\io1|ALT_INV_Equal31~0_combout\ <= NOT \io1|Equal31~0_combout\;
-\io1|ALT_INV_Equal34~0_combout\ <= NOT \io1|Equal34~0_combout\;
-\io1|ALT_INV_cursorVert[3]~20_combout\ <= NOT \io1|cursorVert[3]~20_combout\;
-\io1|ALT_INV_cursorVert[3]~19_combout\ <= NOT \io1|cursorVert[3]~19_combout\;
-\io1|ALT_INV_dispState.clearS2~q\ <= NOT \io1|dispState.clearS2~q\;
-\io1|ALT_INV_dispState.clearL2~q\ <= NOT \io1|dispState.clearL2~q\;
-\io1|ALT_INV_dispState.dispNextLoc~q\ <= NOT \io1|dispState.dispNextLoc~q\;
-\io1|ALT_INV_LessThan53~1_combout\ <= NOT \io1|LessThan53~1_combout\;
-\io1|ALT_INV_LessThan53~0_combout\ <= NOT \io1|LessThan53~0_combout\;
-\io1|ALT_INV_Equal57~0_combout\ <= NOT \io1|Equal57~0_combout\;
-\io1|ALT_INV_Equal58~0_combout\ <= NOT \io1|Equal58~0_combout\;
-\io1|ALT_INV_Equal56~0_combout\ <= NOT \io1|Equal56~0_combout\;
-\io1|ALT_INV_cursorVert~18_combout\ <= NOT \io1|cursorVert~18_combout\;
-\io1|ALT_INV_cursorVert~17_combout\ <= NOT \io1|cursorVert~17_combout\;
-\io1|ALT_INV_cursorVert~16_combout\ <= NOT \io1|cursorVert~16_combout\;
-\io1|ALT_INV_display_store~26_combout\ <= NOT \io1|display_store~26_combout\;
-\io1|ALT_INV_display_store~25_combout\ <= NOT \io1|display_store~25_combout\;
-\io1|ALT_INV_dispCharWRData\(4) <= NOT \io1|dispCharWRData\(4);
-\io1|ALT_INV_dispCharWRData\(5) <= NOT \io1|dispCharWRData\(5);
-\io1|ALT_INV_dispCharWRData\(6) <= NOT \io1|dispCharWRData\(6);
-\io1|ALT_INV_dispCharWRData\(1) <= NOT \io1|dispCharWRData\(1);
-\io1|ALT_INV_dispCharWRData\(2) <= NOT \io1|dispCharWRData\(2);
-\io1|ALT_INV_dispCharWRData\(0) <= NOT \io1|dispCharWRData\(0);
-\io1|ALT_INV_dispCharWRData\(3) <= NOT \io1|dispCharWRData\(3);
-\io1|ALT_INV_dispCharWRData\(7) <= NOT \io1|dispCharWRData\(7);
-\io1|ALT_INV_dispState.dispWrite~q\ <= NOT \io1|dispState.dispWrite~q\;
-\io1|ALT_INV_cursorVert[3]~15_combout\ <= NOT \io1|cursorVert[3]~15_combout\;
-\io1|ALT_INV_escState~8_combout\ <= NOT \io1|escState~8_combout\;
-\io1|ALT_INV_display_store~24_combout\ <= NOT \io1|display_store~24_combout\;
-\io1|ALT_INV_cursorVert[3]~14_combout\ <= NOT \io1|cursorVert[3]~14_combout\;
-\io1|ALT_INV_display_store~23_combout\ <= NOT \io1|display_store~23_combout\;
-\io1|ALT_INV_cursorVert[3]~13_combout\ <= NOT \io1|cursorVert[3]~13_combout\;
-\io1|ALT_INV_cursorVert~12_combout\ <= NOT \io1|cursorVert~12_combout\;
-\io1|ALT_INV_Equal30~0_combout\ <= NOT \io1|Equal30~0_combout\;
-\io1|ALT_INV_display_store~22_combout\ <= NOT \io1|display_store~22_combout\;
-\io1|ALT_INV_escState.none~0_combout\ <= NOT \io1|escState.none~0_combout\;
-\io1|ALT_INV_display_store~21_combout\ <= NOT \io1|display_store~21_combout\;
-\io1|ALT_INV_escState.waitForLeftBracket~q\ <= NOT \io1|escState.waitForLeftBracket~q\;
-\io1|ALT_INV_dispCharWRData[2]~0_combout\ <= NOT \io1|dispCharWRData[2]~0_combout\;
-\io1|ALT_INV_dispState.clearChar~q\ <= NOT \io1|dispState.clearChar~q\;
-\io1|ALT_INV_dispState.clearScreen~q\ <= NOT \io1|dispState.clearScreen~q\;
-\io1|ALT_INV_dispState.clearLine~q\ <= NOT \io1|dispState.clearLine~q\;
-\io1|ALT_INV_dispState.clearC2~q\ <= NOT \io1|dispState.clearC2~q\;
-\io1|ALT_INV_Selector10~2_combout\ <= NOT \io1|Selector10~2_combout\;
-\io1|ALT_INV_Selector10~1_combout\ <= NOT \io1|Selector10~1_combout\;
-\io1|ALT_INV_Add47~0_combout\ <= NOT \io1|Add47~0_combout\;
-\io1|ALT_INV_savedCursorVert\(2) <= NOT \io1|savedCursorVert\(2);
-\io1|ALT_INV_cursorVert[3]~11_combout\ <= NOT \io1|cursorVert[3]~11_combout\;
-\io1|ALT_INV_cursorVert[3]~10_combout\ <= NOT \io1|cursorVert[3]~10_combout\;
-\io1|ALT_INV_cursorVert[3]~9_combout\ <= NOT \io1|cursorVert[3]~9_combout\;
-\io1|ALT_INV_cursorVert[3]~8_combout\ <= NOT \io1|cursorVert[3]~8_combout\;
-\io1|ALT_INV_dispState~32_combout\ <= NOT \io1|dispState~32_combout\;
-\io1|ALT_INV_display_store~20_combout\ <= NOT \io1|display_store~20_combout\;
-\io1|ALT_INV_Equal43~0_combout\ <= NOT \io1|Equal43~0_combout\;
-\io1|ALT_INV_Selector10~0_combout\ <= NOT \io1|Selector10~0_combout\;
-\io1|ALT_INV_cursorHoriz[6]~0_combout\ <= NOT \io1|cursorHoriz[6]~0_combout\;
-\io1|ALT_INV_cursorVert[3]~7_combout\ <= NOT \io1|cursorVert[3]~7_combout\;
-\io1|ALT_INV_cursorVert[3]~6_combout\ <= NOT \io1|cursorVert[3]~6_combout\;
-\io1|ALT_INV_cursorVert[3]~5_combout\ <= NOT \io1|cursorVert[3]~5_combout\;
-\io1|ALT_INV_cursorVert[3]~4_combout\ <= NOT \io1|cursorVert[3]~4_combout\;
-\io1|ALT_INV_LessThan44~1_combout\ <= NOT \io1|LessThan44~1_combout\;
-\io1|ALT_INV_LessThan44~0_combout\ <= NOT \io1|LessThan44~0_combout\;
-\io1|ALT_INV_LessThan42~2_combout\ <= NOT \io1|LessThan42~2_combout\;
-\io1|ALT_INV_LessThan42~1_combout\ <= NOT \io1|LessThan42~1_combout\;
-\io1|ALT_INV_LessThan42~0_combout\ <= NOT \io1|LessThan42~0_combout\;
-\io1|ALT_INV_display_store~19_combout\ <= NOT \io1|display_store~19_combout\;
-\io1|ALT_INV_display_store~18_combout\ <= NOT \io1|display_store~18_combout\;
-\io1|ALT_INV_display_store~17_combout\ <= NOT \io1|display_store~17_combout\;
-\io1|ALT_INV_display_store~16_combout\ <= NOT \io1|display_store~16_combout\;
-\io1|ALT_INV_display_store~15_combout\ <= NOT \io1|display_store~15_combout\;
-\io1|ALT_INV_display_store~14_combout\ <= NOT \io1|display_store~14_combout\;
-\io1|ALT_INV_display_store~13_combout\ <= NOT \io1|display_store~13_combout\;
-\io1|ALT_INV_cursorVert[3]~3_combout\ <= NOT \io1|cursorVert[3]~3_combout\;
-\io1|ALT_INV_cursorVert[3]~2_combout\ <= NOT \io1|cursorVert[3]~2_combout\;
-\io1|ALT_INV_display_store~12_combout\ <= NOT \io1|display_store~12_combout\;
-\io1|ALT_INV_LessThan41~0_combout\ <= NOT \io1|LessThan41~0_combout\;
-\io1|ALT_INV_Equal52~0_combout\ <= NOT \io1|Equal52~0_combout\;
-\io1|ALT_INV_display_store~11_combout\ <= NOT \io1|display_store~11_combout\;
-\io1|ALT_INV_cursorVert[3]~1_combout\ <= NOT \io1|cursorVert[3]~1_combout\;
-\io1|ALT_INV_Equal42~0_combout\ <= NOT \io1|Equal42~0_combout\;
-\io1|ALT_INV_Equal33~1_combout\ <= NOT \io1|Equal33~1_combout\;
-\io1|ALT_INV_cursorVert[3]~0_combout\ <= NOT \io1|cursorVert[3]~0_combout\;
-\io1|ALT_INV_display_store~10_combout\ <= NOT \io1|display_store~10_combout\;
 \io1|ALT_INV_display_store~9_combout\ <= NOT \io1|display_store~9_combout\;
 \io1|ALT_INV_Equal44~1_combout\ <= NOT \io1|Equal44~1_combout\;
 \io1|ALT_INV_Equal44~0_combout\ <= NOT \io1|Equal44~0_combout\;
@@ -8329,7 +8208,7 @@ gnd & \io2|rxCurrentByteBuffer\(7) & \io2|rxCurrentByteBuffer\(6) & \io2|rxCurre
 \cpu1|ALT_INV_Selector286~0_combout\ <= NOT \cpu1|Selector286~0_combout\;
 \ALT_INV_clk_gen~0_combout\ <= NOT \clk_gen~0_combout\;
 \ALT_INV_n_WR_sd~combout\ <= NOT \n_WR_sd~combout\;
-\ALT_INV_n_WR~q\ <= NOT \n_WR~q\;
+\ALT_INV_w_n_WR~q\ <= NOT \w_n_WR~q\;
 \debounceReset|ALT_INV_w_dly3~q\ <= NOT \debounceReset|w_dly3~q\;
 \debounceReset|ALT_INV_w_dly4~q\ <= NOT \debounceReset|w_dly4~q\;
 \cpu1|ALT_INV_Selector188~0_combout\ <= NOT \cpu1|Selector188~0_combout\;
@@ -8405,7 +8284,7 @@ gnd & \io2|rxCurrentByteBuffer\(7) & \io2|rxCurrentByteBuffer\(6) & \io2|rxCurre
 \cpu1|ALT_INV_WideOr43~0_combout\ <= NOT \cpu1|WideOr43~0_combout\;
 \cpu1|ALT_INV_Mux93~1_combout\ <= NOT \cpu1|Mux93~1_combout\;
 \cpu1|ALT_INV_cc_ctrl.pull_cc~2_combout\ <= NOT \cpu1|cc_ctrl.pull_cc~2_combout\;
-\ALT_INV_cpuDataIn[3]~47_combout\ <= NOT \cpuDataIn[3]~47_combout\;
+\ALT_INV_w_cpuDataIn[3]~47_combout\ <= NOT \w_cpuDataIn[3]~47_combout\;
 \cpu1|ALT_INV_Selector400~1_combout\ <= NOT \cpu1|Selector400~1_combout\;
 \cpu1|ALT_INV_Selector401~0_combout\ <= NOT \cpu1|Selector401~0_combout\;
 \sd1|ALT_INV_Selector2~1_combout\ <= NOT \sd1|Selector2~1_combout\;
@@ -8558,9 +8437,9 @@ gnd & \io2|rxCurrentByteBuffer\(7) & \io2|rxCurrentByteBuffer\(6) & \io2|rxCurre
 \io2|ALT_INV_func_reset~q\ <= NOT \io2|func_reset~q\;
 \cpu1|ALT_INV_WideOr7~combout\ <= NOT \cpu1|WideOr7~combout\;
 \ALT_INV_n_sRamWE~0_combout\ <= NOT \n_sRamWE~0_combout\;
-ALT_INV_state(0) <= NOT state(0);
-ALT_INV_state(1) <= NOT state(1);
-ALT_INV_state(2) <= NOT state(2);
+ALT_INV_w_state(0) <= NOT w_state(0);
+ALT_INV_w_state(1) <= NOT w_state(1);
+ALT_INV_w_state(2) <= NOT w_state(2);
 \mm1|ALT_INV_Mux0~4_combout\ <= NOT \mm1|Mux0~4_combout\;
 \mm1|ALT_INV_Mux0~3_combout\ <= NOT \mm1|Mux0~3_combout\;
 \mm1|ALT_INV_mapf\(7) <= NOT \mm1|mapf\(7);
@@ -8755,44 +8634,44 @@ ALT_INV_state(2) <= NOT state(2);
 \cpu1|ALT_INV_Selector379~1_combout\ <= NOT \cpu1|Selector379~1_combout\;
 \cpu1|ALT_INV_Selector379~0_combout\ <= NOT \cpu1|Selector379~0_combout\;
 \cpu1|ALT_INV_Selector162~0_combout\ <= NOT \cpu1|Selector162~0_combout\;
-\ALT_INV_cpuDataIn[7]~46_combout\ <= NOT \cpuDataIn[7]~46_combout\;
+\ALT_INV_w_cpuDataIn[7]~46_combout\ <= NOT \w_cpuDataIn[7]~46_combout\;
 \cpu1|ALT_INV_Selector163~0_combout\ <= NOT \cpu1|Selector163~0_combout\;
-\ALT_INV_cpuDataIn[6]~45_combout\ <= NOT \cpuDataIn[6]~45_combout\;
+\ALT_INV_w_cpuDataIn[6]~45_combout\ <= NOT \w_cpuDataIn[6]~45_combout\;
 \cpu1|ALT_INV_Selector381~2_combout\ <= NOT \cpu1|Selector381~2_combout\;
 \cpu1|ALT_INV_Selector381~1_combout\ <= NOT \cpu1|Selector381~1_combout\;
 \cpu1|ALT_INV_Selector381~0_combout\ <= NOT \cpu1|Selector381~0_combout\;
 \cpu1|ALT_INV_Selector364~1_combout\ <= NOT \cpu1|Selector364~1_combout\;
 \cpu1|ALT_INV_Selector364~0_combout\ <= NOT \cpu1|Selector364~0_combout\;
-\ALT_INV_cpuDataIn[6]~44_combout\ <= NOT \cpuDataIn[6]~44_combout\;
-\ALT_INV_cpuDataIn[6]~43_combout\ <= NOT \cpuDataIn[6]~43_combout\;
+\ALT_INV_w_cpuDataIn[6]~44_combout\ <= NOT \w_cpuDataIn[6]~44_combout\;
+\ALT_INV_w_cpuDataIn[6]~43_combout\ <= NOT \w_cpuDataIn[6]~43_combout\;
 \sd1|ALT_INV_sd_read_flag~q\ <= NOT \sd1|sd_read_flag~q\;
 \sd1|ALT_INV_host_read_flag~q\ <= NOT \sd1|host_read_flag~q\;
 \sd1|ALT_INV_dout\(6) <= NOT \sd1|dout\(6);
-\ALT_INV_cpuDataIn[6]~42_combout\ <= NOT \cpuDataIn[6]~42_combout\;
-\ALT_INV_cpuDataIn[6]~41_combout\ <= NOT \cpuDataIn[6]~41_combout\;
+\ALT_INV_w_cpuDataIn[6]~42_combout\ <= NOT \w_cpuDataIn[6]~42_combout\;
+\ALT_INV_w_cpuDataIn[6]~41_combout\ <= NOT \w_cpuDataIn[6]~41_combout\;
 \gpio1|ALT_INV_reg_ddr2\(6) <= NOT \gpio1|reg_ddr2\(6);
 \gpio1|ALT_INV_reg_dat2\(6) <= NOT \gpio1|reg_dat2\(6);
 \io2|ALT_INV_dataOut\(6) <= NOT \io2|dataOut\(6);
 \io1|ALT_INV_dataOut\(6) <= NOT \io1|dataOut\(6);
 \cpu1|ALT_INV_Selector164~0_combout\ <= NOT \cpu1|Selector164~0_combout\;
-\ALT_INV_cpuDataIn[5]~40_combout\ <= NOT \cpuDataIn[5]~40_combout\;
+\ALT_INV_w_cpuDataIn[5]~40_combout\ <= NOT \w_cpuDataIn[5]~40_combout\;
 \cpu1|ALT_INV_Selector382~2_combout\ <= NOT \cpu1|Selector382~2_combout\;
 \cpu1|ALT_INV_Selector382~1_combout\ <= NOT \cpu1|Selector382~1_combout\;
 \cpu1|ALT_INV_Selector382~0_combout\ <= NOT \cpu1|Selector382~0_combout\;
 \cpu1|ALT_INV_Selector365~1_combout\ <= NOT \cpu1|Selector365~1_combout\;
 \cpu1|ALT_INV_Selector365~0_combout\ <= NOT \cpu1|Selector365~0_combout\;
-\ALT_INV_cpuDataIn[5]~39_combout\ <= NOT \cpuDataIn[5]~39_combout\;
-\ALT_INV_cpuDataIn[5]~38_combout\ <= NOT \cpuDataIn[5]~38_combout\;
+\ALT_INV_w_cpuDataIn[5]~39_combout\ <= NOT \w_cpuDataIn[5]~39_combout\;
+\ALT_INV_w_cpuDataIn[5]~38_combout\ <= NOT \w_cpuDataIn[5]~38_combout\;
 \sd1|ALT_INV_block_busy~q\ <= NOT \sd1|block_busy~q\;
 \sd1|ALT_INV_dout\(5) <= NOT \sd1|dout\(5);
-\ALT_INV_cpuDataIn[5]~37_combout\ <= NOT \cpuDataIn[5]~37_combout\;
-\ALT_INV_cpuDataIn[5]~36_combout\ <= NOT \cpuDataIn[5]~36_combout\;
+\ALT_INV_w_cpuDataIn[5]~37_combout\ <= NOT \w_cpuDataIn[5]~37_combout\;
+\ALT_INV_w_cpuDataIn[5]~36_combout\ <= NOT \w_cpuDataIn[5]~36_combout\;
 \gpio1|ALT_INV_reg_ddr2\(5) <= NOT \gpio1|reg_ddr2\(5);
 \gpio1|ALT_INV_reg_dat2\(5) <= NOT \gpio1|reg_dat2\(5);
 \io2|ALT_INV_dataOut\(5) <= NOT \io2|dataOut\(5);
 \io1|ALT_INV_dataOut\(5) <= NOT \io1|dataOut\(5);
 \cpu1|ALT_INV_Selector165~0_combout\ <= NOT \cpu1|Selector165~0_combout\;
-\ALT_INV_cpuDataIn[4]~35_combout\ <= NOT \cpuDataIn[4]~35_combout\;
+\ALT_INV_w_cpuDataIn[4]~35_combout\ <= NOT \w_cpuDataIn[4]~35_combout\;
 \cpu1|ALT_INV_Selector383~5_combout\ <= NOT \cpu1|Selector383~5_combout\;
 \cpu1|ALT_INV_Selector383~4_combout\ <= NOT \cpu1|Selector383~4_combout\;
 \cpu1|ALT_INV_Selector383~3_combout\ <= NOT \cpu1|Selector383~3_combout\;
@@ -8806,35 +8685,35 @@ ALT_INV_state(2) <= NOT state(2);
 \cpu1|ALT_INV_Selector349~1_combout\ <= NOT \cpu1|Selector349~1_combout\;
 \cpu1|ALT_INV_Selector349~0_combout\ <= NOT \cpu1|Selector349~0_combout\;
 \cpu1|ALT_INV_Selector383~0_combout\ <= NOT \cpu1|Selector383~0_combout\;
-\ALT_INV_cpuDataIn[4]~34_combout\ <= NOT \cpuDataIn[4]~34_combout\;
-\ALT_INV_cpuDataIn[4]~33_combout\ <= NOT \cpuDataIn[4]~33_combout\;
-\ALT_INV_cpuDataIn[4]~32_combout\ <= NOT \cpuDataIn[4]~32_combout\;
+\ALT_INV_w_cpuDataIn[4]~34_combout\ <= NOT \w_cpuDataIn[4]~34_combout\;
+\ALT_INV_w_cpuDataIn[4]~33_combout\ <= NOT \w_cpuDataIn[4]~33_combout\;
+\ALT_INV_w_cpuDataIn[4]~32_combout\ <= NOT \w_cpuDataIn[4]~32_combout\;
 \sd1|ALT_INV_init_busy~q\ <= NOT \sd1|init_busy~q\;
-\ALT_INV_cpuDataIn[4]~31_combout\ <= NOT \cpuDataIn[4]~31_combout\;
+\ALT_INV_w_cpuDataIn[4]~31_combout\ <= NOT \w_cpuDataIn[4]~31_combout\;
 \sd1|ALT_INV_dout\(4) <= NOT \sd1|dout\(4);
-\ALT_INV_cpuDataIn[4]~30_combout\ <= NOT \cpuDataIn[4]~30_combout\;
-\ALT_INV_cpuDataIn[4]~29_combout\ <= NOT \cpuDataIn[4]~29_combout\;
-\ALT_INV_cpuDataIn[4]~28_combout\ <= NOT \cpuDataIn[4]~28_combout\;
+\ALT_INV_w_cpuDataIn[4]~30_combout\ <= NOT \w_cpuDataIn[4]~30_combout\;
+\ALT_INV_w_cpuDataIn[4]~29_combout\ <= NOT \w_cpuDataIn[4]~29_combout\;
+\ALT_INV_w_cpuDataIn[4]~28_combout\ <= NOT \w_cpuDataIn[4]~28_combout\;
 \gpio1|ALT_INV_reg_ddr2\(4) <= NOT \gpio1|reg_ddr2\(4);
-\ALT_INV_cpuDataIn[4]~27_combout\ <= NOT \cpuDataIn[4]~27_combout\;
+\ALT_INV_w_cpuDataIn[4]~27_combout\ <= NOT \w_cpuDataIn[4]~27_combout\;
 \gpio1|ALT_INV_Equal0~1_combout\ <= NOT \gpio1|Equal0~1_combout\;
 \gpio1|ALT_INV_reg_dat2\(4) <= NOT \gpio1|reg_dat2\(4);
-\ALT_INV_cpuDataIn[4]~26_combout\ <= NOT \cpuDataIn[4]~26_combout\;
+\ALT_INV_w_cpuDataIn[4]~26_combout\ <= NOT \w_cpuDataIn[4]~26_combout\;
 \io2|ALT_INV_dataOut\(4) <= NOT \io2|dataOut\(4);
-\ALT_INV_cpuDataIn[4]~25_combout\ <= NOT \cpuDataIn[4]~25_combout\;
-\ALT_INV_cpuDataIn[4]~24_combout\ <= NOT \cpuDataIn[4]~24_combout\;
+\ALT_INV_w_cpuDataIn[4]~25_combout\ <= NOT \w_cpuDataIn[4]~25_combout\;
+\ALT_INV_w_cpuDataIn[4]~24_combout\ <= NOT \w_cpuDataIn[4]~24_combout\;
 \io1|ALT_INV_dataOut\(4) <= NOT \io1|dataOut\(4);
 \cpu1|ALT_INV_Selector151~0_combout\ <= NOT \cpu1|Selector151~0_combout\;
-\ALT_INV_cpuDataIn[3]~23_combout\ <= NOT \cpuDataIn[3]~23_combout\;
-\ALT_INV_cpuDataIn[3]~22_combout\ <= NOT \cpuDataIn[3]~22_combout\;
+\ALT_INV_w_cpuDataIn[3]~23_combout\ <= NOT \w_cpuDataIn[3]~23_combout\;
+\ALT_INV_w_cpuDataIn[3]~22_combout\ <= NOT \w_cpuDataIn[3]~22_combout\;
 \cpu1|ALT_INV_Selector152~0_combout\ <= NOT \cpu1|Selector152~0_combout\;
-\ALT_INV_cpuDataIn[2]~21_combout\ <= NOT \cpuDataIn[2]~21_combout\;
+\ALT_INV_w_cpuDataIn[2]~21_combout\ <= NOT \w_cpuDataIn[2]~21_combout\;
 \cpu1|ALT_INV_Selector431~0_combout\ <= NOT \cpu1|Selector431~0_combout\;
 \cpu1|ALT_INV_saved_state.vect_hi_state~q\ <= NOT \cpu1|saved_state.vect_hi_state~q\;
 \cpu1|ALT_INV_Selector153~0_combout\ <= NOT \cpu1|Selector153~0_combout\;
 \cpu1|ALT_INV_Selector396~0_combout\ <= NOT \cpu1|Selector396~0_combout\;
 \cpu1|ALT_INV_Selector168~0_combout\ <= NOT \cpu1|Selector168~0_combout\;
-\ALT_INV_cpuDataIn[1]~20_combout\ <= NOT \cpuDataIn[1]~20_combout\;
+\ALT_INV_w_cpuDataIn[1]~20_combout\ <= NOT \w_cpuDataIn[1]~20_combout\;
 \cpu1|ALT_INV_Selector459~3_combout\ <= NOT \cpu1|Selector459~3_combout\;
 \cpu1|ALT_INV_saved_state.dual_op_write8_state~q\ <= NOT \cpu1|saved_state.dual_op_write8_state~q\;
 \cpu1|ALT_INV_Selector459~2_combout\ <= NOT \cpu1|Selector459~2_combout\;
@@ -9012,9 +8891,9 @@ ALT_INV_state(2) <= NOT state(2);
 \cpu1|ALT_INV_Selector348~1_combout\ <= NOT \cpu1|Selector348~1_combout\;
 \cpu1|ALT_INV_Selector348~0_combout\ <= NOT \cpu1|Selector348~0_combout\;
 \cpu1|ALT_INV_cc\(6) <= NOT \cpu1|cc\(6);
-\ALT_INV_cpuDataIn[7]~19_combout\ <= NOT \cpuDataIn[7]~19_combout\;
-\ALT_INV_cpuDataIn~18_combout\ <= NOT \cpuDataIn~18_combout\;
-\ALT_INV_cpuDataIn~17_combout\ <= NOT \cpuDataIn~17_combout\;
+\ALT_INV_w_cpuDataIn[7]~19_combout\ <= NOT \w_cpuDataIn[7]~19_combout\;
+\ALT_INV_w_cpuDataIn~18_combout\ <= NOT \w_cpuDataIn~18_combout\;
+\ALT_INV_w_cpuDataIn~17_combout\ <= NOT \w_cpuDataIn~17_combout\;
 \sd1|ALT_INV_Equal6~1_combout\ <= NOT \sd1|Equal6~1_combout\;
 \cpu1|ALT_INV_Selector330~5_combout\ <= NOT \cpu1|Selector330~5_combout\;
 \sd1|ALT_INV_sd_write_flag~q\ <= NOT \sd1|sd_write_flag~q\;
@@ -9022,7 +8901,7 @@ ALT_INV_state(2) <= NOT state(2);
 \sd1|ALT_INV_dout\(7) <= NOT \sd1|dout\(7);
 \gpio1|ALT_INV_reg_ddr2\(7) <= NOT \gpio1|reg_ddr2\(7);
 \gpio1|ALT_INV_reg_dat2\(7) <= NOT \gpio1|reg_dat2\(7);
-\ALT_INV_cpuDataIn[7]~16_combout\ <= NOT \cpuDataIn[7]~16_combout\;
+\ALT_INV_w_cpuDataIn[7]~16_combout\ <= NOT \w_cpuDataIn[7]~16_combout\;
 \io2|ALT_INV_dataOut\(7) <= NOT \io2|dataOut\(7);
 \io1|ALT_INV_dataOut\(7) <= NOT \io1|dataOut\(7);
 \cpu1|ALT_INV_Selector384~6_combout\ <= NOT \cpu1|Selector384~6_combout\;
@@ -9038,12 +8917,12 @@ ALT_INV_state(2) <= NOT state(2);
 \cpu1|ALT_INV_Selector350~0_combout\ <= NOT \cpu1|Selector350~0_combout\;
 \cpu1|ALT_INV_Selector367~0_combout\ <= NOT \cpu1|Selector367~0_combout\;
 \cpu1|ALT_INV_Selector384~0_combout\ <= NOT \cpu1|Selector384~0_combout\;
-\ALT_INV_cpuDataIn[3]~15_combout\ <= NOT \cpuDataIn[3]~15_combout\;
+\ALT_INV_w_cpuDataIn[3]~15_combout\ <= NOT \w_cpuDataIn[3]~15_combout\;
 \sd1|ALT_INV_dout\(3) <= NOT \sd1|dout\(3);
 \gpio1|ALT_INV_reg_ddr2\(3) <= NOT \gpio1|reg_ddr2\(3);
 \gpio1|ALT_INV_reg_dat2\(3) <= NOT \gpio1|reg_dat2\(3);
 \io2|ALT_INV_dataOut\(3) <= NOT \io2|dataOut\(3);
-\ALT_INV_cpuDataIn[3]~14_combout\ <= NOT \cpuDataIn[3]~14_combout\;
+\ALT_INV_w_cpuDataIn[3]~14_combout\ <= NOT \w_cpuDataIn[3]~14_combout\;
 \io1|ALT_INV_dataOut\(3) <= NOT \io1|dataOut\(3);
 \cpu1|ALT_INV_Selector452~0_combout\ <= NOT \cpu1|Selector452~0_combout\;
 \cpu1|ALT_INV_Selector280~0_combout\ <= NOT \cpu1|Selector280~0_combout\;
@@ -9074,18 +8953,18 @@ ALT_INV_state(2) <= NOT state(2);
 \cpu1|ALT_INV_Selector351~0_combout\ <= NOT \cpu1|Selector351~0_combout\;
 \cpu1|ALT_INV_cc\(3) <= NOT \cpu1|cc\(3);
 \cpu1|ALT_INV_Selector385~0_combout\ <= NOT \cpu1|Selector385~0_combout\;
-\ALT_INV_cpuDataIn[2]~13_combout\ <= NOT \cpuDataIn[2]~13_combout\;
+\ALT_INV_w_cpuDataIn[2]~13_combout\ <= NOT \w_cpuDataIn[2]~13_combout\;
 \io2|ALT_INV_dataOut\(2) <= NOT \io2|dataOut\(2);
 \io1|ALT_INV_dataOut\(2) <= NOT \io1|dataOut\(2);
-\ALT_INV_cpuDataIn[2]~12_combout\ <= NOT \cpuDataIn[2]~12_combout\;
+\ALT_INV_w_cpuDataIn[2]~12_combout\ <= NOT \w_cpuDataIn[2]~12_combout\;
 \gpio1|ALT_INV_reg_dat0\(2) <= NOT \gpio1|reg_dat0\(2);
 \gpio1|ALT_INV_reg_ddr2\(2) <= NOT \gpio1|reg_ddr2\(2);
 \gpio1|ALT_INV_reg_ddr0\(2) <= NOT \gpio1|reg_ddr0\(2);
 \gpio1|ALT_INV_reg_dat2\(2) <= NOT \gpio1|reg_dat2\(2);
 \sd1|ALT_INV_dout\(2) <= NOT \sd1|dout\(2);
 \cpu1|ALT_INV_Selector282~0_combout\ <= NOT \cpu1|Selector282~0_combout\;
-\ALT_INV_cpuDataIn[0]~11_combout\ <= NOT \cpuDataIn[0]~11_combout\;
-\ALT_INV_cpuDataIn[0]~10_combout\ <= NOT \cpuDataIn[0]~10_combout\;
+\ALT_INV_w_cpuDataIn[0]~11_combout\ <= NOT \w_cpuDataIn[0]~11_combout\;
+\ALT_INV_w_cpuDataIn[0]~10_combout\ <= NOT \w_cpuDataIn[0]~10_combout\;
 \cpu1|ALT_INV_Selector424~0_combout\ <= NOT \cpu1|Selector424~0_combout\;
 \cpu1|ALT_INV_WideOr87~7_combout\ <= NOT \cpu1|WideOr87~7_combout\;
 \cpu1|ALT_INV_Selector580~7_combout\ <= NOT \cpu1|Selector580~7_combout\;
@@ -9114,17 +8993,17 @@ ALT_INV_state(2) <= NOT state(2);
 \cpu1|ALT_INV_WideOr87~6_combout\ <= NOT \cpu1|WideOr87~6_combout\;
 \cpu1|ALT_INV_WideOr87~5_combout\ <= NOT \cpu1|WideOr87~5_combout\;
 \cpu1|ALT_INV_Selector581~3_combout\ <= NOT \cpu1|Selector581~3_combout\;
-\ALT_INV_cpuDataIn[1]~9_combout\ <= NOT \cpuDataIn[1]~9_combout\;
-\ALT_INV_cpuDataIn~8_combout\ <= NOT \cpuDataIn~8_combout\;
+\ALT_INV_w_cpuDataIn[1]~9_combout\ <= NOT \w_cpuDataIn[1]~9_combout\;
+\ALT_INV_w_cpuDataIn~8_combout\ <= NOT \w_cpuDataIn~8_combout\;
 \mm1|ALT_INV_tenable~q\ <= NOT \mm1|tenable~q\;
 \sd1|ALT_INV_dout\(1) <= NOT \sd1|dout\(1);
-\ALT_INV_cpuDataIn~7_combout\ <= NOT \cpuDataIn~7_combout\;
+\ALT_INV_w_cpuDataIn~7_combout\ <= NOT \w_cpuDataIn~7_combout\;
 \gpio1|ALT_INV_reg_ddr2\(1) <= NOT \gpio1|reg_ddr2\(1);
 \gpio1|ALT_INV_reg_dat2\(1) <= NOT \gpio1|reg_dat2\(1);
 \gpio1|ALT_INV_reg_ddr0\(1) <= NOT \gpio1|reg_ddr0\(1);
 \gpio1|ALT_INV_Equal2~0_combout\ <= NOT \gpio1|Equal2~0_combout\;
 \gpio1|ALT_INV_reg_dat0\(1) <= NOT \gpio1|reg_dat0\(1);
-\ALT_INV_cpuDataIn[1]~6_combout\ <= NOT \cpuDataIn[1]~6_combout\;
+\ALT_INV_w_cpuDataIn[1]~6_combout\ <= NOT \w_cpuDataIn[1]~6_combout\;
 \io2|ALT_INV_dataOut\(1) <= NOT \io2|dataOut\(1);
 \io1|ALT_INV_dataOut\(1) <= NOT \io1|dataOut\(1);
 \cpu1|ALT_INV_Mux28~9_combout\ <= NOT \cpu1|Mux28~9_combout\;
@@ -9365,17 +9244,17 @@ ALT_INV_state(2) <= NOT state(2);
 \cpu1|ALT_INV_cc_ctrl.pull_cc~0_combout\ <= NOT \cpu1|cc_ctrl.pull_cc~0_combout\;
 \cpu1|ALT_INV_Mux526~0_combout\ <= NOT \cpu1|Mux526~0_combout\;
 \cpu1|ALT_INV_fic~q\ <= NOT \cpu1|fic~q\;
-\ALT_INV_cpuDataIn[0]~5_combout\ <= NOT \cpuDataIn[0]~5_combout\;
-\ALT_INV_cpuDataIn[0]~4_combout\ <= NOT \cpuDataIn[0]~4_combout\;
-\ALT_INV_cpuDataIn[0]~3_combout\ <= NOT \cpuDataIn[0]~3_combout\;
-\ALT_INV_cpuDataIn[0]~2_combout\ <= NOT \cpuDataIn[0]~2_combout\;
+\ALT_INV_w_cpuDataIn[0]~5_combout\ <= NOT \w_cpuDataIn[0]~5_combout\;
+\ALT_INV_w_cpuDataIn[0]~4_combout\ <= NOT \w_cpuDataIn[0]~4_combout\;
+\ALT_INV_w_cpuDataIn[0]~3_combout\ <= NOT \w_cpuDataIn[0]~3_combout\;
+\ALT_INV_w_cpuDataIn[0]~2_combout\ <= NOT \w_cpuDataIn[0]~2_combout\;
 \ALT_INV_Equal5~1_combout\ <= NOT \Equal5~1_combout\;
 \ALT_INV_Equal5~0_combout\ <= NOT \Equal5~0_combout\;
 \gpio1|ALT_INV_reg_dat0\(0) <= NOT \gpio1|reg_dat0\(0);
 \gpio1|ALT_INV_reg_ddr2\(0) <= NOT \gpio1|reg_ddr2\(0);
 \gpio1|ALT_INV_reg_ddr0\(0) <= NOT \gpio1|reg_ddr0\(0);
-\ALT_INV_cpuDataIn[0]~1_combout\ <= NOT \cpuDataIn[0]~1_combout\;
-\ALT_INV_cpuDataIn[0]~0_combout\ <= NOT \cpuDataIn[0]~0_combout\;
+\ALT_INV_w_cpuDataIn[0]~1_combout\ <= NOT \w_cpuDataIn[0]~1_combout\;
+\ALT_INV_w_cpuDataIn[0]~0_combout\ <= NOT \w_cpuDataIn[0]~0_combout\;
 \gpio1|ALT_INV_Equal0~0_combout\ <= NOT \gpio1|Equal0~0_combout\;
 \gpio1|ALT_INV_reg\(2) <= NOT \gpio1|reg\(2);
 \gpio1|ALT_INV_reg\(3) <= NOT \gpio1|reg\(3);
@@ -9544,7 +9423,7 @@ ALT_INV_state(2) <= NOT state(2);
 \cpu1|ALT_INV_Selector334~1_combout\ <= NOT \cpu1|Selector334~1_combout\;
 \cpu1|ALT_INV_Selector334~0_combout\ <= NOT \cpu1|Selector334~0_combout\;
 \mm1|ALT_INV_proc_reg~0_combout\ <= NOT \mm1|proc_reg~0_combout\;
-\ALT_INV_hold~q\ <= NOT \hold~q\;
+\ALT_INV_w_hold~q\ <= NOT \w_hold~q\;
 \debounceReset|ALT_INV_o_PinOut~q\ <= NOT \debounceReset|o_PinOut~q\;
 \cpu1|ALT_INV_Selector333~12_combout\ <= NOT \cpu1|Selector333~12_combout\;
 \cpu1|ALT_INV_Selector333~11_combout\ <= NOT \cpu1|Selector333~11_combout\;
@@ -9987,13 +9866,13 @@ ALT_INV_state(2) <= NOT state(2);
 \cpu1|ALT_INV_state.push_return_lo_state~q\ <= NOT \cpu1|state.push_return_lo_state~q\;
 \mm1|ALT_INV_frt_i~q\ <= NOT \mm1|frt_i~q\;
 \cpu1|ALT_INV_Selector387~7_combout\ <= NOT \cpu1|Selector387~7_combout\;
-\ALT_INV_cpuDataIn~79_combout\ <= NOT \cpuDataIn~79_combout\;
+\ALT_INV_w_cpuDataIn~79_combout\ <= NOT \w_cpuDataIn~79_combout\;
 \cpu1|ALT_INV_Selector368~1_combout\ <= NOT \cpu1|Selector368~1_combout\;
 \cpu1|ALT_INV_Selector438~0_combout\ <= NOT \cpu1|Selector438~0_combout\;
-\ALT_INV_cpuDataIn[3]~75_combout\ <= NOT \cpuDataIn[3]~75_combout\;
+\ALT_INV_w_cpuDataIn[3]~75_combout\ <= NOT \w_cpuDataIn[3]~75_combout\;
 \cpu1|ALT_INV_Selector367~1_combout\ <= NOT \cpu1|Selector367~1_combout\;
-\ALT_INV_cpuDataIn~71_combout\ <= NOT \cpuDataIn~71_combout\;
-\ALT_INV_cpuDataIn~67_combout\ <= NOT \cpuDataIn~67_combout\;
+\ALT_INV_w_cpuDataIn~71_combout\ <= NOT \w_cpuDataIn~71_combout\;
+\ALT_INV_w_cpuDataIn~67_combout\ <= NOT \w_cpuDataIn~67_combout\;
 \cpu1|ALT_INV_Selector382~3_combout\ <= NOT \cpu1|Selector382~3_combout\;
 \cpu1|ALT_INV_Selector381~3_combout\ <= NOT \cpu1|Selector381~3_combout\;
 \cpu1|ALT_INV_Selector378~5_combout\ <= NOT \cpu1|Selector378~5_combout\;
@@ -10056,26 +9935,6 @@ ALT_INV_state(2) <= NOT state(2);
 \sd1|ALT_INV_recv_data\(27) <= NOT \sd1|recv_data\(27);
 \io1|ALT_INV_horizCount\(3) <= NOT \io1|horizCount\(3);
 \io1|ALT_INV_Add1~29_sumout\ <= NOT \io1|Add1~29_sumout\;
-\sd1|ALT_INV_recv_data\(28) <= NOT \sd1|recv_data\(28);
-\io1|ALT_INV_horizCount\(4) <= NOT \io1|horizCount\(4);
-\io1|ALT_INV_Add3~33_sumout\ <= NOT \io1|Add3~33_sumout\;
-\io1|ALT_INV_Add0~33_sumout\ <= NOT \io1|Add0~33_sumout\;
-\io1|ALT_INV_param4\(1) <= NOT \io1|param4\(1);
-\io1|ALT_INV_Add31~21_sumout\ <= NOT \io1|Add31~21_sumout\;
-\io1|ALT_INV_param4\(2) <= NOT \io1|param4\(2);
-\io1|ALT_INV_Add31~17_sumout\ <= NOT \io1|Add31~17_sumout\;
-\io1|ALT_INV_param4\(3) <= NOT \io1|param4\(3);
-\io1|ALT_INV_Add31~13_sumout\ <= NOT \io1|Add31~13_sumout\;
-\io1|ALT_INV_param4\(4) <= NOT \io1|param4\(4);
-\io1|ALT_INV_Add31~9_sumout\ <= NOT \io1|Add31~9_sumout\;
-\io1|ALT_INV_param4\(5) <= NOT \io1|param4\(5);
-\io1|ALT_INV_Add31~5_sumout\ <= NOT \io1|Add31~5_sumout\;
-\io1|ALT_INV_param4\(0) <= NOT \io1|param4\(0);
-\io1|ALT_INV_param4\(6) <= NOT \io1|param4\(6);
-\io1|ALT_INV_Add31~1_sumout\ <= NOT \io1|Add31~1_sumout\;
-\io1|Mod1|auto_generated|divider|divider|ALT_INV_add_sub_10_result_int[9]~45_sumout\ <= NOT \io1|Mod1|auto_generated|divider|divider|add_sub_10_result_int[9]~45_sumout\;
-\io1|Mod1|auto_generated|divider|divider|ALT_INV_op_4~53_sumout\ <= NOT \io1|Mod1|auto_generated|divider|divider|op_4~53_sumout\;
-\io1|ALT_INV_Add3~29_sumout\ <= NOT \io1|Add3~29_sumout\;
 \sd1|ALT_INV_address[8]~DUPLICATE_q\ <= NOT \sd1|address[8]~DUPLICATE_q\;
 \sd1|ALT_INV_cmd_out[42]~DUPLICATE_q\ <= NOT \sd1|cmd_out[42]~DUPLICATE_q\;
 \debounceReset|ALT_INV_w_dig_counter[9]~DUPLICATE_q\ <= NOT \debounceReset|w_dig_counter[9]~DUPLICATE_q\;
@@ -10196,27 +10055,27 @@ ALT_INV_state(2) <= NOT state(2);
 \io1|ALT_INV_Mux2~4_combout\ <= NOT \io1|Mux2~4_combout\;
 \io1|ALT_INV_ps2WriteClkCount[4]~7_combout\ <= NOT \io1|ps2WriteClkCount[4]~7_combout\;
 \cpu1|ALT_INV_Selector191~0_combout\ <= NOT \cpu1|Selector191~0_combout\;
-\ALT_INV_cpuDataIn[3]~66_combout\ <= NOT \cpuDataIn[3]~66_combout\;
-\ALT_INV_cpuDataIn[3]~65_combout\ <= NOT \cpuDataIn[3]~65_combout\;
-\ALT_INV_cpuDataIn[3]~64_combout\ <= NOT \cpuDataIn[3]~64_combout\;
-\ALT_INV_cpuDataIn[1]~63_combout\ <= NOT \cpuDataIn[1]~63_combout\;
-\ALT_INV_cpuDataIn[2]~62_combout\ <= NOT \cpuDataIn[2]~62_combout\;
-\ALT_INV_cpuDataIn[2]~61_combout\ <= NOT \cpuDataIn[2]~61_combout\;
-\ALT_INV_cpuDataIn[2]~60_combout\ <= NOT \cpuDataIn[2]~60_combout\;
-\ALT_INV_cpuDataIn[2]~59_combout\ <= NOT \cpuDataIn[2]~59_combout\;
-\ALT_INV_cpuDataIn[0]~58_combout\ <= NOT \cpuDataIn[0]~58_combout\;
-\ALT_INV_cpuDataIn[0]~57_combout\ <= NOT \cpuDataIn[0]~57_combout\;
-\ALT_INV_cpuDataIn[0]~56_combout\ <= NOT \cpuDataIn[0]~56_combout\;
-\ALT_INV_cpuDataIn[4]~55_combout\ <= NOT \cpuDataIn[4]~55_combout\;
-\ALT_INV_cpuDataIn[7]~54_combout\ <= NOT \cpuDataIn[7]~54_combout\;
-\ALT_INV_cpuDataIn[7]~53_combout\ <= NOT \cpuDataIn[7]~53_combout\;
-\ALT_INV_cpuDataIn[7]~52_combout\ <= NOT \cpuDataIn[7]~52_combout\;
-\ALT_INV_cpuDataIn[3]~51_combout\ <= NOT \cpuDataIn[3]~51_combout\;
+\ALT_INV_w_cpuDataIn[3]~66_combout\ <= NOT \w_cpuDataIn[3]~66_combout\;
+\ALT_INV_w_cpuDataIn[3]~65_combout\ <= NOT \w_cpuDataIn[3]~65_combout\;
+\ALT_INV_w_cpuDataIn[3]~64_combout\ <= NOT \w_cpuDataIn[3]~64_combout\;
+\ALT_INV_w_cpuDataIn[1]~63_combout\ <= NOT \w_cpuDataIn[1]~63_combout\;
+\ALT_INV_w_cpuDataIn[2]~62_combout\ <= NOT \w_cpuDataIn[2]~62_combout\;
+\ALT_INV_w_cpuDataIn[2]~61_combout\ <= NOT \w_cpuDataIn[2]~61_combout\;
+\ALT_INV_w_cpuDataIn[2]~60_combout\ <= NOT \w_cpuDataIn[2]~60_combout\;
+\ALT_INV_w_cpuDataIn[2]~59_combout\ <= NOT \w_cpuDataIn[2]~59_combout\;
+\ALT_INV_w_cpuDataIn[0]~58_combout\ <= NOT \w_cpuDataIn[0]~58_combout\;
+\ALT_INV_w_cpuDataIn[0]~57_combout\ <= NOT \w_cpuDataIn[0]~57_combout\;
+\ALT_INV_w_cpuDataIn[0]~56_combout\ <= NOT \w_cpuDataIn[0]~56_combout\;
+\ALT_INV_w_cpuDataIn[4]~55_combout\ <= NOT \w_cpuDataIn[4]~55_combout\;
+\ALT_INV_w_cpuDataIn[7]~54_combout\ <= NOT \w_cpuDataIn[7]~54_combout\;
+\ALT_INV_w_cpuDataIn[7]~53_combout\ <= NOT \w_cpuDataIn[7]~53_combout\;
+\ALT_INV_w_cpuDataIn[7]~52_combout\ <= NOT \w_cpuDataIn[7]~52_combout\;
+\ALT_INV_w_cpuDataIn[3]~51_combout\ <= NOT \w_cpuDataIn[3]~51_combout\;
 \cpu1|ALT_INV_Selector302~2_combout\ <= NOT \cpu1|Selector302~2_combout\;
 \cpu1|ALT_INV_Selector302~1_combout\ <= NOT \cpu1|Selector302~1_combout\;
-\ALT_INV_cpuDataIn[6]~50_combout\ <= NOT \cpuDataIn[6]~50_combout\;
-\ALT_INV_cpuDataIn[5]~49_combout\ <= NOT \cpuDataIn[5]~49_combout\;
-\ALT_INV_cpuDataIn[7]~48_combout\ <= NOT \cpuDataIn[7]~48_combout\;
+\ALT_INV_w_cpuDataIn[6]~50_combout\ <= NOT \w_cpuDataIn[6]~50_combout\;
+\ALT_INV_w_cpuDataIn[5]~49_combout\ <= NOT \w_cpuDataIn[5]~49_combout\;
+\ALT_INV_w_cpuDataIn[7]~48_combout\ <= NOT \w_cpuDataIn[7]~48_combout\;
 \sd1|ALT_INV_Selector56~0_combout\ <= NOT \sd1|Selector56~0_combout\;
 \sd1|ALT_INV_cmd_out\(1) <= NOT \sd1|cmd_out\(1);
 \sd1|ALT_INV_cmd_out\(2) <= NOT \sd1|cmd_out\(2);
@@ -10673,7 +10532,7 @@ ALT_INV_state(2) <= NOT state(2);
 \io2|ALT_INV_rxClockCount[5]~0_combout\ <= NOT \io2|rxClockCount[5]~0_combout\;
 \io2|ALT_INV_rxdFiltered~q\ <= NOT \io2|rxdFiltered~q\;
 \io2|ALT_INV_rxState.idle~q\ <= NOT \io2|rxState.idle~q\;
-\ALT_INV_n_RD~q\ <= NOT \n_RD~q\;
+\ALT_INV_w_n_RD~q\ <= NOT \w_n_RD~q\;
 \ALT_INV_n_WR_uart~combout\ <= NOT \n_WR_uart~combout\;
 \mm1|ALT_INV_Equal4~0_combout\ <= NOT \mm1|Equal4~0_combout\;
 \mm1|ALT_INV_nmiDly\(0) <= NOT \mm1|nmiDly\(0);
@@ -10924,6 +10783,147 @@ ALT_INV_state(2) <= NOT state(2);
 \io1|ALT_INV_display_store~30_combout\ <= NOT \io1|display_store~30_combout\;
 \io1|ALT_INV_cursorHoriz[4]~2_combout\ <= NOT \io1|cursorHoriz[4]~2_combout\;
 \io1|ALT_INV_WideOr3~0_combout\ <= NOT \io1|WideOr3~0_combout\;
+\io1|ALT_INV_cursorHoriz[4]~1_combout\ <= NOT \io1|cursorHoriz[4]~1_combout\;
+\io1|ALT_INV_Selector10~5_combout\ <= NOT \io1|Selector10~5_combout\;
+\io1|ALT_INV_Selector10~4_combout\ <= NOT \io1|Selector10~4_combout\;
+\io1|ALT_INV_cursorVert[3]~34_combout\ <= NOT \io1|cursorVert[3]~34_combout\;
+\io1|ALT_INV_cursorVert[3]~33_combout\ <= NOT \io1|cursorVert[3]~33_combout\;
+\io1|ALT_INV_cursorVert[3]~32_combout\ <= NOT \io1|cursorVert[3]~32_combout\;
+\io1|ALT_INV_cursorVert[3]~31_combout\ <= NOT \io1|cursorVert[3]~31_combout\;
+\io1|ALT_INV_dispState.deleteLine~q\ <= NOT \io1|dispState.deleteLine~q\;
+\io1|ALT_INV_cursorVert[3]~30_combout\ <= NOT \io1|cursorVert[3]~30_combout\;
+\io1|ALT_INV_Add39~0_combout\ <= NOT \io1|Add39~0_combout\;
+\io1|ALT_INV_Selector10~3_combout\ <= NOT \io1|Selector10~3_combout\;
+\io1|ALT_INV_cursorVert[3]~29_combout\ <= NOT \io1|cursorVert[3]~29_combout\;
+\io1|ALT_INV_cursorVert[3]~28_combout\ <= NOT \io1|cursorVert[3]~28_combout\;
+\io1|ALT_INV_Equal62~1_combout\ <= NOT \io1|Equal62~1_combout\;
+\io1|ALT_INV_Equal62~0_combout\ <= NOT \io1|Equal62~0_combout\;
+\io1|ALT_INV_cursorVertRestore\(4) <= NOT \io1|cursorVertRestore\(4);
+\io1|ALT_INV_Add50~0_combout\ <= NOT \io1|Add50~0_combout\;
+\io1|ALT_INV_cursorVertRestore\(1) <= NOT \io1|cursorVertRestore\(1);
+\io1|ALT_INV_cursorVertRestore\(0) <= NOT \io1|cursorVertRestore\(0);
+\io1|ALT_INV_cursorVertRestore\(3) <= NOT \io1|cursorVertRestore\(3);
+\io1|ALT_INV_dispState.ins3~q\ <= NOT \io1|dispState.ins3~q\;
+\io1|ALT_INV_cursorVertRestore\(2) <= NOT \io1|cursorVertRestore\(2);
+\io1|ALT_INV_cursorVert[3]~27_combout\ <= NOT \io1|cursorVert[3]~27_combout\;
+\io1|ALT_INV_cursorVert[3]~26_combout\ <= NOT \io1|cursorVert[3]~26_combout\;
+\io1|ALT_INV_cursorVert[3]~25_combout\ <= NOT \io1|cursorVert[3]~25_combout\;
+\io1|ALT_INV_dispState.insertLine~q\ <= NOT \io1|dispState.insertLine~q\;
+\io1|ALT_INV_dispState.del3~q\ <= NOT \io1|dispState.del3~q\;
+\io1|ALT_INV_Add41~0_combout\ <= NOT \io1|Add41~0_combout\;
+\io1|ALT_INV_cursorVert[3]~24_combout\ <= NOT \io1|cursorVert[3]~24_combout\;
+\io1|ALT_INV_cursorVert[3]~23_combout\ <= NOT \io1|cursorVert[3]~23_combout\;
+\io1|ALT_INV_cursorVert~22_combout\ <= NOT \io1|cursorVert~22_combout\;
+\io1|ALT_INV_display_store~29_combout\ <= NOT \io1|display_store~29_combout\;
+\io1|ALT_INV_display_store~28_combout\ <= NOT \io1|display_store~28_combout\;
+\io1|ALT_INV_display_store~27_combout\ <= NOT \io1|display_store~27_combout\;
+\io1|ALT_INV_Equal31~1_combout\ <= NOT \io1|Equal31~1_combout\;
+\io1|ALT_INV_cursorVert~21_combout\ <= NOT \io1|cursorVert~21_combout\;
+\io1|ALT_INV_Equal35~0_combout\ <= NOT \io1|Equal35~0_combout\;
+\io1|ALT_INV_Equal34~1_combout\ <= NOT \io1|Equal34~1_combout\;
+\io1|ALT_INV_Equal31~0_combout\ <= NOT \io1|Equal31~0_combout\;
+\io1|ALT_INV_Equal34~0_combout\ <= NOT \io1|Equal34~0_combout\;
+\io1|ALT_INV_cursorVert[3]~20_combout\ <= NOT \io1|cursorVert[3]~20_combout\;
+\io1|ALT_INV_cursorVert[3]~19_combout\ <= NOT \io1|cursorVert[3]~19_combout\;
+\io1|ALT_INV_dispState.clearS2~q\ <= NOT \io1|dispState.clearS2~q\;
+\io1|ALT_INV_dispState.clearL2~q\ <= NOT \io1|dispState.clearL2~q\;
+\io1|ALT_INV_dispState.dispNextLoc~q\ <= NOT \io1|dispState.dispNextLoc~q\;
+\io1|ALT_INV_LessThan53~1_combout\ <= NOT \io1|LessThan53~1_combout\;
+\io1|ALT_INV_LessThan53~0_combout\ <= NOT \io1|LessThan53~0_combout\;
+\io1|ALT_INV_Equal57~0_combout\ <= NOT \io1|Equal57~0_combout\;
+\io1|ALT_INV_Equal58~0_combout\ <= NOT \io1|Equal58~0_combout\;
+\io1|ALT_INV_Equal56~0_combout\ <= NOT \io1|Equal56~0_combout\;
+\io1|ALT_INV_cursorVert~18_combout\ <= NOT \io1|cursorVert~18_combout\;
+\io1|ALT_INV_cursorVert~17_combout\ <= NOT \io1|cursorVert~17_combout\;
+\io1|ALT_INV_cursorVert~16_combout\ <= NOT \io1|cursorVert~16_combout\;
+\io1|ALT_INV_display_store~26_combout\ <= NOT \io1|display_store~26_combout\;
+\io1|ALT_INV_display_store~25_combout\ <= NOT \io1|display_store~25_combout\;
+\io1|ALT_INV_dispCharWRData\(4) <= NOT \io1|dispCharWRData\(4);
+\io1|ALT_INV_dispCharWRData\(5) <= NOT \io1|dispCharWRData\(5);
+\io1|ALT_INV_dispCharWRData\(6) <= NOT \io1|dispCharWRData\(6);
+\io1|ALT_INV_dispCharWRData\(1) <= NOT \io1|dispCharWRData\(1);
+\io1|ALT_INV_dispCharWRData\(2) <= NOT \io1|dispCharWRData\(2);
+\io1|ALT_INV_dispCharWRData\(0) <= NOT \io1|dispCharWRData\(0);
+\io1|ALT_INV_dispCharWRData\(3) <= NOT \io1|dispCharWRData\(3);
+\io1|ALT_INV_dispCharWRData\(7) <= NOT \io1|dispCharWRData\(7);
+\io1|ALT_INV_dispState.dispWrite~q\ <= NOT \io1|dispState.dispWrite~q\;
+\io1|ALT_INV_cursorVert[3]~15_combout\ <= NOT \io1|cursorVert[3]~15_combout\;
+\io1|ALT_INV_escState~8_combout\ <= NOT \io1|escState~8_combout\;
+\io1|ALT_INV_display_store~24_combout\ <= NOT \io1|display_store~24_combout\;
+\io1|ALT_INV_cursorVert[3]~14_combout\ <= NOT \io1|cursorVert[3]~14_combout\;
+\io1|ALT_INV_display_store~23_combout\ <= NOT \io1|display_store~23_combout\;
+\io1|ALT_INV_cursorVert[3]~13_combout\ <= NOT \io1|cursorVert[3]~13_combout\;
+\io1|ALT_INV_cursorVert~12_combout\ <= NOT \io1|cursorVert~12_combout\;
+\io1|ALT_INV_Equal30~0_combout\ <= NOT \io1|Equal30~0_combout\;
+\io1|ALT_INV_display_store~22_combout\ <= NOT \io1|display_store~22_combout\;
+\io1|ALT_INV_escState.none~0_combout\ <= NOT \io1|escState.none~0_combout\;
+\io1|ALT_INV_display_store~21_combout\ <= NOT \io1|display_store~21_combout\;
+\io1|ALT_INV_escState.waitForLeftBracket~q\ <= NOT \io1|escState.waitForLeftBracket~q\;
+\io1|ALT_INV_dispCharWRData[2]~0_combout\ <= NOT \io1|dispCharWRData[2]~0_combout\;
+\io1|ALT_INV_dispState.clearChar~q\ <= NOT \io1|dispState.clearChar~q\;
+\io1|ALT_INV_dispState.clearScreen~q\ <= NOT \io1|dispState.clearScreen~q\;
+\io1|ALT_INV_dispState.clearLine~q\ <= NOT \io1|dispState.clearLine~q\;
+\io1|ALT_INV_dispState.clearC2~q\ <= NOT \io1|dispState.clearC2~q\;
+\io1|ALT_INV_Selector10~2_combout\ <= NOT \io1|Selector10~2_combout\;
+\io1|ALT_INV_Selector10~1_combout\ <= NOT \io1|Selector10~1_combout\;
+\io1|ALT_INV_Add47~0_combout\ <= NOT \io1|Add47~0_combout\;
+\io1|ALT_INV_savedCursorVert\(2) <= NOT \io1|savedCursorVert\(2);
+\io1|ALT_INV_cursorVert[3]~11_combout\ <= NOT \io1|cursorVert[3]~11_combout\;
+\io1|ALT_INV_cursorVert[3]~10_combout\ <= NOT \io1|cursorVert[3]~10_combout\;
+\io1|ALT_INV_cursorVert[3]~9_combout\ <= NOT \io1|cursorVert[3]~9_combout\;
+\io1|ALT_INV_cursorVert[3]~8_combout\ <= NOT \io1|cursorVert[3]~8_combout\;
+\io1|ALT_INV_dispState~32_combout\ <= NOT \io1|dispState~32_combout\;
+\io1|ALT_INV_display_store~20_combout\ <= NOT \io1|display_store~20_combout\;
+\io1|ALT_INV_Equal43~0_combout\ <= NOT \io1|Equal43~0_combout\;
+\io1|ALT_INV_Selector10~0_combout\ <= NOT \io1|Selector10~0_combout\;
+\io1|ALT_INV_cursorHoriz[6]~0_combout\ <= NOT \io1|cursorHoriz[6]~0_combout\;
+\io1|ALT_INV_cursorVert[3]~7_combout\ <= NOT \io1|cursorVert[3]~7_combout\;
+\io1|ALT_INV_cursorVert[3]~6_combout\ <= NOT \io1|cursorVert[3]~6_combout\;
+\io1|ALT_INV_cursorVert[3]~5_combout\ <= NOT \io1|cursorVert[3]~5_combout\;
+\io1|ALT_INV_cursorVert[3]~4_combout\ <= NOT \io1|cursorVert[3]~4_combout\;
+\io1|ALT_INV_LessThan44~1_combout\ <= NOT \io1|LessThan44~1_combout\;
+\io1|ALT_INV_LessThan44~0_combout\ <= NOT \io1|LessThan44~0_combout\;
+\io1|ALT_INV_LessThan42~2_combout\ <= NOT \io1|LessThan42~2_combout\;
+\io1|ALT_INV_LessThan42~1_combout\ <= NOT \io1|LessThan42~1_combout\;
+\io1|ALT_INV_LessThan42~0_combout\ <= NOT \io1|LessThan42~0_combout\;
+\io1|ALT_INV_display_store~19_combout\ <= NOT \io1|display_store~19_combout\;
+\io1|ALT_INV_display_store~18_combout\ <= NOT \io1|display_store~18_combout\;
+\io1|ALT_INV_display_store~17_combout\ <= NOT \io1|display_store~17_combout\;
+\io1|ALT_INV_display_store~16_combout\ <= NOT \io1|display_store~16_combout\;
+\io1|ALT_INV_display_store~15_combout\ <= NOT \io1|display_store~15_combout\;
+\io1|ALT_INV_display_store~14_combout\ <= NOT \io1|display_store~14_combout\;
+\io1|ALT_INV_display_store~13_combout\ <= NOT \io1|display_store~13_combout\;
+\io1|ALT_INV_cursorVert[3]~3_combout\ <= NOT \io1|cursorVert[3]~3_combout\;
+\io1|ALT_INV_cursorVert[3]~2_combout\ <= NOT \io1|cursorVert[3]~2_combout\;
+\io1|ALT_INV_display_store~12_combout\ <= NOT \io1|display_store~12_combout\;
+\io1|ALT_INV_LessThan41~0_combout\ <= NOT \io1|LessThan41~0_combout\;
+\io1|ALT_INV_Equal52~0_combout\ <= NOT \io1|Equal52~0_combout\;
+\io1|ALT_INV_display_store~11_combout\ <= NOT \io1|display_store~11_combout\;
+\io1|ALT_INV_cursorVert[3]~1_combout\ <= NOT \io1|cursorVert[3]~1_combout\;
+\io1|ALT_INV_Equal42~0_combout\ <= NOT \io1|Equal42~0_combout\;
+\io1|ALT_INV_Equal33~1_combout\ <= NOT \io1|Equal33~1_combout\;
+\io1|ALT_INV_cursorVert[3]~0_combout\ <= NOT \io1|cursorVert[3]~0_combout\;
+\io1|ALT_INV_display_store~10_combout\ <= NOT \io1|display_store~10_combout\;
+\sd1|ALT_INV_recv_data\(28) <= NOT \sd1|recv_data\(28);
+\io1|ALT_INV_horizCount\(4) <= NOT \io1|horizCount\(4);
+\io1|ALT_INV_Add3~33_sumout\ <= NOT \io1|Add3~33_sumout\;
+\io1|ALT_INV_Add0~33_sumout\ <= NOT \io1|Add0~33_sumout\;
+\io1|ALT_INV_param4\(1) <= NOT \io1|param4\(1);
+\io1|ALT_INV_Add31~21_sumout\ <= NOT \io1|Add31~21_sumout\;
+\io1|ALT_INV_param4\(2) <= NOT \io1|param4\(2);
+\io1|ALT_INV_Add31~17_sumout\ <= NOT \io1|Add31~17_sumout\;
+\io1|ALT_INV_param4\(3) <= NOT \io1|param4\(3);
+\io1|ALT_INV_Add31~13_sumout\ <= NOT \io1|Add31~13_sumout\;
+\io1|ALT_INV_param4\(4) <= NOT \io1|param4\(4);
+\io1|ALT_INV_Add31~9_sumout\ <= NOT \io1|Add31~9_sumout\;
+\io1|ALT_INV_param4\(5) <= NOT \io1|param4\(5);
+\io1|ALT_INV_Add31~5_sumout\ <= NOT \io1|Add31~5_sumout\;
+\io1|ALT_INV_param4\(0) <= NOT \io1|param4\(0);
+\io1|ALT_INV_param4\(6) <= NOT \io1|param4\(6);
+\io1|ALT_INV_Add31~1_sumout\ <= NOT \io1|Add31~1_sumout\;
+\io1|Mod1|auto_generated|divider|divider|ALT_INV_add_sub_10_result_int[9]~45_sumout\ <= NOT \io1|Mod1|auto_generated|divider|divider|add_sub_10_result_int[9]~45_sumout\;
+\io1|Mod1|auto_generated|divider|divider|ALT_INV_op_4~53_sumout\ <= NOT \io1|Mod1|auto_generated|divider|divider|op_4~53_sumout\;
+\io1|ALT_INV_Add3~29_sumout\ <= NOT \io1|Add3~29_sumout\;
 \io1|Mod0|auto_generated|divider|divider|ALT_INV_add_sub_10_result_int[9]~45_sumout\ <= NOT \io1|Mod0|auto_generated|divider|divider|add_sub_10_result_int[9]~45_sumout\;
 \io1|Mod0|auto_generated|divider|divider|ALT_INV_op_4~53_sumout\ <= NOT \io1|Mod0|auto_generated|divider|divider|op_4~53_sumout\;
 \io1|ALT_INV_Add0~29_sumout\ <= NOT \io1|Add0~29_sumout\;
@@ -12394,7 +12394,7 @@ GENERIC MAP (
 -- pragma translate_on
 PORT MAP (
 	i => \cpu1|Selector338~12_combout\,
-	oe => \ALT_INV_n_WR~q\,
+	oe => \ALT_INV_w_n_WR~q\,
 	devoe => ww_devoe,
 	o => sramData(0));
 
@@ -12408,7 +12408,7 @@ GENERIC MAP (
 -- pragma translate_on
 PORT MAP (
 	i => \cpu1|Selector337~12_combout\,
-	oe => \ALT_INV_n_WR~q\,
+	oe => \ALT_INV_w_n_WR~q\,
 	devoe => ww_devoe,
 	o => sramData(1));
 
@@ -12422,7 +12422,7 @@ GENERIC MAP (
 -- pragma translate_on
 PORT MAP (
 	i => \cpu1|Selector336~12_combout\,
-	oe => \ALT_INV_n_WR~q\,
+	oe => \ALT_INV_w_n_WR~q\,
 	devoe => ww_devoe,
 	o => sramData(2));
 
@@ -12436,7 +12436,7 @@ GENERIC MAP (
 -- pragma translate_on
 PORT MAP (
 	i => \cpu1|Selector335~12_combout\,
-	oe => \ALT_INV_n_WR~q\,
+	oe => \ALT_INV_w_n_WR~q\,
 	devoe => ww_devoe,
 	o => sramData(3));
 
@@ -12450,7 +12450,7 @@ GENERIC MAP (
 -- pragma translate_on
 PORT MAP (
 	i => \cpu1|Selector334~12_combout\,
-	oe => \ALT_INV_n_WR~q\,
+	oe => \ALT_INV_w_n_WR~q\,
 	devoe => ww_devoe,
 	o => sramData(4));
 
@@ -12464,7 +12464,7 @@ GENERIC MAP (
 -- pragma translate_on
 PORT MAP (
 	i => \cpu1|Selector333~12_combout\,
-	oe => \ALT_INV_n_WR~q\,
+	oe => \ALT_INV_w_n_WR~q\,
 	devoe => ww_devoe,
 	o => sramData(5));
 
@@ -12478,7 +12478,7 @@ GENERIC MAP (
 -- pragma translate_on
 PORT MAP (
 	i => \cpu1|Selector332~12_combout\,
-	oe => \ALT_INV_n_WR~q\,
+	oe => \ALT_INV_w_n_WR~q\,
 	devoe => ww_devoe,
 	o => sramData(6));
 
@@ -12492,7 +12492,7 @@ GENERIC MAP (
 -- pragma translate_on
 PORT MAP (
 	i => \cpu1|Selector331~12_combout\,
-	oe => \ALT_INV_n_WR~q\,
+	oe => \ALT_INV_w_n_WR~q\,
 	devoe => ww_devoe,
 	o => sramData(7));
 
@@ -12704,7 +12704,7 @@ PORT MAP (
 	outclk => \clk~inputCLKENA0_outclk\);
 
 -- Location: FF_X17_Y35_N26
-\state[2]\ : dffeas
+\w_state[2]\ : dffeas
 -- pragma translate_off
 GENERIC MAP (
 	is_wysiwyg => "true",
@@ -12715,12 +12715,12 @@ PORT MAP (
 	d => \clk_gen~0_combout\,
 	devclrn => ww_devclrn,
 	devpor => ww_devpor,
-	q => state(2));
+	q => w_state(2));
 
 -- Location: LABCELL_X17_Y35_N27
-\state~1\ : cyclonev_lcell_comb
+\w_state~1\ : cyclonev_lcell_comb
 -- Equation(s):
--- \state~1_combout\ = ( !state(2) & ( (!state(0) & ((state(1)) # (\cpu1|Selector580~5_combout\))) ) )
+-- \w_state~1_combout\ = ( !w_state(2) & ( (!w_state(0) & ((w_state(1)) # (\cpu1|Selector580~5_combout\))) ) )
 
 -- pragma translate_off
 GENERIC MAP (
@@ -12730,13 +12730,13 @@ GENERIC MAP (
 -- pragma translate_on
 PORT MAP (
 	dataa => \cpu1|ALT_INV_Selector580~5_combout\,
-	datab => ALT_INV_state(1),
-	datad => ALT_INV_state(0),
-	dataf => ALT_INV_state(2),
-	combout => \state~1_combout\);
+	datab => ALT_INV_w_state(1),
+	datad => ALT_INV_w_state(0),
+	dataf => ALT_INV_w_state(2),
+	combout => \w_state~1_combout\);
 
 -- Location: FF_X17_Y35_N29
-\state[0]\ : dffeas
+\w_state[0]\ : dffeas
 -- pragma translate_off
 GENERIC MAP (
 	is_wysiwyg => "true",
@@ -12744,15 +12744,15 @@ GENERIC MAP (
 -- pragma translate_on
 PORT MAP (
 	clk => \clk~inputCLKENA0_outclk\,
-	d => \state~1_combout\,
+	d => \w_state~1_combout\,
 	devclrn => ww_devclrn,
 	devpor => ww_devpor,
-	q => state(0));
+	q => w_state(0));
 
 -- Location: LABCELL_X17_Y35_N6
-\state~0\ : cyclonev_lcell_comb
+\w_state~0\ : cyclonev_lcell_comb
 -- Equation(s):
--- \state~0_combout\ = ( !state(2) & ( !state(0) $ (!state(1)) ) )
+-- \w_state~0_combout\ = ( !w_state(2) & ( !w_state(0) $ (!w_state(1)) ) )
 
 -- pragma translate_off
 GENERIC MAP (
@@ -12761,13 +12761,13 @@ GENERIC MAP (
 	shared_arith => "off")
 -- pragma translate_on
 PORT MAP (
-	datac => ALT_INV_state(0),
-	datad => ALT_INV_state(1),
-	dataf => ALT_INV_state(2),
-	combout => \state~0_combout\);
+	datac => ALT_INV_w_state(0),
+	datad => ALT_INV_w_state(1),
+	dataf => ALT_INV_w_state(2),
+	combout => \w_state~0_combout\);
 
 -- Location: FF_X17_Y35_N8
-\state[1]\ : dffeas
+\w_state[1]\ : dffeas
 -- pragma translate_off
 GENERIC MAP (
 	is_wysiwyg => "true",
@@ -12775,15 +12775,15 @@ GENERIC MAP (
 -- pragma translate_on
 PORT MAP (
 	clk => \clk~inputCLKENA0_outclk\,
-	d => \state~0_combout\,
+	d => \w_state~0_combout\,
 	devclrn => ww_devclrn,
 	devpor => ww_devpor,
-	q => state(1));
+	q => w_state(1));
 
 -- Location: LABCELL_X17_Y35_N33
 \n_sRamWE~0\ : cyclonev_lcell_comb
 -- Equation(s):
--- \n_sRamWE~0_combout\ = ( state(2) ) # ( !state(2) & ( (!state(1) & !state(0)) ) )
+-- \n_sRamWE~0_combout\ = ( w_state(2) ) # ( !w_state(2) & ( (!w_state(1) & !w_state(0)) ) )
 
 -- pragma translate_off
 GENERIC MAP (
@@ -12792,9 +12792,9 @@ GENERIC MAP (
 	shared_arith => "off")
 -- pragma translate_on
 PORT MAP (
-	datac => ALT_INV_state(1),
-	datad => ALT_INV_state(0),
-	dataf => ALT_INV_state(2),
+	datac => ALT_INV_w_state(1),
+	datad => ALT_INV_w_state(0),
+	dataf => ALT_INV_w_state(2),
 	combout => \n_sRamWE~0_combout\);
 
 -- Location: LABCELL_X26_Y34_N33
@@ -12856,7 +12856,7 @@ PORT MAP (
 	combout => \n_sRamOE~0_combout\);
 
 -- Location: FF_X16_Y35_N35
-n_RD : dffeas
+w_n_RD : dffeas
 -- pragma translate_off
 GENERIC MAP (
 	is_wysiwyg => "true",
@@ -12869,12 +12869,12 @@ PORT MAP (
 	ena => \n_sRamOE~0_combout\,
 	devclrn => ww_devclrn,
 	devpor => ww_devpor,
-	q => \n_RD~q\);
+	q => \w_n_RD~q\);
 
 -- Location: LABCELL_X20_Y35_N39
 n_RD_vdu : cyclonev_lcell_comb
 -- Equation(s):
--- \n_RD_vdu~combout\ = LCELL(( !\n_RD~q\ & ( \n_if1CS~0_combout\ ) ))
+-- \n_RD_vdu~combout\ = LCELL(( !\w_n_RD~q\ & ( \n_if1CS~0_combout\ ) ))
 
 -- pragma translate_off
 GENERIC MAP (
@@ -12884,7 +12884,7 @@ GENERIC MAP (
 -- pragma translate_on
 PORT MAP (
 	datad => \ALT_INV_n_if1CS~0_combout\,
-	dataf => \ALT_INV_n_RD~q\,
+	dataf => \ALT_INV_w_n_RD~q\,
 	combout => \n_RD_vdu~combout\);
 
 -- Location: LABCELL_X26_Y33_N54
@@ -15219,7 +15219,7 @@ PORT MAP (
 -- Location: LABCELL_X20_Y35_N9
 n_WR_vdu : cyclonev_lcell_comb
 -- Equation(s):
--- \n_WR_vdu~combout\ = LCELL(( \n_WR~q\ ) # ( !\n_WR~q\ & ( !\n_if1CS~0_combout\ ) ))
+-- \n_WR_vdu~combout\ = LCELL(( \w_n_WR~q\ ) # ( !\w_n_WR~q\ & ( !\n_if1CS~0_combout\ ) ))
 
 -- pragma translate_off
 GENERIC MAP (
@@ -15229,7 +15229,7 @@ GENERIC MAP (
 -- pragma translate_on
 PORT MAP (
 	datad => \ALT_INV_n_if1CS~0_combout\,
-	dataf => \ALT_INV_n_WR~q\,
+	dataf => \ALT_INV_w_n_WR~q\,
 	combout => \n_WR_vdu~combout\);
 
 -- Location: LABCELL_X19_Y33_N15
@@ -21948,9 +21948,9 @@ PORT MAP (
 	q => \io1|dataOut\(0));
 
 -- Location: LABCELL_X19_Y37_N57
-\cpuDataIn[0]~10\ : cyclonev_lcell_comb
+\w_cpuDataIn[0]~10\ : cyclonev_lcell_comb
 -- Equation(s):
--- \cpuDataIn[0]~10_combout\ = ( !\n_if2CS~0_combout\ & ( !\n_if1CS~0_combout\ ) )
+-- \w_cpuDataIn[0]~10_combout\ = ( !\n_if2CS~0_combout\ & ( !\n_if1CS~0_combout\ ) )
 
 -- pragma translate_off
 GENERIC MAP (
@@ -21961,7 +21961,7 @@ GENERIC MAP (
 PORT MAP (
 	datad => \ALT_INV_n_if1CS~0_combout\,
 	dataf => \ALT_INV_n_if2CS~0_combout\,
-	combout => \cpuDataIn[0]~10_combout\);
+	combout => \w_cpuDataIn[0]~10_combout\);
 
 -- Location: LABCELL_X20_Y42_N42
 \cpu1|Selector31~0\ : cyclonev_lcell_comb
@@ -22985,9 +22985,9 @@ PORT MAP (
 	q => \cpu1|nmi_req~q\);
 
 -- Location: LABCELL_X12_Y38_N57
-\cpuDataIn[0]~11\ : cyclonev_lcell_comb
+\w_cpuDataIn[0]~11\ : cyclonev_lcell_comb
 -- Equation(s):
--- \cpuDataIn[0]~11_combout\ = ( \n_if1CS~0_combout\ & ( \io1|dataOut\(0) ) ) # ( !\n_if1CS~0_combout\ & ( (\io2|dataOut\(0) & \n_if2CS~0_combout\) ) )
+-- \w_cpuDataIn[0]~11_combout\ = ( \n_if1CS~0_combout\ & ( \io1|dataOut\(0) ) ) # ( !\n_if1CS~0_combout\ & ( (\io2|dataOut\(0) & \n_if2CS~0_combout\) ) )
 
 -- pragma translate_off
 GENERIC MAP (
@@ -23000,7 +23000,7 @@ PORT MAP (
 	datac => \ALT_INV_n_if2CS~0_combout\,
 	datad => \io1|ALT_INV_dataOut\(0),
 	dataf => \ALT_INV_n_if1CS~0_combout\,
-	combout => \cpuDataIn[0]~11_combout\);
+	combout => \w_cpuDataIn[0]~11_combout\);
 
 -- Location: FF_X21_Y29_N2
 \io1|ps2ConvertedByte[2]\ : dffeas
@@ -23708,9 +23708,9 @@ PORT MAP (
 	q => \io2|dataOut\(2));
 
 -- Location: LABCELL_X10_Y34_N33
-\cpuDataIn[2]~13\ : cyclonev_lcell_comb
+\w_cpuDataIn[2]~13\ : cyclonev_lcell_comb
 -- Equation(s):
--- \cpuDataIn[2]~13_combout\ = ( \n_if1CS~0_combout\ & ( \io1|dataOut\(2) ) ) # ( !\n_if1CS~0_combout\ & ( (\io2|dataOut\(2) & \n_if2CS~0_combout\) ) )
+-- \w_cpuDataIn[2]~13_combout\ = ( \n_if1CS~0_combout\ & ( \io1|dataOut\(2) ) ) # ( !\n_if1CS~0_combout\ & ( (\io2|dataOut\(2) & \n_if2CS~0_combout\) ) )
 
 -- pragma translate_off
 GENERIC MAP (
@@ -23723,7 +23723,7 @@ PORT MAP (
 	datab => \io2|ALT_INV_dataOut\(2),
 	datac => \ALT_INV_n_if2CS~0_combout\,
 	dataf => \ALT_INV_n_if1CS~0_combout\,
-	combout => \cpuDataIn[2]~13_combout\);
+	combout => \w_cpuDataIn[2]~13_combout\);
 
 -- Location: LABCELL_X14_Y42_N36
 \cpu1|state~363\ : cyclonev_lcell_comb
@@ -23755,7 +23755,7 @@ PORT MAP (
 	clk => \clk~inputCLKENA0_outclk\,
 	d => \cpu1|state~363_combout\,
 	clrn => \debounceReset|ALT_INV_o_PinOut~q\,
-	ena => \ALT_INV_hold~q\,
+	ena => \ALT_INV_w_hold~q\,
 	devclrn => ww_devclrn,
 	devpor => ww_devpor,
 	q => \cpu1|state.rti_acca_state~q\);
@@ -23794,7 +23794,7 @@ PORT MAP (
 	asdata => \cpu1|state.rti_acca_state~q\,
 	clrn => \debounceReset|ALT_INV_o_PinOut~q\,
 	sload => \cpu1|ALT_INV_Selector582~18_combout\,
-	ena => \ALT_INV_hold~q\,
+	ena => \ALT_INV_w_hold~q\,
 	devclrn => ww_devclrn,
 	devpor => ww_devpor,
 	q => \cpu1|state.rti_accb_state~q\);
@@ -23833,7 +23833,7 @@ PORT MAP (
 	asdata => \cpu1|state.rti_accb_state~q\,
 	clrn => \debounceReset|ALT_INV_o_PinOut~q\,
 	sload => \cpu1|ALT_INV_Selector582~18_combout\,
-	ena => \ALT_INV_hold~q\,
+	ena => \ALT_INV_w_hold~q\,
 	devclrn => ww_devclrn,
 	devpor => ww_devpor,
 	q => \cpu1|state.rti_dp_state~q\);
@@ -23871,7 +23871,7 @@ PORT MAP (
 	asdata => \cpu1|state.rti_dp_state~q\,
 	clrn => \debounceReset|ALT_INV_o_PinOut~q\,
 	sload => \cpu1|ALT_INV_Selector582~18_combout\,
-	ena => \ALT_INV_hold~q\,
+	ena => \ALT_INV_w_hold~q\,
 	devclrn => ww_devclrn,
 	devpor => ww_devpor,
 	q => \cpu1|state.rti_ixh_state~q\);
@@ -23909,7 +23909,7 @@ PORT MAP (
 	asdata => \cpu1|state.rti_ixh_state~q\,
 	clrn => \debounceReset|ALT_INV_o_PinOut~q\,
 	sload => \cpu1|ALT_INV_Selector582~18_combout\,
-	ena => \ALT_INV_hold~q\,
+	ena => \ALT_INV_w_hold~q\,
 	devclrn => ww_devclrn,
 	devpor => ww_devpor,
 	q => \cpu1|state.rti_ixl_state~q\);
@@ -23947,7 +23947,7 @@ PORT MAP (
 	asdata => \cpu1|state.rti_ixl_state~q\,
 	clrn => \debounceReset|ALT_INV_o_PinOut~q\,
 	sload => \cpu1|ALT_INV_Selector582~18_combout\,
-	ena => \ALT_INV_hold~q\,
+	ena => \ALT_INV_w_hold~q\,
 	devclrn => ww_devclrn,
 	devpor => ww_devpor,
 	q => \cpu1|state.rti_iyh_state~q\);
@@ -23986,7 +23986,7 @@ PORT MAP (
 	asdata => \cpu1|state.rti_iyh_state~q\,
 	clrn => \debounceReset|ALT_INV_o_PinOut~q\,
 	sload => \cpu1|ALT_INV_Selector582~18_combout\,
-	ena => \ALT_INV_hold~q\,
+	ena => \ALT_INV_w_hold~q\,
 	devclrn => ww_devclrn,
 	devpor => ww_devpor,
 	q => \cpu1|state.rti_iyl_state~q\);
@@ -24024,7 +24024,7 @@ PORT MAP (
 	asdata => \cpu1|state.rti_iyl_state~q\,
 	clrn => \debounceReset|ALT_INV_o_PinOut~q\,
 	sload => \cpu1|ALT_INV_Selector582~18_combout\,
-	ena => \ALT_INV_hold~q\,
+	ena => \ALT_INV_w_hold~q\,
 	devclrn => ww_devclrn,
 	devpor => ww_devpor,
 	q => \cpu1|state.rti_uph_state~q\);
@@ -24062,7 +24062,7 @@ PORT MAP (
 	asdata => \cpu1|state.rti_uph_state~q\,
 	clrn => \debounceReset|ALT_INV_o_PinOut~q\,
 	sload => \cpu1|ALT_INV_Selector582~18_combout\,
-	ena => \ALT_INV_hold~q\,
+	ena => \ALT_INV_w_hold~q\,
 	devclrn => ww_devclrn,
 	devpor => ww_devpor,
 	q => \cpu1|state.rti_upl_state~q\);
@@ -24070,9 +24070,9 @@ PORT MAP (
 -- Location: LABCELL_X20_Y39_N12
 \cpu1|Selector304~0\ : cyclonev_lcell_comb
 -- Equation(s):
--- \cpu1|Selector304~0_combout\ = ( \cpu1|op_code\(2) & ( \cpuDataIn[2]~12_combout\ & ( ((\cpu1|Selector400~1_combout\ & ((\cpuDataIn[2]~13_combout\) # (\cpuDataIn[0]~10_combout\)))) # (\cpu1|Selector401~0_combout\) ) ) ) # ( !\cpu1|op_code\(2) & ( 
--- \cpuDataIn[2]~12_combout\ & ( (\cpu1|Selector400~1_combout\ & ((\cpuDataIn[2]~13_combout\) # (\cpuDataIn[0]~10_combout\))) ) ) ) # ( \cpu1|op_code\(2) & ( !\cpuDataIn[2]~12_combout\ & ( ((\cpu1|Selector400~1_combout\ & \cpuDataIn[2]~13_combout\)) # 
--- (\cpu1|Selector401~0_combout\) ) ) ) # ( !\cpu1|op_code\(2) & ( !\cpuDataIn[2]~12_combout\ & ( (\cpu1|Selector400~1_combout\ & \cpuDataIn[2]~13_combout\) ) ) )
+-- \cpu1|Selector304~0_combout\ = ( \cpu1|op_code\(2) & ( \w_cpuDataIn[2]~12_combout\ & ( ((\cpu1|Selector400~1_combout\ & ((\w_cpuDataIn[2]~13_combout\) # (\w_cpuDataIn[0]~10_combout\)))) # (\cpu1|Selector401~0_combout\) ) ) ) # ( !\cpu1|op_code\(2) & ( 
+-- \w_cpuDataIn[2]~12_combout\ & ( (\cpu1|Selector400~1_combout\ & ((\w_cpuDataIn[2]~13_combout\) # (\w_cpuDataIn[0]~10_combout\))) ) ) ) # ( \cpu1|op_code\(2) & ( !\w_cpuDataIn[2]~12_combout\ & ( ((\cpu1|Selector400~1_combout\ & 
+-- \w_cpuDataIn[2]~13_combout\)) # (\cpu1|Selector401~0_combout\) ) ) ) # ( !\cpu1|op_code\(2) & ( !\w_cpuDataIn[2]~12_combout\ & ( (\cpu1|Selector400~1_combout\ & \w_cpuDataIn[2]~13_combout\) ) ) )
 
 -- pragma translate_off
 GENERIC MAP (
@@ -24083,10 +24083,10 @@ GENERIC MAP (
 PORT MAP (
 	dataa => \cpu1|ALT_INV_Selector401~0_combout\,
 	datab => \cpu1|ALT_INV_Selector400~1_combout\,
-	datac => \ALT_INV_cpuDataIn[0]~10_combout\,
-	datad => \ALT_INV_cpuDataIn[2]~13_combout\,
+	datac => \ALT_INV_w_cpuDataIn[0]~10_combout\,
+	datad => \ALT_INV_w_cpuDataIn[2]~13_combout\,
 	datae => \cpu1|ALT_INV_op_code\(2),
-	dataf => \ALT_INV_cpuDataIn[2]~12_combout\,
+	dataf => \ALT_INV_w_cpuDataIn[2]~12_combout\,
 	combout => \cpu1|Selector304~0_combout\);
 
 -- Location: FF_X20_Y39_N14
@@ -24099,7 +24099,7 @@ GENERIC MAP (
 PORT MAP (
 	clk => \clk~inputCLKENA0_outclk\,
 	d => \cpu1|Selector304~0_combout\,
-	ena => \ALT_INV_hold~q\,
+	ena => \ALT_INV_w_hold~q\,
 	devclrn => ww_devclrn,
 	devpor => ww_devpor,
 	q => \cpu1|op_code\(2));
@@ -24116,9 +24116,9 @@ PORT MAP (
 	o => \sramData[3]~input_o\);
 
 -- Location: LABCELL_X10_Y34_N12
-\cpuDataIn[2]~21\ : cyclonev_lcell_comb
+\w_cpuDataIn[2]~21\ : cyclonev_lcell_comb
 -- Equation(s):
--- \cpuDataIn[2]~21_combout\ = ( \cpuDataIn[2]~12_combout\ & ( (!\n_if1CS~0_combout\ & (((!\n_if2CS~0_combout\) # (\io2|dataOut\(2))))) # (\n_if1CS~0_combout\ & (\io1|dataOut\(2))) ) ) # ( !\cpuDataIn[2]~12_combout\ & ( (!\n_if1CS~0_combout\ & 
+-- \w_cpuDataIn[2]~21_combout\ = ( \w_cpuDataIn[2]~12_combout\ & ( (!\n_if1CS~0_combout\ & (((!\n_if2CS~0_combout\) # (\io2|dataOut\(2))))) # (\n_if1CS~0_combout\ & (\io1|dataOut\(2))) ) ) # ( !\w_cpuDataIn[2]~12_combout\ & ( (!\n_if1CS~0_combout\ & 
 -- (((\io2|dataOut\(2) & \n_if2CS~0_combout\)))) # (\n_if1CS~0_combout\ & (\io1|dataOut\(2))) ) )
 
 -- pragma translate_off
@@ -24132,13 +24132,13 @@ PORT MAP (
 	datab => \io2|ALT_INV_dataOut\(2),
 	datac => \ALT_INV_n_if1CS~0_combout\,
 	datad => \ALT_INV_n_if2CS~0_combout\,
-	dataf => \ALT_INV_cpuDataIn[2]~12_combout\,
-	combout => \cpuDataIn[2]~21_combout\);
+	dataf => \ALT_INV_w_cpuDataIn[2]~12_combout\,
+	combout => \w_cpuDataIn[2]~21_combout\);
 
 -- Location: LABCELL_X12_Y38_N0
 \cpu1|sp[2]~feeder\ : cyclonev_lcell_comb
 -- Equation(s):
--- \cpu1|sp[2]~feeder_combout\ = ( \cpuDataIn[2]~21_combout\ )
+-- \cpu1|sp[2]~feeder_combout\ = ( \w_cpuDataIn[2]~21_combout\ )
 
 -- pragma translate_off
 GENERIC MAP (
@@ -24147,7 +24147,7 @@ GENERIC MAP (
 	shared_arith => "off")
 -- pragma translate_on
 PORT MAP (
-	dataf => \ALT_INV_cpuDataIn[2]~21_combout\,
+	dataf => \ALT_INV_w_cpuDataIn[2]~21_combout\,
 	combout => \cpu1|sp[2]~feeder_combout\);
 
 -- Location: LABCELL_X21_Y39_N18
@@ -24180,9 +24180,9 @@ PORT MAP (
 	o => \sramData[4]~input_o\);
 
 -- Location: LABCELL_X17_Y35_N3
-\cpuDataIn[4]~24\ : cyclonev_lcell_comb
+\w_cpuDataIn[4]~24\ : cyclonev_lcell_comb
 -- Equation(s):
--- \cpuDataIn[4]~24_combout\ = ( !\Equal6~0_combout\ & ( !\n_ROMCS~1_combout\ ) )
+-- \w_cpuDataIn[4]~24_combout\ = ( !\Equal6~0_combout\ & ( !\n_ROMCS~1_combout\ ) )
 
 -- pragma translate_off
 GENERIC MAP (
@@ -24193,7 +24193,7 @@ GENERIC MAP (
 PORT MAP (
 	dataa => \ALT_INV_n_ROMCS~1_combout\,
 	dataf => \ALT_INV_Equal6~0_combout\,
-	combout => \cpuDataIn[4]~24_combout\);
+	combout => \w_cpuDataIn[4]~24_combout\);
 
 -- Location: LABCELL_X21_Y29_N12
 \io1|kbBuffer~138\ : cyclonev_lcell_comb
@@ -24450,7 +24450,7 @@ PORT MAP (
 -- Location: LABCELL_X21_Y34_N39
 \cpu1|Selector302~2\ : cyclonev_lcell_comb
 -- Equation(s):
--- \cpu1|Selector302~2_combout\ = ( \n_if1CS~0_combout\ & ( (!\io1|dataOut\(4) & \cpu1|Selector400~1_combout\) ) ) # ( !\n_if1CS~0_combout\ & ( (!\cpuDataIn[4]~29_combout\ & \cpu1|Selector400~1_combout\) ) )
+-- \cpu1|Selector302~2_combout\ = ( \n_if1CS~0_combout\ & ( (!\io1|dataOut\(4) & \cpu1|Selector400~1_combout\) ) ) # ( !\n_if1CS~0_combout\ & ( (!\w_cpuDataIn[4]~29_combout\ & \cpu1|Selector400~1_combout\) ) )
 
 -- pragma translate_off
 GENERIC MAP (
@@ -24460,7 +24460,7 @@ GENERIC MAP (
 -- pragma translate_on
 PORT MAP (
 	dataa => \io1|ALT_INV_dataOut\(4),
-	datac => \ALT_INV_cpuDataIn[4]~29_combout\,
+	datac => \ALT_INV_w_cpuDataIn[4]~29_combout\,
 	datad => \cpu1|ALT_INV_Selector400~1_combout\,
 	dataf => \ALT_INV_n_if1CS~0_combout\,
 	combout => \cpu1|Selector302~2_combout\);
@@ -24546,7 +24546,7 @@ PORT MAP (
 -- Location: LABCELL_X16_Y35_N3
 n_RD_sd : cyclonev_lcell_comb
 -- Equation(s):
--- \n_RD_sd~combout\ = LCELL(( \mm1|amap~0_combout\ ) # ( !\mm1|amap~0_combout\ & ( ((!\Equal3~0_combout\) # ((!\cpu1|Selector327~3_combout\) # (\n_ROMCS~0_combout\))) # (\n_RD~q\) ) ))
+-- \n_RD_sd~combout\ = LCELL(( \mm1|amap~0_combout\ ) # ( !\mm1|amap~0_combout\ & ( ((!\Equal3~0_combout\) # ((!\cpu1|Selector327~3_combout\) # (\n_ROMCS~0_combout\))) # (\w_n_RD~q\) ) ))
 
 -- pragma translate_off
 GENERIC MAP (
@@ -24555,7 +24555,7 @@ GENERIC MAP (
 	shared_arith => "off")
 -- pragma translate_on
 PORT MAP (
-	dataa => \ALT_INV_n_RD~q\,
+	dataa => \ALT_INV_w_n_RD~q\,
 	datab => \ALT_INV_Equal3~0_combout\,
 	datac => \ALT_INV_n_ROMCS~0_combout\,
 	datad => \cpu1|ALT_INV_Selector327~3_combout\,
@@ -24989,9 +24989,9 @@ PORT MAP (
 	combout => \cpu1|state~395_combout\);
 
 -- Location: LABCELL_X14_Y34_N27
-\cpuDataIn[4]~30\ : cyclonev_lcell_comb
+\w_cpuDataIn[4]~30\ : cyclonev_lcell_comb
 -- Equation(s):
--- \cpuDataIn[4]~30_combout\ = (\Equal6~0_combout\ & !\sd1|Equal6~0_combout\)
+-- \w_cpuDataIn[4]~30_combout\ = (\Equal6~0_combout\ & !\sd1|Equal6~0_combout\)
 
 -- pragma translate_off
 GENERIC MAP (
@@ -25002,7 +25002,7 @@ GENERIC MAP (
 PORT MAP (
 	datac => \ALT_INV_Equal6~0_combout\,
 	datad => \sd1|ALT_INV_Equal6~0_combout\,
-	combout => \cpuDataIn[4]~30_combout\);
+	combout => \w_cpuDataIn[4]~30_combout\);
 
 -- Location: FF_X25_Y30_N5
 \sd1|clkCount[1]~DUPLICATE\ : dffeas
@@ -25577,9 +25577,9 @@ PORT MAP (
 	q => \io2|dataOut\(7));
 
 -- Location: LABCELL_X24_Y36_N39
-\cpuDataIn[7]~16\ : cyclonev_lcell_comb
+\w_cpuDataIn[7]~16\ : cyclonev_lcell_comb
 -- Equation(s):
--- \cpuDataIn[7]~16_combout\ = ( \n_if2CS~0_combout\ & ( \io2|dataOut\(7) ) )
+-- \w_cpuDataIn[7]~16_combout\ = ( \n_if2CS~0_combout\ & ( \io2|dataOut\(7) ) )
 
 -- pragma translate_off
 GENERIC MAP (
@@ -25590,12 +25590,12 @@ GENERIC MAP (
 PORT MAP (
 	dataa => \io2|ALT_INV_dataOut\(7),
 	dataf => \ALT_INV_n_if2CS~0_combout\,
-	combout => \cpuDataIn[7]~16_combout\);
+	combout => \w_cpuDataIn[7]~16_combout\);
 
 -- Location: MLABCELL_X18_Y43_N39
 \gpio1|reg[7]~0\ : cyclonev_lcell_comb
 -- Equation(s):
--- \gpio1|reg[7]~0_combout\ = ( !\cpu1|Selector330~4_combout\ & ( (!\n_WR~q\ & !\hold~q\) ) )
+-- \gpio1|reg[7]~0_combout\ = ( !\cpu1|Selector330~4_combout\ & ( (!\w_n_WR~q\ & !\w_hold~q\) ) )
 
 -- pragma translate_off
 GENERIC MAP (
@@ -25604,8 +25604,8 @@ GENERIC MAP (
 	shared_arith => "off")
 -- pragma translate_on
 PORT MAP (
-	datac => \ALT_INV_n_WR~q\,
-	datad => \ALT_INV_hold~q\,
+	datac => \ALT_INV_w_n_WR~q\,
+	datad => \ALT_INV_w_hold~q\,
 	dataf => \cpu1|ALT_INV_Selector330~4_combout\,
 	combout => \gpio1|reg[7]~0_combout\);
 
@@ -25700,7 +25700,7 @@ PORT MAP (
 -- Location: LABCELL_X16_Y38_N39
 \cpu1|up[2]~feeder\ : cyclonev_lcell_comb
 -- Equation(s):
--- \cpu1|up[2]~feeder_combout\ = ( \cpuDataIn[2]~21_combout\ )
+-- \cpu1|up[2]~feeder_combout\ = ( \w_cpuDataIn[2]~21_combout\ )
 
 -- pragma translate_off
 GENERIC MAP (
@@ -25709,7 +25709,7 @@ GENERIC MAP (
 	shared_arith => "off")
 -- pragma translate_on
 PORT MAP (
-	dataf => \ALT_INV_cpuDataIn[2]~21_combout\,
+	dataf => \ALT_INV_w_cpuDataIn[2]~21_combout\,
 	combout => \cpu1|up[2]~feeder_combout\);
 
 -- Location: LABCELL_X10_Y41_N3
@@ -25745,7 +25745,7 @@ PORT MAP (
 	asdata => \cpu1|state.puls_uph_state~q\,
 	clrn => \debounceReset|ALT_INV_o_PinOut~q\,
 	sload => \cpu1|ALT_INV_Selector582~18_combout\,
-	ena => \ALT_INV_hold~q\,
+	ena => \ALT_INV_w_hold~q\,
 	devclrn => ww_devclrn,
 	devpor => ww_devpor,
 	q => \cpu1|state.puls_upl_state~q\);
@@ -25762,7 +25762,7 @@ PORT MAP (
 	asdata => \cpu1|Selector582~18_combout\,
 	clrn => \debounceReset|ALT_INV_o_PinOut~q\,
 	sload => VCC,
-	ena => \ALT_INV_hold~q\,
+	ena => \ALT_INV_w_hold~q\,
 	devclrn => ww_devclrn,
 	devpor => ww_devpor,
 	q => \cpu1|fic~q\);
@@ -25786,9 +25786,9 @@ PORT MAP (
 -- Location: MLABCELL_X18_Y38_N42
 \cpu1|Selector314~1\ : cyclonev_lcell_comb
 -- Equation(s):
--- \cpu1|Selector314~1_combout\ = ( \cpu1|pre_code\(0) & ( \cpuDataIn[0]~4_combout\ & ( (!\cpu1|state.fetch_state~q\ & (\cpu1|state.reset_state~q\)) # (\cpu1|state.fetch_state~q\ & (((\cpuDataIn[0]~10_combout\) # (\cpuDataIn[0]~11_combout\)))) ) ) ) # ( 
--- !\cpu1|pre_code\(0) & ( \cpuDataIn[0]~4_combout\ & ( (\cpu1|state.fetch_state~q\ & ((\cpuDataIn[0]~10_combout\) # (\cpuDataIn[0]~11_combout\))) ) ) ) # ( \cpu1|pre_code\(0) & ( !\cpuDataIn[0]~4_combout\ & ( (!\cpu1|state.fetch_state~q\ & 
--- (\cpu1|state.reset_state~q\)) # (\cpu1|state.fetch_state~q\ & ((\cpuDataIn[0]~11_combout\))) ) ) ) # ( !\cpu1|pre_code\(0) & ( !\cpuDataIn[0]~4_combout\ & ( (\cpu1|state.fetch_state~q\ & \cpuDataIn[0]~11_combout\) ) ) )
+-- \cpu1|Selector314~1_combout\ = ( \cpu1|pre_code\(0) & ( \w_cpuDataIn[0]~4_combout\ & ( (!\cpu1|state.fetch_state~q\ & (\cpu1|state.reset_state~q\)) # (\cpu1|state.fetch_state~q\ & (((\w_cpuDataIn[0]~10_combout\) # (\w_cpuDataIn[0]~11_combout\)))) ) ) ) # 
+-- ( !\cpu1|pre_code\(0) & ( \w_cpuDataIn[0]~4_combout\ & ( (\cpu1|state.fetch_state~q\ & ((\w_cpuDataIn[0]~10_combout\) # (\w_cpuDataIn[0]~11_combout\))) ) ) ) # ( \cpu1|pre_code\(0) & ( !\w_cpuDataIn[0]~4_combout\ & ( (!\cpu1|state.fetch_state~q\ & 
+-- (\cpu1|state.reset_state~q\)) # (\cpu1|state.fetch_state~q\ & ((\w_cpuDataIn[0]~11_combout\))) ) ) ) # ( !\cpu1|pre_code\(0) & ( !\w_cpuDataIn[0]~4_combout\ & ( (\cpu1|state.fetch_state~q\ & \w_cpuDataIn[0]~11_combout\) ) ) )
 
 -- pragma translate_off
 GENERIC MAP (
@@ -25799,10 +25799,10 @@ GENERIC MAP (
 PORT MAP (
 	dataa => \cpu1|ALT_INV_state.fetch_state~q\,
 	datab => \cpu1|ALT_INV_state.reset_state~q\,
-	datac => \ALT_INV_cpuDataIn[0]~11_combout\,
-	datad => \ALT_INV_cpuDataIn[0]~10_combout\,
+	datac => \ALT_INV_w_cpuDataIn[0]~11_combout\,
+	datad => \ALT_INV_w_cpuDataIn[0]~10_combout\,
 	datae => \cpu1|ALT_INV_pre_code\(0),
-	dataf => \ALT_INV_cpuDataIn[0]~4_combout\,
+	dataf => \ALT_INV_w_cpuDataIn[0]~4_combout\,
 	combout => \cpu1|Selector314~1_combout\);
 
 -- Location: FF_X18_Y38_N44
@@ -25815,7 +25815,7 @@ GENERIC MAP (
 PORT MAP (
 	clk => \clk~inputCLKENA0_outclk\,
 	d => \cpu1|Selector314~1_combout\,
-	ena => \ALT_INV_hold~q\,
+	ena => \ALT_INV_w_hold~q\,
 	devclrn => ww_devclrn,
 	devpor => ww_devpor,
 	q => \cpu1|pre_code\(0));
@@ -25823,8 +25823,9 @@ PORT MAP (
 -- Location: LABCELL_X17_Y43_N54
 \cpu1|state~338\ : cyclonev_lcell_comb
 -- Equation(s):
--- \cpu1|state~338_combout\ = ( \cpu1|state.decode1_state~q\ & ( \cpu1|Selector582~18_combout\ & ( (!\hold~q\ & (((!\cpu1|Mux68~0_combout\) # (\cpu1|process_22~0_combout\)) # (\cpu1|change_state~1_combout\))) ) ) ) # ( !\cpu1|state.decode1_state~q\ & ( 
--- \cpu1|Selector582~18_combout\ & ( !\hold~q\ ) ) ) # ( \cpu1|state.decode1_state~q\ & ( !\cpu1|Selector582~18_combout\ & ( (!\cpu1|Mux68~0_combout\ & !\hold~q\) ) ) ) # ( !\cpu1|state.decode1_state~q\ & ( !\cpu1|Selector582~18_combout\ & ( !\hold~q\ ) ) )
+-- \cpu1|state~338_combout\ = ( \cpu1|state.decode1_state~q\ & ( \cpu1|Selector582~18_combout\ & ( (!\w_hold~q\ & (((!\cpu1|Mux68~0_combout\) # (\cpu1|process_22~0_combout\)) # (\cpu1|change_state~1_combout\))) ) ) ) # ( !\cpu1|state.decode1_state~q\ & ( 
+-- \cpu1|Selector582~18_combout\ & ( !\w_hold~q\ ) ) ) # ( \cpu1|state.decode1_state~q\ & ( !\cpu1|Selector582~18_combout\ & ( (!\cpu1|Mux68~0_combout\ & !\w_hold~q\) ) ) ) # ( !\cpu1|state.decode1_state~q\ & ( !\cpu1|Selector582~18_combout\ & ( !\w_hold~q\ 
+-- ) ) )
 
 -- pragma translate_off
 GENERIC MAP (
@@ -25835,7 +25836,7 @@ GENERIC MAP (
 PORT MAP (
 	dataa => \cpu1|ALT_INV_change_state~1_combout\,
 	datab => \cpu1|ALT_INV_Mux68~0_combout\,
-	datac => \ALT_INV_hold~q\,
+	datac => \ALT_INV_w_hold~q\,
 	datad => \cpu1|ALT_INV_process_22~0_combout\,
 	datae => \cpu1|ALT_INV_state.decode1_state~q\,
 	dataf => \cpu1|ALT_INV_Selector582~18_combout\,
@@ -25862,9 +25863,9 @@ PORT MAP (
 -- Location: LABCELL_X12_Y42_N18
 \cpu1|state~348\ : cyclonev_lcell_comb
 -- Equation(s):
--- \cpu1|state~348_combout\ = ( \cpu1|state.pull_return_hi_state~q\ & ( \cpu1|state~345_combout\ & ( (!\cpu1|state~338_combout\ & ((\hold~q\) # (\cpu1|Mux28~2_combout\))) ) ) ) # ( !\cpu1|state.pull_return_hi_state~q\ & ( \cpu1|state~345_combout\ & ( 
--- (!\cpu1|state~338_combout\ & (\cpu1|Mux28~2_combout\ & !\hold~q\)) ) ) ) # ( \cpu1|state.pull_return_hi_state~q\ & ( !\cpu1|state~345_combout\ & ( (!\cpu1|state~338_combout\ & (((\cpu1|state~347_combout\) # (\hold~q\)) # (\cpu1|Mux28~2_combout\))) ) ) ) # 
--- ( !\cpu1|state.pull_return_hi_state~q\ & ( !\cpu1|state~345_combout\ & ( (!\cpu1|state~338_combout\ & (\cpu1|Mux28~2_combout\ & (!\hold~q\ & !\cpu1|state~347_combout\))) ) ) )
+-- \cpu1|state~348_combout\ = ( \cpu1|state.pull_return_hi_state~q\ & ( \cpu1|state~345_combout\ & ( (!\cpu1|state~338_combout\ & ((\w_hold~q\) # (\cpu1|Mux28~2_combout\))) ) ) ) # ( !\cpu1|state.pull_return_hi_state~q\ & ( \cpu1|state~345_combout\ & ( 
+-- (!\cpu1|state~338_combout\ & (\cpu1|Mux28~2_combout\ & !\w_hold~q\)) ) ) ) # ( \cpu1|state.pull_return_hi_state~q\ & ( !\cpu1|state~345_combout\ & ( (!\cpu1|state~338_combout\ & (((\cpu1|state~347_combout\) # (\w_hold~q\)) # (\cpu1|Mux28~2_combout\))) ) ) 
+-- ) # ( !\cpu1|state.pull_return_hi_state~q\ & ( !\cpu1|state~345_combout\ & ( (!\cpu1|state~338_combout\ & (\cpu1|Mux28~2_combout\ & (!\w_hold~q\ & !\cpu1|state~347_combout\))) ) ) )
 
 -- pragma translate_off
 GENERIC MAP (
@@ -25875,7 +25876,7 @@ GENERIC MAP (
 PORT MAP (
 	dataa => \cpu1|ALT_INV_state~338_combout\,
 	datab => \cpu1|ALT_INV_Mux28~2_combout\,
-	datac => \ALT_INV_hold~q\,
+	datac => \ALT_INV_w_hold~q\,
 	datad => \cpu1|ALT_INV_state~347_combout\,
 	datae => \cpu1|ALT_INV_state.pull_return_hi_state~q\,
 	dataf => \cpu1|ALT_INV_state~345_combout\,
@@ -25924,9 +25925,9 @@ PORT MAP (
 	combout => \cpu1|Selector161~1_combout\);
 
 -- Location: LABCELL_X21_Y37_N33
-\cpuDataIn[1]~6\ : cyclonev_lcell_comb
+\w_cpuDataIn[1]~6\ : cyclonev_lcell_comb
 -- Equation(s):
--- \cpuDataIn[1]~6_combout\ = ( \io2|dataOut\(1) & ( \n_if2CS~0_combout\ ) )
+-- \w_cpuDataIn[1]~6_combout\ = ( \io2|dataOut\(1) & ( \n_if2CS~0_combout\ ) )
 
 -- pragma translate_off
 GENERIC MAP (
@@ -25937,7 +25938,7 @@ GENERIC MAP (
 PORT MAP (
 	datac => \ALT_INV_n_if2CS~0_combout\,
 	dataf => \io2|ALT_INV_dataOut\(1),
-	combout => \cpuDataIn[1]~6_combout\);
+	combout => \w_cpuDataIn[1]~6_combout\);
 
 -- Location: LABCELL_X12_Y35_N0
 \cpu1|Add0~1\ : cyclonev_lcell_comb
@@ -26115,7 +26116,7 @@ PORT MAP (
 	asdata => \cpu1|state~403_combout\,
 	clrn => \debounceReset|ALT_INV_o_PinOut~q\,
 	sload => VCC,
-	ena => \ALT_INV_hold~q\,
+	ena => \ALT_INV_w_hold~q\,
 	devclrn => ww_devclrn,
 	devpor => ww_devpor,
 	q => \cpu1|state.lbranch_state~q\);
@@ -26156,8 +26157,8 @@ PORT MAP (
 -- Location: LABCELL_X20_Y37_N57
 \cpu1|state~408\ : cyclonev_lcell_comb
 -- Equation(s):
--- \cpu1|state~408_combout\ = ( \cpu1|state.cwai_state~q\ & ( \cpu1|alu_ctrl.alu_inc~0_combout\ & ( !\cpu1|state~338_combout\ ) ) ) # ( !\cpu1|state.cwai_state~q\ & ( \cpu1|alu_ctrl.alu_inc~0_combout\ & ( (!\hold~q\ & (!\cpu1|state~338_combout\ & 
--- ((!\cpu1|state~347_combout\) # (\cpu1|state~345_combout\)))) ) ) ) # ( \cpu1|state.cwai_state~q\ & ( !\cpu1|alu_ctrl.alu_inc~0_combout\ & ( (!\cpu1|state~338_combout\ & (((\cpu1|state~347_combout\ & !\cpu1|state~345_combout\)) # (\hold~q\))) ) ) )
+-- \cpu1|state~408_combout\ = ( \cpu1|state.cwai_state~q\ & ( \cpu1|alu_ctrl.alu_inc~0_combout\ & ( !\cpu1|state~338_combout\ ) ) ) # ( !\cpu1|state.cwai_state~q\ & ( \cpu1|alu_ctrl.alu_inc~0_combout\ & ( (!\w_hold~q\ & (!\cpu1|state~338_combout\ & 
+-- ((!\cpu1|state~347_combout\) # (\cpu1|state~345_combout\)))) ) ) ) # ( \cpu1|state.cwai_state~q\ & ( !\cpu1|alu_ctrl.alu_inc~0_combout\ & ( (!\cpu1|state~338_combout\ & (((\cpu1|state~347_combout\ & !\cpu1|state~345_combout\)) # (\w_hold~q\))) ) ) )
 
 -- pragma translate_off
 GENERIC MAP (
@@ -26166,7 +26167,7 @@ GENERIC MAP (
 	shared_arith => "off")
 -- pragma translate_on
 PORT MAP (
-	dataa => \ALT_INV_hold~q\,
+	dataa => \ALT_INV_w_hold~q\,
 	datab => \cpu1|ALT_INV_state~347_combout\,
 	datac => \cpu1|ALT_INV_state~338_combout\,
 	datad => \cpu1|ALT_INV_state~345_combout\,
@@ -26271,7 +26272,7 @@ PORT MAP (
 -- Location: MLABCELL_X18_Y41_N33
 \cpu1|state~454\ : cyclonev_lcell_comb
 -- Equation(s):
--- \cpu1|state~454_combout\ = ( \cpu1|Selector582~18_combout\ & ( \cpu1|state~453_combout\ & ( (!\hold~q\ & ((!\cpu1|state~451_combout\ & (!\cpu1|state~450_combout\)) # (\cpu1|state~451_combout\ & ((!\cpu1|state~343_combout\))))) ) ) )
+-- \cpu1|state~454_combout\ = ( \cpu1|Selector582~18_combout\ & ( \cpu1|state~453_combout\ & ( (!\w_hold~q\ & ((!\cpu1|state~451_combout\ & (!\cpu1|state~450_combout\)) # (\cpu1|state~451_combout\ & ((!\cpu1|state~343_combout\))))) ) ) )
 
 -- pragma translate_off
 GENERIC MAP (
@@ -26282,7 +26283,7 @@ GENERIC MAP (
 PORT MAP (
 	dataa => \cpu1|ALT_INV_state~451_combout\,
 	datab => \cpu1|ALT_INV_state~450_combout\,
-	datac => \ALT_INV_hold~q\,
+	datac => \ALT_INV_w_hold~q\,
 	datad => \cpu1|ALT_INV_state~343_combout\,
 	datae => \cpu1|ALT_INV_Selector582~18_combout\,
 	dataf => \cpu1|ALT_INV_state~453_combout\,
@@ -26299,7 +26300,7 @@ PORT MAP (
 	clk => \clk~inputCLKENA0_outclk\,
 	d => \cpu1|state~454_combout\,
 	clrn => \debounceReset|ALT_INV_o_PinOut~q\,
-	ena => \ALT_INV_hold~q\,
+	ena => \ALT_INV_w_hold~q\,
 	devclrn => ww_devclrn,
 	devpor => ww_devpor,
 	q => \cpu1|state.int_irq_state~q\);
@@ -26337,7 +26338,7 @@ PORT MAP (
 	asdata => \cpu1|state.int_irq_state~q\,
 	clrn => \debounceReset|ALT_INV_o_PinOut~q\,
 	sload => \cpu1|ALT_INV_Selector582~18_combout\,
-	ena => \ALT_INV_hold~q\,
+	ena => \ALT_INV_w_hold~q\,
 	devclrn => ww_devclrn,
 	devpor => ww_devpor,
 	q => \cpu1|state.int_irq1_state~q\);
@@ -26345,7 +26346,7 @@ PORT MAP (
 -- Location: MLABCELL_X18_Y41_N30
 \cpu1|state~452\ : cyclonev_lcell_comb
 -- Equation(s):
--- \cpu1|state~452_combout\ = ( \cpu1|Selector582~18_combout\ & ( \cpu1|change_state~1_combout\ & ( (!\hold~q\ & ((!\cpu1|state~451_combout\ & (!\cpu1|state~450_combout\)) # (\cpu1|state~451_combout\ & ((!\cpu1|state~343_combout\))))) ) ) )
+-- \cpu1|state~452_combout\ = ( \cpu1|Selector582~18_combout\ & ( \cpu1|change_state~1_combout\ & ( (!\w_hold~q\ & ((!\cpu1|state~451_combout\ & (!\cpu1|state~450_combout\)) # (\cpu1|state~451_combout\ & ((!\cpu1|state~343_combout\))))) ) ) )
 
 -- pragma translate_off
 GENERIC MAP (
@@ -26357,7 +26358,7 @@ PORT MAP (
 	dataa => \cpu1|ALT_INV_state~451_combout\,
 	datab => \cpu1|ALT_INV_state~450_combout\,
 	datac => \cpu1|ALT_INV_state~343_combout\,
-	datad => \ALT_INV_hold~q\,
+	datad => \ALT_INV_w_hold~q\,
 	datae => \cpu1|ALT_INV_Selector582~18_combout\,
 	dataf => \cpu1|ALT_INV_change_state~1_combout\,
 	combout => \cpu1|state~452_combout\);
@@ -26373,7 +26374,7 @@ PORT MAP (
 	clk => \clk~inputCLKENA0_outclk\,
 	d => \cpu1|state~452_combout\,
 	clrn => \debounceReset|ALT_INV_o_PinOut~q\,
-	ena => \ALT_INV_hold~q\,
+	ena => \ALT_INV_w_hold~q\,
 	devclrn => ww_devclrn,
 	devpor => ww_devpor,
 	q => \cpu1|state.int_nmi_state~q\);
@@ -26412,7 +26413,7 @@ PORT MAP (
 	asdata => \cpu1|state.int_nmi_state~q\,
 	clrn => \debounceReset|ALT_INV_o_PinOut~q\,
 	sload => \cpu1|ALT_INV_Selector582~18_combout\,
-	ena => \ALT_INV_hold~q\,
+	ena => \ALT_INV_w_hold~q\,
 	devclrn => ww_devclrn,
 	devpor => ww_devpor,
 	q => \cpu1|state.int_nmi1_state~q\);
@@ -26845,7 +26846,7 @@ GENERIC MAP (
 PORT MAP (
 	clk => \clk~inputCLKENA0_outclk\,
 	d => \cpu1|Selector55~0_combout\,
-	ena => \ALT_INV_hold~q\,
+	ena => \ALT_INV_w_hold~q\,
 	devclrn => ww_devclrn,
 	devpor => ww_devpor,
 	q => \cpu1|saved_state.jsr_state~q\);
@@ -26853,8 +26854,8 @@ PORT MAP (
 -- Location: LABCELL_X19_Y41_N48
 \cpu1|state~501\ : cyclonev_lcell_comb
 -- Equation(s):
--- \cpu1|state~501_combout\ = ( !\cpu1|state~401_combout\ & ( (!\hold~q\ & (((\cpu1|state~346_combout\ & (\cpu1|saved_state.jsr_state~q\ & \cpu1|state~400_combout\))))) # (\hold~q\ & (\cpu1|state.jsr_state~q\)) ) ) # ( \cpu1|state~401_combout\ & ( (!\hold~q\ 
--- & (((\cpu1|state~343_combout\ & (\cpu1|saved_state.jsr_state~q\ & \cpu1|state~400_combout\))))) # (\hold~q\ & (\cpu1|state.jsr_state~q\)) ) )
+-- \cpu1|state~501_combout\ = ( !\cpu1|state~401_combout\ & ( (!\w_hold~q\ & (((\cpu1|state~346_combout\ & (\cpu1|saved_state.jsr_state~q\ & \cpu1|state~400_combout\))))) # (\w_hold~q\ & (\cpu1|state.jsr_state~q\)) ) ) # ( \cpu1|state~401_combout\ & ( 
+-- (!\w_hold~q\ & (((\cpu1|state~343_combout\ & (\cpu1|saved_state.jsr_state~q\ & \cpu1|state~400_combout\))))) # (\w_hold~q\ & (\cpu1|state.jsr_state~q\)) ) )
 
 -- pragma translate_off
 GENERIC MAP (
@@ -26864,7 +26865,7 @@ GENERIC MAP (
 -- pragma translate_on
 PORT MAP (
 	dataa => \cpu1|ALT_INV_state.jsr_state~q\,
-	datab => \ALT_INV_hold~q\,
+	datab => \ALT_INV_w_hold~q\,
 	datac => \cpu1|ALT_INV_state~343_combout\,
 	datad => \cpu1|ALT_INV_saved_state.jsr_state~q\,
 	datae => \cpu1|ALT_INV_state~401_combout\,
@@ -27354,9 +27355,9 @@ PORT MAP (
 	q => \gpio1|reg\(1));
 
 -- Location: MLABCELL_X18_Y34_N51
-\cpuDataIn[4]~26\ : cyclonev_lcell_comb
+\w_cpuDataIn[4]~26\ : cyclonev_lcell_comb
 -- Equation(s):
--- \cpuDataIn[4]~26_combout\ = ( \gpio1|Equal0~0_combout\ & ( (\cpu1|Selector330~4_combout\ & ((!\gpio1|reg\(1)) # (\gpio1|reg\(0)))) ) ) # ( !\gpio1|Equal0~0_combout\ & ( \cpu1|Selector330~4_combout\ ) )
+-- \w_cpuDataIn[4]~26_combout\ = ( \gpio1|Equal0~0_combout\ & ( (\cpu1|Selector330~4_combout\ & ((!\gpio1|reg\(1)) # (\gpio1|reg\(0)))) ) ) # ( !\gpio1|Equal0~0_combout\ & ( \cpu1|Selector330~4_combout\ ) )
 
 -- pragma translate_off
 GENERIC MAP (
@@ -27369,7 +27370,7 @@ PORT MAP (
 	datab => \gpio1|ALT_INV_reg\(1),
 	datac => \cpu1|ALT_INV_Selector330~4_combout\,
 	dataf => \gpio1|ALT_INV_Equal0~0_combout\,
-	combout => \cpuDataIn[4]~26_combout\);
+	combout => \w_cpuDataIn[4]~26_combout\);
 
 -- Location: MLABCELL_X18_Y34_N30
 \gpio1|Equal0~1\ : cyclonev_lcell_comb
@@ -27389,9 +27390,9 @@ PORT MAP (
 	combout => \gpio1|Equal0~1_combout\);
 
 -- Location: MLABCELL_X18_Y34_N6
-\cpuDataIn[4]~27\ : cyclonev_lcell_comb
+\w_cpuDataIn[4]~27\ : cyclonev_lcell_comb
 -- Equation(s):
--- \cpuDataIn[4]~27_combout\ = (!\gpio1|Equal0~1_combout\ & \cpu1|Selector330~4_combout\)
+-- \w_cpuDataIn[4]~27_combout\ = (!\gpio1|Equal0~1_combout\ & \cpu1|Selector330~4_combout\)
 
 -- pragma translate_off
 GENERIC MAP (
@@ -27402,12 +27403,12 @@ GENERIC MAP (
 PORT MAP (
 	datac => \gpio1|ALT_INV_Equal0~1_combout\,
 	datad => \cpu1|ALT_INV_Selector330~4_combout\,
-	combout => \cpuDataIn[4]~27_combout\);
+	combout => \w_cpuDataIn[4]~27_combout\);
 
 -- Location: MLABCELL_X18_Y32_N30
 \gpio1|reg_ddr2[1]~0\ : cyclonev_lcell_comb
 -- Equation(s):
--- \gpio1|reg_ddr2[1]~0_combout\ = ( \cpuDataIn[0]~3_combout\ & ( (!\hold~q\ & (\gpio1|Equal0~1_combout\ & !\n_WR~q\)) ) )
+-- \gpio1|reg_ddr2[1]~0_combout\ = ( \w_cpuDataIn[0]~3_combout\ & ( (!\w_hold~q\ & (\gpio1|Equal0~1_combout\ & !\w_n_WR~q\)) ) )
 
 -- pragma translate_off
 GENERIC MAP (
@@ -27416,10 +27417,10 @@ GENERIC MAP (
 	shared_arith => "off")
 -- pragma translate_on
 PORT MAP (
-	dataa => \ALT_INV_hold~q\,
+	dataa => \ALT_INV_w_hold~q\,
 	datac => \gpio1|ALT_INV_Equal0~1_combout\,
-	datad => \ALT_INV_n_WR~q\,
-	dataf => \ALT_INV_cpuDataIn[0]~3_combout\,
+	datad => \ALT_INV_w_n_WR~q\,
+	dataf => \ALT_INV_w_cpuDataIn[0]~3_combout\,
 	combout => \gpio1|reg_ddr2[1]~0_combout\);
 
 -- Location: FF_X18_Y32_N56
@@ -27442,7 +27443,7 @@ PORT MAP (
 -- Location: MLABCELL_X18_Y32_N24
 \gpio1|proc_dat2~0\ : cyclonev_lcell_comb
 -- Equation(s):
--- \gpio1|proc_dat2~0_combout\ = ( \cpuDataIn[0]~3_combout\ & ( (\gpio1|reg\(1) & (!\n_WR~q\ & (\gpio1|Equal0~0_combout\ & !\gpio1|reg\(0)))) ) )
+-- \gpio1|proc_dat2~0_combout\ = ( \w_cpuDataIn[0]~3_combout\ & ( (\gpio1|reg\(1) & (!\w_n_WR~q\ & (\gpio1|Equal0~0_combout\ & !\gpio1|reg\(0)))) ) )
 
 -- pragma translate_off
 GENERIC MAP (
@@ -27452,10 +27453,10 @@ GENERIC MAP (
 -- pragma translate_on
 PORT MAP (
 	dataa => \gpio1|ALT_INV_reg\(1),
-	datab => \ALT_INV_n_WR~q\,
+	datab => \ALT_INV_w_n_WR~q\,
 	datac => \gpio1|ALT_INV_Equal0~0_combout\,
 	datad => \gpio1|ALT_INV_reg\(0),
-	dataf => \ALT_INV_cpuDataIn[0]~3_combout\,
+	dataf => \ALT_INV_w_cpuDataIn[0]~3_combout\,
 	combout => \gpio1|proc_dat2~0_combout\);
 
 -- Location: IOIBUF_X40_Y0_N41
@@ -27506,10 +27507,10 @@ PORT MAP (
 	q => \gpio1|reg_dat2\(5));
 
 -- Location: MLABCELL_X18_Y34_N27
-\cpuDataIn[5]~36\ : cyclonev_lcell_comb
+\w_cpuDataIn[5]~36\ : cyclonev_lcell_comb
 -- Equation(s):
--- \cpuDataIn[5]~36_combout\ = ( \gpio1|reg_dat2\(5) & ( (!\cpuDataIn[4]~26_combout\ & (((\gpio1|reg\(5))) # (\cpuDataIn[4]~27_combout\))) # (\cpuDataIn[4]~26_combout\ & (!\cpuDataIn[4]~27_combout\ & (\gpio1|reg_ddr2\(5)))) ) ) # ( !\gpio1|reg_dat2\(5) & ( 
--- (!\cpuDataIn[4]~27_combout\ & ((!\cpuDataIn[4]~26_combout\ & ((\gpio1|reg\(5)))) # (\cpuDataIn[4]~26_combout\ & (\gpio1|reg_ddr2\(5))))) ) )
+-- \w_cpuDataIn[5]~36_combout\ = ( \gpio1|reg_dat2\(5) & ( (!\w_cpuDataIn[4]~26_combout\ & (((\gpio1|reg\(5))) # (\w_cpuDataIn[4]~27_combout\))) # (\w_cpuDataIn[4]~26_combout\ & (!\w_cpuDataIn[4]~27_combout\ & (\gpio1|reg_ddr2\(5)))) ) ) # ( 
+-- !\gpio1|reg_dat2\(5) & ( (!\w_cpuDataIn[4]~27_combout\ & ((!\w_cpuDataIn[4]~26_combout\ & ((\gpio1|reg\(5)))) # (\w_cpuDataIn[4]~26_combout\ & (\gpio1|reg_ddr2\(5))))) ) )
 
 -- pragma translate_off
 GENERIC MAP (
@@ -27518,12 +27519,12 @@ GENERIC MAP (
 	shared_arith => "off")
 -- pragma translate_on
 PORT MAP (
-	dataa => \ALT_INV_cpuDataIn[4]~26_combout\,
-	datab => \ALT_INV_cpuDataIn[4]~27_combout\,
+	dataa => \ALT_INV_w_cpuDataIn[4]~26_combout\,
+	datab => \ALT_INV_w_cpuDataIn[4]~27_combout\,
 	datac => \gpio1|ALT_INV_reg_ddr2\(5),
 	datad => \gpio1|ALT_INV_reg\(5),
 	dataf => \gpio1|ALT_INV_reg_dat2\(5),
-	combout => \cpuDataIn[5]~36_combout\);
+	combout => \w_cpuDataIn[5]~36_combout\);
 
 -- Location: FF_X21_Y35_N25
 \io2|rxBuffer~19\ : dffeas
@@ -27595,9 +27596,9 @@ PORT MAP (
 	q => \io2|dataOut\(5));
 
 -- Location: LABCELL_X17_Y35_N12
-\cpuDataIn[5]~37\ : cyclonev_lcell_comb
+\w_cpuDataIn[5]~37\ : cyclonev_lcell_comb
 -- Equation(s):
--- \cpuDataIn[5]~37_combout\ = ( \n_if2CS~0_combout\ & ( \io2|dataOut\(5) ) ) # ( !\n_if2CS~0_combout\ & ( (\cpuDataIn[5]~36_combout\ & !\Equal5~1_combout\) ) )
+-- \w_cpuDataIn[5]~37_combout\ = ( \n_if2CS~0_combout\ & ( \io2|dataOut\(5) ) ) # ( !\n_if2CS~0_combout\ & ( (\w_cpuDataIn[5]~36_combout\ & !\Equal5~1_combout\) ) )
 
 -- pragma translate_off
 GENERIC MAP (
@@ -27606,11 +27607,11 @@ GENERIC MAP (
 	shared_arith => "off")
 -- pragma translate_on
 PORT MAP (
-	dataa => \ALT_INV_cpuDataIn[5]~36_combout\,
+	dataa => \ALT_INV_w_cpuDataIn[5]~36_combout\,
 	datac => \io2|ALT_INV_dataOut\(5),
 	datad => \ALT_INV_Equal5~1_combout\,
 	dataf => \ALT_INV_n_if2CS~0_combout\,
-	combout => \cpuDataIn[5]~37_combout\);
+	combout => \w_cpuDataIn[5]~37_combout\);
 
 -- Location: LABCELL_X21_Y37_N9
 \cpu1|Mux0~0\ : cyclonev_lcell_comb
@@ -27664,7 +27665,7 @@ PORT MAP (
 -- Location: LABCELL_X17_Y42_N45
 \cpu1|state~433\ : cyclonev_lcell_comb
 -- Equation(s):
--- \cpu1|state~433_combout\ = ( \cpu1|Selector582~18_combout\ & ( (!\hold~q\ & (((!\cpu1|Selector454~0_combout\) # (\cpu1|process_22~0_combout\)) # (\cpu1|change_state~1_combout\))) ) ) # ( !\cpu1|Selector582~18_combout\ & ( (!\hold~q\ & 
+-- \cpu1|state~433_combout\ = ( \cpu1|Selector582~18_combout\ & ( (!\w_hold~q\ & (((!\cpu1|Selector454~0_combout\) # (\cpu1|process_22~0_combout\)) # (\cpu1|change_state~1_combout\))) ) ) # ( !\cpu1|Selector582~18_combout\ & ( (!\w_hold~q\ & 
 -- !\cpu1|Selector454~0_combout\) ) )
 
 -- pragma translate_off
@@ -27675,7 +27676,7 @@ GENERIC MAP (
 -- pragma translate_on
 PORT MAP (
 	dataa => \cpu1|ALT_INV_change_state~1_combout\,
-	datab => \ALT_INV_hold~q\,
+	datab => \ALT_INV_w_hold~q\,
 	datac => \cpu1|ALT_INV_process_22~0_combout\,
 	datad => \cpu1|ALT_INV_Selector454~0_combout\,
 	dataf => \cpu1|ALT_INV_Selector582~18_combout\,
@@ -27728,7 +27729,7 @@ GENERIC MAP (
 PORT MAP (
 	clk => \clk~inputCLKENA0_outclk\,
 	d => \cpu1|Selector24~1_combout\,
-	ena => \ALT_INV_hold~q\,
+	ena => \ALT_INV_w_hold~q\,
 	devclrn => ww_devclrn,
 	devpor => ww_devpor,
 	q => \cpu1|saved_state.single_op_read_state~q\);
@@ -27736,9 +27737,9 @@ PORT MAP (
 -- Location: LABCELL_X19_Y42_N42
 \cpu1|state~489\ : cyclonev_lcell_comb
 -- Equation(s):
--- \cpu1|state~489_combout\ = ( \cpu1|state.single_op_read_state~q\ & ( \cpu1|saved_state.single_op_read_state~q\ ) ) # ( !\cpu1|state.single_op_read_state~q\ & ( \cpu1|saved_state.single_op_read_state~q\ & ( (!\hold~q\ & ((!\cpu1|Selector454~0_combout\) # 
+-- \cpu1|state~489_combout\ = ( \cpu1|state.single_op_read_state~q\ & ( \cpu1|saved_state.single_op_read_state~q\ ) ) # ( !\cpu1|state.single_op_read_state~q\ & ( \cpu1|saved_state.single_op_read_state~q\ & ( (!\w_hold~q\ & ((!\cpu1|Selector454~0_combout\) # 
 -- ((\cpu1|Selector582~18_combout\ & !\cpu1|state~339_combout\)))) ) ) ) # ( \cpu1|state.single_op_read_state~q\ & ( !\cpu1|saved_state.single_op_read_state~q\ & ( ((\cpu1|Selector454~0_combout\ & ((!\cpu1|Selector582~18_combout\) # 
--- (\cpu1|state~339_combout\)))) # (\hold~q\) ) ) )
+-- (\cpu1|state~339_combout\)))) # (\w_hold~q\) ) ) )
 
 -- pragma translate_off
 GENERIC MAP (
@@ -27748,7 +27749,7 @@ GENERIC MAP (
 -- pragma translate_on
 PORT MAP (
 	dataa => \cpu1|ALT_INV_Selector454~0_combout\,
-	datab => \ALT_INV_hold~q\,
+	datab => \ALT_INV_w_hold~q\,
 	datac => \cpu1|ALT_INV_Selector582~18_combout\,
 	datad => \cpu1|ALT_INV_state~339_combout\,
 	datae => \cpu1|ALT_INV_state.single_op_read_state~q\,
@@ -27758,9 +27759,9 @@ PORT MAP (
 -- Location: LABCELL_X17_Y40_N42
 \cpu1|state~490\ : cyclonev_lcell_comb
 -- Equation(s):
--- \cpu1|state~490_combout\ = ( \hold~q\ & ( \cpu1|state~489_combout\ ) ) # ( !\hold~q\ & ( \cpu1|state~489_combout\ & ( (!\cpu1|Mux0~0_combout\ & ((!\cpu1|state~433_combout\) # ((\cpu1|state~347_combout\ & !\cpu1|state~345_combout\)))) # 
--- (\cpu1|Mux0~0_combout\ & (((\cpu1|state~347_combout\ & !\cpu1|state~345_combout\)))) ) ) ) # ( !\hold~q\ & ( !\cpu1|state~489_combout\ & ( (!\cpu1|Mux0~0_combout\ & (!\cpu1|state~433_combout\ & ((!\cpu1|state~347_combout\) # (\cpu1|state~345_combout\)))) 
--- ) ) )
+-- \cpu1|state~490_combout\ = ( \w_hold~q\ & ( \cpu1|state~489_combout\ ) ) # ( !\w_hold~q\ & ( \cpu1|state~489_combout\ & ( (!\cpu1|Mux0~0_combout\ & ((!\cpu1|state~433_combout\) # ((\cpu1|state~347_combout\ & !\cpu1|state~345_combout\)))) # 
+-- (\cpu1|Mux0~0_combout\ & (((\cpu1|state~347_combout\ & !\cpu1|state~345_combout\)))) ) ) ) # ( !\w_hold~q\ & ( !\cpu1|state~489_combout\ & ( (!\cpu1|Mux0~0_combout\ & (!\cpu1|state~433_combout\ & ((!\cpu1|state~347_combout\) # 
+-- (\cpu1|state~345_combout\)))) ) ) )
 
 -- pragma translate_off
 GENERIC MAP (
@@ -27773,7 +27774,7 @@ PORT MAP (
 	datab => \cpu1|ALT_INV_state~433_combout\,
 	datac => \cpu1|ALT_INV_state~347_combout\,
 	datad => \cpu1|ALT_INV_state~345_combout\,
-	datae => \ALT_INV_hold~q\,
+	datae => \ALT_INV_w_hold~q\,
 	dataf => \cpu1|ALT_INV_state~489_combout\,
 	combout => \cpu1|state~490_combout\);
 
@@ -27821,7 +27822,7 @@ GENERIC MAP (
 PORT MAP (
 	clk => \clk~inputCLKENA0_outclk\,
 	d => \cpu1|Selector25~0_combout\,
-	ena => \ALT_INV_hold~q\,
+	ena => \ALT_INV_w_hold~q\,
 	devclrn => ww_devclrn,
 	devpor => ww_devpor,
 	q => \cpu1|saved_state.single_op_exec_state~q\);
@@ -27847,8 +27848,8 @@ PORT MAP (
 -- Location: LABCELL_X16_Y40_N0
 \cpu1|state~423\ : cyclonev_lcell_comb
 -- Equation(s):
--- \cpu1|state~423_combout\ = ( \cpu1|state.postincr2_state~q\ & ( \cpu1|state~395_combout\ & ( ((!\cpu1|md\(3) & ((\cpu1|state~397_combout\) # (\cpu1|md\(0))))) # (\hold~q\) ) ) ) # ( !\cpu1|state.postincr2_state~q\ & ( \cpu1|state~395_combout\ & ( 
--- (!\hold~q\ & (!\cpu1|md\(3) & (\cpu1|md\(0) & !\cpu1|state~397_combout\))) ) ) ) # ( \cpu1|state.postincr2_state~q\ & ( !\cpu1|state~395_combout\ & ( \hold~q\ ) ) )
+-- \cpu1|state~423_combout\ = ( \cpu1|state.postincr2_state~q\ & ( \cpu1|state~395_combout\ & ( ((!\cpu1|md\(3) & ((\cpu1|state~397_combout\) # (\cpu1|md\(0))))) # (\w_hold~q\) ) ) ) # ( !\cpu1|state.postincr2_state~q\ & ( \cpu1|state~395_combout\ & ( 
+-- (!\w_hold~q\ & (!\cpu1|md\(3) & (\cpu1|md\(0) & !\cpu1|state~397_combout\))) ) ) ) # ( \cpu1|state.postincr2_state~q\ & ( !\cpu1|state~395_combout\ & ( \w_hold~q\ ) ) )
 
 -- pragma translate_off
 GENERIC MAP (
@@ -27857,7 +27858,7 @@ GENERIC MAP (
 	shared_arith => "off")
 -- pragma translate_on
 PORT MAP (
-	dataa => \ALT_INV_hold~q\,
+	dataa => \ALT_INV_w_hold~q\,
 	datab => \cpu1|ALT_INV_md\(3),
 	datac => \cpu1|ALT_INV_md\(0),
 	datad => \cpu1|ALT_INV_state~397_combout\,
@@ -27920,8 +27921,8 @@ PORT MAP (
 -- Location: LABCELL_X19_Y40_N30
 \cpu1|state~402\ : cyclonev_lcell_comb
 -- Equation(s):
--- \cpu1|state~402_combout\ = ( \cpu1|state.indexed_state~q\ & ( \cpu1|state~400_combout\ & ( (!\cpu1|state~401_combout\ & (!\cpu1|state~346_combout\ & (!\hold~q\ & \cpu1|md\(1)))) ) ) ) # ( \cpu1|state.indexed_state~q\ & ( !\cpu1|state~400_combout\ & ( 
--- (!\cpu1|state~401_combout\ & (!\hold~q\ & \cpu1|md\(1))) ) ) )
+-- \cpu1|state~402_combout\ = ( \cpu1|state.indexed_state~q\ & ( \cpu1|state~400_combout\ & ( (!\cpu1|state~401_combout\ & (!\cpu1|state~346_combout\ & (!\w_hold~q\ & \cpu1|md\(1)))) ) ) ) # ( \cpu1|state.indexed_state~q\ & ( !\cpu1|state~400_combout\ & ( 
+-- (!\cpu1|state~401_combout\ & (!\w_hold~q\ & \cpu1|md\(1))) ) ) )
 
 -- pragma translate_off
 GENERIC MAP (
@@ -27932,7 +27933,7 @@ GENERIC MAP (
 PORT MAP (
 	dataa => \cpu1|ALT_INV_state~401_combout\,
 	datab => \cpu1|ALT_INV_state~346_combout\,
-	datac => \ALT_INV_hold~q\,
+	datac => \ALT_INV_w_hold~q\,
 	datad => \cpu1|ALT_INV_md\(1),
 	datae => \cpu1|ALT_INV_state.indexed_state~q\,
 	dataf => \cpu1|ALT_INV_state~400_combout\,
@@ -27949,7 +27950,7 @@ PORT MAP (
 	clk => \clk~inputCLKENA0_outclk\,
 	d => \cpu1|state~402_combout\,
 	clrn => \debounceReset|ALT_INV_o_PinOut~q\,
-	ena => \ALT_INV_hold~q\,
+	ena => \ALT_INV_w_hold~q\,
 	devclrn => ww_devclrn,
 	devpor => ww_devpor,
 	q => \cpu1|state.indexaddr_state~q\);
@@ -27988,7 +27989,7 @@ PORT MAP (
 	asdata => \cpu1|state.indexaddr_state~q\,
 	clrn => \debounceReset|ALT_INV_o_PinOut~q\,
 	sload => \cpu1|ALT_INV_Selector582~18_combout\,
-	ena => \ALT_INV_hold~q\,
+	ena => \ALT_INV_w_hold~q\,
 	devclrn => ww_devclrn,
 	devpor => ww_devpor,
 	q => \cpu1|state.indexaddr2_state~q\);
@@ -28027,7 +28028,7 @@ PORT MAP (
 	asdata => \cpu1|state.pcrel16_state~q\,
 	clrn => \debounceReset|ALT_INV_o_PinOut~q\,
 	sload => \cpu1|ALT_INV_Selector582~18_combout\,
-	ena => \ALT_INV_hold~q\,
+	ena => \ALT_INV_w_hold~q\,
 	devclrn => ww_devclrn,
 	devpor => ww_devpor,
 	q => \cpu1|state.pcrel16_2_state~q\);
@@ -28067,9 +28068,9 @@ PORT MAP (
 -- Location: MLABCELL_X18_Y40_N48
 \cpu1|state~425\ : cyclonev_lcell_comb
 -- Equation(s):
--- \cpu1|state~425_combout\ = ( \cpu1|state.index8_state~q\ & ( \cpu1|Mux370~9_combout\ & ( ((\cpu1|state~395_combout\ & \cpu1|state~367_combout\)) # (\hold~q\) ) ) ) # ( !\cpu1|state.index8_state~q\ & ( \cpu1|Mux370~9_combout\ & ( (!\hold~q\ & 
--- (\cpu1|state~395_combout\ & (\cpu1|state~367_combout\ & !\cpu1|state~397_combout\))) ) ) ) # ( \cpu1|state.index8_state~q\ & ( !\cpu1|Mux370~9_combout\ & ( ((\cpu1|state~395_combout\ & (\cpu1|state~367_combout\ & \cpu1|state~397_combout\))) # (\hold~q\) ) 
--- ) )
+-- \cpu1|state~425_combout\ = ( \cpu1|state.index8_state~q\ & ( \cpu1|Mux370~9_combout\ & ( ((\cpu1|state~395_combout\ & \cpu1|state~367_combout\)) # (\w_hold~q\) ) ) ) # ( !\cpu1|state.index8_state~q\ & ( \cpu1|Mux370~9_combout\ & ( (!\w_hold~q\ & 
+-- (\cpu1|state~395_combout\ & (\cpu1|state~367_combout\ & !\cpu1|state~397_combout\))) ) ) ) # ( \cpu1|state.index8_state~q\ & ( !\cpu1|Mux370~9_combout\ & ( ((\cpu1|state~395_combout\ & (\cpu1|state~367_combout\ & \cpu1|state~397_combout\))) # (\w_hold~q\) 
+-- ) ) )
 
 -- pragma translate_off
 GENERIC MAP (
@@ -28078,7 +28079,7 @@ GENERIC MAP (
 	shared_arith => "off")
 -- pragma translate_on
 PORT MAP (
-	dataa => \ALT_INV_hold~q\,
+	dataa => \ALT_INV_w_hold~q\,
 	datab => \cpu1|ALT_INV_state~395_combout\,
 	datac => \cpu1|ALT_INV_state~367_combout\,
 	datad => \cpu1|ALT_INV_state~397_combout\,
@@ -28165,7 +28166,7 @@ PORT MAP (
 	clk => \clk~inputCLKENA0_outclk\,
 	d => \cpu1|state~427_combout\,
 	clrn => \debounceReset|ALT_INV_o_PinOut~q\,
-	ena => \ALT_INV_hold~q\,
+	ena => \ALT_INV_w_hold~q\,
 	devclrn => ww_devclrn,
 	devpor => ww_devpor,
 	q => \cpu1|state.pcrel8_state~q\);
@@ -28189,9 +28190,9 @@ PORT MAP (
 -- Location: MLABCELL_X18_Y40_N24
 \cpu1|state~398\ : cyclonev_lcell_comb
 -- Equation(s):
--- \cpu1|state~398_combout\ = ( \cpu1|state.index16_state~q\ & ( \cpu1|Mux370~1_combout\ & ( ((\cpu1|state~395_combout\ & \cpu1|state~367_combout\)) # (\hold~q\) ) ) ) # ( !\cpu1|state.index16_state~q\ & ( \cpu1|Mux370~1_combout\ & ( (!\hold~q\ & 
--- (\cpu1|state~395_combout\ & (\cpu1|state~367_combout\ & !\cpu1|state~397_combout\))) ) ) ) # ( \cpu1|state.index16_state~q\ & ( !\cpu1|Mux370~1_combout\ & ( ((\cpu1|state~395_combout\ & (\cpu1|state~367_combout\ & \cpu1|state~397_combout\))) # (\hold~q\) 
--- ) ) )
+-- \cpu1|state~398_combout\ = ( \cpu1|state.index16_state~q\ & ( \cpu1|Mux370~1_combout\ & ( ((\cpu1|state~395_combout\ & \cpu1|state~367_combout\)) # (\w_hold~q\) ) ) ) # ( !\cpu1|state.index16_state~q\ & ( \cpu1|Mux370~1_combout\ & ( (!\w_hold~q\ & 
+-- (\cpu1|state~395_combout\ & (\cpu1|state~367_combout\ & !\cpu1|state~397_combout\))) ) ) ) # ( \cpu1|state.index16_state~q\ & ( !\cpu1|Mux370~1_combout\ & ( ((\cpu1|state~395_combout\ & (\cpu1|state~367_combout\ & \cpu1|state~397_combout\))) # 
+-- (\w_hold~q\) ) ) )
 
 -- pragma translate_off
 GENERIC MAP (
@@ -28200,7 +28201,7 @@ GENERIC MAP (
 	shared_arith => "off")
 -- pragma translate_on
 PORT MAP (
-	dataa => \ALT_INV_hold~q\,
+	dataa => \ALT_INV_w_hold~q\,
 	datab => \cpu1|ALT_INV_state~395_combout\,
 	datac => \cpu1|ALT_INV_state~367_combout\,
 	datad => \cpu1|ALT_INV_state~397_combout\,
@@ -28257,7 +28258,7 @@ PORT MAP (
 	asdata => \cpu1|state.index16_state~q\,
 	clrn => \debounceReset|ALT_INV_o_PinOut~q\,
 	sload => \cpu1|ALT_INV_Selector582~18_combout\,
-	ena => \ALT_INV_hold~q\,
+	ena => \ALT_INV_w_hold~q\,
 	devclrn => ww_devclrn,
 	devpor => ww_devpor,
 	q => \cpu1|state.index16_2_state~q\);
@@ -28367,7 +28368,7 @@ PORT MAP (
 	clk => \clk~inputCLKENA0_outclk\,
 	d => \cpu1|state~446_combout\,
 	clrn => \debounceReset|ALT_INV_o_PinOut~q\,
-	ena => \ALT_INV_hold~q\,
+	ena => \ALT_INV_w_hold~q\,
 	devclrn => ww_devclrn,
 	devpor => ww_devpor,
 	q => \cpu1|state.single_op_exec_state~q\);
@@ -28413,8 +28414,8 @@ PORT MAP (
 -- Location: LABCELL_X19_Y36_N12
 \cpu1|Selector277~1\ : cyclonev_lcell_comb
 -- Equation(s):
--- \cpu1|Selector277~1_combout\ = ( \cpuDataIn[5]~37_combout\ & ( \cpu1|Selector277~0_combout\ ) ) # ( !\cpuDataIn[5]~37_combout\ & ( \cpu1|Selector277~0_combout\ ) ) # ( \cpuDataIn[5]~37_combout\ & ( !\cpu1|Selector277~0_combout\ & ( 
--- (\cpu1|Selector281~0_combout\ & ((!\n_if1CS~0_combout\) # (\io1|dataOut\(5)))) ) ) ) # ( !\cpuDataIn[5]~37_combout\ & ( !\cpu1|Selector277~0_combout\ & ( (\cpu1|Selector281~0_combout\ & ((!\n_if1CS~0_combout\ & (\cpuDataIn[5]~40_combout\)) # 
+-- \cpu1|Selector277~1_combout\ = ( \w_cpuDataIn[5]~37_combout\ & ( \cpu1|Selector277~0_combout\ ) ) # ( !\w_cpuDataIn[5]~37_combout\ & ( \cpu1|Selector277~0_combout\ ) ) # ( \w_cpuDataIn[5]~37_combout\ & ( !\cpu1|Selector277~0_combout\ & ( 
+-- (\cpu1|Selector281~0_combout\ & ((!\n_if1CS~0_combout\) # (\io1|dataOut\(5)))) ) ) ) # ( !\w_cpuDataIn[5]~37_combout\ & ( !\cpu1|Selector277~0_combout\ & ( (\cpu1|Selector281~0_combout\ & ((!\n_if1CS~0_combout\ & (\w_cpuDataIn[5]~40_combout\)) # 
 -- (\n_if1CS~0_combout\ & ((\io1|dataOut\(5)))))) ) ) )
 
 -- pragma translate_off
@@ -28426,9 +28427,9 @@ GENERIC MAP (
 PORT MAP (
 	dataa => \cpu1|ALT_INV_Selector281~0_combout\,
 	datab => \ALT_INV_n_if1CS~0_combout\,
-	datac => \ALT_INV_cpuDataIn[5]~40_combout\,
+	datac => \ALT_INV_w_cpuDataIn[5]~40_combout\,
 	datad => \io1|ALT_INV_dataOut\(5),
-	datae => \ALT_INV_cpuDataIn[5]~37_combout\,
+	datae => \ALT_INV_w_cpuDataIn[5]~37_combout\,
 	dataf => \cpu1|ALT_INV_Selector277~0_combout\,
 	combout => \cpu1|Selector277~1_combout\);
 
@@ -28555,7 +28556,7 @@ PORT MAP (
 -- Location: LABCELL_X19_Y36_N45
 \cpu1|md[5]~3\ : cyclonev_lcell_comb
 -- Equation(s):
--- \cpu1|md[5]~3_combout\ = ( \cpu1|Selector424~0_combout\ & ( !\hold~q\ ) )
+-- \cpu1|md[5]~3_combout\ = ( \cpu1|Selector424~0_combout\ & ( !\w_hold~q\ ) )
 
 -- pragma translate_off
 GENERIC MAP (
@@ -28564,7 +28565,7 @@ GENERIC MAP (
 	shared_arith => "off")
 -- pragma translate_on
 PORT MAP (
-	dataa => \ALT_INV_hold~q\,
+	dataa => \ALT_INV_w_hold~q\,
 	dataf => \cpu1|ALT_INV_Selector424~0_combout\,
 	combout => \cpu1|md[5]~3_combout\);
 
@@ -28595,9 +28596,9 @@ PORT MAP (
 	o => \sramData[5]~input_o\);
 
 -- Location: LABCELL_X14_Y34_N57
-\cpuDataIn[5]~49\ : cyclonev_lcell_comb
+\w_cpuDataIn[5]~49\ : cyclonev_lcell_comb
 -- Equation(s):
--- \cpuDataIn[5]~49_combout\ = ( \cpuDataIn[4]~24_combout\ & ( (!\n_if1CS~0_combout\ & (\Equal5~1_combout\ & ((!\n_if2CS~0_combout\)))) # (\n_if1CS~0_combout\ & (((\io1|dataOut\(5))))) ) ) # ( !\cpuDataIn[4]~24_combout\ & ( (\n_if1CS~0_combout\ & 
+-- \w_cpuDataIn[5]~49_combout\ = ( \w_cpuDataIn[4]~24_combout\ & ( (!\n_if1CS~0_combout\ & (\Equal5~1_combout\ & ((!\n_if2CS~0_combout\)))) # (\n_if1CS~0_combout\ & (((\io1|dataOut\(5))))) ) ) # ( !\w_cpuDataIn[4]~24_combout\ & ( (\n_if1CS~0_combout\ & 
 -- \io1|dataOut\(5)) ) )
 
 -- pragma translate_off
@@ -28611,13 +28612,13 @@ PORT MAP (
 	datab => \ALT_INV_n_if1CS~0_combout\,
 	datac => \io1|ALT_INV_dataOut\(5),
 	datad => \ALT_INV_n_if2CS~0_combout\,
-	dataf => \ALT_INV_cpuDataIn[4]~24_combout\,
-	combout => \cpuDataIn[5]~49_combout\);
+	dataf => \ALT_INV_w_cpuDataIn[4]~24_combout\,
+	combout => \w_cpuDataIn[5]~49_combout\);
 
 -- Location: LABCELL_X14_Y34_N33
-\cpuDataIn[4]~25\ : cyclonev_lcell_comb
+\w_cpuDataIn[4]~25\ : cyclonev_lcell_comb
 -- Equation(s):
--- \cpuDataIn[4]~25_combout\ = ( !\n_if2CS~0_combout\ & ( !\cpuDataIn[4]~24_combout\ & ( \Equal5~1_combout\ ) ) )
+-- \w_cpuDataIn[4]~25_combout\ = ( !\n_if2CS~0_combout\ & ( !\w_cpuDataIn[4]~24_combout\ & ( \Equal5~1_combout\ ) ) )
 
 -- pragma translate_off
 GENERIC MAP (
@@ -28628,15 +28629,15 @@ GENERIC MAP (
 PORT MAP (
 	dataa => \ALT_INV_Equal5~1_combout\,
 	datae => \ALT_INV_n_if2CS~0_combout\,
-	dataf => \ALT_INV_cpuDataIn[4]~24_combout\,
-	combout => \cpuDataIn[4]~25_combout\);
+	dataf => \ALT_INV_w_cpuDataIn[4]~24_combout\,
+	combout => \w_cpuDataIn[4]~25_combout\);
 
 -- Location: LABCELL_X14_Y34_N42
-\cpuDataIn[5]~39\ : cyclonev_lcell_comb
+\w_cpuDataIn[5]~39\ : cyclonev_lcell_comb
 -- Equation(s):
--- \cpuDataIn[5]~39_combout\ = ( \n_if1CS~0_combout\ & ( \cpuDataIn[4]~25_combout\ & ( \cpuDataIn[5]~49_combout\ ) ) ) # ( !\n_if1CS~0_combout\ & ( \cpuDataIn[4]~25_combout\ & ( (((\sramData[5]~input_o\ & \cpuDataIn[5]~49_combout\)) # 
--- (\cpuDataIn[5]~38_combout\)) # (\cpuDataIn[5]~37_combout\) ) ) ) # ( \n_if1CS~0_combout\ & ( !\cpuDataIn[4]~25_combout\ & ( \cpuDataIn[5]~49_combout\ ) ) ) # ( !\n_if1CS~0_combout\ & ( !\cpuDataIn[4]~25_combout\ & ( ((\sramData[5]~input_o\ & 
--- \cpuDataIn[5]~49_combout\)) # (\cpuDataIn[5]~37_combout\) ) ) )
+-- \w_cpuDataIn[5]~39_combout\ = ( \n_if1CS~0_combout\ & ( \w_cpuDataIn[4]~25_combout\ & ( \w_cpuDataIn[5]~49_combout\ ) ) ) # ( !\n_if1CS~0_combout\ & ( \w_cpuDataIn[4]~25_combout\ & ( (((\sramData[5]~input_o\ & \w_cpuDataIn[5]~49_combout\)) # 
+-- (\w_cpuDataIn[5]~38_combout\)) # (\w_cpuDataIn[5]~37_combout\) ) ) ) # ( \n_if1CS~0_combout\ & ( !\w_cpuDataIn[4]~25_combout\ & ( \w_cpuDataIn[5]~49_combout\ ) ) ) # ( !\n_if1CS~0_combout\ & ( !\w_cpuDataIn[4]~25_combout\ & ( ((\sramData[5]~input_o\ & 
+-- \w_cpuDataIn[5]~49_combout\)) # (\w_cpuDataIn[5]~37_combout\) ) ) )
 
 -- pragma translate_off
 GENERIC MAP (
@@ -28645,18 +28646,18 @@ GENERIC MAP (
 	shared_arith => "off")
 -- pragma translate_on
 PORT MAP (
-	dataa => \ALT_INV_cpuDataIn[5]~37_combout\,
-	datab => \ALT_INV_cpuDataIn[5]~38_combout\,
+	dataa => \ALT_INV_w_cpuDataIn[5]~37_combout\,
+	datab => \ALT_INV_w_cpuDataIn[5]~38_combout\,
 	datac => \ALT_INV_sramData[5]~input_o\,
-	datad => \ALT_INV_cpuDataIn[5]~49_combout\,
+	datad => \ALT_INV_w_cpuDataIn[5]~49_combout\,
 	datae => \ALT_INV_n_if1CS~0_combout\,
-	dataf => \ALT_INV_cpuDataIn[4]~25_combout\,
-	combout => \cpuDataIn[5]~39_combout\);
+	dataf => \ALT_INV_w_cpuDataIn[4]~25_combout\,
+	combout => \w_cpuDataIn[5]~39_combout\);
 
 -- Location: MLABCELL_X18_Y35_N33
 \cpu1|accb[5]~feeder\ : cyclonev_lcell_comb
 -- Equation(s):
--- \cpu1|accb[5]~feeder_combout\ = ( \cpuDataIn[5]~39_combout\ )
+-- \cpu1|accb[5]~feeder_combout\ = ( \w_cpuDataIn[5]~39_combout\ )
 
 -- pragma translate_off
 GENERIC MAP (
@@ -28665,7 +28666,7 @@ GENERIC MAP (
 	shared_arith => "off")
 -- pragma translate_on
 PORT MAP (
-	dataf => \ALT_INV_cpuDataIn[5]~39_combout\,
+	dataf => \ALT_INV_w_cpuDataIn[5]~39_combout\,
 	combout => \cpu1|accb[5]~feeder_combout\);
 
 -- Location: LABCELL_X21_Y42_N24
@@ -28688,8 +28689,8 @@ PORT MAP (
 -- Location: LABCELL_X20_Y38_N48
 \cpu1|state~419\ : cyclonev_lcell_comb
 -- Equation(s):
--- \cpu1|state~419_combout\ = ( \cpu1|state.exg_state~q\ & ( \cpu1|alu_ctrl.alu_ld16~0_combout\ & ( !\cpu1|state~368_combout\ ) ) ) # ( !\cpu1|state.exg_state~q\ & ( \cpu1|alu_ctrl.alu_ld16~0_combout\ & ( (!\hold~q\ & (!\cpu1|state~368_combout\ & 
--- ((!\cpu1|state~347_combout\) # (\cpu1|state~345_combout\)))) ) ) ) # ( \cpu1|state.exg_state~q\ & ( !\cpu1|alu_ctrl.alu_ld16~0_combout\ & ( (!\cpu1|state~368_combout\ & (((\cpu1|state~347_combout\ & !\cpu1|state~345_combout\)) # (\hold~q\))) ) ) )
+-- \cpu1|state~419_combout\ = ( \cpu1|state.exg_state~q\ & ( \cpu1|alu_ctrl.alu_ld16~0_combout\ & ( !\cpu1|state~368_combout\ ) ) ) # ( !\cpu1|state.exg_state~q\ & ( \cpu1|alu_ctrl.alu_ld16~0_combout\ & ( (!\w_hold~q\ & (!\cpu1|state~368_combout\ & 
+-- ((!\cpu1|state~347_combout\) # (\cpu1|state~345_combout\)))) ) ) ) # ( \cpu1|state.exg_state~q\ & ( !\cpu1|alu_ctrl.alu_ld16~0_combout\ & ( (!\cpu1|state~368_combout\ & (((\cpu1|state~347_combout\ & !\cpu1|state~345_combout\)) # (\w_hold~q\))) ) ) )
 
 -- pragma translate_off
 GENERIC MAP (
@@ -28698,7 +28699,7 @@ GENERIC MAP (
 	shared_arith => "off")
 -- pragma translate_on
 PORT MAP (
-	dataa => \ALT_INV_hold~q\,
+	dataa => \ALT_INV_w_hold~q\,
 	datab => \cpu1|ALT_INV_state~368_combout\,
 	datac => \cpu1|ALT_INV_state~347_combout\,
 	datad => \cpu1|ALT_INV_state~345_combout\,
@@ -28755,7 +28756,7 @@ PORT MAP (
 	asdata => \cpu1|state.exg_state~q\,
 	clrn => \debounceReset|ALT_INV_o_PinOut~q\,
 	sload => \cpu1|ALT_INV_Selector582~18_combout\,
-	ena => \ALT_INV_hold~q\,
+	ena => \ALT_INV_w_hold~q\,
 	devclrn => ww_devclrn,
 	devpor => ww_devpor,
 	q => \cpu1|state.exg1_state~q\);
@@ -28794,7 +28795,7 @@ PORT MAP (
 	asdata => \cpu1|state.exg1_state~q\,
 	clrn => \debounceReset|ALT_INV_o_PinOut~q\,
 	sload => \cpu1|ALT_INV_Selector582~18_combout\,
-	ena => \ALT_INV_hold~q\,
+	ena => \ALT_INV_w_hold~q\,
 	devclrn => ww_devclrn,
 	devpor => ww_devpor,
 	q => \cpu1|state.exg2_state~q\);
@@ -29196,10 +29197,10 @@ PORT MAP (
 	q => \gpio1|reg_dat2\(6));
 
 -- Location: MLABCELL_X18_Y34_N24
-\cpuDataIn[6]~41\ : cyclonev_lcell_comb
+\w_cpuDataIn[6]~41\ : cyclonev_lcell_comb
 -- Equation(s):
--- \cpuDataIn[6]~41_combout\ = ( \gpio1|reg_dat2\(6) & ( (!\cpuDataIn[4]~26_combout\ & (((\gpio1|reg\(6))) # (\cpuDataIn[4]~27_combout\))) # (\cpuDataIn[4]~26_combout\ & (!\cpuDataIn[4]~27_combout\ & (\gpio1|reg_ddr2\(6)))) ) ) # ( !\gpio1|reg_dat2\(6) & ( 
--- (!\cpuDataIn[4]~27_combout\ & ((!\cpuDataIn[4]~26_combout\ & ((\gpio1|reg\(6)))) # (\cpuDataIn[4]~26_combout\ & (\gpio1|reg_ddr2\(6))))) ) )
+-- \w_cpuDataIn[6]~41_combout\ = ( \gpio1|reg_dat2\(6) & ( (!\w_cpuDataIn[4]~26_combout\ & (((\gpio1|reg\(6))) # (\w_cpuDataIn[4]~27_combout\))) # (\w_cpuDataIn[4]~26_combout\ & (!\w_cpuDataIn[4]~27_combout\ & (\gpio1|reg_ddr2\(6)))) ) ) # ( 
+-- !\gpio1|reg_dat2\(6) & ( (!\w_cpuDataIn[4]~27_combout\ & ((!\w_cpuDataIn[4]~26_combout\ & ((\gpio1|reg\(6)))) # (\w_cpuDataIn[4]~26_combout\ & (\gpio1|reg_ddr2\(6))))) ) )
 
 -- pragma translate_off
 GENERIC MAP (
@@ -29208,17 +29209,17 @@ GENERIC MAP (
 	shared_arith => "off")
 -- pragma translate_on
 PORT MAP (
-	dataa => \ALT_INV_cpuDataIn[4]~26_combout\,
-	datab => \ALT_INV_cpuDataIn[4]~27_combout\,
+	dataa => \ALT_INV_w_cpuDataIn[4]~26_combout\,
+	datab => \ALT_INV_w_cpuDataIn[4]~27_combout\,
 	datac => \gpio1|ALT_INV_reg_ddr2\(6),
 	datad => \gpio1|ALT_INV_reg\(6),
 	dataf => \gpio1|ALT_INV_reg_dat2\(6),
-	combout => \cpuDataIn[6]~41_combout\);
+	combout => \w_cpuDataIn[6]~41_combout\);
 
 -- Location: LABCELL_X14_Y34_N9
-\cpuDataIn[6]~42\ : cyclonev_lcell_comb
+\w_cpuDataIn[6]~42\ : cyclonev_lcell_comb
 -- Equation(s):
--- \cpuDataIn[6]~42_combout\ = ( \cpuDataIn[6]~41_combout\ & ( (!\n_if2CS~0_combout\ & (!\Equal5~1_combout\)) # (\n_if2CS~0_combout\ & ((\io2|dataOut\(6)))) ) ) # ( !\cpuDataIn[6]~41_combout\ & ( (\io2|dataOut\(6) & \n_if2CS~0_combout\) ) )
+-- \w_cpuDataIn[6]~42_combout\ = ( \w_cpuDataIn[6]~41_combout\ & ( (!\n_if2CS~0_combout\ & (!\Equal5~1_combout\)) # (\n_if2CS~0_combout\ & ((\io2|dataOut\(6)))) ) ) # ( !\w_cpuDataIn[6]~41_combout\ & ( (\io2|dataOut\(6) & \n_if2CS~0_combout\) ) )
 
 -- pragma translate_off
 GENERIC MAP (
@@ -29230,8 +29231,8 @@ PORT MAP (
 	dataa => \ALT_INV_Equal5~1_combout\,
 	datac => \io2|ALT_INV_dataOut\(6),
 	datad => \ALT_INV_n_if2CS~0_combout\,
-	dataf => \ALT_INV_cpuDataIn[6]~41_combout\,
-	combout => \cpuDataIn[6]~42_combout\);
+	dataf => \ALT_INV_w_cpuDataIn[6]~41_combout\,
+	combout => \w_cpuDataIn[6]~42_combout\);
 
 -- Location: LABCELL_X20_Y36_N9
 \cpu1|Selector276~0\ : cyclonev_lcell_comb
@@ -29256,7 +29257,7 @@ PORT MAP (
 \cpu1|Selector276~1\ : cyclonev_lcell_comb
 -- Equation(s):
 -- \cpu1|Selector276~1_combout\ = ( \n_if1CS~0_combout\ & ( \cpu1|Selector276~0_combout\ ) ) # ( !\n_if1CS~0_combout\ & ( \cpu1|Selector276~0_combout\ ) ) # ( \n_if1CS~0_combout\ & ( !\cpu1|Selector276~0_combout\ & ( (\io1|dataOut\(6) & 
--- \cpu1|Selector281~0_combout\) ) ) ) # ( !\n_if1CS~0_combout\ & ( !\cpu1|Selector276~0_combout\ & ( (\cpu1|Selector281~0_combout\ & ((\cpuDataIn[6]~45_combout\) # (\cpuDataIn[6]~42_combout\))) ) ) )
+-- \cpu1|Selector281~0_combout\) ) ) ) # ( !\n_if1CS~0_combout\ & ( !\cpu1|Selector276~0_combout\ & ( (\cpu1|Selector281~0_combout\ & ((\w_cpuDataIn[6]~45_combout\) # (\w_cpuDataIn[6]~42_combout\))) ) ) )
 
 -- pragma translate_off
 GENERIC MAP (
@@ -29266,9 +29267,9 @@ GENERIC MAP (
 -- pragma translate_on
 PORT MAP (
 	dataa => \io1|ALT_INV_dataOut\(6),
-	datab => \ALT_INV_cpuDataIn[6]~42_combout\,
+	datab => \ALT_INV_w_cpuDataIn[6]~42_combout\,
 	datac => \cpu1|ALT_INV_Selector281~0_combout\,
-	datad => \ALT_INV_cpuDataIn[6]~45_combout\,
+	datad => \ALT_INV_w_cpuDataIn[6]~45_combout\,
 	datae => \ALT_INV_n_if1CS~0_combout\,
 	dataf => \cpu1|ALT_INV_Selector276~0_combout\,
 	combout => \cpu1|Selector276~1_combout\);
@@ -29309,8 +29310,8 @@ PORT MAP (
 -- Location: LABCELL_X20_Y37_N9
 \cpu1|state~405\ : cyclonev_lcell_comb
 -- Equation(s):
--- \cpu1|state~405_combout\ = ( \cpu1|state.tfr_state~q\ & ( !\cpu1|state~368_combout\ & ( (((\cpu1|state~347_combout\ & !\cpu1|state~345_combout\)) # (\cpu1|Mux28~0_combout\)) # (\hold~q\) ) ) ) # ( !\cpu1|state.tfr_state~q\ & ( !\cpu1|state~368_combout\ & 
--- ( (!\hold~q\ & (\cpu1|Mux28~0_combout\ & ((!\cpu1|state~347_combout\) # (\cpu1|state~345_combout\)))) ) ) )
+-- \cpu1|state~405_combout\ = ( \cpu1|state.tfr_state~q\ & ( !\cpu1|state~368_combout\ & ( (((\cpu1|state~347_combout\ & !\cpu1|state~345_combout\)) # (\cpu1|Mux28~0_combout\)) # (\w_hold~q\) ) ) ) # ( !\cpu1|state.tfr_state~q\ & ( !\cpu1|state~368_combout\ 
+-- & ( (!\w_hold~q\ & (\cpu1|Mux28~0_combout\ & ((!\cpu1|state~347_combout\) # (\cpu1|state~345_combout\)))) ) ) )
 
 -- pragma translate_off
 GENERIC MAP (
@@ -29319,7 +29320,7 @@ GENERIC MAP (
 	shared_arith => "off")
 -- pragma translate_on
 PORT MAP (
-	dataa => \ALT_INV_hold~q\,
+	dataa => \ALT_INV_w_hold~q\,
 	datab => \cpu1|ALT_INV_Mux28~0_combout\,
 	datac => \cpu1|ALT_INV_state~347_combout\,
 	datad => \cpu1|ALT_INV_state~345_combout\,
@@ -29486,7 +29487,7 @@ PORT MAP (
 	asdata => \cpu1|state~392_combout\,
 	clrn => \debounceReset|ALT_INV_o_PinOut~q\,
 	sload => VCC,
-	ena => \ALT_INV_hold~q\,
+	ena => \ALT_INV_w_hold~q\,
 	devclrn => ww_devclrn,
 	devpor => ww_devpor,
 	q => \cpu1|state.extended_state~q\);
@@ -29558,7 +29559,7 @@ GENERIC MAP (
 PORT MAP (
 	clk => \clk~inputCLKENA0_outclk\,
 	d => \cpu1|Selector28~1_combout\,
-	ena => \ALT_INV_hold~q\,
+	ena => \ALT_INV_w_hold~q\,
 	devclrn => ww_devclrn,
 	devpor => ww_devpor,
 	q => \cpu1|saved_state.dual_op_read16_state~q\);
@@ -29612,7 +29613,7 @@ PORT MAP (
 	clk => \clk~inputCLKENA0_outclk\,
 	d => \cpu1|state~487_combout\,
 	clrn => \debounceReset|ALT_INV_o_PinOut~q\,
-	ena => \ALT_INV_hold~q\,
+	ena => \ALT_INV_w_hold~q\,
 	devclrn => ww_devclrn,
 	devpor => ww_devpor,
 	q => \cpu1|state.dual_op_read16_state~q\);
@@ -29667,7 +29668,7 @@ PORT MAP (
 	asdata => \cpu1|state.indirect2_state~q\,
 	clrn => \debounceReset|ALT_INV_o_PinOut~q\,
 	sload => \cpu1|ALT_INV_Selector582~18_combout\,
-	ena => \ALT_INV_hold~q\,
+	ena => \ALT_INV_w_hold~q\,
 	devclrn => ww_devclrn,
 	devpor => ww_devpor,
 	q => \cpu1|state.indirect3_state~q\);
@@ -29812,8 +29813,8 @@ PORT MAP (
 -- Location: LABCELL_X20_Y34_N39
 \cpu1|ea[0]~1\ : cyclonev_lcell_comb
 -- Equation(s):
--- \cpu1|ea[0]~1_combout\ = ( \cpu1|WideOr82~2_combout\ & ( (!\cpu1|Selector581~3_combout\ & (!\hold~q\ & ((!\cpu1|Selector314~0_combout\) # (\cpu1|state.extended_state~q\)))) ) ) # ( !\cpu1|WideOr82~2_combout\ & ( (!\cpu1|Selector581~3_combout\ & !\hold~q\) 
--- ) )
+-- \cpu1|ea[0]~1_combout\ = ( \cpu1|WideOr82~2_combout\ & ( (!\cpu1|Selector581~3_combout\ & (!\w_hold~q\ & ((!\cpu1|Selector314~0_combout\) # (\cpu1|state.extended_state~q\)))) ) ) # ( !\cpu1|WideOr82~2_combout\ & ( (!\cpu1|Selector581~3_combout\ & 
+-- !\w_hold~q\) ) )
 
 -- pragma translate_off
 GENERIC MAP (
@@ -29824,7 +29825,7 @@ GENERIC MAP (
 PORT MAP (
 	dataa => \cpu1|ALT_INV_Selector314~0_combout\,
 	datab => \cpu1|ALT_INV_Selector581~3_combout\,
-	datac => \ALT_INV_hold~q\,
+	datac => \ALT_INV_w_hold~q\,
 	datad => \cpu1|ALT_INV_state.extended_state~q\,
 	dataf => \cpu1|ALT_INV_WideOr82~2_combout\,
 	combout => \cpu1|ea[0]~1_combout\);
@@ -29839,7 +29840,7 @@ GENERIC MAP (
 PORT MAP (
 	clk => \clk~inputCLKENA0_outclk\,
 	d => \cpu1|Selector385~5_combout\,
-	asdata => \cpuDataIn[2]~21_combout\,
+	asdata => \w_cpuDataIn[2]~21_combout\,
 	sclr => \cpu1|ea[1]~0_combout\,
 	sload => \cpu1|Selector423~0_combout\,
 	ena => \cpu1|ea[0]~1_combout\,
@@ -29850,8 +29851,8 @@ PORT MAP (
 -- Location: MLABCELL_X18_Y42_N54
 \cpu1|state~445\ : cyclonev_lcell_comb
 -- Equation(s):
--- \cpu1|state~445_combout\ = ( \cpu1|state.pulu_state~q\ & ( \hold~q\ & ( !\cpu1|state~338_combout\ ) ) ) # ( \cpu1|state.pulu_state~q\ & ( !\hold~q\ & ( (!\cpu1|state~338_combout\ & (((!\cpu1|state~345_combout\ & \cpu1|state~347_combout\)) # 
--- (\cpu1|Equal2~0_combout\))) ) ) ) # ( !\cpu1|state.pulu_state~q\ & ( !\hold~q\ & ( (\cpu1|Equal2~0_combout\ & (!\cpu1|state~338_combout\ & ((!\cpu1|state~347_combout\) # (\cpu1|state~345_combout\)))) ) ) )
+-- \cpu1|state~445_combout\ = ( \cpu1|state.pulu_state~q\ & ( \w_hold~q\ & ( !\cpu1|state~338_combout\ ) ) ) # ( \cpu1|state.pulu_state~q\ & ( !\w_hold~q\ & ( (!\cpu1|state~338_combout\ & (((!\cpu1|state~345_combout\ & \cpu1|state~347_combout\)) # 
+-- (\cpu1|Equal2~0_combout\))) ) ) ) # ( !\cpu1|state.pulu_state~q\ & ( !\w_hold~q\ & ( (\cpu1|Equal2~0_combout\ & (!\cpu1|state~338_combout\ & ((!\cpu1|state~347_combout\) # (\cpu1|state~345_combout\)))) ) ) )
 
 -- pragma translate_off
 GENERIC MAP (
@@ -29865,7 +29866,7 @@ PORT MAP (
 	datac => \cpu1|ALT_INV_state~347_combout\,
 	datad => \cpu1|ALT_INV_state~338_combout\,
 	datae => \cpu1|ALT_INV_state.pulu_state~q\,
-	dataf => \ALT_INV_hold~q\,
+	dataf => \ALT_INV_w_hold~q\,
 	combout => \cpu1|state~445_combout\);
 
 -- Location: FF_X18_Y42_N56
@@ -29908,7 +29909,7 @@ GENERIC MAP (
 PORT MAP (
 	clk => \clk~inputCLKENA0_outclk\,
 	d => \cpu1|ea[0]~feeder_combout\,
-	asdata => \cpuDataIn[0]~5_combout\,
+	asdata => \w_cpuDataIn[0]~5_combout\,
 	sclr => \cpu1|ea[1]~0_combout\,
 	sload => \cpu1|Selector423~0_combout\,
 	ena => \cpu1|ea[0]~1_combout\,
@@ -29947,7 +29948,7 @@ PORT MAP (
 	clk => \clk~inputCLKENA0_outclk\,
 	d => \cpu1|state~477_combout\,
 	clrn => \debounceReset|ALT_INV_o_PinOut~q\,
-	ena => \ALT_INV_hold~q\,
+	ena => \ALT_INV_w_hold~q\,
 	devclrn => ww_devclrn,
 	devpor => ww_devpor,
 	q => \cpu1|state.pulu_cc_state~q\);
@@ -30016,7 +30017,7 @@ PORT MAP (
 	clk => \clk~inputCLKENA0_outclk\,
 	d => \cpu1|state~479_combout\,
 	clrn => \debounceReset|ALT_INV_o_PinOut~q\,
-	ena => \ALT_INV_hold~q\,
+	ena => \ALT_INV_w_hold~q\,
 	devclrn => ww_devclrn,
 	devpor => ww_devpor,
 	q => \cpu1|state.pulu_accb_state~q\);
@@ -30042,8 +30043,8 @@ PORT MAP (
 -- Location: MLABCELL_X18_Y42_N33
 \cpu1|state~444\ : cyclonev_lcell_comb
 -- Equation(s):
--- \cpu1|state~444_combout\ = ( \cpu1|state.puls_state~q\ & ( !\cpu1|state~338_combout\ & ( (((!\cpu1|state~345_combout\ & \cpu1|state~347_combout\)) # (\hold~q\)) # (\cpu1|state~443_combout\) ) ) ) # ( !\cpu1|state.puls_state~q\ & ( 
--- !\cpu1|state~338_combout\ & ( (\cpu1|state~443_combout\ & (!\hold~q\ & ((!\cpu1|state~347_combout\) # (\cpu1|state~345_combout\)))) ) ) )
+-- \cpu1|state~444_combout\ = ( \cpu1|state.puls_state~q\ & ( !\cpu1|state~338_combout\ & ( (((!\cpu1|state~345_combout\ & \cpu1|state~347_combout\)) # (\w_hold~q\)) # (\cpu1|state~443_combout\) ) ) ) # ( !\cpu1|state.puls_state~q\ & ( 
+-- !\cpu1|state~338_combout\ & ( (\cpu1|state~443_combout\ & (!\w_hold~q\ & ((!\cpu1|state~347_combout\) # (\cpu1|state~345_combout\)))) ) ) )
 
 -- pragma translate_off
 GENERIC MAP (
@@ -30054,7 +30055,7 @@ GENERIC MAP (
 PORT MAP (
 	dataa => \cpu1|ALT_INV_state~345_combout\,
 	datab => \cpu1|ALT_INV_state~443_combout\,
-	datac => \ALT_INV_hold~q\,
+	datac => \ALT_INV_w_hold~q\,
 	datad => \cpu1|ALT_INV_state~347_combout\,
 	datae => \cpu1|ALT_INV_state.puls_state~q\,
 	dataf => \cpu1|ALT_INV_state~338_combout\,
@@ -30106,7 +30107,7 @@ PORT MAP (
 	asdata => \cpu1|state~353_combout\,
 	clrn => \debounceReset|ALT_INV_o_PinOut~q\,
 	sload => VCC,
-	ena => \ALT_INV_hold~q\,
+	ena => \ALT_INV_w_hold~q\,
 	devclrn => ww_devclrn,
 	devpor => ww_devpor,
 	q => \cpu1|state.puls_cc_state~q\);
@@ -30159,7 +30160,7 @@ PORT MAP (
 	asdata => \cpu1|state~354_combout\,
 	clrn => \debounceReset|ALT_INV_o_PinOut~q\,
 	sload => VCC,
-	ena => \ALT_INV_hold~q\,
+	ena => \ALT_INV_w_hold~q\,
 	devclrn => ww_devclrn,
 	devpor => ww_devpor,
 	q => \cpu1|state.puls_acca_state~q\);
@@ -30213,7 +30214,7 @@ PORT MAP (
 	asdata => \cpu1|state~355_combout\,
 	clrn => \debounceReset|ALT_INV_o_PinOut~q\,
 	sload => VCC,
-	ena => \ALT_INV_hold~q\,
+	ena => \ALT_INV_w_hold~q\,
 	devclrn => ww_devclrn,
 	devpor => ww_devpor,
 	q => \cpu1|state.puls_accb_state~q\);
@@ -30221,7 +30222,7 @@ PORT MAP (
 -- Location: MLABCELL_X18_Y38_N24
 \cpu1|Selector313~0\ : cyclonev_lcell_comb
 -- Equation(s):
--- \cpu1|Selector313~0_combout\ = ( !\n_if1CS~0_combout\ & ( (!\cpu1|state.fetch_state~q\ & (\cpu1|pre_code\(1) & (\cpu1|state.reset_state~q\))) # (\cpu1|state.fetch_state~q\ & ((((\cpuDataIn[1]~9_combout\) # (\cpuDataIn[1]~6_combout\))))) ) ) # ( 
+-- \cpu1|Selector313~0_combout\ = ( !\n_if1CS~0_combout\ & ( (!\cpu1|state.fetch_state~q\ & (\cpu1|pre_code\(1) & (\cpu1|state.reset_state~q\))) # (\cpu1|state.fetch_state~q\ & ((((\w_cpuDataIn[1]~9_combout\) # (\w_cpuDataIn[1]~6_combout\))))) ) ) # ( 
 -- \n_if1CS~0_combout\ & ( (!\cpu1|state.fetch_state~q\ & (\cpu1|pre_code\(1) & (\cpu1|state.reset_state~q\))) # (\cpu1|state.fetch_state~q\ & ((((\io1|dataOut\(1)))))) ) )
 
 -- pragma translate_off
@@ -30236,8 +30237,8 @@ PORT MAP (
 	datac => \io1|ALT_INV_dataOut\(1),
 	datad => \cpu1|ALT_INV_state.fetch_state~q\,
 	datae => \ALT_INV_n_if1CS~0_combout\,
-	dataf => \ALT_INV_cpuDataIn[1]~9_combout\,
-	datag => \ALT_INV_cpuDataIn[1]~6_combout\,
+	dataf => \ALT_INV_w_cpuDataIn[1]~9_combout\,
+	datag => \ALT_INV_w_cpuDataIn[1]~6_combout\,
 	combout => \cpu1|Selector313~0_combout\);
 
 -- Location: FF_X18_Y38_N26
@@ -30250,7 +30251,7 @@ GENERIC MAP (
 PORT MAP (
 	clk => \clk~inputCLKENA0_outclk\,
 	d => \cpu1|Selector313~0_combout\,
-	ena => \ALT_INV_hold~q\,
+	ena => \ALT_INV_w_hold~q\,
 	devclrn => ww_devclrn,
 	devpor => ww_devpor,
 	q => \cpu1|pre_code\(1));
@@ -30465,7 +30466,7 @@ PORT MAP (
 -- Location: MLABCELL_X18_Y43_N15
 \cpu1|accb[5]~3\ : cyclonev_lcell_comb
 -- Equation(s):
--- \cpu1|accb[5]~3_combout\ = ( \cpu1|Mux584~0_combout\ & ( !\hold~q\ ) ) # ( !\cpu1|Mux584~0_combout\ & ( (!\hold~q\ & (!\cpu1|WideOr52~1_combout\ & \cpu1|Selector408~1_combout\)) ) )
+-- \cpu1|accb[5]~3_combout\ = ( \cpu1|Mux584~0_combout\ & ( !\w_hold~q\ ) ) # ( !\cpu1|Mux584~0_combout\ & ( (!\w_hold~q\ & (!\cpu1|WideOr52~1_combout\ & \cpu1|Selector408~1_combout\)) ) )
 
 -- pragma translate_off
 GENERIC MAP (
@@ -30474,7 +30475,7 @@ GENERIC MAP (
 	shared_arith => "off")
 -- pragma translate_on
 PORT MAP (
-	dataa => \ALT_INV_hold~q\,
+	dataa => \ALT_INV_w_hold~q\,
 	datac => \cpu1|ALT_INV_WideOr52~1_combout\,
 	datad => \cpu1|ALT_INV_Selector408~1_combout\,
 	dataf => \cpu1|ALT_INV_Mux584~0_combout\,
@@ -30549,7 +30550,7 @@ PORT MAP (
 	asdata => \cpu1|state.mul1_state~q\,
 	clrn => \debounceReset|ALT_INV_o_PinOut~q\,
 	sload => \cpu1|ALT_INV_Selector582~18_combout\,
-	ena => \ALT_INV_hold~q\,
+	ena => \ALT_INV_w_hold~q\,
 	devclrn => ww_devclrn,
 	devpor => ww_devpor,
 	q => \cpu1|state.mul2_state~q\);
@@ -30629,7 +30630,7 @@ PORT MAP (
 	asdata => \cpu1|state.mul2_state~q\,
 	clrn => \debounceReset|ALT_INV_o_PinOut~q\,
 	sload => \cpu1|ALT_INV_Selector582~18_combout\,
-	ena => \ALT_INV_hold~q\,
+	ena => \ALT_INV_w_hold~q\,
 	devclrn => ww_devclrn,
 	devpor => ww_devpor,
 	q => \cpu1|state.mul3_state~q\);
@@ -30668,7 +30669,7 @@ PORT MAP (
 	asdata => \cpu1|state.mul3_state~q\,
 	clrn => \debounceReset|ALT_INV_o_PinOut~q\,
 	sload => \cpu1|ALT_INV_Selector582~18_combout\,
-	ena => \ALT_INV_hold~q\,
+	ena => \ALT_INV_w_hold~q\,
 	devclrn => ww_devclrn,
 	devpor => ww_devpor,
 	q => \cpu1|state.mul4_state~q\);
@@ -30707,7 +30708,7 @@ PORT MAP (
 	asdata => \cpu1|state.mul4_state~q\,
 	clrn => \debounceReset|ALT_INV_o_PinOut~q\,
 	sload => \cpu1|ALT_INV_Selector582~18_combout\,
-	ena => \ALT_INV_hold~q\,
+	ena => \ALT_INV_w_hold~q\,
 	devclrn => ww_devclrn,
 	devpor => ww_devpor,
 	q => \cpu1|state.mul5_state~q\);
@@ -30782,7 +30783,7 @@ GENERIC MAP (
 PORT MAP (
 	clk => \clk~inputCLKENA0_outclk\,
 	d => \cpu1|Selector54~1_combout\,
-	ena => \ALT_INV_hold~q\,
+	ena => \ALT_INV_w_hold~q\,
 	devclrn => ww_devclrn,
 	devpor => ww_devpor,
 	q => \cpu1|saved_state.sbranch_state~q\);
@@ -30837,7 +30838,7 @@ PORT MAP (
 	clk => \clk~inputCLKENA0_outclk\,
 	d => \cpu1|state~432_combout\,
 	clrn => \debounceReset|ALT_INV_o_PinOut~q\,
-	ena => \ALT_INV_hold~q\,
+	ena => \ALT_INV_w_hold~q\,
 	devclrn => ww_devclrn,
 	devpor => ww_devpor,
 	q => \cpu1|state.sbranch_state~q\);
@@ -30876,7 +30877,7 @@ PORT MAP (
 	asdata => \cpu1|state.mul5_state~q\,
 	clrn => \debounceReset|ALT_INV_o_PinOut~q\,
 	sload => \cpu1|ALT_INV_Selector582~18_combout\,
-	ena => \ALT_INV_hold~q\,
+	ena => \ALT_INV_w_hold~q\,
 	devclrn => ww_devclrn,
 	devpor => ww_devpor,
 	q => \cpu1|state.mul6_state~q\);
@@ -31000,7 +31001,7 @@ PORT MAP (
 	clk => \clk~inputCLKENA0_outclk\,
 	d => \cpu1|state~480_combout\,
 	clrn => \debounceReset|ALT_INV_o_PinOut~q\,
-	ena => \ALT_INV_hold~q\,
+	ena => \ALT_INV_w_hold~q\,
 	devclrn => ww_devclrn,
 	devpor => ww_devpor,
 	q => \cpu1|state.pulu_dp_state~q\);
@@ -31053,7 +31054,7 @@ PORT MAP (
 	asdata => \cpu1|state~481_combout\,
 	clrn => \debounceReset|ALT_INV_o_PinOut~q\,
 	sload => VCC,
-	ena => \ALT_INV_hold~q\,
+	ena => \ALT_INV_w_hold~q\,
 	devclrn => ww_devclrn,
 	devpor => ww_devpor,
 	q => \cpu1|state.pulu_ixh_state~q\);
@@ -31092,7 +31093,7 @@ PORT MAP (
 	asdata => \cpu1|state.pulu_ixh_state~q\,
 	clrn => \debounceReset|ALT_INV_o_PinOut~q\,
 	sload => \cpu1|ALT_INV_Selector582~18_combout\,
-	ena => \ALT_INV_hold~q\,
+	ena => \ALT_INV_w_hold~q\,
 	devclrn => ww_devclrn,
 	devpor => ww_devpor,
 	q => \cpu1|state.pulu_ixl_state~q\);
@@ -31201,7 +31202,7 @@ PORT MAP (
 	clk => \clk~inputCLKENA0_outclk\,
 	d => \cpu1|state~482_combout\,
 	clrn => \debounceReset|ALT_INV_o_PinOut~q\,
-	ena => \ALT_INV_hold~q\,
+	ena => \ALT_INV_w_hold~q\,
 	devclrn => ww_devclrn,
 	devpor => ww_devpor,
 	q => \cpu1|state.pulu_iyh_state~q\);
@@ -31240,7 +31241,7 @@ PORT MAP (
 	asdata => \cpu1|state.pulu_iyh_state~q\,
 	clrn => \debounceReset|ALT_INV_o_PinOut~q\,
 	sload => \cpu1|ALT_INV_Selector582~18_combout\,
-	ena => \ALT_INV_hold~q\,
+	ena => \ALT_INV_w_hold~q\,
 	devclrn => ww_devclrn,
 	devpor => ww_devpor,
 	q => \cpu1|state.pulu_iyl_state~q\);
@@ -31328,7 +31329,7 @@ PORT MAP (
 	clk => \clk~inputCLKENA0_outclk\,
 	d => \cpu1|state~483_combout\,
 	clrn => \debounceReset|ALT_INV_o_PinOut~q\,
-	ena => \ALT_INV_hold~q\,
+	ena => \ALT_INV_w_hold~q\,
 	devclrn => ww_devclrn,
 	devpor => ww_devpor,
 	q => \cpu1|state.pulu_sph_state~q\);
@@ -31366,7 +31367,7 @@ PORT MAP (
 	asdata => \cpu1|state.pulu_sph_state~q\,
 	clrn => \debounceReset|ALT_INV_o_PinOut~q\,
 	sload => \cpu1|ALT_INV_Selector582~18_combout\,
-	ena => \ALT_INV_hold~q\,
+	ena => \ALT_INV_w_hold~q\,
 	devclrn => ww_devclrn,
 	devpor => ww_devpor,
 	q => \cpu1|state.pulu_spl_state~q\);
@@ -31442,7 +31443,7 @@ PORT MAP (
 	clk => \clk~inputCLKENA0_outclk\,
 	d => \cpu1|state~484_combout\,
 	clrn => \debounceReset|ALT_INV_o_PinOut~q\,
-	ena => \ALT_INV_hold~q\,
+	ena => \ALT_INV_w_hold~q\,
 	devclrn => ww_devclrn,
 	devpor => ww_devpor,
 	q => \cpu1|state.pulu_pch_state~q\);
@@ -31481,7 +31482,7 @@ PORT MAP (
 	asdata => \cpu1|state.pulu_pch_state~q\,
 	clrn => \debounceReset|ALT_INV_o_PinOut~q\,
 	sload => \cpu1|ALT_INV_Selector582~18_combout\,
-	ena => \ALT_INV_hold~q\,
+	ena => \ALT_INV_w_hold~q\,
 	devclrn => ww_devclrn,
 	devpor => ww_devpor,
 	q => \cpu1|state.pulu_pcl_state~q\);
@@ -31795,8 +31796,8 @@ PORT MAP (
 -- Location: MLABCELL_X18_Y42_N36
 \cpu1|state~447\ : cyclonev_lcell_comb
 -- Equation(s):
--- \cpu1|state~447_combout\ = ( \cpu1|state.pshs_state~q\ & ( !\cpu1|state~338_combout\ & ( (((\cpu1|state~347_combout\ & !\cpu1|state~345_combout\)) # (\cpu1|alu_ctrl.alu_lsr8~0_combout\)) # (\hold~q\) ) ) ) # ( !\cpu1|state.pshs_state~q\ & ( 
--- !\cpu1|state~338_combout\ & ( (!\hold~q\ & (\cpu1|alu_ctrl.alu_lsr8~0_combout\ & ((!\cpu1|state~347_combout\) # (\cpu1|state~345_combout\)))) ) ) )
+-- \cpu1|state~447_combout\ = ( \cpu1|state.pshs_state~q\ & ( !\cpu1|state~338_combout\ & ( (((\cpu1|state~347_combout\ & !\cpu1|state~345_combout\)) # (\cpu1|alu_ctrl.alu_lsr8~0_combout\)) # (\w_hold~q\) ) ) ) # ( !\cpu1|state.pshs_state~q\ & ( 
+-- !\cpu1|state~338_combout\ & ( (!\w_hold~q\ & (\cpu1|alu_ctrl.alu_lsr8~0_combout\ & ((!\cpu1|state~347_combout\) # (\cpu1|state~345_combout\)))) ) ) )
 
 -- pragma translate_off
 GENERIC MAP (
@@ -31806,7 +31807,7 @@ GENERIC MAP (
 -- pragma translate_on
 PORT MAP (
 	dataa => \cpu1|ALT_INV_state~347_combout\,
-	datab => \ALT_INV_hold~q\,
+	datab => \ALT_INV_w_hold~q\,
 	datac => \cpu1|ALT_INV_state~345_combout\,
 	datad => \cpu1|ALT_INV_alu_ctrl.alu_lsr8~0_combout\,
 	datae => \cpu1|ALT_INV_state.pshs_state~q\,
@@ -31868,7 +31869,7 @@ PORT MAP (
 -- Location: MLABCELL_X18_Y35_N24
 \cpu1|accb[7]~feeder\ : cyclonev_lcell_comb
 -- Equation(s):
--- \cpu1|accb[7]~feeder_combout\ = \cpuDataIn[7]~46_combout\
+-- \cpu1|accb[7]~feeder_combout\ = \w_cpuDataIn[7]~46_combout\
 
 -- pragma translate_off
 GENERIC MAP (
@@ -31877,7 +31878,7 @@ GENERIC MAP (
 	shared_arith => "off")
 -- pragma translate_on
 PORT MAP (
-	datab => \ALT_INV_cpuDataIn[7]~46_combout\,
+	datab => \ALT_INV_w_cpuDataIn[7]~46_combout\,
 	combout => \cpu1|accb[7]~feeder_combout\);
 
 -- Location: FF_X18_Y35_N26
@@ -31986,7 +31987,7 @@ GENERIC MAP (
 PORT MAP (
 	clk => \clk~inputCLKENA0_outclk\,
 	d => \cpu1|Selector56~0_combout\,
-	ena => \ALT_INV_hold~q\,
+	ena => \ALT_INV_w_hold~q\,
 	devclrn => ww_devclrn,
 	devpor => ww_devpor,
 	q => \cpu1|saved_state.jmp_state~q\);
@@ -31994,8 +31995,8 @@ PORT MAP (
 -- Location: LABCELL_X19_Y42_N45
 \cpu1|state~434\ : cyclonev_lcell_comb
 -- Equation(s):
--- \cpu1|state~434_combout\ = ( \cpu1|state.jmp_state~q\ & ( \cpu1|saved_state.jmp_state~q\ ) ) # ( !\cpu1|state.jmp_state~q\ & ( \cpu1|saved_state.jmp_state~q\ & ( (!\hold~q\ & ((!\cpu1|Selector454~0_combout\) # ((!\cpu1|state~339_combout\ & 
--- \cpu1|Selector582~18_combout\)))) ) ) ) # ( \cpu1|state.jmp_state~q\ & ( !\cpu1|saved_state.jmp_state~q\ & ( ((\cpu1|Selector454~0_combout\ & ((!\cpu1|Selector582~18_combout\) # (\cpu1|state~339_combout\)))) # (\hold~q\) ) ) )
+-- \cpu1|state~434_combout\ = ( \cpu1|state.jmp_state~q\ & ( \cpu1|saved_state.jmp_state~q\ ) ) # ( !\cpu1|state.jmp_state~q\ & ( \cpu1|saved_state.jmp_state~q\ & ( (!\w_hold~q\ & ((!\cpu1|Selector454~0_combout\) # ((!\cpu1|state~339_combout\ & 
+-- \cpu1|Selector582~18_combout\)))) ) ) ) # ( \cpu1|state.jmp_state~q\ & ( !\cpu1|saved_state.jmp_state~q\ & ( ((\cpu1|Selector454~0_combout\ & ((!\cpu1|Selector582~18_combout\) # (\cpu1|state~339_combout\)))) # (\w_hold~q\) ) ) )
 
 -- pragma translate_off
 GENERIC MAP (
@@ -32005,7 +32006,7 @@ GENERIC MAP (
 -- pragma translate_on
 PORT MAP (
 	dataa => \cpu1|ALT_INV_Selector454~0_combout\,
-	datab => \ALT_INV_hold~q\,
+	datab => \ALT_INV_w_hold~q\,
 	datac => \cpu1|ALT_INV_state~339_combout\,
 	datad => \cpu1|ALT_INV_Selector582~18_combout\,
 	datae => \cpu1|ALT_INV_state.jmp_state~q\,
@@ -32015,9 +32016,9 @@ PORT MAP (
 -- Location: MLABCELL_X18_Y42_N18
 \cpu1|state~435\ : cyclonev_lcell_comb
 -- Equation(s):
--- \cpu1|state~435_combout\ = ( \cpu1|state~345_combout\ & ( \cpu1|state~434_combout\ & ( ((!\cpu1|state~433_combout\ & \cpu1|alu_ctrl.alu_ld16~0_combout\)) # (\hold~q\) ) ) ) # ( !\cpu1|state~345_combout\ & ( \cpu1|state~434_combout\ & ( 
--- (((!\cpu1|state~433_combout\ & \cpu1|alu_ctrl.alu_ld16~0_combout\)) # (\hold~q\)) # (\cpu1|state~347_combout\) ) ) ) # ( \cpu1|state~345_combout\ & ( !\cpu1|state~434_combout\ & ( (!\cpu1|state~433_combout\ & (\cpu1|alu_ctrl.alu_ld16~0_combout\ & 
--- !\hold~q\)) ) ) ) # ( !\cpu1|state~345_combout\ & ( !\cpu1|state~434_combout\ & ( (!\cpu1|state~433_combout\ & (\cpu1|alu_ctrl.alu_ld16~0_combout\ & (!\cpu1|state~347_combout\ & !\hold~q\))) ) ) )
+-- \cpu1|state~435_combout\ = ( \cpu1|state~345_combout\ & ( \cpu1|state~434_combout\ & ( ((!\cpu1|state~433_combout\ & \cpu1|alu_ctrl.alu_ld16~0_combout\)) # (\w_hold~q\) ) ) ) # ( !\cpu1|state~345_combout\ & ( \cpu1|state~434_combout\ & ( 
+-- (((!\cpu1|state~433_combout\ & \cpu1|alu_ctrl.alu_ld16~0_combout\)) # (\w_hold~q\)) # (\cpu1|state~347_combout\) ) ) ) # ( \cpu1|state~345_combout\ & ( !\cpu1|state~434_combout\ & ( (!\cpu1|state~433_combout\ & (\cpu1|alu_ctrl.alu_ld16~0_combout\ & 
+-- !\w_hold~q\)) ) ) ) # ( !\cpu1|state~345_combout\ & ( !\cpu1|state~434_combout\ & ( (!\cpu1|state~433_combout\ & (\cpu1|alu_ctrl.alu_ld16~0_combout\ & (!\cpu1|state~347_combout\ & !\w_hold~q\))) ) ) )
 
 -- pragma translate_off
 GENERIC MAP (
@@ -32029,7 +32030,7 @@ PORT MAP (
 	dataa => \cpu1|ALT_INV_state~433_combout\,
 	datab => \cpu1|ALT_INV_alu_ctrl.alu_ld16~0_combout\,
 	datac => \cpu1|ALT_INV_state~347_combout\,
-	datad => \ALT_INV_hold~q\,
+	datad => \ALT_INV_w_hold~q\,
 	datae => \cpu1|ALT_INV_state~345_combout\,
 	dataf => \cpu1|ALT_INV_state~434_combout\,
 	combout => \cpu1|state~435_combout\);
@@ -32080,7 +32081,7 @@ GENERIC MAP (
 PORT MAP (
 	clk => \clk~inputCLKENA0_outclk\,
 	d => \cpu1|Selector41~1_combout\,
-	ena => \ALT_INV_hold~q\,
+	ena => \ALT_INV_w_hold~q\,
 	devclrn => ww_devclrn,
 	devpor => ww_devpor,
 	q => \cpu1|saved_state.lea_state~q\);
@@ -32088,8 +32089,8 @@ PORT MAP (
 -- Location: LABCELL_X20_Y41_N6
 \cpu1|state~505\ : cyclonev_lcell_comb
 -- Equation(s):
--- \cpu1|state~505_combout\ = ( !\cpu1|state~401_combout\ & ( (!\hold~q\ & (\cpu1|saved_state.lea_state~q\ & (\cpu1|state~346_combout\ & (\cpu1|state~400_combout\)))) # (\hold~q\ & ((((\cpu1|state.lea_state~q\))))) ) ) # ( \cpu1|state~401_combout\ & ( 
--- (!\hold~q\ & (\cpu1|saved_state.lea_state~q\ & (\cpu1|state~343_combout\ & (\cpu1|state~400_combout\)))) # (\hold~q\ & ((((\cpu1|state.lea_state~q\))))) ) )
+-- \cpu1|state~505_combout\ = ( !\cpu1|state~401_combout\ & ( (!\w_hold~q\ & (\cpu1|saved_state.lea_state~q\ & (\cpu1|state~346_combout\ & (\cpu1|state~400_combout\)))) # (\w_hold~q\ & ((((\cpu1|state.lea_state~q\))))) ) ) # ( \cpu1|state~401_combout\ & ( 
+-- (!\w_hold~q\ & (\cpu1|saved_state.lea_state~q\ & (\cpu1|state~343_combout\ & (\cpu1|state~400_combout\)))) # (\w_hold~q\ & ((((\cpu1|state.lea_state~q\))))) ) )
 
 -- pragma translate_off
 GENERIC MAP (
@@ -32099,7 +32100,7 @@ GENERIC MAP (
 -- pragma translate_on
 PORT MAP (
 	dataa => \cpu1|ALT_INV_saved_state.lea_state~q\,
-	datab => \ALT_INV_hold~q\,
+	datab => \ALT_INV_w_hold~q\,
 	datac => \cpu1|ALT_INV_state~343_combout\,
 	datad => \cpu1|ALT_INV_state~400_combout\,
 	datae => \cpu1|ALT_INV_state~401_combout\,
@@ -32253,7 +32254,7 @@ PORT MAP (
 -- Location: MLABCELL_X13_Y36_N48
 \cpu1|dp[3]~feeder\ : cyclonev_lcell_comb
 -- Equation(s):
--- \cpu1|dp[3]~feeder_combout\ = ( \cpuDataIn[3]~23_combout\ )
+-- \cpu1|dp[3]~feeder_combout\ = ( \w_cpuDataIn[3]~23_combout\ )
 
 -- pragma translate_off
 GENERIC MAP (
@@ -32262,7 +32263,7 @@ GENERIC MAP (
 	shared_arith => "off")
 -- pragma translate_on
 PORT MAP (
-	dataf => \ALT_INV_cpuDataIn[3]~23_combout\,
+	dataf => \ALT_INV_w_cpuDataIn[3]~23_combout\,
 	combout => \cpu1|dp[3]~feeder_combout\);
 
 -- Location: LABCELL_X19_Y36_N48
@@ -32331,7 +32332,7 @@ PORT MAP (
 	asdata => \cpu1|state~356_combout\,
 	clrn => \debounceReset|ALT_INV_o_PinOut~q\,
 	sload => VCC,
-	ena => \ALT_INV_hold~q\,
+	ena => \ALT_INV_w_hold~q\,
 	devclrn => ww_devclrn,
 	devpor => ww_devpor,
 	q => \cpu1|state.puls_dp_state~q\);
@@ -32376,8 +32377,8 @@ PORT MAP (
 -- Location: MLABCELL_X13_Y36_N36
 \cpu1|dp[5]~1\ : cyclonev_lcell_comb
 -- Equation(s):
--- \cpu1|dp[5]~1_combout\ = ( !\cpu1|left_ctrl.dp_left~0_combout\ & ( ((!\cpu1|Mux370~5_combout\) # (((!\cpu1|Mux349~4_combout\ & \cpu1|state.exg2_state~q\)) # (\hold~q\))) ) ) # ( \cpu1|left_ctrl.dp_left~0_combout\ & ( ((!\cpu1|state.exg2_state~q\ & 
--- (\cpu1|WideOr56~0_combout\ & ((\cpu1|state.reset_state~q\)))) # (\cpu1|state.exg2_state~q\ & (((!\cpu1|Mux349~4_combout\))))) # (\hold~q\) ) )
+-- \cpu1|dp[5]~1_combout\ = ( !\cpu1|left_ctrl.dp_left~0_combout\ & ( ((!\cpu1|Mux370~5_combout\) # (((!\cpu1|Mux349~4_combout\ & \cpu1|state.exg2_state~q\)) # (\w_hold~q\))) ) ) # ( \cpu1|left_ctrl.dp_left~0_combout\ & ( ((!\cpu1|state.exg2_state~q\ & 
+-- (\cpu1|WideOr56~0_combout\ & ((\cpu1|state.reset_state~q\)))) # (\cpu1|state.exg2_state~q\ & (((!\cpu1|Mux349~4_combout\))))) # (\w_hold~q\) ) )
 
 -- pragma translate_off
 GENERIC MAP (
@@ -32391,7 +32392,7 @@ PORT MAP (
 	datac => \cpu1|ALT_INV_state.reset_state~q\,
 	datad => \cpu1|ALT_INV_state.exg2_state~q\,
 	datae => \cpu1|ALT_INV_left_ctrl.dp_left~0_combout\,
-	dataf => \ALT_INV_hold~q\,
+	dataf => \ALT_INV_w_hold~q\,
 	datag => \cpu1|ALT_INV_Mux370~5_combout\,
 	combout => \cpu1|dp[5]~1_combout\);
 
@@ -32472,9 +32473,9 @@ PORT MAP (
 -- Location: MLABCELL_X18_Y42_N3
 \cpu1|state~448\ : cyclonev_lcell_comb
 -- Equation(s):
--- \cpu1|state~448_combout\ = ( \cpu1|state.pshu_state~q\ & ( \cpu1|state~347_combout\ & ( (!\cpu1|state~338_combout\ & (((!\cpu1|state~345_combout\) # (\hold~q\)) # (\cpu1|Mux28~7_combout\))) ) ) ) # ( !\cpu1|state.pshu_state~q\ & ( \cpu1|state~347_combout\ 
--- & ( (\cpu1|Mux28~7_combout\ & (!\hold~q\ & (!\cpu1|state~338_combout\ & \cpu1|state~345_combout\))) ) ) ) # ( \cpu1|state.pshu_state~q\ & ( !\cpu1|state~347_combout\ & ( (!\cpu1|state~338_combout\ & ((\hold~q\) # (\cpu1|Mux28~7_combout\))) ) ) ) # ( 
--- !\cpu1|state.pshu_state~q\ & ( !\cpu1|state~347_combout\ & ( (\cpu1|Mux28~7_combout\ & (!\hold~q\ & !\cpu1|state~338_combout\)) ) ) )
+-- \cpu1|state~448_combout\ = ( \cpu1|state.pshu_state~q\ & ( \cpu1|state~347_combout\ & ( (!\cpu1|state~338_combout\ & (((!\cpu1|state~345_combout\) # (\w_hold~q\)) # (\cpu1|Mux28~7_combout\))) ) ) ) # ( !\cpu1|state.pshu_state~q\ & ( 
+-- \cpu1|state~347_combout\ & ( (\cpu1|Mux28~7_combout\ & (!\w_hold~q\ & (!\cpu1|state~338_combout\ & \cpu1|state~345_combout\))) ) ) ) # ( \cpu1|state.pshu_state~q\ & ( !\cpu1|state~347_combout\ & ( (!\cpu1|state~338_combout\ & ((\w_hold~q\) # 
+-- (\cpu1|Mux28~7_combout\))) ) ) ) # ( !\cpu1|state.pshu_state~q\ & ( !\cpu1|state~347_combout\ & ( (\cpu1|Mux28~7_combout\ & (!\w_hold~q\ & !\cpu1|state~338_combout\)) ) ) )
 
 -- pragma translate_off
 GENERIC MAP (
@@ -32484,7 +32485,7 @@ GENERIC MAP (
 -- pragma translate_on
 PORT MAP (
 	dataa => \cpu1|ALT_INV_Mux28~7_combout\,
-	datab => \ALT_INV_hold~q\,
+	datab => \ALT_INV_w_hold~q\,
 	datac => \cpu1|ALT_INV_state~338_combout\,
 	datad => \cpu1|ALT_INV_state~345_combout\,
 	datae => \cpu1|ALT_INV_state.pshu_state~q\,
@@ -32639,7 +32640,7 @@ PORT MAP (
 -- Location: LABCELL_X14_Y39_N48
 \cpu1|up[11]~feeder\ : cyclonev_lcell_comb
 -- Equation(s):
--- \cpu1|up[11]~feeder_combout\ = \cpuDataIn[3]~23_combout\
+-- \cpu1|up[11]~feeder_combout\ = \w_cpuDataIn[3]~23_combout\
 
 -- pragma translate_off
 GENERIC MAP (
@@ -32648,7 +32649,7 @@ GENERIC MAP (
 	shared_arith => "off")
 -- pragma translate_on
 PORT MAP (
-	datac => \ALT_INV_cpuDataIn[3]~23_combout\,
+	datac => \ALT_INV_w_cpuDataIn[3]~23_combout\,
 	combout => \cpu1|up[11]~feeder_combout\);
 
 -- Location: LABCELL_X17_Y39_N33
@@ -32733,7 +32734,7 @@ PORT MAP (
 	clk => \clk~inputCLKENA0_outclk\,
 	d => \cpu1|state~471_combout\,
 	clrn => \debounceReset|ALT_INV_o_PinOut~q\,
-	ena => \ALT_INV_hold~q\,
+	ena => \ALT_INV_w_hold~q\,
 	devclrn => ww_devclrn,
 	devpor => ww_devpor,
 	q => \cpu1|state.pshu_iyl_state~q\);
@@ -32772,7 +32773,7 @@ PORT MAP (
 	asdata => \cpu1|state.pshu_iyl_state~q\,
 	clrn => \debounceReset|ALT_INV_o_PinOut~q\,
 	sload => \cpu1|ALT_INV_Selector582~18_combout\,
-	ena => \ALT_INV_hold~q\,
+	ena => \ALT_INV_w_hold~q\,
 	devclrn => ww_devclrn,
 	devpor => ww_devpor,
 	q => \cpu1|state.pshu_iyh_state~q\);
@@ -32824,7 +32825,7 @@ PORT MAP (
 	clk => \clk~inputCLKENA0_outclk\,
 	d => \cpu1|state~472_combout\,
 	clrn => \debounceReset|ALT_INV_o_PinOut~q\,
-	ena => \ALT_INV_hold~q\,
+	ena => \ALT_INV_w_hold~q\,
 	devclrn => ww_devclrn,
 	devpor => ww_devpor,
 	q => \cpu1|state.pshu_ixl_state~q\);
@@ -32862,7 +32863,7 @@ PORT MAP (
 	asdata => \cpu1|state.pshu_ixl_state~q\,
 	clrn => \debounceReset|ALT_INV_o_PinOut~q\,
 	sload => \cpu1|ALT_INV_Selector582~18_combout\,
-	ena => \ALT_INV_hold~q\,
+	ena => \ALT_INV_w_hold~q\,
 	devclrn => ww_devclrn,
 	devpor => ww_devpor,
 	q => \cpu1|state.pshu_ixh_state~q\);
@@ -32914,7 +32915,7 @@ PORT MAP (
 	clk => \clk~inputCLKENA0_outclk\,
 	d => \cpu1|state~466_combout\,
 	clrn => \debounceReset|ALT_INV_o_PinOut~q\,
-	ena => \ALT_INV_hold~q\,
+	ena => \ALT_INV_w_hold~q\,
 	devclrn => ww_devclrn,
 	devpor => ww_devpor,
 	q => \cpu1|state.pshu_dp_state~q\);
@@ -33010,7 +33011,7 @@ PORT MAP (
 	asdata => \cpu1|state~468_combout\,
 	clrn => \debounceReset|ALT_INV_o_PinOut~q\,
 	sload => VCC,
-	ena => \ALT_INV_hold~q\,
+	ena => \ALT_INV_w_hold~q\,
 	devclrn => ww_devclrn,
 	devpor => ww_devpor,
 	q => \cpu1|state.pshu_accb_state~q\);
@@ -33122,7 +33123,7 @@ PORT MAP (
 	asdata => \cpu1|state~469_combout\,
 	clrn => \debounceReset|ALT_INV_o_PinOut~q\,
 	sload => VCC,
-	ena => \ALT_INV_hold~q\,
+	ena => \ALT_INV_w_hold~q\,
 	devclrn => ww_devclrn,
 	devpor => ww_devpor,
 	q => \cpu1|state.pshu_pcl_state~q\);
@@ -33490,8 +33491,8 @@ PORT MAP (
 -- Location: LABCELL_X10_Y41_N21
 \cpu1|up[8]~11\ : cyclonev_lcell_comb
 -- Equation(s):
--- \cpu1|up[8]~11_combout\ = ( \cpu1|Selector415~8_combout\ & ( (!\hold~q\ & (((!\cpu1|state.rti_upl_state~q\ & !\cpu1|state.puls_upl_state~q\)) # (\cpu1|up_ctrl.load_up~0_combout\))) ) ) # ( !\cpu1|Selector415~8_combout\ & ( 
--- (\cpu1|up_ctrl.load_up~0_combout\ & !\hold~q\) ) )
+-- \cpu1|up[8]~11_combout\ = ( \cpu1|Selector415~8_combout\ & ( (!\w_hold~q\ & (((!\cpu1|state.rti_upl_state~q\ & !\cpu1|state.puls_upl_state~q\)) # (\cpu1|up_ctrl.load_up~0_combout\))) ) ) # ( !\cpu1|Selector415~8_combout\ & ( 
+-- (\cpu1|up_ctrl.load_up~0_combout\ & !\w_hold~q\) ) )
 
 -- pragma translate_off
 GENERIC MAP (
@@ -33503,7 +33504,7 @@ PORT MAP (
 	dataa => \cpu1|ALT_INV_state.rti_upl_state~q\,
 	datab => \cpu1|ALT_INV_state.puls_upl_state~q\,
 	datac => \cpu1|ALT_INV_up_ctrl.load_up~0_combout\,
-	datad => \ALT_INV_hold~q\,
+	datad => \ALT_INV_w_hold~q\,
 	dataf => \cpu1|ALT_INV_Selector415~8_combout\,
 	combout => \cpu1|up[8]~11_combout\);
 
@@ -33528,7 +33529,7 @@ PORT MAP (
 -- Location: LABCELL_X12_Y41_N48
 \cpu1|sp[11]~feeder\ : cyclonev_lcell_comb
 -- Equation(s):
--- \cpu1|sp[11]~feeder_combout\ = ( \cpuDataIn[3]~23_combout\ )
+-- \cpu1|sp[11]~feeder_combout\ = ( \w_cpuDataIn[3]~23_combout\ )
 
 -- pragma translate_off
 GENERIC MAP (
@@ -33537,7 +33538,7 @@ GENERIC MAP (
 	shared_arith => "off")
 -- pragma translate_on
 PORT MAP (
-	dataf => \ALT_INV_cpuDataIn[3]~23_combout\,
+	dataf => \ALT_INV_w_cpuDataIn[3]~23_combout\,
 	combout => \cpu1|sp[11]~feeder_combout\);
 
 -- Location: LABCELL_X20_Y43_N51
@@ -33604,7 +33605,7 @@ PORT MAP (
 	clk => \clk~inputCLKENA0_outclk\,
 	d => \cpu1|state~307_combout\,
 	clrn => \debounceReset|ALT_INV_o_PinOut~q\,
-	ena => \ALT_INV_hold~q\,
+	ena => \ALT_INV_w_hold~q\,
 	devclrn => ww_devclrn,
 	devpor => ww_devpor,
 	q => \cpu1|state.pshs_pcl_state~q\);
@@ -33643,7 +33644,7 @@ PORT MAP (
 	asdata => \cpu1|state.pshs_pcl_state~q\,
 	clrn => \debounceReset|ALT_INV_o_PinOut~q\,
 	sload => \cpu1|ALT_INV_Selector582~18_combout\,
-	ena => \ALT_INV_hold~q\,
+	ena => \ALT_INV_w_hold~q\,
 	devclrn => ww_devclrn,
 	devpor => ww_devpor,
 	q => \cpu1|state.pshs_pch_state~q\);
@@ -33716,7 +33717,7 @@ PORT MAP (
 	clk => \clk~inputCLKENA0_outclk\,
 	d => \cpu1|state~322_combout\,
 	clrn => \debounceReset|ALT_INV_o_PinOut~q\,
-	ena => \ALT_INV_hold~q\,
+	ena => \ALT_INV_w_hold~q\,
 	devclrn => ww_devclrn,
 	devpor => ww_devpor,
 	q => \cpu1|state.pshs_dp_state~q\);
@@ -33773,7 +33774,7 @@ PORT MAP (
 	asdata => \cpu1|state.pshs_upl_state~q\,
 	clrn => \debounceReset|ALT_INV_o_PinOut~q\,
 	sload => \cpu1|ALT_INV_Selector582~18_combout\,
-	ena => \ALT_INV_hold~q\,
+	ena => \ALT_INV_w_hold~q\,
 	devclrn => ww_devclrn,
 	devpor => ww_devpor,
 	q => \cpu1|state.pshs_uph_state~q\);
@@ -33849,7 +33850,7 @@ PORT MAP (
 	clk => \clk~inputCLKENA0_outclk\,
 	d => \cpu1|state~324_combout\,
 	clrn => \debounceReset|ALT_INV_o_PinOut~q\,
-	ena => \ALT_INV_hold~q\,
+	ena => \ALT_INV_w_hold~q\,
 	devclrn => ww_devclrn,
 	devpor => ww_devpor,
 	q => \cpu1|state.pshs_accb_state~q\);
@@ -33954,7 +33955,7 @@ PORT MAP (
 	clk => \clk~inputCLKENA0_outclk\,
 	d => \cpu1|state~323_combout\,
 	clrn => \debounceReset|ALT_INV_o_PinOut~q\,
-	ena => \ALT_INV_hold~q\,
+	ena => \ALT_INV_w_hold~q\,
 	devclrn => ww_devclrn,
 	devpor => ww_devpor,
 	q => \cpu1|state.pshs_acca_state~q\);
@@ -34046,7 +34047,7 @@ PORT MAP (
 	clk => \clk~inputCLKENA0_outclk\,
 	d => \cpu1|state~306_combout\,
 	clrn => \debounceReset|ALT_INV_o_PinOut~q\,
-	ena => \ALT_INV_hold~q\,
+	ena => \ALT_INV_w_hold~q\,
 	devclrn => ww_devclrn,
 	devpor => ww_devpor,
 	q => \cpu1|state.push_return_lo_state~q\);
@@ -34116,7 +34117,7 @@ PORT MAP (
 	asdata => \cpu1|state~410_combout\,
 	clrn => \debounceReset|ALT_INV_o_PinOut~q\,
 	sload => VCC,
-	ena => \ALT_INV_hold~q\,
+	ena => \ALT_INV_w_hold~q\,
 	devclrn => ww_devclrn,
 	devpor => ww_devpor,
 	q => \cpu1|state.int_entire_state~q\);
@@ -34155,7 +34156,7 @@ PORT MAP (
 	asdata => \cpu1|state.int_entire_state~q\,
 	clrn => \debounceReset|ALT_INV_o_PinOut~q\,
 	sload => \cpu1|ALT_INV_Selector582~18_combout\,
-	ena => \ALT_INV_hold~q\,
+	ena => \ALT_INV_w_hold~q\,
 	devclrn => ww_devclrn,
 	devpor => ww_devpor,
 	q => \cpu1|state.int_pcl_state~q\);
@@ -34232,7 +34233,7 @@ PORT MAP (
 	asdata => \cpu1|state.int_pcl_state~q\,
 	clrn => \debounceReset|ALT_INV_o_PinOut~q\,
 	sload => \cpu1|ALT_INV_Selector582~18_combout\,
-	ena => \ALT_INV_hold~q\,
+	ena => \ALT_INV_w_hold~q\,
 	devclrn => ww_devclrn,
 	devpor => ww_devpor,
 	q => \cpu1|state.int_pch_state~q\);
@@ -34586,7 +34587,7 @@ PORT MAP (
 -- Location: LABCELL_X12_Y38_N42
 \cpu1|sp[8]~3\ : cyclonev_lcell_comb
 -- Equation(s):
--- \cpu1|sp[8]~3_combout\ = ( !\cpu1|sp_ctrl.latch_sp~0_combout\ & ( (\cpu1|sp_ctrl.pull_lo_sp~0_combout\ & !\hold~q\) ) )
+-- \cpu1|sp[8]~3_combout\ = ( !\cpu1|sp_ctrl.latch_sp~0_combout\ & ( (\cpu1|sp_ctrl.pull_lo_sp~0_combout\ & !\w_hold~q\) ) )
 
 -- pragma translate_off
 GENERIC MAP (
@@ -34596,7 +34597,7 @@ GENERIC MAP (
 -- pragma translate_on
 PORT MAP (
 	dataa => \cpu1|ALT_INV_sp_ctrl.pull_lo_sp~0_combout\,
-	datac => \ALT_INV_hold~q\,
+	datac => \ALT_INV_w_hold~q\,
 	dataf => \cpu1|ALT_INV_sp_ctrl.latch_sp~0_combout\,
 	combout => \cpu1|sp[8]~3_combout\);
 
@@ -34652,7 +34653,7 @@ PORT MAP (
 	asdata => \cpu1|state.dual_op_read16_state~q\,
 	clrn => \debounceReset|ALT_INV_o_PinOut~q\,
 	sload => \cpu1|ALT_INV_Selector582~18_combout\,
-	ena => \ALT_INV_hold~q\,
+	ena => \ALT_INV_w_hold~q\,
 	devclrn => ww_devclrn,
 	devpor => ww_devpor,
 	q => \cpu1|state.dual_op_read16_2_state~q\);
@@ -34694,7 +34695,7 @@ PORT MAP (
 -- Location: MLABCELL_X13_Y36_N27
 \cpu1|dp[0]~feeder\ : cyclonev_lcell_comb
 -- Equation(s):
--- \cpu1|dp[0]~feeder_combout\ = ( \cpuDataIn[0]~5_combout\ )
+-- \cpu1|dp[0]~feeder_combout\ = ( \w_cpuDataIn[0]~5_combout\ )
 
 -- pragma translate_off
 GENERIC MAP (
@@ -34703,7 +34704,7 @@ GENERIC MAP (
 	shared_arith => "off")
 -- pragma translate_on
 PORT MAP (
-	dataf => \ALT_INV_cpuDataIn[0]~5_combout\,
+	dataf => \ALT_INV_w_cpuDataIn[0]~5_combout\,
 	combout => \cpu1|dp[0]~feeder_combout\);
 
 -- Location: FF_X13_Y36_N29
@@ -35070,7 +35071,7 @@ PORT MAP (
 	asdata => \cpu1|state.push_return_lo_state~q\,
 	clrn => \debounceReset|ALT_INV_o_PinOut~q\,
 	sload => \cpu1|ALT_INV_Selector582~18_combout\,
-	ena => \ALT_INV_hold~q\,
+	ena => \ALT_INV_w_hold~q\,
 	devclrn => ww_devclrn,
 	devpor => ww_devpor,
 	q => \cpu1|state.push_return_hi_state~q\);
@@ -35120,7 +35121,7 @@ GENERIC MAP (
 PORT MAP (
 	clk => \clk~inputCLKENA0_outclk\,
 	d => \cpu1|Selector81~0_combout\,
-	ena => \ALT_INV_hold~q\,
+	ena => \ALT_INV_w_hold~q\,
 	devclrn => ww_devclrn,
 	devpor => ww_devpor,
 	q => \cpu1|saved_state.int_cwai_state~q\);
@@ -35128,8 +35129,8 @@ PORT MAP (
 -- Location: LABCELL_X20_Y41_N48
 \cpu1|state~455\ : cyclonev_lcell_comb
 -- Equation(s):
--- \cpu1|state~455_combout\ = ( \cpu1|Selector582~18_combout\ & ( \hold~q\ & ( !\cpu1|state.int_cwai_state~q\ ) ) ) # ( !\cpu1|Selector582~18_combout\ & ( \hold~q\ & ( !\cpu1|state.int_cwai_state~q\ ) ) ) # ( \cpu1|Selector582~18_combout\ & ( !\hold~q\ & ( 
--- (!\cpu1|saved_state.int_cwai_state~q\ & (((!\cpu1|state.int_cwai_state~q\) # (\cpu1|process_22~0_combout\)) # (\cpu1|change_state~1_combout\))) ) ) ) # ( !\cpu1|Selector582~18_combout\ & ( !\hold~q\ & ( (!\cpu1|saved_state.int_cwai_state~q\ & 
+-- \cpu1|state~455_combout\ = ( \cpu1|Selector582~18_combout\ & ( \w_hold~q\ & ( !\cpu1|state.int_cwai_state~q\ ) ) ) # ( !\cpu1|Selector582~18_combout\ & ( \w_hold~q\ & ( !\cpu1|state.int_cwai_state~q\ ) ) ) # ( \cpu1|Selector582~18_combout\ & ( !\w_hold~q\ 
+-- & ( (!\cpu1|saved_state.int_cwai_state~q\ & (((!\cpu1|state.int_cwai_state~q\) # (\cpu1|process_22~0_combout\)) # (\cpu1|change_state~1_combout\))) ) ) ) # ( !\cpu1|Selector582~18_combout\ & ( !\w_hold~q\ & ( (!\cpu1|saved_state.int_cwai_state~q\ & 
 -- !\cpu1|state.int_cwai_state~q\) ) ) )
 
 -- pragma translate_off
@@ -35144,13 +35145,13 @@ PORT MAP (
 	datac => \cpu1|ALT_INV_saved_state.int_cwai_state~q\,
 	datad => \cpu1|ALT_INV_state.int_cwai_state~q\,
 	datae => \cpu1|ALT_INV_Selector582~18_combout\,
-	dataf => \ALT_INV_hold~q\,
+	dataf => \ALT_INV_w_hold~q\,
 	combout => \cpu1|state~455_combout\);
 
 -- Location: LABCELL_X21_Y41_N24
 \cpu1|state~411\ : cyclonev_lcell_comb
 -- Equation(s):
--- \cpu1|state~411_combout\ = ( \cpu1|process_22~0_combout\ & ( (!\hold~q\ & ((!\cpu1|state.int_cwai_state~q\) # (\cpu1|Selector582~18_combout\))) ) ) # ( !\cpu1|process_22~0_combout\ & ( (!\hold~q\ & ((!\cpu1|state.int_cwai_state~q\) # 
+-- \cpu1|state~411_combout\ = ( \cpu1|process_22~0_combout\ & ( (!\w_hold~q\ & ((!\cpu1|state.int_cwai_state~q\) # (\cpu1|Selector582~18_combout\))) ) ) # ( !\cpu1|process_22~0_combout\ & ( (!\w_hold~q\ & ((!\cpu1|state.int_cwai_state~q\) # 
 -- ((\cpu1|Selector582~18_combout\ & \cpu1|change_state~1_combout\)))) ) )
 
 -- pragma translate_off
@@ -35160,7 +35161,7 @@ GENERIC MAP (
 	shared_arith => "off")
 -- pragma translate_on
 PORT MAP (
-	dataa => \ALT_INV_hold~q\,
+	dataa => \ALT_INV_w_hold~q\,
 	datab => \cpu1|ALT_INV_Selector582~18_combout\,
 	datac => \cpu1|ALT_INV_change_state~1_combout\,
 	datad => \cpu1|ALT_INV_state.int_cwai_state~q\,
@@ -35170,8 +35171,8 @@ PORT MAP (
 -- Location: MLABCELL_X18_Y41_N54
 \cpu1|state~456\ : cyclonev_lcell_comb
 -- Equation(s):
--- \cpu1|state~456_combout\ = ( \hold~q\ & ( \cpu1|state~412_combout\ & ( !\cpu1|state~455_combout\ ) ) ) # ( !\hold~q\ & ( \cpu1|state~412_combout\ & ( !\cpu1|state~455_combout\ ) ) ) # ( \hold~q\ & ( !\cpu1|state~412_combout\ & ( !\cpu1|state~455_combout\ 
--- ) ) ) # ( !\hold~q\ & ( !\cpu1|state~412_combout\ & ( (!\cpu1|process_22~0_combout\ & (!\cpu1|nmi_req~q\ & !\cpu1|state~411_combout\)) ) ) )
+-- \cpu1|state~456_combout\ = ( \w_hold~q\ & ( \cpu1|state~412_combout\ & ( !\cpu1|state~455_combout\ ) ) ) # ( !\w_hold~q\ & ( \cpu1|state~412_combout\ & ( !\cpu1|state~455_combout\ ) ) ) # ( \w_hold~q\ & ( !\cpu1|state~412_combout\ & ( 
+-- !\cpu1|state~455_combout\ ) ) ) # ( !\w_hold~q\ & ( !\cpu1|state~412_combout\ & ( (!\cpu1|process_22~0_combout\ & (!\cpu1|nmi_req~q\ & !\cpu1|state~411_combout\)) ) ) )
 
 -- pragma translate_off
 GENERIC MAP (
@@ -35184,7 +35185,7 @@ PORT MAP (
 	datab => \cpu1|ALT_INV_nmi_req~q\,
 	datac => \cpu1|ALT_INV_state~455_combout\,
 	datad => \cpu1|ALT_INV_state~411_combout\,
-	datae => \ALT_INV_hold~q\,
+	datae => \ALT_INV_w_hold~q\,
 	dataf => \cpu1|ALT_INV_state~412_combout\,
 	combout => \cpu1|state~456_combout\);
 
@@ -35236,7 +35237,7 @@ PORT MAP (
 	clk => \clk~inputCLKENA0_outclk\,
 	d => \cpu1|state~449_combout\,
 	clrn => \debounceReset|ALT_INV_o_PinOut~q\,
-	ena => \ALT_INV_hold~q\,
+	ena => \ALT_INV_w_hold~q\,
 	devclrn => ww_devclrn,
 	devpor => ww_devpor,
 	q => \cpu1|state.sync_state~q\);
@@ -35365,7 +35366,7 @@ PORT MAP (
 	clk => \clk~inputCLKENA0_outclk\,
 	d => \cpu1|state~328_combout\,
 	clrn => \debounceReset|ALT_INV_o_PinOut~q\,
-	ena => \ALT_INV_hold~q\,
+	ena => \ALT_INV_w_hold~q\,
 	devclrn => ww_devclrn,
 	devpor => ww_devpor,
 	q => \cpu1|state.pshs_cc_state~q\);
@@ -35420,7 +35421,7 @@ GENERIC MAP (
 PORT MAP (
 	clk => \clk~inputCLKENA0_outclk\,
 	d => \cpu1|Selector27~0_combout\,
-	ena => \ALT_INV_hold~q\,
+	ena => \ALT_INV_w_hold~q\,
 	devclrn => ww_devclrn,
 	devpor => ww_devpor,
 	q => \cpu1|saved_state.dual_op_read8_state~q\);
@@ -35476,7 +35477,7 @@ PORT MAP (
 	clk => \clk~inputCLKENA0_outclk\,
 	d => \cpu1|state~493_combout\,
 	clrn => \debounceReset|ALT_INV_o_PinOut~q\,
-	ena => \ALT_INV_hold~q\,
+	ena => \ALT_INV_w_hold~q\,
 	devclrn => ww_devclrn,
 	devpor => ww_devpor,
 	q => \cpu1|state.dual_op_read8_state~q\);
@@ -35690,7 +35691,7 @@ PORT MAP (
 -- Location: LABCELL_X12_Y41_N39
 \cpu1|sp[8]~feeder\ : cyclonev_lcell_comb
 -- Equation(s):
--- \cpu1|sp[8]~feeder_combout\ = \cpuDataIn[0]~5_combout\
+-- \cpu1|sp[8]~feeder_combout\ = \w_cpuDataIn[0]~5_combout\
 
 -- pragma translate_off
 GENERIC MAP (
@@ -35699,7 +35700,7 @@ GENERIC MAP (
 	shared_arith => "off")
 -- pragma translate_on
 PORT MAP (
-	datad => \ALT_INV_cpuDataIn[0]~5_combout\,
+	datad => \ALT_INV_w_cpuDataIn[0]~5_combout\,
 	combout => \cpu1|sp[8]~feeder_combout\);
 
 -- Location: FF_X12_Y41_N41
@@ -35723,7 +35724,7 @@ PORT MAP (
 -- Location: LABCELL_X14_Y39_N15
 \cpu1|up[8]~feeder\ : cyclonev_lcell_comb
 -- Equation(s):
--- \cpu1|up[8]~feeder_combout\ = ( \cpuDataIn[0]~5_combout\ )
+-- \cpu1|up[8]~feeder_combout\ = ( \w_cpuDataIn[0]~5_combout\ )
 
 -- pragma translate_off
 GENERIC MAP (
@@ -35732,7 +35733,7 @@ GENERIC MAP (
 	shared_arith => "off")
 -- pragma translate_on
 PORT MAP (
-	dataf => \ALT_INV_cpuDataIn[0]~5_combout\,
+	dataf => \ALT_INV_w_cpuDataIn[0]~5_combout\,
 	combout => \cpu1|up[8]~feeder_combout\);
 
 -- Location: FF_X14_Y39_N17
@@ -35906,8 +35907,8 @@ PORT MAP (
 -- Location: LABCELL_X20_Y37_N0
 \cpu1|state~409\ : cyclonev_lcell_comb
 -- Equation(s):
--- \cpu1|state~409_combout\ = ( \cpu1|state.andcc_state~q\ & ( \cpu1|alu_ctrl.alu_inc~0_combout\ & ( !\cpu1|state~368_combout\ ) ) ) # ( !\cpu1|state.andcc_state~q\ & ( \cpu1|alu_ctrl.alu_inc~0_combout\ & ( (!\hold~q\ & (!\cpu1|state~368_combout\ & 
--- ((!\cpu1|state~347_combout\) # (\cpu1|state~345_combout\)))) ) ) ) # ( \cpu1|state.andcc_state~q\ & ( !\cpu1|alu_ctrl.alu_inc~0_combout\ & ( (!\cpu1|state~368_combout\ & (((!\cpu1|state~345_combout\ & \cpu1|state~347_combout\)) # (\hold~q\))) ) ) )
+-- \cpu1|state~409_combout\ = ( \cpu1|state.andcc_state~q\ & ( \cpu1|alu_ctrl.alu_inc~0_combout\ & ( !\cpu1|state~368_combout\ ) ) ) # ( !\cpu1|state.andcc_state~q\ & ( \cpu1|alu_ctrl.alu_inc~0_combout\ & ( (!\w_hold~q\ & (!\cpu1|state~368_combout\ & 
+-- ((!\cpu1|state~347_combout\) # (\cpu1|state~345_combout\)))) ) ) ) # ( \cpu1|state.andcc_state~q\ & ( !\cpu1|alu_ctrl.alu_inc~0_combout\ & ( (!\cpu1|state~368_combout\ & (((!\cpu1|state~345_combout\ & \cpu1|state~347_combout\)) # (\w_hold~q\))) ) ) )
 
 -- pragma translate_off
 GENERIC MAP (
@@ -35916,7 +35917,7 @@ GENERIC MAP (
 	shared_arith => "off")
 -- pragma translate_on
 PORT MAP (
-	dataa => \ALT_INV_hold~q\,
+	dataa => \ALT_INV_w_hold~q\,
 	datab => \cpu1|ALT_INV_state~368_combout\,
 	datac => \cpu1|ALT_INV_state~345_combout\,
 	datad => \cpu1|ALT_INV_state~347_combout\,
@@ -35942,8 +35943,8 @@ PORT MAP (
 -- Location: LABCELL_X20_Y37_N33
 \cpu1|state~407\ : cyclonev_lcell_comb
 -- Equation(s):
--- \cpu1|state~407_combout\ = ( \cpu1|state.orcc_state~q\ & ( !\cpu1|state~368_combout\ & ( (((\cpu1|state~347_combout\ & !\cpu1|state~345_combout\)) # (\cpu1|Mux28~4_combout\)) # (\hold~q\) ) ) ) # ( !\cpu1|state.orcc_state~q\ & ( !\cpu1|state~368_combout\ 
--- & ( (!\hold~q\ & (\cpu1|Mux28~4_combout\ & ((!\cpu1|state~347_combout\) # (\cpu1|state~345_combout\)))) ) ) )
+-- \cpu1|state~407_combout\ = ( \cpu1|state.orcc_state~q\ & ( !\cpu1|state~368_combout\ & ( (((\cpu1|state~347_combout\ & !\cpu1|state~345_combout\)) # (\cpu1|Mux28~4_combout\)) # (\w_hold~q\) ) ) ) # ( !\cpu1|state.orcc_state~q\ & ( 
+-- !\cpu1|state~368_combout\ & ( (!\w_hold~q\ & (\cpu1|Mux28~4_combout\ & ((!\cpu1|state~347_combout\) # (\cpu1|state~345_combout\)))) ) ) )
 
 -- pragma translate_off
 GENERIC MAP (
@@ -35952,7 +35953,7 @@ GENERIC MAP (
 	shared_arith => "off")
 -- pragma translate_on
 PORT MAP (
-	dataa => \ALT_INV_hold~q\,
+	dataa => \ALT_INV_w_hold~q\,
 	datab => \cpu1|ALT_INV_state~347_combout\,
 	datac => \cpu1|ALT_INV_Mux28~4_combout\,
 	datad => \cpu1|ALT_INV_state~345_combout\,
@@ -36164,7 +36165,7 @@ PORT MAP (
 -- Location: LABCELL_X10_Y40_N42
 \cpu1|yreg[8]~feeder\ : cyclonev_lcell_comb
 -- Equation(s):
--- \cpu1|yreg[8]~feeder_combout\ = \cpuDataIn[0]~5_combout\
+-- \cpu1|yreg[8]~feeder_combout\ = \w_cpuDataIn[0]~5_combout\
 
 -- pragma translate_off
 GENERIC MAP (
@@ -36173,7 +36174,7 @@ GENERIC MAP (
 	shared_arith => "off")
 -- pragma translate_on
 PORT MAP (
-	datac => \ALT_INV_cpuDataIn[0]~5_combout\,
+	datac => \ALT_INV_w_cpuDataIn[0]~5_combout\,
 	combout => \cpu1|yreg[8]~feeder_combout\);
 
 -- Location: LABCELL_X20_Y43_N57
@@ -36318,7 +36319,7 @@ PORT MAP (
 	clk => \clk~inputCLKENA0_outclk\,
 	d => \cpu1|state~351_combout\,
 	clrn => \debounceReset|ALT_INV_o_PinOut~q\,
-	ena => \ALT_INV_hold~q\,
+	ena => \ALT_INV_w_hold~q\,
 	devclrn => ww_devclrn,
 	devpor => ww_devpor,
 	q => \cpu1|state.puls_ixh_state~q\);
@@ -36373,7 +36374,7 @@ PORT MAP (
 	asdata => \cpu1|state.puls_ixh_state~q\,
 	clrn => \debounceReset|ALT_INV_o_PinOut~q\,
 	sload => \cpu1|ALT_INV_Selector582~18_combout\,
-	ena => \ALT_INV_hold~q\,
+	ena => \ALT_INV_w_hold~q\,
 	devclrn => ww_devclrn,
 	devpor => ww_devpor,
 	q => \cpu1|state.puls_ixl_state~q\);
@@ -36446,7 +36447,7 @@ PORT MAP (
 	clk => \clk~inputCLKENA0_outclk\,
 	d => \cpu1|state~360_combout\,
 	clrn => \debounceReset|ALT_INV_o_PinOut~q\,
-	ena => \ALT_INV_hold~q\,
+	ena => \ALT_INV_w_hold~q\,
 	devclrn => ww_devclrn,
 	devpor => ww_devpor,
 	q => \cpu1|state.puls_iyh_state~q\);
@@ -36518,7 +36519,7 @@ PORT MAP (
 	asdata => \cpu1|state.puls_iyh_state~q\,
 	clrn => \debounceReset|ALT_INV_o_PinOut~q\,
 	sload => \cpu1|ALT_INV_Selector582~18_combout\,
-	ena => \ALT_INV_hold~q\,
+	ena => \ALT_INV_w_hold~q\,
 	devclrn => ww_devclrn,
 	devpor => ww_devpor,
 	q => \cpu1|state.puls_iyl_state~q\);
@@ -36621,8 +36622,8 @@ PORT MAP (
 -- Location: MLABCELL_X13_Y42_N39
 \cpu1|yreg[5]~1\ : cyclonev_lcell_comb
 -- Equation(s):
--- \cpu1|yreg[5]~1_combout\ = ( \cpu1|iy_ctrl.load_iy~0_combout\ & ( \cpu1|Selector414~1_combout\ & ( !\hold~q\ ) ) ) # ( !\cpu1|iy_ctrl.load_iy~0_combout\ & ( \cpu1|Selector414~1_combout\ & ( (!\cpu1|WideOr66~1_combout\ & (!\cpu1|Selector415~1_combout\ & 
--- !\hold~q\)) ) ) ) # ( \cpu1|iy_ctrl.load_iy~0_combout\ & ( !\cpu1|Selector414~1_combout\ & ( !\hold~q\ ) ) )
+-- \cpu1|yreg[5]~1_combout\ = ( \cpu1|iy_ctrl.load_iy~0_combout\ & ( \cpu1|Selector414~1_combout\ & ( !\w_hold~q\ ) ) ) # ( !\cpu1|iy_ctrl.load_iy~0_combout\ & ( \cpu1|Selector414~1_combout\ & ( (!\cpu1|WideOr66~1_combout\ & (!\cpu1|Selector415~1_combout\ & 
+-- !\w_hold~q\)) ) ) ) # ( \cpu1|iy_ctrl.load_iy~0_combout\ & ( !\cpu1|Selector414~1_combout\ & ( !\w_hold~q\ ) ) )
 
 -- pragma translate_off
 GENERIC MAP (
@@ -36633,7 +36634,7 @@ GENERIC MAP (
 PORT MAP (
 	dataa => \cpu1|ALT_INV_WideOr66~1_combout\,
 	datab => \cpu1|ALT_INV_Selector415~1_combout\,
-	datac => \ALT_INV_hold~q\,
+	datac => \ALT_INV_w_hold~q\,
 	datae => \cpu1|ALT_INV_iy_ctrl.load_iy~0_combout\,
 	dataf => \cpu1|ALT_INV_Selector414~1_combout\,
 	combout => \cpu1|yreg[5]~1_combout\);
@@ -36718,7 +36719,7 @@ PORT MAP (
 -- Location: MLABCELL_X9_Y35_N42
 \cpu1|xreg[8]~feeder\ : cyclonev_lcell_comb
 -- Equation(s):
--- \cpu1|xreg[8]~feeder_combout\ = ( \cpuDataIn[0]~5_combout\ )
+-- \cpu1|xreg[8]~feeder_combout\ = ( \w_cpuDataIn[0]~5_combout\ )
 
 -- pragma translate_off
 GENERIC MAP (
@@ -36727,7 +36728,7 @@ GENERIC MAP (
 	shared_arith => "off")
 -- pragma translate_on
 PORT MAP (
-	dataf => \ALT_INV_cpuDataIn[0]~5_combout\,
+	dataf => \ALT_INV_w_cpuDataIn[0]~5_combout\,
 	combout => \cpu1|xreg[8]~feeder_combout\);
 
 -- Location: LABCELL_X19_Y37_N12
@@ -37020,7 +37021,7 @@ PORT MAP (
 -- Location: MLABCELL_X9_Y35_N48
 \cpu1|xreg[13]~6\ : cyclonev_lcell_comb
 -- Equation(s):
--- \cpu1|xreg[13]~6_combout\ = ( \cpu1|ix_ctrl.load_ix~0_combout\ & ( !\hold~q\ ) ) # ( !\cpu1|ix_ctrl.load_ix~0_combout\ & ( (!\hold~q\ & (\cpu1|Selector412~3_combout\ & \cpu1|WideOr61~0_combout\)) ) )
+-- \cpu1|xreg[13]~6_combout\ = ( \cpu1|ix_ctrl.load_ix~0_combout\ & ( !\w_hold~q\ ) ) # ( !\cpu1|ix_ctrl.load_ix~0_combout\ & ( (!\w_hold~q\ & (\cpu1|Selector412~3_combout\ & \cpu1|WideOr61~0_combout\)) ) )
 
 -- pragma translate_off
 GENERIC MAP (
@@ -37029,7 +37030,7 @@ GENERIC MAP (
 	shared_arith => "off")
 -- pragma translate_on
 PORT MAP (
-	datab => \ALT_INV_hold~q\,
+	datab => \ALT_INV_w_hold~q\,
 	datac => \cpu1|ALT_INV_Selector412~3_combout\,
 	datad => \cpu1|ALT_INV_WideOr61~0_combout\,
 	dataf => \cpu1|ALT_INV_ix_ctrl.load_ix~0_combout\,
@@ -37296,9 +37297,9 @@ PORT MAP (
 	combout => \cpu1|Selector346~3_combout\);
 
 -- Location: LABCELL_X14_Y34_N54
-\cpuDataIn[6]~50\ : cyclonev_lcell_comb
+\w_cpuDataIn[6]~50\ : cyclonev_lcell_comb
 -- Equation(s):
--- \cpuDataIn[6]~50_combout\ = ( \cpuDataIn[4]~24_combout\ & ( (!\n_if1CS~0_combout\ & (\Equal5~1_combout\ & ((!\n_if2CS~0_combout\)))) # (\n_if1CS~0_combout\ & (((\io1|dataOut\(6))))) ) ) # ( !\cpuDataIn[4]~24_combout\ & ( (\n_if1CS~0_combout\ & 
+-- \w_cpuDataIn[6]~50_combout\ = ( \w_cpuDataIn[4]~24_combout\ & ( (!\n_if1CS~0_combout\ & (\Equal5~1_combout\ & ((!\n_if2CS~0_combout\)))) # (\n_if1CS~0_combout\ & (((\io1|dataOut\(6))))) ) ) # ( !\w_cpuDataIn[4]~24_combout\ & ( (\n_if1CS~0_combout\ & 
 -- \io1|dataOut\(6)) ) )
 
 -- pragma translate_off
@@ -37312,15 +37313,15 @@ PORT MAP (
 	datab => \ALT_INV_n_if1CS~0_combout\,
 	datac => \io1|ALT_INV_dataOut\(6),
 	datad => \ALT_INV_n_if2CS~0_combout\,
-	dataf => \ALT_INV_cpuDataIn[4]~24_combout\,
-	combout => \cpuDataIn[6]~50_combout\);
+	dataf => \ALT_INV_w_cpuDataIn[4]~24_combout\,
+	combout => \w_cpuDataIn[6]~50_combout\);
 
 -- Location: LABCELL_X14_Y34_N48
-\cpuDataIn[6]~44\ : cyclonev_lcell_comb
+\w_cpuDataIn[6]~44\ : cyclonev_lcell_comb
 -- Equation(s):
--- \cpuDataIn[6]~44_combout\ = ( \cpuDataIn[6]~42_combout\ & ( \cpuDataIn[4]~25_combout\ & ( (!\n_if1CS~0_combout\) # (\cpuDataIn[6]~50_combout\) ) ) ) # ( !\cpuDataIn[6]~42_combout\ & ( \cpuDataIn[4]~25_combout\ & ( (!\n_if1CS~0_combout\ & 
--- (((\cpuDataIn[6]~50_combout\ & \sramData[6]~input_o\)) # (\cpuDataIn[6]~43_combout\))) # (\n_if1CS~0_combout\ & (\cpuDataIn[6]~50_combout\)) ) ) ) # ( \cpuDataIn[6]~42_combout\ & ( !\cpuDataIn[4]~25_combout\ & ( (!\n_if1CS~0_combout\) # 
--- (\cpuDataIn[6]~50_combout\) ) ) ) # ( !\cpuDataIn[6]~42_combout\ & ( !\cpuDataIn[4]~25_combout\ & ( (\cpuDataIn[6]~50_combout\ & ((\n_if1CS~0_combout\) # (\sramData[6]~input_o\))) ) ) )
+-- \w_cpuDataIn[6]~44_combout\ = ( \w_cpuDataIn[6]~42_combout\ & ( \w_cpuDataIn[4]~25_combout\ & ( (!\n_if1CS~0_combout\) # (\w_cpuDataIn[6]~50_combout\) ) ) ) # ( !\w_cpuDataIn[6]~42_combout\ & ( \w_cpuDataIn[4]~25_combout\ & ( (!\n_if1CS~0_combout\ & 
+-- (((\w_cpuDataIn[6]~50_combout\ & \sramData[6]~input_o\)) # (\w_cpuDataIn[6]~43_combout\))) # (\n_if1CS~0_combout\ & (\w_cpuDataIn[6]~50_combout\)) ) ) ) # ( \w_cpuDataIn[6]~42_combout\ & ( !\w_cpuDataIn[4]~25_combout\ & ( (!\n_if1CS~0_combout\) # 
+-- (\w_cpuDataIn[6]~50_combout\) ) ) ) # ( !\w_cpuDataIn[6]~42_combout\ & ( !\w_cpuDataIn[4]~25_combout\ & ( (\w_cpuDataIn[6]~50_combout\ & ((\n_if1CS~0_combout\) # (\sramData[6]~input_o\))) ) ) )
 
 -- pragma translate_off
 GENERIC MAP (
@@ -37329,18 +37330,18 @@ GENERIC MAP (
 	shared_arith => "off")
 -- pragma translate_on
 PORT MAP (
-	dataa => \ALT_INV_cpuDataIn[6]~50_combout\,
+	dataa => \ALT_INV_w_cpuDataIn[6]~50_combout\,
 	datab => \ALT_INV_sramData[6]~input_o\,
-	datac => \ALT_INV_cpuDataIn[6]~43_combout\,
+	datac => \ALT_INV_w_cpuDataIn[6]~43_combout\,
 	datad => \ALT_INV_n_if1CS~0_combout\,
-	datae => \ALT_INV_cpuDataIn[6]~42_combout\,
-	dataf => \ALT_INV_cpuDataIn[4]~25_combout\,
-	combout => \cpuDataIn[6]~44_combout\);
+	datae => \ALT_INV_w_cpuDataIn[6]~42_combout\,
+	dataf => \ALT_INV_w_cpuDataIn[4]~25_combout\,
+	combout => \w_cpuDataIn[6]~44_combout\);
 
 -- Location: LABCELL_X12_Y38_N27
 \cpu1|sp[6]~feeder\ : cyclonev_lcell_comb
 -- Equation(s):
--- \cpu1|sp[6]~feeder_combout\ = ( \cpuDataIn[6]~44_combout\ )
+-- \cpu1|sp[6]~feeder_combout\ = ( \w_cpuDataIn[6]~44_combout\ )
 
 -- pragma translate_off
 GENERIC MAP (
@@ -37349,7 +37350,7 @@ GENERIC MAP (
 	shared_arith => "off")
 -- pragma translate_on
 PORT MAP (
-	dataf => \ALT_INV_cpuDataIn[6]~44_combout\,
+	dataf => \ALT_INV_w_cpuDataIn[6]~44_combout\,
 	combout => \cpu1|sp[6]~feeder_combout\);
 
 -- Location: LABCELL_X12_Y38_N45
@@ -37387,7 +37388,7 @@ PORT MAP (
 -- Location: LABCELL_X12_Y38_N21
 \cpu1|sp[1]~1\ : cyclonev_lcell_comb
 -- Equation(s):
--- \cpu1|sp[1]~1_combout\ = ( \cpu1|sp[1]~0_combout\ & ( !\hold~q\ ) )
+-- \cpu1|sp[1]~1_combout\ = ( \cpu1|sp[1]~0_combout\ & ( !\w_hold~q\ ) )
 
 -- pragma translate_off
 GENERIC MAP (
@@ -37396,7 +37397,7 @@ GENERIC MAP (
 	shared_arith => "off")
 -- pragma translate_on
 PORT MAP (
-	dataa => \ALT_INV_hold~q\,
+	dataa => \ALT_INV_w_hold~q\,
 	dataf => \cpu1|ALT_INV_sp[1]~0_combout\,
 	combout => \cpu1|sp[1]~1_combout\);
 
@@ -37439,7 +37440,7 @@ PORT MAP (
 -- Location: MLABCELL_X13_Y39_N57
 \cpu1|sp[10]~feeder\ : cyclonev_lcell_comb
 -- Equation(s):
--- \cpu1|sp[10]~feeder_combout\ = ( \cpuDataIn[2]~21_combout\ )
+-- \cpu1|sp[10]~feeder_combout\ = ( \w_cpuDataIn[2]~21_combout\ )
 
 -- pragma translate_off
 GENERIC MAP (
@@ -37448,7 +37449,7 @@ GENERIC MAP (
 	shared_arith => "off")
 -- pragma translate_on
 PORT MAP (
-	dataf => \ALT_INV_cpuDataIn[2]~21_combout\,
+	dataf => \ALT_INV_w_cpuDataIn[2]~21_combout\,
 	combout => \cpu1|sp[10]~feeder_combout\);
 
 -- Location: LABCELL_X5_Y36_N15
@@ -37605,7 +37606,7 @@ PORT MAP (
 -- Location: LABCELL_X12_Y36_N36
 \cpu1|Selector191~1\ : cyclonev_lcell_comb
 -- Equation(s):
--- \cpu1|Selector191~1_combout\ = ( !\n_if2CS~0_combout\ & ( (!\cpu1|Mux581~1_combout\ & ((((\cpu1|Selector191~0_combout\))))) # (\cpu1|Mux581~1_combout\ & ((!\n_if1CS~0_combout\ & (\cpuDataIn[2]~12_combout\)) # (\n_if1CS~0_combout\ & 
+-- \cpu1|Selector191~1_combout\ = ( !\n_if2CS~0_combout\ & ( (!\cpu1|Mux581~1_combout\ & ((((\cpu1|Selector191~0_combout\))))) # (\cpu1|Mux581~1_combout\ & ((!\n_if1CS~0_combout\ & (\w_cpuDataIn[2]~12_combout\)) # (\n_if1CS~0_combout\ & 
 -- (((\io1|dataOut\(2))))))) ) ) # ( \n_if2CS~0_combout\ & ( (!\cpu1|Mux581~1_combout\ & ((((\cpu1|Selector191~0_combout\))))) # (\cpu1|Mux581~1_combout\ & ((!\n_if1CS~0_combout\ & (\io2|dataOut\(2))) # (\n_if1CS~0_combout\ & (((\io1|dataOut\(2))))))) ) )
 
 -- pragma translate_off
@@ -37621,7 +37622,7 @@ PORT MAP (
 	datad => \io1|ALT_INV_dataOut\(2),
 	datae => \ALT_INV_n_if2CS~0_combout\,
 	dataf => \cpu1|ALT_INV_Selector191~0_combout\,
-	datag => \ALT_INV_cpuDataIn[2]~12_combout\,
+	datag => \ALT_INV_w_cpuDataIn[2]~12_combout\,
 	combout => \cpu1|Selector191~1_combout\);
 
 -- Location: LABCELL_X21_Y38_N15
@@ -37860,8 +37861,8 @@ PORT MAP (
 -- Location: MLABCELL_X18_Y43_N54
 \cpu1|acca[5]~4\ : cyclonev_lcell_comb
 -- Equation(s):
--- \cpu1|acca[5]~4_combout\ = ( \cpu1|Selector406~1_combout\ & ( \cpu1|acca[5]~1_combout\ & ( !\hold~q\ ) ) ) # ( !\cpu1|Selector406~1_combout\ & ( \cpu1|acca[5]~1_combout\ & ( !\hold~q\ ) ) ) # ( \cpu1|Selector406~1_combout\ & ( !\cpu1|acca[5]~1_combout\ & 
--- ( (!\hold~q\ & \cpu1|Selector406~3_combout\) ) ) ) # ( !\cpu1|Selector406~1_combout\ & ( !\cpu1|acca[5]~1_combout\ & ( (!\hold~q\ & (!\cpu1|state.decode1_state~q\ & \cpu1|Selector406~3_combout\)) ) ) )
+-- \cpu1|acca[5]~4_combout\ = ( \cpu1|Selector406~1_combout\ & ( \cpu1|acca[5]~1_combout\ & ( !\w_hold~q\ ) ) ) # ( !\cpu1|Selector406~1_combout\ & ( \cpu1|acca[5]~1_combout\ & ( !\w_hold~q\ ) ) ) # ( \cpu1|Selector406~1_combout\ & ( 
+-- !\cpu1|acca[5]~1_combout\ & ( (!\w_hold~q\ & \cpu1|Selector406~3_combout\) ) ) ) # ( !\cpu1|Selector406~1_combout\ & ( !\cpu1|acca[5]~1_combout\ & ( (!\w_hold~q\ & (!\cpu1|state.decode1_state~q\ & \cpu1|Selector406~3_combout\)) ) ) )
 
 -- pragma translate_off
 GENERIC MAP (
@@ -37870,7 +37871,7 @@ GENERIC MAP (
 	shared_arith => "off")
 -- pragma translate_on
 PORT MAP (
-	dataa => \ALT_INV_hold~q\,
+	dataa => \ALT_INV_w_hold~q\,
 	datab => \cpu1|ALT_INV_state.decode1_state~q\,
 	datac => \cpu1|ALT_INV_Selector406~3_combout\,
 	datae => \cpu1|ALT_INV_Selector406~1_combout\,
@@ -37896,7 +37897,7 @@ PORT MAP (
 -- Location: MLABCELL_X13_Y36_N9
 \cpu1|dp[2]~feeder\ : cyclonev_lcell_comb
 -- Equation(s):
--- \cpu1|dp[2]~feeder_combout\ = ( \cpuDataIn[2]~21_combout\ )
+-- \cpu1|dp[2]~feeder_combout\ = ( \w_cpuDataIn[2]~21_combout\ )
 
 -- pragma translate_off
 GENERIC MAP (
@@ -37905,7 +37906,7 @@ GENERIC MAP (
 	shared_arith => "off")
 -- pragma translate_on
 PORT MAP (
-	dataf => \ALT_INV_cpuDataIn[2]~21_combout\,
+	dataf => \ALT_INV_w_cpuDataIn[2]~21_combout\,
 	combout => \cpu1|dp[2]~feeder_combout\);
 
 -- Location: FF_X13_Y36_N11
@@ -38215,7 +38216,7 @@ GENERIC MAP (
 PORT MAP (
 	clk => \clk~inputCLKENA0_outclk\,
 	d => \cpu1|Selector82~0_combout\,
-	ena => \ALT_INV_hold~q\,
+	ena => \ALT_INV_w_hold~q\,
 	devclrn => ww_devclrn,
 	devpor => ww_devpor,
 	q => \cpu1|saved_state.int_nmimask_state~q\);
@@ -38223,9 +38224,9 @@ PORT MAP (
 -- Location: LABCELL_X21_Y41_N42
 \cpu1|state~417\ : cyclonev_lcell_comb
 -- Equation(s):
--- \cpu1|state~417_combout\ = ( \cpu1|state.int_nmimask_state~q\ & ( \cpu1|saved_state.int_nmimask_state~q\ ) ) # ( !\cpu1|state.int_nmimask_state~q\ & ( \cpu1|saved_state.int_nmimask_state~q\ & ( (!\hold~q\ & ((!\cpu1|state.int_cwai_state~q\) # 
+-- \cpu1|state~417_combout\ = ( \cpu1|state.int_nmimask_state~q\ & ( \cpu1|saved_state.int_nmimask_state~q\ ) ) # ( !\cpu1|state.int_nmimask_state~q\ & ( \cpu1|saved_state.int_nmimask_state~q\ & ( (!\w_hold~q\ & ((!\cpu1|state.int_cwai_state~q\) # 
 -- ((!\cpu1|state~339_combout\ & \cpu1|Selector582~18_combout\)))) ) ) ) # ( \cpu1|state.int_nmimask_state~q\ & ( !\cpu1|saved_state.int_nmimask_state~q\ & ( ((\cpu1|state.int_cwai_state~q\ & ((!\cpu1|Selector582~18_combout\) # (\cpu1|state~339_combout\)))) 
--- # (\hold~q\) ) ) )
+-- # (\w_hold~q\) ) ) )
 
 -- pragma translate_off
 GENERIC MAP (
@@ -38234,7 +38235,7 @@ GENERIC MAP (
 	shared_arith => "off")
 -- pragma translate_on
 PORT MAP (
-	dataa => \ALT_INV_hold~q\,
+	dataa => \ALT_INV_w_hold~q\,
 	datab => \cpu1|ALT_INV_state.int_cwai_state~q\,
 	datac => \cpu1|ALT_INV_state~339_combout\,
 	datad => \cpu1|ALT_INV_Selector582~18_combout\,
@@ -38268,9 +38269,9 @@ PORT MAP (
 -- Location: LABCELL_X20_Y41_N18
 \cpu1|state~418\ : cyclonev_lcell_comb
 -- Equation(s):
--- \cpu1|state~418_combout\ = ( \cpu1|state~417_combout\ & ( \cpu1|state~416_combout\ & ( (!\cpu1|state~415_combout\) # (((!\cpu1|state~411_combout\ & \cpu1|nmi_req~q\)) # (\hold~q\)) ) ) ) # ( !\cpu1|state~417_combout\ & ( \cpu1|state~416_combout\ & ( 
--- (!\cpu1|state~411_combout\ & (\cpu1|state~415_combout\ & (\cpu1|nmi_req~q\ & !\hold~q\))) ) ) ) # ( \cpu1|state~417_combout\ & ( !\cpu1|state~416_combout\ & ( ((!\cpu1|state~411_combout\ & \cpu1|nmi_req~q\)) # (\hold~q\) ) ) ) # ( 
--- !\cpu1|state~417_combout\ & ( !\cpu1|state~416_combout\ & ( (!\cpu1|state~411_combout\ & (\cpu1|nmi_req~q\ & !\hold~q\)) ) ) )
+-- \cpu1|state~418_combout\ = ( \cpu1|state~417_combout\ & ( \cpu1|state~416_combout\ & ( (!\cpu1|state~415_combout\) # (((!\cpu1|state~411_combout\ & \cpu1|nmi_req~q\)) # (\w_hold~q\)) ) ) ) # ( !\cpu1|state~417_combout\ & ( \cpu1|state~416_combout\ & ( 
+-- (!\cpu1|state~411_combout\ & (\cpu1|state~415_combout\ & (\cpu1|nmi_req~q\ & !\w_hold~q\))) ) ) ) # ( \cpu1|state~417_combout\ & ( !\cpu1|state~416_combout\ & ( ((!\cpu1|state~411_combout\ & \cpu1|nmi_req~q\)) # (\w_hold~q\) ) ) ) # ( 
+-- !\cpu1|state~417_combout\ & ( !\cpu1|state~416_combout\ & ( (!\cpu1|state~411_combout\ & (\cpu1|nmi_req~q\ & !\w_hold~q\)) ) ) )
 
 -- pragma translate_off
 GENERIC MAP (
@@ -38282,7 +38283,7 @@ PORT MAP (
 	dataa => \cpu1|ALT_INV_state~411_combout\,
 	datab => \cpu1|ALT_INV_state~415_combout\,
 	datac => \cpu1|ALT_INV_nmi_req~q\,
-	datad => \ALT_INV_hold~q\,
+	datad => \ALT_INV_w_hold~q\,
 	datae => \cpu1|ALT_INV_state~417_combout\,
 	dataf => \cpu1|ALT_INV_state~416_combout\,
 	combout => \cpu1|state~418_combout\);
@@ -38465,7 +38466,7 @@ PORT MAP (
 -- Location: LABCELL_X20_Y33_N15
 \mm1|proc_reg~0\ : cyclonev_lcell_comb
 -- Equation(s):
--- \mm1|proc_reg~0_combout\ = ( !\hold~q\ & ( \cpu1|Selector328~3_combout\ ) )
+-- \mm1|proc_reg~0_combout\ = ( !\w_hold~q\ & ( \cpu1|Selector328~3_combout\ ) )
 
 -- pragma translate_off
 GENERIC MAP (
@@ -38474,15 +38475,15 @@ GENERIC MAP (
 	shared_arith => "off")
 -- pragma translate_on
 PORT MAP (
-	datae => \ALT_INV_hold~q\,
+	datae => \ALT_INV_w_hold~q\,
 	dataf => \cpu1|ALT_INV_Selector328~3_combout\,
 	combout => \mm1|proc_reg~0_combout\);
 
 -- Location: LABCELL_X16_Y33_N18
 n_WR_sd : cyclonev_lcell_comb
 -- Equation(s):
--- \n_WR_sd~combout\ = LCELL(( \n_ROMCS~0_combout\ & ( \n_WR~q\ ) ) # ( !\n_ROMCS~0_combout\ & ( \n_WR~q\ ) ) # ( \n_ROMCS~0_combout\ & ( !\n_WR~q\ ) ) # ( !\n_ROMCS~0_combout\ & ( !\n_WR~q\ & ( (!\Equal3~0_combout\) # ((!\cpu1|Selector327~3_combout\) # 
--- (\mm1|amap~0_combout\)) ) ) ))
+-- \n_WR_sd~combout\ = LCELL(( \n_ROMCS~0_combout\ & ( \w_n_WR~q\ ) ) # ( !\n_ROMCS~0_combout\ & ( \w_n_WR~q\ ) ) # ( \n_ROMCS~0_combout\ & ( !\w_n_WR~q\ ) ) # ( !\n_ROMCS~0_combout\ & ( !\w_n_WR~q\ & ( (!\Equal3~0_combout\) # 
+-- ((!\cpu1|Selector327~3_combout\) # (\mm1|amap~0_combout\)) ) ) ))
 
 -- pragma translate_off
 GENERIC MAP (
@@ -38495,7 +38496,7 @@ PORT MAP (
 	datab => \mm1|ALT_INV_amap~0_combout\,
 	datad => \cpu1|ALT_INV_Selector327~3_combout\,
 	datae => \ALT_INV_n_ROMCS~0_combout\,
-	dataf => \ALT_INV_n_WR~q\,
+	dataf => \ALT_INV_w_n_WR~q\,
 	combout => \n_WR_sd~combout\);
 
 -- Location: LABCELL_X19_Y33_N12
@@ -38550,9 +38551,9 @@ PORT MAP (
 	q => \mm1|tenable~DUPLICATE_q\);
 
 -- Location: LABCELL_X20_Y32_N36
-\cpuDataIn~8\ : cyclonev_lcell_comb
+\w_cpuDataIn~8\ : cyclonev_lcell_comb
 -- Equation(s):
--- \cpuDataIn~8_combout\ = ( !\cpu1|Selector329~3_combout\ & ( (!\cpu1|Selector330~4_combout\ & (\sd1|dout\(1) & ((!\cpu1|Selector328~3_combout\)))) # (\cpu1|Selector330~4_combout\ & (((\mm1|tenable~DUPLICATE_q\ & \cpu1|Selector328~3_combout\)))) ) )
+-- \w_cpuDataIn~8_combout\ = ( !\cpu1|Selector329~3_combout\ & ( (!\cpu1|Selector330~4_combout\ & (\sd1|dout\(1) & ((!\cpu1|Selector328~3_combout\)))) # (\cpu1|Selector330~4_combout\ & (((\mm1|tenable~DUPLICATE_q\ & \cpu1|Selector328~3_combout\)))) ) )
 
 -- pragma translate_off
 GENERIC MAP (
@@ -38566,7 +38567,7 @@ PORT MAP (
 	datac => \mm1|ALT_INV_tenable~DUPLICATE_q\,
 	datad => \cpu1|ALT_INV_Selector328~3_combout\,
 	dataf => \cpu1|ALT_INV_Selector329~3_combout\,
-	combout => \cpuDataIn~8_combout\);
+	combout => \w_cpuDataIn~8_combout\);
 
 -- Location: MLABCELL_X18_Y34_N33
 \gpio1|Equal2~0\ : cyclonev_lcell_comb
@@ -38588,7 +38589,7 @@ PORT MAP (
 -- Location: LABCELL_X19_Y34_N6
 \gpio1|reg_ddr0[1]~0\ : cyclonev_lcell_comb
 -- Equation(s):
--- \gpio1|reg_ddr0[1]~0_combout\ = ( \gpio1|Equal2~0_combout\ & ( !\hold~q\ & ( (!\n_WR~q\ & \cpuDataIn[0]~3_combout\) ) ) )
+-- \gpio1|reg_ddr0[1]~0_combout\ = ( \gpio1|Equal2~0_combout\ & ( !\w_hold~q\ & ( (!\w_n_WR~q\ & \w_cpuDataIn[0]~3_combout\) ) ) )
 
 -- pragma translate_off
 GENERIC MAP (
@@ -38597,10 +38598,10 @@ GENERIC MAP (
 	shared_arith => "off")
 -- pragma translate_on
 PORT MAP (
-	dataa => \ALT_INV_n_WR~q\,
-	datac => \ALT_INV_cpuDataIn[0]~3_combout\,
+	dataa => \ALT_INV_w_n_WR~q\,
+	datac => \ALT_INV_w_cpuDataIn[0]~3_combout\,
 	datae => \gpio1|ALT_INV_Equal2~0_combout\,
-	dataf => \ALT_INV_hold~q\,
+	dataf => \ALT_INV_w_hold~q\,
 	combout => \gpio1|reg_ddr0[1]~0_combout\);
 
 -- Location: FF_X19_Y34_N5
@@ -38684,10 +38685,10 @@ PORT MAP (
 	q => \gpio1|reg_dat2\(1));
 
 -- Location: MLABCELL_X18_Y32_N54
-\cpuDataIn~7\ : cyclonev_lcell_comb
+\w_cpuDataIn~7\ : cyclonev_lcell_comb
 -- Equation(s):
--- \cpuDataIn~7_combout\ = ( \gpio1|reg\(0) & ( \cpu1|Selector330~4_combout\ & ( (\gpio1|Equal0~0_combout\ & (\gpio1|reg_ddr2\(1) & \gpio1|reg\(1))) ) ) ) # ( !\gpio1|reg\(0) & ( \cpu1|Selector330~4_combout\ & ( (\gpio1|Equal0~0_combout\ & (\gpio1|reg\(1) & 
--- \gpio1|reg_dat2\(1))) ) ) ) # ( \gpio1|reg\(0) & ( !\cpu1|Selector330~4_combout\ & ( (\gpio1|Equal0~0_combout\ & (\gpio1|reg_ddr2\(1) & \gpio1|reg\(1))) ) ) )
+-- \w_cpuDataIn~7_combout\ = ( \gpio1|reg\(0) & ( \cpu1|Selector330~4_combout\ & ( (\gpio1|Equal0~0_combout\ & (\gpio1|reg_ddr2\(1) & \gpio1|reg\(1))) ) ) ) # ( !\gpio1|reg\(0) & ( \cpu1|Selector330~4_combout\ & ( (\gpio1|Equal0~0_combout\ & (\gpio1|reg\(1) 
+-- & \gpio1|reg_dat2\(1))) ) ) ) # ( \gpio1|reg\(0) & ( !\cpu1|Selector330~4_combout\ & ( (\gpio1|Equal0~0_combout\ & (\gpio1|reg_ddr2\(1) & \gpio1|reg\(1))) ) ) )
 
 -- pragma translate_off
 GENERIC MAP (
@@ -38702,7 +38703,7 @@ PORT MAP (
 	datad => \gpio1|ALT_INV_reg_dat2\(1),
 	datae => \gpio1|ALT_INV_reg\(0),
 	dataf => \cpu1|ALT_INV_Selector330~4_combout\,
-	combout => \cpuDataIn~7_combout\);
+	combout => \w_cpuDataIn~7_combout\);
 
 -- Location: IOIBUF_X34_Y0_N35
 \gpio0[1]~input\ : cyclonev_io_ibuf
@@ -38718,7 +38719,7 @@ PORT MAP (
 -- Location: MLABCELL_X18_Y32_N27
 \gpio1|proc_dat0~0\ : cyclonev_lcell_comb
 -- Equation(s):
--- \gpio1|proc_dat0~0_combout\ = ( \gpio1|Equal0~0_combout\ & ( (!\gpio1|reg\(1) & (!\n_WR~q\ & (\cpuDataIn[0]~3_combout\ & !\gpio1|reg\(0)))) ) )
+-- \gpio1|proc_dat0~0_combout\ = ( \gpio1|Equal0~0_combout\ & ( (!\gpio1|reg\(1) & (!\w_n_WR~q\ & (\w_cpuDataIn[0]~3_combout\ & !\gpio1|reg\(0)))) ) )
 
 -- pragma translate_off
 GENERIC MAP (
@@ -38728,8 +38729,8 @@ GENERIC MAP (
 -- pragma translate_on
 PORT MAP (
 	dataa => \gpio1|ALT_INV_reg\(1),
-	datab => \ALT_INV_n_WR~q\,
-	datac => \ALT_INV_cpuDataIn[0]~3_combout\,
+	datab => \ALT_INV_w_n_WR~q\,
+	datac => \ALT_INV_w_cpuDataIn[0]~3_combout\,
 	datad => \gpio1|ALT_INV_reg\(0),
 	dataf => \gpio1|ALT_INV_Equal0~0_combout\,
 	combout => \gpio1|proc_dat0~0_combout\);
@@ -38771,11 +38772,11 @@ PORT MAP (
 	q => \gpio1|reg_dat0\(1));
 
 -- Location: LABCELL_X19_Y34_N30
-\cpuDataIn~79\ : cyclonev_lcell_comb
+\w_cpuDataIn~79\ : cyclonev_lcell_comb
 -- Equation(s):
--- \cpuDataIn~79_combout\ = ( !\gpio1|reg\(0) & ( (!\gpio1|reg\(1) & (\cpu1|Selector330~4_combout\ & ((!\gpio1|Equal0~0_combout\ & ((\cpuDataIn~7_combout\))) # (\gpio1|Equal0~0_combout\ & (\gpio1|reg_dat0\(1)))))) # (\gpio1|reg\(1) & 
--- ((((!\cpu1|Selector330~4_combout\) # (\cpuDataIn~7_combout\))))) ) ) # ( \gpio1|reg\(0) & ( (!\cpu1|Selector330~4_combout\ & (\gpio1|reg\(1))) # (\cpu1|Selector330~4_combout\ & (((!\gpio1|reg\(1) & (\gpio1|Equal0~0_combout\ & \gpio1|reg_ddr0\(1)))) # 
--- (\cpuDataIn~7_combout\))) ) )
+-- \w_cpuDataIn~79_combout\ = ( !\gpio1|reg\(0) & ( (!\gpio1|reg\(1) & (\cpu1|Selector330~4_combout\ & ((!\gpio1|Equal0~0_combout\ & ((\w_cpuDataIn~7_combout\))) # (\gpio1|Equal0~0_combout\ & (\gpio1|reg_dat0\(1)))))) # (\gpio1|reg\(1) & 
+-- ((((!\cpu1|Selector330~4_combout\) # (\w_cpuDataIn~7_combout\))))) ) ) # ( \gpio1|reg\(0) & ( (!\cpu1|Selector330~4_combout\ & (\gpio1|reg\(1))) # (\cpu1|Selector330~4_combout\ & (((!\gpio1|reg\(1) & (\gpio1|Equal0~0_combout\ & \gpio1|reg_ddr0\(1)))) # 
+-- (\w_cpuDataIn~7_combout\))) ) )
 
 -- pragma translate_off
 GENERIC MAP (
@@ -38789,15 +38790,15 @@ PORT MAP (
 	datac => \gpio1|ALT_INV_reg_ddr0\(1),
 	datad => \cpu1|ALT_INV_Selector330~4_combout\,
 	datae => \gpio1|ALT_INV_reg\(0),
-	dataf => \ALT_INV_cpuDataIn~7_combout\,
+	dataf => \ALT_INV_w_cpuDataIn~7_combout\,
 	datag => \gpio1|ALT_INV_reg_dat0\(1),
-	combout => \cpuDataIn~79_combout\);
+	combout => \w_cpuDataIn~79_combout\);
 
 -- Location: LABCELL_X19_Y34_N12
-\cpuDataIn~67\ : cyclonev_lcell_comb
+\w_cpuDataIn~67\ : cyclonev_lcell_comb
 -- Equation(s):
--- \cpuDataIn~67_combout\ = ( !\n_ROMCS~1_combout\ & ( (!\Equal5~1_combout\ & ((((\cpuDataIn~79_combout\))))) # (\Equal5~1_combout\ & ((!\Equal6~0_combout\ & (((\sramData[1]~input_o\)))) # (\Equal6~0_combout\ & (\cpuDataIn~8_combout\)))) ) ) # ( 
--- \n_ROMCS~1_combout\ & ( (!\Equal5~1_combout\ & ((((\cpuDataIn~79_combout\))))) # (\Equal5~1_combout\ & ((!\Equal6~0_combout\ & (((\rom1|altsyncram_component|auto_generated|q_a\(1))))) # (\Equal6~0_combout\ & (\cpuDataIn~8_combout\)))) ) )
+-- \w_cpuDataIn~67_combout\ = ( !\n_ROMCS~1_combout\ & ( (!\Equal5~1_combout\ & ((((\w_cpuDataIn~79_combout\))))) # (\Equal5~1_combout\ & ((!\Equal6~0_combout\ & (((\sramData[1]~input_o\)))) # (\Equal6~0_combout\ & (\w_cpuDataIn~8_combout\)))) ) ) # ( 
+-- \n_ROMCS~1_combout\ & ( (!\Equal5~1_combout\ & ((((\w_cpuDataIn~79_combout\))))) # (\Equal5~1_combout\ & ((!\Equal6~0_combout\ & (((\rom1|altsyncram_component|auto_generated|q_a\(1))))) # (\Equal6~0_combout\ & (\w_cpuDataIn~8_combout\)))) ) )
 
 -- pragma translate_off
 GENERIC MAP (
@@ -38807,18 +38808,18 @@ GENERIC MAP (
 -- pragma translate_on
 PORT MAP (
 	dataa => \ALT_INV_Equal6~0_combout\,
-	datab => \ALT_INV_cpuDataIn~8_combout\,
+	datab => \ALT_INV_w_cpuDataIn~8_combout\,
 	datac => \rom1|altsyncram_component|auto_generated|ALT_INV_q_a\(1),
 	datad => \ALT_INV_Equal5~1_combout\,
 	datae => \ALT_INV_n_ROMCS~1_combout\,
-	dataf => \ALT_INV_cpuDataIn~79_combout\,
+	dataf => \ALT_INV_w_cpuDataIn~79_combout\,
 	datag => \ALT_INV_sramData[1]~input_o\,
-	combout => \cpuDataIn~67_combout\);
+	combout => \w_cpuDataIn~67_combout\);
 
 -- Location: LABCELL_X12_Y38_N33
-\cpuDataIn[1]~20\ : cyclonev_lcell_comb
+\w_cpuDataIn[1]~20\ : cyclonev_lcell_comb
 -- Equation(s):
--- \cpuDataIn[1]~20_combout\ = ( \n_if1CS~0_combout\ & ( \io1|dataOut\(1) ) ) # ( !\n_if1CS~0_combout\ & ( (!\n_if2CS~0_combout\ & ((\cpuDataIn~67_combout\))) # (\n_if2CS~0_combout\ & (\io2|dataOut\(1))) ) )
+-- \w_cpuDataIn[1]~20_combout\ = ( \n_if1CS~0_combout\ & ( \io1|dataOut\(1) ) ) # ( !\n_if1CS~0_combout\ & ( (!\n_if2CS~0_combout\ & ((\w_cpuDataIn~67_combout\))) # (\n_if2CS~0_combout\ & (\io2|dataOut\(1))) ) )
 
 -- pragma translate_off
 GENERIC MAP (
@@ -38830,14 +38831,14 @@ PORT MAP (
 	dataa => \io2|ALT_INV_dataOut\(1),
 	datab => \io1|ALT_INV_dataOut\(1),
 	datac => \ALT_INV_n_if2CS~0_combout\,
-	datad => \ALT_INV_cpuDataIn~67_combout\,
+	datad => \ALT_INV_w_cpuDataIn~67_combout\,
 	dataf => \ALT_INV_n_if1CS~0_combout\,
-	combout => \cpuDataIn[1]~20_combout\);
+	combout => \w_cpuDataIn[1]~20_combout\);
 
 -- Location: MLABCELL_X13_Y39_N21
 \cpu1|sp[9]~feeder\ : cyclonev_lcell_comb
 -- Equation(s):
--- \cpu1|sp[9]~feeder_combout\ = ( \cpuDataIn[1]~20_combout\ )
+-- \cpu1|sp[9]~feeder_combout\ = ( \w_cpuDataIn[1]~20_combout\ )
 
 -- pragma translate_off
 GENERIC MAP (
@@ -38846,7 +38847,7 @@ GENERIC MAP (
 	shared_arith => "off")
 -- pragma translate_on
 PORT MAP (
-	dataf => \ALT_INV_cpuDataIn[1]~20_combout\,
+	dataf => \ALT_INV_w_cpuDataIn[1]~20_combout\,
 	combout => \cpu1|sp[9]~feeder_combout\);
 
 -- Location: LABCELL_X5_Y38_N0
@@ -38893,7 +38894,7 @@ PORT MAP (
 -- Location: MLABCELL_X18_Y35_N30
 \cpu1|accb[6]~feeder\ : cyclonev_lcell_comb
 -- Equation(s):
--- \cpu1|accb[6]~feeder_combout\ = \cpuDataIn[6]~44_combout\
+-- \cpu1|accb[6]~feeder_combout\ = \w_cpuDataIn[6]~44_combout\
 
 -- pragma translate_off
 GENERIC MAP (
@@ -38902,7 +38903,7 @@ GENERIC MAP (
 	shared_arith => "off")
 -- pragma translate_on
 PORT MAP (
-	datab => \ALT_INV_cpuDataIn[6]~44_combout\,
+	datab => \ALT_INV_w_cpuDataIn[6]~44_combout\,
 	combout => \cpu1|accb[6]~feeder_combout\);
 
 -- Location: FF_X18_Y35_N32
@@ -38966,7 +38967,7 @@ PORT MAP (
 -- Location: MLABCELL_X9_Y35_N27
 \cpu1|xreg[12]~feeder\ : cyclonev_lcell_comb
 -- Equation(s):
--- \cpu1|xreg[12]~feeder_combout\ = ( \cpuDataIn[4]~34_combout\ )
+-- \cpu1|xreg[12]~feeder_combout\ = ( \w_cpuDataIn[4]~34_combout\ )
 
 -- pragma translate_off
 GENERIC MAP (
@@ -38975,13 +38976,13 @@ GENERIC MAP (
 	shared_arith => "off")
 -- pragma translate_on
 PORT MAP (
-	dataf => \ALT_INV_cpuDataIn[4]~34_combout\,
+	dataf => \ALT_INV_w_cpuDataIn[4]~34_combout\,
 	combout => \cpu1|xreg[12]~feeder_combout\);
 
 -- Location: MLABCELL_X18_Y35_N9
 \cpu1|accb[4]~feeder\ : cyclonev_lcell_comb
 -- Equation(s):
--- \cpu1|accb[4]~feeder_combout\ = ( \cpuDataIn[4]~34_combout\ )
+-- \cpu1|accb[4]~feeder_combout\ = ( \w_cpuDataIn[4]~34_combout\ )
 
 -- pragma translate_off
 GENERIC MAP (
@@ -38990,7 +38991,7 @@ GENERIC MAP (
 	shared_arith => "off")
 -- pragma translate_on
 PORT MAP (
-	dataf => \ALT_INV_cpuDataIn[4]~34_combout\,
+	dataf => \ALT_INV_w_cpuDataIn[4]~34_combout\,
 	combout => \cpu1|accb[4]~feeder_combout\);
 
 -- Location: FF_X18_Y35_N11
@@ -39014,10 +39015,10 @@ PORT MAP (
 -- Location: LABCELL_X7_Y39_N24
 \cpu1|Selector270~0\ : cyclonev_lcell_comb
 -- Equation(s):
--- \cpu1|Selector270~0_combout\ = ( \cpuDataIn[7]~46_combout\ & ( \cpu1|md\(11) & ( (!\cpu1|md[10]~5_combout\ & (((!\cpu1|md[10]~4_combout\)) # (\cpu1|md\(4)))) # (\cpu1|md[10]~5_combout\ & (((\cpu1|md[10]~4_combout\) # (\cpu1|Selector375~3_combout\)))) ) ) 
--- ) # ( !\cpuDataIn[7]~46_combout\ & ( \cpu1|md\(11) & ( (!\cpu1|md[10]~5_combout\ & (((!\cpu1|md[10]~4_combout\)) # (\cpu1|md\(4)))) # (\cpu1|md[10]~5_combout\ & (((\cpu1|Selector375~3_combout\ & !\cpu1|md[10]~4_combout\)))) ) ) ) # ( 
--- \cpuDataIn[7]~46_combout\ & ( !\cpu1|md\(11) & ( (!\cpu1|md[10]~5_combout\ & (\cpu1|md\(4) & ((\cpu1|md[10]~4_combout\)))) # (\cpu1|md[10]~5_combout\ & (((\cpu1|md[10]~4_combout\) # (\cpu1|Selector375~3_combout\)))) ) ) ) # ( !\cpuDataIn[7]~46_combout\ & 
--- ( !\cpu1|md\(11) & ( (!\cpu1|md[10]~5_combout\ & (\cpu1|md\(4) & ((\cpu1|md[10]~4_combout\)))) # (\cpu1|md[10]~5_combout\ & (((\cpu1|Selector375~3_combout\ & !\cpu1|md[10]~4_combout\)))) ) ) )
+-- \cpu1|Selector270~0_combout\ = ( \w_cpuDataIn[7]~46_combout\ & ( \cpu1|md\(11) & ( (!\cpu1|md[10]~5_combout\ & (((!\cpu1|md[10]~4_combout\)) # (\cpu1|md\(4)))) # (\cpu1|md[10]~5_combout\ & (((\cpu1|md[10]~4_combout\) # (\cpu1|Selector375~3_combout\)))) ) 
+-- ) ) # ( !\w_cpuDataIn[7]~46_combout\ & ( \cpu1|md\(11) & ( (!\cpu1|md[10]~5_combout\ & (((!\cpu1|md[10]~4_combout\)) # (\cpu1|md\(4)))) # (\cpu1|md[10]~5_combout\ & (((\cpu1|Selector375~3_combout\ & !\cpu1|md[10]~4_combout\)))) ) ) ) # ( 
+-- \w_cpuDataIn[7]~46_combout\ & ( !\cpu1|md\(11) & ( (!\cpu1|md[10]~5_combout\ & (\cpu1|md\(4) & ((\cpu1|md[10]~4_combout\)))) # (\cpu1|md[10]~5_combout\ & (((\cpu1|md[10]~4_combout\) # (\cpu1|Selector375~3_combout\)))) ) ) ) # ( 
+-- !\w_cpuDataIn[7]~46_combout\ & ( !\cpu1|md\(11) & ( (!\cpu1|md[10]~5_combout\ & (\cpu1|md\(4) & ((\cpu1|md[10]~4_combout\)))) # (\cpu1|md[10]~5_combout\ & (((\cpu1|Selector375~3_combout\ & !\cpu1|md[10]~4_combout\)))) ) ) )
 
 -- pragma translate_off
 GENERIC MAP (
@@ -39030,7 +39031,7 @@ PORT MAP (
 	datab => \cpu1|ALT_INV_md[10]~5_combout\,
 	datac => \cpu1|ALT_INV_Selector375~3_combout\,
 	datad => \cpu1|ALT_INV_md[10]~4_combout\,
-	datae => \ALT_INV_cpuDataIn[7]~46_combout\,
+	datae => \ALT_INV_w_cpuDataIn[7]~46_combout\,
 	dataf => \cpu1|ALT_INV_md\(11),
 	combout => \cpu1|Selector270~0_combout\);
 
@@ -39071,7 +39072,7 @@ PORT MAP (
 -- Location: MLABCELL_X13_Y36_N0
 \cpu1|dp[4]~feeder\ : cyclonev_lcell_comb
 -- Equation(s):
--- \cpu1|dp[4]~feeder_combout\ = \cpuDataIn[4]~34_combout\
+-- \cpu1|dp[4]~feeder_combout\ = \w_cpuDataIn[4]~34_combout\
 
 -- pragma translate_off
 GENERIC MAP (
@@ -39080,7 +39081,7 @@ GENERIC MAP (
 	shared_arith => "off")
 -- pragma translate_on
 PORT MAP (
-	datac => \ALT_INV_cpuDataIn[4]~34_combout\,
+	datac => \ALT_INV_w_cpuDataIn[4]~34_combout\,
 	combout => \cpu1|dp[4]~feeder_combout\);
 
 -- Location: FF_X13_Y36_N2
@@ -39271,7 +39272,7 @@ PORT MAP (
 -- Location: LABCELL_X12_Y38_N39
 \cpu1|sp[4]~feeder\ : cyclonev_lcell_comb
 -- Equation(s):
--- \cpu1|sp[4]~feeder_combout\ = \cpuDataIn[4]~34_combout\
+-- \cpu1|sp[4]~feeder_combout\ = \w_cpuDataIn[4]~34_combout\
 
 -- pragma translate_off
 GENERIC MAP (
@@ -39280,7 +39281,7 @@ GENERIC MAP (
 	shared_arith => "off")
 -- pragma translate_on
 PORT MAP (
-	dataa => \ALT_INV_cpuDataIn[4]~34_combout\,
+	dataa => \ALT_INV_w_cpuDataIn[4]~34_combout\,
 	combout => \cpu1|sp[4]~feeder_combout\);
 
 -- Location: FF_X12_Y38_N41
@@ -39304,7 +39305,7 @@ PORT MAP (
 -- Location: MLABCELL_X9_Y34_N39
 \cpu1|yreg[4]~feeder\ : cyclonev_lcell_comb
 -- Equation(s):
--- \cpu1|yreg[4]~feeder_combout\ = ( \cpuDataIn[4]~34_combout\ )
+-- \cpu1|yreg[4]~feeder_combout\ = ( \w_cpuDataIn[4]~34_combout\ )
 
 -- pragma translate_off
 GENERIC MAP (
@@ -39313,7 +39314,7 @@ GENERIC MAP (
 	shared_arith => "off")
 -- pragma translate_on
 PORT MAP (
-	dataf => \ALT_INV_cpuDataIn[4]~34_combout\,
+	dataf => \ALT_INV_w_cpuDataIn[4]~34_combout\,
 	combout => \cpu1|yreg[4]~feeder_combout\);
 
 -- Location: MLABCELL_X9_Y34_N12
@@ -39491,7 +39492,7 @@ PORT MAP (
 -- Location: LABCELL_X17_Y36_N51
 \cpu1|xreg[4]~feeder\ : cyclonev_lcell_comb
 -- Equation(s):
--- \cpu1|xreg[4]~feeder_combout\ = ( \cpuDataIn[4]~34_combout\ )
+-- \cpu1|xreg[4]~feeder_combout\ = ( \w_cpuDataIn[4]~34_combout\ )
 
 -- pragma translate_off
 GENERIC MAP (
@@ -39500,7 +39501,7 @@ GENERIC MAP (
 	shared_arith => "off")
 -- pragma translate_on
 PORT MAP (
-	dataf => \ALT_INV_cpuDataIn[4]~34_combout\,
+	dataf => \ALT_INV_w_cpuDataIn[4]~34_combout\,
 	combout => \cpu1|xreg[4]~feeder_combout\);
 
 -- Location: MLABCELL_X9_Y35_N0
@@ -39538,7 +39539,7 @@ PORT MAP (
 -- Location: MLABCELL_X9_Y35_N51
 \cpu1|xreg[5]~4\ : cyclonev_lcell_comb
 -- Equation(s):
--- \cpu1|xreg[5]~4_combout\ = ( \cpu1|state.pulu_ixh_state~q\ & ( (\cpu1|ix_ctrl.load_ix~0_combout\ & !\hold~q\) ) ) # ( !\cpu1|state.pulu_ixh_state~q\ & ( (!\hold~q\ & (((\cpu1|addr~0_combout\ & \cpu1|Selector412~3_combout\)) # 
+-- \cpu1|xreg[5]~4_combout\ = ( \cpu1|state.pulu_ixh_state~q\ & ( (\cpu1|ix_ctrl.load_ix~0_combout\ & !\w_hold~q\) ) ) # ( !\cpu1|state.pulu_ixh_state~q\ & ( (!\w_hold~q\ & (((\cpu1|addr~0_combout\ & \cpu1|Selector412~3_combout\)) # 
 -- (\cpu1|ix_ctrl.load_ix~0_combout\))) ) )
 
 -- pragma translate_off
@@ -39549,7 +39550,7 @@ GENERIC MAP (
 -- pragma translate_on
 PORT MAP (
 	dataa => \cpu1|ALT_INV_ix_ctrl.load_ix~0_combout\,
-	datab => \ALT_INV_hold~q\,
+	datab => \ALT_INV_w_hold~q\,
 	datac => \cpu1|ALT_INV_addr~0_combout\,
 	datad => \cpu1|ALT_INV_Selector412~3_combout\,
 	dataf => \cpu1|ALT_INV_state.pulu_ixh_state~q\,
@@ -39708,7 +39709,7 @@ PORT MAP (
 -- Location: MLABCELL_X13_Y34_N36
 \cpu1|up[4]~feeder\ : cyclonev_lcell_comb
 -- Equation(s):
--- \cpu1|up[4]~feeder_combout\ = ( \cpuDataIn[4]~34_combout\ )
+-- \cpu1|up[4]~feeder_combout\ = ( \w_cpuDataIn[4]~34_combout\ )
 
 -- pragma translate_off
 GENERIC MAP (
@@ -39717,13 +39718,13 @@ GENERIC MAP (
 	shared_arith => "off")
 -- pragma translate_on
 PORT MAP (
-	dataf => \ALT_INV_cpuDataIn[4]~34_combout\,
+	dataf => \ALT_INV_w_cpuDataIn[4]~34_combout\,
 	combout => \cpu1|up[4]~feeder_combout\);
 
 -- Location: LABCELL_X10_Y41_N48
 \cpu1|up[0]~9\ : cyclonev_lcell_comb
 -- Equation(s):
--- \cpu1|up[0]~9_combout\ = ( \cpu1|Selector415~8_combout\ & ( (!\hold~q\ & (((!\cpu1|state.puls_uph_state~q\ & !\cpu1|state.rti_uph_state~q\)) # (\cpu1|up_ctrl.load_up~0_combout\))) ) ) # ( !\cpu1|Selector415~8_combout\ & ( (!\hold~q\ & 
+-- \cpu1|up[0]~9_combout\ = ( \cpu1|Selector415~8_combout\ & ( (!\w_hold~q\ & (((!\cpu1|state.puls_uph_state~q\ & !\cpu1|state.rti_uph_state~q\)) # (\cpu1|up_ctrl.load_up~0_combout\))) ) ) # ( !\cpu1|Selector415~8_combout\ & ( (!\w_hold~q\ & 
 -- \cpu1|up_ctrl.load_up~0_combout\) ) )
 
 -- pragma translate_off
@@ -39734,7 +39735,7 @@ GENERIC MAP (
 -- pragma translate_on
 PORT MAP (
 	dataa => \cpu1|ALT_INV_state.puls_uph_state~q\,
-	datab => \ALT_INV_hold~q\,
+	datab => \ALT_INV_w_hold~q\,
 	datac => \cpu1|ALT_INV_state.rti_uph_state~q\,
 	datad => \cpu1|ALT_INV_up_ctrl.load_up~0_combout\,
 	dataf => \cpu1|ALT_INV_Selector415~8_combout\,
@@ -39933,7 +39934,7 @@ PORT MAP (
 -- Location: LABCELL_X10_Y34_N15
 \cpu1|accb[2]~feeder\ : cyclonev_lcell_comb
 -- Equation(s):
--- \cpu1|accb[2]~feeder_combout\ = ( \cpuDataIn[2]~21_combout\ )
+-- \cpu1|accb[2]~feeder_combout\ = ( \w_cpuDataIn[2]~21_combout\ )
 
 -- pragma translate_off
 GENERIC MAP (
@@ -39942,7 +39943,7 @@ GENERIC MAP (
 	shared_arith => "off")
 -- pragma translate_on
 PORT MAP (
-	dataf => \ALT_INV_cpuDataIn[2]~21_combout\,
+	dataf => \ALT_INV_w_cpuDataIn[2]~21_combout\,
 	combout => \cpu1|accb[2]~feeder_combout\);
 
 -- Location: FF_X10_Y34_N17
@@ -40158,7 +40159,7 @@ PORT MAP (
 	asdata => \cpu1|state.mul6_state~q\,
 	clrn => \debounceReset|ALT_INV_o_PinOut~q\,
 	sload => \cpu1|ALT_INV_Selector582~18_combout\,
-	ena => \ALT_INV_hold~q\,
+	ena => \ALT_INV_w_hold~q\,
 	devclrn => ww_devclrn,
 	devpor => ww_devpor,
 	q => \cpu1|state.mul7_state~q\);
@@ -40490,7 +40491,7 @@ PORT MAP (
 -- Location: LABCELL_X17_Y36_N30
 \cpu1|xreg[2]~feeder\ : cyclonev_lcell_comb
 -- Equation(s):
--- \cpu1|xreg[2]~feeder_combout\ = ( \cpuDataIn[2]~21_combout\ )
+-- \cpu1|xreg[2]~feeder_combout\ = ( \w_cpuDataIn[2]~21_combout\ )
 
 -- pragma translate_off
 GENERIC MAP (
@@ -40499,7 +40500,7 @@ GENERIC MAP (
 	shared_arith => "off")
 -- pragma translate_on
 PORT MAP (
-	dataf => \ALT_INV_cpuDataIn[2]~21_combout\,
+	dataf => \ALT_INV_w_cpuDataIn[2]~21_combout\,
 	combout => \cpu1|xreg[2]~feeder_combout\);
 
 -- Location: FF_X17_Y36_N32
@@ -40539,7 +40540,7 @@ PORT MAP (
 -- Location: MLABCELL_X9_Y34_N42
 \cpu1|yreg[2]~feeder\ : cyclonev_lcell_comb
 -- Equation(s):
--- \cpu1|yreg[2]~feeder_combout\ = ( \cpuDataIn[2]~21_combout\ )
+-- \cpu1|yreg[2]~feeder_combout\ = ( \w_cpuDataIn[2]~21_combout\ )
 
 -- pragma translate_off
 GENERIC MAP (
@@ -40548,7 +40549,7 @@ GENERIC MAP (
 	shared_arith => "off")
 -- pragma translate_on
 PORT MAP (
-	dataf => \ALT_INV_cpuDataIn[2]~21_combout\,
+	dataf => \ALT_INV_w_cpuDataIn[2]~21_combout\,
 	combout => \cpu1|yreg[2]~feeder_combout\);
 
 -- Location: FF_X9_Y34_N44
@@ -40667,7 +40668,7 @@ PORT MAP (
 -- Location: MLABCELL_X13_Y36_N21
 \cpu1|dp[5]~feeder\ : cyclonev_lcell_comb
 -- Equation(s):
--- \cpu1|dp[5]~feeder_combout\ = \cpuDataIn[5]~39_combout\
+-- \cpu1|dp[5]~feeder_combout\ = \w_cpuDataIn[5]~39_combout\
 
 -- pragma translate_off
 GENERIC MAP (
@@ -40676,7 +40677,7 @@ GENERIC MAP (
 	shared_arith => "off")
 -- pragma translate_on
 PORT MAP (
-	datac => \ALT_INV_cpuDataIn[5]~39_combout\,
+	datac => \ALT_INV_w_cpuDataIn[5]~39_combout\,
 	combout => \cpu1|dp[5]~feeder_combout\);
 
 -- Location: FF_X13_Y36_N23
@@ -40737,8 +40738,8 @@ PORT MAP (
 -- Location: LABCELL_X7_Y39_N30
 \cpu1|Selector269~0\ : cyclonev_lcell_comb
 -- Equation(s):
--- \cpu1|Selector269~0_combout\ = ( \cpuDataIn[7]~46_combout\ & ( \cpu1|md[10]~4_combout\ & ( (\cpu1|md[10]~5_combout\) # (\cpu1|md\(5)) ) ) ) # ( !\cpuDataIn[7]~46_combout\ & ( \cpu1|md[10]~4_combout\ & ( (\cpu1|md\(5) & !\cpu1|md[10]~5_combout\) ) ) ) # ( 
--- \cpuDataIn[7]~46_combout\ & ( !\cpu1|md[10]~4_combout\ & ( (!\cpu1|md[10]~5_combout\ & (\cpu1|md\(12))) # (\cpu1|md[10]~5_combout\ & ((\cpu1|Selector374~3_combout\))) ) ) ) # ( !\cpuDataIn[7]~46_combout\ & ( !\cpu1|md[10]~4_combout\ & ( 
+-- \cpu1|Selector269~0_combout\ = ( \w_cpuDataIn[7]~46_combout\ & ( \cpu1|md[10]~4_combout\ & ( (\cpu1|md[10]~5_combout\) # (\cpu1|md\(5)) ) ) ) # ( !\w_cpuDataIn[7]~46_combout\ & ( \cpu1|md[10]~4_combout\ & ( (\cpu1|md\(5) & !\cpu1|md[10]~5_combout\) ) ) ) 
+-- # ( \w_cpuDataIn[7]~46_combout\ & ( !\cpu1|md[10]~4_combout\ & ( (!\cpu1|md[10]~5_combout\ & (\cpu1|md\(12))) # (\cpu1|md[10]~5_combout\ & ((\cpu1|Selector374~3_combout\))) ) ) ) # ( !\w_cpuDataIn[7]~46_combout\ & ( !\cpu1|md[10]~4_combout\ & ( 
 -- (!\cpu1|md[10]~5_combout\ & (\cpu1|md\(12))) # (\cpu1|md[10]~5_combout\ & ((\cpu1|Selector374~3_combout\))) ) ) )
 
 -- pragma translate_off
@@ -40752,7 +40753,7 @@ PORT MAP (
 	datab => \cpu1|ALT_INV_md[10]~5_combout\,
 	datac => \cpu1|ALT_INV_md\(12),
 	datad => \cpu1|ALT_INV_Selector374~3_combout\,
-	datae => \ALT_INV_cpuDataIn[7]~46_combout\,
+	datae => \ALT_INV_w_cpuDataIn[7]~46_combout\,
 	dataf => \cpu1|ALT_INV_md[10]~4_combout\,
 	combout => \cpu1|Selector269~0_combout\);
 
@@ -40868,9 +40869,9 @@ PORT MAP (
 -- Location: MLABCELL_X13_Y42_N6
 \cpu1|state~362\ : cyclonev_lcell_comb
 -- Equation(s):
--- \cpu1|state~362_combout\ = ( \cpu1|state~345_combout\ & ( \cpu1|state.rti_cc_state~q\ & ( (!\cpu1|state~338_combout\ & ((\cpu1|alu_ctrl.alu_add8~0_combout\) # (\hold~q\))) ) ) ) # ( !\cpu1|state~345_combout\ & ( \cpu1|state.rti_cc_state~q\ & ( 
--- (!\cpu1|state~338_combout\ & (((\cpu1|state~347_combout\) # (\cpu1|alu_ctrl.alu_add8~0_combout\)) # (\hold~q\))) ) ) ) # ( \cpu1|state~345_combout\ & ( !\cpu1|state.rti_cc_state~q\ & ( (!\cpu1|state~338_combout\ & (!\hold~q\ & 
--- \cpu1|alu_ctrl.alu_add8~0_combout\)) ) ) ) # ( !\cpu1|state~345_combout\ & ( !\cpu1|state.rti_cc_state~q\ & ( (!\cpu1|state~338_combout\ & (!\hold~q\ & (\cpu1|alu_ctrl.alu_add8~0_combout\ & !\cpu1|state~347_combout\))) ) ) )
+-- \cpu1|state~362_combout\ = ( \cpu1|state~345_combout\ & ( \cpu1|state.rti_cc_state~q\ & ( (!\cpu1|state~338_combout\ & ((\cpu1|alu_ctrl.alu_add8~0_combout\) # (\w_hold~q\))) ) ) ) # ( !\cpu1|state~345_combout\ & ( \cpu1|state.rti_cc_state~q\ & ( 
+-- (!\cpu1|state~338_combout\ & (((\cpu1|state~347_combout\) # (\cpu1|alu_ctrl.alu_add8~0_combout\)) # (\w_hold~q\))) ) ) ) # ( \cpu1|state~345_combout\ & ( !\cpu1|state.rti_cc_state~q\ & ( (!\cpu1|state~338_combout\ & (!\w_hold~q\ & 
+-- \cpu1|alu_ctrl.alu_add8~0_combout\)) ) ) ) # ( !\cpu1|state~345_combout\ & ( !\cpu1|state.rti_cc_state~q\ & ( (!\cpu1|state~338_combout\ & (!\w_hold~q\ & (\cpu1|alu_ctrl.alu_add8~0_combout\ & !\cpu1|state~347_combout\))) ) ) )
 
 -- pragma translate_off
 GENERIC MAP (
@@ -40880,7 +40881,7 @@ GENERIC MAP (
 -- pragma translate_on
 PORT MAP (
 	dataa => \cpu1|ALT_INV_state~338_combout\,
-	datab => \ALT_INV_hold~q\,
+	datab => \ALT_INV_w_hold~q\,
 	datac => \cpu1|ALT_INV_alu_ctrl.alu_add8~0_combout\,
 	datad => \cpu1|ALT_INV_state~347_combout\,
 	datae => \cpu1|ALT_INV_state~345_combout\,
@@ -41104,8 +41105,8 @@ PORT MAP (
 -- Location: LABCELL_X21_Y36_N54
 \cpu1|Selector285~1\ : cyclonev_lcell_comb
 -- Equation(s):
--- \cpu1|Selector285~1_combout\ = ( \cpuDataIn[5]~40_combout\ & ( \cpu1|Selector285~0_combout\ ) ) # ( !\cpuDataIn[5]~40_combout\ & ( \cpu1|Selector285~0_combout\ ) ) # ( \cpuDataIn[5]~40_combout\ & ( !\cpu1|Selector285~0_combout\ & ( 
--- (\cpu1|cc_ctrl.pull_cc~2_combout\ & ((!\n_if1CS~0_combout\) # (\io1|dataOut\(5)))) ) ) ) # ( !\cpuDataIn[5]~40_combout\ & ( !\cpu1|Selector285~0_combout\ & ( (\cpu1|cc_ctrl.pull_cc~2_combout\ & ((!\n_if1CS~0_combout\ & ((\cpuDataIn[5]~37_combout\))) # 
+-- \cpu1|Selector285~1_combout\ = ( \w_cpuDataIn[5]~40_combout\ & ( \cpu1|Selector285~0_combout\ ) ) # ( !\w_cpuDataIn[5]~40_combout\ & ( \cpu1|Selector285~0_combout\ ) ) # ( \w_cpuDataIn[5]~40_combout\ & ( !\cpu1|Selector285~0_combout\ & ( 
+-- (\cpu1|cc_ctrl.pull_cc~2_combout\ & ((!\n_if1CS~0_combout\) # (\io1|dataOut\(5)))) ) ) ) # ( !\w_cpuDataIn[5]~40_combout\ & ( !\cpu1|Selector285~0_combout\ & ( (\cpu1|cc_ctrl.pull_cc~2_combout\ & ((!\n_if1CS~0_combout\ & ((\w_cpuDataIn[5]~37_combout\))) # 
 -- (\n_if1CS~0_combout\ & (\io1|dataOut\(5))))) ) ) )
 
 -- pragma translate_off
@@ -41118,8 +41119,8 @@ PORT MAP (
 	dataa => \io1|ALT_INV_dataOut\(5),
 	datab => \ALT_INV_n_if1CS~0_combout\,
 	datac => \cpu1|ALT_INV_cc_ctrl.pull_cc~2_combout\,
-	datad => \ALT_INV_cpuDataIn[5]~37_combout\,
-	datae => \ALT_INV_cpuDataIn[5]~40_combout\,
+	datad => \ALT_INV_w_cpuDataIn[5]~37_combout\,
+	datae => \ALT_INV_w_cpuDataIn[5]~40_combout\,
 	dataf => \cpu1|ALT_INV_Selector285~0_combout\,
 	combout => \cpu1|Selector285~1_combout\);
 
@@ -41133,7 +41134,7 @@ GENERIC MAP (
 PORT MAP (
 	clk => \clk~inputCLKENA0_outclk\,
 	d => \cpu1|Selector285~1_combout\,
-	ena => \ALT_INV_hold~q\,
+	ena => \ALT_INV_w_hold~q\,
 	devclrn => ww_devclrn,
 	devpor => ww_devpor,
 	q => \cpu1|cc\(5));
@@ -41141,7 +41142,7 @@ PORT MAP (
 -- Location: MLABCELL_X18_Y35_N51
 \cpu1|accb[1]~feeder\ : cyclonev_lcell_comb
 -- Equation(s):
--- \cpu1|accb[1]~feeder_combout\ = ( \cpuDataIn[1]~20_combout\ )
+-- \cpu1|accb[1]~feeder_combout\ = ( \w_cpuDataIn[1]~20_combout\ )
 
 -- pragma translate_off
 GENERIC MAP (
@@ -41150,7 +41151,7 @@ GENERIC MAP (
 	shared_arith => "off")
 -- pragma translate_on
 PORT MAP (
-	dataf => \ALT_INV_cpuDataIn[1]~20_combout\,
+	dataf => \ALT_INV_w_cpuDataIn[1]~20_combout\,
 	combout => \cpu1|accb[1]~feeder_combout\);
 
 -- Location: FF_X18_Y35_N53
@@ -41174,7 +41175,7 @@ PORT MAP (
 -- Location: MLABCELL_X9_Y34_N18
 \cpu1|yreg[1]~feeder\ : cyclonev_lcell_comb
 -- Equation(s):
--- \cpu1|yreg[1]~feeder_combout\ = ( \cpuDataIn[1]~20_combout\ )
+-- \cpu1|yreg[1]~feeder_combout\ = ( \w_cpuDataIn[1]~20_combout\ )
 
 -- pragma translate_off
 GENERIC MAP (
@@ -41183,7 +41184,7 @@ GENERIC MAP (
 	shared_arith => "off")
 -- pragma translate_on
 PORT MAP (
-	dataf => \ALT_INV_cpuDataIn[1]~20_combout\,
+	dataf => \ALT_INV_w_cpuDataIn[1]~20_combout\,
 	combout => \cpu1|yreg[1]~feeder_combout\);
 
 -- Location: FF_X9_Y34_N20
@@ -41331,7 +41332,7 @@ PORT MAP (
 -- Location: LABCELL_X16_Y38_N12
 \cpu1|up[1]~feeder\ : cyclonev_lcell_comb
 -- Equation(s):
--- \cpu1|up[1]~feeder_combout\ = ( \cpuDataIn[1]~20_combout\ )
+-- \cpu1|up[1]~feeder_combout\ = ( \w_cpuDataIn[1]~20_combout\ )
 
 -- pragma translate_off
 GENERIC MAP (
@@ -41340,7 +41341,7 @@ GENERIC MAP (
 	shared_arith => "off")
 -- pragma translate_on
 PORT MAP (
-	dataf => \ALT_INV_cpuDataIn[1]~20_combout\,
+	dataf => \ALT_INV_w_cpuDataIn[1]~20_combout\,
 	combout => \cpu1|up[1]~feeder_combout\);
 
 -- Location: FF_X16_Y38_N14
@@ -41384,7 +41385,7 @@ PORT MAP (
 -- Location: LABCELL_X12_Y38_N30
 \cpu1|sp[1]~feeder\ : cyclonev_lcell_comb
 -- Equation(s):
--- \cpu1|sp[1]~feeder_combout\ = ( \cpuDataIn[1]~20_combout\ )
+-- \cpu1|sp[1]~feeder_combout\ = ( \w_cpuDataIn[1]~20_combout\ )
 
 -- pragma translate_off
 GENERIC MAP (
@@ -41393,7 +41394,7 @@ GENERIC MAP (
 	shared_arith => "off")
 -- pragma translate_on
 PORT MAP (
-	dataf => \ALT_INV_cpuDataIn[1]~20_combout\,
+	dataf => \ALT_INV_w_cpuDataIn[1]~20_combout\,
 	combout => \cpu1|sp[1]~feeder_combout\);
 
 -- Location: FF_X12_Y38_N32
@@ -41587,7 +41588,7 @@ PORT MAP (
 \cpu1|Selector289~1\ : cyclonev_lcell_comb
 -- Equation(s):
 -- \cpu1|Selector289~1_combout\ = ( \n_if2CS~0_combout\ & ( \n_if1CS~0_combout\ & ( (\cpu1|cc_ctrl.pull_cc~2_combout\ & \io1|dataOut\(1)) ) ) ) # ( !\n_if2CS~0_combout\ & ( \n_if1CS~0_combout\ & ( (\cpu1|cc_ctrl.pull_cc~2_combout\ & \io1|dataOut\(1)) ) ) ) # 
--- ( \n_if2CS~0_combout\ & ( !\n_if1CS~0_combout\ & ( (\io2|dataOut\(1) & \cpu1|cc_ctrl.pull_cc~2_combout\) ) ) ) # ( !\n_if2CS~0_combout\ & ( !\n_if1CS~0_combout\ & ( (\cpuDataIn~67_combout\ & \cpu1|cc_ctrl.pull_cc~2_combout\) ) ) )
+-- ( \n_if2CS~0_combout\ & ( !\n_if1CS~0_combout\ & ( (\io2|dataOut\(1) & \cpu1|cc_ctrl.pull_cc~2_combout\) ) ) ) # ( !\n_if2CS~0_combout\ & ( !\n_if1CS~0_combout\ & ( (\w_cpuDataIn~67_combout\ & \cpu1|cc_ctrl.pull_cc~2_combout\) ) ) )
 
 -- pragma translate_off
 GENERIC MAP (
@@ -41597,7 +41598,7 @@ GENERIC MAP (
 -- pragma translate_on
 PORT MAP (
 	dataa => \io2|ALT_INV_dataOut\(1),
-	datab => \ALT_INV_cpuDataIn~67_combout\,
+	datab => \ALT_INV_w_cpuDataIn~67_combout\,
 	datac => \cpu1|ALT_INV_cc_ctrl.pull_cc~2_combout\,
 	datad => \io1|ALT_INV_dataOut\(1),
 	datae => \ALT_INV_n_if2CS~0_combout\,
@@ -41701,8 +41702,8 @@ PORT MAP (
 -- Location: LABCELL_X7_Y39_N6
 \cpu1|Selector268~0\ : cyclonev_lcell_comb
 -- Equation(s):
--- \cpu1|Selector268~0_combout\ = ( \cpuDataIn[7]~46_combout\ & ( \cpu1|md[10]~4_combout\ & ( (\cpu1|md[10]~5_combout\) # (\cpu1|md\(6)) ) ) ) # ( !\cpuDataIn[7]~46_combout\ & ( \cpu1|md[10]~4_combout\ & ( (\cpu1|md\(6) & !\cpu1|md[10]~5_combout\) ) ) ) # ( 
--- \cpuDataIn[7]~46_combout\ & ( !\cpu1|md[10]~4_combout\ & ( (!\cpu1|md[10]~5_combout\ & ((\cpu1|md\(13)))) # (\cpu1|md[10]~5_combout\ & (\cpu1|Selector373~3_combout\)) ) ) ) # ( !\cpuDataIn[7]~46_combout\ & ( !\cpu1|md[10]~4_combout\ & ( 
+-- \cpu1|Selector268~0_combout\ = ( \w_cpuDataIn[7]~46_combout\ & ( \cpu1|md[10]~4_combout\ & ( (\cpu1|md[10]~5_combout\) # (\cpu1|md\(6)) ) ) ) # ( !\w_cpuDataIn[7]~46_combout\ & ( \cpu1|md[10]~4_combout\ & ( (\cpu1|md\(6) & !\cpu1|md[10]~5_combout\) ) ) ) 
+-- # ( \w_cpuDataIn[7]~46_combout\ & ( !\cpu1|md[10]~4_combout\ & ( (!\cpu1|md[10]~5_combout\ & ((\cpu1|md\(13)))) # (\cpu1|md[10]~5_combout\ & (\cpu1|Selector373~3_combout\)) ) ) ) # ( !\w_cpuDataIn[7]~46_combout\ & ( !\cpu1|md[10]~4_combout\ & ( 
 -- (!\cpu1|md[10]~5_combout\ & ((\cpu1|md\(13)))) # (\cpu1|md[10]~5_combout\ & (\cpu1|Selector373~3_combout\)) ) ) )
 
 -- pragma translate_off
@@ -41716,7 +41717,7 @@ PORT MAP (
 	datab => \cpu1|ALT_INV_md\(13),
 	datac => \cpu1|ALT_INV_md\(6),
 	datad => \cpu1|ALT_INV_md[10]~5_combout\,
-	datae => \ALT_INV_cpuDataIn[7]~46_combout\,
+	datae => \ALT_INV_w_cpuDataIn[7]~46_combout\,
 	dataf => \cpu1|ALT_INV_md[10]~4_combout\,
 	combout => \cpu1|Selector268~0_combout\);
 
@@ -41779,7 +41780,7 @@ PORT MAP (
 -- Location: MLABCELL_X13_Y36_N54
 \cpu1|dp[6]~feeder\ : cyclonev_lcell_comb
 -- Equation(s):
--- \cpu1|dp[6]~feeder_combout\ = ( \cpuDataIn[6]~44_combout\ )
+-- \cpu1|dp[6]~feeder_combout\ = ( \w_cpuDataIn[6]~44_combout\ )
 
 -- pragma translate_off
 GENERIC MAP (
@@ -41788,7 +41789,7 @@ GENERIC MAP (
 	shared_arith => "off")
 -- pragma translate_on
 PORT MAP (
-	dataf => \ALT_INV_cpuDataIn[6]~44_combout\,
+	dataf => \ALT_INV_w_cpuDataIn[6]~44_combout\,
 	combout => \cpu1|dp[6]~feeder_combout\);
 
 -- Location: FF_X13_Y36_N56
@@ -42103,10 +42104,10 @@ PORT MAP (
 -- Location: LABCELL_X7_Y39_N36
 \cpu1|Selector267~0\ : cyclonev_lcell_comb
 -- Equation(s):
--- \cpu1|Selector267~0_combout\ = ( \cpuDataIn[7]~46_combout\ & ( \cpu1|Selector372~3_combout\ & ( ((!\cpu1|md[10]~4_combout\ & ((\cpu1|md\(14)))) # (\cpu1|md[10]~4_combout\ & (\cpu1|md\(7)))) # (\cpu1|md[10]~5_combout\) ) ) ) # ( !\cpuDataIn[7]~46_combout\ 
--- & ( \cpu1|Selector372~3_combout\ & ( (!\cpu1|md[10]~5_combout\ & ((!\cpu1|md[10]~4_combout\ & ((\cpu1|md\(14)))) # (\cpu1|md[10]~4_combout\ & (\cpu1|md\(7))))) # (\cpu1|md[10]~5_combout\ & (!\cpu1|md[10]~4_combout\)) ) ) ) # ( \cpuDataIn[7]~46_combout\ & 
--- ( !\cpu1|Selector372~3_combout\ & ( (!\cpu1|md[10]~5_combout\ & ((!\cpu1|md[10]~4_combout\ & ((\cpu1|md\(14)))) # (\cpu1|md[10]~4_combout\ & (\cpu1|md\(7))))) # (\cpu1|md[10]~5_combout\ & (\cpu1|md[10]~4_combout\)) ) ) ) # ( !\cpuDataIn[7]~46_combout\ & ( 
--- !\cpu1|Selector372~3_combout\ & ( (!\cpu1|md[10]~5_combout\ & ((!\cpu1|md[10]~4_combout\ & ((\cpu1|md\(14)))) # (\cpu1|md[10]~4_combout\ & (\cpu1|md\(7))))) ) ) )
+-- \cpu1|Selector267~0_combout\ = ( \w_cpuDataIn[7]~46_combout\ & ( \cpu1|Selector372~3_combout\ & ( ((!\cpu1|md[10]~4_combout\ & ((\cpu1|md\(14)))) # (\cpu1|md[10]~4_combout\ & (\cpu1|md\(7)))) # (\cpu1|md[10]~5_combout\) ) ) ) # ( 
+-- !\w_cpuDataIn[7]~46_combout\ & ( \cpu1|Selector372~3_combout\ & ( (!\cpu1|md[10]~5_combout\ & ((!\cpu1|md[10]~4_combout\ & ((\cpu1|md\(14)))) # (\cpu1|md[10]~4_combout\ & (\cpu1|md\(7))))) # (\cpu1|md[10]~5_combout\ & (!\cpu1|md[10]~4_combout\)) ) ) ) # ( 
+-- \w_cpuDataIn[7]~46_combout\ & ( !\cpu1|Selector372~3_combout\ & ( (!\cpu1|md[10]~5_combout\ & ((!\cpu1|md[10]~4_combout\ & ((\cpu1|md\(14)))) # (\cpu1|md[10]~4_combout\ & (\cpu1|md\(7))))) # (\cpu1|md[10]~5_combout\ & (\cpu1|md[10]~4_combout\)) ) ) ) # ( 
+-- !\w_cpuDataIn[7]~46_combout\ & ( !\cpu1|Selector372~3_combout\ & ( (!\cpu1|md[10]~5_combout\ & ((!\cpu1|md[10]~4_combout\ & ((\cpu1|md\(14)))) # (\cpu1|md[10]~4_combout\ & (\cpu1|md\(7))))) ) ) )
 
 -- pragma translate_off
 GENERIC MAP (
@@ -42119,7 +42120,7 @@ PORT MAP (
 	datab => \cpu1|ALT_INV_md[10]~4_combout\,
 	datac => \cpu1|ALT_INV_md\(7),
 	datad => \cpu1|ALT_INV_md\(14),
-	datae => \ALT_INV_cpuDataIn[7]~46_combout\,
+	datae => \ALT_INV_w_cpuDataIn[7]~46_combout\,
 	dataf => \cpu1|ALT_INV_Selector372~3_combout\,
 	combout => \cpu1|Selector267~0_combout\);
 
@@ -42142,7 +42143,7 @@ PORT MAP (
 -- Location: MLABCELL_X13_Y36_N12
 \cpu1|dp[7]~feeder\ : cyclonev_lcell_comb
 -- Equation(s):
--- \cpu1|dp[7]~feeder_combout\ = ( \cpuDataIn[7]~46_combout\ )
+-- \cpu1|dp[7]~feeder_combout\ = ( \w_cpuDataIn[7]~46_combout\ )
 
 -- pragma translate_off
 GENERIC MAP (
@@ -42151,7 +42152,7 @@ GENERIC MAP (
 	shared_arith => "off")
 -- pragma translate_on
 PORT MAP (
-	dataf => \ALT_INV_cpuDataIn[7]~46_combout\,
+	dataf => \ALT_INV_w_cpuDataIn[7]~46_combout\,
 	combout => \cpu1|dp[7]~feeder_combout\);
 
 -- Location: FF_X13_Y36_N14
@@ -42415,10 +42416,10 @@ PORT MAP (
 -- Location: MLABCELL_X13_Y37_N54
 \cpu1|Selector154~0\ : cyclonev_lcell_comb
 -- Equation(s):
--- \cpu1|Selector154~0_combout\ = ( \cpuDataIn[7]~46_combout\ & ( \cpu1|Selector372~1_combout\ & ( (!\cpu1|Selector421~1_combout\ & (\cpu1|Add0~61_sumout\)) # (\cpu1|Selector421~1_combout\ & (((!\cpu1|WideOr79~combout\) # (!\cpu1|Selector372~2_combout\)))) ) 
--- ) ) # ( !\cpuDataIn[7]~46_combout\ & ( \cpu1|Selector372~1_combout\ & ( (!\cpu1|Selector421~1_combout\ & (\cpu1|Add0~61_sumout\)) # (\cpu1|Selector421~1_combout\ & (((\cpu1|WideOr79~combout\ & !\cpu1|Selector372~2_combout\)))) ) ) ) # ( 
--- \cpuDataIn[7]~46_combout\ & ( !\cpu1|Selector372~1_combout\ & ( (\cpu1|Selector421~1_combout\) # (\cpu1|Add0~61_sumout\) ) ) ) # ( !\cpuDataIn[7]~46_combout\ & ( !\cpu1|Selector372~1_combout\ & ( (!\cpu1|Selector421~1_combout\ & (\cpu1|Add0~61_sumout\)) # 
--- (\cpu1|Selector421~1_combout\ & ((\cpu1|WideOr79~combout\))) ) ) )
+-- \cpu1|Selector154~0_combout\ = ( \w_cpuDataIn[7]~46_combout\ & ( \cpu1|Selector372~1_combout\ & ( (!\cpu1|Selector421~1_combout\ & (\cpu1|Add0~61_sumout\)) # (\cpu1|Selector421~1_combout\ & (((!\cpu1|WideOr79~combout\) # (!\cpu1|Selector372~2_combout\)))) 
+-- ) ) ) # ( !\w_cpuDataIn[7]~46_combout\ & ( \cpu1|Selector372~1_combout\ & ( (!\cpu1|Selector421~1_combout\ & (\cpu1|Add0~61_sumout\)) # (\cpu1|Selector421~1_combout\ & (((\cpu1|WideOr79~combout\ & !\cpu1|Selector372~2_combout\)))) ) ) ) # ( 
+-- \w_cpuDataIn[7]~46_combout\ & ( !\cpu1|Selector372~1_combout\ & ( (\cpu1|Selector421~1_combout\) # (\cpu1|Add0~61_sumout\) ) ) ) # ( !\w_cpuDataIn[7]~46_combout\ & ( !\cpu1|Selector372~1_combout\ & ( (!\cpu1|Selector421~1_combout\ & 
+-- (\cpu1|Add0~61_sumout\)) # (\cpu1|Selector421~1_combout\ & ((\cpu1|WideOr79~combout\))) ) ) )
 
 -- pragma translate_off
 GENERIC MAP (
@@ -42431,7 +42432,7 @@ PORT MAP (
 	datab => \cpu1|ALT_INV_WideOr79~combout\,
 	datac => \cpu1|ALT_INV_Selector372~2_combout\,
 	datad => \cpu1|ALT_INV_Selector421~1_combout\,
-	datae => \ALT_INV_cpuDataIn[7]~46_combout\,
+	datae => \ALT_INV_w_cpuDataIn[7]~46_combout\,
 	dataf => \cpu1|ALT_INV_Selector372~1_combout\,
 	combout => \cpu1|Selector154~0_combout\);
 
@@ -42455,7 +42456,7 @@ PORT MAP (
 \cpu1|Selector287~1\ : cyclonev_lcell_comb
 -- Equation(s):
 -- \cpu1|Selector287~1_combout\ = ( \cpu1|cc_ctrl.pull_cc~2_combout\ & ( \n_if2CS~0_combout\ & ( (!\n_if1CS~0_combout\ & ((\io2|dataOut\(3)))) # (\n_if1CS~0_combout\ & (\io1|dataOut\(3))) ) ) ) # ( \cpu1|cc_ctrl.pull_cc~2_combout\ & ( !\n_if2CS~0_combout\ & 
--- ( (!\n_if1CS~0_combout\ & ((\cpuDataIn[3]~22_combout\))) # (\n_if1CS~0_combout\ & (\io1|dataOut\(3))) ) ) )
+-- ( (!\n_if1CS~0_combout\ & ((\w_cpuDataIn[3]~22_combout\))) # (\n_if1CS~0_combout\ & (\io1|dataOut\(3))) ) ) )
 
 -- pragma translate_off
 GENERIC MAP (
@@ -42467,7 +42468,7 @@ PORT MAP (
 	dataa => \io1|ALT_INV_dataOut\(3),
 	datab => \ALT_INV_n_if1CS~0_combout\,
 	datac => \io2|ALT_INV_dataOut\(3),
-	datad => \ALT_INV_cpuDataIn[3]~22_combout\,
+	datad => \ALT_INV_w_cpuDataIn[3]~22_combout\,
 	datae => \cpu1|ALT_INV_cc_ctrl.pull_cc~2_combout\,
 	dataf => \ALT_INV_n_if2CS~0_combout\,
 	combout => \cpu1|Selector287~1_combout\);
@@ -42654,7 +42655,7 @@ GENERIC MAP (
 PORT MAP (
 	clk => \clk~inputCLKENA0_outclk\,
 	d => \cpu1|Selector287~4_combout\,
-	ena => \ALT_INV_hold~q\,
+	ena => \ALT_INV_w_hold~q\,
 	devclrn => ww_devclrn,
 	devpor => ww_devpor,
 	q => \cpu1|cc\(3));
@@ -42865,7 +42866,7 @@ PORT MAP (
 	asdata => \cpu1|state.puls_pch_state~q\,
 	clrn => \debounceReset|ALT_INV_o_PinOut~q\,
 	sload => \cpu1|ALT_INV_Selector582~18_combout\,
-	ena => \ALT_INV_hold~q\,
+	ena => \ALT_INV_w_hold~q\,
 	devclrn => ww_devclrn,
 	devpor => ww_devpor,
 	q => \cpu1|state.puls_pcl_state~q\);
@@ -42904,7 +42905,7 @@ PORT MAP (
 	asdata => \cpu1|state.pull_return_hi_state~q\,
 	clrn => \debounceReset|ALT_INV_o_PinOut~q\,
 	sload => \cpu1|ALT_INV_Selector582~18_combout\,
-	ena => \ALT_INV_hold~q\,
+	ena => \ALT_INV_w_hold~q\,
 	devclrn => ww_devclrn,
 	devpor => ww_devpor,
 	q => \cpu1|state.pull_return_lo_state~q\);
@@ -42988,7 +42989,7 @@ PORT MAP (
 -- Location: LABCELL_X21_Y42_N9
 \cpu1|pc[8]~1\ : cyclonev_lcell_comb
 -- Equation(s):
--- \cpu1|pc[8]~1_combout\ = ( !\hold~q\ & ( (!\cpu1|state.decode3_state~q\) # ((!\cpu1|op_code\(6) & \cpu1|op_code\(7))) ) )
+-- \cpu1|pc[8]~1_combout\ = ( !\w_hold~q\ & ( (!\cpu1|state.decode3_state~q\) # ((!\cpu1|op_code\(6) & \cpu1|op_code\(7))) ) )
 
 -- pragma translate_off
 GENERIC MAP (
@@ -43000,7 +43001,7 @@ PORT MAP (
 	dataa => \cpu1|ALT_INV_op_code\(6),
 	datac => \cpu1|ALT_INV_op_code\(7),
 	datad => \cpu1|ALT_INV_state.decode3_state~q\,
-	dataf => \ALT_INV_hold~q\,
+	dataf => \ALT_INV_w_hold~q\,
 	combout => \cpu1|pc[8]~1_combout\);
 
 -- Location: LABCELL_X21_Y42_N48
@@ -43114,7 +43115,7 @@ PORT MAP (
 -- Location: LABCELL_X14_Y39_N9
 \cpu1|up[15]~feeder\ : cyclonev_lcell_comb
 -- Equation(s):
--- \cpu1|up[15]~feeder_combout\ = ( \cpuDataIn[7]~46_combout\ )
+-- \cpu1|up[15]~feeder_combout\ = ( \w_cpuDataIn[7]~46_combout\ )
 
 -- pragma translate_off
 GENERIC MAP (
@@ -43123,7 +43124,7 @@ GENERIC MAP (
 	shared_arith => "off")
 -- pragma translate_on
 PORT MAP (
-	dataf => \ALT_INV_cpuDataIn[7]~46_combout\,
+	dataf => \ALT_INV_w_cpuDataIn[7]~46_combout\,
 	combout => \cpu1|up[15]~feeder_combout\);
 
 -- Location: FF_X14_Y39_N11
@@ -43147,7 +43148,7 @@ PORT MAP (
 -- Location: LABCELL_X10_Y40_N27
 \cpu1|yreg[15]~feeder\ : cyclonev_lcell_comb
 -- Equation(s):
--- \cpu1|yreg[15]~feeder_combout\ = ( \cpuDataIn[7]~46_combout\ )
+-- \cpu1|yreg[15]~feeder_combout\ = ( \w_cpuDataIn[7]~46_combout\ )
 
 -- pragma translate_off
 GENERIC MAP (
@@ -43156,7 +43157,7 @@ GENERIC MAP (
 	shared_arith => "off")
 -- pragma translate_on
 PORT MAP (
-	dataf => \ALT_INV_cpuDataIn[7]~46_combout\,
+	dataf => \ALT_INV_w_cpuDataIn[7]~46_combout\,
 	combout => \cpu1|yreg[15]~feeder_combout\);
 
 -- Location: FF_X10_Y40_N29
@@ -43236,7 +43237,7 @@ PORT MAP (
 -- Location: MLABCELL_X13_Y39_N27
 \cpu1|sp[15]~feeder\ : cyclonev_lcell_comb
 -- Equation(s):
--- \cpu1|sp[15]~feeder_combout\ = ( \cpuDataIn[7]~46_combout\ )
+-- \cpu1|sp[15]~feeder_combout\ = ( \w_cpuDataIn[7]~46_combout\ )
 
 -- pragma translate_off
 GENERIC MAP (
@@ -43245,7 +43246,7 @@ GENERIC MAP (
 	shared_arith => "off")
 -- pragma translate_on
 PORT MAP (
-	dataf => \ALT_INV_cpuDataIn[7]~46_combout\,
+	dataf => \ALT_INV_w_cpuDataIn[7]~46_combout\,
 	combout => \cpu1|sp[15]~feeder_combout\);
 
 -- Location: FF_X13_Y39_N29
@@ -43339,7 +43340,7 @@ GENERIC MAP (
 PORT MAP (
 	clk => \clk~inputCLKENA0_outclk\,
 	d => \cpu1|Selector289~2_combout\,
-	ena => \ALT_INV_hold~q\,
+	ena => \ALT_INV_w_hold~q\,
 	devclrn => ww_devclrn,
 	devpor => ww_devpor,
 	q => \cpu1|cc\(1));
@@ -43347,7 +43348,7 @@ PORT MAP (
 -- Location: MLABCELL_X13_Y36_N33
 \cpu1|dp[1]~feeder\ : cyclonev_lcell_comb
 -- Equation(s):
--- \cpu1|dp[1]~feeder_combout\ = ( \cpuDataIn[1]~20_combout\ )
+-- \cpu1|dp[1]~feeder_combout\ = ( \w_cpuDataIn[1]~20_combout\ )
 
 -- pragma translate_off
 GENERIC MAP (
@@ -43356,7 +43357,7 @@ GENERIC MAP (
 	shared_arith => "off")
 -- pragma translate_on
 PORT MAP (
-	dataf => \ALT_INV_cpuDataIn[1]~20_combout\,
+	dataf => \ALT_INV_w_cpuDataIn[1]~20_combout\,
 	combout => \cpu1|dp[1]~feeder_combout\);
 
 -- Location: FF_X13_Y36_N35
@@ -43423,7 +43424,7 @@ PORT MAP (
 -- Location: LABCELL_X17_Y36_N18
 \cpu1|xreg[1]~feeder\ : cyclonev_lcell_comb
 -- Equation(s):
--- \cpu1|xreg[1]~feeder_combout\ = ( \cpuDataIn[1]~20_combout\ )
+-- \cpu1|xreg[1]~feeder_combout\ = ( \w_cpuDataIn[1]~20_combout\ )
 
 -- pragma translate_off
 GENERIC MAP (
@@ -43432,7 +43433,7 @@ GENERIC MAP (
 	shared_arith => "off")
 -- pragma translate_on
 PORT MAP (
-	dataf => \ALT_INV_cpuDataIn[1]~20_combout\,
+	dataf => \ALT_INV_w_cpuDataIn[1]~20_combout\,
 	combout => \cpu1|xreg[1]~feeder_combout\);
 
 -- Location: FF_X17_Y36_N20
@@ -43877,8 +43878,8 @@ PORT MAP (
 -- Location: LABCELL_X10_Y34_N36
 \cpu1|Selector288~1\ : cyclonev_lcell_comb
 -- Equation(s):
--- \cpu1|Selector288~1_combout\ = ( \cpu1|cc_ctrl.pull_cc~2_combout\ & ( \cpuDataIn[2]~12_combout\ & ( (!\n_if1CS~0_combout\ & ((!\n_if2CS~0_combout\) # ((\io2|dataOut\(2))))) # (\n_if1CS~0_combout\ & (((\io1|dataOut\(2))))) ) ) ) # ( 
--- \cpu1|cc_ctrl.pull_cc~2_combout\ & ( !\cpuDataIn[2]~12_combout\ & ( (!\n_if1CS~0_combout\ & (\n_if2CS~0_combout\ & ((\io2|dataOut\(2))))) # (\n_if1CS~0_combout\ & (((\io1|dataOut\(2))))) ) ) )
+-- \cpu1|Selector288~1_combout\ = ( \cpu1|cc_ctrl.pull_cc~2_combout\ & ( \w_cpuDataIn[2]~12_combout\ & ( (!\n_if1CS~0_combout\ & ((!\n_if2CS~0_combout\) # ((\io2|dataOut\(2))))) # (\n_if1CS~0_combout\ & (((\io1|dataOut\(2))))) ) ) ) # ( 
+-- \cpu1|cc_ctrl.pull_cc~2_combout\ & ( !\w_cpuDataIn[2]~12_combout\ & ( (!\n_if1CS~0_combout\ & (\n_if2CS~0_combout\ & ((\io2|dataOut\(2))))) # (\n_if1CS~0_combout\ & (((\io1|dataOut\(2))))) ) ) )
 
 -- pragma translate_off
 GENERIC MAP (
@@ -43892,7 +43893,7 @@ PORT MAP (
 	datac => \io1|ALT_INV_dataOut\(2),
 	datad => \io2|ALT_INV_dataOut\(2),
 	datae => \cpu1|ALT_INV_cc_ctrl.pull_cc~2_combout\,
-	dataf => \ALT_INV_cpuDataIn[2]~12_combout\,
+	dataf => \ALT_INV_w_cpuDataIn[2]~12_combout\,
 	combout => \cpu1|Selector288~1_combout\);
 
 -- Location: LABCELL_X6_Y35_N42
@@ -44004,7 +44005,7 @@ GENERIC MAP (
 PORT MAP (
 	clk => \clk~inputCLKENA0_outclk\,
 	d => \cpu1|Selector288~2_combout\,
-	ena => \ALT_INV_hold~q\,
+	ena => \ALT_INV_w_hold~q\,
 	devclrn => ww_devclrn,
 	devpor => ww_devpor,
 	q => \cpu1|cc\(2));
@@ -44134,7 +44135,7 @@ PORT MAP (
 -- Location: MLABCELL_X18_Y35_N12
 \cpu1|accb[0]~feeder\ : cyclonev_lcell_comb
 -- Equation(s):
--- \cpu1|accb[0]~feeder_combout\ = ( \cpuDataIn[0]~5_combout\ )
+-- \cpu1|accb[0]~feeder_combout\ = ( \w_cpuDataIn[0]~5_combout\ )
 
 -- pragma translate_off
 GENERIC MAP (
@@ -44143,7 +44144,7 @@ GENERIC MAP (
 	shared_arith => "off")
 -- pragma translate_on
 PORT MAP (
-	dataf => \ALT_INV_cpuDataIn[0]~5_combout\,
+	dataf => \ALT_INV_w_cpuDataIn[0]~5_combout\,
 	combout => \cpu1|accb[0]~feeder_combout\);
 
 -- Location: FF_X18_Y35_N14
@@ -44540,10 +44541,10 @@ PORT MAP (
 -- Location: LABCELL_X12_Y36_N24
 \cpu1|Selector189~1\ : cyclonev_lcell_comb
 -- Equation(s):
--- \cpu1|Selector189~1_combout\ = ( \cpuDataIn[4]~29_combout\ & ( \cpu1|Selector189~0_combout\ & ( (\cpu1|Mux581~1_combout\ & ((!\n_if1CS~0_combout\) # (\io1|dataOut\(4)))) ) ) ) # ( !\cpuDataIn[4]~29_combout\ & ( \cpu1|Selector189~0_combout\ & ( 
--- (\cpu1|Mux581~1_combout\ & ((!\n_if1CS~0_combout\ & ((\cpuDataIn[4]~35_combout\))) # (\n_if1CS~0_combout\ & (\io1|dataOut\(4))))) ) ) ) # ( \cpuDataIn[4]~29_combout\ & ( !\cpu1|Selector189~0_combout\ & ( ((!\n_if1CS~0_combout\) # 
--- (!\cpu1|Mux581~1_combout\)) # (\io1|dataOut\(4)) ) ) ) # ( !\cpuDataIn[4]~29_combout\ & ( !\cpu1|Selector189~0_combout\ & ( (!\cpu1|Mux581~1_combout\) # ((!\n_if1CS~0_combout\ & ((\cpuDataIn[4]~35_combout\))) # (\n_if1CS~0_combout\ & (\io1|dataOut\(4)))) 
--- ) ) )
+-- \cpu1|Selector189~1_combout\ = ( \w_cpuDataIn[4]~29_combout\ & ( \cpu1|Selector189~0_combout\ & ( (\cpu1|Mux581~1_combout\ & ((!\n_if1CS~0_combout\) # (\io1|dataOut\(4)))) ) ) ) # ( !\w_cpuDataIn[4]~29_combout\ & ( \cpu1|Selector189~0_combout\ & ( 
+-- (\cpu1|Mux581~1_combout\ & ((!\n_if1CS~0_combout\ & ((\w_cpuDataIn[4]~35_combout\))) # (\n_if1CS~0_combout\ & (\io1|dataOut\(4))))) ) ) ) # ( \w_cpuDataIn[4]~29_combout\ & ( !\cpu1|Selector189~0_combout\ & ( ((!\n_if1CS~0_combout\) # 
+-- (!\cpu1|Mux581~1_combout\)) # (\io1|dataOut\(4)) ) ) ) # ( !\w_cpuDataIn[4]~29_combout\ & ( !\cpu1|Selector189~0_combout\ & ( (!\cpu1|Mux581~1_combout\) # ((!\n_if1CS~0_combout\ & ((\w_cpuDataIn[4]~35_combout\))) # (\n_if1CS~0_combout\ & 
+-- (\io1|dataOut\(4)))) ) ) )
 
 -- pragma translate_off
 GENERIC MAP (
@@ -44555,8 +44556,8 @@ PORT MAP (
 	dataa => \io1|ALT_INV_dataOut\(4),
 	datab => \ALT_INV_n_if1CS~0_combout\,
 	datac => \cpu1|ALT_INV_Mux581~1_combout\,
-	datad => \ALT_INV_cpuDataIn[4]~35_combout\,
-	datae => \ALT_INV_cpuDataIn[4]~29_combout\,
+	datad => \ALT_INV_w_cpuDataIn[4]~35_combout\,
+	datae => \ALT_INV_w_cpuDataIn[4]~29_combout\,
 	dataf => \cpu1|ALT_INV_Selector189~0_combout\,
 	combout => \cpu1|Selector189~1_combout\);
 
@@ -44943,7 +44944,7 @@ PORT MAP (
 -- Location: LABCELL_X10_Y40_N3
 \cpu1|yreg[12]~feeder\ : cyclonev_lcell_comb
 -- Equation(s):
--- \cpu1|yreg[12]~feeder_combout\ = ( \cpuDataIn[4]~34_combout\ )
+-- \cpu1|yreg[12]~feeder_combout\ = ( \w_cpuDataIn[4]~34_combout\ )
 
 -- pragma translate_off
 GENERIC MAP (
@@ -44952,7 +44953,7 @@ GENERIC MAP (
 	shared_arith => "off")
 -- pragma translate_on
 PORT MAP (
-	dataf => \ALT_INV_cpuDataIn[4]~34_combout\,
+	dataf => \ALT_INV_w_cpuDataIn[4]~34_combout\,
 	combout => \cpu1|yreg[12]~feeder_combout\);
 
 -- Location: FF_X10_Y40_N5
@@ -45014,7 +45015,7 @@ PORT MAP (
 -- Location: LABCELL_X14_Y39_N54
 \cpu1|up[12]~feeder\ : cyclonev_lcell_comb
 -- Equation(s):
--- \cpu1|up[12]~feeder_combout\ = ( \cpuDataIn[4]~34_combout\ )
+-- \cpu1|up[12]~feeder_combout\ = ( \w_cpuDataIn[4]~34_combout\ )
 
 -- pragma translate_off
 GENERIC MAP (
@@ -45023,7 +45024,7 @@ GENERIC MAP (
 	shared_arith => "off")
 -- pragma translate_on
 PORT MAP (
-	dataf => \ALT_INV_cpuDataIn[4]~34_combout\,
+	dataf => \ALT_INV_w_cpuDataIn[4]~34_combout\,
 	combout => \cpu1|up[12]~feeder_combout\);
 
 -- Location: FF_X14_Y39_N56
@@ -45166,10 +45167,10 @@ PORT MAP (
 -- Location: LABCELL_X12_Y36_N45
 \cpu1|Selector188~1\ : cyclonev_lcell_comb
 -- Equation(s):
--- \cpu1|Selector188~1_combout\ = ( \cpuDataIn[5]~37_combout\ & ( \cpu1|Selector188~0_combout\ & ( (\cpu1|Mux581~1_combout\ & ((!\n_if1CS~0_combout\) # (\io1|dataOut\(5)))) ) ) ) # ( !\cpuDataIn[5]~37_combout\ & ( \cpu1|Selector188~0_combout\ & ( 
--- (\cpu1|Mux581~1_combout\ & ((!\n_if1CS~0_combout\ & (\cpuDataIn[5]~40_combout\)) # (\n_if1CS~0_combout\ & ((\io1|dataOut\(5)))))) ) ) ) # ( \cpuDataIn[5]~37_combout\ & ( !\cpu1|Selector188~0_combout\ & ( ((!\n_if1CS~0_combout\) # 
--- (!\cpu1|Mux581~1_combout\)) # (\io1|dataOut\(5)) ) ) ) # ( !\cpuDataIn[5]~37_combout\ & ( !\cpu1|Selector188~0_combout\ & ( (!\cpu1|Mux581~1_combout\) # ((!\n_if1CS~0_combout\ & (\cpuDataIn[5]~40_combout\)) # (\n_if1CS~0_combout\ & ((\io1|dataOut\(5))))) 
--- ) ) )
+-- \cpu1|Selector188~1_combout\ = ( \w_cpuDataIn[5]~37_combout\ & ( \cpu1|Selector188~0_combout\ & ( (\cpu1|Mux581~1_combout\ & ((!\n_if1CS~0_combout\) # (\io1|dataOut\(5)))) ) ) ) # ( !\w_cpuDataIn[5]~37_combout\ & ( \cpu1|Selector188~0_combout\ & ( 
+-- (\cpu1|Mux581~1_combout\ & ((!\n_if1CS~0_combout\ & (\w_cpuDataIn[5]~40_combout\)) # (\n_if1CS~0_combout\ & ((\io1|dataOut\(5)))))) ) ) ) # ( \w_cpuDataIn[5]~37_combout\ & ( !\cpu1|Selector188~0_combout\ & ( ((!\n_if1CS~0_combout\) # 
+-- (!\cpu1|Mux581~1_combout\)) # (\io1|dataOut\(5)) ) ) ) # ( !\w_cpuDataIn[5]~37_combout\ & ( !\cpu1|Selector188~0_combout\ & ( (!\cpu1|Mux581~1_combout\) # ((!\n_if1CS~0_combout\ & (\w_cpuDataIn[5]~40_combout\)) # (\n_if1CS~0_combout\ & 
+-- ((\io1|dataOut\(5))))) ) ) )
 
 -- pragma translate_off
 GENERIC MAP (
@@ -45178,11 +45179,11 @@ GENERIC MAP (
 	shared_arith => "off")
 -- pragma translate_on
 PORT MAP (
-	dataa => \ALT_INV_cpuDataIn[5]~40_combout\,
+	dataa => \ALT_INV_w_cpuDataIn[5]~40_combout\,
 	datab => \io1|ALT_INV_dataOut\(5),
 	datac => \ALT_INV_n_if1CS~0_combout\,
 	datad => \cpu1|ALT_INV_Mux581~1_combout\,
-	datae => \ALT_INV_cpuDataIn[5]~37_combout\,
+	datae => \ALT_INV_w_cpuDataIn[5]~37_combout\,
 	dataf => \cpu1|ALT_INV_Selector188~0_combout\,
 	combout => \cpu1|Selector188~1_combout\);
 
@@ -45205,7 +45206,7 @@ PORT MAP (
 -- Location: LABCELL_X12_Y38_N54
 \cpu1|sp[5]~feeder\ : cyclonev_lcell_comb
 -- Equation(s):
--- \cpu1|sp[5]~feeder_combout\ = \cpuDataIn[5]~39_combout\
+-- \cpu1|sp[5]~feeder_combout\ = \w_cpuDataIn[5]~39_combout\
 
 -- pragma translate_off
 GENERIC MAP (
@@ -45214,7 +45215,7 @@ GENERIC MAP (
 	shared_arith => "off")
 -- pragma translate_on
 PORT MAP (
-	datab => \ALT_INV_cpuDataIn[5]~39_combout\,
+	datab => \ALT_INV_w_cpuDataIn[5]~39_combout\,
 	combout => \cpu1|sp[5]~feeder_combout\);
 
 -- Location: FF_X12_Y38_N56
@@ -45238,7 +45239,7 @@ PORT MAP (
 -- Location: LABCELL_X17_Y36_N15
 \cpu1|xreg[5]~feeder\ : cyclonev_lcell_comb
 -- Equation(s):
--- \cpu1|xreg[5]~feeder_combout\ = ( \cpuDataIn[5]~39_combout\ )
+-- \cpu1|xreg[5]~feeder_combout\ = ( \w_cpuDataIn[5]~39_combout\ )
 
 -- pragma translate_off
 GENERIC MAP (
@@ -45247,7 +45248,7 @@ GENERIC MAP (
 	shared_arith => "off")
 -- pragma translate_on
 PORT MAP (
-	dataf => \ALT_INV_cpuDataIn[5]~39_combout\,
+	dataf => \ALT_INV_w_cpuDataIn[5]~39_combout\,
 	combout => \cpu1|xreg[5]~feeder_combout\);
 
 -- Location: FF_X17_Y36_N17
@@ -45271,7 +45272,7 @@ PORT MAP (
 -- Location: MLABCELL_X9_Y34_N33
 \cpu1|yreg[5]~feeder\ : cyclonev_lcell_comb
 -- Equation(s):
--- \cpu1|yreg[5]~feeder_combout\ = ( \cpuDataIn[5]~39_combout\ )
+-- \cpu1|yreg[5]~feeder_combout\ = ( \w_cpuDataIn[5]~39_combout\ )
 
 -- pragma translate_off
 GENERIC MAP (
@@ -45280,7 +45281,7 @@ GENERIC MAP (
 	shared_arith => "off")
 -- pragma translate_on
 PORT MAP (
-	dataf => \ALT_INV_cpuDataIn[5]~39_combout\,
+	dataf => \ALT_INV_w_cpuDataIn[5]~39_combout\,
 	combout => \cpu1|yreg[5]~feeder_combout\);
 
 -- Location: FF_X9_Y34_N35
@@ -45365,7 +45366,7 @@ PORT MAP (
 -- Location: MLABCELL_X13_Y35_N18
 \cpu1|up[5]~feeder\ : cyclonev_lcell_comb
 -- Equation(s):
--- \cpu1|up[5]~feeder_combout\ = ( \cpuDataIn[5]~39_combout\ )
+-- \cpu1|up[5]~feeder_combout\ = ( \w_cpuDataIn[5]~39_combout\ )
 
 -- pragma translate_off
 GENERIC MAP (
@@ -45374,7 +45375,7 @@ GENERIC MAP (
 	shared_arith => "off")
 -- pragma translate_on
 PORT MAP (
-	dataf => \ALT_INV_cpuDataIn[5]~39_combout\,
+	dataf => \ALT_INV_w_cpuDataIn[5]~39_combout\,
 	combout => \cpu1|up[5]~feeder_combout\);
 
 -- Location: FF_X13_Y35_N20
@@ -45670,8 +45671,8 @@ PORT MAP (
 \cpu1|Selector192~1\ : cyclonev_lcell_comb
 -- Equation(s):
 -- \cpu1|Selector192~1_combout\ = ( \n_if1CS~0_combout\ & ( \cpu1|Selector192~0_combout\ & ( (\cpu1|Mux581~1_combout\ & \io1|dataOut\(1)) ) ) ) # ( !\n_if1CS~0_combout\ & ( \cpu1|Selector192~0_combout\ & ( (\cpu1|Mux581~1_combout\ & 
--- ((\cpuDataIn[1]~9_combout\) # (\cpuDataIn[1]~6_combout\))) ) ) ) # ( \n_if1CS~0_combout\ & ( !\cpu1|Selector192~0_combout\ & ( (!\cpu1|Mux581~1_combout\) # (\io1|dataOut\(1)) ) ) ) # ( !\n_if1CS~0_combout\ & ( !\cpu1|Selector192~0_combout\ & ( 
--- (!\cpu1|Mux581~1_combout\) # ((\cpuDataIn[1]~9_combout\) # (\cpuDataIn[1]~6_combout\)) ) ) )
+-- ((\w_cpuDataIn[1]~9_combout\) # (\w_cpuDataIn[1]~6_combout\))) ) ) ) # ( \n_if1CS~0_combout\ & ( !\cpu1|Selector192~0_combout\ & ( (!\cpu1|Mux581~1_combout\) # (\io1|dataOut\(1)) ) ) ) # ( !\n_if1CS~0_combout\ & ( !\cpu1|Selector192~0_combout\ & ( 
+-- (!\cpu1|Mux581~1_combout\) # ((\w_cpuDataIn[1]~9_combout\) # (\w_cpuDataIn[1]~6_combout\)) ) ) )
 
 -- pragma translate_off
 GENERIC MAP (
@@ -45681,9 +45682,9 @@ GENERIC MAP (
 -- pragma translate_on
 PORT MAP (
 	dataa => \cpu1|ALT_INV_Mux581~1_combout\,
-	datab => \ALT_INV_cpuDataIn[1]~6_combout\,
+	datab => \ALT_INV_w_cpuDataIn[1]~6_combout\,
 	datac => \io1|ALT_INV_dataOut\(1),
-	datad => \ALT_INV_cpuDataIn[1]~9_combout\,
+	datad => \ALT_INV_w_cpuDataIn[1]~9_combout\,
 	datae => \ALT_INV_n_if1CS~0_combout\,
 	dataf => \cpu1|ALT_INV_Selector192~0_combout\,
 	combout => \cpu1|Selector192~1_combout\);
@@ -45835,7 +45836,7 @@ PORT MAP (
 -- Location: LABCELL_X14_Y39_N33
 \cpu1|up[9]~feeder\ : cyclonev_lcell_comb
 -- Equation(s):
--- \cpu1|up[9]~feeder_combout\ = ( \cpuDataIn[1]~20_combout\ )
+-- \cpu1|up[9]~feeder_combout\ = ( \w_cpuDataIn[1]~20_combout\ )
 
 -- pragma translate_off
 GENERIC MAP (
@@ -45844,7 +45845,7 @@ GENERIC MAP (
 	shared_arith => "off")
 -- pragma translate_on
 PORT MAP (
-	dataf => \ALT_INV_cpuDataIn[1]~20_combout\,
+	dataf => \ALT_INV_w_cpuDataIn[1]~20_combout\,
 	combout => \cpu1|up[9]~feeder_combout\);
 
 -- Location: FF_X14_Y39_N35
@@ -45868,7 +45869,7 @@ PORT MAP (
 -- Location: MLABCELL_X9_Y35_N45
 \cpu1|xreg[9]~feeder\ : cyclonev_lcell_comb
 -- Equation(s):
--- \cpu1|xreg[9]~feeder_combout\ = ( \cpuDataIn[1]~20_combout\ )
+-- \cpu1|xreg[9]~feeder_combout\ = ( \w_cpuDataIn[1]~20_combout\ )
 
 -- pragma translate_off
 GENERIC MAP (
@@ -45877,7 +45878,7 @@ GENERIC MAP (
 	shared_arith => "off")
 -- pragma translate_on
 PORT MAP (
-	dataf => \ALT_INV_cpuDataIn[1]~20_combout\,
+	dataf => \ALT_INV_w_cpuDataIn[1]~20_combout\,
 	combout => \cpu1|xreg[9]~feeder_combout\);
 
 -- Location: FF_X9_Y35_N47
@@ -45901,7 +45902,7 @@ PORT MAP (
 -- Location: LABCELL_X10_Y40_N51
 \cpu1|yreg[9]~feeder\ : cyclonev_lcell_comb
 -- Equation(s):
--- \cpu1|yreg[9]~feeder_combout\ = \cpuDataIn[1]~20_combout\
+-- \cpu1|yreg[9]~feeder_combout\ = \w_cpuDataIn[1]~20_combout\
 
 -- pragma translate_off
 GENERIC MAP (
@@ -45910,7 +45911,7 @@ GENERIC MAP (
 	shared_arith => "off")
 -- pragma translate_on
 PORT MAP (
-	datac => \ALT_INV_cpuDataIn[1]~20_combout\,
+	datac => \ALT_INV_w_cpuDataIn[1]~20_combout\,
 	combout => \cpu1|yreg[9]~feeder_combout\);
 
 -- Location: FF_X10_Y40_N53
@@ -46085,7 +46086,7 @@ PORT MAP (
 -- Location: LABCELL_X14_Y39_N24
 \cpu1|up[10]~feeder\ : cyclonev_lcell_comb
 -- Equation(s):
--- \cpu1|up[10]~feeder_combout\ = ( \cpuDataIn[2]~21_combout\ )
+-- \cpu1|up[10]~feeder_combout\ = ( \w_cpuDataIn[2]~21_combout\ )
 
 -- pragma translate_off
 GENERIC MAP (
@@ -46094,7 +46095,7 @@ GENERIC MAP (
 	shared_arith => "off")
 -- pragma translate_on
 PORT MAP (
-	dataf => \ALT_INV_cpuDataIn[2]~21_combout\,
+	dataf => \ALT_INV_w_cpuDataIn[2]~21_combout\,
 	combout => \cpu1|up[10]~feeder_combout\);
 
 -- Location: FF_X14_Y39_N26
@@ -46118,7 +46119,7 @@ PORT MAP (
 -- Location: MLABCELL_X9_Y35_N18
 \cpu1|xreg[10]~feeder\ : cyclonev_lcell_comb
 -- Equation(s):
--- \cpu1|xreg[10]~feeder_combout\ = \cpuDataIn[2]~21_combout\
+-- \cpu1|xreg[10]~feeder_combout\ = \w_cpuDataIn[2]~21_combout\
 
 -- pragma translate_off
 GENERIC MAP (
@@ -46127,7 +46128,7 @@ GENERIC MAP (
 	shared_arith => "off")
 -- pragma translate_on
 PORT MAP (
-	datab => \ALT_INV_cpuDataIn[2]~21_combout\,
+	datab => \ALT_INV_w_cpuDataIn[2]~21_combout\,
 	combout => \cpu1|xreg[10]~feeder_combout\);
 
 -- Location: FF_X9_Y35_N20
@@ -46151,7 +46152,7 @@ PORT MAP (
 -- Location: LABCELL_X10_Y40_N6
 \cpu1|yreg[10]~feeder\ : cyclonev_lcell_comb
 -- Equation(s):
--- \cpu1|yreg[10]~feeder_combout\ = ( \cpuDataIn[2]~21_combout\ )
+-- \cpu1|yreg[10]~feeder_combout\ = ( \w_cpuDataIn[2]~21_combout\ )
 
 -- pragma translate_off
 GENERIC MAP (
@@ -46160,7 +46161,7 @@ GENERIC MAP (
 	shared_arith => "off")
 -- pragma translate_on
 PORT MAP (
-	dataf => \ALT_INV_cpuDataIn[2]~21_combout\,
+	dataf => \ALT_INV_w_cpuDataIn[2]~21_combout\,
 	combout => \cpu1|yreg[10]~feeder_combout\);
 
 -- Location: FF_X10_Y40_N8
@@ -46321,9 +46322,9 @@ PORT MAP (
 -- Location: MLABCELL_X13_Y37_N0
 \cpu1|Selector159~0\ : cyclonev_lcell_comb
 -- Equation(s):
--- \cpu1|Selector159~0_combout\ = ( \cpu1|Selector421~1_combout\ & ( \cpuDataIn[2]~21_combout\ & ( (!\cpu1|Selector377~2_combout\) # ((!\cpu1|WideOr79~combout\) # (!\cpu1|Selector377~1_combout\)) ) ) ) # ( !\cpu1|Selector421~1_combout\ & ( 
--- \cpuDataIn[2]~21_combout\ & ( \cpu1|Add0~41_sumout\ ) ) ) # ( \cpu1|Selector421~1_combout\ & ( !\cpuDataIn[2]~21_combout\ & ( (\cpu1|WideOr79~combout\ & ((!\cpu1|Selector377~2_combout\) # (!\cpu1|Selector377~1_combout\))) ) ) ) # ( 
--- !\cpu1|Selector421~1_combout\ & ( !\cpuDataIn[2]~21_combout\ & ( \cpu1|Add0~41_sumout\ ) ) )
+-- \cpu1|Selector159~0_combout\ = ( \cpu1|Selector421~1_combout\ & ( \w_cpuDataIn[2]~21_combout\ & ( (!\cpu1|Selector377~2_combout\) # ((!\cpu1|WideOr79~combout\) # (!\cpu1|Selector377~1_combout\)) ) ) ) # ( !\cpu1|Selector421~1_combout\ & ( 
+-- \w_cpuDataIn[2]~21_combout\ & ( \cpu1|Add0~41_sumout\ ) ) ) # ( \cpu1|Selector421~1_combout\ & ( !\w_cpuDataIn[2]~21_combout\ & ( (\cpu1|WideOr79~combout\ & ((!\cpu1|Selector377~2_combout\) # (!\cpu1|Selector377~1_combout\))) ) ) ) # ( 
+-- !\cpu1|Selector421~1_combout\ & ( !\w_cpuDataIn[2]~21_combout\ & ( \cpu1|Add0~41_sumout\ ) ) )
 
 -- pragma translate_off
 GENERIC MAP (
@@ -46337,7 +46338,7 @@ PORT MAP (
 	datac => \cpu1|ALT_INV_Add0~41_sumout\,
 	datad => \cpu1|ALT_INV_Selector377~1_combout\,
 	datae => \cpu1|ALT_INV_Selector421~1_combout\,
-	dataf => \ALT_INV_cpuDataIn[2]~21_combout\,
+	dataf => \ALT_INV_w_cpuDataIn[2]~21_combout\,
 	combout => \cpu1|Selector159~0_combout\);
 
 -- Location: FF_X13_Y37_N2
@@ -46377,9 +46378,9 @@ PORT MAP (
 -- Location: MLABCELL_X13_Y37_N30
 \cpu1|Selector158~0\ : cyclonev_lcell_comb
 -- Equation(s):
--- \cpu1|Selector158~0_combout\ = ( \cpu1|Selector421~1_combout\ & ( \cpuDataIn[3]~23_combout\ & ( (!\cpu1|WideOr79~combout\) # ((!\cpu1|Selector376~1_combout\) # (!\cpu1|Selector376~2_combout\)) ) ) ) # ( !\cpu1|Selector421~1_combout\ & ( 
--- \cpuDataIn[3]~23_combout\ & ( \cpu1|Add0~45_sumout\ ) ) ) # ( \cpu1|Selector421~1_combout\ & ( !\cpuDataIn[3]~23_combout\ & ( (\cpu1|WideOr79~combout\ & ((!\cpu1|Selector376~1_combout\) # (!\cpu1|Selector376~2_combout\))) ) ) ) # ( 
--- !\cpu1|Selector421~1_combout\ & ( !\cpuDataIn[3]~23_combout\ & ( \cpu1|Add0~45_sumout\ ) ) )
+-- \cpu1|Selector158~0_combout\ = ( \cpu1|Selector421~1_combout\ & ( \w_cpuDataIn[3]~23_combout\ & ( (!\cpu1|WideOr79~combout\) # ((!\cpu1|Selector376~1_combout\) # (!\cpu1|Selector376~2_combout\)) ) ) ) # ( !\cpu1|Selector421~1_combout\ & ( 
+-- \w_cpuDataIn[3]~23_combout\ & ( \cpu1|Add0~45_sumout\ ) ) ) # ( \cpu1|Selector421~1_combout\ & ( !\w_cpuDataIn[3]~23_combout\ & ( (\cpu1|WideOr79~combout\ & ((!\cpu1|Selector376~1_combout\) # (!\cpu1|Selector376~2_combout\))) ) ) ) # ( 
+-- !\cpu1|Selector421~1_combout\ & ( !\w_cpuDataIn[3]~23_combout\ & ( \cpu1|Add0~45_sumout\ ) ) )
 
 -- pragma translate_off
 GENERIC MAP (
@@ -46393,7 +46394,7 @@ PORT MAP (
 	datac => \cpu1|ALT_INV_Selector376~1_combout\,
 	datad => \cpu1|ALT_INV_Selector376~2_combout\,
 	datae => \cpu1|ALT_INV_Selector421~1_combout\,
-	dataf => \ALT_INV_cpuDataIn[3]~23_combout\,
+	dataf => \ALT_INV_w_cpuDataIn[3]~23_combout\,
 	combout => \cpu1|Selector158~0_combout\);
 
 -- Location: FF_X13_Y37_N32
@@ -46455,7 +46456,7 @@ PORT MAP (
 \cpu1|Selector157~1\ : cyclonev_lcell_comb
 -- Equation(s):
 -- \cpu1|Selector157~1_combout\ = ( \n_if1CS~0_combout\ & ( \cpu1|Selector157~0_combout\ ) ) # ( !\n_if1CS~0_combout\ & ( \cpu1|Selector157~0_combout\ ) ) # ( \n_if1CS~0_combout\ & ( !\cpu1|Selector157~0_combout\ & ( (\cpu1|Selector161~1_combout\ & 
--- \io1|dataOut\(4)) ) ) ) # ( !\n_if1CS~0_combout\ & ( !\cpu1|Selector157~0_combout\ & ( (\cpu1|Selector161~1_combout\ & ((\cpuDataIn[4]~35_combout\) # (\cpuDataIn[4]~29_combout\))) ) ) )
+-- \io1|dataOut\(4)) ) ) ) # ( !\n_if1CS~0_combout\ & ( !\cpu1|Selector157~0_combout\ & ( (\cpu1|Selector161~1_combout\ & ((\w_cpuDataIn[4]~35_combout\) # (\w_cpuDataIn[4]~29_combout\))) ) ) )
 
 -- pragma translate_off
 GENERIC MAP (
@@ -46464,8 +46465,8 @@ GENERIC MAP (
 	shared_arith => "off")
 -- pragma translate_on
 PORT MAP (
-	dataa => \ALT_INV_cpuDataIn[4]~29_combout\,
-	datab => \ALT_INV_cpuDataIn[4]~35_combout\,
+	dataa => \ALT_INV_w_cpuDataIn[4]~29_combout\,
+	datab => \ALT_INV_w_cpuDataIn[4]~35_combout\,
 	datac => \cpu1|ALT_INV_Selector161~1_combout\,
 	datad => \io1|ALT_INV_dataOut\(4),
 	datae => \ALT_INV_n_if1CS~0_combout\,
@@ -46514,8 +46515,8 @@ PORT MAP (
 \cpu1|Selector156~1\ : cyclonev_lcell_comb
 -- Equation(s):
 -- \cpu1|Selector156~1_combout\ = ( \io1|dataOut\(5) & ( \cpu1|Selector156~0_combout\ ) ) # ( !\io1|dataOut\(5) & ( \cpu1|Selector156~0_combout\ ) ) # ( \io1|dataOut\(5) & ( !\cpu1|Selector156~0_combout\ & ( (\cpu1|Selector161~1_combout\ & 
--- (((\n_if1CS~0_combout\) # (\cpuDataIn[5]~37_combout\)) # (\cpuDataIn[5]~40_combout\))) ) ) ) # ( !\io1|dataOut\(5) & ( !\cpu1|Selector156~0_combout\ & ( (\cpu1|Selector161~1_combout\ & (!\n_if1CS~0_combout\ & ((\cpuDataIn[5]~37_combout\) # 
--- (\cpuDataIn[5]~40_combout\)))) ) ) )
+-- (((\n_if1CS~0_combout\) # (\w_cpuDataIn[5]~37_combout\)) # (\w_cpuDataIn[5]~40_combout\))) ) ) ) # ( !\io1|dataOut\(5) & ( !\cpu1|Selector156~0_combout\ & ( (\cpu1|Selector161~1_combout\ & (!\n_if1CS~0_combout\ & ((\w_cpuDataIn[5]~37_combout\) # 
+-- (\w_cpuDataIn[5]~40_combout\)))) ) ) )
 
 -- pragma translate_off
 GENERIC MAP (
@@ -46524,8 +46525,8 @@ GENERIC MAP (
 	shared_arith => "off")
 -- pragma translate_on
 PORT MAP (
-	dataa => \ALT_INV_cpuDataIn[5]~40_combout\,
-	datab => \ALT_INV_cpuDataIn[5]~37_combout\,
+	dataa => \ALT_INV_w_cpuDataIn[5]~40_combout\,
+	datab => \ALT_INV_w_cpuDataIn[5]~37_combout\,
 	datac => \cpu1|ALT_INV_Selector161~1_combout\,
 	datad => \ALT_INV_n_if1CS~0_combout\,
 	datae => \io1|ALT_INV_dataOut\(5),
@@ -46551,7 +46552,7 @@ PORT MAP (
 -- Location: LABCELL_X12_Y41_N45
 \cpu1|sp[13]~feeder\ : cyclonev_lcell_comb
 -- Equation(s):
--- \cpu1|sp[13]~feeder_combout\ = ( \cpuDataIn[5]~39_combout\ )
+-- \cpu1|sp[13]~feeder_combout\ = ( \w_cpuDataIn[5]~39_combout\ )
 
 -- pragma translate_off
 GENERIC MAP (
@@ -46560,7 +46561,7 @@ GENERIC MAP (
 	shared_arith => "off")
 -- pragma translate_on
 PORT MAP (
-	dataf => \ALT_INV_cpuDataIn[5]~39_combout\,
+	dataf => \ALT_INV_w_cpuDataIn[5]~39_combout\,
 	combout => \cpu1|sp[13]~feeder_combout\);
 
 -- Location: FF_X12_Y41_N47
@@ -46584,7 +46585,7 @@ PORT MAP (
 -- Location: LABCELL_X14_Y39_N39
 \cpu1|up[13]~feeder\ : cyclonev_lcell_comb
 -- Equation(s):
--- \cpu1|up[13]~feeder_combout\ = \cpuDataIn[5]~39_combout\
+-- \cpu1|up[13]~feeder_combout\ = \w_cpuDataIn[5]~39_combout\
 
 -- pragma translate_off
 GENERIC MAP (
@@ -46593,7 +46594,7 @@ GENERIC MAP (
 	shared_arith => "off")
 -- pragma translate_on
 PORT MAP (
-	dataa => \ALT_INV_cpuDataIn[5]~39_combout\,
+	dataa => \ALT_INV_w_cpuDataIn[5]~39_combout\,
 	combout => \cpu1|up[13]~feeder_combout\);
 
 -- Location: FF_X14_Y39_N41
@@ -46617,7 +46618,7 @@ PORT MAP (
 -- Location: MLABCELL_X9_Y35_N21
 \cpu1|xreg[13]~feeder\ : cyclonev_lcell_comb
 -- Equation(s):
--- \cpu1|xreg[13]~feeder_combout\ = ( \cpuDataIn[5]~39_combout\ )
+-- \cpu1|xreg[13]~feeder_combout\ = ( \w_cpuDataIn[5]~39_combout\ )
 
 -- pragma translate_off
 GENERIC MAP (
@@ -46626,7 +46627,7 @@ GENERIC MAP (
 	shared_arith => "off")
 -- pragma translate_on
 PORT MAP (
-	dataf => \ALT_INV_cpuDataIn[5]~39_combout\,
+	dataf => \ALT_INV_w_cpuDataIn[5]~39_combout\,
 	combout => \cpu1|xreg[13]~feeder_combout\);
 
 -- Location: FF_X9_Y35_N23
@@ -46650,7 +46651,7 @@ PORT MAP (
 -- Location: LABCELL_X10_Y40_N54
 \cpu1|yreg[13]~feeder\ : cyclonev_lcell_comb
 -- Equation(s):
--- \cpu1|yreg[13]~feeder_combout\ = ( \cpuDataIn[5]~39_combout\ )
+-- \cpu1|yreg[13]~feeder_combout\ = ( \w_cpuDataIn[5]~39_combout\ )
 
 -- pragma translate_off
 GENERIC MAP (
@@ -46659,7 +46660,7 @@ GENERIC MAP (
 	shared_arith => "off")
 -- pragma translate_on
 PORT MAP (
-	dataf => \ALT_INV_cpuDataIn[5]~39_combout\,
+	dataf => \ALT_INV_w_cpuDataIn[5]~39_combout\,
 	combout => \cpu1|yreg[13]~feeder_combout\);
 
 -- Location: FF_X10_Y40_N56
@@ -46841,8 +46842,8 @@ PORT MAP (
 -- Location: LABCELL_X10_Y39_N54
 \cpu1|Selector155~1\ : cyclonev_lcell_comb
 -- Equation(s):
--- \cpu1|Selector155~1_combout\ = ( \cpuDataIn[6]~45_combout\ & ( \cpu1|Selector155~0_combout\ ) ) # ( !\cpuDataIn[6]~45_combout\ & ( \cpu1|Selector155~0_combout\ ) ) # ( \cpuDataIn[6]~45_combout\ & ( !\cpu1|Selector155~0_combout\ & ( 
--- (\cpu1|Selector161~1_combout\ & ((!\n_if1CS~0_combout\) # (\io1|dataOut\(6)))) ) ) ) # ( !\cpuDataIn[6]~45_combout\ & ( !\cpu1|Selector155~0_combout\ & ( (\cpu1|Selector161~1_combout\ & ((!\n_if1CS~0_combout\ & ((\cpuDataIn[6]~42_combout\))) # 
+-- \cpu1|Selector155~1_combout\ = ( \w_cpuDataIn[6]~45_combout\ & ( \cpu1|Selector155~0_combout\ ) ) # ( !\w_cpuDataIn[6]~45_combout\ & ( \cpu1|Selector155~0_combout\ ) ) # ( \w_cpuDataIn[6]~45_combout\ & ( !\cpu1|Selector155~0_combout\ & ( 
+-- (\cpu1|Selector161~1_combout\ & ((!\n_if1CS~0_combout\) # (\io1|dataOut\(6)))) ) ) ) # ( !\w_cpuDataIn[6]~45_combout\ & ( !\cpu1|Selector155~0_combout\ & ( (\cpu1|Selector161~1_combout\ & ((!\n_if1CS~0_combout\ & ((\w_cpuDataIn[6]~42_combout\))) # 
 -- (\n_if1CS~0_combout\ & (\io1|dataOut\(6))))) ) ) )
 
 -- pragma translate_off
@@ -46854,9 +46855,9 @@ GENERIC MAP (
 PORT MAP (
 	dataa => \cpu1|ALT_INV_Selector161~1_combout\,
 	datab => \io1|ALT_INV_dataOut\(6),
-	datac => \ALT_INV_cpuDataIn[6]~42_combout\,
+	datac => \ALT_INV_w_cpuDataIn[6]~42_combout\,
 	datad => \ALT_INV_n_if1CS~0_combout\,
-	datae => \ALT_INV_cpuDataIn[6]~45_combout\,
+	datae => \ALT_INV_w_cpuDataIn[6]~45_combout\,
 	dataf => \cpu1|ALT_INV_Selector155~0_combout\,
 	combout => \cpu1|Selector155~1_combout\);
 
@@ -46879,7 +46880,7 @@ PORT MAP (
 -- Location: LABCELL_X12_Y41_N54
 \cpu1|sp[14]~feeder\ : cyclonev_lcell_comb
 -- Equation(s):
--- \cpu1|sp[14]~feeder_combout\ = ( \cpuDataIn[6]~44_combout\ )
+-- \cpu1|sp[14]~feeder_combout\ = ( \w_cpuDataIn[6]~44_combout\ )
 
 -- pragma translate_off
 GENERIC MAP (
@@ -46888,7 +46889,7 @@ GENERIC MAP (
 	shared_arith => "off")
 -- pragma translate_on
 PORT MAP (
-	dataf => \ALT_INV_cpuDataIn[6]~44_combout\,
+	dataf => \ALT_INV_w_cpuDataIn[6]~44_combout\,
 	combout => \cpu1|sp[14]~feeder_combout\);
 
 -- Location: FF_X12_Y41_N56
@@ -46912,7 +46913,7 @@ PORT MAP (
 -- Location: LABCELL_X14_Y39_N18
 \cpu1|up[14]~feeder\ : cyclonev_lcell_comb
 -- Equation(s):
--- \cpu1|up[14]~feeder_combout\ = ( \cpuDataIn[6]~44_combout\ )
+-- \cpu1|up[14]~feeder_combout\ = ( \w_cpuDataIn[6]~44_combout\ )
 
 -- pragma translate_off
 GENERIC MAP (
@@ -46921,7 +46922,7 @@ GENERIC MAP (
 	shared_arith => "off")
 -- pragma translate_on
 PORT MAP (
-	dataf => \ALT_INV_cpuDataIn[6]~44_combout\,
+	dataf => \ALT_INV_w_cpuDataIn[6]~44_combout\,
 	combout => \cpu1|up[14]~feeder_combout\);
 
 -- Location: FF_X14_Y39_N20
@@ -46945,7 +46946,7 @@ PORT MAP (
 -- Location: LABCELL_X10_Y40_N15
 \cpu1|yreg[14]~feeder\ : cyclonev_lcell_comb
 -- Equation(s):
--- \cpu1|yreg[14]~feeder_combout\ = ( \cpuDataIn[6]~44_combout\ )
+-- \cpu1|yreg[14]~feeder_combout\ = ( \w_cpuDataIn[6]~44_combout\ )
 
 -- pragma translate_off
 GENERIC MAP (
@@ -46954,7 +46955,7 @@ GENERIC MAP (
 	shared_arith => "off")
 -- pragma translate_on
 PORT MAP (
-	dataf => \ALT_INV_cpuDataIn[6]~44_combout\,
+	dataf => \ALT_INV_w_cpuDataIn[6]~44_combout\,
 	combout => \cpu1|yreg[14]~feeder_combout\);
 
 -- Location: FF_X10_Y40_N17
@@ -46978,7 +46979,7 @@ PORT MAP (
 -- Location: MLABCELL_X9_Y35_N39
 \cpu1|xreg[14]~feeder\ : cyclonev_lcell_comb
 -- Equation(s):
--- \cpu1|xreg[14]~feeder_combout\ = \cpuDataIn[6]~44_combout\
+-- \cpu1|xreg[14]~feeder_combout\ = \w_cpuDataIn[6]~44_combout\
 
 -- pragma translate_off
 GENERIC MAP (
@@ -46987,7 +46988,7 @@ GENERIC MAP (
 	shared_arith => "off")
 -- pragma translate_on
 PORT MAP (
-	datac => \ALT_INV_cpuDataIn[6]~44_combout\,
+	datac => \ALT_INV_w_cpuDataIn[6]~44_combout\,
 	combout => \cpu1|xreg[14]~feeder_combout\);
 
 -- Location: FF_X9_Y35_N41
@@ -47130,8 +47131,8 @@ PORT MAP (
 \cpu1|Selector187~1\ : cyclonev_lcell_comb
 -- Equation(s):
 -- \cpu1|Selector187~1_combout\ = ( \n_if1CS~0_combout\ & ( \cpu1|Selector187~0_combout\ & ( (\cpu1|Mux581~1_combout\ & \io1|dataOut\(6)) ) ) ) # ( !\n_if1CS~0_combout\ & ( \cpu1|Selector187~0_combout\ & ( (\cpu1|Mux581~1_combout\ & 
--- ((\cpuDataIn[6]~42_combout\) # (\cpuDataIn[6]~45_combout\))) ) ) ) # ( \n_if1CS~0_combout\ & ( !\cpu1|Selector187~0_combout\ & ( (!\cpu1|Mux581~1_combout\) # (\io1|dataOut\(6)) ) ) ) # ( !\n_if1CS~0_combout\ & ( !\cpu1|Selector187~0_combout\ & ( 
--- (!\cpu1|Mux581~1_combout\) # ((\cpuDataIn[6]~42_combout\) # (\cpuDataIn[6]~45_combout\)) ) ) )
+-- ((\w_cpuDataIn[6]~42_combout\) # (\w_cpuDataIn[6]~45_combout\))) ) ) ) # ( \n_if1CS~0_combout\ & ( !\cpu1|Selector187~0_combout\ & ( (!\cpu1|Mux581~1_combout\) # (\io1|dataOut\(6)) ) ) ) # ( !\n_if1CS~0_combout\ & ( !\cpu1|Selector187~0_combout\ & ( 
+-- (!\cpu1|Mux581~1_combout\) # ((\w_cpuDataIn[6]~42_combout\) # (\w_cpuDataIn[6]~45_combout\)) ) ) )
 
 -- pragma translate_off
 GENERIC MAP (
@@ -47142,8 +47143,8 @@ GENERIC MAP (
 PORT MAP (
 	dataa => \cpu1|ALT_INV_Mux581~1_combout\,
 	datab => \io1|ALT_INV_dataOut\(6),
-	datac => \ALT_INV_cpuDataIn[6]~45_combout\,
-	datad => \ALT_INV_cpuDataIn[6]~42_combout\,
+	datac => \ALT_INV_w_cpuDataIn[6]~45_combout\,
+	datad => \ALT_INV_w_cpuDataIn[6]~42_combout\,
 	datae => \ALT_INV_n_if1CS~0_combout\,
 	dataf => \cpu1|ALT_INV_Selector187~0_combout\,
 	combout => \cpu1|Selector187~1_combout\);
@@ -47167,7 +47168,7 @@ PORT MAP (
 -- Location: LABCELL_X17_Y36_N33
 \cpu1|xreg[6]~feeder\ : cyclonev_lcell_comb
 -- Equation(s):
--- \cpu1|xreg[6]~feeder_combout\ = ( \cpuDataIn[6]~44_combout\ )
+-- \cpu1|xreg[6]~feeder_combout\ = ( \w_cpuDataIn[6]~44_combout\ )
 
 -- pragma translate_off
 GENERIC MAP (
@@ -47176,7 +47177,7 @@ GENERIC MAP (
 	shared_arith => "off")
 -- pragma translate_on
 PORT MAP (
-	dataf => \ALT_INV_cpuDataIn[6]~44_combout\,
+	dataf => \ALT_INV_w_cpuDataIn[6]~44_combout\,
 	combout => \cpu1|xreg[6]~feeder_combout\);
 
 -- Location: FF_X17_Y36_N35
@@ -47200,7 +47201,7 @@ PORT MAP (
 -- Location: MLABCELL_X9_Y34_N57
 \cpu1|yreg[6]~feeder\ : cyclonev_lcell_comb
 -- Equation(s):
--- \cpu1|yreg[6]~feeder_combout\ = ( \cpuDataIn[6]~44_combout\ )
+-- \cpu1|yreg[6]~feeder_combout\ = ( \w_cpuDataIn[6]~44_combout\ )
 
 -- pragma translate_off
 GENERIC MAP (
@@ -47209,7 +47210,7 @@ GENERIC MAP (
 	shared_arith => "off")
 -- pragma translate_on
 PORT MAP (
-	dataf => \ALT_INV_cpuDataIn[6]~44_combout\,
+	dataf => \ALT_INV_w_cpuDataIn[6]~44_combout\,
 	combout => \cpu1|yreg[6]~feeder_combout\);
 
 -- Location: FF_X9_Y34_N59
@@ -47294,9 +47295,9 @@ PORT MAP (
 -- Location: LABCELL_X12_Y36_N48
 \cpu1|Selector284~3\ : cyclonev_lcell_comb
 -- Equation(s):
--- \cpu1|Selector284~3_combout\ = ( \cpu1|cc_ctrl.pull_cc~2_combout\ & ( \io1|dataOut\(6) & ( (!\cpu1|Selector284~2_combout\ & (((\cpuDataIn[6]~42_combout\) # (\cpuDataIn[6]~45_combout\)) # (\n_if1CS~0_combout\))) ) ) ) # ( !\cpu1|cc_ctrl.pull_cc~2_combout\ 
--- & ( \io1|dataOut\(6) & ( !\cpu1|Selector284~2_combout\ ) ) ) # ( \cpu1|cc_ctrl.pull_cc~2_combout\ & ( !\io1|dataOut\(6) & ( (!\cpu1|Selector284~2_combout\ & (!\n_if1CS~0_combout\ & ((\cpuDataIn[6]~42_combout\) # (\cpuDataIn[6]~45_combout\)))) ) ) ) # ( 
--- !\cpu1|cc_ctrl.pull_cc~2_combout\ & ( !\io1|dataOut\(6) & ( !\cpu1|Selector284~2_combout\ ) ) )
+-- \cpu1|Selector284~3_combout\ = ( \cpu1|cc_ctrl.pull_cc~2_combout\ & ( \io1|dataOut\(6) & ( (!\cpu1|Selector284~2_combout\ & (((\w_cpuDataIn[6]~42_combout\) # (\w_cpuDataIn[6]~45_combout\)) # (\n_if1CS~0_combout\))) ) ) ) # ( 
+-- !\cpu1|cc_ctrl.pull_cc~2_combout\ & ( \io1|dataOut\(6) & ( !\cpu1|Selector284~2_combout\ ) ) ) # ( \cpu1|cc_ctrl.pull_cc~2_combout\ & ( !\io1|dataOut\(6) & ( (!\cpu1|Selector284~2_combout\ & (!\n_if1CS~0_combout\ & ((\w_cpuDataIn[6]~42_combout\) # 
+-- (\w_cpuDataIn[6]~45_combout\)))) ) ) ) # ( !\cpu1|cc_ctrl.pull_cc~2_combout\ & ( !\io1|dataOut\(6) & ( !\cpu1|Selector284~2_combout\ ) ) )
 
 -- pragma translate_off
 GENERIC MAP (
@@ -47307,8 +47308,8 @@ GENERIC MAP (
 PORT MAP (
 	dataa => \cpu1|ALT_INV_Selector284~2_combout\,
 	datab => \ALT_INV_n_if1CS~0_combout\,
-	datac => \ALT_INV_cpuDataIn[6]~45_combout\,
-	datad => \ALT_INV_cpuDataIn[6]~42_combout\,
+	datac => \ALT_INV_w_cpuDataIn[6]~45_combout\,
+	datad => \ALT_INV_w_cpuDataIn[6]~42_combout\,
 	datae => \cpu1|ALT_INV_cc_ctrl.pull_cc~2_combout\,
 	dataf => \io1|ALT_INV_dataOut\(6),
 	combout => \cpu1|Selector284~3_combout\);
@@ -47323,7 +47324,7 @@ GENERIC MAP (
 PORT MAP (
 	clk => \clk~inputCLKENA0_outclk\,
 	d => \cpu1|Selector284~3_combout\,
-	ena => \ALT_INV_hold~q\,
+	ena => \ALT_INV_w_hold~q\,
 	devclrn => ww_devclrn,
 	devpor => ww_devpor,
 	q => \cpu1|cc\(6));
@@ -47409,7 +47410,7 @@ PORT MAP (
 -- Location: LABCELL_X12_Y34_N48
 \cpu1|up[6]~feeder\ : cyclonev_lcell_comb
 -- Equation(s):
--- \cpu1|up[6]~feeder_combout\ = ( \cpuDataIn[6]~44_combout\ )
+-- \cpu1|up[6]~feeder_combout\ = ( \w_cpuDataIn[6]~44_combout\ )
 
 -- pragma translate_off
 GENERIC MAP (
@@ -47418,7 +47419,7 @@ GENERIC MAP (
 	shared_arith => "off")
 -- pragma translate_on
 PORT MAP (
-	dataf => \ALT_INV_cpuDataIn[6]~44_combout\,
+	dataf => \ALT_INV_w_cpuDataIn[6]~44_combout\,
 	combout => \cpu1|up[6]~feeder_combout\);
 
 -- Location: FF_X12_Y34_N50
@@ -47792,10 +47793,10 @@ PORT MAP (
 -- Location: LABCELL_X7_Y39_N54
 \cpu1|Selector274~0\ : cyclonev_lcell_comb
 -- Equation(s):
--- \cpu1|Selector274~0_combout\ = ( \cpuDataIn[7]~46_combout\ & ( \cpu1|Selector379~7_combout\ & ( ((!\cpu1|md[10]~4_combout\ & ((\cpu1|md\(7)))) # (\cpu1|md[10]~4_combout\ & (\cpu1|md\(0)))) # (\cpu1|md[10]~5_combout\) ) ) ) # ( !\cpuDataIn[7]~46_combout\ & 
--- ( \cpu1|Selector379~7_combout\ & ( (!\cpu1|md[10]~5_combout\ & ((!\cpu1|md[10]~4_combout\ & ((\cpu1|md\(7)))) # (\cpu1|md[10]~4_combout\ & (\cpu1|md\(0))))) # (\cpu1|md[10]~5_combout\ & (((!\cpu1|md[10]~4_combout\)))) ) ) ) # ( \cpuDataIn[7]~46_combout\ & 
--- ( !\cpu1|Selector379~7_combout\ & ( (!\cpu1|md[10]~5_combout\ & ((!\cpu1|md[10]~4_combout\ & ((\cpu1|md\(7)))) # (\cpu1|md[10]~4_combout\ & (\cpu1|md\(0))))) # (\cpu1|md[10]~5_combout\ & (((\cpu1|md[10]~4_combout\)))) ) ) ) # ( !\cpuDataIn[7]~46_combout\ 
--- & ( !\cpu1|Selector379~7_combout\ & ( (!\cpu1|md[10]~5_combout\ & ((!\cpu1|md[10]~4_combout\ & ((\cpu1|md\(7)))) # (\cpu1|md[10]~4_combout\ & (\cpu1|md\(0))))) ) ) )
+-- \cpu1|Selector274~0_combout\ = ( \w_cpuDataIn[7]~46_combout\ & ( \cpu1|Selector379~7_combout\ & ( ((!\cpu1|md[10]~4_combout\ & ((\cpu1|md\(7)))) # (\cpu1|md[10]~4_combout\ & (\cpu1|md\(0)))) # (\cpu1|md[10]~5_combout\) ) ) ) # ( 
+-- !\w_cpuDataIn[7]~46_combout\ & ( \cpu1|Selector379~7_combout\ & ( (!\cpu1|md[10]~5_combout\ & ((!\cpu1|md[10]~4_combout\ & ((\cpu1|md\(7)))) # (\cpu1|md[10]~4_combout\ & (\cpu1|md\(0))))) # (\cpu1|md[10]~5_combout\ & (((!\cpu1|md[10]~4_combout\)))) ) ) ) 
+-- # ( \w_cpuDataIn[7]~46_combout\ & ( !\cpu1|Selector379~7_combout\ & ( (!\cpu1|md[10]~5_combout\ & ((!\cpu1|md[10]~4_combout\ & ((\cpu1|md\(7)))) # (\cpu1|md[10]~4_combout\ & (\cpu1|md\(0))))) # (\cpu1|md[10]~5_combout\ & (((\cpu1|md[10]~4_combout\)))) ) ) 
+-- ) # ( !\w_cpuDataIn[7]~46_combout\ & ( !\cpu1|Selector379~7_combout\ & ( (!\cpu1|md[10]~5_combout\ & ((!\cpu1|md[10]~4_combout\ & ((\cpu1|md\(7)))) # (\cpu1|md[10]~4_combout\ & (\cpu1|md\(0))))) ) ) )
 
 -- pragma translate_off
 GENERIC MAP (
@@ -47808,7 +47809,7 @@ PORT MAP (
 	datab => \cpu1|ALT_INV_md[10]~5_combout\,
 	datac => \cpu1|ALT_INV_md\(7),
 	datad => \cpu1|ALT_INV_md[10]~4_combout\,
-	datae => \ALT_INV_cpuDataIn[7]~46_combout\,
+	datae => \ALT_INV_w_cpuDataIn[7]~46_combout\,
 	dataf => \cpu1|ALT_INV_Selector379~7_combout\,
 	combout => \cpu1|Selector274~0_combout\);
 
@@ -47831,8 +47832,8 @@ PORT MAP (
 -- Location: LABCELL_X7_Y39_N0
 \cpu1|Selector273~0\ : cyclonev_lcell_comb
 -- Equation(s):
--- \cpu1|Selector273~0_combout\ = ( \cpuDataIn[7]~46_combout\ & ( \cpu1|md[10]~4_combout\ & ( (\cpu1|md\(1)) # (\cpu1|md[10]~5_combout\) ) ) ) # ( !\cpuDataIn[7]~46_combout\ & ( \cpu1|md[10]~4_combout\ & ( (!\cpu1|md[10]~5_combout\ & \cpu1|md\(1)) ) ) ) # ( 
--- \cpuDataIn[7]~46_combout\ & ( !\cpu1|md[10]~4_combout\ & ( (!\cpu1|md[10]~5_combout\ & (\cpu1|md\(8))) # (\cpu1|md[10]~5_combout\ & ((\cpu1|Selector378~4_combout\))) ) ) ) # ( !\cpuDataIn[7]~46_combout\ & ( !\cpu1|md[10]~4_combout\ & ( 
+-- \cpu1|Selector273~0_combout\ = ( \w_cpuDataIn[7]~46_combout\ & ( \cpu1|md[10]~4_combout\ & ( (\cpu1|md\(1)) # (\cpu1|md[10]~5_combout\) ) ) ) # ( !\w_cpuDataIn[7]~46_combout\ & ( \cpu1|md[10]~4_combout\ & ( (!\cpu1|md[10]~5_combout\ & \cpu1|md\(1)) ) ) ) 
+-- # ( \w_cpuDataIn[7]~46_combout\ & ( !\cpu1|md[10]~4_combout\ & ( (!\cpu1|md[10]~5_combout\ & (\cpu1|md\(8))) # (\cpu1|md[10]~5_combout\ & ((\cpu1|Selector378~4_combout\))) ) ) ) # ( !\w_cpuDataIn[7]~46_combout\ & ( !\cpu1|md[10]~4_combout\ & ( 
 -- (!\cpu1|md[10]~5_combout\ & (\cpu1|md\(8))) # (\cpu1|md[10]~5_combout\ & ((\cpu1|Selector378~4_combout\))) ) ) )
 
 -- pragma translate_off
@@ -47846,7 +47847,7 @@ PORT MAP (
 	datab => \cpu1|ALT_INV_md[10]~5_combout\,
 	datac => \cpu1|ALT_INV_md\(1),
 	datad => \cpu1|ALT_INV_Selector378~4_combout\,
-	datae => \ALT_INV_cpuDataIn[7]~46_combout\,
+	datae => \ALT_INV_w_cpuDataIn[7]~46_combout\,
 	dataf => \cpu1|ALT_INV_md[10]~4_combout\,
 	combout => \cpu1|Selector273~0_combout\);
 
@@ -47869,10 +47870,10 @@ PORT MAP (
 -- Location: LABCELL_X7_Y39_N18
 \cpu1|Selector272~0\ : cyclonev_lcell_comb
 -- Equation(s):
--- \cpu1|Selector272~0_combout\ = ( \cpuDataIn[7]~46_combout\ & ( \cpu1|Selector377~3_combout\ & ( ((!\cpu1|md[10]~4_combout\ & ((\cpu1|md\(9)))) # (\cpu1|md[10]~4_combout\ & (\cpu1|md\(2)))) # (\cpu1|md[10]~5_combout\) ) ) ) # ( !\cpuDataIn[7]~46_combout\ & 
--- ( \cpu1|Selector377~3_combout\ & ( (!\cpu1|md[10]~5_combout\ & ((!\cpu1|md[10]~4_combout\ & ((\cpu1|md\(9)))) # (\cpu1|md[10]~4_combout\ & (\cpu1|md\(2))))) # (\cpu1|md[10]~5_combout\ & (((!\cpu1|md[10]~4_combout\)))) ) ) ) # ( \cpuDataIn[7]~46_combout\ & 
--- ( !\cpu1|Selector377~3_combout\ & ( (!\cpu1|md[10]~5_combout\ & ((!\cpu1|md[10]~4_combout\ & ((\cpu1|md\(9)))) # (\cpu1|md[10]~4_combout\ & (\cpu1|md\(2))))) # (\cpu1|md[10]~5_combout\ & (((\cpu1|md[10]~4_combout\)))) ) ) ) # ( !\cpuDataIn[7]~46_combout\ 
--- & ( !\cpu1|Selector377~3_combout\ & ( (!\cpu1|md[10]~5_combout\ & ((!\cpu1|md[10]~4_combout\ & ((\cpu1|md\(9)))) # (\cpu1|md[10]~4_combout\ & (\cpu1|md\(2))))) ) ) )
+-- \cpu1|Selector272~0_combout\ = ( \w_cpuDataIn[7]~46_combout\ & ( \cpu1|Selector377~3_combout\ & ( ((!\cpu1|md[10]~4_combout\ & ((\cpu1|md\(9)))) # (\cpu1|md[10]~4_combout\ & (\cpu1|md\(2)))) # (\cpu1|md[10]~5_combout\) ) ) ) # ( 
+-- !\w_cpuDataIn[7]~46_combout\ & ( \cpu1|Selector377~3_combout\ & ( (!\cpu1|md[10]~5_combout\ & ((!\cpu1|md[10]~4_combout\ & ((\cpu1|md\(9)))) # (\cpu1|md[10]~4_combout\ & (\cpu1|md\(2))))) # (\cpu1|md[10]~5_combout\ & (((!\cpu1|md[10]~4_combout\)))) ) ) ) 
+-- # ( \w_cpuDataIn[7]~46_combout\ & ( !\cpu1|Selector377~3_combout\ & ( (!\cpu1|md[10]~5_combout\ & ((!\cpu1|md[10]~4_combout\ & ((\cpu1|md\(9)))) # (\cpu1|md[10]~4_combout\ & (\cpu1|md\(2))))) # (\cpu1|md[10]~5_combout\ & (((\cpu1|md[10]~4_combout\)))) ) ) 
+-- ) # ( !\w_cpuDataIn[7]~46_combout\ & ( !\cpu1|Selector377~3_combout\ & ( (!\cpu1|md[10]~5_combout\ & ((!\cpu1|md[10]~4_combout\ & ((\cpu1|md\(9)))) # (\cpu1|md[10]~4_combout\ & (\cpu1|md\(2))))) ) ) )
 
 -- pragma translate_off
 GENERIC MAP (
@@ -47885,7 +47886,7 @@ PORT MAP (
 	datab => \cpu1|ALT_INV_md[10]~5_combout\,
 	datac => \cpu1|ALT_INV_md\(9),
 	datad => \cpu1|ALT_INV_md[10]~4_combout\,
-	datae => \ALT_INV_cpuDataIn[7]~46_combout\,
+	datae => \ALT_INV_w_cpuDataIn[7]~46_combout\,
 	dataf => \cpu1|ALT_INV_Selector377~3_combout\,
 	combout => \cpu1|Selector272~0_combout\);
 
@@ -47908,10 +47909,10 @@ PORT MAP (
 -- Location: LABCELL_X7_Y39_N12
 \cpu1|Selector271~0\ : cyclonev_lcell_comb
 -- Equation(s):
--- \cpu1|Selector271~0_combout\ = ( \cpuDataIn[7]~46_combout\ & ( \cpu1|Selector376~3_combout\ & ( ((!\cpu1|md[10]~4_combout\ & ((\cpu1|md\(10)))) # (\cpu1|md[10]~4_combout\ & (\cpu1|md\(3)))) # (\cpu1|md[10]~5_combout\) ) ) ) # ( !\cpuDataIn[7]~46_combout\ 
--- & ( \cpu1|Selector376~3_combout\ & ( (!\cpu1|md[10]~5_combout\ & ((!\cpu1|md[10]~4_combout\ & ((\cpu1|md\(10)))) # (\cpu1|md[10]~4_combout\ & (\cpu1|md\(3))))) # (\cpu1|md[10]~5_combout\ & (((!\cpu1|md[10]~4_combout\)))) ) ) ) # ( 
--- \cpuDataIn[7]~46_combout\ & ( !\cpu1|Selector376~3_combout\ & ( (!\cpu1|md[10]~5_combout\ & ((!\cpu1|md[10]~4_combout\ & ((\cpu1|md\(10)))) # (\cpu1|md[10]~4_combout\ & (\cpu1|md\(3))))) # (\cpu1|md[10]~5_combout\ & (((\cpu1|md[10]~4_combout\)))) ) ) ) # 
--- ( !\cpuDataIn[7]~46_combout\ & ( !\cpu1|Selector376~3_combout\ & ( (!\cpu1|md[10]~5_combout\ & ((!\cpu1|md[10]~4_combout\ & ((\cpu1|md\(10)))) # (\cpu1|md[10]~4_combout\ & (\cpu1|md\(3))))) ) ) )
+-- \cpu1|Selector271~0_combout\ = ( \w_cpuDataIn[7]~46_combout\ & ( \cpu1|Selector376~3_combout\ & ( ((!\cpu1|md[10]~4_combout\ & ((\cpu1|md\(10)))) # (\cpu1|md[10]~4_combout\ & (\cpu1|md\(3)))) # (\cpu1|md[10]~5_combout\) ) ) ) # ( 
+-- !\w_cpuDataIn[7]~46_combout\ & ( \cpu1|Selector376~3_combout\ & ( (!\cpu1|md[10]~5_combout\ & ((!\cpu1|md[10]~4_combout\ & ((\cpu1|md\(10)))) # (\cpu1|md[10]~4_combout\ & (\cpu1|md\(3))))) # (\cpu1|md[10]~5_combout\ & (((!\cpu1|md[10]~4_combout\)))) ) ) ) 
+-- # ( \w_cpuDataIn[7]~46_combout\ & ( !\cpu1|Selector376~3_combout\ & ( (!\cpu1|md[10]~5_combout\ & ((!\cpu1|md[10]~4_combout\ & ((\cpu1|md\(10)))) # (\cpu1|md[10]~4_combout\ & (\cpu1|md\(3))))) # (\cpu1|md[10]~5_combout\ & (((\cpu1|md[10]~4_combout\)))) ) 
+-- ) ) # ( !\w_cpuDataIn[7]~46_combout\ & ( !\cpu1|Selector376~3_combout\ & ( (!\cpu1|md[10]~5_combout\ & ((!\cpu1|md[10]~4_combout\ & ((\cpu1|md\(10)))) # (\cpu1|md[10]~4_combout\ & (\cpu1|md\(3))))) ) ) )
 
 -- pragma translate_off
 GENERIC MAP (
@@ -47924,7 +47925,7 @@ PORT MAP (
 	datab => \cpu1|ALT_INV_md[10]~5_combout\,
 	datac => \cpu1|ALT_INV_md\(10),
 	datad => \cpu1|ALT_INV_md[10]~4_combout\,
-	datae => \ALT_INV_cpuDataIn[7]~46_combout\,
+	datae => \ALT_INV_w_cpuDataIn[7]~46_combout\,
 	dataf => \cpu1|ALT_INV_Selector376~3_combout\,
 	combout => \cpu1|Selector271~0_combout\);
 
@@ -47947,7 +47948,7 @@ PORT MAP (
 -- Location: LABCELL_X10_Y40_N12
 \cpu1|yreg[11]~feeder\ : cyclonev_lcell_comb
 -- Equation(s):
--- \cpu1|yreg[11]~feeder_combout\ = \cpuDataIn[3]~23_combout\
+-- \cpu1|yreg[11]~feeder_combout\ = \w_cpuDataIn[3]~23_combout\
 
 -- pragma translate_off
 GENERIC MAP (
@@ -47956,7 +47957,7 @@ GENERIC MAP (
 	shared_arith => "off")
 -- pragma translate_on
 PORT MAP (
-	datab => \ALT_INV_cpuDataIn[3]~23_combout\,
+	datab => \ALT_INV_w_cpuDataIn[3]~23_combout\,
 	combout => \cpu1|yreg[11]~feeder_combout\);
 
 -- Location: FF_X10_Y40_N14
@@ -48002,7 +48003,7 @@ PORT MAP (
 -- Location: MLABCELL_X9_Y35_N36
 \cpu1|xreg[11]~feeder\ : cyclonev_lcell_comb
 -- Equation(s):
--- \cpu1|xreg[11]~feeder_combout\ = \cpuDataIn[3]~23_combout\
+-- \cpu1|xreg[11]~feeder_combout\ = \w_cpuDataIn[3]~23_combout\
 
 -- pragma translate_off
 GENERIC MAP (
@@ -48011,7 +48012,7 @@ GENERIC MAP (
 	shared_arith => "off")
 -- pragma translate_on
 PORT MAP (
-	datab => \ALT_INV_cpuDataIn[3]~23_combout\,
+	datab => \ALT_INV_w_cpuDataIn[3]~23_combout\,
 	combout => \cpu1|xreg[11]~feeder_combout\);
 
 -- Location: FF_X9_Y35_N38
@@ -48263,10 +48264,10 @@ PORT MAP (
 -- Location: LABCELL_X5_Y40_N42
 \cpu1|Selector190~0\ : cyclonev_lcell_comb
 -- Equation(s):
--- \cpu1|Selector190~0_combout\ = ( \cpuDataIn[3]~23_combout\ & ( \cpu1|Selector376~2_combout\ & ( ((!\cpu1|Mux580~1_combout\ & ((\cpu1|Selector384~6_combout\))) # (\cpu1|Mux580~1_combout\ & (!\cpu1|Selector376~1_combout\))) # (\cpu1|Mux581~1_combout\) ) ) ) 
--- # ( !\cpuDataIn[3]~23_combout\ & ( \cpu1|Selector376~2_combout\ & ( (!\cpu1|Mux581~1_combout\ & ((!\cpu1|Mux580~1_combout\ & ((\cpu1|Selector384~6_combout\))) # (\cpu1|Mux580~1_combout\ & (!\cpu1|Selector376~1_combout\)))) ) ) ) # ( 
--- \cpuDataIn[3]~23_combout\ & ( !\cpu1|Selector376~2_combout\ & ( ((\cpu1|Selector384~6_combout\) # (\cpu1|Mux580~1_combout\)) # (\cpu1|Mux581~1_combout\) ) ) ) # ( !\cpuDataIn[3]~23_combout\ & ( !\cpu1|Selector376~2_combout\ & ( (!\cpu1|Mux581~1_combout\ & 
--- ((\cpu1|Selector384~6_combout\) # (\cpu1|Mux580~1_combout\))) ) ) )
+-- \cpu1|Selector190~0_combout\ = ( \w_cpuDataIn[3]~23_combout\ & ( \cpu1|Selector376~2_combout\ & ( ((!\cpu1|Mux580~1_combout\ & ((\cpu1|Selector384~6_combout\))) # (\cpu1|Mux580~1_combout\ & (!\cpu1|Selector376~1_combout\))) # (\cpu1|Mux581~1_combout\) ) ) 
+-- ) # ( !\w_cpuDataIn[3]~23_combout\ & ( \cpu1|Selector376~2_combout\ & ( (!\cpu1|Mux581~1_combout\ & ((!\cpu1|Mux580~1_combout\ & ((\cpu1|Selector384~6_combout\))) # (\cpu1|Mux580~1_combout\ & (!\cpu1|Selector376~1_combout\)))) ) ) ) # ( 
+-- \w_cpuDataIn[3]~23_combout\ & ( !\cpu1|Selector376~2_combout\ & ( ((\cpu1|Selector384~6_combout\) # (\cpu1|Mux580~1_combout\)) # (\cpu1|Mux581~1_combout\) ) ) ) # ( !\w_cpuDataIn[3]~23_combout\ & ( !\cpu1|Selector376~2_combout\ & ( 
+-- (!\cpu1|Mux581~1_combout\ & ((\cpu1|Selector384~6_combout\) # (\cpu1|Mux580~1_combout\))) ) ) )
 
 -- pragma translate_off
 GENERIC MAP (
@@ -48279,7 +48280,7 @@ PORT MAP (
 	datab => \cpu1|ALT_INV_Selector376~1_combout\,
 	datac => \cpu1|ALT_INV_Mux580~1_combout\,
 	datad => \cpu1|ALT_INV_Selector384~6_combout\,
-	datae => \ALT_INV_cpuDataIn[3]~23_combout\,
+	datae => \ALT_INV_w_cpuDataIn[3]~23_combout\,
 	dataf => \cpu1|ALT_INV_Selector376~2_combout\,
 	combout => \cpu1|Selector190~0_combout\);
 
@@ -48302,7 +48303,7 @@ PORT MAP (
 -- Location: LABCELL_X16_Y38_N18
 \cpu1|up[3]~feeder\ : cyclonev_lcell_comb
 -- Equation(s):
--- \cpu1|up[3]~feeder_combout\ = ( \cpuDataIn[3]~23_combout\ )
+-- \cpu1|up[3]~feeder_combout\ = ( \w_cpuDataIn[3]~23_combout\ )
 
 -- pragma translate_off
 GENERIC MAP (
@@ -48311,7 +48312,7 @@ GENERIC MAP (
 	shared_arith => "off")
 -- pragma translate_on
 PORT MAP (
-	dataf => \ALT_INV_cpuDataIn[3]~23_combout\,
+	dataf => \ALT_INV_w_cpuDataIn[3]~23_combout\,
 	combout => \cpu1|up[3]~feeder_combout\);
 
 -- Location: FF_X16_Y38_N20
@@ -48355,7 +48356,7 @@ PORT MAP (
 -- Location: LABCELL_X12_Y38_N9
 \cpu1|sp[3]~feeder\ : cyclonev_lcell_comb
 -- Equation(s):
--- \cpu1|sp[3]~feeder_combout\ = ( \cpuDataIn[3]~23_combout\ )
+-- \cpu1|sp[3]~feeder_combout\ = ( \w_cpuDataIn[3]~23_combout\ )
 
 -- pragma translate_off
 GENERIC MAP (
@@ -48364,7 +48365,7 @@ GENERIC MAP (
 	shared_arith => "off")
 -- pragma translate_on
 PORT MAP (
-	dataf => \ALT_INV_cpuDataIn[3]~23_combout\,
+	dataf => \ALT_INV_w_cpuDataIn[3]~23_combout\,
 	combout => \cpu1|sp[3]~feeder_combout\);
 
 -- Location: FF_X12_Y38_N11
@@ -48388,7 +48389,7 @@ PORT MAP (
 -- Location: LABCELL_X17_Y36_N54
 \cpu1|xreg[3]~feeder\ : cyclonev_lcell_comb
 -- Equation(s):
--- \cpu1|xreg[3]~feeder_combout\ = ( \cpuDataIn[3]~23_combout\ )
+-- \cpu1|xreg[3]~feeder_combout\ = ( \w_cpuDataIn[3]~23_combout\ )
 
 -- pragma translate_off
 GENERIC MAP (
@@ -48397,7 +48398,7 @@ GENERIC MAP (
 	shared_arith => "off")
 -- pragma translate_on
 PORT MAP (
-	dataf => \ALT_INV_cpuDataIn[3]~23_combout\,
+	dataf => \ALT_INV_w_cpuDataIn[3]~23_combout\,
 	combout => \cpu1|xreg[3]~feeder_combout\);
 
 -- Location: FF_X17_Y36_N56
@@ -48421,7 +48422,7 @@ PORT MAP (
 -- Location: MLABCELL_X9_Y34_N48
 \cpu1|yreg[3]~feeder\ : cyclonev_lcell_comb
 -- Equation(s):
--- \cpu1|yreg[3]~feeder_combout\ = ( \cpuDataIn[3]~23_combout\ )
+-- \cpu1|yreg[3]~feeder_combout\ = ( \w_cpuDataIn[3]~23_combout\ )
 
 -- pragma translate_off
 GENERIC MAP (
@@ -48430,7 +48431,7 @@ GENERIC MAP (
 	shared_arith => "off")
 -- pragma translate_on
 PORT MAP (
-	dataf => \ALT_INV_cpuDataIn[3]~23_combout\,
+	dataf => \ALT_INV_w_cpuDataIn[3]~23_combout\,
 	combout => \cpu1|yreg[3]~feeder_combout\);
 
 -- Location: FF_X9_Y34_N50
@@ -48898,9 +48899,9 @@ PORT MAP (
 -- Location: MLABCELL_X9_Y36_N12
 \cpu1|Selector290~8\ : cyclonev_lcell_comb
 -- Equation(s):
--- \cpu1|Selector290~8_combout\ = ( \cpu1|Selector290~6_combout\ & ( \cpu1|Selector290~7_combout\ & ( ((\cpuDataIn[0]~5_combout\ & \cpu1|cc_ctrl.pull_cc~2_combout\)) # (\cpu1|Selector290~0_combout\) ) ) ) # ( !\cpu1|Selector290~6_combout\ & ( 
--- \cpu1|Selector290~7_combout\ & ( ((\cpuDataIn[0]~5_combout\ & \cpu1|cc_ctrl.pull_cc~2_combout\)) # (\cpu1|Selector290~0_combout\) ) ) ) # ( \cpu1|Selector290~6_combout\ & ( !\cpu1|Selector290~7_combout\ & ( (!\cpu1|Selector388~1_combout\) # 
--- (((\cpuDataIn[0]~5_combout\ & \cpu1|cc_ctrl.pull_cc~2_combout\)) # (\cpu1|Selector290~0_combout\)) ) ) ) # ( !\cpu1|Selector290~6_combout\ & ( !\cpu1|Selector290~7_combout\ & ( ((\cpuDataIn[0]~5_combout\ & \cpu1|cc_ctrl.pull_cc~2_combout\)) # 
+-- \cpu1|Selector290~8_combout\ = ( \cpu1|Selector290~6_combout\ & ( \cpu1|Selector290~7_combout\ & ( ((\w_cpuDataIn[0]~5_combout\ & \cpu1|cc_ctrl.pull_cc~2_combout\)) # (\cpu1|Selector290~0_combout\) ) ) ) # ( !\cpu1|Selector290~6_combout\ & ( 
+-- \cpu1|Selector290~7_combout\ & ( ((\w_cpuDataIn[0]~5_combout\ & \cpu1|cc_ctrl.pull_cc~2_combout\)) # (\cpu1|Selector290~0_combout\) ) ) ) # ( \cpu1|Selector290~6_combout\ & ( !\cpu1|Selector290~7_combout\ & ( (!\cpu1|Selector388~1_combout\) # 
+-- (((\w_cpuDataIn[0]~5_combout\ & \cpu1|cc_ctrl.pull_cc~2_combout\)) # (\cpu1|Selector290~0_combout\)) ) ) ) # ( !\cpu1|Selector290~6_combout\ & ( !\cpu1|Selector290~7_combout\ & ( ((\w_cpuDataIn[0]~5_combout\ & \cpu1|cc_ctrl.pull_cc~2_combout\)) # 
 -- (\cpu1|Selector290~0_combout\) ) ) )
 
 -- pragma translate_off
@@ -48910,7 +48911,7 @@ GENERIC MAP (
 	shared_arith => "off")
 -- pragma translate_on
 PORT MAP (
-	dataa => \ALT_INV_cpuDataIn[0]~5_combout\,
+	dataa => \ALT_INV_w_cpuDataIn[0]~5_combout\,
 	datab => \cpu1|ALT_INV_Selector388~1_combout\,
 	datac => \cpu1|ALT_INV_Selector290~0_combout\,
 	datad => \cpu1|ALT_INV_cc_ctrl.pull_cc~2_combout\,
@@ -48928,7 +48929,7 @@ GENERIC MAP (
 PORT MAP (
 	clk => \clk~inputCLKENA0_outclk\,
 	d => \cpu1|Selector290~8_combout\,
-	ena => \ALT_INV_hold~q\,
+	ena => \ALT_INV_w_hold~q\,
 	devclrn => ww_devclrn,
 	devpor => ww_devpor,
 	q => \cpu1|cc\(0));
@@ -49054,8 +49055,8 @@ PORT MAP (
 -- Location: LABCELL_X12_Y36_N12
 \cpu1|Selector186~1\ : cyclonev_lcell_comb
 -- Equation(s):
--- \cpu1|Selector186~1_combout\ = ( \cpu1|Mux581~1_combout\ & ( \cpu1|Selector186~0_combout\ & ( (!\n_if1CS~0_combout\ & (((\cpuDataIn[7]~19_combout\)) # (\cpuDataIn[7]~16_combout\))) # (\n_if1CS~0_combout\ & (((\io1|dataOut[7]~DUPLICATE_q\)))) ) ) ) # ( 
--- \cpu1|Mux581~1_combout\ & ( !\cpu1|Selector186~0_combout\ & ( (!\n_if1CS~0_combout\ & (((\cpuDataIn[7]~19_combout\)) # (\cpuDataIn[7]~16_combout\))) # (\n_if1CS~0_combout\ & (((\io1|dataOut[7]~DUPLICATE_q\)))) ) ) ) # ( !\cpu1|Mux581~1_combout\ & ( 
+-- \cpu1|Selector186~1_combout\ = ( \cpu1|Mux581~1_combout\ & ( \cpu1|Selector186~0_combout\ & ( (!\n_if1CS~0_combout\ & (((\w_cpuDataIn[7]~19_combout\)) # (\w_cpuDataIn[7]~16_combout\))) # (\n_if1CS~0_combout\ & (((\io1|dataOut[7]~DUPLICATE_q\)))) ) ) ) # ( 
+-- \cpu1|Mux581~1_combout\ & ( !\cpu1|Selector186~0_combout\ & ( (!\n_if1CS~0_combout\ & (((\w_cpuDataIn[7]~19_combout\)) # (\w_cpuDataIn[7]~16_combout\))) # (\n_if1CS~0_combout\ & (((\io1|dataOut[7]~DUPLICATE_q\)))) ) ) ) # ( !\cpu1|Mux581~1_combout\ & ( 
 -- !\cpu1|Selector186~0_combout\ ) )
 
 -- pragma translate_off
@@ -49065,10 +49066,10 @@ GENERIC MAP (
 	shared_arith => "off")
 -- pragma translate_on
 PORT MAP (
-	dataa => \ALT_INV_cpuDataIn[7]~16_combout\,
+	dataa => \ALT_INV_w_cpuDataIn[7]~16_combout\,
 	datab => \ALT_INV_n_if1CS~0_combout\,
 	datac => \io1|ALT_INV_dataOut[7]~DUPLICATE_q\,
-	datad => \ALT_INV_cpuDataIn[7]~19_combout\,
+	datad => \ALT_INV_w_cpuDataIn[7]~19_combout\,
 	datae => \cpu1|ALT_INV_Mux581~1_combout\,
 	dataf => \cpu1|ALT_INV_Selector186~0_combout\,
 	combout => \cpu1|Selector186~1_combout\);
@@ -49092,7 +49093,7 @@ PORT MAP (
 -- Location: LABCELL_X12_Y38_N18
 \cpu1|sp[7]~feeder\ : cyclonev_lcell_comb
 -- Equation(s):
--- \cpu1|sp[7]~feeder_combout\ = ( \cpuDataIn[7]~46_combout\ )
+-- \cpu1|sp[7]~feeder_combout\ = ( \w_cpuDataIn[7]~46_combout\ )
 
 -- pragma translate_off
 GENERIC MAP (
@@ -49101,7 +49102,7 @@ GENERIC MAP (
 	shared_arith => "off")
 -- pragma translate_on
 PORT MAP (
-	dataf => \ALT_INV_cpuDataIn[7]~46_combout\,
+	dataf => \ALT_INV_w_cpuDataIn[7]~46_combout\,
 	combout => \cpu1|sp[7]~feeder_combout\);
 
 -- Location: FF_X12_Y38_N20
@@ -49125,7 +49126,7 @@ PORT MAP (
 -- Location: LABCELL_X17_Y36_N42
 \cpu1|xreg[7]~feeder\ : cyclonev_lcell_comb
 -- Equation(s):
--- \cpu1|xreg[7]~feeder_combout\ = ( \cpuDataIn[7]~46_combout\ )
+-- \cpu1|xreg[7]~feeder_combout\ = ( \w_cpuDataIn[7]~46_combout\ )
 
 -- pragma translate_off
 GENERIC MAP (
@@ -49134,7 +49135,7 @@ GENERIC MAP (
 	shared_arith => "off")
 -- pragma translate_on
 PORT MAP (
-	dataf => \ALT_INV_cpuDataIn[7]~46_combout\,
+	dataf => \ALT_INV_w_cpuDataIn[7]~46_combout\,
 	combout => \cpu1|xreg[7]~feeder_combout\);
 
 -- Location: FF_X17_Y36_N44
@@ -49158,7 +49159,7 @@ PORT MAP (
 -- Location: MLABCELL_X9_Y34_N24
 \cpu1|yreg[7]~feeder\ : cyclonev_lcell_comb
 -- Equation(s):
--- \cpu1|yreg[7]~feeder_combout\ = ( \cpuDataIn[7]~46_combout\ )
+-- \cpu1|yreg[7]~feeder_combout\ = ( \w_cpuDataIn[7]~46_combout\ )
 
 -- pragma translate_off
 GENERIC MAP (
@@ -49167,7 +49168,7 @@ GENERIC MAP (
 	shared_arith => "off")
 -- pragma translate_on
 PORT MAP (
-	dataf => \ALT_INV_cpuDataIn[7]~46_combout\,
+	dataf => \ALT_INV_w_cpuDataIn[7]~46_combout\,
 	combout => \cpu1|yreg[7]~feeder_combout\);
 
 -- Location: FF_X9_Y34_N26
@@ -49253,7 +49254,7 @@ PORT MAP (
 -- Location: LABCELL_X12_Y34_N54
 \cpu1|up[7]~feeder\ : cyclonev_lcell_comb
 -- Equation(s):
--- \cpu1|up[7]~feeder_combout\ = \cpuDataIn[7]~46_combout\
+-- \cpu1|up[7]~feeder_combout\ = \w_cpuDataIn[7]~46_combout\
 
 -- pragma translate_off
 GENERIC MAP (
@@ -49262,7 +49263,7 @@ GENERIC MAP (
 	shared_arith => "off")
 -- pragma translate_on
 PORT MAP (
-	datad => \ALT_INV_cpuDataIn[7]~46_combout\,
+	datad => \ALT_INV_w_cpuDataIn[7]~46_combout\,
 	combout => \cpu1|up[7]~feeder_combout\);
 
 -- Location: FF_X12_Y34_N56
@@ -49387,7 +49388,7 @@ GENERIC MAP (
 PORT MAP (
 	clk => \clk~inputCLKENA0_outclk\,
 	d => \cpu1|ea[7]~feeder_combout\,
-	asdata => \cpuDataIn[7]~46_combout\,
+	asdata => \w_cpuDataIn[7]~46_combout\,
 	sclr => \cpu1|ea[1]~0_combout\,
 	sload => \cpu1|Selector423~0_combout\,
 	ena => \cpu1|ea[0]~1_combout\,
@@ -49602,7 +49603,7 @@ GENERIC MAP (
 PORT MAP (
 	clk => \clk~inputCLKENA0_outclk\,
 	d => \cpu1|ea[5]~feeder_combout\,
-	asdata => \cpuDataIn[5]~39_combout\,
+	asdata => \w_cpuDataIn[5]~39_combout\,
 	sclr => \cpu1|ea[1]~0_combout\,
 	sload => \cpu1|Selector423~0_combout\,
 	ena => \cpu1|ea[0]~1_combout\,
@@ -49641,7 +49642,7 @@ PORT MAP (
 	clk => \clk~inputCLKENA0_outclk\,
 	d => \cpu1|state~320_combout\,
 	clrn => \debounceReset|ALT_INV_o_PinOut~q\,
-	ena => \ALT_INV_hold~q\,
+	ena => \ALT_INV_w_hold~q\,
 	devclrn => ww_devclrn,
 	devpor => ww_devpor,
 	q => \cpu1|state.pshs_iyl_state~q\);
@@ -49680,7 +49681,7 @@ PORT MAP (
 	asdata => \cpu1|state.pshs_iyl_state~q\,
 	clrn => \debounceReset|ALT_INV_o_PinOut~q\,
 	sload => \cpu1|ALT_INV_Selector582~18_combout\,
-	ena => \ALT_INV_hold~q\,
+	ena => \ALT_INV_w_hold~q\,
 	devclrn => ww_devclrn,
 	devpor => ww_devpor,
 	q => \cpu1|state.pshs_iyh_state~q\);
@@ -49734,7 +49735,7 @@ PORT MAP (
 	asdata => \cpu1|state~309_combout\,
 	clrn => \debounceReset|ALT_INV_o_PinOut~q\,
 	sload => VCC,
-	ena => \ALT_INV_hold~q\,
+	ena => \ALT_INV_w_hold~q\,
 	devclrn => ww_devclrn,
 	devpor => ww_devpor,
 	q => \cpu1|state.pshs_ixl_state~q\);
@@ -49773,7 +49774,7 @@ PORT MAP (
 	asdata => \cpu1|state.pshs_ixl_state~q\,
 	clrn => \debounceReset|ALT_INV_o_PinOut~q\,
 	sload => \cpu1|ALT_INV_Selector582~18_combout\,
-	ena => \ALT_INV_hold~q\,
+	ena => \ALT_INV_w_hold~q\,
 	devclrn => ww_devclrn,
 	devpor => ww_devpor,
 	q => \cpu1|state.pshs_ixh_state~q\);
@@ -50027,7 +50028,7 @@ GENERIC MAP (
 PORT MAP (
 	clk => \clk~inputCLKENA0_outclk\,
 	d => \cpu1|ea[1]~feeder_combout\,
-	asdata => \cpuDataIn[1]~20_combout\,
+	asdata => \w_cpuDataIn[1]~20_combout\,
 	sclr => \cpu1|ea[1]~0_combout\,
 	sload => \cpu1|Selector423~0_combout\,
 	ena => \cpu1|ea[0]~1_combout\,
@@ -50065,7 +50066,7 @@ PORT MAP (
 	clk => \clk~inputCLKENA0_outclk\,
 	d => \cpu1|state~478_combout\,
 	clrn => \debounceReset|ALT_INV_o_PinOut~q\,
-	ena => \ALT_INV_hold~q\,
+	ena => \ALT_INV_w_hold~q\,
 	devclrn => ww_devclrn,
 	devpor => ww_devpor,
 	q => \cpu1|state.pulu_acca_state~q\);
@@ -50091,9 +50092,9 @@ PORT MAP (
 -- Location: LABCELL_X5_Y40_N24
 \cpu1|Selector193~0\ : cyclonev_lcell_comb
 -- Equation(s):
--- \cpu1|Selector193~0_combout\ = ( \cpuDataIn[0]~5_combout\ & ( \cpu1|Selector379~7_combout\ & ( ((\cpu1|Mux580~1_combout\) # (\cpu1|Selector387~6_combout\)) # (\cpu1|Mux581~1_combout\) ) ) ) # ( !\cpuDataIn[0]~5_combout\ & ( \cpu1|Selector379~7_combout\ & 
--- ( (!\cpu1|Mux581~1_combout\ & ((\cpu1|Mux580~1_combout\) # (\cpu1|Selector387~6_combout\))) ) ) ) # ( \cpuDataIn[0]~5_combout\ & ( !\cpu1|Selector379~7_combout\ & ( ((\cpu1|Selector387~6_combout\ & !\cpu1|Mux580~1_combout\)) # (\cpu1|Mux581~1_combout\) ) 
--- ) ) # ( !\cpuDataIn[0]~5_combout\ & ( !\cpu1|Selector379~7_combout\ & ( (!\cpu1|Mux581~1_combout\ & (\cpu1|Selector387~6_combout\ & !\cpu1|Mux580~1_combout\)) ) ) )
+-- \cpu1|Selector193~0_combout\ = ( \w_cpuDataIn[0]~5_combout\ & ( \cpu1|Selector379~7_combout\ & ( ((\cpu1|Mux580~1_combout\) # (\cpu1|Selector387~6_combout\)) # (\cpu1|Mux581~1_combout\) ) ) ) # ( !\w_cpuDataIn[0]~5_combout\ & ( 
+-- \cpu1|Selector379~7_combout\ & ( (!\cpu1|Mux581~1_combout\ & ((\cpu1|Mux580~1_combout\) # (\cpu1|Selector387~6_combout\))) ) ) ) # ( \w_cpuDataIn[0]~5_combout\ & ( !\cpu1|Selector379~7_combout\ & ( ((\cpu1|Selector387~6_combout\ & 
+-- !\cpu1|Mux580~1_combout\)) # (\cpu1|Mux581~1_combout\) ) ) ) # ( !\w_cpuDataIn[0]~5_combout\ & ( !\cpu1|Selector379~7_combout\ & ( (!\cpu1|Mux581~1_combout\ & (\cpu1|Selector387~6_combout\ & !\cpu1|Mux580~1_combout\)) ) ) )
 
 -- pragma translate_off
 GENERIC MAP (
@@ -50105,7 +50106,7 @@ PORT MAP (
 	dataa => \cpu1|ALT_INV_Mux581~1_combout\,
 	datab => \cpu1|ALT_INV_Selector387~6_combout\,
 	datac => \cpu1|ALT_INV_Mux580~1_combout\,
-	datae => \ALT_INV_cpuDataIn[0]~5_combout\,
+	datae => \ALT_INV_w_cpuDataIn[0]~5_combout\,
 	dataf => \cpu1|ALT_INV_Selector379~7_combout\,
 	combout => \cpu1|Selector193~0_combout\);
 
@@ -50128,7 +50129,7 @@ PORT MAP (
 -- Location: LABCELL_X16_Y34_N15
 \cpu1|up[0]~feeder\ : cyclonev_lcell_comb
 -- Equation(s):
--- \cpu1|up[0]~feeder_combout\ = ( \cpuDataIn[0]~5_combout\ )
+-- \cpu1|up[0]~feeder_combout\ = ( \w_cpuDataIn[0]~5_combout\ )
 
 -- pragma translate_off
 GENERIC MAP (
@@ -50137,7 +50138,7 @@ GENERIC MAP (
 	shared_arith => "off")
 -- pragma translate_on
 PORT MAP (
-	dataf => \ALT_INV_cpuDataIn[0]~5_combout\,
+	dataf => \ALT_INV_w_cpuDataIn[0]~5_combout\,
 	combout => \cpu1|up[0]~feeder_combout\);
 
 -- Location: FF_X16_Y34_N17
@@ -50181,7 +50182,7 @@ PORT MAP (
 -- Location: MLABCELL_X9_Y34_N3
 \cpu1|yreg[0]~feeder\ : cyclonev_lcell_comb
 -- Equation(s):
--- \cpu1|yreg[0]~feeder_combout\ = ( \cpuDataIn[0]~5_combout\ )
+-- \cpu1|yreg[0]~feeder_combout\ = ( \w_cpuDataIn[0]~5_combout\ )
 
 -- pragma translate_off
 GENERIC MAP (
@@ -50190,7 +50191,7 @@ GENERIC MAP (
 	shared_arith => "off")
 -- pragma translate_on
 PORT MAP (
-	dataf => \ALT_INV_cpuDataIn[0]~5_combout\,
+	dataf => \ALT_INV_w_cpuDataIn[0]~5_combout\,
 	combout => \cpu1|yreg[0]~feeder_combout\);
 
 -- Location: FF_X9_Y34_N5
@@ -50256,7 +50257,7 @@ PORT MAP (
 -- Location: LABCELL_X17_Y36_N21
 \cpu1|xreg[0]~feeder\ : cyclonev_lcell_comb
 -- Equation(s):
--- \cpu1|xreg[0]~feeder_combout\ = ( \cpuDataIn[0]~5_combout\ )
+-- \cpu1|xreg[0]~feeder_combout\ = ( \w_cpuDataIn[0]~5_combout\ )
 
 -- pragma translate_off
 GENERIC MAP (
@@ -50265,7 +50266,7 @@ GENERIC MAP (
 	shared_arith => "off")
 -- pragma translate_on
 PORT MAP (
-	dataf => \ALT_INV_cpuDataIn[0]~5_combout\,
+	dataf => \ALT_INV_w_cpuDataIn[0]~5_combout\,
 	combout => \cpu1|xreg[0]~feeder_combout\);
 
 -- Location: FF_X17_Y36_N23
@@ -50466,8 +50467,8 @@ PORT MAP (
 -- Location: LABCELL_X19_Y37_N48
 \cpu1|Selector169~2\ : cyclonev_lcell_comb
 -- Equation(s):
--- \cpu1|Selector169~2_combout\ = ( \cpuDataIn[0]~11_combout\ & ( \cpu1|Selector169~1_combout\ ) ) # ( !\cpuDataIn[0]~11_combout\ & ( \cpu1|Selector169~1_combout\ ) ) # ( \cpuDataIn[0]~11_combout\ & ( !\cpu1|Selector169~1_combout\ & ( 
--- \cpu1|Selector169~0_combout\ ) ) ) # ( !\cpuDataIn[0]~11_combout\ & ( !\cpu1|Selector169~1_combout\ & ( (\cpu1|Selector169~0_combout\ & (\cpuDataIn[0]~10_combout\ & \cpuDataIn[0]~4_combout\)) ) ) )
+-- \cpu1|Selector169~2_combout\ = ( \w_cpuDataIn[0]~11_combout\ & ( \cpu1|Selector169~1_combout\ ) ) # ( !\w_cpuDataIn[0]~11_combout\ & ( \cpu1|Selector169~1_combout\ ) ) # ( \w_cpuDataIn[0]~11_combout\ & ( !\cpu1|Selector169~1_combout\ & ( 
+-- \cpu1|Selector169~0_combout\ ) ) ) # ( !\w_cpuDataIn[0]~11_combout\ & ( !\cpu1|Selector169~1_combout\ & ( (\cpu1|Selector169~0_combout\ & (\w_cpuDataIn[0]~10_combout\ & \w_cpuDataIn[0]~4_combout\)) ) ) )
 
 -- pragma translate_off
 GENERIC MAP (
@@ -50477,9 +50478,9 @@ GENERIC MAP (
 -- pragma translate_on
 PORT MAP (
 	dataa => \cpu1|ALT_INV_Selector169~0_combout\,
-	datab => \ALT_INV_cpuDataIn[0]~10_combout\,
-	datac => \ALT_INV_cpuDataIn[0]~4_combout\,
-	datae => \ALT_INV_cpuDataIn[0]~11_combout\,
+	datab => \ALT_INV_w_cpuDataIn[0]~10_combout\,
+	datac => \ALT_INV_w_cpuDataIn[0]~4_combout\,
+	datae => \ALT_INV_w_cpuDataIn[0]~11_combout\,
 	dataf => \cpu1|ALT_INV_Selector169~1_combout\,
 	combout => \cpu1|Selector169~2_combout\);
 
@@ -50571,8 +50572,8 @@ PORT MAP (
 -- Location: LABCELL_X12_Y35_N54
 \cpu1|Selector167~0\ : cyclonev_lcell_comb
 -- Equation(s):
--- \cpu1|Selector167~0_combout\ = ( \cpu1|Add0~9_sumout\ & ( (!\cpu1|Selector421~1_combout\) # ((!\cpu1|WideOr78~combout\ & ((\cpuDataIn[2]~21_combout\))) # (\cpu1|WideOr78~combout\ & (\cpu1|Selector385~5_combout\))) ) ) # ( !\cpu1|Add0~9_sumout\ & ( 
--- (\cpu1|Selector421~1_combout\ & ((!\cpu1|WideOr78~combout\ & ((\cpuDataIn[2]~21_combout\))) # (\cpu1|WideOr78~combout\ & (\cpu1|Selector385~5_combout\)))) ) )
+-- \cpu1|Selector167~0_combout\ = ( \cpu1|Add0~9_sumout\ & ( (!\cpu1|Selector421~1_combout\) # ((!\cpu1|WideOr78~combout\ & ((\w_cpuDataIn[2]~21_combout\))) # (\cpu1|WideOr78~combout\ & (\cpu1|Selector385~5_combout\))) ) ) # ( !\cpu1|Add0~9_sumout\ & ( 
+-- (\cpu1|Selector421~1_combout\ & ((!\cpu1|WideOr78~combout\ & ((\w_cpuDataIn[2]~21_combout\))) # (\cpu1|WideOr78~combout\ & (\cpu1|Selector385~5_combout\)))) ) )
 
 -- pragma translate_off
 GENERIC MAP (
@@ -50584,7 +50585,7 @@ PORT MAP (
 	dataa => \cpu1|ALT_INV_Selector421~1_combout\,
 	datab => \cpu1|ALT_INV_WideOr78~combout\,
 	datac => \cpu1|ALT_INV_Selector385~5_combout\,
-	datad => \ALT_INV_cpuDataIn[2]~21_combout\,
+	datad => \ALT_INV_w_cpuDataIn[2]~21_combout\,
 	dataf => \cpu1|ALT_INV_Add0~9_sumout\,
 	combout => \cpu1|Selector167~0_combout\);
 
@@ -50656,9 +50657,9 @@ PORT MAP (
 	q => \sd1|dout\(3));
 
 -- Location: LABCELL_X17_Y35_N0
-\cpuDataIn[3]~64\ : cyclonev_lcell_comb
+\w_cpuDataIn[3]~64\ : cyclonev_lcell_comb
 -- Equation(s):
--- \cpuDataIn[3]~64_combout\ = ( \sd1|Equal6~0_combout\ & ( (!\Equal6~0_combout\ & ((!\n_ROMCS~1_combout\) # ((\rom1|altsyncram_component|auto_generated|q_a\(3))))) # (\Equal6~0_combout\ & (((\sd1|dout\(3))))) ) ) # ( !\sd1|Equal6~0_combout\ & ( 
+-- \w_cpuDataIn[3]~64_combout\ = ( \sd1|Equal6~0_combout\ & ( (!\Equal6~0_combout\ & ((!\n_ROMCS~1_combout\) # ((\rom1|altsyncram_component|auto_generated|q_a\(3))))) # (\Equal6~0_combout\ & (((\sd1|dout\(3))))) ) ) # ( !\sd1|Equal6~0_combout\ & ( 
 -- (!\Equal6~0_combout\ & ((!\n_ROMCS~1_combout\) # (\rom1|altsyncram_component|auto_generated|q_a\(3)))) ) )
 
 -- pragma translate_off
@@ -50673,7 +50674,7 @@ PORT MAP (
 	datac => \sd1|ALT_INV_dout\(3),
 	datad => \rom1|altsyncram_component|auto_generated|ALT_INV_q_a\(3),
 	dataf => \sd1|ALT_INV_Equal6~0_combout\,
-	combout => \cpuDataIn[3]~64_combout\);
+	combout => \w_cpuDataIn[3]~64_combout\);
 
 -- Location: FF_X17_Y34_N10
 \gpio1|reg_ddr2[3]\ : dffeas
@@ -50740,9 +50741,9 @@ PORT MAP (
 	q => \gpio1|reg_dat2\(3));
 
 -- Location: MLABCELL_X18_Y34_N54
-\cpuDataIn[3]~75\ : cyclonev_lcell_comb
+\w_cpuDataIn[3]~75\ : cyclonev_lcell_comb
 -- Equation(s):
--- \cpuDataIn[3]~75_combout\ = ( !\gpio1|reg\(0) & ( (!\cpu1|Selector330~4_combout\ & (\gpio1|reg\(3))) # (\cpu1|Selector330~4_combout\ & (((\gpio1|reg\(1) & (\gpio1|reg_dat2\(3) & \gpio1|Equal0~0_combout\))))) ) ) # ( \gpio1|reg\(0) & ( 
+-- \w_cpuDataIn[3]~75_combout\ = ( !\gpio1|reg\(0) & ( (!\cpu1|Selector330~4_combout\ & (\gpio1|reg\(3))) # (\cpu1|Selector330~4_combout\ & (((\gpio1|reg\(1) & (\gpio1|reg_dat2\(3) & \gpio1|Equal0~0_combout\))))) ) ) # ( \gpio1|reg\(0) & ( 
 -- (!\cpu1|Selector330~4_combout\ & (\gpio1|reg\(3))) # (\cpu1|Selector330~4_combout\ & (((\gpio1|reg\(1) & (\gpio1|reg_ddr2\(3) & \gpio1|Equal0~0_combout\))))) ) )
 
 -- pragma translate_off
@@ -50759,14 +50760,14 @@ PORT MAP (
 	datae => \gpio1|ALT_INV_reg\(0),
 	dataf => \cpu1|ALT_INV_Selector330~4_combout\,
 	datag => \gpio1|ALT_INV_reg_dat2\(3),
-	combout => \cpuDataIn[3]~75_combout\);
+	combout => \w_cpuDataIn[3]~75_combout\);
 
 -- Location: LABCELL_X17_Y35_N18
-\cpuDataIn[3]~66\ : cyclonev_lcell_comb
+\w_cpuDataIn[3]~66\ : cyclonev_lcell_comb
 -- Equation(s):
--- \cpuDataIn[3]~66_combout\ = ( \cpuDataIn[3]~64_combout\ & ( \cpuDataIn[3]~75_combout\ & ( (!\n_if1CS~0_combout\ & ((!\n_if2CS~0_combout\) # (\io2|dataOut\(3)))) ) ) ) # ( !\cpuDataIn[3]~64_combout\ & ( \cpuDataIn[3]~75_combout\ & ( (!\n_if1CS~0_combout\ & 
--- ((!\n_if2CS~0_combout\ & ((!\Equal5~1_combout\))) # (\n_if2CS~0_combout\ & (\io2|dataOut\(3))))) ) ) ) # ( \cpuDataIn[3]~64_combout\ & ( !\cpuDataIn[3]~75_combout\ & ( (!\n_if1CS~0_combout\ & ((!\n_if2CS~0_combout\ & ((\Equal5~1_combout\))) # 
--- (\n_if2CS~0_combout\ & (\io2|dataOut\(3))))) ) ) ) # ( !\cpuDataIn[3]~64_combout\ & ( !\cpuDataIn[3]~75_combout\ & ( (\io2|dataOut\(3) & (!\n_if1CS~0_combout\ & \n_if2CS~0_combout\)) ) ) )
+-- \w_cpuDataIn[3]~66_combout\ = ( \w_cpuDataIn[3]~64_combout\ & ( \w_cpuDataIn[3]~75_combout\ & ( (!\n_if1CS~0_combout\ & ((!\n_if2CS~0_combout\) # (\io2|dataOut\(3)))) ) ) ) # ( !\w_cpuDataIn[3]~64_combout\ & ( \w_cpuDataIn[3]~75_combout\ & ( 
+-- (!\n_if1CS~0_combout\ & ((!\n_if2CS~0_combout\ & ((!\Equal5~1_combout\))) # (\n_if2CS~0_combout\ & (\io2|dataOut\(3))))) ) ) ) # ( \w_cpuDataIn[3]~64_combout\ & ( !\w_cpuDataIn[3]~75_combout\ & ( (!\n_if1CS~0_combout\ & ((!\n_if2CS~0_combout\ & 
+-- ((\Equal5~1_combout\))) # (\n_if2CS~0_combout\ & (\io2|dataOut\(3))))) ) ) ) # ( !\w_cpuDataIn[3]~64_combout\ & ( !\w_cpuDataIn[3]~75_combout\ & ( (\io2|dataOut\(3) & (!\n_if1CS~0_combout\ & \n_if2CS~0_combout\)) ) ) )
 
 -- pragma translate_off
 GENERIC MAP (
@@ -50779,14 +50780,14 @@ PORT MAP (
 	datab => \ALT_INV_n_if1CS~0_combout\,
 	datac => \ALT_INV_Equal5~1_combout\,
 	datad => \ALT_INV_n_if2CS~0_combout\,
-	datae => \ALT_INV_cpuDataIn[3]~64_combout\,
-	dataf => \ALT_INV_cpuDataIn[3]~75_combout\,
-	combout => \cpuDataIn[3]~66_combout\);
+	datae => \ALT_INV_w_cpuDataIn[3]~64_combout\,
+	dataf => \ALT_INV_w_cpuDataIn[3]~75_combout\,
+	combout => \w_cpuDataIn[3]~66_combout\);
 
 -- Location: LABCELL_X17_Y35_N36
-\cpuDataIn[3]~15\ : cyclonev_lcell_comb
+\w_cpuDataIn[3]~15\ : cyclonev_lcell_comb
 -- Equation(s):
--- \cpuDataIn[3]~15_combout\ = ( \n_ROMCS~1_combout\ & ( \cpuDataIn[3]~66_combout\ ) ) # ( !\n_ROMCS~1_combout\ & ( \cpuDataIn[3]~66_combout\ & ( (((!\Equal5~1_combout\) # (\Equal6~0_combout\)) # (\n_if2CS~0_combout\)) # (\sramData[3]~input_o\) ) ) )
+-- \w_cpuDataIn[3]~15_combout\ = ( \n_ROMCS~1_combout\ & ( \w_cpuDataIn[3]~66_combout\ ) ) # ( !\n_ROMCS~1_combout\ & ( \w_cpuDataIn[3]~66_combout\ & ( (((!\Equal5~1_combout\) # (\Equal6~0_combout\)) # (\n_if2CS~0_combout\)) # (\sramData[3]~input_o\) ) ) )
 
 -- pragma translate_off
 GENERIC MAP (
@@ -50800,16 +50801,16 @@ PORT MAP (
 	datac => \ALT_INV_Equal5~1_combout\,
 	datad => \ALT_INV_Equal6~0_combout\,
 	datae => \ALT_INV_n_ROMCS~1_combout\,
-	dataf => \ALT_INV_cpuDataIn[3]~66_combout\,
-	combout => \cpuDataIn[3]~15_combout\);
+	dataf => \ALT_INV_w_cpuDataIn[3]~66_combout\,
+	combout => \w_cpuDataIn[3]~15_combout\);
 
 -- Location: LABCELL_X14_Y35_N15
 \cpu1|Selector166~0\ : cyclonev_lcell_comb
 -- Equation(s):
--- \cpu1|Selector166~0_combout\ = ( \cpuDataIn[3]~15_combout\ & ( \cpu1|Selector384~6_combout\ & ( (\cpu1|Selector421~1_combout\) # (\cpu1|Add0~13_sumout\) ) ) ) # ( !\cpuDataIn[3]~15_combout\ & ( \cpu1|Selector384~6_combout\ & ( 
--- (!\cpu1|Selector421~1_combout\ & (((\cpu1|Add0~13_sumout\)))) # (\cpu1|Selector421~1_combout\ & (((\cpuDataIn[3]~14_combout\)) # (\cpu1|WideOr78~combout\))) ) ) ) # ( \cpuDataIn[3]~15_combout\ & ( !\cpu1|Selector384~6_combout\ & ( 
--- (!\cpu1|Selector421~1_combout\ & ((\cpu1|Add0~13_sumout\))) # (\cpu1|Selector421~1_combout\ & (!\cpu1|WideOr78~combout\)) ) ) ) # ( !\cpuDataIn[3]~15_combout\ & ( !\cpu1|Selector384~6_combout\ & ( (!\cpu1|Selector421~1_combout\ & 
--- (((\cpu1|Add0~13_sumout\)))) # (\cpu1|Selector421~1_combout\ & (!\cpu1|WideOr78~combout\ & ((\cpuDataIn[3]~14_combout\)))) ) ) )
+-- \cpu1|Selector166~0_combout\ = ( \w_cpuDataIn[3]~15_combout\ & ( \cpu1|Selector384~6_combout\ & ( (\cpu1|Selector421~1_combout\) # (\cpu1|Add0~13_sumout\) ) ) ) # ( !\w_cpuDataIn[3]~15_combout\ & ( \cpu1|Selector384~6_combout\ & ( 
+-- (!\cpu1|Selector421~1_combout\ & (((\cpu1|Add0~13_sumout\)))) # (\cpu1|Selector421~1_combout\ & (((\w_cpuDataIn[3]~14_combout\)) # (\cpu1|WideOr78~combout\))) ) ) ) # ( \w_cpuDataIn[3]~15_combout\ & ( !\cpu1|Selector384~6_combout\ & ( 
+-- (!\cpu1|Selector421~1_combout\ & ((\cpu1|Add0~13_sumout\))) # (\cpu1|Selector421~1_combout\ & (!\cpu1|WideOr78~combout\)) ) ) ) # ( !\w_cpuDataIn[3]~15_combout\ & ( !\cpu1|Selector384~6_combout\ & ( (!\cpu1|Selector421~1_combout\ & 
+-- (((\cpu1|Add0~13_sumout\)))) # (\cpu1|Selector421~1_combout\ & (!\cpu1|WideOr78~combout\ & ((\w_cpuDataIn[3]~14_combout\)))) ) ) )
 
 -- pragma translate_off
 GENERIC MAP (
@@ -50821,8 +50822,8 @@ PORT MAP (
 	dataa => \cpu1|ALT_INV_WideOr78~combout\,
 	datab => \cpu1|ALT_INV_Add0~13_sumout\,
 	datac => \cpu1|ALT_INV_Selector421~1_combout\,
-	datad => \ALT_INV_cpuDataIn[3]~14_combout\,
-	datae => \ALT_INV_cpuDataIn[3]~15_combout\,
+	datad => \ALT_INV_w_cpuDataIn[3]~14_combout\,
+	datae => \ALT_INV_w_cpuDataIn[3]~15_combout\,
 	dataf => \cpu1|ALT_INV_Selector384~6_combout\,
 	combout => \cpu1|Selector166~0_combout\);
 
@@ -50956,8 +50957,8 @@ PORT MAP (
 -- Location: LABCELL_X10_Y39_N18
 \cpu1|Selector160~1\ : cyclonev_lcell_comb
 -- Equation(s):
--- \cpu1|Selector160~1_combout\ = ( \cpu1|Selector160~0_combout\ & ( \cpuDataIn[1]~9_combout\ ) ) # ( !\cpu1|Selector160~0_combout\ & ( \cpuDataIn[1]~9_combout\ & ( (\cpu1|Selector161~1_combout\ & ((!\n_if1CS~0_combout\) # (\io1|dataOut\(1)))) ) ) ) # ( 
--- \cpu1|Selector160~0_combout\ & ( !\cpuDataIn[1]~9_combout\ ) ) # ( !\cpu1|Selector160~0_combout\ & ( !\cpuDataIn[1]~9_combout\ & ( (\cpu1|Selector161~1_combout\ & ((!\n_if1CS~0_combout\ & ((\cpuDataIn[1]~6_combout\))) # (\n_if1CS~0_combout\ & 
+-- \cpu1|Selector160~1_combout\ = ( \cpu1|Selector160~0_combout\ & ( \w_cpuDataIn[1]~9_combout\ ) ) # ( !\cpu1|Selector160~0_combout\ & ( \w_cpuDataIn[1]~9_combout\ & ( (\cpu1|Selector161~1_combout\ & ((!\n_if1CS~0_combout\) # (\io1|dataOut\(1)))) ) ) ) # ( 
+-- \cpu1|Selector160~0_combout\ & ( !\w_cpuDataIn[1]~9_combout\ ) ) # ( !\cpu1|Selector160~0_combout\ & ( !\w_cpuDataIn[1]~9_combout\ & ( (\cpu1|Selector161~1_combout\ & ((!\n_if1CS~0_combout\ & ((\w_cpuDataIn[1]~6_combout\))) # (\n_if1CS~0_combout\ & 
 -- (\io1|dataOut\(1))))) ) ) )
 
 -- pragma translate_off
@@ -50970,9 +50971,9 @@ PORT MAP (
 	dataa => \cpu1|ALT_INV_Selector161~1_combout\,
 	datab => \ALT_INV_n_if1CS~0_combout\,
 	datac => \io1|ALT_INV_dataOut\(1),
-	datad => \ALT_INV_cpuDataIn[1]~6_combout\,
+	datad => \ALT_INV_w_cpuDataIn[1]~6_combout\,
 	datae => \cpu1|ALT_INV_Selector160~0_combout\,
-	dataf => \ALT_INV_cpuDataIn[1]~9_combout\,
+	dataf => \ALT_INV_w_cpuDataIn[1]~9_combout\,
 	combout => \cpu1|Selector160~1_combout\);
 
 -- Location: FF_X10_Y39_N20
@@ -51479,10 +51480,10 @@ PORT MAP (
 	portadataout => \rom1|altsyncram_component|auto_generated|ram_block1a1_PORTADATAOUT_bus\);
 
 -- Location: LABCELL_X16_Y35_N18
-\cpuDataIn[1]~63\ : cyclonev_lcell_comb
+\w_cpuDataIn[1]~63\ : cyclonev_lcell_comb
 -- Equation(s):
--- \cpuDataIn[1]~63_combout\ = ( \cpuDataIn~8_combout\ & ( (!\Equal5~1_combout\ & (((\cpuDataIn~79_combout\)))) # (\Equal5~1_combout\ & (((\rom1|altsyncram_component|auto_generated|q_a\(1))) # (\Equal6~0_combout\))) ) ) # ( !\cpuDataIn~8_combout\ & ( 
--- (!\Equal5~1_combout\ & (((\cpuDataIn~79_combout\)))) # (\Equal5~1_combout\ & (!\Equal6~0_combout\ & (\rom1|altsyncram_component|auto_generated|q_a\(1)))) ) )
+-- \w_cpuDataIn[1]~63_combout\ = ( \w_cpuDataIn~8_combout\ & ( (!\Equal5~1_combout\ & (((\w_cpuDataIn~79_combout\)))) # (\Equal5~1_combout\ & (((\rom1|altsyncram_component|auto_generated|q_a\(1))) # (\Equal6~0_combout\))) ) ) # ( !\w_cpuDataIn~8_combout\ & ( 
+-- (!\Equal5~1_combout\ & (((\w_cpuDataIn~79_combout\)))) # (\Equal5~1_combout\ & (!\Equal6~0_combout\ & (\rom1|altsyncram_component|auto_generated|q_a\(1)))) ) )
 
 -- pragma translate_off
 GENERIC MAP (
@@ -51494,15 +51495,15 @@ PORT MAP (
 	dataa => \ALT_INV_Equal6~0_combout\,
 	datab => \ALT_INV_Equal5~1_combout\,
 	datac => \rom1|altsyncram_component|auto_generated|ALT_INV_q_a\(1),
-	datad => \ALT_INV_cpuDataIn~79_combout\,
-	dataf => \ALT_INV_cpuDataIn~8_combout\,
-	combout => \cpuDataIn[1]~63_combout\);
+	datad => \ALT_INV_w_cpuDataIn~79_combout\,
+	dataf => \ALT_INV_w_cpuDataIn~8_combout\,
+	combout => \w_cpuDataIn[1]~63_combout\);
 
 -- Location: LABCELL_X16_Y35_N45
-\cpuDataIn[1]~9\ : cyclonev_lcell_comb
+\w_cpuDataIn[1]~9\ : cyclonev_lcell_comb
 -- Equation(s):
--- \cpuDataIn[1]~9_combout\ = ( \sramData[1]~input_o\ & ( \cpuDataIn[1]~63_combout\ & ( !\n_if2CS~0_combout\ ) ) ) # ( !\sramData[1]~input_o\ & ( \cpuDataIn[1]~63_combout\ & ( (!\n_if2CS~0_combout\ & (((!\Equal5~1_combout\) # (\n_ROMCS~1_combout\)) # 
--- (\Equal6~0_combout\))) ) ) ) # ( \sramData[1]~input_o\ & ( !\cpuDataIn[1]~63_combout\ & ( (!\n_if2CS~0_combout\ & (!\Equal6~0_combout\ & (\Equal5~1_combout\ & !\n_ROMCS~1_combout\))) ) ) )
+-- \w_cpuDataIn[1]~9_combout\ = ( \sramData[1]~input_o\ & ( \w_cpuDataIn[1]~63_combout\ & ( !\n_if2CS~0_combout\ ) ) ) # ( !\sramData[1]~input_o\ & ( \w_cpuDataIn[1]~63_combout\ & ( (!\n_if2CS~0_combout\ & (((!\Equal5~1_combout\) # (\n_ROMCS~1_combout\)) # 
+-- (\Equal6~0_combout\))) ) ) ) # ( \sramData[1]~input_o\ & ( !\w_cpuDataIn[1]~63_combout\ & ( (!\n_if2CS~0_combout\ & (!\Equal6~0_combout\ & (\Equal5~1_combout\ & !\n_ROMCS~1_combout\))) ) ) )
 
 -- pragma translate_off
 GENERIC MAP (
@@ -51516,8 +51517,8 @@ PORT MAP (
 	datac => \ALT_INV_Equal5~1_combout\,
 	datad => \ALT_INV_n_ROMCS~1_combout\,
 	datae => \ALT_INV_sramData[1]~input_o\,
-	dataf => \ALT_INV_cpuDataIn[1]~63_combout\,
-	combout => \cpuDataIn[1]~9_combout\);
+	dataf => \ALT_INV_w_cpuDataIn[1]~63_combout\,
+	combout => \w_cpuDataIn[1]~9_combout\);
 
 -- Location: LABCELL_X19_Y38_N12
 \cpu1|Selector281~1\ : cyclonev_lcell_comb
@@ -51541,8 +51542,8 @@ PORT MAP (
 \cpu1|Selector281~2\ : cyclonev_lcell_comb
 -- Equation(s):
 -- \cpu1|Selector281~2_combout\ = ( \io1|dataOut\(1) & ( \cpu1|Selector281~1_combout\ ) ) # ( !\io1|dataOut\(1) & ( \cpu1|Selector281~1_combout\ ) ) # ( \io1|dataOut\(1) & ( !\cpu1|Selector281~1_combout\ & ( (\cpu1|Selector281~0_combout\ & 
--- (((\cpuDataIn[1]~6_combout\) # (\cpuDataIn[1]~9_combout\)) # (\n_if1CS~0_combout\))) ) ) ) # ( !\io1|dataOut\(1) & ( !\cpu1|Selector281~1_combout\ & ( (\cpu1|Selector281~0_combout\ & (!\n_if1CS~0_combout\ & ((\cpuDataIn[1]~6_combout\) # 
--- (\cpuDataIn[1]~9_combout\)))) ) ) )
+-- (((\w_cpuDataIn[1]~6_combout\) # (\w_cpuDataIn[1]~9_combout\)) # (\n_if1CS~0_combout\))) ) ) ) # ( !\io1|dataOut\(1) & ( !\cpu1|Selector281~1_combout\ & ( (\cpu1|Selector281~0_combout\ & (!\n_if1CS~0_combout\ & ((\w_cpuDataIn[1]~6_combout\) # 
+-- (\w_cpuDataIn[1]~9_combout\)))) ) ) )
 
 -- pragma translate_off
 GENERIC MAP (
@@ -51553,8 +51554,8 @@ GENERIC MAP (
 PORT MAP (
 	dataa => \cpu1|ALT_INV_Selector281~0_combout\,
 	datab => \ALT_INV_n_if1CS~0_combout\,
-	datac => \ALT_INV_cpuDataIn[1]~9_combout\,
-	datad => \ALT_INV_cpuDataIn[1]~6_combout\,
+	datac => \ALT_INV_w_cpuDataIn[1]~9_combout\,
+	datad => \ALT_INV_w_cpuDataIn[1]~6_combout\,
 	datae => \io1|ALT_INV_dataOut\(1),
 	dataf => \cpu1|ALT_INV_Selector281~1_combout\,
 	combout => \cpu1|Selector281~2_combout\);
@@ -51725,7 +51726,7 @@ GENERIC MAP (
 PORT MAP (
 	clk => \clk~inputCLKENA0_outclk\,
 	d => \cpu1|ea[3]~feeder_combout\,
-	asdata => \cpuDataIn[3]~23_combout\,
+	asdata => \w_cpuDataIn[3]~23_combout\,
 	sclr => \cpu1|ea[1]~0_combout\,
 	sload => \cpu1|Selector423~0_combout\,
 	ena => \cpu1|ea[0]~1_combout\,
@@ -51823,7 +51824,7 @@ PORT MAP (
 	clk => \clk~inputCLKENA0_outclk\,
 	d => \cpu1|state~350_combout\,
 	clrn => \debounceReset|ALT_INV_o_PinOut~q\,
-	ena => \ALT_INV_hold~q\,
+	ena => \ALT_INV_w_hold~q\,
 	devclrn => ww_devclrn,
 	devpor => ww_devpor,
 	q => \cpu1|state.puls_pch_state~q\);
@@ -51850,8 +51851,8 @@ PORT MAP (
 -- Location: MLABCELL_X13_Y37_N36
 \cpu1|Selector161~0\ : cyclonev_lcell_comb
 -- Equation(s):
--- \cpu1|Selector161~0_combout\ = ( \cpu1|Selector421~1_combout\ & ( \cpu1|Selector379~7_combout\ & ( (\cpuDataIn[0]~5_combout\) # (\cpu1|WideOr79~combout\) ) ) ) # ( !\cpu1|Selector421~1_combout\ & ( \cpu1|Selector379~7_combout\ & ( \cpu1|Add0~33_sumout\ ) 
--- ) ) # ( \cpu1|Selector421~1_combout\ & ( !\cpu1|Selector379~7_combout\ & ( (!\cpu1|WideOr79~combout\ & \cpuDataIn[0]~5_combout\) ) ) ) # ( !\cpu1|Selector421~1_combout\ & ( !\cpu1|Selector379~7_combout\ & ( \cpu1|Add0~33_sumout\ ) ) )
+-- \cpu1|Selector161~0_combout\ = ( \cpu1|Selector421~1_combout\ & ( \cpu1|Selector379~7_combout\ & ( (\w_cpuDataIn[0]~5_combout\) # (\cpu1|WideOr79~combout\) ) ) ) # ( !\cpu1|Selector421~1_combout\ & ( \cpu1|Selector379~7_combout\ & ( \cpu1|Add0~33_sumout\ 
+-- ) ) ) # ( \cpu1|Selector421~1_combout\ & ( !\cpu1|Selector379~7_combout\ & ( (!\cpu1|WideOr79~combout\ & \w_cpuDataIn[0]~5_combout\) ) ) ) # ( !\cpu1|Selector421~1_combout\ & ( !\cpu1|Selector379~7_combout\ & ( \cpu1|Add0~33_sumout\ ) ) )
 
 -- pragma translate_off
 GENERIC MAP (
@@ -51861,7 +51862,7 @@ GENERIC MAP (
 -- pragma translate_on
 PORT MAP (
 	datab => \cpu1|ALT_INV_WideOr79~combout\,
-	datac => \ALT_INV_cpuDataIn[0]~5_combout\,
+	datac => \ALT_INV_w_cpuDataIn[0]~5_combout\,
 	datad => \cpu1|ALT_INV_Add0~33_sumout\,
 	datae => \cpu1|ALT_INV_Selector421~1_combout\,
 	dataf => \cpu1|ALT_INV_Selector379~7_combout\,
@@ -52111,9 +52112,9 @@ PORT MAP (
 	combout => \sd1|Equal6~1_combout\);
 
 -- Location: LABCELL_X17_Y34_N15
-\cpuDataIn[4]~31\ : cyclonev_lcell_comb
+\w_cpuDataIn[4]~31\ : cyclonev_lcell_comb
 -- Equation(s):
--- \cpuDataIn[4]~31_combout\ = ( !\sd1|Equal6~1_combout\ & ( \Equal6~0_combout\ ) )
+-- \w_cpuDataIn[4]~31_combout\ = ( !\sd1|Equal6~1_combout\ & ( \Equal6~0_combout\ ) )
 
 -- pragma translate_off
 GENERIC MAP (
@@ -52124,14 +52125,14 @@ GENERIC MAP (
 PORT MAP (
 	datad => \ALT_INV_Equal6~0_combout\,
 	dataf => \sd1|ALT_INV_Equal6~1_combout\,
-	combout => \cpuDataIn[4]~31_combout\);
+	combout => \w_cpuDataIn[4]~31_combout\);
 
 -- Location: MLABCELL_X13_Y34_N57
-\cpuDataIn[5]~38\ : cyclonev_lcell_comb
+\w_cpuDataIn[5]~38\ : cyclonev_lcell_comb
 -- Equation(s):
--- \cpuDataIn[5]~38_combout\ = ( \sd1|block_busy~q\ & ( \cpuDataIn[4]~31_combout\ & ( (\sd1|dout\(5) & !\cpuDataIn[4]~30_combout\) ) ) ) # ( !\sd1|block_busy~q\ & ( \cpuDataIn[4]~31_combout\ & ( (\sd1|dout\(5) & !\cpuDataIn[4]~30_combout\) ) ) ) # ( 
--- \sd1|block_busy~q\ & ( !\cpuDataIn[4]~31_combout\ & ( (\cpuDataIn[4]~30_combout\) # (\rom1|altsyncram_component|auto_generated|q_a\(5)) ) ) ) # ( !\sd1|block_busy~q\ & ( !\cpuDataIn[4]~31_combout\ & ( (\rom1|altsyncram_component|auto_generated|q_a\(5) & 
--- !\cpuDataIn[4]~30_combout\) ) ) )
+-- \w_cpuDataIn[5]~38_combout\ = ( \sd1|block_busy~q\ & ( \w_cpuDataIn[4]~31_combout\ & ( (\sd1|dout\(5) & !\w_cpuDataIn[4]~30_combout\) ) ) ) # ( !\sd1|block_busy~q\ & ( \w_cpuDataIn[4]~31_combout\ & ( (\sd1|dout\(5) & !\w_cpuDataIn[4]~30_combout\) ) ) ) # 
+-- ( \sd1|block_busy~q\ & ( !\w_cpuDataIn[4]~31_combout\ & ( (\w_cpuDataIn[4]~30_combout\) # (\rom1|altsyncram_component|auto_generated|q_a\(5)) ) ) ) # ( !\sd1|block_busy~q\ & ( !\w_cpuDataIn[4]~31_combout\ & ( 
+-- (\rom1|altsyncram_component|auto_generated|q_a\(5) & !\w_cpuDataIn[4]~30_combout\) ) ) )
 
 -- pragma translate_off
 GENERIC MAP (
@@ -52142,15 +52143,16 @@ GENERIC MAP (
 PORT MAP (
 	dataa => \rom1|altsyncram_component|auto_generated|ALT_INV_q_a\(5),
 	datac => \sd1|ALT_INV_dout\(5),
-	datad => \ALT_INV_cpuDataIn[4]~30_combout\,
+	datad => \ALT_INV_w_cpuDataIn[4]~30_combout\,
 	datae => \sd1|ALT_INV_block_busy~q\,
-	dataf => \ALT_INV_cpuDataIn[4]~31_combout\,
-	combout => \cpuDataIn[5]~38_combout\);
+	dataf => \ALT_INV_w_cpuDataIn[4]~31_combout\,
+	combout => \w_cpuDataIn[5]~38_combout\);
 
 -- Location: LABCELL_X14_Y34_N36
-\cpuDataIn[5]~40\ : cyclonev_lcell_comb
+\w_cpuDataIn[5]~40\ : cyclonev_lcell_comb
 -- Equation(s):
--- \cpuDataIn[5]~40_combout\ = ( !\n_if2CS~0_combout\ & ( \cpuDataIn[4]~24_combout\ & ( (\Equal5~1_combout\ & \sramData[5]~input_o\) ) ) ) # ( !\n_if2CS~0_combout\ & ( !\cpuDataIn[4]~24_combout\ & ( (\Equal5~1_combout\ & \cpuDataIn[5]~38_combout\) ) ) )
+-- \w_cpuDataIn[5]~40_combout\ = ( !\n_if2CS~0_combout\ & ( \w_cpuDataIn[4]~24_combout\ & ( (\Equal5~1_combout\ & \sramData[5]~input_o\) ) ) ) # ( !\n_if2CS~0_combout\ & ( !\w_cpuDataIn[4]~24_combout\ & ( (\Equal5~1_combout\ & \w_cpuDataIn[5]~38_combout\) ) 
+-- ) )
 
 -- pragma translate_off
 GENERIC MAP (
@@ -52160,16 +52162,16 @@ GENERIC MAP (
 -- pragma translate_on
 PORT MAP (
 	dataa => \ALT_INV_Equal5~1_combout\,
-	datab => \ALT_INV_cpuDataIn[5]~38_combout\,
+	datab => \ALT_INV_w_cpuDataIn[5]~38_combout\,
 	datac => \ALT_INV_sramData[5]~input_o\,
 	datae => \ALT_INV_n_if2CS~0_combout\,
-	dataf => \ALT_INV_cpuDataIn[4]~24_combout\,
-	combout => \cpuDataIn[5]~40_combout\);
+	dataf => \ALT_INV_w_cpuDataIn[4]~24_combout\,
+	combout => \w_cpuDataIn[5]~40_combout\);
 
 -- Location: LABCELL_X21_Y37_N54
 \cpu1|Selector309~0\ : cyclonev_lcell_comb
 -- Equation(s):
--- \cpu1|Selector309~0_combout\ = ( !\n_if1CS~0_combout\ & ( (!\cpu1|state.fetch_state~q\ & (\cpu1|pre_code\(5) & (((\cpu1|state.reset_state~q\))))) # (\cpu1|state.fetch_state~q\ & ((((\cpuDataIn[5]~37_combout\)) # (\cpuDataIn[5]~40_combout\)))) ) ) # ( 
+-- \cpu1|Selector309~0_combout\ = ( !\n_if1CS~0_combout\ & ( (!\cpu1|state.fetch_state~q\ & (\cpu1|pre_code\(5) & (((\cpu1|state.reset_state~q\))))) # (\cpu1|state.fetch_state~q\ & ((((\w_cpuDataIn[5]~37_combout\)) # (\w_cpuDataIn[5]~40_combout\)))) ) ) # ( 
 -- \n_if1CS~0_combout\ & ( ((!\cpu1|state.fetch_state~q\ & (\cpu1|pre_code\(5) & ((\cpu1|state.reset_state~q\)))) # (\cpu1|state.fetch_state~q\ & (((\io1|dataOut\(5)))))) ) )
 
 -- pragma translate_off
@@ -52180,12 +52182,12 @@ GENERIC MAP (
 -- pragma translate_on
 PORT MAP (
 	dataa => \cpu1|ALT_INV_pre_code\(5),
-	datab => \ALT_INV_cpuDataIn[5]~40_combout\,
+	datab => \ALT_INV_w_cpuDataIn[5]~40_combout\,
 	datac => \io1|ALT_INV_dataOut\(5),
 	datad => \cpu1|ALT_INV_state.reset_state~q\,
 	datae => \ALT_INV_n_if1CS~0_combout\,
 	dataf => \cpu1|ALT_INV_state.fetch_state~q\,
-	datag => \ALT_INV_cpuDataIn[5]~37_combout\,
+	datag => \ALT_INV_w_cpuDataIn[5]~37_combout\,
 	combout => \cpu1|Selector309~0_combout\);
 
 -- Location: FF_X21_Y37_N56
@@ -52198,7 +52200,7 @@ GENERIC MAP (
 PORT MAP (
 	clk => \clk~inputCLKENA0_outclk\,
 	d => \cpu1|Selector309~0_combout\,
-	ena => \ALT_INV_hold~q\,
+	ena => \ALT_INV_w_hold~q\,
 	devclrn => ww_devclrn,
 	devpor => ww_devpor,
 	q => \cpu1|pre_code\(5));
@@ -52206,8 +52208,8 @@ PORT MAP (
 -- Location: LABCELL_X21_Y37_N42
 \cpu1|Selector311~0\ : cyclonev_lcell_comb
 -- Equation(s):
--- \cpu1|Selector311~0_combout\ = ( \cpu1|pre_code\(3) & ( \cpu1|state.fetch_state~q\ & ( (!\n_if1CS~0_combout\ & ((\cpuDataIn[3]~47_combout\))) # (\n_if1CS~0_combout\ & (\io1|dataOut\(3))) ) ) ) # ( !\cpu1|pre_code\(3) & ( \cpu1|state.fetch_state~q\ & ( 
--- (!\n_if1CS~0_combout\ & ((\cpuDataIn[3]~47_combout\))) # (\n_if1CS~0_combout\ & (\io1|dataOut\(3))) ) ) ) # ( \cpu1|pre_code\(3) & ( !\cpu1|state.fetch_state~q\ & ( \cpu1|state.reset_state~q\ ) ) )
+-- \cpu1|Selector311~0_combout\ = ( \cpu1|pre_code\(3) & ( \cpu1|state.fetch_state~q\ & ( (!\n_if1CS~0_combout\ & ((\w_cpuDataIn[3]~47_combout\))) # (\n_if1CS~0_combout\ & (\io1|dataOut\(3))) ) ) ) # ( !\cpu1|pre_code\(3) & ( \cpu1|state.fetch_state~q\ & ( 
+-- (!\n_if1CS~0_combout\ & ((\w_cpuDataIn[3]~47_combout\))) # (\n_if1CS~0_combout\ & (\io1|dataOut\(3))) ) ) ) # ( \cpu1|pre_code\(3) & ( !\cpu1|state.fetch_state~q\ & ( \cpu1|state.reset_state~q\ ) ) )
 
 -- pragma translate_off
 GENERIC MAP (
@@ -52219,7 +52221,7 @@ PORT MAP (
 	dataa => \ALT_INV_n_if1CS~0_combout\,
 	datab => \cpu1|ALT_INV_state.reset_state~q\,
 	datac => \io1|ALT_INV_dataOut\(3),
-	datad => \ALT_INV_cpuDataIn[3]~47_combout\,
+	datad => \ALT_INV_w_cpuDataIn[3]~47_combout\,
 	datae => \cpu1|ALT_INV_pre_code\(3),
 	dataf => \cpu1|ALT_INV_state.fetch_state~q\,
 	combout => \cpu1|Selector311~0_combout\);
@@ -52234,7 +52236,7 @@ GENERIC MAP (
 PORT MAP (
 	clk => \clk~inputCLKENA0_outclk\,
 	d => \cpu1|Selector311~0_combout\,
-	ena => \ALT_INV_hold~q\,
+	ena => \ALT_INV_w_hold~q\,
 	devclrn => ww_devclrn,
 	devpor => ww_devpor,
 	q => \cpu1|pre_code\(3));
@@ -52242,7 +52244,7 @@ PORT MAP (
 -- Location: LABCELL_X21_Y37_N24
 \cpu1|Selector307~0\ : cyclonev_lcell_comb
 -- Equation(s):
--- \cpu1|Selector307~0_combout\ = ( !\n_if1CS~0_combout\ & ( (!\cpu1|state.fetch_state~q\ & (\cpu1|pre_code\(7) & (((\cpu1|state.reset_state~q\))))) # (\cpu1|state.fetch_state~q\ & ((((\cpuDataIn[7]~19_combout\)) # (\cpuDataIn[7]~16_combout\)))) ) ) # ( 
+-- \cpu1|Selector307~0_combout\ = ( !\n_if1CS~0_combout\ & ( (!\cpu1|state.fetch_state~q\ & (\cpu1|pre_code\(7) & (((\cpu1|state.reset_state~q\))))) # (\cpu1|state.fetch_state~q\ & ((((\w_cpuDataIn[7]~19_combout\)) # (\w_cpuDataIn[7]~16_combout\)))) ) ) # ( 
 -- \n_if1CS~0_combout\ & ( (!\cpu1|state.fetch_state~q\ & (\cpu1|pre_code\(7) & (((\cpu1|state.reset_state~q\))))) # (\cpu1|state.fetch_state~q\ & (((\io1|dataOut[7]~DUPLICATE_q\)))) ) )
 
 -- pragma translate_off
@@ -52257,8 +52259,8 @@ PORT MAP (
 	datac => \io1|ALT_INV_dataOut[7]~DUPLICATE_q\,
 	datad => \cpu1|ALT_INV_state.reset_state~q\,
 	datae => \ALT_INV_n_if1CS~0_combout\,
-	dataf => \ALT_INV_cpuDataIn[7]~19_combout\,
-	datag => \ALT_INV_cpuDataIn[7]~16_combout\,
+	dataf => \ALT_INV_w_cpuDataIn[7]~19_combout\,
+	datag => \ALT_INV_w_cpuDataIn[7]~16_combout\,
 	combout => \cpu1|Selector307~0_combout\);
 
 -- Location: FF_X21_Y37_N26
@@ -52271,7 +52273,7 @@ GENERIC MAP (
 PORT MAP (
 	clk => \clk~inputCLKENA0_outclk\,
 	d => \cpu1|Selector307~0_combout\,
-	ena => \ALT_INV_hold~q\,
+	ena => \ALT_INV_w_hold~q\,
 	devclrn => ww_devclrn,
 	devpor => ww_devpor,
 	q => \cpu1|pre_code\(7));
@@ -52279,7 +52281,7 @@ PORT MAP (
 -- Location: LABCELL_X21_Y37_N12
 \cpu1|Selector310~0\ : cyclonev_lcell_comb
 -- Equation(s):
--- \cpu1|Selector310~0_combout\ = ( !\n_if1CS~0_combout\ & ( (!\cpu1|state.fetch_state~q\ & (\cpu1|state.reset_state~q\ & (((\cpu1|pre_code\(4)))))) # (\cpu1|state.fetch_state~q\ & ((((\cpuDataIn[4]~35_combout\)) # (\cpuDataIn[4]~29_combout\)))) ) ) # ( 
+-- \cpu1|Selector310~0_combout\ = ( !\n_if1CS~0_combout\ & ( (!\cpu1|state.fetch_state~q\ & (\cpu1|state.reset_state~q\ & (((\cpu1|pre_code\(4)))))) # (\cpu1|state.fetch_state~q\ & ((((\w_cpuDataIn[4]~35_combout\)) # (\w_cpuDataIn[4]~29_combout\)))) ) ) # ( 
 -- \n_if1CS~0_combout\ & ( (!\cpu1|state.fetch_state~q\ & (\cpu1|state.reset_state~q\ & (((\cpu1|pre_code\(4)))))) # (\cpu1|state.fetch_state~q\ & (((\io1|dataOut\(4))))) ) )
 
 -- pragma translate_off
@@ -52294,8 +52296,8 @@ PORT MAP (
 	datac => \io1|ALT_INV_dataOut\(4),
 	datad => \cpu1|ALT_INV_pre_code\(4),
 	datae => \ALT_INV_n_if1CS~0_combout\,
-	dataf => \ALT_INV_cpuDataIn[4]~35_combout\,
-	datag => \ALT_INV_cpuDataIn[4]~29_combout\,
+	dataf => \ALT_INV_w_cpuDataIn[4]~35_combout\,
+	datag => \ALT_INV_w_cpuDataIn[4]~29_combout\,
 	combout => \cpu1|Selector310~0_combout\);
 
 -- Location: FF_X21_Y37_N14
@@ -52308,7 +52310,7 @@ GENERIC MAP (
 PORT MAP (
 	clk => \clk~inputCLKENA0_outclk\,
 	d => \cpu1|Selector310~0_combout\,
-	ena => \ALT_INV_hold~q\,
+	ena => \ALT_INV_w_hold~q\,
 	devclrn => ww_devclrn,
 	devpor => ww_devpor,
 	q => \cpu1|pre_code\(4));
@@ -52316,7 +52318,7 @@ PORT MAP (
 -- Location: LABCELL_X21_Y36_N0
 \cpu1|Selector308~0\ : cyclonev_lcell_comb
 -- Equation(s):
--- \cpu1|Selector308~0_combout\ = ( !\n_if1CS~0_combout\ & ( (!\cpu1|state.fetch_state~q\ & (\cpu1|state.reset_state~q\ & (\cpu1|pre_code\(6)))) # (\cpu1|state.fetch_state~q\ & ((((\cpuDataIn[6]~45_combout\) # (\cpuDataIn[6]~42_combout\))))) ) ) # ( 
+-- \cpu1|Selector308~0_combout\ = ( !\n_if1CS~0_combout\ & ( (!\cpu1|state.fetch_state~q\ & (\cpu1|state.reset_state~q\ & (\cpu1|pre_code\(6)))) # (\cpu1|state.fetch_state~q\ & ((((\w_cpuDataIn[6]~45_combout\) # (\w_cpuDataIn[6]~42_combout\))))) ) ) # ( 
 -- \n_if1CS~0_combout\ & ( (!\cpu1|state.fetch_state~q\ & (\cpu1|state.reset_state~q\ & (\cpu1|pre_code\(6)))) # (\cpu1|state.fetch_state~q\ & ((((\io1|dataOut\(6)))))) ) )
 
 -- pragma translate_off
@@ -52331,8 +52333,8 @@ PORT MAP (
 	datac => \io1|ALT_INV_dataOut\(6),
 	datad => \cpu1|ALT_INV_state.fetch_state~q\,
 	datae => \ALT_INV_n_if1CS~0_combout\,
-	dataf => \ALT_INV_cpuDataIn[6]~45_combout\,
-	datag => \ALT_INV_cpuDataIn[6]~42_combout\,
+	dataf => \ALT_INV_w_cpuDataIn[6]~45_combout\,
+	datag => \ALT_INV_w_cpuDataIn[6]~42_combout\,
 	combout => \cpu1|Selector308~0_combout\);
 
 -- Location: FF_X21_Y36_N2
@@ -52345,7 +52347,7 @@ GENERIC MAP (
 PORT MAP (
 	clk => \clk~inputCLKENA0_outclk\,
 	d => \cpu1|Selector308~0_combout\,
-	ena => \ALT_INV_hold~q\,
+	ena => \ALT_INV_w_hold~q\,
 	devclrn => ww_devclrn,
 	devpor => ww_devpor,
 	q => \cpu1|pre_code\(6));
@@ -52353,9 +52355,9 @@ PORT MAP (
 -- Location: LABCELL_X21_Y37_N48
 \cpu1|Selector312~0\ : cyclonev_lcell_comb
 -- Equation(s):
--- \cpu1|Selector312~0_combout\ = ( \cpu1|pre_code\(2) & ( \cpuDataIn[2]~12_combout\ & ( (!\cpu1|state.fetch_state~q\ & (((\cpu1|state.reset_state~q\)))) # (\cpu1|state.fetch_state~q\ & (((\cpuDataIn[0]~10_combout\)) # (\cpuDataIn[2]~13_combout\))) ) ) ) # ( 
--- !\cpu1|pre_code\(2) & ( \cpuDataIn[2]~12_combout\ & ( (\cpu1|state.fetch_state~q\ & ((\cpuDataIn[0]~10_combout\) # (\cpuDataIn[2]~13_combout\))) ) ) ) # ( \cpu1|pre_code\(2) & ( !\cpuDataIn[2]~12_combout\ & ( (!\cpu1|state.fetch_state~q\ & 
--- ((\cpu1|state.reset_state~q\))) # (\cpu1|state.fetch_state~q\ & (\cpuDataIn[2]~13_combout\)) ) ) ) # ( !\cpu1|pre_code\(2) & ( !\cpuDataIn[2]~12_combout\ & ( (\cpuDataIn[2]~13_combout\ & \cpu1|state.fetch_state~q\) ) ) )
+-- \cpu1|Selector312~0_combout\ = ( \cpu1|pre_code\(2) & ( \w_cpuDataIn[2]~12_combout\ & ( (!\cpu1|state.fetch_state~q\ & (((\cpu1|state.reset_state~q\)))) # (\cpu1|state.fetch_state~q\ & (((\w_cpuDataIn[0]~10_combout\)) # (\w_cpuDataIn[2]~13_combout\))) ) ) 
+-- ) # ( !\cpu1|pre_code\(2) & ( \w_cpuDataIn[2]~12_combout\ & ( (\cpu1|state.fetch_state~q\ & ((\w_cpuDataIn[0]~10_combout\) # (\w_cpuDataIn[2]~13_combout\))) ) ) ) # ( \cpu1|pre_code\(2) & ( !\w_cpuDataIn[2]~12_combout\ & ( (!\cpu1|state.fetch_state~q\ & 
+-- ((\cpu1|state.reset_state~q\))) # (\cpu1|state.fetch_state~q\ & (\w_cpuDataIn[2]~13_combout\)) ) ) ) # ( !\cpu1|pre_code\(2) & ( !\w_cpuDataIn[2]~12_combout\ & ( (\w_cpuDataIn[2]~13_combout\ & \cpu1|state.fetch_state~q\) ) ) )
 
 -- pragma translate_off
 GENERIC MAP (
@@ -52364,12 +52366,12 @@ GENERIC MAP (
 	shared_arith => "off")
 -- pragma translate_on
 PORT MAP (
-	dataa => \ALT_INV_cpuDataIn[2]~13_combout\,
+	dataa => \ALT_INV_w_cpuDataIn[2]~13_combout\,
 	datab => \cpu1|ALT_INV_state.fetch_state~q\,
-	datac => \ALT_INV_cpuDataIn[0]~10_combout\,
+	datac => \ALT_INV_w_cpuDataIn[0]~10_combout\,
 	datad => \cpu1|ALT_INV_state.reset_state~q\,
 	datae => \cpu1|ALT_INV_pre_code\(2),
-	dataf => \ALT_INV_cpuDataIn[2]~12_combout\,
+	dataf => \ALT_INV_w_cpuDataIn[2]~12_combout\,
 	combout => \cpu1|Selector312~0_combout\);
 
 -- Location: FF_X21_Y37_N50
@@ -52382,7 +52384,7 @@ GENERIC MAP (
 PORT MAP (
 	clk => \clk~inputCLKENA0_outclk\,
 	d => \cpu1|Selector312~0_combout\,
-	ena => \ALT_INV_hold~q\,
+	ena => \ALT_INV_w_hold~q\,
 	devclrn => ww_devclrn,
 	devpor => ww_devpor,
 	q => \cpu1|pre_code\(2));
@@ -53256,9 +53258,9 @@ PORT MAP (
 	q => \gpio1|reg_dat2\(7));
 
 -- Location: MLABCELL_X18_Y34_N12
-\cpuDataIn~71\ : cyclonev_lcell_comb
+\w_cpuDataIn~71\ : cyclonev_lcell_comb
 -- Equation(s):
--- \cpuDataIn~71_combout\ = ( !\gpio1|reg\(0) & ( (!\cpu1|Selector330~4_combout\ & (\gpio1|reg\(7))) # (\cpu1|Selector330~4_combout\ & (((\gpio1|Equal0~0_combout\ & (\gpio1|reg_dat2\(7) & \gpio1|reg\(1)))))) ) ) # ( \gpio1|reg\(0) & ( 
+-- \w_cpuDataIn~71_combout\ = ( !\gpio1|reg\(0) & ( (!\cpu1|Selector330~4_combout\ & (\gpio1|reg\(7))) # (\cpu1|Selector330~4_combout\ & (((\gpio1|Equal0~0_combout\ & (\gpio1|reg_dat2\(7) & \gpio1|reg\(1)))))) ) ) # ( \gpio1|reg\(0) & ( 
 -- (!\cpu1|Selector330~4_combout\ & (\gpio1|reg\(7))) # (\cpu1|Selector330~4_combout\ & (((\gpio1|Equal0~0_combout\ & (\gpio1|reg_ddr2[7]~DUPLICATE_q\ & \gpio1|reg\(1)))))) ) )
 
 -- pragma translate_off
@@ -53275,7 +53277,7 @@ PORT MAP (
 	datae => \gpio1|ALT_INV_reg\(0),
 	dataf => \cpu1|ALT_INV_Selector330~4_combout\,
 	datag => \gpio1|ALT_INV_reg_dat2\(7),
-	combout => \cpuDataIn~71_combout\);
+	combout => \w_cpuDataIn~71_combout\);
 
 -- Location: LABCELL_X20_Y32_N0
 \sd1|recv_data[7]~feeder\ : cyclonev_lcell_comb
@@ -54181,9 +54183,9 @@ PORT MAP (
 	q => \mm1|n_tint_i~q\);
 
 -- Location: LABCELL_X20_Y35_N3
-\cpuDataIn~17\ : cyclonev_lcell_comb
+\w_cpuDataIn~17\ : cyclonev_lcell_comb
 -- Equation(s):
--- \cpuDataIn~17_combout\ = ( \cpu1|Selector330~4_combout\ & ( (\cpu1|Selector328~3_combout\ & (!\cpu1|Selector329~3_combout\ & \mm1|n_tint_i~q\)) ) )
+-- \w_cpuDataIn~17_combout\ = ( \cpu1|Selector330~4_combout\ & ( (\cpu1|Selector328~3_combout\ & (!\cpu1|Selector329~3_combout\ & \mm1|n_tint_i~q\)) ) )
 
 -- pragma translate_off
 GENERIC MAP (
@@ -54196,7 +54198,7 @@ PORT MAP (
 	datac => \cpu1|ALT_INV_Selector329~3_combout\,
 	datad => \mm1|ALT_INV_n_tint_i~q\,
 	dataf => \cpu1|ALT_INV_Selector330~4_combout\,
-	combout => \cpuDataIn~17_combout\);
+	combout => \w_cpuDataIn~17_combout\);
 
 -- Location: LABCELL_X16_Y35_N24
 \sd1|host_write_flag~0\ : cyclonev_lcell_comb
@@ -54229,11 +54231,11 @@ PORT MAP (
 	q => \sd1|host_write_flag~q\);
 
 -- Location: LABCELL_X16_Y35_N36
-\cpuDataIn~18\ : cyclonev_lcell_comb
+\w_cpuDataIn~18\ : cyclonev_lcell_comb
 -- Equation(s):
--- \cpuDataIn~18_combout\ = ( \sd1|Equal6~1_combout\ & ( \sd1|host_write_flag~q\ & ( (!\cpuDataIn~17_combout\ & ((!\sd1|Equal6~0_combout\ & ((!\sd1|sd_write_flag~q\))) # (\sd1|Equal6~0_combout\ & (!\sd1|dout\(7))))) ) ) ) # ( !\sd1|Equal6~1_combout\ & ( 
--- \sd1|host_write_flag~q\ & ( (!\cpuDataIn~17_combout\ & ((!\sd1|Equal6~0_combout\) # (!\sd1|dout\(7)))) ) ) ) # ( \sd1|Equal6~1_combout\ & ( !\sd1|host_write_flag~q\ & ( (!\cpuDataIn~17_combout\ & ((!\sd1|Equal6~0_combout\ & ((\sd1|sd_write_flag~q\))) # 
--- (\sd1|Equal6~0_combout\ & (!\sd1|dout\(7))))) ) ) ) # ( !\sd1|Equal6~1_combout\ & ( !\sd1|host_write_flag~q\ & ( (!\cpuDataIn~17_combout\ & ((!\sd1|Equal6~0_combout\) # (!\sd1|dout\(7)))) ) ) )
+-- \w_cpuDataIn~18_combout\ = ( \sd1|Equal6~1_combout\ & ( \sd1|host_write_flag~q\ & ( (!\w_cpuDataIn~17_combout\ & ((!\sd1|Equal6~0_combout\ & ((!\sd1|sd_write_flag~q\))) # (\sd1|Equal6~0_combout\ & (!\sd1|dout\(7))))) ) ) ) # ( !\sd1|Equal6~1_combout\ & ( 
+-- \sd1|host_write_flag~q\ & ( (!\w_cpuDataIn~17_combout\ & ((!\sd1|Equal6~0_combout\) # (!\sd1|dout\(7)))) ) ) ) # ( \sd1|Equal6~1_combout\ & ( !\sd1|host_write_flag~q\ & ( (!\w_cpuDataIn~17_combout\ & ((!\sd1|Equal6~0_combout\ & ((\sd1|sd_write_flag~q\))) 
+-- # (\sd1|Equal6~0_combout\ & (!\sd1|dout\(7))))) ) ) ) # ( !\sd1|Equal6~1_combout\ & ( !\sd1|host_write_flag~q\ & ( (!\w_cpuDataIn~17_combout\ & ((!\sd1|Equal6~0_combout\) # (!\sd1|dout\(7)))) ) ) )
 
 -- pragma translate_off
 GENERIC MAP (
@@ -54244,11 +54246,11 @@ GENERIC MAP (
 PORT MAP (
 	dataa => \sd1|ALT_INV_Equal6~0_combout\,
 	datab => \sd1|ALT_INV_dout\(7),
-	datac => \ALT_INV_cpuDataIn~17_combout\,
+	datac => \ALT_INV_w_cpuDataIn~17_combout\,
 	datad => \sd1|ALT_INV_sd_write_flag~q\,
 	datae => \sd1|ALT_INV_Equal6~1_combout\,
 	dataf => \sd1|ALT_INV_host_write_flag~q\,
-	combout => \cpuDataIn~18_combout\);
+	combout => \w_cpuDataIn~18_combout\);
 
 -- Location: M10K_X11_Y36_N0
 \rom1|altsyncram_component|auto_generated|ram_block1a7\ : cyclonev_ram_block
@@ -54290,9 +54292,9 @@ PORT MAP (
 	portadataout => \rom1|altsyncram_component|auto_generated|ram_block1a7_PORTADATAOUT_bus\);
 
 -- Location: LABCELL_X19_Y34_N45
-\cpuDataIn[7]~48\ : cyclonev_lcell_comb
+\w_cpuDataIn[7]~48\ : cyclonev_lcell_comb
 -- Equation(s):
--- \cpuDataIn[7]~48_combout\ = ( \Equal6~0_combout\ & ( (!\Equal5~1_combout\ & (\cpuDataIn~71_combout\)) # (\Equal5~1_combout\ & ((!\cpuDataIn~18_combout\))) ) ) # ( !\Equal6~0_combout\ & ( (!\Equal5~1_combout\ & (\cpuDataIn~71_combout\)) # 
+-- \w_cpuDataIn[7]~48_combout\ = ( \Equal6~0_combout\ & ( (!\Equal5~1_combout\ & (\w_cpuDataIn~71_combout\)) # (\Equal5~1_combout\ & ((!\w_cpuDataIn~18_combout\))) ) ) # ( !\Equal6~0_combout\ & ( (!\Equal5~1_combout\ & (\w_cpuDataIn~71_combout\)) # 
 -- (\Equal5~1_combout\ & ((\rom1|altsyncram_component|auto_generated|q_a\(7)))) ) )
 
 -- pragma translate_off
@@ -54302,18 +54304,18 @@ GENERIC MAP (
 	shared_arith => "off")
 -- pragma translate_on
 PORT MAP (
-	dataa => \ALT_INV_cpuDataIn~71_combout\,
+	dataa => \ALT_INV_w_cpuDataIn~71_combout\,
 	datab => \ALT_INV_Equal5~1_combout\,
-	datac => \ALT_INV_cpuDataIn~18_combout\,
+	datac => \ALT_INV_w_cpuDataIn~18_combout\,
 	datad => \rom1|altsyncram_component|auto_generated|ALT_INV_q_a\(7),
 	dataf => \ALT_INV_Equal6~0_combout\,
-	combout => \cpuDataIn[7]~48_combout\);
+	combout => \w_cpuDataIn[7]~48_combout\);
 
 -- Location: LABCELL_X16_Y35_N42
-\cpuDataIn[7]~19\ : cyclonev_lcell_comb
+\w_cpuDataIn[7]~19\ : cyclonev_lcell_comb
 -- Equation(s):
--- \cpuDataIn[7]~19_combout\ = ( \sramData[7]~input_o\ & ( \cpuDataIn[7]~48_combout\ & ( !\n_if2CS~0_combout\ ) ) ) # ( !\sramData[7]~input_o\ & ( \cpuDataIn[7]~48_combout\ & ( (!\n_if2CS~0_combout\ & (((!\Equal5~1_combout\) # (\n_ROMCS~1_combout\)) # 
--- (\Equal6~0_combout\))) ) ) ) # ( \sramData[7]~input_o\ & ( !\cpuDataIn[7]~48_combout\ & ( (!\n_if2CS~0_combout\ & (!\Equal6~0_combout\ & (!\n_ROMCS~1_combout\ & \Equal5~1_combout\))) ) ) )
+-- \w_cpuDataIn[7]~19_combout\ = ( \sramData[7]~input_o\ & ( \w_cpuDataIn[7]~48_combout\ & ( !\n_if2CS~0_combout\ ) ) ) # ( !\sramData[7]~input_o\ & ( \w_cpuDataIn[7]~48_combout\ & ( (!\n_if2CS~0_combout\ & (((!\Equal5~1_combout\) # (\n_ROMCS~1_combout\)) # 
+-- (\Equal6~0_combout\))) ) ) ) # ( \sramData[7]~input_o\ & ( !\w_cpuDataIn[7]~48_combout\ & ( (!\n_if2CS~0_combout\ & (!\Equal6~0_combout\ & (!\n_ROMCS~1_combout\ & \Equal5~1_combout\))) ) ) )
 
 -- pragma translate_off
 GENERIC MAP (
@@ -54327,8 +54329,8 @@ PORT MAP (
 	datac => \ALT_INV_n_ROMCS~1_combout\,
 	datad => \ALT_INV_Equal5~1_combout\,
 	datae => \ALT_INV_sramData[7]~input_o\,
-	dataf => \ALT_INV_cpuDataIn[7]~48_combout\,
-	combout => \cpuDataIn[7]~19_combout\);
+	dataf => \ALT_INV_w_cpuDataIn[7]~48_combout\,
+	combout => \w_cpuDataIn[7]~19_combout\);
 
 -- Location: LABCELL_X10_Y37_N39
 \cpu1|Selector162~0\ : cyclonev_lcell_comb
@@ -54353,7 +54355,7 @@ PORT MAP (
 \cpu1|Selector162~1\ : cyclonev_lcell_comb
 -- Equation(s):
 -- \cpu1|Selector162~1_combout\ = ( \cpu1|Selector169~0_combout\ & ( \cpu1|Selector162~0_combout\ ) ) # ( !\cpu1|Selector169~0_combout\ & ( \cpu1|Selector162~0_combout\ ) ) # ( \cpu1|Selector169~0_combout\ & ( !\cpu1|Selector162~0_combout\ & ( 
--- (!\n_if1CS~0_combout\ & (((\cpuDataIn[7]~19_combout\) # (\cpuDataIn[7]~16_combout\)))) # (\n_if1CS~0_combout\ & (\io1|dataOut\(7))) ) ) )
+-- (!\n_if1CS~0_combout\ & (((\w_cpuDataIn[7]~19_combout\) # (\w_cpuDataIn[7]~16_combout\)))) # (\n_if1CS~0_combout\ & (\io1|dataOut\(7))) ) ) )
 
 -- pragma translate_off
 GENERIC MAP (
@@ -54364,8 +54366,8 @@ GENERIC MAP (
 PORT MAP (
 	dataa => \io1|ALT_INV_dataOut\(7),
 	datab => \ALT_INV_n_if1CS~0_combout\,
-	datac => \ALT_INV_cpuDataIn[7]~16_combout\,
-	datad => \ALT_INV_cpuDataIn[7]~19_combout\,
+	datac => \ALT_INV_w_cpuDataIn[7]~16_combout\,
+	datad => \ALT_INV_w_cpuDataIn[7]~19_combout\,
 	datae => \cpu1|ALT_INV_Selector169~0_combout\,
 	dataf => \cpu1|ALT_INV_Selector162~0_combout\,
 	combout => \cpu1|Selector162~1_combout\);
@@ -54510,10 +54512,10 @@ PORT MAP (
 	portadataout => \rom1|altsyncram_component|auto_generated|ram_block1a6_PORTADATAOUT_bus\);
 
 -- Location: LABCELL_X14_Y34_N0
-\cpuDataIn[6]~43\ : cyclonev_lcell_comb
+\w_cpuDataIn[6]~43\ : cyclonev_lcell_comb
 -- Equation(s):
--- \cpuDataIn[6]~43_combout\ = ( !\cpuDataIn[4]~30_combout\ & ( \cpuDataIn[4]~31_combout\ & ( \sd1|dout\(6) ) ) ) # ( \cpuDataIn[4]~30_combout\ & ( !\cpuDataIn[4]~31_combout\ & ( !\sd1|host_read_flag~q\ $ (!\sd1|sd_read_flag~q\) ) ) ) # ( 
--- !\cpuDataIn[4]~30_combout\ & ( !\cpuDataIn[4]~31_combout\ & ( \rom1|altsyncram_component|auto_generated|q_a\(6) ) ) )
+-- \w_cpuDataIn[6]~43_combout\ = ( !\w_cpuDataIn[4]~30_combout\ & ( \w_cpuDataIn[4]~31_combout\ & ( \sd1|dout\(6) ) ) ) # ( \w_cpuDataIn[4]~30_combout\ & ( !\w_cpuDataIn[4]~31_combout\ & ( !\sd1|host_read_flag~q\ $ (!\sd1|sd_read_flag~q\) ) ) ) # ( 
+-- !\w_cpuDataIn[4]~30_combout\ & ( !\w_cpuDataIn[4]~31_combout\ & ( \rom1|altsyncram_component|auto_generated|q_a\(6) ) ) )
 
 -- pragma translate_off
 GENERIC MAP (
@@ -54526,14 +54528,14 @@ PORT MAP (
 	datab => \rom1|altsyncram_component|auto_generated|ALT_INV_q_a\(6),
 	datac => \sd1|ALT_INV_host_read_flag~q\,
 	datad => \sd1|ALT_INV_sd_read_flag~q\,
-	datae => \ALT_INV_cpuDataIn[4]~30_combout\,
-	dataf => \ALT_INV_cpuDataIn[4]~31_combout\,
-	combout => \cpuDataIn[6]~43_combout\);
+	datae => \ALT_INV_w_cpuDataIn[4]~30_combout\,
+	dataf => \ALT_INV_w_cpuDataIn[4]~31_combout\,
+	combout => \w_cpuDataIn[6]~43_combout\);
 
 -- Location: LABCELL_X14_Y34_N6
-\cpuDataIn[6]~45\ : cyclonev_lcell_comb
+\w_cpuDataIn[6]~45\ : cyclonev_lcell_comb
 -- Equation(s):
--- \cpuDataIn[6]~45_combout\ = ( \cpuDataIn[4]~24_combout\ & ( (\Equal5~1_combout\ & (\sramData[6]~input_o\ & !\n_if2CS~0_combout\)) ) ) # ( !\cpuDataIn[4]~24_combout\ & ( (\Equal5~1_combout\ & (\cpuDataIn[6]~43_combout\ & !\n_if2CS~0_combout\)) ) )
+-- \w_cpuDataIn[6]~45_combout\ = ( \w_cpuDataIn[4]~24_combout\ & ( (\Equal5~1_combout\ & (\sramData[6]~input_o\ & !\n_if2CS~0_combout\)) ) ) # ( !\w_cpuDataIn[4]~24_combout\ & ( (\Equal5~1_combout\ & (\w_cpuDataIn[6]~43_combout\ & !\n_if2CS~0_combout\)) ) )
 
 -- pragma translate_off
 GENERIC MAP (
@@ -54544,10 +54546,10 @@ GENERIC MAP (
 PORT MAP (
 	dataa => \ALT_INV_Equal5~1_combout\,
 	datab => \ALT_INV_sramData[6]~input_o\,
-	datac => \ALT_INV_cpuDataIn[6]~43_combout\,
+	datac => \ALT_INV_w_cpuDataIn[6]~43_combout\,
 	datad => \ALT_INV_n_if2CS~0_combout\,
-	dataf => \ALT_INV_cpuDataIn[4]~24_combout\,
-	combout => \cpuDataIn[6]~45_combout\);
+	dataf => \ALT_INV_w_cpuDataIn[4]~24_combout\,
+	combout => \w_cpuDataIn[6]~45_combout\);
 
 -- Location: LABCELL_X10_Y35_N45
 \cpu1|Selector163~0\ : cyclonev_lcell_comb
@@ -54572,7 +54574,7 @@ PORT MAP (
 \cpu1|Selector163~1\ : cyclonev_lcell_comb
 -- Equation(s):
 -- \cpu1|Selector163~1_combout\ = ( \cpu1|Selector169~0_combout\ & ( \cpu1|Selector163~0_combout\ ) ) # ( !\cpu1|Selector169~0_combout\ & ( \cpu1|Selector163~0_combout\ ) ) # ( \cpu1|Selector169~0_combout\ & ( !\cpu1|Selector163~0_combout\ & ( 
--- (!\n_if1CS~0_combout\ & (((\cpuDataIn[6]~42_combout\)) # (\cpuDataIn[6]~45_combout\))) # (\n_if1CS~0_combout\ & (((\io1|dataOut\(6))))) ) ) )
+-- (!\n_if1CS~0_combout\ & (((\w_cpuDataIn[6]~42_combout\)) # (\w_cpuDataIn[6]~45_combout\))) # (\n_if1CS~0_combout\ & (((\io1|dataOut\(6))))) ) ) )
 
 -- pragma translate_off
 GENERIC MAP (
@@ -54581,10 +54583,10 @@ GENERIC MAP (
 	shared_arith => "off")
 -- pragma translate_on
 PORT MAP (
-	dataa => \ALT_INV_cpuDataIn[6]~45_combout\,
+	dataa => \ALT_INV_w_cpuDataIn[6]~45_combout\,
 	datab => \ALT_INV_n_if1CS~0_combout\,
 	datac => \io1|ALT_INV_dataOut\(6),
-	datad => \ALT_INV_cpuDataIn[6]~42_combout\,
+	datad => \ALT_INV_w_cpuDataIn[6]~42_combout\,
 	datae => \cpu1|ALT_INV_Selector169~0_combout\,
 	dataf => \cpu1|ALT_INV_Selector163~0_combout\,
 	combout => \cpu1|Selector163~1_combout\);
@@ -54729,9 +54731,9 @@ PORT MAP (
 	portadataout => \rom1|altsyncram_component|auto_generated|ram_block1a4_PORTADATAOUT_bus\);
 
 -- Location: LABCELL_X14_Y34_N21
-\cpuDataIn[4]~32\ : cyclonev_lcell_comb
+\w_cpuDataIn[4]~32\ : cyclonev_lcell_comb
 -- Equation(s):
--- \cpuDataIn[4]~32_combout\ = ( \rom1|altsyncram_component|auto_generated|q_a\(4) & ( (!\sd1|init_busy~q\) # ((!\Equal6~0_combout\) # (\sd1|Equal6~0_combout\)) ) ) # ( !\rom1|altsyncram_component|auto_generated|q_a\(4) & ( (!\sd1|init_busy~q\ & 
+-- \w_cpuDataIn[4]~32_combout\ = ( \rom1|altsyncram_component|auto_generated|q_a\(4) & ( (!\sd1|init_busy~q\) # ((!\Equal6~0_combout\) # (\sd1|Equal6~0_combout\)) ) ) # ( !\rom1|altsyncram_component|auto_generated|q_a\(4) & ( (!\sd1|init_busy~q\ & 
 -- (\Equal6~0_combout\ & !\sd1|Equal6~0_combout\)) ) )
 
 -- pragma translate_off
@@ -54745,12 +54747,12 @@ PORT MAP (
 	datac => \ALT_INV_Equal6~0_combout\,
 	datad => \sd1|ALT_INV_Equal6~0_combout\,
 	dataf => \rom1|altsyncram_component|auto_generated|ALT_INV_q_a\(4),
-	combout => \cpuDataIn[4]~32_combout\);
+	combout => \w_cpuDataIn[4]~32_combout\);
 
 -- Location: LABCELL_X14_Y34_N18
-\cpuDataIn[4]~33\ : cyclonev_lcell_comb
+\w_cpuDataIn[4]~33\ : cyclonev_lcell_comb
 -- Equation(s):
--- \cpuDataIn[4]~33_combout\ = ( \cpuDataIn[4]~31_combout\ & ( (\sd1|dout\(4) & !\cpuDataIn[4]~30_combout\) ) ) # ( !\cpuDataIn[4]~31_combout\ & ( \cpuDataIn[4]~32_combout\ ) )
+-- \w_cpuDataIn[4]~33_combout\ = ( \w_cpuDataIn[4]~31_combout\ & ( (\sd1|dout\(4) & !\w_cpuDataIn[4]~30_combout\) ) ) # ( !\w_cpuDataIn[4]~31_combout\ & ( \w_cpuDataIn[4]~32_combout\ ) )
 
 -- pragma translate_off
 GENERIC MAP (
@@ -54760,15 +54762,15 @@ GENERIC MAP (
 -- pragma translate_on
 PORT MAP (
 	dataa => \sd1|ALT_INV_dout\(4),
-	datac => \ALT_INV_cpuDataIn[4]~30_combout\,
-	datad => \ALT_INV_cpuDataIn[4]~32_combout\,
-	dataf => \ALT_INV_cpuDataIn[4]~31_combout\,
-	combout => \cpuDataIn[4]~33_combout\);
+	datac => \ALT_INV_w_cpuDataIn[4]~30_combout\,
+	datad => \ALT_INV_w_cpuDataIn[4]~32_combout\,
+	dataf => \ALT_INV_w_cpuDataIn[4]~31_combout\,
+	combout => \w_cpuDataIn[4]~33_combout\);
 
 -- Location: LABCELL_X14_Y34_N24
-\cpuDataIn[4]~35\ : cyclonev_lcell_comb
+\w_cpuDataIn[4]~35\ : cyclonev_lcell_comb
 -- Equation(s):
--- \cpuDataIn[4]~35_combout\ = ( \Equal5~1_combout\ & ( (!\n_if2CS~0_combout\ & ((!\cpuDataIn[4]~24_combout\ & (\cpuDataIn[4]~33_combout\)) # (\cpuDataIn[4]~24_combout\ & ((\sramData[4]~input_o\))))) ) )
+-- \w_cpuDataIn[4]~35_combout\ = ( \Equal5~1_combout\ & ( (!\n_if2CS~0_combout\ & ((!\w_cpuDataIn[4]~24_combout\ & (\w_cpuDataIn[4]~33_combout\)) # (\w_cpuDataIn[4]~24_combout\ & ((\sramData[4]~input_o\))))) ) )
 
 -- pragma translate_off
 GENERIC MAP (
@@ -54777,12 +54779,12 @@ GENERIC MAP (
 	shared_arith => "off")
 -- pragma translate_on
 PORT MAP (
-	dataa => \ALT_INV_cpuDataIn[4]~33_combout\,
+	dataa => \ALT_INV_w_cpuDataIn[4]~33_combout\,
 	datab => \ALT_INV_sramData[4]~input_o\,
-	datac => \ALT_INV_cpuDataIn[4]~24_combout\,
+	datac => \ALT_INV_w_cpuDataIn[4]~24_combout\,
 	datad => \ALT_INV_n_if2CS~0_combout\,
 	dataf => \ALT_INV_Equal5~1_combout\,
-	combout => \cpuDataIn[4]~35_combout\);
+	combout => \w_cpuDataIn[4]~35_combout\);
 
 -- Location: LABCELL_X20_Y36_N33
 \cpu1|Selector278~0\ : cyclonev_lcell_comb
@@ -54806,7 +54808,7 @@ PORT MAP (
 \cpu1|Selector278~1\ : cyclonev_lcell_comb
 -- Equation(s):
 -- \cpu1|Selector278~1_combout\ = ( \n_if1CS~0_combout\ & ( \cpu1|Selector278~0_combout\ ) ) # ( !\n_if1CS~0_combout\ & ( \cpu1|Selector278~0_combout\ ) ) # ( \n_if1CS~0_combout\ & ( !\cpu1|Selector278~0_combout\ & ( (\cpu1|Selector281~0_combout\ & 
--- \io1|dataOut\(4)) ) ) ) # ( !\n_if1CS~0_combout\ & ( !\cpu1|Selector278~0_combout\ & ( (\cpu1|Selector281~0_combout\ & ((\cpuDataIn[4]~35_combout\) # (\cpuDataIn[4]~29_combout\))) ) ) )
+-- \io1|dataOut\(4)) ) ) ) # ( !\n_if1CS~0_combout\ & ( !\cpu1|Selector278~0_combout\ & ( (\cpu1|Selector281~0_combout\ & ((\w_cpuDataIn[4]~35_combout\) # (\w_cpuDataIn[4]~29_combout\))) ) ) )
 
 -- pragma translate_off
 GENERIC MAP (
@@ -54815,8 +54817,8 @@ GENERIC MAP (
 	shared_arith => "off")
 -- pragma translate_on
 PORT MAP (
-	dataa => \ALT_INV_cpuDataIn[4]~29_combout\,
-	datab => \ALT_INV_cpuDataIn[4]~35_combout\,
+	dataa => \ALT_INV_w_cpuDataIn[4]~29_combout\,
+	datab => \ALT_INV_w_cpuDataIn[4]~35_combout\,
 	datac => \cpu1|ALT_INV_Selector281~0_combout\,
 	datad => \io1|ALT_INV_dataOut\(4),
 	datae => \ALT_INV_n_if1CS~0_combout\,
@@ -54881,9 +54883,9 @@ PORT MAP (
 -- Location: MLABCELL_X18_Y40_N27
 \cpu1|state~399\ : cyclonev_lcell_comb
 -- Equation(s):
--- \cpu1|state~399_combout\ = ( \cpu1|state.pcrel16_state~q\ & ( \cpu1|Mux370~6_combout\ & ( ((\cpu1|state~395_combout\ & \cpu1|state~367_combout\)) # (\hold~q\) ) ) ) # ( !\cpu1|state.pcrel16_state~q\ & ( \cpu1|Mux370~6_combout\ & ( (!\hold~q\ & 
--- (\cpu1|state~395_combout\ & (!\cpu1|state~397_combout\ & \cpu1|state~367_combout\))) ) ) ) # ( \cpu1|state.pcrel16_state~q\ & ( !\cpu1|Mux370~6_combout\ & ( ((\cpu1|state~395_combout\ & (\cpu1|state~397_combout\ & \cpu1|state~367_combout\))) # (\hold~q\) 
--- ) ) )
+-- \cpu1|state~399_combout\ = ( \cpu1|state.pcrel16_state~q\ & ( \cpu1|Mux370~6_combout\ & ( ((\cpu1|state~395_combout\ & \cpu1|state~367_combout\)) # (\w_hold~q\) ) ) ) # ( !\cpu1|state.pcrel16_state~q\ & ( \cpu1|Mux370~6_combout\ & ( (!\w_hold~q\ & 
+-- (\cpu1|state~395_combout\ & (!\cpu1|state~397_combout\ & \cpu1|state~367_combout\))) ) ) ) # ( \cpu1|state.pcrel16_state~q\ & ( !\cpu1|Mux370~6_combout\ & ( ((\cpu1|state~395_combout\ & (\cpu1|state~397_combout\ & \cpu1|state~367_combout\))) # 
+-- (\w_hold~q\) ) ) )
 
 -- pragma translate_off
 GENERIC MAP (
@@ -54892,7 +54894,7 @@ GENERIC MAP (
 	shared_arith => "off")
 -- pragma translate_on
 PORT MAP (
-	dataa => \ALT_INV_hold~q\,
+	dataa => \ALT_INV_w_hold~q\,
 	datab => \cpu1|ALT_INV_state~395_combout\,
 	datac => \cpu1|ALT_INV_state~397_combout\,
 	datad => \cpu1|ALT_INV_state~367_combout\,
@@ -54947,7 +54949,7 @@ PORT MAP (
 	clk => \clk~inputCLKENA0_outclk\,
 	d => \cpu1|state~393_combout\,
 	clrn => \debounceReset|ALT_INV_o_PinOut~q\,
-	ena => \ALT_INV_hold~q\,
+	ena => \ALT_INV_w_hold~q\,
 	devclrn => ww_devclrn,
 	devpor => ww_devpor,
 	q => \cpu1|state.imm16_state~q\);
@@ -55049,9 +55051,9 @@ PORT MAP (
 -- Location: LABCELL_X14_Y35_N24
 \cpu1|Selector164~1\ : cyclonev_lcell_comb
 -- Equation(s):
--- \cpu1|Selector164~1_combout\ = ( \cpu1|Selector169~0_combout\ & ( \cpuDataIn[5]~37_combout\ & ( ((!\n_if1CS~0_combout\) # (\io1|dataOut\(5))) # (\cpu1|Selector164~0_combout\) ) ) ) # ( !\cpu1|Selector169~0_combout\ & ( \cpuDataIn[5]~37_combout\ & ( 
--- \cpu1|Selector164~0_combout\ ) ) ) # ( \cpu1|Selector169~0_combout\ & ( !\cpuDataIn[5]~37_combout\ & ( ((!\n_if1CS~0_combout\ & ((\cpuDataIn[5]~40_combout\))) # (\n_if1CS~0_combout\ & (\io1|dataOut\(5)))) # (\cpu1|Selector164~0_combout\) ) ) ) # ( 
--- !\cpu1|Selector169~0_combout\ & ( !\cpuDataIn[5]~37_combout\ & ( \cpu1|Selector164~0_combout\ ) ) )
+-- \cpu1|Selector164~1_combout\ = ( \cpu1|Selector169~0_combout\ & ( \w_cpuDataIn[5]~37_combout\ & ( ((!\n_if1CS~0_combout\) # (\io1|dataOut\(5))) # (\cpu1|Selector164~0_combout\) ) ) ) # ( !\cpu1|Selector169~0_combout\ & ( \w_cpuDataIn[5]~37_combout\ & ( 
+-- \cpu1|Selector164~0_combout\ ) ) ) # ( \cpu1|Selector169~0_combout\ & ( !\w_cpuDataIn[5]~37_combout\ & ( ((!\n_if1CS~0_combout\ & ((\w_cpuDataIn[5]~40_combout\))) # (\n_if1CS~0_combout\ & (\io1|dataOut\(5)))) # (\cpu1|Selector164~0_combout\) ) ) ) # ( 
+-- !\cpu1|Selector169~0_combout\ & ( !\w_cpuDataIn[5]~37_combout\ & ( \cpu1|Selector164~0_combout\ ) ) )
 
 -- pragma translate_off
 GENERIC MAP (
@@ -55062,10 +55064,10 @@ GENERIC MAP (
 PORT MAP (
 	dataa => \cpu1|ALT_INV_Selector164~0_combout\,
 	datab => \io1|ALT_INV_dataOut\(5),
-	datac => \ALT_INV_cpuDataIn[5]~40_combout\,
+	datac => \ALT_INV_w_cpuDataIn[5]~40_combout\,
 	datad => \ALT_INV_n_if1CS~0_combout\,
 	datae => \cpu1|ALT_INV_Selector169~0_combout\,
-	dataf => \ALT_INV_cpuDataIn[5]~37_combout\,
+	dataf => \ALT_INV_w_cpuDataIn[5]~37_combout\,
 	combout => \cpu1|Selector164~1_combout\);
 
 -- Location: FF_X14_Y35_N26
@@ -55208,9 +55210,9 @@ PORT MAP (
 	portadataout => \rom1|altsyncram_component|auto_generated|ram_block1a3_PORTADATAOUT_bus\);
 
 -- Location: LABCELL_X16_Y35_N21
-\cpuDataIn[3]~51\ : cyclonev_lcell_comb
+\w_cpuDataIn[3]~51\ : cyclonev_lcell_comb
 -- Equation(s):
--- \cpuDataIn[3]~51_combout\ = ( \sd1|dout\(3) & ( (!\Equal6~0_combout\ & (\rom1|altsyncram_component|auto_generated|q_a\(3))) # (\Equal6~0_combout\ & ((\sd1|Equal6~0_combout\))) ) ) # ( !\sd1|dout\(3) & ( (!\Equal6~0_combout\ & 
+-- \w_cpuDataIn[3]~51_combout\ = ( \sd1|dout\(3) & ( (!\Equal6~0_combout\ & (\rom1|altsyncram_component|auto_generated|q_a\(3))) # (\Equal6~0_combout\ & ((\sd1|Equal6~0_combout\))) ) ) # ( !\sd1|dout\(3) & ( (!\Equal6~0_combout\ & 
 -- \rom1|altsyncram_component|auto_generated|q_a\(3)) ) )
 
 -- pragma translate_off
@@ -55224,15 +55226,15 @@ PORT MAP (
 	datac => \rom1|altsyncram_component|auto_generated|ALT_INV_q_a\(3),
 	datad => \sd1|ALT_INV_Equal6~0_combout\,
 	dataf => \sd1|ALT_INV_dout\(3),
-	combout => \cpuDataIn[3]~51_combout\);
+	combout => \w_cpuDataIn[3]~51_combout\);
 
 -- Location: LABCELL_X16_Y35_N6
-\cpuDataIn[3]~22\ : cyclonev_lcell_comb
+\w_cpuDataIn[3]~22\ : cyclonev_lcell_comb
 -- Equation(s):
--- \cpuDataIn[3]~22_combout\ = ( \sramData[3]~input_o\ & ( \n_ROMCS~1_combout\ & ( (!\Equal5~1_combout\ & ((\cpuDataIn[3]~75_combout\))) # (\Equal5~1_combout\ & (\cpuDataIn[3]~51_combout\)) ) ) ) # ( !\sramData[3]~input_o\ & ( \n_ROMCS~1_combout\ & ( 
--- (!\Equal5~1_combout\ & ((\cpuDataIn[3]~75_combout\))) # (\Equal5~1_combout\ & (\cpuDataIn[3]~51_combout\)) ) ) ) # ( \sramData[3]~input_o\ & ( !\n_ROMCS~1_combout\ & ( (!\Equal5~1_combout\ & (((\cpuDataIn[3]~75_combout\)))) # (\Equal5~1_combout\ & 
--- (((!\Equal6~0_combout\)) # (\cpuDataIn[3]~51_combout\))) ) ) ) # ( !\sramData[3]~input_o\ & ( !\n_ROMCS~1_combout\ & ( (!\Equal5~1_combout\ & (((\cpuDataIn[3]~75_combout\)))) # (\Equal5~1_combout\ & (\cpuDataIn[3]~51_combout\ & ((\Equal6~0_combout\)))) ) 
--- ) )
+-- \w_cpuDataIn[3]~22_combout\ = ( \sramData[3]~input_o\ & ( \n_ROMCS~1_combout\ & ( (!\Equal5~1_combout\ & ((\w_cpuDataIn[3]~75_combout\))) # (\Equal5~1_combout\ & (\w_cpuDataIn[3]~51_combout\)) ) ) ) # ( !\sramData[3]~input_o\ & ( \n_ROMCS~1_combout\ & ( 
+-- (!\Equal5~1_combout\ & ((\w_cpuDataIn[3]~75_combout\))) # (\Equal5~1_combout\ & (\w_cpuDataIn[3]~51_combout\)) ) ) ) # ( \sramData[3]~input_o\ & ( !\n_ROMCS~1_combout\ & ( (!\Equal5~1_combout\ & (((\w_cpuDataIn[3]~75_combout\)))) # (\Equal5~1_combout\ & 
+-- (((!\Equal6~0_combout\)) # (\w_cpuDataIn[3]~51_combout\))) ) ) ) # ( !\sramData[3]~input_o\ & ( !\n_ROMCS~1_combout\ & ( (!\Equal5~1_combout\ & (((\w_cpuDataIn[3]~75_combout\)))) # (\Equal5~1_combout\ & (\w_cpuDataIn[3]~51_combout\ & 
+-- ((\Equal6~0_combout\)))) ) ) )
 
 -- pragma translate_off
 GENERIC MAP (
@@ -55241,19 +55243,19 @@ GENERIC MAP (
 	shared_arith => "off")
 -- pragma translate_on
 PORT MAP (
-	dataa => \ALT_INV_cpuDataIn[3]~51_combout\,
+	dataa => \ALT_INV_w_cpuDataIn[3]~51_combout\,
 	datab => \ALT_INV_Equal5~1_combout\,
-	datac => \ALT_INV_cpuDataIn[3]~75_combout\,
+	datac => \ALT_INV_w_cpuDataIn[3]~75_combout\,
 	datad => \ALT_INV_Equal6~0_combout\,
 	datae => \ALT_INV_sramData[3]~input_o\,
 	dataf => \ALT_INV_n_ROMCS~1_combout\,
-	combout => \cpuDataIn[3]~22_combout\);
+	combout => \w_cpuDataIn[3]~22_combout\);
 
 -- Location: LABCELL_X16_Y35_N48
-\cpuDataIn[3]~23\ : cyclonev_lcell_comb
+\w_cpuDataIn[3]~23\ : cyclonev_lcell_comb
 -- Equation(s):
--- \cpuDataIn[3]~23_combout\ = ( \n_if2CS~0_combout\ & ( (!\n_if1CS~0_combout\ & (\io2|dataOut\(3))) # (\n_if1CS~0_combout\ & ((\io1|dataOut\(3)))) ) ) # ( !\n_if2CS~0_combout\ & ( (!\n_if1CS~0_combout\ & (\cpuDataIn[3]~22_combout\)) # (\n_if1CS~0_combout\ & 
--- ((\io1|dataOut\(3)))) ) )
+-- \w_cpuDataIn[3]~23_combout\ = ( \n_if2CS~0_combout\ & ( (!\n_if1CS~0_combout\ & (\io2|dataOut\(3))) # (\n_if1CS~0_combout\ & ((\io1|dataOut\(3)))) ) ) # ( !\n_if2CS~0_combout\ & ( (!\n_if1CS~0_combout\ & (\w_cpuDataIn[3]~22_combout\)) # 
+-- (\n_if1CS~0_combout\ & ((\io1|dataOut\(3)))) ) )
 
 -- pragma translate_off
 GENERIC MAP (
@@ -55263,16 +55265,16 @@ GENERIC MAP (
 -- pragma translate_on
 PORT MAP (
 	dataa => \io2|ALT_INV_dataOut\(3),
-	datab => \ALT_INV_cpuDataIn[3]~22_combout\,
+	datab => \ALT_INV_w_cpuDataIn[3]~22_combout\,
 	datac => \io1|ALT_INV_dataOut\(3),
 	datad => \ALT_INV_n_if1CS~0_combout\,
 	dataf => \ALT_INV_n_if2CS~0_combout\,
-	combout => \cpuDataIn[3]~23_combout\);
+	combout => \w_cpuDataIn[3]~23_combout\);
 
 -- Location: MLABCELL_X18_Y35_N15
 \cpu1|accb[3]~feeder\ : cyclonev_lcell_comb
 -- Equation(s):
--- \cpu1|accb[3]~feeder_combout\ = ( \cpuDataIn[3]~23_combout\ )
+-- \cpu1|accb[3]~feeder_combout\ = ( \w_cpuDataIn[3]~23_combout\ )
 
 -- pragma translate_off
 GENERIC MAP (
@@ -55281,7 +55283,7 @@ GENERIC MAP (
 	shared_arith => "off")
 -- pragma translate_on
 PORT MAP (
-	dataf => \ALT_INV_cpuDataIn[3]~23_combout\,
+	dataf => \ALT_INV_w_cpuDataIn[3]~23_combout\,
 	combout => \cpu1|accb[3]~feeder_combout\);
 
 -- Location: FF_X18_Y35_N17
@@ -73425,8 +73427,8 @@ PORT MAP (
 -- Location: LABCELL_X14_Y35_N36
 \cpu1|Selector168~1\ : cyclonev_lcell_comb
 -- Equation(s):
--- \cpu1|Selector168~1_combout\ = ( \cpu1|Selector168~0_combout\ & ( \cpuDataIn[1]~9_combout\ ) ) # ( !\cpu1|Selector168~0_combout\ & ( \cpuDataIn[1]~9_combout\ & ( (\cpu1|Selector169~0_combout\ & ((!\n_if1CS~0_combout\) # (\io1|dataOut\(1)))) ) ) ) # ( 
--- \cpu1|Selector168~0_combout\ & ( !\cpuDataIn[1]~9_combout\ ) ) # ( !\cpu1|Selector168~0_combout\ & ( !\cpuDataIn[1]~9_combout\ & ( (\cpu1|Selector169~0_combout\ & ((!\n_if1CS~0_combout\ & ((\cpuDataIn[1]~6_combout\))) # (\n_if1CS~0_combout\ & 
+-- \cpu1|Selector168~1_combout\ = ( \cpu1|Selector168~0_combout\ & ( \w_cpuDataIn[1]~9_combout\ ) ) # ( !\cpu1|Selector168~0_combout\ & ( \w_cpuDataIn[1]~9_combout\ & ( (\cpu1|Selector169~0_combout\ & ((!\n_if1CS~0_combout\) # (\io1|dataOut\(1)))) ) ) ) # ( 
+-- \cpu1|Selector168~0_combout\ & ( !\w_cpuDataIn[1]~9_combout\ ) ) # ( !\cpu1|Selector168~0_combout\ & ( !\w_cpuDataIn[1]~9_combout\ & ( (\cpu1|Selector169~0_combout\ & ((!\n_if1CS~0_combout\ & ((\w_cpuDataIn[1]~6_combout\))) # (\n_if1CS~0_combout\ & 
 -- (\io1|dataOut\(1))))) ) ) )
 
 -- pragma translate_off
@@ -73439,9 +73441,9 @@ PORT MAP (
 	dataa => \cpu1|ALT_INV_Selector169~0_combout\,
 	datab => \ALT_INV_n_if1CS~0_combout\,
 	datac => \io1|ALT_INV_dataOut\(1),
-	datad => \ALT_INV_cpuDataIn[1]~6_combout\,
+	datad => \ALT_INV_w_cpuDataIn[1]~6_combout\,
 	datae => \cpu1|ALT_INV_Selector168~0_combout\,
-	dataf => \ALT_INV_cpuDataIn[1]~9_combout\,
+	dataf => \ALT_INV_w_cpuDataIn[1]~9_combout\,
 	combout => \cpu1|Selector168~1_combout\);
 
 -- Location: FF_X14_Y35_N38
@@ -73529,7 +73531,7 @@ GENERIC MAP (
 PORT MAP (
 	clk => \clk~inputCLKENA0_outclk\,
 	d => \cpu1|Selector153~1_combout\,
-	ena => \ALT_INV_hold~q\,
+	ena => \ALT_INV_w_hold~q\,
 	devclrn => ww_devclrn,
 	devpor => ww_devpor,
 	q => \cpu1|iv\(0));
@@ -78436,9 +78438,9 @@ PORT MAP (
 -- Location: LABCELL_X14_Y34_N12
 \cpu1|Selector302~1\ : cyclonev_lcell_comb
 -- Equation(s):
--- \cpu1|Selector302~1_combout\ = ( \cpuDataIn[4]~32_combout\ & ( \cpuDataIn[4]~24_combout\ & ( \Equal5~1_combout\ ) ) ) # ( !\cpuDataIn[4]~32_combout\ & ( \cpuDataIn[4]~24_combout\ & ( \Equal5~1_combout\ ) ) ) # ( \cpuDataIn[4]~32_combout\ & ( 
--- !\cpuDataIn[4]~24_combout\ & ( (\Equal5~1_combout\ & ((!\cpuDataIn[4]~31_combout\) # ((\sd1|dout\(4) & !\cpuDataIn[4]~30_combout\)))) ) ) ) # ( !\cpuDataIn[4]~32_combout\ & ( !\cpuDataIn[4]~24_combout\ & ( (\sd1|dout\(4) & (\cpuDataIn[4]~31_combout\ & 
--- (!\cpuDataIn[4]~30_combout\ & \Equal5~1_combout\))) ) ) )
+-- \cpu1|Selector302~1_combout\ = ( \w_cpuDataIn[4]~32_combout\ & ( \w_cpuDataIn[4]~24_combout\ & ( \Equal5~1_combout\ ) ) ) # ( !\w_cpuDataIn[4]~32_combout\ & ( \w_cpuDataIn[4]~24_combout\ & ( \Equal5~1_combout\ ) ) ) # ( \w_cpuDataIn[4]~32_combout\ & ( 
+-- !\w_cpuDataIn[4]~24_combout\ & ( (\Equal5~1_combout\ & ((!\w_cpuDataIn[4]~31_combout\) # ((\sd1|dout\(4) & !\w_cpuDataIn[4]~30_combout\)))) ) ) ) # ( !\w_cpuDataIn[4]~32_combout\ & ( !\w_cpuDataIn[4]~24_combout\ & ( (\sd1|dout\(4) & 
+-- (\w_cpuDataIn[4]~31_combout\ & (!\w_cpuDataIn[4]~30_combout\ & \Equal5~1_combout\))) ) ) )
 
 -- pragma translate_off
 GENERIC MAP (
@@ -78448,17 +78450,17 @@ GENERIC MAP (
 -- pragma translate_on
 PORT MAP (
 	dataa => \sd1|ALT_INV_dout\(4),
-	datab => \ALT_INV_cpuDataIn[4]~31_combout\,
-	datac => \ALT_INV_cpuDataIn[4]~30_combout\,
+	datab => \ALT_INV_w_cpuDataIn[4]~31_combout\,
+	datac => \ALT_INV_w_cpuDataIn[4]~30_combout\,
 	datad => \ALT_INV_Equal5~1_combout\,
-	datae => \ALT_INV_cpuDataIn[4]~32_combout\,
-	dataf => \ALT_INV_cpuDataIn[4]~24_combout\,
+	datae => \ALT_INV_w_cpuDataIn[4]~32_combout\,
+	dataf => \ALT_INV_w_cpuDataIn[4]~24_combout\,
 	combout => \cpu1|Selector302~1_combout\);
 
 -- Location: LABCELL_X21_Y39_N30
 \cpu1|Selector302~0\ : cyclonev_lcell_comb
 -- Equation(s):
--- \cpu1|Selector302~0_combout\ = ( \cpu1|Selector302~2_combout\ & ( \cpu1|Selector302~1_combout\ & ( (!\n_if1CS~0_combout\ & (!\n_if2CS~0_combout\ & ((!\cpuDataIn[4]~24_combout\) # (\sramData[4]~input_o\)))) ) ) ) # ( !\cpu1|Selector302~2_combout\ & ( 
+-- \cpu1|Selector302~0_combout\ = ( \cpu1|Selector302~2_combout\ & ( \cpu1|Selector302~1_combout\ & ( (!\n_if1CS~0_combout\ & (!\n_if2CS~0_combout\ & ((!\w_cpuDataIn[4]~24_combout\) # (\sramData[4]~input_o\)))) ) ) ) # ( !\cpu1|Selector302~2_combout\ & ( 
 -- \cpu1|Selector302~1_combout\ ) ) # ( !\cpu1|Selector302~2_combout\ & ( !\cpu1|Selector302~1_combout\ ) )
 
 -- pragma translate_off
@@ -78471,7 +78473,7 @@ PORT MAP (
 	dataa => \ALT_INV_n_if1CS~0_combout\,
 	datab => \ALT_INV_sramData[4]~input_o\,
 	datac => \ALT_INV_n_if2CS~0_combout\,
-	datad => \ALT_INV_cpuDataIn[4]~24_combout\,
+	datad => \ALT_INV_w_cpuDataIn[4]~24_combout\,
 	datae => \cpu1|ALT_INV_Selector302~2_combout\,
 	dataf => \cpu1|ALT_INV_Selector302~1_combout\,
 	combout => \cpu1|Selector302~0_combout\);
@@ -78479,7 +78481,7 @@ PORT MAP (
 -- Location: MLABCELL_X23_Y41_N39
 \cpu1|op_code[1]~0\ : cyclonev_lcell_comb
 -- Equation(s):
--- \cpu1|op_code[1]~0_combout\ = ( !\cpu1|Selector401~0_combout\ & ( !\hold~q\ ) )
+-- \cpu1|op_code[1]~0_combout\ = ( !\cpu1|Selector401~0_combout\ & ( !\w_hold~q\ ) )
 
 -- pragma translate_off
 GENERIC MAP (
@@ -78488,7 +78490,7 @@ GENERIC MAP (
 	shared_arith => "off")
 -- pragma translate_on
 PORT MAP (
-	datad => \ALT_INV_hold~q\,
+	datad => \ALT_INV_w_hold~q\,
 	dataf => \cpu1|ALT_INV_Selector401~0_combout\,
 	combout => \cpu1|op_code[1]~0_combout\);
 
@@ -78731,7 +78733,7 @@ GENERIC MAP (
 PORT MAP (
 	clk => \clk~inputCLKENA0_outclk\,
 	d => \cpu1|Selector152~1_combout\,
-	ena => \ALT_INV_hold~q\,
+	ena => \ALT_INV_w_hold~q\,
 	devclrn => ww_devclrn,
 	devpor => ww_devpor,
 	q => \cpu1|iv\(1));
@@ -78852,10 +78854,10 @@ PORT MAP (
 	combout => \Equal5~1_combout\);
 
 -- Location: LABCELL_X17_Y35_N48
-\cpuDataIn[3]~65\ : cyclonev_lcell_comb
+\w_cpuDataIn[3]~65\ : cyclonev_lcell_comb
 -- Equation(s):
--- \cpuDataIn[3]~65_combout\ = ( \cpuDataIn[3]~75_combout\ & ( (!\n_if2CS~0_combout\ & ((!\Equal5~1_combout\) # ((\cpuDataIn[3]~64_combout\)))) # (\n_if2CS~0_combout\ & (((\io2|dataOut\(3))))) ) ) # ( !\cpuDataIn[3]~75_combout\ & ( (!\n_if2CS~0_combout\ & 
--- (\Equal5~1_combout\ & ((\cpuDataIn[3]~64_combout\)))) # (\n_if2CS~0_combout\ & (((\io2|dataOut\(3))))) ) )
+-- \w_cpuDataIn[3]~65_combout\ = ( \w_cpuDataIn[3]~75_combout\ & ( (!\n_if2CS~0_combout\ & ((!\Equal5~1_combout\) # ((\w_cpuDataIn[3]~64_combout\)))) # (\n_if2CS~0_combout\ & (((\io2|dataOut\(3))))) ) ) # ( !\w_cpuDataIn[3]~75_combout\ & ( 
+-- (!\n_if2CS~0_combout\ & (\Equal5~1_combout\ & ((\w_cpuDataIn[3]~64_combout\)))) # (\n_if2CS~0_combout\ & (((\io2|dataOut\(3))))) ) )
 
 -- pragma translate_off
 GENERIC MAP (
@@ -78867,14 +78869,14 @@ PORT MAP (
 	dataa => \ALT_INV_Equal5~1_combout\,
 	datab => \ALT_INV_n_if2CS~0_combout\,
 	datac => \io2|ALT_INV_dataOut\(3),
-	datad => \ALT_INV_cpuDataIn[3]~64_combout\,
-	dataf => \ALT_INV_cpuDataIn[3]~75_combout\,
-	combout => \cpuDataIn[3]~65_combout\);
+	datad => \ALT_INV_w_cpuDataIn[3]~64_combout\,
+	dataf => \ALT_INV_w_cpuDataIn[3]~75_combout\,
+	combout => \w_cpuDataIn[3]~65_combout\);
 
 -- Location: LABCELL_X17_Y35_N39
-\cpuDataIn[3]~47\ : cyclonev_lcell_comb
+\w_cpuDataIn[3]~47\ : cyclonev_lcell_comb
 -- Equation(s):
--- \cpuDataIn[3]~47_combout\ = ( \n_ROMCS~1_combout\ & ( \cpuDataIn[3]~65_combout\ ) ) # ( !\n_ROMCS~1_combout\ & ( \cpuDataIn[3]~65_combout\ & ( (((!\Equal5~1_combout\) # (\Equal6~0_combout\)) # (\n_if2CS~0_combout\)) # (\sramData[3]~input_o\) ) ) )
+-- \w_cpuDataIn[3]~47_combout\ = ( \n_ROMCS~1_combout\ & ( \w_cpuDataIn[3]~65_combout\ ) ) # ( !\n_ROMCS~1_combout\ & ( \w_cpuDataIn[3]~65_combout\ & ( (((!\Equal5~1_combout\) # (\Equal6~0_combout\)) # (\n_if2CS~0_combout\)) # (\sramData[3]~input_o\) ) ) )
 
 -- pragma translate_off
 GENERIC MAP (
@@ -78888,15 +78890,15 @@ PORT MAP (
 	datac => \ALT_INV_Equal6~0_combout\,
 	datad => \ALT_INV_Equal5~1_combout\,
 	datae => \ALT_INV_n_ROMCS~1_combout\,
-	dataf => \ALT_INV_cpuDataIn[3]~65_combout\,
-	combout => \cpuDataIn[3]~47_combout\);
+	dataf => \ALT_INV_w_cpuDataIn[3]~65_combout\,
+	combout => \w_cpuDataIn[3]~47_combout\);
 
 -- Location: LABCELL_X20_Y39_N30
 \cpu1|Selector303~0\ : cyclonev_lcell_comb
 -- Equation(s):
--- \cpu1|Selector303~0_combout\ = ( \cpu1|op_code\(3) & ( \cpuDataIn[3]~47_combout\ & ( ((\cpu1|Selector400~1_combout\ & ((!\n_if1CS~0_combout\) # (\io1|dataOut\(3))))) # (\cpu1|Selector401~0_combout\) ) ) ) # ( !\cpu1|op_code\(3) & ( 
--- \cpuDataIn[3]~47_combout\ & ( (\cpu1|Selector400~1_combout\ & ((!\n_if1CS~0_combout\) # (\io1|dataOut\(3)))) ) ) ) # ( \cpu1|op_code\(3) & ( !\cpuDataIn[3]~47_combout\ & ( ((\cpu1|Selector400~1_combout\ & (\n_if1CS~0_combout\ & \io1|dataOut\(3)))) # 
--- (\cpu1|Selector401~0_combout\) ) ) ) # ( !\cpu1|op_code\(3) & ( !\cpuDataIn[3]~47_combout\ & ( (\cpu1|Selector400~1_combout\ & (\n_if1CS~0_combout\ & \io1|dataOut\(3))) ) ) )
+-- \cpu1|Selector303~0_combout\ = ( \cpu1|op_code\(3) & ( \w_cpuDataIn[3]~47_combout\ & ( ((\cpu1|Selector400~1_combout\ & ((!\n_if1CS~0_combout\) # (\io1|dataOut\(3))))) # (\cpu1|Selector401~0_combout\) ) ) ) # ( !\cpu1|op_code\(3) & ( 
+-- \w_cpuDataIn[3]~47_combout\ & ( (\cpu1|Selector400~1_combout\ & ((!\n_if1CS~0_combout\) # (\io1|dataOut\(3)))) ) ) ) # ( \cpu1|op_code\(3) & ( !\w_cpuDataIn[3]~47_combout\ & ( ((\cpu1|Selector400~1_combout\ & (\n_if1CS~0_combout\ & \io1|dataOut\(3)))) # 
+-- (\cpu1|Selector401~0_combout\) ) ) ) # ( !\cpu1|op_code\(3) & ( !\w_cpuDataIn[3]~47_combout\ & ( (\cpu1|Selector400~1_combout\ & (\n_if1CS~0_combout\ & \io1|dataOut\(3))) ) ) )
 
 -- pragma translate_off
 GENERIC MAP (
@@ -78910,7 +78912,7 @@ PORT MAP (
 	datac => \ALT_INV_n_if1CS~0_combout\,
 	datad => \io1|ALT_INV_dataOut\(3),
 	datae => \cpu1|ALT_INV_op_code\(3),
-	dataf => \ALT_INV_cpuDataIn[3]~47_combout\,
+	dataf => \ALT_INV_w_cpuDataIn[3]~47_combout\,
 	combout => \cpu1|Selector303~0_combout\);
 
 -- Location: FF_X20_Y39_N32
@@ -78923,7 +78925,7 @@ GENERIC MAP (
 PORT MAP (
 	clk => \clk~inputCLKENA0_outclk\,
 	d => \cpu1|Selector303~0_combout\,
-	ena => \ALT_INV_hold~q\,
+	ena => \ALT_INV_w_hold~q\,
 	devclrn => ww_devclrn,
 	devpor => ww_devpor,
 	q => \cpu1|op_code\(3));
@@ -79142,7 +79144,7 @@ GENERIC MAP (
 PORT MAP (
 	clk => \clk~inputCLKENA0_outclk\,
 	d => \cpu1|Selector383~5_combout\,
-	asdata => \cpuDataIn[4]~34_combout\,
+	asdata => \w_cpuDataIn[4]~34_combout\,
 	sclr => \cpu1|ea[1]~0_combout\,
 	sload => \cpu1|Selector423~0_combout\,
 	ena => \cpu1|ea[0]~1_combout\,
@@ -79251,7 +79253,7 @@ PORT MAP (
 	clk => \clk~inputCLKENA0_outclk\,
 	d => \cpu1|state~333_combout\,
 	clrn => \debounceReset|ALT_INV_o_PinOut~q\,
-	ena => \ALT_INV_hold~q\,
+	ena => \ALT_INV_w_hold~q\,
 	devclrn => ww_devclrn,
 	devpor => ww_devpor,
 	q => \cpu1|state.puls_uph_state~q\);
@@ -79575,9 +79577,9 @@ PORT MAP (
 	combout => \n_ROMCS~0_combout\);
 
 -- Location: LABCELL_X17_Y34_N0
-\cpuDataIn[0]~3\ : cyclonev_lcell_comb
+\w_cpuDataIn[0]~3\ : cyclonev_lcell_comb
 -- Equation(s):
--- \cpuDataIn[0]~3_combout\ = ( \Equal5~0_combout\ & ( \cpu1|Selector330~4_combout\ & ( (!\n_ROMCS~0_combout\ & (\Equal3~0_combout\ & (!\mm1|amap~0_combout\ & !\cpu1|Selector327~3_combout\))) ) ) )
+-- \w_cpuDataIn[0]~3_combout\ = ( \Equal5~0_combout\ & ( \cpu1|Selector330~4_combout\ & ( (!\n_ROMCS~0_combout\ & (\Equal3~0_combout\ & (!\mm1|amap~0_combout\ & !\cpu1|Selector327~3_combout\))) ) ) )
 
 -- pragma translate_off
 GENERIC MAP (
@@ -79592,12 +79594,12 @@ PORT MAP (
 	datad => \cpu1|ALT_INV_Selector327~3_combout\,
 	datae => \ALT_INV_Equal5~0_combout\,
 	dataf => \cpu1|ALT_INV_Selector330~4_combout\,
-	combout => \cpuDataIn[0]~3_combout\);
+	combout => \w_cpuDataIn[0]~3_combout\);
 
 -- Location: LABCELL_X20_Y34_N27
-\cpuDataIn[0]~2\ : cyclonev_lcell_comb
+\w_cpuDataIn[0]~2\ : cyclonev_lcell_comb
 -- Equation(s):
--- \cpuDataIn[0]~2_combout\ = ( !\gpio1|reg\(0) & ( \cpu1|Selector330~4_combout\ & ( (!\gpio1|reg\(1) & (!\Equal5~1_combout\ & \gpio1|Equal0~0_combout\)) ) ) ) # ( \gpio1|reg\(0) & ( !\cpu1|Selector330~4_combout\ & ( !\Equal5~1_combout\ ) ) ) # ( 
+-- \w_cpuDataIn[0]~2_combout\ = ( !\gpio1|reg\(0) & ( \cpu1|Selector330~4_combout\ & ( (!\gpio1|reg\(1) & (!\Equal5~1_combout\ & \gpio1|Equal0~0_combout\)) ) ) ) # ( \gpio1|reg\(0) & ( !\cpu1|Selector330~4_combout\ & ( !\Equal5~1_combout\ ) ) ) # ( 
 -- !\gpio1|reg\(0) & ( !\cpu1|Selector330~4_combout\ & ( !\Equal5~1_combout\ ) ) )
 
 -- pragma translate_off
@@ -79612,7 +79614,7 @@ PORT MAP (
 	datac => \gpio1|ALT_INV_Equal0~0_combout\,
 	datae => \gpio1|ALT_INV_reg\(0),
 	dataf => \cpu1|ALT_INV_Selector330~4_combout\,
-	combout => \cpuDataIn[0]~2_combout\);
+	combout => \w_cpuDataIn[0]~2_combout\);
 
 -- Location: IOIBUF_X20_Y45_N52
 \sramData[2]~input\ : cyclonev_io_ibuf
@@ -79698,9 +79700,9 @@ PORT MAP (
 	portadataout => \rom1|altsyncram_component|auto_generated|ram_block1a2_PORTADATAOUT_bus\);
 
 -- Location: LABCELL_X17_Y34_N57
-\cpuDataIn[2]~60\ : cyclonev_lcell_comb
+\w_cpuDataIn[2]~60\ : cyclonev_lcell_comb
 -- Equation(s):
--- \cpuDataIn[2]~60_combout\ = ( \n_ROMCS~1_combout\ & ( (!\Equal6~0_combout\ & (((\rom1|altsyncram_component|auto_generated|q_a\(2))))) # (\Equal6~0_combout\ & (\sd1|Equal6~0_combout\ & (\sd1|dout\(2)))) ) ) # ( !\n_ROMCS~1_combout\ & ( 
+-- \w_cpuDataIn[2]~60_combout\ = ( \n_ROMCS~1_combout\ & ( (!\Equal6~0_combout\ & (((\rom1|altsyncram_component|auto_generated|q_a\(2))))) # (\Equal6~0_combout\ & (\sd1|Equal6~0_combout\ & (\sd1|dout\(2)))) ) ) # ( !\n_ROMCS~1_combout\ & ( 
 -- (!\Equal6~0_combout\) # ((\sd1|Equal6~0_combout\ & \sd1|dout\(2))) ) )
 
 -- pragma translate_off
@@ -79715,7 +79717,7 @@ PORT MAP (
 	datac => \sd1|ALT_INV_dout\(2),
 	datad => \rom1|altsyncram_component|auto_generated|ALT_INV_q_a\(2),
 	dataf => \ALT_INV_n_ROMCS~1_combout\,
-	combout => \cpuDataIn[2]~60_combout\);
+	combout => \w_cpuDataIn[2]~60_combout\);
 
 -- Location: FF_X17_Y34_N40
 \gpio1|reg_ddr0[2]\ : dffeas
@@ -79781,9 +79783,9 @@ PORT MAP (
 	q => \gpio1|reg_dat0\(2));
 
 -- Location: MLABCELL_X18_Y34_N3
-\cpuDataIn[0]~1\ : cyclonev_lcell_comb
+\w_cpuDataIn[0]~1\ : cyclonev_lcell_comb
 -- Equation(s):
--- \cpuDataIn[0]~1_combout\ = ( \gpio1|Equal0~0_combout\ & ( (\cpu1|Selector330~4_combout\ & ((!\gpio1|reg\(1)) # (\gpio1|reg\(0)))) ) )
+-- \w_cpuDataIn[0]~1_combout\ = ( \gpio1|Equal0~0_combout\ & ( (\cpu1|Selector330~4_combout\ & ((!\gpio1|reg\(1)) # (\gpio1|reg\(0)))) ) )
 
 -- pragma translate_off
 GENERIC MAP (
@@ -79796,7 +79798,7 @@ PORT MAP (
 	datac => \gpio1|ALT_INV_reg\(1),
 	datad => \gpio1|ALT_INV_reg\(0),
 	dataf => \gpio1|ALT_INV_Equal0~0_combout\,
-	combout => \cpuDataIn[0]~1_combout\);
+	combout => \w_cpuDataIn[0]~1_combout\);
 
 -- Location: FF_X17_Y34_N50
 \gpio1|reg_ddr2[2]\ : dffeas
@@ -79816,13 +79818,13 @@ PORT MAP (
 	q => \gpio1|reg_ddr2\(2));
 
 -- Location: LABCELL_X17_Y34_N51
-\cpuDataIn[2]~59\ : cyclonev_lcell_comb
+\w_cpuDataIn[2]~59\ : cyclonev_lcell_comb
 -- Equation(s):
--- \cpuDataIn[2]~59_combout\ = ( \cpuDataIn[0]~1_combout\ & ( \gpio1|reg_ddr2\(2) & ( (\cpuDataIn[0]~2_combout\ & ((!\cpuDataIn[0]~3_combout\ & (!\gpio1|reg\(2))) # (\cpuDataIn[0]~3_combout\ & ((!\gpio1|reg_dat0\(2)))))) ) ) ) # ( !\cpuDataIn[0]~1_combout\ & 
--- ( \gpio1|reg_ddr2\(2) & ( (!\cpuDataIn[0]~2_combout\ & (((\cpuDataIn[0]~3_combout\)))) # (\cpuDataIn[0]~2_combout\ & ((!\cpuDataIn[0]~3_combout\ & (!\gpio1|reg\(2))) # (\cpuDataIn[0]~3_combout\ & ((!\gpio1|reg_dat0\(2)))))) ) ) ) # ( 
--- \cpuDataIn[0]~1_combout\ & ( !\gpio1|reg_ddr2\(2) & ( (!\cpuDataIn[0]~2_combout\ & (((\cpuDataIn[0]~3_combout\)))) # (\cpuDataIn[0]~2_combout\ & ((!\cpuDataIn[0]~3_combout\ & (!\gpio1|reg\(2))) # (\cpuDataIn[0]~3_combout\ & ((!\gpio1|reg_dat0\(2)))))) ) ) 
--- ) # ( !\cpuDataIn[0]~1_combout\ & ( !\gpio1|reg_ddr2\(2) & ( (!\cpuDataIn[0]~2_combout\ & (((\cpuDataIn[0]~3_combout\)))) # (\cpuDataIn[0]~2_combout\ & ((!\cpuDataIn[0]~3_combout\ & (!\gpio1|reg\(2))) # (\cpuDataIn[0]~3_combout\ & 
--- ((!\gpio1|reg_dat0\(2)))))) ) ) )
+-- \w_cpuDataIn[2]~59_combout\ = ( \w_cpuDataIn[0]~1_combout\ & ( \gpio1|reg_ddr2\(2) & ( (\w_cpuDataIn[0]~2_combout\ & ((!\w_cpuDataIn[0]~3_combout\ & (!\gpio1|reg\(2))) # (\w_cpuDataIn[0]~3_combout\ & ((!\gpio1|reg_dat0\(2)))))) ) ) ) # ( 
+-- !\w_cpuDataIn[0]~1_combout\ & ( \gpio1|reg_ddr2\(2) & ( (!\w_cpuDataIn[0]~2_combout\ & (((\w_cpuDataIn[0]~3_combout\)))) # (\w_cpuDataIn[0]~2_combout\ & ((!\w_cpuDataIn[0]~3_combout\ & (!\gpio1|reg\(2))) # (\w_cpuDataIn[0]~3_combout\ & 
+-- ((!\gpio1|reg_dat0\(2)))))) ) ) ) # ( \w_cpuDataIn[0]~1_combout\ & ( !\gpio1|reg_ddr2\(2) & ( (!\w_cpuDataIn[0]~2_combout\ & (((\w_cpuDataIn[0]~3_combout\)))) # (\w_cpuDataIn[0]~2_combout\ & ((!\w_cpuDataIn[0]~3_combout\ & (!\gpio1|reg\(2))) # 
+-- (\w_cpuDataIn[0]~3_combout\ & ((!\gpio1|reg_dat0\(2)))))) ) ) ) # ( !\w_cpuDataIn[0]~1_combout\ & ( !\gpio1|reg_ddr2\(2) & ( (!\w_cpuDataIn[0]~2_combout\ & (((\w_cpuDataIn[0]~3_combout\)))) # (\w_cpuDataIn[0]~2_combout\ & ((!\w_cpuDataIn[0]~3_combout\ & 
+-- (!\gpio1|reg\(2))) # (\w_cpuDataIn[0]~3_combout\ & ((!\gpio1|reg_dat0\(2)))))) ) ) )
 
 -- pragma translate_off
 GENERIC MAP (
@@ -79833,16 +79835,16 @@ GENERIC MAP (
 PORT MAP (
 	dataa => \gpio1|ALT_INV_reg\(2),
 	datab => \gpio1|ALT_INV_reg_dat0\(2),
-	datac => \ALT_INV_cpuDataIn[0]~2_combout\,
-	datad => \ALT_INV_cpuDataIn[0]~3_combout\,
-	datae => \ALT_INV_cpuDataIn[0]~1_combout\,
+	datac => \ALT_INV_w_cpuDataIn[0]~2_combout\,
+	datad => \ALT_INV_w_cpuDataIn[0]~3_combout\,
+	datae => \ALT_INV_w_cpuDataIn[0]~1_combout\,
 	dataf => \gpio1|ALT_INV_reg_ddr2\(2),
-	combout => \cpuDataIn[2]~59_combout\);
+	combout => \w_cpuDataIn[2]~59_combout\);
 
 -- Location: MLABCELL_X18_Y34_N48
-\cpuDataIn[0]~0\ : cyclonev_lcell_comb
+\w_cpuDataIn[0]~0\ : cyclonev_lcell_comb
 -- Equation(s):
--- \cpuDataIn[0]~0_combout\ = ( \gpio1|Equal0~0_combout\ & ( (\cpu1|Selector330~4_combout\ & (!\gpio1|reg\(0) $ (!\gpio1|reg\(1)))) ) )
+-- \w_cpuDataIn[0]~0_combout\ = ( \gpio1|Equal0~0_combout\ & ( (\cpu1|Selector330~4_combout\ & (!\gpio1|reg\(0) $ (!\gpio1|reg\(1)))) ) )
 
 -- pragma translate_off
 GENERIC MAP (
@@ -79855,7 +79857,7 @@ PORT MAP (
 	datab => \gpio1|ALT_INV_reg\(1),
 	datad => \cpu1|ALT_INV_Selector330~4_combout\,
 	dataf => \gpio1|ALT_INV_Equal0~0_combout\,
-	combout => \cpuDataIn[0]~0_combout\);
+	combout => \w_cpuDataIn[0]~0_combout\);
 
 -- Location: IOIBUF_X36_Y0_N18
 \gpio2[2]~input\ : cyclonev_io_ibuf
@@ -79922,10 +79924,10 @@ PORT MAP (
 	q => \gpio1|reg_dat2\(2));
 
 -- Location: LABCELL_X17_Y34_N24
-\cpuDataIn[2]~61\ : cyclonev_lcell_comb
+\w_cpuDataIn[2]~61\ : cyclonev_lcell_comb
 -- Equation(s):
--- \cpuDataIn[2]~61_combout\ = ( \cpuDataIn[2]~59_combout\ & ( (\cpuDataIn[0]~0_combout\ & ((!\cpuDataIn[0]~1_combout\ & (\gpio1|reg_dat2\(2))) # (\cpuDataIn[0]~1_combout\ & ((\gpio1|reg_ddr0\(2)))))) ) ) # ( !\cpuDataIn[2]~59_combout\ & ( 
--- (!\cpuDataIn[0]~0_combout\) # ((!\cpuDataIn[0]~1_combout\ & (\gpio1|reg_dat2\(2))) # (\cpuDataIn[0]~1_combout\ & ((\gpio1|reg_ddr0\(2))))) ) )
+-- \w_cpuDataIn[2]~61_combout\ = ( \w_cpuDataIn[2]~59_combout\ & ( (\w_cpuDataIn[0]~0_combout\ & ((!\w_cpuDataIn[0]~1_combout\ & (\gpio1|reg_dat2\(2))) # (\w_cpuDataIn[0]~1_combout\ & ((\gpio1|reg_ddr0\(2)))))) ) ) # ( !\w_cpuDataIn[2]~59_combout\ & ( 
+-- (!\w_cpuDataIn[0]~0_combout\) # ((!\w_cpuDataIn[0]~1_combout\ & (\gpio1|reg_dat2\(2))) # (\w_cpuDataIn[0]~1_combout\ & ((\gpio1|reg_ddr0\(2))))) ) )
 
 -- pragma translate_off
 GENERIC MAP (
@@ -79934,18 +79936,18 @@ GENERIC MAP (
 	shared_arith => "off")
 -- pragma translate_on
 PORT MAP (
-	dataa => \ALT_INV_cpuDataIn[0]~1_combout\,
-	datab => \ALT_INV_cpuDataIn[0]~0_combout\,
+	dataa => \ALT_INV_w_cpuDataIn[0]~1_combout\,
+	datab => \ALT_INV_w_cpuDataIn[0]~0_combout\,
 	datac => \gpio1|ALT_INV_reg_dat2\(2),
 	datad => \gpio1|ALT_INV_reg_ddr0\(2),
-	dataf => \ALT_INV_cpuDataIn[2]~59_combout\,
-	combout => \cpuDataIn[2]~61_combout\);
+	dataf => \ALT_INV_w_cpuDataIn[2]~59_combout\,
+	combout => \w_cpuDataIn[2]~61_combout\);
 
 -- Location: LABCELL_X17_Y34_N30
-\cpuDataIn[2]~62\ : cyclonev_lcell_comb
+\w_cpuDataIn[2]~62\ : cyclonev_lcell_comb
 -- Equation(s):
--- \cpuDataIn[2]~62_combout\ = ( \cpuDataIn[2]~61_combout\ & ( (!\cpuDataIn[0]~2_combout\ & (((\cpuDataIn[0]~3_combout\)) # (\cpuDataIn[2]~60_combout\))) # (\cpuDataIn[0]~2_combout\ & (((!\cpuDataIn[2]~59_combout\)))) ) ) # ( !\cpuDataIn[2]~61_combout\ & ( 
--- (!\cpuDataIn[0]~2_combout\ & (\cpuDataIn[2]~60_combout\ & ((!\cpuDataIn[0]~3_combout\)))) # (\cpuDataIn[0]~2_combout\ & (((!\cpuDataIn[2]~59_combout\)))) ) )
+-- \w_cpuDataIn[2]~62_combout\ = ( \w_cpuDataIn[2]~61_combout\ & ( (!\w_cpuDataIn[0]~2_combout\ & (((\w_cpuDataIn[0]~3_combout\)) # (\w_cpuDataIn[2]~60_combout\))) # (\w_cpuDataIn[0]~2_combout\ & (((!\w_cpuDataIn[2]~59_combout\)))) ) ) # ( 
+-- !\w_cpuDataIn[2]~61_combout\ & ( (!\w_cpuDataIn[0]~2_combout\ & (\w_cpuDataIn[2]~60_combout\ & ((!\w_cpuDataIn[0]~3_combout\)))) # (\w_cpuDataIn[0]~2_combout\ & (((!\w_cpuDataIn[2]~59_combout\)))) ) )
 
 -- pragma translate_off
 GENERIC MAP (
@@ -79954,18 +79956,18 @@ GENERIC MAP (
 	shared_arith => "off")
 -- pragma translate_on
 PORT MAP (
-	dataa => \ALT_INV_cpuDataIn[2]~60_combout\,
-	datab => \ALT_INV_cpuDataIn[0]~2_combout\,
-	datac => \ALT_INV_cpuDataIn[2]~59_combout\,
-	datad => \ALT_INV_cpuDataIn[0]~3_combout\,
-	dataf => \ALT_INV_cpuDataIn[2]~61_combout\,
-	combout => \cpuDataIn[2]~62_combout\);
+	dataa => \ALT_INV_w_cpuDataIn[2]~60_combout\,
+	datab => \ALT_INV_w_cpuDataIn[0]~2_combout\,
+	datac => \ALT_INV_w_cpuDataIn[2]~59_combout\,
+	datad => \ALT_INV_w_cpuDataIn[0]~3_combout\,
+	dataf => \ALT_INV_w_cpuDataIn[2]~61_combout\,
+	combout => \w_cpuDataIn[2]~62_combout\);
 
 -- Location: LABCELL_X17_Y34_N18
-\cpuDataIn[2]~12\ : cyclonev_lcell_comb
+\w_cpuDataIn[2]~12\ : cyclonev_lcell_comb
 -- Equation(s):
--- \cpuDataIn[2]~12_combout\ = ( \sramData[2]~input_o\ & ( \cpuDataIn[2]~62_combout\ ) ) # ( !\sramData[2]~input_o\ & ( \cpuDataIn[2]~62_combout\ & ( (((\cpuDataIn[0]~2_combout\) # (\cpuDataIn[0]~3_combout\)) # (\Equal6~0_combout\)) # (\n_ROMCS~1_combout\) ) 
--- ) )
+-- \w_cpuDataIn[2]~12_combout\ = ( \sramData[2]~input_o\ & ( \w_cpuDataIn[2]~62_combout\ ) ) # ( !\sramData[2]~input_o\ & ( \w_cpuDataIn[2]~62_combout\ & ( (((\w_cpuDataIn[0]~2_combout\) # (\w_cpuDataIn[0]~3_combout\)) # (\Equal6~0_combout\)) # 
+-- (\n_ROMCS~1_combout\) ) ) )
 
 -- pragma translate_off
 GENERIC MAP (
@@ -79976,11 +79978,11 @@ GENERIC MAP (
 PORT MAP (
 	dataa => \ALT_INV_n_ROMCS~1_combout\,
 	datab => \ALT_INV_Equal6~0_combout\,
-	datac => \ALT_INV_cpuDataIn[0]~3_combout\,
-	datad => \ALT_INV_cpuDataIn[0]~2_combout\,
+	datac => \ALT_INV_w_cpuDataIn[0]~3_combout\,
+	datad => \ALT_INV_w_cpuDataIn[0]~2_combout\,
 	datae => \ALT_INV_sramData[2]~input_o\,
-	dataf => \ALT_INV_cpuDataIn[2]~62_combout\,
-	combout => \cpuDataIn[2]~12_combout\);
+	dataf => \ALT_INV_w_cpuDataIn[2]~62_combout\,
+	combout => \w_cpuDataIn[2]~12_combout\);
 
 -- Location: LABCELL_X19_Y38_N15
 \cpu1|Selector280~0\ : cyclonev_lcell_comb
@@ -80003,7 +80005,7 @@ PORT MAP (
 -- Location: LABCELL_X19_Y38_N42
 \cpu1|Selector280~1\ : cyclonev_lcell_comb
 -- Equation(s):
--- \cpu1|Selector280~1_combout\ = ( \cpu1|Selector280~0_combout\ ) # ( !\cpu1|Selector280~0_combout\ & ( (\cpu1|Selector281~0_combout\ & (((\cpuDataIn[2]~12_combout\ & \cpuDataIn[0]~10_combout\)) # (\cpuDataIn[2]~13_combout\))) ) )
+-- \cpu1|Selector280~1_combout\ = ( \cpu1|Selector280~0_combout\ ) # ( !\cpu1|Selector280~0_combout\ & ( (\cpu1|Selector281~0_combout\ & (((\w_cpuDataIn[2]~12_combout\ & \w_cpuDataIn[0]~10_combout\)) # (\w_cpuDataIn[2]~13_combout\))) ) )
 
 -- pragma translate_off
 GENERIC MAP (
@@ -80012,10 +80014,10 @@ GENERIC MAP (
 	shared_arith => "off")
 -- pragma translate_on
 PORT MAP (
-	dataa => \ALT_INV_cpuDataIn[2]~13_combout\,
-	datab => \ALT_INV_cpuDataIn[2]~12_combout\,
+	dataa => \ALT_INV_w_cpuDataIn[2]~13_combout\,
+	datab => \ALT_INV_w_cpuDataIn[2]~12_combout\,
 	datac => \cpu1|ALT_INV_Selector281~0_combout\,
-	datad => \ALT_INV_cpuDataIn[0]~10_combout\,
+	datad => \ALT_INV_w_cpuDataIn[0]~10_combout\,
 	dataf => \cpu1|ALT_INV_Selector280~0_combout\,
 	combout => \cpu1|Selector280~1_combout\);
 
@@ -80074,7 +80076,7 @@ PORT MAP (
 -- Location: LABCELL_X17_Y40_N12
 \cpu1|state~486\ : cyclonev_lcell_comb
 -- Equation(s):
--- \cpu1|state~486_combout\ = ( !\cpu1|state~343_combout\ & ( (!\hold~q\ & (\cpu1|state~401_combout\ & ((!\cpu1|Selector582~18_combout\) # (\cpu1|state~339_combout\)))) ) )
+-- \cpu1|state~486_combout\ = ( !\cpu1|state~343_combout\ & ( (!\w_hold~q\ & (\cpu1|state~401_combout\ & ((!\cpu1|Selector582~18_combout\) # (\cpu1|state~339_combout\)))) ) )
 
 -- pragma translate_off
 GENERIC MAP (
@@ -80083,7 +80085,7 @@ GENERIC MAP (
 	shared_arith => "off")
 -- pragma translate_on
 PORT MAP (
-	dataa => \ALT_INV_hold~q\,
+	dataa => \ALT_INV_w_hold~q\,
 	datab => \cpu1|ALT_INV_Selector582~18_combout\,
 	datac => \cpu1|ALT_INV_state~339_combout\,
 	datad => \cpu1|ALT_INV_state~401_combout\,
@@ -80101,7 +80103,7 @@ PORT MAP (
 	clk => \clk~inputCLKENA0_outclk\,
 	d => \cpu1|state~486_combout\,
 	clrn => \debounceReset|ALT_INV_o_PinOut~q\,
-	ena => \ALT_INV_hold~q\,
+	ena => \ALT_INV_w_hold~q\,
 	devclrn => ww_devclrn,
 	devpor => ww_devpor,
 	q => \cpu1|state.indirect_state~q\);
@@ -80140,7 +80142,7 @@ PORT MAP (
 	asdata => \cpu1|state.indirect_state~q\,
 	clrn => \debounceReset|ALT_INV_o_PinOut~q\,
 	sload => \cpu1|ALT_INV_Selector582~18_combout\,
-	ena => \ALT_INV_hold~q\,
+	ena => \ALT_INV_w_hold~q\,
 	devclrn => ww_devclrn,
 	devpor => ww_devpor,
 	q => \cpu1|state.indirect2_state~q\);
@@ -80222,7 +80224,7 @@ PORT MAP (
 -- Location: LABCELL_X19_Y38_N0
 \cpu1|Selector282~1\ : cyclonev_lcell_comb
 -- Equation(s):
--- \cpu1|Selector282~1_combout\ = ( \cpu1|Selector282~0_combout\ ) # ( !\cpu1|Selector282~0_combout\ & ( (!\cpu1|md[10]~0_combout\ & (((\cpuDataIn[0]~4_combout\ & \cpuDataIn[0]~10_combout\)) # (\cpuDataIn[0]~11_combout\))) ) )
+-- \cpu1|Selector282~1_combout\ = ( \cpu1|Selector282~0_combout\ ) # ( !\cpu1|Selector282~0_combout\ & ( (!\cpu1|md[10]~0_combout\ & (((\w_cpuDataIn[0]~4_combout\ & \w_cpuDataIn[0]~10_combout\)) # (\w_cpuDataIn[0]~11_combout\))) ) )
 
 -- pragma translate_off
 GENERIC MAP (
@@ -80231,10 +80233,10 @@ GENERIC MAP (
 	shared_arith => "off")
 -- pragma translate_on
 PORT MAP (
-	dataa => \ALT_INV_cpuDataIn[0]~11_combout\,
+	dataa => \ALT_INV_w_cpuDataIn[0]~11_combout\,
 	datab => \cpu1|ALT_INV_md[10]~0_combout\,
-	datac => \ALT_INV_cpuDataIn[0]~4_combout\,
-	datad => \ALT_INV_cpuDataIn[0]~10_combout\,
+	datac => \ALT_INV_w_cpuDataIn[0]~4_combout\,
+	datad => \ALT_INV_w_cpuDataIn[0]~10_combout\,
 	dataf => \cpu1|ALT_INV_Selector282~0_combout\,
 	combout => \cpu1|Selector282~1_combout\);
 
@@ -80248,7 +80250,7 @@ GENERIC MAP (
 PORT MAP (
 	clk => \clk~inputCLKENA0_outclk\,
 	d => \cpu1|Selector282~1_combout\,
-	ena => \ALT_INV_hold~q\,
+	ena => \ALT_INV_w_hold~q\,
 	devclrn => ww_devclrn,
 	devpor => ww_devpor,
 	q => \cpu1|md\(0));
@@ -80256,8 +80258,8 @@ PORT MAP (
 -- Location: LABCELL_X17_Y41_N36
 \cpu1|state~458\ : cyclonev_lcell_comb
 -- Equation(s):
--- \cpu1|state~458_combout\ = ( \hold~q\ & ( \cpu1|state~395_combout\ & ( \cpu1|state.postincr1_state~q\ ) ) ) # ( !\hold~q\ & ( \cpu1|state~395_combout\ & ( (!\cpu1|md\(3) & ((!\cpu1|state~397_combout\ & (!\cpu1|md\(0))) # (\cpu1|state~397_combout\ & 
--- ((\cpu1|state.postincr1_state~q\))))) ) ) ) # ( \hold~q\ & ( !\cpu1|state~395_combout\ & ( \cpu1|state.postincr1_state~q\ ) ) )
+-- \cpu1|state~458_combout\ = ( \w_hold~q\ & ( \cpu1|state~395_combout\ & ( \cpu1|state.postincr1_state~q\ ) ) ) # ( !\w_hold~q\ & ( \cpu1|state~395_combout\ & ( (!\cpu1|md\(3) & ((!\cpu1|state~397_combout\ & (!\cpu1|md\(0))) # (\cpu1|state~397_combout\ & 
+-- ((\cpu1|state.postincr1_state~q\))))) ) ) ) # ( \w_hold~q\ & ( !\cpu1|state~395_combout\ & ( \cpu1|state.postincr1_state~q\ ) ) )
 
 -- pragma translate_off
 GENERIC MAP (
@@ -80270,7 +80272,7 @@ PORT MAP (
 	datab => \cpu1|ALT_INV_md\(0),
 	datac => \cpu1|ALT_INV_state~397_combout\,
 	datad => \cpu1|ALT_INV_state.postincr1_state~q\,
-	datae => \ALT_INV_hold~q\,
+	datae => \ALT_INV_w_hold~q\,
 	dataf => \cpu1|ALT_INV_state~395_combout\,
 	combout => \cpu1|state~458_combout\);
 
@@ -80398,7 +80400,7 @@ GENERIC MAP (
 PORT MAP (
 	clk => \clk~inputCLKENA0_outclk\,
 	d => \cpu1|Selector85~0_combout\,
-	ena => \ALT_INV_hold~q\,
+	ena => \ALT_INV_w_hold~q\,
 	devclrn => ww_devclrn,
 	devpor => ww_devpor,
 	q => \cpu1|saved_state.int_irqmask_state~q\);
@@ -80406,9 +80408,9 @@ PORT MAP (
 -- Location: LABCELL_X21_Y41_N45
 \cpu1|state~413\ : cyclonev_lcell_comb
 -- Equation(s):
--- \cpu1|state~413_combout\ = ( \cpu1|state.int_irqmask_state~q\ & ( \cpu1|saved_state.int_irqmask_state~q\ ) ) # ( !\cpu1|state.int_irqmask_state~q\ & ( \cpu1|saved_state.int_irqmask_state~q\ & ( (!\hold~q\ & ((!\cpu1|state.int_cwai_state~q\) # 
+-- \cpu1|state~413_combout\ = ( \cpu1|state.int_irqmask_state~q\ & ( \cpu1|saved_state.int_irqmask_state~q\ ) ) # ( !\cpu1|state.int_irqmask_state~q\ & ( \cpu1|saved_state.int_irqmask_state~q\ & ( (!\w_hold~q\ & ((!\cpu1|state.int_cwai_state~q\) # 
 -- ((\cpu1|Selector582~18_combout\ & !\cpu1|state~339_combout\)))) ) ) ) # ( \cpu1|state.int_irqmask_state~q\ & ( !\cpu1|saved_state.int_irqmask_state~q\ & ( ((\cpu1|state.int_cwai_state~q\ & ((!\cpu1|Selector582~18_combout\) # (\cpu1|state~339_combout\)))) 
--- # (\hold~q\) ) ) )
+-- # (\w_hold~q\) ) ) )
 
 -- pragma translate_off
 GENERIC MAP (
@@ -80417,7 +80419,7 @@ GENERIC MAP (
 	shared_arith => "off")
 -- pragma translate_on
 PORT MAP (
-	dataa => \ALT_INV_hold~q\,
+	dataa => \ALT_INV_w_hold~q\,
 	datab => \cpu1|ALT_INV_state.int_cwai_state~q\,
 	datac => \cpu1|ALT_INV_Selector582~18_combout\,
 	datad => \cpu1|ALT_INV_state~339_combout\,
@@ -80428,8 +80430,8 @@ PORT MAP (
 -- Location: LABCELL_X20_Y41_N0
 \cpu1|state~414\ : cyclonev_lcell_comb
 -- Equation(s):
--- \cpu1|state~414_combout\ = ( \cpu1|state~411_combout\ & ( \cpu1|state~413_combout\ & ( (\cpu1|state~412_combout\) # (\hold~q\) ) ) ) # ( !\cpu1|state~411_combout\ & ( \cpu1|state~413_combout\ & ( (((\cpu1|process_22~0_combout\ & !\cpu1|nmi_req~q\)) # 
--- (\cpu1|state~412_combout\)) # (\hold~q\) ) ) ) # ( !\cpu1|state~411_combout\ & ( !\cpu1|state~413_combout\ & ( (!\hold~q\ & (\cpu1|process_22~0_combout\ & (!\cpu1|nmi_req~q\ & !\cpu1|state~412_combout\))) ) ) )
+-- \cpu1|state~414_combout\ = ( \cpu1|state~411_combout\ & ( \cpu1|state~413_combout\ & ( (\cpu1|state~412_combout\) # (\w_hold~q\) ) ) ) # ( !\cpu1|state~411_combout\ & ( \cpu1|state~413_combout\ & ( (((\cpu1|process_22~0_combout\ & !\cpu1|nmi_req~q\)) # 
+-- (\cpu1|state~412_combout\)) # (\w_hold~q\) ) ) ) # ( !\cpu1|state~411_combout\ & ( !\cpu1|state~413_combout\ & ( (!\w_hold~q\ & (\cpu1|process_22~0_combout\ & (!\cpu1|nmi_req~q\ & !\cpu1|state~412_combout\))) ) ) )
 
 -- pragma translate_off
 GENERIC MAP (
@@ -80438,7 +80440,7 @@ GENERIC MAP (
 	shared_arith => "off")
 -- pragma translate_on
 PORT MAP (
-	dataa => \ALT_INV_hold~q\,
+	dataa => \ALT_INV_w_hold~q\,
 	datab => \cpu1|ALT_INV_process_22~0_combout\,
 	datac => \cpu1|ALT_INV_nmi_req~q\,
 	datad => \cpu1|ALT_INV_state~412_combout\,
@@ -80508,7 +80510,7 @@ GENERIC MAP (
 PORT MAP (
 	clk => \clk~inputCLKENA0_outclk\,
 	d => \cpu1|Selector2~0_combout\,
-	ena => \ALT_INV_hold~q\,
+	ena => \ALT_INV_w_hold~q\,
 	devclrn => ww_devclrn,
 	devpor => ww_devpor,
 	q => \cpu1|saved_state.vect_hi_state~q\);
@@ -80547,7 +80549,7 @@ PORT MAP (
 	clk => \clk~inputCLKENA0_outclk\,
 	d => \cpu1|state~496_combout\,
 	clrn => \debounceReset|ALT_INV_o_PinOut~q\,
-	ena => \ALT_INV_hold~q\,
+	ena => \ALT_INV_w_hold~q\,
 	devclrn => ww_devclrn,
 	devpor => ww_devpor,
 	q => \cpu1|state.vect_hi_state~q\);
@@ -80586,7 +80588,7 @@ PORT MAP (
 	asdata => \cpu1|state.vect_hi_state~q\,
 	clrn => \debounceReset|ALT_INV_o_PinOut~q\,
 	sload => \cpu1|ALT_INV_Selector582~18_combout\,
-	ena => \ALT_INV_hold~q\,
+	ena => \ALT_INV_w_hold~q\,
 	devclrn => ww_devclrn,
 	devpor => ww_devpor,
 	q => \cpu1|state.vect_lo_state~q\);
@@ -80647,9 +80649,9 @@ PORT MAP (
 	combout => \Equal6~0_combout\);
 
 -- Location: LABCELL_X19_Y34_N42
-\cpuDataIn[7]~54\ : cyclonev_lcell_comb
+\w_cpuDataIn[7]~54\ : cyclonev_lcell_comb
 -- Equation(s):
--- \cpuDataIn[7]~54_combout\ = ( !\n_ROMCS~1_combout\ & ( \Equal5~1_combout\ ) )
+-- \w_cpuDataIn[7]~54_combout\ = ( !\n_ROMCS~1_combout\ & ( \Equal5~1_combout\ ) )
 
 -- pragma translate_off
 GENERIC MAP (
@@ -80660,15 +80662,15 @@ GENERIC MAP (
 PORT MAP (
 	datab => \ALT_INV_Equal5~1_combout\,
 	dataf => \ALT_INV_n_ROMCS~1_combout\,
-	combout => \cpuDataIn[7]~54_combout\);
+	combout => \w_cpuDataIn[7]~54_combout\);
 
 -- Location: LABCELL_X19_Y34_N48
-\cpuDataIn[7]~52\ : cyclonev_lcell_comb
+\w_cpuDataIn[7]~52\ : cyclonev_lcell_comb
 -- Equation(s):
--- \cpuDataIn[7]~52_combout\ = ( \rom1|altsyncram_component|auto_generated|q_a\(7) & ( \cpuDataIn~18_combout\ & ( (!\Equal5~1_combout\ & ((!\cpuDataIn~71_combout\))) # (\Equal5~1_combout\ & (\Equal6~0_combout\)) ) ) ) # ( 
--- !\rom1|altsyncram_component|auto_generated|q_a\(7) & ( \cpuDataIn~18_combout\ & ( (!\Equal5~1_combout\ & (((!\cpuDataIn~71_combout\)))) # (\Equal5~1_combout\ & (((\n_ROMCS~1_combout\)) # (\Equal6~0_combout\))) ) ) ) # ( 
--- \rom1|altsyncram_component|auto_generated|q_a\(7) & ( !\cpuDataIn~18_combout\ & ( (!\Equal5~1_combout\ & !\cpuDataIn~71_combout\) ) ) ) # ( !\rom1|altsyncram_component|auto_generated|q_a\(7) & ( !\cpuDataIn~18_combout\ & ( (!\Equal5~1_combout\ & 
--- (((!\cpuDataIn~71_combout\)))) # (\Equal5~1_combout\ & (!\Equal6~0_combout\ & (\n_ROMCS~1_combout\))) ) ) )
+-- \w_cpuDataIn[7]~52_combout\ = ( \rom1|altsyncram_component|auto_generated|q_a\(7) & ( \w_cpuDataIn~18_combout\ & ( (!\Equal5~1_combout\ & ((!\w_cpuDataIn~71_combout\))) # (\Equal5~1_combout\ & (\Equal6~0_combout\)) ) ) ) # ( 
+-- !\rom1|altsyncram_component|auto_generated|q_a\(7) & ( \w_cpuDataIn~18_combout\ & ( (!\Equal5~1_combout\ & (((!\w_cpuDataIn~71_combout\)))) # (\Equal5~1_combout\ & (((\n_ROMCS~1_combout\)) # (\Equal6~0_combout\))) ) ) ) # ( 
+-- \rom1|altsyncram_component|auto_generated|q_a\(7) & ( !\w_cpuDataIn~18_combout\ & ( (!\Equal5~1_combout\ & !\w_cpuDataIn~71_combout\) ) ) ) # ( !\rom1|altsyncram_component|auto_generated|q_a\(7) & ( !\w_cpuDataIn~18_combout\ & ( (!\Equal5~1_combout\ & 
+-- (((!\w_cpuDataIn~71_combout\)))) # (\Equal5~1_combout\ & (!\Equal6~0_combout\ & (\n_ROMCS~1_combout\))) ) ) )
 
 -- pragma translate_off
 GENERIC MAP (
@@ -80680,15 +80682,15 @@ PORT MAP (
 	dataa => \ALT_INV_Equal6~0_combout\,
 	datab => \ALT_INV_Equal5~1_combout\,
 	datac => \ALT_INV_n_ROMCS~1_combout\,
-	datad => \ALT_INV_cpuDataIn~71_combout\,
+	datad => \ALT_INV_w_cpuDataIn~71_combout\,
 	datae => \rom1|altsyncram_component|auto_generated|ALT_INV_q_a\(7),
-	dataf => \ALT_INV_cpuDataIn~18_combout\,
-	combout => \cpuDataIn[7]~52_combout\);
+	dataf => \ALT_INV_w_cpuDataIn~18_combout\,
+	combout => \w_cpuDataIn[7]~52_combout\);
 
 -- Location: LABCELL_X17_Y34_N12
-\cpuDataIn[7]~53\ : cyclonev_lcell_comb
+\w_cpuDataIn[7]~53\ : cyclonev_lcell_comb
 -- Equation(s):
--- \cpuDataIn[7]~53_combout\ = ( \cpuDataIn[7]~52_combout\ & ( (!\n_if1CS~0_combout\ & (\n_if2CS~0_combout\ & ((\io2|dataOut\(7))))) # (\n_if1CS~0_combout\ & (((\io1|dataOut\(7))))) ) ) # ( !\cpuDataIn[7]~52_combout\ & ( (!\n_if1CS~0_combout\ & 
+-- \w_cpuDataIn[7]~53_combout\ = ( \w_cpuDataIn[7]~52_combout\ & ( (!\n_if1CS~0_combout\ & (\n_if2CS~0_combout\ & ((\io2|dataOut\(7))))) # (\n_if1CS~0_combout\ & (((\io1|dataOut\(7))))) ) ) # ( !\w_cpuDataIn[7]~52_combout\ & ( (!\n_if1CS~0_combout\ & 
 -- ((!\n_if2CS~0_combout\) # ((\io2|dataOut\(7))))) # (\n_if1CS~0_combout\ & (((\io1|dataOut\(7))))) ) )
 
 -- pragma translate_off
@@ -80702,13 +80704,14 @@ PORT MAP (
 	datab => \io1|ALT_INV_dataOut\(7),
 	datac => \io2|ALT_INV_dataOut\(7),
 	datad => \ALT_INV_n_if1CS~0_combout\,
-	dataf => \ALT_INV_cpuDataIn[7]~52_combout\,
-	combout => \cpuDataIn[7]~53_combout\);
+	dataf => \ALT_INV_w_cpuDataIn[7]~52_combout\,
+	combout => \w_cpuDataIn[7]~53_combout\);
 
 -- Location: LABCELL_X19_Y34_N18
-\cpuDataIn[7]~46\ : cyclonev_lcell_comb
+\w_cpuDataIn[7]~46\ : cyclonev_lcell_comb
 -- Equation(s):
--- \cpuDataIn[7]~46_combout\ = ( \cpuDataIn[7]~53_combout\ & ( \n_if1CS~0_combout\ ) ) # ( \cpuDataIn[7]~53_combout\ & ( !\n_if1CS~0_combout\ & ( (((!\cpuDataIn[7]~54_combout\) # (\Equal6~0_combout\)) # (\n_if2CS~0_combout\)) # (\sramData[7]~input_o\) ) ) )
+-- \w_cpuDataIn[7]~46_combout\ = ( \w_cpuDataIn[7]~53_combout\ & ( \n_if1CS~0_combout\ ) ) # ( \w_cpuDataIn[7]~53_combout\ & ( !\n_if1CS~0_combout\ & ( (((!\w_cpuDataIn[7]~54_combout\) # (\Equal6~0_combout\)) # (\n_if2CS~0_combout\)) # 
+-- (\sramData[7]~input_o\) ) ) )
 
 -- pragma translate_off
 GENERIC MAP (
@@ -80720,15 +80723,15 @@ PORT MAP (
 	dataa => \ALT_INV_sramData[7]~input_o\,
 	datab => \ALT_INV_n_if2CS~0_combout\,
 	datac => \ALT_INV_Equal6~0_combout\,
-	datad => \ALT_INV_cpuDataIn[7]~54_combout\,
-	datae => \ALT_INV_cpuDataIn[7]~53_combout\,
+	datad => \ALT_INV_w_cpuDataIn[7]~54_combout\,
+	datae => \ALT_INV_w_cpuDataIn[7]~53_combout\,
 	dataf => \ALT_INV_n_if1CS~0_combout\,
-	combout => \cpuDataIn[7]~46_combout\);
+	combout => \w_cpuDataIn[7]~46_combout\);
 
 -- Location: MLABCELL_X9_Y35_N12
 \cpu1|xreg[15]~feeder\ : cyclonev_lcell_comb
 -- Equation(s):
--- \cpu1|xreg[15]~feeder_combout\ = ( \cpuDataIn[7]~46_combout\ )
+-- \cpu1|xreg[15]~feeder_combout\ = ( \w_cpuDataIn[7]~46_combout\ )
 
 -- pragma translate_off
 GENERIC MAP (
@@ -80737,7 +80740,7 @@ GENERIC MAP (
 	shared_arith => "off")
 -- pragma translate_on
 PORT MAP (
-	dataf => \ALT_INV_cpuDataIn[7]~46_combout\,
+	dataf => \ALT_INV_w_cpuDataIn[7]~46_combout\,
 	combout => \cpu1|xreg[15]~feeder_combout\);
 
 -- Location: FF_X9_Y35_N14
@@ -81207,7 +81210,7 @@ PORT MAP (
 \cpu1|Selector283~4\ : cyclonev_lcell_comb
 -- Equation(s):
 -- \cpu1|Selector283~4_combout\ = ( \cpu1|cc_ctrl.pull_cc~2_combout\ & ( \n_if1CS~0_combout\ & ( (\io1|dataOut[7]~DUPLICATE_q\ & !\cpu1|Selector283~3_combout\) ) ) ) # ( !\cpu1|cc_ctrl.pull_cc~2_combout\ & ( \n_if1CS~0_combout\ & ( 
--- !\cpu1|Selector283~3_combout\ ) ) ) # ( \cpu1|cc_ctrl.pull_cc~2_combout\ & ( !\n_if1CS~0_combout\ & ( (!\cpu1|Selector283~3_combout\ & ((\cpuDataIn[7]~19_combout\) # (\cpuDataIn[7]~16_combout\))) ) ) ) # ( !\cpu1|cc_ctrl.pull_cc~2_combout\ & ( 
+-- !\cpu1|Selector283~3_combout\ ) ) ) # ( \cpu1|cc_ctrl.pull_cc~2_combout\ & ( !\n_if1CS~0_combout\ & ( (!\cpu1|Selector283~3_combout\ & ((\w_cpuDataIn[7]~19_combout\) # (\w_cpuDataIn[7]~16_combout\))) ) ) ) # ( !\cpu1|cc_ctrl.pull_cc~2_combout\ & ( 
 -- !\n_if1CS~0_combout\ & ( !\cpu1|Selector283~3_combout\ ) ) )
 
 -- pragma translate_off
@@ -81218,8 +81221,8 @@ GENERIC MAP (
 -- pragma translate_on
 PORT MAP (
 	dataa => \io1|ALT_INV_dataOut[7]~DUPLICATE_q\,
-	datab => \ALT_INV_cpuDataIn[7]~16_combout\,
-	datac => \ALT_INV_cpuDataIn[7]~19_combout\,
+	datab => \ALT_INV_w_cpuDataIn[7]~16_combout\,
+	datac => \ALT_INV_w_cpuDataIn[7]~19_combout\,
 	datad => \cpu1|ALT_INV_Selector283~3_combout\,
 	datae => \cpu1|ALT_INV_cc_ctrl.pull_cc~2_combout\,
 	dataf => \ALT_INV_n_if1CS~0_combout\,
@@ -81235,7 +81238,7 @@ GENERIC MAP (
 PORT MAP (
 	clk => \clk~inputCLKENA0_outclk\,
 	d => \cpu1|Selector283~4_combout\,
-	ena => \ALT_INV_hold~q\,
+	ena => \ALT_INV_w_hold~q\,
 	devclrn => ww_devclrn,
 	devpor => ww_devpor,
 	q => \cpu1|cc\(7));
@@ -81271,7 +81274,7 @@ PORT MAP (
 	clk => \clk~inputCLKENA0_outclk\,
 	d => \cpu1|state~318_combout\,
 	clrn => \debounceReset|ALT_INV_o_PinOut~q\,
-	ena => \ALT_INV_hold~q\,
+	ena => \ALT_INV_w_hold~q\,
 	devclrn => ww_devclrn,
 	devpor => ww_devpor,
 	q => \cpu1|state.int_upl_state~q\);
@@ -81310,7 +81313,7 @@ PORT MAP (
 	asdata => \cpu1|state.int_upl_state~q\,
 	clrn => \debounceReset|ALT_INV_o_PinOut~q\,
 	sload => \cpu1|ALT_INV_Selector582~18_combout\,
-	ena => \ALT_INV_hold~q\,
+	ena => \ALT_INV_w_hold~q\,
 	devclrn => ww_devclrn,
 	devpor => ww_devpor,
 	q => \cpu1|state.int_uph_state~q\);
@@ -81349,7 +81352,7 @@ PORT MAP (
 	asdata => \cpu1|state.int_uph_state~q\,
 	clrn => \debounceReset|ALT_INV_o_PinOut~q\,
 	sload => \cpu1|ALT_INV_Selector582~18_combout\,
-	ena => \ALT_INV_hold~q\,
+	ena => \ALT_INV_w_hold~q\,
 	devclrn => ww_devclrn,
 	devpor => ww_devpor,
 	q => \cpu1|state.int_iyl_state~q\);
@@ -81388,7 +81391,7 @@ PORT MAP (
 	asdata => \cpu1|state.int_iyl_state~q\,
 	clrn => \debounceReset|ALT_INV_o_PinOut~q\,
 	sload => \cpu1|ALT_INV_Selector582~18_combout\,
-	ena => \ALT_INV_hold~q\,
+	ena => \ALT_INV_w_hold~q\,
 	devclrn => ww_devclrn,
 	devpor => ww_devpor,
 	q => \cpu1|state.int_iyh_state~q\);
@@ -81427,7 +81430,7 @@ PORT MAP (
 	asdata => \cpu1|state.int_iyh_state~q\,
 	clrn => \debounceReset|ALT_INV_o_PinOut~q\,
 	sload => \cpu1|ALT_INV_Selector582~18_combout\,
-	ena => \ALT_INV_hold~q\,
+	ena => \ALT_INV_w_hold~q\,
 	devclrn => ww_devclrn,
 	devpor => ww_devpor,
 	q => \cpu1|state.int_ixl_state~q\);
@@ -81466,7 +81469,7 @@ PORT MAP (
 	asdata => \cpu1|state.int_ixl_state~q\,
 	clrn => \debounceReset|ALT_INV_o_PinOut~q\,
 	sload => \cpu1|ALT_INV_Selector582~18_combout\,
-	ena => \ALT_INV_hold~q\,
+	ena => \ALT_INV_w_hold~q\,
 	devclrn => ww_devclrn,
 	devpor => ww_devpor,
 	q => \cpu1|state.int_ixh_state~q\);
@@ -81505,7 +81508,7 @@ PORT MAP (
 	asdata => \cpu1|state.int_ixh_state~q\,
 	clrn => \debounceReset|ALT_INV_o_PinOut~q\,
 	sload => \cpu1|ALT_INV_Selector582~18_combout\,
-	ena => \ALT_INV_hold~q\,
+	ena => \ALT_INV_w_hold~q\,
 	devclrn => ww_devclrn,
 	devpor => ww_devpor,
 	q => \cpu1|state.int_dp_state~q\);
@@ -81544,7 +81547,7 @@ PORT MAP (
 	asdata => \cpu1|state.int_dp_state~q\,
 	clrn => \debounceReset|ALT_INV_o_PinOut~q\,
 	sload => \cpu1|ALT_INV_Selector582~18_combout\,
-	ena => \ALT_INV_hold~q\,
+	ena => \ALT_INV_w_hold~q\,
 	devclrn => ww_devclrn,
 	devpor => ww_devpor,
 	q => \cpu1|state.int_accb_state~q\);
@@ -81583,7 +81586,7 @@ PORT MAP (
 	asdata => \cpu1|state.int_accb_state~q\,
 	clrn => \debounceReset|ALT_INV_o_PinOut~q\,
 	sload => \cpu1|ALT_INV_Selector582~18_combout\,
-	ena => \ALT_INV_hold~q\,
+	ena => \ALT_INV_w_hold~q\,
 	devclrn => ww_devclrn,
 	devpor => ww_devpor,
 	q => \cpu1|state.int_acca_state~q\);
@@ -81621,7 +81624,7 @@ PORT MAP (
 	clk => \clk~inputCLKENA0_outclk\,
 	d => \cpu1|state~329_combout\,
 	clrn => \debounceReset|ALT_INV_o_PinOut~q\,
-	ena => \ALT_INV_hold~q\,
+	ena => \ALT_INV_w_hold~q\,
 	devclrn => ww_devclrn,
 	devpor => ww_devpor,
 	q => \cpu1|state.int_cc_state~q\);
@@ -81702,8 +81705,8 @@ PORT MAP (
 -- Location: LABCELL_X20_Y37_N54
 \cpu1|state~421\ : cyclonev_lcell_comb
 -- Equation(s):
--- \cpu1|state~421_combout\ = ( \cpu1|state.mul_state~q\ & ( \cpu1|Mux28~1_combout\ & ( !\cpu1|state~338_combout\ ) ) ) # ( !\cpu1|state.mul_state~q\ & ( \cpu1|Mux28~1_combout\ & ( (!\hold~q\ & (!\cpu1|state~338_combout\ & ((!\cpu1|state~347_combout\) # 
--- (\cpu1|state~345_combout\)))) ) ) ) # ( \cpu1|state.mul_state~q\ & ( !\cpu1|Mux28~1_combout\ & ( (!\cpu1|state~338_combout\ & (((\cpu1|state~347_combout\ & !\cpu1|state~345_combout\)) # (\hold~q\))) ) ) )
+-- \cpu1|state~421_combout\ = ( \cpu1|state.mul_state~q\ & ( \cpu1|Mux28~1_combout\ & ( !\cpu1|state~338_combout\ ) ) ) # ( !\cpu1|state.mul_state~q\ & ( \cpu1|Mux28~1_combout\ & ( (!\w_hold~q\ & (!\cpu1|state~338_combout\ & ((!\cpu1|state~347_combout\) # 
+-- (\cpu1|state~345_combout\)))) ) ) ) # ( \cpu1|state.mul_state~q\ & ( !\cpu1|Mux28~1_combout\ & ( (!\cpu1|state~338_combout\ & (((\cpu1|state~347_combout\ & !\cpu1|state~345_combout\)) # (\w_hold~q\))) ) ) )
 
 -- pragma translate_off
 GENERIC MAP (
@@ -81712,7 +81715,7 @@ GENERIC MAP (
 	shared_arith => "off")
 -- pragma translate_on
 PORT MAP (
-	dataa => \ALT_INV_hold~q\,
+	dataa => \ALT_INV_w_hold~q\,
 	datab => \cpu1|ALT_INV_state~347_combout\,
 	datac => \cpu1|ALT_INV_state~345_combout\,
 	datad => \cpu1|ALT_INV_state~338_combout\,
@@ -81769,7 +81772,7 @@ PORT MAP (
 	asdata => \cpu1|state.mul_state~q\,
 	clrn => \debounceReset|ALT_INV_o_PinOut~q\,
 	sload => \cpu1|ALT_INV_Selector582~18_combout\,
-	ena => \ALT_INV_hold~q\,
+	ena => \ALT_INV_w_hold~q\,
 	devclrn => ww_devclrn,
 	devpor => ww_devpor,
 	q => \cpu1|state.mulea_state~q\);
@@ -81808,7 +81811,7 @@ PORT MAP (
 	asdata => \cpu1|state.mulea_state~q\,
 	clrn => \debounceReset|ALT_INV_o_PinOut~q\,
 	sload => \cpu1|ALT_INV_Selector582~18_combout\,
-	ena => \ALT_INV_hold~q\,
+	ena => \ALT_INV_w_hold~q\,
 	devclrn => ww_devclrn,
 	devpor => ww_devpor,
 	q => \cpu1|state.muld_state~q\);
@@ -81847,7 +81850,7 @@ PORT MAP (
 	asdata => \cpu1|state.muld_state~q\,
 	clrn => \debounceReset|ALT_INV_o_PinOut~q\,
 	sload => \cpu1|ALT_INV_Selector582~18_combout\,
-	ena => \ALT_INV_hold~q\,
+	ena => \ALT_INV_w_hold~q\,
 	devclrn => ww_devclrn,
 	devpor => ww_devpor,
 	q => \cpu1|state.mul0_state~q\);
@@ -81886,7 +81889,7 @@ PORT MAP (
 	asdata => \cpu1|state.mul0_state~q\,
 	clrn => \debounceReset|ALT_INV_o_PinOut~q\,
 	sload => \cpu1|ALT_INV_Selector582~18_combout\,
-	ena => \ALT_INV_hold~q\,
+	ena => \ALT_INV_w_hold~q\,
 	devclrn => ww_devclrn,
 	devpor => ww_devpor,
 	q => \cpu1|state.mul1_state~q\);
@@ -81980,9 +81983,9 @@ PORT MAP (
 -- Location: LABCELL_X20_Y38_N42
 \cpu1|Selector275~1\ : cyclonev_lcell_comb
 -- Equation(s):
--- \cpu1|Selector275~1_combout\ = ( \cpuDataIn[7]~19_combout\ & ( \cpu1|Selector275~0_combout\ ) ) # ( !\cpuDataIn[7]~19_combout\ & ( \cpu1|Selector275~0_combout\ ) ) # ( \cpuDataIn[7]~19_combout\ & ( !\cpu1|Selector275~0_combout\ & ( 
--- (\cpu1|Selector281~0_combout\ & ((!\n_if1CS~0_combout\) # (\io1|dataOut[7]~DUPLICATE_q\))) ) ) ) # ( !\cpuDataIn[7]~19_combout\ & ( !\cpu1|Selector275~0_combout\ & ( (\cpu1|Selector281~0_combout\ & ((!\n_if1CS~0_combout\ & ((\cpuDataIn[7]~16_combout\))) # 
--- (\n_if1CS~0_combout\ & (\io1|dataOut[7]~DUPLICATE_q\)))) ) ) )
+-- \cpu1|Selector275~1_combout\ = ( \w_cpuDataIn[7]~19_combout\ & ( \cpu1|Selector275~0_combout\ ) ) # ( !\w_cpuDataIn[7]~19_combout\ & ( \cpu1|Selector275~0_combout\ ) ) # ( \w_cpuDataIn[7]~19_combout\ & ( !\cpu1|Selector275~0_combout\ & ( 
+-- (\cpu1|Selector281~0_combout\ & ((!\n_if1CS~0_combout\) # (\io1|dataOut[7]~DUPLICATE_q\))) ) ) ) # ( !\w_cpuDataIn[7]~19_combout\ & ( !\cpu1|Selector275~0_combout\ & ( (\cpu1|Selector281~0_combout\ & ((!\n_if1CS~0_combout\ & 
+-- ((\w_cpuDataIn[7]~16_combout\))) # (\n_if1CS~0_combout\ & (\io1|dataOut[7]~DUPLICATE_q\)))) ) ) )
 
 -- pragma translate_off
 GENERIC MAP (
@@ -81994,8 +81997,8 @@ PORT MAP (
 	dataa => \cpu1|ALT_INV_Selector281~0_combout\,
 	datab => \io1|ALT_INV_dataOut[7]~DUPLICATE_q\,
 	datac => \ALT_INV_n_if1CS~0_combout\,
-	datad => \ALT_INV_cpuDataIn[7]~16_combout\,
-	datae => \ALT_INV_cpuDataIn[7]~19_combout\,
+	datad => \ALT_INV_w_cpuDataIn[7]~16_combout\,
+	datae => \ALT_INV_w_cpuDataIn[7]~19_combout\,
 	dataf => \cpu1|ALT_INV_Selector275~0_combout\,
 	combout => \cpu1|Selector275~1_combout\);
 
@@ -82058,8 +82061,8 @@ PORT MAP (
 -- Location: LABCELL_X20_Y37_N3
 \cpu1|state~369\ : cyclonev_lcell_comb
 -- Equation(s):
--- \cpu1|state~369_combout\ = ( \cpu1|state.decode2_state~q\ & ( \cpu1|Mux28~3_combout\ & ( !\cpu1|state~368_combout\ ) ) ) # ( !\cpu1|state.decode2_state~q\ & ( \cpu1|Mux28~3_combout\ & ( (!\hold~q\ & (!\cpu1|state~368_combout\ & 
--- ((!\cpu1|state~347_combout\) # (\cpu1|state~345_combout\)))) ) ) ) # ( \cpu1|state.decode2_state~q\ & ( !\cpu1|Mux28~3_combout\ & ( (!\cpu1|state~368_combout\ & (((\cpu1|state~347_combout\ & !\cpu1|state~345_combout\)) # (\hold~q\))) ) ) )
+-- \cpu1|state~369_combout\ = ( \cpu1|state.decode2_state~q\ & ( \cpu1|Mux28~3_combout\ & ( !\cpu1|state~368_combout\ ) ) ) # ( !\cpu1|state.decode2_state~q\ & ( \cpu1|Mux28~3_combout\ & ( (!\w_hold~q\ & (!\cpu1|state~368_combout\ & 
+-- ((!\cpu1|state~347_combout\) # (\cpu1|state~345_combout\)))) ) ) ) # ( \cpu1|state.decode2_state~q\ & ( !\cpu1|Mux28~3_combout\ & ( (!\cpu1|state~368_combout\ & (((\cpu1|state~347_combout\ & !\cpu1|state~345_combout\)) # (\w_hold~q\))) ) ) )
 
 -- pragma translate_off
 GENERIC MAP (
@@ -82068,7 +82071,7 @@ GENERIC MAP (
 	shared_arith => "off")
 -- pragma translate_on
 PORT MAP (
-	dataa => \ALT_INV_hold~q\,
+	dataa => \ALT_INV_w_hold~q\,
 	datab => \cpu1|ALT_INV_state~368_combout\,
 	datac => \cpu1|ALT_INV_state~347_combout\,
 	datad => \cpu1|ALT_INV_state~345_combout\,
@@ -82140,7 +82143,7 @@ GENERIC MAP (
 PORT MAP (
 	clk => \clk~inputCLKENA0_outclk\,
 	d => \cpu1|Selector31~2_combout\,
-	ena => \ALT_INV_hold~q\,
+	ena => \ALT_INV_w_hold~q\,
 	devclrn => ww_devclrn,
 	devpor => ww_devpor,
 	q => \cpu1|saved_state.dual_op_write16_state~q\);
@@ -82195,7 +82198,7 @@ PORT MAP (
 	asdata => \cpu1|state~485_combout\,
 	clrn => \debounceReset|ALT_INV_o_PinOut~q\,
 	sload => VCC,
-	ena => \ALT_INV_hold~q\,
+	ena => \ALT_INV_w_hold~q\,
 	devclrn => ww_devclrn,
 	devpor => ww_devpor,
 	q => \cpu1|state.dual_op_write16_state~q\);
@@ -82638,9 +82641,9 @@ PORT MAP (
 	q => \sd1|dout\(0));
 
 -- Location: LABCELL_X17_Y34_N54
-\cpuDataIn[0]~57\ : cyclonev_lcell_comb
+\w_cpuDataIn[0]~57\ : cyclonev_lcell_comb
 -- Equation(s):
--- \cpuDataIn[0]~57_combout\ = ( \sd1|dout\(0) & ( (!\Equal6~0_combout\ & (((!\n_ROMCS~1_combout\) # (\rom1|altsyncram_component|auto_generated|q_a\(0))))) # (\Equal6~0_combout\ & (\sd1|Equal6~0_combout\)) ) ) # ( !\sd1|dout\(0) & ( (!\Equal6~0_combout\ & 
+-- \w_cpuDataIn[0]~57_combout\ = ( \sd1|dout\(0) & ( (!\Equal6~0_combout\ & (((!\n_ROMCS~1_combout\) # (\rom1|altsyncram_component|auto_generated|q_a\(0))))) # (\Equal6~0_combout\ & (\sd1|Equal6~0_combout\)) ) ) # ( !\sd1|dout\(0) & ( (!\Equal6~0_combout\ & 
 -- ((!\n_ROMCS~1_combout\) # (\rom1|altsyncram_component|auto_generated|q_a\(0)))) ) )
 
 -- pragma translate_off
@@ -82655,7 +82658,7 @@ PORT MAP (
 	datac => \ALT_INV_n_ROMCS~1_combout\,
 	datad => \rom1|altsyncram_component|auto_generated|ALT_INV_q_a\(0),
 	dataf => \sd1|ALT_INV_dout\(0),
-	combout => \cpuDataIn[0]~57_combout\);
+	combout => \w_cpuDataIn[0]~57_combout\);
 
 -- Location: IOIBUF_X34_Y0_N52
 \gpio0[0]~input\ : cyclonev_io_ibuf
@@ -82802,10 +82805,10 @@ PORT MAP (
 	q => \gpio1|reg_ddr2\(0));
 
 -- Location: LABCELL_X19_Y34_N0
-\cpuDataIn[0]~56\ : cyclonev_lcell_comb
+\w_cpuDataIn[0]~56\ : cyclonev_lcell_comb
 -- Equation(s):
--- \cpuDataIn[0]~56_combout\ = ( \cpuDataIn[0]~1_combout\ & ( (!\cpuDataIn[0]~0_combout\ & ((\gpio1|reg_ddr2\(0)))) # (\cpuDataIn[0]~0_combout\ & (\gpio1|reg_ddr0\(0))) ) ) # ( !\cpuDataIn[0]~1_combout\ & ( (\gpio1|reg_dat2\(0) & \cpuDataIn[0]~0_combout\) ) 
--- )
+-- \w_cpuDataIn[0]~56_combout\ = ( \w_cpuDataIn[0]~1_combout\ & ( (!\w_cpuDataIn[0]~0_combout\ & ((\gpio1|reg_ddr2\(0)))) # (\w_cpuDataIn[0]~0_combout\ & (\gpio1|reg_ddr0\(0))) ) ) # ( !\w_cpuDataIn[0]~1_combout\ & ( (\gpio1|reg_dat2\(0) & 
+-- \w_cpuDataIn[0]~0_combout\) ) )
 
 -- pragma translate_off
 GENERIC MAP (
@@ -82816,18 +82819,18 @@ GENERIC MAP (
 PORT MAP (
 	dataa => \gpio1|ALT_INV_reg_ddr0\(0),
 	datab => \gpio1|ALT_INV_reg_dat2\(0),
-	datac => \ALT_INV_cpuDataIn[0]~0_combout\,
+	datac => \ALT_INV_w_cpuDataIn[0]~0_combout\,
 	datad => \gpio1|ALT_INV_reg_ddr2\(0),
-	dataf => \ALT_INV_cpuDataIn[0]~1_combout\,
-	combout => \cpuDataIn[0]~56_combout\);
+	dataf => \ALT_INV_w_cpuDataIn[0]~1_combout\,
+	combout => \w_cpuDataIn[0]~56_combout\);
 
 -- Location: LABCELL_X17_Y34_N6
-\cpuDataIn[0]~58\ : cyclonev_lcell_comb
+\w_cpuDataIn[0]~58\ : cyclonev_lcell_comb
 -- Equation(s):
--- \cpuDataIn[0]~58_combout\ = ( \gpio1|reg\(0) & ( \cpuDataIn[0]~56_combout\ & ( (!\cpuDataIn[0]~3_combout\ & (((\cpuDataIn[0]~57_combout\)) # (\cpuDataIn[0]~2_combout\))) # (\cpuDataIn[0]~3_combout\ & ((!\cpuDataIn[0]~2_combout\) # 
--- ((\gpio1|reg_dat0\(0))))) ) ) ) # ( !\gpio1|reg\(0) & ( \cpuDataIn[0]~56_combout\ & ( (!\cpuDataIn[0]~3_combout\ & (!\cpuDataIn[0]~2_combout\ & (\cpuDataIn[0]~57_combout\))) # (\cpuDataIn[0]~3_combout\ & ((!\cpuDataIn[0]~2_combout\) # 
--- ((\gpio1|reg_dat0\(0))))) ) ) ) # ( \gpio1|reg\(0) & ( !\cpuDataIn[0]~56_combout\ & ( (!\cpuDataIn[0]~3_combout\ & (((\cpuDataIn[0]~57_combout\)) # (\cpuDataIn[0]~2_combout\))) # (\cpuDataIn[0]~3_combout\ & (\cpuDataIn[0]~2_combout\ & 
--- ((\gpio1|reg_dat0\(0))))) ) ) ) # ( !\gpio1|reg\(0) & ( !\cpuDataIn[0]~56_combout\ & ( (!\cpuDataIn[0]~3_combout\ & (!\cpuDataIn[0]~2_combout\ & (\cpuDataIn[0]~57_combout\))) # (\cpuDataIn[0]~3_combout\ & (\cpuDataIn[0]~2_combout\ & 
+-- \w_cpuDataIn[0]~58_combout\ = ( \gpio1|reg\(0) & ( \w_cpuDataIn[0]~56_combout\ & ( (!\w_cpuDataIn[0]~3_combout\ & (((\w_cpuDataIn[0]~57_combout\)) # (\w_cpuDataIn[0]~2_combout\))) # (\w_cpuDataIn[0]~3_combout\ & ((!\w_cpuDataIn[0]~2_combout\) # 
+-- ((\gpio1|reg_dat0\(0))))) ) ) ) # ( !\gpio1|reg\(0) & ( \w_cpuDataIn[0]~56_combout\ & ( (!\w_cpuDataIn[0]~3_combout\ & (!\w_cpuDataIn[0]~2_combout\ & (\w_cpuDataIn[0]~57_combout\))) # (\w_cpuDataIn[0]~3_combout\ & ((!\w_cpuDataIn[0]~2_combout\) # 
+-- ((\gpio1|reg_dat0\(0))))) ) ) ) # ( \gpio1|reg\(0) & ( !\w_cpuDataIn[0]~56_combout\ & ( (!\w_cpuDataIn[0]~3_combout\ & (((\w_cpuDataIn[0]~57_combout\)) # (\w_cpuDataIn[0]~2_combout\))) # (\w_cpuDataIn[0]~3_combout\ & (\w_cpuDataIn[0]~2_combout\ & 
+-- ((\gpio1|reg_dat0\(0))))) ) ) ) # ( !\gpio1|reg\(0) & ( !\w_cpuDataIn[0]~56_combout\ & ( (!\w_cpuDataIn[0]~3_combout\ & (!\w_cpuDataIn[0]~2_combout\ & (\w_cpuDataIn[0]~57_combout\))) # (\w_cpuDataIn[0]~3_combout\ & (\w_cpuDataIn[0]~2_combout\ & 
 -- ((\gpio1|reg_dat0\(0))))) ) ) )
 
 -- pragma translate_off
@@ -82837,19 +82840,19 @@ GENERIC MAP (
 	shared_arith => "off")
 -- pragma translate_on
 PORT MAP (
-	dataa => \ALT_INV_cpuDataIn[0]~3_combout\,
-	datab => \ALT_INV_cpuDataIn[0]~2_combout\,
-	datac => \ALT_INV_cpuDataIn[0]~57_combout\,
+	dataa => \ALT_INV_w_cpuDataIn[0]~3_combout\,
+	datab => \ALT_INV_w_cpuDataIn[0]~2_combout\,
+	datac => \ALT_INV_w_cpuDataIn[0]~57_combout\,
 	datad => \gpio1|ALT_INV_reg_dat0\(0),
 	datae => \gpio1|ALT_INV_reg\(0),
-	dataf => \ALT_INV_cpuDataIn[0]~56_combout\,
-	combout => \cpuDataIn[0]~58_combout\);
+	dataf => \ALT_INV_w_cpuDataIn[0]~56_combout\,
+	combout => \w_cpuDataIn[0]~58_combout\);
 
 -- Location: LABCELL_X17_Y34_N21
-\cpuDataIn[0]~4\ : cyclonev_lcell_comb
+\w_cpuDataIn[0]~4\ : cyclonev_lcell_comb
 -- Equation(s):
--- \cpuDataIn[0]~4_combout\ = ( \sramData[0]~input_o\ & ( \cpuDataIn[0]~58_combout\ ) ) # ( !\sramData[0]~input_o\ & ( \cpuDataIn[0]~58_combout\ & ( (((\cpuDataIn[0]~3_combout\) # (\cpuDataIn[0]~2_combout\)) # (\Equal6~0_combout\)) # (\n_ROMCS~1_combout\) ) 
--- ) )
+-- \w_cpuDataIn[0]~4_combout\ = ( \sramData[0]~input_o\ & ( \w_cpuDataIn[0]~58_combout\ ) ) # ( !\sramData[0]~input_o\ & ( \w_cpuDataIn[0]~58_combout\ & ( (((\w_cpuDataIn[0]~3_combout\) # (\w_cpuDataIn[0]~2_combout\)) # (\Equal6~0_combout\)) # 
+-- (\n_ROMCS~1_combout\) ) ) )
 
 -- pragma translate_off
 GENERIC MAP (
@@ -82860,18 +82863,18 @@ GENERIC MAP (
 PORT MAP (
 	dataa => \ALT_INV_n_ROMCS~1_combout\,
 	datab => \ALT_INV_Equal6~0_combout\,
-	datac => \ALT_INV_cpuDataIn[0]~2_combout\,
-	datad => \ALT_INV_cpuDataIn[0]~3_combout\,
+	datac => \ALT_INV_w_cpuDataIn[0]~2_combout\,
+	datad => \ALT_INV_w_cpuDataIn[0]~3_combout\,
 	datae => \ALT_INV_sramData[0]~input_o\,
-	dataf => \ALT_INV_cpuDataIn[0]~58_combout\,
-	combout => \cpuDataIn[0]~4_combout\);
+	dataf => \ALT_INV_w_cpuDataIn[0]~58_combout\,
+	combout => \w_cpuDataIn[0]~4_combout\);
 
 -- Location: LABCELL_X20_Y39_N54
 \cpu1|Selector306~0\ : cyclonev_lcell_comb
 -- Equation(s):
--- \cpu1|Selector306~0_combout\ = ( \cpu1|op_code\(0) & ( \cpuDataIn[0]~11_combout\ & ( (\cpu1|Selector401~0_combout\) # (\cpu1|Selector400~1_combout\) ) ) ) # ( !\cpu1|op_code\(0) & ( \cpuDataIn[0]~11_combout\ & ( \cpu1|Selector400~1_combout\ ) ) ) # ( 
--- \cpu1|op_code\(0) & ( !\cpuDataIn[0]~11_combout\ & ( ((\cpuDataIn[0]~10_combout\ & (\cpu1|Selector400~1_combout\ & \cpuDataIn[0]~4_combout\))) # (\cpu1|Selector401~0_combout\) ) ) ) # ( !\cpu1|op_code\(0) & ( !\cpuDataIn[0]~11_combout\ & ( 
--- (\cpuDataIn[0]~10_combout\ & (\cpu1|Selector400~1_combout\ & \cpuDataIn[0]~4_combout\)) ) ) )
+-- \cpu1|Selector306~0_combout\ = ( \cpu1|op_code\(0) & ( \w_cpuDataIn[0]~11_combout\ & ( (\cpu1|Selector401~0_combout\) # (\cpu1|Selector400~1_combout\) ) ) ) # ( !\cpu1|op_code\(0) & ( \w_cpuDataIn[0]~11_combout\ & ( \cpu1|Selector400~1_combout\ ) ) ) # ( 
+-- \cpu1|op_code\(0) & ( !\w_cpuDataIn[0]~11_combout\ & ( ((\w_cpuDataIn[0]~10_combout\ & (\cpu1|Selector400~1_combout\ & \w_cpuDataIn[0]~4_combout\))) # (\cpu1|Selector401~0_combout\) ) ) ) # ( !\cpu1|op_code\(0) & ( !\w_cpuDataIn[0]~11_combout\ & ( 
+-- (\w_cpuDataIn[0]~10_combout\ & (\cpu1|Selector400~1_combout\ & \w_cpuDataIn[0]~4_combout\)) ) ) )
 
 -- pragma translate_off
 GENERIC MAP (
@@ -82880,12 +82883,12 @@ GENERIC MAP (
 	shared_arith => "off")
 -- pragma translate_on
 PORT MAP (
-	dataa => \ALT_INV_cpuDataIn[0]~10_combout\,
+	dataa => \ALT_INV_w_cpuDataIn[0]~10_combout\,
 	datab => \cpu1|ALT_INV_Selector400~1_combout\,
 	datac => \cpu1|ALT_INV_Selector401~0_combout\,
-	datad => \ALT_INV_cpuDataIn[0]~4_combout\,
+	datad => \ALT_INV_w_cpuDataIn[0]~4_combout\,
 	datae => \cpu1|ALT_INV_op_code\(0),
-	dataf => \ALT_INV_cpuDataIn[0]~11_combout\,
+	dataf => \ALT_INV_w_cpuDataIn[0]~11_combout\,
 	combout => \cpu1|Selector306~0_combout\);
 
 -- Location: FF_X20_Y39_N56
@@ -82898,7 +82901,7 @@ GENERIC MAP (
 PORT MAP (
 	clk => \clk~inputCLKENA0_outclk\,
 	d => \cpu1|Selector306~0_combout\,
-	ena => \ALT_INV_hold~q\,
+	ena => \ALT_INV_w_hold~q\,
 	devclrn => ww_devclrn,
 	devpor => ww_devpor,
 	q => \cpu1|op_code\(0));
@@ -82952,7 +82955,7 @@ PORT MAP (
 	clk => \clk~inputCLKENA0_outclk\,
 	d => \cpu1|state~492_combout\,
 	clrn => \debounceReset|ALT_INV_o_PinOut~q\,
-	ena => \ALT_INV_hold~q\,
+	ena => \ALT_INV_w_hold~q\,
 	devclrn => ww_devclrn,
 	devpor => ww_devpor,
 	q => \cpu1|state.single_op_write_state~q\);
@@ -83358,7 +83361,7 @@ GENERIC MAP (
 PORT MAP (
 	clk => \clk~inputCLKENA0_outclk\,
 	d => \cpu1|Selector84~0_combout\,
-	ena => \ALT_INV_hold~q\,
+	ena => \ALT_INV_w_hold~q\,
 	devclrn => ww_devclrn,
 	devpor => ww_devpor,
 	q => \cpu1|saved_state.int_swimask_state~q\);
@@ -83366,8 +83369,8 @@ PORT MAP (
 -- Location: LABCELL_X19_Y41_N36
 \cpu1|state~509\ : cyclonev_lcell_comb
 -- Equation(s):
--- \cpu1|state~509_combout\ = ( !\cpu1|state~401_combout\ & ( (!\hold~q\ & (\cpu1|state~400_combout\ & (\cpu1|saved_state.int_swimask_state~q\ & (\cpu1|state~346_combout\)))) # (\hold~q\ & ((((\cpu1|state.int_swimask_state~q\))))) ) ) # ( 
--- \cpu1|state~401_combout\ & ( (!\hold~q\ & (\cpu1|state~400_combout\ & (\cpu1|saved_state.int_swimask_state~q\ & (\cpu1|state~343_combout\)))) # (\hold~q\ & ((((\cpu1|state.int_swimask_state~q\))))) ) )
+-- \cpu1|state~509_combout\ = ( !\cpu1|state~401_combout\ & ( (!\w_hold~q\ & (\cpu1|state~400_combout\ & (\cpu1|saved_state.int_swimask_state~q\ & (\cpu1|state~346_combout\)))) # (\w_hold~q\ & ((((\cpu1|state.int_swimask_state~q\))))) ) ) # ( 
+-- \cpu1|state~401_combout\ & ( (!\w_hold~q\ & (\cpu1|state~400_combout\ & (\cpu1|saved_state.int_swimask_state~q\ & (\cpu1|state~343_combout\)))) # (\w_hold~q\ & ((((\cpu1|state.int_swimask_state~q\))))) ) )
 
 -- pragma translate_off
 GENERIC MAP (
@@ -83379,7 +83382,7 @@ PORT MAP (
 	dataa => \cpu1|ALT_INV_state~400_combout\,
 	datab => \cpu1|ALT_INV_saved_state.int_swimask_state~q\,
 	datac => \cpu1|ALT_INV_state~343_combout\,
-	datad => \ALT_INV_hold~q\,
+	datad => \ALT_INV_w_hold~q\,
 	datae => \cpu1|ALT_INV_state~401_combout\,
 	dataf => \cpu1|ALT_INV_state.int_swimask_state~q\,
 	datag => \cpu1|ALT_INV_state~346_combout\,
@@ -83584,9 +83587,9 @@ PORT MAP (
 	q => \io2|dataOut\(0));
 
 -- Location: LABCELL_X12_Y38_N6
-\cpuDataIn[0]~5\ : cyclonev_lcell_comb
+\w_cpuDataIn[0]~5\ : cyclonev_lcell_comb
 -- Equation(s):
--- \cpuDataIn[0]~5_combout\ = ( \n_if1CS~0_combout\ & ( \io1|dataOut\(0) ) ) # ( !\n_if1CS~0_combout\ & ( (!\n_if2CS~0_combout\ & ((\cpuDataIn[0]~4_combout\))) # (\n_if2CS~0_combout\ & (\io2|dataOut\(0))) ) )
+-- \w_cpuDataIn[0]~5_combout\ = ( \n_if1CS~0_combout\ & ( \io1|dataOut\(0) ) ) # ( !\n_if1CS~0_combout\ & ( (!\n_if2CS~0_combout\ & ((\w_cpuDataIn[0]~4_combout\))) # (\n_if2CS~0_combout\ & (\io2|dataOut\(0))) ) )
 
 -- pragma translate_off
 GENERIC MAP (
@@ -83598,14 +83601,14 @@ PORT MAP (
 	dataa => \io1|ALT_INV_dataOut\(0),
 	datab => \ALT_INV_n_if2CS~0_combout\,
 	datac => \io2|ALT_INV_dataOut\(0),
-	datad => \ALT_INV_cpuDataIn[0]~4_combout\,
+	datad => \ALT_INV_w_cpuDataIn[0]~4_combout\,
 	dataf => \ALT_INV_n_if1CS~0_combout\,
-	combout => \cpuDataIn[0]~5_combout\);
+	combout => \w_cpuDataIn[0]~5_combout\);
 
 -- Location: LABCELL_X12_Y38_N36
 \cpu1|sp[0]~feeder\ : cyclonev_lcell_comb
 -- Equation(s):
--- \cpu1|sp[0]~feeder_combout\ = ( \cpuDataIn[0]~5_combout\ )
+-- \cpu1|sp[0]~feeder_combout\ = ( \w_cpuDataIn[0]~5_combout\ )
 
 -- pragma translate_off
 GENERIC MAP (
@@ -83614,7 +83617,7 @@ GENERIC MAP (
 	shared_arith => "off")
 -- pragma translate_on
 PORT MAP (
-	dataf => \ALT_INV_cpuDataIn[0]~5_combout\,
+	dataf => \ALT_INV_w_cpuDataIn[0]~5_combout\,
 	combout => \cpu1|sp[0]~feeder_combout\);
 
 -- Location: FF_X12_Y38_N38
@@ -83803,9 +83806,9 @@ PORT MAP (
 -- Location: LABCELL_X21_Y39_N0
 \cpu1|Selector305~0\ : cyclonev_lcell_comb
 -- Equation(s):
--- \cpu1|Selector305~0_combout\ = ( \n_if2CS~0_combout\ & ( \cpuDataIn~67_combout\ & ( (!\cpu1|Selector400~1_combout\) # ((!\n_if1CS~0_combout\ & (\io2|dataOut\(1))) # (\n_if1CS~0_combout\ & ((\io1|dataOut\(1))))) ) ) ) # ( !\n_if2CS~0_combout\ & ( 
--- \cpuDataIn~67_combout\ & ( (!\cpu1|Selector400~1_combout\) # ((!\n_if1CS~0_combout\) # (\io1|dataOut\(1))) ) ) ) # ( \n_if2CS~0_combout\ & ( !\cpuDataIn~67_combout\ & ( (!\cpu1|Selector400~1_combout\) # ((!\n_if1CS~0_combout\ & (\io2|dataOut\(1))) # 
--- (\n_if1CS~0_combout\ & ((\io1|dataOut\(1))))) ) ) ) # ( !\n_if2CS~0_combout\ & ( !\cpuDataIn~67_combout\ & ( (!\cpu1|Selector400~1_combout\) # ((\n_if1CS~0_combout\ & \io1|dataOut\(1))) ) ) )
+-- \cpu1|Selector305~0_combout\ = ( \n_if2CS~0_combout\ & ( \w_cpuDataIn~67_combout\ & ( (!\cpu1|Selector400~1_combout\) # ((!\n_if1CS~0_combout\ & (\io2|dataOut\(1))) # (\n_if1CS~0_combout\ & ((\io1|dataOut\(1))))) ) ) ) # ( !\n_if2CS~0_combout\ & ( 
+-- \w_cpuDataIn~67_combout\ & ( (!\cpu1|Selector400~1_combout\) # ((!\n_if1CS~0_combout\) # (\io1|dataOut\(1))) ) ) ) # ( \n_if2CS~0_combout\ & ( !\w_cpuDataIn~67_combout\ & ( (!\cpu1|Selector400~1_combout\) # ((!\n_if1CS~0_combout\ & (\io2|dataOut\(1))) # 
+-- (\n_if1CS~0_combout\ & ((\io1|dataOut\(1))))) ) ) ) # ( !\n_if2CS~0_combout\ & ( !\w_cpuDataIn~67_combout\ & ( (!\cpu1|Selector400~1_combout\) # ((\n_if1CS~0_combout\ & \io1|dataOut\(1))) ) ) )
 
 -- pragma translate_off
 GENERIC MAP (
@@ -83819,7 +83822,7 @@ PORT MAP (
 	datac => \ALT_INV_n_if1CS~0_combout\,
 	datad => \io1|ALT_INV_dataOut\(1),
 	datae => \ALT_INV_n_if2CS~0_combout\,
-	dataf => \ALT_INV_cpuDataIn~67_combout\,
+	dataf => \ALT_INV_w_cpuDataIn~67_combout\,
 	combout => \cpu1|Selector305~0_combout\);
 
 -- Location: FF_X20_Y39_N20
@@ -83927,7 +83930,7 @@ GENERIC MAP (
 PORT MAP (
 	clk => \clk~inputCLKENA0_outclk\,
 	d => \cpu1|Selector4~0_combout\,
-	ena => \ALT_INV_hold~q\,
+	ena => \ALT_INV_w_hold~q\,
 	devclrn => ww_devclrn,
 	devpor => ww_devpor,
 	q => \cpu1|saved_state.fetch_state~q\);
@@ -84621,7 +84624,7 @@ PORT MAP (
 	clk => \clk~inputCLKENA0_outclk\,
 	d => \cpu1|state~391_combout\,
 	clrn => \debounceReset|ALT_INV_o_PinOut~q\,
-	ena => \ALT_INV_hold~q\,
+	ena => \ALT_INV_w_hold~q\,
 	devclrn => ww_devclrn,
 	devpor => ww_devpor,
 	q => \cpu1|state.fetch_state~q\);
@@ -84648,7 +84651,7 @@ PORT MAP (
 \cpu1|Selector300~0\ : cyclonev_lcell_comb
 -- Equation(s):
 -- \cpu1|Selector300~0_combout\ = ( !\n_if1CS~0_combout\ & ( (!\cpu1|Selector400~1_combout\ & (\cpu1|Selector401~0_combout\ & (((\cpu1|op_code\(6)))))) # (\cpu1|Selector400~1_combout\ & ((((\cpu1|Selector401~0_combout\ & \cpu1|op_code\(6))) # 
--- (\cpuDataIn[6]~45_combout\)) # (\cpuDataIn[6]~42_combout\))) ) ) # ( \n_if1CS~0_combout\ & ( (!\cpu1|Selector401~0_combout\ & (\cpu1|Selector400~1_combout\ & (\io1|dataOut\(6)))) # (\cpu1|Selector401~0_combout\ & (((\cpu1|Selector400~1_combout\ & 
+-- (\w_cpuDataIn[6]~45_combout\)) # (\w_cpuDataIn[6]~42_combout\))) ) ) # ( \n_if1CS~0_combout\ & ( (!\cpu1|Selector401~0_combout\ & (\cpu1|Selector400~1_combout\ & (\io1|dataOut\(6)))) # (\cpu1|Selector401~0_combout\ & (((\cpu1|Selector400~1_combout\ & 
 -- (\io1|dataOut\(6)))) # (\cpu1|op_code\(6)))) ) )
 
 -- pragma translate_off
@@ -84663,8 +84666,8 @@ PORT MAP (
 	datac => \io1|ALT_INV_dataOut\(6),
 	datad => \cpu1|ALT_INV_op_code\(6),
 	datae => \ALT_INV_n_if1CS~0_combout\,
-	dataf => \ALT_INV_cpuDataIn[6]~45_combout\,
-	datag => \ALT_INV_cpuDataIn[6]~42_combout\,
+	dataf => \ALT_INV_w_cpuDataIn[6]~45_combout\,
+	datag => \ALT_INV_w_cpuDataIn[6]~42_combout\,
 	combout => \cpu1|Selector300~0_combout\);
 
 -- Location: FF_X20_Y39_N26
@@ -84677,7 +84680,7 @@ GENERIC MAP (
 PORT MAP (
 	clk => \clk~inputCLKENA0_outclk\,
 	d => \cpu1|Selector300~0_combout\,
-	ena => \ALT_INV_hold~q\,
+	ena => \ALT_INV_w_hold~q\,
 	devclrn => ww_devclrn,
 	devpor => ww_devpor,
 	q => \cpu1|op_code\(6));
@@ -84829,7 +84832,7 @@ GENERIC MAP (
 PORT MAP (
 	clk => \clk~inputCLKENA0_outclk\,
 	d => \cpu1|ea[6]~feeder_combout\,
-	asdata => \cpuDataIn[6]~44_combout\,
+	asdata => \w_cpuDataIn[6]~44_combout\,
 	sclr => \cpu1|ea[1]~0_combout\,
 	sload => \cpu1|Selector423~0_combout\,
 	ena => \cpu1|ea[0]~1_combout\,
@@ -84868,7 +84871,7 @@ PORT MAP (
 	clk => \clk~inputCLKENA0_outclk\,
 	d => \cpu1|state~470_combout\,
 	clrn => \debounceReset|ALT_INV_o_PinOut~q\,
-	ena => \ALT_INV_hold~q\,
+	ena => \ALT_INV_w_hold~q\,
 	devclrn => ww_devclrn,
 	devpor => ww_devpor,
 	q => \cpu1|state.pshu_spl_state~q\);
@@ -84907,7 +84910,7 @@ PORT MAP (
 	asdata => \cpu1|state.pshu_spl_state~q\,
 	clrn => \debounceReset|ALT_INV_o_PinOut~q\,
 	sload => \cpu1|ALT_INV_Selector582~18_combout\,
-	ena => \ALT_INV_hold~q\,
+	ena => \ALT_INV_w_hold~q\,
 	devclrn => ww_devclrn,
 	devpor => ww_devpor,
 	q => \cpu1|state.pshu_sph_state~q\);
@@ -85241,9 +85244,9 @@ PORT MAP (
 	q => \io1|dataOut\(3));
 
 -- Location: MLABCELL_X23_Y34_N0
-\cpuDataIn[3]~14\ : cyclonev_lcell_comb
+\w_cpuDataIn[3]~14\ : cyclonev_lcell_comb
 -- Equation(s):
--- \cpuDataIn[3]~14_combout\ = ( \n_if1CS~0_combout\ & ( \io1|dataOut\(3) ) )
+-- \w_cpuDataIn[3]~14_combout\ = ( \n_if1CS~0_combout\ & ( \io1|dataOut\(3) ) )
 
 -- pragma translate_off
 GENERIC MAP (
@@ -85254,13 +85257,13 @@ GENERIC MAP (
 PORT MAP (
 	datac => \io1|ALT_INV_dataOut\(3),
 	dataf => \ALT_INV_n_if1CS~0_combout\,
-	combout => \cpuDataIn[3]~14_combout\);
+	combout => \w_cpuDataIn[3]~14_combout\);
 
 -- Location: LABCELL_X19_Y38_N30
 \cpu1|Selector279~0\ : cyclonev_lcell_comb
 -- Equation(s):
--- \cpu1|Selector279~0_combout\ = ( \cpu1|md[6]~1_combout\ & ( \cpu1|Selector384~6_combout\ & ( (!\cpu1|md[10]~2_combout\ & ((\cpuDataIn[3]~15_combout\) # (\cpuDataIn[3]~14_combout\))) ) ) ) # ( !\cpu1|md[6]~1_combout\ & ( \cpu1|Selector384~6_combout\ & ( 
--- (\cpu1|md[10]~2_combout\) # (\cpu1|md\(2)) ) ) ) # ( \cpu1|md[6]~1_combout\ & ( !\cpu1|Selector384~6_combout\ & ( (!\cpu1|md[10]~2_combout\ & ((\cpuDataIn[3]~15_combout\) # (\cpuDataIn[3]~14_combout\))) ) ) ) # ( !\cpu1|md[6]~1_combout\ & ( 
+-- \cpu1|Selector279~0_combout\ = ( \cpu1|md[6]~1_combout\ & ( \cpu1|Selector384~6_combout\ & ( (!\cpu1|md[10]~2_combout\ & ((\w_cpuDataIn[3]~15_combout\) # (\w_cpuDataIn[3]~14_combout\))) ) ) ) # ( !\cpu1|md[6]~1_combout\ & ( \cpu1|Selector384~6_combout\ & 
+-- ( (\cpu1|md[10]~2_combout\) # (\cpu1|md\(2)) ) ) ) # ( \cpu1|md[6]~1_combout\ & ( !\cpu1|Selector384~6_combout\ & ( (!\cpu1|md[10]~2_combout\ & ((\w_cpuDataIn[3]~15_combout\) # (\w_cpuDataIn[3]~14_combout\))) ) ) ) # ( !\cpu1|md[6]~1_combout\ & ( 
 -- !\cpu1|Selector384~6_combout\ & ( (\cpu1|md\(2) & !\cpu1|md[10]~2_combout\) ) ) )
 
 -- pragma translate_off
@@ -85270,10 +85273,10 @@ GENERIC MAP (
 	shared_arith => "off")
 -- pragma translate_on
 PORT MAP (
-	dataa => \ALT_INV_cpuDataIn[3]~14_combout\,
+	dataa => \ALT_INV_w_cpuDataIn[3]~14_combout\,
 	datab => \cpu1|ALT_INV_md\(2),
 	datac => \cpu1|ALT_INV_md[10]~2_combout\,
-	datad => \ALT_INV_cpuDataIn[3]~15_combout\,
+	datad => \ALT_INV_w_cpuDataIn[3]~15_combout\,
 	datae => \cpu1|ALT_INV_md[6]~1_combout\,
 	dataf => \cpu1|ALT_INV_Selector384~6_combout\,
 	combout => \cpu1|Selector279~0_combout\);
@@ -85433,7 +85436,7 @@ PORT MAP (
 	asdata => \cpu1|state.rti_cc_state~q\,
 	clrn => \debounceReset|ALT_INV_o_PinOut~q\,
 	sload => \cpu1|ALT_INV_Selector582~18_combout\,
-	ena => \ALT_INV_hold~q\,
+	ena => \ALT_INV_w_hold~q\,
 	devclrn => ww_devclrn,
 	devpor => ww_devpor,
 	q => \cpu1|state.rti_entire_state~q\);
@@ -85471,7 +85474,7 @@ PORT MAP (
 	clk => \clk~inputCLKENA0_outclk\,
 	d => \cpu1|state~349_combout\,
 	clrn => \debounceReset|ALT_INV_o_PinOut~q\,
-	ena => \ALT_INV_hold~q\,
+	ena => \ALT_INV_w_hold~q\,
 	devclrn => ww_devclrn,
 	devpor => ww_devpor,
 	q => \cpu1|state.rti_pch_state~q\);
@@ -85510,7 +85513,7 @@ PORT MAP (
 	asdata => \cpu1|state.rti_pch_state~q\,
 	clrn => \debounceReset|ALT_INV_o_PinOut~q\,
 	sload => \cpu1|ALT_INV_Selector582~18_combout\,
-	ena => \ALT_INV_hold~q\,
+	ena => \ALT_INV_w_hold~q\,
 	devclrn => ww_devclrn,
 	devpor => ww_devpor,
 	q => \cpu1|state.rti_pcl_state~q\);
@@ -85571,8 +85574,8 @@ PORT MAP (
 -- Location: LABCELL_X14_Y35_N18
 \cpu1|Selector165~1\ : cyclonev_lcell_comb
 -- Equation(s):
--- \cpu1|Selector165~1_combout\ = ( \cpuDataIn[4]~35_combout\ & ( \cpu1|Selector165~0_combout\ ) ) # ( !\cpuDataIn[4]~35_combout\ & ( \cpu1|Selector165~0_combout\ ) ) # ( \cpuDataIn[4]~35_combout\ & ( !\cpu1|Selector165~0_combout\ & ( 
--- (\cpu1|Selector169~0_combout\ & ((!\n_if1CS~0_combout\) # (\io1|dataOut\(4)))) ) ) ) # ( !\cpuDataIn[4]~35_combout\ & ( !\cpu1|Selector165~0_combout\ & ( (\cpu1|Selector169~0_combout\ & ((!\n_if1CS~0_combout\ & (\cpuDataIn[4]~29_combout\)) # 
+-- \cpu1|Selector165~1_combout\ = ( \w_cpuDataIn[4]~35_combout\ & ( \cpu1|Selector165~0_combout\ ) ) # ( !\w_cpuDataIn[4]~35_combout\ & ( \cpu1|Selector165~0_combout\ ) ) # ( \w_cpuDataIn[4]~35_combout\ & ( !\cpu1|Selector165~0_combout\ & ( 
+-- (\cpu1|Selector169~0_combout\ & ((!\n_if1CS~0_combout\) # (\io1|dataOut\(4)))) ) ) ) # ( !\w_cpuDataIn[4]~35_combout\ & ( !\cpu1|Selector165~0_combout\ & ( (\cpu1|Selector169~0_combout\ & ((!\n_if1CS~0_combout\ & (\w_cpuDataIn[4]~29_combout\)) # 
 -- (\n_if1CS~0_combout\ & ((\io1|dataOut\(4)))))) ) ) )
 
 -- pragma translate_off
@@ -85583,10 +85586,10 @@ GENERIC MAP (
 -- pragma translate_on
 PORT MAP (
 	dataa => \cpu1|ALT_INV_Selector169~0_combout\,
-	datab => \ALT_INV_cpuDataIn[4]~29_combout\,
+	datab => \ALT_INV_w_cpuDataIn[4]~29_combout\,
 	datac => \io1|ALT_INV_dataOut\(4),
 	datad => \ALT_INV_n_if1CS~0_combout\,
-	datae => \ALT_INV_cpuDataIn[4]~35_combout\,
+	datae => \ALT_INV_w_cpuDataIn[4]~35_combout\,
 	dataf => \cpu1|ALT_INV_Selector165~0_combout\,
 	combout => \cpu1|Selector165~1_combout\);
 
@@ -85734,9 +85737,9 @@ PORT MAP (
 -- Location: LABCELL_X20_Y39_N42
 \cpu1|Selector299~1\ : cyclonev_lcell_comb
 -- Equation(s):
--- \cpu1|Selector299~1_combout\ = ( \cpu1|Selector400~1_combout\ & ( \cpuDataIn[7]~16_combout\ & ( ((!\n_if1CS~0_combout\) # (\io1|dataOut[7]~DUPLICATE_q\)) # (\cpu1|Selector299~0_combout\) ) ) ) # ( !\cpu1|Selector400~1_combout\ & ( 
--- \cpuDataIn[7]~16_combout\ & ( \cpu1|Selector299~0_combout\ ) ) ) # ( \cpu1|Selector400~1_combout\ & ( !\cpuDataIn[7]~16_combout\ & ( ((!\n_if1CS~0_combout\ & ((\cpuDataIn[7]~19_combout\))) # (\n_if1CS~0_combout\ & (\io1|dataOut[7]~DUPLICATE_q\))) # 
--- (\cpu1|Selector299~0_combout\) ) ) ) # ( !\cpu1|Selector400~1_combout\ & ( !\cpuDataIn[7]~16_combout\ & ( \cpu1|Selector299~0_combout\ ) ) )
+-- \cpu1|Selector299~1_combout\ = ( \cpu1|Selector400~1_combout\ & ( \w_cpuDataIn[7]~16_combout\ & ( ((!\n_if1CS~0_combout\) # (\io1|dataOut[7]~DUPLICATE_q\)) # (\cpu1|Selector299~0_combout\) ) ) ) # ( !\cpu1|Selector400~1_combout\ & ( 
+-- \w_cpuDataIn[7]~16_combout\ & ( \cpu1|Selector299~0_combout\ ) ) ) # ( \cpu1|Selector400~1_combout\ & ( !\w_cpuDataIn[7]~16_combout\ & ( ((!\n_if1CS~0_combout\ & ((\w_cpuDataIn[7]~19_combout\))) # (\n_if1CS~0_combout\ & (\io1|dataOut[7]~DUPLICATE_q\))) # 
+-- (\cpu1|Selector299~0_combout\) ) ) ) # ( !\cpu1|Selector400~1_combout\ & ( !\w_cpuDataIn[7]~16_combout\ & ( \cpu1|Selector299~0_combout\ ) ) )
 
 -- pragma translate_off
 GENERIC MAP (
@@ -85748,9 +85751,9 @@ PORT MAP (
 	dataa => \cpu1|ALT_INV_Selector299~0_combout\,
 	datab => \ALT_INV_n_if1CS~0_combout\,
 	datac => \io1|ALT_INV_dataOut[7]~DUPLICATE_q\,
-	datad => \ALT_INV_cpuDataIn[7]~19_combout\,
+	datad => \ALT_INV_w_cpuDataIn[7]~19_combout\,
 	datae => \cpu1|ALT_INV_Selector400~1_combout\,
-	dataf => \ALT_INV_cpuDataIn[7]~16_combout\,
+	dataf => \ALT_INV_w_cpuDataIn[7]~16_combout\,
 	combout => \cpu1|Selector299~1_combout\);
 
 -- Location: FF_X20_Y39_N44
@@ -85763,7 +85766,7 @@ GENERIC MAP (
 PORT MAP (
 	clk => \clk~inputCLKENA0_outclk\,
 	d => \cpu1|Selector299~1_combout\,
-	ena => \ALT_INV_hold~q\,
+	ena => \ALT_INV_w_hold~q\,
 	devclrn => ww_devclrn,
 	devpor => ww_devpor,
 	q => \cpu1|op_code\(7));
@@ -85820,7 +85823,7 @@ PORT MAP (
 -- Location: LABCELL_X21_Y41_N27
 \cpu1|state~368\ : cyclonev_lcell_comb
 -- Equation(s):
--- \cpu1|state~368_combout\ = ( \cpu1|process_22~0_combout\ & ( (!\hold~q\ & ((!\cpu1|Selector400~0_combout\) # (\cpu1|Selector582~18_combout\))) ) ) # ( !\cpu1|process_22~0_combout\ & ( (!\hold~q\ & ((!\cpu1|Selector400~0_combout\) # 
+-- \cpu1|state~368_combout\ = ( \cpu1|process_22~0_combout\ & ( (!\w_hold~q\ & ((!\cpu1|Selector400~0_combout\) # (\cpu1|Selector582~18_combout\))) ) ) # ( !\cpu1|process_22~0_combout\ & ( (!\w_hold~q\ & ((!\cpu1|Selector400~0_combout\) # 
 -- ((\cpu1|Selector582~18_combout\ & \cpu1|change_state~1_combout\)))) ) )
 
 -- pragma translate_off
@@ -85830,7 +85833,7 @@ GENERIC MAP (
 	shared_arith => "off")
 -- pragma translate_on
 PORT MAP (
-	dataa => \ALT_INV_hold~q\,
+	dataa => \ALT_INV_w_hold~q\,
 	datab => \cpu1|ALT_INV_Selector582~18_combout\,
 	datac => \cpu1|ALT_INV_change_state~1_combout\,
 	datad => \cpu1|ALT_INV_Selector400~0_combout\,
@@ -85840,8 +85843,8 @@ PORT MAP (
 -- Location: LABCELL_X20_Y38_N51
 \cpu1|state~370\ : cyclonev_lcell_comb
 -- Equation(s):
--- \cpu1|state~370_combout\ = ( \cpu1|state.decode3_state~q\ & ( \cpu1|Mux28~9_combout\ & ( !\cpu1|state~368_combout\ ) ) ) # ( !\cpu1|state.decode3_state~q\ & ( \cpu1|Mux28~9_combout\ & ( (!\hold~q\ & (!\cpu1|state~368_combout\ & 
--- ((!\cpu1|state~347_combout\) # (\cpu1|state~345_combout\)))) ) ) ) # ( \cpu1|state.decode3_state~q\ & ( !\cpu1|Mux28~9_combout\ & ( (!\cpu1|state~368_combout\ & (((!\cpu1|state~345_combout\ & \cpu1|state~347_combout\)) # (\hold~q\))) ) ) )
+-- \cpu1|state~370_combout\ = ( \cpu1|state.decode3_state~q\ & ( \cpu1|Mux28~9_combout\ & ( !\cpu1|state~368_combout\ ) ) ) # ( !\cpu1|state.decode3_state~q\ & ( \cpu1|Mux28~9_combout\ & ( (!\w_hold~q\ & (!\cpu1|state~368_combout\ & 
+-- ((!\cpu1|state~347_combout\) # (\cpu1|state~345_combout\)))) ) ) ) # ( \cpu1|state.decode3_state~q\ & ( !\cpu1|Mux28~9_combout\ & ( (!\cpu1|state~368_combout\ & (((!\cpu1|state~345_combout\ & \cpu1|state~347_combout\)) # (\w_hold~q\))) ) ) )
 
 -- pragma translate_off
 GENERIC MAP (
@@ -85850,7 +85853,7 @@ GENERIC MAP (
 	shared_arith => "off")
 -- pragma translate_on
 PORT MAP (
-	dataa => \ALT_INV_hold~q\,
+	dataa => \ALT_INV_w_hold~q\,
 	datab => \cpu1|ALT_INV_state~368_combout\,
 	datac => \cpu1|ALT_INV_state~345_combout\,
 	datad => \cpu1|ALT_INV_state~347_combout\,
@@ -85945,7 +85948,7 @@ GENERIC MAP (
 PORT MAP (
 	clk => \clk~inputCLKENA0_outclk\,
 	d => \cpu1|Selector151~1_combout\,
-	ena => \ALT_INV_hold~q\,
+	ena => \ALT_INV_w_hold~q\,
 	devclrn => ww_devclrn,
 	devpor => ww_devpor,
 	q => \cpu1|iv\(2));
@@ -86064,7 +86067,7 @@ PORT MAP (
 -- Location: LABCELL_X21_Y35_N45
 n_RD_uart : cyclonev_lcell_comb
 -- Equation(s):
--- \n_RD_uart~combout\ = LCELL(( \n_if2CS~0_combout\ & ( !\n_RD~q\ ) ))
+-- \n_RD_uart~combout\ = LCELL(( \n_if2CS~0_combout\ & ( !\w_n_RD~q\ ) ))
 
 -- pragma translate_off
 GENERIC MAP (
@@ -86074,7 +86077,7 @@ GENERIC MAP (
 -- pragma translate_on
 PORT MAP (
 	datae => \ALT_INV_n_if2CS~0_combout\,
-	dataf => \ALT_INV_n_RD~q\,
+	dataf => \ALT_INV_w_n_RD~q\,
 	combout => \n_RD_uart~combout\);
 
 -- Location: FF_X23_Y35_N53
@@ -86211,10 +86214,10 @@ PORT MAP (
 	q => \gpio1|reg_dat2\(4));
 
 -- Location: MLABCELL_X18_Y34_N9
-\cpuDataIn[4]~28\ : cyclonev_lcell_comb
+\w_cpuDataIn[4]~28\ : cyclonev_lcell_comb
 -- Equation(s):
--- \cpuDataIn[4]~28_combout\ = ( \cpuDataIn[4]~26_combout\ & ( (!\cpuDataIn[4]~27_combout\ & \gpio1|reg_ddr2\(4)) ) ) # ( !\cpuDataIn[4]~26_combout\ & ( (!\cpuDataIn[4]~27_combout\ & ((\gpio1|reg\(4)))) # (\cpuDataIn[4]~27_combout\ & (\gpio1|reg_dat2\(4))) ) 
--- )
+-- \w_cpuDataIn[4]~28_combout\ = ( \w_cpuDataIn[4]~26_combout\ & ( (!\w_cpuDataIn[4]~27_combout\ & \gpio1|reg_ddr2\(4)) ) ) # ( !\w_cpuDataIn[4]~26_combout\ & ( (!\w_cpuDataIn[4]~27_combout\ & ((\gpio1|reg\(4)))) # (\w_cpuDataIn[4]~27_combout\ & 
+-- (\gpio1|reg_dat2\(4))) ) )
 
 -- pragma translate_off
 GENERIC MAP (
@@ -86224,16 +86227,16 @@ GENERIC MAP (
 -- pragma translate_on
 PORT MAP (
 	dataa => \gpio1|ALT_INV_reg_dat2\(4),
-	datab => \ALT_INV_cpuDataIn[4]~27_combout\,
+	datab => \ALT_INV_w_cpuDataIn[4]~27_combout\,
 	datac => \gpio1|ALT_INV_reg_ddr2\(4),
 	datad => \gpio1|ALT_INV_reg\(4),
-	dataf => \ALT_INV_cpuDataIn[4]~26_combout\,
-	combout => \cpuDataIn[4]~28_combout\);
+	dataf => \ALT_INV_w_cpuDataIn[4]~26_combout\,
+	combout => \w_cpuDataIn[4]~28_combout\);
 
 -- Location: LABCELL_X21_Y34_N36
-\cpuDataIn[4]~29\ : cyclonev_lcell_comb
+\w_cpuDataIn[4]~29\ : cyclonev_lcell_comb
 -- Equation(s):
--- \cpuDataIn[4]~29_combout\ = ( \Equal5~1_combout\ & ( (\io2|dataOut\(4) & \n_if2CS~0_combout\) ) ) # ( !\Equal5~1_combout\ & ( (!\n_if2CS~0_combout\ & ((\cpuDataIn[4]~28_combout\))) # (\n_if2CS~0_combout\ & (\io2|dataOut\(4))) ) )
+-- \w_cpuDataIn[4]~29_combout\ = ( \Equal5~1_combout\ & ( (\io2|dataOut\(4) & \n_if2CS~0_combout\) ) ) # ( !\Equal5~1_combout\ & ( (!\n_if2CS~0_combout\ & ((\w_cpuDataIn[4]~28_combout\))) # (\n_if2CS~0_combout\ & (\io2|dataOut\(4))) ) )
 
 -- pragma translate_off
 GENERIC MAP (
@@ -86244,15 +86247,15 @@ GENERIC MAP (
 PORT MAP (
 	datab => \io2|ALT_INV_dataOut\(4),
 	datac => \ALT_INV_n_if2CS~0_combout\,
-	datad => \ALT_INV_cpuDataIn[4]~28_combout\,
+	datad => \ALT_INV_w_cpuDataIn[4]~28_combout\,
 	dataf => \ALT_INV_Equal5~1_combout\,
-	combout => \cpuDataIn[4]~29_combout\);
+	combout => \w_cpuDataIn[4]~29_combout\);
 
 -- Location: LABCELL_X17_Y35_N51
-\cpuDataIn[4]~55\ : cyclonev_lcell_comb
+\w_cpuDataIn[4]~55\ : cyclonev_lcell_comb
 -- Equation(s):
--- \cpuDataIn[4]~55_combout\ = ( \io1|dataOut\(4) & ( ((\Equal5~1_combout\ & (!\n_if2CS~0_combout\ & \cpuDataIn[4]~24_combout\))) # (\n_if1CS~0_combout\) ) ) # ( !\io1|dataOut\(4) & ( (\Equal5~1_combout\ & (!\n_if2CS~0_combout\ & (!\n_if1CS~0_combout\ & 
--- \cpuDataIn[4]~24_combout\))) ) )
+-- \w_cpuDataIn[4]~55_combout\ = ( \io1|dataOut\(4) & ( ((\Equal5~1_combout\ & (!\n_if2CS~0_combout\ & \w_cpuDataIn[4]~24_combout\))) # (\n_if1CS~0_combout\) ) ) # ( !\io1|dataOut\(4) & ( (\Equal5~1_combout\ & (!\n_if2CS~0_combout\ & (!\n_if1CS~0_combout\ & 
+-- \w_cpuDataIn[4]~24_combout\))) ) )
 
 -- pragma translate_off
 GENERIC MAP (
@@ -86264,16 +86267,16 @@ PORT MAP (
 	dataa => \ALT_INV_Equal5~1_combout\,
 	datab => \ALT_INV_n_if2CS~0_combout\,
 	datac => \ALT_INV_n_if1CS~0_combout\,
-	datad => \ALT_INV_cpuDataIn[4]~24_combout\,
+	datad => \ALT_INV_w_cpuDataIn[4]~24_combout\,
 	dataf => \io1|ALT_INV_dataOut\(4),
-	combout => \cpuDataIn[4]~55_combout\);
+	combout => \w_cpuDataIn[4]~55_combout\);
 
 -- Location: LABCELL_X17_Y35_N42
-\cpuDataIn[4]~34\ : cyclonev_lcell_comb
+\w_cpuDataIn[4]~34\ : cyclonev_lcell_comb
 -- Equation(s):
--- \cpuDataIn[4]~34_combout\ = ( \cpuDataIn[4]~25_combout\ & ( \cpuDataIn[4]~55_combout\ & ( (((\sramData[4]~input_o\) # (\cpuDataIn[4]~33_combout\)) # (\n_if1CS~0_combout\)) # (\cpuDataIn[4]~29_combout\) ) ) ) # ( !\cpuDataIn[4]~25_combout\ & ( 
--- \cpuDataIn[4]~55_combout\ & ( ((\sramData[4]~input_o\) # (\n_if1CS~0_combout\)) # (\cpuDataIn[4]~29_combout\) ) ) ) # ( \cpuDataIn[4]~25_combout\ & ( !\cpuDataIn[4]~55_combout\ & ( (!\n_if1CS~0_combout\ & ((\cpuDataIn[4]~33_combout\) # 
--- (\cpuDataIn[4]~29_combout\))) ) ) ) # ( !\cpuDataIn[4]~25_combout\ & ( !\cpuDataIn[4]~55_combout\ & ( (\cpuDataIn[4]~29_combout\ & !\n_if1CS~0_combout\) ) ) )
+-- \w_cpuDataIn[4]~34_combout\ = ( \w_cpuDataIn[4]~25_combout\ & ( \w_cpuDataIn[4]~55_combout\ & ( (((\sramData[4]~input_o\) # (\w_cpuDataIn[4]~33_combout\)) # (\n_if1CS~0_combout\)) # (\w_cpuDataIn[4]~29_combout\) ) ) ) # ( !\w_cpuDataIn[4]~25_combout\ & ( 
+-- \w_cpuDataIn[4]~55_combout\ & ( ((\sramData[4]~input_o\) # (\n_if1CS~0_combout\)) # (\w_cpuDataIn[4]~29_combout\) ) ) ) # ( \w_cpuDataIn[4]~25_combout\ & ( !\w_cpuDataIn[4]~55_combout\ & ( (!\n_if1CS~0_combout\ & ((\w_cpuDataIn[4]~33_combout\) # 
+-- (\w_cpuDataIn[4]~29_combout\))) ) ) ) # ( !\w_cpuDataIn[4]~25_combout\ & ( !\w_cpuDataIn[4]~55_combout\ & ( (\w_cpuDataIn[4]~29_combout\ & !\n_if1CS~0_combout\) ) ) )
 
 -- pragma translate_off
 GENERIC MAP (
@@ -86282,18 +86285,18 @@ GENERIC MAP (
 	shared_arith => "off")
 -- pragma translate_on
 PORT MAP (
-	dataa => \ALT_INV_cpuDataIn[4]~29_combout\,
+	dataa => \ALT_INV_w_cpuDataIn[4]~29_combout\,
 	datab => \ALT_INV_n_if1CS~0_combout\,
-	datac => \ALT_INV_cpuDataIn[4]~33_combout\,
+	datac => \ALT_INV_w_cpuDataIn[4]~33_combout\,
 	datad => \ALT_INV_sramData[4]~input_o\,
-	datae => \ALT_INV_cpuDataIn[4]~25_combout\,
-	dataf => \ALT_INV_cpuDataIn[4]~55_combout\,
-	combout => \cpuDataIn[4]~34_combout\);
+	datae => \ALT_INV_w_cpuDataIn[4]~25_combout\,
+	dataf => \ALT_INV_w_cpuDataIn[4]~55_combout\,
+	combout => \w_cpuDataIn[4]~34_combout\);
 
 -- Location: MLABCELL_X13_Y39_N45
 \cpu1|sp[12]~feeder\ : cyclonev_lcell_comb
 -- Equation(s):
--- \cpu1|sp[12]~feeder_combout\ = \cpuDataIn[4]~34_combout\
+-- \cpu1|sp[12]~feeder_combout\ = \w_cpuDataIn[4]~34_combout\
 
 -- pragma translate_off
 GENERIC MAP (
@@ -86302,7 +86305,7 @@ GENERIC MAP (
 	shared_arith => "off")
 -- pragma translate_on
 PORT MAP (
-	datac => \ALT_INV_cpuDataIn[4]~34_combout\,
+	datac => \ALT_INV_w_cpuDataIn[4]~34_combout\,
 	combout => \cpu1|sp[12]~feeder_combout\);
 
 -- Location: FF_X13_Y39_N47
@@ -86708,7 +86711,7 @@ PORT MAP (
 -- Location: LABCELL_X20_Y33_N30
 \mm1|nmi_i~1\ : cyclonev_lcell_comb
 -- Equation(s):
--- \mm1|nmi_i~1_combout\ = ( \mm1|Equal4~0_combout\ & ( (\mm1|nmiDly\(4) & !\hold~q\) ) ) # ( !\mm1|Equal4~0_combout\ & ( !\hold~q\ ) )
+-- \mm1|nmi_i~1_combout\ = ( \mm1|Equal4~0_combout\ & ( (\mm1|nmiDly\(4) & !\w_hold~q\) ) ) # ( !\mm1|Equal4~0_combout\ & ( !\w_hold~q\ ) )
 
 -- pragma translate_off
 GENERIC MAP (
@@ -86718,7 +86721,7 @@ GENERIC MAP (
 -- pragma translate_on
 PORT MAP (
 	datab => \mm1|ALT_INV_nmiDly\(4),
-	datac => \ALT_INV_hold~q\,
+	datac => \ALT_INV_w_hold~q\,
 	dataf => \mm1|ALT_INV_Equal4~0_combout\,
 	combout => \mm1|nmi_i~1_combout\);
 
@@ -86867,7 +86870,7 @@ PORT MAP (
 -- Location: LABCELL_X20_Y33_N33
 \mm1|nmi_i~0\ : cyclonev_lcell_comb
 -- Equation(s):
--- \mm1|nmi_i~0_combout\ = ( \mm1|Equal4~0_combout\ & ( !\mm1|nmi_i~q\ $ (((!\mm1|nmiDly\(4)) # (\hold~q\))) ) ) # ( !\mm1|Equal4~0_combout\ & ( (\hold~q\ & \mm1|nmi_i~q\) ) )
+-- \mm1|nmi_i~0_combout\ = ( \mm1|Equal4~0_combout\ & ( !\mm1|nmi_i~q\ $ (((!\mm1|nmiDly\(4)) # (\w_hold~q\))) ) ) # ( !\mm1|Equal4~0_combout\ & ( (\w_hold~q\ & \mm1|nmi_i~q\) ) )
 
 -- pragma translate_off
 GENERIC MAP (
@@ -86876,7 +86879,7 @@ GENERIC MAP (
 	shared_arith => "off")
 -- pragma translate_on
 PORT MAP (
-	dataa => \ALT_INV_hold~q\,
+	dataa => \ALT_INV_w_hold~q\,
 	datab => \mm1|ALT_INV_nmiDly\(4),
 	datad => \mm1|ALT_INV_nmi_i~q\,
 	dataf => \mm1|ALT_INV_Equal4~0_combout\,
@@ -86924,7 +86927,7 @@ GENERIC MAP (
 PORT MAP (
 	clk => \clk~inputCLKENA0_outclk\,
 	d => \cpu1|Selector250~1_combout\,
-	ena => \ALT_INV_hold~q\,
+	ena => \ALT_INV_w_hold~q\,
 	devclrn => ww_devclrn,
 	devpor => ww_devpor,
 	q => \cpu1|nmi_enable~q\);
@@ -86957,7 +86960,7 @@ PORT MAP (
 	clk => \clk~inputCLKENA0_outclk\,
 	d => \cpu1|nmi_ack~0_combout\,
 	clrn => \debounceReset|ALT_INV_o_PinOut~q\,
-	ena => \ALT_INV_hold~q\,
+	ena => \ALT_INV_w_hold~q\,
 	devclrn => ww_devclrn,
 	devpor => ww_devpor,
 	q => \cpu1|nmi_ack~q\);
@@ -87042,7 +87045,7 @@ PORT MAP (
 	clk => \clk~inputCLKENA0_outclk\,
 	d => \cpu1|state~319_combout\,
 	clrn => \debounceReset|ALT_INV_o_PinOut~q\,
-	ena => \ALT_INV_hold~q\,
+	ena => \ALT_INV_w_hold~q\,
 	devclrn => ww_devclrn,
 	devpor => ww_devpor,
 	q => \cpu1|state.pshs_upl_state~q\);
@@ -87514,7 +87517,7 @@ PORT MAP (
 	asdata => \cpu1|state.pshu_pcl_state~q\,
 	clrn => \debounceReset|ALT_INV_o_PinOut~q\,
 	sload => \cpu1|ALT_INV_Selector582~18_combout\,
-	ena => \ALT_INV_hold~q\,
+	ena => \ALT_INV_w_hold~q\,
 	devclrn => ww_devclrn,
 	devpor => ww_devpor,
 	q => \cpu1|state.pshu_pch_state~q\);
@@ -87638,7 +87641,7 @@ PORT MAP (
 	clk => \clk~inputCLKENA0_outclk\,
 	d => \cpu1|state~467_combout\,
 	clrn => \debounceReset|ALT_INV_o_PinOut~q\,
-	ena => \ALT_INV_hold~q\,
+	ena => \ALT_INV_w_hold~q\,
 	devclrn => ww_devclrn,
 	devpor => ww_devpor,
 	q => \cpu1|state.pshu_acca_state~q\);
@@ -87713,7 +87716,7 @@ PORT MAP (
 	clk => \clk~inputCLKENA0_outclk\,
 	d => \cpu1|state~461_combout\,
 	clrn => \debounceReset|ALT_INV_o_PinOut~q\,
-	ena => \ALT_INV_hold~q\,
+	ena => \ALT_INV_w_hold~q\,
 	devclrn => ww_devclrn,
 	devpor => ww_devpor,
 	q => \cpu1|state.pshu_cc_state~q\);
@@ -87739,9 +87742,9 @@ PORT MAP (
 	combout => \cpu1|WideOr7~combout\);
 
 -- Location: LABCELL_X17_Y35_N30
-\n_WR~0\ : cyclonev_lcell_comb
+\w_n_WR~0\ : cyclonev_lcell_comb
 -- Equation(s):
--- \n_WR~0_combout\ = (!\cpu1|WideOr7~combout\) # (\n_sRamWE~0_combout\)
+-- \w_n_WR~0_combout\ = (!\cpu1|WideOr7~combout\) # (\n_sRamWE~0_combout\)
 
 -- pragma translate_off
 GENERIC MAP (
@@ -87752,10 +87755,10 @@ GENERIC MAP (
 PORT MAP (
 	dataa => \cpu1|ALT_INV_WideOr7~combout\,
 	datac => \ALT_INV_n_sRamWE~0_combout\,
-	combout => \n_WR~0_combout\);
+	combout => \w_n_WR~0_combout\);
 
 -- Location: FF_X20_Y35_N26
-n_WR : dffeas
+w_n_WR : dffeas
 -- pragma translate_off
 GENERIC MAP (
 	is_wysiwyg => "true",
@@ -87765,15 +87768,15 @@ PORT MAP (
 	clk => \clk~inputCLKENA0_outclk\,
 	asdata => \n_sRamWE~0_combout\,
 	sload => VCC,
-	ena => \n_WR~0_combout\,
+	ena => \w_n_WR~0_combout\,
 	devclrn => ww_devclrn,
 	devpor => ww_devpor,
-	q => \n_WR~q\);
+	q => \w_n_WR~q\);
 
 -- Location: MLABCELL_X23_Y36_N6
 n_WR_uart : cyclonev_lcell_comb
 -- Equation(s):
--- \n_WR_uart~combout\ = LCELL(( \n_if2CS~0_combout\ & ( \n_WR~q\ ) ) # ( !\n_if2CS~0_combout\ ))
+-- \n_WR_uart~combout\ = LCELL(( \n_if2CS~0_combout\ & ( \w_n_WR~q\ ) ) # ( !\n_if2CS~0_combout\ ))
 
 -- pragma translate_off
 GENERIC MAP (
@@ -87782,7 +87785,7 @@ GENERIC MAP (
 	shared_arith => "off")
 -- pragma translate_on
 PORT MAP (
-	datac => \ALT_INV_n_WR~q\,
+	datac => \ALT_INV_w_n_WR~q\,
 	dataf => \ALT_INV_n_if2CS~0_combout\,
 	combout => \n_WR_uart~combout\);
 
@@ -87875,7 +87878,7 @@ PORT MAP (
 	clk => \clk~inputCLKENA0_outclk\,
 	d => \cpu1|state~372_combout\,
 	clrn => \debounceReset|ALT_INV_o_PinOut~q\,
-	ena => \ALT_INV_hold~q\,
+	ena => \ALT_INV_w_hold~q\,
 	devclrn => ww_devclrn,
 	devpor => ww_devpor,
 	q => \cpu1|state.indexed_state~q\);
@@ -87903,7 +87906,7 @@ PORT MAP (
 -- Location: LABCELL_X17_Y35_N24
 \clk_gen~0\ : cyclonev_lcell_comb
 -- Equation(s):
--- \clk_gen~0_combout\ = (!state(2) & ((!state(1) & (!\cpu1|Selector580~5_combout\ & !state(0))) # (state(1) & ((state(0))))))
+-- \clk_gen~0_combout\ = (!w_state(2) & ((!w_state(1) & (!\cpu1|Selector580~5_combout\ & !w_state(0))) # (w_state(1) & ((w_state(0))))))
 
 -- pragma translate_off
 GENERIC MAP (
@@ -87913,15 +87916,15 @@ GENERIC MAP (
 -- pragma translate_on
 PORT MAP (
 	dataa => \cpu1|ALT_INV_Selector580~5_combout\,
-	datab => ALT_INV_state(1),
-	datac => ALT_INV_state(0),
-	datad => ALT_INV_state(2),
+	datab => ALT_INV_w_state(1),
+	datac => ALT_INV_w_state(0),
+	datad => ALT_INV_w_state(2),
 	combout => \clk_gen~0_combout\);
 
 -- Location: LABCELL_X17_Y35_N9
-\hold~0\ : cyclonev_lcell_comb
+\w_hold~0\ : cyclonev_lcell_comb
 -- Equation(s):
--- \hold~0_combout\ = !\clk_gen~0_combout\
+-- \w_hold~0_combout\ = !\clk_gen~0_combout\
 
 -- pragma translate_off
 GENERIC MAP (
@@ -87931,10 +87934,10 @@ GENERIC MAP (
 -- pragma translate_on
 PORT MAP (
 	datac => \ALT_INV_clk_gen~0_combout\,
-	combout => \hold~0_combout\);
+	combout => \w_hold~0_combout\);
 
 -- Location: FF_X17_Y35_N11
-hold : dffeas
+w_hold : dffeas
 -- pragma translate_off
 GENERIC MAP (
 	is_wysiwyg => "true",
@@ -87942,15 +87945,15 @@ GENERIC MAP (
 -- pragma translate_on
 PORT MAP (
 	clk => \clk~inputCLKENA0_outclk\,
-	d => \hold~0_combout\,
+	d => \w_hold~0_combout\,
 	devclrn => ww_devclrn,
 	devpor => ww_devpor,
-	q => \hold~q\);
+	q => \w_hold~q\);
 
 -- Location: LABCELL_X20_Y41_N36
 \cpu1|saved_state~153\ : cyclonev_lcell_comb
 -- Equation(s):
--- \cpu1|saved_state~153_combout\ = ( \cpu1|Selector428~2_combout\ & ( (!\hold~q\) # (\cpu1|saved_state.reset_state~q\) ) ) # ( !\cpu1|Selector428~2_combout\ & ( \cpu1|saved_state.reset_state~q\ ) )
+-- \cpu1|saved_state~153_combout\ = ( \cpu1|Selector428~2_combout\ & ( (!\w_hold~q\) # (\cpu1|saved_state.reset_state~q\) ) ) # ( !\cpu1|Selector428~2_combout\ & ( \cpu1|saved_state.reset_state~q\ ) )
 
 -- pragma translate_off
 GENERIC MAP (
@@ -87959,7 +87962,7 @@ GENERIC MAP (
 	shared_arith => "off")
 -- pragma translate_on
 PORT MAP (
-	datac => \ALT_INV_hold~q\,
+	datac => \ALT_INV_w_hold~q\,
 	datad => \cpu1|ALT_INV_saved_state.reset_state~q\,
 	dataf => \cpu1|ALT_INV_Selector428~2_combout\,
 	combout => \cpu1|saved_state~153_combout\);
@@ -87981,8 +87984,8 @@ PORT MAP (
 -- Location: LABCELL_X20_Y41_N12
 \cpu1|state~497\ : cyclonev_lcell_comb
 -- Equation(s):
--- \cpu1|state~497_combout\ = ( !\cpu1|state~401_combout\ & ( (!\hold~q\ & (((!\cpu1|state~400_combout\) # ((!\cpu1|state~346_combout\))) # (\cpu1|saved_state.reset_state~q\))) # (\hold~q\ & ((((\cpu1|state.reset_state~q\))))) ) ) # ( 
--- \cpu1|state~401_combout\ & ( (!\hold~q\ & (((!\cpu1|state~400_combout\) # ((!\cpu1|state~343_combout\))) # (\cpu1|saved_state.reset_state~q\))) # (\hold~q\ & ((((\cpu1|state.reset_state~q\))))) ) )
+-- \cpu1|state~497_combout\ = ( !\cpu1|state~401_combout\ & ( (!\w_hold~q\ & (((!\cpu1|state~400_combout\) # ((!\cpu1|state~346_combout\))) # (\cpu1|saved_state.reset_state~q\))) # (\w_hold~q\ & ((((\cpu1|state.reset_state~q\))))) ) ) # ( 
+-- \cpu1|state~401_combout\ & ( (!\w_hold~q\ & (((!\cpu1|state~400_combout\) # ((!\cpu1|state~343_combout\))) # (\cpu1|saved_state.reset_state~q\))) # (\w_hold~q\ & ((((\cpu1|state.reset_state~q\))))) ) )
 
 -- pragma translate_off
 GENERIC MAP (
@@ -87994,7 +87997,7 @@ PORT MAP (
 	dataa => \cpu1|ALT_INV_saved_state.reset_state~q\,
 	datab => \cpu1|ALT_INV_state~400_combout\,
 	datac => \cpu1|ALT_INV_state~343_combout\,
-	datad => \ALT_INV_hold~q\,
+	datad => \ALT_INV_w_hold~q\,
 	datae => \cpu1|ALT_INV_state~401_combout\,
 	dataf => \cpu1|ALT_INV_state.reset_state~q\,
 	datag => \cpu1|ALT_INV_state~346_combout\,
@@ -88179,9 +88182,9 @@ PORT MAP (
 -- Location: LABCELL_X21_Y34_N24
 \cpu1|Selector286~3\ : cyclonev_lcell_comb
 -- Equation(s):
--- \cpu1|Selector286~3_combout\ = ( \n_if1CS~0_combout\ & ( \cpuDataIn[4]~35_combout\ & ( (!\cpu1|Selector286~2_combout\ & ((!\cpu1|cc_ctrl.pull_cc~2_combout\) # (\io1|dataOut\(4)))) ) ) ) # ( !\n_if1CS~0_combout\ & ( \cpuDataIn[4]~35_combout\ & ( 
--- !\cpu1|Selector286~2_combout\ ) ) ) # ( \n_if1CS~0_combout\ & ( !\cpuDataIn[4]~35_combout\ & ( (!\cpu1|Selector286~2_combout\ & ((!\cpu1|cc_ctrl.pull_cc~2_combout\) # (\io1|dataOut\(4)))) ) ) ) # ( !\n_if1CS~0_combout\ & ( !\cpuDataIn[4]~35_combout\ & ( 
--- (!\cpu1|Selector286~2_combout\ & ((!\cpu1|cc_ctrl.pull_cc~2_combout\) # (\cpuDataIn[4]~29_combout\))) ) ) )
+-- \cpu1|Selector286~3_combout\ = ( \n_if1CS~0_combout\ & ( \w_cpuDataIn[4]~35_combout\ & ( (!\cpu1|Selector286~2_combout\ & ((!\cpu1|cc_ctrl.pull_cc~2_combout\) # (\io1|dataOut\(4)))) ) ) ) # ( !\n_if1CS~0_combout\ & ( \w_cpuDataIn[4]~35_combout\ & ( 
+-- !\cpu1|Selector286~2_combout\ ) ) ) # ( \n_if1CS~0_combout\ & ( !\w_cpuDataIn[4]~35_combout\ & ( (!\cpu1|Selector286~2_combout\ & ((!\cpu1|cc_ctrl.pull_cc~2_combout\) # (\io1|dataOut\(4)))) ) ) ) # ( !\n_if1CS~0_combout\ & ( !\w_cpuDataIn[4]~35_combout\ & 
+-- ( (!\cpu1|Selector286~2_combout\ & ((!\cpu1|cc_ctrl.pull_cc~2_combout\) # (\w_cpuDataIn[4]~29_combout\))) ) ) )
 
 -- pragma translate_off
 GENERIC MAP (
@@ -88193,9 +88196,9 @@ PORT MAP (
 	dataa => \cpu1|ALT_INV_Selector286~2_combout\,
 	datab => \cpu1|ALT_INV_cc_ctrl.pull_cc~2_combout\,
 	datac => \io1|ALT_INV_dataOut\(4),
-	datad => \ALT_INV_cpuDataIn[4]~29_combout\,
+	datad => \ALT_INV_w_cpuDataIn[4]~29_combout\,
 	datae => \ALT_INV_n_if1CS~0_combout\,
-	dataf => \ALT_INV_cpuDataIn[4]~35_combout\,
+	dataf => \ALT_INV_w_cpuDataIn[4]~35_combout\,
 	combout => \cpu1|Selector286~3_combout\);
 
 -- Location: FF_X21_Y34_N26
@@ -88208,7 +88211,7 @@ GENERIC MAP (
 PORT MAP (
 	clk => \clk~inputCLKENA0_outclk\,
 	d => \cpu1|Selector286~3_combout\,
-	ena => \ALT_INV_hold~q\,
+	ena => \ALT_INV_w_hold~q\,
 	devclrn => ww_devclrn,
 	devpor => ww_devpor,
 	q => \cpu1|cc\(4));
@@ -88247,7 +88250,7 @@ PORT MAP (
 	asdata => \cpu1|state.fetch_state~q\,
 	clrn => \debounceReset|ALT_INV_o_PinOut~q\,
 	sload => \cpu1|ALT_INV_Selector582~18_combout\,
-	ena => \ALT_INV_hold~q\,
+	ena => \ALT_INV_w_hold~q\,
 	devclrn => ww_devclrn,
 	devpor => ww_devpor,
 	q => \cpu1|state.decode1_state~q\);
@@ -88275,7 +88278,7 @@ PORT MAP (
 \cpu1|Selector301~0\ : cyclonev_lcell_comb
 -- Equation(s):
 -- \cpu1|Selector301~0_combout\ = ( !\n_if1CS~0_combout\ & ( (!\cpu1|Selector400~1_combout\ & (\cpu1|Selector401~0_combout\ & (((\cpu1|op_code\(5)))))) # (\cpu1|Selector400~1_combout\ & ((((\cpu1|Selector401~0_combout\ & \cpu1|op_code\(5))) # 
--- (\cpuDataIn[5]~40_combout\)) # (\cpuDataIn[5]~37_combout\))) ) ) # ( \n_if1CS~0_combout\ & ( (!\cpu1|Selector401~0_combout\ & (\cpu1|Selector400~1_combout\ & (\io1|dataOut\(5)))) # (\cpu1|Selector401~0_combout\ & ((((\cpu1|Selector400~1_combout\ & 
+-- (\w_cpuDataIn[5]~40_combout\)) # (\w_cpuDataIn[5]~37_combout\))) ) ) # ( \n_if1CS~0_combout\ & ( (!\cpu1|Selector401~0_combout\ & (\cpu1|Selector400~1_combout\ & (\io1|dataOut\(5)))) # (\cpu1|Selector401~0_combout\ & ((((\cpu1|Selector400~1_combout\ & 
 -- \io1|dataOut\(5))) # (\cpu1|op_code\(5))))) ) )
 
 -- pragma translate_off
@@ -88288,10 +88291,10 @@ PORT MAP (
 	dataa => \cpu1|ALT_INV_Selector401~0_combout\,
 	datab => \cpu1|ALT_INV_Selector400~1_combout\,
 	datac => \io1|ALT_INV_dataOut\(5),
-	datad => \ALT_INV_cpuDataIn[5]~40_combout\,
+	datad => \ALT_INV_w_cpuDataIn[5]~40_combout\,
 	datae => \ALT_INV_n_if1CS~0_combout\,
 	dataf => \cpu1|ALT_INV_op_code\(5),
-	datag => \ALT_INV_cpuDataIn[5]~37_combout\,
+	datag => \ALT_INV_w_cpuDataIn[5]~37_combout\,
 	combout => \cpu1|Selector301~0_combout\);
 
 -- Location: FF_X21_Y39_N50
@@ -88304,7 +88307,7 @@ GENERIC MAP (
 PORT MAP (
 	clk => \clk~inputCLKENA0_outclk\,
 	d => \cpu1|Selector301~0_combout\,
-	ena => \ALT_INV_hold~q\,
+	ena => \ALT_INV_w_hold~q\,
 	devclrn => ww_devclrn,
 	devpor => ww_devpor,
 	q => \cpu1|op_code\(5));
@@ -88766,7 +88769,7 @@ GENERIC MAP (
 PORT MAP (
 	clk => \clk~inputCLKENA0_outclk\,
 	d => \cpu1|Selector30~0_combout\,
-	ena => \ALT_INV_hold~q\,
+	ena => \ALT_INV_w_hold~q\,
 	devclrn => ww_devclrn,
 	devpor => ww_devpor,
 	q => \cpu1|saved_state.dual_op_write8_state~q\);
@@ -88820,7 +88823,7 @@ PORT MAP (
 	clk => \clk~inputCLKENA0_outclk\,
 	d => \cpu1|state~494_combout\,
 	clrn => \debounceReset|ALT_INV_o_PinOut~q\,
-	ena => \ALT_INV_hold~q\,
+	ena => \ALT_INV_w_hold~q\,
 	devclrn => ww_devclrn,
 	devpor => ww_devpor,
 	q => \cpu1|state.dual_op_write8_state~q\);
@@ -93466,7 +93469,7 @@ GENERIC MAP (
 PORT MAP (
 	clk => \clk~inputCLKENA0_outclk\,
 	d => \n_sRamWE~1_combout\,
-	ena => \n_WR~0_combout\,
+	ena => \w_n_WR~0_combout\,
 	devclrn => ww_devclrn,
 	devpor => ww_devpor,
 	q => \n_sRamWE~reg0_q\);

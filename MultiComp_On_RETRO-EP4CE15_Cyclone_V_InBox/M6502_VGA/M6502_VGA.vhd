@@ -161,8 +161,8 @@ begin
 							or        (w_cpuAddress(15 downto 1) = X"FFD"&"000" and w_fKey1 = '1'))
 							else '1';
 							
-							
--- Add new I/O startimg at XFFD4 (65492 dec)
+	
+-- Add new I/O starting at XFFD4 (65492 dec)
 	w_memMapCS	<= '0'  when w_cpuAddress = X"FFD4" else '1';			-- XFFD4 BANK SELECT 65492
 	w_latch1CS	<= '0'  when w_cpuAddress = X"FFD5"	else '1';			-- XFFD5 Data out latch 65493
 	w_latch2CS	<= '0'  when w_cpuAddress = X"FFD6"	else '1';			-- XFFD6 Data out latch 65494
