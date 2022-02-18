@@ -1,9 +1,4 @@
 |Microcomputer
-n_reset => cpu09p:cpu1.rst_n
-n_reset => sbctextdisplayrgb:io1.n_reset
-n_reset => sd_controller:sd1.n_reset
-n_reset => mem_mapper2:mm1.n_reset
-n_reset => gpio:gpio1.n_reset
 clk => cpu09p:cpu1.clk
 clk => n_sRamOE~reg0.CLK
 clk => n_RD.CLK
@@ -13,30 +8,23 @@ clk => hold.CLK
 clk => state[0].CLK
 clk => state[1].CLK
 clk => state[2].CLK
-clk => serialClkEn.CLK
-clk => serialClkCount[4].CLK
-clk => serialClkCount[5].CLK
-clk => serialClkCount[6].CLK
-clk => serialClkCount[7].CLK
-clk => serialClkCount[8].CLK
-clk => serialClkCount[9].CLK
-clk => serialClkCount[10].CLK
-clk => serialClkCount[11].CLK
-clk => serialClkCount[12].CLK
-clk => serialClkCount[13].CLK
-clk => serialClkCount[14].CLK
-clk => serialClkCount[15].CLK
 clk => m6809_camelforth_rom:rom1.clock
 clk => sbctextdisplayrgb:io1.clk
 clk => buffereduart:io2.clk
 clk => sd_controller:sd1.clk
 clk => mem_mapper2:mm1.clk
 clk => gpio:gpio1.clk
+clk => baudrate6850:BaudRateGen.i_CLOCK_50
+n_reset => cpu09p:cpu1.rst_n
+n_reset => sbctextdisplayrgb:io1.n_reset
+n_reset => sd_controller:sd1.n_reset
+n_reset => mem_mapper2:mm1.n_reset
+n_reset => gpio:gpio1.n_reset
 n_LED7 <= mem_mapper2:mm1.frt
-vduffd0 => n_interface1CS.IN1
-vduffd0 => n_interface2CS.IN1
-vduffd0 => n_interface1CS.IN1
-vduffd0 => n_interface2CS.IN1
+i_SerSel => n_interface1CS.IN1
+i_SerSel => n_interface2CS.IN1
+i_SerSel => n_interface1CS.IN1
+i_SerSel => n_interface2CS.IN1
 sramData[0] <> sramData[0]
 sramData[1] <> sramData[1]
 sramData[2] <> sramData[2]
@@ -4290,5 +4278,22 @@ n_dat2_oe[4] <= reg_ddr2[4].DB_MAX_OUTPUT_PORT_TYPE
 n_dat2_oe[5] <= reg_ddr2[5].DB_MAX_OUTPUT_PORT_TYPE
 n_dat2_oe[6] <= reg_ddr2[6].DB_MAX_OUTPUT_PORT_TYPE
 n_dat2_oe[7] <= reg_ddr2[7].DB_MAX_OUTPUT_PORT_TYPE
+
+
+|Microcomputer|BaudRate6850:BaudRateGen
+i_CLOCK_50 => o_serialEn~reg0.CLK
+i_CLOCK_50 => w_serialCount[4].CLK
+i_CLOCK_50 => w_serialCount[5].CLK
+i_CLOCK_50 => w_serialCount[6].CLK
+i_CLOCK_50 => w_serialCount[7].CLK
+i_CLOCK_50 => w_serialCount[8].CLK
+i_CLOCK_50 => w_serialCount[9].CLK
+i_CLOCK_50 => w_serialCount[10].CLK
+i_CLOCK_50 => w_serialCount[11].CLK
+i_CLOCK_50 => w_serialCount[12].CLK
+i_CLOCK_50 => w_serialCount[13].CLK
+i_CLOCK_50 => w_serialCount[14].CLK
+i_CLOCK_50 => w_serialCount[15].CLK
+o_serialEn <= o_serialEn~reg0.DB_MAX_OUTPUT_PORT_TYPE
 
 

@@ -1,22 +1,28 @@
--- This file is copyright by Grant Searle 2014
--- You are free to use this file in your own projects but must never charge for it nor use it without
--- acknowledgement.
--- Please ask permission from Grant Searle before republishing elsewhere.
--- If you use this file or any part of it, please add an acknowledgement to myself and
--- a link back to my main web site http://searle.hostei.com/grant/
--- and to the "multicomp" page at http://searle.hostei.com/grant/Multicomp/index.html
---
+-- 6809 Multicomp Top Level Features
+--	Targetted to Multicomp in a Box
+--		http://land-boards.com/blwiki/index.php?title=Multicomp_in_a_Box
+--	Running on QMTECH FPGA card
+--		5CEFA2F23 FPGA
+--		http://land-boards.com/blwiki/index.php?title=QM_Tech_Cyclone_V_FPGA_Board
 -- 6809 CPU
--- 50 MHz - slower for external SRAM accesses
+-- 12.5/25 MHz - slower speed for external SRAM accesses
 -- 1 MB SRAM with MMU
+--		On RETRO-EP4CE15 Baseboard
+--		http://land-boards.com/blwiki/index.php?title=RETRO-EP4CE15
 -- Forth (CamelForth), FLEX, CUBIX, NITROS9, FUZIX on SD Card
+--	VDU
+--		VGA, 2:2:2 R:G:B
+--		PS/2 keyboard
+--	USB-Serial
+--		ACIA UART interface
+--		FT230XS USB-Serial interface
+-- 	Switch J3-1 on the bottom of the box selects Serial or VDU as default
+--	External SD Card accessible through front panel
+--	Reset switch on Front Panel
 --
 -- Please check on the above web pages to see if there are any updates before using this file.
 -- If for some reason the page is no longer available, please search for "Grant Searle"
 -- on the internet to see if I have moved to another web hosting service.
---
--- Grant Searle
--- eMail address available on my main web page link above.
 --
 -- Neal Crook's modifications to Grant's original design
 -- In summary:
@@ -39,7 +45,7 @@
 --   detailed comments in the header of gpio.vhd)
 -- * Add mk2 memory mapper unit that is a functional super-set of the COCO
 --   design. Has the following capabilities:
---   * Can address upto 1024KByte (2 512KByte SRAM chips)
+--   * Can address upto 1024KByte
 --   * Can page any 8Kbyte SRAM region into any 8KByte region of processor
 --     address space
 --   * Can write-protect any region
@@ -48,24 +54,9 @@
 --   * Includes a NMI generator for code single-step
 --   For detailed description and programming details, refer to the
 --   detailed comments in the header of mem_mapper2.vhd)
--- * PIN_E4 is output: SD DRIVE LED
--- * N/C is output LED (unused)
--- * N/C is output LED (unused.. echoes back the state of input
--- * vduffd0 (PIN_B22) is input, switches I/O assignment: J3:1-2
+-- * i_SerSel (PIN_B22) is input, switches I/O assignment: J3:1-2
 --   OFF: PS2/VGA is UART0 at address $FFD0-$FFD1, SERIALA is UART1 at $FFD2-$FFD3
 --   ON : PS2/VGA is UART0 at address $FFD2-$FFD3, SERIALA is UART1 at $FFD0-$FFD1
---
--- I/O - ; most pins assigned for GPIO unit on J1 connector
--- Refer to Microcomputer.qsf for GPIO (and any other) pinout details.
--- VGA - connected and used as 1st (primary) I/O device: 80x25 colour video
--- MONO - connected.
--- SD1 - connected.
--- PROTO - not connected
--- TOUCH - not connected
--- KBD - connected
--- SERIAL A - connected and used as 2nd I/O device
--- SERIAL B - connected and used as 3rd I/O device
--- MEMORY 512K - connected. Accessible through memory paging unit.
 --
 -- Note on confusing name: In the directory ROMS/6809 there is a file
 -- named 6809M.HEX and a file named CAMELFORTH_2KRAM.hex. The first contains
@@ -76,39 +67,46 @@
 -- build to work with 2K of RAM. Actually, the design has a full 64K of RAM
 -- available. Just don't worry about it. I chose a lousy name.
 
+-- Some parts are copyright by Grant Searle 2014
+-- You are free to use this file in your own projects but must never charge for it nor use it without
+-- acknowledgement.
+-- Please ask permission from Grant Searle before republishing elsewhere.
+-- If you use this file or any part of it, please add an acknowledgement to myself and
+-- a link back to my main web site http://searle.hostei.com/grant/
+-- and to the "multicomp" page at http://searle.hostei.com/grant/Multicomp/index.html
+--
+-- Grant Searle
+-- eMail address available on my main web page link above.
+
+
 library ieee;
 use ieee.std_logic_1164.all;
 use  IEEE.STD_LOGIC_ARITH.all;
 use  IEEE.STD_LOGIC_UNSIGNED.all;
 
 entity Microcomputer is
-	-- need this set to 0 normally, so that there are enough resources for
-	-- 80-column VDU. Set to 1 for minimal system, AND change the generics
-	-- for the SBCTextDisplayRGB entity below.
-	--    generic( constant INTERNAL_RAM : integer := 0
---             );
 	port(
-		n_reset			: in std_logic;
-		clk				: in std_logic;
+		clk				: in std_logic;		-- 50MHz Clock is on FPGA card
+		n_reset			: in std_logic;		-- Reser is pushbutton on Front Panel
 
 		-- LEDs on base FPGA board and duplicated on James Moxham's PCB.
-		-- Set LOW to illuminate. 3rd LED is "driveLED" output.
+		-- Set LOW to illuminate. LED7 is "driveLED" output.
 		n_LED7			: out std_logic := '1';
---		n_LED9			: out std_logic := '1';
 
-		-- Internal pull-up so this defaults to 1. When pulled to gnd
-		-- this swaps the address decodes so that the Serial A port is
-		-- decoded at $FFD0 and the VDU at $FFD2.
-		vduffd0			: in std_logic;
+		-- Serial select switch has an internal pull-up so this defaults to 1. Gets pulled to GND bu switch.
+		-- this swaps the address decodes so that the Serial A port is decoded at $FFD0 and the VDU at $FFD2.
+		-- J3-1 switch on bottom of the Multicomp in a Box
+		i_SerSel			: in std_logic;
 
+		-- 1MB External SRAM
 		sramData			: inout std_logic_vector(7 downto 0);
 		sramAddress		: out std_logic_vector(19 downto 0); -- 19:0 -> 1MByte
 		n_sRamWE			: out std_logic;
-		n_sRamCS			: out std_logic;                     -- lower blocks
+		n_sRamCS			: out std_logic;
 		n_sRamOE			: out std_logic;
 
 		-- Not using the SD RAM but making sure that it's not active
-		n_sdRamCas		: out std_logic := '1';		-- CAS on schematic
+		n_sdRamCas		: out std_logic := '1';		-- CAS
 		n_sdRamRas		: out std_logic := '1';		-- RAS
 		n_sdRamWe		: out std_logic := '1';		-- SDWE
 		n_sdRamCe		: out std_logic := '1';		-- SD_NCS0
@@ -117,11 +115,13 @@ entity Microcomputer is
 		sdRamAddr		: out std_logic_vector(14 downto 0) := "000"&x"000";
 		sdRamData		: in std_logic_vector(15 downto 0);
 
+		-- Serial port
 		rxd1				: in std_logic;
 		txd1				: out std_logic;
 		rts1				: out std_logic;
 		cts1				: in std_logic;
 
+		-- VGA Video
 		videoR0			: out std_logic;
 		videoG0			: out std_logic;
 		videoB0			: out std_logic;
@@ -131,6 +131,7 @@ entity Microcomputer is
 		hSync				: out std_logic;
 		vSync				: out std_logic;
 
+		-- PS/2 Keyboard
 		ps2Clk			: inout std_logic;
 		ps2Data			: inout std_logic;
 
@@ -145,12 +146,12 @@ entity Microcomputer is
 		-- assigned to bit 0..7 of gpio2.
 		gpio2				: inout std_logic_vector(7 downto 0);
 
+		-- SD Card
 		sdCS				: out std_logic;
 		sdMOSI			: out std_logic;
 		sdMISO			: in std_logic;
 		sdSCLK			: out std_logic;
-		-- despite its name this needs to be LOW to illuminate the LED.
-		driveLED			: out std_logic :='1'
+		driveLED			: out std_logic :='1'		-- LOW to illuminate the LED.
 		);
 end Microcomputer;
 
@@ -166,11 +167,10 @@ architecture struct of Microcomputer is
     signal cpuDataOut             : std_logic_vector(7 downto 0);
     signal cpuDataIn              : std_logic_vector(7 downto 0);
     signal sramAddress_i          : std_logic_vector(19 downto 0);
---    signal n_sRamCSHi_i           : std_logic;
     signal n_sRamCSLo_i           : std_logic;
 
-    signal basRomData             : std_logic_vector(7 downto 0);
     -- internalRam declarations are only used when internal RAM is configured
+    signal basRomData             : std_logic_vector(7 downto 0);
     signal internalRam1DataOut    : std_logic_vector(7 downto 0);
     signal interface1DataOut      : std_logic_vector(7 downto 0);
     signal interface2DataOut      : std_logic_vector(7 downto 0);
@@ -185,8 +185,7 @@ architecture struct of Microcomputer is
     signal n_int3                 : std_logic :='1';
     signal n_tint                 : std_logic;
 
-    signal n_internalRam1CS       : std_logic :='1';
-    signal n_basRomCS             : std_logic :='1';
+    signal n_ROMCS             : std_logic :='1';
     signal n_interface1CS         : std_logic :='1';
     signal n_interface2CS         : std_logic :='1';
     signal n_sdCardCS             : std_logic :='1';
@@ -219,8 +218,6 @@ architecture struct of Microcomputer is
     signal n_gpio_dat2_oe         : std_logic_vector(7 downto 0);
 
 begin
--- test: echo jumper input to LED
---    n_LED9 <= vduffd0;
 
 -- ____________________________________________________________________________________
 -- CPU CHOICE GOES HERE
@@ -241,18 +238,19 @@ begin
             irq => irq,
             firq => '0',
             nmi => nmi);
+
 -- ____________________________________________________________________________________
 -- ROM GOES HERE
-    rom1 : entity work.M6809_CAMELFORTH_ROM -- 8KB FORTH
+    rom1 : entity work.M6809_CAMELFORTH_ROM -- 8KB FORTH ROM
     port map(
             address => cpuAddress(12 downto 0),
             clock => clk,
             q => basRomData);
+
 -- ____________________________________________________________________________________
 -- RAM GOES HERE
 
 -- Assign to pins. Set the address width to match external RAM/pin assignments
---    sramAddress(19 downto 0) <= '0'&sramAddress_i(18 downto 0);	-- Uses 512KB
     sramAddress(19 downto 0) <= sramAddress_i(19 downto 0);	-- Uses 1mB
     n_sRamCS  <= n_sRamCSLo_i;
 
@@ -267,21 +265,12 @@ begin
     n_RD_vdu <= n_interface1CS or n_RD;
 
     io1 : entity work.SBCTextDisplayRGB
-
     generic map(
-      -- Select one or other (NOT BOTH!) sets
-
-      -- 80x25 uses all the internal RAM
+      -- 80x25 uses internal RAM
       DISPLAY_TOP_SCANLINE => 35,
       VERT_SCANLINES => 448,
       V_SYNC_ACTIVE => '1'
-
-      -- 40x25 leaves resource for internal 2k RAM
-
---      HORIZ_CHARS => 40,
---      CLOCKS_PER_PIXEL => 4
     )
-
     port map (
             n_reset => n_reset,
             clk => clk,
@@ -295,10 +284,6 @@ begin
             videoG1 => videoG1,
             videoB0 => videoB0,
             videoB1 => videoB1,
-
-            -- Monochrome video signals (when using TV timings only)
---            sync => videoSync,
---            video => video,
 
             n_wr => n_WR_vdu,
             n_rd => n_RD_vdu,
@@ -431,22 +416,18 @@ begin
 
 -- ____________________________________________________________________________________
 -- CHIP SELECTS GO HERE
-    n_basRomCS <= '0' when cpuAddress(15 downto 13) = "111" and romInhib='0' else '1'; --8K at top of memory
+    n_ROMCS 			<= '0' when cpuAddress(15 downto 13) = "111" and romInhib='0' else '1'; --8K at top of memory
 
-    -- vduffd0 swaps the assignment. Internal pullup means it is 1 by default
-    n_interface1CS <= '0' when ((cpuAddress(15 downto 1) = "111111111101000" and vduffd0 = '1')  -- 2 bytes FFD0-FFD1
-                              or(cpuAddress(15 downto 1) = "111111111101001" and vduffd0 = '0')) -- 2 bytes FFD2-FFD3
+    -- i_SerSel swaps the assignment. Internal pullup means it is 1 by default
+    n_interface1CS	<= '0' when ((cpuAddress(15 downto 1) = "111111111101000" and i_SerSel = '1')  -- 2 bytes FFD0-FFD1
+                              or(cpuAddress(15 downto 1) = "111111111101001" and i_SerSel = '0')) -- 2 bytes FFD2-FFD3
                       else '1';
-    n_interface2CS <= '0' when ((cpuAddress(15 downto 1) = "111111111101000" and vduffd0 = '0')  -- 2 bytes FFD0-FFD1
-                              or(cpuAddress(15 downto 1) = "111111111101001" and vduffd0 = '1')) -- 2 bytes FFD2-FFD3
+    n_interface2CS <= '0' when ((cpuAddress(15 downto 1) = "111111111101000" and i_SerSel = '0')  -- 2 bytes FFD0-FFD1
+                              or(cpuAddress(15 downto 1) = "111111111101001" and i_SerSel = '1')) -- 2 bytes FFD2-FFD3
                       else '1';
 
     n_gpioCS       <= '0' when cpuAddress(15 downto 1) = "111111111101011" else '1'; -- 2 bytes FFD6-FFD7
     n_sdCardCS     <= '0' when cpuAddress(15 downto 3) = "1111111111011"   else '1'; -- 8 bytes FFD8-FFDF
-    n_internalRam1CS <= '0' when cpuAddress(15 downto 11) = "00000" else '1';
-    -- experimented with allowing RAM to be written to "underneath" ROM but
-    -- there is no advantage vs repaging the region, and it causes problems because
-    -- it's necessary to avoid writing to the I/O space.
 
 -- ____________________________________________________________________________________
 -- BUS ISOLATION GOES HERE
@@ -456,48 +437,34 @@ begin
 		interface2DataOut				when n_interface2CS = '0' else
 		gpioDataOut						when n_gpioCS = '0'       else
 		sdCardDataOut or mmDataOut	when n_sdCardCS = '0' else
-		basRomData						when n_basRomCS = '0' else
-		internalRam1DataOut			when n_internalRam1CS= '0' else
+		basRomData						when n_ROMCS = '0' else
 		sramData;
 
 		-- ____________________________________________________________________________________
 -- SYSTEM CLOCKS GO HERE
 
+	-- Baud Rate Clock
+	-- Pass Baud Rate in BAUD_RATE generic as integer value
 
-    -- Serial clock DDS. With 50MHz master input clock:
-    -- Baud   Increment
-    -- 115200 2416
-    -- 38400  805
-    -- 19200  403
-    -- 9600   201
-    -- 4800   101
-    -- 2400   50
-    baud_div: process (serialClkCount_d, serialClkCount)
-    begin
-        serialClkCount_d <= serialClkCount + 2416;
-    end process;
-
-    baud_clk: process(clk)
-    begin
-        if rising_edge(clk) then
-        end if;
-    end process;
+	-- Legal values are 115200, 38400, 19200, 9600, 4800, 2400, 1200, 600, 300
+	BaudRateGen : entity work.BaudRate6850
+	GENERIC map (
+		BAUD_RATE	=>  115200
+	)
+	PORT map (
+		i_CLOCK_50	=> clk,
+		o_serialEn	=> serialClkEn
+	);
 
 -- SUB-CIRCUIT CLOCK SIGNALS
     clk_gen: process (clk) begin
     if rising_edge(clk) then
-        -- Enable for baud rate generator
-        serialClkCount <= serialClkCount_d;
-        if serialClkCount(15) = '0' and serialClkCount_d(15) = '1' then
-            serialClkEn <= '1';
-        else
-            serialClkEn <= '0';
-        end if;
-
-        -- CPU clock control. The CPU input clock is 50MHz and the HOLD input acts
-		  -- as a clock enable. When the CPU is executing internal cycles (indicated by
-		  -- VMA=0), HOLD asserts on alternate cycles so that the effective clock rate
-		  -- is 25MHz. When the CPU is performing memory accesses (VMA=1), HOLD asserts
+	 
+        -- CPU clock control. 
+		  -- The CPU input clock is 50MHz and the HOLD input acts as a clock enable. 
+		  -- When the CPU is executing internal cycles (indicated by VMA=0), 
+		  -- HOLD asserts on alternate cycles so that the effective clock rate is 25MHz. 
+		  -- When the CPU is performing memory accesses (VMA=1), HOLD asserts
 		  -- for 4 cycles in 5 so that the effective clock rate is 10MHz. The slower
 		  -- cycle time is calculated to meet the access time for the external RAM.
 		  -- The n_WR, n_RD signals (and the SRAM WE/OE signals) are asserted for the

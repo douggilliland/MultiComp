@@ -121,7 +121,7 @@ architecture struct of M6502_VGA is
 	
 	signal w_serialClkCount	: std_logic_vector(15 downto 0);	-- DDS counter for baud rate
 	signal w_serClkCt_d 		: std_logic_vector(15 downto 0);
-	signal w_w_serClkEn		: std_logic;
+	signal w_serClkEn		: std_logic;
 
 	signal w_cpuClkCt			: std_logic_vector(5 downto 0);	-- 50 MHz oscillator counter
 	signal w_cpuClk			: std_logic;							-- CPU clock rate selectable
@@ -239,8 +239,8 @@ begin
 			regSel	=> w_cpuAddress(0),
 			dataIn	=> w_cpuDataOut,
 			dataOut	=> w_aciaDataOut,
-			rxClkEn	=> w_w_serClkEn,
-			txClkEn	=> w_w_serClkEn,
+			rxClkEn	=> w_serClkEn,
+			txClkEn	=> w_serClkEn,
 			rxd		=> i_rxd,
 			txd		=> o_txd,
 			n_cts		=> i_n_cts,
@@ -401,7 +401,7 @@ begin
 	)
 	PORT map (
 		i_CLOCK_50	=> i_clk_50,
-		o_serialEn	=> w_w_serClkEn
+		o_serialEn	=> w_serClkEn
 	);
 	 
 end;
