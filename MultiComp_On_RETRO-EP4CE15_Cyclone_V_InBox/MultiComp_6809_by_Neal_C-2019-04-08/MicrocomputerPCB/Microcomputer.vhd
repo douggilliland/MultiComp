@@ -1,3 +1,4 @@
+-- ---------------------------------------------------------------------------------------
 -- 6809 Multicomp Top Level Features
 --	Targetted to Multicomp in a Box
 --		http://land-boards.com/blwiki/index.php?title=Multicomp_in_a_Box
@@ -19,10 +20,6 @@
 -- 	Switch J3-1 on the bottom of the box selects Serial or VDU as default
 --	External SD Card accessible through front panel
 --	Reset switch on Front Panel
---
--- Please check on the above web pages to see if there are any updates before using this file.
--- If for some reason the page is no longer available, please search for "Grant Searle"
--- on the internet to see if I have moved to another web hosting service.
 --
 -- Neal Crook's modifications to Grant's original design
 -- In summary:
@@ -77,7 +74,10 @@
 --
 -- Grant Searle
 -- eMail address available on my main web page link above.
-
+-- Please check on the above web pages to see if there are any updates before using this file.
+-- If for some reason the page is no longer available, please search for "Grant Searle"
+-- on the internet to see if I have moved to another web hosting service.
+--
 
 library ieee;
 use ieee.std_logic_1164.all;
@@ -86,15 +86,15 @@ use  IEEE.STD_LOGIC_UNSIGNED.all;
 
 entity Microcomputer is
 	port(
+		-- Clock and reset line
 		clk				: in std_logic;		-- 50MHz Clock is on FPGA card
-		n_reset			: in std_logic;		-- Reser is pushbutton on Front Panel
+		i_n_reset		: in std_logic;		-- Reser is pushbutton on Front Panel
 
-		-- LEDs on base FPGA board and duplicated on James Moxham's PCB.
-		-- Set LOW to illuminate. LED7 is "driveLED" output.
-		n_LED7			: out std_logic := '1';
+		-- MMU Active LED on FPGA card
+		n_MMU_ACT_LED	: out std_logic := '1';
 
-		-- Serial select switch has an internal pull-up so this defaults to 1. Gets pulled to GND bu switch.
-		-- this swaps the address decodes so that the Serial A port is decoded at $FFD0 and the VDU at $FFD2.
+		-- Serial select switch has an internal pull-up so this defaults to 1. Gets pulled to GND by switch.
+		-- This swaps the address decodes so that the Serial A port is decoded at $FFD0 and the VDU at $FFD2.
 		-- J3-1 switch on bottom of the Multicomp in a Box
 		i_SerSel			: in std_logic;
 
@@ -104,16 +104,6 @@ entity Microcomputer is
 		n_sRamWE			: out std_logic;
 		n_sRamCS			: out std_logic;
 		n_sRamOE			: out std_logic;
-
-		-- Not using the SD RAM but making sure that it's not active
-		n_sdRamCas		: out std_logic := '1';		-- CAS
-		n_sdRamRas		: out std_logic := '1';		-- RAS
-		n_sdRamWe		: out std_logic := '1';		-- SDWE
-		n_sdRamCe		: out std_logic := '1';		-- SD_NCS0
-		sdRamClk			: out std_logic := '1';		-- SDCLK0
-		sdRamClkEn		: out std_logic := '1';		-- SDCKE0
-		sdRamAddr		: out std_logic_vector(14 downto 0) := "000"&x"000";
-		sdRamData		: in std_logic_vector(15 downto 0);
 
 		-- Serial port
 		rxd1				: in std_logic;
@@ -146,79 +136,92 @@ entity Microcomputer is
 		-- assigned to bit 0..7 of gpio2.
 		gpio2				: inout std_logic_vector(7 downto 0);
 
-		-- SD Card
+		-- External SD card has activity LED
 		sdCS				: out std_logic;
 		sdMOSI			: out std_logic;
 		sdMISO			: in std_logic;
 		sdSCLK			: out std_logic;
-		driveLED			: out std_logic :='1'		-- LOW to illuminate the LED.
+		
+		-- External SDRAM not used but pulled to inactive levels
+		n_sdRamCas		: out std_logic := '1';		-- CAS
+		n_sdRamRas		: out std_logic := '1';		-- RAS
+		n_sdRamWe		: out std_logic := '1';		-- SDWE
+		n_sdRamCe		: out std_logic := '1';		-- SD_NCS0
+		sdRamClk			: out std_logic := '1';		-- SDCLK0
+		sdRamClkEn		: out std_logic := '1';		-- SDCKE0
+		sdRamAddr		: out std_logic_vector(14 downto 0) := "000"&x"000";
+		sdRamData		: in std_logic_vector(15 downto 0)
 		);
 end Microcomputer;
 
 architecture struct of Microcomputer is
 
-    signal n_WR                   : std_logic;
-    signal n_RD                   : std_logic;
-    signal n_cpuWr                : std_logic;
-    signal hold                   : std_logic;
-    signal vma                    : std_logic;
-    signal state                  : std_logic_vector(2 downto 0);
-    signal cpuAddress             : std_logic_vector(15 downto 0);
-    signal cpuDataOut             : std_logic_vector(7 downto 0);
-    signal cpuDataIn              : std_logic_vector(7 downto 0);
-    signal sramAddress_i          : std_logic_vector(19 downto 0);
-    signal n_sRamCSLo_i           : std_logic;
+	 signal n_reset			: std_logic;
+    signal n_WR				: std_logic;
+    signal n_RD				: std_logic;
+    signal n_cpuWr			: std_logic;
+    signal hold				: std_logic;
+    signal vma					: std_logic;
+    signal state				: std_logic_vector(2 downto 0);
+    signal cpuAddress		: std_logic_vector(15 downto 0);
+    signal cpuDataOut		: std_logic_vector(7 downto 0);
+    signal cpuDataIn			: std_logic_vector(7 downto 0);
+    signal sramAddress_i	: std_logic_vector(19 downto 0);
+    signal n_sRamCSLo_i		: std_logic;
 
-    -- internalRam declarations are only used when internal RAM is configured
-    signal basRomData             : std_logic_vector(7 downto 0);
-    signal internalRam1DataOut    : std_logic_vector(7 downto 0);
-    signal interface1DataOut      : std_logic_vector(7 downto 0);
-    signal interface2DataOut      : std_logic_vector(7 downto 0);
-    signal gpioDataOut            : std_logic_vector(7 downto 0);
-    signal sdCardDataOut          : std_logic_vector(7 downto 0);
-    signal mmDataOut              : std_logic_vector(7 downto 0);
+    signal basRomData		: std_logic_vector(7 downto 0);
+    signal w_if1DataOut		: std_logic_vector(7 downto 0);
+    signal w_if2DataOut		: std_logic_vector(7 downto 0);
+    signal gpioDataOut		: std_logic_vector(7 downto 0);
+    signal sdCardDataOut	: std_logic_vector(7 downto 0);
+    signal mmDataOut			: std_logic_vector(7 downto 0);
 
-    signal irq                    : std_logic;
-    signal nmi                    : std_logic;
-    signal n_int1                 : std_logic :='1';
-    signal n_int2                 : std_logic :='1';
-    signal n_int3                 : std_logic :='1';
-    signal n_tint                 : std_logic;
+    signal irq					: std_logic;
+    signal nmi					: std_logic;
+    signal n_int1				: std_logic :='1';
+    signal n_int2				: std_logic :='1';
+    signal n_int3				: std_logic :='1';
+    signal n_tint				: std_logic;
 
-    signal n_ROMCS             : std_logic :='1';
-    signal n_interface1CS         : std_logic :='1';
-    signal n_interface2CS         : std_logic :='1';
-    signal n_sdCardCS             : std_logic :='1';
-    signal n_gpioCS               : std_logic :='1';
+    signal n_ROMCS			: std_logic :='1';
+    signal n_if1CS			: std_logic :='1';
+    signal n_if2CS			: std_logic :='1';
+    signal n_sdCard_MMU_CS	: std_logic :='1';
+    signal n_gpioCS			: std_logic :='1';
 
-    signal serialClkCount         : std_logic_vector(15 downto 0) := x"0000";
-    signal serialClkCount_d       : std_logic_vector(15 downto 0);
-    signal serialClkEn            : std_logic;
+    signal serialClkEn		: std_logic;
 
-    signal n_WR_uart              : std_logic := '1';
-    signal n_RD_uart              : std_logic := '1';
+    signal n_WR_uart			: std_logic := '1';
+    signal n_RD_uart			: std_logic := '1';
 
-    signal n_WR_sd                : std_logic := '1';
-    signal n_RD_sd                : std_logic := '1';
+    signal n_WR_sd			: std_logic := '1';
+    signal n_RD_sd			: std_logic := '1';
 
-    signal n_WR_gpio              : std_logic := '1';
+    signal n_WR_gpio			: std_logic := '1';
 
-    signal n_WR_vdu               : std_logic := '1';
-    signal n_RD_vdu               : std_logic := '1';
+    signal n_WR_vdu			: std_logic := '1';
+    signal n_RD_vdu			: std_logic := '1';
 
-    signal romInhib               : std_logic := '0';
-    signal ramWrInhib             : std_logic := '0';
+    signal romInhib			: std_logic := '0';
+    signal ramWrInhib		: std_logic := '0';
 
-    signal gpio_dat0_i            : std_logic_vector(2 downto 0);
-    signal gpio_dat0_o            : std_logic_vector(2 downto 0);
-    signal n_gpio_dat0_oe         : std_logic_vector(2 downto 0);
+    signal gpio_dat0_i		: std_logic_vector(2 downto 0);
+    signal gpio_dat0_o		: std_logic_vector(2 downto 0);
+    signal n_gpio_dat0_oe	: std_logic_vector(2 downto 0);
 
-    signal gpio_dat2_i            : std_logic_vector(7 downto 0);
-    signal gpio_dat2_o            : std_logic_vector(7 downto 0);
-    signal n_gpio_dat2_oe         : std_logic_vector(7 downto 0);
+    signal gpio_dat2_i		: std_logic_vector(7 downto 0);
+    signal gpio_dat2_o		: std_logic_vector(7 downto 0);
+    signal n_gpio_dat2_oe	: std_logic_vector(7 downto 0);
 
 begin
 
+	debounceReset : entity work.Debouncer
+	port map (
+		i_clk		 	=> clk,
+		i_PinIn		=> i_n_reset,
+		o_PinOut		=> n_reset
+	);
+	
 -- ____________________________________________________________________________________
 -- CPU CHOICE GOES HERE
 
@@ -248,9 +251,9 @@ begin
             q => basRomData);
 
 -- ____________________________________________________________________________________
--- RAM GOES HERE
+-- External RAM GOES HERE
 
--- Assign to pins. Set the address width to match external RAM/pin assignments
+--	External RAM address width
     sramAddress(19 downto 0) <= sramAddress_i(19 downto 0);	-- Uses 1mB
     n_sRamCS  <= n_sRamCSLo_i;
 
@@ -261,8 +264,8 @@ begin
 -- ____________________________________________________________________________________
 -- INPUT/OUTPUT DEVICES GO HERE
 
-    n_WR_vdu <= n_interface1CS or n_WR;
-    n_RD_vdu <= n_interface1CS or n_RD;
+    n_WR_vdu <= n_if1CS or n_WR;
+    n_RD_vdu <= n_if1CS or n_RD;
 
     io1 : entity work.SBCTextDisplayRGB
     generic map(
@@ -290,14 +293,13 @@ begin
             n_int => n_int1,
             regSel => cpuAddress(0),
             dataIn => cpuDataOut,
-            dataOut => interface1DataOut,
+            dataOut => w_if1DataOut,
             ps2Clk => ps2Clk,
             ps2Data => ps2Data
 				);
 
-
-    n_WR_uart <= n_interface2CS or n_WR;
-    n_RD_uart <= n_interface2CS or n_RD;
+    n_WR_uart <= n_if2CS or n_WR;
+    n_RD_uart <= n_if2CS or n_RD;
 
 	io2 : entity work.bufferedUART
 		port map
@@ -308,7 +310,7 @@ begin
 			n_int => n_int2,
 			regSel => cpuAddress(0),
 			dataIn => cpuDataOut,
-			dataOut => interface2DataOut,
+			dataOut => w_if2DataOut,
 			rxClkEn => serialClkEn,
 			txClkEn => serialClkEn,
 			rxd => rxd1,
@@ -318,8 +320,8 @@ begin
 			n_rts => rts1
 		);
 
-    n_WR_sd <= n_sdCardCS or n_WR;
-    n_RD_sd <= n_sdCardCS or n_RD;
+    n_WR_sd <= n_sdCard_MMU_CS or n_WR;
+    n_RD_sd <= n_sdCard_MMU_CS or n_RD;
 
     sd1 : entity work.sd_controller
     generic map(
@@ -336,7 +338,7 @@ begin
             sdMOSI => sdMOSI,
             sdMISO => sdMISO,
             sdSCLK => sdSCLK,
-            driveLED => driveLED,
+--            driveLED => driveLED,
             clk => clk
     );
 
@@ -361,7 +363,7 @@ begin
 
             n_tint => n_tint,
             nmi => nmi,
-            frt => n_LED7 -- debug
+            frt => n_MMU_ACT_LED -- debug
     );
 
     n_WR_gpio <= n_gpioCS or n_WR;
@@ -412,41 +414,38 @@ begin
     end process;
 
 -- ____________________________________________________________________________________
--- MEMORY READ/WRITE LOGIC GOES HERE
-
--- ____________________________________________________________________________________
 -- CHIP SELECTS GO HERE
-    n_ROMCS 			<= '0' when cpuAddress(15 downto 13) = "111" and romInhib='0' else '1'; --8K at top of memory
+    n_ROMCS		<= '0' when cpuAddress(15 downto 13) = "111" and romInhib = '0' else '1'; --8K at top of memory
 
-    -- i_SerSel swaps the assignment. Internal pullup means it is 1 by default
-    n_interface1CS	<= '0' when ((cpuAddress(15 downto 1) = "111111111101000" and i_SerSel = '1')  -- 2 bytes FFD0-FFD1
-                              or(cpuAddress(15 downto 1) = "111111111101001" and i_SerSel = '0')) -- 2 bytes FFD2-FFD3
-                      else '1';
-    n_interface2CS <= '0' when ((cpuAddress(15 downto 1) = "111111111101000" and i_SerSel = '0')  -- 2 bytes FFD0-FFD1
-                              or(cpuAddress(15 downto 1) = "111111111101001" and i_SerSel = '1')) -- 2 bytes FFD2-FFD3
+    -- i_SerSel swaps the address assignment. Internal pullup means it is 1 by default
+    n_if1CS		<= '0' when ((cpuAddress(15 downto 1) = x"FFD"&"000" and i_SerSel = '1')  -- 2 bytes FFD0-FFD1
+                         or (cpuAddress(15 downto 1) = x"FFD"&"001" and i_SerSel = '0')) -- 2 bytes FFD2-FFD3
                       else '1';
 
-    n_gpioCS       <= '0' when cpuAddress(15 downto 1) = "111111111101011" else '1'; -- 2 bytes FFD6-FFD7
-    n_sdCardCS     <= '0' when cpuAddress(15 downto 3) = "1111111111011"   else '1'; -- 8 bytes FFD8-FFDF
+    n_if2CS		<= '0' when ((cpuAddress(15 downto 1) = x"FFD"&"000" and i_SerSel = '0')  -- 2 bytes FFD0-FFD1
+                         or (cpuAddress(15 downto 1) = x"FFD"&"001" and i_SerSel = '1')) -- 2 bytes FFD2-FFD3
+                      else '1';
+
+    n_gpioCS	<= '0' when cpuAddress(15 downto 1) = x"FFD"&"011" else '1'; -- 2 bytes FFD6-FFD7
+	 
+	 -- n_sdCard_MMU_CS is the select for both the SD Card and the MMU
+	 -- The MMU software interface is through 2 write-only registers that occupy unused addresses in the SDCARD address space.
+    n_sdCard_MMU_CS <= '0' when cpuAddress(15 downto 3) = x"FFD"&"1"   else '1'; -- 8 bytes FFD8-FFDF
 
 -- ____________________________________________________________________________________
 -- BUS ISOLATION GOES HERE
-
 	cpuDataIn <=
-		interface1DataOut				when n_interface1CS = '0' else
-		interface2DataOut				when n_interface2CS = '0' else
-		gpioDataOut						when n_gpioCS = '0'       else
-		sdCardDataOut or mmDataOut	when n_sdCardCS = '0' else
-		basRomData						when n_ROMCS = '0' else
+		w_if1DataOut					when n_if1CS			= '0'	else
+		w_if2DataOut					when n_if2CS			= '0'	else
+		gpioDataOut						when n_gpioCS			= '0'	else
+		sdCardDataOut or mmDataOut	when n_sdCard_MMU_CS	= '0'	else
+		basRomData						when n_ROMCS			= '0'	else
 		sramData;
 
-		-- ____________________________________________________________________________________
--- SYSTEM CLOCKS GO HERE
-
-	-- Baud Rate Clock
-	-- Pass Baud Rate in BAUD_RATE generic as integer value
-
-	-- Legal values are 115200, 38400, 19200, 9600, 4800, 2400, 1200, 600, 300
+-- ____________________________________________________________________________________
+-- Baud Rate Clock
+-- Pass Baud Rate in BAUD_RATE generic as integer value
+-- Legal values are 115200, 38400, 19200, 9600, 4800, 2400, 1200, 600, 300
 	BaudRateGen : entity work.BaudRate6850
 	GENERIC map (
 		BAUD_RATE	=>  115200
@@ -456,6 +455,8 @@ begin
 		o_serialEn	=> serialClkEn
 	);
 
+-- ____________________________________________________________________________________
+-- MEMORY READ/WRITE LOGIC GOES HERE
 -- SUB-CIRCUIT CLOCK SIGNALS
     clk_gen: process (clk) begin
     if rising_edge(clk) then
