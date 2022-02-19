@@ -78,6 +78,7 @@ entity uk101_41kRAM is
 		o_sdMOSI		: out		std_logic :='0';
 		i_sdMISO		: in		std_logic;
 		o_sdSCLK		: out		std_logic :='0';
+		o_driveLED	: out		std_logic;
 
 		-- PS/2 Keyboard
 		ps2Clk		: in		std_logic := '1';
@@ -101,6 +102,7 @@ architecture struct of uk101_41kRAM is
 	signal w_ramDataOut			: std_logic_vector(7 downto 0);
 	signal w_monitorRomData 	: std_logic_vector(7 downto 0);
 	signal w_aciaData				: std_logic_vector(7 downto 0);
+	signal w_SDData				: std_logic_vector(7 downto 0);
 
 	signal w_n_memWR				: std_logic := '1';
 	signal w_n_memRD 				: std_logic := '1';
@@ -115,6 +117,7 @@ architecture struct of uk101_41kRAM is
 	signal w_n_kbCS				: std_logic :='1';
 	signal w_n_mmap1CS			: std_logic :='1';
 	signal w_n_mmap2CS			: std_logic :='1';
+	signal w_n_SDCS				: std_logic :='1';
 		
 	signal w_Video_Clk_25p6		: std_ulogic;
 	signal w_VoutVect				: std_logic_vector(2 downto 0);
@@ -147,16 +150,17 @@ begin
 
 	-- Data buffer	-- Chip Selects
 	w_n_ramCS 		<= '0' when ((w_cpuAddress(15 downto 12) = x"c") or						-- xc000-xcFFF (4KB)		- External SRAM
-									 (w_cpuAddress(15 downto 12) = x"e")) 		else '1';  	-- xe000-xeFFF (4KB)		- External SRAM
-	w_n_sram1CS	<= '0' when w_cpuAddress(15)					= '0'				else '1';	-- x0000-x7fff (32KB)	- Internal SRAM
-	w_n_sram2CS	<= '0' when w_cpuAddress(15 downto 13)	= "100"			else '1';	-- x8000-x9fff (8KB)		- Internal SRAM
-	w_n_basRomCS 	<= '0' when w_cpuAddress(15 downto 13) 	= "101" 			else '1';	-- xa000-xbFFF (8k)		- BASIC ROM
-	w_n_dispRamCS	<= '0' when w_cpuAddress(15 downto 11) 	= x"d"&"0"		else '1';	-- xd000-xd7ff (2KB)		- Display RAM
-	w_n_kbCS 		<= '0' when w_cpuAddress(15 downto 10) 	= x"d"&"11"		else '1';	-- xdc00-xdfff (1KB)		- Keyboard
-	w_n_aciaCS 	<= '0' when w_cpuAddress(15 downto 1) 	= x"f00"&"000"	else '1';	-- xf000-f001 (2B)		- Serial Port
-	w_n_monRomCS	<= '0' when w_cpuAddress(15 downto 11) 	= x"f"&'1' 		else '1';	-- xf800-xffff (2K)		- Monitor in ROM
-	w_n_mmap1CS	<= '0' when w_cpuAddress					 	= x"f002"		else '1';	-- xf002 (1B) 61442 dec	- Memory Mapper 1
-	w_n_mmap2CS	<= '0' when w_cpuAddress					 	= x"f003"		else '1';	-- xf003 (1B) 61443 dec	- Memory Mapper 2
+									    (w_cpuAddress(15 downto 12) = x"e")) 			else '1';  	-- xe000-xeFFF (4KB)		- External SRAM
+	w_n_sram1CS		<= '0' when   w_cpuAddress(15)					= '0'			else '1';	-- x0000-x7fff (32KB)	- Internal SRAM
+	w_n_sram2CS		<= '0' when   w_cpuAddress(15 downto 13)	= "100"			else '1';	-- x8000-x9fff (8KB)		- Internal SRAM
+	w_n_basRomCS 	<= '0' when   w_cpuAddress(15 downto 13) 	= "101" 			else '1';	-- xa000-xbFFF (8k)		- BASIC ROM
+	w_n_dispRamCS	<= '0' when   w_cpuAddress(15 downto 11) 	= x"d"&"0"		else '1';	-- xd000-xd7ff (2KB)		- Display RAM
+	w_n_kbCS 		<= '0' when   w_cpuAddress(15 downto 10) 	= x"d"&"11"		else '1';	-- xdc00-xdfff (1KB)		- Keyboard
+	w_n_aciaCS 		<= '0' when   w_cpuAddress(15 downto 1) 	= x"f00"&"000"	else '1';	-- xf000-f001 (2B)		- Serial Port
+	w_n_monRomCS	<= '0' when   w_cpuAddress(15 downto 11) 	= x"f"&'1' 		else '1';	-- xf800-xffff (2K)		- Monitor in ROM
+	w_n_mmap1CS		<= '0' when   w_cpuAddress					 	= x"f002"		else '1';	-- xf002 (1B) 61442 dec	- Memory Mapper 1
+	w_n_mmap2CS		<= '0' when   w_cpuAddress					 	= x"f003"		else '1';	-- xf003 (1B) 61443 dec	- Memory Mapper 2
+	w_n_SDCS			<= '0' when   w_cpuAddress(15 downto 4) 	= x"f00"&"1"	else '1';	-- xf008-xf00f (8B) 61448 dec	- SD Card
 	
 	w_cpuDataIn <=
 		w_basRomData 			when w_n_basRomCS 	= '0' else
@@ -169,6 +173,7 @@ begin
 		w_intSRAM2				when w_n_sram2CS		= '0' else
 		w_mmapAddrLatch1		when w_n_mmap1CS		= '0' else
 		w_mmapAddrLatch2		when w_n_mmap2CS		= '0' else
+		w_SDData					when w_n_SDCS		= '0' else
 		x"FF";
 
 	-- 6502 CPU
@@ -258,41 +263,25 @@ begin
 		wren		=> not w_n_sram2CS and not w_n_WR and w_cpuClock,
 		q			=> w_intSRAM2
 	);
-	
-	-- Baud rate clock 
-	process (i_clk)
-	begin
-		if rising_edge(i_clk) then
-			if w_cpuClkCount < 50 then
-				w_cpuClkCount <= w_cpuClkCount + 1;
-			else
-				w_cpuClkCount <= (others=>'0');
-			end if;
-			if w_cpuClkCount < 25 then
-				w_cpuClock <= '0';
-			else
-				w_cpuClock <= '1';
-			end if;	
-		end if;
-	end process;
-			
-	process (i_clk)
-	begin
-		if rising_edge(i_clk) then
---			if w_serialClkCount < 10416 then -- 300 baud
-			if w_serialClkCount < 325 then -- 9600 baud
-				w_serialClkCount <= w_serialClkCount + 1;
-			else
-				w_serialClkCount <= (others => '0');
-			end if;
---			if w_serialClkCount < 5208 then -- 300 baud
-			if w_serialClkCount < 162 then -- 9600 baud
-				w_serialClock <= '0';
-			else
-				w_serialClock <= '1';
-			end if;	
-		end if;
-	end process;
+
+	SDCtrlr : entity work.sd_controller
+	port map (
+		-- CPU
+		n_reset 	=> i_n_reset,
+		n_rd		=> w_n_SDCS or w_cpuClock or (not w_n_WR),
+		n_wr		=> w_n_SDCS or w_cpuClock or w_n_WR,
+		dataIn	=> w_cpuDataOut,
+		dataOut	=> w_SDData,
+		regAddr	=> w_cpuAddress(2 downto 0),
+		clk 		=> i_clk,
+		-- SD Card SPI connections
+		sdCS 		=> o_sdCS,
+		sdMOSI	=> o_sdMOSI,
+		sdMISO	=> i_sdMISO,
+		sdSCLK	=> o_sdSCLK,
+		-- LEDs
+		driveLED	=> o_driveLED
+);
 
 	pll : work.VideoClk_XVGA_1024x768 PORT MAP (
 		inclk0	 => i_clk,
@@ -337,6 +326,41 @@ begin
 	begin
 		if	w_n_kbCS='0' and w_n_memWR = '0' then
 			w_kbRowSel <= w_cpuDataOut;
+		end if;
+	end process;
+	
+	-- Baud rate clock 
+	process (i_clk)
+	begin
+		if rising_edge(i_clk) then
+			if w_cpuClkCount < 50 then
+				w_cpuClkCount <= w_cpuClkCount + 1;
+			else
+				w_cpuClkCount <= (others=>'0');
+			end if;
+			if w_cpuClkCount < 25 then
+				w_cpuClock <= '0';
+			else
+				w_cpuClock <= '1';
+			end if;	
+		end if;
+	end process;
+			
+	process (i_clk)
+	begin
+		if rising_edge(i_clk) then
+--			if w_serialClkCount < 10416 then -- 300 baud
+			if w_serialClkCount < 325 then -- 9600 baud
+				w_serialClkCount <= w_serialClkCount + 1;
+			else
+				w_serialClkCount <= (others => '0');
+			end if;
+--			if w_serialClkCount < 5208 then -- 300 baud
+			if w_serialClkCount < 162 then -- 9600 baud
+				w_serialClock <= '0';
+			else
+				w_serialClock <= '1';
+			end if;	
 		end if;
 	end process;
 	
