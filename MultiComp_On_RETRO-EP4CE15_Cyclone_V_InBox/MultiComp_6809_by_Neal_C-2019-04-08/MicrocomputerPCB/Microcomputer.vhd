@@ -25,8 +25,8 @@
 -- In summary:
 -- * Deploy 6809 modified to use async active-low reset, posedge clock
 -- * Clock 6809 from master (50MHz) clock and control execution rate by
---   asserting w_hold
--- * Speed up clock cycle when no external access (w_vma=0)
+--   asserting hold
+-- * Speed up clock cycle when no external access (vma=0)
 -- * Generate external SRAM control signals synchronously rather than with
 --   gated clock
 -- * Deploy VDU design modified to fix scroll bug and changed to run only on
@@ -48,7 +48,7 @@
 --   * Can write-protect any region
 --   * Can enable/disable ROM in the top 8Kbyte region
 --   * Includes a 50Hz timer interrupt with efficient register interface
---   * Includes a NMI generator for code single-step
+--   * Includes a nmi generator for code single-step
 --   For detailed description and programming details, refer to the
 --   detailed comments in the header of mem_mapper2.vhd)
 -- * i_SerSel (PIN_B22) is input, switches I/O assignment: J3:1-2
@@ -75,7 +75,7 @@
 -- Grant Searle
 -- eMail address available on my main web page link above.
 -- Please check on the above web pages to see if there are any updates before using this file.
--- If for some reason the page is no longer available, please search for "Grant Searle"
+-- If for some reason the page is no longer available, please search for "Grant Searle Multicomp"
 -- on the internet to see if I have moved to another web hosting service.
 --
 
@@ -87,11 +87,11 @@ use  IEEE.STD_LOGIC_UNSIGNED.all;
 entity Microcomputer is
 	port(
 		-- Clock and reset line
-		clk				: in std_logic;		-- 50MHz Clock is on FPGA card
+		i_clk				: in std_logic;		-- 50MHz Clock is on FPGA card
 		i_n_reset		: in std_logic;		-- Reser is pushbutton on Front Panel
 
 		-- MMU Active LED on FPGA card
-		n_MMU_ACT_LED	: out std_logic := '1';
+		o_n_MMU_ACT_LED	: out std_logic := '1';
 
 		-- Serial select switch has an internal pull-up so this defaults to 1. Gets pulled to GND by switch.
 		-- This swaps the address decodes so that the Serial A port is decoded at $FFD0 and the VDU at $FFD2.
@@ -106,24 +106,24 @@ entity Microcomputer is
 		n_sRamOE			: out std_logic;
 
 		-- Serial port
-		rxd1				: in std_logic;
-		txd1				: out std_logic;
-		rts1				: out std_logic;
-		cts1				: in std_logic;
+		i_rxd1				: in std_logic;
+		o_txd1				: out std_logic;
+		o_rts1				: out std_logic;
+		i_cts1				: in std_logic;
 
 		-- VGA Video
-		videoR0			: out std_logic;
-		videoG0			: out std_logic;
-		videoB0			: out std_logic;
-		videoR1			: out std_logic;
-		videoG1			: out std_logic;
-		videoB1			: out std_logic;
-		hSync				: out std_logic;
-		vSync				: out std_logic;
+		o_videoR0			: out std_logic;
+		o_videoR1			: out std_logic;
+		o_videoG0			: out std_logic;
+		o_videoG1			: out std_logic;
+		o_videoB0			: out std_logic;
+		o_videoB1			: out std_logic;
+		o_hSync				: out std_logic;
+		o_vSync				: out std_logic;
 
 		-- PS/2 Keyboard
-		ps2Clk			: inout std_logic;
-		ps2Data			: inout std_logic;
+		io_ps2Clk			: inout std_logic;
+		io_ps2Data			: inout std_logic;
 
 		-- 3 GPIO mapped to "group A" connector. Pin 1..3 of that connector
 		-- assigned to bit 0..2 of gpio0.
@@ -169,49 +169,49 @@ architecture struct of Microcomputer is
     signal w_sramAddress_i	: std_logic_vector(19 downto 0);
     signal w_n_sRamCS_i		: std_logic;
 
-    signal basRomData		: std_logic_vector(7 downto 0);
+    signal w_RomData			: std_logic_vector(7 downto 0);
     signal w_if1DataOut		: std_logic_vector(7 downto 0);
     signal w_if2DataOut		: std_logic_vector(7 downto 0);
-    signal gpioDataOut		: std_logic_vector(7 downto 0);
-    signal sdCardDataOut	: std_logic_vector(7 downto 0);
-    signal mmDataOut			: std_logic_vector(7 downto 0);
+    signal w_gpioDataOut	: std_logic_vector(7 downto 0);
+    signal w_sdCardDataOut	: std_logic_vector(7 downto 0);
+    signal w_mmDataOut		: std_logic_vector(7 downto 0);
 
-    signal irq					: std_logic;
-    signal nmi					: std_logic;
-    signal n_int1				: std_logic :='1';
-    signal n_int2				: std_logic :='1';
-    signal n_int3				: std_logic :='1';
-    signal n_tint				: std_logic;
+    signal w_irq				: std_logic;
+    signal w_nmi				: std_logic;
+    signal w_n_int1			: std_logic :='1';
+    signal w_n_int2			: std_logic :='1';
+    signal w_n_int3			: std_logic :='1';
+    signal w_n_tint			: std_logic;
 
-    signal n_ROMCS			: std_logic :='1';
-    signal n_if1CS			: std_logic :='1';
-    signal n_if2CS			: std_logic :='1';
-    signal n_sdCard_MMU_CS	: std_logic :='1';
-    signal n_gpioCS			: std_logic :='1';
+    signal w_n_ROMCS			: std_logic :='1';
+    signal w_n_if1CS			: std_logic :='1';
+    signal w_n_if2CS			: std_logic :='1';
+    signal w_n_sdC_MMU_CS	: std_logic :='1';
+    signal w_n_gpioCS		: std_logic :='1';
 
-    signal serialClkEn		: std_logic;
+    signal w_serClkEn		: std_logic;
 
-    signal n_WR_uart			: std_logic := '1';
-    signal n_RD_uart			: std_logic := '1';
+    signal w_n_WR_uart		: std_logic := '1';
+    signal w_n_RD_uart		: std_logic := '1';
 
-    signal n_WR_sd			: std_logic := '1';
-    signal n_RD_sd			: std_logic := '1';
+    signal w_n_WR_sd			: std_logic := '1';
+    signal w_n_RD_sd			: std_logic := '1';
 
-    signal n_WR_gpio			: std_logic := '1';
+    signal w_n_WR_gpio		: std_logic := '1';
 
-    signal n_WR_vdu			: std_logic := '1';
-    signal n_RD_vdu			: std_logic := '1';
+    signal w_n_WR_vdu		: std_logic := '1';
+    signal w_n_RD_vdu		: std_logic := '1';
 
-    signal romInhib			: std_logic := '0';
-    signal ramWrInhib		: std_logic := '0';
+    signal w_romInhib		: std_logic := '0';
+    signal w_ramWrInhib		: std_logic := '0';
 
-    signal gpio_dat0_i		: std_logic_vector(2 downto 0);
-    signal gpio_dat0_o		: std_logic_vector(2 downto 0);
-    signal n_gpio_dat0_oe	: std_logic_vector(2 downto 0);
+    signal w_gpio_dat0_i		: std_logic_vector(2 downto 0);
+    signal w_gpio_dat0_o		: std_logic_vector(2 downto 0);
+    signal w_n_gpio_dat0_oe	: std_logic_vector(2 downto 0);
 
-    signal gpio_dat2_i		: std_logic_vector(7 downto 0);
-    signal gpio_dat2_o		: std_logic_vector(7 downto 0);
-    signal n_gpio_dat2_oe	: std_logic_vector(7 downto 0);
+    signal w_gpio_dat2_i		: std_logic_vector(7 downto 0);
+    signal w_gpio_dat2_o		: std_logic_vector(7 downto 0);
+    signal w_n_gpio_dat2_oe	: std_logic_vector(7 downto 0);
 
 begin
 
@@ -219,7 +219,7 @@ begin
 	-- Also, makes clean reset at power on
 	debounceReset : entity work.Debouncer
 	port map (
-		i_clk		 	=> clk,
+		i_clk		 	=> i_clk,
 		i_PinIn		=> i_n_reset,
 		o_PinOut		=> w_n_reset
 	);
@@ -228,7 +228,7 @@ begin
 -- CPU CHOICE GOES HERE
     cpu1 : entity work.cpu09p
     port map(
-            clk => clk,
+            clk => i_clk,
             rst_n => w_n_reset,
             rw => w_n_cpuWr,
             vma => w_vma,
@@ -237,19 +237,19 @@ begin
             data_out => w_cpuDataOut,
             halt => '0',
             hold => w_hold,
-            irq => irq,
+            irq => w_irq,
             firq => '0',
-            nmi => nmi);
+            nmi => w_nmi);
 
-    irq <= not(n_tint and n_int1 and n_int2);
+    w_irq <= not(w_n_tint and w_n_int1 and w_n_int2);
 
 -- ____________________________________________________________________________________
 -- ROM GOES HERE
     rom1 : entity work.M6809_CAMELFORTH_ROM -- 8KB FORTH ROM
     port map(
             address => w_cpuAddress(12 downto 0),
-            clock => clk,
-            q => basRomData);
+            clock => i_clk,
+            q => w_RomData);
 
 -- ____________________________________________________________________________________
 -- External RAM GOES HERE
@@ -265,8 +265,8 @@ begin
 -- ____________________________________________________________________________________
 -- INPUT/OUTPUT DEVICES GO HERE
 
-    n_WR_vdu <= n_if1CS or w_n_WR;
-    n_RD_vdu <= n_if1CS or w_n_RD;
+    w_n_WR_vdu <= w_n_if1CS or w_n_WR;
+    w_n_RD_vdu <= w_n_if1CS or w_n_RD;
 
     io1 : entity work.SBCTextDisplayRGB
     generic map(
@@ -277,137 +277,135 @@ begin
     )
     port map (
             n_reset => w_n_reset,
-            clk => clk,
+            clk => i_clk,
 
             -- RGB video signals
-            hSync => hSync,
-            vSync => vSync,
-            videoR0 => videoR0,
-            videoR1 => videoR1,
-            videoG0 => videoG0,
-            videoG1 => videoG1,
-            videoB0 => videoB0,
-            videoB1 => videoB1,
+            hSync => o_hSync,
+            vSync => o_vSync,
+            videoR0 => o_videoR0,
+            videoR1 => o_videoR1,
+            videoG0 => o_videoG0,
+            videoG1 => o_videoG1,
+            videoB0 => o_videoB0,
+            videoB1 => o_videoB1,
 
-            n_WR => n_WR_vdu,
-            n_RD => n_RD_vdu,
-            n_int => n_int1,
+            n_WR => w_n_WR_vdu,
+            n_RD => w_n_RD_vdu,
+            n_int => w_n_int1,
             regSel => w_cpuAddress(0),
             dataIn => w_cpuDataOut,
             dataOut => w_if1DataOut,
-            ps2Clk => ps2Clk,
-            ps2Data => ps2Data
+            ps2Clk => io_ps2Clk,
+            ps2Data => io_ps2Data
 				);
 
-    n_WR_uart <= n_if2CS or w_n_WR;
-    n_RD_uart <= n_if2CS or w_n_RD;
+    w_n_WR_uart <= w_n_if2CS or w_n_WR;
+    w_n_RD_uart <= w_n_if2CS or w_n_RD;
 
 	io2 : entity work.bufferedUART
 		port map
 		(
-			clk => clk,
-			n_WR => n_WR_uart,
-			n_RD => n_RD_uart,
-			n_int => n_int2,
+			clk => i_clk,
+			n_WR => w_n_WR_uart,
+			n_RD => w_n_RD_uart,
+			n_int => w_n_int2,
 			regSel => w_cpuAddress(0),
 			dataIn => w_cpuDataOut,
 			dataOut => w_if2DataOut,
-			rxClkEn => serialClkEn,
-			txClkEn => serialClkEn,
-			rxd => rxd1,
-			txd => txd1,
-			n_cts => cts1,
+			rxClkEn => w_serClkEn,
+			txClkEn => w_serClkEn,
+			rxd => i_rxd1,
+			txd => o_txd1,
+			n_cts => i_cts1,
 			n_dcd => '0',
-			n_rts => rts1
+			n_rts => o_rts1
 		);
 
-    n_WR_sd <= n_sdCard_MMU_CS or w_n_WR;
-    n_RD_sd <= n_sdCard_MMU_CS or w_n_RD;
+    w_n_WR_sd <= w_n_sdC_MMU_CS or w_n_WR;
+    w_n_RD_sd <= w_n_sdC_MMU_CS or w_n_RD;
 
     sd1 : entity work.sd_controller
     generic map(
         CLKEDGE_DIVIDER => 25 -- edges at 50MHz/25 = 2MHz ie 1MHz sdSCLK
     )
     port map(
-            n_WR => n_WR_sd,
-            n_RD => n_RD_sd,
+            n_WR => w_n_WR_sd,
+            n_RD => w_n_RD_sd,
             n_reset => w_n_reset,
             dataIn => w_cpuDataOut,
-            dataOut => sdCardDataOut,
+            dataOut => w_sdCardDataOut,
             regAddr => w_cpuAddress(2 downto 0),
             sdCS => sdCS,
             sdMOSI => sdMOSI,
             sdMISO => sdMISO,
             sdSCLK => sdSCLK,
---            driveLED => driveLED,
-            clk => clk
+            clk => i_clk
     );
 
     mm1 : entity work.mem_mapper2
     port map(
             n_reset => w_n_reset,
-            clk => clk,
+            clk => i_clk,
             hold => w_hold,
-            n_WR => n_WR_sd,
+            n_WR => w_n_WR_sd,
 
             dataIn => w_cpuDataOut,
-            dataOut => mmDataOut,
+            dataOut => w_mmDataOut,
             regAddr => w_cpuAddress(2 downto 0),
 
             cpuAddr => w_cpuAddress(15 downto 9),
             ramAddr => w_sramAddress_i(19 downto 13),
-            ramWrInhib => ramWrInhib,
-            romInhib => romInhib,
+            ramWrInhib => w_ramWrInhib,
+            romInhib => w_romInhib,
 
---            n_ramCSHi => n_sRamCSHi_i,
             n_ramCSLo => w_n_sRamCS_i,
 
-            n_tint => n_tint,
-            nmi => nmi,
-            frt => n_MMU_ACT_LED -- debug
+            n_tint => w_n_tint,
+            nmi => w_nmi,
+            frt => o_n_MMU_ACT_LED -- debug
     );
 
-    n_WR_gpio <= n_gpioCS or w_n_WR;
+    w_n_WR_gpio <= w_n_gpioCS or w_n_WR;
 
     gpio1 : entity work.gpio
     port map(
             n_reset => w_n_reset,
-            clk => clk,
+            clk => i_clk,
             hold => w_hold,
-            n_WR => n_WR_gpio,
+            n_WR => w_n_WR_gpio,
 
             dataIn => w_cpuDataOut,
-            dataOut => gpioDataOut,
+            dataOut => w_gpioDataOut,
             regAddr => w_cpuAddress(0),
 
-            dat0_i => gpio_dat0_i,
-            dat0_o => gpio_dat0_o,
-            n_dat0_oe => n_gpio_dat0_oe,
+            dat0_i => w_gpio_dat0_i,
+            dat0_o => w_gpio_dat0_o,
+            n_dat0_oe => w_n_gpio_dat0_oe,
 
-            dat2_i => gpio_dat2_i,
-            dat2_o => gpio_dat2_o,
-            n_dat2_oe => n_gpio_dat2_oe
+            dat2_i => w_gpio_dat2_i,
+            dat2_o => w_gpio_dat2_o,
+            n_dat2_oe => w_n_gpio_dat2_oe
     );
 
     -- pin control. There's probably an easier way of doing this??
-    gpio_dat0_i <= gpio0;
-    pad_ctl_gpio0: process(gpio_dat0_o, n_gpio_dat0_oe)
+    w_gpio_dat0_i <= gpio0;
+    pad_ctl_gpio0: process(w_gpio_dat0_o, w_n_gpio_dat0_oe)
     begin
       for gpio_bit in 0 to 2 loop
-        if n_gpio_dat0_oe(gpio_bit) = '0' then
-          gpio0(gpio_bit) <= gpio_dat0_o(gpio_bit);
+        if w_n_gpio_dat0_oe(gpio_bit) = '0' then
+          gpio0(gpio_bit) <= w_gpio_dat0_o(gpio_bit);
         else
           gpio0(gpio_bit) <= 'Z';
         end if;
       end loop;
     end process;
 
-    gpio_dat2_i <= gpio2;
-    pad_ctl_gpio2: process(gpio_dat2_o, n_gpio_dat2_oe)
+    w_gpio_dat2_i <= gpio2;
+    pad_ctl_gpio2: process(w_gpio_dat2_o, w_n_gpio_dat2_oe)
     begin
       for gpio_bit in 0 to 7 loop
-        if n_gpio_dat2_oe(gpio_bit) = '0' then
-          gpio2(gpio_bit) <= gpio_dat2_o(gpio_bit);
+        if w_n_gpio_dat2_oe(gpio_bit) = '0' then
+          gpio2(gpio_bit) <= w_gpio_dat2_o(gpio_bit);
         else
           gpio2(gpio_bit) <= 'Z';
         end if;
@@ -416,31 +414,31 @@ begin
 
 -- ____________________________________________________________________________________
 -- CHIP SELECTS GO HERE
-    n_ROMCS		<= '0' when w_cpuAddress(15 downto 13) = "111" and romInhib = '0' else '1'; --8K at top of memory
+    w_n_ROMCS		<= '0' when w_cpuAddress(15 downto 13) = "111" and w_romInhib = '0' else '1'; --8K at top of memory
 
     -- i_SerSel swaps the address assignment. Internal pullup means it is 1 by default
-    n_if1CS		<= '0' when ((w_cpuAddress(15 downto 1) = x"FFD"&"000" and i_SerSel = '1')  -- 2 bytes FFD0-FFD1
+    w_n_if1CS		<= '0' when ((w_cpuAddress(15 downto 1) = x"FFD"&"000" and i_SerSel = '1')  -- 2 bytes FFD0-FFD1
                          or (w_cpuAddress(15 downto 1) = x"FFD"&"001" and i_SerSel = '0')) -- 2 bytes FFD2-FFD3
                       else '1';
 
-    n_if2CS		<= '0' when ((w_cpuAddress(15 downto 1) = x"FFD"&"000" and i_SerSel = '0')  -- 2 bytes FFD0-FFD1
+    w_n_if2CS		<= '0' when ((w_cpuAddress(15 downto 1) = x"FFD"&"000" and i_SerSel = '0')  -- 2 bytes FFD0-FFD1
                          or (w_cpuAddress(15 downto 1) = x"FFD"&"001" and i_SerSel = '1')) -- 2 bytes FFD2-FFD3
                       else '1';
 
-    n_gpioCS	<= '0' when w_cpuAddress(15 downto 1) = x"FFD"&"011" else '1'; -- 2 bytes FFD6-FFD7
+    w_n_gpioCS	<= '0' when w_cpuAddress(15 downto 1) = x"FFD"&"011" else '1'; -- 2 bytes FFD6-FFD7
 	 
-	 -- n_sdCard_MMU_CS is the select for both the SD Card and the MMU
+	 -- w_n_sdC_MMU_CS is the select for both the SD Card and the MMU
 	 -- The MMU software interface is through 2 write-only registers that occupy unused addresses in the SDCARD address space.
-    n_sdCard_MMU_CS <= '0' when w_cpuAddress(15 downto 3) = x"FFD"&"1"   else '1'; -- 8 bytes FFD8-FFDF
+    w_n_sdC_MMU_CS <= '0' when w_cpuAddress(15 downto 3) = x"FFD"&"1"   else '1'; -- 8 bytes FFD8-FFDF
 
 -- ____________________________________________________________________________________
 -- BUS ISOLATION GOES HERE
 	w_cpuDataIn <=
-		w_if1DataOut					when n_if1CS			= '0'	else
-		w_if2DataOut					when n_if2CS			= '0'	else
-		gpioDataOut						when n_gpioCS			= '0'	else
-		sdCardDataOut or mmDataOut	when n_sdCard_MMU_CS	= '0'	else
-		basRomData						when n_ROMCS			= '0'	else
+		w_if1DataOut					when w_n_if1CS			= '0'	else
+		w_if2DataOut					when w_n_if2CS			= '0'	else
+		w_gpioDataOut						when w_n_gpioCS			= '0'	else
+		w_sdCardDataOut or w_mmDataOut	when w_n_sdC_MMU_CS	= '0'	else
+		w_RomData						when w_n_ROMCS			= '0'	else
 		sramData;
 
 -- ____________________________________________________________________________________
@@ -452,15 +450,15 @@ begin
 		BAUD_RATE	=>  115200
 	)
 	PORT map (
-		i_CLOCK_50	=> clk,
-		o_serialEn	=> serialClkEn
+		i_CLOCK_50	=> i_clk,
+		o_serialEn	=> w_serClkEn
 	);
 
 -- ____________________________________________________________________________________
 -- MEMORY READ/WRITE LOGIC GOES HERE
 -- SUB-CIRCUIT CLOCK SIGNALS
-    clk_gen: process (clk) begin
-    if rising_edge(clk) then
+    clk_gen: process (i_clk) begin
+    if rising_edge(i_clk) then
 	 
         -- CPU clock control. 
 		  -- The CPU input clock is 50MHz and the w_hold input acts as a clock enable. 
@@ -512,8 +510,8 @@ begin
         if (w_state = 1 or w_state = 2 or w_state = 3) then
             if w_n_cpuWr = '0' then
                 w_n_WR <= '0';
---                n_sRamWE <= (n_sRamCSHi_i and w_n_sRamCS_i) or ramWrInhib ; -- synchronous and glitch-free
-                n_sRamWE <= (w_n_sRamCS_i) or ramWrInhib ; -- synchronous and glitch-free
+--                n_sRamWE <= (n_sRamCSHi_i and w_n_sRamCS_i) or w_ramWrInhib ; -- synchronous and glitch-free
+                n_sRamWE <= (w_n_sRamCS_i) or w_ramWrInhib ; -- synchronous and glitch-free
             else
                 w_n_RD <= '0';
 --                n_sRamOE <= n_sRamCSHi_i and w_n_sRamCS_i; -- synchronous and glitch-free
