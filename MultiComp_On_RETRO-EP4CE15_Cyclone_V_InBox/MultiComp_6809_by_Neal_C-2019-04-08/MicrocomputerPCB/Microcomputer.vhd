@@ -137,10 +137,10 @@ entity Microcomputer is
 		io_gpio2				: inout std_logic_vector(7 downto 0);
 
 		-- External SD card has activity LED
-		sdCS				: out std_logic;
-		sdMOSI			: out std_logic;
-		sdMISO			: in std_logic;
-		sdSCLK			: out std_logic;
+		o_sdCS				: out std_logic;
+		o_sdMOSI			: out std_logic;
+		i_sdMISO			: in std_logic;
+		o_sdSCLK			: out std_logic;
 		
 		-- External SDRAM not used but pulled to inactive levels
 		n_sdRamCas		: out std_logic := '1';		-- CAS
@@ -335,10 +335,10 @@ begin
             dataIn => w_cpuDataOut,
             dataOut => w_sdCardDataOut,
             regAddr => w_cpuAddress(2 downto 0),
-            sdCS => sdCS,
-            sdMOSI => sdMOSI,
-            sdMISO => sdMISO,
-            sdSCLK => sdSCLK,
+            sdCS => o_sdCS,
+            sdMOSI => o_sdMOSI,
+            sdMISO => i_sdMISO,
+            sdSCLK => o_sdSCLK,
             clk => i_clk
     );
 
