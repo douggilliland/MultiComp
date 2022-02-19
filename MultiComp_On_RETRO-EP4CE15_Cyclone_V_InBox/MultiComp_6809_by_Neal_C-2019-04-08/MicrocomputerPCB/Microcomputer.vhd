@@ -131,10 +131,10 @@ entity Microcomputer is
 		-- bit 2: CE
 		-- bit 1: SCLK
 		-- bit 0: I/O (Data)
-		gpio0				: inout std_logic_vector(2 downto 0);
+		io_gpio0				: inout std_logic_vector(2 downto 0);
 		-- 8 GPIO mapped to "group B" connector. Pin 1..8 of that connector
 		-- assigned to bit 0..7 of gpio2.
-		gpio2				: inout std_logic_vector(7 downto 0);
+		io_gpio2				: inout std_logic_vector(7 downto 0);
 
 		-- External SD card has activity LED
 		sdCS				: out std_logic;
@@ -388,26 +388,26 @@ begin
     );
 
     -- pin control. There's probably an easier way of doing this??
-    w_gpio_dat0_i <= gpio0;
+    w_gpio_dat0_i <= io_gpio0;
     pad_ctl_gpio0: process(w_gpio_dat0_o, w_n_gpio_dat0_oe)
     begin
       for gpio_bit in 0 to 2 loop
         if w_n_gpio_dat0_oe(gpio_bit) = '0' then
-          gpio0(gpio_bit) <= w_gpio_dat0_o(gpio_bit);
+          io_gpio0(gpio_bit) <= w_gpio_dat0_o(gpio_bit);
         else
-          gpio0(gpio_bit) <= 'Z';
+          io_gpio0(gpio_bit) <= 'Z';
         end if;
       end loop;
     end process;
 
-    w_gpio_dat2_i <= gpio2;
+    w_gpio_dat2_i <= io_gpio2;
     pad_ctl_gpio2: process(w_gpio_dat2_o, w_n_gpio_dat2_oe)
     begin
       for gpio_bit in 0 to 7 loop
         if w_n_gpio_dat2_oe(gpio_bit) = '0' then
-          gpio2(gpio_bit) <= w_gpio_dat2_o(gpio_bit);
+          io_gpio2(gpio_bit) <= w_gpio_dat2_o(gpio_bit);
         else
-          gpio2(gpio_bit) <= 'Z';
+          io_gpio2(gpio_bit) <= 'Z';
         end if;
       end loop;
     end process;

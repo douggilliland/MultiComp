@@ -17,7 +17,7 @@
 -- PROGRAM "Quartus Prime"
 -- VERSION "Version 21.1.0 Build 842 10/21/2021 SJ Lite Edition"
 
--- DATE "02/18/2022 19:11:15"
+-- DATE "02/18/2022 20:17:52"
 
 -- 
 -- Device: Altera 5CEFA2F23I7 Package FBGA484
@@ -40,40 +40,40 @@ ENTITY 	Microcomputer IS
     PORT (
 	i_clk : IN std_logic;
 	i_n_reset : IN std_logic;
-	o_n_MMU_ACT_LED : BUFFER std_logic;
+	o_n_MMU_ACT_LED : OUT std_logic;
 	i_SerSel : IN std_logic;
-	sramData : BUFFER std_logic_vector(7 DOWNTO 0);
-	sramAddress : BUFFER std_logic_vector(19 DOWNTO 0);
-	n_sRamWE : BUFFER std_logic;
-	n_sRamCS : BUFFER std_logic;
-	n_sRamOE : BUFFER std_logic;
+	sramData : INOUT std_logic_vector(7 DOWNTO 0);
+	sramAddress : OUT std_logic_vector(19 DOWNTO 0);
+	n_sRamWE : OUT std_logic;
+	n_sRamCS : OUT std_logic;
+	n_sRamOE : OUT std_logic;
 	i_rxd1 : IN std_logic;
-	o_txd1 : BUFFER std_logic;
-	o_rts1 : BUFFER std_logic;
+	o_txd1 : OUT std_logic;
+	o_rts1 : OUT std_logic;
 	i_cts1 : IN std_logic;
-	o_videoR0 : BUFFER std_logic;
-	o_videoR1 : BUFFER std_logic;
-	o_videoG0 : BUFFER std_logic;
-	o_videoG1 : BUFFER std_logic;
-	o_videoB0 : BUFFER std_logic;
-	o_videoB1 : BUFFER std_logic;
-	o_hSync : BUFFER std_logic;
-	o_vSync : BUFFER std_logic;
-	io_ps2Clk : BUFFER std_logic;
-	io_ps2Data : BUFFER std_logic;
-	gpio0 : BUFFER std_logic_vector(2 DOWNTO 0);
-	gpio2 : BUFFER std_logic_vector(7 DOWNTO 0);
-	sdCS : BUFFER std_logic;
-	sdMOSI : BUFFER std_logic;
+	o_videoR0 : OUT std_logic;
+	o_videoR1 : OUT std_logic;
+	o_videoG0 : OUT std_logic;
+	o_videoG1 : OUT std_logic;
+	o_videoB0 : OUT std_logic;
+	o_videoB1 : OUT std_logic;
+	o_hSync : OUT std_logic;
+	o_vSync : OUT std_logic;
+	io_ps2Clk : INOUT std_logic;
+	io_ps2Data : INOUT std_logic;
+	io_gpio0 : INOUT std_logic_vector(2 DOWNTO 0);
+	io_gpio2 : INOUT std_logic_vector(7 DOWNTO 0);
+	sdCS : OUT std_logic;
+	sdMOSI : OUT std_logic;
 	sdMISO : IN std_logic;
-	sdSCLK : BUFFER std_logic;
-	n_sdRamCas : BUFFER std_logic;
-	n_sdRamRas : BUFFER std_logic;
-	n_sdRamWe : BUFFER std_logic;
-	n_sdRamCe : BUFFER std_logic;
-	sdRamClk : BUFFER std_logic;
-	sdRamClkEn : BUFFER std_logic;
-	sdRamAddr : BUFFER std_logic_vector(14 DOWNTO 0);
+	sdSCLK : OUT std_logic;
+	n_sdRamCas : OUT std_logic;
+	n_sdRamRas : OUT std_logic;
+	n_sdRamWe : OUT std_logic;
+	n_sdRamCe : OUT std_logic;
+	sdRamClk : OUT std_logic;
+	sdRamClkEn : OUT std_logic;
+	sdRamAddr : OUT std_logic_vector(14 DOWNTO 0);
 	sdRamData : IN std_logic_vector(15 DOWNTO 0)
 	);
 END Microcomputer;
@@ -163,17 +163,17 @@ END Microcomputer;
 -- sramData[7]	=>  Location: PIN_D3,	 I/O Standard: 3.3-V LVTTL,	 Current Strength: 16mA
 -- io_ps2Clk	=>  Location: PIN_AA2,	 I/O Standard: 3.3-V LVTTL,	 Current Strength: 16mA
 -- io_ps2Data	=>  Location: PIN_AA1,	 I/O Standard: 3.3-V LVTTL,	 Current Strength: 16mA
--- gpio0[0]	=>  Location: PIN_AA14,	 I/O Standard: 3.3-V LVTTL,	 Current Strength: 8mA
--- gpio0[1]	=>  Location: PIN_AA13,	 I/O Standard: 3.3-V LVTTL,	 Current Strength: 8mA
--- gpio0[2]	=>  Location: PIN_AA15,	 I/O Standard: 3.3-V LVTTL,	 Current Strength: 8mA
--- gpio2[0]	=>  Location: PIN_AB15,	 I/O Standard: 3.3-V LVTTL,	 Current Strength: 8mA
--- gpio2[1]	=>  Location: PIN_Y15,	 I/O Standard: 3.3-V LVTTL,	 Current Strength: 8mA
--- gpio2[2]	=>  Location: PIN_Y14,	 I/O Standard: 3.3-V LVTTL,	 Current Strength: 8mA
--- gpio2[3]	=>  Location: PIN_AB18,	 I/O Standard: 3.3-V LVTTL,	 Current Strength: 8mA
--- gpio2[4]	=>  Location: PIN_AB17,	 I/O Standard: 3.3-V LVTTL,	 Current Strength: 8mA
--- gpio2[5]	=>  Location: PIN_Y17,	 I/O Standard: 3.3-V LVTTL,	 Current Strength: 8mA
--- gpio2[6]	=>  Location: PIN_Y16,	 I/O Standard: 3.3-V LVTTL,	 Current Strength: 8mA
--- gpio2[7]	=>  Location: PIN_AA18,	 I/O Standard: 3.3-V LVTTL,	 Current Strength: 8mA
+-- io_gpio0[0]	=>  Location: PIN_AA14,	 I/O Standard: 3.3-V LVTTL,	 Current Strength: 16mA
+-- io_gpio0[1]	=>  Location: PIN_AA13,	 I/O Standard: 3.3-V LVTTL,	 Current Strength: 16mA
+-- io_gpio0[2]	=>  Location: PIN_AA15,	 I/O Standard: 3.3-V LVTTL,	 Current Strength: 16mA
+-- io_gpio2[0]	=>  Location: PIN_AB15,	 I/O Standard: 3.3-V LVTTL,	 Current Strength: 16mA
+-- io_gpio2[1]	=>  Location: PIN_Y15,	 I/O Standard: 3.3-V LVTTL,	 Current Strength: 16mA
+-- io_gpio2[2]	=>  Location: PIN_Y14,	 I/O Standard: 3.3-V LVTTL,	 Current Strength: 16mA
+-- io_gpio2[3]	=>  Location: PIN_AB18,	 I/O Standard: 3.3-V LVTTL,	 Current Strength: 16mA
+-- io_gpio2[4]	=>  Location: PIN_AB17,	 I/O Standard: 3.3-V LVTTL,	 Current Strength: 16mA
+-- io_gpio2[5]	=>  Location: PIN_Y17,	 I/O Standard: 3.3-V LVTTL,	 Current Strength: 16mA
+-- io_gpio2[6]	=>  Location: PIN_Y16,	 I/O Standard: 3.3-V LVTTL,	 Current Strength: 16mA
+-- io_gpio2[7]	=>  Location: PIN_AA18,	 I/O Standard: 3.3-V LVTTL,	 Current Strength: 16mA
 -- i_clk	=>  Location: PIN_M9,	 I/O Standard: 3.3-V LVTTL,	 Current Strength: Default
 -- i_SerSel	=>  Location: PIN_L17,	 I/O Standard: 3.3-V LVTTL,	 Current Strength: Default
 -- i_cts1	=>  Location: PIN_B11,	 I/O Standard: 3.3-V LVTTL,	 Current Strength: Default
@@ -196,7 +196,6 @@ SIGNAL ww_i_clk : std_logic;
 SIGNAL ww_i_n_reset : std_logic;
 SIGNAL ww_o_n_MMU_ACT_LED : std_logic;
 SIGNAL ww_i_SerSel : std_logic;
-SIGNAL ww_sramData : std_logic_vector(7 DOWNTO 0);
 SIGNAL ww_sramAddress : std_logic_vector(19 DOWNTO 0);
 SIGNAL ww_n_sRamWE : std_logic;
 SIGNAL ww_n_sRamCS : std_logic;
@@ -213,10 +212,6 @@ SIGNAL ww_o_videoB0 : std_logic;
 SIGNAL ww_o_videoB1 : std_logic;
 SIGNAL ww_o_hSync : std_logic;
 SIGNAL ww_o_vSync : std_logic;
-SIGNAL ww_io_ps2Clk : std_logic;
-SIGNAL ww_io_ps2Data : std_logic;
-SIGNAL ww_gpio0 : std_logic_vector(2 DOWNTO 0);
-SIGNAL ww_gpio2 : std_logic_vector(7 DOWNTO 0);
 SIGNAL ww_sdCS : std_logic;
 SIGNAL ww_sdMOSI : std_logic;
 SIGNAL ww_sdMISO : std_logic;
@@ -980,7 +975,7 @@ SIGNAL \w_cpuDataIn[4]~27_combout\ : std_logic;
 SIGNAL \w_cpuDataIn[4]~26_combout\ : std_logic;
 SIGNAL \w_cpuDataIn[0]~3_combout\ : std_logic;
 SIGNAL \gpio1|reg_ddr2[1]~0_combout\ : std_logic;
-SIGNAL \gpio2[5]~input_o\ : std_logic;
+SIGNAL \io_gpio2[5]~input_o\ : std_logic;
 SIGNAL \gpio1|proc_dat2~0_combout\ : std_logic;
 SIGNAL \gpio1|reg_dat2_d[5]~6_combout\ : std_logic;
 SIGNAL \w_cpuDataIn[5]~36_combout\ : std_logic;
@@ -1014,7 +1009,7 @@ SIGNAL \cpu1|WideOr87~7_combout\ : std_logic;
 SIGNAL \cpu1|Selector424~0_combout\ : std_logic;
 SIGNAL \cpu1|md[5]~3_combout\ : std_logic;
 SIGNAL \gpio1|reg_ddr2[6]~feeder_combout\ : std_logic;
-SIGNAL \gpio2[6]~input_o\ : std_logic;
+SIGNAL \io_gpio2[6]~input_o\ : std_logic;
 SIGNAL \gpio1|reg_dat2_d[6]~7_combout\ : std_logic;
 SIGNAL \w_cpuDataIn[6]~41_combout\ : std_logic;
 SIGNAL \io2|rxBuffer~20_q\ : std_logic;
@@ -1752,13 +1747,13 @@ SIGNAL \cpu1|Selector353~1_combout\ : std_logic;
 SIGNAL \cpu1|Selector393~10_combout\ : std_logic;
 SIGNAL \cpu1|Selector393~11_combout\ : std_logic;
 SIGNAL \cpu1|Selector289~0_combout\ : std_logic;
-SIGNAL \gpio2[1]~input_o\ : std_logic;
+SIGNAL \io_gpio2[1]~input_o\ : std_logic;
 SIGNAL \gpio1|reg_dat2_d[1]~1_combout\ : std_logic;
 SIGNAL \w_cpuDataIn~7_combout\ : std_logic;
 SIGNAL \gpio1|Equal2~0_combout\ : std_logic;
 SIGNAL \gpio1|reg_ddr0[1]~0_combout\ : std_logic;
 SIGNAL \gpio1|proc_dat0~0_combout\ : std_logic;
-SIGNAL \gpio0[1]~input_o\ : std_logic;
+SIGNAL \io_gpio0[1]~input_o\ : std_logic;
 SIGNAL \gpio1|reg_dat0_d[1]~1_combout\ : std_logic;
 SIGNAL \w_cpuDataIn~79_combout\ : std_logic;
 SIGNAL \sd1|Selector143~2_combout\ : std_logic;
@@ -2016,10 +2011,10 @@ SIGNAL \cpu1|Selector319~4_combout\ : std_logic;
 SIGNAL \cpu1|Selector318~4_combout\ : std_logic;
 SIGNAL \w_cpuDataIn[2]~60_combout\ : std_logic;
 SIGNAL \w_cpuDataIn[0]~2_combout\ : std_logic;
-SIGNAL \gpio2[2]~input_o\ : std_logic;
+SIGNAL \io_gpio2[2]~input_o\ : std_logic;
 SIGNAL \gpio1|reg_dat2_d[2]~2_combout\ : std_logic;
 SIGNAL \gpio1|reg_ddr0[2]~feeder_combout\ : std_logic;
-SIGNAL \gpio0[2]~input_o\ : std_logic;
+SIGNAL \io_gpio0[2]~input_o\ : std_logic;
 SIGNAL \gpio1|reg_dat0_d[2]~2_combout\ : std_logic;
 SIGNAL \w_cpuDataIn[0]~1_combout\ : std_logic;
 SIGNAL \w_cpuDataIn[2]~59_combout\ : std_logic;
@@ -2391,7 +2386,7 @@ SIGNAL \cpu1|sp[15]~feeder_combout\ : std_logic;
 SIGNAL \cpu1|xreg[15]~feeder_combout\ : std_logic;
 SIGNAL \cpu1|Selector331~11_combout\ : std_logic;
 SIGNAL \cpu1|Selector331~12_combout\ : std_logic;
-SIGNAL \gpio2[7]~input_o\ : std_logic;
+SIGNAL \io_gpio2[7]~input_o\ : std_logic;
 SIGNAL \gpio1|reg_dat2_d[7]~4_combout\ : std_logic;
 SIGNAL \w_cpuDataIn~71_combout\ : std_logic;
 SIGNAL \mm1|tcount[4]~0_combout\ : std_logic;
@@ -2759,11 +2754,11 @@ SIGNAL \mm1|romInhib_i~q\ : std_logic;
 SIGNAL \mm1|romInhib_i~0_combout\ : std_logic;
 SIGNAL \mm1|romInhib_i~DUPLICATE_q\ : std_logic;
 SIGNAL \w_n_ROMCS~1_combout\ : std_logic;
-SIGNAL \gpio0[0]~input_o\ : std_logic;
+SIGNAL \io_gpio0[0]~input_o\ : std_logic;
 SIGNAL \gpio1|reg_dat0_d[0]~0_combout\ : std_logic;
 SIGNAL \sd1|Selector144~0_combout\ : std_logic;
 SIGNAL \w_cpuDataIn[0]~57_combout\ : std_logic;
-SIGNAL \gpio2[0]~input_o\ : std_logic;
+SIGNAL \io_gpio2[0]~input_o\ : std_logic;
 SIGNAL \gpio1|reg_dat2_d[0]~0_combout\ : std_logic;
 SIGNAL \w_cpuDataIn[0]~56_combout\ : std_logic;
 SIGNAL \w_cpuDataIn[0]~58_combout\ : std_logic;
@@ -2874,7 +2869,7 @@ SIGNAL \cpu1|Selector333~5_combout\ : std_logic;
 SIGNAL \cpu1|Selector333~10_combout\ : std_logic;
 SIGNAL \cpu1|Selector333~12_combout\ : std_logic;
 SIGNAL \gpio1|Equal0~0_combout\ : std_logic;
-SIGNAL \gpio2[3]~input_o\ : std_logic;
+SIGNAL \io_gpio2[3]~input_o\ : std_logic;
 SIGNAL \gpio1|reg_dat2_d[3]~3_combout\ : std_logic;
 SIGNAL \w_cpuDataIn[3]~75_combout\ : std_logic;
 SIGNAL \w_cpuDataIn[3]~51_combout\ : std_logic;
@@ -4259,7 +4254,7 @@ SIGNAL \io2|rxBuffer~18_q\ : std_logic;
 SIGNAL \io2|dataOut~9_combout\ : std_logic;
 SIGNAL \io2|dataOut~10_combout\ : std_logic;
 SIGNAL \io2|dataOut[4]~feeder_combout\ : std_logic;
-SIGNAL \gpio2[4]~input_o\ : std_logic;
+SIGNAL \io_gpio2[4]~input_o\ : std_logic;
 SIGNAL \gpio1|reg_dat2_d[4]~5_combout\ : std_logic;
 SIGNAL \w_cpuDataIn[4]~28_combout\ : std_logic;
 SIGNAL \w_cpuDataIn[4]~29_combout\ : std_logic;
@@ -4875,6 +4870,415 @@ SIGNAL \io2|rxFilter\ : std_logic_vector(5 DOWNTO 0);
 SIGNAL \io1|ps2WriteByte2\ : std_logic_vector(7 DOWNTO 0);
 SIGNAL \debounceReset|w_dig_counter\ : std_logic_vector(19 DOWNTO 0);
 SIGNAL \sd1|address\ : std_logic_vector(31 DOWNTO 0);
+SIGNAL \sd1|ALT_INV_address[16]~DUPLICATE_q\ : std_logic;
+SIGNAL \debounceReset|ALT_INV_w_dig_counter[8]~DUPLICATE_q\ : std_logic;
+SIGNAL \debounceReset|ALT_INV_w_dig_counter[3]~DUPLICATE_q\ : std_logic;
+SIGNAL \debounceReset|ALT_INV_w_dig_counter[6]~DUPLICATE_q\ : std_logic;
+SIGNAL \io1|ALT_INV_ps2WriteByte2[2]~DUPLICATE_q\ : std_logic;
+SIGNAL \io1|ALT_INV_ps2WriteByte2[0]~DUPLICATE_q\ : std_logic;
+SIGNAL \io1|ALT_INV_ps2WriteByte[1]~DUPLICATE_q\ : std_logic;
+SIGNAL \io1|ALT_INV_ps2WriteClkCount[2]~DUPLICATE_q\ : std_logic;
+SIGNAL \io1|ALT_INV_ps2WriteClkCount[1]~DUPLICATE_q\ : std_logic;
+SIGNAL \io2|ALT_INV_rxBitCount[2]~DUPLICATE_q\ : std_logic;
+SIGNAL \io1|ALT_INV_ps2DataOut~DUPLICATE_q\ : std_logic;
+SIGNAL \io1|ALT_INV_pixelCount[1]~DUPLICATE_q\ : std_logic;
+SIGNAL \io1|ALT_INV_paramCount[1]~DUPLICATE_q\ : std_logic;
+SIGNAL \io1|ALT_INV_escState.processingAdditionalParams~DUPLICATE_q\ : std_logic;
+SIGNAL \io1|ALT_INV_n_kbWR~DUPLICATE_q\ : std_logic;
+SIGNAL \io1|ALT_INV_ps2ClkCount[2]~DUPLICATE_q\ : std_logic;
+SIGNAL \io1|ALT_INV_ps2ClkCount[3]~DUPLICATE_q\ : std_logic;
+SIGNAL \io2|ALT_INV_rxClockCount[0]~DUPLICATE_q\ : std_logic;
+SIGNAL \mm1|ALT_INV_nmi_i~DUPLICATE_q\ : std_logic;
+SIGNAL \sd1|ALT_INV_fsm:byte_counter[6]~DUPLICATE_q\ : std_logic;
+SIGNAL \sd1|ALT_INV_fsm:byte_counter[9]~DUPLICATE_q\ : std_logic;
+SIGNAL \sd1|ALT_INV_fsm:byte_counter[0]~DUPLICATE_q\ : std_logic;
+SIGNAL \sd1|ALT_INV_state.write_block_byte~DUPLICATE_q\ : std_logic;
+SIGNAL \sd1|ALT_INV_state.send_regreq~DUPLICATE_q\ : std_logic;
+SIGNAL \sd1|ALT_INV_state.acmd41~DUPLICATE_q\ : std_logic;
+SIGNAL \sd1|ALT_INV_state.read_block_cmd~DUPLICATE_q\ : std_logic;
+SIGNAL \sd1|ALT_INV_state.write_block_cmd~DUPLICATE_q\ : std_logic;
+SIGNAL \sd1|ALT_INV_clkCount[1]~DUPLICATE_q\ : std_logic;
+SIGNAL \io1|ALT_INV_charVert[4]~DUPLICATE_q\ : std_logic;
+SIGNAL \io1|ALT_INV_cursorVert[4]~DUPLICATE_q\ : std_logic;
+SIGNAL \io1|ALT_INV_cursorVert[3]~DUPLICATE_q\ : std_logic;
+SIGNAL \io1|ALT_INV_charVert[1]~DUPLICATE_q\ : std_logic;
+SIGNAL \io1|ALT_INV_cursorVert[1]~DUPLICATE_q\ : std_logic;
+SIGNAL \io1|ALT_INV_cursorVert[0]~DUPLICATE_q\ : std_logic;
+SIGNAL \io1|ALT_INV_cursorVert[2]~DUPLICATE_q\ : std_logic;
+SIGNAL \io1|ALT_INV_charScanLine[1]~DUPLICATE_q\ : std_logic;
+SIGNAL \io1|ALT_INV_charScanLine[3]~DUPLICATE_q\ : std_logic;
+SIGNAL \sd1|ALT_INV_sd_write_flag~DUPLICATE_q\ : std_logic;
+SIGNAL \mm1|ALT_INV_tenable~DUPLICATE_q\ : std_logic;
+SIGNAL \cpu1|ALT_INV_fic~DUPLICATE_q\ : std_logic;
+SIGNAL \gpio1|ALT_INV_reg[1]~DUPLICATE_q\ : std_logic;
+SIGNAL \io1|ALT_INV_kbReadPointer[1]~DUPLICATE_q\ : std_logic;
+SIGNAL \io2|ALT_INV_rxInPointer[1]~DUPLICATE_q\ : std_logic;
+SIGNAL \io2|ALT_INV_rxInPointer[0]~DUPLICATE_q\ : std_logic;
+SIGNAL \cpu1|ALT_INV_nmi_req~DUPLICATE_q\ : std_logic;
+SIGNAL \cpu1|ALT_INV_nmi_ack~DUPLICATE_q\ : std_logic;
+SIGNAL \mm1|ALT_INV_romInhib_i~DUPLICATE_q\ : std_logic;
+SIGNAL \sd1|ALT_INV_sclk_sig~DUPLICATE_q\ : std_logic;
+SIGNAL \mm1|ALT_INV_tr~DUPLICATE_q\ : std_logic;
+SIGNAL \mm1|ALT_INV_mmuEn~DUPLICATE_q\ : std_logic;
+SIGNAL \mm1|ALT_INV_frt_i~DUPLICATE_q\ : std_logic;
+SIGNAL \io1|ALT_INV_param3[2]~DUPLICATE_q\ : std_logic;
+SIGNAL \io1|ALT_INV_param3[3]~DUPLICATE_q\ : std_logic;
+SIGNAL \io1|ALT_INV_param3[5]~DUPLICATE_q\ : std_logic;
+SIGNAL \io1|ALT_INV_startAddr[5]~DUPLICATE_q\ : std_logic;
+SIGNAL \io1|ALT_INV_startAddr[10]~DUPLICATE_q\ : std_logic;
+SIGNAL \io1|ALT_INV_startAddr[9]~DUPLICATE_q\ : std_logic;
+SIGNAL \io1|ALT_INV_startAddr[8]~DUPLICATE_q\ : std_logic;
+SIGNAL \io1|ALT_INV_kbWatchdogTimer[13]~DUPLICATE_q\ : std_logic;
+SIGNAL \io1|ALT_INV_kbWatchdogTimer[15]~DUPLICATE_q\ : std_logic;
+SIGNAL \io1|ALT_INV_kbWriteTimer[7]~DUPLICATE_q\ : std_logic;
+SIGNAL \io1|ALT_INV_kbWriteTimer[10]~DUPLICATE_q\ : std_logic;
+SIGNAL \io1|ALT_INV_kbWriteTimer[14]~DUPLICATE_q\ : std_logic;
+SIGNAL \io1|ALT_INV_cursBlinkCount[20]~DUPLICATE_q\ : std_logic;
+SIGNAL \io1|ALT_INV_cursBlinkCount[14]~DUPLICATE_q\ : std_logic;
+SIGNAL \io1|ALT_INV_cursBlinkCount[13]~DUPLICATE_q\ : std_logic;
+SIGNAL \io1|ALT_INV_cursBlinkCount[10]~DUPLICATE_q\ : std_logic;
+SIGNAL \io1|ALT_INV_cursBlinkCount[17]~DUPLICATE_q\ : std_logic;
+SIGNAL \io1|ALT_INV_param2[1]~DUPLICATE_q\ : std_logic;
+SIGNAL \io1|ALT_INV_param2[4]~DUPLICATE_q\ : std_logic;
+SIGNAL \io1|ALT_INV_param2[6]~DUPLICATE_q\ : std_logic;
+SIGNAL \io1|ALT_INV_param1[1]~DUPLICATE_q\ : std_logic;
+SIGNAL \io1|ALT_INV_param1[3]~DUPLICATE_q\ : std_logic;
+SIGNAL \io1|ALT_INV_param1[5]~DUPLICATE_q\ : std_logic;
+SIGNAL \sd1|ALT_INV_recv_data[5]~DUPLICATE_q\ : std_logic;
+SIGNAL \io1|ALT_INV_ps2Byte[6]~DUPLICATE_q\ : std_logic;
+SIGNAL \mm1|ALT_INV_tcount[3]~DUPLICATE_q\ : std_logic;
+SIGNAL \mm1|ALT_INV_tcount[15]~DUPLICATE_q\ : std_logic;
+SIGNAL \mm1|ALT_INV_tcount[13]~DUPLICATE_q\ : std_logic;
+SIGNAL \mm1|ALT_INV_tcount[5]~DUPLICATE_q\ : std_logic;
+SIGNAL \mm1|ALT_INV_tcount[1]~DUPLICATE_q\ : std_logic;
+SIGNAL \mm1|ALT_INV_tcount[11]~DUPLICATE_q\ : std_logic;
+SIGNAL \mm1|ALT_INV_tcount[7]~DUPLICATE_q\ : std_logic;
+SIGNAL \mm1|ALT_INV_tcount[17]~DUPLICATE_q\ : std_logic;
+SIGNAL \io1|ALT_INV_dispAttWRData[0]~DUPLICATE_q\ : std_logic;
+SIGNAL \ALT_INV_i_n_reset~input_o\ : std_logic;
+SIGNAL \ALT_INV_i_rxd1~input_o\ : std_logic;
+SIGNAL \ALT_INV_sdMISO~input_o\ : std_logic;
+SIGNAL \ALT_INV_i_cts1~input_o\ : std_logic;
+SIGNAL \ALT_INV_i_SerSel~input_o\ : std_logic;
+SIGNAL \ALT_INV_io_gpio2[7]~input_o\ : std_logic;
+SIGNAL \ALT_INV_io_gpio2[6]~input_o\ : std_logic;
+SIGNAL \ALT_INV_io_gpio2[5]~input_o\ : std_logic;
+SIGNAL \ALT_INV_io_gpio2[4]~input_o\ : std_logic;
+SIGNAL \ALT_INV_io_gpio2[3]~input_o\ : std_logic;
+SIGNAL \ALT_INV_io_gpio2[2]~input_o\ : std_logic;
+SIGNAL \ALT_INV_io_gpio2[1]~input_o\ : std_logic;
+SIGNAL \ALT_INV_io_gpio2[0]~input_o\ : std_logic;
+SIGNAL \ALT_INV_io_gpio0[2]~input_o\ : std_logic;
+SIGNAL \ALT_INV_io_gpio0[1]~input_o\ : std_logic;
+SIGNAL \ALT_INV_io_gpio0[0]~input_o\ : std_logic;
+SIGNAL \ALT_INV_io_ps2Clk~input_o\ : std_logic;
+SIGNAL \ALT_INV_sramData[7]~input_o\ : std_logic;
+SIGNAL \ALT_INV_sramData[6]~input_o\ : std_logic;
+SIGNAL \ALT_INV_sramData[5]~input_o\ : std_logic;
+SIGNAL \ALT_INV_sramData[4]~input_o\ : std_logic;
+SIGNAL \ALT_INV_sramData[3]~input_o\ : std_logic;
+SIGNAL \ALT_INV_sramData[2]~input_o\ : std_logic;
+SIGNAL \ALT_INV_sramData[1]~input_o\ : std_logic;
+SIGNAL \ALT_INV_sramData[0]~input_o\ : std_logic;
+SIGNAL \io2|ALT_INV_rxReadPointer[0]~8_wirecell_combout\ : std_logic;
+SIGNAL \io1|ALT_INV_Mux2~4_combout\ : std_logic;
+SIGNAL \io1|ALT_INV_ps2WriteClkCount[4]~7_combout\ : std_logic;
+SIGNAL \cpu1|ALT_INV_Selector191~0_combout\ : std_logic;
+SIGNAL \ALT_INV_w_cpuDataIn[3]~66_combout\ : std_logic;
+SIGNAL \ALT_INV_w_cpuDataIn[3]~65_combout\ : std_logic;
+SIGNAL \ALT_INV_w_cpuDataIn[3]~64_combout\ : std_logic;
+SIGNAL \ALT_INV_w_cpuDataIn[1]~63_combout\ : std_logic;
+SIGNAL \ALT_INV_w_cpuDataIn[2]~62_combout\ : std_logic;
+SIGNAL \ALT_INV_w_cpuDataIn[2]~61_combout\ : std_logic;
+SIGNAL \ALT_INV_w_cpuDataIn[2]~60_combout\ : std_logic;
+SIGNAL \ALT_INV_w_cpuDataIn[2]~59_combout\ : std_logic;
+SIGNAL \ALT_INV_w_cpuDataIn[0]~58_combout\ : std_logic;
+SIGNAL \ALT_INV_w_cpuDataIn[0]~57_combout\ : std_logic;
+SIGNAL \ALT_INV_w_cpuDataIn[0]~56_combout\ : std_logic;
+SIGNAL \ALT_INV_w_cpuDataIn[4]~55_combout\ : std_logic;
+SIGNAL \ALT_INV_w_cpuDataIn[7]~54_combout\ : std_logic;
+SIGNAL \ALT_INV_w_cpuDataIn[7]~53_combout\ : std_logic;
+SIGNAL \ALT_INV_w_cpuDataIn[7]~52_combout\ : std_logic;
+SIGNAL \ALT_INV_w_cpuDataIn[3]~51_combout\ : std_logic;
+SIGNAL \cpu1|ALT_INV_Selector302~2_combout\ : std_logic;
+SIGNAL \cpu1|ALT_INV_Selector302~1_combout\ : std_logic;
+SIGNAL \ALT_INV_w_cpuDataIn[6]~50_combout\ : std_logic;
+SIGNAL \ALT_INV_w_cpuDataIn[5]~49_combout\ : std_logic;
+SIGNAL \ALT_INV_w_cpuDataIn[7]~48_combout\ : std_logic;
+SIGNAL \sd1|ALT_INV_Selector56~0_combout\ : std_logic;
+SIGNAL \sd1|ALT_INV_cmd_out\ : std_logic_vector(55 DOWNTO 1);
+SIGNAL \sd1|ALT_INV_Selector54~0_combout\ : std_logic;
+SIGNAL \sd1|ALT_INV_Selector51~0_combout\ : std_logic;
+SIGNAL \sd1|ALT_INV_address\ : std_logic_vector(31 DOWNTO 0);
+SIGNAL \sd1|ALT_INV_Selector42~0_combout\ : std_logic;
+SIGNAL \sd1|ALT_INV_cmd_out[9]~2_combout\ : std_logic;
+SIGNAL \sd1|ALT_INV_address[16]~10_combout\ : std_logic;
+SIGNAL \sd1|ALT_INV_address~9_combout\ : std_logic;
+SIGNAL \sd1|ALT_INV_address~7_combout\ : std_logic;
+SIGNAL \sd1|ALT_INV_address~6_combout\ : std_logic;
+SIGNAL \sd1|ALT_INV_address~4_combout\ : std_logic;
+SIGNAL \sd1|ALT_INV_address~2_combout\ : std_logic;
+SIGNAL \sd1|ALT_INV_Selector20~0_combout\ : std_logic;
+SIGNAL \sd1|ALT_INV_sdhc~q\ : std_logic;
+SIGNAL \sd1|ALT_INV_Selector18~0_combout\ : std_logic;
+SIGNAL \sd1|ALT_INV_Selector17~0_combout\ : std_logic;
+SIGNAL \sd1|ALT_INV_Selector15~0_combout\ : std_logic;
+SIGNAL \BaudRateGen|ALT_INV_w_serialCount\ : std_logic_vector(15 DOWNTO 4);
+SIGNAL \sd1|ALT_INV_Selector13~0_combout\ : std_logic;
+SIGNAL \sd1|ALT_INV_Selector57~0_combout\ : std_logic;
+SIGNAL \sd1|ALT_INV_WideOr29~1_combout\ : std_logic;
+SIGNAL \io2|ALT_INV_txByteLatch\ : std_logic_vector(7 DOWNTO 0);
+SIGNAL \sd1|ALT_INV_Selector135~2_combout\ : std_logic;
+SIGNAL \sd1|ALT_INV_Selector135~1_combout\ : std_logic;
+SIGNAL \sd1|ALT_INV_Selector135~0_combout\ : std_logic;
+SIGNAL \sd1|ALT_INV_din_latched\ : std_logic_vector(7 DOWNTO 0);
+SIGNAL \io2|ALT_INV_txBuffer\ : std_logic_vector(7 DOWNTO 0);
+SIGNAL \sd1|ALT_INV_data_sig\ : std_logic_vector(7 DOWNTO 0);
+SIGNAL \io2|ALT_INV_Equal3~0_combout\ : std_logic;
+SIGNAL \io1|ALT_INV_paramCount~7_combout\ : std_logic;
+SIGNAL \io1|ALT_INV_Equal30~1_combout\ : std_logic;
+SIGNAL \io1|Mod1|auto_generated|divider|divider|ALT_INV_StageOut[139]~36_combout\ : std_logic;
+SIGNAL \io1|Mod1|auto_generated|divider|divider|ALT_INV_StageOut[139]~35_combout\ : std_logic;
+SIGNAL \io1|Mod1|auto_generated|divider|divider|ALT_INV_StageOut[139]~34_combout\ : std_logic;
+SIGNAL \io1|Mod0|auto_generated|divider|divider|ALT_INV_StageOut[139]~36_combout\ : std_logic;
+SIGNAL \io1|Mod0|auto_generated|divider|divider|ALT_INV_StageOut[139]~35_combout\ : std_logic;
+SIGNAL \io1|Mod0|auto_generated|divider|divider|ALT_INV_StageOut[139]~34_combout\ : std_logic;
+SIGNAL \io1|ALT_INV_ps2Num~1_combout\ : std_logic;
+SIGNAL \io1|ALT_INV_kbBuffer~146_combout\ : std_logic;
+SIGNAL \io1|ALT_INV_kbBuffer~143_combout\ : std_logic;
+SIGNAL \io1|ALT_INV_Equal10~0_combout\ : std_logic;
+SIGNAL \io1|ALT_INV_ps2WriteByte2~8_combout\ : std_logic;
+SIGNAL \io1|ALT_INV_ps2WriteByte2~6_combout\ : std_logic;
+SIGNAL \io1|ALT_INV_ps2WriteByte2~5_combout\ : std_logic;
+SIGNAL \io1|ALT_INV_ps2Num~q\ : std_logic;
+SIGNAL \io1|ALT_INV_ps2WriteByte2~3_combout\ : std_logic;
+SIGNAL \io1|ALT_INV_ps2WriteByte2~2_combout\ : std_logic;
+SIGNAL \io1|ALT_INV_ps2WriteByte2~1_combout\ : std_logic;
+SIGNAL \io1|ALT_INV_ps2Scroll~q\ : std_logic;
+SIGNAL \debounceReset|ALT_INV_Equal0~3_combout\ : std_logic;
+SIGNAL \debounceReset|ALT_INV_Equal0~2_combout\ : std_logic;
+SIGNAL \debounceReset|ALT_INV_w_dig_counter\ : std_logic_vector(19 DOWNTO 1);
+SIGNAL \debounceReset|ALT_INV_Equal0~1_combout\ : std_logic;
+SIGNAL \debounceReset|ALT_INV_Equal0~0_combout\ : std_logic;
+SIGNAL \io1|ALT_INV_param3~1_combout\ : std_logic;
+SIGNAL \io1|Mod1|auto_generated|divider|divider|ALT_INV_StageOut[140]~33_combout\ : std_logic;
+SIGNAL \io1|Mod1|auto_generated|divider|divider|ALT_INV_StageOut[140]~32_combout\ : std_logic;
+SIGNAL \io1|Mod0|auto_generated|divider|divider|ALT_INV_StageOut[140]~33_combout\ : std_logic;
+SIGNAL \io1|Mod0|auto_generated|divider|divider|ALT_INV_StageOut[140]~32_combout\ : std_logic;
+SIGNAL \io1|ALT_INV_Add27~1_combout\ : std_logic;
+SIGNAL \io1|ALT_INV_Add27~0_combout\ : std_logic;
+SIGNAL \io1|ALT_INV_kbBuffer~31_q\ : std_logic;
+SIGNAL \io1|ALT_INV_kbBuffer~17_q\ : std_logic;
+SIGNAL \io1|ALT_INV_kbBuffer~38_q\ : std_logic;
+SIGNAL \io1|ALT_INV_kbBuffer~24_q\ : std_logic;
+SIGNAL \io1|ALT_INV_kbBuffer~142_combout\ : std_logic;
+SIGNAL \io1|ALT_INV_kbBuffer~30_q\ : std_logic;
+SIGNAL \io1|ALT_INV_kbBuffer~16_q\ : std_logic;
+SIGNAL \io1|ALT_INV_kbBuffer~37_q\ : std_logic;
+SIGNAL \io1|ALT_INV_kbBuffer~23_q\ : std_logic;
+SIGNAL \io1|ALT_INV_kbBuffer~141_combout\ : std_logic;
+SIGNAL \io1|ALT_INV_kbBuffer~140_combout\ : std_logic;
+SIGNAL \io1|ALT_INV_ps2Caps~q\ : std_logic;
+SIGNAL \io1|ALT_INV_kbBuffer~139_combout\ : std_logic;
+SIGNAL \io1|ALT_INV_ps2Ctrl~q\ : std_logic;
+SIGNAL \io1|ALT_INV_kbBuffer~29_q\ : std_logic;
+SIGNAL \io1|ALT_INV_kbBuffer~15_q\ : std_logic;
+SIGNAL \io1|ALT_INV_kbBuffer~36_q\ : std_logic;
+SIGNAL \io1|ALT_INV_kbBuffer~22_q\ : std_logic;
+SIGNAL \io1|ALT_INV_kbBuffer~138_combout\ : std_logic;
+SIGNAL \io1|ALT_INV_kbBuffer~28_q\ : std_logic;
+SIGNAL \io1|ALT_INV_kbBuffer~14_q\ : std_logic;
+SIGNAL \io1|ALT_INV_kbBuffer~35_q\ : std_logic;
+SIGNAL \io1|ALT_INV_kbBuffer~21_q\ : std_logic;
+SIGNAL \io1|ALT_INV_kbBuffer~137_combout\ : std_logic;
+SIGNAL \io1|ALT_INV_kbBuffer~27_q\ : std_logic;
+SIGNAL \io1|ALT_INV_kbBuffer~13_q\ : std_logic;
+SIGNAL \io1|ALT_INV_kbBuffer~34_q\ : std_logic;
+SIGNAL \io1|ALT_INV_kbBuffer~20_q\ : std_logic;
+SIGNAL \io1|ALT_INV_kbBuffer~136_combout\ : std_logic;
+SIGNAL \io1|ALT_INV_kbBuffer~26_q\ : std_logic;
+SIGNAL \io1|ALT_INV_kbBuffer~12_q\ : std_logic;
+SIGNAL \io1|ALT_INV_kbBuffer~33_q\ : std_logic;
+SIGNAL \io1|ALT_INV_kbBuffer~19_q\ : std_logic;
+SIGNAL \io1|ALT_INV_kbBuffer~135_combout\ : std_logic;
+SIGNAL \io1|ALT_INV_kbBuffer~25_q\ : std_logic;
+SIGNAL \io1|ALT_INV_kbBuffer~11_q\ : std_logic;
+SIGNAL \io1|ALT_INV_kbBuffer~32_q\ : std_logic;
+SIGNAL \io1|ALT_INV_kbBuffer~18_q\ : std_logic;
+SIGNAL \io1|ALT_INV_kbBuffer~132_combout\ : std_logic;
+SIGNAL \io1|ALT_INV_kbBuffer~131_combout\ : std_logic;
+SIGNAL \io1|ALT_INV_kbBuffer~128_combout\ : std_logic;
+SIGNAL \io1|ALT_INV_kbBuffer~127_combout\ : std_logic;
+SIGNAL \io1|ALT_INV_kbBuffer~126_combout\ : std_logic;
+SIGNAL \io1|ALT_INV_kbd_ctl~11_combout\ : std_logic;
+SIGNAL \io1|ALT_INV_ps2WriteByte2\ : std_logic_vector(3 DOWNTO 0);
+SIGNAL \io1|ALT_INV_ps2WriteByte2[0]~0_combout\ : std_logic;
+SIGNAL \io1|ALT_INV_ps2WriteByte[0]~2_combout\ : std_logic;
+SIGNAL \io1|ALT_INV_Add23~0_combout\ : std_logic;
+SIGNAL \io1|ALT_INV_ps2WriteClkCount[2]~1_combout\ : std_logic;
+SIGNAL \io1|ALT_INV_ps2WriteClkCount~0_combout\ : std_logic;
+SIGNAL \io1|ALT_INV_kbWRParity~2_combout\ : std_logic;
+SIGNAL \io2|ALT_INV_Equal2~0_combout\ : std_logic;
+SIGNAL \io2|ALT_INV_rxFilter\ : std_logic_vector(5 DOWNTO 0);
+SIGNAL \mm1|ALT_INV_nmiDly[1]~1_combout\ : std_logic;
+SIGNAL \mm1|ALT_INV_Add1~0_combout\ : std_logic;
+SIGNAL \mm1|ALT_INV_nmiDly[4]~0_combout\ : std_logic;
+SIGNAL \mm1|ALT_INV_nmi_i~1_combout\ : std_logic;
+SIGNAL \io1|ALT_INV_kbWRParity~1_combout\ : std_logic;
+SIGNAL \io1|ALT_INV_ps2DataOut~1_combout\ : std_logic;
+SIGNAL \io1|ALT_INV_kbWRParity~0_combout\ : std_logic;
+SIGNAL \io1|ALT_INV_Mux16~1_combout\ : std_logic;
+SIGNAL \io1|ALT_INV_Mux16~0_combout\ : std_logic;
+SIGNAL \io1|ALT_INV_ps2DataOut~0_combout\ : std_logic;
+SIGNAL \io1|ALT_INV_kbWRParity~q\ : std_logic;
+SIGNAL \io1|ALT_INV_kbd_ctl~10_combout\ : std_logic;
+SIGNAL \io1|ALT_INV_kbd_ctl~9_combout\ : std_logic;
+SIGNAL \io1|ALT_INV_kbd_ctl~8_combout\ : std_logic;
+SIGNAL \io1|ALT_INV_kbd_ctl~7_combout\ : std_logic;
+SIGNAL \sd1|ALT_INV_wr_cmd_reg~2_combout\ : std_logic;
+SIGNAL \sd1|ALT_INV_block_start_ack~q\ : std_logic;
+SIGNAL \sd1|ALT_INV_wr_cmd_reg~1_combout\ : std_logic;
+SIGNAL \sd1|ALT_INV_wr_cmd_reg~0_combout\ : std_logic;
+SIGNAL \sd1|ALT_INV_return_state.receive_byte_wait~1_combout\ : std_logic;
+SIGNAL \sd1|ALT_INV_return_state.receive_byte_wait~0_combout\ : std_logic;
+SIGNAL \sd1|ALT_INV_return_state.cardsel~q\ : std_logic;
+SIGNAL \sd1|ALT_INV_return_state.poll_cmd~q\ : std_logic;
+SIGNAL \io1|ALT_INV_LessThan9~3_combout\ : std_logic;
+SIGNAL \io1|ALT_INV_LessThan9~2_combout\ : std_logic;
+SIGNAL \io1|ALT_INV_LessThan9~1_combout\ : std_logic;
+SIGNAL \io1|ALT_INV_LessThan9~0_combout\ : std_logic;
+SIGNAL \io1|ALT_INV_param2~1_combout\ : std_logic;
+SIGNAL \io1|ALT_INV_cursorHorizRestore[6]~0_combout\ : std_logic;
+SIGNAL \io1|ALT_INV_Selector25~0_combout\ : std_logic;
+SIGNAL \io1|ALT_INV_Selector43~0_combout\ : std_logic;
+SIGNAL \io1|ALT_INV_cursorVertRestore[1]~6_combout\ : std_logic;
+SIGNAL \io1|ALT_INV_cursorVertRestore[0]~5_combout\ : std_logic;
+SIGNAL \io1|ALT_INV_cursorVertRestore[0]~4_combout\ : std_logic;
+SIGNAL \io1|ALT_INV_dispState~34_combout\ : std_logic;
+SIGNAL \io1|ALT_INV_param1[6]~11_combout\ : std_logic;
+SIGNAL \io1|ALT_INV_Selector36~0_combout\ : std_logic;
+SIGNAL \io1|ALT_INV_dispState~33_combout\ : std_logic;
+SIGNAL \io1|ALT_INV_Selector34~2_combout\ : std_logic;
+SIGNAL \io1|ALT_INV_Selector34~1_combout\ : std_logic;
+SIGNAL \io1|ALT_INV_cursorVertRestore[1]~3_combout\ : std_logic;
+SIGNAL \io1|ALT_INV_Selector34~0_combout\ : std_logic;
+SIGNAL \io1|ALT_INV_display_store~44_combout\ : std_logic;
+SIGNAL \io1|ALT_INV_dispAttWRData~30_combout\ : std_logic;
+SIGNAL \io1|ALT_INV_Equal49~0_combout\ : std_logic;
+SIGNAL \io1|ALT_INV_dispAttWRData~29_combout\ : std_logic;
+SIGNAL \io1|ALT_INV_dispAttWRData~27_combout\ : std_logic;
+SIGNAL \io1|ALT_INV_dispAttWRData~26_combout\ : std_logic;
+SIGNAL \io1|ALT_INV_dispAttWRData~24_combout\ : std_logic;
+SIGNAL \io1|ALT_INV_attBold~q\ : std_logic;
+SIGNAL \io1|ALT_INV_dispAttWRData~22_combout\ : std_logic;
+SIGNAL \io1|ALT_INV_Add4~2_combout\ : std_logic;
+SIGNAL \io1|ALT_INV_Add4~1_combout\ : std_logic;
+SIGNAL \io1|Mod1|auto_generated|divider|divider|ALT_INV_StageOut[135]~31_combout\ : std_logic;
+SIGNAL \io1|Mod1|auto_generated|divider|divider|ALT_INV_StageOut[135]~30_combout\ : std_logic;
+SIGNAL \io1|ALT_INV_Add4~0_combout\ : std_logic;
+SIGNAL \io1|Mod1|auto_generated|divider|divider|ALT_INV_StageOut[133]~29_combout\ : std_logic;
+SIGNAL \io1|Mod1|auto_generated|divider|divider|ALT_INV_StageOut[133]~28_combout\ : std_logic;
+SIGNAL \io1|Mod1|auto_generated|divider|divider|ALT_INV_StageOut[131]~27_combout\ : std_logic;
+SIGNAL \io1|Mod1|auto_generated|divider|divider|ALT_INV_StageOut[131]~26_combout\ : std_logic;
+SIGNAL \io1|Mod0|auto_generated|divider|divider|ALT_INV_StageOut[137]~31_combout\ : std_logic;
+SIGNAL \io1|Mod0|auto_generated|divider|divider|ALT_INV_StageOut[137]~30_combout\ : std_logic;
+SIGNAL \io1|Mod0|auto_generated|divider|divider|ALT_INV_StageOut[135]~29_combout\ : std_logic;
+SIGNAL \io1|Mod0|auto_generated|divider|divider|ALT_INV_StageOut[135]~28_combout\ : std_logic;
+SIGNAL \io1|Mod0|auto_generated|divider|divider|ALT_INV_StageOut[133]~27_combout\ : std_logic;
+SIGNAL \io1|Mod0|auto_generated|divider|divider|ALT_INV_StageOut[133]~26_combout\ : std_logic;
+SIGNAL \io1|Mod0|auto_generated|divider|divider|ALT_INV_StageOut[131]~25_combout\ : std_logic;
+SIGNAL \io1|Mod0|auto_generated|divider|divider|ALT_INV_StageOut[131]~24_combout\ : std_logic;
+SIGNAL \io1|ALT_INV_Selector65~1_combout\ : std_logic;
+SIGNAL \io1|ALT_INV_Selector65~0_combout\ : std_logic;
+SIGNAL \io1|ALT_INV_paramCount[2]~4_combout\ : std_logic;
+SIGNAL \io1|ALT_INV_paramCount~3_combout\ : std_logic;
+SIGNAL \io1|ALT_INV_paramCount~1_combout\ : std_logic;
+SIGNAL \io1|ALT_INV_param1~10_combout\ : std_logic;
+SIGNAL \io1|ALT_INV_paramCount[1]~0_combout\ : std_logic;
+SIGNAL \io1|ALT_INV_dispAttWRData~20_combout\ : std_logic;
+SIGNAL \io1|ALT_INV_dispAttWRData~19_combout\ : std_logic;
+SIGNAL \io1|ALT_INV_dispAttWRData~18_combout\ : std_logic;
+SIGNAL \io1|ALT_INV_dispAttWRData~17_combout\ : std_logic;
+SIGNAL \io1|ALT_INV_dispAttWRData~16_combout\ : std_logic;
+SIGNAL \io1|ALT_INV_dispAttWRData~15_combout\ : std_logic;
+SIGNAL \io1|ALT_INV_param1~2_combout\ : std_logic;
+SIGNAL \io1|ALT_INV_display_store~43_combout\ : std_logic;
+SIGNAL \io1|ALT_INV_Equal31~2_combout\ : std_logic;
+SIGNAL \io2|ALT_INV_rxCurrentByteBuffer\ : std_logic_vector(6 DOWNTO 2);
+SIGNAL \io1|ALT_INV_kbBuffer~59_q\ : std_logic;
+SIGNAL \io1|ALT_INV_kbBuffer~45_q\ : std_logic;
+SIGNAL \io1|ALT_INV_kbBuffer~66_q\ : std_logic;
+SIGNAL \io1|ALT_INV_kbBuffer~52_q\ : std_logic;
+SIGNAL \io1|ALT_INV_kbBuffer~58_q\ : std_logic;
+SIGNAL \io1|ALT_INV_kbBuffer~44_q\ : std_logic;
+SIGNAL \io1|ALT_INV_kbBuffer~65_q\ : std_logic;
+SIGNAL \io1|ALT_INV_kbBuffer~51_q\ : std_logic;
+SIGNAL \io1|ALT_INV_kbBuffer~57_q\ : std_logic;
+SIGNAL \io1|ALT_INV_kbBuffer~43_q\ : std_logic;
+SIGNAL \io1|ALT_INV_kbBuffer~64_q\ : std_logic;
+SIGNAL \io1|ALT_INV_kbBuffer~50_q\ : std_logic;
+SIGNAL \io1|ALT_INV_kbBuffer~56_q\ : std_logic;
+SIGNAL \io1|ALT_INV_kbBuffer~42_q\ : std_logic;
+SIGNAL \io1|ALT_INV_kbBuffer~63_q\ : std_logic;
+SIGNAL \io1|ALT_INV_kbBuffer~49_q\ : std_logic;
+SIGNAL \io1|ALT_INV_kbBuffer~55_q\ : std_logic;
+SIGNAL \io1|ALT_INV_kbBuffer~41_q\ : std_logic;
+SIGNAL \io1|ALT_INV_kbBuffer~62_q\ : std_logic;
+SIGNAL \io1|ALT_INV_kbBuffer~48_q\ : std_logic;
+SIGNAL \io1|ALT_INV_kbBuffer~54_q\ : std_logic;
+SIGNAL \io1|ALT_INV_kbBuffer~40_q\ : std_logic;
+SIGNAL \io1|ALT_INV_kbBuffer~61_q\ : std_logic;
+SIGNAL \io1|ALT_INV_kbBuffer~47_q\ : std_logic;
+SIGNAL \sd1|ALT_INV_Selector124~0_combout\ : std_logic;
+SIGNAL \io2|ALT_INV_rxReadPointer[0]~8_combout\ : std_logic;
+SIGNAL \io2|ALT_INV_rxBuffer~23_combout\ : std_logic;
+SIGNAL \io1|ALT_INV_kbBuffer~53_q\ : std_logic;
+SIGNAL \io1|ALT_INV_kbBuffer~39_q\ : std_logic;
+SIGNAL \io1|ALT_INV_kbBuffer~60_q\ : std_logic;
+SIGNAL \io1|ALT_INV_kbBuffer~46_q\ : std_logic;
+SIGNAL \io1|ALT_INV_escState.none~4_combout\ : std_logic;
+SIGNAL \io1|ALT_INV_escState.none~3_combout\ : std_logic;
+SIGNAL \io1|ALT_INV_escState.none~2_combout\ : std_logic;
+SIGNAL \io1|ALT_INV_escState.none~1_combout\ : std_logic;
+SIGNAL \io1|ALT_INV_display_store~42_combout\ : std_logic;
+SIGNAL \io1|ALT_INV_display_store~41_combout\ : std_logic;
+SIGNAL \io1|ALT_INV_param1[6]~0_combout\ : std_logic;
+SIGNAL \io1|ALT_INV_cursorVertRestore[1]~2_combout\ : std_logic;
+SIGNAL \io1|ALT_INV_display_store~40_combout\ : std_logic;
+SIGNAL \io1|ALT_INV_Selector32~1_combout\ : std_logic;
+SIGNAL \io1|ALT_INV_Selector32~0_combout\ : std_logic;
+SIGNAL \io1|ALT_INV_cursorVertRestore~1_combout\ : std_logic;
+SIGNAL \io1|ALT_INV_escState~9_combout\ : std_logic;
+SIGNAL \io1|ALT_INV_cursorVertRestore~0_combout\ : std_logic;
+SIGNAL \io1|ALT_INV_display_store~39_combout\ : std_logic;
+SIGNAL \io1|ALT_INV_Equal35~1_combout\ : std_logic;
+SIGNAL \io1|ALT_INV_display_store~38_combout\ : std_logic;
+SIGNAL \io1|ALT_INV_Equal9~0_combout\ : std_logic;
+SIGNAL \io1|ALT_INV_ps2ClkFilter\ : std_logic_vector(5 DOWNTO 0);
+SIGNAL \io1|ALT_INV_n_kbWR~4_combout\ : std_logic;
+SIGNAL \io1|ALT_INV_n_kbWR~3_combout\ : std_logic;
+SIGNAL \io1|ALT_INV_ps2WriteByte\ : std_logic_vector(4 DOWNTO 0);
+SIGNAL \io1|ALT_INV_Equal29~0_combout\ : std_logic;
+SIGNAL \io1|ALT_INV_Equal27~0_combout\ : std_logic;
+SIGNAL \io1|ALT_INV_ps2WriteClkCount\ : std_logic_vector(4 DOWNTO 0);
+SIGNAL \io1|ALT_INV_n_kbWR~2_combout\ : std_logic;
+SIGNAL \io1|ALT_INV_ps2ClkCount[0]~1_combout\ : std_logic;
+SIGNAL \io1|ALT_INV_LessThan28~5_combout\ : std_logic;
+SIGNAL \io1|ALT_INV_LessThan28~4_combout\ : std_logic;
+SIGNAL \io1|ALT_INV_LessThan28~3_combout\ : std_logic;
+SIGNAL \io1|ALT_INV_LessThan28~2_combout\ : std_logic;
+SIGNAL \io1|ALT_INV_LessThan28~1_combout\ : std_logic;
+SIGNAL \io1|ALT_INV_LessThan28~0_combout\ : std_logic;
+SIGNAL \io1|ALT_INV_n_kbWR~1_combout\ : std_logic;
+SIGNAL \io1|ALT_INV_Equal11~6_combout\ : std_logic;
+SIGNAL \io1|ALT_INV_Equal11~5_combout\ : std_logic;
+SIGNAL \io1|ALT_INV_Equal11~4_combout\ : std_logic;
+SIGNAL \io1|ALT_INV_LessThan14~2_combout\ : std_logic;
+SIGNAL \io1|ALT_INV_LessThan14~1_combout\ : std_logic;
+SIGNAL \io1|ALT_INV_LessThan14~0_combout\ : std_logic;
+SIGNAL \io1|ALT_INV_LessThan17~2_combout\ : std_logic;
+SIGNAL \io1|ALT_INV_LessThan17~1_combout\ : std_logic;
+SIGNAL \io1|ALT_INV_LessThan17~0_combout\ : std_logic;
 SIGNAL \io1|ALT_INV_LessThan16~1_combout\ : std_logic;
 SIGNAL \io1|ALT_INV_LessThan16~0_combout\ : std_logic;
 SIGNAL \io1|ALT_INV_Equal11~3_combout\ : std_logic;
@@ -4945,13 +5349,10 @@ SIGNAL \sd1|ALT_INV_fsm:byte_counter[0]~0_combout\ : std_logic;
 SIGNAL \sd1|ALT_INV_fsm:byte_counter[1]~0_combout\ : std_logic;
 SIGNAL \sd1|ALT_INV_Equal13~0_combout\ : std_logic;
 SIGNAL \sd1|ALT_INV_fsm:bit_counter[4]~7_combout\ : std_logic;
-SIGNAL \sd1|ALT_INV_din_latched\ : std_logic_vector(7 DOWNTO 0);
-SIGNAL \sd1|ALT_INV_data_sig\ : std_logic_vector(7 DOWNTO 0);
 SIGNAL \sd1|ALT_INV_Selector93~0_combout\ : std_logic;
 SIGNAL \sd1|ALT_INV_return_state.acmd41~q\ : std_logic;
 SIGNAL \sd1|ALT_INV_return_state.cmd55~q\ : std_logic;
 SIGNAL \sd1|ALT_INV_return_state.cmd8~q\ : std_logic;
-SIGNAL \sd1|ALT_INV_cmd_out\ : std_logic_vector(55 DOWNTO 1);
 SIGNAL \sd1|ALT_INV_Selector89~1_combout\ : std_logic;
 SIGNAL \sd1|ALT_INV_Selector89~0_combout\ : std_logic;
 SIGNAL \sd1|ALT_INV_return_state.idle~q\ : std_logic;
@@ -5340,14 +5741,11 @@ SIGNAL \io1|ALT_INV_attBold~0_combout\ : std_logic;
 SIGNAL \io1|ALT_INV_Equal47~0_combout\ : std_logic;
 SIGNAL \io2|ALT_INV_txBitCount[0]~0_combout\ : std_logic;
 SIGNAL \io2|ALT_INV_txBuffer[7]~0_combout\ : std_logic;
-SIGNAL \io2|ALT_INV_txByteLatch\ : std_logic_vector(7 DOWNTO 0);
-SIGNAL \io2|ALT_INV_txBuffer\ : std_logic_vector(7 DOWNTO 0);
 SIGNAL \io2|ALT_INV_txClockCount[0]~2_combout\ : std_logic;
 SIGNAL \io2|ALT_INV_txClockCount[0]~1_combout\ : std_logic;
 SIGNAL \io2|ALT_INV_txState.stopBit~1_combout\ : std_logic;
 SIGNAL \io2|ALT_INV_txState.stopBit~0_combout\ : std_logic;
 SIGNAL \io2|ALT_INV_txState.stopBit~q\ : std_logic;
-SIGNAL \BaudRateGen|ALT_INV_w_serialCount\ : std_logic_vector(15 DOWNTO 4);
 SIGNAL \io2|ALT_INV_dataOut~13_combout\ : std_logic;
 SIGNAL \io2|ALT_INV_rxBuffer~20_q\ : std_logic;
 SIGNAL \io2|ALT_INV_dataOut~11_combout\ : std_logic;
@@ -6787,409 +7185,6 @@ SIGNAL \cpu1|ALT_INV_Selector329~3_combout\ : std_logic;
 SIGNAL \cpu1|ALT_INV_Selector329~2_combout\ : std_logic;
 SIGNAL \cpu1|ALT_INV_Selector329~1_combout\ : std_logic;
 SIGNAL \cpu1|ALT_INV_state.vect_hi_state~q\ : std_logic;
-SIGNAL \sd1|ALT_INV_address[16]~DUPLICATE_q\ : std_logic;
-SIGNAL \debounceReset|ALT_INV_w_dig_counter[8]~DUPLICATE_q\ : std_logic;
-SIGNAL \debounceReset|ALT_INV_w_dig_counter[3]~DUPLICATE_q\ : std_logic;
-SIGNAL \debounceReset|ALT_INV_w_dig_counter[6]~DUPLICATE_q\ : std_logic;
-SIGNAL \io1|ALT_INV_ps2WriteByte2[2]~DUPLICATE_q\ : std_logic;
-SIGNAL \io1|ALT_INV_ps2WriteByte2[0]~DUPLICATE_q\ : std_logic;
-SIGNAL \io1|ALT_INV_ps2WriteByte[1]~DUPLICATE_q\ : std_logic;
-SIGNAL \io1|ALT_INV_ps2WriteClkCount[2]~DUPLICATE_q\ : std_logic;
-SIGNAL \io1|ALT_INV_ps2WriteClkCount[1]~DUPLICATE_q\ : std_logic;
-SIGNAL \io2|ALT_INV_rxBitCount[2]~DUPLICATE_q\ : std_logic;
-SIGNAL \io1|ALT_INV_ps2DataOut~DUPLICATE_q\ : std_logic;
-SIGNAL \io1|ALT_INV_pixelCount[1]~DUPLICATE_q\ : std_logic;
-SIGNAL \io1|ALT_INV_paramCount[1]~DUPLICATE_q\ : std_logic;
-SIGNAL \io1|ALT_INV_escState.processingAdditionalParams~DUPLICATE_q\ : std_logic;
-SIGNAL \io1|ALT_INV_n_kbWR~DUPLICATE_q\ : std_logic;
-SIGNAL \io1|ALT_INV_ps2ClkCount[2]~DUPLICATE_q\ : std_logic;
-SIGNAL \io1|ALT_INV_ps2ClkCount[3]~DUPLICATE_q\ : std_logic;
-SIGNAL \io2|ALT_INV_rxClockCount[0]~DUPLICATE_q\ : std_logic;
-SIGNAL \mm1|ALT_INV_nmi_i~DUPLICATE_q\ : std_logic;
-SIGNAL \sd1|ALT_INV_fsm:byte_counter[6]~DUPLICATE_q\ : std_logic;
-SIGNAL \sd1|ALT_INV_fsm:byte_counter[9]~DUPLICATE_q\ : std_logic;
-SIGNAL \sd1|ALT_INV_fsm:byte_counter[0]~DUPLICATE_q\ : std_logic;
-SIGNAL \sd1|ALT_INV_state.write_block_byte~DUPLICATE_q\ : std_logic;
-SIGNAL \sd1|ALT_INV_state.send_regreq~DUPLICATE_q\ : std_logic;
-SIGNAL \sd1|ALT_INV_state.acmd41~DUPLICATE_q\ : std_logic;
-SIGNAL \sd1|ALT_INV_state.read_block_cmd~DUPLICATE_q\ : std_logic;
-SIGNAL \sd1|ALT_INV_state.write_block_cmd~DUPLICATE_q\ : std_logic;
-SIGNAL \sd1|ALT_INV_clkCount[1]~DUPLICATE_q\ : std_logic;
-SIGNAL \io1|ALT_INV_charVert[4]~DUPLICATE_q\ : std_logic;
-SIGNAL \io1|ALT_INV_cursorVert[4]~DUPLICATE_q\ : std_logic;
-SIGNAL \io1|ALT_INV_cursorVert[3]~DUPLICATE_q\ : std_logic;
-SIGNAL \io1|ALT_INV_charVert[1]~DUPLICATE_q\ : std_logic;
-SIGNAL \io1|ALT_INV_cursorVert[1]~DUPLICATE_q\ : std_logic;
-SIGNAL \io1|ALT_INV_cursorVert[0]~DUPLICATE_q\ : std_logic;
-SIGNAL \io1|ALT_INV_cursorVert[2]~DUPLICATE_q\ : std_logic;
-SIGNAL \io1|ALT_INV_charScanLine[1]~DUPLICATE_q\ : std_logic;
-SIGNAL \io1|ALT_INV_charScanLine[3]~DUPLICATE_q\ : std_logic;
-SIGNAL \sd1|ALT_INV_sd_write_flag~DUPLICATE_q\ : std_logic;
-SIGNAL \mm1|ALT_INV_tenable~DUPLICATE_q\ : std_logic;
-SIGNAL \cpu1|ALT_INV_fic~DUPLICATE_q\ : std_logic;
-SIGNAL \gpio1|ALT_INV_reg[1]~DUPLICATE_q\ : std_logic;
-SIGNAL \io1|ALT_INV_kbReadPointer[1]~DUPLICATE_q\ : std_logic;
-SIGNAL \io2|ALT_INV_rxInPointer[1]~DUPLICATE_q\ : std_logic;
-SIGNAL \io2|ALT_INV_rxInPointer[0]~DUPLICATE_q\ : std_logic;
-SIGNAL \cpu1|ALT_INV_nmi_req~DUPLICATE_q\ : std_logic;
-SIGNAL \cpu1|ALT_INV_nmi_ack~DUPLICATE_q\ : std_logic;
-SIGNAL \mm1|ALT_INV_romInhib_i~DUPLICATE_q\ : std_logic;
-SIGNAL \sd1|ALT_INV_sclk_sig~DUPLICATE_q\ : std_logic;
-SIGNAL \mm1|ALT_INV_tr~DUPLICATE_q\ : std_logic;
-SIGNAL \mm1|ALT_INV_mmuEn~DUPLICATE_q\ : std_logic;
-SIGNAL \mm1|ALT_INV_frt_i~DUPLICATE_q\ : std_logic;
-SIGNAL \io1|ALT_INV_param3[2]~DUPLICATE_q\ : std_logic;
-SIGNAL \io1|ALT_INV_param3[3]~DUPLICATE_q\ : std_logic;
-SIGNAL \io1|ALT_INV_param3[5]~DUPLICATE_q\ : std_logic;
-SIGNAL \io1|ALT_INV_startAddr[5]~DUPLICATE_q\ : std_logic;
-SIGNAL \io1|ALT_INV_startAddr[10]~DUPLICATE_q\ : std_logic;
-SIGNAL \io1|ALT_INV_startAddr[9]~DUPLICATE_q\ : std_logic;
-SIGNAL \io1|ALT_INV_startAddr[8]~DUPLICATE_q\ : std_logic;
-SIGNAL \io1|ALT_INV_kbWatchdogTimer[13]~DUPLICATE_q\ : std_logic;
-SIGNAL \io1|ALT_INV_kbWatchdogTimer[15]~DUPLICATE_q\ : std_logic;
-SIGNAL \io1|ALT_INV_kbWriteTimer[7]~DUPLICATE_q\ : std_logic;
-SIGNAL \io1|ALT_INV_kbWriteTimer[10]~DUPLICATE_q\ : std_logic;
-SIGNAL \io1|ALT_INV_kbWriteTimer[14]~DUPLICATE_q\ : std_logic;
-SIGNAL \io1|ALT_INV_cursBlinkCount[20]~DUPLICATE_q\ : std_logic;
-SIGNAL \io1|ALT_INV_cursBlinkCount[14]~DUPLICATE_q\ : std_logic;
-SIGNAL \io1|ALT_INV_cursBlinkCount[13]~DUPLICATE_q\ : std_logic;
-SIGNAL \io1|ALT_INV_cursBlinkCount[10]~DUPLICATE_q\ : std_logic;
-SIGNAL \io1|ALT_INV_cursBlinkCount[17]~DUPLICATE_q\ : std_logic;
-SIGNAL \io1|ALT_INV_param2[1]~DUPLICATE_q\ : std_logic;
-SIGNAL \io1|ALT_INV_param2[4]~DUPLICATE_q\ : std_logic;
-SIGNAL \io1|ALT_INV_param2[6]~DUPLICATE_q\ : std_logic;
-SIGNAL \io1|ALT_INV_param1[1]~DUPLICATE_q\ : std_logic;
-SIGNAL \io1|ALT_INV_param1[3]~DUPLICATE_q\ : std_logic;
-SIGNAL \io1|ALT_INV_param1[5]~DUPLICATE_q\ : std_logic;
-SIGNAL \sd1|ALT_INV_recv_data[5]~DUPLICATE_q\ : std_logic;
-SIGNAL \io1|ALT_INV_ps2Byte[6]~DUPLICATE_q\ : std_logic;
-SIGNAL \mm1|ALT_INV_tcount[3]~DUPLICATE_q\ : std_logic;
-SIGNAL \mm1|ALT_INV_tcount[15]~DUPLICATE_q\ : std_logic;
-SIGNAL \mm1|ALT_INV_tcount[13]~DUPLICATE_q\ : std_logic;
-SIGNAL \mm1|ALT_INV_tcount[5]~DUPLICATE_q\ : std_logic;
-SIGNAL \mm1|ALT_INV_tcount[1]~DUPLICATE_q\ : std_logic;
-SIGNAL \mm1|ALT_INV_tcount[11]~DUPLICATE_q\ : std_logic;
-SIGNAL \mm1|ALT_INV_tcount[7]~DUPLICATE_q\ : std_logic;
-SIGNAL \mm1|ALT_INV_tcount[17]~DUPLICATE_q\ : std_logic;
-SIGNAL \io1|ALT_INV_dispAttWRData[0]~DUPLICATE_q\ : std_logic;
-SIGNAL \ALT_INV_i_n_reset~input_o\ : std_logic;
-SIGNAL \ALT_INV_i_rxd1~input_o\ : std_logic;
-SIGNAL \ALT_INV_sdMISO~input_o\ : std_logic;
-SIGNAL \ALT_INV_i_cts1~input_o\ : std_logic;
-SIGNAL \ALT_INV_i_SerSel~input_o\ : std_logic;
-SIGNAL \ALT_INV_gpio2[7]~input_o\ : std_logic;
-SIGNAL \ALT_INV_gpio2[6]~input_o\ : std_logic;
-SIGNAL \ALT_INV_gpio2[5]~input_o\ : std_logic;
-SIGNAL \ALT_INV_gpio2[4]~input_o\ : std_logic;
-SIGNAL \ALT_INV_gpio2[3]~input_o\ : std_logic;
-SIGNAL \ALT_INV_gpio2[2]~input_o\ : std_logic;
-SIGNAL \ALT_INV_gpio2[1]~input_o\ : std_logic;
-SIGNAL \ALT_INV_gpio2[0]~input_o\ : std_logic;
-SIGNAL \ALT_INV_gpio0[2]~input_o\ : std_logic;
-SIGNAL \ALT_INV_gpio0[1]~input_o\ : std_logic;
-SIGNAL \ALT_INV_gpio0[0]~input_o\ : std_logic;
-SIGNAL \ALT_INV_io_ps2Clk~input_o\ : std_logic;
-SIGNAL \ALT_INV_sramData[7]~input_o\ : std_logic;
-SIGNAL \ALT_INV_sramData[6]~input_o\ : std_logic;
-SIGNAL \ALT_INV_sramData[5]~input_o\ : std_logic;
-SIGNAL \ALT_INV_sramData[4]~input_o\ : std_logic;
-SIGNAL \ALT_INV_sramData[3]~input_o\ : std_logic;
-SIGNAL \ALT_INV_sramData[2]~input_o\ : std_logic;
-SIGNAL \ALT_INV_sramData[1]~input_o\ : std_logic;
-SIGNAL \ALT_INV_sramData[0]~input_o\ : std_logic;
-SIGNAL \io2|ALT_INV_rxReadPointer[0]~8_wirecell_combout\ : std_logic;
-SIGNAL \io1|ALT_INV_Mux2~4_combout\ : std_logic;
-SIGNAL \io1|ALT_INV_ps2WriteClkCount[4]~7_combout\ : std_logic;
-SIGNAL \cpu1|ALT_INV_Selector191~0_combout\ : std_logic;
-SIGNAL \ALT_INV_w_cpuDataIn[3]~66_combout\ : std_logic;
-SIGNAL \ALT_INV_w_cpuDataIn[3]~65_combout\ : std_logic;
-SIGNAL \ALT_INV_w_cpuDataIn[3]~64_combout\ : std_logic;
-SIGNAL \ALT_INV_w_cpuDataIn[1]~63_combout\ : std_logic;
-SIGNAL \ALT_INV_w_cpuDataIn[2]~62_combout\ : std_logic;
-SIGNAL \ALT_INV_w_cpuDataIn[2]~61_combout\ : std_logic;
-SIGNAL \ALT_INV_w_cpuDataIn[2]~60_combout\ : std_logic;
-SIGNAL \ALT_INV_w_cpuDataIn[2]~59_combout\ : std_logic;
-SIGNAL \ALT_INV_w_cpuDataIn[0]~58_combout\ : std_logic;
-SIGNAL \ALT_INV_w_cpuDataIn[0]~57_combout\ : std_logic;
-SIGNAL \ALT_INV_w_cpuDataIn[0]~56_combout\ : std_logic;
-SIGNAL \ALT_INV_w_cpuDataIn[4]~55_combout\ : std_logic;
-SIGNAL \ALT_INV_w_cpuDataIn[7]~54_combout\ : std_logic;
-SIGNAL \ALT_INV_w_cpuDataIn[7]~53_combout\ : std_logic;
-SIGNAL \ALT_INV_w_cpuDataIn[7]~52_combout\ : std_logic;
-SIGNAL \ALT_INV_w_cpuDataIn[3]~51_combout\ : std_logic;
-SIGNAL \cpu1|ALT_INV_Selector302~2_combout\ : std_logic;
-SIGNAL \cpu1|ALT_INV_Selector302~1_combout\ : std_logic;
-SIGNAL \ALT_INV_w_cpuDataIn[6]~50_combout\ : std_logic;
-SIGNAL \ALT_INV_w_cpuDataIn[5]~49_combout\ : std_logic;
-SIGNAL \ALT_INV_w_cpuDataIn[7]~48_combout\ : std_logic;
-SIGNAL \sd1|ALT_INV_Selector56~0_combout\ : std_logic;
-SIGNAL \sd1|ALT_INV_Selector54~0_combout\ : std_logic;
-SIGNAL \sd1|ALT_INV_Selector51~0_combout\ : std_logic;
-SIGNAL \sd1|ALT_INV_address\ : std_logic_vector(31 DOWNTO 0);
-SIGNAL \sd1|ALT_INV_Selector42~0_combout\ : std_logic;
-SIGNAL \sd1|ALT_INV_cmd_out[9]~2_combout\ : std_logic;
-SIGNAL \sd1|ALT_INV_address[16]~10_combout\ : std_logic;
-SIGNAL \sd1|ALT_INV_address~9_combout\ : std_logic;
-SIGNAL \sd1|ALT_INV_address~7_combout\ : std_logic;
-SIGNAL \sd1|ALT_INV_address~6_combout\ : std_logic;
-SIGNAL \sd1|ALT_INV_address~4_combout\ : std_logic;
-SIGNAL \sd1|ALT_INV_address~2_combout\ : std_logic;
-SIGNAL \sd1|ALT_INV_Selector20~0_combout\ : std_logic;
-SIGNAL \sd1|ALT_INV_sdhc~q\ : std_logic;
-SIGNAL \sd1|ALT_INV_Selector18~0_combout\ : std_logic;
-SIGNAL \sd1|ALT_INV_Selector17~0_combout\ : std_logic;
-SIGNAL \sd1|ALT_INV_Selector15~0_combout\ : std_logic;
-SIGNAL \sd1|ALT_INV_Selector13~0_combout\ : std_logic;
-SIGNAL \sd1|ALT_INV_Selector57~0_combout\ : std_logic;
-SIGNAL \sd1|ALT_INV_WideOr29~1_combout\ : std_logic;
-SIGNAL \sd1|ALT_INV_Selector135~2_combout\ : std_logic;
-SIGNAL \sd1|ALT_INV_Selector135~1_combout\ : std_logic;
-SIGNAL \sd1|ALT_INV_Selector135~0_combout\ : std_logic;
-SIGNAL \io2|ALT_INV_Equal3~0_combout\ : std_logic;
-SIGNAL \io1|ALT_INV_paramCount~7_combout\ : std_logic;
-SIGNAL \io1|ALT_INV_Equal30~1_combout\ : std_logic;
-SIGNAL \io1|Mod1|auto_generated|divider|divider|ALT_INV_StageOut[139]~36_combout\ : std_logic;
-SIGNAL \io1|Mod1|auto_generated|divider|divider|ALT_INV_StageOut[139]~35_combout\ : std_logic;
-SIGNAL \io1|Mod1|auto_generated|divider|divider|ALT_INV_StageOut[139]~34_combout\ : std_logic;
-SIGNAL \io1|Mod0|auto_generated|divider|divider|ALT_INV_StageOut[139]~36_combout\ : std_logic;
-SIGNAL \io1|Mod0|auto_generated|divider|divider|ALT_INV_StageOut[139]~35_combout\ : std_logic;
-SIGNAL \io1|Mod0|auto_generated|divider|divider|ALT_INV_StageOut[139]~34_combout\ : std_logic;
-SIGNAL \io1|ALT_INV_ps2Num~1_combout\ : std_logic;
-SIGNAL \io1|ALT_INV_kbBuffer~146_combout\ : std_logic;
-SIGNAL \io1|ALT_INV_kbBuffer~143_combout\ : std_logic;
-SIGNAL \io1|ALT_INV_Equal10~0_combout\ : std_logic;
-SIGNAL \io1|ALT_INV_ps2WriteByte2~8_combout\ : std_logic;
-SIGNAL \io1|ALT_INV_ps2WriteByte2~6_combout\ : std_logic;
-SIGNAL \io1|ALT_INV_ps2WriteByte2~5_combout\ : std_logic;
-SIGNAL \io1|ALT_INV_ps2Num~q\ : std_logic;
-SIGNAL \io1|ALT_INV_ps2WriteByte2~3_combout\ : std_logic;
-SIGNAL \io1|ALT_INV_ps2WriteByte2~2_combout\ : std_logic;
-SIGNAL \io1|ALT_INV_ps2WriteByte2~1_combout\ : std_logic;
-SIGNAL \io1|ALT_INV_ps2Scroll~q\ : std_logic;
-SIGNAL \debounceReset|ALT_INV_Equal0~3_combout\ : std_logic;
-SIGNAL \debounceReset|ALT_INV_Equal0~2_combout\ : std_logic;
-SIGNAL \debounceReset|ALT_INV_w_dig_counter\ : std_logic_vector(19 DOWNTO 1);
-SIGNAL \debounceReset|ALT_INV_Equal0~1_combout\ : std_logic;
-SIGNAL \debounceReset|ALT_INV_Equal0~0_combout\ : std_logic;
-SIGNAL \io1|ALT_INV_param3~1_combout\ : std_logic;
-SIGNAL \io1|Mod1|auto_generated|divider|divider|ALT_INV_StageOut[140]~33_combout\ : std_logic;
-SIGNAL \io1|Mod1|auto_generated|divider|divider|ALT_INV_StageOut[140]~32_combout\ : std_logic;
-SIGNAL \io1|Mod0|auto_generated|divider|divider|ALT_INV_StageOut[140]~33_combout\ : std_logic;
-SIGNAL \io1|Mod0|auto_generated|divider|divider|ALT_INV_StageOut[140]~32_combout\ : std_logic;
-SIGNAL \io1|ALT_INV_Add27~1_combout\ : std_logic;
-SIGNAL \io1|ALT_INV_Add27~0_combout\ : std_logic;
-SIGNAL \io1|ALT_INV_kbBuffer~31_q\ : std_logic;
-SIGNAL \io1|ALT_INV_kbBuffer~17_q\ : std_logic;
-SIGNAL \io1|ALT_INV_kbBuffer~38_q\ : std_logic;
-SIGNAL \io1|ALT_INV_kbBuffer~24_q\ : std_logic;
-SIGNAL \io1|ALT_INV_kbBuffer~142_combout\ : std_logic;
-SIGNAL \io1|ALT_INV_kbBuffer~30_q\ : std_logic;
-SIGNAL \io1|ALT_INV_kbBuffer~16_q\ : std_logic;
-SIGNAL \io1|ALT_INV_kbBuffer~37_q\ : std_logic;
-SIGNAL \io1|ALT_INV_kbBuffer~23_q\ : std_logic;
-SIGNAL \io1|ALT_INV_kbBuffer~141_combout\ : std_logic;
-SIGNAL \io1|ALT_INV_kbBuffer~140_combout\ : std_logic;
-SIGNAL \io1|ALT_INV_ps2Caps~q\ : std_logic;
-SIGNAL \io1|ALT_INV_kbBuffer~139_combout\ : std_logic;
-SIGNAL \io1|ALT_INV_ps2Ctrl~q\ : std_logic;
-SIGNAL \io1|ALT_INV_kbBuffer~29_q\ : std_logic;
-SIGNAL \io1|ALT_INV_kbBuffer~15_q\ : std_logic;
-SIGNAL \io1|ALT_INV_kbBuffer~36_q\ : std_logic;
-SIGNAL \io1|ALT_INV_kbBuffer~22_q\ : std_logic;
-SIGNAL \io1|ALT_INV_kbBuffer~138_combout\ : std_logic;
-SIGNAL \io1|ALT_INV_kbBuffer~28_q\ : std_logic;
-SIGNAL \io1|ALT_INV_kbBuffer~14_q\ : std_logic;
-SIGNAL \io1|ALT_INV_kbBuffer~35_q\ : std_logic;
-SIGNAL \io1|ALT_INV_kbBuffer~21_q\ : std_logic;
-SIGNAL \io1|ALT_INV_kbBuffer~137_combout\ : std_logic;
-SIGNAL \io1|ALT_INV_kbBuffer~27_q\ : std_logic;
-SIGNAL \io1|ALT_INV_kbBuffer~13_q\ : std_logic;
-SIGNAL \io1|ALT_INV_kbBuffer~34_q\ : std_logic;
-SIGNAL \io1|ALT_INV_kbBuffer~20_q\ : std_logic;
-SIGNAL \io1|ALT_INV_kbBuffer~136_combout\ : std_logic;
-SIGNAL \io1|ALT_INV_kbBuffer~26_q\ : std_logic;
-SIGNAL \io1|ALT_INV_kbBuffer~12_q\ : std_logic;
-SIGNAL \io1|ALT_INV_kbBuffer~33_q\ : std_logic;
-SIGNAL \io1|ALT_INV_kbBuffer~19_q\ : std_logic;
-SIGNAL \io1|ALT_INV_kbBuffer~135_combout\ : std_logic;
-SIGNAL \io1|ALT_INV_kbBuffer~25_q\ : std_logic;
-SIGNAL \io1|ALT_INV_kbBuffer~11_q\ : std_logic;
-SIGNAL \io1|ALT_INV_kbBuffer~32_q\ : std_logic;
-SIGNAL \io1|ALT_INV_kbBuffer~18_q\ : std_logic;
-SIGNAL \io1|ALT_INV_kbBuffer~132_combout\ : std_logic;
-SIGNAL \io1|ALT_INV_kbBuffer~131_combout\ : std_logic;
-SIGNAL \io1|ALT_INV_kbBuffer~128_combout\ : std_logic;
-SIGNAL \io1|ALT_INV_kbBuffer~127_combout\ : std_logic;
-SIGNAL \io1|ALT_INV_kbBuffer~126_combout\ : std_logic;
-SIGNAL \io1|ALT_INV_kbd_ctl~11_combout\ : std_logic;
-SIGNAL \io1|ALT_INV_ps2WriteByte2\ : std_logic_vector(3 DOWNTO 0);
-SIGNAL \io1|ALT_INV_ps2WriteByte2[0]~0_combout\ : std_logic;
-SIGNAL \io1|ALT_INV_ps2WriteByte[0]~2_combout\ : std_logic;
-SIGNAL \io1|ALT_INV_Add23~0_combout\ : std_logic;
-SIGNAL \io1|ALT_INV_ps2WriteClkCount[2]~1_combout\ : std_logic;
-SIGNAL \io1|ALT_INV_ps2WriteClkCount~0_combout\ : std_logic;
-SIGNAL \io1|ALT_INV_kbWRParity~2_combout\ : std_logic;
-SIGNAL \io2|ALT_INV_Equal2~0_combout\ : std_logic;
-SIGNAL \io2|ALT_INV_rxFilter\ : std_logic_vector(5 DOWNTO 0);
-SIGNAL \mm1|ALT_INV_nmiDly[1]~1_combout\ : std_logic;
-SIGNAL \mm1|ALT_INV_Add1~0_combout\ : std_logic;
-SIGNAL \mm1|ALT_INV_nmiDly[4]~0_combout\ : std_logic;
-SIGNAL \mm1|ALT_INV_nmi_i~1_combout\ : std_logic;
-SIGNAL \io1|ALT_INV_kbWRParity~1_combout\ : std_logic;
-SIGNAL \io1|ALT_INV_ps2DataOut~1_combout\ : std_logic;
-SIGNAL \io1|ALT_INV_kbWRParity~0_combout\ : std_logic;
-SIGNAL \io1|ALT_INV_Mux16~1_combout\ : std_logic;
-SIGNAL \io1|ALT_INV_Mux16~0_combout\ : std_logic;
-SIGNAL \io1|ALT_INV_ps2DataOut~0_combout\ : std_logic;
-SIGNAL \io1|ALT_INV_kbWRParity~q\ : std_logic;
-SIGNAL \io1|ALT_INV_kbd_ctl~10_combout\ : std_logic;
-SIGNAL \io1|ALT_INV_kbd_ctl~9_combout\ : std_logic;
-SIGNAL \io1|ALT_INV_kbd_ctl~8_combout\ : std_logic;
-SIGNAL \io1|ALT_INV_kbd_ctl~7_combout\ : std_logic;
-SIGNAL \sd1|ALT_INV_wr_cmd_reg~2_combout\ : std_logic;
-SIGNAL \sd1|ALT_INV_block_start_ack~q\ : std_logic;
-SIGNAL \sd1|ALT_INV_wr_cmd_reg~1_combout\ : std_logic;
-SIGNAL \sd1|ALT_INV_wr_cmd_reg~0_combout\ : std_logic;
-SIGNAL \sd1|ALT_INV_return_state.receive_byte_wait~1_combout\ : std_logic;
-SIGNAL \sd1|ALT_INV_return_state.receive_byte_wait~0_combout\ : std_logic;
-SIGNAL \sd1|ALT_INV_return_state.cardsel~q\ : std_logic;
-SIGNAL \sd1|ALT_INV_return_state.poll_cmd~q\ : std_logic;
-SIGNAL \io1|ALT_INV_LessThan9~3_combout\ : std_logic;
-SIGNAL \io1|ALT_INV_LessThan9~2_combout\ : std_logic;
-SIGNAL \io1|ALT_INV_LessThan9~1_combout\ : std_logic;
-SIGNAL \io1|ALT_INV_LessThan9~0_combout\ : std_logic;
-SIGNAL \io1|ALT_INV_param2~1_combout\ : std_logic;
-SIGNAL \io1|ALT_INV_cursorHorizRestore[6]~0_combout\ : std_logic;
-SIGNAL \io1|ALT_INV_Selector25~0_combout\ : std_logic;
-SIGNAL \io1|ALT_INV_Selector43~0_combout\ : std_logic;
-SIGNAL \io1|ALT_INV_cursorVertRestore[1]~6_combout\ : std_logic;
-SIGNAL \io1|ALT_INV_cursorVertRestore[0]~5_combout\ : std_logic;
-SIGNAL \io1|ALT_INV_cursorVertRestore[0]~4_combout\ : std_logic;
-SIGNAL \io1|ALT_INV_dispState~34_combout\ : std_logic;
-SIGNAL \io1|ALT_INV_param1[6]~11_combout\ : std_logic;
-SIGNAL \io1|ALT_INV_Selector36~0_combout\ : std_logic;
-SIGNAL \io1|ALT_INV_dispState~33_combout\ : std_logic;
-SIGNAL \io1|ALT_INV_Selector34~2_combout\ : std_logic;
-SIGNAL \io1|ALT_INV_Selector34~1_combout\ : std_logic;
-SIGNAL \io1|ALT_INV_cursorVertRestore[1]~3_combout\ : std_logic;
-SIGNAL \io1|ALT_INV_Selector34~0_combout\ : std_logic;
-SIGNAL \io1|ALT_INV_display_store~44_combout\ : std_logic;
-SIGNAL \io1|ALT_INV_dispAttWRData~30_combout\ : std_logic;
-SIGNAL \io1|ALT_INV_Equal49~0_combout\ : std_logic;
-SIGNAL \io1|ALT_INV_dispAttWRData~29_combout\ : std_logic;
-SIGNAL \io1|ALT_INV_dispAttWRData~27_combout\ : std_logic;
-SIGNAL \io1|ALT_INV_dispAttWRData~26_combout\ : std_logic;
-SIGNAL \io1|ALT_INV_dispAttWRData~24_combout\ : std_logic;
-SIGNAL \io1|ALT_INV_attBold~q\ : std_logic;
-SIGNAL \io1|ALT_INV_dispAttWRData~22_combout\ : std_logic;
-SIGNAL \io1|ALT_INV_Add4~2_combout\ : std_logic;
-SIGNAL \io1|ALT_INV_Add4~1_combout\ : std_logic;
-SIGNAL \io1|Mod1|auto_generated|divider|divider|ALT_INV_StageOut[135]~31_combout\ : std_logic;
-SIGNAL \io1|Mod1|auto_generated|divider|divider|ALT_INV_StageOut[135]~30_combout\ : std_logic;
-SIGNAL \io1|ALT_INV_Add4~0_combout\ : std_logic;
-SIGNAL \io1|Mod1|auto_generated|divider|divider|ALT_INV_StageOut[133]~29_combout\ : std_logic;
-SIGNAL \io1|Mod1|auto_generated|divider|divider|ALT_INV_StageOut[133]~28_combout\ : std_logic;
-SIGNAL \io1|Mod1|auto_generated|divider|divider|ALT_INV_StageOut[131]~27_combout\ : std_logic;
-SIGNAL \io1|Mod1|auto_generated|divider|divider|ALT_INV_StageOut[131]~26_combout\ : std_logic;
-SIGNAL \io1|Mod0|auto_generated|divider|divider|ALT_INV_StageOut[137]~31_combout\ : std_logic;
-SIGNAL \io1|Mod0|auto_generated|divider|divider|ALT_INV_StageOut[137]~30_combout\ : std_logic;
-SIGNAL \io1|Mod0|auto_generated|divider|divider|ALT_INV_StageOut[135]~29_combout\ : std_logic;
-SIGNAL \io1|Mod0|auto_generated|divider|divider|ALT_INV_StageOut[135]~28_combout\ : std_logic;
-SIGNAL \io1|Mod0|auto_generated|divider|divider|ALT_INV_StageOut[133]~27_combout\ : std_logic;
-SIGNAL \io1|Mod0|auto_generated|divider|divider|ALT_INV_StageOut[133]~26_combout\ : std_logic;
-SIGNAL \io1|Mod0|auto_generated|divider|divider|ALT_INV_StageOut[131]~25_combout\ : std_logic;
-SIGNAL \io1|Mod0|auto_generated|divider|divider|ALT_INV_StageOut[131]~24_combout\ : std_logic;
-SIGNAL \io1|ALT_INV_Selector65~1_combout\ : std_logic;
-SIGNAL \io1|ALT_INV_Selector65~0_combout\ : std_logic;
-SIGNAL \io1|ALT_INV_paramCount[2]~4_combout\ : std_logic;
-SIGNAL \io1|ALT_INV_paramCount~3_combout\ : std_logic;
-SIGNAL \io1|ALT_INV_paramCount~1_combout\ : std_logic;
-SIGNAL \io1|ALT_INV_param1~10_combout\ : std_logic;
-SIGNAL \io1|ALT_INV_paramCount[1]~0_combout\ : std_logic;
-SIGNAL \io1|ALT_INV_dispAttWRData~20_combout\ : std_logic;
-SIGNAL \io1|ALT_INV_dispAttWRData~19_combout\ : std_logic;
-SIGNAL \io1|ALT_INV_dispAttWRData~18_combout\ : std_logic;
-SIGNAL \io1|ALT_INV_dispAttWRData~17_combout\ : std_logic;
-SIGNAL \io1|ALT_INV_dispAttWRData~16_combout\ : std_logic;
-SIGNAL \io1|ALT_INV_dispAttWRData~15_combout\ : std_logic;
-SIGNAL \io1|ALT_INV_param1~2_combout\ : std_logic;
-SIGNAL \io1|ALT_INV_display_store~43_combout\ : std_logic;
-SIGNAL \io1|ALT_INV_Equal31~2_combout\ : std_logic;
-SIGNAL \io2|ALT_INV_rxCurrentByteBuffer\ : std_logic_vector(6 DOWNTO 2);
-SIGNAL \io1|ALT_INV_kbBuffer~59_q\ : std_logic;
-SIGNAL \io1|ALT_INV_kbBuffer~45_q\ : std_logic;
-SIGNAL \io1|ALT_INV_kbBuffer~66_q\ : std_logic;
-SIGNAL \io1|ALT_INV_kbBuffer~52_q\ : std_logic;
-SIGNAL \io1|ALT_INV_kbBuffer~58_q\ : std_logic;
-SIGNAL \io1|ALT_INV_kbBuffer~44_q\ : std_logic;
-SIGNAL \io1|ALT_INV_kbBuffer~65_q\ : std_logic;
-SIGNAL \io1|ALT_INV_kbBuffer~51_q\ : std_logic;
-SIGNAL \io1|ALT_INV_kbBuffer~57_q\ : std_logic;
-SIGNAL \io1|ALT_INV_kbBuffer~43_q\ : std_logic;
-SIGNAL \io1|ALT_INV_kbBuffer~64_q\ : std_logic;
-SIGNAL \io1|ALT_INV_kbBuffer~50_q\ : std_logic;
-SIGNAL \io1|ALT_INV_kbBuffer~56_q\ : std_logic;
-SIGNAL \io1|ALT_INV_kbBuffer~42_q\ : std_logic;
-SIGNAL \io1|ALT_INV_kbBuffer~63_q\ : std_logic;
-SIGNAL \io1|ALT_INV_kbBuffer~49_q\ : std_logic;
-SIGNAL \io1|ALT_INV_kbBuffer~55_q\ : std_logic;
-SIGNAL \io1|ALT_INV_kbBuffer~41_q\ : std_logic;
-SIGNAL \io1|ALT_INV_kbBuffer~62_q\ : std_logic;
-SIGNAL \io1|ALT_INV_kbBuffer~48_q\ : std_logic;
-SIGNAL \io1|ALT_INV_kbBuffer~54_q\ : std_logic;
-SIGNAL \io1|ALT_INV_kbBuffer~40_q\ : std_logic;
-SIGNAL \io1|ALT_INV_kbBuffer~61_q\ : std_logic;
-SIGNAL \io1|ALT_INV_kbBuffer~47_q\ : std_logic;
-SIGNAL \sd1|ALT_INV_Selector124~0_combout\ : std_logic;
-SIGNAL \io2|ALT_INV_rxReadPointer[0]~8_combout\ : std_logic;
-SIGNAL \io2|ALT_INV_rxBuffer~23_combout\ : std_logic;
-SIGNAL \io1|ALT_INV_kbBuffer~53_q\ : std_logic;
-SIGNAL \io1|ALT_INV_kbBuffer~39_q\ : std_logic;
-SIGNAL \io1|ALT_INV_kbBuffer~60_q\ : std_logic;
-SIGNAL \io1|ALT_INV_kbBuffer~46_q\ : std_logic;
-SIGNAL \io1|ALT_INV_escState.none~4_combout\ : std_logic;
-SIGNAL \io1|ALT_INV_escState.none~3_combout\ : std_logic;
-SIGNAL \io1|ALT_INV_escState.none~2_combout\ : std_logic;
-SIGNAL \io1|ALT_INV_escState.none~1_combout\ : std_logic;
-SIGNAL \io1|ALT_INV_display_store~42_combout\ : std_logic;
-SIGNAL \io1|ALT_INV_display_store~41_combout\ : std_logic;
-SIGNAL \io1|ALT_INV_param1[6]~0_combout\ : std_logic;
-SIGNAL \io1|ALT_INV_cursorVertRestore[1]~2_combout\ : std_logic;
-SIGNAL \io1|ALT_INV_display_store~40_combout\ : std_logic;
-SIGNAL \io1|ALT_INV_Selector32~1_combout\ : std_logic;
-SIGNAL \io1|ALT_INV_Selector32~0_combout\ : std_logic;
-SIGNAL \io1|ALT_INV_cursorVertRestore~1_combout\ : std_logic;
-SIGNAL \io1|ALT_INV_escState~9_combout\ : std_logic;
-SIGNAL \io1|ALT_INV_cursorVertRestore~0_combout\ : std_logic;
-SIGNAL \io1|ALT_INV_display_store~39_combout\ : std_logic;
-SIGNAL \io1|ALT_INV_Equal35~1_combout\ : std_logic;
-SIGNAL \io1|ALT_INV_display_store~38_combout\ : std_logic;
-SIGNAL \io1|ALT_INV_Equal9~0_combout\ : std_logic;
-SIGNAL \io1|ALT_INV_ps2ClkFilter\ : std_logic_vector(5 DOWNTO 0);
-SIGNAL \io1|ALT_INV_n_kbWR~4_combout\ : std_logic;
-SIGNAL \io1|ALT_INV_n_kbWR~3_combout\ : std_logic;
-SIGNAL \io1|ALT_INV_ps2WriteByte\ : std_logic_vector(4 DOWNTO 0);
-SIGNAL \io1|ALT_INV_Equal29~0_combout\ : std_logic;
-SIGNAL \io1|ALT_INV_Equal27~0_combout\ : std_logic;
-SIGNAL \io1|ALT_INV_ps2WriteClkCount\ : std_logic_vector(4 DOWNTO 0);
-SIGNAL \io1|ALT_INV_n_kbWR~2_combout\ : std_logic;
-SIGNAL \io1|ALT_INV_ps2ClkCount[0]~1_combout\ : std_logic;
-SIGNAL \io1|ALT_INV_LessThan28~5_combout\ : std_logic;
-SIGNAL \io1|ALT_INV_LessThan28~4_combout\ : std_logic;
-SIGNAL \io1|ALT_INV_LessThan28~3_combout\ : std_logic;
-SIGNAL \io1|ALT_INV_LessThan28~2_combout\ : std_logic;
-SIGNAL \io1|ALT_INV_LessThan28~1_combout\ : std_logic;
-SIGNAL \io1|ALT_INV_LessThan28~0_combout\ : std_logic;
-SIGNAL \io1|ALT_INV_n_kbWR~1_combout\ : std_logic;
-SIGNAL \io1|ALT_INV_Equal11~6_combout\ : std_logic;
-SIGNAL \io1|ALT_INV_Equal11~5_combout\ : std_logic;
-SIGNAL \io1|ALT_INV_Equal11~4_combout\ : std_logic;
-SIGNAL \io1|ALT_INV_LessThan14~2_combout\ : std_logic;
-SIGNAL \io1|ALT_INV_LessThan14~1_combout\ : std_logic;
-SIGNAL \io1|ALT_INV_LessThan14~0_combout\ : std_logic;
-SIGNAL \io1|ALT_INV_LessThan17~2_combout\ : std_logic;
-SIGNAL \io1|ALT_INV_LessThan17~1_combout\ : std_logic;
-SIGNAL \io1|ALT_INV_LessThan17~0_combout\ : std_logic;
 SIGNAL \cpu1|ALT_INV_Selector329~0_combout\ : std_logic;
 SIGNAL \cpu1|ALT_INV_Selector581~2_combout\ : std_logic;
 SIGNAL \cpu1|ALT_INV_Selector330~4_combout\ : std_logic;
@@ -7368,6 +7363,12 @@ SIGNAL \io1|ALT_INV_Add31~13_sumout\ : std_logic;
 SIGNAL \io1|ALT_INV_Add31~9_sumout\ : std_logic;
 SIGNAL \io1|ALT_INV_Add31~5_sumout\ : std_logic;
 SIGNAL \io1|ALT_INV_Add31~1_sumout\ : std_logic;
+SIGNAL \io1|Mod1|auto_generated|divider|divider|ALT_INV_add_sub_10_result_int[9]~45_sumout\ : std_logic;
+SIGNAL \io1|Mod1|auto_generated|divider|divider|ALT_INV_op_4~53_sumout\ : std_logic;
+SIGNAL \io1|ALT_INV_Add3~29_sumout\ : std_logic;
+SIGNAL \io1|Mod0|auto_generated|divider|divider|ALT_INV_add_sub_10_result_int[9]~45_sumout\ : std_logic;
+SIGNAL \io1|Mod0|auto_generated|divider|divider|ALT_INV_op_4~53_sumout\ : std_logic;
+SIGNAL \io1|ALT_INV_Add0~29_sumout\ : std_logic;
 SIGNAL \io1|ALT_INV_cursBlinkCount\ : std_logic_vector(25 DOWNTO 0);
 SIGNAL \io1|ALT_INV_param3\ : std_logic_vector(6 DOWNTO 0);
 SIGNAL \io1|ALT_INV_Add29~21_sumout\ : std_logic;
@@ -7384,12 +7385,6 @@ SIGNAL \io1|ALT_INV_Add1~25_sumout\ : std_logic;
 SIGNAL \io1|ALT_INV_Add1~21_sumout\ : std_logic;
 SIGNAL \io1|ALT_INV_Add1~17_sumout\ : std_logic;
 SIGNAL \io1|ALT_INV_Add1~13_sumout\ : std_logic;
-SIGNAL \io1|Mod1|auto_generated|divider|divider|ALT_INV_add_sub_10_result_int[9]~45_sumout\ : std_logic;
-SIGNAL \io1|Mod1|auto_generated|divider|divider|ALT_INV_op_4~53_sumout\ : std_logic;
-SIGNAL \io1|ALT_INV_Add3~29_sumout\ : std_logic;
-SIGNAL \io1|Mod0|auto_generated|divider|divider|ALT_INV_add_sub_10_result_int[9]~45_sumout\ : std_logic;
-SIGNAL \io1|Mod0|auto_generated|divider|divider|ALT_INV_op_4~53_sumout\ : std_logic;
-SIGNAL \io1|ALT_INV_Add0~29_sumout\ : std_logic;
 SIGNAL \io1|ALT_INV_Add1~9_sumout\ : std_logic;
 SIGNAL \io1|ALT_INV_Add1~5_sumout\ : std_logic;
 SIGNAL \io1|ALT_INV_Add1~1_sumout\ : std_logic;
@@ -7769,7 +7764,6 @@ ww_i_clk <= i_clk;
 ww_i_n_reset <= i_n_reset;
 o_n_MMU_ACT_LED <= ww_o_n_MMU_ACT_LED;
 ww_i_SerSel <= i_SerSel;
-sramData <= ww_sramData;
 sramAddress <= ww_sramAddress;
 n_sRamWE <= ww_n_sRamWE;
 n_sRamCS <= ww_n_sRamCS;
@@ -7786,10 +7780,6 @@ o_videoB0 <= ww_o_videoB0;
 o_videoB1 <= ww_o_videoB1;
 o_hSync <= ww_o_hSync;
 o_vSync <= ww_o_vSync;
-io_ps2Clk <= ww_io_ps2Clk;
-io_ps2Data <= ww_io_ps2Data;
-gpio0 <= ww_gpio0;
-gpio2 <= ww_gpio2;
 sdCS <= ww_sdCS;
 sdMOSI <= ww_sdMOSI;
 ww_sdMISO <= sdMISO;
@@ -7972,6 +7962,543 @@ gnd & \io2|rxCurrentByteBuffer\(7) & \io2|rxCurrentByteBuffer\(6) & \io2|rxCurre
 \io1|GEN_2KRAM:dispCharRam|altsyncram_component|auto_generated|q_a\(7) <= \io1|GEN_2KRAM:dispCharRam|altsyncram_component|auto_generated|ram_block1a7_PORTADATAOUT_bus\(0);
 
 \io1|GEN_2KRAM:dispCharRam|altsyncram_component|auto_generated|q_b\(7) <= \io1|GEN_2KRAM:dispCharRam|altsyncram_component|auto_generated|ram_block1a7_PORTBDATAOUT_bus\(0);
+\sd1|ALT_INV_address[16]~DUPLICATE_q\ <= NOT \sd1|address[16]~DUPLICATE_q\;
+\debounceReset|ALT_INV_w_dig_counter[8]~DUPLICATE_q\ <= NOT \debounceReset|w_dig_counter[8]~DUPLICATE_q\;
+\debounceReset|ALT_INV_w_dig_counter[3]~DUPLICATE_q\ <= NOT \debounceReset|w_dig_counter[3]~DUPLICATE_q\;
+\debounceReset|ALT_INV_w_dig_counter[6]~DUPLICATE_q\ <= NOT \debounceReset|w_dig_counter[6]~DUPLICATE_q\;
+\io1|ALT_INV_ps2WriteByte2[2]~DUPLICATE_q\ <= NOT \io1|ps2WriteByte2[2]~DUPLICATE_q\;
+\io1|ALT_INV_ps2WriteByte2[0]~DUPLICATE_q\ <= NOT \io1|ps2WriteByte2[0]~DUPLICATE_q\;
+\io1|ALT_INV_ps2WriteByte[1]~DUPLICATE_q\ <= NOT \io1|ps2WriteByte[1]~DUPLICATE_q\;
+\io1|ALT_INV_ps2WriteClkCount[2]~DUPLICATE_q\ <= NOT \io1|ps2WriteClkCount[2]~DUPLICATE_q\;
+\io1|ALT_INV_ps2WriteClkCount[1]~DUPLICATE_q\ <= NOT \io1|ps2WriteClkCount[1]~DUPLICATE_q\;
+\io2|ALT_INV_rxBitCount[2]~DUPLICATE_q\ <= NOT \io2|rxBitCount[2]~DUPLICATE_q\;
+\io1|ALT_INV_ps2DataOut~DUPLICATE_q\ <= NOT \io1|ps2DataOut~DUPLICATE_q\;
+\io1|ALT_INV_pixelCount[1]~DUPLICATE_q\ <= NOT \io1|pixelCount[1]~DUPLICATE_q\;
+\io1|ALT_INV_paramCount[1]~DUPLICATE_q\ <= NOT \io1|paramCount[1]~DUPLICATE_q\;
+\io1|ALT_INV_escState.processingAdditionalParams~DUPLICATE_q\ <= NOT \io1|escState.processingAdditionalParams~DUPLICATE_q\;
+\io1|ALT_INV_n_kbWR~DUPLICATE_q\ <= NOT \io1|n_kbWR~DUPLICATE_q\;
+\io1|ALT_INV_ps2ClkCount[2]~DUPLICATE_q\ <= NOT \io1|ps2ClkCount[2]~DUPLICATE_q\;
+\io1|ALT_INV_ps2ClkCount[3]~DUPLICATE_q\ <= NOT \io1|ps2ClkCount[3]~DUPLICATE_q\;
+\io2|ALT_INV_rxClockCount[0]~DUPLICATE_q\ <= NOT \io2|rxClockCount[0]~DUPLICATE_q\;
+\mm1|ALT_INV_nmi_i~DUPLICATE_q\ <= NOT \mm1|nmi_i~DUPLICATE_q\;
+\sd1|ALT_INV_fsm:byte_counter[6]~DUPLICATE_q\ <= NOT \sd1|fsm:byte_counter[6]~DUPLICATE_q\;
+\sd1|ALT_INV_fsm:byte_counter[9]~DUPLICATE_q\ <= NOT \sd1|fsm:byte_counter[9]~DUPLICATE_q\;
+\sd1|ALT_INV_fsm:byte_counter[0]~DUPLICATE_q\ <= NOT \sd1|fsm:byte_counter[0]~DUPLICATE_q\;
+\sd1|ALT_INV_state.write_block_byte~DUPLICATE_q\ <= NOT \sd1|state.write_block_byte~DUPLICATE_q\;
+\sd1|ALT_INV_state.send_regreq~DUPLICATE_q\ <= NOT \sd1|state.send_regreq~DUPLICATE_q\;
+\sd1|ALT_INV_state.acmd41~DUPLICATE_q\ <= NOT \sd1|state.acmd41~DUPLICATE_q\;
+\sd1|ALT_INV_state.read_block_cmd~DUPLICATE_q\ <= NOT \sd1|state.read_block_cmd~DUPLICATE_q\;
+\sd1|ALT_INV_state.write_block_cmd~DUPLICATE_q\ <= NOT \sd1|state.write_block_cmd~DUPLICATE_q\;
+\sd1|ALT_INV_clkCount[1]~DUPLICATE_q\ <= NOT \sd1|clkCount[1]~DUPLICATE_q\;
+\io1|ALT_INV_charVert[4]~DUPLICATE_q\ <= NOT \io1|charVert[4]~DUPLICATE_q\;
+\io1|ALT_INV_cursorVert[4]~DUPLICATE_q\ <= NOT \io1|cursorVert[4]~DUPLICATE_q\;
+\io1|ALT_INV_cursorVert[3]~DUPLICATE_q\ <= NOT \io1|cursorVert[3]~DUPLICATE_q\;
+\io1|ALT_INV_charVert[1]~DUPLICATE_q\ <= NOT \io1|charVert[1]~DUPLICATE_q\;
+\io1|ALT_INV_cursorVert[1]~DUPLICATE_q\ <= NOT \io1|cursorVert[1]~DUPLICATE_q\;
+\io1|ALT_INV_cursorVert[0]~DUPLICATE_q\ <= NOT \io1|cursorVert[0]~DUPLICATE_q\;
+\io1|ALT_INV_cursorVert[2]~DUPLICATE_q\ <= NOT \io1|cursorVert[2]~DUPLICATE_q\;
+\io1|ALT_INV_charScanLine[1]~DUPLICATE_q\ <= NOT \io1|charScanLine[1]~DUPLICATE_q\;
+\io1|ALT_INV_charScanLine[3]~DUPLICATE_q\ <= NOT \io1|charScanLine[3]~DUPLICATE_q\;
+\sd1|ALT_INV_sd_write_flag~DUPLICATE_q\ <= NOT \sd1|sd_write_flag~DUPLICATE_q\;
+\mm1|ALT_INV_tenable~DUPLICATE_q\ <= NOT \mm1|tenable~DUPLICATE_q\;
+\cpu1|ALT_INV_fic~DUPLICATE_q\ <= NOT \cpu1|fic~DUPLICATE_q\;
+\gpio1|ALT_INV_reg[1]~DUPLICATE_q\ <= NOT \gpio1|reg[1]~DUPLICATE_q\;
+\io1|ALT_INV_kbReadPointer[1]~DUPLICATE_q\ <= NOT \io1|kbReadPointer[1]~DUPLICATE_q\;
+\io2|ALT_INV_rxInPointer[1]~DUPLICATE_q\ <= NOT \io2|rxInPointer[1]~DUPLICATE_q\;
+\io2|ALT_INV_rxInPointer[0]~DUPLICATE_q\ <= NOT \io2|rxInPointer[0]~DUPLICATE_q\;
+\cpu1|ALT_INV_nmi_req~DUPLICATE_q\ <= NOT \cpu1|nmi_req~DUPLICATE_q\;
+\cpu1|ALT_INV_nmi_ack~DUPLICATE_q\ <= NOT \cpu1|nmi_ack~DUPLICATE_q\;
+\mm1|ALT_INV_romInhib_i~DUPLICATE_q\ <= NOT \mm1|romInhib_i~DUPLICATE_q\;
+\sd1|ALT_INV_sclk_sig~DUPLICATE_q\ <= NOT \sd1|sclk_sig~DUPLICATE_q\;
+\mm1|ALT_INV_tr~DUPLICATE_q\ <= NOT \mm1|tr~DUPLICATE_q\;
+\mm1|ALT_INV_mmuEn~DUPLICATE_q\ <= NOT \mm1|mmuEn~DUPLICATE_q\;
+\mm1|ALT_INV_frt_i~DUPLICATE_q\ <= NOT \mm1|frt_i~DUPLICATE_q\;
+\io1|ALT_INV_param3[2]~DUPLICATE_q\ <= NOT \io1|param3[2]~DUPLICATE_q\;
+\io1|ALT_INV_param3[3]~DUPLICATE_q\ <= NOT \io1|param3[3]~DUPLICATE_q\;
+\io1|ALT_INV_param3[5]~DUPLICATE_q\ <= NOT \io1|param3[5]~DUPLICATE_q\;
+\io1|ALT_INV_startAddr[5]~DUPLICATE_q\ <= NOT \io1|startAddr[5]~DUPLICATE_q\;
+\io1|ALT_INV_startAddr[10]~DUPLICATE_q\ <= NOT \io1|startAddr[10]~DUPLICATE_q\;
+\io1|ALT_INV_startAddr[9]~DUPLICATE_q\ <= NOT \io1|startAddr[9]~DUPLICATE_q\;
+\io1|ALT_INV_startAddr[8]~DUPLICATE_q\ <= NOT \io1|startAddr[8]~DUPLICATE_q\;
+\io1|ALT_INV_kbWatchdogTimer[13]~DUPLICATE_q\ <= NOT \io1|kbWatchdogTimer[13]~DUPLICATE_q\;
+\io1|ALT_INV_kbWatchdogTimer[15]~DUPLICATE_q\ <= NOT \io1|kbWatchdogTimer[15]~DUPLICATE_q\;
+\io1|ALT_INV_kbWriteTimer[7]~DUPLICATE_q\ <= NOT \io1|kbWriteTimer[7]~DUPLICATE_q\;
+\io1|ALT_INV_kbWriteTimer[10]~DUPLICATE_q\ <= NOT \io1|kbWriteTimer[10]~DUPLICATE_q\;
+\io1|ALT_INV_kbWriteTimer[14]~DUPLICATE_q\ <= NOT \io1|kbWriteTimer[14]~DUPLICATE_q\;
+\io1|ALT_INV_cursBlinkCount[20]~DUPLICATE_q\ <= NOT \io1|cursBlinkCount[20]~DUPLICATE_q\;
+\io1|ALT_INV_cursBlinkCount[14]~DUPLICATE_q\ <= NOT \io1|cursBlinkCount[14]~DUPLICATE_q\;
+\io1|ALT_INV_cursBlinkCount[13]~DUPLICATE_q\ <= NOT \io1|cursBlinkCount[13]~DUPLICATE_q\;
+\io1|ALT_INV_cursBlinkCount[10]~DUPLICATE_q\ <= NOT \io1|cursBlinkCount[10]~DUPLICATE_q\;
+\io1|ALT_INV_cursBlinkCount[17]~DUPLICATE_q\ <= NOT \io1|cursBlinkCount[17]~DUPLICATE_q\;
+\io1|ALT_INV_param2[1]~DUPLICATE_q\ <= NOT \io1|param2[1]~DUPLICATE_q\;
+\io1|ALT_INV_param2[4]~DUPLICATE_q\ <= NOT \io1|param2[4]~DUPLICATE_q\;
+\io1|ALT_INV_param2[6]~DUPLICATE_q\ <= NOT \io1|param2[6]~DUPLICATE_q\;
+\io1|ALT_INV_param1[1]~DUPLICATE_q\ <= NOT \io1|param1[1]~DUPLICATE_q\;
+\io1|ALT_INV_param1[3]~DUPLICATE_q\ <= NOT \io1|param1[3]~DUPLICATE_q\;
+\io1|ALT_INV_param1[5]~DUPLICATE_q\ <= NOT \io1|param1[5]~DUPLICATE_q\;
+\sd1|ALT_INV_recv_data[5]~DUPLICATE_q\ <= NOT \sd1|recv_data[5]~DUPLICATE_q\;
+\io1|ALT_INV_ps2Byte[6]~DUPLICATE_q\ <= NOT \io1|ps2Byte[6]~DUPLICATE_q\;
+\mm1|ALT_INV_tcount[3]~DUPLICATE_q\ <= NOT \mm1|tcount[3]~DUPLICATE_q\;
+\mm1|ALT_INV_tcount[15]~DUPLICATE_q\ <= NOT \mm1|tcount[15]~DUPLICATE_q\;
+\mm1|ALT_INV_tcount[13]~DUPLICATE_q\ <= NOT \mm1|tcount[13]~DUPLICATE_q\;
+\mm1|ALT_INV_tcount[5]~DUPLICATE_q\ <= NOT \mm1|tcount[5]~DUPLICATE_q\;
+\mm1|ALT_INV_tcount[1]~DUPLICATE_q\ <= NOT \mm1|tcount[1]~DUPLICATE_q\;
+\mm1|ALT_INV_tcount[11]~DUPLICATE_q\ <= NOT \mm1|tcount[11]~DUPLICATE_q\;
+\mm1|ALT_INV_tcount[7]~DUPLICATE_q\ <= NOT \mm1|tcount[7]~DUPLICATE_q\;
+\mm1|ALT_INV_tcount[17]~DUPLICATE_q\ <= NOT \mm1|tcount[17]~DUPLICATE_q\;
+\io1|ALT_INV_dispAttWRData[0]~DUPLICATE_q\ <= NOT \io1|dispAttWRData[0]~DUPLICATE_q\;
+\ALT_INV_i_n_reset~input_o\ <= NOT \i_n_reset~input_o\;
+\ALT_INV_i_rxd1~input_o\ <= NOT \i_rxd1~input_o\;
+\ALT_INV_sdMISO~input_o\ <= NOT \sdMISO~input_o\;
+\ALT_INV_i_cts1~input_o\ <= NOT \i_cts1~input_o\;
+\ALT_INV_i_SerSel~input_o\ <= NOT \i_SerSel~input_o\;
+\ALT_INV_io_gpio2[7]~input_o\ <= NOT \io_gpio2[7]~input_o\;
+\ALT_INV_io_gpio2[6]~input_o\ <= NOT \io_gpio2[6]~input_o\;
+\ALT_INV_io_gpio2[5]~input_o\ <= NOT \io_gpio2[5]~input_o\;
+\ALT_INV_io_gpio2[4]~input_o\ <= NOT \io_gpio2[4]~input_o\;
+\ALT_INV_io_gpio2[3]~input_o\ <= NOT \io_gpio2[3]~input_o\;
+\ALT_INV_io_gpio2[2]~input_o\ <= NOT \io_gpio2[2]~input_o\;
+\ALT_INV_io_gpio2[1]~input_o\ <= NOT \io_gpio2[1]~input_o\;
+\ALT_INV_io_gpio2[0]~input_o\ <= NOT \io_gpio2[0]~input_o\;
+\ALT_INV_io_gpio0[2]~input_o\ <= NOT \io_gpio0[2]~input_o\;
+\ALT_INV_io_gpio0[1]~input_o\ <= NOT \io_gpio0[1]~input_o\;
+\ALT_INV_io_gpio0[0]~input_o\ <= NOT \io_gpio0[0]~input_o\;
+\ALT_INV_io_ps2Clk~input_o\ <= NOT \io_ps2Clk~input_o\;
+\ALT_INV_sramData[7]~input_o\ <= NOT \sramData[7]~input_o\;
+\ALT_INV_sramData[6]~input_o\ <= NOT \sramData[6]~input_o\;
+\ALT_INV_sramData[5]~input_o\ <= NOT \sramData[5]~input_o\;
+\ALT_INV_sramData[4]~input_o\ <= NOT \sramData[4]~input_o\;
+\ALT_INV_sramData[3]~input_o\ <= NOT \sramData[3]~input_o\;
+\ALT_INV_sramData[2]~input_o\ <= NOT \sramData[2]~input_o\;
+\ALT_INV_sramData[1]~input_o\ <= NOT \sramData[1]~input_o\;
+\ALT_INV_sramData[0]~input_o\ <= NOT \sramData[0]~input_o\;
+\io2|ALT_INV_rxReadPointer[0]~8_wirecell_combout\ <= NOT \io2|rxReadPointer[0]~8_wirecell_combout\;
+\io1|ALT_INV_Mux2~4_combout\ <= NOT \io1|Mux2~4_combout\;
+\io1|ALT_INV_ps2WriteClkCount[4]~7_combout\ <= NOT \io1|ps2WriteClkCount[4]~7_combout\;
+\cpu1|ALT_INV_Selector191~0_combout\ <= NOT \cpu1|Selector191~0_combout\;
+\ALT_INV_w_cpuDataIn[3]~66_combout\ <= NOT \w_cpuDataIn[3]~66_combout\;
+\ALT_INV_w_cpuDataIn[3]~65_combout\ <= NOT \w_cpuDataIn[3]~65_combout\;
+\ALT_INV_w_cpuDataIn[3]~64_combout\ <= NOT \w_cpuDataIn[3]~64_combout\;
+\ALT_INV_w_cpuDataIn[1]~63_combout\ <= NOT \w_cpuDataIn[1]~63_combout\;
+\ALT_INV_w_cpuDataIn[2]~62_combout\ <= NOT \w_cpuDataIn[2]~62_combout\;
+\ALT_INV_w_cpuDataIn[2]~61_combout\ <= NOT \w_cpuDataIn[2]~61_combout\;
+\ALT_INV_w_cpuDataIn[2]~60_combout\ <= NOT \w_cpuDataIn[2]~60_combout\;
+\ALT_INV_w_cpuDataIn[2]~59_combout\ <= NOT \w_cpuDataIn[2]~59_combout\;
+\ALT_INV_w_cpuDataIn[0]~58_combout\ <= NOT \w_cpuDataIn[0]~58_combout\;
+\ALT_INV_w_cpuDataIn[0]~57_combout\ <= NOT \w_cpuDataIn[0]~57_combout\;
+\ALT_INV_w_cpuDataIn[0]~56_combout\ <= NOT \w_cpuDataIn[0]~56_combout\;
+\ALT_INV_w_cpuDataIn[4]~55_combout\ <= NOT \w_cpuDataIn[4]~55_combout\;
+\ALT_INV_w_cpuDataIn[7]~54_combout\ <= NOT \w_cpuDataIn[7]~54_combout\;
+\ALT_INV_w_cpuDataIn[7]~53_combout\ <= NOT \w_cpuDataIn[7]~53_combout\;
+\ALT_INV_w_cpuDataIn[7]~52_combout\ <= NOT \w_cpuDataIn[7]~52_combout\;
+\ALT_INV_w_cpuDataIn[3]~51_combout\ <= NOT \w_cpuDataIn[3]~51_combout\;
+\cpu1|ALT_INV_Selector302~2_combout\ <= NOT \cpu1|Selector302~2_combout\;
+\cpu1|ALT_INV_Selector302~1_combout\ <= NOT \cpu1|Selector302~1_combout\;
+\ALT_INV_w_cpuDataIn[6]~50_combout\ <= NOT \w_cpuDataIn[6]~50_combout\;
+\ALT_INV_w_cpuDataIn[5]~49_combout\ <= NOT \w_cpuDataIn[5]~49_combout\;
+\ALT_INV_w_cpuDataIn[7]~48_combout\ <= NOT \w_cpuDataIn[7]~48_combout\;
+\sd1|ALT_INV_Selector56~0_combout\ <= NOT \sd1|Selector56~0_combout\;
+\sd1|ALT_INV_cmd_out\(1) <= NOT \sd1|cmd_out\(1);
+\sd1|ALT_INV_cmd_out\(2) <= NOT \sd1|cmd_out\(2);
+\sd1|ALT_INV_Selector54~0_combout\ <= NOT \sd1|Selector54~0_combout\;
+\sd1|ALT_INV_cmd_out\(3) <= NOT \sd1|cmd_out\(3);
+\sd1|ALT_INV_cmd_out\(4) <= NOT \sd1|cmd_out\(4);
+\sd1|ALT_INV_cmd_out\(5) <= NOT \sd1|cmd_out\(5);
+\sd1|ALT_INV_Selector51~0_combout\ <= NOT \sd1|Selector51~0_combout\;
+\sd1|ALT_INV_cmd_out\(6) <= NOT \sd1|cmd_out\(6);
+\sd1|ALT_INV_cmd_out\(7) <= NOT \sd1|cmd_out\(7);
+\sd1|ALT_INV_address\(0) <= NOT \sd1|address\(0);
+\sd1|ALT_INV_address\(1) <= NOT \sd1|address\(1);
+\sd1|ALT_INV_cmd_out\(9) <= NOT \sd1|cmd_out\(9);
+\sd1|ALT_INV_address\(2) <= NOT \sd1|address\(2);
+\sd1|ALT_INV_address\(3) <= NOT \sd1|address\(3);
+\sd1|ALT_INV_cmd_out\(11) <= NOT \sd1|cmd_out\(11);
+\sd1|ALT_INV_address\(4) <= NOT \sd1|address\(4);
+\sd1|ALT_INV_address\(5) <= NOT \sd1|address\(5);
+\sd1|ALT_INV_cmd_out\(13) <= NOT \sd1|cmd_out\(13);
+\sd1|ALT_INV_address\(6) <= NOT \sd1|address\(6);
+\sd1|ALT_INV_address\(7) <= NOT \sd1|address\(7);
+\sd1|ALT_INV_Selector42~0_combout\ <= NOT \sd1|Selector42~0_combout\;
+\sd1|ALT_INV_cmd_out\(15) <= NOT \sd1|cmd_out\(15);
+\sd1|ALT_INV_address\(8) <= NOT \sd1|address\(8);
+\sd1|ALT_INV_cmd_out[9]~2_combout\ <= NOT \sd1|cmd_out[9]~2_combout\;
+\sd1|ALT_INV_cmd_out\(16) <= NOT \sd1|cmd_out\(16);
+\sd1|ALT_INV_address\(9) <= NOT \sd1|address\(9);
+\sd1|ALT_INV_address\(10) <= NOT \sd1|address\(10);
+\sd1|ALT_INV_address\(11) <= NOT \sd1|address\(11);
+\sd1|ALT_INV_address\(12) <= NOT \sd1|address\(12);
+\sd1|ALT_INV_address\(13) <= NOT \sd1|address\(13);
+\sd1|ALT_INV_address\(14) <= NOT \sd1|address\(14);
+\sd1|ALT_INV_address\(15) <= NOT \sd1|address\(15);
+\sd1|ALT_INV_address[16]~10_combout\ <= NOT \sd1|address[16]~10_combout\;
+\sd1|ALT_INV_address\(16) <= NOT \sd1|address\(16);
+\sd1|ALT_INV_address~9_combout\ <= NOT \sd1|address~9_combout\;
+\sd1|ALT_INV_address\(17) <= NOT \sd1|address\(17);
+\sd1|ALT_INV_address\(18) <= NOT \sd1|address\(18);
+\sd1|ALT_INV_address~7_combout\ <= NOT \sd1|address~7_combout\;
+\sd1|ALT_INV_address\(19) <= NOT \sd1|address\(19);
+\sd1|ALT_INV_address~6_combout\ <= NOT \sd1|address~6_combout\;
+\sd1|ALT_INV_address\(20) <= NOT \sd1|address\(20);
+\sd1|ALT_INV_address\(21) <= NOT \sd1|address\(21);
+\sd1|ALT_INV_address~4_combout\ <= NOT \sd1|address~4_combout\;
+\sd1|ALT_INV_address\(22) <= NOT \sd1|address\(22);
+\sd1|ALT_INV_address~2_combout\ <= NOT \sd1|address~2_combout\;
+\sd1|ALT_INV_address\(23) <= NOT \sd1|address\(23);
+\sd1|ALT_INV_address\(24) <= NOT \sd1|address\(24);
+\sd1|ALT_INV_address\(25) <= NOT \sd1|address\(25);
+\sd1|ALT_INV_address\(26) <= NOT \sd1|address\(26);
+\sd1|ALT_INV_address\(27) <= NOT \sd1|address\(27);
+\sd1|ALT_INV_address\(28) <= NOT \sd1|address\(28);
+\sd1|ALT_INV_address\(29) <= NOT \sd1|address\(29);
+\sd1|ALT_INV_Selector20~0_combout\ <= NOT \sd1|Selector20~0_combout\;
+\sd1|ALT_INV_address\(30) <= NOT \sd1|address\(30);
+\sd1|ALT_INV_sdhc~q\ <= NOT \sd1|sdhc~q\;
+\sd1|ALT_INV_cmd_out\(38) <= NOT \sd1|cmd_out\(38);
+\sd1|ALT_INV_address\(31) <= NOT \sd1|address\(31);
+\sd1|ALT_INV_Selector18~0_combout\ <= NOT \sd1|Selector18~0_combout\;
+\sd1|ALT_INV_Selector17~0_combout\ <= NOT \sd1|Selector17~0_combout\;
+\sd1|ALT_INV_cmd_out\(40) <= NOT \sd1|cmd_out\(40);
+\sd1|ALT_INV_cmd_out\(41) <= NOT \sd1|cmd_out\(41);
+\sd1|ALT_INV_Selector15~0_combout\ <= NOT \sd1|Selector15~0_combout\;
+\sd1|ALT_INV_cmd_out\(42) <= NOT \sd1|cmd_out\(42);
+\BaudRateGen|ALT_INV_w_serialCount\(5) <= NOT \BaudRateGen|w_serialCount\(5);
+\sd1|ALT_INV_cmd_out\(43) <= NOT \sd1|cmd_out\(43);
+\BaudRateGen|ALT_INV_w_serialCount\(6) <= NOT \BaudRateGen|w_serialCount\(6);
+\sd1|ALT_INV_Selector13~0_combout\ <= NOT \sd1|Selector13~0_combout\;
+\sd1|ALT_INV_Selector57~0_combout\ <= NOT \sd1|Selector57~0_combout\;
+\sd1|ALT_INV_WideOr29~1_combout\ <= NOT \sd1|WideOr29~1_combout\;
+\sd1|ALT_INV_cmd_out\(44) <= NOT \sd1|cmd_out\(44);
+\BaudRateGen|ALT_INV_w_serialCount\(7) <= NOT \BaudRateGen|w_serialCount\(7);
+\sd1|ALT_INV_cmd_out\(45) <= NOT \sd1|cmd_out\(45);
+\BaudRateGen|ALT_INV_w_serialCount\(8) <= NOT \BaudRateGen|w_serialCount\(8);
+\sd1|ALT_INV_cmd_out\(46) <= NOT \sd1|cmd_out\(46);
+\io2|ALT_INV_txByteLatch\(7) <= NOT \io2|txByteLatch\(7);
+\BaudRateGen|ALT_INV_w_serialCount\(9) <= NOT \BaudRateGen|w_serialCount\(9);
+\sd1|ALT_INV_Selector135~2_combout\ <= NOT \sd1|Selector135~2_combout\;
+\sd1|ALT_INV_Selector135~1_combout\ <= NOT \sd1|Selector135~1_combout\;
+\sd1|ALT_INV_Selector135~0_combout\ <= NOT \sd1|Selector135~0_combout\;
+\sd1|ALT_INV_din_latched\(0) <= NOT \sd1|din_latched\(0);
+\sd1|ALT_INV_cmd_out\(47) <= NOT \sd1|cmd_out\(47);
+\io2|ALT_INV_txByteLatch\(6) <= NOT \io2|txByteLatch\(6);
+\io2|ALT_INV_txBuffer\(7) <= NOT \io2|txBuffer\(7);
+\BaudRateGen|ALT_INV_w_serialCount\(10) <= NOT \BaudRateGen|w_serialCount\(10);
+\sd1|ALT_INV_din_latched\(1) <= NOT \sd1|din_latched\(1);
+\sd1|ALT_INV_data_sig\(0) <= NOT \sd1|data_sig\(0);
+\sd1|ALT_INV_cmd_out\(48) <= NOT \sd1|cmd_out\(48);
+\io2|ALT_INV_txByteLatch\(5) <= NOT \io2|txByteLatch\(5);
+\io2|ALT_INV_txBuffer\(6) <= NOT \io2|txBuffer\(6);
+\BaudRateGen|ALT_INV_w_serialCount\(11) <= NOT \BaudRateGen|w_serialCount\(11);
+\sd1|ALT_INV_din_latched\(2) <= NOT \sd1|din_latched\(2);
+\sd1|ALT_INV_data_sig\(1) <= NOT \sd1|data_sig\(1);
+\sd1|ALT_INV_cmd_out\(49) <= NOT \sd1|cmd_out\(49);
+\io2|ALT_INV_txByteLatch\(4) <= NOT \io2|txByteLatch\(4);
+\io2|ALT_INV_txBuffer\(5) <= NOT \io2|txBuffer\(5);
+\BaudRateGen|ALT_INV_w_serialCount\(12) <= NOT \BaudRateGen|w_serialCount\(12);
+\io2|ALT_INV_Equal3~0_combout\ <= NOT \io2|Equal3~0_combout\;
+\sd1|ALT_INV_din_latched\(3) <= NOT \sd1|din_latched\(3);
+\sd1|ALT_INV_data_sig\(2) <= NOT \sd1|data_sig\(2);
+\sd1|ALT_INV_cmd_out\(50) <= NOT \sd1|cmd_out\(50);
+\io1|ALT_INV_paramCount~7_combout\ <= NOT \io1|paramCount~7_combout\;
+\io1|ALT_INV_Equal30~1_combout\ <= NOT \io1|Equal30~1_combout\;
+\io1|Mod1|auto_generated|divider|divider|ALT_INV_StageOut[139]~36_combout\ <= NOT \io1|Mod1|auto_generated|divider|divider|StageOut[139]~36_combout\;
+\io1|Mod1|auto_generated|divider|divider|ALT_INV_StageOut[139]~35_combout\ <= NOT \io1|Mod1|auto_generated|divider|divider|StageOut[139]~35_combout\;
+\io1|Mod1|auto_generated|divider|divider|ALT_INV_StageOut[139]~34_combout\ <= NOT \io1|Mod1|auto_generated|divider|divider|StageOut[139]~34_combout\;
+\io1|Mod0|auto_generated|divider|divider|ALT_INV_StageOut[139]~36_combout\ <= NOT \io1|Mod0|auto_generated|divider|divider|StageOut[139]~36_combout\;
+\io1|Mod0|auto_generated|divider|divider|ALT_INV_StageOut[139]~35_combout\ <= NOT \io1|Mod0|auto_generated|divider|divider|StageOut[139]~35_combout\;
+\io1|Mod0|auto_generated|divider|divider|ALT_INV_StageOut[139]~34_combout\ <= NOT \io1|Mod0|auto_generated|divider|divider|StageOut[139]~34_combout\;
+\io2|ALT_INV_txByteLatch\(3) <= NOT \io2|txByteLatch\(3);
+\io2|ALT_INV_txBuffer\(4) <= NOT \io2|txBuffer\(4);
+\BaudRateGen|ALT_INV_w_serialCount\(13) <= NOT \BaudRateGen|w_serialCount\(13);
+\io1|ALT_INV_ps2Num~1_combout\ <= NOT \io1|ps2Num~1_combout\;
+\io1|ALT_INV_kbBuffer~146_combout\ <= NOT \io1|kbBuffer~146_combout\;
+\io1|ALT_INV_kbBuffer~143_combout\ <= NOT \io1|kbBuffer~143_combout\;
+\io1|ALT_INV_Equal10~0_combout\ <= NOT \io1|Equal10~0_combout\;
+\io1|ALT_INV_ps2WriteByte2~8_combout\ <= NOT \io1|ps2WriteByte2~8_combout\;
+\io1|ALT_INV_ps2WriteByte2~6_combout\ <= NOT \io1|ps2WriteByte2~6_combout\;
+\io1|ALT_INV_ps2WriteByte2~5_combout\ <= NOT \io1|ps2WriteByte2~5_combout\;
+\io1|ALT_INV_ps2Num~q\ <= NOT \io1|ps2Num~q\;
+\io1|ALT_INV_ps2WriteByte2~3_combout\ <= NOT \io1|ps2WriteByte2~3_combout\;
+\io1|ALT_INV_ps2WriteByte2~2_combout\ <= NOT \io1|ps2WriteByte2~2_combout\;
+\io1|ALT_INV_ps2WriteByte2~1_combout\ <= NOT \io1|ps2WriteByte2~1_combout\;
+\io1|ALT_INV_ps2Scroll~q\ <= NOT \io1|ps2Scroll~q\;
+\debounceReset|ALT_INV_Equal0~3_combout\ <= NOT \debounceReset|Equal0~3_combout\;
+\debounceReset|ALT_INV_Equal0~2_combout\ <= NOT \debounceReset|Equal0~2_combout\;
+\debounceReset|ALT_INV_w_dig_counter\(10) <= NOT \debounceReset|w_dig_counter\(10);
+\debounceReset|ALT_INV_w_dig_counter\(9) <= NOT \debounceReset|w_dig_counter\(9);
+\debounceReset|ALT_INV_w_dig_counter\(8) <= NOT \debounceReset|w_dig_counter\(8);
+\debounceReset|ALT_INV_w_dig_counter\(7) <= NOT \debounceReset|w_dig_counter\(7);
+\debounceReset|ALT_INV_Equal0~1_combout\ <= NOT \debounceReset|Equal0~1_combout\;
+\debounceReset|ALT_INV_w_dig_counter\(5) <= NOT \debounceReset|w_dig_counter\(5);
+\debounceReset|ALT_INV_w_dig_counter\(4) <= NOT \debounceReset|w_dig_counter\(4);
+\debounceReset|ALT_INV_w_dig_counter\(3) <= NOT \debounceReset|w_dig_counter\(3);
+\debounceReset|ALT_INV_w_dig_counter\(2) <= NOT \debounceReset|w_dig_counter\(2);
+\debounceReset|ALT_INV_w_dig_counter\(1) <= NOT \debounceReset|w_dig_counter\(1);
+\debounceReset|ALT_INV_w_dig_counter\(12) <= NOT \debounceReset|w_dig_counter\(12);
+\debounceReset|ALT_INV_w_dig_counter\(11) <= NOT \debounceReset|w_dig_counter\(11);
+\debounceReset|ALT_INV_w_dig_counter\(6) <= NOT \debounceReset|w_dig_counter\(6);
+\debounceReset|ALT_INV_Equal0~0_combout\ <= NOT \debounceReset|Equal0~0_combout\;
+\debounceReset|ALT_INV_w_dig_counter\(17) <= NOT \debounceReset|w_dig_counter\(17);
+\debounceReset|ALT_INV_w_dig_counter\(16) <= NOT \debounceReset|w_dig_counter\(16);
+\debounceReset|ALT_INV_w_dig_counter\(15) <= NOT \debounceReset|w_dig_counter\(15);
+\debounceReset|ALT_INV_w_dig_counter\(14) <= NOT \debounceReset|w_dig_counter\(14);
+\debounceReset|ALT_INV_w_dig_counter\(13) <= NOT \debounceReset|w_dig_counter\(13);
+\debounceReset|ALT_INV_w_dig_counter\(19) <= NOT \debounceReset|w_dig_counter\(19);
+\debounceReset|ALT_INV_w_dig_counter\(18) <= NOT \debounceReset|w_dig_counter\(18);
+\BaudRateGen|ALT_INV_w_serialCount\(4) <= NOT \BaudRateGen|w_serialCount\(4);
+\sd1|ALT_INV_din_latched\(4) <= NOT \sd1|din_latched\(4);
+\sd1|ALT_INV_data_sig\(3) <= NOT \sd1|data_sig\(3);
+\sd1|ALT_INV_cmd_out\(51) <= NOT \sd1|cmd_out\(51);
+\io1|ALT_INV_param3~1_combout\ <= NOT \io1|param3~1_combout\;
+\io1|Mod1|auto_generated|divider|divider|ALT_INV_StageOut[140]~33_combout\ <= NOT \io1|Mod1|auto_generated|divider|divider|StageOut[140]~33_combout\;
+\io1|Mod1|auto_generated|divider|divider|ALT_INV_StageOut[140]~32_combout\ <= NOT \io1|Mod1|auto_generated|divider|divider|StageOut[140]~32_combout\;
+\io1|Mod0|auto_generated|divider|divider|ALT_INV_StageOut[140]~33_combout\ <= NOT \io1|Mod0|auto_generated|divider|divider|StageOut[140]~33_combout\;
+\io1|Mod0|auto_generated|divider|divider|ALT_INV_StageOut[140]~32_combout\ <= NOT \io1|Mod0|auto_generated|divider|divider|StageOut[140]~32_combout\;
+\io1|ALT_INV_Add27~1_combout\ <= NOT \io1|Add27~1_combout\;
+\io1|ALT_INV_Add27~0_combout\ <= NOT \io1|Add27~0_combout\;
+\io2|ALT_INV_txByteLatch\(2) <= NOT \io2|txByteLatch\(2);
+\io2|ALT_INV_txBuffer\(3) <= NOT \io2|txBuffer\(3);
+\BaudRateGen|ALT_INV_w_serialCount\(14) <= NOT \BaudRateGen|w_serialCount\(14);
+\io1|ALT_INV_kbBuffer~31_q\ <= NOT \io1|kbBuffer~31_q\;
+\io1|ALT_INV_kbBuffer~17_q\ <= NOT \io1|kbBuffer~17_q\;
+\io1|ALT_INV_kbBuffer~38_q\ <= NOT \io1|kbBuffer~38_q\;
+\io1|ALT_INV_kbBuffer~24_q\ <= NOT \io1|kbBuffer~24_q\;
+\io1|ALT_INV_kbBuffer~142_combout\ <= NOT \io1|kbBuffer~142_combout\;
+\io1|ALT_INV_kbBuffer~30_q\ <= NOT \io1|kbBuffer~30_q\;
+\io1|ALT_INV_kbBuffer~16_q\ <= NOT \io1|kbBuffer~16_q\;
+\io1|ALT_INV_kbBuffer~37_q\ <= NOT \io1|kbBuffer~37_q\;
+\io1|ALT_INV_kbBuffer~23_q\ <= NOT \io1|kbBuffer~23_q\;
+\io1|ALT_INV_kbBuffer~141_combout\ <= NOT \io1|kbBuffer~141_combout\;
+\io1|ALT_INV_kbBuffer~140_combout\ <= NOT \io1|kbBuffer~140_combout\;
+\io1|ALT_INV_ps2Caps~q\ <= NOT \io1|ps2Caps~q\;
+\io1|ALT_INV_kbBuffer~139_combout\ <= NOT \io1|kbBuffer~139_combout\;
+\io1|ALT_INV_ps2Ctrl~q\ <= NOT \io1|ps2Ctrl~q\;
+\io1|ALT_INV_kbBuffer~29_q\ <= NOT \io1|kbBuffer~29_q\;
+\io1|ALT_INV_kbBuffer~15_q\ <= NOT \io1|kbBuffer~15_q\;
+\io1|ALT_INV_kbBuffer~36_q\ <= NOT \io1|kbBuffer~36_q\;
+\io1|ALT_INV_kbBuffer~22_q\ <= NOT \io1|kbBuffer~22_q\;
+\io1|ALT_INV_kbBuffer~138_combout\ <= NOT \io1|kbBuffer~138_combout\;
+\io1|ALT_INV_kbBuffer~28_q\ <= NOT \io1|kbBuffer~28_q\;
+\io1|ALT_INV_kbBuffer~14_q\ <= NOT \io1|kbBuffer~14_q\;
+\io1|ALT_INV_kbBuffer~35_q\ <= NOT \io1|kbBuffer~35_q\;
+\io1|ALT_INV_kbBuffer~21_q\ <= NOT \io1|kbBuffer~21_q\;
+\io1|ALT_INV_kbBuffer~137_combout\ <= NOT \io1|kbBuffer~137_combout\;
+\io1|ALT_INV_kbBuffer~27_q\ <= NOT \io1|kbBuffer~27_q\;
+\io1|ALT_INV_kbBuffer~13_q\ <= NOT \io1|kbBuffer~13_q\;
+\io1|ALT_INV_kbBuffer~34_q\ <= NOT \io1|kbBuffer~34_q\;
+\io1|ALT_INV_kbBuffer~20_q\ <= NOT \io1|kbBuffer~20_q\;
+\io1|ALT_INV_kbBuffer~136_combout\ <= NOT \io1|kbBuffer~136_combout\;
+\io1|ALT_INV_kbBuffer~26_q\ <= NOT \io1|kbBuffer~26_q\;
+\io1|ALT_INV_kbBuffer~12_q\ <= NOT \io1|kbBuffer~12_q\;
+\io1|ALT_INV_kbBuffer~33_q\ <= NOT \io1|kbBuffer~33_q\;
+\io1|ALT_INV_kbBuffer~19_q\ <= NOT \io1|kbBuffer~19_q\;
+\io1|ALT_INV_kbBuffer~135_combout\ <= NOT \io1|kbBuffer~135_combout\;
+\io1|ALT_INV_kbBuffer~25_q\ <= NOT \io1|kbBuffer~25_q\;
+\io1|ALT_INV_kbBuffer~11_q\ <= NOT \io1|kbBuffer~11_q\;
+\io1|ALT_INV_kbBuffer~32_q\ <= NOT \io1|kbBuffer~32_q\;
+\io1|ALT_INV_kbBuffer~18_q\ <= NOT \io1|kbBuffer~18_q\;
+\io1|ALT_INV_kbBuffer~132_combout\ <= NOT \io1|kbBuffer~132_combout\;
+\io1|ALT_INV_kbBuffer~131_combout\ <= NOT \io1|kbBuffer~131_combout\;
+\io1|ALT_INV_kbBuffer~128_combout\ <= NOT \io1|kbBuffer~128_combout\;
+\io1|ALT_INV_kbBuffer~127_combout\ <= NOT \io1|kbBuffer~127_combout\;
+\io1|ALT_INV_kbBuffer~126_combout\ <= NOT \io1|kbBuffer~126_combout\;
+\io1|ALT_INV_kbd_ctl~11_combout\ <= NOT \io1|kbd_ctl~11_combout\;
+\io1|ALT_INV_ps2WriteByte2\(3) <= NOT \io1|ps2WriteByte2\(3);
+\io1|ALT_INV_ps2WriteByte2\(2) <= NOT \io1|ps2WriteByte2\(2);
+\io1|ALT_INV_ps2WriteByte2\(1) <= NOT \io1|ps2WriteByte2\(1);
+\io1|ALT_INV_ps2WriteByte2[0]~0_combout\ <= NOT \io1|ps2WriteByte2[0]~0_combout\;
+\io1|ALT_INV_ps2WriteByte[0]~2_combout\ <= NOT \io1|ps2WriteByte[0]~2_combout\;
+\io1|ALT_INV_ps2WriteByte2\(0) <= NOT \io1|ps2WriteByte2\(0);
+\io1|ALT_INV_Add23~0_combout\ <= NOT \io1|Add23~0_combout\;
+\io1|ALT_INV_ps2WriteClkCount[2]~1_combout\ <= NOT \io1|ps2WriteClkCount[2]~1_combout\;
+\io1|ALT_INV_ps2WriteClkCount~0_combout\ <= NOT \io1|ps2WriteClkCount~0_combout\;
+\io1|ALT_INV_kbWRParity~2_combout\ <= NOT \io1|kbWRParity~2_combout\;
+\io2|ALT_INV_Equal2~0_combout\ <= NOT \io2|Equal2~0_combout\;
+\io2|ALT_INV_rxFilter\(3) <= NOT \io2|rxFilter\(3);
+\io2|ALT_INV_rxFilter\(2) <= NOT \io2|rxFilter\(2);
+\io2|ALT_INV_rxFilter\(0) <= NOT \io2|rxFilter\(0);
+\io2|ALT_INV_rxFilter\(5) <= NOT \io2|rxFilter\(5);
+\io2|ALT_INV_rxFilter\(4) <= NOT \io2|rxFilter\(4);
+\io2|ALT_INV_rxFilter\(1) <= NOT \io2|rxFilter\(1);
+\mm1|ALT_INV_nmiDly[1]~1_combout\ <= NOT \mm1|nmiDly[1]~1_combout\;
+\mm1|ALT_INV_Add1~0_combout\ <= NOT \mm1|Add1~0_combout\;
+\mm1|ALT_INV_nmiDly[4]~0_combout\ <= NOT \mm1|nmiDly[4]~0_combout\;
+\mm1|ALT_INV_nmi_i~1_combout\ <= NOT \mm1|nmi_i~1_combout\;
+\io1|ALT_INV_kbWRParity~1_combout\ <= NOT \io1|kbWRParity~1_combout\;
+\io1|ALT_INV_ps2DataOut~1_combout\ <= NOT \io1|ps2DataOut~1_combout\;
+\io1|ALT_INV_kbWRParity~0_combout\ <= NOT \io1|kbWRParity~0_combout\;
+\io1|ALT_INV_Mux16~1_combout\ <= NOT \io1|Mux16~1_combout\;
+\io1|ALT_INV_Mux16~0_combout\ <= NOT \io1|Mux16~0_combout\;
+\io1|ALT_INV_ps2DataOut~0_combout\ <= NOT \io1|ps2DataOut~0_combout\;
+\io1|ALT_INV_kbWRParity~q\ <= NOT \io1|kbWRParity~q\;
+\io1|ALT_INV_kbd_ctl~10_combout\ <= NOT \io1|kbd_ctl~10_combout\;
+\io1|ALT_INV_kbd_ctl~9_combout\ <= NOT \io1|kbd_ctl~9_combout\;
+\io1|ALT_INV_kbd_ctl~8_combout\ <= NOT \io1|kbd_ctl~8_combout\;
+\io1|ALT_INV_kbd_ctl~7_combout\ <= NOT \io1|kbd_ctl~7_combout\;
+\sd1|ALT_INV_din_latched\(5) <= NOT \sd1|din_latched\(5);
+\sd1|ALT_INV_data_sig\(4) <= NOT \sd1|data_sig\(4);
+\sd1|ALT_INV_cmd_out\(52) <= NOT \sd1|cmd_out\(52);
+\sd1|ALT_INV_wr_cmd_reg~2_combout\ <= NOT \sd1|wr_cmd_reg~2_combout\;
+\sd1|ALT_INV_block_start_ack~q\ <= NOT \sd1|block_start_ack~q\;
+\sd1|ALT_INV_wr_cmd_reg~1_combout\ <= NOT \sd1|wr_cmd_reg~1_combout\;
+\sd1|ALT_INV_wr_cmd_reg~0_combout\ <= NOT \sd1|wr_cmd_reg~0_combout\;
+\sd1|ALT_INV_return_state.receive_byte_wait~1_combout\ <= NOT \sd1|return_state.receive_byte_wait~1_combout\;
+\sd1|ALT_INV_return_state.receive_byte_wait~0_combout\ <= NOT \sd1|return_state.receive_byte_wait~0_combout\;
+\sd1|ALT_INV_return_state.cardsel~q\ <= NOT \sd1|return_state.cardsel~q\;
+\sd1|ALT_INV_return_state.poll_cmd~q\ <= NOT \sd1|return_state.poll_cmd~q\;
+\io1|ALT_INV_LessThan9~3_combout\ <= NOT \io1|LessThan9~3_combout\;
+\io1|ALT_INV_LessThan9~2_combout\ <= NOT \io1|LessThan9~2_combout\;
+\io1|ALT_INV_LessThan9~1_combout\ <= NOT \io1|LessThan9~1_combout\;
+\io1|ALT_INV_LessThan9~0_combout\ <= NOT \io1|LessThan9~0_combout\;
+\io1|ALT_INV_param2~1_combout\ <= NOT \io1|param2~1_combout\;
+\io1|ALT_INV_cursorHorizRestore[6]~0_combout\ <= NOT \io1|cursorHorizRestore[6]~0_combout\;
+\io1|ALT_INV_Selector25~0_combout\ <= NOT \io1|Selector25~0_combout\;
+\io1|ALT_INV_Selector43~0_combout\ <= NOT \io1|Selector43~0_combout\;
+\io1|ALT_INV_cursorVertRestore[1]~6_combout\ <= NOT \io1|cursorVertRestore[1]~6_combout\;
+\io1|ALT_INV_cursorVertRestore[0]~5_combout\ <= NOT \io1|cursorVertRestore[0]~5_combout\;
+\io1|ALT_INV_cursorVertRestore[0]~4_combout\ <= NOT \io1|cursorVertRestore[0]~4_combout\;
+\io1|ALT_INV_dispState~34_combout\ <= NOT \io1|dispState~34_combout\;
+\io1|ALT_INV_param1[6]~11_combout\ <= NOT \io1|param1[6]~11_combout\;
+\io1|ALT_INV_Selector36~0_combout\ <= NOT \io1|Selector36~0_combout\;
+\io1|ALT_INV_dispState~33_combout\ <= NOT \io1|dispState~33_combout\;
+\io1|ALT_INV_Selector34~2_combout\ <= NOT \io1|Selector34~2_combout\;
+\io1|ALT_INV_Selector34~1_combout\ <= NOT \io1|Selector34~1_combout\;
+\io1|ALT_INV_cursorVertRestore[1]~3_combout\ <= NOT \io1|cursorVertRestore[1]~3_combout\;
+\io1|ALT_INV_Selector34~0_combout\ <= NOT \io1|Selector34~0_combout\;
+\io1|ALT_INV_display_store~44_combout\ <= NOT \io1|display_store~44_combout\;
+\io1|ALT_INV_dispAttWRData~30_combout\ <= NOT \io1|dispAttWRData~30_combout\;
+\io1|ALT_INV_Equal49~0_combout\ <= NOT \io1|Equal49~0_combout\;
+\io1|ALT_INV_dispAttWRData~29_combout\ <= NOT \io1|dispAttWRData~29_combout\;
+\io1|ALT_INV_dispAttWRData~27_combout\ <= NOT \io1|dispAttWRData~27_combout\;
+\io1|ALT_INV_dispAttWRData~26_combout\ <= NOT \io1|dispAttWRData~26_combout\;
+\io1|ALT_INV_dispAttWRData~24_combout\ <= NOT \io1|dispAttWRData~24_combout\;
+\io1|ALT_INV_attBold~q\ <= NOT \io1|attBold~q\;
+\io1|ALT_INV_dispAttWRData~22_combout\ <= NOT \io1|dispAttWRData~22_combout\;
+\io1|ALT_INV_Add4~2_combout\ <= NOT \io1|Add4~2_combout\;
+\io1|ALT_INV_Add4~1_combout\ <= NOT \io1|Add4~1_combout\;
+\io1|Mod1|auto_generated|divider|divider|ALT_INV_StageOut[135]~31_combout\ <= NOT \io1|Mod1|auto_generated|divider|divider|StageOut[135]~31_combout\;
+\io1|Mod1|auto_generated|divider|divider|ALT_INV_StageOut[135]~30_combout\ <= NOT \io1|Mod1|auto_generated|divider|divider|StageOut[135]~30_combout\;
+\io1|ALT_INV_Add4~0_combout\ <= NOT \io1|Add4~0_combout\;
+\io1|Mod1|auto_generated|divider|divider|ALT_INV_StageOut[133]~29_combout\ <= NOT \io1|Mod1|auto_generated|divider|divider|StageOut[133]~29_combout\;
+\io1|Mod1|auto_generated|divider|divider|ALT_INV_StageOut[133]~28_combout\ <= NOT \io1|Mod1|auto_generated|divider|divider|StageOut[133]~28_combout\;
+\io1|Mod1|auto_generated|divider|divider|ALT_INV_StageOut[131]~27_combout\ <= NOT \io1|Mod1|auto_generated|divider|divider|StageOut[131]~27_combout\;
+\io1|Mod1|auto_generated|divider|divider|ALT_INV_StageOut[131]~26_combout\ <= NOT \io1|Mod1|auto_generated|divider|divider|StageOut[131]~26_combout\;
+\io1|Mod0|auto_generated|divider|divider|ALT_INV_StageOut[137]~31_combout\ <= NOT \io1|Mod0|auto_generated|divider|divider|StageOut[137]~31_combout\;
+\io1|Mod0|auto_generated|divider|divider|ALT_INV_StageOut[137]~30_combout\ <= NOT \io1|Mod0|auto_generated|divider|divider|StageOut[137]~30_combout\;
+\io1|Mod0|auto_generated|divider|divider|ALT_INV_StageOut[135]~29_combout\ <= NOT \io1|Mod0|auto_generated|divider|divider|StageOut[135]~29_combout\;
+\io1|Mod0|auto_generated|divider|divider|ALT_INV_StageOut[135]~28_combout\ <= NOT \io1|Mod0|auto_generated|divider|divider|StageOut[135]~28_combout\;
+\io1|Mod0|auto_generated|divider|divider|ALT_INV_StageOut[133]~27_combout\ <= NOT \io1|Mod0|auto_generated|divider|divider|StageOut[133]~27_combout\;
+\io1|Mod0|auto_generated|divider|divider|ALT_INV_StageOut[133]~26_combout\ <= NOT \io1|Mod0|auto_generated|divider|divider|StageOut[133]~26_combout\;
+\io1|Mod0|auto_generated|divider|divider|ALT_INV_StageOut[131]~25_combout\ <= NOT \io1|Mod0|auto_generated|divider|divider|StageOut[131]~25_combout\;
+\io1|Mod0|auto_generated|divider|divider|ALT_INV_StageOut[131]~24_combout\ <= NOT \io1|Mod0|auto_generated|divider|divider|StageOut[131]~24_combout\;
+\io1|ALT_INV_Selector65~1_combout\ <= NOT \io1|Selector65~1_combout\;
+\io1|ALT_INV_Selector65~0_combout\ <= NOT \io1|Selector65~0_combout\;
+\io1|ALT_INV_paramCount[2]~4_combout\ <= NOT \io1|paramCount[2]~4_combout\;
+\io1|ALT_INV_paramCount~3_combout\ <= NOT \io1|paramCount~3_combout\;
+\io1|ALT_INV_paramCount~1_combout\ <= NOT \io1|paramCount~1_combout\;
+\io1|ALT_INV_param1~10_combout\ <= NOT \io1|param1~10_combout\;
+\io1|ALT_INV_paramCount[1]~0_combout\ <= NOT \io1|paramCount[1]~0_combout\;
+\io1|ALT_INV_dispAttWRData~20_combout\ <= NOT \io1|dispAttWRData~20_combout\;
+\io1|ALT_INV_dispAttWRData~19_combout\ <= NOT \io1|dispAttWRData~19_combout\;
+\io1|ALT_INV_dispAttWRData~18_combout\ <= NOT \io1|dispAttWRData~18_combout\;
+\io1|ALT_INV_dispAttWRData~17_combout\ <= NOT \io1|dispAttWRData~17_combout\;
+\io1|ALT_INV_dispAttWRData~16_combout\ <= NOT \io1|dispAttWRData~16_combout\;
+\io1|ALT_INV_dispAttWRData~15_combout\ <= NOT \io1|dispAttWRData~15_combout\;
+\io1|ALT_INV_param1~2_combout\ <= NOT \io1|param1~2_combout\;
+\io1|ALT_INV_display_store~43_combout\ <= NOT \io1|display_store~43_combout\;
+\io1|ALT_INV_Equal31~2_combout\ <= NOT \io1|Equal31~2_combout\;
+\io2|ALT_INV_txByteLatch\(1) <= NOT \io2|txByteLatch\(1);
+\io2|ALT_INV_txBuffer\(2) <= NOT \io2|txBuffer\(2);
+\io2|ALT_INV_rxCurrentByteBuffer\(6) <= NOT \io2|rxCurrentByteBuffer\(6);
+\io1|ALT_INV_kbBuffer~59_q\ <= NOT \io1|kbBuffer~59_q\;
+\io1|ALT_INV_kbBuffer~45_q\ <= NOT \io1|kbBuffer~45_q\;
+\io1|ALT_INV_kbBuffer~66_q\ <= NOT \io1|kbBuffer~66_q\;
+\io1|ALT_INV_kbBuffer~52_q\ <= NOT \io1|kbBuffer~52_q\;
+\io2|ALT_INV_rxCurrentByteBuffer\(5) <= NOT \io2|rxCurrentByteBuffer\(5);
+\io1|ALT_INV_kbBuffer~58_q\ <= NOT \io1|kbBuffer~58_q\;
+\io1|ALT_INV_kbBuffer~44_q\ <= NOT \io1|kbBuffer~44_q\;
+\io1|ALT_INV_kbBuffer~65_q\ <= NOT \io1|kbBuffer~65_q\;
+\io1|ALT_INV_kbBuffer~51_q\ <= NOT \io1|kbBuffer~51_q\;
+\io1|ALT_INV_kbBuffer~57_q\ <= NOT \io1|kbBuffer~57_q\;
+\io1|ALT_INV_kbBuffer~43_q\ <= NOT \io1|kbBuffer~43_q\;
+\io1|ALT_INV_kbBuffer~64_q\ <= NOT \io1|kbBuffer~64_q\;
+\io1|ALT_INV_kbBuffer~50_q\ <= NOT \io1|kbBuffer~50_q\;
+\io2|ALT_INV_rxCurrentByteBuffer\(3) <= NOT \io2|rxCurrentByteBuffer\(3);
+\io1|ALT_INV_kbBuffer~56_q\ <= NOT \io1|kbBuffer~56_q\;
+\io1|ALT_INV_kbBuffer~42_q\ <= NOT \io1|kbBuffer~42_q\;
+\io1|ALT_INV_kbBuffer~63_q\ <= NOT \io1|kbBuffer~63_q\;
+\io1|ALT_INV_kbBuffer~49_q\ <= NOT \io1|kbBuffer~49_q\;
+\io2|ALT_INV_rxCurrentByteBuffer\(2) <= NOT \io2|rxCurrentByteBuffer\(2);
+\io1|ALT_INV_kbBuffer~55_q\ <= NOT \io1|kbBuffer~55_q\;
+\io1|ALT_INV_kbBuffer~41_q\ <= NOT \io1|kbBuffer~41_q\;
+\io1|ALT_INV_kbBuffer~62_q\ <= NOT \io1|kbBuffer~62_q\;
+\io1|ALT_INV_kbBuffer~48_q\ <= NOT \io1|kbBuffer~48_q\;
+\io1|ALT_INV_kbBuffer~54_q\ <= NOT \io1|kbBuffer~54_q\;
+\io1|ALT_INV_kbBuffer~40_q\ <= NOT \io1|kbBuffer~40_q\;
+\io1|ALT_INV_kbBuffer~61_q\ <= NOT \io1|kbBuffer~61_q\;
+\io1|ALT_INV_kbBuffer~47_q\ <= NOT \io1|kbBuffer~47_q\;
+\sd1|ALT_INV_Selector124~0_combout\ <= NOT \sd1|Selector124~0_combout\;
+\io2|ALT_INV_rxReadPointer[0]~8_combout\ <= NOT \io2|rxReadPointer[0]~8_combout\;
+\io2|ALT_INV_rxBuffer~23_combout\ <= NOT \io2|rxBuffer~23_combout\;
+\io1|ALT_INV_kbBuffer~53_q\ <= NOT \io1|kbBuffer~53_q\;
+\io1|ALT_INV_kbBuffer~39_q\ <= NOT \io1|kbBuffer~39_q\;
+\io1|ALT_INV_kbBuffer~60_q\ <= NOT \io1|kbBuffer~60_q\;
+\io1|ALT_INV_kbBuffer~46_q\ <= NOT \io1|kbBuffer~46_q\;
+\io1|ALT_INV_escState.none~4_combout\ <= NOT \io1|escState.none~4_combout\;
+\io1|ALT_INV_escState.none~3_combout\ <= NOT \io1|escState.none~3_combout\;
+\io1|ALT_INV_escState.none~2_combout\ <= NOT \io1|escState.none~2_combout\;
+\io1|ALT_INV_escState.none~1_combout\ <= NOT \io1|escState.none~1_combout\;
+\io1|ALT_INV_display_store~42_combout\ <= NOT \io1|display_store~42_combout\;
+\io1|ALT_INV_display_store~41_combout\ <= NOT \io1|display_store~41_combout\;
+\io1|ALT_INV_param1[6]~0_combout\ <= NOT \io1|param1[6]~0_combout\;
+\io1|ALT_INV_cursorVertRestore[1]~2_combout\ <= NOT \io1|cursorVertRestore[1]~2_combout\;
+\io1|ALT_INV_display_store~40_combout\ <= NOT \io1|display_store~40_combout\;
+\io1|ALT_INV_Selector32~1_combout\ <= NOT \io1|Selector32~1_combout\;
+\io1|ALT_INV_Selector32~0_combout\ <= NOT \io1|Selector32~0_combout\;
+\io1|ALT_INV_cursorVertRestore~1_combout\ <= NOT \io1|cursorVertRestore~1_combout\;
+\io1|ALT_INV_escState~9_combout\ <= NOT \io1|escState~9_combout\;
+\io1|ALT_INV_cursorVertRestore~0_combout\ <= NOT \io1|cursorVertRestore~0_combout\;
+\io1|ALT_INV_display_store~39_combout\ <= NOT \io1|display_store~39_combout\;
+\io1|ALT_INV_Equal35~1_combout\ <= NOT \io1|Equal35~1_combout\;
+\io1|ALT_INV_display_store~38_combout\ <= NOT \io1|display_store~38_combout\;
+\io1|ALT_INV_Equal9~0_combout\ <= NOT \io1|Equal9~0_combout\;
+\io1|ALT_INV_ps2ClkFilter\(3) <= NOT \io1|ps2ClkFilter\(3);
+\io1|ALT_INV_ps2ClkFilter\(2) <= NOT \io1|ps2ClkFilter\(2);
+\io1|ALT_INV_ps2ClkFilter\(0) <= NOT \io1|ps2ClkFilter\(0);
+\io1|ALT_INV_ps2ClkFilter\(5) <= NOT \io1|ps2ClkFilter\(5);
+\io1|ALT_INV_ps2ClkFilter\(4) <= NOT \io1|ps2ClkFilter\(4);
+\io1|ALT_INV_ps2ClkFilter\(1) <= NOT \io1|ps2ClkFilter\(1);
+\io1|ALT_INV_n_kbWR~4_combout\ <= NOT \io1|n_kbWR~4_combout\;
+\io1|ALT_INV_n_kbWR~3_combout\ <= NOT \io1|n_kbWR~3_combout\;
+\io1|ALT_INV_ps2WriteByte\(4) <= NOT \io1|ps2WriteByte\(4);
+\io1|ALT_INV_ps2WriteByte\(3) <= NOT \io1|ps2WriteByte\(3);
+\io1|ALT_INV_ps2WriteByte\(2) <= NOT \io1|ps2WriteByte\(2);
+\io1|ALT_INV_ps2WriteByte\(1) <= NOT \io1|ps2WriteByte\(1);
+\io1|ALT_INV_ps2WriteByte\(0) <= NOT \io1|ps2WriteByte\(0);
+\io1|ALT_INV_Equal29~0_combout\ <= NOT \io1|Equal29~0_combout\;
+\io1|ALT_INV_Equal27~0_combout\ <= NOT \io1|Equal27~0_combout\;
+\io1|ALT_INV_ps2WriteClkCount\(4) <= NOT \io1|ps2WriteClkCount\(4);
+\io1|ALT_INV_ps2WriteClkCount\(3) <= NOT \io1|ps2WriteClkCount\(3);
+\io1|ALT_INV_ps2WriteClkCount\(2) <= NOT \io1|ps2WriteClkCount\(2);
+\io1|ALT_INV_ps2WriteClkCount\(1) <= NOT \io1|ps2WriteClkCount\(1);
+\io1|ALT_INV_ps2WriteClkCount\(0) <= NOT \io1|ps2WriteClkCount\(0);
+\io1|ALT_INV_n_kbWR~2_combout\ <= NOT \io1|n_kbWR~2_combout\;
+\io1|ALT_INV_ps2ClkCount[0]~1_combout\ <= NOT \io1|ps2ClkCount[0]~1_combout\;
+\io1|ALT_INV_LessThan28~5_combout\ <= NOT \io1|LessThan28~5_combout\;
+\io1|ALT_INV_LessThan28~4_combout\ <= NOT \io1|LessThan28~4_combout\;
+\io1|ALT_INV_LessThan28~3_combout\ <= NOT \io1|LessThan28~3_combout\;
+\io1|ALT_INV_LessThan28~2_combout\ <= NOT \io1|LessThan28~2_combout\;
+\io1|ALT_INV_LessThan28~1_combout\ <= NOT \io1|LessThan28~1_combout\;
+\io1|ALT_INV_LessThan28~0_combout\ <= NOT \io1|LessThan28~0_combout\;
+\io1|ALT_INV_n_kbWR~1_combout\ <= NOT \io1|n_kbWR~1_combout\;
+\io1|ALT_INV_Equal11~6_combout\ <= NOT \io1|Equal11~6_combout\;
+\io1|ALT_INV_Equal11~5_combout\ <= NOT \io1|Equal11~5_combout\;
+\io1|ALT_INV_Equal11~4_combout\ <= NOT \io1|Equal11~4_combout\;
+\io1|ALT_INV_LessThan14~2_combout\ <= NOT \io1|LessThan14~2_combout\;
+\io1|ALT_INV_LessThan14~1_combout\ <= NOT \io1|LessThan14~1_combout\;
+\io1|ALT_INV_LessThan14~0_combout\ <= NOT \io1|LessThan14~0_combout\;
+\io1|ALT_INV_LessThan17~2_combout\ <= NOT \io1|LessThan17~2_combout\;
+\io1|ALT_INV_LessThan17~1_combout\ <= NOT \io1|LessThan17~1_combout\;
+\io1|ALT_INV_LessThan17~0_combout\ <= NOT \io1|LessThan17~0_combout\;
 \io1|ALT_INV_LessThan16~1_combout\ <= NOT \io1|LessThan16~1_combout\;
 \io1|ALT_INV_LessThan16~0_combout\ <= NOT \io1|LessThan16~0_combout\;
 \io1|ALT_INV_Equal11~3_combout\ <= NOT \io1|Equal11~3_combout\;
@@ -10187,543 +10714,6 @@ ALT_INV_w_state(2) <= NOT w_state(2);
 \cpu1|ALT_INV_Selector329~2_combout\ <= NOT \cpu1|Selector329~2_combout\;
 \cpu1|ALT_INV_Selector329~1_combout\ <= NOT \cpu1|Selector329~1_combout\;
 \cpu1|ALT_INV_state.vect_hi_state~q\ <= NOT \cpu1|state.vect_hi_state~q\;
-\sd1|ALT_INV_address[16]~DUPLICATE_q\ <= NOT \sd1|address[16]~DUPLICATE_q\;
-\debounceReset|ALT_INV_w_dig_counter[8]~DUPLICATE_q\ <= NOT \debounceReset|w_dig_counter[8]~DUPLICATE_q\;
-\debounceReset|ALT_INV_w_dig_counter[3]~DUPLICATE_q\ <= NOT \debounceReset|w_dig_counter[3]~DUPLICATE_q\;
-\debounceReset|ALT_INV_w_dig_counter[6]~DUPLICATE_q\ <= NOT \debounceReset|w_dig_counter[6]~DUPLICATE_q\;
-\io1|ALT_INV_ps2WriteByte2[2]~DUPLICATE_q\ <= NOT \io1|ps2WriteByte2[2]~DUPLICATE_q\;
-\io1|ALT_INV_ps2WriteByte2[0]~DUPLICATE_q\ <= NOT \io1|ps2WriteByte2[0]~DUPLICATE_q\;
-\io1|ALT_INV_ps2WriteByte[1]~DUPLICATE_q\ <= NOT \io1|ps2WriteByte[1]~DUPLICATE_q\;
-\io1|ALT_INV_ps2WriteClkCount[2]~DUPLICATE_q\ <= NOT \io1|ps2WriteClkCount[2]~DUPLICATE_q\;
-\io1|ALT_INV_ps2WriteClkCount[1]~DUPLICATE_q\ <= NOT \io1|ps2WriteClkCount[1]~DUPLICATE_q\;
-\io2|ALT_INV_rxBitCount[2]~DUPLICATE_q\ <= NOT \io2|rxBitCount[2]~DUPLICATE_q\;
-\io1|ALT_INV_ps2DataOut~DUPLICATE_q\ <= NOT \io1|ps2DataOut~DUPLICATE_q\;
-\io1|ALT_INV_pixelCount[1]~DUPLICATE_q\ <= NOT \io1|pixelCount[1]~DUPLICATE_q\;
-\io1|ALT_INV_paramCount[1]~DUPLICATE_q\ <= NOT \io1|paramCount[1]~DUPLICATE_q\;
-\io1|ALT_INV_escState.processingAdditionalParams~DUPLICATE_q\ <= NOT \io1|escState.processingAdditionalParams~DUPLICATE_q\;
-\io1|ALT_INV_n_kbWR~DUPLICATE_q\ <= NOT \io1|n_kbWR~DUPLICATE_q\;
-\io1|ALT_INV_ps2ClkCount[2]~DUPLICATE_q\ <= NOT \io1|ps2ClkCount[2]~DUPLICATE_q\;
-\io1|ALT_INV_ps2ClkCount[3]~DUPLICATE_q\ <= NOT \io1|ps2ClkCount[3]~DUPLICATE_q\;
-\io2|ALT_INV_rxClockCount[0]~DUPLICATE_q\ <= NOT \io2|rxClockCount[0]~DUPLICATE_q\;
-\mm1|ALT_INV_nmi_i~DUPLICATE_q\ <= NOT \mm1|nmi_i~DUPLICATE_q\;
-\sd1|ALT_INV_fsm:byte_counter[6]~DUPLICATE_q\ <= NOT \sd1|fsm:byte_counter[6]~DUPLICATE_q\;
-\sd1|ALT_INV_fsm:byte_counter[9]~DUPLICATE_q\ <= NOT \sd1|fsm:byte_counter[9]~DUPLICATE_q\;
-\sd1|ALT_INV_fsm:byte_counter[0]~DUPLICATE_q\ <= NOT \sd1|fsm:byte_counter[0]~DUPLICATE_q\;
-\sd1|ALT_INV_state.write_block_byte~DUPLICATE_q\ <= NOT \sd1|state.write_block_byte~DUPLICATE_q\;
-\sd1|ALT_INV_state.send_regreq~DUPLICATE_q\ <= NOT \sd1|state.send_regreq~DUPLICATE_q\;
-\sd1|ALT_INV_state.acmd41~DUPLICATE_q\ <= NOT \sd1|state.acmd41~DUPLICATE_q\;
-\sd1|ALT_INV_state.read_block_cmd~DUPLICATE_q\ <= NOT \sd1|state.read_block_cmd~DUPLICATE_q\;
-\sd1|ALT_INV_state.write_block_cmd~DUPLICATE_q\ <= NOT \sd1|state.write_block_cmd~DUPLICATE_q\;
-\sd1|ALT_INV_clkCount[1]~DUPLICATE_q\ <= NOT \sd1|clkCount[1]~DUPLICATE_q\;
-\io1|ALT_INV_charVert[4]~DUPLICATE_q\ <= NOT \io1|charVert[4]~DUPLICATE_q\;
-\io1|ALT_INV_cursorVert[4]~DUPLICATE_q\ <= NOT \io1|cursorVert[4]~DUPLICATE_q\;
-\io1|ALT_INV_cursorVert[3]~DUPLICATE_q\ <= NOT \io1|cursorVert[3]~DUPLICATE_q\;
-\io1|ALT_INV_charVert[1]~DUPLICATE_q\ <= NOT \io1|charVert[1]~DUPLICATE_q\;
-\io1|ALT_INV_cursorVert[1]~DUPLICATE_q\ <= NOT \io1|cursorVert[1]~DUPLICATE_q\;
-\io1|ALT_INV_cursorVert[0]~DUPLICATE_q\ <= NOT \io1|cursorVert[0]~DUPLICATE_q\;
-\io1|ALT_INV_cursorVert[2]~DUPLICATE_q\ <= NOT \io1|cursorVert[2]~DUPLICATE_q\;
-\io1|ALT_INV_charScanLine[1]~DUPLICATE_q\ <= NOT \io1|charScanLine[1]~DUPLICATE_q\;
-\io1|ALT_INV_charScanLine[3]~DUPLICATE_q\ <= NOT \io1|charScanLine[3]~DUPLICATE_q\;
-\sd1|ALT_INV_sd_write_flag~DUPLICATE_q\ <= NOT \sd1|sd_write_flag~DUPLICATE_q\;
-\mm1|ALT_INV_tenable~DUPLICATE_q\ <= NOT \mm1|tenable~DUPLICATE_q\;
-\cpu1|ALT_INV_fic~DUPLICATE_q\ <= NOT \cpu1|fic~DUPLICATE_q\;
-\gpio1|ALT_INV_reg[1]~DUPLICATE_q\ <= NOT \gpio1|reg[1]~DUPLICATE_q\;
-\io1|ALT_INV_kbReadPointer[1]~DUPLICATE_q\ <= NOT \io1|kbReadPointer[1]~DUPLICATE_q\;
-\io2|ALT_INV_rxInPointer[1]~DUPLICATE_q\ <= NOT \io2|rxInPointer[1]~DUPLICATE_q\;
-\io2|ALT_INV_rxInPointer[0]~DUPLICATE_q\ <= NOT \io2|rxInPointer[0]~DUPLICATE_q\;
-\cpu1|ALT_INV_nmi_req~DUPLICATE_q\ <= NOT \cpu1|nmi_req~DUPLICATE_q\;
-\cpu1|ALT_INV_nmi_ack~DUPLICATE_q\ <= NOT \cpu1|nmi_ack~DUPLICATE_q\;
-\mm1|ALT_INV_romInhib_i~DUPLICATE_q\ <= NOT \mm1|romInhib_i~DUPLICATE_q\;
-\sd1|ALT_INV_sclk_sig~DUPLICATE_q\ <= NOT \sd1|sclk_sig~DUPLICATE_q\;
-\mm1|ALT_INV_tr~DUPLICATE_q\ <= NOT \mm1|tr~DUPLICATE_q\;
-\mm1|ALT_INV_mmuEn~DUPLICATE_q\ <= NOT \mm1|mmuEn~DUPLICATE_q\;
-\mm1|ALT_INV_frt_i~DUPLICATE_q\ <= NOT \mm1|frt_i~DUPLICATE_q\;
-\io1|ALT_INV_param3[2]~DUPLICATE_q\ <= NOT \io1|param3[2]~DUPLICATE_q\;
-\io1|ALT_INV_param3[3]~DUPLICATE_q\ <= NOT \io1|param3[3]~DUPLICATE_q\;
-\io1|ALT_INV_param3[5]~DUPLICATE_q\ <= NOT \io1|param3[5]~DUPLICATE_q\;
-\io1|ALT_INV_startAddr[5]~DUPLICATE_q\ <= NOT \io1|startAddr[5]~DUPLICATE_q\;
-\io1|ALT_INV_startAddr[10]~DUPLICATE_q\ <= NOT \io1|startAddr[10]~DUPLICATE_q\;
-\io1|ALT_INV_startAddr[9]~DUPLICATE_q\ <= NOT \io1|startAddr[9]~DUPLICATE_q\;
-\io1|ALT_INV_startAddr[8]~DUPLICATE_q\ <= NOT \io1|startAddr[8]~DUPLICATE_q\;
-\io1|ALT_INV_kbWatchdogTimer[13]~DUPLICATE_q\ <= NOT \io1|kbWatchdogTimer[13]~DUPLICATE_q\;
-\io1|ALT_INV_kbWatchdogTimer[15]~DUPLICATE_q\ <= NOT \io1|kbWatchdogTimer[15]~DUPLICATE_q\;
-\io1|ALT_INV_kbWriteTimer[7]~DUPLICATE_q\ <= NOT \io1|kbWriteTimer[7]~DUPLICATE_q\;
-\io1|ALT_INV_kbWriteTimer[10]~DUPLICATE_q\ <= NOT \io1|kbWriteTimer[10]~DUPLICATE_q\;
-\io1|ALT_INV_kbWriteTimer[14]~DUPLICATE_q\ <= NOT \io1|kbWriteTimer[14]~DUPLICATE_q\;
-\io1|ALT_INV_cursBlinkCount[20]~DUPLICATE_q\ <= NOT \io1|cursBlinkCount[20]~DUPLICATE_q\;
-\io1|ALT_INV_cursBlinkCount[14]~DUPLICATE_q\ <= NOT \io1|cursBlinkCount[14]~DUPLICATE_q\;
-\io1|ALT_INV_cursBlinkCount[13]~DUPLICATE_q\ <= NOT \io1|cursBlinkCount[13]~DUPLICATE_q\;
-\io1|ALT_INV_cursBlinkCount[10]~DUPLICATE_q\ <= NOT \io1|cursBlinkCount[10]~DUPLICATE_q\;
-\io1|ALT_INV_cursBlinkCount[17]~DUPLICATE_q\ <= NOT \io1|cursBlinkCount[17]~DUPLICATE_q\;
-\io1|ALT_INV_param2[1]~DUPLICATE_q\ <= NOT \io1|param2[1]~DUPLICATE_q\;
-\io1|ALT_INV_param2[4]~DUPLICATE_q\ <= NOT \io1|param2[4]~DUPLICATE_q\;
-\io1|ALT_INV_param2[6]~DUPLICATE_q\ <= NOT \io1|param2[6]~DUPLICATE_q\;
-\io1|ALT_INV_param1[1]~DUPLICATE_q\ <= NOT \io1|param1[1]~DUPLICATE_q\;
-\io1|ALT_INV_param1[3]~DUPLICATE_q\ <= NOT \io1|param1[3]~DUPLICATE_q\;
-\io1|ALT_INV_param1[5]~DUPLICATE_q\ <= NOT \io1|param1[5]~DUPLICATE_q\;
-\sd1|ALT_INV_recv_data[5]~DUPLICATE_q\ <= NOT \sd1|recv_data[5]~DUPLICATE_q\;
-\io1|ALT_INV_ps2Byte[6]~DUPLICATE_q\ <= NOT \io1|ps2Byte[6]~DUPLICATE_q\;
-\mm1|ALT_INV_tcount[3]~DUPLICATE_q\ <= NOT \mm1|tcount[3]~DUPLICATE_q\;
-\mm1|ALT_INV_tcount[15]~DUPLICATE_q\ <= NOT \mm1|tcount[15]~DUPLICATE_q\;
-\mm1|ALT_INV_tcount[13]~DUPLICATE_q\ <= NOT \mm1|tcount[13]~DUPLICATE_q\;
-\mm1|ALT_INV_tcount[5]~DUPLICATE_q\ <= NOT \mm1|tcount[5]~DUPLICATE_q\;
-\mm1|ALT_INV_tcount[1]~DUPLICATE_q\ <= NOT \mm1|tcount[1]~DUPLICATE_q\;
-\mm1|ALT_INV_tcount[11]~DUPLICATE_q\ <= NOT \mm1|tcount[11]~DUPLICATE_q\;
-\mm1|ALT_INV_tcount[7]~DUPLICATE_q\ <= NOT \mm1|tcount[7]~DUPLICATE_q\;
-\mm1|ALT_INV_tcount[17]~DUPLICATE_q\ <= NOT \mm1|tcount[17]~DUPLICATE_q\;
-\io1|ALT_INV_dispAttWRData[0]~DUPLICATE_q\ <= NOT \io1|dispAttWRData[0]~DUPLICATE_q\;
-\ALT_INV_i_n_reset~input_o\ <= NOT \i_n_reset~input_o\;
-\ALT_INV_i_rxd1~input_o\ <= NOT \i_rxd1~input_o\;
-\ALT_INV_sdMISO~input_o\ <= NOT \sdMISO~input_o\;
-\ALT_INV_i_cts1~input_o\ <= NOT \i_cts1~input_o\;
-\ALT_INV_i_SerSel~input_o\ <= NOT \i_SerSel~input_o\;
-\ALT_INV_gpio2[7]~input_o\ <= NOT \gpio2[7]~input_o\;
-\ALT_INV_gpio2[6]~input_o\ <= NOT \gpio2[6]~input_o\;
-\ALT_INV_gpio2[5]~input_o\ <= NOT \gpio2[5]~input_o\;
-\ALT_INV_gpio2[4]~input_o\ <= NOT \gpio2[4]~input_o\;
-\ALT_INV_gpio2[3]~input_o\ <= NOT \gpio2[3]~input_o\;
-\ALT_INV_gpio2[2]~input_o\ <= NOT \gpio2[2]~input_o\;
-\ALT_INV_gpio2[1]~input_o\ <= NOT \gpio2[1]~input_o\;
-\ALT_INV_gpio2[0]~input_o\ <= NOT \gpio2[0]~input_o\;
-\ALT_INV_gpio0[2]~input_o\ <= NOT \gpio0[2]~input_o\;
-\ALT_INV_gpio0[1]~input_o\ <= NOT \gpio0[1]~input_o\;
-\ALT_INV_gpio0[0]~input_o\ <= NOT \gpio0[0]~input_o\;
-\ALT_INV_io_ps2Clk~input_o\ <= NOT \io_ps2Clk~input_o\;
-\ALT_INV_sramData[7]~input_o\ <= NOT \sramData[7]~input_o\;
-\ALT_INV_sramData[6]~input_o\ <= NOT \sramData[6]~input_o\;
-\ALT_INV_sramData[5]~input_o\ <= NOT \sramData[5]~input_o\;
-\ALT_INV_sramData[4]~input_o\ <= NOT \sramData[4]~input_o\;
-\ALT_INV_sramData[3]~input_o\ <= NOT \sramData[3]~input_o\;
-\ALT_INV_sramData[2]~input_o\ <= NOT \sramData[2]~input_o\;
-\ALT_INV_sramData[1]~input_o\ <= NOT \sramData[1]~input_o\;
-\ALT_INV_sramData[0]~input_o\ <= NOT \sramData[0]~input_o\;
-\io2|ALT_INV_rxReadPointer[0]~8_wirecell_combout\ <= NOT \io2|rxReadPointer[0]~8_wirecell_combout\;
-\io1|ALT_INV_Mux2~4_combout\ <= NOT \io1|Mux2~4_combout\;
-\io1|ALT_INV_ps2WriteClkCount[4]~7_combout\ <= NOT \io1|ps2WriteClkCount[4]~7_combout\;
-\cpu1|ALT_INV_Selector191~0_combout\ <= NOT \cpu1|Selector191~0_combout\;
-\ALT_INV_w_cpuDataIn[3]~66_combout\ <= NOT \w_cpuDataIn[3]~66_combout\;
-\ALT_INV_w_cpuDataIn[3]~65_combout\ <= NOT \w_cpuDataIn[3]~65_combout\;
-\ALT_INV_w_cpuDataIn[3]~64_combout\ <= NOT \w_cpuDataIn[3]~64_combout\;
-\ALT_INV_w_cpuDataIn[1]~63_combout\ <= NOT \w_cpuDataIn[1]~63_combout\;
-\ALT_INV_w_cpuDataIn[2]~62_combout\ <= NOT \w_cpuDataIn[2]~62_combout\;
-\ALT_INV_w_cpuDataIn[2]~61_combout\ <= NOT \w_cpuDataIn[2]~61_combout\;
-\ALT_INV_w_cpuDataIn[2]~60_combout\ <= NOT \w_cpuDataIn[2]~60_combout\;
-\ALT_INV_w_cpuDataIn[2]~59_combout\ <= NOT \w_cpuDataIn[2]~59_combout\;
-\ALT_INV_w_cpuDataIn[0]~58_combout\ <= NOT \w_cpuDataIn[0]~58_combout\;
-\ALT_INV_w_cpuDataIn[0]~57_combout\ <= NOT \w_cpuDataIn[0]~57_combout\;
-\ALT_INV_w_cpuDataIn[0]~56_combout\ <= NOT \w_cpuDataIn[0]~56_combout\;
-\ALT_INV_w_cpuDataIn[4]~55_combout\ <= NOT \w_cpuDataIn[4]~55_combout\;
-\ALT_INV_w_cpuDataIn[7]~54_combout\ <= NOT \w_cpuDataIn[7]~54_combout\;
-\ALT_INV_w_cpuDataIn[7]~53_combout\ <= NOT \w_cpuDataIn[7]~53_combout\;
-\ALT_INV_w_cpuDataIn[7]~52_combout\ <= NOT \w_cpuDataIn[7]~52_combout\;
-\ALT_INV_w_cpuDataIn[3]~51_combout\ <= NOT \w_cpuDataIn[3]~51_combout\;
-\cpu1|ALT_INV_Selector302~2_combout\ <= NOT \cpu1|Selector302~2_combout\;
-\cpu1|ALT_INV_Selector302~1_combout\ <= NOT \cpu1|Selector302~1_combout\;
-\ALT_INV_w_cpuDataIn[6]~50_combout\ <= NOT \w_cpuDataIn[6]~50_combout\;
-\ALT_INV_w_cpuDataIn[5]~49_combout\ <= NOT \w_cpuDataIn[5]~49_combout\;
-\ALT_INV_w_cpuDataIn[7]~48_combout\ <= NOT \w_cpuDataIn[7]~48_combout\;
-\sd1|ALT_INV_Selector56~0_combout\ <= NOT \sd1|Selector56~0_combout\;
-\sd1|ALT_INV_cmd_out\(1) <= NOT \sd1|cmd_out\(1);
-\sd1|ALT_INV_cmd_out\(2) <= NOT \sd1|cmd_out\(2);
-\sd1|ALT_INV_Selector54~0_combout\ <= NOT \sd1|Selector54~0_combout\;
-\sd1|ALT_INV_cmd_out\(3) <= NOT \sd1|cmd_out\(3);
-\sd1|ALT_INV_cmd_out\(4) <= NOT \sd1|cmd_out\(4);
-\sd1|ALT_INV_cmd_out\(5) <= NOT \sd1|cmd_out\(5);
-\sd1|ALT_INV_Selector51~0_combout\ <= NOT \sd1|Selector51~0_combout\;
-\sd1|ALT_INV_cmd_out\(6) <= NOT \sd1|cmd_out\(6);
-\sd1|ALT_INV_cmd_out\(7) <= NOT \sd1|cmd_out\(7);
-\sd1|ALT_INV_address\(0) <= NOT \sd1|address\(0);
-\sd1|ALT_INV_address\(1) <= NOT \sd1|address\(1);
-\sd1|ALT_INV_cmd_out\(9) <= NOT \sd1|cmd_out\(9);
-\sd1|ALT_INV_address\(2) <= NOT \sd1|address\(2);
-\sd1|ALT_INV_address\(3) <= NOT \sd1|address\(3);
-\sd1|ALT_INV_cmd_out\(11) <= NOT \sd1|cmd_out\(11);
-\sd1|ALT_INV_address\(4) <= NOT \sd1|address\(4);
-\sd1|ALT_INV_address\(5) <= NOT \sd1|address\(5);
-\sd1|ALT_INV_cmd_out\(13) <= NOT \sd1|cmd_out\(13);
-\sd1|ALT_INV_address\(6) <= NOT \sd1|address\(6);
-\sd1|ALT_INV_address\(7) <= NOT \sd1|address\(7);
-\sd1|ALT_INV_Selector42~0_combout\ <= NOT \sd1|Selector42~0_combout\;
-\sd1|ALT_INV_cmd_out\(15) <= NOT \sd1|cmd_out\(15);
-\sd1|ALT_INV_address\(8) <= NOT \sd1|address\(8);
-\sd1|ALT_INV_cmd_out[9]~2_combout\ <= NOT \sd1|cmd_out[9]~2_combout\;
-\sd1|ALT_INV_cmd_out\(16) <= NOT \sd1|cmd_out\(16);
-\sd1|ALT_INV_address\(9) <= NOT \sd1|address\(9);
-\sd1|ALT_INV_address\(10) <= NOT \sd1|address\(10);
-\sd1|ALT_INV_address\(11) <= NOT \sd1|address\(11);
-\sd1|ALT_INV_address\(12) <= NOT \sd1|address\(12);
-\sd1|ALT_INV_address\(13) <= NOT \sd1|address\(13);
-\sd1|ALT_INV_address\(14) <= NOT \sd1|address\(14);
-\sd1|ALT_INV_address\(15) <= NOT \sd1|address\(15);
-\sd1|ALT_INV_address[16]~10_combout\ <= NOT \sd1|address[16]~10_combout\;
-\sd1|ALT_INV_address\(16) <= NOT \sd1|address\(16);
-\sd1|ALT_INV_address~9_combout\ <= NOT \sd1|address~9_combout\;
-\sd1|ALT_INV_address\(17) <= NOT \sd1|address\(17);
-\sd1|ALT_INV_address\(18) <= NOT \sd1|address\(18);
-\sd1|ALT_INV_address~7_combout\ <= NOT \sd1|address~7_combout\;
-\sd1|ALT_INV_address\(19) <= NOT \sd1|address\(19);
-\sd1|ALT_INV_address~6_combout\ <= NOT \sd1|address~6_combout\;
-\sd1|ALT_INV_address\(20) <= NOT \sd1|address\(20);
-\sd1|ALT_INV_address\(21) <= NOT \sd1|address\(21);
-\sd1|ALT_INV_address~4_combout\ <= NOT \sd1|address~4_combout\;
-\sd1|ALT_INV_address\(22) <= NOT \sd1|address\(22);
-\sd1|ALT_INV_address~2_combout\ <= NOT \sd1|address~2_combout\;
-\sd1|ALT_INV_address\(23) <= NOT \sd1|address\(23);
-\sd1|ALT_INV_address\(24) <= NOT \sd1|address\(24);
-\sd1|ALT_INV_address\(25) <= NOT \sd1|address\(25);
-\sd1|ALT_INV_address\(26) <= NOT \sd1|address\(26);
-\sd1|ALT_INV_address\(27) <= NOT \sd1|address\(27);
-\sd1|ALT_INV_address\(28) <= NOT \sd1|address\(28);
-\sd1|ALT_INV_address\(29) <= NOT \sd1|address\(29);
-\sd1|ALT_INV_Selector20~0_combout\ <= NOT \sd1|Selector20~0_combout\;
-\sd1|ALT_INV_address\(30) <= NOT \sd1|address\(30);
-\sd1|ALT_INV_sdhc~q\ <= NOT \sd1|sdhc~q\;
-\sd1|ALT_INV_cmd_out\(38) <= NOT \sd1|cmd_out\(38);
-\sd1|ALT_INV_address\(31) <= NOT \sd1|address\(31);
-\sd1|ALT_INV_Selector18~0_combout\ <= NOT \sd1|Selector18~0_combout\;
-\sd1|ALT_INV_Selector17~0_combout\ <= NOT \sd1|Selector17~0_combout\;
-\sd1|ALT_INV_cmd_out\(40) <= NOT \sd1|cmd_out\(40);
-\sd1|ALT_INV_cmd_out\(41) <= NOT \sd1|cmd_out\(41);
-\sd1|ALT_INV_Selector15~0_combout\ <= NOT \sd1|Selector15~0_combout\;
-\sd1|ALT_INV_cmd_out\(42) <= NOT \sd1|cmd_out\(42);
-\BaudRateGen|ALT_INV_w_serialCount\(5) <= NOT \BaudRateGen|w_serialCount\(5);
-\sd1|ALT_INV_cmd_out\(43) <= NOT \sd1|cmd_out\(43);
-\BaudRateGen|ALT_INV_w_serialCount\(6) <= NOT \BaudRateGen|w_serialCount\(6);
-\sd1|ALT_INV_Selector13~0_combout\ <= NOT \sd1|Selector13~0_combout\;
-\sd1|ALT_INV_Selector57~0_combout\ <= NOT \sd1|Selector57~0_combout\;
-\sd1|ALT_INV_WideOr29~1_combout\ <= NOT \sd1|WideOr29~1_combout\;
-\sd1|ALT_INV_cmd_out\(44) <= NOT \sd1|cmd_out\(44);
-\BaudRateGen|ALT_INV_w_serialCount\(7) <= NOT \BaudRateGen|w_serialCount\(7);
-\sd1|ALT_INV_cmd_out\(45) <= NOT \sd1|cmd_out\(45);
-\BaudRateGen|ALT_INV_w_serialCount\(8) <= NOT \BaudRateGen|w_serialCount\(8);
-\sd1|ALT_INV_cmd_out\(46) <= NOT \sd1|cmd_out\(46);
-\io2|ALT_INV_txByteLatch\(7) <= NOT \io2|txByteLatch\(7);
-\BaudRateGen|ALT_INV_w_serialCount\(9) <= NOT \BaudRateGen|w_serialCount\(9);
-\sd1|ALT_INV_Selector135~2_combout\ <= NOT \sd1|Selector135~2_combout\;
-\sd1|ALT_INV_Selector135~1_combout\ <= NOT \sd1|Selector135~1_combout\;
-\sd1|ALT_INV_Selector135~0_combout\ <= NOT \sd1|Selector135~0_combout\;
-\sd1|ALT_INV_din_latched\(0) <= NOT \sd1|din_latched\(0);
-\sd1|ALT_INV_cmd_out\(47) <= NOT \sd1|cmd_out\(47);
-\io2|ALT_INV_txByteLatch\(6) <= NOT \io2|txByteLatch\(6);
-\io2|ALT_INV_txBuffer\(7) <= NOT \io2|txBuffer\(7);
-\BaudRateGen|ALT_INV_w_serialCount\(10) <= NOT \BaudRateGen|w_serialCount\(10);
-\sd1|ALT_INV_din_latched\(1) <= NOT \sd1|din_latched\(1);
-\sd1|ALT_INV_data_sig\(0) <= NOT \sd1|data_sig\(0);
-\sd1|ALT_INV_cmd_out\(48) <= NOT \sd1|cmd_out\(48);
-\io2|ALT_INV_txByteLatch\(5) <= NOT \io2|txByteLatch\(5);
-\io2|ALT_INV_txBuffer\(6) <= NOT \io2|txBuffer\(6);
-\BaudRateGen|ALT_INV_w_serialCount\(11) <= NOT \BaudRateGen|w_serialCount\(11);
-\sd1|ALT_INV_din_latched\(2) <= NOT \sd1|din_latched\(2);
-\sd1|ALT_INV_data_sig\(1) <= NOT \sd1|data_sig\(1);
-\sd1|ALT_INV_cmd_out\(49) <= NOT \sd1|cmd_out\(49);
-\io2|ALT_INV_txByteLatch\(4) <= NOT \io2|txByteLatch\(4);
-\io2|ALT_INV_txBuffer\(5) <= NOT \io2|txBuffer\(5);
-\BaudRateGen|ALT_INV_w_serialCount\(12) <= NOT \BaudRateGen|w_serialCount\(12);
-\io2|ALT_INV_Equal3~0_combout\ <= NOT \io2|Equal3~0_combout\;
-\sd1|ALT_INV_din_latched\(3) <= NOT \sd1|din_latched\(3);
-\sd1|ALT_INV_data_sig\(2) <= NOT \sd1|data_sig\(2);
-\sd1|ALT_INV_cmd_out\(50) <= NOT \sd1|cmd_out\(50);
-\io1|ALT_INV_paramCount~7_combout\ <= NOT \io1|paramCount~7_combout\;
-\io1|ALT_INV_Equal30~1_combout\ <= NOT \io1|Equal30~1_combout\;
-\io1|Mod1|auto_generated|divider|divider|ALT_INV_StageOut[139]~36_combout\ <= NOT \io1|Mod1|auto_generated|divider|divider|StageOut[139]~36_combout\;
-\io1|Mod1|auto_generated|divider|divider|ALT_INV_StageOut[139]~35_combout\ <= NOT \io1|Mod1|auto_generated|divider|divider|StageOut[139]~35_combout\;
-\io1|Mod1|auto_generated|divider|divider|ALT_INV_StageOut[139]~34_combout\ <= NOT \io1|Mod1|auto_generated|divider|divider|StageOut[139]~34_combout\;
-\io1|Mod0|auto_generated|divider|divider|ALT_INV_StageOut[139]~36_combout\ <= NOT \io1|Mod0|auto_generated|divider|divider|StageOut[139]~36_combout\;
-\io1|Mod0|auto_generated|divider|divider|ALT_INV_StageOut[139]~35_combout\ <= NOT \io1|Mod0|auto_generated|divider|divider|StageOut[139]~35_combout\;
-\io1|Mod0|auto_generated|divider|divider|ALT_INV_StageOut[139]~34_combout\ <= NOT \io1|Mod0|auto_generated|divider|divider|StageOut[139]~34_combout\;
-\io2|ALT_INV_txByteLatch\(3) <= NOT \io2|txByteLatch\(3);
-\io2|ALT_INV_txBuffer\(4) <= NOT \io2|txBuffer\(4);
-\BaudRateGen|ALT_INV_w_serialCount\(13) <= NOT \BaudRateGen|w_serialCount\(13);
-\io1|ALT_INV_ps2Num~1_combout\ <= NOT \io1|ps2Num~1_combout\;
-\io1|ALT_INV_kbBuffer~146_combout\ <= NOT \io1|kbBuffer~146_combout\;
-\io1|ALT_INV_kbBuffer~143_combout\ <= NOT \io1|kbBuffer~143_combout\;
-\io1|ALT_INV_Equal10~0_combout\ <= NOT \io1|Equal10~0_combout\;
-\io1|ALT_INV_ps2WriteByte2~8_combout\ <= NOT \io1|ps2WriteByte2~8_combout\;
-\io1|ALT_INV_ps2WriteByte2~6_combout\ <= NOT \io1|ps2WriteByte2~6_combout\;
-\io1|ALT_INV_ps2WriteByte2~5_combout\ <= NOT \io1|ps2WriteByte2~5_combout\;
-\io1|ALT_INV_ps2Num~q\ <= NOT \io1|ps2Num~q\;
-\io1|ALT_INV_ps2WriteByte2~3_combout\ <= NOT \io1|ps2WriteByte2~3_combout\;
-\io1|ALT_INV_ps2WriteByte2~2_combout\ <= NOT \io1|ps2WriteByte2~2_combout\;
-\io1|ALT_INV_ps2WriteByte2~1_combout\ <= NOT \io1|ps2WriteByte2~1_combout\;
-\io1|ALT_INV_ps2Scroll~q\ <= NOT \io1|ps2Scroll~q\;
-\debounceReset|ALT_INV_Equal0~3_combout\ <= NOT \debounceReset|Equal0~3_combout\;
-\debounceReset|ALT_INV_Equal0~2_combout\ <= NOT \debounceReset|Equal0~2_combout\;
-\debounceReset|ALT_INV_w_dig_counter\(10) <= NOT \debounceReset|w_dig_counter\(10);
-\debounceReset|ALT_INV_w_dig_counter\(9) <= NOT \debounceReset|w_dig_counter\(9);
-\debounceReset|ALT_INV_w_dig_counter\(8) <= NOT \debounceReset|w_dig_counter\(8);
-\debounceReset|ALT_INV_w_dig_counter\(7) <= NOT \debounceReset|w_dig_counter\(7);
-\debounceReset|ALT_INV_Equal0~1_combout\ <= NOT \debounceReset|Equal0~1_combout\;
-\debounceReset|ALT_INV_w_dig_counter\(5) <= NOT \debounceReset|w_dig_counter\(5);
-\debounceReset|ALT_INV_w_dig_counter\(4) <= NOT \debounceReset|w_dig_counter\(4);
-\debounceReset|ALT_INV_w_dig_counter\(3) <= NOT \debounceReset|w_dig_counter\(3);
-\debounceReset|ALT_INV_w_dig_counter\(2) <= NOT \debounceReset|w_dig_counter\(2);
-\debounceReset|ALT_INV_w_dig_counter\(1) <= NOT \debounceReset|w_dig_counter\(1);
-\debounceReset|ALT_INV_w_dig_counter\(12) <= NOT \debounceReset|w_dig_counter\(12);
-\debounceReset|ALT_INV_w_dig_counter\(11) <= NOT \debounceReset|w_dig_counter\(11);
-\debounceReset|ALT_INV_w_dig_counter\(6) <= NOT \debounceReset|w_dig_counter\(6);
-\debounceReset|ALT_INV_Equal0~0_combout\ <= NOT \debounceReset|Equal0~0_combout\;
-\debounceReset|ALT_INV_w_dig_counter\(17) <= NOT \debounceReset|w_dig_counter\(17);
-\debounceReset|ALT_INV_w_dig_counter\(16) <= NOT \debounceReset|w_dig_counter\(16);
-\debounceReset|ALT_INV_w_dig_counter\(15) <= NOT \debounceReset|w_dig_counter\(15);
-\debounceReset|ALT_INV_w_dig_counter\(14) <= NOT \debounceReset|w_dig_counter\(14);
-\debounceReset|ALT_INV_w_dig_counter\(13) <= NOT \debounceReset|w_dig_counter\(13);
-\debounceReset|ALT_INV_w_dig_counter\(19) <= NOT \debounceReset|w_dig_counter\(19);
-\debounceReset|ALT_INV_w_dig_counter\(18) <= NOT \debounceReset|w_dig_counter\(18);
-\BaudRateGen|ALT_INV_w_serialCount\(4) <= NOT \BaudRateGen|w_serialCount\(4);
-\sd1|ALT_INV_din_latched\(4) <= NOT \sd1|din_latched\(4);
-\sd1|ALT_INV_data_sig\(3) <= NOT \sd1|data_sig\(3);
-\sd1|ALT_INV_cmd_out\(51) <= NOT \sd1|cmd_out\(51);
-\io1|ALT_INV_param3~1_combout\ <= NOT \io1|param3~1_combout\;
-\io1|Mod1|auto_generated|divider|divider|ALT_INV_StageOut[140]~33_combout\ <= NOT \io1|Mod1|auto_generated|divider|divider|StageOut[140]~33_combout\;
-\io1|Mod1|auto_generated|divider|divider|ALT_INV_StageOut[140]~32_combout\ <= NOT \io1|Mod1|auto_generated|divider|divider|StageOut[140]~32_combout\;
-\io1|Mod0|auto_generated|divider|divider|ALT_INV_StageOut[140]~33_combout\ <= NOT \io1|Mod0|auto_generated|divider|divider|StageOut[140]~33_combout\;
-\io1|Mod0|auto_generated|divider|divider|ALT_INV_StageOut[140]~32_combout\ <= NOT \io1|Mod0|auto_generated|divider|divider|StageOut[140]~32_combout\;
-\io1|ALT_INV_Add27~1_combout\ <= NOT \io1|Add27~1_combout\;
-\io1|ALT_INV_Add27~0_combout\ <= NOT \io1|Add27~0_combout\;
-\io2|ALT_INV_txByteLatch\(2) <= NOT \io2|txByteLatch\(2);
-\io2|ALT_INV_txBuffer\(3) <= NOT \io2|txBuffer\(3);
-\BaudRateGen|ALT_INV_w_serialCount\(14) <= NOT \BaudRateGen|w_serialCount\(14);
-\io1|ALT_INV_kbBuffer~31_q\ <= NOT \io1|kbBuffer~31_q\;
-\io1|ALT_INV_kbBuffer~17_q\ <= NOT \io1|kbBuffer~17_q\;
-\io1|ALT_INV_kbBuffer~38_q\ <= NOT \io1|kbBuffer~38_q\;
-\io1|ALT_INV_kbBuffer~24_q\ <= NOT \io1|kbBuffer~24_q\;
-\io1|ALT_INV_kbBuffer~142_combout\ <= NOT \io1|kbBuffer~142_combout\;
-\io1|ALT_INV_kbBuffer~30_q\ <= NOT \io1|kbBuffer~30_q\;
-\io1|ALT_INV_kbBuffer~16_q\ <= NOT \io1|kbBuffer~16_q\;
-\io1|ALT_INV_kbBuffer~37_q\ <= NOT \io1|kbBuffer~37_q\;
-\io1|ALT_INV_kbBuffer~23_q\ <= NOT \io1|kbBuffer~23_q\;
-\io1|ALT_INV_kbBuffer~141_combout\ <= NOT \io1|kbBuffer~141_combout\;
-\io1|ALT_INV_kbBuffer~140_combout\ <= NOT \io1|kbBuffer~140_combout\;
-\io1|ALT_INV_ps2Caps~q\ <= NOT \io1|ps2Caps~q\;
-\io1|ALT_INV_kbBuffer~139_combout\ <= NOT \io1|kbBuffer~139_combout\;
-\io1|ALT_INV_ps2Ctrl~q\ <= NOT \io1|ps2Ctrl~q\;
-\io1|ALT_INV_kbBuffer~29_q\ <= NOT \io1|kbBuffer~29_q\;
-\io1|ALT_INV_kbBuffer~15_q\ <= NOT \io1|kbBuffer~15_q\;
-\io1|ALT_INV_kbBuffer~36_q\ <= NOT \io1|kbBuffer~36_q\;
-\io1|ALT_INV_kbBuffer~22_q\ <= NOT \io1|kbBuffer~22_q\;
-\io1|ALT_INV_kbBuffer~138_combout\ <= NOT \io1|kbBuffer~138_combout\;
-\io1|ALT_INV_kbBuffer~28_q\ <= NOT \io1|kbBuffer~28_q\;
-\io1|ALT_INV_kbBuffer~14_q\ <= NOT \io1|kbBuffer~14_q\;
-\io1|ALT_INV_kbBuffer~35_q\ <= NOT \io1|kbBuffer~35_q\;
-\io1|ALT_INV_kbBuffer~21_q\ <= NOT \io1|kbBuffer~21_q\;
-\io1|ALT_INV_kbBuffer~137_combout\ <= NOT \io1|kbBuffer~137_combout\;
-\io1|ALT_INV_kbBuffer~27_q\ <= NOT \io1|kbBuffer~27_q\;
-\io1|ALT_INV_kbBuffer~13_q\ <= NOT \io1|kbBuffer~13_q\;
-\io1|ALT_INV_kbBuffer~34_q\ <= NOT \io1|kbBuffer~34_q\;
-\io1|ALT_INV_kbBuffer~20_q\ <= NOT \io1|kbBuffer~20_q\;
-\io1|ALT_INV_kbBuffer~136_combout\ <= NOT \io1|kbBuffer~136_combout\;
-\io1|ALT_INV_kbBuffer~26_q\ <= NOT \io1|kbBuffer~26_q\;
-\io1|ALT_INV_kbBuffer~12_q\ <= NOT \io1|kbBuffer~12_q\;
-\io1|ALT_INV_kbBuffer~33_q\ <= NOT \io1|kbBuffer~33_q\;
-\io1|ALT_INV_kbBuffer~19_q\ <= NOT \io1|kbBuffer~19_q\;
-\io1|ALT_INV_kbBuffer~135_combout\ <= NOT \io1|kbBuffer~135_combout\;
-\io1|ALT_INV_kbBuffer~25_q\ <= NOT \io1|kbBuffer~25_q\;
-\io1|ALT_INV_kbBuffer~11_q\ <= NOT \io1|kbBuffer~11_q\;
-\io1|ALT_INV_kbBuffer~32_q\ <= NOT \io1|kbBuffer~32_q\;
-\io1|ALT_INV_kbBuffer~18_q\ <= NOT \io1|kbBuffer~18_q\;
-\io1|ALT_INV_kbBuffer~132_combout\ <= NOT \io1|kbBuffer~132_combout\;
-\io1|ALT_INV_kbBuffer~131_combout\ <= NOT \io1|kbBuffer~131_combout\;
-\io1|ALT_INV_kbBuffer~128_combout\ <= NOT \io1|kbBuffer~128_combout\;
-\io1|ALT_INV_kbBuffer~127_combout\ <= NOT \io1|kbBuffer~127_combout\;
-\io1|ALT_INV_kbBuffer~126_combout\ <= NOT \io1|kbBuffer~126_combout\;
-\io1|ALT_INV_kbd_ctl~11_combout\ <= NOT \io1|kbd_ctl~11_combout\;
-\io1|ALT_INV_ps2WriteByte2\(3) <= NOT \io1|ps2WriteByte2\(3);
-\io1|ALT_INV_ps2WriteByte2\(2) <= NOT \io1|ps2WriteByte2\(2);
-\io1|ALT_INV_ps2WriteByte2\(1) <= NOT \io1|ps2WriteByte2\(1);
-\io1|ALT_INV_ps2WriteByte2[0]~0_combout\ <= NOT \io1|ps2WriteByte2[0]~0_combout\;
-\io1|ALT_INV_ps2WriteByte[0]~2_combout\ <= NOT \io1|ps2WriteByte[0]~2_combout\;
-\io1|ALT_INV_ps2WriteByte2\(0) <= NOT \io1|ps2WriteByte2\(0);
-\io1|ALT_INV_Add23~0_combout\ <= NOT \io1|Add23~0_combout\;
-\io1|ALT_INV_ps2WriteClkCount[2]~1_combout\ <= NOT \io1|ps2WriteClkCount[2]~1_combout\;
-\io1|ALT_INV_ps2WriteClkCount~0_combout\ <= NOT \io1|ps2WriteClkCount~0_combout\;
-\io1|ALT_INV_kbWRParity~2_combout\ <= NOT \io1|kbWRParity~2_combout\;
-\io2|ALT_INV_Equal2~0_combout\ <= NOT \io2|Equal2~0_combout\;
-\io2|ALT_INV_rxFilter\(3) <= NOT \io2|rxFilter\(3);
-\io2|ALT_INV_rxFilter\(2) <= NOT \io2|rxFilter\(2);
-\io2|ALT_INV_rxFilter\(0) <= NOT \io2|rxFilter\(0);
-\io2|ALT_INV_rxFilter\(5) <= NOT \io2|rxFilter\(5);
-\io2|ALT_INV_rxFilter\(4) <= NOT \io2|rxFilter\(4);
-\io2|ALT_INV_rxFilter\(1) <= NOT \io2|rxFilter\(1);
-\mm1|ALT_INV_nmiDly[1]~1_combout\ <= NOT \mm1|nmiDly[1]~1_combout\;
-\mm1|ALT_INV_Add1~0_combout\ <= NOT \mm1|Add1~0_combout\;
-\mm1|ALT_INV_nmiDly[4]~0_combout\ <= NOT \mm1|nmiDly[4]~0_combout\;
-\mm1|ALT_INV_nmi_i~1_combout\ <= NOT \mm1|nmi_i~1_combout\;
-\io1|ALT_INV_kbWRParity~1_combout\ <= NOT \io1|kbWRParity~1_combout\;
-\io1|ALT_INV_ps2DataOut~1_combout\ <= NOT \io1|ps2DataOut~1_combout\;
-\io1|ALT_INV_kbWRParity~0_combout\ <= NOT \io1|kbWRParity~0_combout\;
-\io1|ALT_INV_Mux16~1_combout\ <= NOT \io1|Mux16~1_combout\;
-\io1|ALT_INV_Mux16~0_combout\ <= NOT \io1|Mux16~0_combout\;
-\io1|ALT_INV_ps2DataOut~0_combout\ <= NOT \io1|ps2DataOut~0_combout\;
-\io1|ALT_INV_kbWRParity~q\ <= NOT \io1|kbWRParity~q\;
-\io1|ALT_INV_kbd_ctl~10_combout\ <= NOT \io1|kbd_ctl~10_combout\;
-\io1|ALT_INV_kbd_ctl~9_combout\ <= NOT \io1|kbd_ctl~9_combout\;
-\io1|ALT_INV_kbd_ctl~8_combout\ <= NOT \io1|kbd_ctl~8_combout\;
-\io1|ALT_INV_kbd_ctl~7_combout\ <= NOT \io1|kbd_ctl~7_combout\;
-\sd1|ALT_INV_din_latched\(5) <= NOT \sd1|din_latched\(5);
-\sd1|ALT_INV_data_sig\(4) <= NOT \sd1|data_sig\(4);
-\sd1|ALT_INV_cmd_out\(52) <= NOT \sd1|cmd_out\(52);
-\sd1|ALT_INV_wr_cmd_reg~2_combout\ <= NOT \sd1|wr_cmd_reg~2_combout\;
-\sd1|ALT_INV_block_start_ack~q\ <= NOT \sd1|block_start_ack~q\;
-\sd1|ALT_INV_wr_cmd_reg~1_combout\ <= NOT \sd1|wr_cmd_reg~1_combout\;
-\sd1|ALT_INV_wr_cmd_reg~0_combout\ <= NOT \sd1|wr_cmd_reg~0_combout\;
-\sd1|ALT_INV_return_state.receive_byte_wait~1_combout\ <= NOT \sd1|return_state.receive_byte_wait~1_combout\;
-\sd1|ALT_INV_return_state.receive_byte_wait~0_combout\ <= NOT \sd1|return_state.receive_byte_wait~0_combout\;
-\sd1|ALT_INV_return_state.cardsel~q\ <= NOT \sd1|return_state.cardsel~q\;
-\sd1|ALT_INV_return_state.poll_cmd~q\ <= NOT \sd1|return_state.poll_cmd~q\;
-\io1|ALT_INV_LessThan9~3_combout\ <= NOT \io1|LessThan9~3_combout\;
-\io1|ALT_INV_LessThan9~2_combout\ <= NOT \io1|LessThan9~2_combout\;
-\io1|ALT_INV_LessThan9~1_combout\ <= NOT \io1|LessThan9~1_combout\;
-\io1|ALT_INV_LessThan9~0_combout\ <= NOT \io1|LessThan9~0_combout\;
-\io1|ALT_INV_param2~1_combout\ <= NOT \io1|param2~1_combout\;
-\io1|ALT_INV_cursorHorizRestore[6]~0_combout\ <= NOT \io1|cursorHorizRestore[6]~0_combout\;
-\io1|ALT_INV_Selector25~0_combout\ <= NOT \io1|Selector25~0_combout\;
-\io1|ALT_INV_Selector43~0_combout\ <= NOT \io1|Selector43~0_combout\;
-\io1|ALT_INV_cursorVertRestore[1]~6_combout\ <= NOT \io1|cursorVertRestore[1]~6_combout\;
-\io1|ALT_INV_cursorVertRestore[0]~5_combout\ <= NOT \io1|cursorVertRestore[0]~5_combout\;
-\io1|ALT_INV_cursorVertRestore[0]~4_combout\ <= NOT \io1|cursorVertRestore[0]~4_combout\;
-\io1|ALT_INV_dispState~34_combout\ <= NOT \io1|dispState~34_combout\;
-\io1|ALT_INV_param1[6]~11_combout\ <= NOT \io1|param1[6]~11_combout\;
-\io1|ALT_INV_Selector36~0_combout\ <= NOT \io1|Selector36~0_combout\;
-\io1|ALT_INV_dispState~33_combout\ <= NOT \io1|dispState~33_combout\;
-\io1|ALT_INV_Selector34~2_combout\ <= NOT \io1|Selector34~2_combout\;
-\io1|ALT_INV_Selector34~1_combout\ <= NOT \io1|Selector34~1_combout\;
-\io1|ALT_INV_cursorVertRestore[1]~3_combout\ <= NOT \io1|cursorVertRestore[1]~3_combout\;
-\io1|ALT_INV_Selector34~0_combout\ <= NOT \io1|Selector34~0_combout\;
-\io1|ALT_INV_display_store~44_combout\ <= NOT \io1|display_store~44_combout\;
-\io1|ALT_INV_dispAttWRData~30_combout\ <= NOT \io1|dispAttWRData~30_combout\;
-\io1|ALT_INV_Equal49~0_combout\ <= NOT \io1|Equal49~0_combout\;
-\io1|ALT_INV_dispAttWRData~29_combout\ <= NOT \io1|dispAttWRData~29_combout\;
-\io1|ALT_INV_dispAttWRData~27_combout\ <= NOT \io1|dispAttWRData~27_combout\;
-\io1|ALT_INV_dispAttWRData~26_combout\ <= NOT \io1|dispAttWRData~26_combout\;
-\io1|ALT_INV_dispAttWRData~24_combout\ <= NOT \io1|dispAttWRData~24_combout\;
-\io1|ALT_INV_attBold~q\ <= NOT \io1|attBold~q\;
-\io1|ALT_INV_dispAttWRData~22_combout\ <= NOT \io1|dispAttWRData~22_combout\;
-\io1|ALT_INV_Add4~2_combout\ <= NOT \io1|Add4~2_combout\;
-\io1|ALT_INV_Add4~1_combout\ <= NOT \io1|Add4~1_combout\;
-\io1|Mod1|auto_generated|divider|divider|ALT_INV_StageOut[135]~31_combout\ <= NOT \io1|Mod1|auto_generated|divider|divider|StageOut[135]~31_combout\;
-\io1|Mod1|auto_generated|divider|divider|ALT_INV_StageOut[135]~30_combout\ <= NOT \io1|Mod1|auto_generated|divider|divider|StageOut[135]~30_combout\;
-\io1|ALT_INV_Add4~0_combout\ <= NOT \io1|Add4~0_combout\;
-\io1|Mod1|auto_generated|divider|divider|ALT_INV_StageOut[133]~29_combout\ <= NOT \io1|Mod1|auto_generated|divider|divider|StageOut[133]~29_combout\;
-\io1|Mod1|auto_generated|divider|divider|ALT_INV_StageOut[133]~28_combout\ <= NOT \io1|Mod1|auto_generated|divider|divider|StageOut[133]~28_combout\;
-\io1|Mod1|auto_generated|divider|divider|ALT_INV_StageOut[131]~27_combout\ <= NOT \io1|Mod1|auto_generated|divider|divider|StageOut[131]~27_combout\;
-\io1|Mod1|auto_generated|divider|divider|ALT_INV_StageOut[131]~26_combout\ <= NOT \io1|Mod1|auto_generated|divider|divider|StageOut[131]~26_combout\;
-\io1|Mod0|auto_generated|divider|divider|ALT_INV_StageOut[137]~31_combout\ <= NOT \io1|Mod0|auto_generated|divider|divider|StageOut[137]~31_combout\;
-\io1|Mod0|auto_generated|divider|divider|ALT_INV_StageOut[137]~30_combout\ <= NOT \io1|Mod0|auto_generated|divider|divider|StageOut[137]~30_combout\;
-\io1|Mod0|auto_generated|divider|divider|ALT_INV_StageOut[135]~29_combout\ <= NOT \io1|Mod0|auto_generated|divider|divider|StageOut[135]~29_combout\;
-\io1|Mod0|auto_generated|divider|divider|ALT_INV_StageOut[135]~28_combout\ <= NOT \io1|Mod0|auto_generated|divider|divider|StageOut[135]~28_combout\;
-\io1|Mod0|auto_generated|divider|divider|ALT_INV_StageOut[133]~27_combout\ <= NOT \io1|Mod0|auto_generated|divider|divider|StageOut[133]~27_combout\;
-\io1|Mod0|auto_generated|divider|divider|ALT_INV_StageOut[133]~26_combout\ <= NOT \io1|Mod0|auto_generated|divider|divider|StageOut[133]~26_combout\;
-\io1|Mod0|auto_generated|divider|divider|ALT_INV_StageOut[131]~25_combout\ <= NOT \io1|Mod0|auto_generated|divider|divider|StageOut[131]~25_combout\;
-\io1|Mod0|auto_generated|divider|divider|ALT_INV_StageOut[131]~24_combout\ <= NOT \io1|Mod0|auto_generated|divider|divider|StageOut[131]~24_combout\;
-\io1|ALT_INV_Selector65~1_combout\ <= NOT \io1|Selector65~1_combout\;
-\io1|ALT_INV_Selector65~0_combout\ <= NOT \io1|Selector65~0_combout\;
-\io1|ALT_INV_paramCount[2]~4_combout\ <= NOT \io1|paramCount[2]~4_combout\;
-\io1|ALT_INV_paramCount~3_combout\ <= NOT \io1|paramCount~3_combout\;
-\io1|ALT_INV_paramCount~1_combout\ <= NOT \io1|paramCount~1_combout\;
-\io1|ALT_INV_param1~10_combout\ <= NOT \io1|param1~10_combout\;
-\io1|ALT_INV_paramCount[1]~0_combout\ <= NOT \io1|paramCount[1]~0_combout\;
-\io1|ALT_INV_dispAttWRData~20_combout\ <= NOT \io1|dispAttWRData~20_combout\;
-\io1|ALT_INV_dispAttWRData~19_combout\ <= NOT \io1|dispAttWRData~19_combout\;
-\io1|ALT_INV_dispAttWRData~18_combout\ <= NOT \io1|dispAttWRData~18_combout\;
-\io1|ALT_INV_dispAttWRData~17_combout\ <= NOT \io1|dispAttWRData~17_combout\;
-\io1|ALT_INV_dispAttWRData~16_combout\ <= NOT \io1|dispAttWRData~16_combout\;
-\io1|ALT_INV_dispAttWRData~15_combout\ <= NOT \io1|dispAttWRData~15_combout\;
-\io1|ALT_INV_param1~2_combout\ <= NOT \io1|param1~2_combout\;
-\io1|ALT_INV_display_store~43_combout\ <= NOT \io1|display_store~43_combout\;
-\io1|ALT_INV_Equal31~2_combout\ <= NOT \io1|Equal31~2_combout\;
-\io2|ALT_INV_txByteLatch\(1) <= NOT \io2|txByteLatch\(1);
-\io2|ALT_INV_txBuffer\(2) <= NOT \io2|txBuffer\(2);
-\io2|ALT_INV_rxCurrentByteBuffer\(6) <= NOT \io2|rxCurrentByteBuffer\(6);
-\io1|ALT_INV_kbBuffer~59_q\ <= NOT \io1|kbBuffer~59_q\;
-\io1|ALT_INV_kbBuffer~45_q\ <= NOT \io1|kbBuffer~45_q\;
-\io1|ALT_INV_kbBuffer~66_q\ <= NOT \io1|kbBuffer~66_q\;
-\io1|ALT_INV_kbBuffer~52_q\ <= NOT \io1|kbBuffer~52_q\;
-\io2|ALT_INV_rxCurrentByteBuffer\(5) <= NOT \io2|rxCurrentByteBuffer\(5);
-\io1|ALT_INV_kbBuffer~58_q\ <= NOT \io1|kbBuffer~58_q\;
-\io1|ALT_INV_kbBuffer~44_q\ <= NOT \io1|kbBuffer~44_q\;
-\io1|ALT_INV_kbBuffer~65_q\ <= NOT \io1|kbBuffer~65_q\;
-\io1|ALT_INV_kbBuffer~51_q\ <= NOT \io1|kbBuffer~51_q\;
-\io1|ALT_INV_kbBuffer~57_q\ <= NOT \io1|kbBuffer~57_q\;
-\io1|ALT_INV_kbBuffer~43_q\ <= NOT \io1|kbBuffer~43_q\;
-\io1|ALT_INV_kbBuffer~64_q\ <= NOT \io1|kbBuffer~64_q\;
-\io1|ALT_INV_kbBuffer~50_q\ <= NOT \io1|kbBuffer~50_q\;
-\io2|ALT_INV_rxCurrentByteBuffer\(3) <= NOT \io2|rxCurrentByteBuffer\(3);
-\io1|ALT_INV_kbBuffer~56_q\ <= NOT \io1|kbBuffer~56_q\;
-\io1|ALT_INV_kbBuffer~42_q\ <= NOT \io1|kbBuffer~42_q\;
-\io1|ALT_INV_kbBuffer~63_q\ <= NOT \io1|kbBuffer~63_q\;
-\io1|ALT_INV_kbBuffer~49_q\ <= NOT \io1|kbBuffer~49_q\;
-\io2|ALT_INV_rxCurrentByteBuffer\(2) <= NOT \io2|rxCurrentByteBuffer\(2);
-\io1|ALT_INV_kbBuffer~55_q\ <= NOT \io1|kbBuffer~55_q\;
-\io1|ALT_INV_kbBuffer~41_q\ <= NOT \io1|kbBuffer~41_q\;
-\io1|ALT_INV_kbBuffer~62_q\ <= NOT \io1|kbBuffer~62_q\;
-\io1|ALT_INV_kbBuffer~48_q\ <= NOT \io1|kbBuffer~48_q\;
-\io1|ALT_INV_kbBuffer~54_q\ <= NOT \io1|kbBuffer~54_q\;
-\io1|ALT_INV_kbBuffer~40_q\ <= NOT \io1|kbBuffer~40_q\;
-\io1|ALT_INV_kbBuffer~61_q\ <= NOT \io1|kbBuffer~61_q\;
-\io1|ALT_INV_kbBuffer~47_q\ <= NOT \io1|kbBuffer~47_q\;
-\sd1|ALT_INV_Selector124~0_combout\ <= NOT \sd1|Selector124~0_combout\;
-\io2|ALT_INV_rxReadPointer[0]~8_combout\ <= NOT \io2|rxReadPointer[0]~8_combout\;
-\io2|ALT_INV_rxBuffer~23_combout\ <= NOT \io2|rxBuffer~23_combout\;
-\io1|ALT_INV_kbBuffer~53_q\ <= NOT \io1|kbBuffer~53_q\;
-\io1|ALT_INV_kbBuffer~39_q\ <= NOT \io1|kbBuffer~39_q\;
-\io1|ALT_INV_kbBuffer~60_q\ <= NOT \io1|kbBuffer~60_q\;
-\io1|ALT_INV_kbBuffer~46_q\ <= NOT \io1|kbBuffer~46_q\;
-\io1|ALT_INV_escState.none~4_combout\ <= NOT \io1|escState.none~4_combout\;
-\io1|ALT_INV_escState.none~3_combout\ <= NOT \io1|escState.none~3_combout\;
-\io1|ALT_INV_escState.none~2_combout\ <= NOT \io1|escState.none~2_combout\;
-\io1|ALT_INV_escState.none~1_combout\ <= NOT \io1|escState.none~1_combout\;
-\io1|ALT_INV_display_store~42_combout\ <= NOT \io1|display_store~42_combout\;
-\io1|ALT_INV_display_store~41_combout\ <= NOT \io1|display_store~41_combout\;
-\io1|ALT_INV_param1[6]~0_combout\ <= NOT \io1|param1[6]~0_combout\;
-\io1|ALT_INV_cursorVertRestore[1]~2_combout\ <= NOT \io1|cursorVertRestore[1]~2_combout\;
-\io1|ALT_INV_display_store~40_combout\ <= NOT \io1|display_store~40_combout\;
-\io1|ALT_INV_Selector32~1_combout\ <= NOT \io1|Selector32~1_combout\;
-\io1|ALT_INV_Selector32~0_combout\ <= NOT \io1|Selector32~0_combout\;
-\io1|ALT_INV_cursorVertRestore~1_combout\ <= NOT \io1|cursorVertRestore~1_combout\;
-\io1|ALT_INV_escState~9_combout\ <= NOT \io1|escState~9_combout\;
-\io1|ALT_INV_cursorVertRestore~0_combout\ <= NOT \io1|cursorVertRestore~0_combout\;
-\io1|ALT_INV_display_store~39_combout\ <= NOT \io1|display_store~39_combout\;
-\io1|ALT_INV_Equal35~1_combout\ <= NOT \io1|Equal35~1_combout\;
-\io1|ALT_INV_display_store~38_combout\ <= NOT \io1|display_store~38_combout\;
-\io1|ALT_INV_Equal9~0_combout\ <= NOT \io1|Equal9~0_combout\;
-\io1|ALT_INV_ps2ClkFilter\(3) <= NOT \io1|ps2ClkFilter\(3);
-\io1|ALT_INV_ps2ClkFilter\(2) <= NOT \io1|ps2ClkFilter\(2);
-\io1|ALT_INV_ps2ClkFilter\(0) <= NOT \io1|ps2ClkFilter\(0);
-\io1|ALT_INV_ps2ClkFilter\(5) <= NOT \io1|ps2ClkFilter\(5);
-\io1|ALT_INV_ps2ClkFilter\(4) <= NOT \io1|ps2ClkFilter\(4);
-\io1|ALT_INV_ps2ClkFilter\(1) <= NOT \io1|ps2ClkFilter\(1);
-\io1|ALT_INV_n_kbWR~4_combout\ <= NOT \io1|n_kbWR~4_combout\;
-\io1|ALT_INV_n_kbWR~3_combout\ <= NOT \io1|n_kbWR~3_combout\;
-\io1|ALT_INV_ps2WriteByte\(4) <= NOT \io1|ps2WriteByte\(4);
-\io1|ALT_INV_ps2WriteByte\(3) <= NOT \io1|ps2WriteByte\(3);
-\io1|ALT_INV_ps2WriteByte\(2) <= NOT \io1|ps2WriteByte\(2);
-\io1|ALT_INV_ps2WriteByte\(1) <= NOT \io1|ps2WriteByte\(1);
-\io1|ALT_INV_ps2WriteByte\(0) <= NOT \io1|ps2WriteByte\(0);
-\io1|ALT_INV_Equal29~0_combout\ <= NOT \io1|Equal29~0_combout\;
-\io1|ALT_INV_Equal27~0_combout\ <= NOT \io1|Equal27~0_combout\;
-\io1|ALT_INV_ps2WriteClkCount\(4) <= NOT \io1|ps2WriteClkCount\(4);
-\io1|ALT_INV_ps2WriteClkCount\(3) <= NOT \io1|ps2WriteClkCount\(3);
-\io1|ALT_INV_ps2WriteClkCount\(2) <= NOT \io1|ps2WriteClkCount\(2);
-\io1|ALT_INV_ps2WriteClkCount\(1) <= NOT \io1|ps2WriteClkCount\(1);
-\io1|ALT_INV_ps2WriteClkCount\(0) <= NOT \io1|ps2WriteClkCount\(0);
-\io1|ALT_INV_n_kbWR~2_combout\ <= NOT \io1|n_kbWR~2_combout\;
-\io1|ALT_INV_ps2ClkCount[0]~1_combout\ <= NOT \io1|ps2ClkCount[0]~1_combout\;
-\io1|ALT_INV_LessThan28~5_combout\ <= NOT \io1|LessThan28~5_combout\;
-\io1|ALT_INV_LessThan28~4_combout\ <= NOT \io1|LessThan28~4_combout\;
-\io1|ALT_INV_LessThan28~3_combout\ <= NOT \io1|LessThan28~3_combout\;
-\io1|ALT_INV_LessThan28~2_combout\ <= NOT \io1|LessThan28~2_combout\;
-\io1|ALT_INV_LessThan28~1_combout\ <= NOT \io1|LessThan28~1_combout\;
-\io1|ALT_INV_LessThan28~0_combout\ <= NOT \io1|LessThan28~0_combout\;
-\io1|ALT_INV_n_kbWR~1_combout\ <= NOT \io1|n_kbWR~1_combout\;
-\io1|ALT_INV_Equal11~6_combout\ <= NOT \io1|Equal11~6_combout\;
-\io1|ALT_INV_Equal11~5_combout\ <= NOT \io1|Equal11~5_combout\;
-\io1|ALT_INV_Equal11~4_combout\ <= NOT \io1|Equal11~4_combout\;
-\io1|ALT_INV_LessThan14~2_combout\ <= NOT \io1|LessThan14~2_combout\;
-\io1|ALT_INV_LessThan14~1_combout\ <= NOT \io1|LessThan14~1_combout\;
-\io1|ALT_INV_LessThan14~0_combout\ <= NOT \io1|LessThan14~0_combout\;
-\io1|ALT_INV_LessThan17~2_combout\ <= NOT \io1|LessThan17~2_combout\;
-\io1|ALT_INV_LessThan17~1_combout\ <= NOT \io1|LessThan17~1_combout\;
-\io1|ALT_INV_LessThan17~0_combout\ <= NOT \io1|LessThan17~0_combout\;
 \cpu1|ALT_INV_iv\(0) <= NOT \cpu1|iv\(0);
 \cpu1|ALT_INV_Selector329~0_combout\ <= NOT \cpu1|Selector329~0_combout\;
 \cpu1|ALT_INV_Selector581~2_combout\ <= NOT \cpu1|Selector581~2_combout\;
@@ -10955,6 +10945,12 @@ ALT_INV_w_state(2) <= NOT w_state(2);
 \io1|ALT_INV_param4\(0) <= NOT \io1|param4\(0);
 \io1|ALT_INV_param4\(6) <= NOT \io1|param4\(6);
 \io1|ALT_INV_Add31~1_sumout\ <= NOT \io1|Add31~1_sumout\;
+\io1|Mod1|auto_generated|divider|divider|ALT_INV_add_sub_10_result_int[9]~45_sumout\ <= NOT \io1|Mod1|auto_generated|divider|divider|add_sub_10_result_int[9]~45_sumout\;
+\io1|Mod1|auto_generated|divider|divider|ALT_INV_op_4~53_sumout\ <= NOT \io1|Mod1|auto_generated|divider|divider|op_4~53_sumout\;
+\io1|ALT_INV_Add3~29_sumout\ <= NOT \io1|Add3~29_sumout\;
+\io1|Mod0|auto_generated|divider|divider|ALT_INV_add_sub_10_result_int[9]~45_sumout\ <= NOT \io1|Mod0|auto_generated|divider|divider|add_sub_10_result_int[9]~45_sumout\;
+\io1|Mod0|auto_generated|divider|divider|ALT_INV_op_4~53_sumout\ <= NOT \io1|Mod0|auto_generated|divider|divider|op_4~53_sumout\;
+\io1|ALT_INV_Add0~29_sumout\ <= NOT \io1|Add0~29_sumout\;
 \sd1|ALT_INV_recv_data\(30) <= NOT \sd1|recv_data\(30);
 \io1|ALT_INV_cursBlinkCount\(1) <= NOT \io1|cursBlinkCount\(1);
 \io1|ALT_INV_cursBlinkCount\(2) <= NOT \io1|cursBlinkCount\(2);
@@ -10994,12 +10990,6 @@ ALT_INV_w_state(2) <= NOT w_state(2);
 \io1|ALT_INV_Add1~17_sumout\ <= NOT \io1|Add1~17_sumout\;
 \io1|ALT_INV_startAddr\(7) <= NOT \io1|startAddr\(7);
 \io1|ALT_INV_Add1~13_sumout\ <= NOT \io1|Add1~13_sumout\;
-\io1|Mod1|auto_generated|divider|divider|ALT_INV_add_sub_10_result_int[9]~45_sumout\ <= NOT \io1|Mod1|auto_generated|divider|divider|add_sub_10_result_int[9]~45_sumout\;
-\io1|Mod1|auto_generated|divider|divider|ALT_INV_op_4~53_sumout\ <= NOT \io1|Mod1|auto_generated|divider|divider|op_4~53_sumout\;
-\io1|ALT_INV_Add3~29_sumout\ <= NOT \io1|Add3~29_sumout\;
-\io1|Mod0|auto_generated|divider|divider|ALT_INV_add_sub_10_result_int[9]~45_sumout\ <= NOT \io1|Mod0|auto_generated|divider|divider|add_sub_10_result_int[9]~45_sumout\;
-\io1|Mod0|auto_generated|divider|divider|ALT_INV_op_4~53_sumout\ <= NOT \io1|Mod0|auto_generated|divider|divider|op_4~53_sumout\;
-\io1|ALT_INV_Add0~29_sumout\ <= NOT \io1|Add0~29_sumout\;
 \io1|ALT_INV_Add1~9_sumout\ <= NOT \io1|Add1~9_sumout\;
 \io1|ALT_INV_Add1~5_sumout\ <= NOT \io1|Add1~5_sumout\;
 \io1|ALT_INV_Add1~1_sumout\ <= NOT \io1|Add1~1_sumout\;
@@ -12430,7 +12420,7 @@ PORT MAP (
 	i => \cpu1|Selector338~12_combout\,
 	oe => \ALT_INV_w_n_WR~q\,
 	devoe => ww_devoe,
-	o => ww_sramData(0));
+	o => sramData(0));
 
 -- Location: IOOBUF_X8_Y45_N42
 \sramData[1]~output\ : cyclonev_io_obuf
@@ -12444,7 +12434,7 @@ PORT MAP (
 	i => \cpu1|Selector337~12_combout\,
 	oe => \ALT_INV_w_n_WR~q\,
 	devoe => ww_devoe,
-	o => ww_sramData(1));
+	o => sramData(1));
 
 -- Location: IOOBUF_X20_Y45_N53
 \sramData[2]~output\ : cyclonev_io_obuf
@@ -12458,7 +12448,7 @@ PORT MAP (
 	i => \cpu1|Selector336~12_combout\,
 	oe => \ALT_INV_w_n_WR~q\,
 	devoe => ww_devoe,
-	o => ww_sramData(2));
+	o => sramData(2));
 
 -- Location: IOOBUF_X8_Y45_N76
 \sramData[3]~output\ : cyclonev_io_obuf
@@ -12472,7 +12462,7 @@ PORT MAP (
 	i => \cpu1|Selector335~12_combout\,
 	oe => \ALT_INV_w_n_WR~q\,
 	devoe => ww_devoe,
-	o => ww_sramData(3));
+	o => sramData(3));
 
 -- Location: IOOBUF_X20_Y45_N36
 \sramData[4]~output\ : cyclonev_io_obuf
@@ -12486,7 +12476,7 @@ PORT MAP (
 	i => \cpu1|Selector334~12_combout\,
 	oe => \ALT_INV_w_n_WR~q\,
 	devoe => ww_devoe,
-	o => ww_sramData(4));
+	o => sramData(4));
 
 -- Location: IOOBUF_X8_Y45_N59
 \sramData[5]~output\ : cyclonev_io_obuf
@@ -12500,7 +12490,7 @@ PORT MAP (
 	i => \cpu1|Selector333~12_combout\,
 	oe => \ALT_INV_w_n_WR~q\,
 	devoe => ww_devoe,
-	o => ww_sramData(5));
+	o => sramData(5));
 
 -- Location: IOOBUF_X0_Y21_N39
 \sramData[6]~output\ : cyclonev_io_obuf
@@ -12514,7 +12504,7 @@ PORT MAP (
 	i => \cpu1|Selector332~12_combout\,
 	oe => \ALT_INV_w_n_WR~q\,
 	devoe => ww_devoe,
-	o => ww_sramData(6));
+	o => sramData(6));
 
 -- Location: IOOBUF_X0_Y20_N5
 \sramData[7]~output\ : cyclonev_io_obuf
@@ -12528,7 +12518,7 @@ PORT MAP (
 	i => \cpu1|Selector331~12_combout\,
 	oe => \ALT_INV_w_n_WR~q\,
 	devoe => ww_devoe,
-	o => ww_sramData(7));
+	o => sramData(7));
 
 -- Location: IOOBUF_X0_Y18_N79
 \io_ps2Clk~output\ : cyclonev_io_obuf
@@ -12542,7 +12532,7 @@ PORT MAP (
 	i => \io1|ALT_INV_ps2ClkOut~q\,
 	oe => VCC,
 	devoe => ww_devoe,
-	o => ww_io_ps2Clk);
+	o => io_ps2Clk);
 
 -- Location: IOOBUF_X0_Y18_N96
 \io_ps2Data~output\ : cyclonev_io_obuf
@@ -12556,10 +12546,10 @@ PORT MAP (
 	i => \io1|ALT_INV_ps2DataOut~DUPLICATE_q\,
 	oe => VCC,
 	devoe => ww_devoe,
-	o => ww_io_ps2Data);
+	o => io_ps2Data);
 
 -- Location: IOOBUF_X34_Y0_N53
-\gpio0[0]~output\ : cyclonev_io_obuf
+\io_gpio0[0]~output\ : cyclonev_io_obuf
 -- pragma translate_off
 GENERIC MAP (
 	bus_hold => "false",
@@ -12570,10 +12560,10 @@ PORT MAP (
 	i => \gpio1|reg_dat0\(0),
 	oe => \gpio1|ALT_INV_reg_ddr0\(0),
 	devoe => ww_devoe,
-	o => ww_gpio0(0));
+	o => io_gpio0(0));
 
 -- Location: IOOBUF_X34_Y0_N36
-\gpio0[1]~output\ : cyclonev_io_obuf
+\io_gpio0[1]~output\ : cyclonev_io_obuf
 -- pragma translate_off
 GENERIC MAP (
 	bus_hold => "false",
@@ -12584,10 +12574,10 @@ PORT MAP (
 	i => \gpio1|reg_dat0\(1),
 	oe => \gpio1|ALT_INV_reg_ddr0\(1),
 	devoe => ww_devoe,
-	o => ww_gpio0(1));
+	o => io_gpio0(1));
 
 -- Location: IOOBUF_X36_Y0_N36
-\gpio0[2]~output\ : cyclonev_io_obuf
+\io_gpio0[2]~output\ : cyclonev_io_obuf
 -- pragma translate_off
 GENERIC MAP (
 	bus_hold => "false",
@@ -12598,10 +12588,10 @@ PORT MAP (
 	i => \gpio1|reg_dat0\(2),
 	oe => \gpio1|ALT_INV_reg_ddr0\(2),
 	devoe => ww_devoe,
-	o => ww_gpio0(2));
+	o => io_gpio0(2));
 
 -- Location: IOOBUF_X36_Y0_N53
-\gpio2[0]~output\ : cyclonev_io_obuf
+\io_gpio2[0]~output\ : cyclonev_io_obuf
 -- pragma translate_off
 GENERIC MAP (
 	bus_hold => "false",
@@ -12612,10 +12602,10 @@ PORT MAP (
 	i => \gpio1|reg_dat2\(0),
 	oe => \gpio1|ALT_INV_reg_ddr2\(0),
 	devoe => ww_devoe,
-	o => ww_gpio2(0));
+	o => io_gpio2(0));
 
 -- Location: IOOBUF_X36_Y0_N2
-\gpio2[1]~output\ : cyclonev_io_obuf
+\io_gpio2[1]~output\ : cyclonev_io_obuf
 -- pragma translate_off
 GENERIC MAP (
 	bus_hold => "false",
@@ -12626,10 +12616,10 @@ PORT MAP (
 	i => \gpio1|reg_dat2\(1),
 	oe => \gpio1|ALT_INV_reg_ddr2\(1),
 	devoe => ww_devoe,
-	o => ww_gpio2(1));
+	o => io_gpio2(1));
 
 -- Location: IOOBUF_X36_Y0_N19
-\gpio2[2]~output\ : cyclonev_io_obuf
+\io_gpio2[2]~output\ : cyclonev_io_obuf
 -- pragma translate_off
 GENERIC MAP (
 	bus_hold => "false",
@@ -12640,10 +12630,10 @@ PORT MAP (
 	i => \gpio1|reg_dat2\(2),
 	oe => \gpio1|ALT_INV_reg_ddr2\(2),
 	devoe => ww_devoe,
-	o => ww_gpio2(2));
+	o => io_gpio2(2));
 
 -- Location: IOOBUF_X38_Y0_N36
-\gpio2[3]~output\ : cyclonev_io_obuf
+\io_gpio2[3]~output\ : cyclonev_io_obuf
 -- pragma translate_off
 GENERIC MAP (
 	bus_hold => "false",
@@ -12654,10 +12644,10 @@ PORT MAP (
 	i => \gpio1|reg_dat2\(3),
 	oe => \gpio1|ALT_INV_reg_ddr2\(3),
 	devoe => ww_devoe,
-	o => ww_gpio2(3));
+	o => io_gpio2(3));
 
 -- Location: IOOBUF_X38_Y0_N53
-\gpio2[4]~output\ : cyclonev_io_obuf
+\io_gpio2[4]~output\ : cyclonev_io_obuf
 -- pragma translate_off
 GENERIC MAP (
 	bus_hold => "false",
@@ -12668,10 +12658,10 @@ PORT MAP (
 	i => \gpio1|reg_dat2\(4),
 	oe => \gpio1|ALT_INV_reg_ddr2\(4),
 	devoe => ww_devoe,
-	o => ww_gpio2(4));
+	o => io_gpio2(4));
 
 -- Location: IOOBUF_X40_Y0_N42
-\gpio2[5]~output\ : cyclonev_io_obuf
+\io_gpio2[5]~output\ : cyclonev_io_obuf
 -- pragma translate_off
 GENERIC MAP (
 	bus_hold => "false",
@@ -12682,10 +12672,10 @@ PORT MAP (
 	i => \gpio1|reg_dat2\(5),
 	oe => \gpio1|ALT_INV_reg_ddr2\(5),
 	devoe => ww_devoe,
-	o => ww_gpio2(5));
+	o => io_gpio2(5));
 
 -- Location: IOOBUF_X40_Y0_N59
-\gpio2[6]~output\ : cyclonev_io_obuf
+\io_gpio2[6]~output\ : cyclonev_io_obuf
 -- pragma translate_off
 GENERIC MAP (
 	bus_hold => "false",
@@ -12696,10 +12686,10 @@ PORT MAP (
 	i => \gpio1|reg_dat2\(6),
 	oe => \gpio1|ALT_INV_reg_ddr2\(6),
 	devoe => ww_devoe,
-	o => ww_gpio2(6));
+	o => io_gpio2(6));
 
 -- Location: IOOBUF_X43_Y0_N36
-\gpio2[7]~output\ : cyclonev_io_obuf
+\io_gpio2[7]~output\ : cyclonev_io_obuf
 -- pragma translate_off
 GENERIC MAP (
 	bus_hold => "false",
@@ -12710,7 +12700,7 @@ PORT MAP (
 	i => \gpio1|reg_dat2\(7),
 	oe => \gpio1|ALT_INV_reg_ddr2\(7),
 	devoe => ww_devoe,
-	o => ww_gpio2(7));
+	o => io_gpio2(7));
 
 -- Location: IOIBUF_X22_Y0_N1
 \i_clk~input\ : cyclonev_io_ibuf
@@ -12823,7 +12813,7 @@ GENERIC MAP (
 	simulate_z_as => "z")
 -- pragma translate_on
 PORT MAP (
-	i => ww_io_ps2Data,
+	i => io_ps2Data,
 	o => \io_ps2Data~input_o\);
 
 -- Location: MLABCELL_X13_Y25_N30
@@ -12886,7 +12876,7 @@ GENERIC MAP (
 	simulate_z_as => "z")
 -- pragma translate_on
 PORT MAP (
-	i => ww_io_ps2Clk,
+	i => io_ps2Clk,
 	o => \io_ps2Clk~input_o\);
 
 -- Location: LABCELL_X12_Y25_N30
@@ -21665,7 +21655,7 @@ GENERIC MAP (
 	simulate_z_as => "z")
 -- pragma translate_on
 PORT MAP (
-	i => ww_sramData(5),
+	i => sramData(5),
 	o => \sramData[5]~input_o\);
 
 -- Location: IOIBUF_X54_Y18_N44
@@ -24352,7 +24342,7 @@ GENERIC MAP (
 	simulate_z_as => "z")
 -- pragma translate_on
 PORT MAP (
-	i => ww_sramData(4),
+	i => sramData(4),
 	o => \sramData[4]~input_o\);
 
 -- Location: LABCELL_X26_Y37_N6
@@ -26149,15 +26139,15 @@ PORT MAP (
 	q => \gpio1|reg_ddr2\(5));
 
 -- Location: IOIBUF_X40_Y0_N41
-\gpio2[5]~input\ : cyclonev_io_ibuf
+\io_gpio2[5]~input\ : cyclonev_io_ibuf
 -- pragma translate_off
 GENERIC MAP (
 	bus_hold => "false",
 	simulate_z_as => "z")
 -- pragma translate_on
 PORT MAP (
-	i => ww_gpio2(5),
-	o => \gpio2[5]~input_o\);
+	i => io_gpio2(5),
+	o => \io_gpio2[5]~input_o\);
 
 -- Location: FF_X20_Y35_N35
 \gpio1|reg[1]\ : dffeas
@@ -26198,8 +26188,8 @@ PORT MAP (
 -- Location: LABCELL_X21_Y31_N6
 \gpio1|reg_dat2_d[5]~6\ : cyclonev_lcell_comb
 -- Equation(s):
--- \gpio1|reg_dat2_d[5]~6_combout\ = ( \gpio1|proc_dat2~0_combout\ & ( (!\gpio1|reg_ddr2\(5) & (\cpu1|Selector333~12_combout\)) # (\gpio1|reg_ddr2\(5) & ((\gpio2[5]~input_o\))) ) ) # ( !\gpio1|proc_dat2~0_combout\ & ( (!\gpio1|reg_ddr2\(5) & 
--- ((\gpio1|reg_dat2\(5)))) # (\gpio1|reg_ddr2\(5) & (\gpio2[5]~input_o\)) ) )
+-- \gpio1|reg_dat2_d[5]~6_combout\ = ( \gpio1|proc_dat2~0_combout\ & ( (!\gpio1|reg_ddr2\(5) & (\cpu1|Selector333~12_combout\)) # (\gpio1|reg_ddr2\(5) & ((\io_gpio2[5]~input_o\))) ) ) # ( !\gpio1|proc_dat2~0_combout\ & ( (!\gpio1|reg_ddr2\(5) & 
+-- ((\gpio1|reg_dat2\(5)))) # (\gpio1|reg_ddr2\(5) & (\io_gpio2[5]~input_o\)) ) )
 
 -- pragma translate_off
 GENERIC MAP (
@@ -26210,7 +26200,7 @@ GENERIC MAP (
 PORT MAP (
 	dataa => \gpio1|ALT_INV_reg_ddr2\(5),
 	datab => \cpu1|ALT_INV_Selector333~12_combout\,
-	datac => \ALT_INV_gpio2[5]~input_o\,
+	datac => \ALT_INV_io_gpio2[5]~input_o\,
 	datad => \gpio1|ALT_INV_reg_dat2\(5),
 	dataf => \gpio1|ALT_INV_proc_dat2~0_combout\,
 	combout => \gpio1|reg_dat2_d[5]~6_combout\);
@@ -26863,22 +26853,22 @@ PORT MAP (
 	q => \gpio1|reg\(6));
 
 -- Location: IOIBUF_X40_Y0_N58
-\gpio2[6]~input\ : cyclonev_io_ibuf
+\io_gpio2[6]~input\ : cyclonev_io_ibuf
 -- pragma translate_off
 GENERIC MAP (
 	bus_hold => "false",
 	simulate_z_as => "z")
 -- pragma translate_on
 PORT MAP (
-	i => ww_gpio2(6),
-	o => \gpio2[6]~input_o\);
+	i => io_gpio2(6),
+	o => \io_gpio2[6]~input_o\);
 
 -- Location: LABCELL_X21_Y35_N36
 \gpio1|reg_dat2_d[6]~7\ : cyclonev_lcell_comb
 -- Equation(s):
--- \gpio1|reg_dat2_d[6]~7_combout\ = ( \gpio1|reg_dat2\(6) & ( \cpu1|Selector332~12_combout\ & ( (!\gpio1|reg_ddr2\(6)) # (\gpio2[6]~input_o\) ) ) ) # ( !\gpio1|reg_dat2\(6) & ( \cpu1|Selector332~12_combout\ & ( (!\gpio1|reg_ddr2\(6) & 
--- ((\gpio1|proc_dat2~0_combout\))) # (\gpio1|reg_ddr2\(6) & (\gpio2[6]~input_o\)) ) ) ) # ( \gpio1|reg_dat2\(6) & ( !\cpu1|Selector332~12_combout\ & ( (!\gpio1|reg_ddr2\(6) & ((!\gpio1|proc_dat2~0_combout\))) # (\gpio1|reg_ddr2\(6) & (\gpio2[6]~input_o\)) ) 
--- ) ) # ( !\gpio1|reg_dat2\(6) & ( !\cpu1|Selector332~12_combout\ & ( (\gpio2[6]~input_o\ & \gpio1|reg_ddr2\(6)) ) ) )
+-- \gpio1|reg_dat2_d[6]~7_combout\ = ( \gpio1|reg_dat2\(6) & ( \cpu1|Selector332~12_combout\ & ( (!\gpio1|reg_ddr2\(6)) # (\io_gpio2[6]~input_o\) ) ) ) # ( !\gpio1|reg_dat2\(6) & ( \cpu1|Selector332~12_combout\ & ( (!\gpio1|reg_ddr2\(6) & 
+-- ((\gpio1|proc_dat2~0_combout\))) # (\gpio1|reg_ddr2\(6) & (\io_gpio2[6]~input_o\)) ) ) ) # ( \gpio1|reg_dat2\(6) & ( !\cpu1|Selector332~12_combout\ & ( (!\gpio1|reg_ddr2\(6) & ((!\gpio1|proc_dat2~0_combout\))) # (\gpio1|reg_ddr2\(6) & 
+-- (\io_gpio2[6]~input_o\)) ) ) ) # ( !\gpio1|reg_dat2\(6) & ( !\cpu1|Selector332~12_combout\ & ( (\io_gpio2[6]~input_o\ & \gpio1|reg_ddr2\(6)) ) ) )
 
 -- pragma translate_off
 GENERIC MAP (
@@ -26887,7 +26877,7 @@ GENERIC MAP (
 	shared_arith => "off")
 -- pragma translate_on
 PORT MAP (
-	dataa => \ALT_INV_gpio2[6]~input_o\,
+	dataa => \ALT_INV_io_gpio2[6]~input_o\,
 	datab => \gpio1|ALT_INV_reg_ddr2\(6),
 	datad => \gpio1|ALT_INV_proc_dat2~0_combout\,
 	datae => \gpio1|ALT_INV_reg_dat2\(6),
@@ -27902,7 +27892,7 @@ GENERIC MAP (
 	simulate_z_as => "z")
 -- pragma translate_on
 PORT MAP (
-	i => ww_sramData(6),
+	i => sramData(6),
 	o => \sramData[6]~input_o\);
 
 -- Location: LABCELL_X21_Y36_N15
@@ -33913,7 +33903,7 @@ GENERIC MAP (
 	simulate_z_as => "z")
 -- pragma translate_on
 PORT MAP (
-	i => ww_sramData(1),
+	i => sramData(1),
 	o => \sramData[1]~input_o\);
 
 -- Location: LABCELL_X17_Y35_N12
@@ -34612,7 +34602,7 @@ GENERIC MAP (
 	simulate_z_as => "z")
 -- pragma translate_on
 PORT MAP (
-	i => ww_sramData(7),
+	i => sramData(7),
 	o => \sramData[7]~input_o\);
 
 -- Location: LABCELL_X16_Y34_N30
@@ -39519,7 +39509,7 @@ GENERIC MAP (
 	simulate_z_as => "z")
 -- pragma translate_on
 PORT MAP (
-	i => ww_sramData(2),
+	i => sramData(2),
 	o => \sramData[2]~input_o\);
 
 -- Location: LABCELL_X17_Y31_N12
@@ -41714,22 +41704,22 @@ PORT MAP (
 	q => \gpio1|reg_ddr2\(1));
 
 -- Location: IOIBUF_X36_Y0_N1
-\gpio2[1]~input\ : cyclonev_io_ibuf
+\io_gpio2[1]~input\ : cyclonev_io_ibuf
 -- pragma translate_off
 GENERIC MAP (
 	bus_hold => "false",
 	simulate_z_as => "z")
 -- pragma translate_on
 PORT MAP (
-	i => ww_gpio2(1),
-	o => \gpio2[1]~input_o\);
+	i => io_gpio2(1),
+	o => \io_gpio2[1]~input_o\);
 
 -- Location: MLABCELL_X23_Y32_N0
 \gpio1|reg_dat2_d[1]~1\ : cyclonev_lcell_comb
 -- Equation(s):
--- \gpio1|reg_dat2_d[1]~1_combout\ = ( \gpio1|reg_dat2\(1) & ( \gpio1|proc_dat2~0_combout\ & ( (!\gpio1|reg_ddr2\(1) & (\cpu1|Selector337~12_combout\)) # (\gpio1|reg_ddr2\(1) & ((\gpio2[1]~input_o\))) ) ) ) # ( !\gpio1|reg_dat2\(1) & ( 
--- \gpio1|proc_dat2~0_combout\ & ( (!\gpio1|reg_ddr2\(1) & (\cpu1|Selector337~12_combout\)) # (\gpio1|reg_ddr2\(1) & ((\gpio2[1]~input_o\))) ) ) ) # ( \gpio1|reg_dat2\(1) & ( !\gpio1|proc_dat2~0_combout\ & ( (!\gpio1|reg_ddr2\(1)) # (\gpio2[1]~input_o\) ) ) 
--- ) # ( !\gpio1|reg_dat2\(1) & ( !\gpio1|proc_dat2~0_combout\ & ( (\gpio1|reg_ddr2\(1) & \gpio2[1]~input_o\) ) ) )
+-- \gpio1|reg_dat2_d[1]~1_combout\ = ( \gpio1|reg_dat2\(1) & ( \gpio1|proc_dat2~0_combout\ & ( (!\gpio1|reg_ddr2\(1) & (\cpu1|Selector337~12_combout\)) # (\gpio1|reg_ddr2\(1) & ((\io_gpio2[1]~input_o\))) ) ) ) # ( !\gpio1|reg_dat2\(1) & ( 
+-- \gpio1|proc_dat2~0_combout\ & ( (!\gpio1|reg_ddr2\(1) & (\cpu1|Selector337~12_combout\)) # (\gpio1|reg_ddr2\(1) & ((\io_gpio2[1]~input_o\))) ) ) ) # ( \gpio1|reg_dat2\(1) & ( !\gpio1|proc_dat2~0_combout\ & ( (!\gpio1|reg_ddr2\(1)) # 
+-- (\io_gpio2[1]~input_o\) ) ) ) # ( !\gpio1|reg_dat2\(1) & ( !\gpio1|proc_dat2~0_combout\ & ( (\gpio1|reg_ddr2\(1) & \io_gpio2[1]~input_o\) ) ) )
 
 -- pragma translate_off
 GENERIC MAP (
@@ -41740,7 +41730,7 @@ GENERIC MAP (
 PORT MAP (
 	dataa => \gpio1|ALT_INV_reg_ddr2\(1),
 	datab => \cpu1|ALT_INV_Selector337~12_combout\,
-	datac => \ALT_INV_gpio2[1]~input_o\,
+	datac => \ALT_INV_io_gpio2[1]~input_o\,
 	datae => \gpio1|ALT_INV_reg_dat2\(1),
 	dataf => \gpio1|ALT_INV_proc_dat2~0_combout\,
 	combout => \gpio1|reg_dat2_d[1]~1_combout\);
@@ -41853,22 +41843,22 @@ PORT MAP (
 	combout => \gpio1|proc_dat0~0_combout\);
 
 -- Location: IOIBUF_X34_Y0_N35
-\gpio0[1]~input\ : cyclonev_io_ibuf
+\io_gpio0[1]~input\ : cyclonev_io_ibuf
 -- pragma translate_off
 GENERIC MAP (
 	bus_hold => "false",
 	simulate_z_as => "z")
 -- pragma translate_on
 PORT MAP (
-	i => ww_gpio0(1),
-	o => \gpio0[1]~input_o\);
+	i => io_gpio0(1),
+	o => \io_gpio0[1]~input_o\);
 
 -- Location: MLABCELL_X23_Y32_N18
 \gpio1|reg_dat0_d[1]~1\ : cyclonev_lcell_comb
 -- Equation(s):
--- \gpio1|reg_dat0_d[1]~1_combout\ = ( \gpio1|reg_dat0\(1) & ( \cpu1|Selector337~12_combout\ & ( (!\gpio1|reg_ddr0\(1)) # (\gpio0[1]~input_o\) ) ) ) # ( !\gpio1|reg_dat0\(1) & ( \cpu1|Selector337~12_combout\ & ( (!\gpio1|reg_ddr0\(1) & 
--- (\gpio1|proc_dat0~0_combout\)) # (\gpio1|reg_ddr0\(1) & ((\gpio0[1]~input_o\))) ) ) ) # ( \gpio1|reg_dat0\(1) & ( !\cpu1|Selector337~12_combout\ & ( (!\gpio1|reg_ddr0\(1) & (!\gpio1|proc_dat0~0_combout\)) # (\gpio1|reg_ddr0\(1) & ((\gpio0[1]~input_o\))) ) 
--- ) ) # ( !\gpio1|reg_dat0\(1) & ( !\cpu1|Selector337~12_combout\ & ( (\gpio0[1]~input_o\ & \gpio1|reg_ddr0\(1)) ) ) )
+-- \gpio1|reg_dat0_d[1]~1_combout\ = ( \gpio1|reg_dat0\(1) & ( \cpu1|Selector337~12_combout\ & ( (!\gpio1|reg_ddr0\(1)) # (\io_gpio0[1]~input_o\) ) ) ) # ( !\gpio1|reg_dat0\(1) & ( \cpu1|Selector337~12_combout\ & ( (!\gpio1|reg_ddr0\(1) & 
+-- (\gpio1|proc_dat0~0_combout\)) # (\gpio1|reg_ddr0\(1) & ((\io_gpio0[1]~input_o\))) ) ) ) # ( \gpio1|reg_dat0\(1) & ( !\cpu1|Selector337~12_combout\ & ( (!\gpio1|reg_ddr0\(1) & (!\gpio1|proc_dat0~0_combout\)) # (\gpio1|reg_ddr0\(1) & 
+-- ((\io_gpio0[1]~input_o\))) ) ) ) # ( !\gpio1|reg_dat0\(1) & ( !\cpu1|Selector337~12_combout\ & ( (\io_gpio0[1]~input_o\ & \gpio1|reg_ddr0\(1)) ) ) )
 
 -- pragma translate_off
 GENERIC MAP (
@@ -41878,7 +41868,7 @@ GENERIC MAP (
 -- pragma translate_on
 PORT MAP (
 	dataa => \gpio1|ALT_INV_proc_dat0~0_combout\,
-	datab => \ALT_INV_gpio0[1]~input_o\,
+	datab => \ALT_INV_io_gpio0[1]~input_o\,
 	datac => \gpio1|ALT_INV_reg_ddr0\(1),
 	datae => \gpio1|ALT_INV_reg_dat0\(1),
 	dataf => \cpu1|ALT_INV_Selector337~12_combout\,
@@ -46980,21 +46970,21 @@ PORT MAP (
 	q => \gpio1|reg_ddr2\(2));
 
 -- Location: IOIBUF_X36_Y0_N18
-\gpio2[2]~input\ : cyclonev_io_ibuf
+\io_gpio2[2]~input\ : cyclonev_io_ibuf
 -- pragma translate_off
 GENERIC MAP (
 	bus_hold => "false",
 	simulate_z_as => "z")
 -- pragma translate_on
 PORT MAP (
-	i => ww_gpio2(2),
-	o => \gpio2[2]~input_o\);
+	i => io_gpio2(2),
+	o => \io_gpio2[2]~input_o\);
 
 -- Location: LABCELL_X21_Y31_N42
 \gpio1|reg_dat2_d[2]~2\ : cyclonev_lcell_comb
 -- Equation(s):
--- \gpio1|reg_dat2_d[2]~2_combout\ = ( \gpio1|proc_dat2~0_combout\ & ( (!\gpio1|reg_ddr2\(2) & ((\cpu1|Selector336~12_combout\))) # (\gpio1|reg_ddr2\(2) & (\gpio2[2]~input_o\)) ) ) # ( !\gpio1|proc_dat2~0_combout\ & ( (!\gpio1|reg_ddr2\(2) & 
--- ((\gpio1|reg_dat2\(2)))) # (\gpio1|reg_ddr2\(2) & (\gpio2[2]~input_o\)) ) )
+-- \gpio1|reg_dat2_d[2]~2_combout\ = ( \gpio1|proc_dat2~0_combout\ & ( (!\gpio1|reg_ddr2\(2) & ((\cpu1|Selector336~12_combout\))) # (\gpio1|reg_ddr2\(2) & (\io_gpio2[2]~input_o\)) ) ) # ( !\gpio1|proc_dat2~0_combout\ & ( (!\gpio1|reg_ddr2\(2) & 
+-- ((\gpio1|reg_dat2\(2)))) # (\gpio1|reg_ddr2\(2) & (\io_gpio2[2]~input_o\)) ) )
 
 -- pragma translate_off
 GENERIC MAP (
@@ -47004,7 +46994,7 @@ GENERIC MAP (
 -- pragma translate_on
 PORT MAP (
 	dataa => \gpio1|ALT_INV_reg_ddr2\(2),
-	datab => \ALT_INV_gpio2[2]~input_o\,
+	datab => \ALT_INV_io_gpio2[2]~input_o\,
 	datac => \cpu1|ALT_INV_Selector336~12_combout\,
 	datad => \gpio1|ALT_INV_reg_dat2\(2),
 	dataf => \gpio1|ALT_INV_proc_dat2~0_combout\,
@@ -47057,22 +47047,22 @@ PORT MAP (
 	q => \gpio1|reg_ddr0\(2));
 
 -- Location: IOIBUF_X36_Y0_N35
-\gpio0[2]~input\ : cyclonev_io_ibuf
+\io_gpio0[2]~input\ : cyclonev_io_ibuf
 -- pragma translate_off
 GENERIC MAP (
 	bus_hold => "false",
 	simulate_z_as => "z")
 -- pragma translate_on
 PORT MAP (
-	i => ww_gpio0(2),
-	o => \gpio0[2]~input_o\);
+	i => io_gpio0(2),
+	o => \io_gpio0[2]~input_o\);
 
 -- Location: LABCELL_X21_Y35_N24
 \gpio1|reg_dat0_d[2]~2\ : cyclonev_lcell_comb
 -- Equation(s):
--- \gpio1|reg_dat0_d[2]~2_combout\ = ( \gpio1|reg_dat0\(2) & ( \cpu1|Selector336~12_combout\ & ( (!\gpio1|reg_ddr0\(2)) # (\gpio0[2]~input_o\) ) ) ) # ( !\gpio1|reg_dat0\(2) & ( \cpu1|Selector336~12_combout\ & ( (!\gpio1|reg_ddr0\(2) & 
--- ((\gpio1|proc_dat0~0_combout\))) # (\gpio1|reg_ddr0\(2) & (\gpio0[2]~input_o\)) ) ) ) # ( \gpio1|reg_dat0\(2) & ( !\cpu1|Selector336~12_combout\ & ( (!\gpio1|reg_ddr0\(2) & ((!\gpio1|proc_dat0~0_combout\))) # (\gpio1|reg_ddr0\(2) & (\gpio0[2]~input_o\)) ) 
--- ) ) # ( !\gpio1|reg_dat0\(2) & ( !\cpu1|Selector336~12_combout\ & ( (\gpio1|reg_ddr0\(2) & \gpio0[2]~input_o\) ) ) )
+-- \gpio1|reg_dat0_d[2]~2_combout\ = ( \gpio1|reg_dat0\(2) & ( \cpu1|Selector336~12_combout\ & ( (!\gpio1|reg_ddr0\(2)) # (\io_gpio0[2]~input_o\) ) ) ) # ( !\gpio1|reg_dat0\(2) & ( \cpu1|Selector336~12_combout\ & ( (!\gpio1|reg_ddr0\(2) & 
+-- ((\gpio1|proc_dat0~0_combout\))) # (\gpio1|reg_ddr0\(2) & (\io_gpio0[2]~input_o\)) ) ) ) # ( \gpio1|reg_dat0\(2) & ( !\cpu1|Selector336~12_combout\ & ( (!\gpio1|reg_ddr0\(2) & ((!\gpio1|proc_dat0~0_combout\))) # (\gpio1|reg_ddr0\(2) & 
+-- (\io_gpio0[2]~input_o\)) ) ) ) # ( !\gpio1|reg_dat0\(2) & ( !\cpu1|Selector336~12_combout\ & ( (\gpio1|reg_ddr0\(2) & \io_gpio0[2]~input_o\) ) ) )
 
 -- pragma translate_off
 GENERIC MAP (
@@ -47082,7 +47072,7 @@ GENERIC MAP (
 -- pragma translate_on
 PORT MAP (
 	datab => \gpio1|ALT_INV_reg_ddr0\(2),
-	datac => \ALT_INV_gpio0[2]~input_o\,
+	datac => \ALT_INV_io_gpio0[2]~input_o\,
 	datad => \gpio1|ALT_INV_proc_dat0~0_combout\,
 	datae => \gpio1|ALT_INV_reg_dat0\(2),
 	dataf => \cpu1|ALT_INV_Selector336~12_combout\,
@@ -54104,21 +54094,21 @@ PORT MAP (
 	q => \gpio1|reg\(7));
 
 -- Location: IOIBUF_X43_Y0_N35
-\gpio2[7]~input\ : cyclonev_io_ibuf
+\io_gpio2[7]~input\ : cyclonev_io_ibuf
 -- pragma translate_off
 GENERIC MAP (
 	bus_hold => "false",
 	simulate_z_as => "z")
 -- pragma translate_on
 PORT MAP (
-	i => ww_gpio2(7),
-	o => \gpio2[7]~input_o\);
+	i => io_gpio2(7),
+	o => \io_gpio2[7]~input_o\);
 
 -- Location: LABCELL_X14_Y31_N36
 \gpio1|reg_dat2_d[7]~4\ : cyclonev_lcell_comb
 -- Equation(s):
--- \gpio1|reg_dat2_d[7]~4_combout\ = ( \gpio1|proc_dat2~0_combout\ & ( (!\gpio1|reg_ddr2\(7) & (\cpu1|Selector331~12_combout\)) # (\gpio1|reg_ddr2\(7) & ((\gpio2[7]~input_o\))) ) ) # ( !\gpio1|proc_dat2~0_combout\ & ( (!\gpio1|reg_ddr2\(7) & 
--- ((\gpio1|reg_dat2\(7)))) # (\gpio1|reg_ddr2\(7) & (\gpio2[7]~input_o\)) ) )
+-- \gpio1|reg_dat2_d[7]~4_combout\ = ( \gpio1|proc_dat2~0_combout\ & ( (!\gpio1|reg_ddr2\(7) & (\cpu1|Selector331~12_combout\)) # (\gpio1|reg_ddr2\(7) & ((\io_gpio2[7]~input_o\))) ) ) # ( !\gpio1|proc_dat2~0_combout\ & ( (!\gpio1|reg_ddr2\(7) & 
+-- ((\gpio1|reg_dat2\(7)))) # (\gpio1|reg_ddr2\(7) & (\io_gpio2[7]~input_o\)) ) )
 
 -- pragma translate_off
 GENERIC MAP (
@@ -54128,7 +54118,7 @@ GENERIC MAP (
 -- pragma translate_on
 PORT MAP (
 	dataa => \cpu1|ALT_INV_Selector331~12_combout\,
-	datab => \ALT_INV_gpio2[7]~input_o\,
+	datab => \ALT_INV_io_gpio2[7]~input_o\,
 	datac => \gpio1|ALT_INV_reg_ddr2\(7),
 	datad => \gpio1|ALT_INV_reg_dat2\(7),
 	dataf => \gpio1|ALT_INV_proc_dat2~0_combout\,
@@ -56895,7 +56885,7 @@ GENERIC MAP (
 	simulate_z_as => "z")
 -- pragma translate_on
 PORT MAP (
-	i => ww_sramData(3),
+	i => sramData(3),
 	o => \sramData[3]~input_o\);
 
 -- Location: LABCELL_X14_Y31_N9
@@ -60792,15 +60782,15 @@ PORT MAP (
 	combout => \w_n_ROMCS~1_combout\);
 
 -- Location: IOIBUF_X34_Y0_N52
-\gpio0[0]~input\ : cyclonev_io_ibuf
+\io_gpio0[0]~input\ : cyclonev_io_ibuf
 -- pragma translate_off
 GENERIC MAP (
 	bus_hold => "false",
 	simulate_z_as => "z")
 -- pragma translate_on
 PORT MAP (
-	i => ww_gpio0(0),
-	o => \gpio0[0]~input_o\);
+	i => io_gpio0(0),
+	o => \io_gpio0[0]~input_o\);
 
 -- Location: FF_X23_Y32_N50
 \gpio1|reg_ddr0[0]\ : dffeas
@@ -60822,8 +60812,8 @@ PORT MAP (
 -- Location: LABCELL_X16_Y33_N36
 \gpio1|reg_dat0_d[0]~0\ : cyclonev_lcell_comb
 -- Equation(s):
--- \gpio1|reg_dat0_d[0]~0_combout\ = ( \cpu1|Selector338~12_combout\ & ( (!\gpio1|reg_ddr0\(0) & (((\gpio1|reg_dat0\(0)) # (\gpio1|proc_dat0~0_combout\)))) # (\gpio1|reg_ddr0\(0) & (\gpio0[0]~input_o\)) ) ) # ( !\cpu1|Selector338~12_combout\ & ( 
--- (!\gpio1|reg_ddr0\(0) & (((!\gpio1|proc_dat0~0_combout\ & \gpio1|reg_dat0\(0))))) # (\gpio1|reg_ddr0\(0) & (\gpio0[0]~input_o\)) ) )
+-- \gpio1|reg_dat0_d[0]~0_combout\ = ( \cpu1|Selector338~12_combout\ & ( (!\gpio1|reg_ddr0\(0) & (((\gpio1|reg_dat0\(0)) # (\gpio1|proc_dat0~0_combout\)))) # (\gpio1|reg_ddr0\(0) & (\io_gpio0[0]~input_o\)) ) ) # ( !\cpu1|Selector338~12_combout\ & ( 
+-- (!\gpio1|reg_ddr0\(0) & (((!\gpio1|proc_dat0~0_combout\ & \gpio1|reg_dat0\(0))))) # (\gpio1|reg_ddr0\(0) & (\io_gpio0[0]~input_o\)) ) )
 
 -- pragma translate_off
 GENERIC MAP (
@@ -60832,7 +60822,7 @@ GENERIC MAP (
 	shared_arith => "off")
 -- pragma translate_on
 PORT MAP (
-	dataa => \ALT_INV_gpio0[0]~input_o\,
+	dataa => \ALT_INV_io_gpio0[0]~input_o\,
 	datab => \gpio1|ALT_INV_proc_dat0~0_combout\,
 	datac => \gpio1|ALT_INV_reg_ddr0\(0),
 	datad => \gpio1|ALT_INV_reg_dat0\(0),
@@ -60965,21 +60955,21 @@ PORT MAP (
 	q => \gpio1|reg_ddr2\(0));
 
 -- Location: IOIBUF_X36_Y0_N52
-\gpio2[0]~input\ : cyclonev_io_ibuf
+\io_gpio2[0]~input\ : cyclonev_io_ibuf
 -- pragma translate_off
 GENERIC MAP (
 	bus_hold => "false",
 	simulate_z_as => "z")
 -- pragma translate_on
 PORT MAP (
-	i => ww_gpio2(0),
-	o => \gpio2[0]~input_o\);
+	i => io_gpio2(0),
+	o => \io_gpio2[0]~input_o\);
 
 -- Location: MLABCELL_X23_Y32_N12
 \gpio1|reg_dat2_d[0]~0\ : cyclonev_lcell_comb
 -- Equation(s):
--- \gpio1|reg_dat2_d[0]~0_combout\ = ( \gpio1|proc_dat2~0_combout\ & ( (!\gpio1|reg_ddr2\(0) & ((\cpu1|Selector338~12_combout\))) # (\gpio1|reg_ddr2\(0) & (\gpio2[0]~input_o\)) ) ) # ( !\gpio1|proc_dat2~0_combout\ & ( (!\gpio1|reg_ddr2\(0) & 
--- ((\gpio1|reg_dat2\(0)))) # (\gpio1|reg_ddr2\(0) & (\gpio2[0]~input_o\)) ) )
+-- \gpio1|reg_dat2_d[0]~0_combout\ = ( \gpio1|proc_dat2~0_combout\ & ( (!\gpio1|reg_ddr2\(0) & ((\cpu1|Selector338~12_combout\))) # (\gpio1|reg_ddr2\(0) & (\io_gpio2[0]~input_o\)) ) ) # ( !\gpio1|proc_dat2~0_combout\ & ( (!\gpio1|reg_ddr2\(0) & 
+-- ((\gpio1|reg_dat2\(0)))) # (\gpio1|reg_ddr2\(0) & (\io_gpio2[0]~input_o\)) ) )
 
 -- pragma translate_off
 GENERIC MAP (
@@ -60989,7 +60979,7 @@ GENERIC MAP (
 -- pragma translate_on
 PORT MAP (
 	dataa => \gpio1|ALT_INV_reg_ddr2\(0),
-	datab => \ALT_INV_gpio2[0]~input_o\,
+	datab => \ALT_INV_io_gpio2[0]~input_o\,
 	datac => \cpu1|ALT_INV_Selector338~12_combout\,
 	datad => \gpio1|ALT_INV_reg_dat2\(0),
 	dataf => \gpio1|ALT_INV_proc_dat2~0_combout\,
@@ -61060,7 +61050,7 @@ GENERIC MAP (
 	simulate_z_as => "z")
 -- pragma translate_on
 PORT MAP (
-	i => ww_sramData(0),
+	i => sramData(0),
 	o => \sramData[0]~input_o\);
 
 -- Location: LABCELL_X20_Y35_N48
@@ -63152,21 +63142,21 @@ PORT MAP (
 	q => \gpio1|reg_ddr2\(3));
 
 -- Location: IOIBUF_X38_Y0_N35
-\gpio2[3]~input\ : cyclonev_io_ibuf
+\io_gpio2[3]~input\ : cyclonev_io_ibuf
 -- pragma translate_off
 GENERIC MAP (
 	bus_hold => "false",
 	simulate_z_as => "z")
 -- pragma translate_on
 PORT MAP (
-	i => ww_gpio2(3),
-	o => \gpio2[3]~input_o\);
+	i => io_gpio2(3),
+	o => \io_gpio2[3]~input_o\);
 
 -- Location: LABCELL_X21_Y31_N12
 \gpio1|reg_dat2_d[3]~3\ : cyclonev_lcell_comb
 -- Equation(s):
--- \gpio1|reg_dat2_d[3]~3_combout\ = ( \cpu1|Selector335~12_combout\ & ( (!\gpio1|reg_ddr2\(3) & (((\gpio1|reg_dat2\(3))) # (\gpio1|proc_dat2~0_combout\))) # (\gpio1|reg_ddr2\(3) & (((\gpio2[3]~input_o\)))) ) ) # ( !\cpu1|Selector335~12_combout\ & ( 
--- (!\gpio1|reg_ddr2\(3) & (!\gpio1|proc_dat2~0_combout\ & ((\gpio1|reg_dat2\(3))))) # (\gpio1|reg_ddr2\(3) & (((\gpio2[3]~input_o\)))) ) )
+-- \gpio1|reg_dat2_d[3]~3_combout\ = ( \cpu1|Selector335~12_combout\ & ( (!\gpio1|reg_ddr2\(3) & (((\gpio1|reg_dat2\(3))) # (\gpio1|proc_dat2~0_combout\))) # (\gpio1|reg_ddr2\(3) & (((\io_gpio2[3]~input_o\)))) ) ) # ( !\cpu1|Selector335~12_combout\ & ( 
+-- (!\gpio1|reg_ddr2\(3) & (!\gpio1|proc_dat2~0_combout\ & ((\gpio1|reg_dat2\(3))))) # (\gpio1|reg_ddr2\(3) & (((\io_gpio2[3]~input_o\)))) ) )
 
 -- pragma translate_off
 GENERIC MAP (
@@ -63177,7 +63167,7 @@ GENERIC MAP (
 PORT MAP (
 	dataa => \gpio1|ALT_INV_reg_ddr2\(3),
 	datab => \gpio1|ALT_INV_proc_dat2~0_combout\,
-	datac => \ALT_INV_gpio2[3]~input_o\,
+	datac => \ALT_INV_io_gpio2[3]~input_o\,
 	datad => \gpio1|ALT_INV_reg_dat2\(3),
 	dataf => \cpu1|ALT_INV_Selector335~12_combout\,
 	combout => \gpio1|reg_dat2_d[3]~3_combout\);
@@ -87518,21 +87508,21 @@ PORT MAP (
 	q => \gpio1|reg_ddr2\(4));
 
 -- Location: IOIBUF_X38_Y0_N52
-\gpio2[4]~input\ : cyclonev_io_ibuf
+\io_gpio2[4]~input\ : cyclonev_io_ibuf
 -- pragma translate_off
 GENERIC MAP (
 	bus_hold => "false",
 	simulate_z_as => "z")
 -- pragma translate_on
 PORT MAP (
-	i => ww_gpio2(4),
-	o => \gpio2[4]~input_o\);
+	i => io_gpio2(4),
+	o => \io_gpio2[4]~input_o\);
 
 -- Location: MLABCELL_X23_Y32_N6
 \gpio1|reg_dat2_d[4]~5\ : cyclonev_lcell_comb
 -- Equation(s):
--- \gpio1|reg_dat2_d[4]~5_combout\ = ( \gpio1|proc_dat2~0_combout\ & ( (!\gpio1|reg_ddr2\(4) & (\cpu1|Selector334~12_combout\)) # (\gpio1|reg_ddr2\(4) & ((\gpio2[4]~input_o\))) ) ) # ( !\gpio1|proc_dat2~0_combout\ & ( (!\gpio1|reg_ddr2\(4) & 
--- ((\gpio1|reg_dat2\(4)))) # (\gpio1|reg_ddr2\(4) & (\gpio2[4]~input_o\)) ) )
+-- \gpio1|reg_dat2_d[4]~5_combout\ = ( \gpio1|proc_dat2~0_combout\ & ( (!\gpio1|reg_ddr2\(4) & (\cpu1|Selector334~12_combout\)) # (\gpio1|reg_ddr2\(4) & ((\io_gpio2[4]~input_o\))) ) ) # ( !\gpio1|proc_dat2~0_combout\ & ( (!\gpio1|reg_ddr2\(4) & 
+-- ((\gpio1|reg_dat2\(4)))) # (\gpio1|reg_ddr2\(4) & (\io_gpio2[4]~input_o\)) ) )
 
 -- pragma translate_off
 GENERIC MAP (
@@ -87543,7 +87533,7 @@ GENERIC MAP (
 PORT MAP (
 	dataa => \cpu1|ALT_INV_Selector334~12_combout\,
 	datab => \gpio1|ALT_INV_reg_ddr2\(4),
-	datac => \ALT_INV_gpio2[4]~input_o\,
+	datac => \ALT_INV_io_gpio2[4]~input_o\,
 	datad => \gpio1|ALT_INV_reg_dat2\(4),
 	dataf => \gpio1|ALT_INV_proc_dat2~0_combout\,
 	combout => \gpio1|reg_dat2_d[4]~5_combout\);
