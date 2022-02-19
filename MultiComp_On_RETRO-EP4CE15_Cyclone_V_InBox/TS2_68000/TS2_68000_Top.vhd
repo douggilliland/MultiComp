@@ -45,34 +45,34 @@ use  IEEE.STD_LOGIC_UNSIGNED.all;
 entity TS2_68000_Top is
 	port(
 		i_CLOCK_50	: in std_logic;
-		n_reset		: in std_logic;
+		i_n_reset		: in std_logic;
 		
-		rxd1			: in std_logic := '1';		-- Hardware Handshake needed
-		txd1			: out std_logic;
-		cts1			: in std_logic := '1';
-		rts1			: out std_logic;
-		serSelect	: in std_logic := '1';		-- Jumper with pullup in FPGA for selecting serial between ACIA (installed) and VDU (removed)
+		i_rxd1			: in std_logic := '1';		-- Hardware Handshake needed
+		o_txd1			: out std_logic;
+		i_cts1			: in std_logic := '1';
+		o_rts1			: out std_logic;
+		i_serSelect	: in std_logic := '1';		-- Jumper with pullup in FPGA for selecting serial between ACIA (installed) and VDU (removed)
 		
-		videoR0		: out std_logic := '1';
-		videoG0		: out std_logic := '1';
-		videoB0		: out std_logic := '1';
-		videoR1		: out std_logic := '1';
-		videoG1		: out std_logic := '1';
-		videoB1		: out std_logic := '1';
-		hSync			: out std_logic := '1';
-		vSync			: out std_logic := '1';
+		o_videoR0		: out std_logic := '1';
+		o_videoG0		: out std_logic := '1';
+		o_videoB0		: out std_logic := '1';
+		o_videoR1		: out std_logic := '1';
+		o_videoG1		: out std_logic := '1';
+		o_videoB1		: out std_logic := '1';
+		o_hSync			: out std_logic := '1';
+		o_vSync			: out std_logic := '1';
 
-		ps2Clk		: inout std_logic;
-		ps2Data		: inout std_logic;
+		io_ps2Clk		: inout std_logic;
+		io_ps2Data		: inout std_logic;
 		
 		IO_PIN		: out std_logic_vector(44 downto 3);
 		
 		-- External SRAM
-		sramData		: inout std_logic_vector(7 downto 0);
-		sramAddress	: out std_logic_vector(19 downto 0);
-		n_sRamWE		: out std_logic := '1';
-		n_sRamCS		: out std_logic := '1';
-		n_sRamOE		: out std_logic := '1';
+		io_sramData		: inout std_logic_vector(7 downto 0);
+		o_sramAddress	: out std_logic_vector(19 downto 0);
+		o_n_sRamWE		: out std_logic := '1';
+		o_n_sRamCS		: out std_logic := '1';
+		o_n_sRamOE		: out std_logic := '1';
 		
 		-- SD RAM not used but making sure that it's not active
 		n_sdRamCas	: out std_logic := '1';		-- CAS on schematic
@@ -85,10 +85,11 @@ entity TS2_68000_Top is
 		sdRamData	: in std_logic_vector(15 downto 0);
 		
 		-- SD Card not used but making sure that it's not active
-		sdCS			: out std_logic := '1';
-		sdMOSI		: out std_logic := '1';
-		sdMISO		: in std_logic := '1';
-		sdSCLK		: out std_logic := '1'
+		o_sdCS		: out std_logic := '1';
+		o_sdMOSI		: out std_logic := '1';
+		i_sdMISO		: in std_logic  := '1';
+		o_sdSCLK		: out std_logic := '1';
+		o_driveLED	: out std_logic := '1'
 	);
 end TS2_68000_Top;
 
@@ -128,6 +129,8 @@ architecture struct of TS2_68000_Top is
 	signal w_n_VDUCS					: std_logic :='1';
 	signal w_n_ACIACS					: std_logic :='1';
 	signal n_externalRam1CS			: std_logic :='1';
+	signal w_n_SDCS		: std_logic :='1';
+
 	signal w_grey_cnt					: std_logic_vector(3 downto 0) := "0000";
 	signal w_cpuclken					: std_logic :='0';
 
@@ -141,6 +144,7 @@ architecture struct of TS2_68000_Top is
 	signal w_VDUDataOut				: std_logic_vector(7 downto 0);
 	signal w_ACIADataOut				: std_logic_vector(7 downto 0);
 	signal w_PeriphData				: std_logic_vector(7 downto 0);
+	signal w_SDData		: std_logic_vector(7 downto 0);
 
 	-- CPU clock counts
 	signal w_cpuCount					: std_logic_vector(5 downto 0); 
@@ -158,7 +162,7 @@ begin
 	DebounceResetSwitch	: entity work.debounce
 	port map (
 		clk		=> i_CLOCK_50,
-		button	=> n_reset,
+		button	=> i_n_reset,
 		result	=> w_resetLow
 	);
 	
@@ -250,12 +254,13 @@ begin
 	cpuDataIn <=
 		w_VDUDataOut  & w_VDUDataOut	when w_n_VDUCS 			= '0' else	-- Copy 8-bit peripheral reads to both halves of the data bus
 		w_ACIADataOut & w_ACIADataOut	when w_n_ACIACS			= '0' else	-- Copy 8-bit peripheral reads to both halves of the data bus
+		w_SDData	& w_SDData				when w_n_SDCS 				= '0' else	-- SD Card
 		w_MonROMData						when w_n_RomCS				= '0' else	-- ROM
 		w_sramCDataOut						when w_n_RamCCS			= '0' else	-- Internal SRAM
 		w_sramDataOut						when w_n_RamCS				= '0' else	-- Internal SRAM
 		w_sram2DataOut						when w_n_Ram2CS			= '0' else	-- Internal SRAM
 		w_sram3DataOut						when w_n_Ram3CS			= '0' else	-- Internal SRAM
-		sramData&sramData			 		when n_externalRam1CS	= '0' else	-- External SRAM (byte access only)
+		io_sramData&io_sramData			when n_externalRam1CS	= '0' else	-- External SRAM (byte access only)
 		x"dead";
 	
 	-- ____________________________________________________________________________________
@@ -355,15 +360,15 @@ begin
 	-- 1MB External SRAM (can only be accessed as bytes) - no dynamic bus sizin
 	n_externalRam1CS <= '0' when ((cpuAddress(23 downto 20) = x"3") and (w_busstate(1) = '1'))	else	-- x30000-x3fffff
 							  '1';
-	sramAddress(19 downto 1) <= cpuAddress(19 downto 1);
-	sramAddress(0) <= w_nLDS;
-	sramData <= cpuDataOut(7 downto 0) when ((n_externalRam1CS = '0') and (w_nUDS = '0') and (n_WR = '0')) else 
+	o_sramAddress(19 downto 1) <= cpuAddress(19 downto 1);
+	o_sramAddress(0) <= w_nLDS;
+	io_sramData <= cpuDataOut(7 downto 0) when ((n_externalRam1CS = '0') and (w_nUDS = '0') and (n_WR = '0')) else 
 					cpuDataOut(7 downto 0) when ((n_externalRam1CS = '0') and (w_nLDS = '0') and (n_WR = '0')) else
 					(others => 'Z');
 
-	n_sRamWE <= n_WR or n_externalRam1CS or (w_nLDS and w_nUDS) or (w_grey_cnt(3));
-	n_sRamOE <= (not n_WR) or n_externalRam1CS;
-	n_sRamCS <= n_externalRam1CS or ((not w_grey_cnt(1)) and (not w_grey_cnt(2)) and (not w_grey_cnt(3)));
+	o_n_sRamWE <= n_WR or n_externalRam1CS or (w_nLDS and w_nUDS) or (w_grey_cnt(3));
+	o_n_sRamOE <= (not n_WR) or n_externalRam1CS;
+	o_n_sRamCS <= n_externalRam1CS or ((not w_grey_cnt(1)) and (not w_grey_cnt(2)) and (not w_grey_cnt(3)));
 	
 	-- Route the data to the peripherals
 	w_PeriphData <= 	cpuDataOut(15 downto 8)	when (w_nUDS = '0') else
@@ -374,8 +379,8 @@ begin
 	-- INPUT/OUTPUT DEVICES
 	-- Grant Searle's VGA driver
 	
-	w_n_VDUCS <= '0' when ((cpuAddress(23 downto 4) = x"01004") and (w_nUDS = '0') and (serSelect = '1') and (w_busstate(1) = '1'))	 else -- x01004X - Based on monitor.lst file ACIA address
-					 '0' when ((cpuAddress(23 downto 4) = x"01004") and (w_nLDS = '0') and (serSelect = '0') and (w_busstate(1) = '1'))	 else 
+	w_n_VDUCS <= '0' when ((cpuAddress(23 downto 4) = x"01004") and (w_nUDS = '0') and (i_serSelect = '1') and (w_busstate(1) = '1'))	 else -- x01004X - Based on monitor.lst file ACIA address
+					 '0' when ((cpuAddress(23 downto 4) = x"01004") and (w_nLDS = '0') and (i_serSelect = '0') and (w_busstate(1) = '1'))	 else 
 					 '1';
 	
 	VDU : entity work.SBCTextDisplayRGB
@@ -384,28 +389,29 @@ begin
 			clk		=> i_CLOCK_50,
 			
 			-- RGB CompVideo signals
-			hSync		=> hSync,
-			vSync		=> vSync,
-			videoR0	=> videoR0,
-			videoR1	=> videoR1,
-			videoG0	=> videoG0,
-			videoG1	=> videoG1,
-			videoB0	=> videoB0,
-			videoB1	=> videoB1,
+			hSync		=> o_hSync,
+			vSync		=> o_vSync,
+			videoR0	=> o_videoR0,
+			videoR1	=> o_videoR1,
+			videoG0	=> o_videoG0,
+			videoG1	=> o_videoG1,
+			videoB0	=> o_videoB0,
+			videoB1	=> o_videoB1,
+			-- 
 			n_wr		=> w_n_VDUCS or      n_WR or w_cpuClock,
 			n_rd		=> w_n_VDUCS or (not n_WR),
 			n_int		=> w_n_IRQ5,
 			regSel	=> cpuAddress(1),
 			dataIn	=> w_PeriphData,
 			dataOut	=> w_VDUDataOut,
-			ps2clk	=> ps2Clk,
-			ps2Data	=> ps2Data
+			ps2clk	=> io_ps2Clk,
+			ps2Data	=> io_ps2Data
 		);
 	
 	-- Neal Crook's bufferedUART - uses clock enables
 	
-	w_n_ACIACS <= '0' when ((cpuAddress(23 downto 4) = x"01004") and (w_nLDS = '0') and (serSelect = '1') and (w_busstate(1) = '1')) else -- x01004X - Based on monitor.lst file ACIA address
-					  '0' when ((cpuAddress(23 downto 4) = x"01004") and (w_nUDS = '0') and (serSelect = '0') and (w_busstate(1) = '1')) else
+	w_n_ACIACS <= '0' when ((cpuAddress(23 downto 4) = x"01004") and (w_nLDS = '0') and (i_serSelect = '1') and (w_busstate(1) = '1')) else -- x01004X - Based on monitor.lst file ACIA address
+					  '0' when ((cpuAddress(23 downto 4) = x"01004") and (w_nUDS = '0') and (i_serSelect = '0') and (w_busstate(1) = '1')) else
 					  '1';
 							
 	ACIA : entity work.bufferedUART
@@ -419,11 +425,34 @@ begin
 			dataOut	=> w_ACIADataOut,
 			rxClkEn	=> w_serialEn,
 			txClkEn	=> w_serialEn,			
-			rxd		=> rxd1,
-			txd		=> txd1,
-			n_cts		=> cts1,
-			n_rts		=> rts1
+			rxd		=> i_rxd1,
+			txd		=> o_txd1,
+			n_cts		=> i_cts1,
+			n_rts		=> o_rts1
 		);
+	
+	w_n_SDCS <= '0' when ((cpuAddress(23 downto 8) = x"0100") and (w_nLDS = '0') and (w_busstate(1) = '1')) else -- x0100X - Based on monitor.lst file ACIA address
+					'0' when ((cpuAddress(23 downto 8) = x"0100") and (w_nUDS = '0') and (w_busstate(1) = '1')) else
+					'1';
+							
+	SDCtrlr : entity work.sd_controller
+	port map (
+		-- CPU
+		n_reset 	=> w_resetLow,
+		n_rd		=> w_n_SDCS or w_cpuClock or (not n_WR),
+		n_wr		=> w_n_SDCS or w_cpuClock or n_WR,
+		dataIn	=> w_PeriphData,
+		dataOut	=> w_SDData,
+		regAddr	=> cpuAddress(3 downto 1),
+		clk 		=> i_CLOCK_50,
+		-- SD Card SPI connections
+		sdCS 		=> o_sdCS,
+		sdMOSI	=> o_sdMOSI,
+		sdMISO	=> i_sdMISO,
+		sdSCLK	=> o_sdSCLK,
+		-- LEDs
+		driveLED	=> o_driveLED
+	);
 	
 
 	-- ____________________________________________________________________________________

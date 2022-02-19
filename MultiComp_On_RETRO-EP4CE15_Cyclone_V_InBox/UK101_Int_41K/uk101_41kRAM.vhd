@@ -281,7 +281,7 @@ begin
 		sdSCLK	=> o_sdSCLK,
 		-- LEDs
 		driveLED	=> o_driveLED
-);
+	);
 
 	pll : work.VideoClk_XVGA_1024x768 PORT MAP (
 		inclk0	 => i_clk,
