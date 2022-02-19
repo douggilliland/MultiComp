@@ -16,7 +16,7 @@
 *** 4KB scratchpad
 ** 128 banks of 8KB of external SRAM (1MB total)
 * Bank Select register (7 bits)
-* MIKBUG ROM - 60 KB (SRAM) version
+* MIKBUG (SmithBug) ROM - 60 KB (SRAM) version
 ** http://www.retrotechnology.com/restore/smithbug.html
 *  MC6850 ACIA UART (USB-to-Serial)
 * VDU
@@ -31,10 +31,35 @@
 * x0000-x7fff - 32KB Internal SRAM
 * x8000-xbfff - 16Kb Internal SRAM
 * xc000-xdfff - 8KB External SRAM (128 banks of 8KB)
-* xe000-xefff - 4KB Internal SRAM
+* xe000-xefff - 4KB Internal scratchpad SRAM
 * xf000-xffff - 4 KB ROM
 * xfc00-xfcff - I/O space carves out of unused ROM space
-* xfc18-xfc19 - VDU/UART (6850 ACIA Interface)
-* xfc28-xfc29 - UART/VDU (6850 ACIA Interface)
-* xfc30 - Bank Select register 8-bits (r/w)
-* xfc40-xfc47 - SD Card Controller
+** xfc18-xfc19 - VDU/UART (6850 ACIA Interface)
+** xfc28-xfc29 - UART/VDU (6850 ACIA Interface)
+** xfc30 - Bank Select register 8-bits (r/w)
+** xfc31 - 8-bit output Latch IOPINs
+** xfc32 - 8-bit output Latch IOPINs
+** xfc40-xfc47 - SD Card Controller
+
+== Smithbug v2 Commands ==
+
+*	V	VIEW MEMORY
+*	I	FILL MEMORY
+* M	MOVE MEMORY
+*	E	CHANGE MEMORY
+*	F	FIND 
+*	D	DISASSEMBLE CODE
+*	&	S1 LOAD PROGRAM
+*	J	JUMP TO TARGET PROGRAM
+*	G	GO TO PROGRAM
+*	T	TRACE PROGRAM
+*	@	ASCII CONVERSION
+*	R	PRINT
+*	H	PRINTER ON
+*	Q	HARDWARE LOCATION
+* K	CONTINUE AFTER BREAK
+*	1	BREAKPOINT ONE
+*	2	BREAKPOINT TWO
+*	*	HARDWARE LOCATION (TBA)
+*	O	ECHO ON
+*	N	ECHO OFF
