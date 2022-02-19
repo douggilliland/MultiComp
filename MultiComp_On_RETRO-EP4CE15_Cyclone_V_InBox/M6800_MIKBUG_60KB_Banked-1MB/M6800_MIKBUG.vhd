@@ -56,20 +56,20 @@ entity M6800_MIKBUG is
 		io_ps2Data			: inout std_logic := '1';
 		
 		-- USB Serial with Handshake
-		utxd1					: in	std_logic := '1';
-		urxd1					: out std_logic;
-		urts1					: in	std_logic := '1';
-		ucts1					: out std_logic;
-		serSelect			: in	std_logic := '1';		-- Switch J3-1 selects between VDU and ACIA
+		i_utxd1				: in	std_logic := '1';
+		o_urxd1				: out std_logic;
+		i_urts1				: in	std_logic := '1';
+		o_ucts1				: out std_logic;
+		i_serSelect			: in	std_logic := '1';		-- Switch J3-1 selects between VDU and ACIA
 		
 		IO_PIN		: inout std_logic_vector(44 downto 3) := x"000000000"&"00";
 	
 		-- Not using the SD Card but reserving pins and making inactive
-		sdCS			: out		std_logic :='1';
-		sdMOSI		: out		std_logic :='0';
-		sdMISO		: in		std_logic;
-		sdSCLK		: out		std_logic :='0';
---		driveLED		: out		std_logic :='1';
+		o_sdCS				: out		std_logic :='1';
+		o_sdMOSI				: out		std_logic :='0';
+		i_sdMISO				: in		std_logic;
+		o_sdSCLK				: out		std_logic :='0';
+		o_driveLED			: out		std_logic :='1';
 
 		-- SRAM banked space
 		io_extSRamData		: inout std_logic_vector(7 downto 0) := (others=>'Z');
@@ -174,11 +174,11 @@ begin
 	
 	-- ____________________________________________________________________________________
 	-- I/O CHIP SELECTS
-	w_n_if1CS		<=	'0' 	when (serSelect = '1' and (w_cpuAddress(15 downto 1) = x"FC1"&"100")) else	-- VDU  xFC18-xFC19
-							'0'	when (serSelect = '0' and (w_cpuAddress(15 downto 1) = x"FC2"&"100")) else	-- ACIA xFC28-xFC29
+	w_n_if1CS		<=	'0' 	when (i_serSelect = '1' and (w_cpuAddress(15 downto 1) = x"FC1"&"100")) else	-- VDU  xFC18-xFC19
+							'0'	when (i_serSelect = '0' and (w_cpuAddress(15 downto 1) = x"FC2"&"100")) else	-- ACIA xFC28-xFC29
 							'1';
-	w_n_if2CS		<= '0' 	when (serSelect = '1' and (w_cpuAddress(15 downto 1) = x"FC2"&"100")) else	-- ACIA xFC28-xFC29
-							'0'	when (serSelect = '0' and (w_cpuAddress(15 downto 1) = x"FC1"&"100")) else	-- VDU  xFC18-xFC19
+	w_n_if2CS		<= '0' 	when (i_serSelect = '1' and (w_cpuAddress(15 downto 1) = x"FC2"&"100")) else	-- ACIA xFC28-xFC29
+							'0'	when (i_serSelect = '0' and (w_cpuAddress(15 downto 1) = x"FC1"&"100")) else	-- VDU  xFC18-xFC19
 							'1';
 	w_n_ldAdrVal	<= '0'	when (w_cpuAddress = x"FC30") else '1';
 		
@@ -296,10 +296,10 @@ begin
 			dataOut	=> w_if2DataOut,
 			rxClkEn	=> serialEn,
 			txClkEn	=> serialEn,
-			rxd		=> utxd1,
-			txd		=> urxd1,
-			n_cts		=> urts1,
-			n_rts		=> ucts1
+			rxd		=> i_utxd1,
+			txd		=> o_urxd1,
+			n_cts		=> i_urts1,
+			n_rts		=> o_ucts1
 		);
 	
 	-- ____________________________________________________________________________________
