@@ -8,11 +8,13 @@
 
 * [http://land-boards.com/blwiki/index.php?title=RETRO-EP4CE15 RETRO-EP4CE15 FPGA board]
 * MC6800 CPU running MIKBUG from back in the day
-** 25 MHz
+** 25 MHz internal
 ** 16.7 MHz when accessing the external (45 nS) SRAM
 * 60KB SRAM addressed from MC6800
-**	32K+8+4 = 44KB (internal) SRAM
-** 64 banks of 16KB of external SRAM (1MB total)
+**	32K+16+4 = 52KB (internal) SRAM
+*** 48KB contiguous space
+*** 4KB scratchpad
+** 128 banks of 8KB of external SRAM (1MB total)
 * Bank Select register (7 bits)
 * MIKBUG ROM - 60 KB (SRAM) version
 ** http://www.retrotechnology.com/restore/smithbug.html
@@ -27,10 +29,12 @@
 ==	Memory Map==
 
 * x0000-x7fff - 32KB Internal SRAM
-* x8000-xbfff - 16Kb SRAM bank (64 banks)
-* xc000-xefff - 12KB Internal SRAM
+* x8000-xbfff - 16Kb Internal SRAM
+* xc000-xdfff - 8KB External SRAM (128 banks of 8KB)
+* xe000-xefff - 4KB Internal SRAM
 * xf000-xffff - 4 KB ROM
-* xfc00-xfcff - I/O space
-* xfc18-xfc19 - VDU/UART (6850 Interface)
-* xfc28-xfc29 - UART.VDU (6850 Interface)
-* xfc30 - Bank Select register (r/w)
+* xfc00-xfcff - I/O space carves out of unused ROM space
+* xfc18-xfc19 - VDU/UART (6850 ACIA Interface)
+* xfc28-xfc29 - UART/VDU (6850 ACIA Interface)
+* xfc30 - Bank Select register 8-bits (r/w)
+* xfc40-xfc47 - SD Card Controller
