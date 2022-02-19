@@ -33,31 +33,31 @@ use  IEEE.STD_LOGIC_UNSIGNED.all;
 
 entity uk101_41kRAM is
 	port(
-		clk			: in std_logic;
-		n_reset		: in std_logic := '1';
+		i_clk				: in std_logic;
+		i_n_reset		: in std_logic := '1';
 		
 		-- External SRAM
-		sramData 	: inout	std_logic_vector(7 downto 0);
-		sramAddress : out		std_logic_vector(19 downto 0) := x"00000";
-		n_sRamWE 	: out		std_logic := '1';
-		n_sRamCS 	: out		std_logic := '1';
-		n_sRamOE 	: out		std_logic := '1';
+		io_sramData 	: inout	std_logic_vector(7 downto 0);
+		o_sramAddress	: out		std_logic_vector(19 downto 0) := x"00000";
+		o_n_sRamWE		: out		std_logic := '1';
+		o_n_sRamCS		: out		std_logic := '1';
+		o_n_sRamOE 		: out		std_logic := '1';
 		
 		-- USB-Serial port
-		fpgaRx		: in		std_logic := '1';
-		fpgaTx		: out		std_logic;
-		fpgaCts		: in		std_logic := '1';
-		fpgaRts		: out 	std_logic;
+		i_fpgaRx			: in		std_logic := '1';
+		o_fpgaTx			: out		std_logic;
+		i_fpgaCts		: in		std_logic := '1';
+		o_fpgaRts		: out 	std_logic;
 		
 		-- VGA
-		vgaRedHi		: out		std_logic := '0';
-		vgaRedLo		: out		std_logic := '0';
-		vgaGrnHi		: out		std_logic := '0';
-		vgaGrnLo		: out		std_logic := '0';
-		vgaBluHi		: out		std_logic := '0';
-		vgaBluLo		: out		std_logic := '0';
-		vgaHsync		: out		std_logic := '0';
-		vgaVsync		: out		std_logic := '0';
+		o_vgaRedHi		: out		std_logic := '0';
+		o_vgaRedLo		: out		std_logic := '0';
+		o_vgaGrnHi		: out		std_logic := '0';
+		o_vgaGrnLo		: out		std_logic := '0';
+		o_vgaBluHi		: out		std_logic := '0';
+		o_vgaBluLo		: out		std_logic := '0';
+		o_vgaHsync		: out		std_logic := '0';
+		o_vgaVsync		: out		std_logic := '0';
 		
 		-- SDRAM
 		-- Not using the SD RAM but reserving pins and making inactive
@@ -74,10 +74,10 @@ entity uk101_41kRAM is
 	
 		-- SD card
 		-- Not using the SD Card but reserving pins and making inactive
-		sdCS			: out		std_logic :='1';
-		sdMOSI		: out		std_logic :='0';
-		sdMISO		: in		std_logic;
-		sdSCLK		: out		std_logic :='0';
+		o_sdCS		: out		std_logic :='1';
+		o_sdMOSI		: out		std_logic :='0';
+		i_sdMISO		: in		std_logic;
+		o_sdSCLK		: out		std_logic :='0';
 
 		-- PS/2 Keyboard
 		ps2Clk		: in		std_logic := '1';
@@ -135,13 +135,13 @@ architecture struct of uk101_41kRAM is
 begin
 
 	-- External SRAM
-	sramAddress(11 downto 0)	<= w_cpuAddress(11 downto 0);		-- 4KB
-	sramAddress(19 downto 12)	<= "1" & w_mmapAddrLatch1(6 downto 0) when (w_cpuAddress(15 downto 12)	= x"c") else	-- xc000-xcFFF (4KB) 512KB
+	o_sramAddress(11 downto 0)	<= w_cpuAddress(11 downto 0);		-- 4KB
+	o_sramAddress(19 downto 12)	<= "1" & w_mmapAddrLatch1(6 downto 0) when (w_cpuAddress(15 downto 12)	= x"c") else	-- xc000-xcFFF (4KB) 512KB
 											"0" & w_mmapAddrLatch2(6 downto 0) when (w_cpuAddress(15 downto 12)	= x"e");			-- xe000-xeFFF (4KB) 512KB
-	sramData <= w_cpuDataOut when w_n_WR='0' else (others => 'Z');
-	n_sRamWE <= w_n_memWR;
-	n_sRamOE <= w_n_memRD;
-	n_sRamCS <= w_n_ramCS;
+	io_sramData <= w_cpuDataOut when w_n_WR='0' else (others => 'Z');
+	o_n_sRamWE <= w_n_memWR;
+	o_n_sRamOE <= w_n_memRD;
+	o_n_sRamCS <= w_n_ramCS;
 	w_n_memRD <= not(w_cpuClock) nand w_n_WR;
 	w_n_memWR <= not(w_cpuClock) nand (not w_n_WR);
 
@@ -164,7 +164,7 @@ begin
 		w_aciaData				when w_n_aciaCS		= '0' else
 		w_dispw_ramDataOutA	when w_n_dispRamCS	= '0' else
 		w_kbReadData			when w_n_kbCS			= '0' else
-		sramData					when w_n_ramCS		= '0' else
+		io_sramData				when w_n_ramCS		= '0' else
 		w_intSRAM1				when w_n_sram1CS		= '0' else
 		w_intSRAM2				when w_n_sram2CS		= '0' else
 		w_mmapAddrLatch1		when w_n_mmap1CS		= '0' else
@@ -176,7 +176,7 @@ begin
 	port map(
 		Enable			=> '1',
 		Mode				=> "00",
-		Res_n				=> n_reset,
+		Res_n				=> i_n_reset,
 		Clk				=> w_cpuClock,
 		Rdy				=> '1',
 		Abort_n			=> '1',
@@ -192,7 +192,7 @@ begin
 	BASIC_ROM : entity work.BasicRom
 	port map(
 		address	=> w_cpuAddress(12 downto 0),
-		clock		=> clk,
+		clock		=> i_clk,
 		q			=> w_basRomData
 	);
 	
@@ -214,20 +214,20 @@ begin
 		dataOut	=> w_aciaData,
 		rxClock	=> w_serialClock,
 		txClock	=> w_serialClock,
-		rxd		=> fpgaRx,
-		txd		=> fpgaTx,
-		n_cts		=> fpgaCts,
+		rxd		=> i_fpgaRx,
+		txd		=> o_fpgaTx,
+		n_cts		=> i_fpgaCts,
 		n_dcd		=> '0',
-		n_rts		=> fpgaRts
+		n_rts		=> o_fpgaRts
 	);
 
 	-- MMU Register 1
 	mmu1 : entity work.OutLatch
 	port map(
 		dataIn	=> w_cpuDataOut,
-		clock		=> clk,
+		clock		=> i_clk,
 		load		=> w_n_mmap1CS or w_n_WR or w_cpuClock,
-		clear		=> n_reset,
+		clear		=> i_n_reset,
 		latchOut	=> w_mmapAddrLatch1
 	);
 	
@@ -235,16 +235,16 @@ begin
 	mmu2 : entity work.OutLatch
 	port map(
 		dataIn	=> w_cpuDataOut,
-		clock		=> clk,
+		clock		=> i_clk,
 		load		=> w_n_mmap2CS or w_n_WR or w_cpuClock,
-		clear		=> n_reset,
+		clear		=> i_n_reset,
 		latchOut	=> w_mmapAddrLatch2
 	);
 	
 	sram1 : entity work.InternalRam32K
 	port map(
 		address	=> w_cpuAddress(14 downto 0),
-		clock		=> clk,
+		clock		=> i_clk,
 		data		=> w_cpuDataOut,
 		wren		=> not w_n_sram1CS and not w_n_WR and w_cpuClock,
 		q			=> w_intSRAM1
@@ -253,16 +253,16 @@ begin
 	sram2 : entity work.InternalRam8K
 	port map(
 		address	=> w_cpuAddress(12 downto 0),
-		clock		=> clk,
+		clock		=> i_clk,
 		data		=> w_cpuDataOut,
 		wren		=> not w_n_sram2CS and not w_n_WR and w_cpuClock,
 		q			=> w_intSRAM2
 	);
 	
 	-- Baud rate clock 
-	process (clk)
+	process (i_clk)
 	begin
-		if rising_edge(clk) then
+		if rising_edge(i_clk) then
 			if w_cpuClkCount < 50 then
 				w_cpuClkCount <= w_cpuClkCount + 1;
 			else
@@ -276,9 +276,9 @@ begin
 		end if;
 	end process;
 			
-	process (clk)
+	process (i_clk)
 	begin
-		if rising_edge(clk) then
+		if rising_edge(i_clk) then
 --			if w_serialClkCount < 10416 then -- 300 baud
 			if w_serialClkCount < 325 then -- 9600 baud
 				w_serialClkCount <= w_serialClkCount + 1;
@@ -295,38 +295,38 @@ begin
 	end process;
 
 	pll : work.VideoClk_XVGA_1024x768 PORT MAP (
-		inclk0	 => clk,
+		inclk0	 => i_clk,
 		c0	 => w_Video_Clk_25p6		-- 25.600000
 	);
 	
 	-- VGA has blue background and white characters
-	vgaRedHi	<= w_VoutVect(2);	-- red upper bit
-	vgaRedLo	<= w_VoutVect(2);
-	vgaGrnHi	<= w_VoutVect(1);
-	vgaGrnLo	<= w_VoutVect(1);
-	vgaBluHi	<= w_VoutVect(0);
-	vgaBluLo	<= w_VoutVect(0);
+	o_vgaRedHi	<= w_VoutVect(2);	-- red upper bit
+	o_vgaRedLo	<= w_VoutVect(2);
+	o_vgaGrnHi	<= w_VoutVect(1);
+	o_vgaGrnLo	<= w_VoutVect(1);
+	o_vgaBluHi	<= w_VoutVect(0);
+	o_vgaBluLo	<= w_VoutVect(0);
 		
 	vga : entity work.Mem_Mapped_XVGA
 	port map (
-		n_reset		=> n_reset,
+		n_reset		=> i_n_reset,
 		Video_Clk 	=> w_Video_Clk_25p6,
-		CLK_50		=> clk,
+		CLK_50		=> i_clk,
 		n_dispRamCS	=> w_n_dispRamCS,
 		n_memWR		=> w_n_memWR,
 		cpuAddress	=> w_cpuAddress(10 downto 0),
 		cpuDataOut	=> w_cpuDataOut,
 		dataOut		=> w_dispw_ramDataOutA,
 		VoutVect		=> w_VoutVect,
-		hSync			=> vgaHsync,
-		vSync			=> vgaVsync
+		hSync			=> o_vgaHsync,
+		vSync			=> o_vgaVsync
 	);
 
 	-- UK101 keyboard
 	PS2Keyboard : entity work.UK101keyboard
 	port map(
-		CLK		=> clk,
-		nRESET	=> n_reset,
+		CLK		=> i_clk,
+		nRESET	=> i_n_reset,
 		PS2_CLK	=> ps2Clk,
 		PS2_DATA	=> ps2Data,
 		A			=> w_kbRowSel,
