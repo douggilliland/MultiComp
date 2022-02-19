@@ -28,44 +28,45 @@ use  IEEE.STD_LOGIC_UNSIGNED.all;
 
 entity Microcomputer is
 	port(
-		n_reset		: in std_logic;
+		i_n_reset		: in std_logic;
 		i_CLOCK_50	: in std_logic;
 		
 		-- 1MB external SRAM
-		sramData		: inout std_logic_vector(7 downto 0);
-		sramAddress	: out std_logic_vector(19 downto 0) := x"00000";
-		n_sRamWE		: out std_logic := '1';
-		n_sRamCS		: out std_logic := '1';
-		n_sRamOE		: out std_logic := '1';
+		io_sramData		: inout std_logic_vector(7 downto 0);
+		o_sramAddress	: out std_logic_vector(19 downto 0) := x"00000";
+		o_n_sRamWE		: out std_logic := '1';
+		o_n_sRamCS		: out std_logic := '1';
+		o_n_sRamOE		: out std_logic := '1';
 		
 		-- Serial port (USB-Serial interface)
-		rxd1			: in std_logic := '1';
-		txd1			: out std_logic;
-		cts1			: in std_logic := '1';
-		rts1			: out std_logic;
-		serSelect	: in std_logic;			--		Install to make serial port default
+		i_rxd1			: in std_logic := '1';
+		o_txd1			: out std_logic;
+		i_cts1			: in std_logic := '1';
+		o_rts1			: out std_logic;
+		i_serSelect	: in std_logic;			--		Install to make serial port default
 		
 		-- Video Display Unit (VGA)
-		videoR0		: out std_logic := '1';
-		videoG0		: out std_logic := '1';
-		videoB0		: out std_logic := '1';
-		videoR1		: out std_logic := '1';
-		videoG1		: out std_logic := '1';
-		videoB1		: out std_logic := '1';
-		hSync			: out std_logic := '1';
-		vSync			: out std_logic := '1';
+		o_videoR0		: out std_logic := '1';
+		o_videoG0		: out std_logic := '1';
+		o_videoB0		: out std_logic := '1';
+		o_videoR1		: out std_logic := '1';
+		o_videoG1		: out std_logic := '1';
+		o_videoB1		: out std_logic := '1';
+		o_hSync			: out std_logic := '1';
+		o_vSync			: out std_logic := '1';
 
 		-- PS/2 keyboard
-		ps2Clk		: inout std_logic;
-		ps2Data		: inout std_logic;
+		io_ps2Clk		: inout std_logic;
+		io_ps2Data		: inout std_logic;
 		
 		IO_PIN		: inout std_logic_vector(44 downto 3) := x"000000000"&"00";
 	
 		-- SD Card
-		sdCardCS		: out std_logic := '1';
-		sdCardMOSI	: out std_logic := '1';
-		sdCardMISO	: in std_logic;
-		sdCardSCLK	: out std_logic := '1';
+		o_sdCardCS		: out std_logic := '1';
+		o_sdCardMOSI	: out std_logic := '1';
+		i_sdCardMISO	: in std_logic;
+		o_sdCardSCLK	: out std_logic := '1';
+		o_driveLED		: out std_logic := '1';
 
 		-- Not using the SD RAM on the QMTECH FPGA card but making sure that it's not active
 		n_sdRamCas	: out std_logic := '1';		-- CAS on schematic
@@ -93,6 +94,7 @@ architecture struct of Microcomputer is
 	signal sramData3			: std_logic_vector(7 downto 0);
 	signal w_if1DataOut		: std_logic_vector(7 downto 0);
 	signal w_if2DataOut		: std_logic_vector(7 downto 0);
+	signal w_SDData				: std_logic_vector(7 downto 0);
 
 	signal w_n_memWR			: std_logic :='1';
 	signal w_n_memRD 			: std_logic :='1';
@@ -106,6 +108,7 @@ architecture struct of Microcomputer is
 	signal w_n_basRomCS		: std_logic :='1';
 	signal w_n_IF1CS			: std_logic :='1';
 	signal w_n_IF2CS			: std_logic :='1';
+	signal w_n_SDCS			: std_logic :='1';
 
 	signal q_cpuClkCount		: std_logic_vector(5 downto 0); 
 	signal w_cpuClock			: std_logic;
@@ -121,7 +124,7 @@ begin
 	DebounceResetSwitch	: entity work.Debouncer
 	port map (
 		i_clk			=> w_cpuClock,
-		i_PinIn		=> n_reset,
+		i_PinIn		=> i_n_reset,
 		o_PinOut		=> w_resetLow
 	);
 	
@@ -132,14 +135,15 @@ begin
 	-- ____________________________________________________________________________________
 	-- CHIP SELECTS
 	-- Jumper in pin Pin_L17 to ground (adjacent pin) of the FPGA selects the VDU/Serial port
-	w_n_basRomCS	<= '0' when   w_cpuAddress(15 downto 13) = "111" else '1'; 										--8K at top of memory
-	w_n_IF1CS		<= '0' when ((w_cpuAddress(15 downto 1) = x"ffd"&"000" and serSelect = '1') or 
-								       (w_cpuAddress(15 downto 1) = x"ffd"&"001" and serSelect = '0')) else '1'; -- 2 bytes FFD0-FFD1
-	w_n_IF2CS		<= '0' when ((w_cpuAddress(15 downto 1) = x"ffd"&"001" and serSelect = '1') or 
-								       (w_cpuAddress(15 downto 1) = x"ffd"&"000" and serSelect = '0')) else '1'; -- 2 bytes FFD2-FFD3
-	w_n_intRamCS1	<= '0' when   w_cpuAddress(15) = '0' else '1';					-- active low
-	w_n_intRamCS2	<= '0' when   w_cpuAddress(15 downto 14) = "10" else '1';	-- active low
-	w_n_intRamCS3	<= '0' when   w_cpuAddress(15 downto 13) = "110" else '1';	-- active low
+	w_n_basRomCS	<= '0' when   w_cpuAddress(15 downto 13) = "111" 											else '1';	-- 8K at top of memory
+	w_n_IF1CS		<= '0' when ((w_cpuAddress(15 downto 1) = x"ffd"&"000" and i_serSelect = '1') or 
+								       (w_cpuAddress(15 downto 1) = x"ffd"&"001" and i_serSelect = '0'))	else '1';	-- 2 bytes FFD0-FFD1
+	w_n_IF2CS		<= '0' when ((w_cpuAddress(15 downto 1) = x"ffd"&"001" and i_serSelect = '1') or 
+								       (w_cpuAddress(15 downto 1) = x"ffd"&"000" and i_serSelect = '0'))	else '1';	-- 2 bytes FFD2-FFD3
+	w_n_SDCS			<= '0' when   w_cpuAddress(15 downto 3) = x"ffd"&"1"										else '1';	-- SD Card
+	w_n_intRamCS1	<= '0' when   w_cpuAddress(15) = '0' 															else '1';	-- active low
+	w_n_intRamCS2	<= '0' when   w_cpuAddress(15 downto 14) = "10" 											else '1';	-- active low
+	w_n_intRamCS3	<= '0' when   w_cpuAddress(15 downto 13) = "110" 											else '1';	-- active low
 	
 	-- ____________________________________________________________________________________
 	-- BUS ISOLATION
@@ -147,19 +151,12 @@ begin
 	w_cpuDataIn <=
 		w_if1DataOut	when w_n_IF1CS			= '0' else
 		w_if2DataOut	when w_n_IF2CS			= '0' else
+		w_SDData			when w_n_SDCS			= '0' else
 		sramData1		when w_n_intRamCS1	= '0' else
 		sramData2		when w_n_intRamCS2	= '0' else
 		sramData3		when w_n_intRamCS3	= '0' else
 		w_basRomData	when w_n_basRomCS		= '0' else
 		x"FF";
-	
-	-- SRAM
-	--	sramAddress(19 downto 16) <= "0000";
-	--	sramAddress(15 downto 0) <= w_cpuAddress(15 downto 0);
-	--	sramData <= w_cpuDataOut when w_n_WR='0' else (others => 'Z');
-	--	n_sRamWE <= w_n_memWR;
-	--	n_sRamOE <= w_n_memRD;
-	--	n_sRamCS <= w_n_intRamCS1;
 
 	-- 48KB Internal SRAM total
 	-- 32KB Internal SRAM
@@ -240,17 +237,17 @@ begin
 			dataIn	=> w_cpuDataOut,
 			dataOut	=> w_if1DataOut,
 			-- VGA signals
-			hSync		=> hSync,
-			vSync		=> vSync,
-			videoR0	=> videoR0,
-			videoR1	=> videoR1,
-			videoG0	=> videoG0,
-			videoG1	=> videoG1,
-			videoB0	=> videoB0,
-			videoB1	=> videoB1,
+			hSync		=> o_hSync,
+			vSync		=> o_vSync,
+			videoR0	=> o_videoR0,
+			videoR1	=> o_videoR1,
+			videoG0	=> o_videoG0,
+			videoG1	=> o_videoG1,
+			videoB0	=> o_videoB0,
+			videoB1	=> o_videoB1,
 			-- PS/2 keyboard
-			ps2clk	=> ps2Clk,
-			ps2Data	=> ps2Data
+			ps2clk	=> io_ps2Clk,
+			ps2Data	=> io_ps2Data
 		);
 	
 	-- Replaced Grant's bufferedUART with Neal Crook's version which uses clock enables instead of clock
@@ -265,12 +262,32 @@ begin
 			dataOut	=> w_if2DataOut,
 			rxClkEn	=> w_serialEn,
 			txClkEn	=> w_serialEn,			
-			rxd		=> rxd1,
-			txd		=> txd1,
-			n_cts		=> cts1,
-			n_rts		=> rts1
+			rxd		=> i_rxd1,
+			txd		=> o_txd1,
+			n_cts		=> i_cts1,
+			n_rts		=> o_rts1
 		);
 	
+	SDCtrlr : entity work.sd_controller
+	port map (
+		-- CPU
+		n_reset 	=> i_n_reset,
+		n_rd		=> w_n_SDCS or w_cpuClock or (not w_n_WR),
+		n_wr		=> w_n_SDCS or w_cpuClock or w_n_WR,
+		dataIn	=> w_cpuDataOut,
+		dataOut	=> w_SDData,
+		regAddr	=> w_cpuAddress(2 downto 0),
+		clk 		=> i_CLOCK_50,
+		-- SD Card SPI connections
+		sdCS 		=> o_sdCardCS,
+		sdMOSI	=> o_sdCardMOSI,
+		sdMISO	=> i_sdCardMISO,
+		sdSCLK	=> o_sdCardSCLK,
+		-- LEDs
+		driveLED	=> o_driveLED
+	);
+
+
 	-- ____________________________________________________________________________________
 	-- ____________________________________________________________________________________
 	-- SYSTEM CLOCKS

@@ -54,63 +54,62 @@ set_global_assignment -name POWER_BOARD_THERMAL_MODEL "NONE (CONSERVATIVE)"
 set_global_assignment -name STRATIX_DEVICE_IO_STANDARD "3.3-V LVTTL"
 # Clock and reset
 set_location_assignment PIN_M9 -to i_CLOCK_50
-set_location_assignment PIN_N16 -to n_reset
-set_instance_assignment -name WEAK_PULL_UP_RESISTOR ON -to n_reset
+set_location_assignment PIN_N16 -to i_n_reset
+set_instance_assignment -name WEAK_PULL_UP_RESISTOR ON -to i_n_reset
 # PS/2
-set_location_assignment PIN_AA2 -to ps2Clk
-set_instance_assignment -name WEAK_PULL_UP_RESISTOR ON -to ps2Clk
-set_location_assignment PIN_AA1 -to ps2Data
-set_instance_assignment -name WEAK_PULL_UP_RESISTOR ON -to ps2Data
+set_location_assignment PIN_AA2 -to io_ps2Clk
+set_instance_assignment -name WEAK_PULL_UP_RESISTOR ON -to io_ps2Clk
+set_location_assignment PIN_AA1 -to io_ps2Data
+set_instance_assignment -name WEAK_PULL_UP_RESISTOR ON -to io_ps2Data
 # Serial
-set_location_assignment Pin_L17 -to serSelect
-set_instance_assignment -name WEAK_PULL_UP_RESISTOR ON -to serSelect
-set_location_assignment PIN_B11 -to cts1
-set_instance_assignment -name WEAK_PULL_UP_RESISTOR ON -to cts1
-set_location_assignment PIN_F10 -to rts1
-set_location_assignment PIN_C11 -to rxd1
-set_instance_assignment -name WEAK_PULL_UP_RESISTOR ON -to rxd1
-set_location_assignment PIN_G10 -to txd1
+set_location_assignment PIN_L17 -to i_serSelect
+set_instance_assignment -name WEAK_PULL_UP_RESISTOR ON -to i_serSelect
+set_location_assignment PIN_B11 -to i_cts1
+set_instance_assignment -name WEAK_PULL_UP_RESISTOR ON -to i_cts1
+set_location_assignment PIN_F10 -to o_rts1
+set_location_assignment PIN_C11 -to i_rxd1
+set_instance_assignment -name WEAK_PULL_UP_RESISTOR ON -to i_rxd1
+set_location_assignment PIN_G10 -to o_txd1
 # Video
-set_location_assignment PIN_E12 -to videoR0
-set_location_assignment PIN_D12 -to videoR1
-set_location_assignment PIN_D13 -to videoG0
-set_location_assignment PIN_C13 -to videoG1
-set_location_assignment PIN_B13 -to videoB0
-set_location_assignment PIN_A13 -to videoB1
-set_location_assignment PIN_A15 -to hSync
-set_location_assignment PIN_A14 -to vSync
+set_location_assignment PIN_D12 -to o_videoR1
+set_location_assignment PIN_D13 -to o_videoG0
+set_location_assignment PIN_C13 -to o_videoG1
+set_location_assignment PIN_B13 -to o_videoB0
+set_location_assignment PIN_A13 -to o_videoB1
+set_location_assignment PIN_A15 -to o_hSync
+set_location_assignment PIN_A14 -to o_vSync
 # SRAM
-set_location_assignment PIN_E2 -to n_sRamCS
-set_location_assignment PIN_L2 -to n_sRamOE
-set_location_assignment PIN_D6 -to n_sRamWE
-set_location_assignment PIN_C1 -to sramData[0]
-set_location_assignment PIN_G6 -to sramData[1]
-set_location_assignment PIN_G8 -to sramData[2]
-set_location_assignment PIN_F7 -to sramData[3]
-set_location_assignment PIN_H8 -to sramData[4]
-set_location_assignment PIN_H6 -to sramData[5]
-set_location_assignment PIN_C2 -to sramData[6]
-set_location_assignment PIN_D3 -to sramData[7]
-set_location_assignment PIN_G1 -to sramAddress[0]
-set_location_assignment PIN_L1 -to sramAddress[1]
-set_location_assignment PIN_N1 -to sramAddress[2]
-set_location_assignment PIN_U1 -to sramAddress[3]
-set_location_assignment PIN_Y3 -to sramAddress[4]
-set_location_assignment PIN_W2 -to sramAddress[5]
-set_location_assignment PIN_U2 -to sramAddress[6]
-set_location_assignment PIN_N2 -to sramAddress[7]
-set_location_assignment PIN_G2 -to sramAddress[8]
-set_location_assignment PIN_E7 -to sramAddress[9]
-set_location_assignment PIN_C6 -to sramAddress[10]
-set_location_assignment PIN_D9 -to sramAddress[11]
-set_location_assignment PIN_A5 -to sramAddress[12]
-set_location_assignment PIN_B7 -to sramAddress[13]
-set_location_assignment PIN_A8 -to sramAddress[14]
-set_location_assignment PIN_A10 -to sramAddress[15]
-set_location_assignment PIN_A7 -to sramAddress[16]
-set_location_assignment PIN_B6 -to sramAddress[17]
-set_location_assignment PIN_B5 -to sramAddress[18]
-set_location_assignment PIN_E9 -to sramAddress[19]
+set_location_assignment PIN_E2 -to o_n_sRamCS
+set_location_assignment PIN_L2 -to o_n_sRamOE
+set_location_assignment PIN_D6 -to o_n_sRamWE
+set_location_assignment PIN_C1 -to io_sramData[0]
+set_location_assignment PIN_G6 -to io_sramData[1]
+set_location_assignment PIN_G8 -to io_sramData[2]
+set_location_assignment PIN_F7 -to io_sramData[3]
+set_location_assignment PIN_H8 -to io_sramData[4]
+set_location_assignment PIN_H6 -to io_sramData[5]
+set_location_assignment PIN_C2 -to io_sramData[6]
+set_location_assignment PIN_D3 -to io_sramData[7]
+set_location_assignment PIN_G1 -to o_sramAddress[0]
+set_location_assignment PIN_L1 -to o_sramAddress[1]
+set_location_assignment PIN_N1 -to o_sramAddress[2]
+set_location_assignment PIN_U1 -to o_sramAddress[3]
+set_location_assignment PIN_Y3 -to o_sramAddress[4]
+set_location_assignment PIN_W2 -to o_sramAddress[5]
+set_location_assignment PIN_U2 -to o_sramAddress[6]
+set_location_assignment PIN_N2 -to o_sramAddress[7]
+set_location_assignment PIN_G2 -to o_sramAddress[8]
+set_location_assignment PIN_E7 -to o_sramAddress[9]
+set_location_assignment PIN_C6 -to o_sramAddress[10]
+set_location_assignment PIN_D9 -to o_sramAddress[11]
+set_location_assignment PIN_A5 -to o_sramAddress[12]
+set_location_assignment PIN_B7 -to o_sramAddress[13]
+set_location_assignment PIN_A8 -to o_sramAddress[14]
+set_location_assignment PIN_A10 -to o_sramAddress[15]
+set_location_assignment PIN_A7 -to o_sramAddress[16]
+set_location_assignment PIN_B6 -to o_sramAddress[17]
+set_location_assignment PIN_B5 -to o_sramAddress[18]
+set_location_assignment PIN_E9 -to o_sramAddress[19]
 # SDRAM
 set_location_assignment PIN_AB11 -to sdRamClk
 set_location_assignment PIN_V9 -to sdRamClkEn
@@ -151,11 +150,10 @@ set_location_assignment PIN_R12 -to sdRamData[14]
 set_location_assignment PIN_P12 -to sdRamData[15]
 # 
 # External SD Card
-set_location_assignment PIN_M22 -to sdCardCS
-set_location_assignment PIN_L18 -to sdCardMISO
-set_location_assignment PIN_L22 -to sdCardMOSI
-set_location_assignment PIN_L19 -to sdCardSCLK
-set_instance_assignment -name WEAK_PULL_UP_RESISTOR ON -to sdCardMISO
+set_location_assignment PIN_M22 -to o_sdCardCS
+set_location_assignment PIN_L18 -to i_sdCardMISO
+set_location_assignment PIN_L22 -to o_sdCardMOSI
+set_location_assignment PIN_L19 -to o_sdCardSCLK
 # I/O Pins
 set_location_assignment PIN_AB15 -to IO_PIN[3]
 set_location_assignment PIN_AA15 -to IO_PIN[4]
@@ -204,6 +202,8 @@ set_global_assignment -name DEVICE_FILTER_PACKAGE FBGA
 set_global_assignment -name TIMING_ANALYZER_MULTICORNER_ANALYSIS ON
 set_global_assignment -name SMART_RECOMPILE ON
 
+set_location_assignment PIN_E12 -to o_videoR0
+set_global_assignment -name VHDL_FILE "../../MultiComp (VHDL Template)/Components/SDCARD/Older_SD_Controllers/sd_controller_NealC.vhd"
 set_global_assignment -name VHDL_FILE "../../MultiComp (VHDL Template)/Components/RAM_Internal/InternalRam8K.vhd"
 set_global_assignment -name VHDL_FILE "../../MultiComp (VHDL Template)/Components/RAM_Internal/InternalRam16K.vhd"
 set_global_assignment -name VHDL_FILE "../../MultiComp (VHDL Template)/Components/RAM_Internal/InternalRam32K.vhd"
