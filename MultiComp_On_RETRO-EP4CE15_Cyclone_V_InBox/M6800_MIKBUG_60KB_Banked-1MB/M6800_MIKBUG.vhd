@@ -109,6 +109,7 @@ architecture struct of M6800_MIKBUG is
 	signal w_ramData4K	: std_logic_vector(7 downto 0);
 	signal w_if1DataOut	: std_logic_vector(7 downto 0);
 	signal w_if2DataOut	: std_logic_vector(7 downto 0);
+	signal w_SDData		: std_logic_vector(7 downto 0);
 
 	-- Memory controls
 	signal w_n_SRAMCE		: std_logic;
@@ -119,6 +120,7 @@ architecture struct of M6800_MIKBUG is
 	-- Interface control lines
 	signal w_n_if1CS		: std_logic :='1';
 	signal w_n_if2CS		: std_logic :='1';
+	signal w_n_SDCS		: std_logic :='1';
 
 	-- CPU Clock
 	signal q_cpuClkCount	: std_logic_vector(5 downto 0); 
@@ -181,6 +183,7 @@ begin
 							'0'	when (i_serSelect = '0' and (w_cpuAddress(15 downto 1) = x"FC1"&"100")) else	-- VDU  xFC18-xFC19
 							'1';
 	w_n_ldAdrVal	<= '0'	when (w_cpuAddress = x"FC30") else '1';
+	w_n_SDCS			<= '0' 	when (w_cpuAddress = x"FC40") else '1';
 		
 	-- ____________________________________________________________________________________
 	-- CPU Read Data multiplexer
@@ -192,6 +195,7 @@ begin
 		w_if1DataOut	when w_n_if1CS = '0'									else	-- xFC18-xFC19 or $FC28-$FC29
 		w_if2DataOut	when w_n_if2CS = '0'									else	-- xFC28-xFC29 or $FC18-$FC19
 		"00"&adrLatVal	when (w_n_ldAdrVal = '0') 							else	-- xFC30
+		w_SDData			when w_n_SDCS		= '0' 							else	-- SD Card
 		w_romData		when w_cpuAddress(15 downto 12) = x"F"			else	-- xF0000-xFFFF - Must be last
 		x"FF";
 	
@@ -286,7 +290,7 @@ begin
 		);
 	
 	-- ACIA UART serial interface
-	acia: entity work.bufferedUART
+	ACIA : entity work.bufferedUART
 		port map (
 			clk		=> i_CLOCK_50,     
 			n_WR		=> w_n_if2CS or      w_R1W0  or (not w_vma) or (not w_cpuClock),
@@ -301,6 +305,25 @@ begin
 			n_cts		=> i_urts1,
 			n_rts		=> o_ucts1
 		);
+	
+	SDCtrlr : entity work.sd_controller
+	port map (
+		-- CPU
+		n_reset 	=> i_n_reset,
+		n_rd		=> w_n_SDCS or w_cpuClock or (not w_R1W0),
+		n_wr		=> w_n_SDCS or w_cpuClock or w_R1W0,
+		dataIn	=> w_cpuDataOut,
+		dataOut	=> w_SDData,
+		regAddr	=> w_cpuAddress(2 downto 0),
+		clk 		=> i_CLOCK_50,
+		-- SD Card SPI connections
+		sdCS 		=> o_sdCS,
+		sdMOSI	=> o_sdMOSI,
+		sdMISO	=> i_sdMISO,
+		sdSCLK	=> o_sdSCLK,
+		-- LEDs
+		driveLED	=> o_driveLED
+	);
 	
 	-- ____________________________________________________________________________________
 	-- CPU Clock
