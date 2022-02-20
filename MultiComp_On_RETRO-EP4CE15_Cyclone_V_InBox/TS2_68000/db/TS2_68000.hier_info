@@ -7,12 +7,11 @@ i_CLOCK_50 => q_cpuClkCount[2].CLK
 i_CLOCK_50 => q_cpuClkCount[3].CLK
 i_CLOCK_50 => q_cpuClkCount[4].CLK
 i_CLOCK_50 => q_cpuClkCount[5].CLK
-i_CLOCK_50 => graycounter:waitCount.Clk
 i_CLOCK_50 => monitor_68k_rom:rom1.clock
 i_CLOCK_50 => ram_16kx16:ram1.clock
 i_CLOCK_50 => ram_8kx16:ramC000.clock
-i_CLOCK_50 => ram_32kx16:ram2.clock
-i_CLOCK_50 => ram_16kx16:ram3.clock
+i_CLOCK_50 => ram_32kx16:ram200000.clock
+i_CLOCK_50 => ram_16kx16:ram210000.clock
 i_CLOCK_50 => sbctextdisplayrgb:VDU.clk
 i_CLOCK_50 => buffereduart:ACIA.clk
 i_CLOCK_50 => sd_controller:SDCtrlr.clk
@@ -107,7 +106,7 @@ o_sramAddress[17] <= tg68kdotc_kernel:CPU68K.addr[17]
 o_sramAddress[18] <= tg68kdotc_kernel:CPU68K.addr[18]
 o_sramAddress[19] <= tg68kdotc_kernel:CPU68K.addr[19]
 o_n_sRamWE <= o_n_sRamWE.DB_MAX_OUTPUT_PORT_TYPE
-o_n_sRamCS <= o_n_sRamCS.DB_MAX_OUTPUT_PORT_TYPE
+o_n_sRamCS <= n_externalRam1CS.DB_MAX_OUTPUT_PORT_TYPE
 o_n_sRamOE <= o_n_sRamOE.DB_MAX_OUTPUT_PORT_TYPE
 n_sdRamCas <= <VCC>
 n_sdRamRas <= <VCC>
@@ -179,25 +178,6 @@ clk => flipflops[0].CLK
 clk => flipflops[1].CLK
 button => flipflops[0].DATAIN
 result <= result~reg0.DB_MAX_OUTPUT_PORT_TYPE
-
-
-|TS2_68000_Top|GrayCounter:waitCount
-Clk => Currstate[0].CLK
-Clk => Currstate[1].CLK
-Clk => Currstate[2].CLK
-Clk => Currstate[3].CLK
-Rst => Currstate.OUTPUTSELECT
-Rst => Currstate.OUTPUTSELECT
-Rst => Currstate.OUTPUTSELECT
-Rst => Currstate.OUTPUTSELECT
-En => Currstate.OUTPUTSELECT
-En => Currstate.OUTPUTSELECT
-En => Currstate.OUTPUTSELECT
-En => Currstate.OUTPUTSELECT
-output[0] <= Currstate[0].DB_MAX_OUTPUT_PORT_TYPE
-output[1] <= Currstate[1].DB_MAX_OUTPUT_PORT_TYPE
-output[2] <= Currstate[2].DB_MAX_OUTPUT_PORT_TYPE
-output[3] <= Currstate[3].DB_MAX_OUTPUT_PORT_TYPE
 
 
 |TS2_68000_Top|TG68KdotC_Kernel:CPU68K
@@ -8399,7 +8379,7 @@ TDI => WORD_SR.DATAA
 TDO <= WORD_SR[0].DB_MAX_OUTPUT_PORT_TYPE
 
 
-|TS2_68000_Top|RAM_32Kx16:ram2
+|TS2_68000_Top|RAM_32Kx16:ram200000
 address[0] => altsyncram:altsyncram_component.address_a[0]
 address[1] => altsyncram:altsyncram_component.address_a[1]
 address[2] => altsyncram:altsyncram_component.address_a[2]
@@ -8453,7 +8433,7 @@ q[14] <= altsyncram:altsyncram_component.q_a[14]
 q[15] <= altsyncram:altsyncram_component.q_a[15]
 
 
-|TS2_68000_Top|RAM_32Kx16:ram2|altsyncram:altsyncram_component
+|TS2_68000_Top|RAM_32Kx16:ram200000|altsyncram:altsyncram_component
 wren_a => altsyncram_3a14:auto_generated.wren_a
 rden_a => ~NO_FANOUT~
 wren_b => ~NO_FANOUT~
@@ -8526,7 +8506,7 @@ eccstatus[1] <= <GND>
 eccstatus[2] <= <GND>
 
 
-|TS2_68000_Top|RAM_32Kx16:ram2|altsyncram:altsyncram_component|altsyncram_3a14:auto_generated
+|TS2_68000_Top|RAM_32Kx16:ram200000|altsyncram:altsyncram_component|altsyncram_3a14:auto_generated
 address_a[0] => ram_block1a0.PORTAADDR
 address_a[0] => ram_block1a1.PORTAADDR
 address_a[0] => ram_block1a2.PORTAADDR
@@ -9578,7 +9558,7 @@ q_a[15] <= mux_7hb:mux2.result[15]
 wren_a => decode_8la:decode3.enable
 
 
-|TS2_68000_Top|RAM_32Kx16:ram2|altsyncram:altsyncram_component|altsyncram_3a14:auto_generated|decode_8la:decode3
+|TS2_68000_Top|RAM_32Kx16:ram200000|altsyncram:altsyncram_component|altsyncram_3a14:auto_generated|decode_8la:decode3
 data[0] => w_anode553w[1].IN0
 data[0] => w_anode566w[1].IN1
 data[0] => w_anode574w[1].IN0
@@ -9597,7 +9577,7 @@ eq[2] <= w_anode574w[2].DB_MAX_OUTPUT_PORT_TYPE
 eq[3] <= w_anode582w[2].DB_MAX_OUTPUT_PORT_TYPE
 
 
-|TS2_68000_Top|RAM_32Kx16:ram2|altsyncram:altsyncram_component|altsyncram_3a14:auto_generated|decode_11a:rden_decode
+|TS2_68000_Top|RAM_32Kx16:ram200000|altsyncram:altsyncram_component|altsyncram_3a14:auto_generated|decode_11a:rden_decode
 data[0] => w_anode591w[1].IN0
 data[0] => w_anode605w[1].IN1
 data[0] => w_anode614w[1].IN0
@@ -9612,7 +9592,7 @@ eq[2] <= w_anode614w[2].DB_MAX_OUTPUT_PORT_TYPE
 eq[3] <= w_anode623w[2].DB_MAX_OUTPUT_PORT_TYPE
 
 
-|TS2_68000_Top|RAM_32Kx16:ram2|altsyncram:altsyncram_component|altsyncram_3a14:auto_generated|mux_7hb:mux2
+|TS2_68000_Top|RAM_32Kx16:ram200000|altsyncram:altsyncram_component|altsyncram_3a14:auto_generated|mux_7hb:mux2
 data[0] => l1_w0_n0_mux_dataout.IN1
 data[1] => l1_w1_n0_mux_dataout.IN1
 data[2] => l1_w2_n0_mux_dataout.IN1
@@ -9791,7 +9771,7 @@ sel[1] => l2_w9_n0_mux_dataout.IN0
 sel[1] => _.IN0
 
 
-|TS2_68000_Top|RAM_16Kx16:ram3
+|TS2_68000_Top|RAM_16Kx16:ram210000
 address[0] => altsyncram:altsyncram_component.address_a[0]
 address[1] => altsyncram:altsyncram_component.address_a[1]
 address[2] => altsyncram:altsyncram_component.address_a[2]
@@ -9844,7 +9824,7 @@ q[14] <= altsyncram:altsyncram_component.q_a[14]
 q[15] <= altsyncram:altsyncram_component.q_a[15]
 
 
-|TS2_68000_Top|RAM_16Kx16:ram3|altsyncram:altsyncram_component
+|TS2_68000_Top|RAM_16Kx16:ram210000|altsyncram:altsyncram_component
 wren_a => altsyncram_h524:auto_generated.wren_a
 rden_a => ~NO_FANOUT~
 wren_b => ~NO_FANOUT~
@@ -9916,7 +9896,7 @@ eccstatus[1] <= <GND>
 eccstatus[2] <= <GND>
 
 
-|TS2_68000_Top|RAM_16Kx16:ram3|altsyncram:altsyncram_component|altsyncram_h524:auto_generated
+|TS2_68000_Top|RAM_16Kx16:ram210000|altsyncram:altsyncram_component|altsyncram_h524:auto_generated
 address_a[0] => altsyncram_ur03:altsyncram1.address_a[0]
 address_a[1] => altsyncram_ur03:altsyncram1.address_a[1]
 address_a[2] => altsyncram_ur03:altsyncram1.address_a[2]
@@ -9969,7 +9949,7 @@ q_a[15] <= altsyncram_ur03:altsyncram1.q_a[15]
 wren_a => altsyncram_ur03:altsyncram1.wren_a
 
 
-|TS2_68000_Top|RAM_16Kx16:ram3|altsyncram:altsyncram_component|altsyncram_h524:auto_generated|altsyncram_ur03:altsyncram1
+|TS2_68000_Top|RAM_16Kx16:ram210000|altsyncram:altsyncram_component|altsyncram_h524:auto_generated|altsyncram_ur03:altsyncram1
 address_a[0] => ram_block3a0.PORTAADDR
 address_a[0] => ram_block3a1.PORTAADDR
 address_a[0] => ram_block3a2.PORTAADDR
@@ -11006,7 +10986,7 @@ wren_a => decode_5la:decode4.enable
 wren_b => decode_5la:decode5.enable
 
 
-|TS2_68000_Top|RAM_16Kx16:ram3|altsyncram:altsyncram_component|altsyncram_h524:auto_generated|altsyncram_ur03:altsyncram1|decode_5la:decode4
+|TS2_68000_Top|RAM_16Kx16:ram210000|altsyncram:altsyncram_component|altsyncram_h524:auto_generated|altsyncram_ur03:altsyncram1|decode_5la:decode4
 data[0] => eq_node[1].IN0
 data[0] => eq_node[0].IN0
 enable => eq_node[1].IN1
@@ -11015,7 +10995,7 @@ eq[0] <= eq_node[0].DB_MAX_OUTPUT_PORT_TYPE
 eq[1] <= eq_node[1].DB_MAX_OUTPUT_PORT_TYPE
 
 
-|TS2_68000_Top|RAM_16Kx16:ram3|altsyncram:altsyncram_component|altsyncram_h524:auto_generated|altsyncram_ur03:altsyncram1|decode_5la:decode5
+|TS2_68000_Top|RAM_16Kx16:ram210000|altsyncram:altsyncram_component|altsyncram_h524:auto_generated|altsyncram_ur03:altsyncram1|decode_5la:decode5
 data[0] => eq_node[1].IN0
 data[0] => eq_node[0].IN0
 enable => eq_node[1].IN1
@@ -11024,21 +11004,21 @@ eq[0] <= eq_node[0].DB_MAX_OUTPUT_PORT_TYPE
 eq[1] <= eq_node[1].DB_MAX_OUTPUT_PORT_TYPE
 
 
-|TS2_68000_Top|RAM_16Kx16:ram3|altsyncram:altsyncram_component|altsyncram_h524:auto_generated|altsyncram_ur03:altsyncram1|decode_u0a:rden_decode_a
+|TS2_68000_Top|RAM_16Kx16:ram210000|altsyncram:altsyncram_component|altsyncram_h524:auto_generated|altsyncram_ur03:altsyncram1|decode_u0a:rden_decode_a
 data[0] => eq_node[1].IN0
 data[0] => eq_node[0].IN0
 eq[0] <= eq_node[0].DB_MAX_OUTPUT_PORT_TYPE
 eq[1] <= eq_node[1].DB_MAX_OUTPUT_PORT_TYPE
 
 
-|TS2_68000_Top|RAM_16Kx16:ram3|altsyncram:altsyncram_component|altsyncram_h524:auto_generated|altsyncram_ur03:altsyncram1|decode_u0a:rden_decode_b
+|TS2_68000_Top|RAM_16Kx16:ram210000|altsyncram:altsyncram_component|altsyncram_h524:auto_generated|altsyncram_ur03:altsyncram1|decode_u0a:rden_decode_b
 data[0] => eq_node[1].IN0
 data[0] => eq_node[0].IN0
 eq[0] <= eq_node[0].DB_MAX_OUTPUT_PORT_TYPE
 eq[1] <= eq_node[1].DB_MAX_OUTPUT_PORT_TYPE
 
 
-|TS2_68000_Top|RAM_16Kx16:ram3|altsyncram:altsyncram_component|altsyncram_h524:auto_generated|altsyncram_ur03:altsyncram1|mux_4hb:mux6
+|TS2_68000_Top|RAM_16Kx16:ram210000|altsyncram:altsyncram_component|altsyncram_h524:auto_generated|altsyncram_ur03:altsyncram1|mux_4hb:mux6
 data[0] => l1_w0_n0_mux_dataout.IN1
 data[1] => l1_w1_n0_mux_dataout.IN1
 data[2] => l1_w2_n0_mux_dataout.IN1
@@ -11121,7 +11101,7 @@ sel[0] => l1_w9_n0_mux_dataout.IN0
 sel[0] => _.IN0
 
 
-|TS2_68000_Top|RAM_16Kx16:ram3|altsyncram:altsyncram_component|altsyncram_h524:auto_generated|altsyncram_ur03:altsyncram1|mux_4hb:mux7
+|TS2_68000_Top|RAM_16Kx16:ram210000|altsyncram:altsyncram_component|altsyncram_h524:auto_generated|altsyncram_ur03:altsyncram1|mux_4hb:mux7
 data[0] => l1_w0_n0_mux_dataout.IN1
 data[1] => l1_w1_n0_mux_dataout.IN1
 data[2] => l1_w2_n0_mux_dataout.IN1
@@ -11204,7 +11184,7 @@ sel[0] => l1_w9_n0_mux_dataout.IN0
 sel[0] => _.IN0
 
 
-|TS2_68000_Top|RAM_16Kx16:ram3|altsyncram:altsyncram_component|altsyncram_h524:auto_generated|sld_mod_ram_rom:mgl_prim2
+|TS2_68000_Top|RAM_16Kx16:ram210000|altsyncram:altsyncram_component|altsyncram_h524:auto_generated|sld_mod_ram_rom:mgl_prim2
 tck_usr <= sld_jtag_endpoint_adapter:jtag_signal_adapter.adapted_tck
 address[0] <= ram_rom_addr_reg[0].DB_MAX_OUTPUT_PORT_TYPE
 address[1] <= ram_rom_addr_reg[1].DB_MAX_OUTPUT_PORT_TYPE
@@ -11294,7 +11274,7 @@ ir_out[7] <= sld_jtag_endpoint_adapter:jtag_signal_adapter.ir_out[7]
 tdo <= sld_jtag_endpoint_adapter:jtag_signal_adapter.tdo
 
 
-|TS2_68000_Top|RAM_16Kx16:ram3|altsyncram:altsyncram_component|altsyncram_h524:auto_generated|sld_mod_ram_rom:mgl_prim2|sld_jtag_endpoint_adapter:jtag_signal_adapter
+|TS2_68000_Top|RAM_16Kx16:ram210000|altsyncram:altsyncram_component|altsyncram_h524:auto_generated|sld_mod_ram_rom:mgl_prim2|sld_jtag_endpoint_adapter:jtag_signal_adapter
 raw_tck => sld_jtag_endpoint_adapter_impl:sld_jtag_endpoint_adapter_impl_inst.raw_tck
 raw_tms => sld_jtag_endpoint_adapter_impl:sld_jtag_endpoint_adapter_impl_inst.raw_tms
 tdi => sld_jtag_endpoint_adapter_impl:sld_jtag_endpoint_adapter_impl_inst.tdi
@@ -11377,7 +11357,7 @@ adapted_ir_out[6] => sld_jtag_endpoint_adapter_impl:sld_jtag_endpoint_adapter_im
 adapted_ir_out[7] => sld_jtag_endpoint_adapter_impl:sld_jtag_endpoint_adapter_impl_inst.adapted_ir_out[7]
 
 
-|TS2_68000_Top|RAM_16Kx16:ram3|altsyncram:altsyncram_component|altsyncram_h524:auto_generated|sld_mod_ram_rom:mgl_prim2|sld_jtag_endpoint_adapter:jtag_signal_adapter|sld_jtag_endpoint_adapter_impl:sld_jtag_endpoint_adapter_impl_inst
+|TS2_68000_Top|RAM_16Kx16:ram210000|altsyncram:altsyncram_component|altsyncram_h524:auto_generated|sld_mod_ram_rom:mgl_prim2|sld_jtag_endpoint_adapter:jtag_signal_adapter|sld_jtag_endpoint_adapter_impl:sld_jtag_endpoint_adapter_impl_inst
 raw_tck => adapted_tck.DATAIN
 raw_tms => adapted_tms.DATAIN
 tdi => adapted_tdi.DATAIN
@@ -11460,7 +11440,7 @@ adapted_ir_out[6] => ir_out[6].DATAIN
 adapted_ir_out[7] => ir_out[7].DATAIN
 
 
-|TS2_68000_Top|RAM_16Kx16:ram3|altsyncram:altsyncram_component|altsyncram_h524:auto_generated|sld_mod_ram_rom:mgl_prim2|sld_rom_sr:\ram_rom_logic_gen:name_gen:info_rom_sr
+|TS2_68000_Top|RAM_16Kx16:ram210000|altsyncram:altsyncram_component|altsyncram_h524:auto_generated|sld_mod_ram_rom:mgl_prim2|sld_rom_sr:\ram_rom_logic_gen:name_gen:info_rom_sr
 ROM_DATA[0] => Mux3.IN131
 ROM_DATA[1] => Mux2.IN131
 ROM_DATA[2] => Mux1.IN131
