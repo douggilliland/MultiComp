@@ -21,6 +21,7 @@
 --			MECB TUTOR 16KB Monitor ROMs 0x008000-0x00BFFF (16KB used)
 --		Internal SRAM
 --			32KB Internal SRAM 0x000000-0x007FFF
+--			16KN Internal SRAM 0x00C000-0x00ffff
 --			64KB Internal SRAM 0x200000-0x20FFFF
 --			32KB Internal SRAM 0x210000-0x217FFF
 -- 	1 MB External SRAM 0x300000-0x3FFFFF (byte addressible only)
@@ -32,7 +33,7 @@
 --		ACIADATA	= 0x010043--
 --	DC power options
 --		USB
----	DC Jack on FPGA board
+--		DC Jack on FPGA board is not used
 --
 -- Doug Gilliland 2020-2022
 --
@@ -96,65 +97,62 @@ end TS2_68000_Top;
 architecture struct of TS2_68000_Top is
 
 	-- CPU Control signals
-	signal cpuAddress					: std_logic_vector(31 downto 0);
-	signal cpuDataOut					: std_logic_vector(15 downto 0);
-	signal cpuDataIn					: std_logic_vector(15 downto 0);
-	signal n_WR							: std_logic;
-	signal w_nUDS      				: std_logic;
-	signal w_nLDS      				: std_logic;
-	signal w_buserr     				: std_logic;
-	signal w_busstate      			: std_logic_vector(1 downto 0);
-	signal w_nResetOut      		: std_logic;
-	signal w_FC      					: std_logic_vector(2 downto 0);
-	signal w_clr_berr      			: std_logic;
+	signal cpuAddress				: std_logic_vector(31 downto 0);
+	signal cpuDataOut				: std_logic_vector(15 downto 0);
+	signal cpuDataIn				: std_logic_vector(15 downto 0);
+	signal n_WR						: std_logic;
+	signal w_nUDS      			: std_logic;
+	signal w_nLDS      			: std_logic;
+	signal w_buserr     			: std_logic;
+	signal w_busstate      		: std_logic_vector(1 downto 0);
+	signal w_nResetOut      	: std_logic;
+	signal w_FC      				: std_logic_vector(2 downto 0);
+	signal w_clr_berr      		: std_logic;
 
 	-- Interrupts from peripherals
-	signal w_n_IRQ5					: std_logic :='1';	
-	signal w_n_IRQ6					: std_logic :='1';	
+	signal w_n_IRQ5				: std_logic :='1';	
+	signal w_n_IRQ6				: std_logic :='1';	
 	
 	-- Chip Selects
-	signal w_n_RomCS					: std_logic :='1';
-	signal w_n_RamCS					: std_logic :='1';
-	signal w_WrRamByteEn				: std_logic_vector(1 downto 0) := "00";
-	signal w_wrRamStrobe				: std_logic :='0';
-	signal w_n_RamCCS					: std_logic :='1';
-	signal w_WrRamCByteEn			: std_logic_vector(1 downto 0) := "00";
-	signal w_wrRamCStrobe			: std_logic :='0';
-	signal w_n_Ram2CS					: std_logic :='1';
-	signal w_WrRam2ByteEn			: std_logic_vector(1 downto 0) := "00";
-	signal w_wrRam2Strobe			: std_logic :='0';
-	signal w_n_Ram3CS					: std_logic :='1';
-	signal w_WrRam3ByteEn			: std_logic_vector(1 downto 0) := "00";
-	signal w_wrRam3Strobe			: std_logic :='0';
-	signal w_n_VDUCS					: std_logic :='1';
-	signal w_n_ACIACS					: std_logic :='1';
-	signal n_externalRam1CS			: std_logic :='1';
-	signal w_n_SDCS		: std_logic :='1';
+	signal w_n_RomCS				: std_logic :='1';
+	signal w_n_RamCS				: std_logic :='1';
+	signal w_WrRamByteEn			: std_logic_vector(1 downto 0) := "00";
+	signal w_wrRamStrobe			: std_logic :='0';
+	signal w_n_RamCCS				: std_logic :='1';
+	signal w_WrRamCByteEn		: std_logic_vector(1 downto 0) := "00";
+	signal w_wrRamCStrobe		: std_logic :='0';
+	signal w_n_Ram2CS				: std_logic :='1';
+	signal w_WrRam2ByteEn		: std_logic_vector(1 downto 0) := "00";
+	signal w_wrRam2Strobe		: std_logic :='0';
+	signal w_n_Ram3CS				: std_logic :='1';
+	signal w_WrRam3ByteEn		: std_logic_vector(1 downto 0) := "00";
+	signal w_wrRam3Strobe		: std_logic :='0';
+	signal w_n_VDUCS				: std_logic :='1';
+	signal w_n_ACIACS				: std_logic :='1';
+	signal n_externalRam1CS		: std_logic :='1';
+	signal w_n_SDCS				: std_logic :='1';
 
-	signal w_grey_cnt					: std_logic_vector(3 downto 0) := "0000";
-	signal w_cpuclken					: std_logic :='0';
+	signal w_grey_cnt				: std_logic_vector(3 downto 0) := "0000";
+	signal w_cpuclken				: std_logic :='0';
 
 	-- Data sources into CPU
-	signal w_MonROMData				: std_logic_vector(15 downto 0);
-	signal w_sramDataOut				: std_logic_vector(15 downto 0);
-	signal w_sramCDataOut				: std_logic_vector(15 downto 0);
-	signal w_sram2DataOut			: std_logic_vector(15 downto 0);
-	signal w_sram3DataOut			: std_logic_vector(15 downto 0);
-	signal w_extSramDataOut			: std_logic_vector(15 downto 0);
-	signal w_VDUDataOut				: std_logic_vector(7 downto 0);
-	signal w_ACIADataOut				: std_logic_vector(7 downto 0);
-	signal w_PeriphData				: std_logic_vector(7 downto 0);
-	signal w_SDData		: std_logic_vector(7 downto 0);
+	signal w_MonROMData			: std_logic_vector(15 downto 0);
+	signal w_sramDataOut			: std_logic_vector(15 downto 0);
+	signal w_sramCDataOut		: std_logic_vector(15 downto 0);
+	signal w_sram2DataOut		: std_logic_vector(15 downto 0);
+	signal w_sram3DataOut		: std_logic_vector(15 downto 0);
+	signal w_extSramDataOut		: std_logic_vector(15 downto 0);
+	signal w_VDUDataOut			: std_logic_vector(7 downto 0);
+	signal w_ACIADataOut			: std_logic_vector(7 downto 0);
+	signal w_PeriphData			: std_logic_vector(7 downto 0);
+	signal w_SDData				: std_logic_vector(7 downto 0);
 
 	-- CPU clock counts
-	signal w_cpuCount					: std_logic_vector(5 downto 0); 
-	signal w_cpuClock					: std_logic;
-	signal w_resetLow					: std_logic := '1';
+	signal q_cpuClkCount			: std_logic_vector(5 downto 0); 
+	signal w_cpuClock				: std_logic;
+	signal w_resetLow				: std_logic := '1';
 
-   -- Serial clock enables
-	signal w_serialCount         	: std_logic_vector(15 downto 0) := x"0000";
-   signal w_serialCount_d       	: std_logic_vector(15 downto 0);
-   signal w_serialEn            	: std_logic;
+   signal w_serialEn				: std_logic;
 	
 begin
 
@@ -166,48 +164,48 @@ begin
 		result	=> w_resetLow
 	);
 	
-	IO_PIN(44) <= w_resetLow;
-	IO_PIN(43) <= w_n_RomCS;
-	IO_PIN(42) <= cpuAddress(14);
-	IO_PIN(41) <= cpuAddress(15);
-	IO_PIN(40) <= w_grey_cnt(0);
-	IO_PIN(39) <= w_grey_cnt(1);
-	IO_PIN(38) <= w_grey_cnt(2);
-	IO_PIN(37) <= w_grey_cnt(3);
-	IO_PIN(36) <= '0';
-	IO_PIN(35) <= '0';
-	IO_PIN(34) <= '0';
-	IO_PIN(33) <= '0';
-	IO_PIN(32) <= '0';
-	IO_PIN(31) <= '0';
-	IO_PIN(30) <= '0';
-	IO_PIN(29) <= '0';
-	IO_PIN(28) <= '0';
-	IO_PIN(27) <= '0';
-	IO_PIN(26) <= '0';
-	IO_PIN(25) <= '0';
-	IO_PIN(24) <= '0';
-	IO_PIN(23) <= '0';
-	IO_PIN(22) <= '0';
-	IO_PIN(21) <= '0';
-	IO_PIN(20) <= '0';
-	IO_PIN(19) <= '0';
-	IO_PIN(18) <= '0';
-	IO_PIN(17) <= '0';
-	IO_PIN(16) <= '0';
-	IO_PIN(15) <= '0';
-	IO_PIN(14) <= '0';
-	IO_PIN(13) <= '0';
-	IO_PIN(12) <= '0';
-	IO_PIN(11) <= '0';
-	IO_PIN(10) <= '0';
-	IO_PIN(9) <= '0';
-	IO_PIN(8) <= '0';
-	IO_PIN(7) <= '0';
-	IO_PIN(6) <= '0';
-	IO_PIN(5) <= '0';
-	IO_PIN(4) <= '0';
-	IO_PIN(3) <= '0';
+--	IO_PIN(44) <= w_resetLow;
+--	IO_PIN(43) <= w_n_RomCS;
+--	IO_PIN(42) <= cpuAddress(14);
+--	IO_PIN(41) <= cpuAddress(15);
+--	IO_PIN(40) <= w_grey_cnt(0);
+--	IO_PIN(39) <= w_grey_cnt(1);
+--	IO_PIN(38) <= w_grey_cnt(2);
+--	IO_PIN(37) <= w_grey_cnt(3);
+--	IO_PIN(36) <= '0';
+--	IO_PIN(35) <= '0';
+--	IO_PIN(34) <= '0';
+--	IO_PIN(33) <= '0';
+--	IO_PIN(32) <= '0';
+--	IO_PIN(31) <= '0';
+--	IO_PIN(30) <= '0';
+--	IO_PIN(29) <= '0';
+--	IO_PIN(28) <= '0';
+--	IO_PIN(27) <= '0';
+--	IO_PIN(26) <= '0';
+--	IO_PIN(25) <= '0';
+--	IO_PIN(24) <= '0';
+--	IO_PIN(23) <= '0';
+--	IO_PIN(22) <= '0';
+--	IO_PIN(21) <= '0';
+--	IO_PIN(20) <= '0';
+--	IO_PIN(19) <= '0';
+--	IO_PIN(18) <= '0';
+--	IO_PIN(17) <= '0';
+--	IO_PIN(16) <= '0';
+--	IO_PIN(15) <= '0';
+--	IO_PIN(14) <= '0';
+--	IO_PIN(13) <= '0';
+--	IO_PIN(12) <= '0';
+--	IO_PIN(11) <= '0';
+--	IO_PIN(10) <= '0';
+--	IO_PIN(9) <= '0';
+--	IO_PIN(8) <= '0';
+--	IO_PIN(7) <= '0';
+--	IO_PIN(6) <= '0';
+--	IO_PIN(5) <= '0';
+--	IO_PIN(4) <= '0';
+--	IO_PIN(3) <= '0';
 
 	-- ____________________________________________________________________________________
 	-- 68000 CPU
@@ -231,7 +229,7 @@ begin
 		port map (
 			clk				=> w_cpuClock,
 			nReset			=> w_resetLow,
-			clkena_in		=> w_cpuclken,
+			clkena_in		=> '1',		-- w_cpuclkenw_cpuclkenw_cpuclken
 			data_in			=> cpuDataIn,
 			IPL				=> "111",
 			IPL_autovector => '0',
@@ -278,27 +276,7 @@ begin
 		);
 
 	-- ____________________________________________________________________________________
-	-- 16KB Internal SRAM
-	-- The RAM address input is delayed due to being registered so the gate is the true of the clock not the low level
-	
-	w_n_RamCCS 			<= '0' when ((cpuAddress(23 downto 14) = x"00"&"11")	and ((w_busstate(1) = '1') or (w_busstate(0) = '0'))) else	-- x00C000-x00ffff
-								'1';
-	w_wrRamCStrobe		<= (not n_WR) and (not w_n_RamCCS) and (w_cpuClock);
-	w_WrRamCByteEn(1)	<= (not n_WR) and (not w_nUDS) and (not w_n_RamCCS);
-	w_WrRamCByteEn(0)	<= (not n_WR) and (not w_nLDS) and (not w_n_RamCCS);
-	
-	ramC000: ENTITY work.RAM_8Kx16
-	PORT map (
-		address		=> cpuAddress(13 downto 1),
-		byteena		=> w_WrRamCByteEn,
-		clock			=> i_CLOCK_50,
-		data			=> cpuDataOut,
-		wren			=> w_wrRamCStrobe,
-		q				=> w_sramCDataOut
-	);
-	
-	-- ____________________________________________________________________________________
-	-- 32KB Internal SRAM
+	-- 32KB Internal SRAM 0x000000-0x007FFF
 	-- The RAM address input is delayed due to being registered so the gate is the true of the clock not the low level
 	
 	w_n_RamCS 			<= '0' when ((w_n_RomCS = '1') and (cpuAddress(23 downto 15) = x"00"&'0') and ((w_busstate(1) = '1') or (w_busstate(0) = '0')))	else	-- x000008-x007fff
@@ -318,10 +296,30 @@ begin
 		);
 	
 	-- ____________________________________________________________________________________
-	-- 64KB Internal SRAM
+	-- 16KB Internal SRAM 0x00C000-0x00ffff
 	-- The RAM address input is delayed due to being registered so the gate is the true of the clock not the low level
 	
-	w_n_Ram2CS 			<= '0' when ((cpuAddress(23 downto 16) = x"20")	and ((w_busstate(1) = '1') or (w_busstate(0) = '0'))) else	-- x200008-x20ffff
+	w_n_RamCCS 			<= '0' when ((cpuAddress(23 downto 14) = x"00"&"11")	and ((w_busstate(1) = '1') or (w_busstate(0) = '0'))) else	-- x00C000-x00ffff
+								'1';
+	w_wrRamCStrobe		<= (not n_WR) and (not w_n_RamCCS) and (w_cpuClock);
+	w_WrRamCByteEn(1)	<= (not n_WR) and (not w_nUDS) and (not w_n_RamCCS);
+	w_WrRamCByteEn(0)	<= (not n_WR) and (not w_nLDS) and (not w_n_RamCCS);
+	
+	ramC000: ENTITY work.RAM_8Kx16
+	PORT map (
+		address		=> cpuAddress(13 downto 1),
+		byteena		=> w_WrRamCByteEn,
+		clock			=> i_CLOCK_50,
+		data			=> cpuDataOut,
+		wren			=> w_wrRamCStrobe,
+		q				=> w_sramCDataOut
+	);
+	
+	-- ____________________________________________________________________________________
+	-- 64KB Internal SRAM 0x200000-0x20FFFF
+	-- The RAM address input is delayed due to being registered so the gate is the true of the clock not the low level
+	
+	w_n_Ram2CS 			<= '0' when ((cpuAddress(23 downto 16) = x"20")	and ((w_busstate(1) = '1') or (w_busstate(0) = '0'))) else	-- x200000-x20ffff
 								'1';
 	w_wrRam2Strobe		<= (not n_WR) and (not w_n_Ram2CS) and (w_cpuClock);
 	w_WrRam2ByteEn(1)	<= (not n_WR) and (not w_nUDS) and (not w_n_Ram2CS);
@@ -338,7 +336,7 @@ begin
 		);
 	
 	-- ____________________________________________________________________________________
-	-- 32KB Internal SRAM
+	-- 32KB Internal SRAM 0x210000-0x217FFF
 	-- The RAM address input is delayed due to being registered so the gate is the true of the clock not the low level
 	
 	w_n_Ram3CS 			<= '0' when ((cpuAddress(23 downto 15) = x"21"&'0') and ((w_busstate(1) = '1') or (w_busstate(0) = '0')))	else	-- x210008-x217fff
@@ -461,39 +459,48 @@ begin
 	process (i_CLOCK_50)
 		begin
 			if rising_edge(i_CLOCK_50) then
-				if w_cpuCount < 2 then -- 4 = 10MHz, 3 = 12.5MHz, 2=16.6MHz, 1=25MHz
-					w_cpuCount <= w_cpuCount + 1;
+				if n_externalRam1CS = '0' then
+					if q_cpuClkCount < 2 then						-- 50 MHz / 3 = 16.7 MHz 
+						q_cpuClkCount <= q_cpuClkCount + 1;
+					else
+						q_cpuClkCount <= (others=>'0');
+					end if;
 				else
-					w_cpuCount <= (others=>'0');
+					if q_cpuClkCount < 1 then						-- 50 MHz / 2 = 25 MHz
+						q_cpuClkCount <= q_cpuClkCount + 1;
+					else
+						q_cpuClkCount <= (others=>'0');
+					end if;
 				end if;
-				if w_cpuCount < 2 then -- 2 when 10MHz, 2 when 12.5MHz, 2 when 16.6MHz, 1 when 25MHz
+				if q_cpuClkCount < 1 then							-- one clock low
 					w_cpuClock <= '0';
 				else
 					w_cpuClock <= '1';
 				end if;
+--				if q_cpuClkCount < 2 then -- 4 = 10MHz, 3 = 12.5MHz, 2=16.6MHz, 1=25MHz
+--					q_cpuClkCount <= q_cpuClkCount + 1;
+--				else
+--					q_cpuClkCount <= (others=>'0');
+--				end if;
+--				if q_cpuClkCount < 2 then -- 2 when 10MHz, 2 when 12.5MHz, 2 when 16.6MHz, 1 when 25MHz
+--					w_cpuClock <= '0';
+--				else
+--					w_cpuClock <= '1';
+--				end if;
 			end if;
 		end process;
 	
 	
 	-- Baud Rate CLOCK SIGNALS
-	-- 2416 = 115,200 baud
+	--- Legal values are 115200, 38400, 19200, 9600, 4800, 2400, 1200, 600, 300
 	
-	baud_div: process (w_serialCount_d, w_serialCount)
-		 begin
-			  w_serialCount_d <= w_serialCount + 2416;
-		 end process;
-
-	process (i_CLOCK_50)
-		begin
-			if rising_edge(i_CLOCK_50) then
-			  -- Enable for baud rate generator
-			  w_serialCount <= w_serialCount_d;
-			  if w_serialCount(15) = '0' and w_serialCount_d(15) = '1' then
-					w_serialEn <= '1';
-			  else
-					w_serialEn <= '0';
-			  end if;
-			end if;
-		end process;
+	BaudRateGen : entity work.BaudRate6850
+	GENERIC map (
+		BAUD_RATE	=>  115200
+	)
+	PORT map (
+		i_CLOCK_50	=> i_CLOCK_50,
+		o_serialEn	=> w_serialEn
+	);
 
 end;
