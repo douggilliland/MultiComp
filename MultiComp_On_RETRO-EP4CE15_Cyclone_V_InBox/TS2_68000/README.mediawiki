@@ -17,7 +17,8 @@
 === M68000 CPU ===
 
 * [https://github.com/douggilliland/MultiComp/tree/master/MultiComp%20(VHDL%20Template)/Components/CPU/M68000/TG68K_2013 TG68K_2013 VHDL Core]
-* Tested to run at 16.7 MHz
+* Runs at 25 MHz for internal accesses (ROM, SRAM, peripherals)
+* Runs at 16.7 MHz for external SRAM
 
 === Monitor ROM ===
 
@@ -30,7 +31,8 @@
 
 === Internal SRAM ===
 
-* 32KB
+* 32KB + 16KB + 64KB + 32KB SRAM
+
 ** Organized as 16Kx16
 ** Zero Wait-States
 
@@ -124,8 +126,7 @@ CONTENT BEGIN
 * 0x00C000 - 0x00FFFF = 16KB Internal SRAM (16-bits)
 * 0x01004x = VDU base (A0 = 0) (8-bits)
 * 0x01004x = ACIA base (A0 = 1) (8-bits)
-* 0x200000-0x20FFFF = 64KB Internal SRAM (16-bits)
-* 0x210000-0x217FFF = 32KB Internal SRAM (16-bits)
+* 0x200000-0x217FFF = 96KB Internal SRAM (16-bits)
 * 0x300000 - 0x3FFFFF - 1MB External SRAM (8-bit access only)
 
 == Running TS2 Monitor ==
