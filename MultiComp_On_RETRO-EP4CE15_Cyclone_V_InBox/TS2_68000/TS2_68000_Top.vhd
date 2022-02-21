@@ -30,7 +30,7 @@
 --	6850 ACIA UART - USB to Serial
 --		115,200 baud
 --		ACIASTAT	= 0x010041
---		ACIADATA	= 0x010043--
+--		ACIADATA	= 0x010043
 --	DC power options
 --		USB
 --		DC Jack on FPGA board is not used

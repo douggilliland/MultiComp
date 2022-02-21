@@ -132,14 +132,15 @@ begin
 
 	-- RTS with hysteresis
 	-- enable flow if less than 2 characters in buffer
-	-- stop flow if greater that 8 chars in buffer (to allow 8 byte overflow)
+	-- stop flow if greater that 4 chars in buffer (to allow 12 byte overflow)
+	-- USB-Serial is fast, but not fast enough to make this larger
 	process (clk)
 	begin
 		if rising_edge(clk) then
 			if rxBuffCount<2 then
 				n_rts <= '0';
 			end if;
-			if rxBuffCount>8 then
+			if rxBuffCount>4 then
 				n_rts <= '1';
 			end if;
 		end if;
