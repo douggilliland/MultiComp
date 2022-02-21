@@ -15,15 +15,14 @@
 --		M68000 CPU
 --			16.7 MHz
 --			24-bit address space
---		ROM Monitors
+--		ROM Monitors supported
 --			ROM Space reserved 0x008000-0x00FFFF
 --			Teeside TS2BUG 3KB 0x008000-0x00BFFF (16KB used), or
 --			MECB TUTOR 16KB Monitor ROMs 0x008000-0x00BFFF (16KB used)
 --		Internal SRAM
 --			32KB Internal SRAM 0x000000-0x007FFF
---			16KB Internal SRAM 0x00C000-0x00ffff
---			64KB Internal SRAM 0x200000-0x20FFFF
---			32KB Internal SRAM 0x210000-0x217FFF
+--			16KB Internal SRAM 0x00C000-0x00FFFF
+--			96KB Internal SRAM 0x200000-0x217FFF
 -- 	1 MB External SRAM 0x300000-0x3FFFFF (byte addressible only)
 --	ANSI Video Display Unit (VDU)
 --		VGA and PS/2
@@ -97,10 +96,10 @@ end TS2_68000_Top;
 architecture struct of TS2_68000_Top is
 
 	-- CPU Bus and Control signals
-	signal w_cpuAddress				: std_logic_vector(31 downto 0);
-	signal w_cpuDataOut				: std_logic_vector(15 downto 0);
-	signal w_cpuDataIn				: std_logic_vector(15 downto 0);
-	signal w_n_WR						: std_logic;
+	signal w_cpuAddress			: std_logic_vector(31 downto 0);
+	signal w_cpuDataOut			: std_logic_vector(15 downto 0);
+	signal w_cpuDataIn			: std_logic_vector(15 downto 0);
+	signal w_n_WR					: std_logic;
 	signal w_nUDS      			: std_logic;
 	signal w_nLDS      			: std_logic;
 	signal w_busstate      		: std_logic_vector(1 downto 0);
@@ -132,9 +131,6 @@ architecture struct of TS2_68000_Top is
 	signal w_n_VDUCS				: std_logic :='1';
 	signal w_n_ACIACS				: std_logic :='1';
 	signal w_n_SDCS				: std_logic :='1';
-
---	signal w_grey_cnt				: std_logic_vector(3 downto 0) := "0000";
---	signal w_cpuclken				: std_logic :='0';
 
 	-- Data sources into CPU
 	signal w_MonROMData			: std_logic_vector(15 downto 0);
