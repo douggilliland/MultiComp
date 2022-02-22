@@ -1,14 +1,16 @@
 -- General-purpose I/O.
 --
--- A simple GPIO unit for a 6809 multicomp. Aims to provide a number of
--- programmable I/O lines all accessed through an indirect mechanism using
--- 2 locations in the processor address space; this fills the final 2 spare
--- locations.
+-- A simple GPIO unit was originally designed for a 6809 multicomp.
+-- Aims to provide a number of programmable I/O lines all accessed through 
+-- an indirect mechanism using 2 locations in the processor address space; 
+-- this fills the final 2 spare locations in the 6809.
 --
 -- The operation is fully synchronous on the master clock; a clock enable
 -- determines when the state changes.
 --
--- Design by Neal Crook foofoobedoo@gmail.com Jun2015.
+-- Original design by Neal Crook foofoobedoo@gmail.com Jun2015.
+--	Modifications by Douglas Gilliland 2022.
+--		3+16+16 = 35 I/O bits
 --
 -- You are free to use this file in your own projects but must never charge for
 -- it nor use it without acknowledgement.
@@ -17,14 +19,14 @@
 -- ==========================
 --
 -- The software interface is through 2 read/write registers, usually decoded
--- at the following addresses:
--- $FFD6 GPIOADR
--- $FFD7 GPIODAT
+-- at the following addresses (on the 6809 CPU):
+-- $FFD6 GPIOADR (6809)
+-- $FFD7 GPIODAT (6809)
 --
 -- GPIOADR specifies the register to access. GPIODAT provides data read/write
 -- to selected register.
 --
--- Using a 16-bit store you can generate an atomic register select/data write.
+-- Using a 16-bit store (on 6809 CPU) you can generate an atomic register select/data write.
 -- There is no equivalent mechanism for reads. Therefore, if any ISR ever
 -- accesses a GPIO register, you must bracket any GPIO register operations
 -- with disable/enable of interrupts. It's probably safest simply to never
@@ -36,9 +38,10 @@
 -- a different register. Beware of interrupts though; see note above.
 --
 -- For each group of physical pins there are 2 registers in GPIO.
--- The odd register is the data direction register
 -- The even register is the data register.
--- A 0 in the data direction register marks the bit as an output, and a 1 marks it as an input
+-- The odd register is the data direction register
+-- 	0 in the data direction register marks the bit as an output
+--		1 in the data direction register marks it as an input
 -- (mnemonic: 0utput, 1nput)
 -- A write to the data register sends the write data to the pin for each bit that is an output
 -- A read from the data register samples the pin for each bit that is an input, and returns the last
@@ -49,9 +52,11 @@
 -- The following registers are implemented:
 --
 -- 0 DAT0 bits [2:0]
--- 1 DDR1 bits [2:0]
+-- 1 DDR0 bits [2:0]
 -- 2 DAT2 bits [7:0]
--- 3 DDR3 bits [7:0]
+-- 3 DDR2 bits [7:0]
+-- 4 DAT3 bits [7:0]
+-- 5 DDR3 bits [7:0]
 --
 -- After reset, GPIOADR=0, all DDR*=0 (output) all DAT*=0 (output low).
 --
@@ -85,7 +90,6 @@ port (
         dat3_o    : out std_logic_vector(7 downto 0);
         n_dat3_oe : out std_logic_vector(7 downto 0)
 );
-
 end gpio16;
 
 architecture rtl of gpio16 is
@@ -156,8 +160,8 @@ begin
              reg_ddr2           when regAddr = '1' and reg = "00000011" else
              reg_dat3           when regAddr = '1' and reg = "00000100" else
              reg_ddr3           when regAddr = '1' and reg = "00000101" else
-             "00000000"; -- don't need this, but it's a clean way to
-                         -- indicate "no such register"
+             x"ba"; 	-- don't need this, but it's a clean way to
+							-- indicate "no such register"
 
   -- state (and register write)
   proc_reg: process(clk, n_reset)

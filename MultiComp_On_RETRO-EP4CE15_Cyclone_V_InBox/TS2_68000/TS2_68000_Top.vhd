@@ -1,4 +1,5 @@
--- Jeff Tranter's TS2 in an FPGA
+-- ____________________________________________________________________________________
+-- Jeff Tranter's TS2 implemented in an FPGA
 --		https://jefftranter.blogspot.com/2017/01/building-68000-single-board-computer_14.html
 --
 -- 68K CPU Core Copyright (c) 2009-2013 Tobias Gubener
@@ -13,10 +14,11 @@
 --
 -- The main features are:
 --		M68000 CPU
---			16.7 MHz
+--			25 MHz for Internal SRAM/Peripherals
+--			16.7 MHz for External SRAM
 --			24-bit address space
 --		ROM Monitors supported
---			ROM Space reserved 0x008000-0x00FFFF
+--			ROM Space reserved 0x008000-0x00BFFF
 --			Teeside TS2BUG 3KB 0x008000-0x00BFFF (16KB used), or
 --			MECB TUTOR 16KB Monitor ROMs 0x008000-0x00BFFF (16KB used)
 --		Internal SRAM
@@ -25,13 +27,18 @@
 --			96KB Internal SRAM 0x200000-0x217FFF
 -- 	1 MB External SRAM 0x300000-0x3FFFFF (byte addressible only)
 --	ANSI Video Display Unit (VDU)
---		VGA and PS/2
+--		VGA, 80x25 display
+--		PS/2 keyboard
 --	6850 ACIA UART - USB to Serial
 --		115,200 baud
 --		ACIASTAT	= 0x010041
 --		ACIADATA	= 0x010043
+--	DIGIO
+--		3+8+8 I/O
+--		16 bits routed to J1 connector and front panel DB-25
+--		Address = 0x0100
 --	DC power options
---		USB
+--		USB powers the card
 --		DC Jack on FPGA board is not used
 --
 -- Doug Gilliland 2020-2022
@@ -44,15 +51,18 @@ use  IEEE.STD_LOGIC_UNSIGNED.all;
 
 entity TS2_68000_Top is
 	port(
-		i_CLOCK_50	: in std_logic;
-		i_n_reset		: in std_logic;
+		-- Clock and reset
+		i_CLOCK_50		: in std_logic;
+		i_n_reset		: in std_logic;				-- Reset fromt panel
 		
+		-- USB-Serial interface FT230X
 		i_rxd1			: in std_logic := '1';		-- Hardware Handshake needed
 		o_txd1			: out std_logic;
 		i_cts1			: in std_logic := '1';
 		o_rts1			: out std_logic;
 		i_serSelect		: in std_logic := '1';		-- Jumper with pullup in FPGA for selecting serial between ACIA (installed) and VDU (removed)
 		
+		-- Video
 		o_videoR0		: out std_logic := '1';
 		o_videoG0		: out std_logic := '1';
 		o_videoB0		: out std_logic := '1';
@@ -62,17 +72,35 @@ entity TS2_68000_Top is
 		o_hSync			: out std_logic := '1';
 		o_vSync			: out std_logic := '1';
 
+		-- PS/2 keyboard
 		io_ps2Clk		: inout std_logic;
 		io_ps2Data		: inout std_logic;
 		
-		IO_PIN		: out std_logic_vector(44 downto 3);
-		
-		-- 1MB External SRAM
+		-- 3 GPIO
+		-- assigned to bit 0..2 of gpio0.
+		-- Intended for connection to DS1302 RTC as follows:
+		-- bit 2: CE
+		-- bit 1: SCLK
+		-- bit 0: I/O (Data)
+		io_gpio0				: inout std_logic_vector(2 downto 0);
+		-- 8 GPIO
+		io_gpio2				: inout std_logic_vector(7 downto 0);
+		-- 8 GPIO
+		io_gpio3				: inout std_logic_vector(7 downto 0);
+
+		-- 1MBx8 External SRAM
 		io_sramData		: inout std_logic_vector(7 downto 0);
 		o_sramAddress	: out std_logic_vector(19 downto 0);
 		o_n_sRamWE		: out std_logic := '1';
 		o_n_sRamCS		: out std_logic := '1';
 		o_n_sRamOE		: out std_logic := '1';
+		
+		-- SD Card not used but making sure that it's not active
+		o_sdCS		: out std_logic := '1';
+		o_sdMOSI		: out std_logic := '1';
+		i_sdMISO		: in std_logic  := '1';
+		o_sdSCLK		: out std_logic := '1';
+		o_driveLED	: out std_logic := '1';
 		
 		-- 32MB SDRAM not used but making sure that it's not active
 		n_sdRamCas	: out std_logic := '1';		-- CAS on schematic
@@ -82,27 +110,24 @@ entity TS2_68000_Top is
 		sdRamClk		: out std_logic := '1';		-- SDCLK0
 		sdRamClkEn	: out std_logic := '1';		-- SDCKE0
 		sdRamAddr	: out std_logic_vector(14 downto 0) := "000"&x"000";
-		sdRamData	: in std_logic_vector(15 downto 0);
+		sdRamData	: in std_logic_vector(15 downto 0)
 		
-		-- SD Card not used but making sure that it's not active
-		o_sdCS		: out std_logic := '1';
-		o_sdMOSI		: out std_logic := '1';
-		i_sdMISO		: in std_logic  := '1';
-		o_sdSCLK		: out std_logic := '1';
-		o_driveLED	: out std_logic := '1'
 	);
 end TS2_68000_Top;
 
 architecture struct of TS2_68000_Top is
 
+	signal w_resetLow				: std_logic := '1';
+	
 	-- CPU Bus and Control signals
 	signal w_cpuAddress			: std_logic_vector(31 downto 0);
 	signal w_cpuDataOut			: std_logic_vector(15 downto 0);
 	signal w_cpuDataIn			: std_logic_vector(15 downto 0);
+--	signal w_periphDataIn		: std_logic_vector(15 downto 0);
 	signal w_n_WR					: std_logic;
-	signal w_nUDS      			: std_logic;
-	signal w_nLDS      			: std_logic;
-	signal w_busstate      		: std_logic_vector(1 downto 0);
+	signal w_nUDS      			: std_logic;								-- d8-d15
+	signal w_nLDS      			: std_logic;								-- D0-D7
+	signal w_busstate      		: std_logic_vector(1 downto 0);		-- 00-> fetch code, 10->read data, 11->write data, 01->no memaccess
 	signal w_nResetOut      	: std_logic;
 	signal w_FC      				: std_logic_vector(2 downto 0);
 	signal w_clr_berr      		: std_logic;
@@ -110,7 +135,7 @@ architecture struct of TS2_68000_Top is
 	-- Interrupts from peripherals
 	signal w_n_IRQ5				: std_logic :='1';	
 	signal w_n_IRQ6				: std_logic :='1';	
-	
+
 	-- Memory Chip Selects
 	signal w_n_RomCS				: std_logic :='1';
 	signal w_n_RamCS				: std_logic :='1';
@@ -126,11 +151,13 @@ architecture struct of TS2_68000_Top is
 	signal w_WrRam3ByteEn		: std_logic_vector(1 downto 0) := "00";
 	signal w_wrRam3Strobe		: std_logic :='0';
 	signal n_externalRam1CS		: std_logic :='1';
-	
+
 	-- Peripheral Chip Selects
 	signal w_n_VDUCS				: std_logic :='1';
 	signal w_n_ACIACS				: std_logic :='1';
 	signal w_n_SDCS				: std_logic :='1';
+	signal w_n_gpioCS				: std_logic :='1';
+	signal w_n_WR_gpio			: std_logic :='1';
 
 	-- Data sources into CPU
 	signal w_MonROMData			: std_logic_vector(15 downto 0);
@@ -143,20 +170,35 @@ architecture struct of TS2_68000_Top is
 	signal w_ACIADataOut			: std_logic_vector(7 downto 0);
 	signal w_PeriphData			: std_logic_vector(7 downto 0);
 	signal w_SDData				: std_logic_vector(7 downto 0);
+	signal w_gpioDataOut			: std_logic_vector(7 downto 0);
+
+	-- GPIO data
+	signal w_gpio_dat0_i			: std_logic_vector(2 downto 0);
+	signal w_gpio_dat0_o			: std_logic_vector(2 downto 0);
+	signal w_n_gpio_dat0_oe		: std_logic_vector(2 downto 0);
+
+	signal w_gpio_dat2_i			: std_logic_vector(7 downto 0);
+	signal w_gpio_dat2_o			: std_logic_vector(7 downto 0);
+	signal w_n_gpio_dat2_oe		: std_logic_vector(7 downto 0);
+
+	signal w_gpio_dat3_i			: std_logic_vector(7 downto 0);
+	signal w_gpio_dat3_o			: std_logic_vector(7 downto 0);
+	signal w_n_gpio_dat3_oe		: std_logic_vector(7 downto 0);
 
 	-- CPU clock counts
 	signal q_cpuClkCount			: std_logic_vector(5 downto 0); 
 	signal w_cpuClock				: std_logic;
-	
-	signal w_resetLow				: std_logic := '1';
-   signal w_serialEn				: std_logic;
-	
+
+	signal w_serialEn				: std_logic;
+
 begin
 
+	-- ____________________________________________________________________________________
 	-- Debounce the reset line
+
 	DebounceResetSwitch	: entity work.debounce
 	port map (
-		clk		=> i_CLOCK_50,
+		clk		=> w_cpuClock,
 		button	=> i_n_reset,
 		result	=> w_resetLow
 	);
@@ -178,26 +220,28 @@ begin
 			data_write		=> w_cpuDataOut,
 			nWr				=> w_n_WR,
 			nUDS				=> w_nUDS,			-- D8..15 select
-			nLDS				=> w_nLDS,			-- D0..7 - select
-			busstate			=> w_busstate,		-- 
+			nLDS				=> w_nLDS,			-- D0..7  select
+			busstate			=> w_busstate,		-- 00-> fetch code, 10->read data, 11->write data, 01->no memaccess
 			nResetOut		=> w_nResetOut,
 			FC					=> w_FC,
 			clr_berr			=> w_clr_berr
 		); 
 	
 	-- ____________________________________________________________________________________
-	-- BUS ISOLATION
-
+	-- Copy 8-bit peripheral reads from both halves of the data bus
+	
+	-- READ DATA MULTIPLEXER - EQUIVALENT TO TRI-STATE OUTPUTS FROM MEMORY AND PERIPHERALS
 	w_cpuDataIn <=
-		w_VDUDataOut  & w_VDUDataOut	when w_n_VDUCS 			= '0' else	-- Copy 8-bit peripheral reads to both halves of the data bus
-		w_ACIADataOut & w_ACIADataOut	when w_n_ACIACS			= '0' else	-- Copy 8-bit peripheral reads to both halves of the data bus
-		w_SDData	& w_SDData				when w_n_SDCS 				= '0' else	-- SD Card
-		w_MonROMData						when w_n_RomCS				= '0' else	-- ROM
-		w_sramCDataOut						when w_n_RamCCS			= '0' else	-- Internal SRAM
-		w_sramDataOut						when w_n_RamCS				= '0' else	-- Internal SRAM
-		w_sram2DataOut						when w_n_Ram2CS			= '0' else	-- Internal SRAM
-		w_sram3DataOut						when w_n_Ram3CS			= '0' else	-- Internal SRAM
-		io_sramData&io_sramData			when n_externalRam1CS	= '0' else	-- External SRAM (byte access only)
+		w_MonROMData						when w_n_RomCS				= '0' 	else	-- ROM
+		w_sramCDataOut						when w_n_RamCCS			= '0' 	else	-- Internal SRAM
+		w_sramDataOut						when w_n_RamCS				= '0' 	else	-- Internal SRAM
+		w_sram2DataOut						when w_n_Ram2CS			= '0' 	else	-- Internal SRAM
+		w_sram3DataOut						when w_n_Ram3CS			= '0' 	else	-- Internal SRAM
+		io_sramData & io_sramData		when n_externalRam1CS	= '0'		else	-- External SRAM (byte access only)
+		w_VDUDataOut  & w_VDUDataOut	when w_n_VDUCS 			= '0' 	else	-- Display and keyboard	
+		w_ACIADataOut & w_ACIADataOut	when w_n_ACIACS			= '0' 	else	-- ACIA
+		w_SDData	     & w_SDData		when w_n_SDCS 				= '0' 	else	-- SD Card
+		w_gpioDataOut & w_gpioDataOut	when w_n_gpioCS			= '0'		else	-- GPIO
 		x"dead";
 	
 	-- ____________________________________________________________________________________
@@ -218,11 +262,11 @@ begin
 	-- 32KB Internal SRAM 0x000000-0x007FFF
 	-- The RAM address input is delayed due to being registered so the gate is the true of the clock not the low level
 	
-	w_n_RamCS 			<= '0' when ((w_n_RomCS = '1') and (w_cpuAddress(23 downto 15) = x"00"&'0') and ((w_busstate(1) = '1') or (w_busstate(0) = '0')))	else	-- x000008-x007fff
+	w_n_RamCS 			<= '0' when ((w_cpuAddress(23 downto 15) = x"00"&'0') and ((w_busstate(1) = '1') or (w_busstate(0) = '0')))	else	-- x000008-x007fff
 								'1';
-	w_wrRamStrobe		<= (not w_n_WR) and (not w_n_RamCS) and (w_cpuClock);
-	w_WrRamByteEn(1)	<= (not w_n_WR) and (not w_nUDS) and (not w_n_RamCS);
-	w_WrRamByteEn(0)	<= (not w_n_WR) and (not w_nLDS) and (not w_n_RamCS);
+	w_wrRamStrobe		<= (not w_n_WR) and (not w_n_RamCS) and (not w_cpuClock);
+	w_WrRamByteEn(1)	<= (not w_n_WR) and (not w_n_RamCS) and (not w_nUDS);
+	w_WrRamByteEn(0)	<= (not w_n_WR) and (not w_n_RamCS) and (not w_nLDS);
 	
 	ram1 : ENTITY work.RAM_16Kx16 -- 32KB (16Kx16)
 		PORT map	(
@@ -240,9 +284,9 @@ begin
 	
 	w_n_RamCCS 			<= '0' when ((w_cpuAddress(23 downto 14) = x"00"&"11")	and ((w_busstate(1) = '1') or (w_busstate(0) = '0'))) else	-- x00C000-x00ffff
 								'1';
-	w_wrRamCStrobe		<= (not w_n_WR) and (not w_n_RamCCS) and (w_cpuClock);
-	w_WrRamCByteEn(1)	<= (not w_n_WR) and (not w_nUDS) and (not w_n_RamCCS);
-	w_WrRamCByteEn(0)	<= (not w_n_WR) and (not w_nLDS) and (not w_n_RamCCS);
+	w_wrRamCStrobe		<= (not w_n_WR) and (not w_n_RamCCS) and (not w_cpuClock);
+	w_WrRamCByteEn(1)	<= (not w_n_WR) and (not w_n_RamCCS) and (not w_nUDS);
+	w_WrRamCByteEn(0)	<= (not w_n_WR) and (not w_n_RamCCS) and (not w_nLDS);
 	
 	ramC000: ENTITY work.RAM_8Kx16
 	PORT map (
@@ -260,9 +304,9 @@ begin
 	
 	w_n_Ram2CS 			<= '0' when ((w_cpuAddress(23 downto 16) = x"20")	and ((w_busstate(1) = '1') or (w_busstate(0) = '0'))) else	-- x200000-x20ffff
 								'1';
-	w_wrRam2Strobe		<= (not w_n_WR) and (not w_n_Ram2CS) and (w_cpuClock);
-	w_WrRam2ByteEn(1)	<= (not w_n_WR) and (not w_nUDS) and (not w_n_Ram2CS);
-	w_WrRam2ByteEn(0)	<= (not w_n_WR) and (not w_nLDS) and (not w_n_Ram2CS);
+	w_wrRam2Strobe		<= (not w_n_WR) and (not w_n_Ram2CS) and (not w_cpuClock);
+	w_WrRam2ByteEn(1)	<= (not w_n_WR) and (not w_n_Ram2CS) and (not w_nUDS);
+	w_WrRam2ByteEn(0)	<= (not w_n_WR) and (not w_n_Ram2CS) and (not w_nLDS);
 	
 	ram200000 : ENTITY work.RAM_32Kx16 -- 64KB (32Kx16)
 		PORT map	(
@@ -280,9 +324,9 @@ begin
 	
 	w_n_Ram3CS 			<= '0' when ((w_cpuAddress(23 downto 15) = x"21"&'0') and ((w_busstate(1) = '1') or (w_busstate(0) = '0')))	else	-- x210008-x217fff
 								'1';
-	w_wrRam3Strobe		<= (not w_n_WR) and (not w_n_Ram3CS) and (w_cpuClock);
-	w_WrRam3ByteEn(1)	<= (not w_n_WR) and (not w_nUDS) and (not w_n_Ram3CS);
-	w_WrRam3ByteEn(0)	<= (not w_n_WR) and (not w_nLDS) and (not w_n_Ram3CS);
+	w_wrRam3Strobe		<= (not w_n_WR) and (not w_n_Ram3CS) and (not w_cpuClock);
+	w_WrRam3ByteEn(1)	<= (not w_n_WR) and (not w_n_Ram3CS) and (not w_nUDS);
+	w_WrRam3ByteEn(0)	<= (not w_n_WR) and (not w_n_Ram3CS) and (not w_nLDS);
 	
 	ram210000 : ENTITY work.RAM_16Kx16 -- 32KB (16Kx16)
 		PORT map	(
@@ -299,22 +343,23 @@ begin
 							  '1';
 	o_sramAddress(19 downto 1) <= w_cpuAddress(19 downto 1);
 	o_sramAddress(0) <= w_nLDS;
-	io_sramData <= w_cpuDataOut(7 downto 0) when ((n_externalRam1CS = '0') and (w_nUDS = '0') and (w_n_WR = '0')) else 
-						w_cpuDataOut(7 downto 0) when ((n_externalRam1CS = '0') and (w_nLDS = '0') and (w_n_WR = '0')) else
+	io_sramData <= w_cpuDataOut(15 downto 8) when ((n_externalRam1CS = '0') and (w_nUDS = '0') and (w_n_WR = '0')) else 
+						w_cpuDataOut(7 downto 0)  when ((n_externalRam1CS = '0') and (w_nLDS = '0') and (w_n_WR = '0')) else
 						(others => 'Z');
 
-	o_n_sRamWE <= w_n_WR or n_externalRam1CS or (w_nLDS and w_nUDS);
-	o_n_sRamOE <= (not w_n_WR) or n_externalRam1CS;
-	o_n_sRamCS <= n_externalRam1CS;
+	o_n_sRamWE <=  n_externalRam1CS or      w_n_WR or (w_nLDS and w_nUDS) or w_cpuClock;
+	o_n_sRamOE <=  n_externalRam1CS or (not w_n_WR);
+	o_n_sRamCS <=	n_externalRam1CS or w_nLDS or w_nUDS;
 	
 	-- Route the data to the peripherals
 	w_PeriphData <= 	w_cpuDataOut(15 downto 8)	when (w_nUDS = '0') else
-							w_cpuDataOut(7 downto 0)  when (w_nLDS = '0') else
+							w_cpuDataOut(7 downto 0)	when (w_nLDS = '0') else
 							x"00";
 							
 	-- ____________________________________________________________________________________
 	-- INPUT/OUTPUT DEVICES
 	-- Grant Searle's VGA driver
+	-- For byte accesses UDS and LDS act as A0
 	
 	w_n_VDUCS <= '0' when ((w_cpuAddress(23 downto 4) = x"01004") and (w_nUDS = '0') and (i_serSelect = '1') and (w_busstate(1) = '1'))	 else -- x01004X - Based on monitor.lst file ACIA address
 					 '0' when ((w_cpuAddress(23 downto 4) = x"01004") and (w_nLDS = '0') and (i_serSelect = '0') and (w_busstate(1) = '1'))	 else 
@@ -347,6 +392,9 @@ begin
 	
 	-- Neal Crook's bufferedUART - uses clock enables
 	
+	-- ____________________________________________________________________________________
+	-- ACIA
+	
 	w_n_ACIACS <= '0' when ((w_cpuAddress(23 downto 4) = x"01004") and (w_nLDS = '0') and (i_serSelect = '1') and (w_busstate(1) = '1')) else -- x01004X - Based on monitor.lst file ACIA address
 					  '0' when ((w_cpuAddress(23 downto 4) = x"01004") and (w_nUDS = '0') and (i_serSelect = '0') and (w_busstate(1) = '1')) else
 					  '1';
@@ -368,8 +416,11 @@ begin
 			n_rts		=> o_rts1
 		);
 	
-	w_n_SDCS <= '0' when ((w_cpuAddress(23 downto 8) = x"0100") and (w_nLDS = '0') and (w_busstate(1) = '1')) else -- x0100X - Based on monitor.lst file ACIA address
-					'0' when ((w_cpuAddress(23 downto 8) = x"0100") and (w_nUDS = '0') and (w_busstate(1) = '1')) else
+	-- ____________________________________________________________________________________
+	-- SD Card
+	
+	w_n_SDCS <= '0' when ((w_cpuAddress(23 downto 4) = x"01005") and (w_nLDS = '0') and (w_busstate(1) = '1')) else -- x0100X - Based on monitor.lst file ACIA address
+					'0' when ((w_cpuAddress(23 downto 4) = x"01005") and (w_nUDS = '0') and (w_busstate(1) = '1')) else
 					'1';
 							
 	SDCtrlr : entity work.sd_controller
@@ -391,9 +442,77 @@ begin
 		driveLED	=> o_driveLED
 	);
 	
+	-- ____________________________________________________________________________________
+	-- GPIO, 3+8+8 ROUTES TO J1
+
+	w_n_gpioCS <=	'0' when ((w_cpuAddress(23 downto 4) = x"01006") and (w_nLDS = '0') and (w_busstate(1) = '1')) else -- x0100X - Based on monitor.lst file ACIA address
+						'0' when ((w_cpuAddress(23 downto 4) = x"01006") and (w_nUDS = '0') and (w_busstate(1) = '1')) else
+						'1';
+	w_n_WR_gpio <= w_n_gpioCS or w_n_WR;
+
+	gpio1 : entity work.gpio16
+   port map(
+		n_reset => w_resetLow,
+		clk => i_CLOCK_50,
+		hold => '0',
+		n_WR => w_n_WR_gpio,
+
+		dataIn => w_PeriphData,
+		dataOut => w_gpioDataOut,
+		regAddr => w_cpuAddress(0),
+
+		dat0_i => w_gpio_dat0_i,
+		dat0_o => w_gpio_dat0_o,
+		n_dat0_oe => w_n_gpio_dat0_oe,
+
+		dat2_i => w_gpio_dat2_i,
+		dat2_o => w_gpio_dat2_o,
+		n_dat2_oe => w_n_gpio_dat2_oe,
+
+		dat3_i => w_gpio_dat3_i,
+		dat3_o => w_gpio_dat3_o,
+		n_dat3_oe => w_n_gpio_dat3_oe
+	);
+
+    -- pin control. There's probably an easier way of doing this??
+    w_gpio_dat0_i <= io_gpio0;
+    pad_ctl_gpio0: process(w_gpio_dat0_o, w_n_gpio_dat0_oe)
+    begin
+      for gpio_bit in 0 to 2 loop
+        if w_n_gpio_dat0_oe(gpio_bit) = '0' then
+          io_gpio0(gpio_bit) <= w_gpio_dat0_o(gpio_bit);
+        else
+          io_gpio0(gpio_bit) <= 'Z';
+        end if;
+      end loop;
+    end process;
+
+    w_gpio_dat2_i <= io_gpio2;
+    pad_ctl_gpio2: process(w_gpio_dat2_o, w_n_gpio_dat2_oe)
+    begin
+      for gpio_bit in 0 to 7 loop
+        if w_n_gpio_dat2_oe(gpio_bit) = '0' then
+          io_gpio2(gpio_bit) <= w_gpio_dat2_o(gpio_bit);
+        else
+          io_gpio2(gpio_bit) <= 'Z';
+        end if;
+      end loop;
+    end process;
+
+    w_gpio_dat3_i <= io_gpio3;
+    pad_ctl_gpio3: process(w_gpio_dat3_o, w_n_gpio_dat3_oe)
+    begin
+      for gpio_bitX in 0 to 7 loop
+        if w_n_gpio_dat3_oe(gpio_bitX) = '0' then
+          io_gpio3(gpio_bitX) <= w_gpio_dat3_o(gpio_bitX);
+        else
+          io_gpio3(gpio_bitX) <= 'Z';
+        end if;
+      end loop;
+    end process;
 
 	-- ____________________________________________________________________________________
-	-- SYSTEM CLOCKS
+	-- CPU CLOCK
 	
 	process (i_CLOCK_50)
 		begin
@@ -419,7 +538,7 @@ begin
 			end if;
 		end process;
 	
-	
+	-- ____________________________________________________________________________________
 	-- Baud Rate CLOCK SIGNALS
 	--- Legal values are 115200, 38400, 19200, 9600, 4800, 2400, 1200, 600, 300
 	
