@@ -25,21 +25,22 @@
 --			32KB Internal SRAM 0x000000-0x007FFF
 --			16KB Internal SRAM 0x00C000-0x00FFFF
 --			96KB Internal SRAM 0x200000-0x217FFF
--- 	1 MB External SRAM 0x300000-0x3FFFFF (byte addressible only)
---	ANSI Video Display Unit (VDU)
---		VGA, 80x25 display
---		PS/2 keyboard
---	6850 ACIA UART - USB to Serial
---		115,200 baud
---		ACIASTAT	= 0x010041
---		ACIADATA	= 0x010043
---	DIGIO
---		3+8+8 I/O
---		16 bits routed to J1 connector and front panel DB-25
---		Address = 0x0100
---	DC power options
---		USB powers the card
---		DC Jack on FPGA board is not used
+-- 	External SRAM
+--			1 MB  0x300000-0x3FFFFF (byte addressible only)
+--		ANSI Video Display Unit (VDU)
+--			VGA, 80x25 display
+--			PS/2 keyboard
+--		6850 ACIA UART - USB to Serial
+--			115,200 baud
+--			ACIASTAT	= 0x010041
+--			ACIADATA	= 0x010043
+--		DIGIO
+--			3+8+8 I/O
+--			16 bits routed to J1 connector and front panel DB-25
+--			Address = 0x0100
+--		DC power options
+--			USB powers the card
+--			DC Jack on FPGA board is not used
 --
 -- Doug Gilliland 2020-2022
 --
