@@ -58,12 +58,27 @@ set_global_assignment -name POWER_BOARD_THERMAL_MODEL "NONE (CONSERVATIVE)"
 set_global_assignment -name USE_CONFIGURATION_DEVICE ON
 set_global_assignment -name VHDL_INPUT_VERSION VHDL_1993
 set_global_assignment -name VHDL_SHOW_LMF_MAPPING_MESSAGES OFF
+set_global_assignment -name EDA_SIMULATION_TOOL "Questa Intel FPGA (VHDL)"
+set_global_assignment -name EDA_OUTPUT_DATA_FORMAT VHDL -section_id eda_simulation
+set_global_assignment -name ENABLE_OCT_DONE OFF
+set_global_assignment -name ENABLE_CONFIGURATION_PINS OFF
+set_global_assignment -name ENABLE_BOOT_SEL_PIN OFF
+set_global_assignment -name CRC_ERROR_OPEN_DRAIN OFF
+set_global_assignment -name RESERVE_DATA0_AFTER_CONFIGURATION "USE AS REGULAR IO"
+set_global_assignment -name RESERVE_DATA1_AFTER_CONFIGURATION "USE AS REGULAR IO"
+set_global_assignment -name RESERVE_FLASH_NCE_AFTER_CONFIGURATION "USE AS REGULAR IO"
+set_global_assignment -name RESERVE_DCLK_AFTER_CONFIGURATION "USE AS REGULAR IO"
+set_global_assignment -name OUTPUT_IO_TIMING_NEAR_END_VMEAS "HALF VCCIO" -rise
+set_global_assignment -name OUTPUT_IO_TIMING_NEAR_END_VMEAS "HALF VCCIO" -fall
+set_global_assignment -name OUTPUT_IO_TIMING_FAR_END_VMEAS "HALF SIGNAL SWING" -rise
+set_global_assignment -name OUTPUT_IO_TIMING_FAR_END_VMEAS "HALF SIGNAL SWING" -fall
+set_global_assignment -name TIMING_ANALYZER_MULTICORNER_ANALYSIS ON
+set_global_assignment -name SMART_RECOMPILE ON
+set_global_assignment -name NUM_PARALLEL_PROCESSORS 4
 # Clock and reset
-# LEDs
-# SD Card
-# PS/2
-# Serial
-# Video
+set_location_assignment PIN_M9 -to i_clk
+set_location_assignment PIN_N16 -to i_n_reset
+set_instance_assignment -name WEAK_PULL_UP_RESISTOR ON -to i_n_reset
 # SRAM
 set_location_assignment PIN_E2 -to n_sRamCS
 set_location_assignment PIN_L2 -to n_sRamOE
@@ -97,6 +112,80 @@ set_location_assignment PIN_H6 -to sramData[5]
 set_location_assignment PIN_C2 -to sramData[6]
 set_location_assignment PIN_D3 -to sramData[7]
 # GPIO
+set_location_assignment PIN_AB15 -to io_gpio0[0]
+set_location_assignment PIN_AA15 -to io_gpio0[1]
+set_location_assignment PIN_Y14 -to io_gpio0[2]
+set_instance_assignment -name WEAK_PULL_UP_RESISTOR ON -to io_gpio0[0]
+set_instance_assignment -name WEAK_PULL_UP_RESISTOR ON -to io_gpio0[1]
+set_instance_assignment -name WEAK_PULL_UP_RESISTOR ON -to io_gpio0[2]
+set_instance_assignment -name WEAK_PULL_UP_RESISTOR ON -to io_gpio0
+#
+set_location_assignment PIN_U20 -to io_gpio2[1]
+set_location_assignment PIN_U21 -to io_gpio2[0]
+set_location_assignment PIN_T22 -to io_gpio2[2]
+set_location_assignment PIN_R22 -to io_gpio2[3]
+set_location_assignment PIN_R21 -to io_gpio2[4]
+set_location_assignment PIN_P22 -to io_gpio2[5]
+set_location_assignment PIN_T19 -to io_gpio2[6]
+set_location_assignment PIN_T20 -to io_gpio2[7]
+set_instance_assignment -name WEAK_PULL_UP_RESISTOR ON -to io_gpio2[0]
+set_instance_assignment -name WEAK_PULL_UP_RESISTOR ON -to io_gpio2[1]
+set_instance_assignment -name WEAK_PULL_UP_RESISTOR ON -to io_gpio2[2]
+set_instance_assignment -name WEAK_PULL_UP_RESISTOR ON -to io_gpio2[3]
+set_instance_assignment -name WEAK_PULL_UP_RESISTOR ON -to io_gpio2[4]
+set_instance_assignment -name WEAK_PULL_UP_RESISTOR ON -to io_gpio2[5]
+set_instance_assignment -name WEAK_PULL_UP_RESISTOR ON -to io_gpio2[6]
+set_instance_assignment -name WEAK_PULL_UP_RESISTOR ON -to io_gpio2[7]
+set_instance_assignment -name WEAK_PULL_UP_RESISTOR ON -to io_gpio2
+# 
+set_location_assignment PIN_P17 -to io_gpio3[0]
+set_location_assignment PIN_P16 -to io_gpio3[1]
+set_location_assignment PIN_N21 -to io_gpio3[2]
+set_location_assignment PIN_N20 -to io_gpio3[3]
+set_location_assignment PIN_M20 -to io_gpio3[4]
+set_location_assignment PIN_M21 -to io_gpio3[5]
+set_location_assignment PIN_N19 -to io_gpio3[6]
+set_location_assignment PIN_M18 -to io_gpio3[7]
+set_instance_assignment -name WEAK_PULL_UP_RESISTOR ON -to io_gpio3[0]
+set_instance_assignment -name WEAK_PULL_UP_RESISTOR ON -to io_gpio3[1]
+set_instance_assignment -name WEAK_PULL_UP_RESISTOR ON -to io_gpio3[2]
+set_instance_assignment -name WEAK_PULL_UP_RESISTOR ON -to io_gpio3[3]
+set_instance_assignment -name WEAK_PULL_UP_RESISTOR ON -to io_gpio3[4]
+set_instance_assignment -name WEAK_PULL_UP_RESISTOR ON -to io_gpio3[5]
+set_instance_assignment -name WEAK_PULL_UP_RESISTOR ON -to io_gpio3[6]
+set_instance_assignment -name WEAK_PULL_UP_RESISTOR ON -to io_gpio3[7]
+set_instance_assignment -name WEAK_PULL_UP_RESISTOR ON -to io_gpio3
+# LEDs
+set_location_assignment PIN_D17 -to o_n_MMU_ACT_LED
+# SD Card
+set_location_assignment PIN_M22 -to o_sdCS
+set_location_assignment PIN_L18 -to i_sdMISO
+set_instance_assignment -name WEAK_PULL_UP_RESISTOR ON -to i_sdMISO
+set_location_assignment PIN_L22 -to o_sdMOSI
+set_location_assignment PIN_L19 -to o_sdSCLK
+# PS/2
+set_location_assignment PIN_AA2 -to io_ps2Clk
+set_instance_assignment -name WEAK_PULL_UP_RESISTOR ON -to io_ps2Clk
+set_location_assignment PIN_AA1 -to io_ps2Data
+set_instance_assignment -name WEAK_PULL_UP_RESISTOR ON -to io_ps2Data
+# Serial
+set_location_assignment PIN_B11 -to i_cts1
+set_instance_assignment -name WEAK_PULL_UP_RESISTOR ON -to i_cts1
+set_location_assignment PIN_F10 -to o_rts1
+set_location_assignment PIN_C11 -to i_rxd1
+set_instance_assignment -name WEAK_PULL_UP_RESISTOR ON -to i_rxd1
+set_location_assignment PIN_G10 -to o_txd1
+set_location_assignment PIN_L17 -to i_SerSel
+set_instance_assignment -name WEAK_PULL_UP_RESISTOR ON -to i_SerSel
+# Video
+set_location_assignment PIN_B13 -to o_videoB0
+set_location_assignment PIN_A13 -to o_videoB1
+set_location_assignment PIN_D13 -to o_videoG0
+set_location_assignment PIN_C13 -to o_videoG1
+set_location_assignment PIN_E12 -to o_videoR0
+set_location_assignment PIN_D12 -to o_videoR1
+set_location_assignment PIN_A15 -to o_hSync
+set_location_assignment PIN_A14 -to o_vSync
 # SDRAM
 set_location_assignment PIN_AB11 -to sdRamClk
 set_location_assignment PIN_V9 -to sdRamClkEn
@@ -135,25 +224,7 @@ set_location_assignment PIN_R11 -to sdRamData[12]
 set_location_assignment PIN_U12 -to sdRamData[13]
 set_location_assignment PIN_R12 -to sdRamData[14]
 set_location_assignment PIN_P12 -to sdRamData[15]
-set_global_assignment -name EDA_SIMULATION_TOOL "Questa Intel FPGA (VHDL)"
-set_global_assignment -name EDA_OUTPUT_DATA_FORMAT VHDL -section_id eda_simulation
-set_global_assignment -name ENABLE_OCT_DONE OFF
-set_global_assignment -name ENABLE_CONFIGURATION_PINS OFF
-set_global_assignment -name ENABLE_BOOT_SEL_PIN OFF
-set_global_assignment -name CRC_ERROR_OPEN_DRAIN OFF
-set_global_assignment -name RESERVE_DATA0_AFTER_CONFIGURATION "USE AS REGULAR IO"
-set_global_assignment -name RESERVE_DATA1_AFTER_CONFIGURATION "USE AS REGULAR IO"
-set_global_assignment -name RESERVE_FLASH_NCE_AFTER_CONFIGURATION "USE AS REGULAR IO"
-set_global_assignment -name RESERVE_DCLK_AFTER_CONFIGURATION "USE AS REGULAR IO"
-set_global_assignment -name OUTPUT_IO_TIMING_NEAR_END_VMEAS "HALF VCCIO" -rise
-set_global_assignment -name OUTPUT_IO_TIMING_NEAR_END_VMEAS "HALF VCCIO" -fall
-set_global_assignment -name OUTPUT_IO_TIMING_FAR_END_VMEAS "HALF SIGNAL SWING" -rise
-set_global_assignment -name OUTPUT_IO_TIMING_FAR_END_VMEAS "HALF SIGNAL SWING" -fall
-set_global_assignment -name TIMING_ANALYZER_MULTICORNER_ANALYSIS ON
-set_global_assignment -name SMART_RECOMPILE ON
-set_global_assignment -name NUM_PARALLEL_PROCESSORS 4
-
-set_location_assignment PIN_L17 -to i_SerSel
+# 
 set_global_assignment -name VHDL_FILE "../../../MultiComp (VHDL Template)/Components/Debounce/Debounce.vhd"
 set_global_assignment -name VHDL_FILE "../../../MultiComp (VHDL Template)/Components/UART/BaudRate6850.vhd"
 set_global_assignment -name VHDL_FILE "../../../MultiComp (VHDL Template)/Components/SDCARD/Older_SD_Controllers/sd_controller_NealC.vhd"
@@ -165,7 +236,6 @@ set_global_assignment -name VHDL_FILE "../../../MultiComp (VHDL Template)/Compon
 set_global_assignment -name VHDL_FILE "../../../MultiComp (VHDL Template)/Components/TERMINAL/DisplayRam1K.vhd"
 set_global_assignment -name VHDL_FILE "../../../MultiComp (VHDL Template)/Components/TERMINAL/CGABoldRomReduced.vhd"
 set_global_assignment -name VHDL_FILE "../../../MultiComp (VHDL Template)/Components/TERMINAL/CGABoldRom.vhd"
-set_global_assignment -name VHDL_FILE "../../../MultiComp (VHDL Template)/Components/IO/gpio.vhd"
 set_global_assignment -name VHDL_FILE "../../../MultiComp (VHDL Template)/Components/Memory_Mappers/MMAPPER2/mem_mapper2.vhd"
 set_global_assignment -name VHDL_FILE "../../../MultiComp (VHDL Template)/Components/Memory_Mappers/MMAPPER/mem_mapper.vhd"
 set_global_assignment -name VHDL_FILE ../Components/TERMINAL/SBCTextDisplayRGB.vhd
@@ -174,37 +244,5 @@ set_global_assignment -name SOURCE_FILE MicrocomputerPCB.qsf
 set_global_assignment -name CDF_FILE output_files/Microcomputer.cdf
 set_global_assignment -name SDC_FILE MicrocomputerPCB.out.sdc
 set_global_assignment -name QIP_FILE ../ROMS/6809/M6809_CAMELFORTH_ROM.qip
-set_location_assignment PIN_N16 -to i_n_reset
-set_instance_assignment -name WEAK_PULL_UP_RESISTOR ON -to i_n_reset
-set_location_assignment PIN_B13 -to o_videoB0
-set_location_assignment PIN_M9 -to i_clk
-set_location_assignment PIN_A13 -to o_videoB1
-set_location_assignment PIN_D13 -to o_videoG0
-set_location_assignment PIN_C13 -to o_videoG1
-set_location_assignment PIN_E12 -to o_videoR0
-set_location_assignment PIN_D12 -to o_videoR1
-set_location_assignment PIN_A15 -to o_hSync
-set_location_assignment PIN_A14 -to o_vSync
-set_location_assignment PIN_D17 -to o_n_MMU_ACT_LED
-set_location_assignment PIN_AA2 -to io_ps2Clk
-set_location_assignment PIN_AA1 -to io_ps2Data
-set_location_assignment PIN_B11 -to i_cts1
-set_location_assignment PIN_F10 -to o_rts1
-set_location_assignment PIN_C11 -to i_rxd1
-set_location_assignment PIN_G10 -to o_txd1
-set_location_assignment PIN_AA14 -to io_gpio0[0]
-set_location_assignment PIN_AA13 -to io_gpio0[1]
-set_location_assignment PIN_AA15 -to io_gpio0[2]
-set_location_assignment PIN_AA18 -to io_gpio2[7]
-set_location_assignment PIN_Y16 -to io_gpio2[6]
-set_location_assignment PIN_Y17 -to io_gpio2[5]
-set_location_assignment PIN_AB17 -to io_gpio2[4]
-set_location_assignment PIN_AB18 -to io_gpio2[3]
-set_location_assignment PIN_Y14 -to io_gpio2[2]
-set_location_assignment PIN_Y15 -to io_gpio2[1]
-set_location_assignment PIN_AB15 -to io_gpio2[0]
-set_location_assignment PIN_M22 -to o_sdCS
-set_location_assignment PIN_L18 -to i_sdMISO
-set_location_assignment PIN_L22 -to o_sdMOSI
-set_location_assignment PIN_L19 -to o_sdSCLK
+set_global_assignment -name VHDL_FILE "../../../MultiComp (VHDL Template)/Components/IO/gpio16.vhd"
 set_instance_assignment -name PARTITION_HIERARCHY root_partition -to | -section_id Top

@@ -102,7 +102,6 @@ begin
   dat2_o    <= reg_dat2;
   n_dat2_oe <= reg_ddr2;
 
-
   -- per-cycle write data
   proc_dat0: process(reg_ddr0, reg_dat0, dat0_i, dataIn, reg, n_wr, regAddr)
     begin

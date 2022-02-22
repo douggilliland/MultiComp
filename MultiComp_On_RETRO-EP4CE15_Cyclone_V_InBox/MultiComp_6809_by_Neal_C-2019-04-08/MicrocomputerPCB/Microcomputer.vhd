@@ -125,16 +125,17 @@ entity Microcomputer is
 		io_ps2Clk			: inout std_logic;
 		io_ps2Data			: inout std_logic;
 
-		-- 3 GPIO mapped to "group A" connector. Pin 1..3 of that connector
+		-- 3 GPIO
 		-- assigned to bit 0..2 of gpio0.
 		-- Intended for connection to DS1302 RTC as follows:
 		-- bit 2: CE
 		-- bit 1: SCLK
 		-- bit 0: I/O (Data)
 		io_gpio0				: inout std_logic_vector(2 downto 0);
-		-- 8 GPIO mapped to "group B" connector. Pin 1..8 of that connector
-		-- assigned to bit 0..7 of gpio2.
+		-- 8 GPIO
 		io_gpio2				: inout std_logic_vector(7 downto 0);
+		-- 8 GPIO
+		io_gpio3				: inout std_logic_vector(7 downto 0);
 
 		-- External SD card has activity LED
 		o_sdCS				: out std_logic;
@@ -213,6 +214,10 @@ architecture struct of Microcomputer is
     signal w_gpio_dat2_o		: std_logic_vector(7 downto 0);
     signal w_n_gpio_dat2_oe	: std_logic_vector(7 downto 0);
 
+    signal w_gpio_dat3_i		: std_logic_vector(7 downto 0);
+    signal w_gpio_dat3_o		: std_logic_vector(7 downto 0);
+    signal w_n_gpio_dat3_oe	: std_logic_vector(7 downto 0);
+	 
 begin
 
 	-- Cleanup the reset switch
@@ -367,7 +372,7 @@ begin
 
     w_n_WR_gpio <= w_n_gpioCS or w_n_WR;
 
-    gpio1 : entity work.gpio
+    gpio1 : entity work.gpio16
     port map(
             n_reset => w_n_reset,
             clk => i_clk,
@@ -384,8 +389,12 @@ begin
 
             dat2_i => w_gpio_dat2_i,
             dat2_o => w_gpio_dat2_o,
-            n_dat2_oe => w_n_gpio_dat2_oe
-    );
+            n_dat2_oe => w_n_gpio_dat2_oe,
+
+            dat3_i => w_gpio_dat3_i,
+            dat3_o => w_gpio_dat3_o,
+            n_dat3_oe => w_n_gpio_dat3_oe
+		);
 
     -- pin control. There's probably an easier way of doing this??
     w_gpio_dat0_i <= io_gpio0;
@@ -412,6 +421,18 @@ begin
       end loop;
     end process;
 
+    w_gpio_dat3_i <= io_gpio3;
+    pad_ctl_gpio3: process(w_gpio_dat3_o, w_n_gpio_dat3_oe)
+    begin
+      for gpio_bitX in 0 to 7 loop
+        if w_n_gpio_dat3_oe(gpio_bitX) = '0' then
+          io_gpio3(gpio_bitX) <= w_gpio_dat3_o(gpio_bitX);
+        else
+          io_gpio3(gpio_bitX) <= 'Z';
+        end if;
+      end loop;
+    end process;
+	 
 -- ____________________________________________________________________________________
 -- CHIP SELECTS GO HERE
     w_n_ROMCS		<= '0' when w_cpuAddress(15 downto 13) = "111" and w_romInhib = '0' else '1'; --8K at top of memory
