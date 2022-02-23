@@ -140,7 +140,7 @@ begin
 			if rxBuffCount<2 then
 				n_rts <= '0';
 			end if;
-			if rxBuffCount>4 then
+			if rxBuffCount>8 then
 				n_rts <= '1';
 			end if;
 		end if;

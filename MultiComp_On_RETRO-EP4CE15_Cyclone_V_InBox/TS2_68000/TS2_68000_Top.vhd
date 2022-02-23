@@ -30,6 +30,8 @@
 --		ANSI Video Display Unit (VDU)
 --			VGA, 80x25 display
 --			PS/2 keyboard
+--			ACIASTAT	= 0x010040
+--			ACIADATA	= 0x010042
 --		6850 ACIA UART - USB to Serial
 --			115,200 baud
 --			ACIASTAT	= 0x010041
