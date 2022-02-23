@@ -153,7 +153,7 @@ architecture struct of TS2_68000_Top is
 	signal w_n_Ram3CS				: std_logic :='1';
 	signal w_WrRam3ByteEn		: std_logic_vector(1 downto 0) := "00";
 	signal w_wrRam3Strobe		: std_logic :='0';
-	signal n_externalRam1CS		: std_logic :='1';
+	signal w_n_extSRamCS		: std_logic :='1';
 
 	-- Peripheral Chip Selects
 	signal w_n_VDUCS				: std_logic :='1';
@@ -168,7 +168,6 @@ architecture struct of TS2_68000_Top is
 	signal w_sramCDataOut		: std_logic_vector(15 downto 0);
 	signal w_sram2DataOut		: std_logic_vector(15 downto 0);
 	signal w_sram3DataOut		: std_logic_vector(15 downto 0);
-	signal w_extSramDataOut		: std_logic_vector(15 downto 0);
 	signal w_VDUDataOut			: std_logic_vector(7 downto 0);
 	signal w_ACIADataOut			: std_logic_vector(7 downto 0);
 	signal w_PeriphData			: std_logic_vector(7 downto 0);
@@ -189,7 +188,7 @@ architecture struct of TS2_68000_Top is
 	signal w_n_gpio_dat3_oe		: std_logic_vector(7 downto 0);
 
 	-- CPU clock counts
-	signal q_cpuClkCount			: std_logic_vector(5 downto 0); 
+	signal q_cpuClkCount			: std_logic_vector(2 downto 0); 
 	signal w_cpuClock				: std_logic;
 
 	signal w_serialEn				: std_logic;
@@ -240,7 +239,7 @@ begin
 		w_sramDataOut						when w_n_RamCS				= '0' 	else	-- Internal SRAM
 		w_sram2DataOut						when w_n_Ram2CS			= '0' 	else	-- Internal SRAM
 		w_sram3DataOut						when w_n_Ram3CS			= '0' 	else	-- Internal SRAM
-		io_sramData & io_sramData		when n_externalRam1CS	= '0'		else	-- External SRAM (byte access only)
+		io_sramData & io_sramData		when w_n_extSRamCS	= '0'		else	-- External SRAM (byte access only)
 		w_VDUDataOut  & w_VDUDataOut	when w_n_VDUCS 			= '0' 	else	-- Display and keyboard	
 		w_ACIADataOut & w_ACIADataOut	when w_n_ACIACS			= '0' 	else	-- ACIA
 		w_SDData	     & w_SDData		when w_n_SDCS 				= '0' 	else	-- SD Card
@@ -342,17 +341,17 @@ begin
 		);
 		
 	-- 1MB External SRAM (can only be accessed as bytes) - no dynamic bus sizing
-	n_externalRam1CS <= '0' when ((w_cpuAddress(23 downto 20) = x"3") and (w_busstate(1) = '1'))	else	-- x30000-x3fffff
-							  '1';
+	w_n_extSRamCS <=	'0' when ((w_cpuAddress(23 downto 20) = x"3") and (w_busstate(1) = '1'))	else	-- x30000-x3fffff
+							'1';
 	o_sramAddress(19 downto 1) <= w_cpuAddress(19 downto 1);
 	o_sramAddress(0) <= w_nLDS;
-	io_sramData <= w_cpuDataOut(15 downto 8) when ((n_externalRam1CS = '0') and (w_nUDS = '0') and (w_n_WR = '0')) else 
-						w_cpuDataOut(7 downto 0)  when ((n_externalRam1CS = '0') and (w_nLDS = '0') and (w_n_WR = '0')) else
+	io_sramData <= w_cpuDataOut(7 downto 0) when ((w_n_extSRamCS = '0') and (w_nUDS = '0') and (w_n_WR = '0')) else 
+						w_cpuDataOut(7 downto 0) when ((w_n_extSRamCS = '0') and (w_nLDS = '0') and (w_n_WR = '0')) else
 						(others => 'Z');
 
-	o_n_sRamWE <=  n_externalRam1CS or      w_n_WR or (w_nLDS and w_nUDS) or w_cpuClock;
-	o_n_sRamOE <=  n_externalRam1CS or (not w_n_WR);
-	o_n_sRamCS <=	n_externalRam1CS or w_nLDS or w_nUDS;
+	o_n_sRamWE <=  w_n_extSRamCS or      w_n_WR or (w_nLDS and w_nUDS);
+	o_n_sRamOE <=  w_n_extSRamCS or (not w_n_WR);
+	o_n_sRamCS <=	w_n_extSRamCS;
 	
 	-- Route the data to the peripherals
 	w_PeriphData <= 	w_cpuDataOut(15 downto 8)	when (w_nUDS = '0') else
@@ -520,7 +519,7 @@ begin
 	process (i_CLOCK_50)
 		begin
 			if rising_edge(i_CLOCK_50) then
-				if n_externalRam1CS = '0' then
+				if w_n_extSRamCS = '0' then
 					if q_cpuClkCount < 2 then						-- 50 MHz / 3 = 16.7 MHz 
 						q_cpuClkCount <= q_cpuClkCount + 1;
 					else
@@ -533,10 +532,23 @@ begin
 						q_cpuClkCount <= (others=>'0');
 					end if;
 				end if;
-				if q_cpuClkCount < 1 then							-- one clock low
-					w_cpuClock <= '0';
+--				if q_cpuClkCount < 1 then						-- one clock low
+--					w_cpuClock <= '0';
+--				else
+--					w_cpuClock <= '1';
+--				end if;
+				if w_n_extSRamCS = '0' then
+					if q_cpuClkCount < 2 then						-- two clocks low
+						w_cpuClock <= '0';
+					else
+						w_cpuClock <= '1';
+					end if;
 				else
-					w_cpuClock <= '1';
+					if q_cpuClkCount < 1 then						-- one clock low
+						w_cpuClock <= '0';
+					else
+						w_cpuClock <= '1';
+					end if;
 				end if;
 			end if;
 		end process;
