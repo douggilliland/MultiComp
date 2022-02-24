@@ -18,31 +18,53 @@
 --			16.7 MHz for External SRAM
 --			24-bit address space
 --		ROM Monitors supported
---			ROM Space reserved 0x008000-0x00BFFF
---			Teeside TS2BUG 3KB 0x008000-0x00BFFF (16KB used), or
---			MECB TUTOR 16KB Monitor ROMs 0x008000-0x00BFFF (16KB used)
---		Internal SRAM
---			32KB Internal SRAM 0x000000-0x007FFF
---			16KB Internal SRAM 0x00C000-0x00FFFF
---			96KB Internal SRAM 0x200000-0x217FFF
+--			16KN ROM Space reserved
+--			Teeside TS2BUG (3KB used)
+--			MECB TUTOR 16KB Monitor ROM
+--		144KB Internal SRAM
 -- 	External SRAM
---			1 MB  0x300000-0x3FFFFF (byte addressible only)
+--			1 MB (byte addressible only)
 --		ANSI Video Display Unit (VDU)
 --			VGA, 80x25 display
 --			PS/2 keyboard
---			ACIASTAT	= 0x010040
---			ACIADATA	= 0x010042
 --		6850 ACIA UART - USB to Serial
 --			115,200 baud
---			ACIASTAT	= 0x010041
---			ACIADATA	= 0x010043
 --		DIGIO
 --			3+8+8 I/O
 --			16 bits routed to J1 connector and front panel DB-25
---			Address = 0x0100
 --		DC power options
 --			USB powers the card
 --			DC Jack on FPGA board is not used
+--
+--	Memory Map
+--		0x000000-0x007FFF - Internal SRAM (32KB)
+--		0x008000-0x00BFFF - ROM Monitor (16KB)
+--		0x00C000-0x00FFFF - Internal SRAM (16KB)
+--		0x010041,0x010043 - ACIA
+--			ACIASTAT	= 0x010041
+--			ACIADATA	= 0x010043
+--		0x010040,0x010042 - VDU
+--			VDUSTAT	= 0x010041
+--			VDUDATA	= 0x010043
+--		0x010050-0x010058F - SD Card
+--			0x010051 - SDDATA		read/write data
+--			0x010053 - SDSTATUS	read
+--			0x010053 - SDCONTROL	write
+--			0x010055 - SDLBA0		write-only
+--			0x010057 - SDLBA1		write-only
+--			0x010059 - SDLBA2		write-only (only bits 6:0 are valid)
+--		0x010061,0x010063 - GPIO
+--			0x010061 - Address register
+--				Address register value
+--					0 DAT0 bits [2:0]
+--					1 DDR0 bits [2:0]
+--					2 DAT2 bits [7:0]
+--					3 DDR2 bits [7:0]
+--					4 DAT3 bits [7:0]
+--					5 DDR3 bits [7:0]
+--			0x010063 - Data register
+--		0x200000-0x217FFF - Internal SRAM (96KB)
+--		0x300000-0x3FFFFF - External SRAM (1MB byte addressable)
 --
 -- Doug Gilliland 2020-2022
 --
@@ -461,7 +483,7 @@ begin
 
 		dataIn => w_PeriphData,
 		dataOut => w_gpioDataOut,
-		regAddr => w_cpuAddress(0),
+		regAddr => w_cpuAddress(1),
 
 		dat0_i => w_gpio_dat0_i,
 		dat0_o => w_gpio_dat0_o,
