@@ -119,15 +119,34 @@ CONTENT BEGIN
 * Load into Quartus in the Monitor_68K_ROM using Megawizard
 
 == Memory Map ==
-
-* 0x000000 - 0x000007 = ROM Vectors (16-bits)
-* 0x000008 - 0x007FFF = 32KB Internal SRAM (16-bits)
-* 0x008000 - 0x00BFFF = 16KB ROM (16-bits)
-* 0x00C000 - 0x00FFFF = 16KB Internal SRAM (16-bits)
-* 0x01004x = VDU base (A0 = 0) (8-bits)
-* 0x01004x = ACIA base (A0 = 1) (8-bits)
-* 0x200000-0x217FFF = 96KB Internal SRAM (16-bits)
-* 0x300000 - 0x3FFFFF - 1MB External SRAM (8-bit access only)
+* 0x000000-0x007FFF - Internal SRAM (32KB)
+* 0x008000-0x00BFFF - ROM Monitor (16KB)
+* 0x00C000-0x00FFFF - Internal SRAM (16KB)
+* 0x010041,0x010043 - ACIA
+** ACIASTAT	= 0x010041
+** ACIADATA	= 0x010043
+* 0x010040,0x010042 - VDU
+** VDUSTAT	= 0x010041
+** VDUDATA	= 0x010043
+* 0x010050-0x010058F - SD Card
+** 0x010051 - SDDATA		read/write data
+** 0x010053 - SDSTATUS	read
+** 0x010053 - SDCONTROL	write
+** 0x010055 - SDLBA0		write-only
+** 0x010057 - SDLBA1		write-only
+** 0x010059 - SDLBA2		write-only (only bits 6:0 are valid)
+* 0x010061,0x010063 - GPIO
+** 0x010061 - Address register
+*** Address register value
+**** 0 DAT0 bits [2:0]
+**** 1 DDR0 bits [2:0]
+**** 2 DAT2 bits [7:0]
+**** 3 DDR2 bits [7:0]
+**** 4 DAT3 bits [7:0]
+**** 5 DDR3 bits [7:0]
+*** 0x010063 - Data register
+* 0x200000-0x217FFF - Internal SRAM (96KB)
+* 0x300000-0x3FFFFF - External SRAM (1MB byte addressable)
 
 == Running TS2BUG Monitor ==
 
