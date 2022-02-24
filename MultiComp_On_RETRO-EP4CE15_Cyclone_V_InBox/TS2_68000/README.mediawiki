@@ -170,25 +170,27 @@ CONTENT BEGIN
 * [https://github.com/douggilliland/Retro-Computers/blob/7ce0358bcddc7edb204a87fba47e80a591d9d570/68000/ReferenceDesigns/TS2_JeffTranter/tutor/tutor13.hex  HEX file] is loaded to the ROM
 * Works!!!
 
-=== Download Code under Tutor Procedure ===
+=== Procedure for downloading code under TUTOR ===
 
 * Code needs to be compiled to S Records
 * Run puTTY on the Serial port
-** puTTY conflicts with the USB Blaster so puTTY has to be shut down if down if the USB Blaster is used
+** puTTY conflicts with the USB Blaster
+*** puTTY has to be shut down if down if the USB Blaster is used
 ** puTTY should be set to no add LF or CR
 ** Assuming the file already has CR LF on each line
 ** Can check by puTTY settings, Terminal Implicit LF or CR turned off
 * Open the download file in a text editor
 ** I like notepad++
 ** Make sure the last line in the file to download is
-*** S9032000DC
+*** S9030000FC
 *** If it's not, add the S9 line with a CR at the end of the line
 ** Select all, copy to copy-paste buffer (CTRL-C)
-* Type LO2 on the VDU keyboard.
+* Type LO2 on the VDU keyboard
 * On the Serial port, insert the text with CTRL-V
-* After the download, TUTOR will return to the prompt
+* After the download, TUTOR will return to the prompt or timeout if there's no S9 record
 * Ready to run the program
 ** GO addr
+*** addr is the start address
 
 == Running Tiny BASIC ==
 
