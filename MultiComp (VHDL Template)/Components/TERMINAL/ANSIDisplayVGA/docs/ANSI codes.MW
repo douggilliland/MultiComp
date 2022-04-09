@@ -1,0 +1,558 @@
+{| class="wikitable"
+! SEQUENCE
+! NAME
+! DESCRIPTION
+! EXAMPLE
+! 
+|-
+| ESC[H
+| Cursor Home
+| Moves the display cursor to top-left
+| PRINT CHR$(27);"[H";
+| 
+|-
+| ESC[K
+| Erase EOL
+| All characters on current line from cursor position to end replaced with spaces
+| PRINT CHR$(27);"[K";
+| 
+|-
+| ESC[s
+| Save cursor pos
+| Current row and column saved
+| PRINT CHR$(27);"[s";
+| 
+|-
+| ESC[u
+| Restore cursor pos
+| Return cursor to previously stored row and column
+| PRINT CHR$(27);"[u";
+| 
+|-
+| ESC[2J
+| Clear screen
+| Same as PRINT CHR$(12) - clear screen and move cursor to top left
+| PRINT CHR$(27);"[2J";
+| 
+|-
+| ESC[0J
+or
+ESC[J
+| Clear to end of screen
+| All positions from the current cursor to end of screen are replaced with spaces
+| PRINT CHR$(27);"[0J";
+| 
+|-
+| ESC[{val}A
+| Cursor up
+| Move cursor up {val} places
+| PRINT CHR$(27);"[3A";
+| 
+|-
+| ESC[{val}B
+| Cursor down
+| Move cursor down {val} places
+| PRINT CHR$(27);"[2B";
+| 
+|-
+| ESC[{val}C
+| Cursor forward
+| Move cursor right {val} places
+| PRINT CHR$(27);"[15C";
+| 
+|-
+| ESC[{val}D
+| Cursor backward
+| Move cursor left {val} places
+| PRINT CHR$(27);"[1D";
+| 
+|-
+| ESC[{row};{col}H
+| Set cursor position
+| Move the cursor to row {row} and column {col} (1;1=top left)
+| PRINT CHR$(27);"[5;33H";
+| 
+|-
+| ESC[L
+Only ONE line supported
+| Delete line
+| Delete the current cursor line and move the display underneath it up one line. Last line of the display then is blank.
+| PRINT CHR$(27);"[L"
+| 
+|-
+| ESC[M
+Only ONE line supported
+| Insert line
+| Insert a blank line at the current cursor position and move the display below it down one line.
+| PRINT CHR$(27);"[M"
+| 
+|-
+| ESC[{val}m
+ESC[{val1};...
+{val8}m
+
+(1 to 4 values)
+| Set graphics rendition
+
+Note: Text and background setting reversed if inverse is active.
+| Set the active foreground or background text colour. 
+If character attributes enabled, all characters that appear after this sequence will use the colour specified. 
+If character attributes disabled then the complete screen will be displayed in the colours specified.
+One or two parameters can be specified in the same command.
+Val.
+| effect
+| PRINT CHR$(27);"[31;44mTHIS IS RED ON BLUE"
+PRINT CHR$(27);"[93;42mTHIS IS BRIGHT YELLOW ON GREEN"
+PRINT CHR$(27);"[30mTHIS IS BLACK TEXT"
+PRINT CHR$(27);"[41mBACKGROUND NOW RED"
+will give the following...
+THIS IS RED ON BLUE
+THIS IS BRIGHT YELLOW ON GREEN
+THIS IS BLACK TEXT
+BACKGROUND NOW RED
+|-
+| 
+| 
+| 
+| 
+| 
+|-
+| 
+| 
+| 
+| 
+| 
+|-
+| 
+| 
+| 
+| 
+| 
+|-
+| 
+| 
+| 
+| 
+| 
+|-
+| 
+| 
+| 
+| 
+| 
+|-
+| 
+| 
+| 
+| 
+| 
+|-
+| 
+| 
+| 
+| 
+| 
+|-
+| 
+| 
+| 
+| 
+| 
+|-
+| 
+| 
+| 
+| 
+| 
+|-
+| 
+| 
+| 
+| 
+| 
+|-
+| 
+| 
+| 
+| 
+| 
+|-
+| 
+| 
+| 
+| 
+| 
+|-
+| 
+| 
+| 
+| 
+| 
+|-
+| 
+| 
+| 
+| 
+| 
+|-
+| 
+| 
+| 
+| 
+| 
+|-
+| 
+| 
+| 
+| 
+| 
+|-
+| 
+| 
+| 
+| 
+| 
+|-
+| 
+| 
+| 
+| 
+| 
+|-
+| 
+| 
+| 
+| 
+| 
+|-
+| 
+| 
+| 
+| 
+| 
+|-
+| 
+| 
+| 
+| 
+| 
+|-
+| 
+| 
+| 
+| 
+| 
+|-
+| 
+| 
+| 
+| 
+| 
+|-
+| 
+| 
+| 
+| 
+| 
+|-
+| 
+| 
+| 
+| 
+| 
+|-
+| 
+| 
+| 
+| 
+| 
+|-
+| 
+| 
+| 
+| 
+| 
+|-
+| 
+| 
+| 
+| 
+| 
+|-
+| 
+| 
+| 
+| 
+| 
+|-
+| 
+| 
+| 
+| 
+| 
+|-
+| 
+| 
+| 
+| 
+| 
+|-
+| 
+| 
+| 
+| 
+| 
+|-
+| 
+| 
+| 
+| 
+| 
+|-
+| 
+| 
+| 
+| 
+| 
+|-
+| 
+| 
+| 
+| 
+| 
+|-
+| 
+| 
+| 
+| 
+| 
+|-
+| 
+| 
+| 
+| 
+| 
+|-
+| 
+| 0
+| Reset atts to default
+| 
+| 
+|-
+| 
+| 1
+| Bold (bright) text on
+| 
+| 
+|-
+| 
+| 7
+| Inverse colours (back<=>text)
+| 
+| 
+|-
+| 
+| 22
+| Bold (bright) text off
+| 
+| 
+|-
+| 
+| 27
+| Normal colours
+| 
+| 
+|-
+| 
+| 30
+| Text BLACK
+| 
+| 
+|-
+| 
+| 31
+| Text�RED
+| 
+| 
+|-
+| 
+| 32
+| Text�GREEN
+| 
+| 
+|-
+| 
+| 33
+| Text�YELLOW
+| 
+| 
+|-
+| 
+| 34
+| Text�BLUE
+| 
+| 
+|-
+| 
+| 35
+| Text�MAGENTA
+| 
+| 
+|-
+| 
+| 36
+| Text�CYAN
+| 
+| 
+|-
+| 
+| 37
+| Text WHITE
+| 
+| 
+|-
+| 
+| 40
+| Background BLACK
+| 
+| 
+|-
+| 
+| 41
+| Background RED
+| 
+| 
+|-
+| 
+| 42
+| Background GREEN
+| 
+| 
+|-
+| 
+| 43
+| Background YELLOW
+| 
+| 
+|-
+| 
+| 44
+| Background BLUE
+| 
+| 
+|-
+| 
+| 45
+| Background MAGENTA
+| 
+| 
+|-
+| 
+| 46
+| Background CYAN
+| 
+| 
+|-
+| 
+| 47
+| Background WHITE
+| 
+| 
+|-
+| 
+| 90
+| Text�GREY
+| 
+| 
+|-
+| 
+| 91
+| Text�BRIGHT RED
+| 
+| 
+|-
+| 
+| 92
+| Text�BRIGHT GREEN
+| 
+| 
+|-
+| 
+| 93
+| Text�BRIGHT YELLOW
+| 
+| 
+|-
+| 
+| 94
+| Text�BRIGHT BLUE
+| 
+| 
+|-
+| 
+| 95
+| Text�BRIGHT MAGENTA
+| 
+| 
+|-
+| 
+| 96
+| Text�BRIGHT CYAN
+| 
+| 
+|-
+| 
+| 97
+| Text BRIGHT WHITE
+| 
+| 
+|-
+| 
+| 100
+| Background GREY
+| 
+| 
+|-
+| 
+| 101
+| Background BRIGHT RED
+| 
+| 
+|-
+| 
+| 102
+| Background BRIGHT GREEN
+| 
+| 
+|-
+| 
+| 103
+| Background BRIGHT YELLOW
+| 
+| 
+|-
+| 
+| 104
+| Background BRIGHT BLUE
+| 
+| 
+|-
+| 
+| 105
+| Background BRIGHT MAGENTA
+| 
+| 
+|-
+| 
+| 106
+| Background BRIGHTCYAN
+| 
+| 
+|-
+| 
+| 107
+| Background WHITE
+| 
+| 
+|-
+|}
