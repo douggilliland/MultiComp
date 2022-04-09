@@ -1,0 +1,79 @@
+== SD card interface ==
+
+* Reads and writes a single block of data as a data stream
+
+<pre>
+-- Address Register
+--    0    SDDATA        read/write data
+--    1    SDSTATUS      read
+--    1    SDCONTROL     write
+--    2    SDLBA0        write-only
+--    3    SDLBA1        write-only
+--    4    SDLBA2        write-only (only bits 6:0 are valid)
+</pre>
+*For both SDSC and SDHC (high capacity) cards, the block size is 512bytes (9-bit value) and the SDLBA registers select the block number. SDLBA2 is most significant, SDLBA0 is least significant.
+* For SDSC, the read/write address parameter is a 512-byte aligned byte address. ie, it has 9 low address bits explicitly set to 0. 23 of the 24 programmable address bits select the 512-byte block.
+** This gives an address capacity of 2^23 * 512 = 4GB .. BUT maximum SDSC capacity is 2GByte.
+
+=== SDLBA registers ===
+
+<pre>
+-- 31 30 29 28.27 26 25 24.23 22 21 20.19 18 17 16.15 14 13 12.11 10 09 08.07 06 05 04.03 02 01 00
+--+------- SDLBA2 -----+------- SDLBA1 --------+------- SDLBA0 --------+ 0  0  0  0  0  0  0  0  0
+</pre>
+
+* For SDHC cards, the read/write address parameter is the ordinal number of 512-byte block ie, the 9 low address bits are implicity 0. The 24 programmable address bits select the 512-byte block.
+* This gives an address capacity of 2^24 * 512 = 8GByte. SDHC can be upto 32GByte but this design can only access the low 8GByte (could add SDLBA3 to get the extra address lines if required).
+
+=== SDLBA registers ===
+
+<pre>
+-- 31 30 29 28.27 26 25 24.23 22 21 20.19 18 17 16.15 14 13 12.11 10 09 08.07 06 05 04.03 02 01 00
+--  0  0  0  0  0  0  0  0+---------- SDLBA2 -----+------- SDLBA1 --------+------- SDLBA0 --------+
+</pre>
+
+* The end result of all this is that the addressing looks the same for SDSC and SDHC cards.
+
+=== SDSTATUS (RO) ===
+
+<pre>
+--    b7     Write Data Byte can be accepted
+--    b6     Read Data Byte available
+--    b5     Block Busy
+--    b4     Init Busy
+--    b3     Unused. Read 0
+--    b2     Unused. Read 0
+--    b1     Unused. Read 0
+--    b0     Unused. Read 0
+</pre>
+
+=== SDCONTROL (WO) ===
+
+<pre>
+--    b7:0   0x00 Read block
+--           0x01 Write block
+</pre>
+
+== Programming ==
+
+=== To read a 512-byte block from the SDCARD ===
+
+* Wait until SDSTATUS=0x80 (ensures previous cmd has completed)
+* Write SDLBA0, SDLBA1 SDLBA2 to select block index to read from
+* Write 0 to SDCONTROL to issue read command
+* Loop 512 times:
+** Wait until SDSTATUS=0xE0 (read byte ready, block busy)
+** Read byte from SDDATA
+
+=== To write a 512-byte block to the SDCARD ===
+
+* Wait until SDSTATUS=0x80 (ensures previous cmd has completed)
+* Write SDLBA0, SDLBA1 SDLBA2 to select block index to write to
+* Write 1 to SDCONTROL to issue write command
+* Loop 512 times:
+** Wait until SDSTATUS=0xA0 (block busy)
+** Write byte to SDDATA
+
+== Transfer Details ==
+
+* At HW level each data transfer is 515 bytes: a start byte, 512 data bytes, 2 CRC bytes. CRC need not be valid in SPI mode, *except* for CMD0.
