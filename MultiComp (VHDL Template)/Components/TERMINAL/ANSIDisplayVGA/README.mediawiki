@@ -1,5 +1,39 @@
 == Multicomp FPGA (VHDL Template) VGA ==
 
+Interface mimics ACIA software interface address/control/status contents
+
+* [http://www.swtpc.com/mholley/Notebook/Hardware_ACIA.pdf ACIA datasheet]
+
+== Programming Interface ==
+
+* Two addresses, Control/status and data access
+
+=== Status Register ===
+
+* Register Select = 0
+* Read/Write = Read
+** d0 = RDRF	= Receive Data Register Full (1 = data is ready to read)
+** d1 = TDRE	= Transmit Data Register Empty (1 = transmit is ready to send out data)
+** d2 = DCD		= Data Carrier Detect (0 = carrier present - hardwired)
+** d3 = CTS		= Clear to Send (0 = Clear to Send - ready to accept data - hardwired)
+** d7 = IRQ		= Interrupt Request (1 = Interrupt present)
+
+===  Control Register ===
+
+* Register Select = 0
+* Read/Write = Write
+** d1,d0		= Control (11 = Master Reset)
+** d6,d5		= TC = Transmitter Control (RTS = Transmitter Interrupt Enable/Disable)
+** d7 		= Interrupt Enable (1=enable interrupts)
+
+=== Data Register ===
+
+* Register Select = 1
+** Read = Read data from the data register (not implemented due to kbd removal)
+** Write = Write data to the data register
+
+== Acknowledgments ==
+
 These files are from [https://github.com/nealcrook/multicomp6809/tree/master/multicomp/Components/TERMINAL Neal Crook's port of the VHDL code to support VGA files] (as snagged 2019-04-08) for [http://searle.hostei.com/grant/Multicomp/index.html Grant Searle's Multicomp] Retro-Computer. [https://github.com/nealcrook/multicomp6809/wiki/VDU-Modifications Neal describes the enhancements here].
 
 Grant's projects re-create late 1970's and early 1980's era vintage computers using inexpensive FPGA cards. The various parts that make up retro-computers are in each of the folders.
