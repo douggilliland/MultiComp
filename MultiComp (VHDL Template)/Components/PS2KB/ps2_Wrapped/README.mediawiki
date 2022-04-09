@@ -1,0 +1,31 @@
+== PS/2 Keyboard ==
+
+* Wrapper for PS/2 keyboard interfaces
+* PS/2 to ASCII conversion
+
+=== Software Interface ===
+
+==== Address i_RegSel - Register Select = 0  - Status register ====
+
+* Value = 0x00, No data present
+* Value = 0x01, Data present
+
+==== Address i_RegSel - Register Select = 0  - Data register ====
+
+* ASCII Data
+
+=== VHDL Entity ===
+
+<pre>
+ENTITY Wrap_Keyboard IS
+port (
+  i_CLOCK_50 : IN  STD_LOGIC; -- input clock
+  i_n_reset  : IN  STD_LOGIC; -- 
+  i_kbCS     : IN  STD_LOGIC; -- 
+  i_RegSel   : IN  STD_LOGIC; -- address
+  i_rd_Kbd   : IN  STD_LOGIC; --
+  i_ps2_clk  : IN  STD_LOGIC; --
+  i_ps2_data : IN  STD_LOGIC; --
+  o_kbdDat   : OUT STD_LOGIC_vector(7 downto 0));
+end Wrap_Keyboard;
+</pre>
