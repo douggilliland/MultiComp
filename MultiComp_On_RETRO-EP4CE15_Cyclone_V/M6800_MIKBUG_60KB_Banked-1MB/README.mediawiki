@@ -1,0 +1,65 @@
+<a href="https://www.tindie.com/products/land_boards/retrocomputer-fpga-card-pcb-only/" >
+<img src="http://land-boards.com/tindie/tindie-larges-v2.png" alt="Tindie Logo">
+</img></a> 
+
+<img src="http://land-boards.com/blwiki/images/8/8f/RETRO-EP4CE15-REV4-BLACK-P1464-720PX.jpg"></img>
+
+== M6800 - Tested/Works ==
+
+* [http://land-boards.com/blwiki/index.php?title=RETRO-EP4CE15 RETRO-EP4CE15 FPGA board]
+* MC6800 CPU running MIKBUG from back in the day
+** 25 MHz internal
+** 16.7 MHz when accessing the external (45 nS) SRAM
+* 60KB SRAM addressed from MC6800
+**	32K+16+4 = 52KB (internal) SRAM
+*** 48KB contiguous space
+*** 4KB scratchpad
+** 128 banks of 8KB of external SRAM (1MB total)
+* Bank Select register (7 bits)
+* MIKBUG (SmithBug) ROM - 60 KB (SRAM) version
+** http://www.retrotechnology.com/restore/smithbug.html
+*  MC6850 ACIA UART (USB-to-Serial)
+* VDU
+** XGA 80x25 character display
+** PS/2 keyboard
+*  Select Jumper (J3-1) switches between
+** VDU (Video Display Unit) VGA + PS/2 keyboard
+** External Serial Port (USB-Serial on [http://land-boards.com/blwiki/index.php?title=RETRO-EP4CE15 RETRO-EP4CE15 FPGA board])
+
+==	Memory Map==
+
+* x0000-x7fff - 32KB Internal SRAM
+* x8000-xbfff - 16Kb Internal SRAM
+* xc000-xdfff - 8KB External SRAM (128 banks of 8KB)
+* xe000-xefff - 4KB Internal scratchpad SRAM
+* xf000-xffff - 4 KB ROM
+* xfc00-xfcff - I/O space carves out of unused ROM space
+** xfc18-xfc19 - VDU/UART (6850 ACIA Interface)
+** xfc28-xfc29 - UART/VDU (6850 ACIA Interface)
+** xfc30 - Bank Select register 8-bits (r/w)
+** xfc31 - 8-bit output Latch IOPINs
+** xfc32 - 8-bit output Latch IOPINs
+** xfc40-xfc47 - SD Card Controller
+
+== Smithbug v2 Commands ==
+
+*	V	VIEW MEMORY
+*	I	FILL MEMORY
+* M	MOVE MEMORY
+*	E	CHANGE MEMORY
+*	F	FIND 
+*	D	DISASSEMBLE CODE
+*	&	S1 LOAD PROGRAM
+*	J	JUMP TO TARGET PROGRAM
+*	G	GO TO PROGRAM
+*	T	TRACE PROGRAM
+*	@	ASCII CONVERSION
+*	R	PRINT
+*	H	PRINTER ON
+*	Q	HARDWARE LOCATION
+* K	CONTINUE AFTER BREAK
+*	1	BREAKPOINT ONE
+*	2	BREAKPOINT TWO
+*	*	HARDWARE LOCATION (TBA)
+*	O	ECHO ON
+*	N	ECHO OFF

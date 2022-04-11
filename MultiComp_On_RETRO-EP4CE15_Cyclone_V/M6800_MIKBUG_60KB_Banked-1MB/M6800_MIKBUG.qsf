@@ -1,0 +1,232 @@
+# -------------------------------------------------------------------------- #
+#
+# Copyright (C) 1991-2013 Altera Corporation
+# Your use of Altera Corporation's design tools, logic functions 
+# and other software and tools, and its AMPP partner logic 
+# functions, and any output files from any of the foregoing 
+# (including device programming or simulation files), and any 
+# associated documentation or information are expressly subject 
+# to the terms and conditions of the Altera Program License 
+# Subscription Agreement, Altera MegaCore Function License 
+# Agreement, or other applicable license agreement, including, 
+# without limitation, that your use is for the sole purpose of 
+# programming logic devices manufactured by Altera and sold by 
+# Altera or its authorized distributors.  Please refer to the 
+# applicable agreement for further details.
+#
+# -------------------------------------------------------------------------- #
+#
+# Quartus II 32-bit
+# Version 13.0.1 Build 232 06/12/2013 Service Pack 1 SJ Web Edition
+# Date created = 15:37:40  March 29, 2019
+#
+# -------------------------------------------------------------------------- #
+#
+# Notes:
+#
+# 1) The default values for assignments are stored in the file:
+#		Microcomputer_assignment_defaults.qdf
+#    If this file doesn't exist, see file:
+#		assignment_defaults.qdf
+#
+# 2) Altera recommends that you do not modify this file. This
+#    file is updated automatically by the Quartus II software
+#    and any changes you make may be lost or overwritten.
+#
+# -------------------------------------------------------------------------- #
+
+
+set_global_assignment -name FAMILY "Cyclone V"
+set_global_assignment -name DEVICE 5CEFA2F23I7
+set_global_assignment -name TOP_LEVEL_ENTITY M6800_MIKBUG
+set_global_assignment -name ORIGINAL_QUARTUS_VERSION "13.0 SP1"
+set_global_assignment -name PROJECT_CREATION_TIME_DATE "15:37:40  MARCH 29, 2019"
+set_global_assignment -name LAST_QUARTUS_VERSION "21.1.0 Lite Edition"
+set_global_assignment -name PROJECT_OUTPUT_DIRECTORY output_files
+set_global_assignment -name MIN_CORE_JUNCTION_TEMP 0
+set_global_assignment -name MAX_CORE_JUNCTION_TEMP 85
+set_global_assignment -name ERROR_CHECK_FREQUENCY_DIVISOR 1
+set_global_assignment -name PARTITION_NETLIST_TYPE SOURCE -section_id Top
+set_global_assignment -name PARTITION_FITTER_PRESERVATION_LEVEL PLACEMENT_AND_ROUTING -section_id Top
+set_global_assignment -name PARTITION_COLOR 16764057 -section_id Top
+set_global_assignment -name POWER_PRESET_COOLING_SOLUTION "23 MM HEAT SINK WITH 200 LFPM AIRFLOW"
+set_global_assignment -name POWER_BOARD_THERMAL_MODEL "NONE (CONSERVATIVE)"
+set_global_assignment -name STRATIX_DEVICE_IO_STANDARD "3.3-V LVTTL"
+set_global_assignment -name DEVICE_FILTER_PACKAGE FBGA
+set_global_assignment -name TIMING_ANALYZER_MULTICORNER_ANALYSIS ON
+set_global_assignment -name SMART_RECOMPILE ON
+set_global_assignment -name ENABLE_SIGNALTAP OFF
+set_global_assignment -name USE_SIGNALTAP_FILE stp1.stp
+set_global_assignment -name NUM_PARALLEL_PROCESSORS ALL
+# Clock and reset
+set_location_assignment PIN_M9 -to i_CLOCK_50
+set_location_assignment PIN_V18 -to i_n_reset
+set_instance_assignment -name WEAK_PULL_UP_RESISTOR ON -to i_n_reset
+# PS/2
+set_location_assignment PIN_AA2 -to io_ps2Clk
+set_instance_assignment -name WEAK_PULL_UP_RESISTOR ON -to io_ps2Clk
+set_location_assignment PIN_AA1 -to io_ps2Data
+set_instance_assignment -name WEAK_PULL_UP_RESISTOR ON -to io_ps2Data
+# Serial
+set_location_assignment PIN_C11 -to i_utxd1
+set_instance_assignment -name WEAK_PULL_UP_RESISTOR ON -to i_utxd1
+set_location_assignment PIN_G10 -to o_urxd1
+set_location_assignment PIN_B11 -to i_urts1
+set_location_assignment PIN_F10 -to o_ucts1
+set_location_assignment PIN_L17 -to i_serSelect
+set_instance_assignment -name WEAK_PULL_UP_RESISTOR ON -to i_serSelect
+# Video
+set_location_assignment PIN_D12 -to o_videoR1
+set_location_assignment PIN_E12 -to o_videoR0
+set_location_assignment PIN_C13 -to o_videoG1
+set_location_assignment PIN_D13 -to o_videoG0
+set_location_assignment PIN_A13 -to o_videoB1
+set_location_assignment PIN_B13 -to o_videoB0
+set_location_assignment PIN_A15 -to o_hSync
+set_location_assignment PIN_A14 -to o_vSync
+# External SD Card
+set_location_assignment PIN_B15 -to o_sdCS
+set_location_assignment PIN_B16 -to i_sdMISO
+set_instance_assignment -name WEAK_PULL_UP_RESISTOR ON -to i_sdMISO
+set_location_assignment PIN_C15 -to o_sdMOSI
+set_location_assignment PIN_C16 -to o_sdSCLK
+set_location_assignment PIN_D17 -to o_driveLED
+# 50-pin I/O Connector
+set_location_assignment PIN_AB15 -to IO_PIN[3]
+set_location_assignment PIN_AA15 -to IO_PIN[4]
+set_location_assignment PIN_Y14 -to IO_PIN[5]
+set_location_assignment PIN_Y15 -to IO_PIN[6]
+set_location_assignment PIN_AB17 -to IO_PIN[7]
+set_location_assignment PIN_AB18 -to IO_PIN[8]
+set_location_assignment PIN_Y16 -to IO_PIN[9]
+set_location_assignment PIN_Y17 -to IO_PIN[10]
+set_location_assignment PIN_AA17 -to IO_PIN[11]
+set_location_assignment PIN_AA18 -to IO_PIN[12]
+set_location_assignment PIN_AA19 -to IO_PIN[13]
+set_location_assignment PIN_AA20 -to IO_PIN[14]
+set_location_assignment PIN_Y19 -to IO_PIN[15]
+set_location_assignment PIN_Y20 -to IO_PIN[16]
+set_location_assignment PIN_AB20 -to IO_PIN[17]
+set_location_assignment PIN_AB21 -to IO_PIN[18]
+set_location_assignment PIN_AB22 -to IO_PIN[19]
+set_location_assignment PIN_AA22 -to IO_PIN[20]
+set_location_assignment PIN_Y22 -to IO_PIN[21]
+set_location_assignment PIN_W22 -to IO_PIN[22]
+set_location_assignment PIN_W21 -to IO_PIN[23]
+set_location_assignment PIN_Y21 -to IO_PIN[24]
+set_location_assignment PIN_V21 -to IO_PIN[25]
+set_location_assignment PIN_U22 -to IO_PIN[26]
+set_location_assignment PIN_W19 -to IO_PIN[27]
+set_location_assignment PIN_V20 -to IO_PIN[28]
+set_location_assignment PIN_U20 -to IO_PIN[29]
+set_location_assignment PIN_U21 -to IO_PIN[30]
+set_location_assignment PIN_T22 -to IO_PIN[31]
+set_location_assignment PIN_R22 -to IO_PIN[32]
+set_location_assignment PIN_R21 -to IO_PIN[33]
+set_location_assignment PIN_P22 -to IO_PIN[34]
+set_location_assignment PIN_T19 -to IO_PIN[35]
+set_location_assignment PIN_T20 -to IO_PIN[36]
+set_location_assignment PIN_P17 -to IO_PIN[37]
+set_location_assignment PIN_P16 -to IO_PIN[38]
+set_location_assignment PIN_N21 -to IO_PIN[39]
+set_location_assignment PIN_N20 -to IO_PIN[40]
+set_location_assignment PIN_M20 -to IO_PIN[41]
+set_location_assignment PIN_M21 -to IO_PIN[42]
+set_location_assignment PIN_N19 -to IO_PIN[43]
+set_location_assignment PIN_M18 -to IO_PIN[44]
+set_location_assignment PIN_L19 -to IO_PIN[45]
+set_location_assignment PIN_L18 -to IO_PIN[46]
+set_location_assignment PIN_L22 -to IO_PIN[47]
+set_location_assignment PIN_M22 -to IO_PIN[48]
+# SRAM
+set_location_assignment PIN_E2 -to o_n_extSRamCS
+set_location_assignment PIN_L2 -to o_n_extSRamOE
+set_location_assignment PIN_D6 -to o_n_extSRamWE
+set_location_assignment PIN_C1 -to io_extSRamData[0]
+set_location_assignment PIN_G6 -to io_extSRamData[1]
+set_location_assignment PIN_G8 -to io_extSRamData[2]
+set_location_assignment PIN_F7 -to io_extSRamData[3]
+set_location_assignment PIN_H8 -to io_extSRamData[4]
+set_location_assignment PIN_H6 -to io_extSRamData[5]
+set_location_assignment PIN_C2 -to io_extSRamData[6]
+set_location_assignment PIN_D3 -to io_extSRamData[7]
+set_location_assignment PIN_G1 -to o_extSRamAddress[0]
+set_location_assignment PIN_L1 -to o_extSRamAddress[1]
+set_location_assignment PIN_N1 -to o_extSRamAddress[2]
+set_location_assignment PIN_U1 -to o_extSRamAddress[3]
+set_location_assignment PIN_Y3 -to o_extSRamAddress[4]
+set_location_assignment PIN_W2 -to o_extSRamAddress[5]
+set_location_assignment PIN_U2 -to o_extSRamAddress[6]
+set_location_assignment PIN_N2 -to o_extSRamAddress[7]
+set_location_assignment PIN_G2 -to o_extSRamAddress[8]
+set_location_assignment PIN_E7 -to o_extSRamAddress[9]
+set_location_assignment PIN_C6 -to o_extSRamAddress[10]
+set_location_assignment PIN_D9 -to o_extSRamAddress[11]
+set_location_assignment PIN_A5 -to o_extSRamAddress[12]
+set_location_assignment PIN_B7 -to o_extSRamAddress[13]
+set_location_assignment PIN_A8 -to o_extSRamAddress[14]
+set_location_assignment PIN_A10 -to o_extSRamAddress[15]
+set_location_assignment PIN_A7 -to o_extSRamAddress[16]
+set_location_assignment PIN_B6 -to o_extSRamAddress[17]
+set_location_assignment PIN_B5 -to o_extSRamAddress[18]
+set_location_assignment PIN_E9 -to o_extSRamAddress[19]
+# SDRAM
+set_location_assignment PIN_AB11 -to o_sdRamClk
+set_location_assignment PIN_V9 -to o_sdRamClkEn
+set_location_assignment PIN_AA7 -to o_n_sdRamCas
+set_location_assignment PIN_AB5 -to o_n_sdRamCe
+set_location_assignment PIN_AB6 -to o_n_sdRamRas
+set_location_assignment PIN_W9 -to o_n_sdRamWe
+set_location_assignment PIN_P9 -to o_sdRamAddr[14]
+set_location_assignment PIN_T7 -to o_sdRamAddr[13]
+set_location_assignment PIN_Y9 -to o_sdRamAddr[12]
+set_location_assignment PIN_T9 -to o_sdRamAddr[11]
+set_location_assignment PIN_R6 -to o_sdRamAddr[10]
+set_location_assignment PIN_W8 -to o_sdRamAddr[9]
+set_location_assignment PIN_T8 -to o_sdRamAddr[8]
+set_location_assignment PIN_U8 -to o_sdRamAddr[7]
+set_location_assignment PIN_V6 -to o_sdRamAddr[6]
+set_location_assignment PIN_U7 -to o_sdRamAddr[5]
+set_location_assignment PIN_U6 -to o_sdRamAddr[4]
+set_location_assignment PIN_N6 -to o_sdRamAddr[3]
+set_location_assignment PIN_N8 -to o_sdRamAddr[2]
+set_location_assignment PIN_P7 -to o_sdRamAddr[1]
+set_location_assignment PIN_P8 -to o_sdRamAddr[0]
+set_location_assignment PIN_AA12 -to io_sdRamData[0]
+set_location_assignment PIN_Y11 -to io_sdRamData[1]
+set_location_assignment PIN_AA10 -to io_sdRamData[2]
+set_location_assignment PIN_AB10 -to io_sdRamData[3]
+set_location_assignment PIN_Y10 -to io_sdRamData[4]
+set_location_assignment PIN_AA9 -to io_sdRamData[5]
+set_location_assignment PIN_AB8 -to io_sdRamData[6]
+set_location_assignment PIN_AA8 -to io_sdRamData[7]
+set_location_assignment PIN_U10 -to io_sdRamData[8]
+set_location_assignment PIN_T10 -to io_sdRamData[9]
+set_location_assignment PIN_U11 -to io_sdRamData[10]
+set_location_assignment PIN_R10 -to io_sdRamData[11]
+set_location_assignment PIN_R11 -to io_sdRamData[12]
+set_location_assignment PIN_U12 -to io_sdRamData[13]
+set_location_assignment PIN_R12 -to io_sdRamData[14]
+set_location_assignment PIN_P12 -to io_sdRamData[15]
+#
+set_global_assignment -name VHDL_FILE "../../MultiComp (VHDL Template)/Components/RAM_Internal/InternalRam16K.vhd"
+set_global_assignment -name VHDL_FILE "../../MultiComp (VHDL Template)/Components/SDCARD/Older_SD_Controllers/sd_controller_NealC.vhd"
+set_global_assignment -name VHDL_FILE "../../MultiComp (VHDL Template)/Components/UART/BaudRate6850.vhd"
+set_global_assignment -name VHDL_FILE "../../MultiComp (VHDL Template)/Components/RAM_Internal/InternalRam4K.vhd"
+set_global_assignment -name VHDL_FILE "../../MultiComp (VHDL Template)/Components/IO/OutLatch.vhd"
+set_global_assignment -name VHDL_FILE "../../MultiComp (VHDL Template)/Components/UART/bufferedUART.vhd"
+set_global_assignment -name QIP_FILE "../../MultiComp (VHDL Template)/Components/ROMs/MIKBUG_6800/MIKBUG.qip"
+set_global_assignment -name VHDL_FILE "../../MultiComp (VHDL Template)/Components/RAM_Internal/InternalRam32K.vhd"
+set_global_assignment -name VHDL_FILE "../../MultiComp (VHDL Template)/Components/Debounce/Debounce.vhd"
+set_global_assignment -name VHDL_FILE "../../MultiComp (VHDL Template)/Components/CPU//M6800/cpu68.vhd"
+set_global_assignment -name VHDL_FILE "../../MultiComp (VHDL Template)/Components/TERMINAL/SansBoldRomReduced.vhd"
+set_global_assignment -name VHDL_FILE "../../MultiComp (VHDL Template)/Components/TERMINAL/SansBoldRom.vhd"
+set_global_assignment -name VHDL_FILE "../../MultiComp (VHDL Template)/Components/TERMINAL/DisplayRam2K.vhd"
+set_global_assignment -name VHDL_FILE "../../MultiComp (VHDL Template)/Components/TERMINAL/DisplayRam1K.vhd"
+set_global_assignment -name VHDL_FILE "../../MultiComp (VHDL Template)/Components/TERMINAL/CGABoldRom.vhd"
+set_global_assignment -name VHDL_FILE "../../MultiComp (VHDL Template)/Components/TERMINAL/CGABoldRomReduced.vhd"
+set_global_assignment -name VHDL_FILE "../../MultiComp (VHDL Template)/Components/TERMINAL/SBCTextDisplayRGB.vhd"
+set_global_assignment -name VHDL_FILE M6800_MIKBUG.vhd
+set_global_assignment -name SDC_FILE SDC1.sdc
+set_global_assignment -name QIP_FILE M6800_MIKBUG_6OKB.qip
+set_instance_assignment -name PARTITION_HIERARCHY root_partition -to | -section_id Top
