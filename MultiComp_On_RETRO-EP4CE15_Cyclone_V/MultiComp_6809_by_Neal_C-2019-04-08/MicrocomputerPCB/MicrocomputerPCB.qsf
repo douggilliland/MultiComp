@@ -1,0 +1,249 @@
+# -------------------------------------------------------------------------- #
+#
+# Copyright (C) 1991-2013 Altera Corporation
+# Your use of Altera Corporation's design tools, logic functions 
+# and other software and tools, and its AMPP partner logic 
+# functions, and any output files from any of the foregoing 
+# (including device programming or simulation files), and any 
+# associated documentation or information are expressly subject 
+# to the terms and conditions of the Altera Program License 
+# Subscription Agreement, Altera MegaCore Function License 
+# Agreement, or other applicable license agreement, including, 
+# without limitation, that your use is for the sole purpose of 
+# programming logic devices manufactured by Altera and sold by 
+# Altera or its authorized distributors.  Please refer to the 
+# applicable agreement for further details.
+#
+# -------------------------------------------------------------------------- #
+#
+# Quartus II 32-bit
+# Version 13.0.1 Build 232 06/12/2013 Service Pack 1 SJ Web Edition
+# Date created = 17:55:48  October 20, 2013
+#
+# -------------------------------------------------------------------------- #
+#
+# Notes:
+#
+# 1) The default values for assignments are stored in the file:
+#		Microcomputer_assignment_defaults.qdf
+#    If this file doesn't exist, see file:
+#		assignment_defaults.qdf
+#
+# 2) Altera recommends that you do not modify this file. This
+#    file is updated automatically by the Quartus II software
+#    and any changes you make may be lost or overwritten.
+#
+# -------------------------------------------------------------------------- #
+
+
+set_global_assignment -name FAMILY "Cyclone V"
+set_global_assignment -name DEVICE 5CEFA2F23I7
+set_global_assignment -name TOP_LEVEL_ENTITY Microcomputer
+set_global_assignment -name ORIGINAL_QUARTUS_VERSION "13.0 SP1"
+set_global_assignment -name PROJECT_CREATION_TIME_DATE "17:55:48  OCTOBER 20, 2013"
+set_global_assignment -name LAST_QUARTUS_VERSION "21.1.0 Lite Edition"
+set_global_assignment -name PROJECT_OUTPUT_DIRECTORY output_files
+set_global_assignment -name MIN_CORE_JUNCTION_TEMP "-40"
+set_global_assignment -name MAX_CORE_JUNCTION_TEMP 100
+set_global_assignment -name ERROR_CHECK_FREQUENCY_DIVISOR 1
+set_global_assignment -name PARTITION_NETLIST_TYPE SOURCE -section_id Top
+set_global_assignment -name PARTITION_FITTER_PRESERVATION_LEVEL PLACEMENT_AND_ROUTING -section_id Top
+set_global_assignment -name PARTITION_COLOR 16764057 -section_id Top
+set_global_assignment -name STRATIX_DEVICE_IO_STANDARD "3.3-V LVTTL"
+set_global_assignment -name OPTIMIZE_HOLD_TIMING "IO PATHS AND MINIMUM TPD PATHS"
+set_global_assignment -name OPTIMIZE_MULTI_CORNER_TIMING ON
+set_global_assignment -name WEAK_PULL_UP_RESISTOR OFF
+set_global_assignment -name POWER_PRESET_COOLING_SOLUTION "23 MM HEAT SINK WITH 200 LFPM AIRFLOW"
+set_global_assignment -name POWER_BOARD_THERMAL_MODEL "NONE (CONSERVATIVE)"
+set_global_assignment -name USE_CONFIGURATION_DEVICE ON
+set_global_assignment -name VHDL_INPUT_VERSION VHDL_1993
+set_global_assignment -name VHDL_SHOW_LMF_MAPPING_MESSAGES OFF
+set_global_assignment -name EDA_SIMULATION_TOOL "Questa Intel FPGA (VHDL)"
+set_global_assignment -name EDA_OUTPUT_DATA_FORMAT VHDL -section_id eda_simulation
+set_global_assignment -name ENABLE_OCT_DONE OFF
+set_global_assignment -name ENABLE_CONFIGURATION_PINS OFF
+set_global_assignment -name ENABLE_BOOT_SEL_PIN OFF
+set_global_assignment -name CRC_ERROR_OPEN_DRAIN OFF
+set_global_assignment -name RESERVE_DATA0_AFTER_CONFIGURATION "USE AS REGULAR IO"
+set_global_assignment -name RESERVE_DATA1_AFTER_CONFIGURATION "USE AS REGULAR IO"
+set_global_assignment -name RESERVE_FLASH_NCE_AFTER_CONFIGURATION "USE AS REGULAR IO"
+set_global_assignment -name RESERVE_DCLK_AFTER_CONFIGURATION "USE AS REGULAR IO"
+set_global_assignment -name OUTPUT_IO_TIMING_NEAR_END_VMEAS "HALF VCCIO" -rise
+set_global_assignment -name OUTPUT_IO_TIMING_NEAR_END_VMEAS "HALF VCCIO" -fall
+set_global_assignment -name OUTPUT_IO_TIMING_FAR_END_VMEAS "HALF SIGNAL SWING" -rise
+set_global_assignment -name OUTPUT_IO_TIMING_FAR_END_VMEAS "HALF SIGNAL SWING" -fall
+set_global_assignment -name TIMING_ANALYZER_MULTICORNER_ANALYSIS ON
+set_global_assignment -name SMART_RECOMPILE ON
+set_global_assignment -name NUM_PARALLEL_PROCESSORS 4
+# Clock and reset
+set_location_assignment PIN_M9 -to i_clk
+set_location_assignment PIN_V18 -to i_n_reset
+set_instance_assignment -name WEAK_PULL_UP_RESISTOR ON -to i_n_reset
+# PS/2
+set_location_assignment PIN_AA2 -to io_ps2Clk
+set_instance_assignment -name WEAK_PULL_UP_RESISTOR ON -to io_ps2Clk
+set_location_assignment PIN_AA1 -to io_ps2Data
+set_instance_assignment -name WEAK_PULL_UP_RESISTOR ON -to io_ps2Data
+# Serial
+set_location_assignment PIN_G10 -to o_txd1
+set_location_assignment PIN_C11 -to i_rxd1
+set_instance_assignment -name WEAK_PULL_UP_RESISTOR ON -to i_rxd1
+set_location_assignment PIN_F10 -to o_rts1
+set_location_assignment PIN_B11 -to i_cts1
+set_instance_assignment -name WEAK_PULL_UP_RESISTOR ON -to i_cts1
+set_location_assignment PIN_L17 -to i_SerSel
+set_instance_assignment -name WEAK_PULL_UP_RESISTOR ON -to i_SerSel
+# Video
+set_location_assignment PIN_B13 -to o_videoB0
+set_location_assignment PIN_A13 -to o_videoB1
+set_location_assignment PIN_D13 -to o_videoG0
+set_location_assignment PIN_C13 -to o_videoG1
+set_location_assignment PIN_E12 -to o_videoR0
+set_location_assignment PIN_D12 -to o_videoR1
+set_location_assignment PIN_A15 -to o_hSync
+set_location_assignment PIN_A14 -to o_vSync
+# SD Card
+set_location_assignment PIN_B15 -to o_sdCS
+set_location_assignment PIN_B16 -to i_sdMISO
+set_instance_assignment -name WEAK_PULL_UP_RESISTOR ON -to i_sdMISO
+set_location_assignment PIN_C15 -to o_sdMOSI
+set_location_assignment PIN_C16 -to o_sdSCLK
+# SRAM
+set_location_assignment PIN_E2 -to n_sRamCS
+set_location_assignment PIN_L2 -to n_sRamOE
+set_location_assignment PIN_D6 -to n_sRamWE
+set_location_assignment PIN_G1 -to sramAddress[0]
+set_location_assignment PIN_L1 -to sramAddress[1]
+set_location_assignment PIN_N1 -to sramAddress[2]
+set_location_assignment PIN_U1 -to sramAddress[3]
+set_location_assignment PIN_Y3 -to sramAddress[4]
+set_location_assignment PIN_W2 -to sramAddress[5]
+set_location_assignment PIN_U2 -to sramAddress[6]
+set_location_assignment PIN_N2 -to sramAddress[7]
+set_location_assignment PIN_G2 -to sramAddress[8]
+set_location_assignment PIN_E7 -to sramAddress[9]
+set_location_assignment PIN_C6 -to sramAddress[10]
+set_location_assignment PIN_D9 -to sramAddress[11]
+set_location_assignment PIN_A5 -to sramAddress[12]
+set_location_assignment PIN_B7 -to sramAddress[13]
+set_location_assignment PIN_A8 -to sramAddress[14]
+set_location_assignment PIN_A10 -to sramAddress[15]
+set_location_assignment PIN_A7 -to sramAddress[16]
+set_location_assignment PIN_B6 -to sramAddress[17]
+set_location_assignment PIN_B5 -to sramAddress[18]
+set_location_assignment PIN_E9 -to sramAddress[19]
+set_location_assignment PIN_C1 -to sramData[0]
+set_location_assignment PIN_G6 -to sramData[1]
+set_location_assignment PIN_G8 -to sramData[2]
+set_location_assignment PIN_F7 -to sramData[3]
+set_location_assignment PIN_H8 -to sramData[4]
+set_location_assignment PIN_H6 -to sramData[5]
+set_location_assignment PIN_C2 -to sramData[6]
+set_location_assignment PIN_D3 -to sramData[7]
+# LEDs
+set_location_assignment PIN_D17 -to o_n_MMU_ACT_LED
+# GPIO, 3+8+8 = 19 bits
+# 16 bits go to I/O connector 
+set_location_assignment PIN_AB15 -to io_gpio0[0]
+set_location_assignment PIN_AA15 -to io_gpio0[1]
+set_location_assignment PIN_Y14 -to io_gpio0[2]
+set_instance_assignment -name WEAK_PULL_UP_RESISTOR ON -to io_gpio0[0]
+set_instance_assignment -name WEAK_PULL_UP_RESISTOR ON -to io_gpio0[1]
+set_instance_assignment -name WEAK_PULL_UP_RESISTOR ON -to io_gpio0[2]
+set_instance_assignment -name WEAK_PULL_UP_RESISTOR ON -to io_gpio0
+#
+set_location_assignment PIN_U20 -to io_gpio2[1]
+set_location_assignment PIN_U21 -to io_gpio2[0]
+set_location_assignment PIN_T22 -to io_gpio2[2]
+set_location_assignment PIN_R22 -to io_gpio2[3]
+set_location_assignment PIN_R21 -to io_gpio2[4]
+set_location_assignment PIN_P22 -to io_gpio2[5]
+set_location_assignment PIN_T19 -to io_gpio2[6]
+set_location_assignment PIN_T20 -to io_gpio2[7]
+set_instance_assignment -name WEAK_PULL_UP_RESISTOR ON -to io_gpio2[0]
+set_instance_assignment -name WEAK_PULL_UP_RESISTOR ON -to io_gpio2[1]
+set_instance_assignment -name WEAK_PULL_UP_RESISTOR ON -to io_gpio2[2]
+set_instance_assignment -name WEAK_PULL_UP_RESISTOR ON -to io_gpio2[3]
+set_instance_assignment -name WEAK_PULL_UP_RESISTOR ON -to io_gpio2[4]
+set_instance_assignment -name WEAK_PULL_UP_RESISTOR ON -to io_gpio2[5]
+set_instance_assignment -name WEAK_PULL_UP_RESISTOR ON -to io_gpio2[6]
+set_instance_assignment -name WEAK_PULL_UP_RESISTOR ON -to io_gpio2[7]
+set_instance_assignment -name WEAK_PULL_UP_RESISTOR ON -to io_gpio2
+# 
+set_location_assignment PIN_P17 -to io_gpio3[0]
+set_location_assignment PIN_P16 -to io_gpio3[1]
+set_location_assignment PIN_N21 -to io_gpio3[2]
+set_location_assignment PIN_N20 -to io_gpio3[3]
+set_location_assignment PIN_M20 -to io_gpio3[4]
+set_location_assignment PIN_M21 -to io_gpio3[5]
+set_location_assignment PIN_N19 -to io_gpio3[6]
+set_location_assignment PIN_M18 -to io_gpio3[7]
+set_instance_assignment -name WEAK_PULL_UP_RESISTOR ON -to io_gpio3[0]
+set_instance_assignment -name WEAK_PULL_UP_RESISTOR ON -to io_gpio3[1]
+set_instance_assignment -name WEAK_PULL_UP_RESISTOR ON -to io_gpio3[2]
+set_instance_assignment -name WEAK_PULL_UP_RESISTOR ON -to io_gpio3[3]
+set_instance_assignment -name WEAK_PULL_UP_RESISTOR ON -to io_gpio3[4]
+set_instance_assignment -name WEAK_PULL_UP_RESISTOR ON -to io_gpio3[5]
+set_instance_assignment -name WEAK_PULL_UP_RESISTOR ON -to io_gpio3[6]
+set_instance_assignment -name WEAK_PULL_UP_RESISTOR ON -to io_gpio3[7]
+set_instance_assignment -name WEAK_PULL_UP_RESISTOR ON -to io_gpio3
+# SDRAM
+set_location_assignment PIN_AB11 -to sdRamClk
+set_location_assignment PIN_V9 -to sdRamClkEn
+set_location_assignment PIN_AA7 -to n_sdRamCas
+set_location_assignment PIN_AB5 -to n_sdRamCe
+set_location_assignment PIN_AB6 -to n_sdRamRas
+set_location_assignment PIN_W9 -to n_sdRamWe
+set_location_assignment PIN_P8 -to sdRamAddr[0]
+set_location_assignment PIN_P7 -to sdRamAddr[1]
+set_location_assignment PIN_N8 -to sdRamAddr[2]
+set_location_assignment PIN_N6 -to sdRamAddr[3]
+set_location_assignment PIN_U6 -to sdRamAddr[4]
+set_location_assignment PIN_U7 -to sdRamAddr[5]
+set_location_assignment PIN_V6 -to sdRamAddr[6]
+set_location_assignment PIN_U8 -to sdRamAddr[7]
+set_location_assignment PIN_T8 -to sdRamAddr[8]
+set_location_assignment PIN_W8 -to sdRamAddr[9]
+set_location_assignment PIN_R6 -to sdRamAddr[10]
+set_location_assignment PIN_T9 -to sdRamAddr[11]
+set_location_assignment PIN_Y9 -to sdRamAddr[12]
+set_location_assignment PIN_T7 -to sdRamAddr[13]
+set_location_assignment PIN_P9 -to sdRamAddr[14]
+set_location_assignment PIN_AA12 -to sdRamData[0]
+set_location_assignment PIN_Y11 -to sdRamData[1]
+set_location_assignment PIN_AA10 -to sdRamData[2]
+set_location_assignment PIN_AB10 -to sdRamData[3]
+set_location_assignment PIN_Y10 -to sdRamData[4]
+set_location_assignment PIN_AA9 -to sdRamData[5]
+set_location_assignment PIN_AB8 -to sdRamData[6]
+set_location_assignment PIN_AA8 -to sdRamData[7]
+set_location_assignment PIN_U10 -to sdRamData[8]
+set_location_assignment PIN_T10 -to sdRamData[9]
+set_location_assignment PIN_U11 -to sdRamData[10]
+set_location_assignment PIN_R10 -to sdRamData[11]
+set_location_assignment PIN_R11 -to sdRamData[12]
+set_location_assignment PIN_U12 -to sdRamData[13]
+set_location_assignment PIN_R12 -to sdRamData[14]
+set_location_assignment PIN_P12 -to sdRamData[15]
+# 
+set_global_assignment -name VHDL_FILE "../../../MultiComp (VHDL Template)/Components/Debounce/Debounce.vhd"
+set_global_assignment -name VHDL_FILE "../../../MultiComp (VHDL Template)/Components/UART/BaudRate6850.vhd"
+set_global_assignment -name VHDL_FILE "../../../MultiComp (VHDL Template)/Components/SDCARD/Older_SD_Controllers/sd_controller_NealC.vhd"
+set_global_assignment -name VHDL_FILE "../../../MultiComp (VHDL Template)/Components/UART/bufferedUART.vhd"
+set_global_assignment -name VHDL_FILE "../../../MultiComp (VHDL Template)/Components/CPU/M6809/cpu09p.vhd"
+set_global_assignment -name VHDL_FILE "../../../MultiComp (VHDL Template)/Components/TERMINAL/SansBoldRomReduced.vhd"
+set_global_assignment -name VHDL_FILE "../../../MultiComp (VHDL Template)/Components/TERMINAL/SansBoldRom.vhd"
+set_global_assignment -name VHDL_FILE "../../../MultiComp (VHDL Template)/Components/TERMINAL/DisplayRam2K.vhd"
+set_global_assignment -name VHDL_FILE "../../../MultiComp (VHDL Template)/Components/TERMINAL/DisplayRam1K.vhd"
+set_global_assignment -name VHDL_FILE "../../../MultiComp (VHDL Template)/Components/TERMINAL/CGABoldRomReduced.vhd"
+set_global_assignment -name VHDL_FILE "../../../MultiComp (VHDL Template)/Components/TERMINAL/CGABoldRom.vhd"
+set_global_assignment -name VHDL_FILE "../../../MultiComp (VHDL Template)/Components/Memory_Mappers/MMAPPER2/mem_mapper2.vhd"
+set_global_assignment -name VHDL_FILE "../../../MultiComp (VHDL Template)/Components/Memory_Mappers/MMAPPER/mem_mapper.vhd"
+set_global_assignment -name VHDL_FILE ../Components/TERMINAL/SBCTextDisplayRGB.vhd
+set_global_assignment -name VHDL_FILE Microcomputer.vhd
+set_global_assignment -name SOURCE_FILE MicrocomputerPCB.qsf
+set_global_assignment -name CDF_FILE output_files/Microcomputer.cdf
+set_global_assignment -name SDC_FILE MicrocomputerPCB.out.sdc
+set_global_assignment -name QIP_FILE ../ROMS/6809/M6809_CAMELFORTH_ROM.qip
+set_global_assignment -name VHDL_FILE "../../../MultiComp (VHDL Template)/Components/IO/gpio16.vhd"
+set_instance_assignment -name PARTITION_HIERARCHY root_partition -to | -section_id Top
