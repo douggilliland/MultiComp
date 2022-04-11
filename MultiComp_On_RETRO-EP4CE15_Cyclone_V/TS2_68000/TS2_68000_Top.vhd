@@ -2,39 +2,48 @@
 --		https://jefftranter.blogspot.com/2017/01/building-68000-single-board-computer_14.html
 --
 -- 68K CPU Core Copyright (c) 2009-2013 Tobias Gubener
+--		https://github.com/TobiFlex/TG68K.C/blob/master/TG68KdotC_Kernel.vhd
 --
 -- Documented on Hackaday at:
 --		https://hackaday.io/project/173678-retro-68000-cpu-in-an-fpga
 --
 -- Baseboard is
 --		http://land-boards.com/blwiki/index.php?title=RETRO-EP4CE15
+--	
 -- FPGA board is
 --		http://land-boards.com/blwiki/index.php?title=QM_Tech_Cyclone_V_FPGA_Board
---
+--	
 -- The main features are:
 --		M68000 CPU
 --			16.7 MHz
 --			24-bit address space
 --		ROM Monitors
---			ROM Space reserved 0x008000-0x00FFFF
---			Teeside TS2BUG 3KB 0x008000-0x00BFFF (16KB used), or
---			MECB TUTOR 16KB Monitor ROMs 0x008000-0x00BFFF (16KB used)
+--			Teeside TS2BUG 3KB (16KB used), or
+--			MECB TUTOR 16KB Monitor ROMs (16KB used)
 --		Internal SRAM
---			32KB Internal SRAM 0x000000-0x007FFF
---			64KB Internal SRAM 0x200000-0x20FFFF
---			32KB Internal SRAM 0x210000-0x217FFF
--- 	1 MB External SRAM 0x300000-0x3FFFFF (byte addressible only)
+--			32KB Internal SRAM
+--			64KB Internal SRAM
+--			32KB Internal SRAM
+-- 	1 MB External SRAM (byte addressible only)
 --	ANSI Video Display Unit (VDU)
 --		VGA and PS/2
 --	6850 ACIA UART - USB to Serial
---		ACIASTAT	= 0x010041
---		ACIADATA	= 0x010043
 --	DC power options
 --		USB
 ---	DC Jack on FPGA board
---
--- Doug Gilliland 2020
---
+--	
+--	Memory Map
+--`	0x000000-0x007FFF	- 32KB Internal SRAM
+--		0x008000-0x00BFFF	- ROM Monitor
+-- 	0x010041,0x010043	- ACIA
+--			0x010041			- ACIASTAT
+--			0x010043			- ACIADATA
+-- 	0x010041,0x010043	- VDU
+--		0x200000-0x20FFFF - 64KB Internal SRAM
+--		0x210000-0x217FFF	- 32KB Internal SRAM
+--	
+-- Doug Gilliland 2020-2022
+--	
 
 library ieee;
 use ieee.std_logic_1164.all;
@@ -231,11 +240,11 @@ begin
 		port map (
 			clk				=> w_cpuClock,
 			nReset			=> w_resetLow,
-			clkena_in		=> w_cpuclken,
+			clkena_in		=> '1',
 			data_in			=> cpuDataIn,
 			IPL				=> "111",
 			IPL_autovector => '0',
-			berr				=> w_buserr,
+			berr				=> '0',
 			CPU				=> "00",				-- 68000 CPU
 			addr				=> cpuAddress,
 			data_write		=> cpuDataOut,
@@ -252,9 +261,9 @@ begin
 	-- BUS ISOLATION
 
 	cpuDataIn <=
+		w_MonROMData						when w_n_RomCS				= '0' else	-- ROM
 		w_VDUDataOut  & w_VDUDataOut	when w_n_VDUCS 			= '0' else	-- Copy 8-bit peripheral reads to both halves of the data bus
 		w_ACIADataOut & w_ACIADataOut	when w_n_ACIACS			= '0' else	-- Copy 8-bit peripheral reads to both halves of the data bus
-		w_MonROMData						when w_n_RomCS				= '0' else	-- ROM
 		w_sramCDataOut						when w_n_RamCCS			= '0' else	-- Internal SRAM
 		w_sramDataOut						when w_n_RamCS				= '0' else	-- Internal SRAM
 		w_sram2DataOut						when w_n_Ram2CS			= '0' else	-- Internal SRAM
@@ -265,8 +274,8 @@ begin
 	-- ____________________________________________________________________________________
 	-- TS2 Monitor ROM
 	
-	w_n_RomCS <=	'0' when ((cpuAddress(23 downto 14) = x"00"&"10")   and ((w_busstate(1) = '1') or (w_busstate(0) = '0')))	else	-- x008000-x00BFFF (MAIN EPROM)
-						'0' when ((cpuAddress(23 downto 3) =  x"00000"&'0') and ((w_busstate(1) = '1') or (w_busstate(0) = '0')))	else	-- X000000-X000007 (VECTORS)
+	w_n_RomCS <=	'0' when ((cpuAddress(23 downto 14) = x"00"&"10")   and (w_busstate(0) = '0'))	else	-- x008000-x00BFFF (MAIN EPROM)
+						'0' when ((cpuAddress(23 downto 3) =  x"00000"&'0') and (w_busstate(0) = '0'))	else	-- X000000-X000007 (VECTORS)
 						'1';
 	
 	rom1 : entity work.Monitor_68K_ROM -- Monitor 16KB (8Kx16)
@@ -276,26 +285,6 @@ begin
 			q			=> w_MonROMData
 		);
 
-	-- ____________________________________________________________________________________
-	-- 16KB Internal SRAM
-	-- The RAM address input is delayed due to being registered so the gate is the true of the clock not the low level
-	
-	w_n_RamCCS 			<= '0' when ((cpuAddress(23 downto 14) = x"00"&"11")	and ((w_busstate(1) = '1') or (w_busstate(0) = '0'))) else	-- x00C000-x00ffff
-								'1';
-	w_wrRamCStrobe		<= (not n_WR) and (not w_n_RamCCS) and (w_cpuClock);
-	w_WrRamCByteEn(1)	<= (not n_WR) and (not w_nUDS) and (not w_n_RamCCS);
-	w_WrRamCByteEn(0)	<= (not n_WR) and (not w_nLDS) and (not w_n_RamCCS);
-	
-	ramC000: ENTITY work.RAM_8Kx16
-	PORT map (
-		address		=> cpuAddress(13 downto 1),
-		byteena		=> w_WrRamCByteEn,
-		clock			=> i_CLOCK_50,
-		data			=> cpuDataOut,
-		wren			=> w_wrRamCStrobe,
-		q				=> w_sramCDataOut
-	);
-	
 	-- ____________________________________________________________________________________
 	-- 32KB Internal SRAM
 	-- The RAM address input is delayed due to being registered so the gate is the true of the clock not the low level
@@ -315,6 +304,26 @@ begin
 			wren			=> w_wrRamStrobe,
 			q				=> w_sramDataOut
 		);
+	
+	-- ____________________________________________________________________________________
+	-- 16KB Internal SRAM
+	-- The RAM address input is delayed due to being registered so the gate is the true of the clock not the low level
+	
+	w_n_RamCCS 			<= '0' when ((cpuAddress(23 downto 1) = x"00"&"11")	and ((w_busstate(1) = '1') or (w_busstate(0) = '0'))) else	-- x00C000-x00ffff
+								'1';
+	w_wrRamCStrobe		<= (not n_WR) and (not w_n_RamCCS) and (w_cpuClock);
+	w_WrRamCByteEn(1)	<= (not n_WR) and (not w_nUDS) and (not w_n_RamCCS);
+	w_WrRamCByteEn(0)	<= (not n_WR) and (not w_nLDS) and (not w_n_RamCCS);
+	
+	ramC000: ENTITY work.RAM_8Kx16
+	PORT map (
+		address		=> cpuAddress(13 downto 1),
+		byteena		=> w_WrRamCByteEn,
+		clock			=> i_CLOCK_50,
+		data			=> cpuDataOut,
+		wren			=> w_wrRamCStrobe,
+		q				=> w_sramCDataOut
+	);
 	
 	-- ____________________________________________________________________________________
 	-- 64KB Internal SRAM
@@ -433,42 +442,91 @@ begin
 	-- ____________________________________________________________________________________
 	-- SYSTEM CLOCKS
 	
-	process (i_CLOCK_50)
-		begin
-			if rising_edge(i_CLOCK_50) then
-				if w_cpuCount < 2 then -- 4 = 10MHz, 3 = 12.5MHz, 2=16.6MHz, 1=25MHz
-					w_cpuCount <= w_cpuCount + 1;
-				else
-					w_cpuCount <= (others=>'0');
-				end if;
-				if w_cpuCount < 2 then -- 2 when 10MHz, 2 when 12.5MHz, 2 when 16.6MHz, 1 when 25MHz
-					w_cpuClock <= '0';
-				else
-					w_cpuClock <= '1';
-				end if;
-			end if;
-		end process;
-	
-	
-	-- Baud Rate CLOCK SIGNALS
-	-- 2416 = 115,200 baud
-	
-	baud_div: process (w_serialCount_d, w_serialCount)
-		 begin
-			  w_serialCount_d <= w_serialCount + 2416;
-		 end process;
+--	process (i_CLOCK_50)
+--		begin
+--			if rising_edge(i_CLOCK_50) then
+--				if w_cpuCount < 2 then -- 4 = 10MHz, 3 = 12.5MHz, 2=16.6MHz, 1=25MHz
+--					w_cpuCount <= w_cpuCount + 1;
+--				else
+--					w_cpuCount <= (others=>'0');
+--				end if;
+--				if w_cpuCount < 2 then -- 2 when 10MHz, 2 when 12.5MHz, 2 when 16.6MHz, 1 when 25MHz
+--					w_cpuClock <= '0';
+--				else
+--					w_cpuClock <= '1';
+--				end if;
+--			end if;
+--		end process;
+
 
 	process (i_CLOCK_50)
 		begin
 			if rising_edge(i_CLOCK_50) then
-			  -- Enable for baud rate generator
-			  w_serialCount <= w_serialCount_d;
-			  if w_serialCount(15) = '0' and w_serialCount_d(15) = '1' then
-					w_serialEn <= '1';
-			  else
-					w_serialEn <= '0';
-			  end if;
+				if n_externalRam1CS = '0' then
+					if w_cpuCount < 2 then						-- 50 MHz / 3 = 16.7 MHz 
+						w_cpuCount <= w_cpuCount + 1;
+					else
+						w_cpuCount <= (others=>'0');
+					end if;
+				else
+					if w_cpuCount < 1 then						-- 50 MHz / 2 = 25 MHz
+						w_cpuCount <= w_cpuCount + 1;
+					else
+						w_cpuCount <= (others=>'0');
+					end if;
+				end if;
+--				if w_cpuCount < 1 then						-- one clock low
+--					w_cpuClock <= '0';
+--				else
+--					w_cpuClock <= '1';
+--				end if;
+				if n_externalRam1CS = '0' then
+					if w_cpuCount < 2 then						-- two clocks low
+						w_cpuClock <= '0';
+					else
+						w_cpuClock <= '1';
+					end if;
+				else
+					if w_cpuCount < 1 then						-- one clock low
+						w_cpuClock <= '0';
+					else
+						w_cpuClock <= '1';
+					end if;
+				end if;
 			end if;
 		end process;
+	-- ____________________________________________________________________________________
+	-- Baud Rate CLOCK SIGNALS
+	--- Legal values are 115200, 38400, 19200, 9600, 4800, 2400, 1200, 600, 300
+	
+	BaudRateGen : entity work.BaudRate6850
+	GENERIC map (
+		BAUD_RATE	=>  115200
+	)
+	PORT map (
+		i_CLOCK_50	=> i_CLOCK_50,
+		o_serialEn	=> w_serialEn
+	);
+	
+	-- Baud Rate CLOCK SIGNALS
+	-- 2416 = 115,200 baud
+	
+--	baud_div: process (w_serialCount_d, w_serialCount)
+--		 begin
+--			  w_serialCount_d <= w_serialCount + 2416;
+--		 end process;
+--
+--	process (i_CLOCK_50)
+--		begin
+--			if rising_edge(i_CLOCK_50) then
+--			  -- Enable for baud rate generator
+--			  w_serialCount <= w_serialCount_d;
+--			  if w_serialCount(15) = '0' and w_serialCount_d(15) = '1' then
+--					w_serialEn <= '1';
+--			  else
+--					w_serialEn <= '0';
+--			  end if;
+--			end if;
+--		end process;
 
 end;
