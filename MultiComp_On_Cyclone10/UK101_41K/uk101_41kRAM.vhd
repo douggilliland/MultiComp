@@ -71,6 +71,9 @@ entity uk101_41kRAM is
 		sdSCLK		: out		std_logic :='0';
 --		driveLED		: out		std_logic :='1';
 
+		-- LED
+		o_LED			: out		std_logic;
+
 		-- Keyboard
 		ps2Clk		: in		std_logic := '1';
 		ps2Data		: in		std_logic := '1'
@@ -116,12 +119,23 @@ architecture struct of uk101_41kRAM is
 	signal cpuClkCount		: std_logic_vector(5 downto 0); 
 	signal cpuClock			: std_logic;
 	signal serialClock		: std_logic;
+	signal w_resetLow			: std_logic;
 
 	signal kbReadData 		: std_logic_vector(7 downto 0);
 	signal kbRowSel 			: std_logic_vector(7 downto 0);
 
 begin
 
+	-- Debounce the reset line
+	DebounceResetSwitch	: entity work.debounce
+	port map (
+		clk		=> clk,
+		button	=> n_reset,
+		result	=> w_resetLow
+	);
+
+	o_LED <= w_resetLow;
+	
 	-- External SRAM
 	sramAddress(11 downto 0)	<= cpuAddress(11 downto 0);
 	sramAddress(19 downto 12)	<= "1"  & mmapAddrLatch1(6 downto 0) when (cpuAddress(15 downto 12)	= x"c") else		-- xc000-xcFFF (4KB) 512KB
@@ -163,7 +177,7 @@ begin
 	port map(
 		Enable			=> '1',
 		Mode				=> "00",
-		Res_n				=> n_reset,
+		Res_n				=> w_resetLow,
 		Clk				=> cpuClock,
 		Rdy				=> '1',
 		Abort_n			=> '1',
@@ -213,7 +227,7 @@ begin
 		dataIn	=> cpuDataOut,
 		clock		=> clk,
 		load		=> n_mmap1CS or n_WR or cpuClock,
-		clear		=> n_reset,
+		clear		=> w_resetLow,
 		latchOut	=> mmapAddrLatch1
 	);
 	
@@ -222,7 +236,7 @@ begin
 		dataIn	=> cpuDataOut,
 		clock		=> clk,
 		load		=> n_mmap2CS or n_WR or cpuClock,
-		clear		=> n_reset,
+		clear		=> w_resetLow,
 		latchOut	=> mmapAddrLatch2
 	);
 	
@@ -276,7 +290,7 @@ begin
 		
 	vga : entity work.Mem_Mapped_XVGA
 	port map (
-		n_reset		=> n_reset,
+		n_reset		=> w_resetLow,
 		Video_Clk 	=> Video_Clk_25p6,
 		CLK_50		=> clk,
 		n_dispRamCS	=> n_dispRamCS,
@@ -293,14 +307,14 @@ begin
 	u9 : entity work.UK101keyboard
 	port map(
 		CLK		=> clk,
-		nRESET	=> n_reset,
+		nRESET	=> w_resetLow,
 		PS2_CLK	=> ps2Clk,
 		PS2_DATA	=> ps2Data,
 		A			=> kbRowSel,
 		KEYB		=> kbReadData
 	);
 	
-	process (n_kbCS,n_memWR)
+	process (n_kbCS,n_memWR,cpuDataOut)
 	begin
 		if	n_kbCS='0' and n_memWR = '0' then
 			kbRowSel <= cpuDataOut;

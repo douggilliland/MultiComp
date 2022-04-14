@@ -1,5 +1,5 @@
 |uk101_41kRAM
-clk => basicrom:u2.clock
+clk => debounce:DebounceResetSwitch.clk
 clk => serialClock.CLK
 clk => serialClkCount[0].CLK
 clk => serialClkCount[1].CLK
@@ -23,16 +23,13 @@ clk => cpuClkCount[2].CLK
 clk => cpuClkCount[3].CLK
 clk => cpuClkCount[4].CLK
 clk => cpuClkCount[5].CLK
+clk => basicrom:u2.clock
 clk => outlatch:u6.clock
 clk => outlatch:u7.clock
 clk => videoclk_xvga_1024x768:pll.inclk0
 clk => mem_mapped_xvga:vga.CLK_50
 clk => uk101keyboard:u9.CLK
-n_reset => t65:u1.Res_n
-n_reset => outlatch:u6.clear
-n_reset => outlatch:u7.clear
-n_reset => mem_mapped_xvga:vga.n_reset
-n_reset => uk101keyboard:u9.nRESET
+n_reset => debounce:DebounceResetSwitch.button
 sramData[0] <> sramData[0]
 sramData[1] <> sramData[1]
 sramData[2] <> sramData[2]
@@ -163,8 +160,37 @@ sdCS <= <VCC>
 sdMOSI <= <GND>
 sdMISO => ~NO_FANOUT~
 sdSCLK <= <GND>
+o_LED <= debounce:DebounceResetSwitch.result
 ps2Clk => uk101keyboard:u9.PS2_CLK
 ps2Data => uk101keyboard:u9.PS2_DATA
+
+
+|uk101_41kRAM|debounce:DebounceResetSwitch
+clk => result~reg0.CLK
+clk => counter_out[0].CLK
+clk => counter_out[1].CLK
+clk => counter_out[2].CLK
+clk => counter_out[3].CLK
+clk => counter_out[4].CLK
+clk => counter_out[5].CLK
+clk => counter_out[6].CLK
+clk => counter_out[7].CLK
+clk => counter_out[8].CLK
+clk => counter_out[9].CLK
+clk => counter_out[10].CLK
+clk => counter_out[11].CLK
+clk => counter_out[12].CLK
+clk => counter_out[13].CLK
+clk => counter_out[14].CLK
+clk => counter_out[15].CLK
+clk => counter_out[16].CLK
+clk => counter_out[17].CLK
+clk => counter_out[18].CLK
+clk => counter_out[19].CLK
+clk => flipflops[0].CLK
+clk => flipflops[1].CLK
+button => flipflops[0].DATAIN
+result <= result~reg0.DB_MAX_OUTPUT_PORT_TYPE
 
 
 |uk101_41kRAM|T65:u1
