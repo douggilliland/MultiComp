@@ -8,7 +8,7 @@
 --			Removed D13, D14 LEDs to use pins for hardware handshake
 --			115,200 baud
 --			BASIC "LOAD" to switch to Serial port
---			Paste BASIC code into PiTTY to load to card
+--			Paste BASIC code intoPUTTY to load to card
 --		Off-the-shelf FPGA card (Cyclone IV EP4CE10)
 -- Implements Grant Searle's modifications for 64x32 screens as described here:
 -- http://searle.hostei.com/grant/uk101FPGA/index.html#Modification3

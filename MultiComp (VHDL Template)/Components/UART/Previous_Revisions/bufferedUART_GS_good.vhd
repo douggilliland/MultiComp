@@ -6,7 +6,6 @@ library ieee;
 	use ieee.numeric_std.all;
 	use ieee.std_logic_unsigned.all;
 
-entity bufferedUART is
 	port (
 		n_wr    : in  std_logic;
 		n_rd    : in  std_logic;

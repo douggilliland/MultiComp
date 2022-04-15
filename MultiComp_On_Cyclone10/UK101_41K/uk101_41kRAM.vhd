@@ -115,10 +115,10 @@ architecture struct of uk101_41kRAM is
 	signal charAddr 			: std_logic_vector(10 downto 0);
 	signal charData 			: std_logic_vector(7 downto 0);
 
-	signal serialClkCount	: std_logic_vector(14 downto 0); 
+--	signal serialClkCount	: std_logic_vector(14 downto 0); 
 	signal cpuClkCount		: std_logic_vector(5 downto 0); 
 	signal cpuClock			: std_logic;
-	signal serialClock		: std_logic;
+	signal serialEn			: std_logic;
 	signal w_resetLow			: std_logic;
 
 	signal kbReadData 		: std_logic_vector(7 downto 0);
@@ -173,7 +173,7 @@ begin
 		x"FF";
 
 	-- 6502 CPU
-	u1 : entity work.T65
+	CPU : entity work.T65
 	port map(
 		Enable			=> '1',
 		Mode				=> "00",
@@ -190,7 +190,7 @@ begin
 		DO					=> cpuDataOut);
 
 	-- 8KB BASIC ROM
-	u2 : entity work.BasicRom
+	BASIC_ROM : entity work.BasicRom
 	port map(
 		address	=> cpuAddress(12 downto 0),
 		clock		=> clk,
@@ -198,23 +198,34 @@ begin
 	);
 	
 	-- CEGMON ROM with display patches
-	u4: entity work.CegmonRom_Patched_64x32
+	CEGMON_ROM : entity work.CegmonRom_Patched_64x32
 	port map
 	(
 		address	=> cpuAddress(10 downto 0),
 		q			=> monitorRomData
 	);
 
+	-- Baud rate clock 
+	BAUDRATEGEN : entity work.BaudRate6850
+	GENERIC map (
+		BAUD_RATE	=>  9600
+	)
+	PORT map (
+		i_CLOCK_50	=> clk,
+		o_serialEn	=> serialEn
+	);
+	
 	-- UART
-	u5: entity work.bufferedUART
+	UART	: entity work.bufferedUART
 	port map(
+		clk		=> clk,
 		n_wr		=> n_aciaCS or cpuClock or n_WR,
 		n_rd		=> n_aciaCS or cpuClock or (not n_WR),
 		regSel	=> cpuAddress(0),
 		dataIn	=> cpuDataOut,
 		dataOut	=> aciaData,
-		rxClock	=> serialClock,
-		txClock	=> serialClock,
+		rxClkEn	=> serialEn,
+		txClkEn	=> serialEn,
 		rxd		=> fpgaRx,
 		txd		=> fpgaTx,
 		n_cts		=> fpgaCts,
@@ -222,7 +233,7 @@ begin
 		n_rts		=> fpgaRts
 	);
 
-	u6 : entity work.OutLatch
+	OUTLATCH1 : entity work.OutLatch
 	port map(
 		dataIn	=> cpuDataOut,
 		clock		=> clk,
@@ -231,7 +242,7 @@ begin
 		latchOut	=> mmapAddrLatch1
 	);
 	
-	u7 : entity work.OutLatch
+	OUTLATCH2 : entity work.OutLatch
 	port map(
 		dataIn	=> cpuDataOut,
 		clock		=> clk,
@@ -240,7 +251,6 @@ begin
 		latchOut	=> mmapAddrLatch2
 	);
 	
-	-- Baud rate clock 
 	process (clk)
 	begin
 		if rising_edge(clk) then
@@ -256,26 +266,10 @@ begin
 			end if;	
 		end if;
 	end process;
-			
-	process (clk)
-	begin
-		if rising_edge(clk) then
---			if serialClkCount < 10416 then -- 300 baud
-			if serialClkCount < 325 then -- 9600 baud
-				serialClkCount <= serialClkCount + 1;
-			else
-				serialClkCount <= (others => '0');
-			end if;
---			if serialClkCount < 5208 then -- 300 baud
-			if serialClkCount < 162 then -- 9600 baud
-				serialClock <= '0';
-			else
-				serialClock <= '1';
-			end if;	
-		end if;
-	end process;
+--			
 
-	pll : work.VideoClk_XVGA_1024x768 PORT MAP (
+
+	PLL : work.VideoClk_XVGA_1024x768 PORT MAP (
 		inclk0	 => clk,
 		c0	 => Video_Clk_25p6		-- 25.600000
 	);
@@ -288,7 +282,7 @@ begin
 	vgaBluHi	<= VoutVect(0);
 	vgaBluLo	<= VoutVect(0);
 		
-	vga : entity work.Mem_Mapped_XVGA
+	VDU : entity work.Mem_Mapped_XVGA
 	port map (
 		n_reset		=> w_resetLow,
 		Video_Clk 	=> Video_Clk_25p6,
@@ -304,7 +298,7 @@ begin
 	);
 
 	-- UK101 keyboard
-	u9 : entity work.UK101keyboard
+	KBD : entity work.UK101keyboard
 	port map(
 		CLK		=> clk,
 		nRESET	=> w_resetLow,
