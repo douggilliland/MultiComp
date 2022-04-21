@@ -8,6 +8,7 @@
 -- MC6800 CPU
 --		25 NHz for internal SRAM and Peripherals
 --	Running MIKBUG from back in the day
+--		https://github.com/douggilliland/Retro-Computers/blob/master/6800/Smithbug/V2_DIS_corrected.LST
 --		32K (internal) RAM version
 -- Default I/O is jumper selectable
 -- 	VDU - ANSI terminal (default)
@@ -18,23 +19,25 @@
 --	Front Panel
 --		http://land-boards.com/blwiki/index.php?title=Front_Panel_for_8_Bit_Computers_V2
 --		Monitors Address/Data when in Run mode
---		Upper left pushbutton (PB31) - Run.Halt (Upper leftLED on for Run)
---		PB30 - Reset
---		PB29 - Step - Not yet implemented
---		PB27 - Clear - Clears address if in Set Address Mode control mode
---		PB26 - Increment address - Function depend on Enable Write Data and Set Address Mode controls
+--		PB31 - RUN - (Upper left pushbutton) - Run/Halt (Upper left LED on for Run)
+--		PB30 - RESET CPU
+--		PB29 - STEP - Not yet implemented
+--		PB28 - Not used
+--		PB27 - CLEAR - Clears address if in Set Address Mode control mode
+--		PB26 - INCADR - Increment address - Function depend on Enable Write Data and Set Address Mode controls
 --			Ignored if Set Address is selected
 --			If Enable Write Data is selected, Write data then Increment address
 --			If Enable Write Data is not selectedrwise increment read address and read next location
---		PB25 - Enable Write Data control - Bottom row of pushbuttons controls write of data to memory
---		PB24 - Set Address Mode control - Middle two rows of pushbuttons control LEDs
+--		PB25 - SETDAT - Enable Write Data control - Bottom row of pushbuttons controls write of data to memory
+--		PB24 - SETADR - Set Address Mode control - Middle two rows of pushbuttons control LEDs
 --	
 --	Memory Map
---		0x0000-0x7FFF - INTERBAL SRAM
---		0x8018-0x8019 - VDU (serSelect J3 JUMPER REMOCED)
---		0x8028-0x8019 - ACIA
---		0x8030-0x803F - Front Panel
---		0xC000-0xFFFF - MIKBUG ROM - Copied 4X
+--		0x0000-0x7FFF - 32KB INTERNAL SRAM
+--		0XEC00-0xEFFF - 1KB INTERNAL SRAM (SCRATCHPAD SRAM USED BY MIKBUG)
+--		0xFC18-0xFC19 - VDU (serSelect J3 JUMPER REMOVED)
+--		0xFC28-0xFC19 - ACIA
+--		0xFC30-0xFC3F - Front Panel
+--		0xF000-0xFFFF - MIKBUG (ACTUALLY SMITHBUG) ROM
 -- -------------------------------------------------------------------------------------------
 
 library ieee;
@@ -118,6 +121,7 @@ architecture struct of M6800_MIKBUG is
 	-- Data busses
 	signal w_romData		: std_logic_vector(7 downto 0);		-- Data from the ROM
 	signal w_ramData		: std_logic_vector(7 downto 0);		-- Data from the SRAM
+	signal w_ramData2		: std_logic_vector(7 downto 0);		-- Data from the SRAM
 	signal w_if1DataOut	: std_logic_vector(7 downto 0);		-- Data from the VDU
 	signal w_if2DataOut	: std_logic_vector(7 downto 0);		-- Data from the ACIA
 
@@ -178,11 +182,11 @@ begin
 	
 	-- ____________________________________________________________________________________
 	-- I/O CHIP SELECTS
-	n_if1CS	<= '0' 	when (serSelect = '1' and (w_cpuAddress(15 downto 1) = x"801"&"100")) else	-- VDU  $8018-$8019
-					'0'	when (serSelect = '0' and (w_cpuAddress(15 downto 1) = x"802"&"100")) else	-- ACIA $8028-$8029
+	n_if1CS	<= '0' 	when (serSelect = '1' and (w_cpuAddress(15 downto 1) = x"FC1"&"100")) else	-- VDU  $C018-$C019
+					'0'	when (serSelect = '0' and (w_cpuAddress(15 downto 1) = x"FC2"&"100")) else	-- ACIA $C028-$C029
 					'1';
-	n_if2CS	<= '0' 	when (serSelect = '1' and (w_cpuAddress(15 downto 1) = x"802"&"100")) else	-- ACIA $8028-$8029
-					'0'	when (serSelect = '0' and (w_cpuAddress(15 downto 1) = x"801"&"100")) else	-- VDU  $8018-$8019
+	n_if2CS	<= '0' 	when (serSelect = '1' and (w_cpuAddress(15 downto 1) = x"FC2"&"100")) else	-- ACIA $C028-$C029
+					'0'	when (serSelect = '0' and (w_cpuAddress(15 downto 1) = x"FC1"&"100")) else	-- VDU  $C018-$C019
 					'1';
 	
 	-- ____________________________________________________________________________________
@@ -205,16 +209,17 @@ begin
 	-- ____________________________________________________________________________________
 	-- CPU Read Data multiplexer
 	w_cpuDataIn <=
-		w_ramData		when w_cpuAddress(15) = '0'				else
-		w_if1DataOut	when n_if1CS = '0'							else
-		w_if2DataOut	when n_if2CS = '0'							else
-		w_romData		when w_cpuAddress(15 downto 14) = "11"	else
+		w_ramData		when w_cpuAddress(15) = '0'						else	-- 32KB SRAM (0x0000-0x7FFF)
+		w_ramData2		when w_cpuAddress(15 downto 10) = x"E"&"11"	else	-- 1KB SRAM (0xEC00-0xEFFF) 
+		w_if1DataOut	when n_if1CS = '0'									else
+		w_if2DataOut	when n_if2CS = '0'									else
+		w_romData		when w_cpuAddress(15 downto 12) = x"F"			else
 		x"FF";
 	
 	-- ____________________________________________________________________________________
 	-- MIKBUG ROM
-	-- 4KB MIKBUG ROM - repeats in memory 4 times
-	rom1 : entity work.M6800_MIKBUG_32KB
+	-- 4KB MIKBUG ROM
+	rom1 : entity work.MIKBUG
 		port map (
 			address	=> w_cpuAddress(11 downto 0),
 			clock 	=> i_CLOCK_50,
@@ -223,14 +228,26 @@ begin
 		
 	-- ____________________________________________________________________________________
 	-- 32KB RAM	
-	sram : entity work.InternalRam32K
+	sram32kb : entity work.InternalRam32K
 		PORT map  (
 			address	=> w_cpuAddress(14 downto 0),
 			clock 	=> i_CLOCK_50,
 			data 		=> w_cpuDataOut,
 			wren		=> (((not w_R1W0) and (not w_cpuAddress(15)) and w_vma and (not w_cpuClock) and (not w_run0Halt1)) 
-							or (w_wrRamStr and w_run0Halt1)),
+							or (w_wrRamStr and w_run0Halt1 and (not w_cpuAddress(15)))),
 			q			=> w_ramData
+		);
+	
+	-- ____________________________________________________________________________________
+	-- 1KB RAM SMITHBUG SCRATCHPAD
+	sram1kb : entity work.InternalRam1K
+		PORT map  (
+			address	=> w_cpuAddress(9 downto 0),
+			clock 	=> i_CLOCK_50,
+			data 		=> w_cpuDataOut,
+			wren		=> ((not w_R1W0) and w_cpuAddress(15) and w_cpuAddress(14) and w_cpuAddress(13) and (not w_cpuAddress(12)) and w_cpuAddress(11) and w_cpuAddress(10) and w_vma and (not w_cpuClock) and (not w_run0Halt1)),
+--							or (w_wrRamStr and w_run0Halt1)),
+			q			=> w_ramData2
 		);
 	
 	-- ____________________________________________________________________________________

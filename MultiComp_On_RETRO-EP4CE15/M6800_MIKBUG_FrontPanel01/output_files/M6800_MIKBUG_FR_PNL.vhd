@@ -5,7 +5,7 @@
 --	Front Panel
 --		http://land-boards.com/blwiki/index.php?title=Front_Panel_For_8_Bit_Computers
 --		Monitors Address/Data when in Run mode
---		PB31 - Upper left pushbutton - Run.Halt (Upper leftLED on for Run)
+--		PB31 - Upper left pushbutton - Run.Halt (Upper left LED - on for Run)
 --		PB30 - Reset
 --		PB29 - Step - Not yet implemented
 --		PB27 - Clear - Clears address if in Set Address Mode control mode
@@ -26,24 +26,24 @@ entity MIKBUG_FRPNL is
 	port
 	(
 	-- Clock and reset
-	i_CLOCK_50					: in std_logic;								-- FPGA 50 MHz clock
-	i_cpuClock					: in std_logic;								-- CPU Clock (25 MHz)
-	i_n_reset					: in std_logic;								-- Reset - debounced pushbutton (KEY1 on FPGA card)
-	o_FPReset					: out std_logic;								-- Reset from pushbutton PB30
+	i_CLOCK_50		: in std_logic;								-- FPGA 50 MHz clock
+	i_cpuClock		: in std_logic;								-- CPU Clock (25 MHz)
+	i_n_reset		: in std_logic;								-- Reset - debounced pushbutton (KEY1 on FPGA card)
+	o_FPReset		: out std_logic;								-- Reset from pushbutton PB30
 	-- CPU intercepts
-	i_CPUAddress				: in std_logic_vector(15 downto 0);		-- Address lines from the CPU
-	o_CPUAddress				: out std_logic_vector(15 downto 0);	-- Address lines from the Front panel
-	i_CPUData					: in std_logic_vector(7 downto 0);		-- Data out from the CPU
-	o_CPUData					: out std_logic_vector(7 downto 0);		-- Data to memory / peripherals
-	i_CPURdData					: in std_logic_vector(7 downto 0);		-- Data from memory / peripherals
-	io_run0Halt1				: inout std_logic;							-- Run / Halt from Front Panel 
-	o_wrRamStr					: out std_logic;								-- Write strobe to SRAM
-	i_R1W0						: in std_logic;								-- Read / Write from CPU
-	o_R1W0						: out std_logic;								-- Read / Write to memory / peripherals
+	i_CPUAddress	: in std_logic_vector(15 downto 0);		-- Address lines from the CPU
+	o_CPUAddress	: out std_logic_vector(15 downto 0);	-- Address lines from the Front panel
+	i_CPUData		: in std_logic_vector(7 downto 0);		-- Data out from the CPU
+	o_CPUData		: out std_logic_vector(7 downto 0);		-- Data to memory / peripherals
+	i_CPURdData		: in std_logic_vector(7 downto 0);		-- Data from memory / peripherals
+	io_run0Halt1	: inout std_logic;							-- Run / Halt from Front Panel (output)
+	o_wrRamStr		: out std_logic;								-- Write strobe to SRAM
+	i_R1W0			: in std_logic;								-- Read / Write from CPU
+	o_R1W0			: out std_logic;								-- Read / Write to memory / peripherals
 	-- External I2C connections
-	io_I2C_SCL					: inout std_logic;
-	io_I2C_SDA					: inout std_logic;
-	i_I2C_INTn					: in std_logic
+	io_I2C_SCL		: inout std_logic;
+	io_I2C_SDA		: inout std_logic;
+	i_I2C_INTn		: in std_logic
 );
 end MIKBUG_FRPNL;
 
@@ -59,7 +59,7 @@ architecture struct of MIKBUG_FRPNL is
 	signal w_setAdrPB		:	std_logic;								-- Set Address pushbutton
 	signal w_setDatPB		:	std_logic;								-- Set Data pushbutton
 	signal w_incAdrPB		:	std_logic;								-- Increment address
-	signal w_incAdrPBD1	:	std_logic;
+	signal w_incAdrPBD1	:	std_logic;								-- Edge detect INCADR
 	signal w_incAdrPBD2	:	std_logic;
 	signal w_clrPB			:	std_logic;								-- Clear Front Panel Address counter
 	signal w_clrPBD1		:	std_logic;
@@ -100,10 +100,10 @@ begin
 			i_I2C_INTn			=> i_I2C_INTn				-- Interrupt input - active low
 		);
 	
-	-- Grey code counter 
-	-- State macine to emulate CPU cyckes
+	-- 3-bit Grey code counter 
+	-- State macine to emulate CPU cycles
 	-- 000 > 001 > 011 > 010 > 110 > 111 > 101 > 100
-	cpuCnt :	PROCESS (i_cpuClock)
+	cpuCnt :	PROCESS (i_cpuClock,w_incAdrPB)
 	BEGIN
 		IF rising_edge(i_cpuClock) THEN
 			w_cntCpu(0) <= ((not w_cntCpu(2)) and (not w_cntCpu(1)) and (not w_cntCpu(0)) and (w_incAdrPB)) or	-- 000 > 001
@@ -146,7 +146,7 @@ begin
 		END IF;
 	END PROCESS;
 
---	Front Panel FPAddress Latch/Counter
+--	Front Panel Address Latch/Counter
 	w_FPAddressCounter : PROCESS (i_cpuClock)
 	BEGIN
 		IF rising_edge(i_cpuClock) THEN
@@ -188,12 +188,11 @@ begin
 		END IF;
 	END PROCESS;
 
-	w_LEDsOut(24) <= w_setAdrPB;		-- Set LED is in Set Address mode
-	w_LEDsOut(25) <= w_setDatPB;		-- Set LED is in Set Data mode
-		
-	w_LEDsOut(31) 				<= not io_run0Halt1;				-- PB31 - Run/Halt toggle
-	w_LEDsOut(30) 				<= '0';								-- PB30 -Reset debounced PB
-	w_LEDsOut(29 downto 27)	<= "000";
+	-- LEDs out to Front Panel
+	w_LEDsOut(31) 				<= not io_run0Halt1;		-- PB31 - Run/Halt toggle
+	w_LEDsOut(30 downto 26)	<= "00000";					-- LEDs off
+	w_LEDsOut(25) 				<= w_setDatPB;				-- Set LED is in Set Data mode
+	w_LEDsOut(24) 				<= w_setAdrPB;				-- Set LED is in Set Address mode
 	w_LEDsOut(23 downto 8)	<= i_cpuAddress	when (io_run0Halt1 = '0') else				-- Address lines
 										w_FPAddress 	when (io_run0Halt1 = '1') else
 										x"0000";
