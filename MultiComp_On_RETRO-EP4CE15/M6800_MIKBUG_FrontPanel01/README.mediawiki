@@ -2,12 +2,12 @@
 <img src="http://land-boards.com/tindie/tindie-larges-v2.png" alt="Tindie Logo">
 </img></a> 
 
-<img src="http://land-boards.com/blwiki/images/8/8f/RETRO-EP4CE15-REV4-BLACK-P1464-720PX.jpg"></img>
+<img src="http://land-boards.com/blwiki/images/d/d6/FrontPanel02_P527-cropped-720px.jpg"></img>
 
-== M6800_VGA_PS2_RAM(32K) - Tested/Works ==
+= M6800 VGA, PS/2, 32KB SRAM =
 
 * M6800 CPU
-** Runs at up to 1 MHz
+** Runs at 25 MHz
 * 32K internal SRAM
 * MIKBUG ROM
 * VGA video
@@ -15,3 +15,88 @@
 ** 640x480 resolution
 ** 2/2/2 bits RGB (64-colors)
 * PS/2 keyboard
+
+= Hardware =
+
+* [http://land-boards.com/blwiki/index.php?title=Front_Panel_for_8_Bit_Computers_V2 Front Panel for 8 Bit Computers V2]
+* [http://land-boards.com/blwiki/index.php?title=RETRO-EP4CE15 RETRO-EP4CE15]
+* [http://land-boards.com/blwiki/index.php?title=QMTECH_EP4CE15_FPGA_Card QMTECH EP4CE15 FPGA Card]
+
+= Front Panel =
+ 
+<img src="http://land-boards.com/blwiki/images/f/fe/FrontPanel-01-Front-3D-controls.png"></img>
+ 
+<pre>
+-- http://land-boards.com/blwiki/index.php?title=Front_Panel_for_8_Bit_Computers_V2
+-- Monitors Address/Data when in Run mode
+--  PB31 - RUN - (Upper left pushbutton) - Run/Halt (Upper left LED on for Run)
+--  PB30 - RESET
+--  PB29 - STEP - Not yet implemented
+--  PB28 - Not used 
+--  PB27 - CLEAR - Clears address if in Set Address Mode control mode
+--  PB26 - INCADR - Increment address - Function depend on Enable Write Data and Set Address Mode controls
+--   Ignored if Set Address is selected
+--   If Enable Write Data is selected, Write data then Increment address
+--   If Enable Write Data is not selectedrwise increment read address and read next location
+--  PB25 - SETDAT - Enable Write Data control - Bottom row of pushbuttons controls write of data to memory
+--  PB24 - SETADR - Set Address Mode control - Middle two rows of pushbuttons control LEDs
+</pre>
+
+=	Memory Map =
+
+* 0x0000-0x7FFF - INTERNAL SRAM
+* 0x8018-0x8019 - VDU (serSelect J3 JUMPER REMOCED)
+* 0x8028-0x8019 - ACIA
+* 0x8030-0x803F - Front Panel
+* 0xC000-0xFFFF - MIKBUG ROM - Copied 4X
+
+= 6800 with Front Panel Operation =
+
+* Memory map for this configuration is as above
+
+== Halt CPU ==
+
+* Card comes up running [https://github.com/douggilliland/Retro-Computers/blob/master/6800/Smithbug/V2_DIS_corrected.LST SMITHBUG at 0xC000]
+* RUN LED comes up on
+* A0-A15 LEDs light "dimly" once CPU is running
+* Other control LEDs off
+* Press RUN SW32 to halt CPU, LED will go off
+* A0-A31, D0-D7 LEDs may be off if run first time
+** May come up at address 0x0000 and show value in SRAM at that address (0x00 at power on)
+
+== Read from Program ROM ==
+
+* Enter address set mode by pressing SW24 SETADR pushbutton, LED will illuminate
+* Set address to 0xC000 by pressing A31, A30, LEDs will light
+* Press SETADR pushbutton again to exit set address mode, LED will go off
+* For MIKBUG, data will be 0x8E
+* Press INCADR SW26
+* Address will increment to 0xC001
+* Data will show 0x7F
+* Next INCADR values are as follows
+<pre>
+   c000                 START EQU *
+   c000   8e 7f 44      	LDS #STACK
+   c003   bf 7f 0a      	STS SP
+   c006   7f 7f 0d      	CLR ECHO
+   c009   ce c1 25      	LDX #SFE
+   c00c   ff 7f 17      	STX SWIPTR
+   c00f   ff 7f 08      	STX NIO
+</pre>
+
+== Access SRAM ==
+
+* Enter address set mode by pressing SW24 SETADR pushbutton, LED will illuminate
+* Set address to 0x0000
+* Press SETADR pushbutton again to exit set address mode, LED will go off
+* Press INCADR pushbutton to read data
+* Press SETDAT pushbutton to enter write data mode
+* Set the data value to write to SRAM on pushbuttons
+* Press INCADR to do the write and advance the address
+* Press SETDAT pushbutton again to exit write data mode
+* Verify data as above
+
+= Code =
+
+* [https://github.com/douggilliland/Retro-Computers/blob/master/6800/Smithbug/V2_DIS_corrected.LST SmithBug at 0xC000 listing file]
+* [https://github.com/douggilliland/Design_A_CPU/blob/main/CPU_Code/Application_Code/FP01_LOOP4/README.mediawiki IOP Code to control Front Panel]
