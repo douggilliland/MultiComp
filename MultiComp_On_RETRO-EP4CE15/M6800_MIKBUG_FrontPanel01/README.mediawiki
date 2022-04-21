@@ -49,6 +49,53 @@
 * 0x8030-0x803F - Front Panel
 * 0xC000-0xFFFF - MIKBUG ROM - Copied 4X
 
+= 6800 with Front Panel Operation =
+
+* Memory map for this configuration is as above
+
+== Halt CPU ==
+
+* Card comes up running [https://github.com/douggilliland/Retro-Computers/blob/master/6800/Smithbug/V2_DIS_corrected.LST SMITHBUG at 0xC000]
+* RUN LED comes up on
+* A0-A15 LEDs light "dimly" once CPU is running
+* Other control LEDs off
+* Press RUN SW32 to halt CPU, LED will go off
+* A0-A31, D0-D7 LEDs may be off if run first time
+** May come up at address 0x0000 and show value in SRAM at that address (0x00 at power on)
+
+== Read from Program ROM ==
+
+* Enter address set mode by pressing SW24 SETADR pushbutton, LED will illuminate
+* Set address to 0xC000 by pressing A31, A30, LEDs will light
+* Press SETADR pushbutton again to exit set address mode, LED will go off
+* For MIKBUG, data will be 0x8E
+* Press INCADR SW26
+* Address will increment to 0xC001
+* Data will show 0x7F
+* Next INCADR values are as follows
+<pre>
+   c000                 START EQU *
+   c000   8e 7f 44      	LDS #STACK
+   c003   bf 7f 0a      	STS SP
+   c006   7f 7f 0d      	CLR ECHO
+   c009   ce c1 25      	LDX #SFE
+   c00c   ff 7f 17      	STX SWIPTR
+   c00f   ff 7f 08      	STX NIO
+</pre>
+
+== Access SRAM ==
+
+* Enter address set mode by pressing SW24 SETADR pushbutton, LED will illuminate
+* Set address to 0x0000
+* Press SETADR pushbutton again to exit set address mode, LED will go off
+* Press INCADR pushbutton to read data
+* Press SETDAT pushbutton to enter write data mode
+* Set the data value to write to SRAM on pushbuttons
+* Press INCADR to do the write and advance the address
+* Press SETDAT pushbutton again to exit write data mode
+* Verify data as above
+
 = Code =
 
+* [https://github.com/douggilliland/Retro-Computers/blob/master/6800/Smithbug/V2_DIS_corrected.LST SmithBug at 0xC000 listing file]
 * [https://github.com/douggilliland/Design_A_CPU/blob/main/CPU_Code/Application_Code/FP01_LOOP4/README.mediawiki IOP Code to control Front Panel]
