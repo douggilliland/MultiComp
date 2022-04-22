@@ -1,0 +1,23 @@
+= MIKBUG =
+
+* Actually is SmithBug variant of MIKBUG
+* 60KB SRAM variant
+** Supports much smaller SRAM sizes but requires scratchpad SRAM
+*** Scratchpad RAM has to be at 0xEF00-0xEFFF
+
+=	Memory Map =
+
+* 0x0000-0x7FFF - 32KB Internal SRAM
+* 0XEC00-0xEFFF - 1KB Internal SRAM (SCRATCHPAD SRAM USED BY MIKBUG)
+* 0xFC18-0xFC19 - VDU (serSelect J3 JUMPER REMOVED)
+* 0xFC28-0xFC19 - ACIA
+* 0xFC30-0xFC3F - Front Panel
+* 0xF000-0xFFFF - MIKBUG (Actually SMITHBUG) ROM
+
+= Hardware =
+
+* Runs on all MultiComp based designs
+** Different FPGAs can support more of less internal SRAM
+*** EP2C5 FPGA supports 3KB internal SRAM
+*** EP4CE15 FPGA supports 32KB internal SRAM
+*** Cyclone V FPGA supports 60KB internal SRAM
