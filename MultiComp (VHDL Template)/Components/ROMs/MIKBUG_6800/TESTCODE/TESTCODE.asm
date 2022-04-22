@@ -1,6 +1,13 @@
 ; TESTCODE.ASM
-; a68 TESTCODE.ASM -l TESTCODE.LST -s TESTCODE.s
-; srec_cat TESTCODE.s -offset - -minimum-addr TESTCODE.s -o TESTCODE.hex -Intel
+; Douglas Gilliland 2022
+;
+; Read a char from VDU/ACIA, write a char to VDU/ACIA
+; Load in MIKBUG (SmithBug) using & command
+;
+; Run toolchain in DOS window - assembler
+;	..\a68.exe TESTCODE.ASM -l TESTCODE.LST -s TESTCODE.s
+; To make a hex file that can be loaded
+;	..\srec_cat TESTCODE.s -offset - -minimum-addr TESTCODE.s -o TESTCODE.hex -Intel
 
 ACIACS	EQU	$FC18
 ACIADA	EQU	$FC19
@@ -9,7 +16,7 @@ START
 			ORG	$0000
 LBACK
 		BSR		GETCHAR
-		BSR		OUTPUTA
+		BSR		OUTCHAR
 		JMP		LBACK
 ;
 GETCHAR	PSHB
@@ -20,7 +27,7 @@ WAITIN	LDAB	ACIACS	; LOAD ACIA CONTROL REGISTER
 		PULB			; RESTORE B REGISTER
 		RTS
 ;
-OUTPUTA	PSHB			; SAVE B
+OUTCHAR	PSHB			; SAVE B
 WAITOUT	LDAB	ACIACS	; LOAD ACIA CONTROL REGISTER
 		ASRB			; SHIFT RIGHT
 		ASRB			; SHIFT RIGHT

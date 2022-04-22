@@ -1,23 +1,27 @@
 -- -------------------------------------------------------------------------------------------
--- Original file is copyright by Grant Searle 2014
+-- Original MultiComp design is copyright by Grant Searle 2014
 -- Grant Searle's web site http://searle.hostei.com/grant/    
 -- Grant Searle's "multicomp" page at http://searle.hostei.com/grant/Multicomp/index.html
+--	Grant did not have a 6800 ROM, so I picked a MIKBUG variant monitor as the ROM
 --
--- Changes to this code by Doug Gilliland 2020-2021
+-- Changes to this code by Doug Gilliland 2020-2022
 --
 -- MC6800 CPU
 --		25 NHz for internal SRAM and Peripherals
 --	Running MIKBUG from back in the day
+--		SmithBug variant adds ACIA support and an S-record loader
 --		https://github.com/douggilliland/Retro-Computers/blob/master/6800/Smithbug/V2_DIS_corrected.LST
---		32K (internal) RAM version
--- Default I/O is jumper selectable
+--		60K (internal) RAM version
+--		1KB RAM scratchpad for MIKBUG
+-- Default I/O is jumper selectable to either built-in VDU or Serial port
 -- 	VDU - ANSI terminal (default)
 --			XGA 80x25 character display
 --			PS/2 keyboard
 -- 	MC6850 ACIA UART
 --	
 --	Front Panel
---		http://land-boards.com/blwiki/index.php?title=Front_Panel_for_8_Bit_Computers_V2
+--		Wiki page
+--			http://land-boards.com/blwiki/index.php?title=Front_Panel_for_8_Bit_Computers_V2
 --		Monitors Address/Data when in Run mode
 --		PB31 - RUN - (Upper left pushbutton) - Run/Halt (Upper left LED on for Run)
 --		PB30 - RESET CPU
@@ -32,12 +36,12 @@
 --		PB24 - SETADR - Set Address Mode control - Middle two rows of pushbuttons control LEDs
 --	
 --	Memory Map
---		0x0000-0x7FFF - 32KB INTERNAL SRAM
---		0XEC00-0xEFFF - 1KB INTERNAL SRAM (SCRATCHPAD SRAM USED BY MIKBUG)
+--		0x0000-0x7FFF - 32KB Internal SRAM
+--		0XEC00-0xEFFF - 1KB Internal SRAM (SCRATCHPAD SRAM USED BY MIKBUG)
 --		0xFC18-0xFC19 - VDU (serSelect J3 JUMPER REMOVED)
 --		0xFC28-0xFC19 - ACIA
 --		0xFC30-0xFC3F - Front Panel
---		0xF000-0xFFFF - MIKBUG (ACTUALLY SMITHBUG) ROM
+--		0xF000-0xFFFF - MIKBUG (Actually SMITHBUG) ROM
 -- -------------------------------------------------------------------------------------------
 
 library ieee;
@@ -66,10 +70,10 @@ entity M6800_MIKBUG is
 		io_ps2Data			: inout std_logic := '1';
 		
 		-- USB Serial (Referenced to the USB side)
-		usbtxd1				: in	std_logic := '1';
-		usbrxd1				: out std_logic;
-		usbrts1				: in	std_logic := '1';
-		usbcts1				: out std_logic;
+		rxd1					: in	std_logic := '1';
+		txd1					: out std_logic;
+		cts1					: in	std_logic := '1';
+		rts1					: out std_logic;
 		serSelect			: in	std_logic := '1';
 		
 		-- I2C to Front Panel
@@ -98,17 +102,15 @@ end M6800_MIKBUG;
 
 architecture struct of M6800_MIKBUG is
 
-	signal w_resetLow		: std_logic;
+	signal w_resetLow		: std_logic;								-- Reset from debouncer
 	signal w_CPUResetHi	: std_logic;
-	signal w_FPReset		: std_logic;
-	
-	signal w_ExtRamAddr	: std_logic := '0';						-- There's not external SRAM in this build
+	signal w_FPReset		: std_logic;								-- Front Panel IOP reset
 
 	-- CPU signals
 	signal w_cpuDataIn	: std_logic_vector(7 downto 0);		-- Data into the CPU
 	signal w_R1W0B			: std_logic;								-- Read / Write from the CPU
 	signal w_R1W0			: std_logic;								-- ead / Write to the Memory
-	signal w_vma			: std_logic;
+	signal w_vma			: std_logic;								-- Valid Memory Address
 
 	-- Front Panel intercepts
 	signal w_cpuAddress	: std_logic_vector(15 downto 0);		-- Address from the Front Panel
@@ -116,12 +118,12 @@ architecture struct of M6800_MIKBUG is
 	signal w_cpuDataOut	: std_logic_vector(7 downto 0);		-- DAta to Memory / Peripherals
 	signal w_cpuDataOutB	: std_logic_vector(7 downto 0);		-- Data out of the CPU
 	signal w_run0Halt1	:	std_logic;								-- Run / Halt from the Front Panel (PB31)
-	signal w_wrRamStr		:	std_logic;								-- Write Strobe to SRAM 
+	signal w_wrRamStr		:	std_logic;								-- Write Strobe to SRAM from  IOP
 		
 	-- Data busses
 	signal w_romData		: std_logic_vector(7 downto 0);		-- Data from the ROM
-	signal w_ramData		: std_logic_vector(7 downto 0);		-- Data from the SRAM
-	signal w_ramData2		: std_logic_vector(7 downto 0);		-- Data from the SRAM
+	signal w_ramData		: std_logic_vector(7 downto 0);		-- Data from the 32KB SRAM
+	signal w_ramData2		: std_logic_vector(7 downto 0);		-- Data from the 1KB scratchpad SRAM
 	signal w_if1DataOut	: std_logic_vector(7 downto 0);		-- Data from the VDU
 	signal w_if2DataOut	: std_logic_vector(7 downto 0);		-- Data from the ACIA
 
@@ -181,15 +183,6 @@ begin
 	);
 	
 	-- ____________________________________________________________________________________
-	-- I/O CHIP SELECTS
-	n_if1CS	<= '0' 	when (serSelect = '1' and (w_cpuAddress(15 downto 1) = x"FC1"&"100")) else	-- VDU  $C018-$C019
-					'0'	when (serSelect = '0' and (w_cpuAddress(15 downto 1) = x"FC2"&"100")) else	-- ACIA $C028-$C029
-					'1';
-	n_if2CS	<= '0' 	when (serSelect = '1' and (w_cpuAddress(15 downto 1) = x"FC2"&"100")) else	-- ACIA $C028-$C029
-					'0'	when (serSelect = '0' and (w_cpuAddress(15 downto 1) = x"FC1"&"100")) else	-- VDU  $C018-$C019
-					'1';
-	
-	-- ____________________________________________________________________________________
 	-- 6800 CPU
 	cpu1 : entity work.cpu68
 		port map(
@@ -215,6 +208,15 @@ begin
 		w_if2DataOut	when n_if2CS = '0'									else
 		w_romData		when w_cpuAddress(15 downto 12) = x"F"			else
 		x"FF";
+	
+	-- ____________________________________________________________________________________
+	-- I/O CHIP SELECTS
+	n_if1CS	<= '0' 	when (serSelect = '1' and (w_cpuAddress(15 downto 1) = x"FC1"&"100")) else	-- VDU  $C018-$C019
+					'0'	when (serSelect = '0' and (w_cpuAddress(15 downto 1) = x"FC2"&"100")) else	-- ACIA $C028-$C029
+					'1';
+	n_if2CS	<= '0' 	when (serSelect = '1' and (w_cpuAddress(15 downto 1) = x"FC2"&"100")) else	-- ACIA $C028-$C029
+					'0'	when (serSelect = '0' and (w_cpuAddress(15 downto 1) = x"FC1"&"100")) else	-- VDU  $C018-$C019
+					'1';
 	
 	-- ____________________________________________________________________________________
 	-- MIKBUG ROM
@@ -288,10 +290,10 @@ begin
 			dataOut	=> w_if2DataOut,
 			rxClkEn	=> serialEn,
 			txClkEn	=> serialEn,
-			rxd		=> usbtxd1,
-			txd		=> usbrxd1,
-			n_cts		=> usbrts1,
-			n_rts		=> usbcts1
+			rxd		=> rxd1,
+			txd		=> txd1,
+			n_cts		=> cts1,
+			n_rts		=> rts1
 		);
 		
 	-- ____________________________________________________________________________________
@@ -299,20 +301,12 @@ begin
 	process (i_CLOCK_50)
 		begin
 			if rising_edge(i_CLOCK_50) then
-					if w_ExtRamAddr = '1' then
-						if q_cpuClkCount < 2 then						-- 50 MHz / 3 = 16.7 MHz 
-							q_cpuClkCount <= q_cpuClkCount + 1;
-						else
-							q_cpuClkCount <= (others=>'0');
-						end if;
+					if q_cpuClkCount < 1 then					-- 50 MHz / 2 = 25 MHz
+						q_cpuClkCount <= q_cpuClkCount + 1;
 					else
-						if q_cpuClkCount < 1 then						-- 50 MHz / 2 = 25 MHz
-							q_cpuClkCount <= q_cpuClkCount + 1;
-						else
-							q_cpuClkCount <= (others=>'0');
-						end if;
+						q_cpuClkCount <= (others=>'0');
 					end if;
-					if q_cpuClkCount < 1 then						-- 2 clocks high, one low
+				if q_cpuClkCount < 1 then						-- 2 clocks high, one low
 						w_cpuClock <= '0';
 					else
 						w_cpuClock <= '1';

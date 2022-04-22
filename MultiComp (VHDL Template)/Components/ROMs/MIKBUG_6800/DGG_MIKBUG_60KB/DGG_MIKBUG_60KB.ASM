@@ -5,9 +5,9 @@
 ; DGG - D. Gilliland - My changes have DGG at the start of the line.
 ;
 ; 	Uses a68 assembler. Command line to make S-Record output.
-;		a68 DGG_MIKBUG.ASM -l DGG_MIKBUG.LST -s DGG_MIKBUG.s
+;		..\a68.exe DGG_MIKBUG_60KB.ASM -l DGG_MIKBUG_60KB.LST -s DGG_MIKBUG_60KB.s
 ;	Use srec_cat to shift from EPROM absolute addresses to 0x0000 as HEX file for Altera Quartus MIF
-;		srec_cat DGG_MIKBUG.s -offset - -minimum-addr DGG_MIKBUG.s -o DGG_MIKBUG.hex -Intel
+;		..\srec_cat.exe DGG_MIKBUG_60KB.s -offset - -minimum-addr DGG_MIKBUG_60KB.s -o DGG_MIKBUG_60KB.hex -Intel
 ;	Need to watch Quartus warning and remove next to last line in the .HEX file
 ;
 ; This was from the latest SMITHBUG+S1 source 
@@ -1110,7 +1110,7 @@ GETCOUNT	BSR	GETHEX		; Get the byte number
 ; DGG - CPX was CMPX which did not compile and was commented out
 ; DGG- Changed branch from BGE to BLE (I think the compare worked the other way)
 		CPX	VAR				; Is it the system scratch area
-		BGE	S1EXIT			; Abort if close to system scratch
+		BLE	S1EXIT			; Abort if close to system scratch
 		BRA	GETCOUNT		; go get another byte
 ;
 S1EXIT	LDX	#S1STRING		; Protect System Scratch Abort S1
