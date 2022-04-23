@@ -1,5 +1,5 @@
 ; Tom Pittman's 6800 tiny BASIC
-; reverse analyzed from (buggy) hexdump (TB68R1.tiff and TB68R2.tiff) at 
+; Reverse analyzed from (buggy) hexdump (TB68R1.tiff and TB68R2.tiff) at 
 ; http://www.ittybittycomputers.com/IttyBitty/TinyBasic/
 ; http://www.ittybittycomputers.com/IttyBitty/TinyBasic/index.htm
 ; http://www.ittybittycomputers.com/IttyBitty/TinyBasic/DDJ1/Design.html
@@ -11,16 +11,17 @@
 ;
 ; DGG - Noted my changes with my initials
 ; Assemble using a68
-;	a68 TB_6800.ASM -l TB_6800.LST -s TB_6800.s
+;	..\a68 TB_6800.ASM -l TB_6800.LST -s TB_6800.s
 ;	(From: http://www.retrotechnology.com/restore/a68.html)
-; Load via DGG_MIKBUG with
+;	Creates S Record that gets loaded from SmithBug
+; Load via SmithBug with
 ; &
-; Then copy/paste into terminal window
+; Then copy/paste S Records into terminal window
 
-ACIACS	EQU	$FC18
-ACIADA	EQU	$FC19
+ACIACS	EQU	$FC18	; DGG
+ACIADA	EQU	$FC19	; DGG
 
-; These addresses are manually copied from MIKBUG (DGG_MIKBUG.ASM)
+; DGG These addresses are manually copied from SmithBug (DGG_SmithBug.ASM)
 INEEE		EQU	$f1f3
 OUTEEE		EQU	$f20a
 
@@ -66,17 +67,17 @@ CV:             jsr    COLD_S       ; Do cold start initialization
 WV:             jmp    WARM_S       ; do warm start
 
 ; vector: get a character from input device into A
-; DGG - Calls MIKBUG input (INEEE)
+; DGG - Calls SmithBug input (INEEE)
 IN_V:           jmp    INEEE
 
 ; print a character in A to output device
-; DGG - Calls MIKBUG output (OUTEEE)
+; DGG - Calls SmithBug output (OUTEEE)
 OUT_V:          jmp    OUTEEE
 
-; test for break from input device, set C=1 if break
+; test for break from input device, set Carry=1 if break
 ; unimplemented - jump to break routine
 ; note: at the end of the program, there are two
-; sample implementations for MIKBUG and MINIBUG
+; sample implementations for SmithBug and MINIBUG
 BV:             nop
                 clc
                 rts
@@ -314,16 +315,23 @@ IL_baseaddr:   fdb start_of_il      ; only used address where IL code starts
 COLD_S:        ldx     #$0900		; DGG - initialize start of BASIC
                stx     start_prgm
 
-; DGG - Original routine will over-write MIKBUG scratch-pad area when testing SRAM
+;------------------------------------------------------------------------------
+; DGG - Find the top of the SRAM - used as stack pointer
+; DGG - Original code detected top in SmithBug scratch-pad area
+; DGG - Non-destructive test complements data twice
+; DGG - Changed to check up to just before the Scratchpad SRAM (0xEF00-0XEFFF)
+; DGG - Tested on build with 32KB of SRAM and got end_ram=7FFF
+;------------------------------------------------------------------------------
 find_end_ram:
-			; inx                  ; point to next address
-            ; com     1,x          ; complement following byte
-            ; ldaa    1,x          ; load byte
-            ; com     1,x          ; complement byte
-            ; cmpa    1,x          ; compare with value, should be different, if it is RAM
-            ; bne     find_end_ram ; if different, advance, until no more RAM cells found
-			ldx     #$EEFF		   ; Hard coded to 60KB minus 128-byte scratechpad space
-            stx     end_ram        ; use topmost RAM cell
+			inx                  ; point to next address
+			cpx		#$EEFF		 ; check if at end of 60KB minus scratchpad space
+			beq		endOfRam
+            com     1,x          ; complement following byte
+            ldaa    1,x          ; load byte
+            com     1,x          ; complement byte
+            cmpa    1,x          ; compare with value, should be different, if it is RAM
+            bne     find_end_ram ; if different, advance, until no more RAM cells found
+endOfRam:	stx     end_ram      ; use topmost RAM cell
 			
 ;------------------------------------------------------------------------------
 ; IL instruction MT: clear program space
@@ -1433,48 +1441,48 @@ il_done:       lds     top_of_stack ; finished with IL
                jmp     restart_il_nocr ; and re-enter BASIC loop
 
 ;------------------------------------------------------------------------------
-; Break routine for Motorola MIkBUG
+; Break routine for Motorola SmithBug
 ;------------------------------------------------------------------------------
-minibug_chkbreak: ldaa ACIACS        ; ACIA control status
-               asra                 ; check bit0: receive buffer full
-               bcc     locret_776   ; no, exit, carry clear
-               ldaa    ACIADA        ; load ACIA data
-               bne     locret_776   ; if not NUL, return carry set
-               clc                  ; was NUL, ignore, retun carry clear
+; minibug_chkbreak: ldaa ACIACS        ; ACIA control status
+               ; asra                 ; check bit0: receive buffer full
+               ; bcc     locret_776   ; no, exit, carry clear
+               ; ldaa    ACIADA        ; load ACIA data
+               ; bne     locret_776   ; if not NUL, return carry set
+               ; clc                  ; was NUL, ignore, retun carry clear
 
-locret_776:    rts
+; locret_776:    rts
 
 ;------------------------------------------------------------------------------
 ; Input/Echo routine for Motorola MINIBUG
 ;------------------------------------------------------------------------------
-minibug_inoutput: ldaa ACIACS        ; get ACIA status
-               asra                 ; check bit: receiver buffer empty?
-               bcc     minibug_inoutput ; yes, wait for char
-               ldaa    ACIADA        ; get ACIA data
-               psha                 ; save it for later
+; minibug_inoutput: ldaa ACIACS        ; get ACIA status
+               ; asra                 ; check bit: receiver buffer empty?
+               ; bcc     minibug_inoutput ; yes, wait for char
+               ; ldaa    ACIADA        ; get ACIA data
+               ; psha                 ; save it for later
 
-wait_tdre:     ldaa    minibug_inoutput        ; get ACIA status
-               anda    #2           ; check bit1: transmit buf empty?
-               beq     wait_tdre    ; no, wait until transmitted
-               pula                 ; restore char
-               staa    ACIADA        ; echo data just entered
-               rts
+; wait_tdre:     ldaa    minibug_inoutput        ; get ACIA status
+               ; anda    #2           ; check bit1: transmit buf empty?
+               ; beq     wait_tdre    ; no, wait until transmitted
+               ; pula                 ; restore char
+               ; staa    ACIADA        ; echo data just entered
+               ; rts
 
 ;------------------------------------------------------------------------------
-; test break routine for MIKBUG
+; test break routine for SmithBug
 ;------------------------------------------------------------------------------
-mikbug_chkbreak: ldaa    $8004      ; check bitbang input of PIA
-               clc
-               bmi     locret_7A0   ; if 1, exit: no input
+; SmithBug_chkbreak: ldaa    $8004      ; check bitbang input of PIA
+               ; clc
+               ; bmi     locret_7A0   ; if 1, exit: no input
 
-loc_793:       ldaa    $8004        ; is zero, wait until 1
-               bpl     loc_793
-               bsr     *+2          ; emit byte 0xFF twice
-               ldaa    #$FF         ; emit 0xFF
-               jsr     OUT_V
-               sec
+; loc_793:       ldaa    $8004        ; is zero, wait until 1
+               ; bpl     loc_793
+               ; bsr     *+2          ; emit byte 0xFF twice
+               ; ldaa    #$FF         ; emit 0xFF
+               ; jsr     OUT_V
+               ; sec
 
-locret_7A0:    rts
+; locret_7A0:    rts
 
 ;******************************************************************************
 ; The IL interpreter commented
@@ -1702,9 +1710,9 @@ il_cmpop6:     fcb   9,$04          ; LB    : push literal byte 0x04
                fcb 0
 
 ;------------------------------------------------------------------------------
-; not called: reference code for break check for MIKBUG/MINIBUG monitors
+; not called: reference code for break check for SmithBug/MINIBUG monitors
 ;------------------------------------------------------------------------------
-               jmp     minibug_chkbreak
-               jmp     mikbug_chkbreak
+               ; jmp     minibug_chkbreak
+               ; jmp     SmithBug_chkbreak
 
 		       end

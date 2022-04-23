@@ -7,11 +7,11 @@
 -- Changes to this code by Doug Gilliland 2020-2022
 --
 -- MC6800 CPU
---		25 NHz for internal SRAM and Peripherals
---	Running MIKBUG from back in the day
+--		Runs at 25 NHz for internal SRAM and Peripherals
+--	ROM - running MIKBUG from back in the day
 --		SmithBug variant adds ACIA support and an S-record loader
---		https://github.com/douggilliland/Retro-Computers/blob/master/6800/Smithbug/V2_DIS_corrected.LST
---		60K (internal) RAM version
+--		https://github.com/douggilliland/MultiComp/tree/master/MultiComp%20(VHDL%20Template)/Components/ROMs/MIKBUG_6800/DGG_MIKBUG_60KB
+--		Up to 60K (internal) RAM version 
 --		1KB RAM scratchpad for MIKBUG
 -- Default I/O is jumper selectable to either built-in VDU or Serial port
 -- 	VDU - ANSI terminal (default)

@@ -1,0 +1,31 @@
+                        ; TESTCODE02.ASM
+                        ; Douglas Gilliland 2022
+                        ;
+                        ; Read a char from VDU/ACIA, write a char to VDU/ACIA
+                        ; Uses MIKBUG routines INEEE and OUTEEE serial read routines
+                        ; Load program in MIKBUG (SmithBug) using & command
+                        ;
+                        ; Run toolchain in DOS window - assembler
+                        ;	..\a68.exe TESTCODE02.ASM -l TESTCODE02.LST -s TESTCODE02.s
+                        ; To make a hex file that can be loaded
+                        ;	..\srec_cat TESTCODE02.s -offset - -minimum-addr TESTCODE02.s -o TESTCODE02.hex -Intel
+                        
+   f1f3                 INEEE	EQU $f1f3
+   f20a                 OUTEEE	EQU $f20a
+   f47d                 ECHO	EQU $f47d
+                        
+   0000                 START	
+   0000                 			ORG	$0000
+   0000   b6 f4 7d      		LDA A	ECHO
+   0003   36            		PSH	A
+   0004   86 00         		LDA A	#0
+   0006   b7 f4 7d      		STA A 	ECHO
+   0009                 LBACK
+   0009   bd f1 f3      		JSR		INEEE
+   000c   bd f2 0a      		JSR		OUTEEE
+   000f   7e 00 09      		JMP		LBACK
+                        
+*                       	END
+f47d  ECHO          f1f3  INEEE         0009  LBACK         f20a  OUTEEE    
+0000  START         
+
