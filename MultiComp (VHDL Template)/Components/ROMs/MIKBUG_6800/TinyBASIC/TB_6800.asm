@@ -28,9 +28,10 @@ ACIADA	EQU	$FC19	; DGG ACIA Serial
 INEEE		EQU	$f1f3
 OUTEEE		EQU	$f20a
 
+									; Reserve RAM space
                 org    0
                 rmb    32
-start_prgm:     rmb    2            ; $20 - Start of BASIC text (0x900)
+start_prgm:     rmb    2            ; $20 - Start of BASIC text (set to 0x0900)
 end_ram:        rmb    2            ; $22 - End of available RAM
 end_prgm:       rmb    2            ; $24 - End of BASIC text
 top_of_stack:   rmb    2            ; $26 - Top of return stack pointer location
@@ -1296,8 +1297,8 @@ gl_loop:       eora    rnd_seed     ; use random A to create some entropy
                jsr     IN_V         ; get a char from input device
                anda    #$7F         ; make 7bit ASCII
                beq     gl_loop      ; if NUL, ignore
-               cmpa    #$7F         ; if 0xFF/0x7F, ignore
-               beq     gl_loop
+               ; cmpa    #$FF         ; DGG - PATCHED OUT EFFECTIVELY TO GET BACK DEL KEY TO WORK BELOW
+               ; beq     gl_loop
                cmpa    #$A          ; if LF, done
                beq     do_xon
                cmpa    #$13         ; if DC3 (XOFF) handle XOFF

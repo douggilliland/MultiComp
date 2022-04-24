@@ -1,4 +1,4 @@
-	titl "DGG-MIKBUG-M6800 OPERATING SYSTEM"
+	titl "DGG-SMITHBUG-M6800 OPERATING SYSTEM"
 ;	DGG - Was "MIKES-M6802 OPERATING SYSTEM"
 ;	DGG - Was REV 2.0
 ; 
@@ -40,9 +40,6 @@
 ;	*	HARDWARE LOCATION (TBA)
 ;	O	ECHO ON
 ;	N	ECHO OFF
-;
-;
-;	ADDRESS
 ;
 ; DGG - Set the start of the scratchpad SRAM which is at the top of the 60KB of user memory
 ;       to reflect the M6800 FPGA memory map 
@@ -91,19 +88,9 @@ ADDRESS1	RMB 1			; Build 16 bit address byte 2
 BYTESTORE	RMB 1			; Save Byte Count
 TEMPA		RMB 1			; Save A Register
 ; DGG - Fixed addresses for ACIA to match FPGA board address mapping
+; DGG - Addresses in I/O space
 ACIACS	EQU	$FC18
 ACIADA	EQU	$FC19
-; DGG - Addresses in I/O space
-; DGG - PIA is unused in this build
-;PIAD1A	EQU	$FC00		;V2 has PIA support
-;PIAS1A	EQU	$FC01
-;PIAD1B	EQU	$FC02
-;PIAS1B	EQU	$FC03
-;
-;PIAD2A	EQU	$FC08
-;PIAS2A	EQU	$FC09
-;PIAD2B	EQU	$FC0A
-;PIAS2B	EQU	$FC0B
 ;
 ;	OPT	MEMORY
 ;
@@ -122,7 +109,7 @@ START EQU *
 ;
 ;	ACIA INITIALISE
 ;
-	LDAA	#$03	;RESET CODE
+	LDAA	#$03	;RESET ACIA CODE
 	STAA	ACIACS
 	NOP
 	NOP
