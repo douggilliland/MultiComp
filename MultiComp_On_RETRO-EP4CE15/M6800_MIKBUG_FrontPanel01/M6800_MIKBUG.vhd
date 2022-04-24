@@ -1,6 +1,6 @@
 -- -------------------------------------------------------------------------------------------
 -- Original MultiComp design is copyright by Grant Searle 2014
--- Grant Searle's web site http://searle.hostei.com/grant/    
+-- Grant Searle's web site http://searle.hostei.com/grant/
 -- Grant Searle's "multicomp" page at http://searle.hostei.com/grant/Multicomp/index.html
 --	Grant did not have a 6800 ROM, so I picked a MIKBUG variant monitor as the ROM
 --
@@ -37,6 +37,7 @@
 --	
 --	Memory Map
 --		0x0000-0x7FFF - 32KB Internal SRAM
+--		0x8000-0x9FFF - 8KB Internal SRAM
 --		0XEC00-0xEFFF - 1KB Internal SRAM (SCRATCHPAD SRAM USED BY MIKBUG)
 --		0xFC18-0xFC19 - VDU (serSelect J3 JUMPER REMOVED)
 --		0xFC28-0xFC19 - ACIA
@@ -124,6 +125,7 @@ architecture struct of M6800_MIKBUG is
 	signal w_romData		: std_logic_vector(7 downto 0);		-- Data from the ROM
 	signal w_ramData		: std_logic_vector(7 downto 0);		-- Data from the 32KB SRAM
 	signal w_ramData2		: std_logic_vector(7 downto 0);		-- Data from the 1KB scratchpad SRAM
+	signal w_ramData3		: std_logic_vector(7 downto 0);		-- Data from the 8KB SRAM
 	signal w_if1DataOut	: std_logic_vector(7 downto 0);		-- Data from the VDU
 	signal w_if2DataOut	: std_logic_vector(7 downto 0);		-- Data from the ACIA
 
@@ -204,6 +206,7 @@ begin
 	w_cpuDataIn <=
 		w_ramData		when w_cpuAddress(15) = '0'						else	-- 32KB SRAM (0x0000-0x7FFF)
 		w_ramData2		when w_cpuAddress(15 downto 10) = x"E"&"11"	else	-- 1KB SRAM (0xEC00-0xEFFF) 
+		w_ramData3		when w_cpuAddress(15 downto 13) = "100"		else	-- 8KB SRAM (0x8000-0x9FFF) 
 		w_if1DataOut	when n_if1CS = '0'									else
 		w_if2DataOut	when n_if2CS = '0'									else
 		w_romData		when w_cpuAddress(15 downto 12) = x"F"			else
@@ -235,9 +238,21 @@ begin
 			address	=> w_cpuAddress(14 downto 0),
 			clock 	=> i_CLOCK_50,
 			data 		=> w_cpuDataOut,
-			wren		=> (((not w_R1W0) and (not w_cpuAddress(15)) and w_vma and (not w_cpuClock) and (not w_run0Halt1)) 
+			wren		=> (((not w_R1W0) and (not w_cpuAddress(15)) and w_vma and (not w_cpuClock) and (not w_run0Halt1))
 							or (w_wrRamStr and w_run0Halt1 and (not w_cpuAddress(15)))),
 			q			=> w_ramData
+		);
+	
+	-- ____________________________________________________________________________________
+	-- 8KB RAM
+	sram8kb : entity work.InternalRam8K
+		PORT map  (
+			address	=> w_cpuAddress(12 downto 0),
+			clock 	=> i_CLOCK_50,
+			data 		=> w_cpuDataOut,
+			wren		=> (((not w_R1W0) and w_cpuAddress(15) and (not w_cpuAddress(14)) and (not w_cpuAddress(13)) and w_vma and (not w_cpuClock) and (not w_run0Halt1))
+							or (w_wrRamStr and w_run0Halt1 and w_cpuAddress(15) and (not w_cpuAddress(14)) and (not w_cpuAddress(13)))),
+			q			=> w_ramData3
 		);
 	
 	-- ____________________________________________________________________________________

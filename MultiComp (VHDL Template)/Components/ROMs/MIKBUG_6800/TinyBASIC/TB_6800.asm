@@ -1,25 +1,28 @@
 ; Tom Pittman's 6800 tiny BASIC
 ; Reverse analyzed from (buggy) hexdump (TB68R1.tiff and TB68R2.tiff) at 
-; http://www.ittybittycomputers.com/IttyBitty/TinyBasic/
-; http://www.ittybittycomputers.com/IttyBitty/TinyBasic/index.htm
-; http://www.ittybittycomputers.com/IttyBitty/TinyBasic/DDJ1/Design.html
-; by Holger Veit
-; http://www.ittybittycomputers.com/IttyBitty/TinyBasic/TB_6800.asm
+;	http://www.ittybittycomputers.com/IttyBitty/TinyBasic/
+;	http://www.ittybittycomputers.com/IttyBitty/TinyBasic/index.htm
+;	http://www.ittybittycomputers.com/IttyBitty/TinyBasic/DDJ1/Design.html
+; Updates by Holger Veit
+;	http://www.ittybittycomputers.com/IttyBitty/TinyBasic/TB_6800.asm
 ; 
-; Note this might look like valid assembler, but possibly isn't
-; for reference only
-;
 ; DGG - Noted my changes with my initials
+; Changes to work with SmithBug
+;	I/O calls to SmithBug Serial
+;	Reserves 256-bytes for SmithBug scratchpad
 ; Assemble using a68
-;	..\a68 TB_6800.ASM -l TB_6800.LST -s TB_6800.s
-;	(From: http://www.retrotechnology.com/restore/a68.html)
+;	Command line
+;		..\a68 TB_6800.ASM -l TB_6800.LST -s TB_6800.s
+;	Assembler is from: http://www.retrotechnology.com/restore/a68.html
 ;	Creates S Record that gets loaded from SmithBug
-; Load via SmithBug with
-; &
-; Then copy/paste S Records into terminal window
+; 	Load via SmithBug with
+; 		&
+; 		Then copy/paste S Records into terminal window
+; 	Run by typing
+;		L 0100
 
-ACIACS	EQU	$FC18	; DGG
-ACIADA	EQU	$FC19	; DGG
+ACIACS	EQU	$FC18	; DGG ACIA Serial
+ACIADA	EQU	$FC19	; DGG ACIA Serial
 
 ; DGG These addresses are manually copied from SmithBug (DGG_SmithBug.ASM)
 INEEE		EQU	$f1f3
@@ -27,26 +30,26 @@ OUTEEE		EQU	$f20a
 
                 org    0
                 rmb    32
-start_prgm:     rmb    2            ; $20 - start of BASIC text (0x900)
-end_ram:        rmb    2            ; $22 - end of available RAM
-end_prgm:       rmb    2            ; $24 - end of BASIC text
-top_of_stack:   rmb    2            ; $26 - top of return stack pointer location
-basic_lineno:   rmb    2            ; $28 - save for current line number to be executed
+start_prgm:     rmb    2            ; $20 - Start of BASIC text (0x900)
+end_ram:        rmb    2            ; $22 - End of available RAM
+end_prgm:       rmb    2            ; $24 - End of BASIC text
+top_of_stack:   rmb    2            ; $26 - Top of return stack pointer location
+basic_lineno:   rmb    2            ; $28 - Save for current line number to be executed
 il_pc:          rmb    2            ; $2A - program counter for IL code
 basic_ptr:      rmb    2            ; $2C - pointer to currently executed BASIC byte
-basicptr_save:  rmb    2            ; $2E temporary save for basic_ptr
+basicptr_save:  rmb    2            ; $2E - temporary save for basic_ptr
 expr_stack:     rmb    80           ; $30 - lowest byte of expr_stack (0x30)
-rnd_seed:       rmb    2            ; $80 used as seed value for RND function
+rnd_seed:       rmb    2            ; $80 - used as seed value for RND function
                                     ; note this is actually top of predecrementing expr_stack
-var_tbl:        rmb    52           ; $82 variables (A-Z), 26 words
+var_tbl:        rmb    52           ; $82 - variables (A-Z), 26 words
 LS_end:         rmb    2            ; $B6 - used to store addr of end of LS listing,
                                     ; start of list is in basic_ptr
-BP_save:        rmb    2            ; $B8 another temporary save for basic_ptr
+BP_save:        rmb    2            ; $B8 - another temporary save for basic_ptr
 X_save:         rmb    2            ; $BA - temporary save for X
 IL_temp:        rmb    2            ; $BC - temporary for various IL operations
                                     ; used for branch to IL handler routine for opcode
 lead_zero:      rmb    1            ; $BE - flag for number output and negative sign in DV
-column_cnt:     rmb    1            ; $BF counter for output columns (required for TAB in PRINT)
+column_cnt:     rmb    1            ; $BF - counter for output columns (required for TAB in PRINT)
                                     ; if bit 7 is set, suppress output (XOFF)
 run_mode:       rmb    1            ; $C0 run mode
                                     ; = 0 direct mode
@@ -78,12 +81,38 @@ OUT_V:          jmp    OUTEEE
 ; unimplemented - jump to break routine
 ; note: at the end of the program, there are two
 ; sample implementations for SmithBug and MINIBUG
+;------------------------------------------------------------------------------
+; Break routine for Motorola SmithBug
+;------------------------------------------------------------------------------
+; minibug_chkbreak: ldaa ACIACS        ; ACIA control status
+               ; asra                 ; check bit0: receive buffer full
+               ; bcc     locret_776   ; no, exit, carry clear
+               ; ldaa    ACIADA        ; load ACIA data
+               ; bne     locret_776   ; if not NUL, return carry set
+               ; clc                  ; was NUL, ignore, retun carry clear
+
+; locret_776:    rts
+
 BV:             nop
-                clc
-                rts
+				clc
+				rts
+; BV2:			nop
+				; psha				; save reg A
+				; ldaa	ACIACS		; check for char in ACIA
+				; asra				; rx data present
+				; bcc		ret_BV		; no rx data
+				; ldaa	ACIADA
+				; cmpa	#$1B		; is char ESC?
+				; beq		gotESC
+; ret_BV:			clc					; no ESC
+				; pula
+                ; rts
+; gotESC:			sec					; got ESC
+				; pula
+                ; rts
 
 ; some standard constants
-BSC:            fcb    $5F          ; backspace code (should be 0x7f, but actually is '_')
+BSC:            fcb    $7F          ; backspace code (should be 0x7f, but actually is '_')
 LSC:            fcb    $18          ; line cancel code (CTRL-X)
 PCC:            fcb    $00          ; CRLF padding characters
 									; DGG - Used with slow teletypes - no need with VDU (was $83)
@@ -311,8 +340,9 @@ IL_baseaddr:   fdb start_of_il      ; only used address where IL code starts
 
 ;------------------------------------------------------------------------------
 ; Cold start entry point
+; DGG - initialize start of BASIC past TinyBasic
 ;------------------------------------------------------------------------------
-COLD_S:        ldx     #$0900		; DGG - initialize start of BASIC
+COLD_S:        ldx     #$0900
                stx     start_prgm
 
 ;------------------------------------------------------------------------------
