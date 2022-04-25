@@ -104,6 +104,12 @@ entity M6800_MIKBUG is
 		io_n_extSRamCS		: out std_logic := '1';
 		io_n_extSRamOE		: out std_logic := '1';
 
+		-- External SD card has activity LED
+		o_sdCS				: out std_logic;
+		o_sdMOSI				: out std_logic;
+		i_sdMISO				: in std_logic;
+		o_sdSCLK				: out std_logic;
+		
 		-- Not using the SD RAM but making sure that it's not active
 		n_sdRamCas			: out std_logic := '1';		-- CAS
 		n_sdRamRas			: out std_logic := '1';		-- RAS
@@ -143,18 +149,20 @@ architecture struct of M6800_MIKBUG is
 	signal w_ramData3		: std_logic_vector(7 downto 0);		-- Data from the 8KB SRAM
 	signal w_if1DataOut	: std_logic_vector(7 downto 0);		-- Data from the VDU
 	signal w_if2DataOut	: std_logic_vector(7 downto 0);		-- Data from the ACIA
+	signal w_sdCardDataOut: std_logic_vector(7 downto 0);		-- Data from SD card
 	signal w_MMUReg1		: std_logic_vector(7 downto 0);		-- MMU1
 	signal w_MMUReg2		: std_logic_vector(7 downto 0);		-- MMU2
 
 	-- Chip Selects
-	signal n_if1CS			: std_logic :='1';						-- VDU Chip Select
-	signal n_if2CS			: std_logic :='1';						-- ACIA Chip Select
-	signal w_MMU1			:	std_logic;								-- Write MMU1
-	signal w_MMU2			:	std_logic;								-- Write MMU2
-	signal w_extSRAM		:	std_logic;								-- External SRAM
+	signal w_n_if1CS		: std_logic :='1';						-- VDU/ACIA Chip Select
+	signal w_n_if2CS		: std_logic :='1';						-- ACIA/VDU Chip Select
+	signal n_sdCardCS		: std_logic :='1';						-- 
+	signal w_MMU1			: std_logic := '0';						-- Write MMU1 strobe
+	signal w_MMU2			: std_logic := '0';						-- Write MMU2 strobe
+	signal w_extSRAM		: std_logic := '0';						-- External SRAM select
 
 	-- CPU Clock block
-	signal q_cpuClkCount	: std_logic_vector(5 downto 0); 		-- CPU speed counter
+	signal q_cpuClkCount	: std_logic_vector(2 downto 0); 		-- CPU speed counter
 	signal w_cpuClock		: std_logic;								-- CPU Clock
 
    signal serialEn      : std_logic;								-- 16x Serial Clock
@@ -228,8 +236,8 @@ begin
 		w_ramData		when w_cpuAddress(15) = '0'						else	-- 32KB SRAM (0x0000-0x7FFF)
 		w_ramData2		when w_cpuAddress(15 downto 10) = x"E"&"11"	else	-- 1KB SRAM (0xEC00-0xEFFF) 
 		w_ramData3		when w_cpuAddress(15 downto 13) = "100"		else	-- 8KB SRAM (0x8000-0x9FFF) 
-		w_if1DataOut	when n_if1CS = '0'									else	-- VDU
-		w_if2DataOut	when n_if2CS = '0'									else	-- ACIA
+		w_if1DataOut	when w_n_if1CS = '0'									else	-- VDU
+		w_if2DataOut	when w_n_if2CS = '0'									else	-- ACIA
 		w_MMUReg1		when w_MMU1 = '1'										else	-- MMU1
 		w_MMUReg2		when w_MMU2 = '1'										else	-- MMU2
 		w_romData		when w_cpuAddress(15 downto 12) = x"F"			else	-- ROM
@@ -257,15 +265,17 @@ begin
 
 	-- ____________________________________________________________________________________
 	-- I/O CHIP SELECTS
-	n_if1CS	<= '0' 	when (serSelect = '1' and (w_cpuAddress(15 downto 1) = x"FC1"&"100")) else	-- VDU  $C018-$C019
-					'0'	when (serSelect = '0' and (w_cpuAddress(15 downto 1) = x"FC2"&"100")) else	-- ACIA $C028-$C029
-					'1';
-	n_if2CS	<= '0' 	when (serSelect = '1' and (w_cpuAddress(15 downto 1) = x"FC2"&"100")) else	-- ACIA $C028-$C029
-					'0'	when (serSelect = '0' and (w_cpuAddress(15 downto 1) = x"FC1"&"100")) else	-- VDU  $C018-$C019
-					'1';
-	w_MMU1 	<= '1'	when w_cpuAddress = x"FC30" else 														-- MMU1 $FC30
+	w_n_if1CS	<=	'0' 	when (serSelect = '1' and (w_cpuAddress(15 downto 1) = x"FC1"&"100")) else		-- VDU  $C018-$C019
+						'0'		when (serSelect = '0' and (w_cpuAddress(15 downto 1) = x"FC2"&"100")) else	-- ACIA $C028-$C029
+						'1';
+	w_n_if2CS	<=	'0' 	when (serSelect = '1' and (w_cpuAddress(15 downto 1) = x"FC2"&"100")) else		-- ACIA $C028-$C029
+						'0'		when (serSelect = '0' and (w_cpuAddress(15 downto 1) = x"FC1"&"100")) else	-- VDU  $C018-$C019
+						'1';
+	n_sdCardCS	<= '0'	when ((w_cpuAddress(15 downto 4) = x"FC4") and (w_vma = '1')) else 
+						'1';
+	w_MMU1 	<= '1'		when w_cpuAddress = x"FC30" else 															-- MMU1 $FC30
 					'0';
-	w_MMU2 	<= '1'	when w_cpuAddress = x"FC31" else 														-- MMU2 $FC31
+	w_MMU2 	<= '1'		when w_cpuAddress = x"FC31" else 															-- MMU2 $FC31
 					'0';
 
 	-- ____________________________________________________________________________________
@@ -330,8 +340,8 @@ begin
 			clk		=> i_CLOCK_50,
 			n_reset	=> w_resetLow,
 			-- CPU interface
-			n_WR		=> n_if1CS or      w_R1W0  or (not w_vma) or (not w_cpuClock),
-			n_rd		=> n_if1CS or (not w_R1W0) or (not w_vma),
+			n_WR		=> w_n_if1CS or      w_R1W0  or (not w_vma) or (not w_cpuClock),
+			n_rd		=> w_n_if1CS or (not w_R1W0) or (not w_vma),
 			regSel	=> w_cpuAddress(0),
 			dataIn	=> w_cpuDataOut,
 			dataOut	=> w_if1DataOut,
@@ -353,8 +363,8 @@ begin
 	acia: entity work.bufferedUART
 		port map (
 			clk		=> i_CLOCK_50,     
-			n_WR		=> n_if2CS or      w_R1W0  or (not w_vma) or (not w_cpuClock),
-			n_rd		=> n_if2CS or (not w_R1W0) or (not w_vma),
+			n_WR		=> w_n_if2CS or      w_R1W0  or (not w_vma) or (not w_cpuClock),
+			n_rd		=> w_n_if2CS or (not w_R1W0) or (not w_vma),
 			regSel	=> w_cpuAddress(0),
 			dataIn	=> w_cpuDataOut,
 			dataOut	=> w_if2DataOut,
@@ -365,7 +375,8 @@ begin
 			n_cts		=> cts1,
 			n_rts		=> rts1
 		);
-		
+
+	-- Memory Management registers
 	MMU1 : entity work.OutLatch
 	generic map (n => 8)
 		port map (
@@ -386,7 +397,26 @@ begin
 			latchOut		=> w_MMUReg2
 			);	
 	
-	-- ____________________________________________________________________________________
+	 -- SD controller
+	 sd1 : entity work.sd_controller
+    generic map(
+        CLKEDGE_DIVIDER => 25 -- edges at 50MHz/25 = 2MHz ie 1MHz sdSCLK
+    )
+    port map(
+            clk => i_CLOCK_50,
+            n_reset => w_resetLow,
+            n_WR => not ((not w_R1W0) and (not n_sdCardCS)),
+            n_RD => not (w_R1W0 and (not n_sdCardCS)),
+            dataIn => w_cpuDataOut,
+            dataOut => w_sdCardDataOut,
+            regAddr => w_cpuAddress(2 downto 0),
+            sdCS => o_sdCS,
+            sdMOSI => o_sdMOSI,
+            sdMISO => i_sdMISO,
+            sdSCLK => o_sdSCLK
+    );
+
+-- ____________________________________________________________________________________
 	-- CPU Clock - 25 MHz for internal accesses
 	-- w_extSRAM - 16.7 MHz for external SRAM accesses
 	process (i_CLOCK_50, w_extSRAM)

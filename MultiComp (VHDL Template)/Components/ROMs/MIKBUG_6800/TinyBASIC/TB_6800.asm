@@ -65,53 +65,22 @@ il_pc_save:     rmb    2            ; $C4 save of IL program counter
 ; DGG - PROGRAM START HERE
                 org    $0100
 
-CV:             jsr    COLD_S       ; Do cold start initialization
+CV:             jsr		COLD_S       ; Do cold start initialization
 
 ; warm start vector
-WV:             jmp    WARM_S       ; do warm start
+WV:             jmp		WARM_S       ; do warm start
 
 ; vector: get a character from input device into A
 ; DGG - Calls SmithBug input (INEEE)
-IN_V:           jmp    INEEE
+IN_V:           jmp		INEEE
 
 ; print a character in A to output device
 ; DGG - Calls SmithBug output (OUTEEE)
-OUT_V:          jmp    OUTEEE
+OUT_V:          jmp		OUTEEE
 
 ; test for break from input device, set Carry=1 if break
-; unimplemented - jump to break routine
-; note: at the end of the program, there are two
-; sample implementations for SmithBug and MINIBUG
-;------------------------------------------------------------------------------
-; Break routine for Motorola SmithBug
-;------------------------------------------------------------------------------
-; minibug_chkbreak: ldaa ACIACS        ; ACIA control status
-               ; asra                 ; check bit0: receive buffer full
-               ; bcc     locret_776   ; no, exit, carry clear
-               ; ldaa    ACIADA        ; load ACIA data
-               ; bne     locret_776   ; if not NUL, return carry set
-               ; clc                  ; was NUL, ignore, retun carry clear
-
-; locret_776:    rts
-
-BV:             nop
-				clc
-				rts
-; BV2:			nop
-				; psha				; save reg A
-				; ldaa	ACIACS		; check for char in ACIA
-				; asra				; rx data present
-				; bcc		ret_BV		; no rx data
-				; ldaa	ACIADA
-				; cmpa	#$1B		; is char ESC?
-				; beq		gotESC
-; ret_BV:			clc					; no ESC
-				; pula
-                ; rts
-; gotESC:			sec					; got ESC
-				; pula
-                ; rts
-
+BV:				jmp		TSTBRK
+				
 ; some standard constants
 BSC:            fcb    $7F          ; backspace code (should be 0x7f, but actually is '_')
 LSC:            fcb    $18          ; line cancel code (CTRL-X)
@@ -1472,48 +1441,25 @@ il_done:       lds     top_of_stack ; finished with IL
                jmp     restart_il_nocr ; and re-enter BASIC loop
 
 ;------------------------------------------------------------------------------
-; Break routine for Motorola SmithBug
-;------------------------------------------------------------------------------
-; minibug_chkbreak: ldaa ACIACS        ; ACIA control status
-               ; asra                 ; check bit0: receive buffer full
-               ; bcc     locret_776   ; no, exit, carry clear
-               ; ldaa    ACIADA        ; load ACIA data
-               ; bne     locret_776   ; if not NUL, return carry set
-               ; clc                  ; was NUL, ignore, retun carry clear
-
-; locret_776:    rts
-
-;------------------------------------------------------------------------------
-; Input/Echo routine for Motorola MINIBUG
-;------------------------------------------------------------------------------
-; minibug_inoutput: ldaa ACIACS        ; get ACIA status
-               ; asra                 ; check bit: receiver buffer empty?
-               ; bcc     minibug_inoutput ; yes, wait for char
-               ; ldaa    ACIADA        ; get ACIA data
-               ; psha                 ; save it for later
-
-; wait_tdre:     ldaa    minibug_inoutput        ; get ACIA status
-               ; anda    #2           ; check bit1: transmit buf empty?
-               ; beq     wait_tdre    ; no, wait until transmitted
-               ; pula                 ; restore char
-               ; staa    ACIADA        ; echo data just entered
-               ; rts
-
-;------------------------------------------------------------------------------
 ; test break routine for SmithBug
+; ESC key stops code
 ;------------------------------------------------------------------------------
-; SmithBug_chkbreak: ldaa    $8004      ; check bitbang input of PIA
-               ; clc
-               ; bmi     locret_7A0   ; if 1, exit: no input
+TSTBRK:			nop					
+				psha				; save reg A
+				ldaa	ACIACS		; check for char in ACIA
+				asra				; rx data present
+				bcc		ret_BV		; no rx data
+				ldaa	ACIADA
+				cmpa	#$1B		; is char ESC?
+				beq		gotESC
+ret_BV:			pula
+				clc
+                rts
+gotESC:			pula
+				sec
+                rts
 
-; loc_793:       ldaa    $8004        ; is zero, wait until 1
-               ; bpl     loc_793
-               ; bsr     *+2          ; emit byte 0xFF twice
-               ; ldaa    #$FF         ; emit 0xFF
-               ; jsr     OUT_V
-               ; sec
 
-; locret_7A0:    rts
 
 ;******************************************************************************
 ; The IL interpreter commented
