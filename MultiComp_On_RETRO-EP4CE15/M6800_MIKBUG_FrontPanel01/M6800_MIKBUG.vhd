@@ -18,6 +18,8 @@
 --			XGA 80x25 character display
 --			PS/2 keyboard
 -- 	MC6850 ACIA UART
+--	1MB External SRAM
+--		MMU1, MMU2 Memory management register control window
 --	
 --	Front Panel
 --		Wiki page
@@ -36,13 +38,25 @@
 --		PB24 - SETADR - Set Address Mode control - Middle two rows of pushbuttons control LEDs
 --	
 --	Memory Map
---		0x0000-0x7FFF - 32KB Internal SRAM
---		0x8000-0x9FFF - 8KB Internal SRAM
---		0XEC00-0xEFFF - 1KB Internal SRAM (SCRATCHPAD SRAM USED BY MIKBUG)
---		0xFC18-0xFC19 - VDU (serSelect J3 JUMPER REMOVED)
---		0xFC28-0xFC19 - ACIA
---		0xFC30-0xFC3F - Front Panel
---		0xF000-0xFFFF - MIKBUG (Actually SMITHBUG) ROM
+--		0x0000-0x7FFF	- 32KB Internal SRAM
+--		0x8000-0x9FFF	- 8KB Internal SRAM
+--		0xA000-0xBFFF	- 512KB External SRAM
+--			8KB Window, 64 frames
+--			MMU1 provides additional address bits
+--			MMU1 initialized to 0
+--				Set to first frame allowing memory to appear as part of Tiny BASIC contiguous space
+--		0xC000-0xDFFF	- 512KB External SRAM
+--			8KB Window, 64 frames
+--			MMU2 provides additional address bits
+--			MMU2 initialized to 0
+--				Set to first frame allowing memory to appear as part of Tiny BASIC contiguous space
+--		0xE000-0xEBFF	- Deliberately left open to  
+--		0XEC00-0xEFFF	- 1KB Internal SRAM (SCRATCHPAD SRAM USED BY MIKBUG)
+--		0xFC18-0xFC19	- VDU (serSelect J3 JUMPER REMOVED)
+--		0xFC28-0xFC19	- ACIA
+--		0xFC30			- MMU1 Latch 7-bits
+--		0xFC31			- MMU2 Latch 7-bits
+--		0xF000-0xFFFF	- MIKBUG (Actually SMITHBUG) ROM
 -- -------------------------------------------------------------------------------------------
 
 library ieee;
@@ -128,10 +142,15 @@ architecture struct of M6800_MIKBUG is
 	signal w_ramData3		: std_logic_vector(7 downto 0);		-- Data from the 8KB SRAM
 	signal w_if1DataOut	: std_logic_vector(7 downto 0);		-- Data from the VDU
 	signal w_if2DataOut	: std_logic_vector(7 downto 0);		-- Data from the ACIA
+	signal w_MMUReg1		: std_logic_vector(7 downto 0);		-- MMU1
+	signal w_MMUReg2		: std_logic_vector(7 downto 0);		-- MMU2
 
 	-- Chip Selects
 	signal n_if1CS			: std_logic :='1';						-- VDU Chip Select
 	signal n_if2CS			: std_logic :='1';						-- ACIA Chip Select
+	signal w_MMU1			:	std_logic;								-- Write MMU1
+	signal w_MMU2			:	std_logic;								-- Write MMU2
+	signal w_extSRAM		:	std_logic;								-- External SRAM
 
 	-- CPU Clock block
 	signal q_cpuClkCount	: std_logic_vector(5 downto 0); 		-- CPU speed counter
@@ -204,14 +223,37 @@ begin
 	-- ____________________________________________________________________________________
 	-- CPU Read Data multiplexer
 	w_cpuDataIn <=
+		io_extSRamData	when (w_extSRAM = '1')								else	-- External SRAM (0xA000-0xDFFF)
 		w_ramData		when w_cpuAddress(15) = '0'						else	-- 32KB SRAM (0x0000-0x7FFF)
 		w_ramData2		when w_cpuAddress(15 downto 10) = x"E"&"11"	else	-- 1KB SRAM (0xEC00-0xEFFF) 
 		w_ramData3		when w_cpuAddress(15 downto 13) = "100"		else	-- 8KB SRAM (0x8000-0x9FFF) 
-		w_if1DataOut	when n_if1CS = '0'									else
-		w_if2DataOut	when n_if2CS = '0'									else
-		w_romData		when w_cpuAddress(15 downto 12) = x"F"			else
-		x"FF";
+		w_if1DataOut	when n_if1CS = '0'									else	-- VDU
+		w_if2DataOut	when n_if2CS = '0'									else	-- ACIA
+		w_MMUReg1		when w_MMU1 = '1'										else	-- MMU1
+		w_MMUReg2		when w_MMU2 = '1'										else	-- MMU2
+		w_romData		when w_cpuAddress(15 downto 12) = x"F"			else	-- ROM
+		x"DE";
 	
+	-- External SRAM
+	-- 
+	w_extSRAM <= 
+		'1' when w_cpuAddress(15 downto 13) = "101" else								-- 0xA000-0xBFFF
+		'1' when w_cpuAddress(15 downto 13) = "110" else								-- 0xC000-oxDFFF
+		'0';
+--	io_extSRamAddress(19) <= w_cpuAddress(15) and w_cpuAddress(14) and (not w_cpuAddress(13));	-- 0xC000-oxDFFF
+	io_extSRamAddress(19) <=
+		'0' when w_cpuAddress(15 downto 13) = "101" else
+		'1';
+	io_extSRamAddress(18 downto 13) <= 
+		w_MMUReg1(5 downto 0) 	when w_cpuAddress(15 downto 13) = "101" else		-- 0xA000-0xBFFF
+		w_MMUReg2(5 downto 0) 	when w_cpuAddress(15 downto 13) = "110" else		-- 0xC000-oxDFFF
+		"000000";
+	io_extSRamAddress(12 downto 0) <= w_cpuAddress(12 downto 0);
+	io_extSRamData <= w_cpuDataOut when (w_R1W0 = '0') else (others => 'Z');
+	io_n_extSRamWE <= not (w_extSRAM and w_vma and (not w_R1W0) and (not w_cpuClock));
+	io_n_extSRamOE <= not w_R1W0;
+	io_n_extSRamCS <= not(w_extSRAM and w_vma);
+
 	-- ____________________________________________________________________________________
 	-- I/O CHIP SELECTS
 	n_if1CS	<= '0' 	when (serSelect = '1' and (w_cpuAddress(15 downto 1) = x"FC1"&"100")) else	-- VDU  $C018-$C019
@@ -220,7 +262,11 @@ begin
 	n_if2CS	<= '0' 	when (serSelect = '1' and (w_cpuAddress(15 downto 1) = x"FC2"&"100")) else	-- ACIA $C028-$C029
 					'0'	when (serSelect = '0' and (w_cpuAddress(15 downto 1) = x"FC1"&"100")) else	-- VDU  $C018-$C019
 					'1';
-	
+	w_MMU1 	<= '1'	when w_cpuAddress = x"FC30" else 														-- MMU1 $FC30
+					'0';
+	w_MMU2 	<= '1'	when w_cpuAddress = x"FC31" else 														-- MMU2 $FC31
+					'0';
+
 	-- ____________________________________________________________________________________
 	-- MIKBUG ROM
 	-- 4KB MIKBUG ROM
@@ -271,6 +317,14 @@ begin
 	-- INPUT/OUTPUT DEVICES
 	-- Grant's VGA driver
 	vdu : entity work.SBCTextDisplayRGB
+		GENERIC map (
+			EXTENDED_CHARSET    => 1,	-- 1 = 256 chars
+												-- 0 = 128 chars
+			COLOUR_ATTS_ENABLED => 0,	-- 1 = Color for each character
+												-- 0 = Color applied to whole display
+			SANS_SERIF_FONT     => 0	-- 0 => use conventional CGA font
+												-- 1 => use san serif font
+		)
 		port map (
 			clk		=> i_CLOCK_50,
 			n_reset	=> w_resetLow,
@@ -311,24 +365,53 @@ begin
 			n_rts		=> rts1
 		);
 		
+	MMU1 : entity work.OutLatch
+	generic map (n => 8)
+		port map (
+			dataIn		=> w_cpuDataOut,
+			clock			=> i_CLOCK_50,
+			load			=> not(w_MMU1 and (not w_R1W0) and w_vma and w_cpuClock),
+			clear			=> w_resetLow,
+			latchOut		=> w_MMUReg1
+			);	
+	
+	MMU2 : entity work.OutLatch
+	generic map (n => 8)
+		port map (
+			dataIn		=> w_cpuDataOut,
+			clock			=> i_CLOCK_50,
+			load			=> not(w_MMU2 and (not w_R1W0) and w_vma and w_cpuClock),
+			clear			=> w_resetLow,
+			latchOut		=> w_MMUReg2
+			);	
+	
 	-- ____________________________________________________________________________________
 	-- CPU Clock - 25 MHz for internal accesses
-	process (i_CLOCK_50)
+	-- w_extSRAM - 16.7 MHz for external SRAM accesses
+	process (i_CLOCK_50, w_extSRAM)
 		begin
 			if rising_edge(i_CLOCK_50) then
-					if q_cpuClkCount < 1 then					-- 50 MHz / 2 = 25 MHz
+				if w_extSRAM = '1' then
+					if q_cpuClkCount < 2 then						-- 50 MHz / 3 = 16.7 MHz 
 						q_cpuClkCount <= q_cpuClkCount + 1;
 					else
 						q_cpuClkCount <= (others=>'0');
 					end if;
-				if q_cpuClkCount < 1 then						-- 2 clocks high, one low
-						w_cpuClock <= '0';
+				else
+					if q_cpuClkCount < 1 then						-- 50 MHz / 2 = 25 MHz
+						q_cpuClkCount <= q_cpuClkCount + 1;
 					else
-						w_cpuClock <= '1';
+						q_cpuClkCount <= (others=>'0');
 					end if;
 				end if;
+				if q_cpuClkCount < 1 then							-- one clock low
+					w_cpuClock <= '0';
+				else
+					w_cpuClock <= '1';
+				end if;
+			end if;
 		end process;
-	
+
 	-- ____________________________________________________________________________________
 	-- Baud Rate Generator
 	-- Legal BAUD_RATE values are 115200, 38400, 19200, 9600, 4800, 2400, 1200, 600, 300
