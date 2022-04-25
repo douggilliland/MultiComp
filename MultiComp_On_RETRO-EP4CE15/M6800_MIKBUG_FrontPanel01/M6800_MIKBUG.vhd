@@ -7,21 +7,22 @@
 -- Changes to this code by Doug Gilliland 2020-2022
 --
 -- MC6800 CPU
---		Runs at 25 NHz for internal SRAM and Peripherals
+--		Runs at 25 MHz for internal SRAM and Peripherals
+--		Runs at 16.7 MHz for external SRAM
 --	ROM - running MIKBUG from back in the day
 --		SmithBug variant adds ACIA support and an S-record loader
 --		https://github.com/douggilliland/MultiComp/tree/master/MultiComp%20(VHDL%20Template)/Components/ROMs/MIKBUG_6800/DGG_MIKBUG_60KB
---		Up to 60K (internal) RAM version  (this build has 40KB SRAM)
+--		Up to 60K (internal) RAM version  (this build has 40KB Internal SRAM plus 16KB external SRAM)
 --		1KB RAM scratchpad for MIKBUG
 -- J3 jumper selects either built-in VDU or Serial port
--- 	VDU - ANSI terminal (default)
+-- 	VDU - ANSI terminal (default = jumper removed)
 --			XGA 80x25 character display
 --			PS/2 keyboard
 -- 	MC6850 ACIA UART
 --	1MB External SRAM
 --		MMU1, MMU2 Memory management register control window
 --	
---	Front Panel
+--	Front Panel controls Internal memory
 --		Wiki page
 --			http://land-boards.com/blwiki/index.php?title=Front_Panel_for_8_Bit_Computers_V2
 --		Monitors Address/Data when in Run mode
@@ -41,7 +42,7 @@
 --		0x0000-0x7FFF	- 32KB Internal SRAM
 --		0x8000-0x9FFF	- 8KB Internal SRAM
 --		0xA000-0xBFFF	- 512KB External SRAM
---			8KB Window, 64 frames
+--			8KB Windows, 64 frames
 --			MMU1 provides additional address bits
 --			MMU1 initialized to 0
 --				Set to first frame allowing memory to appear as part of Tiny BASIC contiguous space
@@ -96,7 +97,7 @@ entity M6800_MIKBUG is
 		io_I2C_SDA			: inout	std_logic := '1';
 		i_I2C_INTn			: in	std_logic := '1';
 		
-		-- SRAM not used but making sure that it's not active
+		-- 1MB External SRAM
 		io_extSRamData		: inout std_logic_vector(7 downto 0) := (others=>'Z');
 		io_extSRamAddress	: out std_logic_vector(19 downto 0) := x"00000";
 		io_n_extSRamWE		: out std_logic := '1';
