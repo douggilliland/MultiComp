@@ -1,4 +1,4 @@
-; Tom Pittman's 6800 tiny BASIC
+; Tom Pittman's 6800 Tiny BASIC
 ; Reverse analyzed from (buggy) hexdump (TB68R1.tiff and TB68R2.tiff) at 
 ;	http://www.ittybittycomputers.com/IttyBitty/TinyBasic/
 ;	http://www.ittybittycomputers.com/IttyBitty/TinyBasic/index.htm
@@ -7,9 +7,24 @@
 ;	http://www.ittybittycomputers.com/IttyBitty/TinyBasic/TB_6800.asm
 ; 
 ; DGG - Noted my changes with my initials
+; Added ESC key as break
 ; Changes to work with SmithBug
 ;	I/O calls to SmithBug Serial
 ;	Reserves 256-bytes for SmithBug scratchpad
+; Memory Map
+;	0x0000-0xEFFF - Up to 60KB SRAM
+;		0x0000-0x0FFF - 4KB option
+;		0x0000-0x3FFF - 16KB option
+;		0x0000-0x7FFF - 32KB option
+;		0x0000-0xDFFF - 56KB option
+;		0xEF00-0xEFFF - SmithBUG scratchpad SRAM
+;			Tiny BASIC is set to stop scanning before scretchpad
+;	0xF000-0xFFFF - 4KN SmithBug space
+;	I/O carved out in  0xFC__ address range
+;		0xFC18 - VDU/ACIA Control/Status
+;		0xFC19 - VDU/ACIA Data
+;		0xFC28 - ACIA/VDU Control/Status
+;		0xFC29 - ACIA/VDU Data
 ; Assemble using a68
 ;	Command line
 ;		..\a68 TB_6800.ASM -l TB_6800.LST -s TB_6800.s
@@ -18,17 +33,18 @@
 ; 	Load via SmithBug with
 ; 		&
 ; 		Then copy/paste S Records into terminal window
-; 	Run by typing
-;		L 0100
+; 	Run by typing (J = Jump)
+;		J 0100
 
-ACIACS	EQU	$FC18	; DGG ACIA Serial
-ACIADA	EQU	$FC19	; DGG ACIA Serial
+ACIACS	EQU	$FC18	; DGG VDU/ACIA Serial
+ACIADA	EQU	$FC19	; DGG VDU/ACIA Serial
+ACIA2CS	EQU	$FC28	; DGG ACIA/VDU Serial
+ACIA2DA	EQU	$FC29	; DGG ACIA/VDU Serial
 
 ; DGG These addresses are manually copied from SmithBug (DGG_SmithBug.ASM)
 INEEE		EQU	$f1f3
 OUTEEE		EQU	$f20a
-
-									; Reserve RAM space
+									; Reserve RAM space on page 0
                 org    0
                 rmb    32
 start_prgm:     rmb    2            ; $20 - Start of BASIC text (set to 0x0900)
@@ -78,7 +94,7 @@ IN_V:           jmp		INEEE
 ; DGG - Calls SmithBug output (OUTEEE)
 OUT_V:          jmp		OUTEEE
 
-; test for break from input device, set Carry=1 if break
+; DGG - test for break from input device, set Carry=1 if break
 BV:				jmp		TSTBRK
 				
 ; some standard constants
@@ -1442,7 +1458,7 @@ il_done:       lds     top_of_stack ; finished with IL
 
 ;------------------------------------------------------------------------------
 ; test break routine for SmithBug
-; ESC key stops code
+; ESC or CTRL-C keys stop detect break
 ;------------------------------------------------------------------------------
 TSTBRK:			nop					
 				psha				; save reg A
@@ -1451,11 +1467,13 @@ TSTBRK:			nop
 				bcc		ret_BV		; no rx data
 				ldaa	ACIADA
 				cmpa	#$1B		; is char ESC?
-				beq		gotESC
-ret_BV:			pula
+				beq		gotBRK
+				cmpa	#$03		; is char CTRL-C?
+				beq		gotBRK
+ret_BV:			pula				; restore reg A
 				clc
                 rts
-gotESC:			pula
+gotBRK:			pula				; restore reg A
 				sec
                 rts
 
@@ -1464,7 +1482,7 @@ gotESC:			pula
 ;******************************************************************************
 ; The IL interpreter commented
 ;******************************************************************************
-start_of_il:   fcb $24,':',$11+$80  ; PL    : print literal ":",XON
+start_of_il:   fcb $24,':',$20+$80  ; PL    : print literal ":",XON
                fcb $27              ; GL    : get input line
                fcb $10              ; SB    : save BASIC pointer
                fcb $E1              ; BE  01: if not eoln, branch to il_test_insert
