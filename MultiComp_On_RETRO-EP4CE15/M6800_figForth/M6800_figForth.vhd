@@ -37,7 +37,7 @@
 --	
 --	Memory Map
 --		0x0000-0x0FFF	- 4KB Internal SRAM
---		0x1000-0x2FFF	- 6KB Internal SRAM
+--		0x1000-0x2FFF	- 6KB Internal ROM
 --		0x3000-0x3FFF	- 4KB Internal SRAM
 --		0x4000-0x7FFF	- 16KB Internal SRAM
 --		0xA000-0xBFFF	- 512KB External SRAM
@@ -143,7 +143,7 @@ architecture struct of M6800_figForth is
 		
 	-- Data busses
 	signal w_romData		: std_logic_vector(7 downto 0);		-- Data from the ROM
-	signal w_ramData		: std_logic_vector(7 downto 0);		-- Data from the 32KB SRAM
+	signal w_ramData		: std_logic_vector(7 downto 0);		-- Data from the 4KB SRAM
 	signal w_ramData2		: std_logic_vector(7 downto 0);		-- Data from the 1KB scratchpad SRAM
 	signal w_ramData3		: std_logic_vector(7 downto 0);		-- Data from the 8KB SRAM
 	signal w_if1DataOut	: std_logic_vector(7 downto 0);		-- Data from the VDU
@@ -159,7 +159,11 @@ architecture struct of M6800_figForth is
 	signal w_MMU1			: std_logic := '0';						-- Write MMU1 strobe
 	signal w_MMU2			: std_logic := '0';						-- Write MMU2 strobe
 	signal w_extSRAM		: std_logic := '0';						-- External SRAM select
-
+	signal w_SRAMAdr_1	: std_logic := '0';						-- 
+	signal w_SRAMAdr_2	: std_logic := '0';						-- 
+	signal w_SRAMAdr_3	: std_logic := '0';						-- 
+	signal w_ROMAdr		: std_logic := '0';						-- 
+	
 	-- CPU Clock block
 	signal q_cpuClkCount	: std_logic_vector(2 downto 0); 		-- CPU speed counter
 	signal w_cpuClock		: std_logic;								-- CPU Clock
@@ -231,9 +235,9 @@ begin
 	-- ____________________________________________________________________________________
 	-- CPU Read Data multiplexer
 	w_cpuDataIn <=
-		io_extSRamData	when (w_extSRAM = '1')								else	-- External SRAM (0xA000-0xDFFF)
-		w_ramData		when w_cpuAddress(15) = '0'						else	-- 32KB SRAM (0x0000-0x7FFF)
-		w_ramData2		when w_cpuAddress(15 downto 10) = x"E"&"11"	else	-- 1KB SRAM (0xEC00-0xEFFF) 
+		io_extSRamData	when w_extSRAM = '1'									else	-- External SRAM (0xA000-0xDFFF)
+		w_ramData		when w_SRAMAdr_1 = '1'								else	-- 4KB SRAM (0x0000-0x0FFF)
+		w_ramData2		when w_SRAMAdr_2 = '1'								else	-- 1KB SRAM (0xEC00-0xEFFF) 
 		w_ramData3		when w_cpuAddress(15 downto 13) = "100"		else	-- 8KB SRAM (0x8000-0x9FFF) 
 		w_if1DataOut	when w_n_if1CS = '0'									else	-- VDU
 		w_if2DataOut	when w_n_if2CS = '0'									else	-- ACIA
@@ -272,55 +276,65 @@ begin
 						'1';
 	n_sdCardCS	<= '0'	when ((w_cpuAddress(15 downto 4) = x"FC4") and (w_vma = '1')) else 
 						'1';
-	w_MMU1 	<= '1'		when w_cpuAddress = x"FC30" else 															-- MMU1 $FC30
-					'0';
-	w_MMU2 	<= '1'		when w_cpuAddress = x"FC31" else 															-- MMU2 $FC31
-					'0';
+	w_MMU1 		<= '1'	when w_cpuAddress = x"FC30" else 															-- MMU1 $FC30
+						'0';
+	w_MMU2 		<= '1'	when w_cpuAddress = x"FC31" else 															-- MMU2 $FC31
+						'0';
+	w_SRAMAdr_1 <= '1' 	when  w_cpuAddress(15 downto 12) = x"0" else
+						'0';
+	w_SRAMAdr_2 <= '1' 	when  w_cpuAddress(15 downto 12) = x"3" else
+						'0';
+	w_SRAMAdr_3 <= '1' 	when  w_cpuAddress(15 downto 14) = "01" else
+						'0';
+	w_ROMAdr		<= '1'	when	w_cpuAddress(15 downto 12) = x"1" else
+						'1'	when	w_cpuAddress(15 downto 12) = x"2" else
+						'1'	when	w_cpuAddress(15 downto 8) = x"FF" else
+						'0';
 
 	-- ____________________________________________________________________________________
-	-- MIKBUG ROM
-	-- 4KB MIKBUG ROM
-	rom1 : entity work.MIKBUG
+	-- figForth ROM
+	-- 8KB figForth ROM
+	rom1 : entity work.figForth_ROM
 		port map (
-			address	=> w_cpuAddress(11 downto 0),
+			address	=> w_cpuAddress(12 downto 0),
 			clock 	=> i_CLOCK_50,
 			q			=> w_romData
 		);
 		
 	-- ____________________________________________________________________________________
-	-- 32KB RAM	
-	sram32kb : entity work.InternalRam32K
+	-- 4KB RAM	
+	sram4kb_1 : entity work.InternalRam4K
 		PORT map  (
-			address	=> w_cpuAddress(14 downto 0),
+			address	=> w_cpuAddress(11 downto 0),
 			clock 	=> i_CLOCK_50,
 			data 		=> w_cpuDataOut,
-			wren		=> (((not w_R1W0) and (not w_cpuAddress(15)) and w_vma and (not w_cpuClock) and (not w_run0Halt1))
-							or (w_wrRamStr and w_run0Halt1 and (not w_cpuAddress(15)))),
+			wren		=> (((not w_run0Halt1) and w_SRAMAdr_1 and (not w_R1W0) and w_vma and (not w_cpuClock))
+							or    (w_run0Halt1  and w_SRAMAdr_1 and w_wrRamStr)),
 			q			=> w_ramData
 		);
 	
 	-- ____________________________________________________________________________________
-	-- 8KB RAM
-	sram8kb : entity work.InternalRam8K
+	-- 4KB RAM
+	sram4kb_2 : entity work.InternalRam4K
 		PORT map  (
-			address	=> w_cpuAddress(12 downto 0),
+			address	=> w_cpuAddress(11 downto 0),
 			clock 	=> i_CLOCK_50,
 			data 		=> w_cpuDataOut,
-			wren		=> (((not w_R1W0) and w_cpuAddress(15) and (not w_cpuAddress(14)) and (not w_cpuAddress(13)) and w_vma and (not w_cpuClock) and (not w_run0Halt1))
-							or (w_wrRamStr and w_run0Halt1 and w_cpuAddress(15) and (not w_cpuAddress(14)) and (not w_cpuAddress(13)))),
-			q			=> w_ramData3
+			wren		=> (((not w_run0Halt1) and w_SRAMAdr_2 and (not w_R1W0)  and w_vma and (not w_cpuClock))
+							or    (w_run0Halt1  and w_SRAMAdr_2 and w_wrRamStr)),
+			q			=> w_ramData2
 		);
 	
 	-- ____________________________________________________________________________________
-	-- 1KB RAM SMITHBUG SCRATCHPAD
-	sram1kb : entity work.InternalRam1K
+	-- 16KB RAM
+	sram16kb : entity work.InternalRam16K
 		PORT map  (
-			address	=> w_cpuAddress(9 downto 0),
+			address	=> w_cpuAddress(13 downto 0),
 			clock 	=> i_CLOCK_50,
 			data 		=> w_cpuDataOut,
-			wren		=> ((not w_R1W0) and w_cpuAddress(15) and w_cpuAddress(14) and w_cpuAddress(13) and (not w_cpuAddress(12)) and w_cpuAddress(11) and w_cpuAddress(10) and w_vma and (not w_cpuClock) and (not w_run0Halt1)),
---							or (w_wrRamStr and w_run0Halt1)),
-			q			=> w_ramData2
+			wren		=> (((not w_run0Halt1) and w_SRAMAdr_3 and (not w_R1W0) and w_vma and (not w_cpuClock))
+							or    (w_run0Halt1  and w_wrRamStr)),
+			q			=> w_ramData3
 		);
 	
 	-- ____________________________________________________________________________________
