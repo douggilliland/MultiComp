@@ -235,15 +235,17 @@ begin
 	-- ____________________________________________________________________________________
 	-- CPU Read Data multiplexer
 	w_cpuDataIn <=
-		io_extSRamData	when w_extSRAM = '1'									else	-- External SRAM (0xA000-0xDFFF)
-		w_ramData		when w_SRAMAdr_1 = '1'								else	-- 4KB SRAM (0x0000-0x0FFF)
-		w_ramData2		when w_SRAMAdr_2 = '1'								else	-- 1KB SRAM (0xEC00-0xEFFF) 
-		w_ramData3		when w_cpuAddress(15 downto 13) = "100"		else	-- 8KB SRAM (0x8000-0x9FFF) 
-		w_if1DataOut	when w_n_if1CS = '0'									else	-- VDU
-		w_if2DataOut	when w_n_if2CS = '0'									else	-- ACIA
-		w_MMUReg1		when w_MMU1 = '1'										else	-- MMU1
-		w_MMUReg2		when w_MMU2 = '1'										else	-- MMU2
-		w_romData		when w_cpuAddress(15 downto 12) = x"F"			else	-- ROM
+		io_extSRamData	when w_extSRAM = '1'				else	-- External SRAM (0xA000-0xDFFF)
+		w_ramData		when w_SRAMAdr_1 = '1'			else	-- 4KB SRAM (0x0000-0x0FFF)
+		w_ramData2		when w_SRAMAdr_2 = '1'			else	-- 1KB SRAM (0xEC00-0xEFFF) 
+		w_ramData3		when w_SRAMAdr_3 = '1'			else	-- 8KB SRAM (0x8000-0x9FFF) 
+		w_if1DataOut	when w_n_if1CS = '0'				else	-- VDU
+		w_if2DataOut	when w_n_if2CS = '0'				else	-- ACIA
+		w_MMUReg1		when w_MMU1 = '1'					else	-- MMU1
+		w_MMUReg2		when w_MMU2 = '1'					else	-- MMU2
+		x"10"				when w_cpuAddress = x"FFFE"	else	-- Reset vector Upper ($1000)
+		x"00"				when w_cpuAddress = x"FFFF"	else	-- Reset vector Lower
+		w_romData		when w_ROMAdr = '1'				else	-- ROM
 		x"DE";
 	
 	-- External SRAM
@@ -288,15 +290,14 @@ begin
 						'0';
 	w_ROMAdr		<= '1'	when	w_cpuAddress(15 downto 12) = x"1" else
 						'1'	when	w_cpuAddress(15 downto 12) = x"2" else
-						'1'	when	w_cpuAddress(15 downto 8) = x"FF" else
 						'0';
 
 	-- ____________________________________________________________________________________
-	-- figForth ROM
 	-- 8KB figForth ROM
+	-- Need to flip MS address bit since range cross 0x2000-0x3FFF
 	rom1 : entity work.figForth_ROM
 		port map (
-			address	=> w_cpuAddress(12 downto 0),
+			address	=> (not w_cpuAddress(12)) & w_cpuAddress(11 downto 0),
 			clock 	=> i_CLOCK_50,
 			q			=> w_romData
 		);
