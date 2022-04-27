@@ -2,15 +2,16 @@
 -- Original MultiComp design is copyright by Grant Searle 2014
 -- Grant Searle's web site http://searle.hostei.com/grant/
 -- Grant Searle's "multicomp" page at http://searle.hostei.com/grant/Multicomp/index.html
---	Grant did not have a 6800 ROM, so I picked a MIKBUG variant monitor as the ROM
--- This build removes MIKBUG ROM and replaces it with figForth
+--	Grant did not have a 6800 ROM.
+-- This build uses a figForth ROM that runs at boot-up.
 --
--- Changes to this code by Doug Gilliland 2020-2022
+-- Changes to this code by Doug Gilliland 2022
 --
 -- MC6800 CPU
 --		Runs at 25 MHz for internal SRAM and Peripherals
 --		Runs at 16.7 MHz for external SRAM
 --	ROM - running figForth from back in the day
+--		https://github.com/douggilliland/Retro-Computers/tree/master/6800/fig-FORTH/figFORTH_InROM
 -- J3 jumper selects either built-in VDU or Serial port
 -- 	VDU - ANSI terminal (default = jumper removed)
 --			XGA 80x25 character display
@@ -50,13 +51,12 @@
 --			MMU2 provides additional address bits
 --			MMU2 initialized to 0
 --				Set to first frame allowing memory to appear as part of Tiny BASIC contiguous space
---		0xE000-0xEBFF	- Deliberately left open to  
---		0XEC00-0xEFFF	- 1KB Internal SRAM (SCRATCHPAD SRAM USED BY MIKBUG)
+--		0xE000-0xEBFF	- Deliberately left open to not conflict
 --		0xFC18-0xFC19	- VDU (serSelect J3 JUMPER REMOVED)
---		0xFC28-0xFC19	- ACIA
+--		0xFC28-0xFC19	- ACIA (serSelect J3 JUMPER INSTALLED)
 --		0xFC30			- MMU1 Latch 7-bits
 --		0xFC31			- MMU2 Latch 7-bits
---		0xFF00-0xFFFF	- ROM Vectors
+--		0xFFFE-0xFFFF	- ROM Reset Vector
 -- -------------------------------------------------------------------------------------------
 
 library ieee;
