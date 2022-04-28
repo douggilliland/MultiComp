@@ -16,7 +16,7 @@
 -- 	VDU - ANSI terminal (default = jumper removed)
 --			XGA 80x25 character display
 --			PS/2 keyboard
--- 	MC6850 ACIA UART
+-- 	MC6850 ACIA UART (default = jumper installed)
 --	1MB External SRAM
 --		MMU1, MMU2 Memory management register control window
 --	
@@ -41,21 +41,20 @@
 --		0x1000-0x2FFF	- 6KB Internal ROM
 --		0x3000-0x3FFF	- 4KB Internal SRAM
 --		0x4000-0x7FFF	- 16KB Internal SRAM
---		0xA000-0xBFFF	- 512KB External SRAM
+--		0xA000-0xBFFF	- 512KB External SRAM (1st half of External SRAM)
 --			8KB Windows, 64 frames
 --			MMU1 provides additional address bits
 --			MMU1 initialized to 0
---				Set to first frame allowing memory to appear as part of Tiny BASIC contiguous space
---		0xC000-0xDFFF	- 512KB External SRAM
+--				Set to first frame as default
+--		0xC000-0xDFFF	- 512KB External SRAM (2nd half of External SRAM)
 --			8KB Window, 64 frames
 --			MMU2 provides additional address bits
 --			MMU2 initialized to 0
---				Set to first frame allowing memory to appear as part of Tiny BASIC contiguous space
---		0xE000-0xEBFF	- Deliberately left open to not conflict
---		0xFC18-0xFC19	- VDU (serSelect J3 JUMPER REMOVED)
+--				Set to first frame as default
+--		0xFC18-0xFC19	- VDU  (serSelect J3 JUMPER REMOVED)
 --		0xFC28-0xFC19	- ACIA (serSelect J3 JUMPER INSTALLED)
---		0xFC30			- MMU1 Latch 7-bits
---		0xFC31			- MMU2 Latch 7-bits
+--		0xFC30			- MMU1 Latch 6-bits
+--		0xFC31			- MMU2 Latch 6-bits
 --		0xFFFE-0xFFFF	- ROM Reset Vector
 -- -------------------------------------------------------------------------------------------
 
@@ -90,6 +89,7 @@ entity M6800_figForth is
 		cts1					: in	std_logic := '1';
 		rts1					: out std_logic;
 		serSelect			: in	std_logic := '1';
+		o_driveLED			: out std_logic;
 		
 		-- I2C to Front Panel
 		io_I2C_SCL			: inout	std_logic := '1';
@@ -427,7 +427,8 @@ begin
             sdCS => o_sdCS,
             sdMOSI => o_sdMOSI,
             sdMISO => i_sdMISO,
-            sdSCLK => o_sdSCLK
+            sdSCLK => o_sdSCLK,
+				driveLED => o_driveLED
     );
 
 -- ____________________________________________________________________________________
