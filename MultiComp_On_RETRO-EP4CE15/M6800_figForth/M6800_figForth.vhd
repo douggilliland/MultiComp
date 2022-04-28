@@ -148,7 +148,7 @@ architecture struct of M6800_figForth is
 	signal w_ramData3		: std_logic_vector(7 downto 0);		-- Data from the 8KB SRAM
 	signal w_if1DataOut	: std_logic_vector(7 downto 0);		-- Data from the VDU
 	signal w_if2DataOut	: std_logic_vector(7 downto 0);		-- Data from the ACIA
-	signal w_sdCardDataOut: std_logic_vector(7 downto 0);		-- Data from SD card
+	signal w_sdCardData	: std_logic_vector(7 downto 0);		-- Data from SD card
 	signal w_MMUReg1		: std_logic_vector(7 downto 0);		-- MMU1
 	signal w_MMUReg2		: std_logic_vector(7 downto 0);		-- MMU2
 
@@ -422,7 +422,7 @@ begin
             n_WR => not ((not w_R1W0) and (not n_sdCardCS)),
             n_RD => not (w_R1W0 and (not n_sdCardCS)),
             dataIn => w_cpuDataOut,
-            dataOut => w_sdCardDataOut,
+            dataOut => w_sdCardData,
             regAddr => w_cpuAddress(2 downto 0),
             sdCS => o_sdCS,
             sdMOSI => o_sdMOSI,
