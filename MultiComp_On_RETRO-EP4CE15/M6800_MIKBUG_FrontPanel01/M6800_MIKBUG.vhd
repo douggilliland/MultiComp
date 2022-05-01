@@ -57,7 +57,7 @@
 --		0xFC28-0xFC19	- ACIA
 --		0xFC30			- MMU1 Latch 7-bits
 --		0xFC31			- MMU2 Latch 7-bits
---		0xF000-0xFFFF	- MIKBUG (Actually SMITHBUG) ROM
+--		0xF000-0xFFFF	- SMITHBUG ROM
 -- -------------------------------------------------------------------------------------------
 
 library ieee;
@@ -109,6 +109,7 @@ entity M6800_MIKBUG is
 		o_sdMOSI				: out std_logic;
 		i_sdMISO				: in std_logic;
 		o_sdSCLK				: out std_logic;
+		o_driveLED			: out std_logic;
 		
 		-- Not using the SD RAM but making sure that it's not active
 		n_sdRamCas			: out std_logic := '1';		-- CAS
@@ -261,7 +262,8 @@ begin
 	io_extSRamData <= w_cpuDataOut when (w_R1W0 = '0') else (others => 'Z');
 	io_n_extSRamWE <= not (w_extSRAM and w_vma and (not w_R1W0) and (not w_cpuClock));
 	io_n_extSRamOE <= not w_R1W0;
-	io_n_extSRamCS <= not(w_extSRAM and w_vma);
+	io_n_extSRamCS <= not((w_cpuAddress(15) and (not w_cpuAddress(14)) and     w_cpuAddress(13) and w_vma) or
+							    (w_cpuAddress(15) and      w_cpuAddress(14) and (not w_cpuAddress(13)) and w_vma));
 
 	-- ____________________________________________________________________________________
 	-- I/O CHIP SELECTS
@@ -295,8 +297,8 @@ begin
 			address	=> w_cpuAddress(14 downto 0),
 			clock 	=> i_CLOCK_50,
 			data 		=> w_cpuDataOut,
-			wren		=> (((not w_R1W0) and (not w_cpuAddress(15)) and w_vma and (not w_cpuClock) and (not w_run0Halt1))
-							or (w_wrRamStr and w_run0Halt1 and (not w_cpuAddress(15)))),
+			wren		=> (((not w_R1W0) and (not w_run0Halt1) and (not w_cpuAddress(15)) and w_vma and (not w_cpuClock))
+							or (w_wrRamStr and      w_run0Halt1  and (not w_cpuAddress(15)))),
 			q			=> w_ramData
 		);
 	
@@ -307,8 +309,8 @@ begin
 			address	=> w_cpuAddress(12 downto 0),
 			clock 	=> i_CLOCK_50,
 			data 		=> w_cpuDataOut,
-			wren		=> (((not w_R1W0) and w_cpuAddress(15) and (not w_cpuAddress(14)) and (not w_cpuAddress(13)) and w_vma and (not w_cpuClock) and (not w_run0Halt1))
-							or (w_wrRamStr and w_run0Halt1 and w_cpuAddress(15) and (not w_cpuAddress(14)) and (not w_cpuAddress(13)))),
+			wren		=> (((not w_R1W0) and (not w_run0Halt1) and w_cpuAddress(15) and (not w_cpuAddress(14)) and (not w_cpuAddress(13)) and w_vma and (not w_cpuClock) )
+							or (w_wrRamStr and      w_run0Halt1  and w_cpuAddress(15) and (not w_cpuAddress(14)) and (not w_cpuAddress(13)))),
 			q			=> w_ramData3
 		);
 	
@@ -319,7 +321,7 @@ begin
 			address	=> w_cpuAddress(9 downto 0),
 			clock 	=> i_CLOCK_50,
 			data 		=> w_cpuDataOut,
-			wren		=> ((not w_R1W0) and w_cpuAddress(15) and w_cpuAddress(14) and w_cpuAddress(13) and (not w_cpuAddress(12)) and w_cpuAddress(11) and w_cpuAddress(10) and w_vma and (not w_cpuClock) and (not w_run0Halt1)),
+			wren		=> ((not w_R1W0)  and (not w_run0Halt1) and w_cpuAddress(15) and w_cpuAddress(14) and w_cpuAddress(13) and (not w_cpuAddress(12)) and w_cpuAddress(11) and w_cpuAddress(10) and w_vma and (not w_cpuClock)),
 --							or (w_wrRamStr and w_run0Halt1)),
 			q			=> w_ramData2
 		);
@@ -413,7 +415,8 @@ begin
             sdCS => o_sdCS,
             sdMOSI => o_sdMOSI,
             sdMISO => i_sdMISO,
-            sdSCLK => o_sdSCLK
+            sdSCLK => o_sdSCLK,
+				driveLED => o_driveLED
     );
 
 -- ____________________________________________________________________________________

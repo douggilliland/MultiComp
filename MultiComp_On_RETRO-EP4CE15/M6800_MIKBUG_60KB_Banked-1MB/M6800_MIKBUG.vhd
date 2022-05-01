@@ -67,6 +67,13 @@ entity M6800_MIKBUG is
 		o_n_extSRamCS		: out std_logic := '1';
 		o_n_extSRamOE		: out std_logic := '1';
 
+		-- External SD card has activity LED
+		o_sdCS				: out std_logic;
+		o_sdMOSI				: out std_logic;
+		i_sdMISO				: in std_logic;
+		o_sdSCLK				: out std_logic;
+		o_driveLED			: out std_logic;
+
 		-- Not using the SD RAM but making sure that it's not active
 		n_sdRamCas			: out std_logic := '1';		-- CAS
 		n_sdRamRas			: out std_logic := '1';		-- RAS
@@ -98,6 +105,7 @@ architecture struct of M6800_MIKBUG is
 	signal w_ramData4K	: std_logic_vector(7 downto 0);
 	signal w_if1DataOut	: std_logic_vector(7 downto 0);
 	signal w_if2DataOut	: std_logic_vector(7 downto 0);
+	signal w_sdCardData	: std_logic_vector(7 downto 0);		-- Data from SD card
 
 	-- Memory controls
 	signal w_n_SRAMCE		: std_logic;
@@ -108,6 +116,7 @@ architecture struct of M6800_MIKBUG is
 	-- Interface control lines
 	signal n_if1CS			: std_logic :='1';
 	signal n_if2CS			: std_logic :='1';
+	signal n_sdCardCS		: std_logic :='1';						-- 
 
 	-- CPU Clock
 	signal q_cpuClkCount	: std_logic_vector(5 downto 0); 
@@ -177,6 +186,7 @@ begin
 		w_if1DataOut	when n_if1CS = '0'									else
 		w_if2DataOut	when n_if2CS = '0'									else
 		adrLatVal		when (w_ldAdrVal = '0') 							else
+		w_sdCardData	when n_sdCardCS = '0'			else	-- SD Card
 		w_romData		when w_cpuAddress(15 downto 12) = x"F"			else -- Must be last
 		x"FF";
 	
@@ -282,7 +292,28 @@ begin
 			n_cts		=> urts1,
 			n_rts		=> ucts1
 		);
-	
+	 -- SD controller
+	n_sdCardCS	<= '0'	when ((w_cpuAddress(15 downto 4) = x"FC4") and (w_vma = '1')) else 
+						'1';
+	sd1 : entity work.sd_controller
+    generic map(
+        CLKEDGE_DIVIDER => 25 -- edges at 50MHz/25 = 2MHz ie 1MHz sdSCLK
+    )
+    port map(
+            clk => i_CLOCK_50,
+            n_reset => w_resetLow,
+            n_WR => not ((not w_R1W0) and (not n_sdCardCS)),
+            n_RD => not (w_R1W0 and (not n_sdCardCS)),
+            dataIn => w_cpuDataOut,
+            dataOut => w_sdCardData,
+            regAddr => w_cpuAddress(2 downto 0),
+            sdCS => o_sdCS,
+            sdMOSI => o_sdMOSI,
+            sdMISO => i_sdMISO,
+            sdSCLK => o_sdSCLK,
+				driveLED => o_driveLED
+   );
+   
 	-- ____________________________________________________________________________________
 	-- CPU Clock
 	-- Need 2 clocks high for externl SRAM can get by with 1 clock low

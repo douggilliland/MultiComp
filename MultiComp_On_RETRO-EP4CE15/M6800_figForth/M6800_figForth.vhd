@@ -10,7 +10,7 @@
 -- MC6800 CPU
 --		Runs at 25 MHz for internal SRAM and Peripherals
 --		Runs at 16.7 MHz for external SRAM
---	ROM - running figForth from back in the day
+--	ROM - Running figForth from back in the day
 --		https://github.com/douggilliland/Retro-Computers/tree/master/6800/fig-FORTH/figFORTH_InROM
 -- J3 jumper selects either built-in VDU or Serial port
 -- 	VDU - ANSI terminal (default = jumper removed)
@@ -83,13 +83,12 @@ entity M6800_figForth is
 		io_ps2Clk			: inout std_logic := '1';
 		io_ps2Data			: inout std_logic := '1';
 		
-		-- USB Serial (Referenced to the USB side)
+		-- USB Serial
 		rxd1					: in	std_logic := '1';
 		txd1					: out std_logic;
 		cts1					: in	std_logic := '1';
 		rts1					: out std_logic;
 		serSelect			: in	std_logic := '1';
-		o_driveLED			: out std_logic;
 		
 		-- I2C to Front Panel
 		io_I2C_SCL			: inout	std_logic := '1';
@@ -108,6 +107,7 @@ entity M6800_figForth is
 		o_sdMOSI				: out std_logic;
 		i_sdMISO				: in std_logic;
 		o_sdSCLK				: out std_logic;
+		o_driveLED			: out std_logic;
 		
 		-- Not using the SD RAM but making sure that it's not active
 		n_sdRamCas			: out std_logic := '1';		-- CAS
@@ -144,8 +144,8 @@ architecture struct of M6800_figForth is
 	-- Data busses
 	signal w_romData		: std_logic_vector(7 downto 0);		-- Data from the ROM
 	signal w_ramData		: std_logic_vector(7 downto 0);		-- Data from the 4KB SRAM
-	signal w_ramData2		: std_logic_vector(7 downto 0);		-- Data from the 1KB scratchpad SRAM
-	signal w_ramData3		: std_logic_vector(7 downto 0);		-- Data from the 8KB SRAM
+	signal w_ramData2		: std_logic_vector(7 downto 0);		-- Data from the 4KB scratchpad SRAM
+	signal w_ramData3		: std_logic_vector(7 downto 0);		-- Data from the 16KB SRAM
 	signal w_if1DataOut	: std_logic_vector(7 downto 0);		-- Data from the VDU
 	signal w_if2DataOut	: std_logic_vector(7 downto 0);		-- Data from the ACIA
 	signal w_sdCardData	: std_logic_vector(7 downto 0);		-- Data from SD card
@@ -237,19 +237,20 @@ begin
 	w_cpuDataIn <=
 		io_extSRamData	when w_extSRAM = '1'				else	-- External SRAM (0xA000-0xDFFF)
 		w_ramData		when w_SRAMAdr_1 = '1'			else	-- 4KB SRAM (0x0000-0x0FFF)
-		w_ramData2		when w_SRAMAdr_2 = '1'			else	-- 1KB SRAM (0xEC00-0xEFFF) 
-		w_ramData3		when w_SRAMAdr_3 = '1'			else	-- 8KB SRAM (0x8000-0x9FFF) 
+		w_ramData2		when w_SRAMAdr_2 = '1'			else	-- 4KB SRAM (0x3000-0x3FFF) 
+		w_ramData3		when w_SRAMAdr_3 = '1'			else	-- 16KB SRAM (0x4000-0x7FFF) 
 		w_if1DataOut	when w_n_if1CS = '0'				else	-- VDU
 		w_if2DataOut	when w_n_if2CS = '0'				else	-- ACIA
 		w_MMUReg1		when w_MMU1 = '1'					else	-- MMU1
 		w_MMUReg2		when w_MMU2 = '1'					else	-- MMU2
 		x"10"				when w_cpuAddress = x"FFFE"	else	-- Reset vector Upper ($1000)
 		x"00"				when w_cpuAddress = x"FFFF"	else	-- Reset vector Lower
+		w_sdCardData	when n_sdCardCS = '0'			else	-- SD Card
 		w_romData		when w_ROMAdr = '1'				else	-- ROM
 		x"DE";
 	
 	-- External SRAM
-	-- 
+	-- Two 8KB windows with 64 blocks in each window
 	w_extSRAM <= 
 		'1' when w_cpuAddress(15 downto 13) = "101" else								-- 0xA000-0xBFFF
 		'1' when w_cpuAddress(15 downto 13) = "110" else								-- 0xC000-oxDFFF
