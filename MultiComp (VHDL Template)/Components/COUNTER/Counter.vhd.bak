@@ -31,21 +31,21 @@ architecture behv of counter is
 
 begin
 
-	-- behavior describe the counter
+    -- behavior describe the counter
 
-	process(clock, count, clear, Pre_Q)
-	begin
+    process(clock, count, clear, Pre_Q)
+    begin
 	if clear = '1' then
-		 Pre_Q <= Pre_Q - Pre_Q;
+ 	    Pre_Q <= Pre_Q - Pre_Q;
 	elsif (clock='1' and clock'event) then
-		 if count = '1' then
+	    if count = '1' then
 		Pre_Q <= Pre_Q + 1;
-		 end if;
+	    end if;
 	end if;
-	end process;	
-
-	-- concurrent assignment statement
-	Q <= Pre_Q;
+    end process;	
+	
+    -- concurrent assignment statement
+    Q <= Pre_Q;
 
 end behv;
 
