@@ -158,8 +158,8 @@ begin
 	w_n_aciaCS 		<= '0' when   w_cpuAddress(15 downto 1) 	= x"f00"&"000"	else '1';	-- xf000-f001 (2B)		- Serial Port
 	w_n_monRomCS	<= '0' when   w_cpuAddress(15 downto 11) 	= x"f"&'1' 		else '1';	-- xf800-xffff (2K)		- Monitor in ROM
 	w_n_mmap1CS		<= '0' when   w_cpuAddress					 	= x"f002"		else '1';	-- xf002 (1B) 61442 dec	- Memory Mapper 1
-	w_n_mmap2CS		<= '0' when   w_cpuAddress					 	= x"f003"		else '1';	-- xf003 (1B) 61443 dec	- Memory Mapper 2
-	w_n_SDCS			<= '0' when   w_cpuAddress(15 downto 4) 	= x"f00"&"1"	else '1';	-- xf008-xf00f (8B) 61448 dec	- SD Card
+	w_n_mmap2CS		<= '0' when   w_cpuAddress					 	= x"f005"		else '1';	-- xf005 (1B) 61443 dec	- Memory Mapper 2
+	w_n_SDCS			<= '0' when   w_cpuAddress(15 downto 3) 	= x"f01"&"0"	else '1';	-- xf010-xf017 (8B)  dec	- SD Card
 	
 	w_cpuDataIn <=
 		w_basRomData 			when w_n_basRomCS 	= '0' else
@@ -230,7 +230,7 @@ begin
 	port map(
 		dataIn	=> w_cpuDataOut,
 		clock		=> i_clk,
-		load		=> w_n_mmap1CS or w_n_WR or w_cpuClock,
+		load		=> w_n_mmap1CS or w_n_WR or (not w_cpuClock),
 		clear		=> i_n_reset,
 		latchOut	=> w_mmapAddrLatch1
 	);
@@ -240,7 +240,7 @@ begin
 	port map(
 		dataIn	=> w_cpuDataOut,
 		clock		=> i_clk,
-		load		=> w_n_mmap2CS or w_n_WR or w_cpuClock,
+		load		=> w_n_mmap2CS or w_n_WR or (not w_cpuClock),
 		clear		=> i_n_reset,
 		latchOut	=> w_mmapAddrLatch2
 	);
