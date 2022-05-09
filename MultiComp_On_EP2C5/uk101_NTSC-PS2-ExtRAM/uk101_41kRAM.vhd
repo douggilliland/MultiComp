@@ -49,7 +49,6 @@
 --		$D000-$D3FF - 1KB Display RAM
 --		$DC00 - PS/2 Keyboard
 --		$E000-$EFFF - Bank Selectable SRAM (not detectable as BASIC RAM)
---		$F000-$FFFF - CEGMON Monitor ROM 4K
 --		$F000-$F001 - ACIA (UART) 61440-61441 dec
 --		$F002 - J6 I/O Connector 61442 dec
 --		$F003 - J8 I/O Connector 61443 dec
@@ -63,6 +62,7 @@
 --    	2    SDLBA0        write-only
 --    	3    SDLBA1        write-only
 --   		4    SDLBA2        write-only (only bits 6:0 are valid)
+--		$F800-$FFFF - CEGMON Monitor ROM 4K
 --
 ---------------------------------------------------------------------------
 

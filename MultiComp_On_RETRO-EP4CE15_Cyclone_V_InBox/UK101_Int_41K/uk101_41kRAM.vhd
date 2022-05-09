@@ -1,12 +1,30 @@
 -- ----------------------------------------------------------------------------------------
 -- OSI C1P (UK101) - Original work was by Grant Searle
+--		http://searle.x10host.com/uk101FPGA/index.html
+--		Differences from Grant's build
+--			CEGMON compiled and moved to ROM
+--			Added SD Controller
+--			Added Grant's fast CPU via F1 key
+--			40KB SRAM - Additional RAM sections opened although not contiguous
+--			Bank selected SRAM (16 banks of 4KB)
+--
+--	Running on
+--		http://land-boards.com/blwiki/index.php?title=Multicomp_in_a_Box
+--
 -- 6502 CPU
---		1 MHz
+-- 	Runs at 1 or 12.5 MHz (F1 key selects)
+--		Power-up default is 1 MHz
 --	Microsoft BASIC
 --	XGA
 --		Memory Mapped
 --		64x32 characters
 --		Blue background, white characters
+-- PS/2 Keyboard
+--		F1 toggles Turbo mode (default = fast)
+--		UK kayboard mapping (could be nice to change to US layout as option)
+--		Emulates key matrix of the original unit
+--		Keyboard mapping not standard US, see: 
+--			http://land-boards.com/blwiki/index.php?title=RetroComputers#Keyboard_Layout
 -- Internal SRAM
 --		40KB
 -- External SRAM
@@ -25,6 +43,25 @@
 --		N/A
 --	SD Card
 --	SDRAM - Not used, pins reserved
+-- 
+-- Memory Map
+--		$0000-$9FFF - SRAM (40KB)
+-- 	$A000-$BFFF - Microsoft BASIC-in-ROM (8KB)
+--		$D000-$D3FF - 1KB Display RAM
+--		$DC00 - PS/2 Keyboard
+--		$E000-$EFFF - Bank Selectable SRAM (not detectable as BASIC RAM)
+--		$F000-$F001 - ACIA (UART) 61440-61441 dec
+-- 	$F005 - Bank Select Register 61445 dec
+--			d0..d3 used for 128KB SRAMs
+--		%F010-$F017 - SD card
+--	    	0    SDDATA        read/write data
+-- 	   1    SDSTATUS      read
+--    	1    SDCONTROL     write
+--    	2    SDLBA0        write-only
+--    	3    SDLBA1        write-only
+--   		4    SDLBA2        write-only (only bits 6:0 are valid)
+--		$F800-$FFFF - CEGMON Monitor ROM 4K
+-- ----------------------------------------------------------------------------------------
 
 library ieee;
 use ieee.std_logic_1164.all;
@@ -120,21 +157,39 @@ architecture struct of uk101_41kRAM is
 		
 	signal w_Video_Clk_25p6		: std_ulogic;
 	signal w_VoutVect				: std_logic_vector(2 downto 0);
+	signal w_resetClean_n		:	std_logic;					-- De-bounced reset button
 
 	signal w_dispAddrB 			: std_logic_vector(9 downto 0);
-	signal w_dispw_ramDataOutA : std_logic_vector(7 downto 0);
+	signal w_dispRamDataOutA 	: std_logic_vector(7 downto 0);
 	signal w_charAddr 			: std_logic_vector(10 downto 0);
 	signal w_charData 			: std_logic_vector(7 downto 0);
 
-	signal w_serialClkCount		: std_logic_vector(14 downto 0); 
+	signal w_serialClkEn			: std_logic; 
 	signal w_cpuClkCount			: std_logic_vector(5 downto 0); 
 	signal w_cpuClock				: std_logic;
-	signal w_serialClock			: std_logic;
 
 	signal w_kbReadData 			: std_logic_vector(7 downto 0);
 	signal w_kbRowSel 			: std_logic_vector(7 downto 0);
+	signal fastMode 				: std_logic;
+	signal f1Latch 				: std_logic;
+
+	-- Signal Tap Logic Analyzer signals
+	attribute syn_keep	: boolean;
+	attribute syn_keep of w_cpuAddress			: signal is true;
+	attribute syn_keep of w_resetClean_n		: signal is true;
+	attribute syn_keep of w_cpuClock				: signal is true;
+	attribute syn_keep of w_n_WR					: signal is true;
 
 begin
+
+	-- Debounce/sync reset FPGA front Panel reset pushbutton to CPU clock
+	debounceReset : entity work.Debouncer
+		port map
+		(
+			i_clk				=> w_cpuClock,
+			i_PinIn			=> i_n_reset,
+			o_PinOut			=> w_resetClean_n
+		);
 
 	-- External SRAM
 	o_sramAddress(11 downto 0)	<= w_cpuAddress(11 downto 0);		-- 4KB
@@ -144,8 +199,8 @@ begin
 	o_n_sRamWE <= w_n_memWR;
 	o_n_sRamOE <= w_n_memRD;
 	o_n_sRamCS <= w_n_ramCS;
-	w_n_memRD <= not(w_cpuClock) nand w_n_WR;
-	w_n_memWR <= not(w_cpuClock) nand (not w_n_WR);
+	w_n_memRD  <= w_cpuClock or (not w_n_WR);
+	w_n_memWR  <= w_cpuClock or w_n_WR;
 
 	-- Data buffer	-- Chip Selects
 	w_n_ramCS 		<= '0' when ((w_cpuAddress(15 downto 12) = x"c") or						-- xc000-xcFFF (4KB)		- External SRAM
@@ -158,14 +213,13 @@ begin
 	w_n_aciaCS 		<= '0' when   w_cpuAddress(15 downto 1) 	= x"f00"&"000"	else '1';	-- xf000-f001 (2B)		- Serial Port
 	w_n_monRomCS	<= '0' when   w_cpuAddress(15 downto 11) 	= x"f"&'1' 		else '1';	-- xf800-xffff (2K)		- Monitor in ROM
 	w_n_mmap1CS		<= '0' when   w_cpuAddress					 	= x"f002"		else '1';	-- xf002 (1B) 61442 dec	- Memory Mapper 1
-	w_n_mmap2CS		<= '0' when   w_cpuAddress					 	= x"f005"		else '1';	-- xf005 (1B) 61443 dec	- Memory Mapper 2
-	w_n_SDCS			<= '0' when   w_cpuAddress(15 downto 3) 	= x"f01"&"0"	else '1';	-- xf010-xf017 (8B)  dec	- SD Card
+	w_n_mmap2CS		<= '0' when   w_cpuAddress					 	= x"f005"		else '1';	-- xf005 (1B) 61445 dec	- Memory Mapper 2
+	w_n_SDCS			<= '0' when   w_cpuAddress(15 downto 3) 	= x"f01"&"0"	else '1';	-- xf010-xf017 (8B) 61464 dec	- SD Card
 	
 	w_cpuDataIn <=
 		w_basRomData 			when w_n_basRomCS 	= '0' else
-		w_monitorRomData 		when w_n_monRomCS 	= '0' else
 		w_aciaData				when w_n_aciaCS		= '0' else
-		w_dispw_ramDataOutA	when w_n_dispRamCS	= '0' else
+		w_dispRamDataOutA		when w_n_dispRamCS	= '0' else
 		w_kbReadData			when w_n_kbCS			= '0' else
 		io_sramData				when w_n_ramCS			= '0' else
 		w_intSRAM1				when w_n_sram1CS		= '0' else
@@ -173,6 +227,8 @@ begin
 		w_mmapAddrLatch1		when w_n_mmap1CS		= '0' else
 		w_mmapAddrLatch2		when w_n_mmap2CS		= '0' else
 		w_SDData					when w_n_SDCS			= '0' else
+		--x"F0" 					when (w_cpuAddress & fastMode)= x"FCE0"&'1'	else -- Address = $FCE0 and fastMode = 1 : CHANGE REPEAT RATE LOOP VALUE (was $10)
+		w_monitorRomData 		when w_n_monRomCS 	= '0' else
 		x"FF";
 
 	-- 6502 CPU
@@ -180,8 +236,8 @@ begin
 	port map(
 		Enable			=> '1',
 		Mode				=> "00",
-		Res_n				=> i_n_reset,
-		Clk				=> w_cpuClock,
+		Res_n				=> w_resetClean_n,
+		Clk				=> w_cpuClock,		-- Clock low = do transfers Ph1 clock on datasheet
 		Rdy				=> '1',
 		Abort_n			=> '1',
 		IRQ_n				=> '1',
@@ -208,30 +264,13 @@ begin
 		q			=> w_monitorRomData
 	);
 
-	-- UART
-	ACIA: entity work.bufferedUART
-	port map(
-		n_WR		=> w_n_aciaCS or (not w_cpuClock) or w_n_WR,
-		n_rd		=> w_n_aciaCS or (not w_n_WR),
-		regSel	=> w_cpuAddress(0),
-		dataIn	=> w_cpuDataOut,
-		dataOut	=> w_aciaData,
-		rxClock	=> w_serialClock,
-		txClock	=> w_serialClock,
-		rxd		=> i_fpgaRx,
-		txd		=> o_fpgaTx,
-		n_cts		=> i_fpgaCts,
-		n_dcd		=> '0',
-		n_rts		=> o_fpgaRts
-	);
-
 	-- MMU Register 1
 	mmu1 : entity work.OutLatch
 	port map(
 		dataIn	=> w_cpuDataOut,
 		clock		=> i_clk,
-		load		=> w_n_mmap1CS or w_n_WR or (not w_cpuClock),
-		clear		=> i_n_reset,
+		load		=> w_n_mmap1CS or w_n_WR or w_cpuClock,
+		clear		=> w_resetClean_n,
 		latchOut	=> w_mmapAddrLatch1
 	);
 	
@@ -240,8 +279,8 @@ begin
 	port map(
 		dataIn	=> w_cpuDataOut,
 		clock		=> i_clk,
-		load		=> w_n_mmap2CS or w_n_WR or (not w_cpuClock),
-		clear		=> i_n_reset,
+		load		=> w_n_mmap2CS or w_n_WR or w_cpuClock,
+		clear		=> w_resetClean_n,
 		latchOut	=> w_mmapAddrLatch2
 	);
 	
@@ -250,7 +289,7 @@ begin
 		address	=> w_cpuAddress(14 downto 0),
 		clock		=> i_clk,
 		data		=> w_cpuDataOut,
-		wren		=> (not w_n_sram1CS) and (not w_n_WR) and w_cpuClock,
+		wren		=> (not w_n_sram1CS) and (not w_n_WR) and (not w_cpuClock),
 		q			=> w_intSRAM1
 	);
 	
@@ -259,16 +298,16 @@ begin
 		address	=> w_cpuAddress(12 downto 0),
 		clock		=> i_clk,
 		data		=> w_cpuDataOut,
-		wren		=> (not w_n_sram2CS) and (not w_n_WR) and w_cpuClock,
+		wren		=> (not w_n_sram2CS) and (not w_n_WR) and (not w_cpuClock),
 		q			=> w_intSRAM2
 	);
 
 	SDCtrlr : entity work.sd_controller
 	port map (
 		-- CPU
-		n_reset 	=> i_n_reset,
-		n_rd		=> not ((not w_n_SDCS) and w_n_WR),
-		n_wr		=> not ((not w_n_SDCS) and w_cpuClock and (not w_n_WR)),
+		n_reset 	=> w_resetClean_n,
+		n_wr		=> w_n_SDCS or w_cpuClock or w_n_WR,
+		n_rd		=> w_n_SDCS or w_cpuClock or (not w_n_WR) or w_cpuAddress(1) or w_cpuAddress(2),
 		dataIn	=> w_cpuDataOut,
 		dataOut	=> w_SDData,
 		regAddr	=> w_cpuAddress(2 downto 0),
@@ -277,9 +316,9 @@ begin
 		sdCS 		=> o_sdCS,
 		sdMOSI	=> o_sdMOSI,
 		sdMISO	=> i_sdMISO,
-		sdSCLK	=> o_sdSCLK,
+		sdSCLK	=> o_sdSCLK
 		-- LEDs
-		driveLED	=> o_driveLED
+--		driveLED	=> o_driveLED
 	);
 
 	pll : work.VideoClk_XVGA_1024x768 PORT MAP (
@@ -297,28 +336,32 @@ begin
 		
 	vga : entity work.Mem_Mapped_XVGA
 	port map (
-		n_reset		=> i_n_reset,
+		n_reset		=> w_resetClean_n,
 		Video_Clk 	=> w_Video_Clk_25p6,
 		CLK_50		=> i_clk,
 		n_dispRamCS	=> w_n_dispRamCS,
 		n_memWR		=> w_n_memWR or w_cpuClock,
 		cpuAddress	=> w_cpuAddress(10 downto 0),
 		cpuDataOut	=> w_cpuDataOut,
-		dataOut		=> w_dispw_ramDataOutA,
+		dataOut		=> w_dispRamDataOutA,
 		VoutVect		=> w_VoutVect,
 		hSync			=> o_vgaHsync,
 		vSync			=> o_vgaVsync
 	);
 
+--	fastMode <= not f1Latch;
+
+
 	-- UK101 keyboard
 	PS2Keyboard : entity work.UK101keyboard
 	port map(
-		CLK		=> i_clk,
-		nRESET	=> i_n_reset,
-		PS2_CLK	=> ps2Clk,
-		PS2_DATA	=> ps2Data,
-		A			=> w_kbRowSel,
-		KEYB		=> w_kbReadData
+		CLK					=> i_clk,
+		nRESET				=> w_resetClean_n,
+		PS2_CLK				=> ps2Clk,
+		PS2_DATA				=> ps2Data,
+--		FNtoggledKeys(1)	=> f1Latch,
+		A						=> w_kbRowSel,
+		KEYB					=> w_kbReadData
 	);
 	
 	process (w_n_kbCS,w_n_memWR)
@@ -328,39 +371,64 @@ begin
 		end if;
 	end process;
 	
-	-- Baud rate clock 
+	-- 6850 style UART 
+	UART : entity work.bufferedUART
+		port map(
+			clk => i_clk,
+			n_wr => w_n_aciaCS or w_cpuClock or w_n_WR,
+			n_rd => w_n_aciaCS or w_cpuClock or (not w_n_WR),
+			regSel => w_cpuAddress(0),
+			dataIn => w_cpuDataOut,
+			dataOut => w_aciaData,
+			rxClkEn => w_serialClkEn,
+			txClkEn => w_serialClkEn,
+			rxd => i_fpgaRx,
+			txd => o_fpgaTx,
+			n_cts => i_fpgaCts,
+			n_dcd => '0',
+			n_rts => o_fpgaRts
+		);
+
+	-- Baud rate generator
+	BAUDRATE : entity work.BaudRate6850
+	GENERIC map
+	(
+		BAUD_RATE	=> 115200
+	)
+	PORT map
+	(
+		i_CLOCK_50	=> i_clk,
+		o_serialEn	=> w_serialClkEn
+	);
+
+	-- CPU clock = 1 MHz
 	process (i_clk)
 	begin
 		if rising_edge(i_clk) then
-			if w_cpuClkCount < 50 then
-				w_cpuClkCount <= w_cpuClkCount + 1;
-			else
-				w_cpuClkCount <= (others=>'0');
-			end if;
-			if w_cpuClkCount < 25 then
-				w_cpuClock <= '0';
-			else
-				w_cpuClock <= '1';
-			end if;	
+--			if fastMode = '0' then -- 1MHz CPU clock
+				if w_cpuClkCount < 50 then
+					w_cpuClkCount <= w_cpuClkCount + 1;
+				else
+					w_cpuClkCount <= (others=>'0');
+				end if;
+				if w_cpuClkCount < 25 then
+					w_cpuClock <= '0';
+				else
+					w_cpuClock <= '1';
+				end if;	
+--		 else
+--				if w_cpuClkCount < 3 then -- 4 = 10MHz, 3 = 12.5MHz, 2=16.6MHz, 1=25MHz
+--					 w_cpuClkCount <= w_cpuClkCount + 1;
+--				else
+--					 w_cpuClkCount <= (others=>'0');
+--				end if;
+--				if w_cpuClkCount < 2 then -- 2 when 10MHz, 2 when 12.5MHz, 2 when 16.6MHz, 1 when 25MHz
+--					 w_cpuClock <= '0';
+--				else
+--					 w_cpuClock <= '1';
+--				end if;
+--			end if;
 		end if;
 	end process;
-			
-	process (i_clk)
-	begin
-		if rising_edge(i_clk) then
---			if w_serialClkCount < 10416 then -- 300 baud
-			if w_serialClkCount < 325 then -- 9600 baud
-				w_serialClkCount <= w_serialClkCount + 1;
-			else
-				w_serialClkCount <= (others => '0');
-			end if;
---			if w_serialClkCount < 5208 then -- 300 baud
-			if w_serialClkCount < 162 then -- 9600 baud
-				w_serialClock <= '0';
-			else
-				w_serialClock <= '1';
-			end if;	
-		end if;
-	end process;
-	
+
 end;
