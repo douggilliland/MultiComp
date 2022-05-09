@@ -23,8 +23,8 @@
 --		Hardware Handshake
 --	I/O connections
 --		N/A
+--	SD Card
 --	SDRAM - Not used, pins reserved
---	SD Card  - Not used, pins reserved
 
 library ieee;
 use ieee.std_logic_1164.all;
@@ -73,7 +73,6 @@ entity uk101_41kRAM is
 		IO_PIN		: inout std_logic_vector(44 downto 3) := x"000000000"&"00";
 	
 		-- SD card
-		-- Not using the SD Card but reserving pins and making inactive
 		o_sdCS		: out		std_logic :='1';
 		o_sdMOSI		: out		std_logic :='0';
 		i_sdMISO		: in		std_logic;
@@ -168,12 +167,12 @@ begin
 		w_aciaData				when w_n_aciaCS		= '0' else
 		w_dispw_ramDataOutA	when w_n_dispRamCS	= '0' else
 		w_kbReadData			when w_n_kbCS			= '0' else
-		io_sramData				when w_n_ramCS		= '0' else
+		io_sramData				when w_n_ramCS			= '0' else
 		w_intSRAM1				when w_n_sram1CS		= '0' else
 		w_intSRAM2				when w_n_sram2CS		= '0' else
 		w_mmapAddrLatch1		when w_n_mmap1CS		= '0' else
 		w_mmapAddrLatch2		when w_n_mmap2CS		= '0' else
-		w_SDData					when w_n_SDCS		= '0' else
+		w_SDData					when w_n_SDCS			= '0' else
 		x"FF";
 
 	-- 6502 CPU
@@ -212,8 +211,8 @@ begin
 	-- UART
 	ACIA: entity work.bufferedUART
 	port map(
-		n_WR		=> w_n_aciaCS or w_cpuClock or w_n_WR,
-		n_rd		=> w_n_aciaCS or w_cpuClock or (not w_n_WR),
+		n_WR		=> w_n_aciaCS or (not w_cpuClock) or w_n_WR,
+		n_rd		=> w_n_aciaCS or (not w_n_WR),
 		regSel	=> w_cpuAddress(0),
 		dataIn	=> w_cpuDataOut,
 		dataOut	=> w_aciaData,
@@ -251,7 +250,7 @@ begin
 		address	=> w_cpuAddress(14 downto 0),
 		clock		=> i_clk,
 		data		=> w_cpuDataOut,
-		wren		=> not w_n_sram1CS and not w_n_WR and w_cpuClock,
+		wren		=> (not w_n_sram1CS) and (not w_n_WR) and w_cpuClock,
 		q			=> w_intSRAM1
 	);
 	
@@ -260,7 +259,7 @@ begin
 		address	=> w_cpuAddress(12 downto 0),
 		clock		=> i_clk,
 		data		=> w_cpuDataOut,
-		wren		=> not w_n_sram2CS and not w_n_WR and w_cpuClock,
+		wren		=> (not w_n_sram2CS) and (not w_n_WR) and w_cpuClock,
 		q			=> w_intSRAM2
 	);
 
@@ -268,8 +267,8 @@ begin
 	port map (
 		-- CPU
 		n_reset 	=> i_n_reset,
-		n_rd		=> w_n_SDCS or w_cpuClock or (not w_n_WR),
-		n_wr		=> w_n_SDCS or w_cpuClock or w_n_WR,
+		n_rd		=> not ((not w_n_SDCS) and w_n_WR),
+		n_wr		=> not ((not w_n_SDCS) and w_cpuClock and (not w_n_WR)),
 		dataIn	=> w_cpuDataOut,
 		dataOut	=> w_SDData,
 		regAddr	=> w_cpuAddress(2 downto 0),
@@ -302,7 +301,7 @@ begin
 		Video_Clk 	=> w_Video_Clk_25p6,
 		CLK_50		=> i_clk,
 		n_dispRamCS	=> w_n_dispRamCS,
-		n_memWR		=> w_n_memWR,
+		n_memWR		=> w_n_memWR or w_cpuClock,
 		cpuAddress	=> w_cpuAddress(10 downto 0),
 		cpuDataOut	=> w_cpuDataOut,
 		dataOut		=> w_dispw_ramDataOutA,

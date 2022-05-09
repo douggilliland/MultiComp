@@ -50,7 +50,6 @@ library ieee;
 --    x"D7" when cpuAddress = x"FE3B" else -- CEGMON SCREEN BOTTOM H - 1 (was $D3) - Part of CTRL-A code
 
 ENTITY CegmonRom_Patched_64x32 IS
-
 	PORT
 	(
 		address : in std_logic_vector(10 downto 0);
