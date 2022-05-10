@@ -203,11 +203,11 @@ begin
 	w_n_memWR  <= w_cpuClock or w_n_WR;
 
 	-- Data buffer	-- Chip Selects
-	w_n_ramCS 		<= '0' when ((w_cpuAddress(15 downto 12) = x"c") or						-- xc000-xcFFF (4KB)		- External SRAM
-									    (w_cpuAddress(15 downto 12) = x"e")) 			else '1';  	-- xe000-xeFFF (4KB)		- External SRAM
-	w_n_sram1CS		<= '0' when   w_cpuAddress(15)					= '0'			else '1';	-- x0000-x7fff (32KB)	- Internal SRAM
+	w_n_sram1CS		<= '0' when   w_cpuAddress(15)				= '0'				else '1';	-- x0000-x7fff (32KB)	- Internal SRAM
 	w_n_sram2CS		<= '0' when   w_cpuAddress(15 downto 13)	= "100"			else '1';	-- x8000-x9fff (8KB)		- Internal SRAM
 	w_n_basRomCS 	<= '0' when   w_cpuAddress(15 downto 13) 	= "101" 			else '1';	-- xa000-xbFFF (8k)		- BASIC ROM
+	w_n_ramCS 		<= '0' when ((w_cpuAddress(15 downto 12) 	= x"c") or						-- xc000-xcFFF (4KB)		- External SRAM
+									    (w_cpuAddress(15 downto 12) 	= x"e")) 		else '1';  	-- xe000-xeFFF (4KB)		- External SRAM
 	w_n_dispRamCS	<= '0' when   w_cpuAddress(15 downto 11) 	= x"d"&"0"		else '1';	-- xd000-xd7ff (2KB)		- Display RAM
 	w_n_kbCS 		<= '0' when   w_cpuAddress(15 downto 10) 	= x"d"&"11"		else '1';	-- xdc00-xdfff (1KB)		- Keyboard
 	w_n_aciaCS 		<= '0' when   w_cpuAddress(15 downto 1) 	= x"f00"&"000"	else '1';	-- xf000-f001 (2B)		- Serial Port
@@ -227,7 +227,7 @@ begin
 		w_mmapAddrLatch1		when w_n_mmap1CS		= '0' else
 		w_mmapAddrLatch2		when w_n_mmap2CS		= '0' else
 		w_SDData					when w_n_SDCS			= '0' else
-		--x"F0" 					when (w_cpuAddress & fastMode)= x"FCE0"&'1'	else -- Address = $FCE0 and fastMode = 1 : CHANGE REPEAT RATE LOOP VALUE (was $10)
+		x"F0" 					when (w_cpuAddress & fastMode)= x"FCE0"&'1'	else -- Address = $FCE0 and fastMode = 1 : CHANGE REPEAT RATE LOOP VALUE (was $10)
 		w_monitorRomData 		when w_n_monRomCS 	= '0' else
 		x"FF";
 
@@ -349,9 +349,8 @@ begin
 		vSync			=> o_vgaVsync
 	);
 
---	fastMode <= not f1Latch;
-
-
+	fastMode <= not f1Latch;
+	
 	-- UK101 keyboard
 	PS2Keyboard : entity work.UK101keyboard
 	port map(
@@ -359,7 +358,7 @@ begin
 		nRESET				=> w_resetClean_n,
 		PS2_CLK				=> ps2Clk,
 		PS2_DATA				=> ps2Data,
---		FNtoggledKeys(1)	=> f1Latch,
+		FNtoggledKeys(1)	=> f1Latch,
 		A						=> w_kbRowSel,
 		KEYB					=> w_kbReadData
 	);
@@ -405,7 +404,7 @@ begin
 	process (i_clk)
 	begin
 		if rising_edge(i_clk) then
---			if fastMode = '0' then -- 1MHz CPU clock
+			if fastMode = '0' then -- 1MHz CPU clock
 				if w_cpuClkCount < 50 then
 					w_cpuClkCount <= w_cpuClkCount + 1;
 				else
@@ -416,18 +415,18 @@ begin
 				else
 					w_cpuClock <= '1';
 				end if;	
---		 else
---				if w_cpuClkCount < 3 then -- 4 = 10MHz, 3 = 12.5MHz, 2=16.6MHz, 1=25MHz
---					 w_cpuClkCount <= w_cpuClkCount + 1;
---				else
---					 w_cpuClkCount <= (others=>'0');
---				end if;
---				if w_cpuClkCount < 2 then -- 2 when 10MHz, 2 when 12.5MHz, 2 when 16.6MHz, 1 when 25MHz
---					 w_cpuClock <= '0';
---				else
---					 w_cpuClock <= '1';
---				end if;
---			end if;
+		 else
+				if w_cpuClkCount < 3 then -- 4 = 10MHz, 3 = 12.5MHz, 2=16.6MHz, 1=25MHz
+					 w_cpuClkCount <= w_cpuClkCount + 1;
+				else
+					 w_cpuClkCount <= (others=>'0');
+				end if;
+				if w_cpuClkCount < 2 then -- 2 when 10MHz, 2 when 12.5MHz, 2 when 16.6MHz, 1 when 25MHz
+					 w_cpuClock <= '0';
+				else
+					 w_cpuClock <= '1';
+				end if;
+			end if;
 		end if;
 	end process;
 
