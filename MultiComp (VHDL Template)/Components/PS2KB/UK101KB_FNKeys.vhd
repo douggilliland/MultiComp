@@ -141,17 +141,7 @@ begin
 	KEYB(6) <= (keys(0)(6) or A(0)) and (keys(1)(6) or A(1)) and (keys(2)(6) or A(2)) and (keys(3)(6) or A(3)) and (keys(4)(6) or A(4)) and (keys(5)(6) or A(5)) and (keys(6)(6) or A(6)) and (keys(7)(6) or A(7));
 	KEYB(7) <= (keys(0)(7) or A(0)) and (keys(1)(7) or A(1)) and (keys(2)(7) or A(2)) and (keys(3)(7) or A(3)) and (keys(4)(7) or A(4)) and (keys(5)(7) or A(5)) and (keys(6)(7) or A(6)) and (keys(7)(7) or A(7));
 
---	KEYB <= keys(0) when A(0) = '0' else
---		keys(1) when A(1) = '0' else
---		keys(2) when A(2) = '0' else
---		keys(3) when A(3) = '0' else
---		keys(4) when A(4) = '0' else
---		keys(5) when A(5) = '0' else
---		keys(6) when A(6) = '0' else
---		keys(7) when A(7) = '0' else
---		(others => '1');
-
-	process(nRESET,CLK)
+	process(nRESET,CLK,keyb_valid)
 	begin
 		if nRESET = '0' then
 			release <= '0';
@@ -179,144 +169,143 @@ begin
 					extended <= '0';
 				
 					case keyb_data is					
-					
---					when X"0e" => keys(0)(0) <= release; -- pipe
-					when X"16" => keys(7)(7) <= release; -- 1
-					when X"1e" => keys(7)(6) <= release; -- 2
-					when X"26" => keys(7)(5) <= release; -- 3
-					when X"25" => keys(7)(4) <= release; -- 4
-					when X"2e" => keys(7)(3) <= release; -- 5			
-					when X"36" => keys(7)(2) <= release; -- 6
-					when X"3d" => keys(7)(1) <= release; -- 7
-					when X"3e" => keys(6)(7) <= release; -- 8
-					when X"46" => keys(6)(6) <= release; -- 9
-					when X"45" => keys(6)(5) <= release; -- 0
-					when X"4e" => keys(6)(4) <= release; -- -
-					when X"55" => keys(6)(3) <= release; -- =
-					when X"66" => keys(6)(2) <= release; -- Backspace
-					
---					when X"0d" => keys(0)(0) <= release; -- TAB
-					when X"15" => keys(1)(7) <= release; -- Q
-					when X"1d" => keys(4)(7) <= release; -- W
-					when X"24" => keys(4)(6) <= release; -- E
-					when X"2d" => keys(4)(5) <= release; -- R
-					when X"2c" => keys(4)(4) <= release; -- T				
-					when X"35" => keys(4)(3) <= release; -- Y
-					when X"3c" => keys(4)(2) <= release; -- U
-					when X"43" => keys(4)(1) <= release; -- I
-					when X"44" => keys(5)(5) <= release; -- O
-					when X"4d" => keys(1)(1) <= release; -- P
-					when X"54" => keys(5)(4) <= release; -- [
---					when X"5b" => keys(0)(0) <= release; -- ]
-					when X"5a" => keys(5)(3) <= release; -- ENTER
-					
-					when X"58" => 
-					if release = '0' then
-						keys(0)(0) <= not (keys(0)(0)); -- Caps lock
-					end if;
-					when X"1c" => keys(1)(6) <= release; -- A
-					when X"1b" => keys(3)(7) <= release; -- S
-					when X"23" => keys(3)(6) <= release; -- D
-					when X"2b" => keys(3)(5) <= release; -- F
-					when X"34" => keys(3)(4) <= release; -- G
-					when X"33" => keys(3)(3) <= release; -- H
-					when X"3b" => keys(3)(2) <= release; -- J
-					when X"42" => keys(3)(1) <= release; -- K
-					when X"4b" => keys(5)(6) <= release; -- L
-					when X"4c" => keys(1)(2) <= release; -- ;
-					when X"52" => keys(6)(1) <= release; -- '
-					when X"5d" => keys(6)(1) <= release; -- #
+						when X"16" => keys(7)(7) <= release; -- 1/!
+						when X"1e" => keys(7)(6) <= release; -- 2/"
+						when X"26" => keys(7)(5) <= release; -- 3/#
+						when X"25" => keys(7)(4) <= release; -- 4/$
+						when X"2e" => keys(7)(3) <= release; -- 5/%		
+						when X"36" => keys(7)(2) <= release; -- 6/&
+						when X"3d" => keys(7)(1) <= release; -- 7/'
+						
+						when X"3e" => keys(6)(7) <= release; -- 8/(
+						when X"46" => keys(6)(6) <= release; -- 9/)
+						when X"45" => keys(6)(5) <= release; -- 0/0
+						when X"4e" => keys(6)(4) <= release; -- :/*
+						when X"55" => keys(6)(3) <= release; -- -/=
+						when X"66" => keys(6)(2) <= release; -- Backspace
+						when X"5d" => keys(6)(1) <= release; -- #
+--						when X"52" => keys(6)(1) <= release; -- '
+						
+						when X"49" => keys(5)(7) <= release; -- .9period)/>
+						when X"4b" => keys(5)(6) <= release; -- L
+						when X"44" => keys(5)(5) <= release; -- O
+						when X"54" => keys(5)(4) <= release; -- [
+						when X"5a" => keys(5)(3) <= release; -- ENTER
+						
+						when X"1d" => keys(4)(7) <= release; -- W
+						when X"24" => keys(4)(6) <= release; -- E
+						when X"2d" => keys(4)(5) <= release; -- R
+						when X"2c" => keys(4)(4) <= release; -- T				
+						when X"35" => keys(4)(3) <= release; -- Y
+						when X"3c" => keys(4)(2) <= release; -- U
+						when X"43" => keys(4)(1) <= release; -- I
+						
+						when X"1b" => keys(3)(7) <= release; -- S
+						when X"23" => keys(3)(6) <= release; -- D
+						when X"2b" => keys(3)(5) <= release; -- F
+						when X"34" => keys(3)(4) <= release; -- G
+						when X"33" => keys(3)(3) <= release; -- H
+						when X"3b" => keys(3)(2) <= release; -- J
+						when X"42" => keys(3)(1) <= release; -- K
 
-					when X"12" => keys(0)(2) <= release; -- Left shift
-					when X"1a" => keys(1)(5) <= release; -- Z
-					when X"22" => keys(2)(7) <= release; -- X
-					when X"21" => keys(2)(6) <= release; -- C
-					when X"2a" => keys(2)(5) <= release; -- V
-					when X"32" => keys(2)(4) <= release; -- B
-					when X"31" => keys(2)(3) <= release; -- N
-					when X"3a" => keys(2)(2) <= release; -- M
-					when X"41" => keys(2)(1) <= release; -- ,
-					when X"49" => keys(5)(7) <= release; -- .
-					when X"4a" => keys(1)(3) <= release; -- /
-					when X"59" => keys(0)(1) <= release; -- Right shift
-					
---					when X"76" => keys(0)(0) <= release; -- Escape
-					when X"29" => keys(1)(4) <= release; -- SPACE
-					when X"14" => keys(0)(6) <= release; -- CTRL
+						when X"22" => keys(2)(7) <= release; -- X
+						when X"21" => keys(2)(6) <= release; -- C
+						when X"2a" => keys(2)(5) <= release; -- V
+						when X"32" => keys(2)(4) <= release; -- B
+						when X"31" => keys(2)(3) <= release; -- N
+						when X"3a" => keys(2)(2) <= release; -- M
+						when X"41" => keys(2)(1) <= release; -- ,(comma)/<
+						
+						when X"15" => keys(1)(7) <= release; -- Q
+						when X"1c" => keys(1)(6) <= release; -- A
+						when X"1a" => keys(1)(5) <= release; -- Z
+						when X"29" => keys(1)(4) <= release; -- SPACE
+						when X"4a" => keys(1)(3) <= release; -- /(slash/?(question mark)
+						when X"4c" => keys(1)(2) <= release; -- ; semi colon
+						when X"4d" => keys(1)(1) <= release; -- P
+						
+						when X"14" => keys(0)(6) <= release; -- CTRL
+						when X"12" => keys(0)(2) <= release; -- Left shift
+						when X"59" => keys(0)(1) <= release; -- Right shift
 
-					when X"05" => --F1 
-					FNkeysSig(1) <= release;
-					if release = '0' then
-						FNtoggledKeysSig(1) <= not FNtoggledKeysSig(1);
-					end if;
-					when X"06" => --F2 
-					FNkeysSig(2) <= release;
-					if release = '0' then
-						FNtoggledKeysSig(2) <= not FNtoggledKeysSig(2);
-					end if;
-					when X"04" => --F3 
-					FNkeysSig(3) <= release;
-					if release = '0' then
-						FNtoggledKeysSig(3) <= not FNtoggledKeysSig(3);
-					end if;
-					when X"0C" => --F4 
-					FNkeysSig(4) <= release;
-					if release = '0' then
-						FNtoggledKeysSig(4) <= not FNtoggledKeysSig(4);
-					end if;
-					when X"03" => --F5 
-					FNkeysSig(5) <= release;
-					if release = '0' then
-						FNtoggledKeysSig(5) <= not FNtoggledKeysSig(5);
-					end if;
-					when X"0B" => --F6 
-					FNkeysSig(6) <= release;
-					if release = '0' then
-						FNtoggledKeysSig(6) <= not FNtoggledKeysSig(6);
-					end if;
-					when X"83" => --F7 
-					FNkeysSig(7) <= release;
-					if release = '0' then
-						FNtoggledKeysSig(7) <= not FNtoggledKeysSig(7);
-					end if;
-					when X"0A" => --F8 
-					FNkeysSig(8) <= release;
-					if release = '0' then
-						FNtoggledKeysSig(8) <= not FNtoggledKeysSig(8);
-					end if;
-					when X"01" => --F9 
-					FNkeysSig(9) <= release;
-					if release = '0' then
-						FNtoggledKeysSig(9) <= not FNtoggledKeysSig(9);
-					end if;
-					when X"09" => --F10 
-					FNkeysSig(10) <= release;
-					if release = '0' then
-						FNtoggledKeysSig(10) <= not FNtoggledKeysSig(10);
-					end if;
-					when X"78" => --F11
-					FNkeysSig(11) <= release;
-					if release = '0' then
-						FNtoggledKeysSig(11) <= not FNtoggledKeysSig(11);
-					end if;
-					when X"07" => --F12 
-					FNkeysSig(12) <= release;
-					if release = '0' then
-						FNtoggledKeysSig(12) <= not FNtoggledKeysSig(12);
-					end if;
+						when X"58" => 
+						if release = '0' then
+							keys(0)(0) <= not (keys(0)(0)); 		-- Caps lock toggles
+						end if;
+						
+						when X"05" => --F1 
+						FNkeysSig(1) <= release;
+						if release = '0' then
+							FNtoggledKeysSig(1) <= not FNtoggledKeysSig(1);
+						end if;
+						when X"06" => --F2 
+						FNkeysSig(2) <= release;
+						if release = '0' then
+							FNtoggledKeysSig(2) <= not FNtoggledKeysSig(2);
+						end if;
+						when X"04" => --F3 
+						FNkeysSig(3) <= release;
+						if release = '0' then
+							FNtoggledKeysSig(3) <= not FNtoggledKeysSig(3);
+						end if;
+						when X"0C" => --F4 
+						FNkeysSig(4) <= release;
+						if release = '0' then
+							FNtoggledKeysSig(4) <= not FNtoggledKeysSig(4);
+						end if;
+						when X"03" => --F5 
+						FNkeysSig(5) <= release;
+						if release = '0' then
+							FNtoggledKeysSig(5) <= not FNtoggledKeysSig(5);
+						end if;
+						when X"0B" => --F6 
+						FNkeysSig(6) <= release;
+						if release = '0' then
+							FNtoggledKeysSig(6) <= not FNtoggledKeysSig(6);
+						end if;
+						when X"83" => --F7 
+						FNkeysSig(7) <= release;
+						if release = '0' then
+							FNtoggledKeysSig(7) <= not FNtoggledKeysSig(7);
+						end if;
+						when X"0A" => --F8 
+						FNkeysSig(8) <= release;
+						if release = '0' then
+							FNtoggledKeysSig(8) <= not FNtoggledKeysSig(8);
+						end if;
+						when X"01" => --F9 
+						FNkeysSig(9) <= release;
+						if release = '0' then
+							FNtoggledKeysSig(9) <= not FNtoggledKeysSig(9);
+						end if;
+						when X"09" => --F10 
+						FNkeysSig(10) <= release;
+						if release = '0' then
+							FNtoggledKeysSig(10) <= not FNtoggledKeysSig(10);
+						end if;
+						when X"78" => --F11
+						FNkeysSig(11) <= release;
+						if release = '0' then
+							FNtoggledKeysSig(11) <= not FNtoggledKeysSig(11);
+						end if;
+						when X"07" => --F12 
+						FNkeysSig(12) <= release;
+						if release = '0' then
+							FNtoggledKeysSig(12) <= not FNtoggledKeysSig(12);
+						end if;
 
-					
-					-- Cursor keys - these are actually extended (E0 xx), but
-					-- the scancodes for the numeric keypad cursor keys are
-					-- are the same but without the extension, so we'll accept
-					-- the codes whether they are extended or not
---					when X"6B" => keys(0)(0) <= release; -- Left
---					when X"72" => keys(0)(0) <= release; -- Down
---					when X"75" => keys(0)(0) <= release; -- Up
---					when X"74" => keys(0)(0) <= release; -- Right
-					
-					when others =>
-						null;
+						
+						-- Cursor keys - these are actually extended (E0 xx), but
+						-- the scancodes for the numeric keypad cursor keys are
+						-- are the same but without the extension, so we'll accept
+						-- the codes whether they are extended or not
+	--					when X"6B" => keys(0)(0) <= release; -- Left
+	--					when X"72" => keys(0)(0) <= release; -- Down
+	--					when X"75" => keys(0)(0) <= release; -- Up
+	--					when X"74" => keys(0)(0) <= release; -- Right
+						
+						when others =>
+							null;
 					end case;
 				end if;
 			end if;

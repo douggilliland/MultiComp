@@ -6,15 +6,14 @@
 --			Added SD Controller
 --			Added Grant's fast CPU via F1 key
 --			40KB SRAM - Additional RAM sections opened although not contiguous
---			Bank selected SRAM (16 banks of 4KB)
+--			1MB Bank selected SRAM (256 banks of 4KB)
 --
---	Running on
+--	Running on hardware
 --		http://land-boards.com/blwiki/index.php?title=Multicomp_in_a_Box
 --
 -- 6502 CPU
--- 	Runs at 1 or 12.5 MHz (F1 key selects)
---		Power-up default is 1 MHz
---	Microsoft BASIC
+-- 	Runs at 1 or 12.5 MHz (F1 key selects speed, default = 12.5 MHz)
+--	8KB Microsoft BASIC
 --	XGA
 --		Memory Mapped
 --		64x32 characters
