@@ -1,5 +1,7 @@
 
-### MAX7219 7-segment 8-digit LED driver for FPGA written in VHDL with cascade connected modules support
+### MAX7219 7-segment 8-digit LED driver for FPGA written in VHDL with cascade connected modules 
+
+* https://github.com/dmhl/max7219
 
 ![MAX7219 7-segment 8-digit LED driver for FPGA, two modules cascade connected](docs/max7219_cascade.jpg
 )
