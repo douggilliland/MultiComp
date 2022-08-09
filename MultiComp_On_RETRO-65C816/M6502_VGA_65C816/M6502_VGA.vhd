@@ -1,7 +1,7 @@
 -- Grant Searle's Multicomp as described here:
 -- http://searle.x10host.com/Multicomp/index.html
 -- 
--- http://land-boards.com/blwiki/index.php?title=RETRO-EP4CE15
+-- http://land-boards.com/blwiki/index.php?title=RETRO-65C816
 --
 -- External 65C816 disabled
 -- 65C02 CPU
@@ -102,9 +102,10 @@ entity M6502_VGA is
 		CPU_VPA			: in std_logic;				-- Valid Peripheral Address
 		CPU_ABORTB		: out std_logic := '1';		-- The Abort negative pulse active input is used to abort instructions 
 																-- (usually due to an Address Bus condition).
-		CPU_RDY			: inout std_logic;				-- The Ready is a bi-directional signal. When it is an output it indicates that a Wait for 
-																-- Interrupt instruction has been executed halting operation of the microprocessor.
-		CPU_VPB			: in std_logic;				--  Vector Pull active low output indicates that a vector location is being addressed 
+		CPU_RDY			: inout std_logic;			-- The Ready is a bi-directional signal. 
+																-- When it is an output it indicates that a Wait for Interrupt instruction has been executed 
+																-- halting operation of the microprocessor.
+		CPU_VPB			: in std_logic;				-- Vector Pull active low output indicates that a vector location is being addressed 
 																-- during an interrupt sequence
 		CPU_MLB			: in std_logic					-- Memory Lock active low output may be used to ensure the integrity of Read Modify Write 
 																-- instructions in a multiprocessor system
@@ -125,21 +126,13 @@ architecture struct of M6502_VGA is
 	signal w_basRomData		: std_logic_vector(7 downto 0);
 	signal w_VDUDataOut		: std_logic_vector(7 downto 0);
 	signal w_aciaDataOut		: std_logic_vector(7 downto 0);
-	signal w_ramDataOut1		: std_logic_vector(7 downto 0);
-	signal w_ramDataOut2		: std_logic_vector(7 downto 0);
 	signal sdCardDataOut		: std_logic_vector(7 downto 0);
 	signal memMapReg			: std_logic_vector(7 downto 0);
 	
---	signal w_n_memWR			: std_logic;
-	
 	signal w_n_basRomCS		: std_logic :='1';
 	signal w_n_VDUCS			: std_logic :='1';
-	signal w_n_ramCS1			: std_logic :='1';
-	signal w_n_ramCS2			: std_logic :='1';
 	signal w_n_aciaCS			: std_logic :='1';
 	signal n_sdCardCS			: std_logic :='1';
-	signal w_latch1CS			: std_logic :='1';
-	signal w_memMapCS			: std_logic :='1';
 	
 	signal w_serialClkCount	: std_logic_vector(15 downto 0);	-- DDS counter for baud rate
 	signal w_serClkCt_d 		: std_logic_vector(15 downto 0);
@@ -154,8 +147,6 @@ architecture struct of M6502_VGA is
 														--		Default is 115,200 baud
 	signal w_funKeys			: std_logic_vector(12 downto 0);
 
---	signal w_videoVec			: std_logic_vector(5 downto 0);
-
 begin
 	debounceReset : entity work.Debouncer
 	port map (
@@ -166,12 +157,12 @@ begin
 	
 	-- ____________________________________________________________________________________
 	-- Chip Selects
-	o_n_sRamCS	<= w_cpuAddress(15) and w_cpuAddress(14) and w_cpuAddress(13); -- x0000-xDFFF (48KB)
-	
 	o_sramAddress <= "0000" & w_cpuAddress(15 downto 0);
+	o_n_sRamCS	<= w_cpuAddress(15) and w_cpuAddress(14) and w_cpuAddress(13); -- Low for x0000-xDFFF (48KB)	
 	o_n_sRamWE <= not ((not w_cpuClk) and (not w_n_WR) and (not w_cpuAddress(15) and (not w_cpuAddress(14)) and (not w_cpuAddress(13))));
 	o_n_sRamOE <= not (                        w_n_WR  and (not w_cpuAddress(15) and (not w_cpuAddress(14)) and (not w_cpuAddress(13))));
-	
+	io_sramData <= w_cpuDataOut when w_n_WR='0' else (others => 'Z');
+		
 	w_n_basRomCS 	<= '0' when  w_cpuAddress(15 downto 13) = "111" else '1'; 						-- xE000-xFFFF (8KB)
 	
 	w_n_VDUCS 		<= '0' when ((w_cpuAddress(15 downto 1) = x"FFD"&"000" and w_fKey1 = '0') 	-- XFFD0-FFD1 VDU
@@ -186,19 +177,14 @@ begin
 
 	n_sdCardCS	<= '0' when w_cpuAddress(15 downto 3) = x"FFD"&'1' else '1'; 			-- 8 bytes XFFD8-FFDF
 	
---	w_n_memWR 			<= (not w_cpuClk) nand (not w_n_WR);
-	
 	w_cpuDataIn <=
 		w_VDUDataOut	when w_n_VDUCS 	= '0'	else
 		w_aciaDataOut	when w_n_aciaCS 	= '0'	else
 		io_sramData		when o_n_sRamCS	= '0'	else
-		memMapReg		when w_memMapCS 	= '0'	else
 		sdCardDataOut	when n_sdCardCS	= '0' else
 		w_basRomData	when w_n_basRomCS	= '0' else		-- HAS TO BE AFTER ANY I/O READS
 		x"FF";
 		
-	io_sramData <= w_cpuDataOut when w_n_WR='0' else (others => 'Z');
-	
 	CPU : entity work.T65
 	port map(
 		Enable			=> '1',
