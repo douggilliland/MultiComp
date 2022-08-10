@@ -85,7 +85,7 @@ entity M6502_VGA is
 		-- 65C816 pins
 		CPU_BusEnable	: out std_logic := '0';		-- Bus Enable input signal allows external control of the Address and Data Buffers
 																-- as well as the RWB signal.
-		CPU_E				: in std_logic;				--  Emulation Status output reflects the state of the Emulation (E) mode flag 
+		CPU_E				: in std_logic;				-- Emulation Status output reflects the state of the Emulation (E) mode flag 
 																-- in the Processor Status (P) Register
 		n_CPU_Res		: out std_logic := '0';		-- Reset active low input is used to initialize the microprocessor and start program execution
 		CPU_MX			: in std_logic;				-- Memory/Index Select Status multiplexed output reflects the state of the Accumulator (M) 
@@ -116,18 +116,14 @@ architecture struct of M6502_VGA is
 
 	signal w_reset_n			: std_logic;
 	signal w_n_WR				: std_logic;
-	signal w_n_RD				: std_logic;
 	signal w_cpuAddress		: std_logic_vector(15 downto 0);
 	signal w_cpuDataOut		: std_logic_vector(7 downto 0);
 	signal w_cpuDataIn		: std_logic_vector(7 downto 0);
 	
-	signal w_counterOut		: std_logic_vector(27 downto 0);
-
 	signal w_basRomData		: std_logic_vector(7 downto 0);
 	signal w_VDUDataOut		: std_logic_vector(7 downto 0);
 	signal w_aciaDataOut		: std_logic_vector(7 downto 0);
 	signal sdCardDataOut		: std_logic_vector(7 downto 0);
-	signal memMapReg			: std_logic_vector(7 downto 0);
 	
 	signal w_n_basRomCS		: std_logic :='1';
 	signal w_n_VDUCS			: std_logic :='1';
@@ -227,7 +223,8 @@ begin
 	
 	VDU : entity work.SBCTextDisplayRGB
 	generic map ( 
-		EXTENDED_CHARSET => 1
+		EXTENDED_CHARSET => 1,
+		COLOUR_ATTS_ENABLED => 1
 	)
 		port map (
 		n_reset	=> w_reset_n,
@@ -315,6 +312,7 @@ begin
 	-- 9600 201
 	-- 4800 101
 	-- 2400 50
+	-- 300 6
 
 	baud_div: process (w_serClkCt_d, w_serialClkCount, w_fKey2)
 		begin
