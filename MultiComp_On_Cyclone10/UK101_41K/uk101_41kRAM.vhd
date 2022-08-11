@@ -83,7 +83,7 @@ end uk101_41kRAM;
 architecture struct of uk101_41kRAM is
 
 	signal n_WR					: std_logic := '0';
-	signal cpuAddress			: std_logic_vector(15 downto 0);
+	signal cpuAddress			: std_logic_vector(23 downto 0);
 	signal cpuDataOut			: std_logic_vector(7 downto 0);
 	signal cpuDataIn			: std_logic_vector(7 downto 0);
 	
@@ -141,6 +141,8 @@ begin
 	sramAddress(19 downto 12)	<= "1"  & mmapAddrLatch1(6 downto 0) when (cpuAddress(15 downto 12)	= x"c") else		-- xc000-xcFFF (4KB) 512KB
 											"01" & mmapAddrLatch2(5 downto 0) when (cpuAddress(15 downto 12)	= x"e") else		-- xe000-xeFFF (4KB) 256KB
 											"0000"&cpuAddress(15 downto 12);
+--	sramAddress(15 downto 0) <= cpuAddress(15 downto 0);
+--	sramAddress(19 downto 16) <= "0000";
 	sramData <= cpuDataOut when n_WR='0' else (others => 'Z');
 	n_sRamWE <= n_memWR;
 	n_sRamOE <= n_memRD;
@@ -158,8 +160,8 @@ begin
 	n_kbCS 		<= '0' when cpuAddress(15 downto 10) 	= x"d"&"11"		else '1';	-- xdc00-xdfff (1KB)		- Keyboard
 	n_aciaCS 	<= '0' when cpuAddress(15 downto 1) 	= x"f00"&"000"	else '1';	-- xf000-f001 (2B)		- Serial Port
 	n_monRomCS	<= '0' when cpuAddress(15 downto 11) 	= x"f"&'1' 		else '1'; 	-- xf800-xffff (2K)		- Monitor in ROM
-	n_mmap1CS	<= '0' when cpuAddress					 	= x"f002"		else '1';	-- xf002 (1B) 61442 dec	- Memory Mapper 1
-	n_mmap2CS	<= '0' when cpuAddress					 	= x"f003"		else '1';	-- xf003 (1B) 61443 dec	- Memory Mapper 2
+	n_mmap1CS	<= '0' when cpuAddress(15 downto 0)	 	= x"f002"		else '1';	-- xf002 (1B) 61442 dec	- Memory Mapper 1
+	n_mmap2CS	<= '0' when cpuAddress(15 downto 0)	 	= x"f003"		else '1';	-- xf003 (1B) 61443 dec	- Memory Mapper 2
 	
 	cpuDataIn <=
 		basRomData 			when n_basRomCS 	= '0' else
@@ -176,7 +178,7 @@ begin
 	CPU : entity work.T65
 	port map(
 		Enable			=> '1',
-		Mode				=> "00",
+		Mode				=> "10",					-- 65C816 comes up in 65C02 native mode
 		Res_n				=> w_resetLow,
 		Clk				=> cpuClock,
 		Rdy				=> '1',
@@ -185,7 +187,7 @@ begin
 		NMI_n				=> '1',
 		SO_n				=> '1',
 		R_W_n				=> n_WR,
-		A(15 downto 0)	=> cpuAddress,
+		A(23 downto 0)	=> cpuAddress,
 		DI					=> cpuDataIn,
 		DO					=> cpuDataOut);
 
