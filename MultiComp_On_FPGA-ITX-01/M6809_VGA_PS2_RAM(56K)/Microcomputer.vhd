@@ -7,7 +7,7 @@
 -- 	16.7 MHz
 --	56K (external) RAM version
 -- Serial interface or VGA VDU
---		Jumper in pin B22 to ground (adjacent pin) of the FPGA selects the VDU/Serial port
+--		Jumper in serSelect to ground (adjacent pin) of the FPGA selects the VDU/Serial port
 --		Install to make serial port default
 --		Remove jumper to make the VDU default
 --		115,200 baud serial port
@@ -101,6 +101,17 @@ architecture struct of Microcomputer is
    signal w_serialCount_d       	: std_logic_vector(15 downto 0);
    signal w_serialEn            	: std_logic;
 	
+	signal w_videoR2					: std_logic;
+	signal w_videoR1					: std_logic;
+	signal w_videoR0					: std_logic;
+
+	signal w_videoG2					: std_logic;
+	signal w_videoG1					: std_logic;
+	signal w_videoG0					: std_logic;
+
+	signal w_videoB1					: std_logic;
+	signal w_videoB0					: std_logic;
+	
 begin
 
 --	testPt2 <= w_cpuClock;
@@ -154,6 +165,18 @@ begin
 	-- INPUT/OUTPUT DEVICES
 	-- Grant's VGA driver
 	-- Removed the Composite video output
+	
+	videoR2 <= w_videoR1;
+	videoR1 <= w_videoR0;
+	videoR0 <= w_videoR0;
+	
+	videoG2 <= w_videoG1;
+	videoG1 <= w_videoG0;
+	videoG0 <= w_videoG0;
+	
+	videoB1 <= w_videoB1;
+	videoB0 <= w_videoB0;
+	
 	io1 : entity work.SBCTextDisplayRGB
 		port map (
 			n_reset	=> w_resetLow,
@@ -168,12 +191,12 @@ begin
 			-- VGA signals
 			hSync		=> hSync,
 			vSync		=> vSync,
-			videoR0	=> videoR1,
-			videoR1	=> videoR2,
-			videoG0	=> videoG1,
-			videoG1	=> videoG2,
-			videoB0	=> videoB0,
-			videoB1	=> videoB1,
+			videoR0	=> W_videoR0,
+			videoR1	=> w_videoR1,
+			videoG0	=> W_videoG0,
+			videoG1	=> W_videoG1,
+			videoB0	=> W_videoB0,
+			videoB1	=> W_videoB1,
 			-- PS/2 keyboard
 			ps2clk	=> ps2Clk,
 			ps2Data	=> ps2Data
@@ -193,7 +216,7 @@ begin
 			txClkEn	=> w_serialEn,			
 			rxd		=> rxd1,
 			txd		=> txd1,
-			n_cts		=> cts1,
+			n_cts		=> '0', 		-- cts1,
 			n_rts		=> rts1
 		);
 	
