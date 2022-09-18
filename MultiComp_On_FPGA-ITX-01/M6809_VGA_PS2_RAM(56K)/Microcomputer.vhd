@@ -41,10 +41,12 @@ entity Microcomputer is
 		
 		-- Video Display Unit (VGA)
 		videoR0		: out std_logic := '1';
-		videoG0		: out std_logic := '1';
-		videoB0		: out std_logic := '1';
 		videoR1		: out std_logic := '1';
+		videoR2		: out std_logic := '1';
+		videoG0		: out std_logic := '1';
 		videoG1		: out std_logic := '1';
+		videoG2		: out std_logic := '1';
+		videoB0		: out std_logic := '1';
 		videoB1		: out std_logic := '1';
 		hSync			: out std_logic := '1';
 		vSync			: out std_logic := '1';
@@ -53,8 +55,8 @@ entity Microcomputer is
 		ps2Clk		: inout std_logic;
 		ps2Data		: inout std_logic;
 		
-		testPt1				: out std_logic := '1';
-		testPt2				: out std_logic := '1';
+--		testPt1				: out std_logic := '1';
+--		testPt2				: out std_logic := '1';
 		
 		-- Not using the SD RAM on the QMTECH FPGA card but making sure that it's not active
 		n_sdRamCas	: out std_logic := '1';		-- CAS on schematic
@@ -101,8 +103,8 @@ architecture struct of Microcomputer is
 	
 begin
 
-	testPt2 <= w_cpuClock;
-	testPt1 <= w_n_memWR;
+--	testPt2 <= w_cpuClock;
+--	testPt1 <= w_n_memWR;
 	
 	-- Debounce the reset line
 	DebounceResetSwitch	: entity work.Debouncer
@@ -166,10 +168,10 @@ begin
 			-- VGA signals
 			hSync		=> hSync,
 			vSync		=> vSync,
-			videoR0	=> videoR0,
-			videoR1	=> videoR1,
-			videoG0	=> videoG0,
-			videoG1	=> videoG1,
+			videoR0	=> videoR1,
+			videoR1	=> videoR2,
+			videoG0	=> videoG1,
+			videoG1	=> videoG2,
 			videoB0	=> videoB0,
 			videoB1	=> videoB1,
 			-- PS/2 keyboard

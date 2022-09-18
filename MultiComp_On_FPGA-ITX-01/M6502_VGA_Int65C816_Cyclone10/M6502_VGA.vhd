@@ -1,17 +1,15 @@
 -- Grant Searle's Multicomp as described here:
 -- http://searle.x10host.com/Multicomp/index.html
 -- 
--- http://land-boards.com/blwiki/index.php?title=RETRO-65C816
+-- http://land-boards.com/blwiki/index.php?title=FPGA-ITX-01
 --
--- External 65C816 disabled
--- 65C02 CPU
---	8 MHz
---		W65C816 at 3.3V
+-- 6502 CPU
 -- 1MB External SRAM
+--		Uses 56KB
 --	Microsoft BASIC in ROM
 --		56,831 bytes free
 --	USB-Serial Interface
---		FTDI FT-230FX chip
+--		XIA0 RP2040 Serial
 --		Has RTS/CTS hardware handshake
 -- ANSI Video Display Unit
 --		256 character set
