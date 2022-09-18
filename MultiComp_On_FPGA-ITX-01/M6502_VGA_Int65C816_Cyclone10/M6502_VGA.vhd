@@ -45,8 +45,8 @@ entity M6502_VGA is
 		
 		io_sramData		: inout	std_logic_vector(7 downto 0);
 		o_sramAddress	: out		std_logic_vector(19 downto 0);
-		o_n_sRamWE		: out		std_logic := '0';
 		o_n_sRamCS		: inout	std_logic := '0';
+		o_n_sRamWE		: out		std_logic := '0';
 		o_n_sRamOE		: out		std_logic := '0';
 		
 		i_rxd				: in		std_logic;
@@ -199,7 +199,7 @@ begin
 			txClkEn	=> w_w_serClkEn,
 			rxd		=> i_rxd,
 			txd		=> o_txd,
-			n_cts		=> i_n_cts,
+			n_cts		=> '0',		-- i_n_cts,
 			n_rts		=> o_n_rts,
 			n_dcd		=> '0'
 		);
