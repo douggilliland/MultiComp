@@ -1,0 +1,83 @@
+<a href="https://www.tindie.com/products/land_boards/retrocomputer-fpga-card-pcb-only/" >
+<img src="http://land-boards.com/tindie/tindie-larges-v2.png" alt="Tindie Logo">
+</img></a> 
+
+<img src="http://land-boards.com/blwiki/images/8/8f/RETRO-EP4CE15-REV4-BLACK-P1464-720PX.jpg"></img>
+
+[https://www.retrobrewcomputers.org/doku.php?id=builderpages:rhkoolstar:mc-2g-1024 Original build by rhkoolstar] building on  [http://searle.x10host.com/Multicomp/index.html Grant Searle's Multicomp].
+
+== Main Specifications ==
+
+* New ROM monitor with multi-boot capability with tools
+** Format
+** Getsys
+** Putsys tools and debug capabilities
+** No BASIC in ROM
+* SD-HC capable card controller
+** Init at 250 kHz
+** Running at 25 MHz
+* Improved keyboard definition
+** [https://github.com/douggilliland/MultiComp/tree/master/MultiComp_On_RETRO-EP4CE15/Multicomp-MPM/Components/TERMINAL External keymap]
+** Added key functionality
+* Multi volume disk system
+** Supports up to 253 8MB disk volumes (which uses 2GB+ on the SD-card)
+** All these volumes can be loaded with a separate OS bootimage
+* OSes configured with 3 drives: 
+** A:, B: and C:
+** A: for the system drive (holding the volume booted from)
+** B: and C: can be assigned and re-assigned one of the remaining volumes (using MOUNT)
+** RAM disk is available for CP/M 2 and CP/M 3 systems (as drive M:)
+* Y2k compatible system clock (date and time) for all OSes
+* [https://retrobrewcomputers.org/lib/exe/fetch.php?media=builderpages:rhkoolstar:mc-2g-1024.zip Included OSs] are
+** Type Snnn to elect at multiboot
+** S001 - Dos+ 2.5  Copyright 1986 (c) by [http://cpmarchives.classiccmp.org/cpm/mirrors/cbfalconer.home.att.net/download/index.htm C.B. Falconer], CCP+ Ver. 2.2 (CP/M 2.2 compatible)
+** S002 - [https://github.com/douggilliland/Retro-Computers/blob/master/Z80/Software/Manuals/CPM%202.2%20manual.pdf CP/M 2.2] (c) 1979 by Digital Research
+** S003 - [http://www.cpm.z80.de/manuals/cpm3-usr.pdf CP/M Version 3.0] BIOS (2016/9/13)
+*** [http://www.cpm.z80.de/manuals/cpm3-sys.pdf CP/M Version 3.0 Operating System System Guide]
+** S004 - [https://github.com/douggilliland/Retro-Computers/blob/master/Z80/Software/Manuals/MPM_II_2.1_Release_Notes_1982.pdf MP/M II V2.1]
+** S005 - [http://searle.wales/z80/SimpleZ80.html Z80 BASIC Ver 4.7b], Copyright (C) 1978 by Microsoft
+** S006 - [https://github.com/douggilliland/Retro-Computers/blob/master/Z80/Software/Manuals/zsdos.pdf ZSDOS v1.1] (c) 1986-8 Harold F. Bower & Cameron W. Cotrill, ZCPR2 (c) 1982 by Richard Conn (CP/M 2.2 compatible) 
+** S007 - [https://github.com/douggilliland/Retro-Computers/blob/master/Z80/Software/Manuals/zcpr3_the_manual.pdf ZCPR compatible system] for CP/M+ (CP/M 3.0) by Simeon Cran
+* Additional Volumes
+** Mount using mount d vol
+*** Ex: mount b: 9 will mount ZCPR3 Utilities A-O as drive b:
+** Volume.008 - ?
+** Volume.009 - [https://github.com/douggilliland/MultiComp/blob/master/MultiComp_On_RETRO-EP4CE15/Multicomp-MPM/ZCPR3_Utilities_A_O.txt ZCPR3 Utilities A-O]
+** Volume.010 - [https://github.com/douggilliland/MultiComp/blob/master/MultiComp_On_RETRO-EP4CE15/Multicomp-MPM/ZCPR3_Utilities_P_Z.txt ZCPR3 Utilities P-Z]
+** Volume.011 - Wordstar, DBase, SuperCal
+** Volume.012 - Games
+** Volume.013 - MuMath
+** Volume.014 - Documentation
+** Volume.015 - Languages (TurboPascal, Fortran, BASIC)
+** Volume.016 - Languages (Algol, C, APL, PLI, FORTH)
+** Volume.017 - Languages (BASIC, LISP)
+** Volume.018 - M80
+** Volume.019-253 - User volumes
+* This build runs on a [https://www.aliexpress.com/item/32949281189.html?spm=a2g0o.productlist.0.0.23c6239dgIvRTF&algo_pvid=18ecb5a7-9379-4a8d-9987-d234c882a467&algo_expid=18ecb5a7-9379-4a8d-9987-d234c882a467-2&btsid=0b0a555c16163265169281511efa18&ws_ab_test=searchweb0_0,searchweb201602_,searchweb201603_ QMTECH EP4CE15 FPGA card] mounted to a [http://land-boards.com/blwiki/index.php?title=RETRO-EP4CE15 RETRO-EP4CE15]
+** Up 2 serial terminals
+*** 2 extra serial terminals can be wired to the touch screen connector, using RS-232 or USB converters
+** SD-card
+** 1MB Memory
+* You can also use a monochrome (RCA) terminal and 2 serial interfaces
+** In this case all unused signals need to be commented out
+** Examples of these configurations are included
+
+== VHDL updates Include ==
+
+* ROM monitor
+** New concept
+* SD-card controller
+** Added SD-HC capability
+* Serial terminals with programmable baudrates 
+** Simplified version introduced by Max Scane
+* MMU
+** Simplified version from the one introduced by James Moxham
+* Microcomputer .vdh file
+** ROM-switch
+** Timer interrupt
+** SD-clock
+* SCBTextDisplayRGB.vhd
+** External keymap and key updates
+** Pre-configured images are included for system disks and Cyclone programming
+* The OS specific transient commands are included as binary only
+** An Open Document Spreadsheet is provided to build custom keymaps
