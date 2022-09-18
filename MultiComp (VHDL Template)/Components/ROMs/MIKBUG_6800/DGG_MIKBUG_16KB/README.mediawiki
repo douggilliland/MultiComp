@@ -1,0 +1,40 @@
+= MIKBUG =
+
+* Actually is [http://www.retrotechnology.com/restore/smithbug.html SmithBug] variant of MIKBUG
+** Updated by Herb Johnson to add S Record loader
+* 60KB SRAM variant
+** Supports much smaller SRAM sizes but requires scratchpad SRAM if ther is less than 60KB of SRAM
+*** Scratchpad RAM has to be at 0xEF00-0xEFFF (minimum 256 bytes)
+
+=	SmithBug Memory Map =
+
+* 0x0000-0x7FFF - 32KB Internal SRAM
+* 0XEC00-0xEFFF - 1KB Internal SRAM (SCRATCHPAD SRAM USED BY MIKBUG)
+* 0xFC18-0xFC19 - VDU (serSelect J3 JUMPER REMOVED)
+* 0xFC28-0xFC19 - ACIA
+* 0xFC30-0xFC3F - Front Panel
+* 0xF000-0xFFFF - MIKBUG (Actually SMITHBUG) ROM
+
+= Hardware =
+
+* Tested/runs on all MultiComp based designs
+** SRAM accesses run at 25 MHz on Internal SRAM
+** Different FPGAs can support more of less internal SRAM
+*** EP2C5 FPGA supports 3KB internal SRAM
+*** [http://land-boards.com/blwiki/index.php?title=RETRO-EP4CE15 EP4CE15 FPGA] supports 32KB internal SRAM
+*** [http://land-boards.com/blwiki/index.php?title=RETRO-EP4CE15 Cyclone V FPGA] supports 60KB internal SRAM
+** External SRAM works on all MultiComp based designs and supports 60KB SRAM
+*** SRAM accesses run at 16.6 MHz on External SRAM
+
+= Commands =
+
+[https://github.com/douggilliland/Retro-Computers/blob/master/6800/Mikbug/README.mediawiki MIKBUG Commands]
+
+= Build Instructions =
+
+* Creates .hex file load load in Quartus II
+
+<pre>
+..\a68 DGG_MIKBUG.ASM -l DGG_MIKBUG.LST -s DGG_MIKBUG.s
+..\srec_cat DGG_MIKBUG.s -offset - -minimum-addr DGG_MIKBUG.s -o DGG_MIKBUG.hex -Intel
+</pre>
