@@ -55,6 +55,9 @@ entity Microcomputer is
 		ps2Clk		: inout std_logic;
 		ps2Data		: inout std_logic;
 		
+		i_itxSwitches	: in std_logic_vector(16 downto 1);
+		o_itxLEDs		: out std_logic_vector(16 downto 1);
+		
 --		testPt1				: out std_logic := '1';
 --		testPt2				: out std_logic := '1';
 		
@@ -116,6 +119,8 @@ begin
 
 --	testPt2 <= w_cpuClock;
 --	testPt1 <= w_n_memWR;
+	
+	o_itxLEDs <= i_itxSwitches;
 	
 	-- Debounce the reset line
 	DebounceResetSwitch	: entity work.Debouncer
