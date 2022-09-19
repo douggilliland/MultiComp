@@ -117,10 +117,8 @@ architecture struct of Microcomputer is
 	
 begin
 
---	testPt2 <= w_cpuClock;
---	testPt1 <= w_n_memWR;
-	
-	o_itxLEDs <= i_itxSwitches;
+	o_itxLEDs(16 downto 9) <= i_itxSwitches(16 downto 9);
+	o_itxLEDs(8 downto 1) <= not i_itxSwitches(8 downto 1);
 	
 	-- Debounce the reset line
 	DebounceResetSwitch	: entity work.Debouncer
