@@ -1,5 +1,5 @@
 Analysis & Synthesis report for M6502_VGA
-Sun Sep 18 22:25:50 2022
+Mon Sep 19 13:05:39 2022
 Quartus Prime Version 21.1.0 Build 842 10/21/2021 SJ Lite Edition
 
 
@@ -30,26 +30,28 @@ Quartus Prime Version 21.1.0 Build 842 10/21/2021 SJ Lite Edition
  22. Source assignments for SBCTextDisplayRGB:VDU|DisplayRam2K:\GEN_2KRAM:dispCharRam|altsyncram:altsyncram_component|altsyncram_lhh2:auto_generated
  23. Source assignments for SBCTextDisplayRGB:VDU|DisplayRam2K:\GEN_2KATTRAM:dispAttRam|altsyncram:altsyncram_component|altsyncram_lhh2:auto_generated
  24. Source assignments for bufferedUART:UART|altsyncram:rxBuffer_rtl_0|altsyncram_sbe1:auto_generated
- 25. Parameter Settings for User Entity Instance: M6502_BASIC_ROM:ROM|altsyncram:altsyncram_component
- 26. Parameter Settings for User Entity Instance: SBCTextDisplayRGB:VDU
- 27. Parameter Settings for User Entity Instance: SBCTextDisplayRGB:VDU|SansBoldRom:\GEN_EXT_SCHARS:fontRom|altsyncram:altsyncram_component
- 28. Parameter Settings for User Entity Instance: SBCTextDisplayRGB:VDU|DisplayRam2K:\GEN_2KRAM:dispCharRam|altsyncram:altsyncram_component
- 29. Parameter Settings for User Entity Instance: SBCTextDisplayRGB:VDU|DisplayRam2K:\GEN_2KATTRAM:dispAttRam|altsyncram:altsyncram_component
- 30. Parameter Settings for User Entity Instance: sd_controller:sd1
- 31. Parameter Settings for Inferred Entity Instance: bufferedUART:UART|altsyncram:rxBuffer_rtl_0
- 32. Parameter Settings for Inferred Entity Instance: SBCTextDisplayRGB:VDU|lpm_divide:Mod0
- 33. Parameter Settings for Inferred Entity Instance: SBCTextDisplayRGB:VDU|lpm_divide:Mod1
- 34. altsyncram Parameter Settings by Entity Instance
- 35. Port Connectivity Checks: "sd_controller:sd1"
- 36. Port Connectivity Checks: "SBCTextDisplayRGB:VDU|DisplayRam2K:\GEN_2KATTRAM:dispAttRam"
- 37. Port Connectivity Checks: "SBCTextDisplayRGB:VDU|DisplayRam2K:\GEN_2KRAM:dispCharRam"
- 38. Port Connectivity Checks: "SBCTextDisplayRGB:VDU"
- 39. Port Connectivity Checks: "bufferedUART:UART"
- 40. Port Connectivity Checks: "T65:CPU|T65_ALU:alu"
- 41. Port Connectivity Checks: "T65:CPU"
- 42. Post-Synthesis Netlist Statistics for Top Partition
- 43. Elapsed Time Per Partition
- 44. Analysis & Synthesis Messages
+ 25. Parameter Settings for User Entity Instance: counter:CPUClkGen
+ 26. Parameter Settings for User Entity Instance: M6502_BASIC_ROM:ROM|altsyncram:altsyncram_component
+ 27. Parameter Settings for User Entity Instance: SBCTextDisplayRGB:VDU
+ 28. Parameter Settings for User Entity Instance: SBCTextDisplayRGB:VDU|SansBoldRom:\GEN_EXT_SCHARS:fontRom|altsyncram:altsyncram_component
+ 29. Parameter Settings for User Entity Instance: SBCTextDisplayRGB:VDU|DisplayRam2K:\GEN_2KRAM:dispCharRam|altsyncram:altsyncram_component
+ 30. Parameter Settings for User Entity Instance: SBCTextDisplayRGB:VDU|DisplayRam2K:\GEN_2KATTRAM:dispAttRam|altsyncram:altsyncram_component
+ 31. Parameter Settings for User Entity Instance: sd_controller:sd1
+ 32. Parameter Settings for Inferred Entity Instance: bufferedUART:UART|altsyncram:rxBuffer_rtl_0
+ 33. Parameter Settings for Inferred Entity Instance: SBCTextDisplayRGB:VDU|lpm_divide:Mod0
+ 34. Parameter Settings for Inferred Entity Instance: SBCTextDisplayRGB:VDU|lpm_divide:Mod1
+ 35. altsyncram Parameter Settings by Entity Instance
+ 36. Port Connectivity Checks: "sd_controller:sd1"
+ 37. Port Connectivity Checks: "SBCTextDisplayRGB:VDU|DisplayRam2K:\GEN_2KATTRAM:dispAttRam"
+ 38. Port Connectivity Checks: "SBCTextDisplayRGB:VDU|DisplayRam2K:\GEN_2KRAM:dispCharRam"
+ 39. Port Connectivity Checks: "SBCTextDisplayRGB:VDU"
+ 40. Port Connectivity Checks: "bufferedUART:UART"
+ 41. Port Connectivity Checks: "T65:CPU|T65_ALU:alu"
+ 42. Port Connectivity Checks: "T65:CPU"
+ 43. Port Connectivity Checks: "counter:CPUClkGen"
+ 44. Post-Synthesis Netlist Statistics for Top Partition
+ 45. Elapsed Time Per Partition
+ 46. Analysis & Synthesis Messages
 
 
 
@@ -76,15 +78,15 @@ https://fpgasoftware.intel.com/eula.
 +----------------------------------------------------------------------------------+
 ; Analysis & Synthesis Summary                                                     ;
 +------------------------------------+---------------------------------------------+
-; Analysis & Synthesis Status        ; Successful - Sun Sep 18 22:25:50 2022       ;
+; Analysis & Synthesis Status        ; Successful - Mon Sep 19 13:05:39 2022       ;
 ; Quartus Prime Version              ; 21.1.0 Build 842 10/21/2021 SJ Lite Edition ;
 ; Revision Name                      ; M6502_VGA                                   ;
 ; Top-level Entity Name              ; M6502_VGA                                   ;
 ; Family                             ; Cyclone 10 LP                               ;
 ; Total logic elements               ; 3,022                                       ;
-;     Total combinational functions  ; 2,832                                       ;
-;     Dedicated logic registers      ; 887                                         ;
-; Total registers                    ; 887                                         ;
+;     Total combinational functions  ; 2,831                                       ;
+;     Dedicated logic registers      ; 888                                         ;
+; Total registers                    ; 888                                         ;
 ; Total pins                         ; 132                                         ;
 ; Total virtual pins                 ; 0                                           ;
 ; Total memory bits                  ; 114,816                                     ;
@@ -193,9 +195,9 @@ https://fpgasoftware.intel.com/eula.
 ;                            ;             ;
 ; Usage by Processor         ; % Time Used ;
 ;     Processor 1            ; 100.0%      ;
-;     Processor 2            ;   0.4%      ;
-;     Processor 3            ;   0.4%      ;
-;     Processor 4            ;   0.4%      ;
+;     Processor 2            ;   0.5%      ;
+;     Processor 3            ;   0.5%      ;
+;     Processor 4            ;   0.5%      ;
 +----------------------------+-------------+
 
 
@@ -217,6 +219,7 @@ https://fpgasoftware.intel.com/eula.
 ; ../../MultiComp (VHDL Template)/Components/CPU/M6502/T65_MCode.vhd                                                     ; yes             ; User VHDL File                         ; C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/CPU/M6502/T65_MCode.vhd                             ;         ;
 ; ../../MultiComp (VHDL Template)/Components/CPU/M6502/T65_ALU.vhd                                                       ; yes             ; User VHDL File                         ; C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/CPU/M6502/T65_ALU.vhd                               ;         ;
 ; ../../MultiComp (VHDL Template)/Components/CPU/M6502/T65.vhd                                                           ; yes             ; User VHDL File                         ; C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/CPU/M6502/T65.vhd                                   ;         ;
+; ../../MultiComp (VHDL Template)/Components/COUNTER/Counter.vhd                                                         ; yes             ; User VHDL File                         ; C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/COUNTER/Counter.vhd                                 ;         ;
 ; ../../MultiComp (VHDL Template)/Components/UART/Toggle_On_FN_Key.vhd                                                   ; yes             ; User VHDL File                         ; C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/UART/Toggle_On_FN_Key.vhd                           ;         ;
 ; ../../MultiComp (VHDL Template)/Components/TERMINAL/SBCTextDisplayRGB.vhd                                              ; yes             ; User VHDL File                         ; C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/TERMINAL/SBCTextDisplayRGB.vhd                      ;         ;
 ; ../../MultiComp (VHDL Template)/Components/ROMs/6502/M6502_BASIC_ROM.vhd                                               ; yes             ; User Wizard-Generated File             ; C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/ROMs/6502/M6502_BASIC_ROM.vhd                       ;         ;
@@ -254,18 +257,18 @@ https://fpgasoftware.intel.com/eula.
 +---------------------------------------------+----------------+
 ; Estimated Total logic elements              ; 3,022          ;
 ;                                             ;                ;
-; Total combinational functions               ; 2832           ;
+; Total combinational functions               ; 2831           ;
 ; Logic element usage by number of LUT inputs ;                ;
 ;     -- 4 input functions                    ; 1431           ;
-;     -- 3 input functions                    ; 686            ;
+;     -- 3 input functions                    ; 685            ;
 ;     -- <=2 input functions                  ; 715            ;
 ;                                             ;                ;
 ; Logic elements by mode                      ;                ;
-;     -- normal mode                          ; 2294           ;
+;     -- normal mode                          ; 2293           ;
 ;     -- arithmetic mode                      ; 538            ;
 ;                                             ;                ;
-; Total registers                             ; 887            ;
-;     -- Dedicated logic registers            ; 887            ;
+; Total registers                             ; 888            ;
+;     -- Dedicated logic registers            ; 888            ;
 ;     -- I/O registers                        ; 0              ;
 ;                                             ;                ;
 ; I/O pins                                    ; 132            ;
@@ -274,8 +277,8 @@ https://fpgasoftware.intel.com/eula.
 ; Embedded Multiplier 9-bit elements          ; 0              ;
 ;                                             ;                ;
 ; Maximum fan-out node                        ; i_clk_50~input ;
-; Maximum fan-out                             ; 680            ;
-; Total fan-out                               ; 13092          ;
+; Maximum fan-out                             ; 681            ;
+; Total fan-out                               ; 13101          ;
 ; Average fan-out                             ; 3.24           ;
 +---------------------------------------------+----------------+
 
@@ -285,12 +288,12 @@ https://fpgasoftware.intel.com/eula.
 +-----------------------------------------------+---------------------+---------------------------+-------------+--------------+---------+-----------+------+--------------+---------------------------------------------------------------------------------------------------------------------------------------+---------------------+--------------+
 ; Compilation Hierarchy Node                    ; Combinational ALUTs ; Dedicated Logic Registers ; Memory Bits ; DSP Elements ; DSP 9x9 ; DSP 18x18 ; Pins ; Virtual Pins ; Full Hierarchy Name                                                                                                                   ; Entity Name         ; Library Name ;
 +-----------------------------------------------+---------------------+---------------------------+-------------+--------------+---------+-----------+------+--------------+---------------------------------------------------------------------------------------------------------------------------------------+---------------------+--------------+
-; |M6502_VGA                                    ; 2832 (101)          ; 887 (23)                  ; 114816      ; 0            ; 0       ; 0         ; 132  ; 0            ; |M6502_VGA                                                                                                                            ; M6502_VGA           ; work         ;
+; |M6502_VGA                                    ; 2831 (101)          ; 888 (24)                  ; 114816      ; 0            ; 0       ; 0         ; 132  ; 0            ; |M6502_VGA                                                                                                                            ; M6502_VGA           ; work         ;
 ;    |Debouncer:debounceReset|                  ; 29 (29)             ; 26 (26)                   ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |M6502_VGA|Debouncer:debounceReset                                                                                                    ; Debouncer           ; work         ;
 ;    |M6502_BASIC_ROM:ROM|                      ; 0 (0)               ; 0 (0)                     ; 65536       ; 0            ; 0       ; 0         ; 0    ; 0            ; |M6502_VGA|M6502_BASIC_ROM:ROM                                                                                                        ; M6502_BASIC_ROM     ; work         ;
 ;       |altsyncram:altsyncram_component|       ; 0 (0)               ; 0 (0)                     ; 65536       ; 0            ; 0       ; 0         ; 0    ; 0            ; |M6502_VGA|M6502_BASIC_ROM:ROM|altsyncram:altsyncram_component                                                                        ; altsyncram          ; work         ;
 ;          |altsyncram_thu3:auto_generated|     ; 0 (0)               ; 0 (0)                     ; 65536       ; 0            ; 0       ; 0         ; 0    ; 0            ; |M6502_VGA|M6502_BASIC_ROM:ROM|altsyncram:altsyncram_component|altsyncram_thu3:auto_generated                                         ; altsyncram_thu3     ; work         ;
-;    |SBCTextDisplayRGB:VDU|                    ; 1352 (1216)         ; 385 (385)                 ; 49152       ; 0            ; 0       ; 0         ; 0    ; 0            ; |M6502_VGA|SBCTextDisplayRGB:VDU                                                                                                      ; SBCTextDisplayRGB   ; work         ;
+;    |SBCTextDisplayRGB:VDU|                    ; 1350 (1214)         ; 385 (385)                 ; 49152       ; 0            ; 0       ; 0         ; 0    ; 0            ; |M6502_VGA|SBCTextDisplayRGB:VDU                                                                                                      ; SBCTextDisplayRGB   ; work         ;
 ;       |DisplayRam2K:\GEN_2KATTRAM:dispAttRam| ; 0 (0)               ; 0 (0)                     ; 16384       ; 0            ; 0       ; 0         ; 0    ; 0            ; |M6502_VGA|SBCTextDisplayRGB:VDU|DisplayRam2K:\GEN_2KATTRAM:dispAttRam                                                                ; DisplayRam2K        ; work         ;
 ;          |altsyncram:altsyncram_component|    ; 0 (0)               ; 0 (0)                     ; 16384       ; 0            ; 0       ; 0         ; 0    ; 0            ; |M6502_VGA|SBCTextDisplayRGB:VDU|DisplayRam2K:\GEN_2KATTRAM:dispAttRam|altsyncram:altsyncram_component                                ; altsyncram          ; work         ;
 ;             |altsyncram_lhh2:auto_generated|  ; 0 (0)               ; 0 (0)                     ; 16384       ; 0            ; 0       ; 0         ; 0    ; 0            ; |M6502_VGA|SBCTextDisplayRGB:VDU|DisplayRam2K:\GEN_2KATTRAM:dispAttRam|altsyncram:altsyncram_component|altsyncram_lhh2:auto_generated ; altsyncram_lhh2     ; work         ;
@@ -308,7 +311,7 @@ https://fpgasoftware.intel.com/eula.
 ;          |lpm_divide_bcm:auto_generated|      ; 68 (0)              ; 0 (0)                     ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |M6502_VGA|SBCTextDisplayRGB:VDU|lpm_divide:Mod1|lpm_divide_bcm:auto_generated                                                        ; lpm_divide_bcm      ; work         ;
 ;             |sign_div_unsign_7nh:divider|     ; 68 (0)              ; 0 (0)                     ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |M6502_VGA|SBCTextDisplayRGB:VDU|lpm_divide:Mod1|lpm_divide_bcm:auto_generated|sign_div_unsign_7nh:divider                            ; sign_div_unsign_7nh ; work         ;
 ;                |alt_u_div_2af:divider|        ; 68 (68)             ; 0 (0)                     ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |M6502_VGA|SBCTextDisplayRGB:VDU|lpm_divide:Mod1|lpm_divide_bcm:auto_generated|sign_div_unsign_7nh:divider|alt_u_div_2af:divider      ; alt_u_div_2af       ; work         ;
-;    |T65:CPU|                                  ; 792 (395)           ; 127 (127)                 ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |M6502_VGA|T65:CPU                                                                                                                    ; T65                 ; work         ;
+;    |T65:CPU|                                  ; 793 (396)           ; 127 (127)                 ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |M6502_VGA|T65:CPU                                                                                                                    ; T65                 ; work         ;
 ;       |T65_ALU:alu|                           ; 161 (161)           ; 0 (0)                     ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |M6502_VGA|T65:CPU|T65_ALU:alu                                                                                                        ; T65_ALU             ; work         ;
 ;       |T65_MCode:mcode|                       ; 236 (236)           ; 0 (0)                     ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |M6502_VGA|T65:CPU|T65_MCode:mcode                                                                                                    ; T65_MCode           ; work         ;
 ;    |Toggle_On_FN_Key:FNKey1Toggle|            ; 1 (1)               ; 4 (4)                     ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |M6502_VGA|Toggle_On_FN_Key:FNKey1Toggle                                                                                              ; Toggle_On_FN_Key    ; work         ;
@@ -459,44 +462,64 @@ Encoding Type:  One-Hot
 +-----------------+-----------------+-----------------+--------------+
 
 
-+-------------------------------------------------------------------------------------------------------+
-; Registers Removed During Synthesis                                                                    ;
-+--------------------------------------------------+----------------------------------------------------+
-; Register name                                    ; Reason for Removal                                 ;
-+--------------------------------------------------+----------------------------------------------------+
-; T65:CPU|SO_n_o                                   ; Lost fanout                                        ;
-; T65:CPU|NMI_n_o                                  ; Stuck at VCC due to stuck port data_in             ;
-; T65:CPU|IRQ_n_o                                  ; Stuck at VCC due to stuck port data_in             ;
-; T65:CPU|Mode_r[0]                                ; Stuck at GND due to stuck port data_in             ;
-; T65:CPU|NMIAct                                   ; Stuck at GND due to stuck port data_in             ;
-; T65:CPU|IRQCycle                                 ; Stuck at GND due to stuck port data_in             ;
-; T65:CPU|NMICycle                                 ; Stuck at GND due to stuck port data_in             ;
-; T65:CPU|P[5]                                     ; Merged with T65:CPU|P[4]                           ;
-; SBCTextDisplayRGB:VDU|startAddr[1..3]            ; Merged with SBCTextDisplayRGB:VDU|startAddr[0]     ;
-; SBCTextDisplayRGB:VDU|ps2WriteByte[5..7]         ; Merged with SBCTextDisplayRGB:VDU|ps2WriteByte[3]  ;
-; SBCTextDisplayRGB:VDU|ps2WriteByte2[4..7]        ; Merged with SBCTextDisplayRGB:VDU|ps2WriteByte2[3] ;
-; SBCTextDisplayRGB:VDU|pixelClockCount[1..3]      ; Stuck at GND due to stuck port data_in             ;
-; SBCTextDisplayRGB:VDU|escState.none              ; Lost fanout                                        ;
-; SBCTextDisplayRGB:VDU|escState.processingParams  ; Lost fanout                                        ;
-; sd_controller:sd1|return_state.cmd58             ; Merged with sd_controller:sd1|return_state.cmd0    ;
-; sd_controller:sd1|return_state.init              ; Merged with sd_controller:sd1|return_state.cmd0    ;
-; sd_controller:sd1|return_state.read_block_cmd    ; Merged with sd_controller:sd1|return_state.cmd0    ;
-; sd_controller:sd1|return_state.receive_byte      ; Merged with sd_controller:sd1|return_state.cmd0    ;
-; sd_controller:sd1|return_state.receive_byte_wait ; Merged with sd_controller:sd1|return_state.cmd0    ;
-; sd_controller:sd1|return_state.receive_ocr_wait  ; Merged with sd_controller:sd1|return_state.cmd0    ;
-; sd_controller:sd1|return_state.send_cmd          ; Merged with sd_controller:sd1|return_state.cmd0    ;
-; sd_controller:sd1|return_state.send_regreq       ; Merged with sd_controller:sd1|return_state.cmd0    ;
-; sd_controller:sd1|return_state.write_block_byte  ; Merged with sd_controller:sd1|return_state.cmd0    ;
-; sd_controller:sd1|return_state.write_block_cmd   ; Merged with sd_controller:sd1|return_state.cmd0    ;
-; sd_controller:sd1|return_state.write_block_data  ; Merged with sd_controller:sd1|return_state.cmd0    ;
-; sd_controller:sd1|return_state.cmd0              ; Stuck at GND due to stuck port data_in             ;
-; SBCTextDisplayRGB:VDU|startAddr[0]               ; Stuck at GND due to stuck port data_in             ;
-; T65:CPU|S[8..15]                                 ; Lost fanout                                        ;
-; SBCTextDisplayRGB:VDU|kbReadPointer[3]           ; Stuck at GND due to stuck port data_in             ;
-; sd_controller:sd1|cmd_out[0]                     ; Stuck at VCC due to stuck port data_in             ;
-; SBCTextDisplayRGB:VDU|kbInPointer[3]             ; Stuck at GND due to stuck port data_in             ;
-; Total Number of Removed Registers = 47           ;                                                    ;
-+--------------------------------------------------+----------------------------------------------------+
++----------------------------------------------------------------------------------------------------------+
+; Registers Removed During Synthesis                                                                       ;
++--------------------------------------------------+-------------------------------------------------------+
+; Register name                                    ; Reason for Removal                                    ;
++--------------------------------------------------+-------------------------------------------------------+
+; T65:CPU|SO_n_o                                   ; Lost fanout                                           ;
+; T65:CPU|NMI_n_o                                  ; Stuck at VCC due to stuck port data_in                ;
+; T65:CPU|IRQ_n_o                                  ; Stuck at VCC due to stuck port data_in                ;
+; T65:CPU|Mode_r[0]                                ; Stuck at GND due to stuck port data_in                ;
+; T65:CPU|NMIAct                                   ; Stuck at GND due to stuck port data_in                ;
+; T65:CPU|IRQCycle                                 ; Stuck at GND due to stuck port data_in                ;
+; T65:CPU|NMICycle                                 ; Stuck at GND due to stuck port data_in                ;
+; T65:CPU|P[5]                                     ; Merged with T65:CPU|P[4]                              ;
+; counter:CPUClkGen|Pre_Q[4]                       ; Merged with Debouncer:debounceReset|w_dig_counter[4]  ;
+; SBCTextDisplayRGB:VDU|startAddr[1..3]            ; Merged with SBCTextDisplayRGB:VDU|startAddr[0]        ;
+; counter:CPUClkGen|Pre_Q[19]                      ; Merged with Debouncer:debounceReset|w_dig_counter[19] ;
+; counter:CPUClkGen|Pre_Q[18]                      ; Merged with Debouncer:debounceReset|w_dig_counter[18] ;
+; counter:CPUClkGen|Pre_Q[17]                      ; Merged with Debouncer:debounceReset|w_dig_counter[17] ;
+; counter:CPUClkGen|Pre_Q[16]                      ; Merged with Debouncer:debounceReset|w_dig_counter[16] ;
+; counter:CPUClkGen|Pre_Q[15]                      ; Merged with Debouncer:debounceReset|w_dig_counter[15] ;
+; counter:CPUClkGen|Pre_Q[14]                      ; Merged with Debouncer:debounceReset|w_dig_counter[14] ;
+; counter:CPUClkGen|Pre_Q[13]                      ; Merged with Debouncer:debounceReset|w_dig_counter[13] ;
+; counter:CPUClkGen|Pre_Q[12]                      ; Merged with Debouncer:debounceReset|w_dig_counter[12] ;
+; counter:CPUClkGen|Pre_Q[11]                      ; Merged with Debouncer:debounceReset|w_dig_counter[11] ;
+; counter:CPUClkGen|Pre_Q[10]                      ; Merged with Debouncer:debounceReset|w_dig_counter[10] ;
+; counter:CPUClkGen|Pre_Q[9]                       ; Merged with Debouncer:debounceReset|w_dig_counter[9]  ;
+; counter:CPUClkGen|Pre_Q[8]                       ; Merged with Debouncer:debounceReset|w_dig_counter[8]  ;
+; counter:CPUClkGen|Pre_Q[7]                       ; Merged with Debouncer:debounceReset|w_dig_counter[7]  ;
+; counter:CPUClkGen|Pre_Q[6]                       ; Merged with Debouncer:debounceReset|w_dig_counter[6]  ;
+; counter:CPUClkGen|Pre_Q[5]                       ; Merged with Debouncer:debounceReset|w_dig_counter[5]  ;
+; counter:CPUClkGen|Pre_Q[3]                       ; Merged with Debouncer:debounceReset|w_dig_counter[3]  ;
+; counter:CPUClkGen|Pre_Q[2]                       ; Merged with Debouncer:debounceReset|w_dig_counter[2]  ;
+; counter:CPUClkGen|Pre_Q[1]                       ; Merged with Debouncer:debounceReset|w_dig_counter[1]  ;
+; counter:CPUClkGen|Pre_Q[0]                       ; Merged with Debouncer:debounceReset|w_dig_counter[0]  ;
+; SBCTextDisplayRGB:VDU|ps2WriteByte[5..7]         ; Merged with SBCTextDisplayRGB:VDU|ps2WriteByte[3]     ;
+; SBCTextDisplayRGB:VDU|ps2WriteByte2[4..7]        ; Merged with SBCTextDisplayRGB:VDU|ps2WriteByte2[3]    ;
+; SBCTextDisplayRGB:VDU|pixelClockCount[1..3]      ; Stuck at GND due to stuck port data_in                ;
+; SBCTextDisplayRGB:VDU|escState.none              ; Lost fanout                                           ;
+; SBCTextDisplayRGB:VDU|escState.processingParams  ; Lost fanout                                           ;
+; sd_controller:sd1|return_state.cmd58             ; Merged with sd_controller:sd1|return_state.cmd0       ;
+; sd_controller:sd1|return_state.init              ; Merged with sd_controller:sd1|return_state.cmd0       ;
+; sd_controller:sd1|return_state.read_block_cmd    ; Merged with sd_controller:sd1|return_state.cmd0       ;
+; sd_controller:sd1|return_state.receive_byte      ; Merged with sd_controller:sd1|return_state.cmd0       ;
+; sd_controller:sd1|return_state.receive_byte_wait ; Merged with sd_controller:sd1|return_state.cmd0       ;
+; sd_controller:sd1|return_state.receive_ocr_wait  ; Merged with sd_controller:sd1|return_state.cmd0       ;
+; sd_controller:sd1|return_state.send_cmd          ; Merged with sd_controller:sd1|return_state.cmd0       ;
+; sd_controller:sd1|return_state.send_regreq       ; Merged with sd_controller:sd1|return_state.cmd0       ;
+; sd_controller:sd1|return_state.write_block_byte  ; Merged with sd_controller:sd1|return_state.cmd0       ;
+; sd_controller:sd1|return_state.write_block_cmd   ; Merged with sd_controller:sd1|return_state.cmd0       ;
+; sd_controller:sd1|return_state.write_block_data  ; Merged with sd_controller:sd1|return_state.cmd0       ;
+; sd_controller:sd1|return_state.cmd0              ; Stuck at GND due to stuck port data_in                ;
+; SBCTextDisplayRGB:VDU|startAddr[0]               ; Stuck at GND due to stuck port data_in                ;
+; T65:CPU|S[8..15]                                 ; Lost fanout                                           ;
+; SBCTextDisplayRGB:VDU|kbReadPointer[3]           ; Stuck at GND due to stuck port data_in                ;
+; sd_controller:sd1|cmd_out[0]                     ; Stuck at VCC due to stuck port data_in                ;
+; SBCTextDisplayRGB:VDU|kbInPointer[3]             ; Stuck at GND due to stuck port data_in                ;
+; Total Number of Removed Registers = 67           ;                                                       ;
++--------------------------------------------------+-------------------------------------------------------+
 
 
 +--------------------------------------------------------------------------------------+
@@ -516,7 +539,7 @@ Encoding Type:  One-Hot
 +----------------------------------------------+-------+
 ; Statistic                                    ; Value ;
 +----------------------------------------------+-------+
-; Total registers                              ; 887   ;
+; Total registers                              ; 888   ;
 ; Number of registers using Synchronous Clear  ; 184   ;
 ; Number of registers using Synchronous Load   ; 106   ;
 ; Number of registers using Asynchronous Clear ; 191   ;
@@ -691,6 +714,16 @@ Encoding Type:  One-Hot
 +---------------------------------+--------------------+------+-------------------------------------+
 ; OPTIMIZE_POWER_DURING_SYNTHESIS ; NORMAL_COMPILATION ; -    ; -                                   ;
 +---------------------------------+--------------------+------+-------------------------------------+
+
+
++----------------------------------------------------------------+
+; Parameter Settings for User Entity Instance: counter:CPUClkGen ;
++----------------+-------+---------------------------------------+
+; Parameter Name ; Value ; Type                                  ;
++----------------+-------+---------------------------------------+
+; n              ; 20    ; Signed Integer                        ;
++----------------+-------+---------------------------------------+
+Note: In order to hide this table in the UI and the text report file, please set the "Show Parameter Settings in Synthesis Report" option in "Analysis and Synthesis Settings -> More Settings" to "Off".
 
 
 +-------------------------------------------------------------------------------------------------------------------------+
@@ -1233,13 +1266,25 @@ Note: In order to hide this table in the UI and the text report file, please set
 +-----------+--------+----------+-------------------------------------------------------------------------------------+
 
 
++--------------------------------------------------------------------------------------------------------------------+
+; Port Connectivity Checks: "counter:CPUClkGen"                                                                      ;
++----------+--------+----------+-------------------------------------------------------------------------------------+
+; Port     ; Type   ; Severity ; Details                                                                             ;
++----------+--------+----------+-------------------------------------------------------------------------------------+
+; clear    ; Input  ; Info     ; Stuck at GND                                                                        ;
+; count    ; Input  ; Info     ; Stuck at VCC                                                                        ;
+; q[19..5] ; Output ; Info     ; Connected to dangling logic. Logic that only feeds a dangling port will be removed. ;
+; q[3..0]  ; Output ; Info     ; Connected to dangling logic. Logic that only feeds a dangling port will be removed. ;
++----------+--------+----------+-------------------------------------------------------------------------------------+
+
+
 +-----------------------------------------------------+
 ; Post-Synthesis Netlist Statistics for Top Partition ;
 +-----------------------+-----------------------------+
 ; Type                  ; Count                       ;
 +-----------------------+-----------------------------+
 ; boundary_port         ; 132                         ;
-; cycloneiii_ff         ; 887                         ;
+; cycloneiii_ff         ; 888                         ;
 ;     CLR               ; 57                          ;
 ;     CLR SLD           ; 3                           ;
 ;     ENA               ; 391                         ;
@@ -1251,22 +1296,22 @@ Note: In order to hide this table in the UI and the text report file, please set
 ;     ENA SLD           ; 51                          ;
 ;     SCLR              ; 50                          ;
 ;     SLD               ; 2                           ;
-;     plain             ; 86                          ;
+;     plain             ; 87                          ;
 ; cycloneiii_io_obuf    ; 20                          ;
-; cycloneiii_lcell_comb ; 2836                        ;
+; cycloneiii_lcell_comb ; 2835                        ;
 ;     arith             ; 538                         ;
 ;         2 data inputs ; 333                         ;
 ;         3 data inputs ; 205                         ;
-;     normal            ; 2298                        ;
+;     normal            ; 2297                        ;
 ;         0 data inputs ; 22                          ;
 ;         1 data inputs ; 58                          ;
 ;         2 data inputs ; 306                         ;
-;         3 data inputs ; 481                         ;
+;         3 data inputs ; 480                         ;
 ;         4 data inputs ; 1431                        ;
 ; cycloneiii_ram_block  ; 40                          ;
 ;                       ;                             ;
 ; Max LUT depth         ; 18.80                       ;
-; Average LUT depth     ; 6.18                        ;
+; Average LUT depth     ; 6.17                        ;
 +-----------------------+-----------------------------+
 
 
@@ -1275,7 +1320,7 @@ Note: In order to hide this table in the UI and the text report file, please set
 +----------------+--------------+
 ; Partition Name ; Elapsed Time ;
 +----------------+--------------+
-; Top            ; 00:00:12     ;
+; Top            ; 00:00:14     ;
 +----------------+--------------+
 
 
@@ -1285,7 +1330,7 @@ Note: In order to hide this table in the UI and the text report file, please set
 Info: *******************************************************************
 Info: Running Quartus Prime Analysis & Synthesis
     Info: Version 21.1.0 Build 842 10/21/2021 SJ Lite Edition
-    Info: Processing started: Sun Sep 18 22:25:21 2022
+    Info: Processing started: Mon Sep 19 13:05:07 2022
 Info: Command: quartus_map --read_settings_files=on --write_settings_files=off M6502_VGA -c M6502_VGA
 Info (20030): Parallel compilation is enabled and will use 4 of the 4 processors detected
 Info (12021): Found 2 design units, including 1 entities, in source file /users/hpz420/documents/github/doug gilliland/multicomp/multicomp (vhdl template)/components/sdcard/older_sd_controllers/sd_controller_nealc.vhd
@@ -1295,8 +1340,8 @@ Info (12021): Found 2 design units, including 1 entities, in source file /users/
     Info (12022): Found design unit 1: Debouncer-struct File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/Debounce/Debounce.vhd Line: 21
     Info (12023): Found entity 1: Debouncer File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/Debounce/Debounce.vhd Line: 12
 Info (12021): Found 2 design units, including 1 entities, in source file m6502_vga.vhd
-    Info (12022): Found design unit 1: M6502_VGA-struct File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_FPGA-ITX-01/M6502_VGA_Ext_65C816_Cyclone10/M6502_VGA.vhd Line: 113
-    Info (12023): Found entity 1: M6502_VGA File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_FPGA-ITX-01/M6502_VGA_Ext_65C816_Cyclone10/M6502_VGA.vhd Line: 40
+    Info (12022): Found design unit 1: M6502_VGA-struct File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_FPGA-ITX-01/M6502_VGA_Ext_65C816_Cyclone10/M6502_VGA.vhd Line: 114
+    Info (12023): Found entity 1: M6502_VGA File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_FPGA-ITX-01/M6502_VGA_Ext_65C816_Cyclone10/M6502_VGA.vhd Line: 41
 Info (12021): Found 2 design units, including 1 entities, in source file /users/hpz420/documents/github/doug gilliland/multicomp/multicomp (vhdl template)/components/ram_internal/internalram4k.vhd
     Info (12022): Found design unit 1: internalram4k-SYN File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/RAM_Internal/InternalRam4K.vhd Line: 55
     Info (12023): Found entity 1: InternalRam4K File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/RAM_Internal/InternalRam4K.vhd Line: 43
@@ -1356,27 +1401,22 @@ Info (12021): Found 2 design units, including 1 entities, in source file /users/
     Info (12022): Found design unit 1: bufferedUART-rtl File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/UART/bufferedUART.vhd Line: 60
     Info (12023): Found entity 1: bufferedUART File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/UART/bufferedUART.vhd Line: 39
 Info (12127): Elaborating entity "M6502_VGA" for the top level hierarchy
-Warning (10541): VHDL Signal Declaration warning at M6502_VGA.vhd(65): used implicit default value for signal "sdClock" because signal was never assigned a value or an explicit default value. Use of implicit default value may introduce unintended design optimizations. File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_FPGA-ITX-01/M6502_VGA_Ext_65C816_Cyclone10/M6502_VGA.vhd Line: 65
-Warning (10540): VHDL Signal Declaration warning at M6502_VGA.vhd(87): used explicit default value for signal "o_CPU_ABORTB" because signal was never assigned a value File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_FPGA-ITX-01/M6502_VGA_Ext_65C816_Cyclone10/M6502_VGA.vhd Line: 87
-Warning (10540): VHDL Signal Declaration warning at M6502_VGA.vhd(88): used explicit default value for signal "o_CPU_RESB_n" because signal was never assigned a value File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_FPGA-ITX-01/M6502_VGA_Ext_65C816_Cyclone10/M6502_VGA.vhd Line: 88
-Warning (10540): VHDL Signal Declaration warning at M6502_VGA.vhd(90): used explicit default value for signal "o_CPU_PHI2" because signal was never assigned a value File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_FPGA-ITX-01/M6502_VGA_Ext_65C816_Cyclone10/M6502_VGA.vhd Line: 90
-Warning (10540): VHDL Signal Declaration warning at M6502_VGA.vhd(91): used explicit default value for signal "o_CPU_IRQB_n" because signal was never assigned a value File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_FPGA-ITX-01/M6502_VGA_Ext_65C816_Cyclone10/M6502_VGA.vhd Line: 91
-Warning (10540): VHDL Signal Declaration warning at M6502_VGA.vhd(92): used explicit default value for signal "o_CPU_BE" because signal was never assigned a value File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_FPGA-ITX-01/M6502_VGA_Ext_65C816_Cyclone10/M6502_VGA.vhd Line: 92
-Warning (10540): VHDL Signal Declaration warning at M6502_VGA.vhd(95): used explicit default value for signal "o_CPU_NMIB_n" because signal was never assigned a value File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_FPGA-ITX-01/M6502_VGA_Ext_65C816_Cyclone10/M6502_VGA.vhd Line: 95
-Warning (10540): VHDL Signal Declaration warning at M6502_VGA.vhd(98): used explicit default value for signal "n_sdRamCas" because signal was never assigned a value File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_FPGA-ITX-01/M6502_VGA_Ext_65C816_Cyclone10/M6502_VGA.vhd Line: 98
-Warning (10540): VHDL Signal Declaration warning at M6502_VGA.vhd(99): used explicit default value for signal "n_sdRamRas" because signal was never assigned a value File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_FPGA-ITX-01/M6502_VGA_Ext_65C816_Cyclone10/M6502_VGA.vhd Line: 99
-Warning (10540): VHDL Signal Declaration warning at M6502_VGA.vhd(100): used explicit default value for signal "n_sdRamWe" because signal was never assigned a value File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_FPGA-ITX-01/M6502_VGA_Ext_65C816_Cyclone10/M6502_VGA.vhd Line: 100
-Warning (10540): VHDL Signal Declaration warning at M6502_VGA.vhd(101): used explicit default value for signal "n_sdRamCe" because signal was never assigned a value File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_FPGA-ITX-01/M6502_VGA_Ext_65C816_Cyclone10/M6502_VGA.vhd Line: 101
-Warning (10540): VHDL Signal Declaration warning at M6502_VGA.vhd(102): used explicit default value for signal "sdRamClk" because signal was never assigned a value File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_FPGA-ITX-01/M6502_VGA_Ext_65C816_Cyclone10/M6502_VGA.vhd Line: 102
-Warning (10540): VHDL Signal Declaration warning at M6502_VGA.vhd(103): used explicit default value for signal "sdRamClkEn" because signal was never assigned a value File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_FPGA-ITX-01/M6502_VGA_Ext_65C816_Cyclone10/M6502_VGA.vhd Line: 103
-Warning (10540): VHDL Signal Declaration warning at M6502_VGA.vhd(104): used explicit default value for signal "sdRamAddr" because signal was never assigned a value File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_FPGA-ITX-01/M6502_VGA_Ext_65C816_Cyclone10/M6502_VGA.vhd Line: 104
-Info (12128): Elaborating entity "Debouncer" for hierarchy "Debouncer:debounceReset" File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_FPGA-ITX-01/M6502_VGA_Ext_65C816_Cyclone10/M6502_VGA.vhd Line: 145
-Info (12128): Elaborating entity "T65" for hierarchy "T65:CPU" File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_FPGA-ITX-01/M6502_VGA_Ext_65C816_Cyclone10/M6502_VGA.vhd Line: 187
+Warning (10541): VHDL Signal Declaration warning at M6502_VGA.vhd(66): used implicit default value for signal "sdClock" because signal was never assigned a value or an explicit default value. Use of implicit default value may introduce unintended design optimizations. File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_FPGA-ITX-01/M6502_VGA_Ext_65C816_Cyclone10/M6502_VGA.vhd Line: 66
+Warning (10540): VHDL Signal Declaration warning at M6502_VGA.vhd(99): used explicit default value for signal "n_sdRamCas" because signal was never assigned a value File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_FPGA-ITX-01/M6502_VGA_Ext_65C816_Cyclone10/M6502_VGA.vhd Line: 99
+Warning (10540): VHDL Signal Declaration warning at M6502_VGA.vhd(100): used explicit default value for signal "n_sdRamRas" because signal was never assigned a value File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_FPGA-ITX-01/M6502_VGA_Ext_65C816_Cyclone10/M6502_VGA.vhd Line: 100
+Warning (10540): VHDL Signal Declaration warning at M6502_VGA.vhd(101): used explicit default value for signal "n_sdRamWe" because signal was never assigned a value File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_FPGA-ITX-01/M6502_VGA_Ext_65C816_Cyclone10/M6502_VGA.vhd Line: 101
+Warning (10540): VHDL Signal Declaration warning at M6502_VGA.vhd(102): used explicit default value for signal "n_sdRamCe" because signal was never assigned a value File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_FPGA-ITX-01/M6502_VGA_Ext_65C816_Cyclone10/M6502_VGA.vhd Line: 102
+Warning (10540): VHDL Signal Declaration warning at M6502_VGA.vhd(103): used explicit default value for signal "sdRamClk" because signal was never assigned a value File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_FPGA-ITX-01/M6502_VGA_Ext_65C816_Cyclone10/M6502_VGA.vhd Line: 103
+Warning (10540): VHDL Signal Declaration warning at M6502_VGA.vhd(104): used explicit default value for signal "sdRamClkEn" because signal was never assigned a value File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_FPGA-ITX-01/M6502_VGA_Ext_65C816_Cyclone10/M6502_VGA.vhd Line: 104
+Warning (10540): VHDL Signal Declaration warning at M6502_VGA.vhd(105): used explicit default value for signal "sdRamAddr" because signal was never assigned a value File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_FPGA-ITX-01/M6502_VGA_Ext_65C816_Cyclone10/M6502_VGA.vhd Line: 105
+Info (12128): Elaborating entity "Debouncer" for hierarchy "Debouncer:debounceReset" File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_FPGA-ITX-01/M6502_VGA_Ext_65C816_Cyclone10/M6502_VGA.vhd Line: 149
+Info (12128): Elaborating entity "counter" for hierarchy "counter:CPUClkGen" File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_FPGA-ITX-01/M6502_VGA_Ext_65C816_Cyclone10/M6502_VGA.vhd Line: 161
+Info (12128): Elaborating entity "T65" for hierarchy "T65:CPU" File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_FPGA-ITX-01/M6502_VGA_Ext_65C816_Cyclone10/M6502_VGA.vhd Line: 222
 Warning (10036): Verilog HDL or VHDL warning at T65.vhd(100): object "D" assigned a value but never read File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/CPU/M6502/T65.vhd Line: 100
 Warning (10036): Verilog HDL or VHDL warning at T65.vhd(125): object "B_o" assigned a value but never read File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/CPU/M6502/T65.vhd Line: 125
 Info (12128): Elaborating entity "T65_MCode" for hierarchy "T65:CPU|T65_MCode:mcode" File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/CPU/M6502/T65.vhd Line: 188
 Info (12128): Elaborating entity "T65_ALU" for hierarchy "T65:CPU|T65_ALU:alu" File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/CPU/M6502/T65.vhd Line: 221
-Info (12128): Elaborating entity "M6502_BASIC_ROM" for hierarchy "M6502_BASIC_ROM:ROM" File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_FPGA-ITX-01/M6502_VGA_Ext_65C816_Cyclone10/M6502_VGA.vhd Line: 203
+Info (12128): Elaborating entity "M6502_BASIC_ROM" for hierarchy "M6502_BASIC_ROM:ROM" File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_FPGA-ITX-01/M6502_VGA_Ext_65C816_Cyclone10/M6502_VGA.vhd Line: 238
 Info (12128): Elaborating entity "altsyncram" for hierarchy "M6502_BASIC_ROM:ROM|altsyncram:altsyncram_component" File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/ROMs/6502/M6502_BASIC_ROM.vhd Line: 60
 Info (12130): Elaborated megafunction instantiation "M6502_BASIC_ROM:ROM|altsyncram:altsyncram_component" File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/ROMs/6502/M6502_BASIC_ROM.vhd Line: 60
 Info (12133): Instantiated megafunction "M6502_BASIC_ROM:ROM|altsyncram:altsyncram_component" with the following parameter: File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/ROMs/6502/M6502_BASIC_ROM.vhd Line: 60
@@ -1441,8 +1481,8 @@ Warning (287001): Assertion warning: MGL_INTERNAL_WARNING: ( The parameter value
 Info (12021): Found 1 design units, including 1 entities, in source file db/altsyncram_thu3.tdf
     Info (12023): Found entity 1: altsyncram_thu3 File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_FPGA-ITX-01/M6502_VGA_Ext_65C816_Cyclone10/db/altsyncram_thu3.tdf Line: 28
 Info (12128): Elaborating entity "altsyncram_thu3" for hierarchy "M6502_BASIC_ROM:ROM|altsyncram:altsyncram_component|altsyncram_thu3:auto_generated" File: c:/intelfpga_lite/21.1/quartus/libraries/megafunctions/altsyncram.tdf Line: 792
-Info (12128): Elaborating entity "bufferedUART" for hierarchy "bufferedUART:UART" File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_FPGA-ITX-01/M6502_VGA_Ext_65C816_Cyclone10/M6502_VGA.vhd Line: 210
-Info (12128): Elaborating entity "SBCTextDisplayRGB" for hierarchy "SBCTextDisplayRGB:VDU" File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_FPGA-ITX-01/M6502_VGA_Ext_65C816_Cyclone10/M6502_VGA.vhd Line: 229
+Info (12128): Elaborating entity "bufferedUART" for hierarchy "bufferedUART:UART" File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_FPGA-ITX-01/M6502_VGA_Ext_65C816_Cyclone10/M6502_VGA.vhd Line: 245
+Info (12128): Elaborating entity "SBCTextDisplayRGB" for hierarchy "SBCTextDisplayRGB:VDU" File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_FPGA-ITX-01/M6502_VGA_Ext_65C816_Cyclone10/M6502_VGA.vhd Line: 264
 Info (12128): Elaborating entity "SansBoldRom" for hierarchy "SBCTextDisplayRGB:VDU|SansBoldRom:\GEN_EXT_SCHARS:fontRom" File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/TERMINAL/SBCTextDisplayRGB.vhd Line: 296
 Info (12128): Elaborating entity "altsyncram" for hierarchy "SBCTextDisplayRGB:VDU|SansBoldRom:\GEN_EXT_SCHARS:fontRom|altsyncram:altsyncram_component" File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/TERMINAL/SansBoldRom.vhd Line: 59
 Info (12130): Elaborated megafunction instantiation "SBCTextDisplayRGB:VDU|SansBoldRom:\GEN_EXT_SCHARS:fontRom|altsyncram:altsyncram_component" File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/TERMINAL/SansBoldRom.vhd Line: 59
@@ -1541,8 +1581,8 @@ Info (12133): Instantiated megafunction "SBCTextDisplayRGB:VDU|DisplayRam2K:\GEN
 Info (12021): Found 1 design units, including 1 entities, in source file db/altsyncram_lhh2.tdf
     Info (12023): Found entity 1: altsyncram_lhh2 File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_FPGA-ITX-01/M6502_VGA_Ext_65C816_Cyclone10/db/altsyncram_lhh2.tdf Line: 28
 Info (12128): Elaborating entity "altsyncram_lhh2" for hierarchy "SBCTextDisplayRGB:VDU|DisplayRam2K:\GEN_2KRAM:dispCharRam|altsyncram:altsyncram_component|altsyncram_lhh2:auto_generated" File: c:/intelfpga_lite/21.1/quartus/libraries/megafunctions/altsyncram.tdf Line: 792
-Info (12128): Elaborating entity "Toggle_On_FN_Key" for hierarchy "Toggle_On_FN_Key:FNKey1Toggle" File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_FPGA-ITX-01/M6502_VGA_Ext_65C816_Cyclone10/M6502_VGA.vhd Line: 259
-Info (12128): Elaborating entity "sd_controller" for hierarchy "sd_controller:sd1" File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_FPGA-ITX-01/M6502_VGA_Ext_65C816_Cyclone10/M6502_VGA.vhd Line: 275
+Info (12128): Elaborating entity "Toggle_On_FN_Key" for hierarchy "Toggle_On_FN_Key:FNKey1Toggle" File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_FPGA-ITX-01/M6502_VGA_Ext_65C816_Cyclone10/M6502_VGA.vhd Line: 294
+Info (12128): Elaborating entity "sd_controller" for hierarchy "sd_controller:sd1" File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_FPGA-ITX-01/M6502_VGA_Ext_65C816_Cyclone10/M6502_VGA.vhd Line: 310
 Warning (19016): Clock multiplexers are found and protected
     Warning (19017): Found clock multiplexer T65:CPU|Mux73 File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/CPU/M6502/T65.vhd Line: 506
     Warning (19017): Found clock multiplexer T65:CPU|PCAdder[3] File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/CPU/M6502/T65.vhd Line: 119
@@ -1569,8 +1609,8 @@ Warning (19016): Clock multiplexers are found and protected
     Warning (19017): Found clock multiplexer T65:CPU|Mux74 File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/CPU/M6502/T65.vhd Line: 506
     Warning (19017): Found clock multiplexer T65:CPU|PCAdder[2] File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/CPU/M6502/T65.vhd Line: 119
 Warning (19016): Clock multiplexers are found and protected
-    Warning (19017): Found clock multiplexer w_n_VDUCS~0 File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_FPGA-ITX-01/M6502_VGA_Ext_65C816_Cyclone10/M6502_VGA.vhd Line: 127
-    Warning (19017): Found clock multiplexer w_n_aciaCS~0 File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_FPGA-ITX-01/M6502_VGA_Ext_65C816_Cyclone10/M6502_VGA.vhd Line: 128
+    Warning (19017): Found clock multiplexer w_n_VDUCS~0 File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_FPGA-ITX-01/M6502_VGA_Ext_65C816_Cyclone10/M6502_VGA.vhd Line: 128
+    Warning (19017): Found clock multiplexer w_n_aciaCS~0 File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_FPGA-ITX-01/M6502_VGA_Ext_65C816_Cyclone10/M6502_VGA.vhd Line: 129
 Warning (276027): Inferred dual-clock RAM node "bufferedUART:UART|rxBuffer_rtl_0" from synchronous design logic.  The read-during-write behavior of a dual-clock RAM is undefined and may not match the behavior of the original design.
 Info (276014): Found 1 instances of uninferred RAM logic
     Info (276004): RAM logic "SBCTextDisplayRGB:VDU|kbBuffer" is uninferred due to inappropriate RAM size File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/TERMINAL/SBCTextDisplayRGB.vhd Line: 162
@@ -1628,60 +1668,50 @@ Info (12021): Found 1 design units, including 1 entities, in source file db/add_
 Info (12021): Found 1 design units, including 1 entities, in source file db/add_sub_8pc.tdf
     Info (12023): Found entity 1: add_sub_8pc File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_FPGA-ITX-01/M6502_VGA_Ext_65C816_Cyclone10/db/add_sub_8pc.tdf Line: 23
 Warning (13034): The following nodes have both tri-state and non-tri-state drivers
-    Warning (13035): Inserted always-enabled tri-state buffer between "o_n_sRamCS" and its non-tri-state driver. File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_FPGA-ITX-01/M6502_VGA_Ext_65C816_Cyclone10/M6502_VGA.vhd Line: 47
+    Warning (13035): Inserted always-enabled tri-state buffer between "o_n_sRamCS" and its non-tri-state driver. File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_FPGA-ITX-01/M6502_VGA_Ext_65C816_Cyclone10/M6502_VGA.vhd Line: 48
 Warning (13039): The following bidirectional pins have no drivers
-    Warning (13040): bidirectional pin "io_CPU_RDY" has no driver File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_FPGA-ITX-01/M6502_VGA_Ext_65C816_Cyclone10/M6502_VGA.vhd Line: 83
-    Warning (13040): bidirectional pin "IO_CPU_DATA[0]" has no driver File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_FPGA-ITX-01/M6502_VGA_Ext_65C816_Cyclone10/M6502_VGA.vhd Line: 85
-    Warning (13040): bidirectional pin "IO_CPU_DATA[1]" has no driver File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_FPGA-ITX-01/M6502_VGA_Ext_65C816_Cyclone10/M6502_VGA.vhd Line: 85
-    Warning (13040): bidirectional pin "IO_CPU_DATA[2]" has no driver File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_FPGA-ITX-01/M6502_VGA_Ext_65C816_Cyclone10/M6502_VGA.vhd Line: 85
-    Warning (13040): bidirectional pin "IO_CPU_DATA[3]" has no driver File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_FPGA-ITX-01/M6502_VGA_Ext_65C816_Cyclone10/M6502_VGA.vhd Line: 85
-    Warning (13040): bidirectional pin "IO_CPU_DATA[4]" has no driver File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_FPGA-ITX-01/M6502_VGA_Ext_65C816_Cyclone10/M6502_VGA.vhd Line: 85
-    Warning (13040): bidirectional pin "IO_CPU_DATA[5]" has no driver File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_FPGA-ITX-01/M6502_VGA_Ext_65C816_Cyclone10/M6502_VGA.vhd Line: 85
-    Warning (13040): bidirectional pin "IO_CPU_DATA[6]" has no driver File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_FPGA-ITX-01/M6502_VGA_Ext_65C816_Cyclone10/M6502_VGA.vhd Line: 85
-    Warning (13040): bidirectional pin "IO_CPU_DATA[7]" has no driver File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_FPGA-ITX-01/M6502_VGA_Ext_65C816_Cyclone10/M6502_VGA.vhd Line: 85
+    Warning (13040): bidirectional pin "io_CPU_RDY" has no driver File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_FPGA-ITX-01/M6502_VGA_Ext_65C816_Cyclone10/M6502_VGA.vhd Line: 84
 Info (13060): One or more bidirectional pins are fed by always enabled tri-state buffers
-    Info (13061): Fan-out of permanently enabled tri-state buffer feeding bidirectional pin "o_n_sRamCS" is moved to its source File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_FPGA-ITX-01/M6502_VGA_Ext_65C816_Cyclone10/M6502_VGA.vhd Line: 47
+    Info (13061): Fan-out of permanently enabled tri-state buffer feeding bidirectional pin "o_n_sRamCS" is moved to its source File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_FPGA-ITX-01/M6502_VGA_Ext_65C816_Cyclone10/M6502_VGA.vhd Line: 48
 Info (13000): Registers with preset signals will power-up high File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/CPU/M6502/T65.vhd Line: 530
 Info (13003): DEV_CLRn pin will set, and not reset, register with preset signal due to NOT Gate Push-Back
 Warning (13009): TRI or OPNDRN buffers permanently enabled
-    Warning (13010): Node "o_n_sRamCS~synth" File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_FPGA-ITX-01/M6502_VGA_Ext_65C816_Cyclone10/M6502_VGA.vhd Line: 47
+    Warning (13010): Node "o_n_sRamCS~synth" File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_FPGA-ITX-01/M6502_VGA_Ext_65C816_Cyclone10/M6502_VGA.vhd Line: 48
 Warning (13024): Output pins are stuck at VCC or GND
-    Warning (13410): Pin "o_sramAddress[16]" is stuck at GND File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_FPGA-ITX-01/M6502_VGA_Ext_65C816_Cyclone10/M6502_VGA.vhd Line: 46
-    Warning (13410): Pin "o_sramAddress[17]" is stuck at GND File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_FPGA-ITX-01/M6502_VGA_Ext_65C816_Cyclone10/M6502_VGA.vhd Line: 46
-    Warning (13410): Pin "o_sramAddress[18]" is stuck at GND File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_FPGA-ITX-01/M6502_VGA_Ext_65C816_Cyclone10/M6502_VGA.vhd Line: 46
-    Warning (13410): Pin "o_sramAddress[19]" is stuck at GND File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_FPGA-ITX-01/M6502_VGA_Ext_65C816_Cyclone10/M6502_VGA.vhd Line: 46
-    Warning (13410): Pin "o_vid_red[0]" is stuck at GND File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_FPGA-ITX-01/M6502_VGA_Ext_65C816_Cyclone10/M6502_VGA.vhd Line: 56
-    Warning (13410): Pin "o_vid_grn[0]" is stuck at GND File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_FPGA-ITX-01/M6502_VGA_Ext_65C816_Cyclone10/M6502_VGA.vhd Line: 57
-    Warning (13410): Pin "sdClock" is stuck at GND File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_FPGA-ITX-01/M6502_VGA_Ext_65C816_Cyclone10/M6502_VGA.vhd Line: 65
-    Warning (13410): Pin "audioL" is stuck at GND File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_FPGA-ITX-01/M6502_VGA_Ext_65C816_Cyclone10/M6502_VGA.vhd Line: 69
-    Warning (13410): Pin "audioR" is stuck at GND File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_FPGA-ITX-01/M6502_VGA_Ext_65C816_Cyclone10/M6502_VGA.vhd Line: 70
-    Warning (13410): Pin "o_CPU_ABORTB" is stuck at GND File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_FPGA-ITX-01/M6502_VGA_Ext_65C816_Cyclone10/M6502_VGA.vhd Line: 87
-    Warning (13410): Pin "o_CPU_RESB_n" is stuck at GND File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_FPGA-ITX-01/M6502_VGA_Ext_65C816_Cyclone10/M6502_VGA.vhd Line: 88
-    Warning (13410): Pin "o_CPU_PHI2" is stuck at GND File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_FPGA-ITX-01/M6502_VGA_Ext_65C816_Cyclone10/M6502_VGA.vhd Line: 90
-    Warning (13410): Pin "o_CPU_IRQB_n" is stuck at VCC File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_FPGA-ITX-01/M6502_VGA_Ext_65C816_Cyclone10/M6502_VGA.vhd Line: 91
-    Warning (13410): Pin "o_CPU_BE" is stuck at GND File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_FPGA-ITX-01/M6502_VGA_Ext_65C816_Cyclone10/M6502_VGA.vhd Line: 92
-    Warning (13410): Pin "o_CPU_NMIB_n" is stuck at VCC File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_FPGA-ITX-01/M6502_VGA_Ext_65C816_Cyclone10/M6502_VGA.vhd Line: 95
-    Warning (13410): Pin "n_sdRamCas" is stuck at VCC File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_FPGA-ITX-01/M6502_VGA_Ext_65C816_Cyclone10/M6502_VGA.vhd Line: 98
-    Warning (13410): Pin "n_sdRamRas" is stuck at VCC File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_FPGA-ITX-01/M6502_VGA_Ext_65C816_Cyclone10/M6502_VGA.vhd Line: 99
-    Warning (13410): Pin "n_sdRamWe" is stuck at VCC File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_FPGA-ITX-01/M6502_VGA_Ext_65C816_Cyclone10/M6502_VGA.vhd Line: 100
-    Warning (13410): Pin "n_sdRamCe" is stuck at VCC File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_FPGA-ITX-01/M6502_VGA_Ext_65C816_Cyclone10/M6502_VGA.vhd Line: 101
-    Warning (13410): Pin "sdRamClk" is stuck at VCC File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_FPGA-ITX-01/M6502_VGA_Ext_65C816_Cyclone10/M6502_VGA.vhd Line: 102
-    Warning (13410): Pin "sdRamClkEn" is stuck at VCC File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_FPGA-ITX-01/M6502_VGA_Ext_65C816_Cyclone10/M6502_VGA.vhd Line: 103
-    Warning (13410): Pin "sdRamAddr[0]" is stuck at GND File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_FPGA-ITX-01/M6502_VGA_Ext_65C816_Cyclone10/M6502_VGA.vhd Line: 104
-    Warning (13410): Pin "sdRamAddr[1]" is stuck at GND File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_FPGA-ITX-01/M6502_VGA_Ext_65C816_Cyclone10/M6502_VGA.vhd Line: 104
-    Warning (13410): Pin "sdRamAddr[2]" is stuck at GND File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_FPGA-ITX-01/M6502_VGA_Ext_65C816_Cyclone10/M6502_VGA.vhd Line: 104
-    Warning (13410): Pin "sdRamAddr[3]" is stuck at GND File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_FPGA-ITX-01/M6502_VGA_Ext_65C816_Cyclone10/M6502_VGA.vhd Line: 104
-    Warning (13410): Pin "sdRamAddr[4]" is stuck at GND File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_FPGA-ITX-01/M6502_VGA_Ext_65C816_Cyclone10/M6502_VGA.vhd Line: 104
-    Warning (13410): Pin "sdRamAddr[5]" is stuck at GND File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_FPGA-ITX-01/M6502_VGA_Ext_65C816_Cyclone10/M6502_VGA.vhd Line: 104
-    Warning (13410): Pin "sdRamAddr[6]" is stuck at GND File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_FPGA-ITX-01/M6502_VGA_Ext_65C816_Cyclone10/M6502_VGA.vhd Line: 104
-    Warning (13410): Pin "sdRamAddr[7]" is stuck at GND File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_FPGA-ITX-01/M6502_VGA_Ext_65C816_Cyclone10/M6502_VGA.vhd Line: 104
-    Warning (13410): Pin "sdRamAddr[8]" is stuck at GND File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_FPGA-ITX-01/M6502_VGA_Ext_65C816_Cyclone10/M6502_VGA.vhd Line: 104
-    Warning (13410): Pin "sdRamAddr[9]" is stuck at GND File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_FPGA-ITX-01/M6502_VGA_Ext_65C816_Cyclone10/M6502_VGA.vhd Line: 104
-    Warning (13410): Pin "sdRamAddr[10]" is stuck at GND File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_FPGA-ITX-01/M6502_VGA_Ext_65C816_Cyclone10/M6502_VGA.vhd Line: 104
-    Warning (13410): Pin "sdRamAddr[11]" is stuck at GND File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_FPGA-ITX-01/M6502_VGA_Ext_65C816_Cyclone10/M6502_VGA.vhd Line: 104
-    Warning (13410): Pin "sdRamAddr[12]" is stuck at GND File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_FPGA-ITX-01/M6502_VGA_Ext_65C816_Cyclone10/M6502_VGA.vhd Line: 104
-    Warning (13410): Pin "sdRamAddr[13]" is stuck at GND File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_FPGA-ITX-01/M6502_VGA_Ext_65C816_Cyclone10/M6502_VGA.vhd Line: 104
-    Warning (13410): Pin "sdRamAddr[14]" is stuck at GND File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_FPGA-ITX-01/M6502_VGA_Ext_65C816_Cyclone10/M6502_VGA.vhd Line: 104
+    Warning (13410): Pin "o_sramAddress[16]" is stuck at GND File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_FPGA-ITX-01/M6502_VGA_Ext_65C816_Cyclone10/M6502_VGA.vhd Line: 47
+    Warning (13410): Pin "o_sramAddress[17]" is stuck at GND File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_FPGA-ITX-01/M6502_VGA_Ext_65C816_Cyclone10/M6502_VGA.vhd Line: 47
+    Warning (13410): Pin "o_sramAddress[18]" is stuck at GND File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_FPGA-ITX-01/M6502_VGA_Ext_65C816_Cyclone10/M6502_VGA.vhd Line: 47
+    Warning (13410): Pin "o_sramAddress[19]" is stuck at GND File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_FPGA-ITX-01/M6502_VGA_Ext_65C816_Cyclone10/M6502_VGA.vhd Line: 47
+    Warning (13410): Pin "o_vid_red[0]" is stuck at GND File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_FPGA-ITX-01/M6502_VGA_Ext_65C816_Cyclone10/M6502_VGA.vhd Line: 57
+    Warning (13410): Pin "o_vid_grn[0]" is stuck at GND File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_FPGA-ITX-01/M6502_VGA_Ext_65C816_Cyclone10/M6502_VGA.vhd Line: 58
+    Warning (13410): Pin "sdClock" is stuck at GND File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_FPGA-ITX-01/M6502_VGA_Ext_65C816_Cyclone10/M6502_VGA.vhd Line: 66
+    Warning (13410): Pin "audioL" is stuck at GND File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_FPGA-ITX-01/M6502_VGA_Ext_65C816_Cyclone10/M6502_VGA.vhd Line: 70
+    Warning (13410): Pin "audioR" is stuck at GND File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_FPGA-ITX-01/M6502_VGA_Ext_65C816_Cyclone10/M6502_VGA.vhd Line: 71
+    Warning (13410): Pin "o_CPU_ABORTB" is stuck at VCC File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_FPGA-ITX-01/M6502_VGA_Ext_65C816_Cyclone10/M6502_VGA.vhd Line: 88
+    Warning (13410): Pin "o_CPU_IRQB_n" is stuck at VCC File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_FPGA-ITX-01/M6502_VGA_Ext_65C816_Cyclone10/M6502_VGA.vhd Line: 92
+    Warning (13410): Pin "o_CPU_BE" is stuck at VCC File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_FPGA-ITX-01/M6502_VGA_Ext_65C816_Cyclone10/M6502_VGA.vhd Line: 93
+    Warning (13410): Pin "o_CPU_NMIB_n" is stuck at VCC File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_FPGA-ITX-01/M6502_VGA_Ext_65C816_Cyclone10/M6502_VGA.vhd Line: 96
+    Warning (13410): Pin "n_sdRamCas" is stuck at VCC File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_FPGA-ITX-01/M6502_VGA_Ext_65C816_Cyclone10/M6502_VGA.vhd Line: 99
+    Warning (13410): Pin "n_sdRamRas" is stuck at VCC File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_FPGA-ITX-01/M6502_VGA_Ext_65C816_Cyclone10/M6502_VGA.vhd Line: 100
+    Warning (13410): Pin "n_sdRamWe" is stuck at VCC File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_FPGA-ITX-01/M6502_VGA_Ext_65C816_Cyclone10/M6502_VGA.vhd Line: 101
+    Warning (13410): Pin "n_sdRamCe" is stuck at VCC File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_FPGA-ITX-01/M6502_VGA_Ext_65C816_Cyclone10/M6502_VGA.vhd Line: 102
+    Warning (13410): Pin "sdRamClk" is stuck at VCC File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_FPGA-ITX-01/M6502_VGA_Ext_65C816_Cyclone10/M6502_VGA.vhd Line: 103
+    Warning (13410): Pin "sdRamClkEn" is stuck at VCC File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_FPGA-ITX-01/M6502_VGA_Ext_65C816_Cyclone10/M6502_VGA.vhd Line: 104
+    Warning (13410): Pin "sdRamAddr[0]" is stuck at GND File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_FPGA-ITX-01/M6502_VGA_Ext_65C816_Cyclone10/M6502_VGA.vhd Line: 105
+    Warning (13410): Pin "sdRamAddr[1]" is stuck at GND File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_FPGA-ITX-01/M6502_VGA_Ext_65C816_Cyclone10/M6502_VGA.vhd Line: 105
+    Warning (13410): Pin "sdRamAddr[2]" is stuck at GND File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_FPGA-ITX-01/M6502_VGA_Ext_65C816_Cyclone10/M6502_VGA.vhd Line: 105
+    Warning (13410): Pin "sdRamAddr[3]" is stuck at GND File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_FPGA-ITX-01/M6502_VGA_Ext_65C816_Cyclone10/M6502_VGA.vhd Line: 105
+    Warning (13410): Pin "sdRamAddr[4]" is stuck at GND File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_FPGA-ITX-01/M6502_VGA_Ext_65C816_Cyclone10/M6502_VGA.vhd Line: 105
+    Warning (13410): Pin "sdRamAddr[5]" is stuck at GND File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_FPGA-ITX-01/M6502_VGA_Ext_65C816_Cyclone10/M6502_VGA.vhd Line: 105
+    Warning (13410): Pin "sdRamAddr[6]" is stuck at GND File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_FPGA-ITX-01/M6502_VGA_Ext_65C816_Cyclone10/M6502_VGA.vhd Line: 105
+    Warning (13410): Pin "sdRamAddr[7]" is stuck at GND File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_FPGA-ITX-01/M6502_VGA_Ext_65C816_Cyclone10/M6502_VGA.vhd Line: 105
+    Warning (13410): Pin "sdRamAddr[8]" is stuck at GND File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_FPGA-ITX-01/M6502_VGA_Ext_65C816_Cyclone10/M6502_VGA.vhd Line: 105
+    Warning (13410): Pin "sdRamAddr[9]" is stuck at GND File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_FPGA-ITX-01/M6502_VGA_Ext_65C816_Cyclone10/M6502_VGA.vhd Line: 105
+    Warning (13410): Pin "sdRamAddr[10]" is stuck at GND File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_FPGA-ITX-01/M6502_VGA_Ext_65C816_Cyclone10/M6502_VGA.vhd Line: 105
+    Warning (13410): Pin "sdRamAddr[11]" is stuck at GND File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_FPGA-ITX-01/M6502_VGA_Ext_65C816_Cyclone10/M6502_VGA.vhd Line: 105
+    Warning (13410): Pin "sdRamAddr[12]" is stuck at GND File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_FPGA-ITX-01/M6502_VGA_Ext_65C816_Cyclone10/M6502_VGA.vhd Line: 105
+    Warning (13410): Pin "sdRamAddr[13]" is stuck at GND File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_FPGA-ITX-01/M6502_VGA_Ext_65C816_Cyclone10/M6502_VGA.vhd Line: 105
+    Warning (13410): Pin "sdRamAddr[14]" is stuck at GND File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_FPGA-ITX-01/M6502_VGA_Ext_65C816_Cyclone10/M6502_VGA.vhd Line: 105
 Info (286030): Timing-Driven Synthesis is running
 Critical Warning (18061): Ignored Power-Up Level option on the following registers
     Critical Warning (18010): Register sd_controller:sd1|driveLED will power up to Low File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp (VHDL Template)/Components/SDCARD/Older_SD_Controllers/sd_controller_NealC.vhd Line: 127
@@ -1691,58 +1721,57 @@ Critical Warning (18061): Ignored Power-Up Level option on the following registe
 Info (17049): 11 registers lost all their fanouts during netlist optimizations.
 Info (16010): Generating hard_block partition "hard_block:auto_generated_inst"
     Info (16011): Adding 0 node(s), including 0 DDIO, 0 PLL, 0 transceiver and 0 LCELL
-Warning (21074): Design contains 41 input pin(s) that do not drive logic
-    Warning (15610): No output dependent on input pin "i_n_cts" File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_FPGA-ITX-01/M6502_VGA_Ext_65C816_Cyclone10/M6502_VGA.vhd Line: 53
-    Warning (15610): No output dependent on input pin "i_n_CardDet" File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_FPGA-ITX-01/M6502_VGA_Ext_65C816_Cyclone10/M6502_VGA.vhd Line: 66
-    Warning (15610): No output dependent on input pin "i_CPU_RWB" File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_FPGA-ITX-01/M6502_VGA_Ext_65C816_Cyclone10/M6502_VGA.vhd Line: 72
-    Warning (15610): No output dependent on input pin "i_CPU_VPA" File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_FPGA-ITX-01/M6502_VGA_Ext_65C816_Cyclone10/M6502_VGA.vhd Line: 75
-    Warning (15610): No output dependent on input pin "i_CPU_VDA" File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_FPGA-ITX-01/M6502_VGA_Ext_65C816_Cyclone10/M6502_VGA.vhd Line: 76
-    Warning (15610): No output dependent on input pin "i_CPU_MX" File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_FPGA-ITX-01/M6502_VGA_Ext_65C816_Cyclone10/M6502_VGA.vhd Line: 77
-    Warning (15610): No output dependent on input pin "i_CPU_MLB" File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_FPGA-ITX-01/M6502_VGA_Ext_65C816_Cyclone10/M6502_VGA.vhd Line: 78
-    Warning (15610): No output dependent on input pin "i_CPU_VPB" File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_FPGA-ITX-01/M6502_VGA_Ext_65C816_Cyclone10/M6502_VGA.vhd Line: 79
-    Warning (15610): No output dependent on input pin "I_CPU_E" File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_FPGA-ITX-01/M6502_VGA_Ext_65C816_Cyclone10/M6502_VGA.vhd Line: 80
-    Warning (15610): No output dependent on input pin "i_CPU_ADDR[0]" File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_FPGA-ITX-01/M6502_VGA_Ext_65C816_Cyclone10/M6502_VGA.vhd Line: 81
-    Warning (15610): No output dependent on input pin "i_CPU_ADDR[1]" File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_FPGA-ITX-01/M6502_VGA_Ext_65C816_Cyclone10/M6502_VGA.vhd Line: 81
-    Warning (15610): No output dependent on input pin "i_CPU_ADDR[2]" File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_FPGA-ITX-01/M6502_VGA_Ext_65C816_Cyclone10/M6502_VGA.vhd Line: 81
-    Warning (15610): No output dependent on input pin "i_CPU_ADDR[3]" File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_FPGA-ITX-01/M6502_VGA_Ext_65C816_Cyclone10/M6502_VGA.vhd Line: 81
-    Warning (15610): No output dependent on input pin "i_CPU_ADDR[4]" File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_FPGA-ITX-01/M6502_VGA_Ext_65C816_Cyclone10/M6502_VGA.vhd Line: 81
-    Warning (15610): No output dependent on input pin "i_CPU_ADDR[5]" File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_FPGA-ITX-01/M6502_VGA_Ext_65C816_Cyclone10/M6502_VGA.vhd Line: 81
-    Warning (15610): No output dependent on input pin "i_CPU_ADDR[6]" File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_FPGA-ITX-01/M6502_VGA_Ext_65C816_Cyclone10/M6502_VGA.vhd Line: 81
-    Warning (15610): No output dependent on input pin "i_CPU_ADDR[7]" File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_FPGA-ITX-01/M6502_VGA_Ext_65C816_Cyclone10/M6502_VGA.vhd Line: 81
-    Warning (15610): No output dependent on input pin "i_CPU_ADDR[8]" File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_FPGA-ITX-01/M6502_VGA_Ext_65C816_Cyclone10/M6502_VGA.vhd Line: 81
-    Warning (15610): No output dependent on input pin "i_CPU_ADDR[9]" File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_FPGA-ITX-01/M6502_VGA_Ext_65C816_Cyclone10/M6502_VGA.vhd Line: 81
-    Warning (15610): No output dependent on input pin "i_CPU_ADDR[10]" File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_FPGA-ITX-01/M6502_VGA_Ext_65C816_Cyclone10/M6502_VGA.vhd Line: 81
-    Warning (15610): No output dependent on input pin "i_CPU_ADDR[11]" File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_FPGA-ITX-01/M6502_VGA_Ext_65C816_Cyclone10/M6502_VGA.vhd Line: 81
-    Warning (15610): No output dependent on input pin "i_CPU_ADDR[12]" File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_FPGA-ITX-01/M6502_VGA_Ext_65C816_Cyclone10/M6502_VGA.vhd Line: 81
-    Warning (15610): No output dependent on input pin "i_CPU_ADDR[13]" File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_FPGA-ITX-01/M6502_VGA_Ext_65C816_Cyclone10/M6502_VGA.vhd Line: 81
-    Warning (15610): No output dependent on input pin "i_CPU_ADDR[14]" File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_FPGA-ITX-01/M6502_VGA_Ext_65C816_Cyclone10/M6502_VGA.vhd Line: 81
-    Warning (15610): No output dependent on input pin "i_CPU_ADDR[15]" File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_FPGA-ITX-01/M6502_VGA_Ext_65C816_Cyclone10/M6502_VGA.vhd Line: 81
-    Warning (15610): No output dependent on input pin "sdRamData[0]" File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_FPGA-ITX-01/M6502_VGA_Ext_65C816_Cyclone10/M6502_VGA.vhd Line: 105
-    Warning (15610): No output dependent on input pin "sdRamData[1]" File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_FPGA-ITX-01/M6502_VGA_Ext_65C816_Cyclone10/M6502_VGA.vhd Line: 105
-    Warning (15610): No output dependent on input pin "sdRamData[2]" File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_FPGA-ITX-01/M6502_VGA_Ext_65C816_Cyclone10/M6502_VGA.vhd Line: 105
-    Warning (15610): No output dependent on input pin "sdRamData[3]" File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_FPGA-ITX-01/M6502_VGA_Ext_65C816_Cyclone10/M6502_VGA.vhd Line: 105
-    Warning (15610): No output dependent on input pin "sdRamData[4]" File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_FPGA-ITX-01/M6502_VGA_Ext_65C816_Cyclone10/M6502_VGA.vhd Line: 105
-    Warning (15610): No output dependent on input pin "sdRamData[5]" File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_FPGA-ITX-01/M6502_VGA_Ext_65C816_Cyclone10/M6502_VGA.vhd Line: 105
-    Warning (15610): No output dependent on input pin "sdRamData[6]" File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_FPGA-ITX-01/M6502_VGA_Ext_65C816_Cyclone10/M6502_VGA.vhd Line: 105
-    Warning (15610): No output dependent on input pin "sdRamData[7]" File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_FPGA-ITX-01/M6502_VGA_Ext_65C816_Cyclone10/M6502_VGA.vhd Line: 105
-    Warning (15610): No output dependent on input pin "sdRamData[8]" File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_FPGA-ITX-01/M6502_VGA_Ext_65C816_Cyclone10/M6502_VGA.vhd Line: 105
-    Warning (15610): No output dependent on input pin "sdRamData[9]" File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_FPGA-ITX-01/M6502_VGA_Ext_65C816_Cyclone10/M6502_VGA.vhd Line: 105
-    Warning (15610): No output dependent on input pin "sdRamData[10]" File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_FPGA-ITX-01/M6502_VGA_Ext_65C816_Cyclone10/M6502_VGA.vhd Line: 105
-    Warning (15610): No output dependent on input pin "sdRamData[11]" File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_FPGA-ITX-01/M6502_VGA_Ext_65C816_Cyclone10/M6502_VGA.vhd Line: 105
-    Warning (15610): No output dependent on input pin "sdRamData[12]" File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_FPGA-ITX-01/M6502_VGA_Ext_65C816_Cyclone10/M6502_VGA.vhd Line: 105
-    Warning (15610): No output dependent on input pin "sdRamData[13]" File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_FPGA-ITX-01/M6502_VGA_Ext_65C816_Cyclone10/M6502_VGA.vhd Line: 105
-    Warning (15610): No output dependent on input pin "sdRamData[14]" File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_FPGA-ITX-01/M6502_VGA_Ext_65C816_Cyclone10/M6502_VGA.vhd Line: 105
-    Warning (15610): No output dependent on input pin "sdRamData[15]" File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_FPGA-ITX-01/M6502_VGA_Ext_65C816_Cyclone10/M6502_VGA.vhd Line: 105
+Warning (21074): Design contains 40 input pin(s) that do not drive logic
+    Warning (15610): No output dependent on input pin "i_n_cts" File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_FPGA-ITX-01/M6502_VGA_Ext_65C816_Cyclone10/M6502_VGA.vhd Line: 54
+    Warning (15610): No output dependent on input pin "i_n_CardDet" File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_FPGA-ITX-01/M6502_VGA_Ext_65C816_Cyclone10/M6502_VGA.vhd Line: 67
+    Warning (15610): No output dependent on input pin "i_CPU_VPA" File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_FPGA-ITX-01/M6502_VGA_Ext_65C816_Cyclone10/M6502_VGA.vhd Line: 76
+    Warning (15610): No output dependent on input pin "i_CPU_VDA" File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_FPGA-ITX-01/M6502_VGA_Ext_65C816_Cyclone10/M6502_VGA.vhd Line: 77
+    Warning (15610): No output dependent on input pin "i_CPU_MX" File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_FPGA-ITX-01/M6502_VGA_Ext_65C816_Cyclone10/M6502_VGA.vhd Line: 78
+    Warning (15610): No output dependent on input pin "i_CPU_MLB" File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_FPGA-ITX-01/M6502_VGA_Ext_65C816_Cyclone10/M6502_VGA.vhd Line: 79
+    Warning (15610): No output dependent on input pin "i_CPU_VPB" File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_FPGA-ITX-01/M6502_VGA_Ext_65C816_Cyclone10/M6502_VGA.vhd Line: 80
+    Warning (15610): No output dependent on input pin "I_CPU_E" File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_FPGA-ITX-01/M6502_VGA_Ext_65C816_Cyclone10/M6502_VGA.vhd Line: 81
+    Warning (15610): No output dependent on input pin "i_CPU_ADDR[0]" File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_FPGA-ITX-01/M6502_VGA_Ext_65C816_Cyclone10/M6502_VGA.vhd Line: 82
+    Warning (15610): No output dependent on input pin "i_CPU_ADDR[1]" File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_FPGA-ITX-01/M6502_VGA_Ext_65C816_Cyclone10/M6502_VGA.vhd Line: 82
+    Warning (15610): No output dependent on input pin "i_CPU_ADDR[2]" File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_FPGA-ITX-01/M6502_VGA_Ext_65C816_Cyclone10/M6502_VGA.vhd Line: 82
+    Warning (15610): No output dependent on input pin "i_CPU_ADDR[3]" File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_FPGA-ITX-01/M6502_VGA_Ext_65C816_Cyclone10/M6502_VGA.vhd Line: 82
+    Warning (15610): No output dependent on input pin "i_CPU_ADDR[4]" File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_FPGA-ITX-01/M6502_VGA_Ext_65C816_Cyclone10/M6502_VGA.vhd Line: 82
+    Warning (15610): No output dependent on input pin "i_CPU_ADDR[5]" File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_FPGA-ITX-01/M6502_VGA_Ext_65C816_Cyclone10/M6502_VGA.vhd Line: 82
+    Warning (15610): No output dependent on input pin "i_CPU_ADDR[6]" File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_FPGA-ITX-01/M6502_VGA_Ext_65C816_Cyclone10/M6502_VGA.vhd Line: 82
+    Warning (15610): No output dependent on input pin "i_CPU_ADDR[7]" File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_FPGA-ITX-01/M6502_VGA_Ext_65C816_Cyclone10/M6502_VGA.vhd Line: 82
+    Warning (15610): No output dependent on input pin "i_CPU_ADDR[8]" File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_FPGA-ITX-01/M6502_VGA_Ext_65C816_Cyclone10/M6502_VGA.vhd Line: 82
+    Warning (15610): No output dependent on input pin "i_CPU_ADDR[9]" File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_FPGA-ITX-01/M6502_VGA_Ext_65C816_Cyclone10/M6502_VGA.vhd Line: 82
+    Warning (15610): No output dependent on input pin "i_CPU_ADDR[10]" File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_FPGA-ITX-01/M6502_VGA_Ext_65C816_Cyclone10/M6502_VGA.vhd Line: 82
+    Warning (15610): No output dependent on input pin "i_CPU_ADDR[11]" File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_FPGA-ITX-01/M6502_VGA_Ext_65C816_Cyclone10/M6502_VGA.vhd Line: 82
+    Warning (15610): No output dependent on input pin "i_CPU_ADDR[12]" File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_FPGA-ITX-01/M6502_VGA_Ext_65C816_Cyclone10/M6502_VGA.vhd Line: 82
+    Warning (15610): No output dependent on input pin "i_CPU_ADDR[13]" File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_FPGA-ITX-01/M6502_VGA_Ext_65C816_Cyclone10/M6502_VGA.vhd Line: 82
+    Warning (15610): No output dependent on input pin "i_CPU_ADDR[14]" File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_FPGA-ITX-01/M6502_VGA_Ext_65C816_Cyclone10/M6502_VGA.vhd Line: 82
+    Warning (15610): No output dependent on input pin "i_CPU_ADDR[15]" File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_FPGA-ITX-01/M6502_VGA_Ext_65C816_Cyclone10/M6502_VGA.vhd Line: 82
+    Warning (15610): No output dependent on input pin "sdRamData[0]" File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_FPGA-ITX-01/M6502_VGA_Ext_65C816_Cyclone10/M6502_VGA.vhd Line: 106
+    Warning (15610): No output dependent on input pin "sdRamData[1]" File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_FPGA-ITX-01/M6502_VGA_Ext_65C816_Cyclone10/M6502_VGA.vhd Line: 106
+    Warning (15610): No output dependent on input pin "sdRamData[2]" File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_FPGA-ITX-01/M6502_VGA_Ext_65C816_Cyclone10/M6502_VGA.vhd Line: 106
+    Warning (15610): No output dependent on input pin "sdRamData[3]" File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_FPGA-ITX-01/M6502_VGA_Ext_65C816_Cyclone10/M6502_VGA.vhd Line: 106
+    Warning (15610): No output dependent on input pin "sdRamData[4]" File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_FPGA-ITX-01/M6502_VGA_Ext_65C816_Cyclone10/M6502_VGA.vhd Line: 106
+    Warning (15610): No output dependent on input pin "sdRamData[5]" File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_FPGA-ITX-01/M6502_VGA_Ext_65C816_Cyclone10/M6502_VGA.vhd Line: 106
+    Warning (15610): No output dependent on input pin "sdRamData[6]" File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_FPGA-ITX-01/M6502_VGA_Ext_65C816_Cyclone10/M6502_VGA.vhd Line: 106
+    Warning (15610): No output dependent on input pin "sdRamData[7]" File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_FPGA-ITX-01/M6502_VGA_Ext_65C816_Cyclone10/M6502_VGA.vhd Line: 106
+    Warning (15610): No output dependent on input pin "sdRamData[8]" File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_FPGA-ITX-01/M6502_VGA_Ext_65C816_Cyclone10/M6502_VGA.vhd Line: 106
+    Warning (15610): No output dependent on input pin "sdRamData[9]" File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_FPGA-ITX-01/M6502_VGA_Ext_65C816_Cyclone10/M6502_VGA.vhd Line: 106
+    Warning (15610): No output dependent on input pin "sdRamData[10]" File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_FPGA-ITX-01/M6502_VGA_Ext_65C816_Cyclone10/M6502_VGA.vhd Line: 106
+    Warning (15610): No output dependent on input pin "sdRamData[11]" File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_FPGA-ITX-01/M6502_VGA_Ext_65C816_Cyclone10/M6502_VGA.vhd Line: 106
+    Warning (15610): No output dependent on input pin "sdRamData[12]" File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_FPGA-ITX-01/M6502_VGA_Ext_65C816_Cyclone10/M6502_VGA.vhd Line: 106
+    Warning (15610): No output dependent on input pin "sdRamData[13]" File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_FPGA-ITX-01/M6502_VGA_Ext_65C816_Cyclone10/M6502_VGA.vhd Line: 106
+    Warning (15610): No output dependent on input pin "sdRamData[14]" File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_FPGA-ITX-01/M6502_VGA_Ext_65C816_Cyclone10/M6502_VGA.vhd Line: 106
+    Warning (15610): No output dependent on input pin "sdRamData[15]" File: C:/Users/HPz420/Documents/GitHub/Doug Gilliland/MultiComp/MultiComp_On_FPGA-ITX-01/M6502_VGA_Ext_65C816_Cyclone10/M6502_VGA.vhd Line: 106
 Info (21057): Implemented 3246 device resources after synthesis - the final resource count might be different
     Info (21058): Implemented 45 input pins
     Info (21059): Implemented 67 output pins
     Info (21060): Implemented 20 bidirectional pins
     Info (21061): Implemented 3074 logic cells
     Info (21064): Implemented 40 RAM segments
-Info: Quartus Prime Analysis & Synthesis was successful. 0 errors, 159 warnings
-    Info: Peak virtual memory: 4907 megabytes
-    Info: Processing ended: Sun Sep 18 22:25:50 2022
-    Info: Elapsed time: 00:00:29
-    Info: Total CPU time (on all processors): 00:00:50
+Info: Quartus Prime Analysis & Synthesis was successful. 0 errors, 142 warnings
+    Info: Peak virtual memory: 4879 megabytes
+    Info: Processing ended: Mon Sep 19 13:05:39 2022
+    Info: Elapsed time: 00:00:32
+    Info: Total CPU time (on all processors): 00:00:53
 
 

@@ -4,6 +4,7 @@
 -- http://land-boards.com/blwiki/index.php?title=FPGA-ITX-01
 --
 -- External 65C816 CPU
+-- 		NOP generator
 -- 6502 CPU
 -- 1MB External SRAM
 --		Uses 56KB
@@ -84,7 +85,7 @@ entity M6502_VGA is
 															-- FPGA  pulls low to insert wait states
 		IO_CPU_DATA		: inout std_logic_vector(7 downto 0);
 
-		o_CPU_ABORTB	: out std_logic := '0';
+		o_CPU_ABORTB	: out std_logic := '1';
 		o_CPU_RESB_n	: out std_logic := '0';		-- Reset
 																-- 0 = reset cpu
 		o_CPU_PHI2		: out std_logic := '0';		-- CPU Clock
@@ -141,6 +142,9 @@ architecture struct of M6502_VGA is
 														--		Default is 115,200 baud
 	signal w_funKeys			: std_logic_vector(12 downto 0);
 
+	signal w_CPUClkCount		: std_logic_vector(19 downto 0);	-- CPU Clock counter
+
+	
 begin
 	debounceReset : entity work.Debouncer
 	port map (
@@ -148,6 +152,37 @@ begin
 		i_PinIn		=> i_n_reset,
 		o_PinOut		=> w_reset_n
 	);
+	
+	-- ____________________________________________________________________________________
+-- CPU signals
+	IO_CPU_DATA <= x"EA" when i_CPU_RWB = '1' else
+						(others => 'Z');
+
+	CPUClkGen : entity work.counter
+	generic map (n => 20)
+	port map (	
+		clock	=> w_cpuClk,
+		clear	=> '0',
+		count	=> '1',
+		Q		=> w_CPUClkCount
+	);
+
+	process (i_clk_50)
+	begin
+		if rising_edge(i_clk_50) then
+			o_CPU_PHI2 <= w_CPUClkCount(4);
+		end if;
+    end process;
+	
+	o_CPU_RESB_n <= i_n_reset;
+	
+	o_CPU_IRQB_n	<= '1';
+	o_CPU_NMIB_n	<= '1';
+	o_CPU_ABORTB	<= '1';
+	o_CPU_BE			<= '1';
+	
+	-- ____________________________________________________________________________________
+	-- Audio outputs
 	
 	audioL <= '0';
 	audioR <= '0';
@@ -157,7 +192,7 @@ begin
 	
 --	o_sramAddress <= w_cpuAddress(19 downto 0);
 	o_sramAddress <= "0000" & w_cpuAddress(15 downto 0);
-	o_n_sRamCS	<= w_cpuAddress(15) and w_cpuAddress(14) and w_cpuAddress(13); -- Low for x0000-xDFFF (48KB)	
+	o_n_sRamCS	<= w_cpuAddress(15) and w_cpuAddress(14) and w_cpuAddress(13); 				-- Active Low for x0000-xDFFF (56KB)	
 	o_n_sRamWE <= not ((not w_cpuClk) and (not w_n_WR) and ((not w_cpuAddress(15)) or (not w_cpuAddress(14)) or(not w_cpuAddress(13))));
 	o_n_sRamOE <= not (                        w_n_WR  and ((not w_cpuAddress(15)) or (not w_cpuAddress(14)) or(not w_cpuAddress(13))));
 	io_sramData <= w_cpuDataOut when w_n_WR='0' else (others => 'Z');
@@ -287,7 +322,7 @@ begin
 		clk => i_clk_50
 	);
 
--- SUB-CIRCUIT CLOCK SIGNALS 
+-- SUB-CIRCUIT CLOCK SIGNALS
 	process (i_clk_50)
 	begin
 		if rising_edge(i_clk_50) then
