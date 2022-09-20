@@ -4,7 +4,6 @@
 -- http://land-boards.com/blwiki/index.php?title=FPGA-ITX-01
 --
 -- External 65C816 CPU
--- 		NOP generator
 -- 6502 CPU
 -- 1MB External SRAM
 --		Uses 56KB
@@ -148,7 +147,7 @@ architecture struct of M6502_VGA is
 
 	
 begin
-	debounceReset : entity work.Debouncer
+	debounceReset : entity work.Debouncer2
 	port map (
 		i_clk		 	=> w_cpuClk,
 		i_PinIn		=> i_n_reset,
@@ -157,7 +156,7 @@ begin
 	
 	-- ____________________________________________________________________________________
 -- CPU signals
-	IO_CPU_DATA <= x"EA" when ((i_CPU_RWB = '1') and (w_CPUCLK2 = '1') and ((i_CPU_VPA = '1') or (i_CPU_VDA = '1'))) else
+	IO_CPU_DATA <= w_cpuDataIn when ((i_CPU_RWB = '1') and (w_CPUCLK2 = '1') and ((i_CPU_VPA = '1') or (i_CPU_VDA = '1'))) else
 						(others => 'Z');
 	
 	w_CPULatAdr <= IO_CPU_DATA when ((w_CPUCLK2 = '0') and ((i_CPU_VPA = '1') or (i_CPU_VDA = '1')));
@@ -179,12 +178,20 @@ begin
 		end if;
     end process;
 	
-	o_CPU_RESB_n <= i_n_reset;
+	o_CPU_RESB_n <= w_reset_n;
 	
 	o_CPU_IRQB_n	<= '1';
 	o_CPU_NMIB_n	<= '1';
 	o_CPU_ABORTB	<= '1';
 	o_CPU_BE			<= '1';
+	
+	w_n_WR <= i_CPU_RWB;
+	
+	w_cpuAddress <= x"00" & i_CPU_ADDR;
+	
+	w_cpuDataOut <= IO_CPU_DATA;
+	
+	w_cpuClk <= w_CPUCLK2;
 	
 	-- ____________________________________________________________________________________
 	-- Audio outputs
@@ -192,29 +199,49 @@ begin
 	audioL <= '0';
 	audioR <= '0';
 	
+--	CPU : entity work.T65
+--	port map(
+--		Enable			=> '1',
+--		Mode				=> "10",					-- 65C816 comes up in 65C02 native mode
+--		Res_n				=> w_reset_n,
+--		clk				=> w_cpuClk,
+--		Rdy				=> '1',
+--		Abort_n			=> '1',
+--		IRQ_n				=> '1',
+--		NMI_n				=> '1',
+--		SO_n				=> '1',
+--		R_w_n				=> w_n_WR,
+--		A(23 downto 0)	=> w_cpuAddress,
+--		DI 				=> w_cpuDataIn,
+--		DO 				=> w_cpuDataOut);
+		
 	-- ____________________________________________________________________________________
 	-- Chip Selects
 	
 --	o_sramAddress <= w_cpuAddress(19 downto 0);
 	o_sramAddress <= "0000" & w_cpuAddress(15 downto 0);
-	o_n_sRamCS	<= w_cpuAddress(15) and w_cpuAddress(14) and w_cpuAddress(13); 				-- Active Low for x0000-xDFFF (56KB)	
-	o_n_sRamWE <= not ((not w_cpuClk) and (not w_n_WR) and ((not w_cpuAddress(15)) or (not w_cpuAddress(14)) or(not w_cpuAddress(13))));
-	o_n_sRamOE <= not (                        w_n_WR  and ((not w_cpuAddress(15)) or (not w_cpuAddress(14)) or(not w_cpuAddress(13))));
+	o_n_sRamCS	<= not (((not w_cpuAddress(15)) and (i_CPU_VPA or i_CPU_VDA)) or
+							  ((not w_cpuAddress(14)) and (i_CPU_VPA or i_CPU_VDA)) or
+							  ((not w_cpuAddress(13)) and (i_CPU_VPA or i_CPU_VDA))); 				-- Active Low for x0000-xDFFF (56KB)	
+	o_n_sRamWE	<= not (w_cpuClk and (not w_n_WR) and (i_CPU_VPA or i_CPU_VDA) and ((not w_cpuAddress(15)) or (not w_cpuAddress(14)) or(not w_cpuAddress(13))));
+	o_n_sRamOE	<= not (                  w_n_WR  and (i_CPU_VPA or i_CPU_VDA) and ((not w_cpuAddress(15)) or (not w_cpuAddress(14)) or(not w_cpuAddress(13))));
 	io_sramData <= w_cpuDataOut when w_n_WR='0' else (others => 'Z');
 		
-	w_n_basRomCS 	<= '0' when  w_cpuAddress(15 downto 13) = "111" else '1'; 						-- xE000-xFFFF (8KB)
+	w_n_basRomCS 	<= '0' when ((w_cpuAddress(15 downto 13) = "111") and (i_CPU_VPA='1')) else									-- xE000-xFFFF (8KB)
+							'0' when ((w_cpuAddress(15 downto 13) = "111") and (i_CPU_VDA='1')) else
+							'1';
 	
-	w_n_VDUCS 		<= '0' when ((w_cpuAddress(15 downto 1) = x"FFD"&"000" and w_fKey1 = '0') 	-- XFFD0-FFD1 VDU
-							or		 (w_cpuAddress(15 downto 1) = x"FFD"&"001" and w_fKey1 = '1')) 
+	w_n_VDUCS 		<= '0' when (((w_cpuAddress(15 downto 1) = x"FFD"&"000") and (w_fKey1 = '0') and (i_CPU_VDA = '1')) 	-- XFFD0-FFD1 VDU
+							or		    ((w_cpuAddress(15 downto 1) = x"FFD"&"001") and (w_fKey1 = '1') and (i_CPU_VDA = '1')))
 							else '1';
 	
-	w_n_aciaCS 	<= '0' when ((w_cpuAddress(15 downto 1) = X"FFD"&"001" and w_fKey1 = '0') 		-- XFFD2-FFD3 ACIA
-							or     (w_cpuAddress(15 downto 1) = X"FFD"&"000" and w_fKey1 = '1'))
+	w_n_aciaCS 	<= '0' when (((w_cpuAddress(15 downto 1) = X"FFD"&"001") and (w_fKey1 = '0') and (i_CPU_VDA = '1'))		-- XFFD2-FFD3 ACIA
+							or     ((w_cpuAddress(15 downto 1) = X"FFD"&"000") and (w_fKey1 = '1') and (i_CPU_VDA = '1')))
 							else '1';
 							
 -- Add new I/O startimg at XFFD4 (65492 dec)
 
-	n_sdCardCS	<= '0' when w_cpuAddress(15 downto 3) = x"FFD"&'1' else '1'; 			-- 8 bytes XFFD8-FFDF
+	n_sdCardCS	<= '0' when ((w_cpuAddress(15 downto 3) = x"FFD"&'1') and (i_CPU_VDA = '1')) else '1'; 			-- 8 bytes XFFD8-FFDF
 	
 	w_cpuDataIn <=
 		w_VDUDataOut	when w_n_VDUCS 	= '0'	else
@@ -223,22 +250,6 @@ begin
 		sdCardDataOut	when n_sdCardCS	= '0' else
 		w_basRomData	when w_n_basRomCS	= '0' else		-- HAS TO BE AFTER ANY I/O READS
 		x"FF";
-		
-	CPU : entity work.T65
-	port map(
-		Enable			=> '1',
-		Mode				=> "10",					-- 65C816 comes up in 65C02 native mode
-		Res_n				=> w_reset_n,
-		clk				=> w_cpuClk,
-		Rdy				=> '1',
-		Abort_n			=> '1',
-		IRQ_n				=> '1',
-		NMI_n				=> '1',
-		SO_n				=> '1',
-		R_w_n				=> w_n_WR,
-		A(23 downto 0)	=> w_cpuAddress,
-		DI 				=> w_cpuDataIn,
-		DO 				=> w_cpuDataOut);
 		
 	ROM : entity work.M6502_BASIC_ROM -- 8KB
 	port map(
@@ -250,8 +261,8 @@ begin
 	UART : entity work.bufferedUART
 		port map(
 			clk		=> i_clk_50,
-			n_WR		=> w_n_aciaCS or w_cpuClk or w_n_WR,
-			n_RD		=> w_n_aciaCS or w_cpuClk or (not w_n_WR),
+			n_WR		=> w_n_aciaCS or (not w_cpuClk) or      w_n_WR  or (not i_CPU_VDA),
+			n_RD		=> w_n_aciaCS or (not w_cpuClk) or (not w_n_WR) or (not i_CPU_VDA),
 			regSel	=> w_cpuAddress(0),
 			dataIn	=> w_cpuDataOut,
 			dataOut	=> w_aciaDataOut,
@@ -285,8 +296,8 @@ begin
 		videoB1 => o_vid_blu(1),
 		videoB0 => o_vid_blu(0),
 
-		n_WR => w_n_VDUCS or w_cpuClk or w_n_WR,
-		n_RD => w_n_VDUCS or w_cpuClk or (not w_n_WR),
+		n_WR => w_n_VDUCS or (not w_cpuClk) or      w_n_WR  or (not i_CPU_VDA),
+		n_RD => w_n_VDUCS or (not w_cpuClk) or (not w_n_WR) or (not i_CPU_VDA),
 --		n_int => n_int1,
 		regSel => w_cpuAddress(0),
 		dataIn => w_cpuDataOut,
@@ -317,8 +328,8 @@ begin
 		sdCS => sdCS,
 		sdMOSI => sdMOSI,
 		sdMISO => sdMISO,
-		n_wr => n_sdCardCS or w_cpuClk or     w_n_WR,
-		n_rd => n_sdCardCS or            (not w_n_WR),
+		n_wr => n_sdCardCS or (not w_cpuClk) or     w_n_WR  or (not i_CPU_VDA),
+		n_rd => n_sdCardCS or                  (not w_n_WR) or (not i_CPU_VDA),
 		n_reset => w_reset_n,
 		dataIn => w_cpuDataOut,
 		dataOut => sdCardDataOut,
@@ -328,21 +339,21 @@ begin
 	);
 
 -- SUB-CIRCUIT CLOCK SIGNALS
-	process (i_clk_50)
-	begin
-		if rising_edge(i_clk_50) then
-			if w_cpuClkCt < 5 then -- 5 = 8MHz, 4 = 10MHz, 3 = 12.5MHz, 2=16.6MHz, 1=25MHz
-				w_cpuClkCt <= w_cpuClkCt + 1;
-			else
-				w_cpuClkCt <= (others=>'0');
-			end if;
-			if w_cpuClkCt < 2 then -- 2 when 10MHz, 2 when 12.5MHz, 2 when 16.6MHz, 1 when 25MHz
-				w_cpuClk <= '0';
-			else
-				w_cpuClk <= '1';
-			end if; 
-		end if;
-    end process;
+--	process (i_clk_50)
+--	begin
+--		if rising_edge(i_clk_50) then
+--			if w_cpuClkCt < 5 then -- 5 = 8MHz, 4 = 10MHz, 3 = 12.5MHz, 2=16.6MHz, 1=25MHz
+--				w_cpuClkCt <= w_cpuClkCt + 1;
+--			else
+--				w_cpuClkCt <= (others=>'0');
+--			end if;
+--			if w_cpuClkCt < 2 then -- 2 when 10MHz, 2 when 12.5MHz, 2 when 16.6MHz, 1 when 25MHz
+--				w_cpuClk <= '0';
+--			else
+--				w_cpuClk <= '1';
+--			end if; 
+--		end if;
+--    end process;
 	 
 	 
 	-- ____________________________________________________________________________________
