@@ -1,6 +1,6 @@
 |M6502_VGA
 i_n_reset => debouncer2:debounceReset.i_PinIn
-i_clk_50 => counter:CPUClkGen.clock
+i_clk_50 => countersyncclr:CPUClkGen.clock
 i_clk_50 => w_w_serClkEn.CLK
 i_clk_50 => w_serialClkCount[1].CLK
 i_clk_50 => w_serialClkCount[2].CLK
@@ -17,6 +17,7 @@ i_clk_50 => w_serialClkCount[12].CLK
 i_clk_50 => w_serialClkCount[13].CLK
 i_clk_50 => w_serialClkCount[14].CLK
 i_clk_50 => w_serialClkCount[15].CLK
+i_clk_50 => w_ClrClk.CLK
 i_clk_50 => w_CPUCLK2.CLK
 i_clk_50 => o_CPU_PHI2~reg0.CLK
 i_clk_50 => m6502_basic_rom:ROM.clock
@@ -281,39 +282,19 @@ i_PinIn => w_dly1.DATAIN
 o_PinOut <= o_PinOut~reg0.DB_MAX_OUTPUT_PORT_TYPE
 
 
-|M6502_VGA|counter:CPUClkGen
+|M6502_VGA|CounterSyncClr:CPUClkGen
 clock => Pre_Q[0].CLK
 clock => Pre_Q[1].CLK
 clock => Pre_Q[2].CLK
-clock => Pre_Q[3].CLK
-clock => Pre_Q[4].CLK
-clock => Pre_Q[5].CLK
-clock => Pre_Q[6].CLK
-clock => Pre_Q[7].CLK
-clear => Pre_Q[0].ACLR
-clear => Pre_Q[1].ACLR
-clear => Pre_Q[2].ACLR
-clear => Pre_Q[3].ACLR
-clear => Pre_Q[4].ACLR
-clear => Pre_Q[5].ACLR
-clear => Pre_Q[6].ACLR
-clear => Pre_Q[7].ACLR
-count => Pre_Q[7].ENA
-count => Pre_Q[6].ENA
-count => Pre_Q[5].ENA
-count => Pre_Q[4].ENA
-count => Pre_Q[3].ENA
-count => Pre_Q[2].ENA
-count => Pre_Q[1].ENA
-count => Pre_Q[0].ENA
+clear => Pre_Q.OUTPUTSELECT
+clear => Pre_Q.OUTPUTSELECT
+clear => Pre_Q.OUTPUTSELECT
+count => Pre_Q.OUTPUTSELECT
+count => Pre_Q.OUTPUTSELECT
+count => Pre_Q.OUTPUTSELECT
 Q[0] <= Pre_Q[0].DB_MAX_OUTPUT_PORT_TYPE
 Q[1] <= Pre_Q[1].DB_MAX_OUTPUT_PORT_TYPE
 Q[2] <= Pre_Q[2].DB_MAX_OUTPUT_PORT_TYPE
-Q[3] <= Pre_Q[3].DB_MAX_OUTPUT_PORT_TYPE
-Q[4] <= Pre_Q[4].DB_MAX_OUTPUT_PORT_TYPE
-Q[5] <= Pre_Q[5].DB_MAX_OUTPUT_PORT_TYPE
-Q[6] <= Pre_Q[6].DB_MAX_OUTPUT_PORT_TYPE
-Q[7] <= Pre_Q[7].DB_MAX_OUTPUT_PORT_TYPE
 
 
 |M6502_VGA|M6502_BASIC_ROM:ROM

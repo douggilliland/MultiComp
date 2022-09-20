@@ -1,9 +1,11 @@
 -- Grant Searle's Multicomp as described here:
 -- http://searle.x10host.com/Multicomp/index.html
 -- 
--- http://land-boards.com/blwiki/index.php?title=FPGA-ITX-01
+--	Running on card
+-- 	http://land-boards.com/blwiki/index.php?title=FPGA-ITX-01
 --
 -- External 65C816 CPU
+--	6.25 MHz
 -- 1MB External SRAM
 --		Uses 56KB
 --	Microsoft BASIC in ROM
@@ -141,9 +143,10 @@ architecture struct of M6502_VGA is
 	signal w_Vid_Grn			: std_logic_vector(1 downto 0);
 	signal w_Vid_Blu			: std_logic_vector(1 downto 0);
 
-	signal w_CPUClkCount		: std_logic_vector(7 downto 0);		-- CPU Clock counter
+	signal w_CPUClkCount		: std_logic_vector(2 downto 0);		-- CPU Clock counter
 	signal w_CPULatAdr		: std_logic_vector(7 downto 0);	-- CPU Address bits
 	signal w_CPUCLK2			: std_logic;
+	signal w_ClrClk			: std_logic;
 
 	
 begin
@@ -161,11 +164,11 @@ begin
 	
 	w_CPULatAdr <= IO_CPU_DATA when ((w_CPUCLK2 = '0') and ((i_CPU_VPA = '1') or (i_CPU_VDA = '1')));
 	
-	CPUClkGen : entity work.counter
-	generic map (n => 8)
+	CPUClkGen : entity work.CounterSyncClr
+	generic map (n => 3)
 	port map (	
 		clock	=> i_clk_50,
-		clear	=> '0',
+		clear	=> w_ClrClk,
 		count	=> '1',
 		Q		=> w_CPUClkCount
 	);
@@ -173,8 +176,9 @@ begin
 	CPUClock : process (i_clk_50)
 	begin
 		if rising_edge(i_clk_50) then
-			o_CPU_PHI2	<= w_CPUClkCount(2);
-			w_CPUCLK2	<= w_CPUClkCount(2);
+			o_CPU_PHI2	<= not w_CPUClkCount(2);
+			w_CPUCLK2	<= not w_CPUClkCount(2);
+			w_ClrClk		<= w_CPUClkCount(2) and (not w_CPUClkCount(1)) and (not w_CPUClkCount(0));
 		end if;
     end process;
 	
