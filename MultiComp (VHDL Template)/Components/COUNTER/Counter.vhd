@@ -35,13 +35,13 @@ begin
 
 	process(clock, count, clear, Pre_Q)
 	begin
-	if clear = '1' then
-		 Pre_Q <= Pre_Q - Pre_Q;
-	elsif (clock='1' and clock'event) then
-		 if count = '1' then
-		Pre_Q <= Pre_Q + 1;
-		 end if;
-	end if;
+		if clear = '1' then					-- Async clear
+			Pre_Q <= Pre_Q - Pre_Q;
+		elsif rising_edge(clock) then		-- Sync count
+			if count = '1' then
+					Pre_Q <= Pre_Q + 1;
+			end if;
+		end if;
 	end process;	
 
 	-- concurrent assignment statement

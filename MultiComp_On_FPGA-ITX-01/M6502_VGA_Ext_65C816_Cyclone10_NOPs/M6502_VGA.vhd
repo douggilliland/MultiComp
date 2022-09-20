@@ -142,8 +142,10 @@ architecture struct of M6502_VGA is
 														--		Default is 115,200 baud
 	signal w_funKeys			: std_logic_vector(12 downto 0);
 
-	signal w_CPUClkCount		: std_logic_vector(19 downto 0);	-- CPU Clock counter
+	signal w_CPUClkCount		: std_logic_vector(7 downto 0);		-- CPU Clock counter
+	signal w_CPULatAdr		: std_logic_vector(23 downto 16);	-- CPU Address bits
 	signal w_CPUCLK2			: std_logic;
+
 	
 begin
 	debounceReset : entity work.Debouncer
@@ -155,19 +157,21 @@ begin
 	
 	-- ____________________________________________________________________________________
 -- CPU signals
-	IO_CPU_DATA <= x"EA" when ((i_CPU_RWB = '1') and (w_CPUCLK2 = '1')) else
+	IO_CPU_DATA <= x"EA" when ((i_CPU_RWB = '1') and (w_CPUCLK2 = '1') and ((i_CPU_VPA = '1') or (i_CPU_VDA = '1'))) else
 						(others => 'Z');
-
+	
+	w_CPULatAdr <= IO_CPU_DATA when ((w_CPUCLK2 = '0') and ((i_CPU_VPA = '1') or (i_CPU_VDA = '1')));
+	
 	CPUClkGen : entity work.counter
-	generic map (n => 20)
+	generic map (n => 8)
 	port map (	
-		clock	=> w_cpuClk,
+		clock	=> i_clk_50,
 		clear	=> '0',
 		count	=> '1',
 		Q		=> w_CPUClkCount
 	);
 
-	process (i_clk_50)
+	CPUClock : process (i_clk_50)
 	begin
 		if rising_edge(i_clk_50) then
 			o_CPU_PHI2	<= w_CPUClkCount(4);
