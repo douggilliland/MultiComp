@@ -1,7 +1,9 @@
 -- Grant Searle's Multicomp as described here:
 -- http://searle.x10host.com/Multicomp/index.html
+--
+-- Doug Gilliland, 2022
 -- 
---	Running on card
+--	Running on Land Boards card
 -- 	http://land-boards.com/blwiki/index.php?title=FPGA-ITX-01
 --
 -- External 65C816 CPU
@@ -162,7 +164,7 @@ begin
 	IO_CPU_DATA <= w_cpuDataIn when ((i_CPU_RWB = '1') and (w_CPUCLK2 = '1') and ((i_CPU_VPA = '1') or (i_CPU_VDA = '1'))) else
 						(others => 'Z');
 	
-	w_CPULatAdr <= IO_CPU_DATA when ((w_CPUCLK2 = '0') and ((i_CPU_VPA = '1') or (i_CPU_VDA = '1')));
+	w_CPULatAdr <= IO_CPU_DATA when ((w_CPUCLK2 = '0') and ((i_CPU_VPA = '1') or (i_CPU_VDA = '1')));	-- Latch address upper 8-bits
 	
 	CPUClkGen : entity work.CounterSyncClr
 	generic map (n => 3)
@@ -173,6 +175,8 @@ begin
 		Q		=> w_CPUClkCount
 	);
 
+	-- Divide by 50 MHz by 6 to get 8.333 MHz CPU clock
+	-- 2 clocks low, 4 clocks high
 	CPUClock : process (i_clk_50)
 	begin
 		if rising_edge(i_clk_50) then
