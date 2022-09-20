@@ -4,7 +4,6 @@
 -- http://land-boards.com/blwiki/index.php?title=FPGA-ITX-01
 --
 -- External 65C816 CPU
--- 6502 CPU
 -- 1MB External SRAM
 --		Uses 56KB
 --	Microsoft BASIC in ROM
@@ -174,8 +173,8 @@ begin
 	CPUClock : process (i_clk_50)
 	begin
 		if rising_edge(i_clk_50) then
-			o_CPU_PHI2	<= w_CPUClkCount(4);
-			w_CPUCLK2	<= w_CPUClkCount(4);
+			o_CPU_PHI2	<= w_CPUClkCount(2);
+			w_CPUCLK2	<= w_CPUClkCount(2);
 		end if;
     end process;
 	
