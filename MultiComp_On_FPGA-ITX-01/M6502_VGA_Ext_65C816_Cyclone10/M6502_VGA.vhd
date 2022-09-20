@@ -131,25 +131,26 @@ architecture struct of M6502_VGA is
 	signal w_serialClkCount	: std_logic_vector(15 downto 0);	-- DDS counter for baud rate
 	signal w_serClkCt_d 		: std_logic_vector(15 downto 0);
 	signal w_w_serClkEn		: std_logic;
-
-	signal w_cpuClkCt			: std_logic_vector(5 downto 0);	-- 50 MHz oscillator counter
-	signal w_cpuClk			: std_logic;							-- CPU clock rate selectable
 	
 	signal w_fKey1				: std_logic;	--	F1 key switches between VDU and Serial port
 														--		Default is VDU
 	signal w_fKey2				: std_logic;	--	F2 key switches serial port baud rate between 300 and 115,200
 														--		Default is 115,200 baud
 	signal w_funKeys			: std_logic_vector(12 downto 0);
+	
+	signal w_Vid_Red			: std_logic_vector(1 downto 0);
+	signal w_Vid_Grn			: std_logic_vector(1 downto 0);
+	signal w_Vid_Blu			: std_logic_vector(1 downto 0);
 
 	signal w_CPUClkCount		: std_logic_vector(7 downto 0);		-- CPU Clock counter
-	signal w_CPULatAdr		: std_logic_vector(23 downto 16);	-- CPU Address bits
+	signal w_CPULatAdr		: std_logic_vector(7 downto 0);	-- CPU Address bits
 	signal w_CPUCLK2			: std_logic;
 
 	
 begin
 	debounceReset : entity work.Debouncer2
 	port map (
-		i_clk		 	=> w_cpuClk,
+		i_clk		 	=> w_CPUCLK2,
 		i_PinIn		=> i_n_reset,
 		o_PinOut		=> w_reset_n
 	);
@@ -187,11 +188,9 @@ begin
 	
 	w_n_WR <= i_CPU_RWB;
 	
-	w_cpuAddress <= x"00" & i_CPU_ADDR;
+	w_cpuAddress <= w_CPULatAdr & i_CPU_ADDR;
 	
 	w_cpuDataOut <= IO_CPU_DATA;
-	
-	w_cpuClk <= w_CPUCLK2;
 	
 	-- ____________________________________________________________________________________
 	-- Audio outputs
@@ -199,22 +198,6 @@ begin
 	audioL <= '0';
 	audioR <= '0';
 	
---	CPU : entity work.T65
---	port map(
---		Enable			=> '1',
---		Mode				=> "10",					-- 65C816 comes up in 65C02 native mode
---		Res_n				=> w_reset_n,
---		clk				=> w_cpuClk,
---		Rdy				=> '1',
---		Abort_n			=> '1',
---		IRQ_n				=> '1',
---		NMI_n				=> '1',
---		SO_n				=> '1',
---		R_w_n				=> w_n_WR,
---		A(23 downto 0)	=> w_cpuAddress,
---		DI 				=> w_cpuDataIn,
---		DO 				=> w_cpuDataOut);
-		
 	-- ____________________________________________________________________________________
 	-- Chip Selects
 	
@@ -223,7 +206,7 @@ begin
 	o_n_sRamCS	<= not (((not w_cpuAddress(15)) and (i_CPU_VPA or i_CPU_VDA)) or
 							  ((not w_cpuAddress(14)) and (i_CPU_VPA or i_CPU_VDA)) or
 							  ((not w_cpuAddress(13)) and (i_CPU_VPA or i_CPU_VDA))); 				-- Active Low for x0000-xDFFF (56KB)	
-	o_n_sRamWE	<= not (w_cpuClk and (not w_n_WR) and (i_CPU_VPA or i_CPU_VDA) and ((not w_cpuAddress(15)) or (not w_cpuAddress(14)) or(not w_cpuAddress(13))));
+	o_n_sRamWE	<= not (w_CPUCLK2 and (not w_n_WR) and (i_CPU_VPA or i_CPU_VDA) and ((not w_cpuAddress(15)) or (not w_cpuAddress(14)) or(not w_cpuAddress(13))));
 	o_n_sRamOE	<= not (                  w_n_WR  and (i_CPU_VPA or i_CPU_VDA) and ((not w_cpuAddress(15)) or (not w_cpuAddress(14)) or(not w_cpuAddress(13))));
 	io_sramData <= w_cpuDataOut when w_n_WR='0' else (others => 'Z');
 		
@@ -231,13 +214,13 @@ begin
 							'0' when ((w_cpuAddress(15 downto 13) = "111") and (i_CPU_VDA='1')) else
 							'1';
 	
-	w_n_VDUCS 		<= '0' when (((w_cpuAddress(15 downto 1) = x"FFD"&"000") and (w_fKey1 = '0') and (i_CPU_VDA = '1')) 	-- XFFD0-FFD1 VDU
-							or		    ((w_cpuAddress(15 downto 1) = x"FFD"&"001") and (w_fKey1 = '1') and (i_CPU_VDA = '1')))
-							else '1';
+	w_n_VDUCS 		<= '0' when ((w_cpuAddress(15 downto 1) = x"FFD"&"000") and (w_fKey1 = '0') and (i_CPU_VDA = '1')) else 	-- XFFD0-FFD1 VDU
+							'0' when ((w_cpuAddress(15 downto 1) = x"FFD"&"001") and (w_fKey1 = '1') and (i_CPU_VDA = '1')) else
+							'1';
 	
-	w_n_aciaCS 	<= '0' when (((w_cpuAddress(15 downto 1) = X"FFD"&"001") and (w_fKey1 = '0') and (i_CPU_VDA = '1'))		-- XFFD2-FFD3 ACIA
-							or     ((w_cpuAddress(15 downto 1) = X"FFD"&"000") and (w_fKey1 = '1') and (i_CPU_VDA = '1')))
-							else '1';
+	w_n_aciaCS 		<= '0' when ((w_cpuAddress(15 downto 1) = X"FFD"&"001") and (w_fKey1 = '0') and (i_CPU_VDA = '1')) else		-- XFFD2-FFD3 ACIA
+							'0' when ((w_cpuAddress(15 downto 1) = X"FFD"&"000") and (w_fKey1 = '1') and (i_CPU_VDA = '1')) else
+							'1';
 							
 -- Add new I/O startimg at XFFD4 (65492 dec)
 
@@ -261,8 +244,8 @@ begin
 	UART : entity work.bufferedUART
 		port map(
 			clk		=> i_clk_50,
-			n_WR		=> w_n_aciaCS or (not w_cpuClk) or      w_n_WR  or (not i_CPU_VDA),
-			n_RD		=> w_n_aciaCS or (not w_cpuClk) or (not w_n_WR) or (not i_CPU_VDA),
+			n_WR		=> w_n_aciaCS or (not w_CPUCLK2) or      w_n_WR ,
+			n_RD		=> w_n_aciaCS or                    (not w_n_WR),
 			regSel	=> w_cpuAddress(0),
 			dataIn	=> w_cpuDataOut,
 			dataOut	=> w_aciaDataOut,
@@ -275,8 +258,14 @@ begin
 			n_dcd		=> '0'
 		);
 	
-	o_vid_red(0) <= '0';
-	o_vid_grn(0) <= '0';
+	o_vid_red(2) <= w_Vid_Red(1);
+	o_vid_red(1) <= w_Vid_Red(0);
+	o_vid_red(0) <= w_Vid_Red(0);
+	o_vid_grn(2) <= w_Vid_Grn(1);
+	o_vid_grn(1) <= w_Vid_Grn(0);
+	o_vid_grn(0) <= w_Vid_Grn(0);
+	o_vid_blu(1) <= w_Vid_Blu(1);
+	o_vid_blu(0) <= w_Vid_Blu(0);
 	VDU : entity work.SBCTextDisplayRGB
 	generic map ( 
 		EXTENDED_CHARSET => 1,
@@ -289,15 +278,15 @@ begin
 		-- RGB video signals
 		hSync => o_vid_hSync,
 		vSync => o_vid_vSync,
-		videoR1 => o_vid_red(2),
-		videoR0 => o_vid_red(1),
-		videoG1 => o_vid_grn(2),
-		videoG0 => o_vid_grn(1),
-		videoB1 => o_vid_blu(1),
-		videoB0 => o_vid_blu(0),
+		videoR1 => w_Vid_Red(1),
+		videoR0 => w_Vid_Red(0),
+		videoG1 => w_Vid_Grn(1),
+		videoG0 => w_Vid_Grn(0),
+		videoB1 => w_Vid_Blu(1),
+		videoB0 => w_Vid_Blu(0),
 
-		n_WR => w_n_VDUCS or (not w_cpuClk) or      w_n_WR  or (not i_CPU_VDA),
-		n_RD => w_n_VDUCS or (not w_cpuClk) or (not w_n_WR) or (not i_CPU_VDA),
+		n_WR => w_n_VDUCS or (not w_CPUCLK2) or      w_n_WR,
+		n_RD => w_n_VDUCS or                    (not w_n_WR),
 --		n_int => n_int1,
 		regSel => w_cpuAddress(0),
 		dataIn => w_cpuDataOut,
@@ -328,8 +317,8 @@ begin
 		sdCS => sdCS,
 		sdMOSI => sdMOSI,
 		sdMISO => sdMISO,
-		n_wr => n_sdCardCS or (not w_cpuClk) or     w_n_WR  or (not i_CPU_VDA),
-		n_rd => n_sdCardCS or                  (not w_n_WR) or (not i_CPU_VDA),
+		n_wr => n_sdCardCS or (not w_CPUCLK2) or     w_n_WR,
+		n_rd => n_sdCardCS or                   (not w_n_WR),
 		n_reset => w_reset_n,
 		dataIn => w_cpuDataOut,
 		dataOut => sdCardDataOut,
@@ -337,24 +326,6 @@ begin
 		driveLED => driveLED,
 		clk => i_clk_50
 	);
-
--- SUB-CIRCUIT CLOCK SIGNALS
---	process (i_clk_50)
---	begin
---		if rising_edge(i_clk_50) then
---			if w_cpuClkCt < 5 then -- 5 = 8MHz, 4 = 10MHz, 3 = 12.5MHz, 2=16.6MHz, 1=25MHz
---				w_cpuClkCt <= w_cpuClkCt + 1;
---			else
---				w_cpuClkCt <= (others=>'0');
---			end if;
---			if w_cpuClkCt < 2 then -- 2 when 10MHz, 2 when 12.5MHz, 2 when 16.6MHz, 1 when 25MHz
---				w_cpuClk <= '0';
---			else
---				w_cpuClk <= '1';
---			end if; 
---		end if;
---    end process;
-	 
 	 
 	-- ____________________________________________________________________________________
 	-- Baud Rate Clock Signals

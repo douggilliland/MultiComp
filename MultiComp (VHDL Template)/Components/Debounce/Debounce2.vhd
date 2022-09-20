@@ -20,7 +20,7 @@ end Debouncer2;
 
 architecture struct of Debouncer2 is
 	
-	signal w_dig_counter	: std_logic_vector (19 downto 0) := (others => '0');
+	signal w_dig_counter	: std_logic_vector (15 downto 0) := (others => '0');
 	signal w_pulse50ms	: std_logic;
 	
 	signal w_dly1			: std_logic;
@@ -28,14 +28,14 @@ architecture struct of Debouncer2 is
 	signal w_dly3			: std_logic;
 	signal w_dly4			: std_logic;
 	signal w_dly5			: std_logic;
+	signal w_dly6			: std_logic;
+	signal w_dly7			: std_logic;
+	signal w_dly8			: std_logic;
 
 begin
 
 	----------------------------------------------------------------------------
-	-- 50 mS counter
-	-- 2^18 = 256,000, 50MHz/250K = 200 Hz = 5 mS ticks
 	-- Used for prescaling pushbuttons
-	-- w_pulse50ms = single 20 nS clock pulse every 200 mSecs
 	----------------------------------------------------------------------------
 	process (i_clk) begin
 		if rising_edge(i_clk) then
@@ -48,7 +48,10 @@ begin
 			w_dly3 <= w_dly2;
 			w_dly4 <= w_dly3;
 			w_dly5 <= w_dly4;
-			o_PinOut <= not(w_dly5 and (not w_dly3));
+			w_dly6 <= w_dly5;
+			w_dly7 <= w_dly6;
+			w_dly8 <= w_dly7;
+			o_PinOut <= not(w_dly8 and (not w_dly3));
 		end if;
 	end process;
 
