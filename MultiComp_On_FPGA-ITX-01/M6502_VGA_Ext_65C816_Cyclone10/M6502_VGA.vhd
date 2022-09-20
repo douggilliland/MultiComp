@@ -214,7 +214,7 @@ begin
 							  ((not w_cpuAddress(14)) and (i_CPU_VPA or i_CPU_VDA)) or
 							  ((not w_cpuAddress(13)) and (i_CPU_VPA or i_CPU_VDA))); 				-- Active Low for x0000-xDFFF (56KB)	
 	o_n_sRamWE	<= not (w_CPUCLK2 and (not w_n_WR) and (i_CPU_VPA or i_CPU_VDA) and ((not w_cpuAddress(15)) or (not w_cpuAddress(14)) or(not w_cpuAddress(13))));
-	o_n_sRamOE	<= not (                  w_n_WR  and (i_CPU_VPA or i_CPU_VDA) and ((not w_cpuAddress(15)) or (not w_cpuAddress(14)) or(not w_cpuAddress(13))));
+	o_n_sRamOE	<= not (                   w_n_WR  and (i_CPU_VPA or i_CPU_VDA) and ((not w_cpuAddress(15)) or (not w_cpuAddress(14)) or(not w_cpuAddress(13))));
 	io_sramData <= w_cpuDataOut when w_n_WR='0' else (others => 'Z');
 		
 	w_n_basRomCS 	<= '0' when ((w_cpuAddress(15 downto 13) = "111") and (i_CPU_VPA='1')) else									-- xE000-xFFFF (8KB)
