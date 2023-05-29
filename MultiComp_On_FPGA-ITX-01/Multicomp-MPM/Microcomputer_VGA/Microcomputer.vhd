@@ -13,7 +13,19 @@
 -- Grant Searle
 -- eMail address available on my main web page link above.
 --
--- Z80
+-- Runs on FPGA-ITX-01 card
+--		http://land-boards.com/blwiki/index.php?title=FPGA-ITX-01
+--
+-- Z80 CPU
+--	25 MHz
+-- VGA Video 640x480
+--		8-bit R:G:B 3:3:2 video
+--		80x25 characters ANSI terminal
+-- PS/2 Keyboard
+-- ACIA UART
+-- External SRAM 1 MB
+-- Runs CPM/MPM from SD Card
+-- SD or SD/HC Card
 
 library ieee;
 use ieee.std_logic_1164.all;
@@ -25,7 +37,7 @@ entity Microcomputer is
 		n_reset		: in std_logic;
 		clk			: in std_logic;
 
-		-- External SRAM
+		-- External SRAM 1MB
 		sramData		: inout std_logic_vector(7 downto 0);
 		sramAddress	: out std_logic_vector(19 downto 0);
 		n_sRamWE		: out std_logic;
@@ -79,7 +91,7 @@ entity Microcomputer is
 		sdRamAddr	: out std_logic_vector(14 downto 0) := "000"&x"000";
 		sdRamData	: in std_logic_vector(15 downto 0);
 		
-		-- SD Card
+		-- SD or SD/HC Card
 		sdCS			: out std_logic;
 		sdMOSI		: out std_logic;
 		sdMISO		: in std_logic;
